@@ -2,7 +2,7 @@ import * as React from "react";
 
 export function Footer() {
   return (
-      <footer className="border-t border-ui-border-base w-full bg-grayBg">
+      <footer className="absolute border-t border-ui-border-base w-full bg-grayBg">
           <div className="container flex flex-col w-full">
               <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-20">
                   <a
