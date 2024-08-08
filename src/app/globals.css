@@ -34,6 +34,8 @@
     --red-bakerz: 354, 70%, 44%;
     --gray-bg: 240, 10%, 96%;
     --gray-text: 60, 1%, 36%;
+    --gray-component: 0, 0%, 85%;
+    --gray-component-hover: 0, 0%, 75%;
   }
 
   .dark {
@@ -66,6 +68,8 @@
     --red-bakerz: 354, 70%, 44%;
     --gray-bg: 240, 10%, 96%;
     --gray-text: 60, 1%, 36%;
+    --gray-component: 0, 0%, 85%;
+    --gray-component-hover: 0, 0%, 75%;
   }
 }
 
@@ -83,6 +87,17 @@
   .w-dynamic-button {
     width: 30vw;
     font-size: 2.8vw;
+  }
+  .trigger-hover:hover .underline-on-hover {
+    text-decoration: underline;
+  }
+
+  .trigger-hover:hover .scale-on-hover {
+    transform: scale(1.05);
+  }
+
+  .scale-on-hover {
+    transition: transform 0.3s ease;
   }
 }
 

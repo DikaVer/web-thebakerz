@@ -152,6 +152,137 @@ function IconChevronDown({
     );
 }
 
+function IconOrder({
+                           className,
+                           ...props
+                       }: React.ComponentProps<'svg'>) {
+    const styles = {
+        color: blackColor,
+        fill: blackColor,
+        width: '28px',
+        height: '28px',
+    };
+
+    return (
+        <svg style={styles} viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none">
+            </path>
+            <path
+                d="M18 17H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2zM3 22l1.5-1.5L6 22l1.5-1.5L9 22l1.5-1.5L12 22l1.5-1.5L15 22l1.5-1.5L18 22l1.5-1.5L21 22V2l-1.5 1.5L18 2l-1.5 1.5L15 2l-1.5 1.5L12 2l-1.5 1.5L9 2 7.5 3.5 6 2 4.5 3.5 3 2v20z">
+            </path>
+        </svg>
+    );
+}
+
+function IconSupport({
+                           className,
+                           ...props
+                       }: React.ComponentProps<'svg'>) {
+    const styles = {
+        color: blackColor,
+        fill: blackColor,
+        width: '28px',
+        height: '28px',
+    };
+
+    return (
+        <svg style={styles} viewBox="0 0 24 24">
+            <path fill="none" d="M0 0h24v24H0z">
+            </path>
+            <path
+                d="M21 12.22C21 6.73 16.74 3 12 3c-4.69 0-9 3.65-9 9.28-.6.34-1 .98-1 1.72v2c0 1.1.9 2 2 2h1v-6.1c0-3.87 3.13-7 7-7s7 3.13 7 7V19h-8v2h8c1.1 0 2-.9 2-2v-1.22c.59-.31 1-.92 1-1.64v-2.3c0-.7-.41-1.31-1-1.62z">
+            </path>
+            <path d="M9 12a1 1 0 1 0 0 2 1 1 0 1 0 0-2zM15 12a1 1 0 1 0 0 2 1 1 0 1 0 0-2z">
+            </path>
+            <path
+                d="M18 11.03A6.04 6.04 0 0 0 12.05 6c-3.03 0-6.29 2.51-6.03 6.45a8.075 8.075 0 0 0 4.86-5.89c1.31 2.63 4 4.44 7.12 4.47z">
+            </path>
+        </svg>
+    );
+}
+
+function IconPayment({
+                         className,
+                         ...props
+                     }: React.ComponentProps<'svg'>) {
+    const styles = {
+        color: blackColor,
+        fill: blackColor,
+        width: '28px',
+        height: '28px',
+    };
+
+    return (
+        <svg style={styles} viewBox="0 0 24 24">
+            <path fill="none" d="M0 0h24v24H0z">
+            </path>
+            <path
+                d="M18 4H6C3.79 4 2 5.79 2 8v8c0 2.21 1.79 4 4 4h12c2.21 0 4-1.79 4-4V8c0-2.21-1.79-4-4-4zm-1.86 9.77c-.24.2-.57.28-.88.2L4.15 11.25C4.45 10.52 5.16 10 6 10h12c.67 0 1.26.34 1.63.84l-3.49 2.93zM6 6h12c1.1 0 2 .9 2 2v.55c-.59-.34-1.27-.55-2-.55H6c-.73 0-1.41.21-2 .55V8c0-1.1.9-2 2-2z">
+            </path>
+        </svg>
+    );
+}
+
+function IconAvatar({
+                        className,
+                        ...props
+                    }: React.ComponentProps<'svg'>) {
+    const styles = {
+        color: blackColor,
+        fill: blackColor,
+        width: '60px',
+        height: '60px',
+    };
+
+    return (
+        <svg style={styles} viewBox="0 0 24 24">
+            <path fill="none" d="M0 0h24v24H0z">
+            </path>
+            <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88a9.947 9.947 0 0 1 12.28 0C16.43 19.18 14.03 20 12 20z">
+            </path>
+        </svg>
+    );
+}
+
+function IconTrash({
+                     className,
+                     ...props
+                 }: React.ComponentProps<'svg'>) {
+    const styles = {
+        color: blackColor,
+        fill: blackColor,
+    };
+
+    return (
+        <svg style={styles} viewBox="0 0 24 24" className={`${className}`}>
+            <path d="M0 0h24v24H0z" fill="none">
+            </path>
+            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
+            </path>
+        </svg>
+    );
+}
+
+function IconMinus({
+                       className,
+                       ...props
+                   }: React.ComponentProps<'svg'>) {
+    const styles = {
+        color: blackColor,
+        fill: blackColor,
+    };
+
+    return (
+        <svg style={styles} viewBox="0 0 24 24" className={`${className}`}>
+            <path d="M0 0h24v24H0z" fill="none">
+            </path>
+            <path d="M19 13H5v-2h14v2z">
+            </path>
+        </svg>
+    );
+}
+
 
 export {
     IconCart,
@@ -160,5 +291,11 @@ export {
     IconLocation,
     IconThreeDots,
     IconChevronDown,
-    IconPlus
+    IconPlus,
+    IconOrder,
+    IconSupport,
+    IconPayment,
+    IconAvatar,
+    IconTrash,
+    IconMinus
 };

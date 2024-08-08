@@ -29,6 +29,8 @@ const config = {
         orangeBakerz: "hsl(var(--orange-bakerz))",
         grayBg: "hsl(var(--gray-bg))",
         grayText: "hsl(var(--gray-text))",
+        grayComp: "hsl(var(--gray-component))",
+        grayCompHover: "hsl(var(--gray-component-hover))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

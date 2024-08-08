@@ -1,0 +1,140 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
+import { IconAvatar } from "@/components/ui/icons";
+import Image from "next/image";
+import Stepper from "@/components/cart/stepper";
+
+interface CartComponentProps {
+    onClose: () => void;
+    isOpen: boolean;
+}
+
+const CartComponent: React.FC<CartComponentProps> = ({ onClose, isOpen }) => {
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        if (isOpen) {
+            setIsVisible(true);
+        } else {
+            const timer = setTimeout(() => setIsVisible(false), 500);
+            return () => clearTimeout(timer);
+        }
+    }, [isOpen]);
+
+    return (
+        <div
+            className={`fixed inset-0 z-50 transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0'} ${isVisible ? 'visible' : 'invisible'}`}>
+            <div className="absolute bg-black opacity-50 inset-0" onClick={onClose}></div>
+            <div
+                className={`absolute right-0 w-80 h-full bg-white shadow-lg transform transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                <p className="text-2xl flex justify-center items-center p-4">Delicious Cart</p>
+                <hr className={"mx-2"}></hr>
+                <ShopList />
+            </div>
+        </div>
+    );
+};
+
+const ShopList: React.FC = () => {
+    return (
+        <Accordion type="single" collapsible className="w-full">
+            <Shop icon={IconAvatar} shopName={"Mrs. Bombochka"} items={"2 items"} value={"item-1"} initialItems={[
+                { id: 1, name: "Item 1", price: "$10", image: "/macaroons_test.jpg" },
+                { id: 2, name: "Item 2", price: "$20", image: "/macaroons_test.jpg" },
+            ]} />
+            <Shop icon={IconAvatar} shopName={"Mrs. Macar"} items={"3 items"} value={"item-2"} initialItems={[
+                { id: 3, name: "Item 3", price: "$15", image: "/macaroons_test.jpg" },
+                { id: 4, name: "Item 4", price: "$25", image: "/macaroons_test.jpg" },
+                { id: 5, name: "Item 5", price: "$30", image: "/macaroons_test.jpg" },
+            ]} />
+            <Shop icon={IconAvatar} shopName={"Mrs. Past"} items={"1 items"} value={"item-3"} initialItems={[
+                { id: 6, name: "Item 6", price: "$5", image: "/macaroons_test.jpg" },
+            ]} />
+        </Accordion>
+    );
+};
+
+interface ShopProps {
+    icon: React.ElementType;
+    shopName: string;
+    items: string;
+    value: string;
+    initialItems: ShopItemProps[];
+}
+
+const Shop: React.FC<ShopProps> = ({ icon: Icon, shopName, items, value, initialItems }) => {
+    const [itemsList, setItemsList] = useState(initialItems);
+    const [isHoveringStepper, setIsHoveringStepper] = useState(false);
+
+    const deleteItem = useCallback((id: number) => {
+        setItemsList(itemsList.filter(item => item.id !== id));
+    }, [itemsList]);
+
+    if (itemsList.length === 0) {
+        return null;
+    }
+
+    return (
+        <AccordionItem value={value}>
+            <AccordionTrigger>
+                <div className={"-my-2 flex flex-row items-center space-x-3 justify-start"}>
+                    <Icon />
+                    <div className={"grid grid-col gap-0"}>
+                        <p className={"flex text-base underline-on-hover"}>{shopName}</p>
+                        <p className={"flex text-sm text-grayText"}>{items}</p>
+                    </div>
+                </div>
+            </AccordionTrigger>
+            <AccordionContent>
+                <ul className={"grid gap-y-3"}>
+                    {itemsList.map(item => (
+                        <ShopItem key={item.id} {...item} onDelete={deleteItem} onHoverChange={setIsHoveringStepper} isHoveringStepper={isHoveringStepper} />
+                    ))}
+                </ul>
+            </AccordionContent>
+        </AccordionItem>
+    );
+};
+
+interface ShopItemProps {
+    id: number;
+    name: string;
+    description?: string;
+    rating?: string;
+    price: string;
+    image: string;
+    onDelete: (id: number) => void;
+    onHoverChange: (isHovering: boolean) => void;
+    isHoveringStepper: boolean;
+}
+
+const ShopItem: React.FC<ShopItemProps> = ({ id, name, price, image, onDelete, onHoverChange, isHoveringStepper }) => (
+    <li className={`rounded-xl bg-gray-100 flex flex-row shadow-md transition duration-300 ${!isHoveringStepper ? 'hover:bg-gray-200' : ''} cursor-default`}>
+        <div className="p-2">
+            <div className="relative h-16 w-16">
+                <Image
+                    src={image}
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center"
+                    alt="Avatar"
+                    className="rounded-xl"
+                />
+            </div>
+        </div>
+        <div className="flex flex-col gap-0.5 justify-between p-1 w-full">
+            <span className="text-base">{name}</span>
+            <div className="flex flex-row justify-between items-end">
+                <p className="text-grayText text-base">{price}</p>
+                <Stepper onDelete={() => onDelete(id)} onHoverChange={onHoverChange} />
+            </div>
+        </div>
+    </li>
+);
+
+export default CartComponent;

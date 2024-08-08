@@ -13,7 +13,7 @@ interface ItemProps {
 
 export function Item({ name, description, price, image, rating }: ItemProps) {
     return (
-        <li className={"rounded-xl bg-grayBg flex flex-row shadow-md transition duration-300 hover:bg-gray-200 cursor-default"}>
+        <li className={"rounded-xl bg-grayBg flex flex-row shadow-md transition duration-300 hover:bg-gray-200 trigger-hover cursor-default"}>
             <div className={"flex flex-col gap-0.5 justify-between p-1 w-full"}>
                 <span className={"text-lg"}>
                     {name}
@@ -44,9 +44,9 @@ export function Item({ name, description, price, image, rating }: ItemProps) {
                         className="rounded-2xl"
                     />
                     <div
-                        className={"absolute rounded-full bg-grayBg h-12 w-12 cm:h-14 cm:w-14 right-1 bottom-1 hover:scale-105 transition duration-300"}>
+                        className={"absolute rounded-full bg-grayBg h-10 w-10 cm:h-12 cm:w-12 right-1 bottom-1 scale-on-hover"}>
                         <div className={"flex justify-center items-center h-full"}>
-                            <IconPlus className={"w-9 h-9 cm:w-10 cm:h-10"}/>
+                            <IconPlus className={"w-8 h-8 cm:w-9 cm:h-9"}/>
                         </div>
                     </div>
                 </div>
