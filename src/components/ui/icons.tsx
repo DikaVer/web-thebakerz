@@ -58,17 +58,34 @@ function IconStar({
     const styles = {
         color: mainColor,
         fill: mainColor,
-        width: '24px',
-        height: '24px',
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24">
+        <svg style={styles} viewBox="0 0 24 24" className={`${className} w-5 h-5 cm:w-6 cm:h-6`}>
             <path d="M0 0h24v24H0z" fill="none">
             </path>
             <path d="M0 0h24v24H0z" fill="none">
             </path>
             <path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z">
+            </path>
+        </svg>
+    );
+}
+
+function IconPlus({
+                      className,
+                      ...props
+                  }: React.ComponentProps<'svg'>) {
+    const styles = {
+        color: blackColor,
+        fill: blackColor,
+    };
+
+    return (
+        <svg style={styles} viewBox="0 0 24 24" className={`${className}`}>
+            <path d="M0 0h24v24H0z" fill="none">
+            </path>
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z">
             </path>
         </svg>
     );
@@ -81,12 +98,10 @@ function IconLocation({
     const styles = {
         color: mainColor,
         fill: mainColor,
-        width: '24px',
-        height: '24px',
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24">
+        <svg style={styles} viewBox="0 0 24 24" className={`${className} w-5 h-5 cm:w-6 cm:h-6`}>
             <path d="M0 0h24v24H0z" fill="none">
             </path>
             <path
@@ -125,12 +140,10 @@ function IconChevronDown({
     const styles = {
         color: blackColor,
         fill: blackColor,
-        width: '30px',
-        height: '30px',
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24">
+        <svg style={styles} viewBox="0 0 24 24" className={`${className} w-5 h-5 cm:w-6 cm:h-6`}>
             <path d="M0 0h24v24H0V0z" fill="none">
             </path>
             <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z">
@@ -146,5 +159,6 @@ export {
     IconStar,
     IconLocation,
     IconThreeDots,
-    IconChevronDown
+    IconChevronDown,
+    IconPlus
 };

@@ -27,6 +27,8 @@ const config = {
         greenBakerz: "hsl(var(--green-bakerz))",
         redBakerz: "hsl(var(--red-bakerz))",
         orangeBakerz: "hsl(var(--orange-bakerz))",
+        grayBg: "hsl(var(--gray-bg))",
+        grayText: "hsl(var(--gray-text))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -60,6 +62,9 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      screens: {
+        'cm': '540px',  // Define 'custom' as a new breakpoint at 540px
       },
       keyframes: {
         "accordion-down": {

@@ -32,6 +32,8 @@
     --green-bakerz: 168, 86%, 17%;
     --orange-bakerz: 31, 81%, 51%;
     --red-bakerz: 354, 70%, 44%;
+    --gray-bg: 240, 10%, 96%;
+    --gray-text: 60, 1%, 36%;
   }
 
   .dark {
@@ -62,10 +64,26 @@
     --green-bakerz: 168, 86%, 17%;
     --orange-bakerz: 31, 81%, 51%;
     --red-bakerz: 354, 70%, 44%;
+    --gray-bg: 240, 10%, 96%;
+    --gray-text: 60, 1%, 36%;
   }
 }
-.w-128 {
-  width: 28rem;
+
+@layer utilities {
+  .w-128 {
+    width: 28rem;
+  }
+
+  .w-76 {
+    width: 19.5rem;
+  }
+  .pt-18 {
+    padding-top: 4.5rem;
+  }
+  .w-dynamic-button {
+    width: 30vw;
+    font-size: 2.8vw;
+  }
 }
 
 @layer base {
