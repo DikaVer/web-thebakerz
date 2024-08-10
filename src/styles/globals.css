@@ -12,7 +12,8 @@
     --popover-foreground: 20 14.3% 4.1%;
     --primary: 302 81% 25%;
     --primary-foreground: 60 9.1% 97.8%;
-    --secondary: 60 4.8% 95.9%;
+    --secondary: 38, 89%, 75%;
+    --secondary-hover: 38, 89%, 80%;
     --secondary-foreground: 24 9.8% 10%;
     --muted: 60 4.8% 95.9%;
     --muted-foreground: 25 5.3% 44.7%;
@@ -47,7 +48,7 @@
     --popover-foreground: 60 9.1% 97.8%;
     --primary: 60 9.1% 97.8%;
     --primary-foreground: 24 9.8% 10%;
-    --secondary: 12 6.5% 15.1%;
+    --secondary: 38, 89%, 75%;
     --secondary-foreground: 60 9.1% 97.8%;
     --muted: 12 6.5% 15.1%;
     --muted-foreground: 24 5.4% 63.9%;
@@ -78,26 +79,113 @@
     width: 28rem;
   }
 
+  .scale-y-200{
+    transform: scaleY(2);
+  }
+
+  .scale-y-300{
+    transform: scaleY(3);
+  }
+
+  .w-39 {
+    width: 9.75rem;
+  }
+
+  .w-38 {
+    width: 9.5rem;
+  }
+
+  .w-22 {
+    width: 5.5rem;
+  }
+
   .w-76 {
     width: 19.5rem;
   }
+
+  .h-26 {
+    height: 6.5rem;
+  }
+
+  .h-27 {
+    height: 6.75rem;
+  }
+  .animate-in {
+    animation-duration: 500ms;
+  }
+
+  .animate-out {
+    animation-duration: 500ms;
+  }
+
   .pt-18 {
     padding-top: 4.5rem;
   }
+
   .w-dynamic-button {
     width: 30vw;
     font-size: 2.8vw;
   }
+
   .trigger-hover:hover .underline-on-hover {
     text-decoration: underline;
   }
 
-  .trigger-hover:hover .scale-on-hover {
+  .trigger-hover:hover .text-on-hover-white {
+    color: white;
+  }
+
+  .text-on-hover-white {
+    transition: transform 0.7s ease;
+  }
+
+  .border-3 {
+    border-width: 3px;
+  }
+
+  .scale-102 {
+    transform: scale(1.025);
+  }
+
+  .duration-200 {
+    transition-duration: 200ms;
+  }
+
+  .duration-200 {
+    animation-duration: 200ms;
+  }
+
+  .clamp-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-line-clamp: 1; /* Adjust number of lines as needed */
+  }
+
+  .clamp-description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4; /* Adjust number of lines as needed */
+  }
+
+    .trigger-hover:hover .scale-on-hover-105 {
     transform: scale(1.05);
   }
 
-  .scale-on-hover {
+  .trigger-hover:hover .scale-on-hover-115 {
+    transform: scale(1.15);
+  }
+
+  .scale-on-hover-105 {
     transition: transform 0.3s ease;
+  }
+
+  .scale-on-hover-115 {
+    transition: transform 0.5s ease;
   }
 }
 

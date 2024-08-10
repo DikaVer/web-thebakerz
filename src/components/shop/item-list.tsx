@@ -8,7 +8,7 @@ export function ItemList() {
     return (
         <div className={"mb-6"}>
             <span className={"text-xl font-bold"}>Macaroons</span>
-            <ul className={"pt-3 grid gap-y-4"}>
+            <ul className={"pt-3 grid gap-4 grid-cols-1 shop-sm:grid-cols-2"}>
                 <Item
                     name="Caramel Macaroons"
                     description="Indulge in this decadent chocolate cake, made with premium ingredients. Award-winning recipe, perfected over years to bring you the ultimate dessert experience."

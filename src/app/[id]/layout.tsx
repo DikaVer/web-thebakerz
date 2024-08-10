@@ -4,10 +4,10 @@ import React from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex-col">
+        <div className="flex flex-col min-h-screen">
             <Header/>
-            <main className="flex-grow container mx-auto pt-18">
-            {children}
+            <main className="z-10 flex-grow container mx-auto pt-2">
+                {children}
             </main>
         </div>
     );

@@ -37,6 +37,7 @@ const config = {
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
+          hover: "hsl(var(--secondary-hover))",
           foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
@@ -66,7 +67,8 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       screens: {
-        'cm': '540px',  // Define 'custom' as a new breakpoint at 540px
+        'cm': '540px',
+        'shop-sm': '740px',
       },
       keyframes: {
         "accordion-down": {
@@ -79,8 +81,8 @@ const config = {
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        "accordion-down": "accordion-down 0.5s ease-out",
+        "accordion-up": "accordion-up 0.5s ease-out",
       },
     },
   },

@@ -35,7 +35,7 @@ const Stepper: React.FC<StepperProps> = ({ onDelete, onHoverChange }) => {
                         <IconMinus className="w-5 h-5" />
                     </button>
                     <div className="text-center">{count}</div>
-                    <button onClick={handleIncrement} className="hover:bg-grayCompHover transition duration-300 focus:outline-none pr-1 py-1">
+                    <button onClick={handleIncrement} disabled={count >= 99} className="hover:bg-grayCompHover transition duration-300 focus:outline-none pr-1 py-1">
                         <IconPlus className="w-5 h-5" />
                     </button>
                 </>

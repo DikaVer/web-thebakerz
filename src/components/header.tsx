@@ -4,8 +4,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { IconCart, IconMenu } from "@/components/ui/icons";
 import { Label } from "@/components/ui/label";
-import MenuComponent from "@/components/user-menu";
-import CartComponent from "@/components/cart";
+import MenuComponent from "@/components/menu/user-menu";
+import CartComponent from "@/components/cart/cart";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
@@ -21,16 +21,16 @@ export function Header() {
     };
 
     return (
-        <header className="fixed top-0 w-full z-30 bg-white">
+        <header className="sticky top-0 w-full z-30 bg-white">
             <nav className="text-black pt-4">
                 <div className="container mx-auto flex justify-between items-center">
-                    <Button className="flex p-2 items-center bg-white rounded-full transition duration-300 hover:bg-gray-200" onClick={toggleMenu}>
+                    <Button className="flex p-2 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200" onClick={toggleMenu}>
                         <IconMenu />
                     </Button>
-                    <div className="hover:scale-125 transition duration-300">
+                    <div className="hover:scale-125 transition duration-500">
                         <Label className="text-2xl font-bold mx-auto">TheBakerz</Label>
                     </div>
-                    <Button className="flex p-2 items-center bg-white rounded-full transition duration-300 hover:bg-gray-200" onClick={toggleCart}>
+                    <Button className="flex p-2 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200" onClick={toggleCart}>
                         <IconCart />
                     </Button>
                 </div>

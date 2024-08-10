@@ -1,11 +1,13 @@
 'use client';
-import {Command, CommandInput, CommandItem, CommandList} from "@/components/ui/command";
+import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import React from "react";
 
 interface ICommandProps {
     commands: { value: string; label: string }[];
+    placeholder?: string;
 }
-export function Search({ commands }: ICommandProps){
+
+export function Search({ commands, placeholder = "Search" }: ICommandProps) {
     const [open, setOpen] = React.useState(false);
     const [inputValue, setInputValue] = React.useState("");
     const handleValueChange = (value: string) => {
@@ -18,24 +20,20 @@ export function Search({ commands }: ICommandProps){
             command.label.toLowerCase().includes(inputValue.toLowerCase())
         )
         : [];
-    console.log("filteredCommands", filteredCommands);
+
     return (
-        <Command className="rounded-lg border shadow-sm my-5 w-96">
+        <Command className="rounded-lg border shadow-sm my-5 w-96 overflow-hidden">
             <CommandInput
-                placeholder="Search in Bakery shop..."
+                placeholder={placeholder}
                 onValueChange={handleValueChange}
             />
-            {
-                <CommandList>
-                    {open &&
-                        filteredCommands.length > 0 &&
-                        filteredCommands.map((command) => (
-                            <CommandItem key={command.value} value={command.value}>
-                                {command.label}
-                            </CommandItem>
-                        ))}
-                </CommandList>
-            }
+            <CommandList>
+                {open && filteredCommands.length > 0 && filteredCommands.map((command) => (
+                    <CommandItem key={command.value} value={command.value}>
+                        {command.label}
+                    </CommandItem>
+                ))}
+            </CommandList>
         </Command>
     );
 }

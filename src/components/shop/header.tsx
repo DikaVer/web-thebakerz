@@ -14,7 +14,7 @@ import React from "react";
 
 export function ProfileHeader() {
     return (
-        <div className="content-container h-60 relative cm:h-72 rounded-2xl overflow-hidden flex flex-col justify-center">
+        <div className="content-container h-60 relative cm:h-72 rounded-lg overflow-hidden flex flex-col justify-center">
             <Background />
             <Avatar />
             <ProfileInfo />
@@ -35,7 +35,7 @@ const Background = () => (
 );
 
 const Avatar = () => (
-    <div className="ml-2 mt-8 cm:ml-4 cm:mt-8 absolute hover:scale-110 transition duration-300 cursor-default avatar">
+    <div className="ml-2 mt-8 cm:ml-4 cm:mt-8 absolute hover:scale-105 transition duration-500 cursor-default avatar">
         <div className="relative h-28 w-28 cm:h-32 cm:w-32">
             <Image
                 src="/avatar_test.jpg"
@@ -53,12 +53,12 @@ const Avatar = () => (
 const ProfileInfo = () => (
     <div className="ml-36 mt-14 cm:ml-40 cm:mt-12 absolute space-y-2">
         <Label className="text-xl cm:text-2xl font-bold text-black">Mrs. Bombochka</Label>
-        <Label className="flex items-center space-x-2 hover:scale-110 transition duration-300">
+        <Label className="flex items-center space-x-2 hover:scale-102 transition duration-300">
             <IconStar />
             <p className="text-lg cm:text-xl text-black">5.0</p>
             <p className="text-sm cm:text-base underline font-light text-gray-600">260 reviews</p>
         </Label>
-        <Label className="flex items-center space-x-2 hover:scale-110 transition duration-300">
+        <Label className="flex items-center space-x-2 hover:scale-102 transition duration-300">
             <IconLocation />
             <p className="text-lg cm:text-xl text-black">Maastricht</p>
         </Label>
