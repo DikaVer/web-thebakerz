@@ -9,7 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { MiniCalendar } from "@/components/shop/calendar";
+import { MiniCalendar } from "@/components/miniCalendar/calendar";
 import React from "react";
 
 export function ProfileHeader() {

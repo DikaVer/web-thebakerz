@@ -136,7 +136,7 @@ interface ShopItemProps {
 const ShopItem: React.FC<ShopItemProps> = ({ id, name, price, image, onDelete, onHoverChange, isHoveringStepper }) => (
 
     <>
-        <li className={`flex flex-row rounded transition duration-500 ${!isHoveringStepper ? 'hover:bg-grayBg' : ''} cursor-default my-1`}>
+        <li className={`flex flex-row rounded transition duration-500 ${!isHoveringStepper ? 'hover:bg-grayBg' : ''} cursor-pointer my-1`}>
             <div className="p-2">
                 <div className="relative h-16 w-16">
                     <Image

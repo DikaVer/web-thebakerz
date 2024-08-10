@@ -2,15 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { IconChevronDown, IconCross } from "@/components/ui/icons";
+import {IconChevronDown, IconClock, IconCross, IconEdit, IconLocation} from "@/components/ui/icons";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import React from "react";
 import {Button} from "@/components/ui/button";
+import {Search} from "@/components/shop/search";
+import {BailoutToCSR} from "next/dist/shared/lib/lazy-dynamic/dynamic-bailout-to-csr";
+const commands = [
+    { value: 'a', label: 'a' },
+];
 
 export function MiniCalendar() {
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isPickup, setIsPickup] = useState(true);
+    const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
 
     useEffect(() => {
         const handleResize = () => {
@@ -29,6 +35,10 @@ export function MiniCalendar() {
 
     const togglePosition = () => {
         setIsPickup(!isPickup);
+    };
+
+    const handleAddressClick = (address: string) => {
+        setSelectedAddress(address);
     };
 
     return (
@@ -54,8 +64,10 @@ export function MiniCalendar() {
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <div className={"flex flex-row justify-between items-center"}>
-                        <Button className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200" onClick={handleDialogClose}>
-                            <IconCross className={"w-8 h-8 cursor-pointer"} />
+                        <Button
+                            className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
+                            onClick={handleDialogClose}>
+                            <IconCross className={"w-8 h-8 cursor-pointer"}/>
                         </Button>
                         <p className={"text-xl"}>Schedule Delivery</p>
                         <div className="w-8 h-8 flex"></div>
@@ -63,7 +75,7 @@ export function MiniCalendar() {
                     <hr className={"my-1"}></hr>
                     <div className={"flex flex-col justify-between items-center"}>
                         <div
-                            className={"grid grid-cols-2 items-center rounded-full w-80 h-12 bg-grayBg transition duration-500 hover:bg-gray-200"}
+                            className={"grid grid-cols-2 items-center rounded-full w-80 h-12 bg-grayBg transition duration-500 hover:bg-gray-200 cursor-pointer"}
                             onClick={togglePosition}
                         >
                             <p className="text-black text-center z-10">Pickup</p>
@@ -72,6 +84,44 @@ export function MiniCalendar() {
                             >
                             </div>
                             <p className="text-black text-center z-10">Delivery</p>
+                        </div>
+                    </div>
+                    <div className="flex items-center justify-center h-full">
+                        <Search commands={commands} placeholder="Search for bakery items..."/>
+                    </div>
+                    <div>
+                        <p className="text-black text-xl">Saved addresses</p>
+                        <ul>
+                            {['Maastricht', 'Chisinau', 'Saint-Petersburg'].map((address) => (
+                                <li key={address}>
+                                    <div
+                                        className={`flex flex-row justify-between items-center space-x-2 pr-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg ${selectedAddress === address ? 'bg-grayBg' : 'hover:bg-grayBg'}`}
+                                        onClick={() => handleAddressClick(address)}
+                                    >
+                                        <IconLocation className={"w-9 h-9 cm:w-9 cm:h-9 fill-secondary"}/>
+                                        <div className={"flex w-full"}>
+                                            <p className="text-black text-lg">{address}</p>
+                                        </div>
+                                        <div className={"transition duration-500 hover:scale-115"}>
+                                            <IconEdit className={"w-6 h-6"}/>
+                                        </div>
+                                    </div>
+                                    <hr></hr>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <p className="text-black text-xl">Time Preferences</p>
+                        <div>
+                            <div
+                                className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg">
+                                <IconClock className={"w-16 h-16"}/>
+                                <div className={"flex w-full"}>
+                                    <p className="text-black text-lg">Schedule delivery</p>
+                                </div>
+                                <Button className={"text-lg h-9"}>Schedule</Button>
+                            </div>
                         </div>
                     </div>
                 </DialogContent>

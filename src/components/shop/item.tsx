@@ -12,7 +12,7 @@ interface ItemProps {
 
 export function Item({ name, description, price, image, rating }: ItemProps) {
     return (
-        <li className={"rounded-lg border-2 border-grayBg flex flex-row w-full transition duration-500 hover:bg-grayBg trigger-hover cursor-default"}>
+        <li className={"rounded-lg border-2 border-grayBg flex flex-row w-full transition duration-500 hover:bg-grayBg trigger-hover cursor-pointer"}>
             <div className={"flex flex-col justify-between p-1 w-full"}>
                 <div className="flex flex-col h-26 cm:h-27">
                     <span className="text-lg clamp-title">

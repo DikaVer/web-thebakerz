@@ -22,17 +22,20 @@ export function Search({ commands, placeholder = "Search" }: ICommandProps) {
         : [];
 
     return (
-        <Command className="rounded-lg border shadow-sm my-5 w-96 overflow-hidden">
+        <Command className=" rounded-lg border shadow-sm my-5 w-96 overflow-hidden">
             <CommandInput
                 placeholder={placeholder}
                 onValueChange={handleValueChange}
             />
-            <CommandList>
-                {open && filteredCommands.length > 0 && filteredCommands.map((command) => (
-                    <CommandItem key={command.value} value={command.value}>
-                        {command.label}
-                    </CommandItem>
-                ))}
+            <CommandList className={"absolute"}>
+                {/*<CommandEmpty>*/}
+                {/*    <p className="text-center text-gray-500">No results found</p>*/}
+                {/*</CommandEmpty>*/}
+                {/*{open && filteredCommands.length > 0 && filteredCommands.map((command) => (*/}
+                {/*    <CommandItem key={command.value} value={command.value}>*/}
+                {/*        {command.label}*/}
+                {/*    </CommandItem>*/}
+                {/*))}*/}
             </CommandList>
         </Command>
     );

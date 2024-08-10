@@ -1,7 +1,10 @@
 import React from 'react';
 
-const mainColor = '#730C6F';
-const blackColor = '#030303';
+const colors = {
+    primary: '#730C6F',
+    secondary: '#F8CE87',
+    black: '#030303',
+};
 
 function IconCart({
                                 className,
@@ -303,6 +306,48 @@ function IconCross({
     );
 }
 
+function IconEdit({
+                       className,
+                       ...props
+                   }: React.ComponentProps<'svg'>) {
+    const styles = {
+        color: blackColor,
+        fill: blackColor,
+    };
+
+    return (
+        <svg style={styles} viewBox="0 0 24 24" className={`${className}`}>
+            <path d="M0 0h24v24H0z" fill="none">
+            </path>
+            <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+            </path>
+        </svg>
+    );
+}
+
+function IconClock({
+                      className,
+                      ...props
+                  }: React.ComponentProps<'svg'>) {
+    const styles = {
+        color: blackColor,
+        fill: blackColor,
+    };
+
+    return (
+        <svg style={styles} viewBox="0 0 24 24" className={`${className}`}>
+            <path d="M0 0h24v24H0z" fill="none">
+            </path>
+            <path
+                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z">
+            </path>
+            <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z">
+            </path>
+        </svg>
+    );
+}
+
 
 export {
     IconCart,
@@ -318,5 +363,7 @@ export {
     IconAvatar,
     IconTrash,
     IconMinus,
-    IconCross
+    IconCross,
+    IconEdit,
+    IconClock
 };

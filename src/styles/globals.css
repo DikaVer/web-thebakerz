@@ -172,6 +172,10 @@
     -webkit-line-clamp: 4; /* Adjust number of lines as needed */
   }
 
+  .scale-115 {
+    transform: scale(1.15);
+  }
+
     .trigger-hover:hover .scale-on-hover-105 {
     transform: scale(1.05);
   }
