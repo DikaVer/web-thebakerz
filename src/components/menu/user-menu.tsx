@@ -39,7 +39,7 @@ const MenuItems = () => (
         {true ? (
             <>
                 <div className={"flex flex-row items-center space-x-3 p-2 pb-6 pt-6 trigger-hover cursor-pointer"}>
-                    <IconAvatar/>
+                    <IconAvatar className={"w-14-5 h-14-5"}/>
                     <div>
                         <p className={"text-lg"}>John Doe</p>
                         <p className={"text-primary scale-on-hover-105"}>Account settings</p>
@@ -55,7 +55,7 @@ const MenuItems = () => (
                 ) : (
             <>
                 <div className={"flex flex-row items-center space-x-3 p-2 pb-6 pt-6"}>
-                    <IconAvatar/>
+                    <IconAvatar className={`w-14-5 h-14-5`}/>
                     <div className={"grid gap-1"}>
                         <p className={"text-lg"}>Guest</p>
                         <div className={"flex flex-row space-x-3 -mx-2"}>
@@ -82,7 +82,7 @@ const MenuItems = () => (
 const MenuItem = ({icon: Icon, label, link}: { icon: React.ElementType, label: string, link: string }) => (
     <li>
         <div className={"flex flex-row items-center space-x-3 hover:scale-105 transition duration-300"}>
-            <Icon/>
+            <Icon className={`w-7 h-7`}/>
             <a className={"text-lg"} href={link}>{label}</a>
         </div>
     </li>

@@ -85,7 +85,7 @@ const Shop: React.FC<ShopProps> = ({ icon: Icon, shopName, items, value, initial
         <AccordionItem value={value}>
             <AccordionTrigger>
                 <div className={"-my-2 flex flex-row items-center space-x-3 justify-start"}>
-                    <Icon />
+                    <Icon className={"w-14 h-14"}/>
                     <div className={"grid grid-col gap-0"}>
                         <p className={"flex text-base underline-on-hover"}>{shopName}</p>
                         <p className={"flex text-sm text-grayText"}>{items}</p>

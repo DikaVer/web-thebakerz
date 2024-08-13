@@ -22,7 +22,7 @@ export function Search({ commands, placeholder = "Search" }: ICommandProps) {
         : [];
 
     return (
-        <Command className=" rounded-lg border shadow-sm my-5 w-96 overflow-hidden">
+        <Command className=" rounded-lg border shadow-sm my-5 overflow-hidden">
             <CommandInput
                 placeholder={placeholder}
                 onValueChange={handleValueChange}

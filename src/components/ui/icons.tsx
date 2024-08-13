@@ -3,26 +3,25 @@ import React from 'react';
 const colors = {
     primary: '#730C6F',
     secondary: '#F8CE87',
-    black: '#030303',
+    black: '#000000',
 };
 
 function IconCart({
-                                className,
-                                ...props
-                            }: React.ComponentProps<'svg'>) {
+                      className,
+                      color = 'black', // default color
+                      viewBox = "0 0 576 512",
+                      ...props
+                  }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
-        width: '29px',
-        height: '24px',
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg
-            style={styles}
-            viewBox="0 0 576 512"
-            className={className}
-            {...props}
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
         >
             <path
                 d="M528.12 301.319l47.273-208C578.806 78.301 567.391 64 551.99 64H159.208l-9.166-44.81C147.758 8.021 137.93 0 126.529 0H24C10.745 0 0 10.745 0 24v16c0 13.255 10.745 24 24 24h69.883l70.248 343.435C147.325 417.1 136 435.222 136 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-15.674-6.447-29.835-16.824-40h209.647C430.447 426.165 424 440.326 424 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-22.172-12.888-41.332-31.579-50.405l5.517-24.276c3.413-15.018-8.002-29.319-23.403-29.319H218.117l-6.545-32h293.145c11.206 0 20.92-7.754 23.403-18.681z"/>
@@ -32,21 +31,20 @@ function IconCart({
 
 function IconMenu({
                       className,
+                      color = 'black', // default color
+                      viewBox = "0 0 448 512",
                       ...props
-                  }: React.ComponentProps<'svg'>) {
+                  }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: '#030303',
-        fill: '#030303',
-        width: '28px',
-        height: '24px',
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg
-            style={styles}
-            viewBox="0 0 448 512"
-            className={`${className} hover:fill-current`}
-            {...props}
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
         >
             <path
                 d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/>
@@ -56,15 +54,21 @@ function IconMenu({
 
 function IconStar({
                       className,
+                      color = 'black', // default color
+                      viewBox="0 0 24 24",
                       ...props
-                  }: React.ComponentProps<'svg'>) {
+                  }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: mainColor,
-        fill: mainColor,
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24" className={`${className} w-5 h-5 cm:w-6 cm:h-6`}>
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path d="M0 0h24v24H0z" fill="none">
             </path>
             <path d="M0 0h24v24H0z" fill="none">
@@ -77,15 +81,21 @@ function IconStar({
 
 function IconPlus({
                       className,
+                      color = 'black', // default color
+                      viewBox="0 0 24 24",
                       ...props
-                  }: React.ComponentProps<'svg'>) {
+                  }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24" className={`${className}`}>
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path d="M0 0h24v24H0z" fill="none">
             </path>
             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z">
@@ -95,38 +105,47 @@ function IconPlus({
 }
 
 function IconLocation({
-                      className,
-                      ...props
-                  }: React.ComponentProps<'svg'>) {
+                          className,
+                          color = 'black', // default color
+                          viewBox="0 0 24 24",
+                          ...props
+                      }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: mainColor,
-        fill: mainColor,
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24" className={`${className} w-5 h-5 cm:w-6 cm:h-6`}>
-            <path d="M0 0h24v24H0z" fill="none">
-            </path>
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
+            <path d="M0 0h24v24H0z" fill="none" />
             <path
-                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z">
-            </path>
+                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"
+            />
         </svg>
     );
 }
 
 function IconThreeDots({
-                          className,
-                          ...props
-                      }: React.ComponentProps<'svg'>) {
+                           className,
+                           color = 'black', // default color
+                           viewBox="0 0 24 24",
+                           ...props
+                       }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
-        width: '30px',
-        height: '30px',
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24">
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path d="M0 0h24v24H0z" fill="none">
             </path>
             <path
@@ -137,16 +156,22 @@ function IconThreeDots({
 }
 
 function IconChevronDown({
-                           className,
-                           ...props
-                       }: React.ComponentProps<'svg'>) {
+                             className,
+                             color = 'black', // default color
+                             viewBox="0 0 24 24",
+                             ...props
+                         }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24" className={`${className} w-5 h-5 cm:w-6 cm:h-6`}>
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path d="M0 0h24v24H0V0z" fill="none">
             </path>
             <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z">
@@ -156,18 +181,22 @@ function IconChevronDown({
 }
 
 function IconOrder({
-                           className,
-                           ...props
-                       }: React.ComponentProps<'svg'>) {
+                       className,
+                       color = 'black', // default color
+                       viewBox="0 0 24 24",
+                       ...props
+                   }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
-        width: '28px',
-        height: '28px',
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24">
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path d="M0 0h24v24H0z" fill="none">
             </path>
             <path
@@ -178,18 +207,22 @@ function IconOrder({
 }
 
 function IconSupport({
-                           className,
-                           ...props
-                       }: React.ComponentProps<'svg'>) {
+                         className,
+                         color = 'black', // default color
+                         viewBox="0 0 24 24",
+                         ...props
+                     }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
-        width: '28px',
-        height: '28px',
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24">
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path fill="none" d="M0 0h24v24H0z">
             </path>
             <path
@@ -206,17 +239,21 @@ function IconSupport({
 
 function IconPayment({
                          className,
+                         color = 'black', // default color
+                         viewBox="0 0 24 24",
                          ...props
-                     }: React.ComponentProps<'svg'>) {
+                     }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
-        width: '28px',
-        height: '28px',
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24">
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path fill="none" d="M0 0h24v24H0z">
             </path>
             <path
@@ -228,17 +265,21 @@ function IconPayment({
 
 function IconAvatar({
                         className,
+                        color = 'black', // default color
+                        viewBox="0 0 24 24",
                         ...props
-                    }: React.ComponentProps<'svg'>) {
+                    }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
-        width: '60px',
-        height: '60px',
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24">
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path fill="none" d="M0 0h24v24H0z">
             </path>
             <path
@@ -249,16 +290,22 @@ function IconAvatar({
 }
 
 function IconTrash({
-                     className,
-                     ...props
-                 }: React.ComponentProps<'svg'>) {
+                       className,
+                       color = 'black', // default color
+                       viewBox="0 0 24 24",
+                       ...props
+                   }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24" className={`${className}`}>
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path d="M0 0h24v24H0z" fill="none">
             </path>
             <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
@@ -269,15 +316,21 @@ function IconTrash({
 
 function IconMinus({
                        className,
+                       color = 'black', // default color
+                       viewBox="0 0 24 24",
                        ...props
-                   }: React.ComponentProps<'svg'>) {
+                   }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24" className={`${className}`}>
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path d="M0 0h24v24H0z" fill="none">
             </path>
             <path d="M19 13H5v-2h14v2z">
@@ -288,15 +341,21 @@ function IconMinus({
 
 function IconCross({
                        className,
+                       color = 'black', // default color
+                       viewBox="0 0 24 24",
                        ...props
-                   }: React.ComponentProps<'svg'>) {
+                   }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24" className={`${className}`}>
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path d="M0 0h24v24H0z" fill="none">
             </path>
             <path
@@ -307,16 +366,22 @@ function IconCross({
 }
 
 function IconEdit({
-                       className,
-                       ...props
-                   }: React.ComponentProps<'svg'>) {
+                      className,
+                      color = 'black', // default color
+                      viewBox="0 0 24 24",
+                      ...props
+                  }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24" className={`${className}`}>
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path d="M0 0h24v24H0z" fill="none">
             </path>
             <path
@@ -327,22 +392,53 @@ function IconEdit({
 }
 
 function IconClock({
-                      className,
-                      ...props
-                  }: React.ComponentProps<'svg'>) {
+                       className,
+                       color = 'black', // default color
+                       viewBox="0 0 24 24",
+                       ...props
+                   }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
     const styles = {
-        color: blackColor,
-        fill: blackColor,
+        color: colors[color],
+        fill: colors[color],
     };
 
     return (
-        <svg style={styles} viewBox="0 0 24 24" className={`${className}`}>
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
             <path d="M0 0h24v24H0z" fill="none">
             </path>
             <path
                 d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z">
             </path>
             <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z">
+            </path>
+        </svg>
+    );
+}
+
+function IconArrow({
+                       className,
+                       color = 'black', // default color
+                       viewBox="0 0 24 24",
+                       ...props
+                   }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
+    const styles = {
+        color: colors[color],
+        fill: colors[color],
+    };
+
+    return (
+        <svg style={styles}
+             viewBox={viewBox}
+             className={`${className}`}
+             {...props}
+        >
+            <path fill="none" d="M0 0h24v24H0z">
+            </path>
+            <path d="m9 19 1.41-1.41L5.83 13H22v-2H5.83l4.59-4.59L9 5l-7 7 7 7z">
             </path>
         </svg>
     );
@@ -365,5 +461,6 @@ export {
     IconMinus,
     IconCross,
     IconEdit,
-    IconClock
+    IconClock,
+    IconArrow
 };

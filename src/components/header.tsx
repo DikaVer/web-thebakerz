@@ -25,13 +25,13 @@ export function Header() {
             <nav className="text-black pt-4">
                 <div className="container mx-auto flex justify-between items-center">
                     <Button className="flex p-2 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200" onClick={toggleMenu}>
-                        <IconMenu />
+                        <IconMenu className={"w-7 h-6"}/>
                     </Button>
                     <div className="hover:scale-125 transition duration-500">
                         <Label className="text-2xl font-bold mx-auto">TheBakerz</Label>
                     </div>
                     <Button className="flex p-2 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200" onClick={toggleCart}>
-                        <IconCart />
+                        <IconCart className={"w-7 h-6"}/>
                     </Button>
                 </div>
                 <hr className="mt-2" />

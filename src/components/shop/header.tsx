@@ -9,7 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { MiniCalendar } from "@/components/miniCalendar/calendar";
+import { MiniCalendar } from "@/components/scheduler/calendar";
 import React from "react";
 
 export function ProfileHeader() {
@@ -54,12 +54,12 @@ const ProfileInfo = () => (
     <div className="ml-36 mt-14 cm:ml-40 cm:mt-12 absolute space-y-2">
         <Label className="text-xl cm:text-2xl font-bold text-black">Mrs. Bombochka</Label>
         <Label className="flex items-center space-x-2 hover:scale-102 transition duration-300">
-            <IconStar />
+            <IconStar className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"}/>
             <p className="text-lg cm:text-xl text-black">5.0</p>
             <p className="text-sm cm:text-base underline font-light text-gray-600">260 reviews</p>
         </Label>
         <Label className="flex items-center space-x-2 hover:scale-102 transition duration-300">
-            <IconLocation />
+            <IconLocation className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"}/>
             <p className="text-lg cm:text-xl text-black">Maastricht</p>
         </Label>
         <div className="flex pt-2 space-x-2 cm:space-x-3 left-0">
@@ -67,7 +67,7 @@ const ProfileInfo = () => (
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button className="bg-white px-1 cm:px-1.5 opacity-80" variant="outline">
-                        <IconThreeDots />
+                        <IconThreeDots className={"w-7-5 h-7-5"}/>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
