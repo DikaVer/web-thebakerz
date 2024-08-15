@@ -220,6 +220,7 @@
   .scale-on-hover-115 {
     transition: transform 0.5s ease;
   }
+
 }
 
 @layer base {

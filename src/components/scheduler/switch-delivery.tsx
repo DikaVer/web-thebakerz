@@ -3,14 +3,14 @@ import React, { useState } from "react";
 export const SwitchDelivery: React.FC = () => {
     const [isPickup, setIsPickup] = useState(true);
 
-    const togglePosition = () => {
+    const toggleIsPickUp = () => {
         setIsPickup(!isPickup);
     };
 
     return (
         <div
             className={"grid grid-cols-2 items-center rounded-full w-80 h-12 bg-grayBg transition duration-500 hover:bg-gray-200 cursor-pointer"}
-            onClick={togglePosition}
+            onClick={toggleIsPickUp}
         >
             <p className="text-black text-center z-10">Pickup</p>
             <div

@@ -1,20 +1,29 @@
 import React from "react";
-import { ProfileHeader } from "@/components/shop/header";
-import { Search } from "@/components/shop/search";
-import { ItemList } from "@/components/shop/item-list";
+import { ProfileHeader } from "@/components/store/profile-header";
+import { notFound } from 'next/navigation';
+import {getStore} from "@/lib/store/store-dto";
+import {ProductComponent} from "@/components/store/product-comp";
 
-const commands = [
-    { value: '', label: '' },
-];
+interface StorePageProps {
+    params: {
+        id: string
+    }
+}
 
-export default function Page() {
-    return (
-        <div>
-            <ProfileHeader />
-            <div className="flex items-center justify-center h-full">
-                <Search commands={commands} placeholder="Search for bakery items..." />
-            </div>
-            <ItemList />
-        </div>
-    );
+export default async function Page({params}: StorePageProps) {
+
+    const storeData = await getStore(params.id);
+
+    if (!storeData) {
+
+        return notFound();
+
+    } else {
+        return (
+            <main>
+                <ProfileHeader storeData={storeData}/>
+                <ProductComponent id={params.id}/>
+            </main>
+        );
+    }
 }

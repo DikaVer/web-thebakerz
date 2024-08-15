@@ -1,6 +1,6 @@
 'use client';
 import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import React from "react";
+import React, {useState} from "react";
 
 interface ICommandProps {
     commands: { value: string; label: string }[];
@@ -22,7 +22,7 @@ export function Search({ commands, placeholder = "Search" }: ICommandProps) {
         : [];
 
     return (
-        <Command className=" rounded-lg border shadow-sm my-5 overflow-hidden">
+        <Command className="my-2 rounded-lg border shadow-sm overflow-hidden">
             <CommandInput
                 placeholder={placeholder}
                 onValueChange={handleValueChange}
@@ -40,3 +40,11 @@ export function Search({ commands, placeholder = "Search" }: ICommandProps) {
         </Command>
     );
 }
+
+//
+// const [searchTerm, setSearchTerm] = useState("");
+//
+// const filteredProducts = products.filter(product =>
+//     product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//     product.category_id.toLowerCase().includes(searchTerm.toLowerCase())
+// );

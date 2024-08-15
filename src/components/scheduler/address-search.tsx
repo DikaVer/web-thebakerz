@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Search} from "@/components/shop/search";
+import {Search} from "@/components/store/search";
 import {IconEdit, IconLocation} from "@/components/ui/icons";
 
 const commands = [
@@ -23,7 +23,7 @@ export const AddressSearch: React.FC = () => {
     };
 
     return (
-        <>
+        <div className={"animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%]"}>
             <div className="flex items-center justify-center">
                 <Search commands={commands} placeholder="Search for bakery items..."/>
             </div>
@@ -55,6 +55,6 @@ export const AddressSearch: React.FC = () => {
                     ))}
                 </ul>
             </div>
-        </>
+        </div>
     );
 };

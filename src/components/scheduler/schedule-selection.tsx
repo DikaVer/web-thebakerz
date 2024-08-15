@@ -2,23 +2,8 @@
 import React from "react";
 import {IconArrow} from "@/components/ui/icons";
 import {Button} from "@/components/ui/button";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel"
-
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Calendar } from "@/components/ui/calendar"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
+import { ScrollArea } from '@/components/ui/scroll-area';
+import {CarouselDate} from "@/components/scheduler/carousel-date";
 
 interface ScheduleSelectionProps {
     handleScheduler: () => void;
@@ -41,85 +26,69 @@ export const ScheduleSelection: React.FC<ScheduleSelectionProps> = ({ handleSche
                 <div className="w-8 h-8 flex"></div>
             </div>
             <hr className={"my-1"}></hr>
-            <Carousel
-                opts={{
-                    align: "start",
-                }}
-                className="w-auto mx-12 my-2"
-            >
-                <CarouselContent>
-                    {Array.from({ length: 3 }).map((_, index) => (
-                        <CarouselItem key={index} className="basis-1/2 w-14">
-                            <div className="h-18 m-0.5">
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        " justify-start text-left font-normal",
-                                        !date && "text-muted-foreground",
-                                        "border-1 border-black h-full w-full rounded-xl p-2"
-                                    )}
-                                >
-                                    <div className={"flex flex-row justify-between items-end w-full"}>
-                                        <div className={"flex flex-col items-baseline"}>
-                                                <span
-                                                    className={'font-bold text-lg'}>{date ? format(date, "EEE") : "Select"}</span>
-                                            <span>{date ? format(date, "dd MMM") : "Day"}</span>
-                                        </div>
-                                    </div>
-
-                                </Button>
-                            </div>
-                        </CarouselItem>
-                    ))}
-                    <CarouselItem className="basis-1/2">
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <div className="h-18 m-0.5">
-                                    <Button
-                                        variant={"outline"}
-                                        className={cn(
-                                            " justify-start text-left font-normal",
-                                        !date && "text-muted-foreground",
-                                            "border-1 border-black w-full h-full rounded-xl p-2"
-                                        )}
-                                    >
-
-                                        <div className={"flex flex-row justify-between items-end w-full"}>
-                                            <div className={"flex flex-col items-baseline"}>
-                                                <span
-                                                    className={'font-bold text-lg'}>{date ? format(date, "EEE") : "Select"}</span>
-                                                <span>{date ? format(date, "dd MMM") : "Day"}</span>
-                                            </div>
-                                            <CalendarIcon className="mr-2 h-5 w-5"/>
-                                        </div>
-
-
-                                        </Button>
-                                    </div>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0">
-                                    <Calendar
-                                        mode="single"
-                                        selected={date}
-                                        onSelect={setDate}
-                                        initialFocus
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                    </CarouselItem>
-                </CarouselContent>
-                <CarouselPrevious/>
-                <CarouselNext/>
-            </Carousel>
-
-            <div className={"flex flex-col justify-between items-center"}>
-                <Button
-                    className={"w-64 h-12 rounded-xl bg-black text-white font-bold text-lg"}
-                    onClick={handleScheduler}
-                >
-                    Continue
-                </Button>
-            </div>
+            <CarouselDate date={date} setDate={setDate}/>
+            <TimePickerScrollArea fromTime="08:00" toTime="20:00" stepInterval={15}/>
+            <Button className="rounded-lg h-14 text-lg">Schedule</Button>
         </div>
     );
 };
+
+interface TimePickerScrollAreaProps {
+    fromTime?: string;
+    toTime?: string;
+    stepInterval?: number;
+}
+
+function convertTo24Hour(time: string): number {
+    const [timePart, modifier] = time.split(' ');
+    let [hours, minutes] = timePart.split(':').map(Number);
+
+    if (modifier === 'PM' && hours < 12) {
+        hours += 12;
+    }
+    if (modifier === 'AM' && hours === 12) {
+        hours = 0;
+    }
+
+    return hours * 60 + minutes;
+}
+
+function formatToAmPm(minutes: number): string {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+    return `${formattedHours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')} ${period}`;
+}
+
+const defaultStart = 0; // Start of the day in minutes (0:00)
+const defaultEnd = 1440; // End of the day in minutes (24:00)
+const step = 15; // Time step in minutes
+
+const generateTimeSlots = (start = defaultStart, end = defaultEnd, step = step) => {
+    const slots = [];
+    for (let minute = start; minute < end; minute += step) {
+        const endMinute = minute + 30; // 30-minute range
+        if (endMinute <= end) {
+            slots.push(`${formatToAmPm(minute)} - ${formatToAmPm(endMinute)}`);
+        }
+    }
+    return slots;
+};
+
+export function TimePickerScrollArea({ fromTime, toTime, stepInterval } : TimePickerScrollAreaProps) {
+    const startTime = fromTime ? convertTo24Hour(fromTime) : defaultStart;
+    const endTime = toTime ? convertTo24Hour(toTime) : defaultEnd;
+    const timeSlots = generateTimeSlots(startTime, endTime, stepInterval || step);
+
+    return (
+        <ScrollArea className="h-72">
+            {timeSlots.map((time, index) => (
+                <React.Fragment key={index}>
+                    <div className="text-base my-4">{time}</div>
+                    <hr className="my-2" />
+                </React.Fragment>
+            ))}
+        </ScrollArea>
+    );
+}
