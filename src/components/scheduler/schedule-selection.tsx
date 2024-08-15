@@ -63,11 +63,10 @@ function formatToAmPm(minutes: number): string {
 
 const defaultStart = 0; // Start of the day in minutes (0:00)
 const defaultEnd = 1440; // End of the day in minutes (24:00)
-const step = 15; // Time step in minutes
 
-const generateTimeSlots = (start = defaultStart, end = defaultEnd, step = step) => {
+const generateTimeSlots = (start = defaultStart, end = defaultEnd, stepInterval = 15) => {
     const slots = [];
-    for (let minute = start; minute < end; minute += step) {
+    for (let minute = start; minute < end; minute += stepInterval) {
         const endMinute = minute + 30; // 30-minute range
         if (endMinute <= end) {
             slots.push(`${formatToAmPm(minute)} - ${formatToAmPm(endMinute)}`);
@@ -79,7 +78,7 @@ const generateTimeSlots = (start = defaultStart, end = defaultEnd, step = step) 
 export function TimePickerScrollArea({ fromTime, toTime, stepInterval } : TimePickerScrollAreaProps) {
     const startTime = fromTime ? convertTo24Hour(fromTime) : defaultStart;
     const endTime = toTime ? convertTo24Hour(toTime) : defaultEnd;
-    const timeSlots = generateTimeSlots(startTime, endTime, stepInterval || step);
+    const timeSlots = generateTimeSlots(startTime, endTime);
 
     return (
         <ScrollArea className="h-72">

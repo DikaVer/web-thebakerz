@@ -4,8 +4,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { signIn } from "../../../auth";
-import { LoaderCircle } from 'lucide-react';
+
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -15,10 +14,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <form
-          action={async (formData) => {
-            "use server"
-            await signIn("sendgrid", formData)
-          }}
+          // action={async (formData) => {
+          //   "use server"
+          //   await signIn("sendgrid", formData)
+          // }}
       >
         <div className="grid gap-2">
           <div className="grid gap-1">

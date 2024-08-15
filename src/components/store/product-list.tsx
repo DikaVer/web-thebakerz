@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Product } from "@/components/store/product";
 import { ProductByCategory } from "@/lib/definitions";
+import {Search} from "lucide-react";
 
 export function ProductList({ productsByCategories }: { productsByCategories: ProductByCategory }) {
     const [searchTerm, setSearchTerm] = useState("");
@@ -20,13 +21,18 @@ export function ProductList({ productsByCategories }: { productsByCategories: Pr
 
     return (
         <div className={"my-6"}>
-            <input
-                type="text"
-                placeholder="Search by name or category"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="mb-4 p-2 border rounded"
-            />
+            <div className="flex flex-row w-full justify-center">
+                <div className="flex flex-row items-center w-80 border-b border-1 px-3 rounded-lg">
+                    <Search className="mr-2 h-4 w-4 shrink-0 opacity-50"/>
+                    <input
+                        type="text"
+                        placeholder="Search by name or category..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                    />
+                </div>
+            </div>
             {Object.keys(filteredProductsByCategories).map(category => (
                 <div className={"mt-4"} key={category}>
                     <span className={"text-xl font-bold"}>{category}</span>

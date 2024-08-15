@@ -60,12 +60,19 @@ const ShopList: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     );
 };
 
+interface ShopItem {
+    id: number;
+    name: string;
+    price: string;
+    image: string;
+}
+
 interface ShopProps {
     icon: React.ElementType;
     shopName: string;
     items: string;
     value: string;
-    initialItems: ShopItemProps[];
+    initialItems: ShopItem[];
     onClose: () => void;
 }
 
@@ -141,9 +148,8 @@ const ShopItem: React.FC<ShopItemProps> = ({ id, name, price, image, onDelete, o
                 <div className="relative h-16 w-16">
                     <Image
                         src={image}
-                        layout="fill"
-                        objectFit="cover"
-                        objectPosition="center"
+                        width={1920}
+                        height={1080}
                         alt="Avatar"
                         className="rounded-xl"
                     />

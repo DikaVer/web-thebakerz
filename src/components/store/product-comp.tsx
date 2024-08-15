@@ -11,7 +11,7 @@ export async function ProductComponent({id}: { id: string }) {
         return (
             <div className="text-center">
                 <p className={"text-2xl my-10"}>Sorry, {id} does not have any products yet.</p>
-                <p><ExternalLink href="/">Go back to TheBakerz</ExternalLink></p>
+                <ExternalLink href="/">Go back to TheBakerz</ExternalLink>
             </div>
         );
     } else {
