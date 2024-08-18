@@ -1,8 +1,8 @@
 import React from 'react';
 
 const colors = {
-    primary: '#730C6F',
-    secondary: '#F8CE87',
+    primary: '#730C6F', //'#730C6F'
+    secondary: '#F8CE87', //'#F8CE87'
     black: '#000000',
 };
 

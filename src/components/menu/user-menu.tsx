@@ -36,7 +36,7 @@ const MenuComponent: React.FC<MenuComponentProps> = ({ onClose, isOpen }) => {
 
 const MenuItems = () => (
     <>
-        {true ? (
+        {false ? (
             <>
                 <div className={"flex flex-row items-center space-x-3 p-2 pb-6 pt-6 trigger-hover cursor-pointer"}>
                     <IconAvatar className={"w-14-5 h-14-5"}/>

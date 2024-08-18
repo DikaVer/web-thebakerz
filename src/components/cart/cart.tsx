@@ -45,27 +45,34 @@ const ShopList: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     return (
         <Accordion type="single" collapsible className="w-full">
             <Shop icon={IconAvatar} shopName={"Mrs. Bombochka"} items={"2 items"} value={"item-1"} initialItems={[
-                { id: 1, name: "Item 1", price: "$10", image: "/macaroons_test.jpg" },
-                { id: 2, name: "Item 2", price: "$20", image: "/macaroons_test.jpg" },
+                { id: 1, name: "Product 1", price: "$10", image: "/macaroons_test.jpg" },
+                { id: 2, name: "Product 2", price: "$20", image: "/macaroons_test.jpg" },
             ]} onClose={onClose} />
             <Shop icon={IconAvatar} shopName={"Mrs. Macar"} items={"3 items"} value={"item-2"} initialItems={[
-                { id: 3, name: "Item 3", price: "$15", image: "/macaroons_test.jpg" },
-                { id: 4, name: "Item 4", price: "$25", image: "/macaroons_test.jpg" },
-                { id: 5, name: "Item 5", price: "$30", image: "/macaroons_test.jpg" },
+                { id: 3, name: "Product 3", price: "$15", image: "/macaroons_test.jpg" },
+                { id: 4, name: "Product 4", price: "$25", image: "/macaroons_test.jpg" },
+                { id: 5, name: "Product 5", price: "$30", image: "/macaroons_test.jpg" },
             ]} onClose={onClose} />
             <Shop icon={IconAvatar} shopName={"Mrs. Past"} items={"1 items"} value={"item-3"} initialItems={[
-                { id: 6, name: "Item 6", price: "$5", image: "/macaroons_test.jpg" },
+                { id: 6, name: "Product 6", price: "$5", image: "/macaroons_test.jpg" },
             ]} onClose={onClose} />
         </Accordion>
     );
 };
+
+interface ShopItem {
+    id: number;
+    name: string;
+    price: string;
+    image: string;
+}
 
 interface ShopProps {
     icon: React.ElementType;
     shopName: string;
     items: string;
     value: string;
-    initialItems: ShopItemProps[];
+    initialItems: ShopItem[];
     onClose: () => void;
 }
 
@@ -141,9 +148,8 @@ const ShopItem: React.FC<ShopItemProps> = ({ id, name, price, image, onDelete, o
                 <div className="relative h-16 w-16">
                     <Image
                         src={image}
-                        layout="fill"
-                        objectFit="cover"
-                        objectPosition="center"
+                        width={1920}
+                        height={1080}
                         alt="Avatar"
                         className="rounded-xl"
                     />

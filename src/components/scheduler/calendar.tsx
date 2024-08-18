@@ -1,26 +1,17 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { IconChevronDown } from "@/components/ui/icons";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import React from "react";
 import { SchedulerContent } from "@/components/scheduler/scheduler";
+import useIsSmallScreen from "@/lib/hooks/use-is-small-screen";
 
 export function MiniCalendar() {
-    const [isSmallScreen, setIsSmallScreen] = useState(false);
+    const isSmallScreen = useIsSmallScreen(460);
+
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsSmallScreen(window.innerWidth <= 460); // sm breakpoint
-        };
-
-        window.addEventListener("resize", handleResize);
-        handleResize(); // Initial check
-
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
 
     return (
         <div className="absolute top-2 right-2 w-full h-12 cm:h-16 flex flex-row-reverse">
