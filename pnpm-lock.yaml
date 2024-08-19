@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@auth/core':
+        specifier: ^0.34.2
+        version: 0.34.2(nodemailer@6.9.14)
       '@auth/pg-adapter':
         specifier: ^1.4.2
         version: 1.4.2(nodemailer@6.9.14)(pg@8.12.0)

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/core": "^0.34.2",
     "@auth/pg-adapter": "^1.4.2",
     "@eslint/config-array": "^0.18.0",
     "@neondatabase/serverless": "^0.9.4",

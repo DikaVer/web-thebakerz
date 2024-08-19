@@ -13,21 +13,17 @@ export const metadata: Metadata = {
 export default function Page() {
     return (
             <div className="container relative h-[800px] flex-col items-center justify-center grid ">
-                <div className={"container flex flex-col items-center w-full gap-1"}>
-                    <p className={"flex text-6xl font-bold"}>TheBakerz</p>
-                    <p className={"flex text-grayText"}>Sign in to order delicious treats</p>
-                </div>
+                {/*<div className={"container flex flex-col items-center w-full gap-1"}>*/}
+                {/*    <p className={"flex text-6xl font-bold"}>TheBakerz</p>*/}
+                {/*    <p className={"flex text-grayText"}>Sign in to order delicious treats</p>*/}
+                {/*</div>*/}
                 <div className="lg:p-8">
                     <div className="mx-auto flex flex-col justify-center space-y-6 w-[350px]">
-                        <div className="flex flex-col space-y-2 text-center">
-                            <h1 className="text-2xl font-semibold tracking-tight">
-                                Create an account
-                            </h1>
-                            <p className="text-sm text-muted-foreground">
-                                Enter your email below to create your account
-                            </p>
+                        <div className={"container flex flex-col items-center w-full gap-1"}>
+                            <p className={"flex text-6xl font-bold"}>TheBakerz</p>
+                            <p className={"flex text-grayText"}>Sign in to order delicious treats</p>
                         </div>
-                        <UserAuthForm />
+                        <UserAuthForm/>
                         <p className="px-8 text-center text-sm text-muted-foreground">
                             By clicking continue, you agree to our{" "}
                             <Link

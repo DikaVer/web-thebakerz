@@ -18,12 +18,12 @@ export function Product({ name, description, price, image, rating }: ItemProps) 
                     <span className="text-lg clamp-title">
                         {name}
                     </span>
-                    <span className="text-sm font-thin pb-3 text-grayText clamp-description">
+                    <span className="text-sm pb-3 text-grayText clamp-description">
                         {description}
                     </span>
                 </div>
                 <div className={"flex flex-row justify-between pr-2 items-end"}>
-                <span className={"text-grayText"}>
+                <span className={"text-grayText font-medium"}>
                     {price}
                 </span>
                     <div className={"flex items-center space-x-0.5"}>

@@ -462,5 +462,5 @@ export {
     IconCross,
     IconEdit,
     IconClock,
-    IconArrow
+    IconArrow,
 };

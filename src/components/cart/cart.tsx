@@ -145,12 +145,12 @@ const ShopItem: React.FC<ShopItemProps> = ({ id, name, price, image, onDelete, o
     <>
         <li className={`flex flex-row rounded transition duration-500 ${!isHoveringStepper ? 'hover:bg-grayBg' : ''} cursor-pointer my-1`}>
             <div className="p-2">
-                <div className="relative h-16 w-16">
+                <div className="h-16 w-16">
                     <Image
                         src={image}
                         width={1920}
                         height={1080}
-                        alt="Avatar"
+                        alt="Product"
                         className="rounded-xl"
                     />
                 </div>

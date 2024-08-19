@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { signIn } from "@/server/auth"
 
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -14,10 +15,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <form
-          // action={async (formData) => {
-          //   "use server"
-          //   await signIn("sendgrid", formData)
-          // }}
+          action={async (formData) => {
+            "use server"
+            await signIn("sendgrid", formData)
+          }}
       >
         <div className="grid gap-2">
           <div className="grid gap-1">
@@ -28,6 +29,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 id="email"
                 placeholder="name@example.com"
                 type="email"
+                name="email"
                 autoCapitalize="none"
                 autoComplete="email"
                 autoCorrect="off"
@@ -36,7 +38,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           <Button
               type="submit"
           >
-            Sign In with Email
+            Continue with Email
           </Button>
         </div>
       </form>
@@ -50,14 +52,41 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      {/*<Button variant="outline" type="button">*/}
-      {/*  /!*{isLoading ? (*!/*/}
-      {/*  /!*  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />*!/*/}
-      {/*  /!*) : (*!/*/}
-      {/*  /!*  <Icons.gitHub className="mr-2 h-4 w-4" />*!/*/}
-      {/*  /!*)}{" "}*!/*/}
-      {/*  /!*GitHub*!/*/}
-      {/*</Button>*/}
+        <div className="flex flex-row justify-between items-center mx-10 -my-1">
+            <form
+                action={async () => {
+                    "use server"
+                    await signIn("google")
+                }}
+            >
+                <button type="submit" className={""}>
+                    <img style={{display: "block"}} src="https://authjs.dev/img/providers/google.svg" height="32"
+                         width="32" alt={"Google"}/>
+                </button>
+            </form>
+            <form
+                action={async () => {
+                    "use server"
+                    await signIn("instagram")
+                }}
+            >
+                <button type="submit" className={""}>
+                    <img style={{display: "block"}} src="https://authjs.dev/img/providers/instagram.svg"
+                         height="32" width="32" alt={"Instagram"}/>
+                </button>
+            </form>
+            <form
+                action={async () => {
+                    "use server"
+                    await signIn("facebook")
+                }}
+            >
+                <button type="submit" className={""}>
+                    <img style={{display: "block"}} src="https://authjs.dev/img/providers/facebook.svg"
+                         height="32" width="32" alt={"Instagram"}/>
+                </button>
+            </form>
+        </div>
     </div>
   )
 }
