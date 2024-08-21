@@ -1,6 +1,4 @@
-"use client";
 import * as React from 'react'
-import {useRouter} from "next/navigation";
 
 export function ExternalLink({
                                href,
@@ -9,16 +7,13 @@ export function ExternalLink({
   href: string
   children: React.ReactNode
 }) {
-  const router = useRouter()
   return (
       <div
-          onClick={() => {
-            router.push(href)
-            router.refresh()
-          }}
           className="text-grayText inline-flex flex-1 justify-center gap-1 leading-4 hover:underline cursor-pointer"
       >
-      {children}
+          <a href={href}>
+              {children}
+          </a>
         <svg
             aria-hidden="true"
             height="7"

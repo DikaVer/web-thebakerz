@@ -69,6 +69,8 @@ const config = {
       screens: {
         'cm': '540px',
         'store-sm': '740px',
+        'girl-md': '580px',
+        'heart-display': '940px',
       },
       keyframes: {
         "accordion-down": {

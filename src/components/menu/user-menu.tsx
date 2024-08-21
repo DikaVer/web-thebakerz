@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    IconOrder,
+    IconBill,
     IconPayment,
     IconSupport,
     IconAvatar
@@ -46,7 +46,7 @@ const MenuItems = () => (
                     </div>
                 </div>
                 <ul className={"grid pl-6 gap-6"}>
-                    <MenuItem icon={IconOrder} label="Orders" link="/orders"/>
+                    <MenuItem icon={IconBill} label="Orders" link="/orders"/>
                     <MenuItem icon={IconPayment} label="Payment Details" link="/payments"/>
                     <MenuItem icon={IconSupport} label="Get Help" link="/support"/>
                     <p className={"text-grayText hover:scale-105 transition duration-300"}>Sign out</p>

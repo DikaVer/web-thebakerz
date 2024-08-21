@@ -2,6 +2,9 @@ import 'server-only';
 import {sql} from "@vercel/postgres";
 import {ProductDataField, StoreDataField} from "@/lib/definitions";
 
+export const config = {
+    runtime: 'edge', // 'nodejs' is the default
+};
 
 export async function getStore(id: string) {
 
@@ -19,6 +22,7 @@ export async function getStore(id: string) {
 
 export async function getProductsByCategory(id: string) {
     try {
+
         const storeQuery = await sql<ProductDataField>`
         SELECT product_id, store_id, category_id, name, description, price, image_url FROM products
         WHERE store_id = ${id}

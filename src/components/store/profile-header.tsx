@@ -24,7 +24,7 @@ interface ProfileHeaderProps {
 
 export function ProfileHeader({ storeData }: ProfileHeaderProps) {
     return (
-        <div className="content-container h-60 relative cm:h-72 rounded-lg overflow-hidden flex flex-col justify-center">
+        <div className="h-60 relative cm:h-72 rounded-lg overflow-hidden flex flex-col justify-center">
             <Background background_url={storeData.background_url}/>
             <Avatar avatar_url={storeData.avatar_url}/>
             <ProfileInfo

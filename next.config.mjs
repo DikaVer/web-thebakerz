@@ -7,6 +7,14 @@ const nextConfig = {
         // your project has ESLint errors.
         ignoreDuringBuilds: true,
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'assets.api.uizard.io',
+            },
+        ],
+    },
 };
 
 export default nextConfig;
