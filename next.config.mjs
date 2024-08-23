@@ -5,7 +5,15 @@ const nextConfig = {
     eslint: {
         // Warning: This will allow production builds to successfully complete even if
         // your project has ESLint errors.
-        ignoreDuringBuilds: true,
+        ignoreDuringBuilds: false,
+    },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'assets.api.uizard.io',
+            },
+        ],
     },
 };
 

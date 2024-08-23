@@ -17,8 +17,6 @@ export function Footer() {
                               <li>
                                   <a
                                       href="/create"
-                                      target="_blank"
-                                      rel="noreferrer"
                                       className="hover:text-ui-fg-base"
                                   >
                                       Create a bakery account
@@ -26,29 +24,7 @@ export function Footer() {
                               </li>
                               <li>
                                   <a
-                                      href="/"
-                                      target="_blank"
-                                      rel="noreferrer"
-                                      className="hover:text-ui-fg-base"
-                                  >
-                                      Pricing
-                                  </a>
-                              </li>
-                              <li>
-                                  <a
-                                      href="/"
-                                      target="_blank"
-                                      rel="noreferrer"
-                                      className="hover:text-ui-fg-base"
-                                  >
-                                      About TheBakerz
-                                  </a>
-                              </li>
-                              <li>
-                                  <a
                                       href="/support"
-                                      target="_blank"
-                                      rel="noreferrer"
                                       className="hover:text-ui-fg-base"
                                   >
                                       Get Help
@@ -61,9 +37,6 @@ export function Footer() {
                               <li>
                                   <a
                                       href="/privacy"
-                                      target="_blank"
-                                      rel="noreferrer"
-                                      className="hover:text-ui-fg-base"
                                   >
                                       Privacy Policy
                                   </a>
@@ -71,9 +44,6 @@ export function Footer() {
                               <li>
                                   <a
                                       href="/terms"
-                                      target="_blank"
-                                      rel="noreferrer"
-                                      className="hover:text-ui-fg-base"
                                   >
                                       Terms of Use
                                   </a>

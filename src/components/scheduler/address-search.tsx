@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import {Search} from "@/components/shop/search";
+// import {Search} from "@/components/store/search";
 import {IconEdit, IconLocation} from "@/components/ui/icons";
+import {Search} from "lucide-react";
 
 const commands = [
     { value: 'a', label: 'a' },
@@ -23,9 +24,16 @@ export const AddressSearch: React.FC = () => {
     };
 
     return (
-        <>
-            <div className="flex items-center justify-center">
-                <Search commands={commands} placeholder="Search for bakery items..."/>
+        <div className={"animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%]"}>
+            <div className="flex flex-row w-full justify-center">
+                <div className="flex flex-row items-center w-80 border-b border-1 px-3 rounded-lg">
+                    <Search className="mr-2 h-4 w-4 shrink-0 opacity-50"/>
+                    <input
+                        type="text"
+                        placeholder="Search by name or category..."
+                        className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                    />
+                </div>
             </div>
             <div>
                 <p className="text-black text-xl">Saved addresses</p>
@@ -55,6 +63,6 @@ export const AddressSearch: React.FC = () => {
                     ))}
                 </ul>
             </div>
-        </>
+        </div>
     );
 };

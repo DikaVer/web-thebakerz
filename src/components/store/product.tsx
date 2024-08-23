@@ -10,7 +10,7 @@ interface ItemProps {
     image: string;
 }
 
-export function Item({ name, description, price, image, rating }: ItemProps) {
+export function Product({ name, description, price, image, rating }: ItemProps) {
     return (
         <li className={`rounded-lg border-2 border-grayBg flex flex-row w-full transition duration-500 hover:bg-grayBg trigger-hover cursor-pointer`}>
             <div className={"flex flex-col justify-between p-1 w-full"}>
@@ -18,12 +18,12 @@ export function Item({ name, description, price, image, rating }: ItemProps) {
                     <span className="text-lg clamp-title">
                         {name}
                     </span>
-                    <span className="text-sm font-thin pb-3 text-grayText clamp-description">
+                    <span className="text-sm pb-3 text-grayText clamp-description">
                         {description}
                     </span>
                 </div>
                 <div className={"flex flex-row justify-between pr-2 items-end"}>
-                <span className={"text-grayText"}>
+                <span className={"text-grayText font-medium"}>
                     {price}
                 </span>
                     <div className={"flex items-center space-x-0.5"}>
@@ -36,16 +36,13 @@ export function Item({ name, description, price, image, rating }: ItemProps) {
             </div>
             <div className={"p-2"}>
                 <div className="relative h-28 w-28 cm:h-32 cm:w-32">
-                    <div className="absolute inset-0">
                         <Image
                             src={image}
-                            layout="fill"
-                            objectFit="cover"
-                            objectPosition="center"
+                            width={1920}
+                            height={1080}
                             alt="Avatar"
-                            className="rounded-xl"
+                            className="rounded-xl h-28 w-28 cm:h-32 cm:w-32"
                         />
-                    </div>
                     <div
                         className={"absolute rounded-full bg-grayBg h-9 w-9 right-1 bottom-1 scale-on-hover-115"}>
                         <div className={"flex justify-center items-center h-full"}>

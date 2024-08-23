@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    IconOrder,
+    IconBill,
     IconPayment,
     IconSupport,
     IconAvatar
@@ -36,7 +36,7 @@ const MenuComponent: React.FC<MenuComponentProps> = ({ onClose, isOpen }) => {
 
 const MenuItems = () => (
     <>
-        {true ? (
+        {false ? (
             <>
                 <div className={"flex flex-row items-center space-x-3 p-2 pb-6 pt-6 trigger-hover cursor-pointer"}>
                     <IconAvatar className={"w-14-5 h-14-5"}/>
@@ -46,7 +46,7 @@ const MenuItems = () => (
                     </div>
                 </div>
                 <ul className={"grid pl-6 gap-6"}>
-                    <MenuItem icon={IconOrder} label="Orders" link="/orders"/>
+                    <MenuItem icon={IconBill} label="Orders" link="/orders"/>
                     <MenuItem icon={IconPayment} label="Payment Details" link="/payments"/>
                     <MenuItem icon={IconSupport} label="Get Help" link="/support"/>
                     <p className={"text-grayText hover:scale-105 transition duration-300"}>Sign out</p>

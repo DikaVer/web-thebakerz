@@ -220,6 +220,11 @@
   .scale-on-hover-115 {
     transition: transform 0.5s ease;
   }
+
+  .proportional-girl-mb {
+    margin-bottom: calc(22vw);
+  }
+
 }
 
 @layer base {
