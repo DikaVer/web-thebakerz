@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { signIn } from "@/server/auth"
+import Image from "next/image";
 
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -60,8 +61,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 }}
             >
                 <button type="submit" className={""}>
-                    <img style={{display: "block"}} src="https://authjs.dev/img/providers/google.svg" height="32"
-                         width="32" alt={"Google"}/>
+                    <Image
+                        style={{display: "block"}}
+                        src="https://authjs.dev/img/providers/google.svg"
+                        height="32"
+                        width="32"
+                        alt={"Google"}/>
                 </button>
             </form>
             <form
@@ -71,8 +76,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 }}
             >
                 <button type="submit" className={""}>
-                    <img style={{display: "block"}} src="https://authjs.dev/img/providers/instagram.svg"
-                         height="32" width="32" alt={"Instagram"}/>
+                    <Image
+                        style={{display: "block"}}
+                        src="https://authjs.dev/img/providers/instagram.svg"
+                        height="32"
+                        width="32"
+                        alt={"Instagram"}/>
                 </button>
             </form>
             <form
@@ -82,8 +91,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 }}
             >
                 <button type="submit" className={""}>
-                    <img style={{display: "block"}} src="https://authjs.dev/img/providers/facebook.svg"
-                         height="32" width="32" alt={"Instagram"}/>
+                    <Image
+                        style={{display: "block"}}
+                        src="https://authjs.dev/img/providers/facebook.svg"
+                        height="32"
+                        width="32"
+                        alt={"Instagram"}/>
                 </button>
             </form>
         </div>

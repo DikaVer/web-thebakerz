@@ -2,6 +2,8 @@ import React from "react";
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import {IconHeart, IconMessage, IconOrder, IconStore} from "@/components/ui/icons";
+import {Footer} from "@/components/footer";
+import {Header} from "@/components/header";
 
 export default async function Page() {
 

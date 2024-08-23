@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description: "Authentication forms built using the components.",
 }
 
-export default function Page() {
+export default async function Page() {
     return (
             <div className="container relative h-[800px] flex-col items-center justify-center grid ">
                 {/*<div className={"container flex flex-col items-center w-full gap-1"}>*/}

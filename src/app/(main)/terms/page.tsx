@@ -47,30 +47,30 @@ export default async function Page() {
                     </p>
                     <ul className={"grid gap-y-3"}>
                         <li>
-                            "Community Guidelines" are the guidelines, updated from time to time, that set out the
+                            &quot;Community Guidelines&quot; are the guidelines, updated from time to time, that set out the
                             expectations for all users of the Website.
                         </li>
                         <li>
-                            "External Service Providers" or "Bakers" are independent third parties such as, but not
+                            &quot;External Service Providers&quot; or &quot;Bakers&quot; are independent third parties such as, but not
                             limited to, independent bakers and pastry chefs.
                         </li>
 
                         <li>
-                            "External Services" include, but are not limited to, services and goods in the baking and
+                            &quot;External Services&quot; include, but are not limited to, services and goods in the baking and
                             pastry industry, delivered to you by independent External Service Providers.
                         </li>
                         <li>
-                            "TheBakerz" means TheBakerz VOF ("we" or "us").
+                            &quot;TheBakerz&quot; means TheBakerz VOF (&quot;we&quot; or &quot;us&quot;).
                         </li>
                         <li>
-                            "TheBakerz Brand" means the brand of TheBakerz.
+                            &quot;TheBakerz Brand&quot; means the brand of TheBakerz.
                         </li>
                         <li>
-                            "TheBakerz Services" means services delivered directly by TheBakerz to you, which may be
+                            &quot;TheBakerz Services&quot; means services delivered directly by TheBakerz to you, which may be
                             subject to separate terms between you and us.
                         </li>
                         <li>
-                            "Names, Brand or Works of TheBakerz" means the company names, logos, products, trade names,
+                            &quot;Names, Brand or Works of TheBakerz&quot; means the company names, logos, products, trade names,
                             trademarks, service marks, trade dress, other properties, or copyrights of TheBakerz or its
                             licensor(s).
                         </li>
@@ -86,8 +86,8 @@ export default async function Page() {
                             <p className={"font-bold mr-1"}>
                                 1.1.
                             </p>
-                            These terms relate to your access to and use of the website of TheBakerz (the "Terms
-                            and Conditions"). You must carefully read and agree to the Terms and Conditions before
+                            These terms relate to your access to and use of the website of TheBakerz (the &quot;Terms
+                            and Conditions&quot;). You must carefully read and agree to the Terms and Conditions before
                             accessing and using the website of TheBakerz. Your agreement to these Terms and Conditions
                             creates a contractual relationship between you and TheBakerz. If you do not agree to these
                             Terms and Conditions, you may not access or use the website of TheBakerz. These Terms and
@@ -134,7 +134,7 @@ export default async function Page() {
                             charges
                             to External Service Providers for External Services or to TheBakerz for TheBakerz Services
                             (TheBakerz VOF may use affiliated parties or third parties to provide these services on its
-                            behalf) (together the "Website Services").
+                            behalf) (together the &quot;Website Services&quot;).
                         </li>
                         <li className={"flex flex-row"}>
                             <p className={"font-bold mr-1"}>
@@ -640,7 +640,7 @@ export default async function Page() {
                             through
                             the website of TheBakerz. All rights not expressly granted herein are reserved to TheBakerz
                             and
-                            TheBakerz's licensors.
+                            TheBakerz&apos;s licensors.
                         </li>
                         <li className={"text-lg font-bold"}>
                             10. Intellectual Property
@@ -660,7 +660,7 @@ export default async function Page() {
                             except as
                             permitted by law; (c) launch any programs or scripts to scrape, index, survey, or otherwise
                             data mine
-                            any part of TheBakerz's website or data; (d) use, display, or manipulate TheBakerz names,
+                            any part of TheBakerz&apos;s website or data; (d) use, display, or manipulate TheBakerz names,
                             brands, or
                             works for any purpose other than using the website of TheBakerz; (e) create or register (i)
                             businesses, (ii) URLs, (iii) domain names, (iv) software application names or titles, or (v)
@@ -671,7 +671,7 @@ export default async function Page() {
                             as your profile picture or background for social media; (g) purchase keywords (including but
                             not limited to Google AdWords) that contain TheBakerz names, brands, or works; or (h) apply
                             to
-                            register, refer to, use, copy, and/or claim ownership in TheBakerz's Names, Brands, or
+                            register, refer to, use, copy, and/or claim ownership in TheBakerz&apos;s Names, Brands, or
                             Works,
                             or in any confusingly or substantially similar name, brand, title, or work, in any manner
                             for
@@ -716,7 +716,7 @@ export default async function Page() {
                             13. Disclaimer
                         </li>
                         <li>
-                            We provide the Website Services "as is" and "as available". The Website Services may be
+                            We provide the Website Services &quot;as is&quot; and &quot;as available&quot;. The Website Services may be
                             subject
                             to limitations, delays, and/or other problems inherent in the use of the internet and
                             electronic
@@ -891,7 +891,7 @@ export default async function Page() {
                             disputes relating to the Website Services or these Terms and Conditions with a view to an
                             amicable solution. Eligible consumers can also submit complaints about the TheBakerz
                             Services
-                            or these Terms and Conditions to the European Commission's online dispute resolution
+                            or these Terms and Conditions to the European Commission&apos;s online dispute resolution
                             platform,
                             which is accessible here under Regulation (EU) No. 524/2013 of 21 May 2013. TheBakerz is not
                             obliged to use an online dispute resolution platform to resolve consumer disputes.
@@ -912,7 +912,7 @@ export default async function Page() {
                             in which case you agree to the exclusive jurisdiction of the Dutch court in disputes. By
                             accepting these Terms and Conditions, you agree to be bound by these Terms and Conditions.
                             This concludes the full Terms and Conditions for TheBakerz, adapted from the Uber Eats
-                            example and tailored to TheBakerz's specific business model.
+                            example and tailored to TheBakerz&apos;s specific business model.
                         </li>
                     </ul>
                 </main>

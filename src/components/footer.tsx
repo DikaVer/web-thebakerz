@@ -16,7 +16,7 @@ export function Footer() {
                           <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
                               <li>
                                   <a
-                                      href="/store"
+                                      href="/create"
                                       className="hover:text-ui-fg-base"
                                   >
                                       Create a bakery account
