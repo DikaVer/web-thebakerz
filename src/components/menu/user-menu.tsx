@@ -59,8 +59,12 @@ const MenuItems = () => (
                     <div className={"grid gap-1"}>
                         <p className={"text-lg"}>Guest</p>
                         <div className={"flex flex-row space-x-3 -mx-2"}>
-                            <Button className={"bg-grayComp transition hover:bg-grayCompHover rounded-2xl h-8 px-3 py-0 text-black"}>Sign in</Button>
-                            <Button className={"rounded-2xl h-8 px-3 py-0"}>Sign up</Button>
+                            <Button className={"bg-grayComp transition hover:bg-grayCompHover rounded-2xl h-8 px-3 py-0 text-black"}>
+                                Sign in
+                            </Button>
+                            <Button className={"rounded-2xl h-8 px-3 py-0"}>
+                                Sign up
+                            </Button>
                         </div>
                     </div>
                 </div>

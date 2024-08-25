@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { useState } from 'react';
+import {usePathname, useRouter} from 'next/navigation';
 import { IconCart, IconMenu } from "@/components/ui/icons";
 import MenuComponent from "@/components/menu/user-menu";
 import CartComponent from "@/components/cart/cart";
@@ -22,6 +23,15 @@ export function Header({ main }: HeaderProps) {
 
     const toggleCart = () => {
         setCartOpen(!isCartOpen);
+    };
+
+    // Inside your component
+    const router = useRouter();
+    const pathname = usePathname()
+
+    const handleSignIn = () => {
+        router.push(`/auth?next=${pathname}`)
+        router.refresh()
     };
 
     return (
@@ -54,7 +64,7 @@ export function Header({ main }: HeaderProps) {
                         <a href={"/"} className="text-2xl font-bold mx-auto">TheBakerz</a>
                     </div>
                     {main ? (
-                        <Button className="rounded-lg text-sm" variant={"secondary"}>
+                        <Button className="rounded-lg text-sm" variant={"secondary"} onClick={handleSignIn}>
                             Sign in
                         </Button>
                     ) : (

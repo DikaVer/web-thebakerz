@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
+
     return (
             <div className="container relative h-[800px] flex-col items-center justify-center grid ">
                 {/*<div className={"container flex flex-col items-center w-full gap-1"}>*/}
