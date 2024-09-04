@@ -219,9 +219,6 @@ export default async function Page() {
                     verantwoordelijk voor deze verwerkingen.
                 </p>
 
-
-    
-
                 <p className={"font-bold text-lg"}>
                     Cookies, of vergelijkbare technieken, die wij gebruiken
                 </p>
@@ -267,32 +264,6 @@ export default async function Page() {
                     reageren. TheBakerz wil u er tevens op wijzen dat u de mogelijkheid hebt om een klacht in te dienen
                     bij de nationale toezichthouder, de Autoriteit
                     Persoonsgegevens. Dat kan via de volgende link:
-                    https://autoriteitpersoonsgegevens.nl/nl/contact-met-de-autoriteit-persoonsgegevens/tip-ons
-                </p>
-
-                <p className={"font-bold text-lg"}>
-                    Gegevens inzien, aanpassen of verwijderen
-                </p>
-
-                <p>
-                    U heeft het recht om uw persoonsgegevens in te zien, te corrigeren of te verwijderen. Daarnaast
-                    heeft u het recht om uw eventuele toestemming voor de
-                    gegevensverwerking in te trekken of bezwaar te maken tegen de verwerking van uw persoonsgegevens
-                    door TheBakerz en heeft u het recht op
-                    gegevensoverdraagbaarheid. Dat betekent dat u bij ons een verzoek kunt indienen om de
-                    persoonsgegevens die wij van u beschikken in een computerbestand
-                    naar u of een ander, door u genoemde organisatie, te sturen. U kunt een verzoek tot inzage,
-                    correctie, verwijdering, gegevensoverdraging van uw
-                    persoonsgegevens of verzoek tot intrekking van uw toestemming of bezwaar op de verwerking van uw
-                    persoonsgegevens sturen naar info@thebakerz.com. Om
-                    er zeker van te zijn dat het verzoek tot inzage door u is gedaan, vragen wij u een kopie van uw
-                    identiteitsbewijs met het verzoek mee te sturen. Maak in deze
-                    kopie uw pasfoto, MRZ (machine readable zone, de strook met nummers onderaan het paspoort),
-                    paspoortnummer en Burgerservicenummer (BSN) zwart. Dit ter
-                    bescherming van uw privacy. We reageren zo snel mogelijk, maar binnen vier weken, op uw verzoek.
-                    TheBakerz wil u er tevens op wijzen dat u de mogelijkheid
-                    heeft om een klacht in te dienen bij de nationale toezichthouder, de Autoriteit Persoonsgegevens.
-                    Dat kan via de volgende link:
                     https://autoriteitpersoonsgegevens.nl/nl/contact-met-de-autoriteit-persoonsgegevens/tip-ons
                 </p>
 
