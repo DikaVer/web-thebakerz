@@ -220,22 +220,7 @@ export default async function Page() {
                 </p>
 
 
-                <p className={"font-bold text-lg"}>
-                    Cookies, of vergelijkbare technieken, die wij gebruiken
-                </p>
-
-                <p>
-                    TheBakerz gebruikt alleen technische en functionele cookies. En analytische cookies die geen inbreuk
-                    maken op uw privacy. Een cookie is een klein
-                    tekstbestand dat bij het eerste bezoek aan deze website wordt opgeslagen op uw computer, tablet of
-                    smartphone. De cookies die wij gebruiken zijn noodzakelijk
-                    voor de technische werking van de website en uw gebruiksgemak. Ze zorgen ervoor dat de website naar
-                    behoren werkt en onthouden bijvoorbeeld uw
-                    voorkeursinstellingen. Ook kunnen wij hiermee onze website optimaliseren. U kunt zich afmelden voor
-                    cookies door uw internetbrowser zo in te stellen dat deze
-                    geen cookies meer opslaat. Daarnaast kunt u ook alle informatie die eerder is opgeslagen via de
-                    instellingen van uw browser verwijderen.
-                </p>
+    
 
                 <p className={"font-bold text-lg"}>
                     Cookies, of vergelijkbare technieken, die wij gebruiken
@@ -256,14 +241,6 @@ export default async function Page() {
                     opslaat. Daarnaast kunt u ook alle informatie die eerder is
                     opgeslagen via de instellingen van uw browser verwijderen. Zie voor een toelichting:
                     https://veiliginternetten.nl/themes/situatie/cookies-wat-zijn-het-en-wat-doe-ik-ermee/
-                </p>
-
-                <p className={"font-bold text-lg"}>
-                    Cookies, of vergelijkbare technieken, die wij gebruiken
-                </p>
-
-                <p>
-                    TheBakerz gebruikt geen cookies of vergelijkbare technieken.
                 </p>
 
                 <p className={"font-bold text-lg"}>
