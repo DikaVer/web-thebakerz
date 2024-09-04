@@ -219,31 +219,6 @@ export default async function Page() {
                     verantwoordelijk voor deze verwerkingen.
                 </p>
 
-                <p className={"font-bold text-lg"}>
-                    Delen van persoonsgegevens met derden
-                </p>
-
-                <p>
-                    TheBakerz deelt uw persoonsgegevens met verschillende derden als dit noodzakelijk is voor het
-                    uitvoeren van de overeenkomst en om te voldoen aan een
-                    eventuele wettelijke verplichting. Met bedrijven die u gegevens verwerken in onze opdracht, sluiten
-                    wij een verwerkersovereenkomst om te zorgen voor eenzelfde
-                    niveau van beveiliging en vertrouwelijkheid van uw gegevens. TheBakerz blijft verantwoordelijk voor
-                    deze verwerkingen. Daarnaast verstrekt TheBakerz uw
-                    persoonsgegevens aan andere derden. Dit doen wij alleen met uw nadrukkelijke toestemming. [voeg hier
-                    een tabel toe met: de categorie waar derde toe behoort,
-                    naam en jurisdictie, doel en welke gegevens.]
-                </p>
-
-                <p className={"font-bold text-lg"}>
-                    Delen van persoonsgegevens met derden
-                </p>
-
-                <p>
-                    TheBakerz verstrekt uitsluitend aan derden en alleen als dit nodig is voor de uitvoering van onze
-                    overeenkomst met u of om te voldoen aan een wettelijke
-                    verplichting.
-                </p>
 
                 <p className={"font-bold text-lg"}>
                     Cookies, of vergelijkbare technieken, die wij gebruiken
