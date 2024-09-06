@@ -10,5 +10,5 @@ export const LoginSchema = z.object({
             .email({
                 message: 'Invalid email!'
             }),
-        prev_link: z.string()
+        redirectTo: z.string()
 });

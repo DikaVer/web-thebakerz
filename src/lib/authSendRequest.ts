@@ -15,7 +15,7 @@ export async function sendMagicLink(params: {
     const res = await fetch("https://api.sendgrid.com/v3/mail/send", {
         method: "POST",
         headers: {
-            Authorization: `Bearer ${process.env.SENDGRID_API_KEY}`,
+            Authorization: `Bearer ${process.env.AUTH_SENDGRID_SECRET}`,
             "Content-Type": "application/json",
         },
         body: JSON.stringify({

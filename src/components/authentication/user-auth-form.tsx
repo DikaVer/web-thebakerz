@@ -14,17 +14,14 @@ import { zodResolver} from "@hookform/resolvers/zod";
 import {LoginSchema} from "@/lib/schemas";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {FormError} from "@/components/authentication/form-error";
-import {login} from "@/lib/actions/login";
+import {login, loginWithProvider} from "@/lib/actions/login";
 import {useState, useTransition} from "react";
 import {FormSuccess} from "@/components/authentication/form-success";
 
 
-
-
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const getNextParam = (url: URL): string | undefined => {
+const getNextParam = (url: URL): string => {
     const nextParam = url.searchParams.get('next');
+    console.log("nextParam", url);
     return nextParam ? nextParam : "/";
 };
 
@@ -42,29 +39,35 @@ export function UserAuthForm({
     const [success, setSuccess] = useState<string | undefined>()
     const [isPending, startTransition] = useTransition();
 
-    let nextParam: string | undefined = '/';
-    if (typeof window !== 'undefined') {
-        const currentUrl = window.location.href;
-        const url = new URL(currentUrl);
-        nextParam = getNextParam(url)
-    }
+    let nextParam: string = '/';
 
     const form = useForm<z.infer<typeof  LoginSchema>>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
             email: "",
-            prev_link: nextParam
+            redirectTo: nextParam
         }
     });
 
     const onSubmit = (formData: z.infer<typeof LoginSchema>) => {
-        console.log(formData);
 
         startTransition(() => {
+            if (typeof window !== 'undefined') {
+                const currentUrl = window.location.href;
+                const url = new URL(currentUrl);
+                nextParam = getNextParam(url)
+            }
+            formData.redirectTo = nextParam ? nextParam : '/';
             login(formData)
                 .then((data) => {
-                    setError(data.error);
-                    setSuccess(data.success);
+                    if (data && data.error) {
+                        setError(data.error);
+                    } else if (data && data.success) {
+                        setSuccess(data.success);
+                    } else {
+                        // Handle the case where data is undefined or null
+                        setError('Unknown error occurred');
+                    }
                 })
         });
     }
@@ -73,10 +76,6 @@ export function UserAuthForm({
     <div className={"grid gap-6"}>
         <Form {...form}>
             <form
-                // action={async (formData) => {
-                //   "use server"
-                //   await signIn("sendgrid", formData)
-                // }}
                 onSubmit={form.handleSubmit(onSubmit)}
                 className={"grid gap-2"}
             >
@@ -125,10 +124,14 @@ export function UserAuthForm({
       </div>
         <div className="flex flex-row justify-between items-center mx-10 -my-1">
             <form
-                // action={async () => {
-                //     "use server"
-                //     await signIn("google")
-                // }}
+                action={async () => {
+                    if (typeof window !== 'undefined') {
+                        const currentUrl = window.location.href;
+                        const url = new URL(currentUrl);
+                        nextParam = getNextParam(url)
+                    }
+                    await loginWithProvider("google", nextParam)
+                }}
             >
                 <button
                     type="submit"
@@ -144,10 +147,7 @@ export function UserAuthForm({
                 </button>
             </form>
             <form
-                // action={async () => {
-                //     "use server"
-                //     await signIn("instagram")
-                // }}
+
             >
                 <button
                     type="submit"
