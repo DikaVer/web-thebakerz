@@ -22,7 +22,9 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body className={lexendDeca.className}>
-                {children}
+                <main>
+                    {children}
+                </main>
                 <Toaster />
             </body>
         </html>

@@ -1,38 +1,48 @@
 "use server";
 
-import {render} from '@react-email/components';
-import {VerifyIdentityEmail} from "@/components/emails/email";
+import { render } from '@react-email/components';
+import { VerifyIdentityEmail } from "@/components/emails/email";
 
+// Function to send a magic link email
+export async function sendMagicLink(params: { identifier: string; url: string }) {
+    const { identifier: to, url } = params; // Destructure email identifier and URL from params
+    const { host } = new URL(url); // Extract host from the URL
 
-export async function sendMagicLink(params: {
-    identifier: string
-    url: string
-}) {
-    const { identifier: to, url } = params
-    console.log("Sending magic link to", url)
-    const { host } = new URL(url)
-    console.log("Sending magic link to", host)
-    const res = await fetch("https://api.sendgrid.com/v3/mail/send", {
-        method: "POST",
-        headers: {
-            Authorization: `Bearer ${process.env.AUTH_SENDGRID_SECRET}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            personalizations: [{ to: [{ email: to }] }],
-            from: { email: process.env.EMAIL_FROM },
-            subject: `${host}: Sign in with Magic Link`,
-            content: [
-                { type: "text/plain", value: text({ url, host }) },
-                { type: "text/html", value: await render(VerifyIdentityEmail({url: url})) },
-            ],
-        }),
-    })
+    console.log(`Sending magic link to ${to} with host ${host}`);
 
-    if (!res.ok) throw new Error("Sendgrid error: " + (await res.text()))
+    try {
+        // Send the email using SendGrid's API
+        const res = await fetch("https://api.sendgrid.com/v3/mail/send", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${process.env.AUTH_SENDGRID_SECRET}`, // Authorization using SendGrid secret
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                personalizations: [{ to: [{ email: to }] }], // Recipient email
+                from: { email: process.env.EMAIL_FROM }, // Sender email (from environment variable)
+                subject: `${host}: Sign in with Magic Link`, // Subject of the email
+                content: [
+                    { type: "text/plain", value: generatePlainText({ url, host }) }, // Plain text version of the email
+                    { type: "text/html", value: await render(VerifyIdentityEmail({ url })) }, // HTML version rendered using React component
+                ],
+            }),
+        });
+
+        // Check if the request was successful
+        if (!res.ok) {
+            const errorMessage = await res.text();
+            throw new Error(`SendGrid error: ${errorMessage}`);
+        }
+
+        console.log(`Magic link email sent successfully to ${to}`);
+    } catch (error) {
+        console.error(`Error sending magic link email: ${error}`);
+        throw error; // Propagate error for higher-level handling
+    }
 }
 
-// Email Text body (fallback for email clients that don't render HTML, e.g. feature phones)
-function text({ url, host }: { url: string; host: string }) {
-    return `Sign in to ${host}\n${url}\n\n`
+// Generates plain text body for email (fallback for clients that don't render HTML)
+function generatePlainText({ url, host }: { url: string; host: string }): string {
+    return `Sign in to ${host}\n${url}\n\n`; // Simple message with link and host information
 }

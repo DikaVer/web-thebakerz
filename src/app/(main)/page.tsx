@@ -6,7 +6,7 @@ import {FirstView} from "@/components/landing/first-view";
 export default async function Page() {
 
     return (
-        <main>
+        <div>
 
             <FirstView/>
 
@@ -85,7 +85,7 @@ export default async function Page() {
                     <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-32 heart-display:h-32"} color={"heart"}/>
                 </div>
                 </div>
-        </main>
+        </div>
 );
 
 }

@@ -29,6 +29,15 @@ export type StoreDataField = {
     background_url: string;
 };
 
+export interface ShopItemField {
+    product_id: number;
+    name: string;
+    description: string;
+    price: number;
+    image_url: string;
+    amount: number;
+}
+
 // Define a custom User type
 export interface CustomAdapterUser extends AdapterUser {
     role: string;

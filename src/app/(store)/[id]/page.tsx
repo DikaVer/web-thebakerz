@@ -21,10 +21,10 @@ export default async function Page({params}: StorePageProps) {
     } else {
         return (
             <div className="flex flex-col min-h-screen">
-                <main className="z-10 flex-grow container mx-auto pt-2">
+                <div className="z-10 flex-grow container mx-auto pt-2">
                     <ProfileHeader storeData={storeData}/>
                     <ProductComponent id={params.id}/>
-                </main>
+                </div>
             </div>
         );
     }
