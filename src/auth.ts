@@ -6,16 +6,7 @@ import Google from "next-auth/providers/google"
 import Facebook from "next-auth/providers/facebook"
 import Instagram from "next-auth/providers/instagram"
 import {sendMagicLink} from "@/lib/authSendRequest";
-import { Session } from "next-auth";
-import { AdapterUser } from "next-auth/adapters";
-import {AdapterSession} from "@auth/core/adapters";
-
-// Define a custom User type
-interface CustomAdapterUser extends AdapterUser {
-    role: string;
-}
-
-
+import {CustomAdapterUser} from "@/lib/definitions";
 
 // *DO NOT* create a `Pool` here, outside the request handler.
 // Neon's Postgres cannot keep a pool alive between requests.
@@ -100,6 +91,6 @@ export const {
             },
         },
         session: { strategy: "database" },
-        secret: process.env.NEXTAUTH_SECRET
+        secret: process.env.AUTH_SECRET
     }
 })

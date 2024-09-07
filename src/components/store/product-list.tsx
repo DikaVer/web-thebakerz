@@ -45,6 +45,7 @@ export function ProductList({ productsByCategories }: { productsByCategories: Pr
                                 rating="4.5" // Assuming rating is a static value for now
                                 price={`$${product.price}`}
                                 image={product.image_url}
+                                productId={product.product_id}
                             />
                         ))}
                     </ul>

@@ -5,18 +5,23 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import {IconAvatar, IconPlus} from "@/components/ui/icons";
 import Image from "next/image";
 import Stepper from "@/components/cart/stepper";
 import {Button} from "@/components/ui/button";
+import {getAll} from "@/lib/actions/session-store";
+import {getCart} from "@/lib/store/store-dto";
 
 interface CartComponentProps {
     onClose: () => void;
     isOpen: boolean;
+    cart: ShopItem[]; // Add cart prop
 }
 
-const CartComponent: React.FC<CartComponentProps> = ({ onClose, isOpen }) => {
+const CartComponent: React.FC<CartComponentProps> = ({ onClose, isOpen, cart }) => {
     const [isVisible, setIsVisible] = useState(false);
+
 
     useEffect(() => {
         if (isOpen) {
@@ -30,58 +35,67 @@ const CartComponent: React.FC<CartComponentProps> = ({ onClose, isOpen }) => {
     return (
         <div
             className={`fixed inset-0 z-50 transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'} ${isVisible ? 'visible' : 'invisible'}`}>
+
             <div className="absolute bg-black opacity-50 inset-0" onClick={onClose}></div>
             <div
                 className={`absolute right-0 w-80 h-full bg-white shadow-lg transform transition-transform duration-700 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 <p className="text-2xl flex justify-center items-center p-4">Delicious Cart</p>
                 <hr className={"mx-2"}></hr>
-                <ShopList onClose={onClose}/>
+                {cart ? (
+                    <ShopList cart={cart} onClose={onClose} />
+                ) : (
+                    <p className={"text-center mt-5 text-xl"}>Your cart is empty 🥲</p>
+                )}
             </div>
         </div>
     );
 };
 
-const ShopList: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const ShopList: React.FC<{ cart: any, onClose: () => void }> = ({ cart, onClose }) => {
+
     return (
         <Accordion type="single" collapsible className="w-full">
-            <Shop icon={IconAvatar} shopName={"Mrs. Bombochka"} items={"2 items"} value={"item-1"} initialItems={[
-                { id: 1, name: "Product 1", price: "$10", image: "/macaroons_test.jpg" },
-                { id: 2, name: "Product 2", price: "$20", image: "/macaroons_test.jpg" },
-            ]} onClose={onClose} />
-            <Shop icon={IconAvatar} shopName={"Mrs. Macar"} items={"3 items"} value={"item-2"} initialItems={[
-                { id: 3, name: "Product 3", price: "$15", image: "/macaroons_test.jpg" },
-                { id: 4, name: "Product 4", price: "$25", image: "/macaroons_test.jpg" },
-                { id: 5, name: "Product 5", price: "$30", image: "/macaroons_test.jpg" },
-            ]} onClose={onClose} />
-            <Shop icon={IconAvatar} shopName={"Mrs. Past"} items={"1 items"} value={"item-3"} initialItems={[
-                { id: 6, name: "Product 6", price: "$5", image: "/macaroons_test.jpg" },
-            ]} onClose={onClose} />
+            {Object.keys(cart).map((shopName, index) => (
+                <Shop
+                    key={index}
+                    avatar_url={cart[shopName]['avatar_url']}
+                    shopName={shopName}
+                    value={`shop-${index}`}
+                    initialItems={cart[shopName]['products']}
+                    onClose={onClose}
+                />
+            ))}
         </Accordion>
     );
 };
 
 interface ShopItem {
-    id: number;
+    product_id: number;
     name: string;
-    price: string;
-    image: string;
+    description: string;
+    price: number;
+    image_url: string;
+    amount: number;
 }
 
 interface ShopProps {
-    icon: React.ElementType;
+    avatar_url: string;
     shopName: string;
-    items: string;
     value: string;
     initialItems: ShopItem[];
     onClose: () => void;
 }
 
-const Shop: React.FC<ShopProps> = ({ icon: Icon, shopName, items, value, initialItems, onClose }) => {
+const Shop: React.FC<ShopProps> = ({ avatar_url, shopName, value, initialItems, onClose }) => {
     const [itemsList, setItemsList] = useState(initialItems);
     const [isHoveringStepper, setIsHoveringStepper] = useState(false);
 
+    useEffect(() => {
+        setItemsList(initialItems); // When the cart prop changes, update the items list
+    }, [initialItems]);
+
     const deleteItem = useCallback((id: number) => {
-        setItemsList(itemsList.filter(item => item.id !== id));
+        setItemsList(itemsList.filter(item => item.product_id !== id));
     }, [itemsList]);
 
     if (itemsList.length === 0) {
@@ -92,19 +106,33 @@ const Shop: React.FC<ShopProps> = ({ icon: Icon, shopName, items, value, initial
         <AccordionItem value={value}>
             <AccordionTrigger>
                 <div className={"-my-2 flex flex-row items-center space-x-3 justify-start"}>
-                    <Icon className={"w-14 h-14"}/>
+                    <Image
+                        src={avatar_url}
+                        alt="Avatar"
+                        width={1920}
+                        height={1080}
+                        className="rounded-full relative h-14 w-14"
+                    />
                     <div className={"grid grid-col gap-0"}>
                         <p className={"flex text-base underline-on-hover"}>{shopName}</p>
-                        <p className={"flex text-sm text-grayText"}>{items}</p>
+                        <p className={"flex text-sm text-grayText"}>{itemsList.length} items</p>
                     </div>
                 </div>
             </AccordionTrigger>
             <AccordionContent className={"grid gap-y-4 w-full"}>
-                <ul className={"grid"}>
-                    {itemsList.map(item => (
-                        <ShopItem key={item.id} {...item} onDelete={deleteItem} onHoverChange={setIsHoveringStepper} isHoveringStepper={isHoveringStepper} />
-                    ))}
-                </ul>
+                <ScrollArea className="max-h-72">
+                    <ul className={"grid"}>
+                        {Object.values(itemsList).map((item) => (
+                            <ShopItem
+                                key={item.product_id}
+                                {...item}
+                                onDelete={deleteItem}
+                                onHoverChange={setIsHoveringStepper}
+                                isHoveringStepper={isHoveringStepper}
+                            />
+                        ))}
+                    </ul>
+                </ScrollArea>
                 <div className={"grid gap-y-2 px-2"}>
                     {/*<div className={"flex flex-row justify-between"}>*/}
                     {/*    <p className={"text-xl"}>Subtotal</p>*/}
@@ -129,25 +157,26 @@ const Shop: React.FC<ShopProps> = ({ icon: Icon, shopName, items, value, initial
 };
 
 interface ShopItemProps {
-    id: number;
+    product_id: number;
     name: string;
+    price: number;
+    image_url: string;
+    amount: number;
     description?: string;
     rating?: string;
-    price: string;
-    image: string;
     onDelete: (id: number) => void;
     onHoverChange: (isHovering: boolean) => void;
     isHoveringStepper: boolean;
 }
 
-const ShopItem: React.FC<ShopItemProps> = ({ id, name, price, image, onDelete, onHoverChange, isHoveringStepper }) => (
+const ShopItem: React.FC<ShopItemProps> = ({ product_id, name, price, image_url, onDelete, onHoverChange, isHoveringStepper }) => (
 
     <>
         <li className={`flex flex-row rounded transition duration-500 ${!isHoveringStepper ? 'hover:bg-grayBg' : ''} cursor-pointer my-1`}>
             <div className="p-2">
                 <div className="h-16 w-16">
                     <Image
-                        src={image}
+                        src={image_url}
                         width={1920}
                         height={1080}
                         alt="Product"
@@ -159,7 +188,7 @@ const ShopItem: React.FC<ShopItemProps> = ({ id, name, price, image, onDelete, o
                 <span className="text-base">{name}</span>
                 <div className="flex flex-row justify-between items-end">
                     <p className="text-grayText text-base">{price}</p>
-                    <Stepper onDelete={() => onDelete(id)} onHoverChange={onHoverChange}/>
+                    <Stepper onDelete={() => onDelete(product_id)} onHoverChange={onHoverChange}/>
                 </div>
             </div>
         </li>

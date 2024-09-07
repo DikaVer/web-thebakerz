@@ -2,7 +2,7 @@ import { lexendDeca } from "@/components/fonts";
 import '@/styles/globals.css'
 import React from "react";
 import type { Metadata } from "next";
-import {Header} from "@/components/header";
+import {Toaster} from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
     metadataBase: new URL(`https://www.TheBakerz.com/`),
@@ -23,6 +23,7 @@ export default async function RootLayout({
         <html lang="en">
             <body className={lexendDeca.className}>
                 {children}
+                <Toaster />
             </body>
         </html>
     );

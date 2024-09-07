@@ -3,7 +3,7 @@
 import * as z from "zod";
 
 import { LoginSchema} from "@/lib/schemas";
-import {signIn} from "@/auth";
+import {signIn, signOut} from "@/auth";
 
 export const login = async (formData: z.infer<typeof LoginSchema>) => {
     const validateFields = LoginSchema.safeParse(formData);
@@ -32,5 +32,13 @@ export const loginWithProvider = async (provider: string, redirectTo: string) =>
         });
     return {
         success: "Email sent!"
+    };
+}
+
+export const logout = async () => {
+    await signOut();
+
+    return {
+        success: "Logged out!"
     };
 }

@@ -1,3 +1,5 @@
+import {AdapterUser} from "next-auth/adapters";
+
 export type ProductDataField = {
     product_id: string;
     store_id: string;
@@ -8,6 +10,17 @@ export type ProductDataField = {
     image_url: string;
 };
 
+export type CartProductDataField = {
+    product_id: string;
+    store_id: string;
+    category_id: string;
+    name: string;
+    description: string;
+    price: number;
+    image_url: string;
+    avatar_url: string;
+}
+
 export type StoreDataField = {
     store_id: string;
     description: string;
@@ -15,6 +28,11 @@ export type StoreDataField = {
     avatar_url: string;
     background_url: string;
 };
+
+// Define a custom User type
+export interface CustomAdapterUser extends AdapterUser {
+    role: string;
+}
 
 export interface ProductByCategory {
     [key: string]: ProductDataField[];

@@ -7,6 +7,7 @@ export default async function Page() {
 
     return (
         <main>
+
             <FirstView/>
 
             {/* Why Choose Section */}
