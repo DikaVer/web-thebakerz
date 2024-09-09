@@ -8,7 +8,7 @@ import MenuComponent from "@/components/menu/user-menu";
 import CartComponent from "@/components/cart/cart-component";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { getAll } from "@/lib/actions/session-store";
+import { getAllProducts } from "@/lib/actions/session-store";
 
 // Define the props that the Header component will accept
 interface HeaderProps {
@@ -33,7 +33,7 @@ export function Header({ main, login, role, name }: HeaderProps) {
     const toggleCart = async () => {
         setCartOpen((prevState) => !prevState);
         if (!isCartOpen) {
-            const cartData = await getAll();  // Fetch cart data from session-store
+            const cartData = await getAllProducts();  // Fetch cart data from session-store
             setCart(cartData);
         }
     };

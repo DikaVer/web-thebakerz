@@ -6,31 +6,32 @@ import {
     apiAuthPrefix,
     DEFAULT_LOGIN_REDIRECT
 } from "@/route";
+import {cookies} from "next/headers";
 
 
 // This function can be marked `async` if using `await` inside
 export function middleware(req: NextRequest) {
-    const { nextUrl } = req;
-    const isSignIn = !!req.auth;
-
-    const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-    const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
-    const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-
-    if (isApiAuthRoute) {
-        return null;
-    }
-
-    if (isAuthRoute) {
-        if (isSignIn) {
-            return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
-        }
-        return null;
-    }
-
-    if (isPublicRoute) {
-        return null;
-    }
+    // const { nextUrl } = req;
+    // const isSignIn = !!req.auth;
+    //
+    // const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+    // const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+    // const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+    //
+    // if (isApiAuthRoute) {
+    //     return null;
+    // }
+    //
+    // if (isAuthRoute) {
+    //     if (isSignIn) {
+    //         return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+    //     }
+    //     return null;
+    // }
+    //
+    // if (isPublicRoute) {
+    //     return null;
+    // }
 
     // if (!isSignIn && !isPublicRoute) {
     //     return Response.redirect(new URL("/auth", nextUrl))

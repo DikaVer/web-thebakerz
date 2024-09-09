@@ -1,16 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IconTrash, IconPlus, IconMinus } from "@/components/ui/icons";
+import { useDebouncedCallback } from 'use-debounce';
+import { updateProductCart } from "@/lib/actions/session-store";
 
 interface StepperProps {
-    onDelete: () => void;
+    product_id: number;
     onHoverChange: (isHovering: boolean) => void;
+    onDelete: () => void;
+    onUpdate: (id: number, amount: number) => void;
+    isUpdating: (isUpdating: boolean) => void;
+    amount: number;
 }
 
-const Stepper: React.FC<StepperProps> = ({ onDelete, onHoverChange }) => {
-    const [count, setCount] = useState(1);
+const Stepper: React.FC<StepperProps> = ({ product_id, onHoverChange, onDelete, onUpdate, isUpdating, amount }) => {
+    const [count, setCount] = useState(amount);
 
-    const handleIncrement = () => setCount(count + 1);
-    const handleDecrement = () => setCount(count - 1);
+    // Debounced callback for updating the cart
+    const handleUpdateCart = useDebouncedCallback(() => {
+        console.log('Updating cart with product ID:', product_id, 'and count:', count);
+        onUpdate(product_id, count);
+    }, 1000); // Debounce for 1 second
+
+    // Effect to trigger cart update when count changes
+    useEffect(() => {
+        handleUpdateCart();
+    }, [count, handleUpdateCart]);
+
+    const handleIncrement = () => {
+        isUpdating(true);
+        setCount(prevCount => Math.min(prevCount + 1, 99));
+    }
+    const handleDecrement = () => {
+        isUpdating(true);
+        setCount(prevCount => Math.max(prevCount - 1, 0));
+    }
     const handleReset = () => onDelete();
 
     return (

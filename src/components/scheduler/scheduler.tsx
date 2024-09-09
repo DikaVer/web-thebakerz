@@ -6,12 +6,15 @@ import { SwitchDelivery } from "@/components/scheduler/switch-delivery";
 import { AddressSearch } from "@/components/scheduler/address-search";
 import { ScheduleSelection } from "@/components/scheduler/schedule-selection";
 import {VisuallyHidden} from "@radix-ui/react-visually-hidden";
+import {CheckoutDataField} from "@/lib/definitions";
 
 interface SchedulerContentProps {
     setIsDialogOpen: (isOpen: boolean) => void;
+    updateCheckoutData: (checkoutSettings: CheckoutDataField) => void;
+    checkoutData: CheckoutDataField;
 }
 
-export function SchedulerContent({ setIsDialogOpen }: SchedulerContentProps) {
+export function SchedulerContent({ checkoutData, setIsDialogOpen, updateCheckoutData }: SchedulerContentProps) {
 
     const [isContentVisible, setIsContentVisible] = useState(true);
 
@@ -41,6 +44,8 @@ export function SchedulerContent({ setIsDialogOpen }: SchedulerContentProps) {
                 </DialogDescription>
             </VisuallyHidden>
             <SchedulerContentView
+                checkoutData={checkoutData}
+                updateCheckoutData={updateCheckoutData}
                 handleDialogClose={handleDialogClose}
                 handleScheduler={handleScheduler}
             />
@@ -66,11 +71,15 @@ export function SchedulerContent({ setIsDialogOpen }: SchedulerContentProps) {
 }
 
 const SchedulerContentView: React.FC<{
+    updateCheckoutData: (checkoutSettings: CheckoutDataField) => void,
     handleDialogClose: () => void,
-    handleScheduler: () => void
+    handleScheduler: () => void,
+    checkoutData: CheckoutDataField
 }> = ({
-          handleDialogClose,
-          handleScheduler
+    handleDialogClose,
+    handleScheduler,
+    updateCheckoutData,
+    checkoutData
       }) => (
     <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%]"}>
         <div className={`flex flex-row justify-between items-center`}>
@@ -84,7 +93,7 @@ const SchedulerContentView: React.FC<{
         </div>
         <hr className={"my-1"}></hr>
         <div className={"flex flex-col justify-between items-center"}>
-            <SwitchDelivery />
+            <SwitchDelivery checkoutData={checkoutData} updateCheckoutData={updateCheckoutData}/>
         </div>
         <AddressSearch />
         <div>

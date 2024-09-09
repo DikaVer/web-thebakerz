@@ -10,6 +10,12 @@ export type ProductDataField = {
     image_url: string;
 };
 
+export type CheckoutDataField = {
+    pickUp: boolean,
+    shippingAddress: string | null,
+    scheduledTime: string | null,
+}
+
 export type CartProductDataField = {
     product_id: string;
     store_id: string;

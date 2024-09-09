@@ -51,7 +51,7 @@ export function ProductList({ productsByCategories }: { productsByCategories: Pr
                         name={product.name}
                         description={product.description}
                         rating="4.5" // Assuming rating is a static value for now
-                        price={`$${product.price}`}
+                        price={product.price}
                         image={product.image_url}
                         productId={product.product_id}
                     />

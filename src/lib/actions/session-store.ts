@@ -3,6 +3,11 @@ import 'server-only';
 import { cookies } from 'next/headers';
 import { kv } from '@vercel/kv';
 import { getCart } from '@/lib/store/store-dto';
+import { CheckoutDataField } from '@/lib/definitions';
+
+export async function fetchCheckoutSettings() {
+    return await getCheckoutSettings();
+}
 
 type SessionId = string;
 
@@ -35,28 +40,42 @@ export async function deleteSessionId(): Promise<void> {
  */
 export async function getSessionIdAndCreateIfMissing(): Promise<SessionId> {
     let sessionId = getSessionId();
-
     if (!sessionId) {
         sessionId = crypto.randomUUID();
         setSessionId(sessionId);
     }
-
     return sessionId;
 }
 
 /**
- * Retrieves all cart data for the current session.
- * @returns {Promise<any | null>} The cart data or null if none exists.
+ * Retrieves all data for a given namespace in the current session.
+ * @param {string} namespace - The namespace to retrieve data from.
+ * @returns {Promise<any | null>} The data from the namespace or null if not found.
  */
-export async function getAll(): Promise<any | null> {
+export async function getAll(namespace: string): Promise<any | null> {
     const sessionId = getSessionId();
+    if (!sessionId) return null;
 
-    if (!sessionId) {
+    const key = `session-${namespace}-${sessionId}`;
+    const keyType = await kv.type(key);
+
+    if (keyType !== 'hash') {
+        console.error(`Error: Key ${key} is of type ${keyType}, expected hash.`);
         return null;
     }
 
-    const cartData = await kv.hgetall(`session-${sessionId}`);
+    return await kv.hgetall(key);
+}
 
+/**
+ * Retrieves all product data for the current session's cart.
+ * @returns {Promise<any | null>} The cart data or null if none exists.
+ */
+export async function getAllProducts(): Promise<any | null> {
+    const sessionId = getSessionId();
+    if (!sessionId) return null;
+
+    const cartData = await kv.hgetall(`session-products-${sessionId}`);
     return cartData ? await getCart(cartData) : null;
 }
 
@@ -66,11 +85,10 @@ export async function getAll(): Promise<any | null> {
  * otherwise removes it from the cart.
  * @param {string} productId - The ID of the product to update.
  * @param {number} amount - The amount of the product. If 0 or less, the product is removed.
- * @throws Will throw an error if updating the cart fails.
  */
 export async function updateProductCart(productId: string, amount: number): Promise<void> {
     const sessionId = await getSessionIdAndCreateIfMissing();
-    const key = `session-${sessionId}`;
+    const key = `session-products-${sessionId}`;
 
     try {
         if (amount > 0) {
@@ -80,6 +98,45 @@ export async function updateProductCart(productId: string, amount: number): Prom
         }
     } catch (error) {
         console.error('Error updating product cart:', error);
+        throw error;
+    }
+}
+
+/**
+ * Retrieves checkout settings for the current session. If none exist, default settings are created.
+ * @returns {Promise<CheckoutDataField>} The checkout settings for the current session.
+ */
+export async function getCheckoutSettings(): Promise<CheckoutDataField> {
+    const sessionId = await getSessionIdAndCreateIfMissing();
+    const key = `session-checkout-${sessionId}`;
+
+    let checkoutSettings = await kv.hgetall(key);
+
+    if (!checkoutSettings) {
+        const defaultSettings: CheckoutDataField = {
+            pickUp: true,
+            shippingAddress: null,
+            scheduledTime: null,
+        };
+        await kv.hset(key, defaultSettings);
+        return defaultSettings;
+    }
+
+    return checkoutSettings as CheckoutDataField;
+}
+
+/**
+ * Updates the checkout settings for the current session.
+ * @param {CheckoutDataField} settings - The new checkout settings to be applied.
+ */
+export async function updateCheckoutSettings(settings: CheckoutDataField): Promise<void> {
+    const sessionId = await getSessionIdAndCreateIfMissing();
+    const key = `session-checkout-${sessionId}`;
+
+    try {
+        await kv.hset(key, settings);
+    } catch (error) {
+        console.error('Error updating checkout settings:', error);
         throw error;
     }
 }

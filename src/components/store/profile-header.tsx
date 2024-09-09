@@ -1,16 +1,19 @@
+"use server";
 import Image from "next/image";
-import { Label } from "@/components/ui/label";
-import { IconLocation, IconStar, IconThreeDots } from "@/components/ui/icons";
-import { Button } from "@/components/ui/button";
+import {Label} from "@/components/ui/label";
+import {IconLocation, IconStar, IconThreeDots} from "@/components/ui/icons";
+import {Button} from "@/components/ui/button";
 import {
     DropdownMenu,
-    DropdownMenuContent, DropdownMenuItem,
+    DropdownMenuContent,
+    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { MiniCalendar } from "@/components/scheduler/calendar";
+import {MiniCalendar} from "@/components/scheduler/calendar";
 import React from "react";
+import {getCheckoutSettings} from "@/lib/actions/session-store";
 
 interface ProfileHeaderProps {
     storeData: {
@@ -22,7 +25,7 @@ interface ProfileHeaderProps {
     };
 }
 
-export function ProfileHeader({ storeData }: ProfileHeaderProps) {
+export async function ProfileHeader({ storeData }: ProfileHeaderProps) {
     return (
         <div className="h-60 relative cm:h-72 rounded-lg overflow-hidden flex flex-col justify-center">
             <Background background_url={storeData.background_url}/>
@@ -32,7 +35,7 @@ export function ProfileHeader({ storeData }: ProfileHeaderProps) {
                 description={storeData.description}
                 location={storeData.location}
             />
-            <MiniCalendar />
+            <MiniCalendar/>
         </div>
     );
 }

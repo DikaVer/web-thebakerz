@@ -2,7 +2,7 @@
 import React from "react";
 import {IconPlus, IconStar, IconSuccess} from "@/components/ui/icons";
 import Image from "next/image";
-import {getAll, updateProductCart} from "@/lib/actions/session-store";
+import {getAllProducts, updateProductCart} from "@/lib/actions/session-store";
 import { toast } from "sonner"
 import { Toaster } from "@/components/ui/sonner"
 import {Button} from "@/components/ui/button";
@@ -11,7 +11,7 @@ interface ItemProps {
     name: string;
     description: string;
     rating: string;
-    price: string;
+    price: number;
     image: string;
     productId: string;
 }
@@ -29,6 +29,8 @@ export function Product({ name, description, price, image, rating, productId }: 
         );
     };
 
+    const displayPrice = (price / 100).toFixed(2);
+
     return (
         <li
             className={`rounded-lg border-2 border-grayBg flex flex-row w-full transition duration-500 hover:bg-grayBg trigger-hover cursor-pointer`}
@@ -45,7 +47,7 @@ export function Product({ name, description, price, image, rating, productId }: 
                 </div>
                 <div className={"flex flex-row justify-between pr-2 items-end"}>
                     <span className={"text-grayText font-medium"}>
-                        {price}
+                        ${displayPrice}
                     </span>
                     <div className={"flex items-center space-x-0.5"}>
                         <IconStar className={"w-5 h-5 cm:w-5 cm:h-5"} color={"primary"} />

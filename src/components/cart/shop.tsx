@@ -5,6 +5,7 @@ import ShopItem from "@/components/cart/shop-item";
 import {ShopItemField} from "@/lib/definitions";
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import {updateProductCart} from "@/lib/actions/session-store";
 
 interface ShopProps {
     avatar_url: string;
@@ -16,17 +17,56 @@ interface ShopProps {
 
 const Shop: React.FC<ShopProps> = ({ avatar_url, shopName, value, initialItems, onClose }) => {
     const [itemsList, setItemsList] = useState(initialItems);
+    const [total, setTotal] = useState(0);
     const [isHoveringStepper, setIsHoveringStepper] = useState(false);
+    const [isItemsUpdating, setIsItemsUpdating] = useState(true);
 
     useEffect(() => {
+        setIsItemsUpdating(true);
         setItemsList(initialItems);
+        setTotal(calculateTotal(initialItems));
+        setIsItemsUpdating(false);
     }, [initialItems]);
 
-    const deleteItem = useCallback((id: number) => {
-        setItemsList(itemsList.filter(item => item.product_id !== id));
+    const deleteItem = useCallback(async (id: number) => {
+        setIsItemsUpdating(true);
+
+        setItemsList((prevItems) => {
+            const newItems = { ...prevItems };
+            delete newItems[id];
+            setTotal(calculateTotal(newItems));
+            return newItems;
+        });
+
+        await updateProductCart(String(id), 0);
+
+        setIsItemsUpdating(false);
     }, [itemsList]);
 
-    if (itemsList.length === 0) {
+
+    const updateItem = useCallback(async (id: number, amount: number) => {
+        setIsItemsUpdating(true);
+        setItemsList((prevItems) => {
+            const newItems = { ...prevItems };
+            newItems[id].amount = amount;
+            setTotal(calculateTotal(newItems));
+            return newItems;
+        });
+        await updateProductCart(String(id), amount);
+        setIsItemsUpdating(false);
+    }, [itemsList]);
+
+
+    // Function to calculate the total sum
+    const calculateTotal = (items = itemsList) => {
+        return Object.values(items).reduce((total, item) => {
+            return total + item.price * item.amount;
+        }, 0) / 100;
+    };
+
+
+
+    if (Object.values(itemsList).length === 0) {
         return null;
     }
 
@@ -37,7 +77,7 @@ const Shop: React.FC<ShopProps> = ({ avatar_url, shopName, value, initialItems, 
                     <Image src={avatar_url} alt="Avatar" width={1920} height={1080} className="rounded-full relative h-14 w-14" />
                     <div className="grid grid-col gap-0">
                         <p className="flex text-base underline-on-hover">{shopName}</p>
-                        <p className="flex text-sm text-grayText">{itemsList.length} items</p>
+                        <p className="flex text-sm text-grayText">{Object.values(itemsList).length} items</p>
                     </div>
                 </div>
             </AccordionTrigger>
@@ -49,6 +89,8 @@ const Shop: React.FC<ShopProps> = ({ avatar_url, shopName, value, initialItems, 
                                 key={item.product_id}
                                 {...item}
                                 onDelete={deleteItem}
+                                onUpdate={updateItem}
+                                isUpdating={setIsItemsUpdating}
                                 onHoverChange={setIsHoveringStepper}
                                 isHoveringStepper={isHoveringStepper}
                             />
@@ -56,10 +98,10 @@ const Shop: React.FC<ShopProps> = ({ avatar_url, shopName, value, initialItems, 
                     </ul>
                 </ScrollArea>
                 <div className="grid gap-y-2 px-2">
-                    <Button className="w-full py-0 px-4">
+                    <Button className="w-full py-0 px-4" disabled={isItemsUpdating}>
                         <div className="flex flex-row w-full justify-between items-center">
                             <p className="text-xl">Checkout</p>
-                            <p className="text-lg">$12.48</p>
+                            <p className="text-lg">${total.toFixed(2)}</p>
                         </div>
                     </Button>
                     <Button className="w-full py-0 px-4" onClick={onClose} variant="secondary">

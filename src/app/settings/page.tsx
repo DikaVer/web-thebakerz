@@ -1,9 +1,14 @@
 import {auth, signOut} from "@/auth";
 import {Button} from "@/components/ui/button";
-import {deleteSessionId} from "@/lib/actions/session-store";
+import {
+    deleteSessionId,
+    getAll,
+} from "@/lib/actions/session-store";
 
 const SettingsPage = async () => {
     const session = await auth();
+    const products = await getAll("products");
+    const checkoutSession = await getAll("checkout");
 
     return (
         <div>
@@ -22,6 +27,10 @@ const SettingsPage = async () => {
                 }}>
                 <button type="submit">Clean Session</button>
             </form>
+            Products: {JSON.stringify(products)}
+            <br/>
+            Checkout Session: {JSON.stringify(checkoutSession)}
+
         </div>
     );
 }

@@ -7,6 +7,7 @@ import Facebook from "next-auth/providers/facebook"
 import Instagram from "next-auth/providers/instagram"
 import {sendMagicLink} from "@/lib/authSendRequest";
 import {CustomAdapterUser} from "@/lib/definitions";
+import {cookies} from "next/headers";
 
 // *DO NOT* create a `Pool` here, outside the request handler.
 // Neon's Postgres cannot keep a pool alive between requests.

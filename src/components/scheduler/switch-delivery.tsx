@@ -1,10 +1,18 @@
 import React, { useState } from "react";
+import {CheckoutDataField} from "@/lib/definitions";
 
-export const SwitchDelivery: React.FC = () => {
-    const [isPickup, setIsPickup] = useState(true);
+interface SwitchDeliveryProps {
+    checkoutData: CheckoutDataField;
+    updateCheckoutData: (checkoutSettings: CheckoutDataField) => void;
+}
+
+export const SwitchDelivery: React.FC<SwitchDeliveryProps> = ({ updateCheckoutData, checkoutData }) => {
+    const [isPickup, setIsPickup] = useState(checkoutData.pickUp);
 
     const toggleIsPickUp = () => {
         setIsPickup(!isPickup);
+        checkoutData.pickUp = !isPickup;
+        updateCheckoutData(checkoutData);
     };
 
     return (

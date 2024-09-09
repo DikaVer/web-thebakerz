@@ -64,9 +64,6 @@ export function UserAuthForm({
                         setError(data.error);
                     } else if (data && data.success) {
                         setSuccess(data.success);
-                    } else {
-                        // Handle the case where data is undefined or null
-                        setError('Unknown error occurred');
                     }
                 })
         });
