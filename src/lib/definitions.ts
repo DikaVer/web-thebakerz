@@ -10,9 +10,30 @@ export type ProductDataField = {
     image_url: string;
 };
 
+export type AddressData = {
+    [key: string]: AddressDataField;
+}
+
+export type AddressDataField = {
+    id: string;
+    city: string;
+    country: string;
+    latitude: number;
+    longitude: number;
+    premise: string;
+    route: string;
+    state: string;
+    streetAddress: string;
+    street_number: string;
+    subPremise: string;
+    zipCode: string;
+    [key: string]: any;
+};
+
 export type CheckoutDataField = {
     pickUp: boolean,
-    shippingAddress: string | null,
+    shippingAddress: AddressDataField | null,
+    savedAddresses: AddressData | null,
     scheduledTime: string | null,
 }
 

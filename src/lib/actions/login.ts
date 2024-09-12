@@ -4,6 +4,7 @@ import * as z from "zod";
 
 import { LoginSchema } from "@/lib/schemas";
 import { signIn, signOut } from "@/auth";
+import {cookies} from "next/headers";
 
 // Function to handle login using form data
 export const login = async (formData: z.infer<typeof LoginSchema>) => {
@@ -39,6 +40,7 @@ export const loginWithProvider = async (provider: string, redirectTo: string) =>
 
 // Function to handle logout
 export const logout = async () => {
+    cookies().delete('session-id');
     // Attempt to sign out the user
     await signOut();
 

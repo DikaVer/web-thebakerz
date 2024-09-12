@@ -116,6 +116,7 @@ export async function getCheckoutSettings(): Promise<CheckoutDataField> {
         const defaultSettings: CheckoutDataField = {
             pickUp: true,
             shippingAddress: null,
+            savedAddresses: null,
             scheduledTime: null,
         };
         await kv.hset(key, defaultSettings);

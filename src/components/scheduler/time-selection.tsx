@@ -4,25 +4,29 @@ import {IconArrow} from "@/components/ui/icons";
 import {Button} from "@/components/ui/button";
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {CarouselDate} from "@/components/scheduler/carousel-date";
+import {CheckoutDataField} from "@/lib/definitions";
 
 interface ScheduleSelectionProps {
-    handleScheduler: () => void;
+    handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void,
+    checkoutData: CheckoutDataField,
+    setCheckoutData: (input: CheckoutDataField) => void,
 }
 
 // Create the functional component
-export const ScheduleSelection: React.FC<ScheduleSelectionProps> = ({ handleScheduler }) => {
+export const TimeSelection: React.FC<ScheduleSelectionProps> = ({ handleSchedulerView, checkoutData, setCheckoutData }) => {
     const [date, setDate] = React.useState<Date>()
 
     return (
-        <div className={"grid w-full max-w-lg gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%]"}>
+        <div className={"grid w-full max-w-lg gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-6"}>
             <div
                 className={`flex flex-row justify-between items-center`}>
                 <Button
                     className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
-                    onClick={handleScheduler}>
+                    onClick={() => handleSchedulerView("scheduler")}
+                >
                     <IconArrow className={"w-8 h-8 cursor-pointer"}/>
                 </Button>
-                <p className={"text-xl"}>Schedule Delivery</p>
+                <p className={"text-xl"}>Time Selection</p>
                 <div className="w-8 h-8 flex"></div>
             </div>
             <hr className={"my-1"}></hr>

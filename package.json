@@ -26,6 +26,7 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "@radix-ui/react-visually-hidden": "^1.1.0",
     "@react-email/components": "^0.0.23",
+    "@react-google-maps/api": "^2.19.3",
     "@vercel/kv": "^2.0.0",
     "@vercel/postgres": "^0.9.0",
     "class-variance-authority": "^0.7.0",

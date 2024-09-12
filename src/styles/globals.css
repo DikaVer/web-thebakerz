@@ -225,6 +225,18 @@
     margin-bottom: calc(22vw);
   }
 
+  .pac-container {
+    background-color: #FFF;
+    z-index: 1000;
+    position: fixed;
+    display: inline-block;
+    float: left;
+  }
+
+  .pac-icon {
+    display: none !important;
+  }
+
 }
 
 @layer base {

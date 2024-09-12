@@ -17,11 +17,12 @@ import {FormError} from "@/components/authentication/form-error";
 import {login, loginWithProvider} from "@/lib/actions/login";
 import {useState, useTransition} from "react";
 import {FormSuccess} from "@/components/authentication/form-success";
+import {toast} from "sonner";
+import {IconSuccess} from "@/components/ui/icons";
 
 
 const getNextParam = (url: URL): string => {
     const nextParam = url.searchParams.get('next');
-    console.log("nextParam", url);
     return nextParam ? nextParam : "/";
 };
 
@@ -62,9 +63,17 @@ export function UserAuthForm({
                 .then((data) => {
                     if (data && data.error) {
                         setError(data.error);
-                    } else if (data && data.success) {
-                        setSuccess(data.success);
                     }
+                    // else if (data && data.success) {
+                    //     toast.success(
+                    //         <div className={"flex flex-row gap-x-7 justify-between items-center"}>
+                    //             <IconSuccess  color={"primary"} className={"w-10 h-10"}/>
+                    //             <p className={"text-base font-bold"}>
+                    //                 {data.success}
+                    //             </p>
+                    //         </div>
+                    //     );
+                    // }
                 })
         });
     }

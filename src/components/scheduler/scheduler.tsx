@@ -1,115 +1,143 @@
-import React, {useState} from "react";
-import {DialogContent, DialogDescription, DialogTitle} from "@/components/ui/dialog";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { IconArrow, IconClock, IconCross } from "@/components/ui/icons";
+import { IconClock, IconCross } from "@/components/ui/icons";
 import { SwitchDelivery } from "@/components/scheduler/switch-delivery";
 import { AddressSearch } from "@/components/scheduler/address-search";
-import { ScheduleSelection } from "@/components/scheduler/schedule-selection";
-import {VisuallyHidden} from "@radix-ui/react-visually-hidden";
-import {CheckoutDataField} from "@/lib/definitions";
+import { TimeSelection } from "@/components/scheduler/time-selection";
+import {AddressDataField, CheckoutDataField} from "@/lib/definitions";
+import { AddressSelection } from "@/components/scheduler/address-selection";
+import {ScrollArea} from "@/components/ui/scroll-area";
 
 interface SchedulerContentProps {
-    setIsDialogOpen: (isOpen: boolean) => void;
-    updateCheckoutData: (checkoutSettings: CheckoutDataField) => void;
+    handleDialogClose: () => void;
+    setCheckoutData: (input: CheckoutDataField) => void;
     checkoutData: CheckoutDataField;
+    isSchedulerView: "scheduler" | "timeSelection" | "addressSelection";
+    setIsSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void;
 }
 
-export function SchedulerContent({ checkoutData, setIsDialogOpen, updateCheckoutData }: SchedulerContentProps) {
+export function SchedulerContent({ checkoutData, handleDialogClose, setCheckoutData, isSchedulerView, setIsSchedulerView }: SchedulerContentProps) {
 
-    const [isContentVisible, setIsContentVisible] = useState(true);
-
-    const handleDialogClose = () => {
-        setIsDialogOpen(false);
-        const timer = setTimeout(() => {
-            setIsContentVisible(true);
-            clearTimeout(timer);
-        }, 300);
+    const toggleSchedulerView = (view: "scheduler" | "timeSelection" | "addressSelection") => {
+        setIsSchedulerView(view);
     };
 
-    const handleScheduler = () => {
-        setIsContentVisible(!isContentVisible);
-    };
+    const [input, setInputAddress] = useState(null as AddressDataField | null);
 
-    return isContentVisible ? (
-        <DialogContent
-            className={`sm:max-w-[425px]` }
-            handleClose={handleDialogClose}
-        >
-            <VisuallyHidden>
-                <DialogTitle>
-                    Schedule Delivery
-                </DialogTitle>
-                <DialogDescription>
-                    Schedule your delivery
-                </DialogDescription>
-            </VisuallyHidden>
-            <SchedulerContentView
-                checkoutData={checkoutData}
-                updateCheckoutData={updateCheckoutData}
-                handleDialogClose={handleDialogClose}
-                handleScheduler={handleScheduler}
-            />
-        </DialogContent>
-    ) : (
-        <DialogContent
-            className={`sm:max-w-[425px]`}
-            handleClose={handleDialogClose}
-        >
-            <VisuallyHidden>
-                <DialogTitle>
-                    Schedule Selection
-                </DialogTitle>
-                <DialogDescription>
-                    Select the time preference
-                </DialogDescription>
-            </VisuallyHidden>
-            <ScheduleSelection
-                handleScheduler={handleScheduler}
-            />
-        </DialogContent>
+
+    return (
+
+        <>
+            <div className="fixed z-30 bg-black opacity-50 inset-0" onClick={(e) => {
+                e.stopPropagation();
+                handleDialogClose();
+            }}/>
+            <div
+                className={"fixed left-[50%] top-[60%] z-40 grid w-full max-w-lg sm:max-w-[425px] translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg rounded-lg"}
+            >
+                <ScrollArea className={"max-h-[75vh]"}>
+                    {isSchedulerView === "scheduler" && (
+                            <SchedulerContentView
+                                checkoutData={checkoutData}
+                                setCheckoutData={setCheckoutData}
+                                handleDialogClose={handleDialogClose}
+                                handleSchedulerView={toggleSchedulerView}
+                                setInputAddress={setInputAddress}
+                            />
+                    )}
+                    {isSchedulerView === "timeSelection" && (
+                        <TimeSelection
+                            checkoutData={checkoutData}
+                            setCheckoutData={setCheckoutData}
+                            handleSchedulerView={toggleSchedulerView}
+                        />
+                    )}
+                    {isSchedulerView === "addressSelection" && (
+                            <AddressSelection
+                                checkoutData={checkoutData}
+                                setCheckoutData={setCheckoutData}
+                                initialInput={input}
+                                setInputAddress={setInputAddress}
+                                handleSchedulerView={toggleSchedulerView}
+                            />
+                    )}
+                </ScrollArea>
+            </div>
+        </>
     );
 }
 
 const SchedulerContentView: React.FC<{
-    updateCheckoutData: (checkoutSettings: CheckoutDataField) => void,
+    checkoutData: CheckoutDataField,
+    setCheckoutData: (input: CheckoutDataField) => void,
     handleDialogClose: () => void,
-    handleScheduler: () => void,
-    checkoutData: CheckoutDataField
+    handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void,
+    setInputAddress: (input: AddressDataField | null) => void;
 }> = ({
-    handleDialogClose,
-    handleScheduler,
-    updateCheckoutData,
-    checkoutData
-      }) => (
-    <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%]"}>
-        <div className={`flex flex-row justify-between items-center`}>
-            <Button
-                className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
-                onClick={handleDialogClose}>
-                <IconCross className={"w-8 h-8 cursor-pointer"} />
-            </Button>
-            <p className={"text-xl"}>Schedule Delivery</p>
-            <div className="w-8 h-8 flex"></div>
-        </div>
-        <hr className={"my-1"}></hr>
-        <div className={"flex flex-col justify-between items-center"}>
-            <SwitchDelivery checkoutData={checkoutData} updateCheckoutData={updateCheckoutData}/>
-        </div>
-        <AddressSearch />
-        <div>
-            <p className="text-black text-xl">Time Preferences</p>
-            <div
-                className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg">
-                <IconClock className={"w-16 h-16"} />
-                <div className={"flex w-full"}>
-                    <p className="text-black text-left text-lg">Schedule delivery</p>
-                </div>
-                <Button className={"text-lg h-9"}
-                        onClick={handleScheduler}
-                >
-                    Schedule
+          handleDialogClose,
+          handleSchedulerView,
+          setCheckoutData,
+          checkoutData,
+          setInputAddress,
+      }) => {
+
+    const [isPickup, setIsPickup] = useState(checkoutData.pickUp);
+
+    const toggleIsPickUp = async () => {
+        setIsPickup(!isPickup);
+        // Update the pickUp status in checkoutData
+        checkoutData.pickUp = !isPickup;
+        setCheckoutData(checkoutData);
+
+    };
+
+    return (
+        <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-6"}>
+            <div className={`flex flex-row justify-between items-center`}>
+                <Button
+                    className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleDialogClose();
+                    }}>
+                    <IconCross className={"w-8 h-8 cursor-pointer"} />
                 </Button>
+                <p className={"text-xl"}>Schedule Delivery</p>
+                <div className="w-8 h-8 flex"></div>
+            </div>
+            <hr className={"my-1"}></hr>
+            <div className={"flex flex-col justify-between items-center"}>
+                <SwitchDelivery
+                    toggleIsPickUp={toggleIsPickUp}
+                    isPickup={isPickup}
+                />
+            </div>
+            {isPickup ? (
+                <>
+                </>
+            ) : (
+                <AddressSearch
+                    handleSchedulerView={handleSchedulerView}
+                    setInputAddress={setInputAddress}
+                    checkoutData={checkoutData}
+                    setCheckoutData={setCheckoutData}
+                />
+            )}
+            <div>
+                <p className="text-black text-xl">Time Preferences</p>
+                <div
+                    className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg">
+                    <IconClock className={"w-16 h-16"} />
+                    <div className={"flex w-full"}>
+                        <p className="text-black text-left text-lg">Schedule delivery</p>
+                    </div>
+                    <Button className={"text-lg h-9"}
+                            onClick={() => handleSchedulerView("timeSelection")}
+                    >
+                        Schedule
+                    </Button>
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
+};

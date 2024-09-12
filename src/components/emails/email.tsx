@@ -34,9 +34,9 @@ export function VerifyIdentityEmail({url} : VerifyIdentityEmailProps) {
 
                     <Hr className="border-[#cccccc]" style={separator}/>
                     <Container style={action_container}>
-                        <Text style={{fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Sign in by
-                            Email</Text>
-                        <Text style={{fontSize: '16px', margin: '0px 20px', fontWeight: '300'}}>
+                        {/*<Text style={{fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Sign in by*/}
+                        {/*    Email</Text>*/}
+                        <Text style={{color: 'black', fontSize: '16px', margin: '0px 20px', fontWeight: '300'}}>
                             Hello there! Please use the magic link to sign in to TheBakerz by clicking the button below.
                         </Text>
                         <Button
@@ -57,7 +57,7 @@ export function VerifyIdentityEmail({url} : VerifyIdentityEmailProps) {
                                 margin: '20px auto',
                             }}
                         >
-                            Magic Link
+                            Sign in by Email
                         </Button>
                     </Container>
                     <Img

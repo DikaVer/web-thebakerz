@@ -1,28 +1,37 @@
 import React, { useState } from "react";
 import {CheckoutDataField} from "@/lib/definitions";
+import {useDebouncedCallback} from "use-debounce";
 
 interface SwitchDeliveryProps {
-    checkoutData: CheckoutDataField;
-    updateCheckoutData: (checkoutSettings: CheckoutDataField) => void;
+    toggleIsPickUp: () => void;
+    isPickup: boolean;
 }
 
-export const SwitchDelivery: React.FC<SwitchDeliveryProps> = ({ updateCheckoutData, checkoutData }) => {
-    const [isPickup, setIsPickup] = useState(checkoutData.pickUp);
+export const SwitchDelivery: React.FC<SwitchDeliveryProps> = ({toggleIsPickUp, isPickup}) => {
+    const [isDebouncing, setIsDebouncing] = useState(false); // Track debounce state
 
-    const toggleIsPickUp = () => {
-        setIsPickup(!isPickup);
-        checkoutData.pickUp = !isPickup;
-        updateCheckoutData(checkoutData);
+
+    const handleSwitch = useDebouncedCallback(() => {
+        toggleIsPickUp();
+        setIsDebouncing(false); // Re-enable clicks after debounce
+    }, 500); // Debounce for 1 second
+
+    const onSwitchClick = () => {
+        if (!isDebouncing) {
+            setIsDebouncing(true); // Disable clicks during debounce
+            handleSwitch(); // Call debounced function
+        }
     };
+
 
     return (
         <div
-            className={"grid grid-cols-2 items-center rounded-full w-80 h-12 bg-grayBg transition-colors duration-500 cursor-pointer"}
-            onClick={toggleIsPickUp}
+            className={`relative grid grid-cols-2 items-center rounded-full w-80 h-12 bg-grayBg transition-colors duration-500 ${isDebouncing ? 'opacity-50 pointer-events-none' : 'cursor-pointer'}`}
+            onClick={onSwitchClick} // Call the handler with debounce
         >
             <p className="text-black text-center z-10">Pickup</p>
             <div
-                className={`absolute z-0 grid grid-rows-1 items-center rounded-full h-9 w-39 bg-grayComp transition-transform duration-500  ${isPickup ? "translate-x-2" : "translate-x-full"}`}
+                className={`absolute z-0 grid grid-rows-1 items-center rounded-full h-9 w-39 bg-grayComp transition-transform duration-500 ${isPickup ? "translate-x-2" : "translate-x-full"}`}
             >
             </div>
             <p className="text-black text-center z-10">Delivery</p>

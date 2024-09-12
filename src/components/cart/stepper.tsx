@@ -23,8 +23,10 @@ const Stepper: React.FC<StepperProps> = ({ product_id, onHoverChange, onDelete, 
 
     // Effect to trigger cart update when count changes
     useEffect(() => {
-        handleUpdateCart();
-    }, [count, handleUpdateCart]);
+        if (count !== amount) {
+            handleUpdateCart();
+        }
+    }, [count]);
 
     const handleIncrement = () => {
         isUpdating(true);
