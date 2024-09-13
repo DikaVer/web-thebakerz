@@ -12,15 +12,18 @@ import {Library} from "@googlemaps/js-api-loader";
 
 interface AddressSelectionProps {
     checkoutData: CheckoutDataAuthField,
+    updateCheckoutData: () => void;
     initialInput: AddressDataField | null;
     setInputAddress: (input: AddressDataField | null) => void;
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void;
+
 }
 
 const libraries: Library[] = ["places", "maps", "marker"];
 
-export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput, setInputAddress, handleSchedulerView, checkoutData}) => {
+export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput, setInputAddress, handleSchedulerView, checkoutData, updateCheckoutData}) => {
     const [error, setError] = useState<string | undefined>();
+    const [errorMap, setErrorMap] = useState<string | undefined>();
 
     const { isLoaded, loadError } = useJsApiLoader({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string,
@@ -73,38 +76,6 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
             });
 
 
-            const initialPosition = {lat: initialInput.latitude, lng: initialInput.longitude};
-
-            // Define the allowed boundary in terms of latitude and longitude difference (e.g., max 0.01 degrees)
-            const maxLatDifference = 0.01;
-            const maxLngDifference = 0.01;
-
-            // Add an event listener to check marker's position after drag
-            draggableMarker.addListener('dragend', (event: google.maps.MapMouseEvent) => {
-                const position = draggableMarker.position as google.maps.LatLng; // Get the marker's new position after drag
-                const newLat = Number(position.lat);
-                const newLng = Number(position.lng);
-
-                // Check if the marker has moved too far from its initial position
-                const latDiff = Math.abs(newLat - initialPosition.lat);
-                const lngDiff = Math.abs(newLng - initialPosition.lng);
-                console.log(latDiff)
-                console.log(lngDiff)
-                if (latDiff > maxLatDifference || lngDiff > maxLngDifference) {
-                    // If marker moved too far, set it back to the initial position or within the allowed range
-                    console.log("Marker moved too far. Resetting to initial position.");
-                    draggableMarker.position = {
-                        lat: initialInput.latitude,
-                        lng: initialInput.longitude,
-                    }
-                } else {
-                    initialInput.latitude = Number(position.lat);
-                    initialInput.longitude = Number(position.lng);
-                    console.log(position.lat)
-                    console.log(position.lng)
-                }
-            });
-
             setMap(mapInstance);
             setMarker(draggableMarker);
         }
@@ -155,18 +126,35 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
         formData(place);
 
 
-        if (map && marker) {
+        if (map && marker && initialInput) {
             map.setCenter(place.geometry.location);
             marker.position = place.geometry.location;
+            marker.gmpDraggable = false;
+            setIsDraggable(false);
+
         } else {
             handleSchedulerView("addressSelection");
         }
     };
 
     const toggleDraggable = () => {
-        if (marker) {
+        if (marker && map && !isDraggable && initialInput) {
+            google.maps.event.clearInstanceListeners(marker);
             marker.gmpDraggable = true;
             setIsDraggable(true);
+
+            const initialPosition = map.getCenter();
+
+            map.setCenter({lat: marker.position?.lat, lng: marker.position?.lng} as google.maps.LatLngLiteral);
+
+            setupMarkerListener(
+                marker,
+                initialPosition,
+                setErrorMap,
+                initialInput
+            );
+        } else if (marker && map && isDraggable) {
+            map.setCenter({lat: marker.position?.lat, lng: marker.position?.lng} as google.maps.LatLngLiteral);
         }
     };
 
@@ -241,6 +229,8 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
         } as AddressDataField;
 
         try {
+
+
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/session/saveAddress`, {
                 method: 'POST',
                 headers: {
@@ -259,16 +249,29 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
                     [addressData.id]: addressData,
                 };
 
+                localStorage.setItem('shippingAddress', JSON.stringify(addressData));
+                localStorage.setItem('savedAddresses', JSON.stringify({
+                    ...checkoutData.savedAddresses,
+                    [addressData.id]: addressData,
+                }));
+                updateCheckoutData();
+
                 handleSchedulerView('scheduler');
 
                 toast.success(
-                            <div className={"flex flex-row gap-x-7 justify-between items-center"}>
-                                <IconSuccess  color={"primary"} className={"w-10 h-10"}/>
-                                <p className={"text-base font-bold"}>
-                                    {initialInput?.streetAddress}
-                                </p>
-                            </div>
-                        );
+                    <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                        <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+
+                        <div className={"flex flex-col"}>
+                            <p className={"text-base font-bold"}>
+                                {initialInput?.streetAddress}
+                            </p>
+                            <p className={"text-sm font-light"}>
+                                Address was added successfully
+                            </p>
+                        </div>
+                    </div>
+                );
 
             } else {
 
@@ -353,6 +356,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
                     />
                 </div>
             </div>
+            <FormError message={errorMap}/>
             <div ref={mapRef} style={{height: "200px", width: "100%"}} className={"rounded-lg"}/>
 
             <div className={" flex flex-row-reverse"}>
@@ -362,43 +366,26 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
                 </Button>
             </div>
 
-            <div className={"grid font-light gap-4"}>
+            <div className="grid font-light gap-4">
                 <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <p>Street Name</p>
-                        <p className={'font-medium'}>{initialInput.route || "unknown"}</p>
-                        <hr className={"border-1 border-gray-300 mr-6"}/>
-                    </div>
-                    <div>
-                        <p>House Number</p>
-                        <p className={'font-medium'}>{initialInput.street_number || "unknown"}</p>
-                        <hr className={"border-1 border-gray-300 mr-6"}/>
-                    </div>
-                    <div>
-                        <p>Apt, Suite, etc</p>
-                        <p className={'font-medium'}>{`${initialInput.subPremise} ${initialInput.premise}`.trim() || "unknown"}</p>
-                        <hr className={"border-1 border-gray-300 mr-6"}/>
-                    </div>
-                    <div>
-                        <p>City</p>
-                        <p className={'font-medium'}>{initialInput.city || "unknown"}</p>
-                        <hr className={"border-1 border-gray-300 mr-6"}/>
-                    </div>
-                    <div>
-                        <p>State/Province</p>
-                        <p className={'font-medium'}>{initialInput.state || "unknown"}</p>
-                        <hr className={"border-1 border-gray-300 mr-6"}/>
-                    </div>
-                    <div>
-                        <p>Zip/Postal code</p>
-                        <p className={'font-medium'}>{initialInput.zipCode || "unknown"}</p>
-                        <hr className={"border-1 border-gray-300 mr-6"}/>
-                    </div>
-                    <div>
-                        <p>Country</p>
-                        <p className={'font-medium'}>{initialInput.country || "unknown"}</p>
-                        <hr className={"border-1 border-gray-300 mr-6"}/>
-                    </div>
+                    {[
+                        {label: 'Street Name', value: initialInput.route},
+                        {label: 'House Number', value: initialInput.street_number},
+                        {
+                            label: 'Apt, Suite, etc',
+                            value: `${initialInput.subPremise} ${initialInput.premise}`.trim(),
+                        },
+                        {label: 'City', value: initialInput.city},
+                        {label: 'State/Province', value: initialInput.state},
+                        {label: 'Zip/Postal code', value: initialInput.zipCode},
+                        {label: 'Country', value: initialInput.country},
+                    ].map((item, index) => (
+                        <div key={index}>
+                            <p>{item.label}</p>
+                            <p className="font-medium">{item.value || 'unknown'}</p>
+                            <hr className="border-1 border-gray-300 mr-6"/>
+                        </div>
+                    ))}
                 </div>
                 <p>Additional Delivery Notes</p>
                 <textarea
@@ -419,5 +406,43 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
                 Save Address
             </Button>
         </div>
-);
+    );
+};
+
+const setupMarkerListener = (marker: google.maps.marker.AdvancedMarkerElement,
+                             initialPosition: google.maps.LatLng | undefined,
+                             setErrorMap: (input: (string | undefined)) => void,
+                             initialInput: AddressDataField) => {
+    const maxLatDifference = 0.002;
+    const maxLngDifference = 0.003;
+
+    marker.addListener('dragend', (event: google.maps.MapMouseEvent) => {
+        const position = marker.position as google.maps.LatLng; // Get the marker's new position after drag
+        const newLat = Number(position.lat);
+        const newLng = Number(position.lng);
+
+        // Check if the marker has moved too far from its initial position
+        if (initialPosition) {
+            const lat = Number(initialPosition.lat());
+            const lng = Number(initialPosition.lng());
+            const latDiff = Math.abs(newLat - lat);
+            const lngDiff = Math.abs(newLng - lng);
+            console.log(latDiff);
+            console.log(lngDiff);
+            if (latDiff > maxLatDifference || lngDiff > maxLngDifference) {
+                // If marker moved too far, set it back to the initial position or within the allowed range
+                setErrorMap("Marker cannot be moved too far from the initial position.");
+                marker.position = {
+                    lat: lat,
+                    lng: lng,
+                };
+            } else {
+                initialInput.latitude = Number(position.lat);
+                initialInput.longitude = Number(position.lng);
+                setErrorMap(undefined);
+            }
+        } else {
+            setErrorMap("Something went wrong. Please reload the page.");
+        }
+    });
 };

@@ -33,7 +33,7 @@ export function UserAuthForm(){
         resolver: zodResolver(LoginSchema),
         defaultValues: {
             email: "",
-            redirectTo: next
+            redirectTo: next ? next : "/"
         }
     });
 

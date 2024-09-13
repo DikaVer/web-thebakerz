@@ -11,10 +11,11 @@ export const SwitchDelivery: React.FC<SwitchDeliveryProps> = ({toggleIsPickUp, i
     const [isDebouncing, setIsDebouncing] = useState(false); // Track debounce state
 
 
+    // Debounce the switch handler (currently not used for later use)
     const handleSwitch = useDebouncedCallback(() => {
         toggleIsPickUp();
         setIsDebouncing(false); // Re-enable clicks after debounce
-    }, 500); // Debounce for 1 second
+    }, 200); // Debounce for 1 second
 
     const onSwitchClick = () => {
         if (!isDebouncing) {
@@ -27,7 +28,7 @@ export const SwitchDelivery: React.FC<SwitchDeliveryProps> = ({toggleIsPickUp, i
     return (
         <div
             className={`relative grid grid-cols-2 items-center rounded-full w-80 h-12 bg-grayBg transition-colors duration-500 ${isDebouncing ? 'opacity-50 pointer-events-none' : 'cursor-pointer'}`}
-            onClick={onSwitchClick} // Call the handler with debounce
+            onClick={toggleIsPickUp} // Call the handler with debounce
         >
             <p className="text-black text-center z-10">Pickup</p>
             <div

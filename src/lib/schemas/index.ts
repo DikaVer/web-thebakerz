@@ -33,7 +33,6 @@ export const AddressDataFieldSchema = z.object({
 
 // Optionally, define other related schemas if needed
 export const CheckoutDataFieldSchema = z.object({
-    pickUp: z.boolean(),
     shippingAddress: AddressDataFieldSchema.optional().nullable(),
     savedAddresses: z.record(AddressDataFieldSchema).optional().nullable(),
 });

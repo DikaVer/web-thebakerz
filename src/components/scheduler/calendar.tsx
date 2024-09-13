@@ -68,7 +68,6 @@ export function MiniCalendar() {
             }
 
             replace(`${pathname}?${params.toString()}`);
-            console.log(`${pathname}?${params.toString()}`);
         }, []);
 
 
@@ -81,6 +80,7 @@ export function MiniCalendar() {
 
 
     const { checkoutData, updateCheckoutData } = useCheckoutSettings();
+
 
 
 
@@ -120,13 +120,13 @@ export function MiniCalendar() {
                 </TooltipProvider>
                 <div
                     className="rounded-xl w-auto h-10 cm:h-14 items-center transition duration-500 hover:bg-gray-200 cursor-default">
-                    <CheckoutDetails checkoutData={checkoutSettings}/>
+                    <CheckoutDetails checkoutData={checkoutData}/>
                 </div>
             </div>
             {isDialogOpen ?
                 (<SchedulerContent
-                    checkoutData={checkoutSettings}
-                    updateCheckoutSettings={updateCheckoutSettings}
+                    checkoutData={checkoutData}
+                    updateCheckoutData={updateCheckoutData}
                     handleDialogClose={handleDialogClose}
                     isSchedulerView={isSchedulerView}
                     setIsSchedulerView={setIsSchedulerView}

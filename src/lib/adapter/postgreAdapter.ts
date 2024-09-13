@@ -5,6 +5,7 @@ import type {
     AdapterSession,
 } from "@auth/core/adapters"
 import type { Pool } from "pg"
+import {createNanoid} from "@/lib/utils";
 
 export function mapExpiresAt(account: any): any {
     const expires_at: number = parseInt(account.expires_at)
@@ -44,21 +45,22 @@ export default function PostgresAdapter(client: Pool): Adapter {
         async createUser(user: Omit<AdapterUser, "id">) {
             let { name } = user
             const { email, emailVerified, image } = user
-            console.log("createUser", user)
             if (!!name) {
                 const emailSplit = email.split("@")
                 name = emailSplit[0]
             }
+            const addressToken = createNanoid(21);
             const sql = `
-        INSERT INTO users (name, email, "emailVerified", image, role) 
-        VALUES ($1, $2, $3, $4, $5) 
-        RETURNING id, name, email, "emailVerified", image, role`
+        INSERT INTO users (name, email, "emailVerified", image, role, "addressToken") 
+        VALUES ($1, $2, $3, $4, $5, $6) 
+        RETURNING id, name, email, "emailVerified", image, role, "addressToken"`
             const result = await client.query(sql, [
                 name,
                 email,
                 emailVerified,
                 image,
-                "user"
+                "user",
+                addressToken
             ])
             return result.rows[0]
         },

@@ -24,7 +24,6 @@ export function SchedulerContent({ checkoutData, handleDialogClose, isSchedulerV
 
     const [input, setInputAddress] = useState(null as AddressDataField | null);
 
-
     return (
 
         <>
@@ -39,6 +38,7 @@ export function SchedulerContent({ checkoutData, handleDialogClose, isSchedulerV
                     {isSchedulerView === "scheduler" && (
                             <SchedulerContentView
                                 checkoutData={checkoutData}
+                                updateCheckoutData={updateCheckoutData}
                                 handleDialogClose={handleDialogClose}
                                 handleSchedulerView={toggleSchedulerView}
                                 setInputAddress={setInputAddress}
@@ -47,12 +47,14 @@ export function SchedulerContent({ checkoutData, handleDialogClose, isSchedulerV
                     {isSchedulerView === "timeSelection" && (
                         <TimeSelection
                             checkoutData={checkoutData}
+                            updateCheckoutData={updateCheckoutData}
                             handleSchedulerView={toggleSchedulerView}
                         />
                     )}
                     {isSchedulerView === "addressSelection" && (
                             <AddressSelection
                                 checkoutData={checkoutData}
+                                updateCheckoutData={updateCheckoutData}
                                 initialInput={input}
                                 setInputAddress={setInputAddress}
                                 handleSchedulerView={toggleSchedulerView}
@@ -66,6 +68,7 @@ export function SchedulerContent({ checkoutData, handleDialogClose, isSchedulerV
 
 const SchedulerContentView: React.FC<{
     checkoutData: CheckoutLocalDataField,
+    updateCheckoutData: () => void;
     handleDialogClose: () => void,
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void,
     setInputAddress: (input: AddressDataField | null) => void;
@@ -73,14 +76,15 @@ const SchedulerContentView: React.FC<{
           handleDialogClose,
           handleSchedulerView,
           checkoutData,
+          updateCheckoutData,
           setInputAddress,
       }) => {
 
 
-    const toggleIsPickUp = async () => {
+    const toggleIsPickUp = () => {
         // Update the pickUp status in checkoutData
         localStorage.setItem('deliveryMode', checkoutData.deliveryMode === "PICKUP" ? 'DELIVERY' : 'PICKUP');
-        console.log(checkoutData.deliveryMode);
+        updateCheckoutData();
     };
 
     return (
@@ -104,7 +108,7 @@ const SchedulerContentView: React.FC<{
                     isPickup={checkoutData.deliveryMode === "PICKUP"}
                 />
             </div>
-            {checkoutData.deliveryMode ? (
+            {checkoutData.deliveryMode === "PICKUP" ? (
                 <>
                 </>
             ) : (
@@ -112,6 +116,7 @@ const SchedulerContentView: React.FC<{
                     handleSchedulerView={handleSchedulerView}
                     setInputAddress={setInputAddress}
                     checkoutData={checkoutData}
+                    updateCheckoutData={updateCheckoutData}
                 />
             )}
             <div>

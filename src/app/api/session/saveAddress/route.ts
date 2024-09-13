@@ -2,6 +2,7 @@ import { updateCheckoutSettings } from "@/lib/actions/session-store";
 import { AddressDataFieldSchema, CheckoutDataFieldSchema } from "@/lib/schemas";
 import { AddressDataField, CheckoutDataAuthField } from "@/lib/definitions";
 import { NextResponse } from "next/server";
+import {auth} from "@/auth";
 
 // This function will handle saving the address
 export async function POST(req: Request) {
@@ -20,8 +21,13 @@ export async function POST(req: Request) {
             [addressData.id]: validatedAddressData,
         };
 
+        const session = await auth()
+
         // Save the address to the database
-        await updateCheckoutSettings(validatedCheckoutData);
+        if (session) {
+            // @ts-ignore
+            await updateCheckoutSettings(validatedCheckoutData, session.user?.addressToken);
+        }
 
         // Respond with a success message
         return NextResponse.json({ message: 'Address saved successfully', addressData }, { status: 200 });

@@ -128,8 +128,7 @@ export async function getCheckoutSettings(): Promise<CheckoutDataAuthField> {
  * Updates the checkout settings for the current session.
  * @param {CheckoutDataAuthField} settings - The new checkout settings to be applied.
  */
-export async function updateCheckoutSettings(settings: CheckoutDataAuthField): Promise<void> {
-    const sessionId = await getSessionIdAndCreateIfMissing();
+export async function updateCheckoutSettings(settings: CheckoutDataAuthField, sessionId: string): Promise<void> {
     const key = `session-checkout-${sessionId}`;
 
     try {

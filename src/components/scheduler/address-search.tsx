@@ -7,10 +7,11 @@ interface AddressSearchProps {
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void;
     setInputAddress: (input: AddressDataField | null) => void;
     checkoutData: CheckoutDataAuthField;
+    updateCheckoutData: () => void;
 }
 
 
-export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView, setInputAddress, checkoutData}) => {
+export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView, setInputAddress, checkoutData, updateCheckoutData}) => {
     const [hoveringEdit, setHoveringEdit] = useState<{ [key: string]: boolean }>({});
 
     const handleAddressClick = (address: string) => {
@@ -32,6 +33,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView
             <AddressSelection
                 initialInput={null}
                 checkoutData={checkoutData}
+                updateCheckoutData={updateCheckoutData}
                 setInputAddress={setInputAddress}
                 handleSchedulerView={handleSchedulerView}
             />

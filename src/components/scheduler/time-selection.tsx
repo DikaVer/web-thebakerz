@@ -9,10 +9,11 @@ import {CheckoutDataAuthField} from "@/lib/definitions";
 interface ScheduleSelectionProps {
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void,
     checkoutData: CheckoutDataAuthField,
+    updateCheckoutData: () => void
 }
 
 // Create the functional component
-export const TimeSelection: React.FC<ScheduleSelectionProps> = ({ handleSchedulerView, checkoutData }) => {
+export const TimeSelection: React.FC<ScheduleSelectionProps> = ({ handleSchedulerView, checkoutData, updateCheckoutData }) => {
     const [date, setDate] = React.useState<Date>()
 
     return (
