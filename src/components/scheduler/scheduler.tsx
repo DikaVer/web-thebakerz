@@ -4,19 +4,19 @@ import { IconClock, IconCross } from "@/components/ui/icons";
 import { SwitchDelivery } from "@/components/scheduler/switch-delivery";
 import { AddressSearch } from "@/components/scheduler/address-search";
 import { TimeSelection } from "@/components/scheduler/time-selection";
-import {AddressDataField, CheckoutDataField} from "@/lib/definitions";
+import {AddressDataField, CheckoutDataAuthField, CheckoutLocalDataField} from "@/lib/definitions";
 import { AddressSelection } from "@/components/scheduler/address-selection";
 import {ScrollArea} from "@/components/ui/scroll-area";
 
 interface SchedulerContentProps {
     handleDialogClose: () => void;
-    setCheckoutData: (input: CheckoutDataField) => void;
-    checkoutData: CheckoutDataField;
+    checkoutData: CheckoutLocalDataField;
+    updateCheckoutData: () => void;
     isSchedulerView: "scheduler" | "timeSelection" | "addressSelection";
     setIsSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void;
 }
 
-export function SchedulerContent({ checkoutData, handleDialogClose, setCheckoutData, isSchedulerView, setIsSchedulerView }: SchedulerContentProps) {
+export function SchedulerContent({ checkoutData, handleDialogClose, isSchedulerView, updateCheckoutData, setIsSchedulerView }: SchedulerContentProps) {
 
     const toggleSchedulerView = (view: "scheduler" | "timeSelection" | "addressSelection") => {
         setIsSchedulerView(view);
@@ -39,7 +39,6 @@ export function SchedulerContent({ checkoutData, handleDialogClose, setCheckoutD
                     {isSchedulerView === "scheduler" && (
                             <SchedulerContentView
                                 checkoutData={checkoutData}
-                                setCheckoutData={setCheckoutData}
                                 handleDialogClose={handleDialogClose}
                                 handleSchedulerView={toggleSchedulerView}
                                 setInputAddress={setInputAddress}
@@ -48,14 +47,12 @@ export function SchedulerContent({ checkoutData, handleDialogClose, setCheckoutD
                     {isSchedulerView === "timeSelection" && (
                         <TimeSelection
                             checkoutData={checkoutData}
-                            setCheckoutData={setCheckoutData}
                             handleSchedulerView={toggleSchedulerView}
                         />
                     )}
                     {isSchedulerView === "addressSelection" && (
                             <AddressSelection
                                 checkoutData={checkoutData}
-                                setCheckoutData={setCheckoutData}
                                 initialInput={input}
                                 setInputAddress={setInputAddress}
                                 handleSchedulerView={toggleSchedulerView}
@@ -68,27 +65,22 @@ export function SchedulerContent({ checkoutData, handleDialogClose, setCheckoutD
 }
 
 const SchedulerContentView: React.FC<{
-    checkoutData: CheckoutDataField,
-    setCheckoutData: (input: CheckoutDataField) => void,
+    checkoutData: CheckoutLocalDataField,
     handleDialogClose: () => void,
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void,
     setInputAddress: (input: AddressDataField | null) => void;
 }> = ({
           handleDialogClose,
           handleSchedulerView,
-          setCheckoutData,
           checkoutData,
           setInputAddress,
       }) => {
 
-    const [isPickup, setIsPickup] = useState(checkoutData.pickUp);
 
     const toggleIsPickUp = async () => {
-        setIsPickup(!isPickup);
         // Update the pickUp status in checkoutData
-        checkoutData.pickUp = !isPickup;
-        setCheckoutData(checkoutData);
-
+        localStorage.setItem('deliveryMode', checkoutData.deliveryMode === "PICKUP" ? 'DELIVERY' : 'PICKUP');
+        console.log(checkoutData.deliveryMode);
     };
 
     return (
@@ -109,10 +101,10 @@ const SchedulerContentView: React.FC<{
             <div className={"flex flex-col justify-between items-center"}>
                 <SwitchDelivery
                     toggleIsPickUp={toggleIsPickUp}
-                    isPickup={isPickup}
+                    isPickup={checkoutData.deliveryMode === "PICKUP"}
                 />
             </div>
-            {isPickup ? (
+            {checkoutData.deliveryMode ? (
                 <>
                 </>
             ) : (
@@ -120,7 +112,6 @@ const SchedulerContentView: React.FC<{
                     handleSchedulerView={handleSchedulerView}
                     setInputAddress={setInputAddress}
                     checkoutData={checkoutData}
-                    setCheckoutData={setCheckoutData}
                 />
             )}
             <div>

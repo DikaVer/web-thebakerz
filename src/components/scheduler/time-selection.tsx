@@ -4,16 +4,15 @@ import {IconArrow} from "@/components/ui/icons";
 import {Button} from "@/components/ui/button";
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {CarouselDate} from "@/components/scheduler/carousel-date";
-import {CheckoutDataField} from "@/lib/definitions";
+import {CheckoutDataAuthField} from "@/lib/definitions";
 
 interface ScheduleSelectionProps {
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void,
-    checkoutData: CheckoutDataField,
-    setCheckoutData: (input: CheckoutDataField) => void,
+    checkoutData: CheckoutDataAuthField,
 }
 
 // Create the functional component
-export const TimeSelection: React.FC<ScheduleSelectionProps> = ({ handleSchedulerView, checkoutData, setCheckoutData }) => {
+export const TimeSelection: React.FC<ScheduleSelectionProps> = ({ handleSchedulerView, checkoutData }) => {
     const [date, setDate] = React.useState<Date>()
 
     return (

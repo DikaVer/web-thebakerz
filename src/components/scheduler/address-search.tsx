@@ -1,17 +1,16 @@
 import React, {useState} from "react";
 import {IconEdit, IconLocation} from "@/components/ui/icons";
 import {AddressSelection} from "@/components/scheduler/address-selection";
-import {AddressData, AddressDataField, CheckoutDataField} from "@/lib/definitions";
+import {AddressData, AddressDataField, CheckoutDataAuthField} from "@/lib/definitions";
 
 interface AddressSearchProps {
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void;
     setInputAddress: (input: AddressDataField | null) => void;
-    setCheckoutData: (checkoutSettings: CheckoutDataField) => void;
-    checkoutData: CheckoutDataField;
+    checkoutData: CheckoutDataAuthField;
 }
 
 
-export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView, setInputAddress, checkoutData, setCheckoutData}) => {
+export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView, setInputAddress, checkoutData}) => {
     const [hoveringEdit, setHoveringEdit] = useState<{ [key: string]: boolean }>({});
 
     const handleAddressClick = (address: string) => {
@@ -32,7 +31,6 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView
         <div className={"animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%]"}>
             <AddressSelection
                 initialInput={null}
-                setCheckoutData={setCheckoutData}
                 checkoutData={checkoutData}
                 setInputAddress={setInputAddress}
                 handleSchedulerView={handleSchedulerView}

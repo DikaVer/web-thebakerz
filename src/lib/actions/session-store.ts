@@ -3,7 +3,7 @@ import 'server-only';
 import { cookies } from 'next/headers';
 import { kv } from '@vercel/kv';
 import { getCart } from '@/lib/store/store-dto';
-import { CheckoutDataField } from '@/lib/definitions';
+import { CheckoutDataAuthField } from '@/lib/definitions';
 
 export async function fetchCheckoutSettings() {
     return await getCheckoutSettings();
@@ -104,33 +104,31 @@ export async function updateProductCart(productId: string, amount: number): Prom
 
 /**
  * Retrieves checkout settings for the current session. If none exist, default settings are created.
- * @returns {Promise<CheckoutDataField>} The checkout settings for the current session.
+ * @returns {Promise<CheckoutDataAuthField>} The checkout settings for the current session.
  */
-export async function getCheckoutSettings(): Promise<CheckoutDataField> {
+export async function getCheckoutSettings(): Promise<CheckoutDataAuthField> {
     const sessionId = await getSessionIdAndCreateIfMissing();
     const key = `session-checkout-${sessionId}`;
 
     let checkoutSettings = await kv.hgetall(key);
 
     if (!checkoutSettings) {
-        const defaultSettings: CheckoutDataField = {
-            pickUp: true,
+        const defaultSettings: CheckoutDataAuthField = {
             shippingAddress: null,
             savedAddresses: null,
-            scheduledTime: null,
         };
         await kv.hset(key, defaultSettings);
         return defaultSettings;
     }
 
-    return checkoutSettings as CheckoutDataField;
+    return checkoutSettings as CheckoutDataAuthField;
 }
 
 /**
  * Updates the checkout settings for the current session.
- * @param {CheckoutDataField} settings - The new checkout settings to be applied.
+ * @param {CheckoutDataAuthField} settings - The new checkout settings to be applied.
  */
-export async function updateCheckoutSettings(settings: CheckoutDataField): Promise<void> {
+export async function updateCheckoutSettings(settings: CheckoutDataAuthField): Promise<void> {
     const sessionId = await getSessionIdAndCreateIfMissing();
     const key = `session-checkout-${sessionId}`;
 

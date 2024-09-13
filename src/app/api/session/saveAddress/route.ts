@@ -1,6 +1,6 @@
 import { updateCheckoutSettings } from "@/lib/actions/session-store";
 import { AddressDataFieldSchema, CheckoutDataFieldSchema } from "@/lib/schemas";
-import { AddressDataField, CheckoutDataField } from "@/lib/definitions";
+import { AddressDataField, CheckoutDataAuthField } from "@/lib/definitions";
 import { NextResponse } from "next/server";
 
 // This function will handle saving the address
@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         console.log(addressData)
         // Validate the input (optional but recommended)
         const validatedAddressData = AddressDataFieldSchema.parse(addressData) as AddressDataField;
-        const validatedCheckoutData = CheckoutDataFieldSchema.parse(checkoutData) as CheckoutDataField;
+        const validatedCheckoutData = CheckoutDataFieldSchema.parse(checkoutData) as CheckoutDataAuthField;
 
         validatedCheckoutData.shippingAddress = validatedAddressData;
         validatedCheckoutData.savedAddresses = {

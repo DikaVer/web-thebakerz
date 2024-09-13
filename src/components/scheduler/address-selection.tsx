@@ -3,7 +3,7 @@ import {Search} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {IconArrow, IconLocation, IconSuccess} from "@/components/ui/icons";
 import {useDebouncedCallback} from "use-debounce";
-import {AddressDataField, CheckoutDataField} from "@/lib/definitions";
+import {AddressDataField, CheckoutDataAuthField} from "@/lib/definitions";
 import {createNanoid} from "@/lib/utils";
 import {toast} from "sonner";
 import {FormError} from "@/components/authentication/form-error";
@@ -11,8 +11,7 @@ import {useJsApiLoader} from "@react-google-maps/api";
 import {Library} from "@googlemaps/js-api-loader";
 
 interface AddressSelectionProps {
-    checkoutData: CheckoutDataField,
-    setCheckoutData: (input: CheckoutDataField) => void,
+    checkoutData: CheckoutDataAuthField,
     initialInput: AddressDataField | null;
     setInputAddress: (input: AddressDataField | null) => void;
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void;
@@ -20,7 +19,7 @@ interface AddressSelectionProps {
 
 const libraries: Library[] = ["places", "maps", "marker"];
 
-export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput, setInputAddress, handleSchedulerView, setCheckoutData, checkoutData}) => {
+export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput, setInputAddress, handleSchedulerView, checkoutData}) => {
     const [error, setError] = useState<string | undefined>();
 
     const { isLoaded, loadError } = useJsApiLoader({
@@ -259,7 +258,6 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
                     ...checkoutData.savedAddresses,
                     [addressData.id]: addressData,
                 };
-                setCheckoutData(checkoutData);
 
                 handleSchedulerView('scheduler');
 

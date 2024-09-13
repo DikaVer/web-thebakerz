@@ -30,11 +30,17 @@ export type AddressDataField = {
     [key: string]: any;
 };
 
-export type CheckoutDataField = {
-    pickUp: boolean,
+export type CheckoutLocalDataField = {
+    deliveryMode: string,
     shippingAddress: AddressDataField | null,
     savedAddresses: AddressData | null,
-    scheduledTime: string | null,
+    date: string | null,
+    time: string | null,
+}
+
+export type CheckoutDataAuthField = {
+    shippingAddress: AddressDataField | null,
+    savedAddresses: AddressData | null,
 }
 
 export type CartProductDataField = {

@@ -3,7 +3,6 @@
 import * as React from "react"
 import * as z from "zod"
 
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Image from "next/image";
@@ -17,48 +16,31 @@ import {FormError} from "@/components/authentication/form-error";
 import {login, loginWithProvider} from "@/lib/actions/login";
 import {useState, useTransition} from "react";
 import {FormSuccess} from "@/components/authentication/form-success";
-import {toast} from "sonner";
-import {IconSuccess} from "@/components/ui/icons";
+import { useSearchParams } from 'next/navigation'
 
 
-const getNextParam = (url: URL): string => {
-    const nextParam = url.searchParams.get('next');
-    return nextParam ? nextParam : "/";
-};
 
-
-export function UserAuthForm({
-                                 searchParams,
-                             }: {
-                                searchParams?: {
-                                    query?: string;
-                                    page?: string;
-                                };
-}){
+export function UserAuthForm(){
 
     const [error, setError] = useState<string | undefined>();
     const [success, setSuccess] = useState<string | undefined>()
     const [isPending, startTransition] = useTransition();
+    const nextParams = useSearchParams();
+    const next = nextParams.get('next') as string;
 
-    let nextParam: string = '/';
 
     const form = useForm<z.infer<typeof  LoginSchema>>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
             email: "",
-            redirectTo: nextParam
+            redirectTo: next
         }
     });
 
     const onSubmit = (formData: z.infer<typeof LoginSchema>) => {
 
         startTransition(() => {
-            if (typeof window !== 'undefined') {
-                const currentUrl = window.location.href;
-                const url = new URL(currentUrl);
-                nextParam = getNextParam(url)
-            }
-            formData.redirectTo = nextParam ? nextParam : '/';
+            formData.redirectTo = next ? next : "/";
             login(formData)
                 .then((data) => {
                     if (data && data.error) {
@@ -131,12 +113,7 @@ export function UserAuthForm({
         <div className="flex flex-row justify-between items-center mx-10 -my-1">
             <form
                 action={async () => {
-                    if (typeof window !== 'undefined') {
-                        const currentUrl = window.location.href;
-                        const url = new URL(currentUrl);
-                        nextParam = getNextParam(url)
-                    }
-                    await loginWithProvider("google", nextParam)
+                    await loginWithProvider("google", next ? next : "/");
                 }}
             >
                 <button

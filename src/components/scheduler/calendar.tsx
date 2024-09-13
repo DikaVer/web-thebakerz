@@ -1,34 +1,88 @@
 'use client';
 
-import {useEffect, useState} from "react";
-import { IconChevronDown } from "@/components/ui/icons";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import React from "react";
-import { SchedulerContent } from "@/components/scheduler/scheduler";
+import React, {useCallback, useEffect, useState} from "react";
+import {IconChevronDown} from "@/components/ui/icons";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
+import {SchedulerContent} from "@/components/scheduler/scheduler";
 import useIsSmallScreen from "@/lib/hooks/use-is-small-screen";
-import {
-    getCheckoutSettings
-} from "@/lib/actions/session-store";
-import {CheckoutDataField} from "@/lib/definitions";
+import { CheckoutLocalDataField} from "@/lib/definitions";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
+
+
+let defaultCheckoutSettings = {
+    deliveryMode: "PICKUP",
+    shippingAddress: null,
+    savedAddresses: null,
+    date: null,
+    time: null,
+};
 
 export function MiniCalendar() {
-    const [checkoutSettings, setCheckoutSettings] = useState<CheckoutDataField>({
-        pickUp: true,
-        shippingAddress: null,
-        savedAddresses: null,
-        scheduledTime: null,
-    });
     const isSmallScreen = useIsSmallScreen(460);
     let [isDialogOpen, setIsDialogOpen] = useState(false);
+
     const [isSchedulerView, setIsSchedulerView] = useState<"scheduler" | "timeSelection" | "addressSelection">("scheduler");
 
-    useEffect(() => {
-        async function fetchCheckoutSettings() {
-            const settings = await getCheckoutSettings();
-            setCheckoutSettings(settings);
-        }
-        fetchCheckoutSettings();
-    }, []);
+
+    const useCheckoutSettings = () => {
+        const [checkoutData, setCheckoutData] = useState({
+            deliveryMode: "PICKUP",
+            shippingAddress: null,
+            savedAddresses: null,
+            date: null,
+            time: null,
+        } as CheckoutLocalDataField);
+
+        const pathname = usePathname();
+        const { replace } = useRouter();
+        const searchParams = useSearchParams();
+
+        // Utility function to get item from localStorage and handle parsing
+        const getLocalStorageItem = <T,>(key: string, defaultValue: any): T => {
+            const item = localStorage.getItem(key);
+            if (key === 'deliveryMode' || key === 'date' || key === 'time') {
+                return item ? (item as T) : defaultValue;
+            } else {
+                return item ? (JSON.parse(item) as T) : defaultValue;
+            }
+        };
+
+        // Function to update checkout settings from localStorage
+        const updateCheckoutData = useCallback(() => {
+            const updatedCheckoutData = {
+                deliveryMode: getLocalStorageItem<string>('deliveryMode', "PICKUP"),
+                shippingAddress: getLocalStorageItem<any>('shippingAddress', null),
+                savedAddresses: getLocalStorageItem<any>('savedAddresses', null),
+                date: getLocalStorageItem<string | null>('date', null),
+                time: getLocalStorageItem<string | null>('time', null),
+            };
+
+            setCheckoutData(updatedCheckoutData);
+
+            const params = new URLSearchParams(searchParams);
+            params.set('deliveryMode', updatedCheckoutData.deliveryMode);
+
+            if (updatedCheckoutData.date && updatedCheckoutData.time) {
+                params.set('date', updatedCheckoutData.date);
+                params.set('time', updatedCheckoutData.time);
+            }
+
+            replace(`${pathname}?${params.toString()}`);
+            console.log(`${pathname}?${params.toString()}`);
+        }, []);
+
+
+        useEffect(() => {
+            updateCheckoutData(); // Initial update on mount
+        }, [updateCheckoutData]);
+
+        return { checkoutData, updateCheckoutData };
+    };
+
+
+    const { checkoutData, updateCheckoutData } = useCheckoutSettings();
+
+
 
     useEffect(() => {
         if (!isDialogOpen) {
@@ -72,7 +126,7 @@ export function MiniCalendar() {
             {isDialogOpen ?
                 (<SchedulerContent
                     checkoutData={checkoutSettings}
-                    setCheckoutData={setCheckoutSettings}
+                    updateCheckoutSettings={updateCheckoutSettings}
                     handleDialogClose={handleDialogClose}
                     isSchedulerView={isSchedulerView}
                     setIsSchedulerView={setIsSchedulerView}
@@ -83,15 +137,14 @@ export function MiniCalendar() {
 }
 
 // Extracted component to reduce duplication
-const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutDataField }) => {
-
+const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutLocalDataField }) => {
     return (
         <div className="ml-2">
-            {checkoutData.pickUp ? (
+            {checkoutData.deliveryMode === "PICKUP" ? (
                 <div>
                     <p className="text-sm cm:text-base text-black">Pick Up</p>
                     <div className="flex">
-                        <p className="text-sm cm:text-base text-black">{checkoutData.scheduledTime ||
+                        <p className="text-sm cm:text-base text-black">{checkoutData.time ||
                             <strong>Select Time</strong>}</p>
                         <IconChevronDown className="w-5 h-5 cm:w-6 cm:h-6"/>
                     </div>
@@ -99,7 +152,7 @@ const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutDataField }) 
             ) : (
                 <div className={'grid -space-y-1.5'}>
                     <p className="text-sm cm:text-base text-black">Delivery</p>
-                    <p className="text-sm cm:text-base text-black">{checkoutData.scheduledTime || <strong>Select Time</strong>}</p>
+                    <p className="text-sm cm:text-base text-black">{checkoutData.time || <strong>Select Time</strong>}</p>
                     <div className="flex">
                     <p className="text-sm cm:text-base text-black font-bold">
                             {checkoutData.shippingAddress?.streetAddress || "Select Address"}
