@@ -13,6 +13,11 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'assets.api.uizard.io',
             },
+            {
+                protocol: 'https',
+                hostname: 'maps.googleapis.com',
+            },
+
         ],
     },
 };

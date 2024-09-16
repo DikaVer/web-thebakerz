@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {CheckoutDataAuthField} from "@/lib/definitions";
+import {AddressDataStorageField} from "@/lib/definitions";
 import {useDebouncedCallback} from "use-debounce";
 
 interface SwitchDeliveryProps {

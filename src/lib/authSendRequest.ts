@@ -9,6 +9,7 @@ export async function sendMagicLink(params: { identifier: string; url: string })
     const { host } = new URL(url); // Extract host from the URL
 
     console.log(`Sending magic link to ${to} with host ${host}`);
+    console.log(`Magic link URL: ${url}`);
 
     try {
         // Send the email using SendGrid's API

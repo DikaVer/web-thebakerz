@@ -4,7 +4,7 @@ import { IconClock, IconCross } from "@/components/ui/icons";
 import { SwitchDelivery } from "@/components/scheduler/switch-delivery";
 import { AddressSearch } from "@/components/scheduler/address-search";
 import { TimeSelection } from "@/components/scheduler/time-selection";
-import {AddressDataField, CheckoutDataAuthField, CheckoutLocalDataField} from "@/lib/definitions";
+import {AddressDataField, CheckoutLocalDataField} from "@/lib/definitions";
 import { AddressSelection } from "@/components/scheduler/address-selection";
 import {ScrollArea} from "@/components/ui/scroll-area";
 
@@ -12,13 +12,13 @@ interface SchedulerContentProps {
     handleDialogClose: () => void;
     checkoutData: CheckoutLocalDataField;
     updateCheckoutData: () => void;
-    isSchedulerView: "scheduler" | "timeSelection" | "addressSelection";
-    setIsSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void;
+    isSchedulerView: "scheduler" | "timeSelection" | "addressSelection" | "addressEditing";
+    setIsSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection" | "addressEditing") => void;
 }
 
 export function SchedulerContent({ checkoutData, handleDialogClose, isSchedulerView, updateCheckoutData, setIsSchedulerView }: SchedulerContentProps) {
 
-    const toggleSchedulerView = (view: "scheduler" | "timeSelection" | "addressSelection") => {
+    const toggleSchedulerView = (view: "scheduler" | "timeSelection" | "addressSelection" | "addressEditing") => {
         setIsSchedulerView(view);
     };
 
@@ -58,7 +58,18 @@ export function SchedulerContent({ checkoutData, handleDialogClose, isSchedulerV
                                 initialInput={input}
                                 setInputAddress={setInputAddress}
                                 handleSchedulerView={toggleSchedulerView}
+                                isEditing={false}
                             />
+                    )}
+                    {isSchedulerView === "addressEditing" && (
+                        <AddressSelection
+                            checkoutData={checkoutData}
+                            updateCheckoutData={updateCheckoutData}
+                            initialInput={input}
+                            setInputAddress={setInputAddress}
+                            handleSchedulerView={toggleSchedulerView}
+                            isEditing={true}
+                        />
                     )}
                 </ScrollArea>
             </div>
@@ -70,7 +81,7 @@ const SchedulerContentView: React.FC<{
     checkoutData: CheckoutLocalDataField,
     updateCheckoutData: () => void;
     handleDialogClose: () => void,
-    handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void,
+    handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection" | "addressEditing") => void,
     setInputAddress: (input: AddressDataField | null) => void;
 }> = ({
           handleDialogClose,

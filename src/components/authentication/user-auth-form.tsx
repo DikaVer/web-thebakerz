@@ -16,7 +16,7 @@ import {FormError} from "@/components/authentication/form-error";
 import {login, loginWithProvider} from "@/lib/actions/login";
 import {useState, useTransition} from "react";
 import {FormSuccess} from "@/components/authentication/form-success";
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation';
 
 
 
@@ -46,42 +46,32 @@ export function UserAuthForm(){
                     if (data && data.error) {
                         setError(data.error);
                     }
-                    // else if (data && data.success) {
-                    //     toast.success(
-                    //         <div className={"flex flex-row gap-x-7 justify-between items-center"}>
-                    //             <IconSuccess  color={"primary"} className={"w-10 h-10"}/>
-                    //             <p className={"text-base font-bold"}>
-                    //                 {data.success}
-                    //             </p>
-                    //         </div>
-                    //     );
-                    // }
                 })
         });
     }
 
-  return (
-    <div className={"grid gap-6"}>
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className={"grid gap-2"}
-            >
-                <FormField
-                control={form.control}
-                name="email"
-                render={({field}) => (
-                    <FormItem>
-                        <FormLabel className={"sr-only"}>
-                            Email
-                        </FormLabel>
-                        <FormControl>
-                            <Input
-                                {...field}
-                                disabled={isPending}
-                                placeholder="name@example.com"
-                                type="email"
-                                autoCapitalize="none"
+    return (
+        <div className={"grid gap-6"}>
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className={"grid gap-2"}
+                >
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel className={"sr-only"}>
+                                    Email
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        disabled={isPending}
+                                        placeholder="name@example.com"
+                                        type="email"
+                                        autoCapitalize="none"
                                 autoComplete="email"
                                 autoCorrect="off"
                             />

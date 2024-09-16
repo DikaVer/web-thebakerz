@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {IconEdit, IconLocation} from "@/components/ui/icons";
 import {AddressSelection} from "@/components/scheduler/address-selection";
-import {AddressData, AddressDataField, CheckoutDataAuthField} from "@/lib/definitions";
+import {AddressData, AddressDataField, AddressDataStorageField} from "@/lib/definitions";
 
 interface AddressSearchProps {
-    handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void;
+    handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection" | "addressEditing") => void;
     setInputAddress: (input: AddressDataField | null) => void;
-    checkoutData: CheckoutDataAuthField;
+    checkoutData: AddressDataStorageField;
     updateCheckoutData: () => void;
 }
 
@@ -15,9 +15,20 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView
     const [hoveringEdit, setHoveringEdit] = useState<{ [key: string]: boolean }>({});
 
     const handleAddressClick = (address: string) => {
-
-
+        const selectedAddress = checkoutData.savedAddresses;
+        if (selectedAddress) {
+            localStorage.setItem('shippingAddress', JSON.stringify(selectedAddress[address]));
+            updateCheckoutData();
+        }
     };
+
+    const handleEditAddress = (address: string) => {
+        const selectedAddress = checkoutData.savedAddresses;
+        if (selectedAddress) {
+            setInputAddress(selectedAddress[address]);
+            handleSchedulerView("addressEditing");
+        }
+    }
 
     const handleMouseEnter = (address: string) => {
         setHoveringEdit((prev) => ({ ...prev, [address]: true }));
@@ -36,6 +47,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView
                 updateCheckoutData={updateCheckoutData}
                 setInputAddress={setInputAddress}
                 handleSchedulerView={handleSchedulerView}
+                isEditing={false}
             />
             <div className={"mt-4"}>
                 <p className="text-black text-xl">Saved addresses</p>
@@ -56,6 +68,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView
                                     className={`transition duration-500 ${hoveringEdit[address.id] ? 'scale-115' : ''}`}
                                     onMouseEnter={() => handleMouseEnter(address.id)}
                                     onMouseLeave={() => handleMouseLeave(address.id)}
+                                    onClick={() => handleEditAddress(address.id)}
                                 >
                                     <IconEdit className={"w-6 h-6"}/>
                                 </div>

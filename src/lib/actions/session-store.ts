@@ -1,13 +1,9 @@
 'use server';
 import 'server-only';
-import { cookies } from 'next/headers';
-import { kv } from '@vercel/kv';
-import { getCart } from '@/lib/store/store-dto';
-import { CheckoutDataAuthField } from '@/lib/definitions';
-
-export async function fetchCheckoutSettings() {
-    return await getCheckoutSettings();
-}
+import {cookies} from 'next/headers';
+import {kv} from '@vercel/kv';
+import {getCart} from '@/lib/store/store-dto';
+import {AddressDataStorageField} from '@/lib/definitions';
 
 type SessionId = string;
 
@@ -47,25 +43,24 @@ export async function getSessionIdAndCreateIfMissing(): Promise<SessionId> {
     return sessionId;
 }
 
-/**
- * Retrieves all data for a given namespace in the current session.
- * @param {string} namespace - The namespace to retrieve data from.
- * @returns {Promise<any | null>} The data from the namespace or null if not found.
- */
-export async function getAll(namespace: string): Promise<any | null> {
-    const sessionId = getSessionId();
-    if (!sessionId) return null;
-
-    const key = `session-${namespace}-${sessionId}`;
-    const keyType = await kv.type(key);
-
-    if (keyType !== 'hash') {
-        console.error(`Error: Key ${key} is of type ${keyType}, expected hash.`);
-        return null;
-    }
-
-    return await kv.hgetall(key);
-}
+// /**
+//  * Retrieves all data for a given namespace in the current session.
+//  * @param {string} namespace - The namespace to retrieve data from.
+//  * @returns {Promise<any | null>} The data from the namespace or null if not found.
+//  */
+// export async function getAll(namespace: string, ): Promise<any | null> {
+//     if (!sessionId) return null;
+//
+//     const key = `session-${namespace}-${sessionId}`;
+//     const keyType = await kv.type(key);
+//
+//     if (keyType !== 'hash') {
+//         console.error(`Error: Key ${key} is of type ${keyType}, expected hash.`);
+//         return null;
+//     }
+//
+//     return await kv.hgetall(key);
+// }
 
 /**
  * Retrieves all product data for the current session's cart.
@@ -86,8 +81,7 @@ export async function getAllProducts(): Promise<any | null> {
  * @param {string} productId - The ID of the product to update.
  * @param {number} amount - The amount of the product. If 0 or less, the product is removed.
  */
-export async function updateProductCart(productId: string, amount: number): Promise<void> {
-    const sessionId = await getSessionIdAndCreateIfMissing();
+export async function updateProductCart(productId: string, amount: number, sessionId: string): Promise<void> {
     const key = `session-products-${sessionId}`;
 
     try {
@@ -104,32 +98,21 @@ export async function updateProductCart(productId: string, amount: number): Prom
 
 /**
  * Retrieves checkout settings for the current session. If none exist, default settings are created.
- * @returns {Promise<CheckoutDataAuthField>} The checkout settings for the current session.
+ * @returns {Promise<AddressDataStorageField>} The checkout settings for the current session.
  */
-export async function getCheckoutSettings(): Promise<CheckoutDataAuthField> {
-    const sessionId = await getSessionIdAndCreateIfMissing();
-    const key = `session-checkout-${sessionId}`;
+export async function fetchAddressData(addressId: string) {
+    const key = `session-address-${addressId}`;
 
-    let checkoutSettings = await kv.hgetall(key);
-
-    if (!checkoutSettings) {
-        const defaultSettings: CheckoutDataAuthField = {
-            shippingAddress: null,
-            savedAddresses: null,
-        };
-        await kv.hset(key, defaultSettings);
-        return defaultSettings;
-    }
-
-    return checkoutSettings as CheckoutDataAuthField;
+    return await kv.hgetall(key);
 }
 
 /**
  * Updates the checkout settings for the current session.
- * @param {CheckoutDataAuthField} settings - The new checkout settings to be applied.
+ * @param {AddressDataStorageField} settings - The new checkout settings to be applied.
+ * @param addressId - The session ID to update the settings for.
  */
-export async function updateCheckoutSettings(settings: CheckoutDataAuthField, sessionId: string): Promise<void> {
-    const key = `session-checkout-${sessionId}`;
+export async function setAddressData(settings: AddressDataStorageField, addressId: string): Promise<void> {
+    const key = `session-address-${addressId}`;
 
     try {
         await kv.hset(key, settings);

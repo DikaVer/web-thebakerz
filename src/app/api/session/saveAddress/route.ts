@@ -1,6 +1,6 @@
-import { updateCheckoutSettings } from "@/lib/actions/session-store";
+import { setAddressData } from "@/lib/actions/session-store";
 import { AddressDataFieldSchema, CheckoutDataFieldSchema } from "@/lib/schemas";
-import { AddressDataField, CheckoutDataAuthField } from "@/lib/definitions";
+import { AddressDataField, AddressDataStorageField } from "@/lib/definitions";
 import { NextResponse } from "next/server";
 import {auth} from "@/auth";
 
@@ -10,23 +10,20 @@ export async function POST(req: Request) {
         // Parse the request body since req.body is not available directly
         const body = await req.json();
         const { addressData, checkoutData } = body;
-        console.log(addressData)
         // Validate the input (optional but recommended)
         const validatedAddressData = AddressDataFieldSchema.parse(addressData) as AddressDataField;
-        const validatedCheckoutData = CheckoutDataFieldSchema.parse(checkoutData) as CheckoutDataAuthField;
-
-        validatedCheckoutData.shippingAddress = validatedAddressData;
-        validatedCheckoutData.savedAddresses = {
-            ...validatedCheckoutData.savedAddresses,
-            [addressData.id]: validatedAddressData,
-        };
+        const validatedCheckoutData = CheckoutDataFieldSchema.parse(checkoutData) as AddressDataStorageField;
 
         const session = await auth()
-
         // Save the address to the database
         if (session) {
-            // @ts-ignore
-            await updateCheckoutSettings(validatedCheckoutData, session.user?.addressToken);
+            await setAddressData({
+                shippingAddress: validatedCheckoutData.shippingAddress,
+                savedAddresses: {
+                    ...validatedCheckoutData.savedAddresses,
+                    [validatedAddressData.id]: validatedAddressData,
+                }, // @ts-ignore
+            }, session.user?.addressToken);
         }
 
         // Respond with a success message

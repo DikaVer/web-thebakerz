@@ -9,19 +9,11 @@ import { CheckoutLocalDataField} from "@/lib/definitions";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 
-let defaultCheckoutSettings = {
-    deliveryMode: "PICKUP",
-    shippingAddress: null,
-    savedAddresses: null,
-    date: null,
-    time: null,
-};
-
 export function MiniCalendar() {
     const isSmallScreen = useIsSmallScreen(460);
     let [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const [isSchedulerView, setIsSchedulerView] = useState<"scheduler" | "timeSelection" | "addressSelection">("scheduler");
+    const [isSchedulerView, setIsSchedulerView] = useState<"scheduler" | "timeSelection" | "addressSelection" | "addressEditing">("scheduler");
 
 
     const useCheckoutSettings = () => {
@@ -144,7 +136,7 @@ const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutLocalDataFiel
                 <div>
                     <p className="text-sm cm:text-base text-black">Pick Up</p>
                     <div className="flex">
-                        <p className="text-sm cm:text-base text-black">{checkoutData.time ||
+                        <p className="text-sm cm:text-base text-black w-24">{checkoutData.time ||
                             <strong>Select Time</strong>}</p>
                         <IconChevronDown className="w-5 h-5 cm:w-6 cm:h-6"/>
                     </div>
@@ -154,8 +146,8 @@ const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutLocalDataFiel
                     <p className="text-sm cm:text-base text-black">Delivery</p>
                     <p className="text-sm cm:text-base text-black">{checkoutData.time || <strong>Select Time</strong>}</p>
                     <div className="flex">
-                    <p className="text-sm cm:text-base text-black font-bold">
-                            {checkoutData.shippingAddress?.streetAddress || "Select Address"}
+                    <p className="text-sm cm:text-base text-black clamp-title w-24">
+                            {checkoutData.shippingAddress?.route || <strong>Select Address</strong>}
                         </p>
                         <IconChevronDown className="w-5 h-5 cm:w-6 cm:h-6" />
                     </div>

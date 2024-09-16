@@ -4,11 +4,11 @@ import {IconArrow} from "@/components/ui/icons";
 import {Button} from "@/components/ui/button";
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {CarouselDate} from "@/components/scheduler/carousel-date";
-import {CheckoutDataAuthField} from "@/lib/definitions";
+import {AddressDataStorageField} from "@/lib/definitions";
 
 interface ScheduleSelectionProps {
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void,
-    checkoutData: CheckoutDataAuthField,
+    checkoutData: AddressDataStorageField,
     updateCheckoutData: () => void
 }
 

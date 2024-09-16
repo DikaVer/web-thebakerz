@@ -52,6 +52,7 @@ const MenuItems: React.FC<MenuItemsProps> = ({ login, role, name }) => {
     const handleSignOut = async () => {
         startTransition(() => {
             logout();
+            router.refresh();
         });
     };
 

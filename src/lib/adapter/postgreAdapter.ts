@@ -6,6 +6,7 @@ import type {
 } from "@auth/core/adapters"
 import type { Pool } from "pg"
 import {createNanoid} from "@/lib/utils";
+import {kv} from "@vercel/kv";
 
 export function mapExpiresAt(account: any): any {
     const expires_at: number = parseInt(account.expires_at)
@@ -45,11 +46,20 @@ export default function PostgresAdapter(client: Pool): Adapter {
         async createUser(user: Omit<AdapterUser, "id">) {
             let { name } = user
             const { email, emailVerified, image } = user
-            if (!!name) {
+
+            if (!!name || !name) {
                 const emailSplit = email.split("@")
                 name = emailSplit[0]
             }
-            const addressToken = createNanoid(21);
+
+            let addressToken;
+            let check;
+
+            do {
+                addressToken = crypto.randomUUID();
+                check = await kv.hgetall(addressToken);
+            } while (check !== null);
+
             const sql = `
         INSERT INTO users (name, email, "emailVerified", image, role, "addressToken") 
         VALUES ($1, $2, $3, $4, $5, $6) 

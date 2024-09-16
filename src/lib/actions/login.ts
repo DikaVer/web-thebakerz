@@ -4,7 +4,6 @@ import * as z from "zod";
 
 import { LoginSchema } from "@/lib/schemas";
 import { signIn, signOut } from "@/auth";
-import {cookies} from "next/headers";
 
 // Function to handle login using form data
 export const login = async (formData: z.infer<typeof LoginSchema>) => {
@@ -20,27 +19,16 @@ export const login = async (formData: z.infer<typeof LoginSchema>) => {
 
     // If validation succeeds, attempt to sign in using the "sendgrid" provider
     await signIn("sendgrid", formData);
-
-    // Return success message when the email is successfully sent
-    return {
-        success: "Email sent!"
-    };
 };
 
-// Function to handle login using a provider (e.g., Google, GitHub) and redirect URL
 export const loginWithProvider = async (provider: string, redirectTo: string) => {
     // Attempt to sign in using the provided provider and redirect URL
     await signIn(provider, { redirectTo });
-
-    // Return success message when the email is successfully sent
-    return {
-        success: "Email sent!"
-    };
 };
 
 // Function to handle logout
 export const logout = async () => {
-    cookies().delete('session-id');
+
     // Attempt to sign out the user
     await signOut();
 

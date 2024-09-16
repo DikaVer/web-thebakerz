@@ -3,7 +3,7 @@ import {Search} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {IconArrow, IconLocation, IconSuccess} from "@/components/ui/icons";
 import {useDebouncedCallback} from "use-debounce";
-import {AddressDataField, CheckoutDataAuthField} from "@/lib/definitions";
+import {AddressDataField, AddressDataStorageField} from "@/lib/definitions";
 import {createNanoid} from "@/lib/utils";
 import {toast} from "sonner";
 import {FormError} from "@/components/authentication/form-error";
@@ -11,17 +11,17 @@ import {useJsApiLoader} from "@react-google-maps/api";
 import {Library} from "@googlemaps/js-api-loader";
 
 interface AddressSelectionProps {
-    checkoutData: CheckoutDataAuthField,
+    checkoutData: AddressDataStorageField,
     updateCheckoutData: () => void;
     initialInput: AddressDataField | null;
     setInputAddress: (input: AddressDataField | null) => void;
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void;
-
+    isEditing: boolean;
 }
 
 const libraries: Library[] = ["places", "maps", "marker"];
 
-export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput, setInputAddress, handleSchedulerView, checkoutData, updateCheckoutData}) => {
+export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput, setInputAddress, handleSchedulerView, checkoutData, updateCheckoutData, isEditing}) => {
     const [error, setError] = useState<string | undefined>();
     const [errorMap, setErrorMap] = useState<string | undefined>();
 
@@ -195,6 +195,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 
 
         setInputAddress({
+            id: isEditing ? initialInput?.id : createNanoid(10),
             streetAddress: formattedAddress,
             route: componentMap.route,
             street_number: componentMap.street_number,
@@ -213,7 +214,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
     const [isLoading, setIsLoading] = useState(false);
 
     // State to store the textarea input
-    const [deliveryNotes, setDeliveryNotes] = useState("");
+    const [deliveryNotes, setDeliveryNotes] = useState(initialInput?.deliveryNotes || '');
 
     // Function to handle changes in the textarea
     const handleNotesChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -223,7 +224,6 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
     const SaveAddress = async () => {
         setIsLoading(true);
         const addressData = {
-            id: createNanoid(10),
             ...initialInput,
             deliveryNotes: deliveryNotes,
         } as AddressDataField;
@@ -266,9 +266,15 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
                             <p className={"text-base font-bold"}>
                                 {initialInput?.streetAddress}
                             </p>
-                            <p className={"text-sm font-light"}>
-                                Address was added successfully
-                            </p>
+                            {isEditing ? (
+                                <p className={"text-sm font-light"}>
+                                    Address was updated successfully
+                                </p>
+                            ) : (
+                                <p className={"text-sm font-light"}>
+                                    Address was added successfully
+                                </p>
+                            )}
                         </div>
                     </div>
                 );
@@ -403,7 +409,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
                 className="rounded-lg h-14 text-lg"
                 disabled={isLoading || !!loadError}
             >
-                Save Address
+                {isEditing ? "Update Address" : "Save Address"}
             </Button>
         </div>
     );

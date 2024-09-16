@@ -1,5 +1,21 @@
 import {AdapterUser} from "next-auth/adapters";
 
+export interface Session {
+    user: {
+        id: string;
+        name: string;
+        email: string;
+        emailVerified: string;
+        image: string;
+        role: string;
+        addressToken: string;
+    };
+    id: string;
+    userId: string;
+    expires: string;
+    sessionToken: string;
+};
+
 export type ProductDataField = {
     product_id: string;
     store_id: string;
@@ -38,7 +54,7 @@ export type CheckoutLocalDataField = {
     time: string | null,
 }
 
-export type CheckoutDataAuthField = {
+export type AddressDataStorageField = {
     shippingAddress: AddressDataField | null,
     savedAddresses: AddressData | null,
 }
