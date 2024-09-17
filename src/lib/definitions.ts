@@ -8,7 +8,7 @@ export interface Session {
         emailVerified: string;
         image: string;
         role: string;
-        addressToken: string;
+        userToken: string;
     };
     id: string;
     userId: string;

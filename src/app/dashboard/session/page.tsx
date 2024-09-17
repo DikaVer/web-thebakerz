@@ -1,6 +1,6 @@
 import {auth} from "@/auth";
 import React from "react";
-import SessionDetails from "@/components/dashboard/testing/session-overview";
+import SessionDetails from "@/components/dashboard/session/session-overview";
 import {Session} from "@/lib/definitions";
 
 const SessionOverviewPage = async () => {

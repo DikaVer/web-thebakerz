@@ -16,7 +16,7 @@ import {
 export default function ViewHeader({ user_id }: { user_id: string }) {
     const { refresh, push } = useRouter();
     const handleBack = () => {
-        push(`/settings/dashboard/users`);
+        push(`/dashboard/users`);
         refresh();
     };
     return (

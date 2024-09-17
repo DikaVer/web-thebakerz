@@ -42,7 +42,7 @@ export function Header({ main, login, role, name }: HeaderProps) {
     const router = useRouter();
     const pathname = usePathname();
 
-    // Redirects the user to the sign-in page, appending the current path for post-login redirection
+    // Redirects the user to the sign-in page, appending the current path for post-authActions redirection
     const handleSignIn = () => {
         router.push(`/auth?next=${pathname}`);
         router.refresh();

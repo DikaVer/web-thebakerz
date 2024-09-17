@@ -5,19 +5,19 @@ import { usePathname, useRouter } from 'next/navigation';
 import {Button} from "@/components/ui/button";
 
 
-export default function View({ user_id }: { user_id: string }) {
+export default function CreateStore() {
     const pathname = usePathname();
     const { refresh, push } = useRouter();
-    const handleView = (user_id: string) => {
-        push(`${pathname}/${user_id}`);
+    const handleStoreCreation = () => {
+        push(`${pathname}/createStore`);
         refresh();
     };
     return (
         <div className="">
             <Button
-                onClick={() => handleView(user_id)}
+                onClick={() => handleStoreCreation()}
                 className={""}>
-                View
+                Create Store
             </Button>
         </div>
     );

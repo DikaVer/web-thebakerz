@@ -3,7 +3,7 @@
 import NavLinks from "@/components/dashboard/nav-links";
 import {useRouter} from "next/navigation";
 import React, {startTransition} from "react";
-import {logout} from "@/lib/actions/login";
+import {logout} from "@/lib/actions/auth-actions";
 
 export default function SideNav() {
     const router = useRouter();

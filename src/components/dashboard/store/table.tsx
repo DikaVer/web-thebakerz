@@ -4,16 +4,19 @@ import {IconAvatar} from "@/components/ui/icons";
 import {Button} from "@/components/ui/button";
 import { revalidatePath } from 'next/cache'
 import ViewUser from "@/components/dashboard/user/view-user";
+import {fetchFilteredStores} from "@/lib/dashboard/store-dashboard";
+import ViewStore from "@/components/dashboard/store/view-stores";
 
-export default async function UsersTable({
-                                                query,
-                                                currentPage,
-                                            }: {
+export default async function StoresTable({
+                                             query,
+                                             currentPage,
+                                         }: {
     query: string;
     currentPage: number;
 }) {
-    const users = await fetchFilteredUsers(query, currentPage);
-    revalidatePath('/dashboard/users');
+    const stores = await fetchFilteredStores(query, currentPage);
+    revalidatePath('/dashboard/stores');
+
     return (
         <div className="mt-6 flow-root">
             <div className="inline-block min-w-full align-middle">
@@ -50,52 +53,39 @@ export default async function UsersTable({
                         <thead className="rounded-lg text-left text-sm font-normal">
                         <tr>
                             <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                                User
+                                Store Name
                             </th>
                             <th scope="col" className="px-3 py-5 font-medium ">
                                 ID
                             </th>
                             <th scope="col" className="px-3 py-5 font-medium">
-                                Email
+                                Owner ID
                             </th>
                             <th scope="col" className="px-3 py-5 font-medium">
-                                Role
+                                Create Date
                             </th>
                         </tr>
                         </thead>
                         <tbody className="bg-white">
-                        {users?.map((user) => (
+                        {stores?.map((store) => (
                             <tr
-                                key={user.id}
+                                key={store.id}
                                 className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                             >
                                 <td className="whitespace-nowrap py-3 pl-6 ">
-                                    <div className="flex items-center gap-3">
-                                        {user.image ? (
-                                            <Image
-                                                src={user.image}
-                                                className="rounded-full"
-                                                width={28}
-                                                height={28}
-                                                alt={`${user.name}'s profile picture`}
-                                            />
-                                        ) : (
-                                            <IconAvatar className="w-10"/>
-                                        )}
-                                        <p>{user.name}</p>
-                                    </div>
+                                    {store.name}
                                 </td>
                                 <td className=" whitespace-nowrap px-3 py-3">
-                                    {user.id}
+                                    {store.id}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-3">
-                                    {user.email}
+                                    {store.ownerId}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-3 capitalize">
-                                    {user.role}
+                                    {store.createDate}
                                 </td>
                                 <td className="flex justify-center whitespace-nowrap py-3">
-                                    <ViewUser user_id={user.id}/>
+                                    <ViewStore store_id={store.id}/>
                                 </td>
                             </tr>
                         ))}

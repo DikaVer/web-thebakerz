@@ -1,21 +1,10 @@
-
 import {notFound} from "next/navigation";
 import React from "react";
-import {fetchUserData} from "@/lib/dashboard/user";
+import {fetchUserData} from "@/lib/dashboard/user-dashboard";
 import Image from "next/image";
-import {IconArrow, IconAvatar, IconThreeDots} from "@/components/ui/icons";
-import {fetchAddressData} from "@/lib/actions/session-store";
+import {IconAvatar} from "@/components/ui/icons";
+import {fetchAddressData} from "@/lib/actions/address/address-actions";
 import UserAddresses from "@/components/dashboard/user/user-address";
-import {AddressDataStorageField} from "@/lib/definitions";
-import {kv} from "@vercel/kv";
-import {
-    DropdownMenu,
-    DropdownMenuContent, DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import {Button} from "@/components/ui/button";
 import ViewHeader from "@/components/dashboard/user/header-view";
 
 interface UserPageProps {
@@ -28,7 +17,7 @@ export default async function Page({params}: UserPageProps) {
 
     const userData = await fetchUserData(params.id);
 
-    const addressData = await fetchAddressData(userData.addressToken);
+    const addressData = await fetchAddressData(userData.userToken);
 
     if (!userData) {
 
@@ -71,7 +60,7 @@ export default async function Page({params}: UserPageProps) {
                             </div>
                             <div className="bg-gray-100 p-4 rounded-lg">
                                 <p className="font-semibold text-gray-800">Role:</p>
-                                <p>{userData.role}</p>
+                                <p className={"capitalize"}>{userData.role}</p>
                             </div>
                         </div>
                     </div>

@@ -36,3 +36,31 @@ export const CheckoutDataFieldSchema = z.object({
     shippingAddress: AddressDataFieldSchema.optional().nullable(),
     savedAddresses: z.record(AddressDataFieldSchema).optional().nullable(),
 });
+
+
+export const storeCreationSchema = z.object({
+    storeName: z
+        .string()
+        .min(4, "Minimum of 4 characters for store name")
+        .max(16, "Maximum of 16 characters for store name")
+        // Allows letters, numbers, periods, underscores, and hyphens
+        .regex(
+            /^[a-zA-Z0-9._-]+$/,
+            "Store name can only contain letters, numbers, periods, underscores, and hyphens"
+        )
+        .regex(
+            /^(?!.*\.\.)(?!.*\.\.\.)(?!.*\.\.\.\.)(?!.*\.\.\.\.\.)(?!.*\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)/,
+            "Store name cannot contain two or more consecutive periods"
+        )
+        .toLowerCase(),
+
+    description: z.string().optional(),
+    backgroundImage: z
+        .string()
+        // Checks if the string ends with a common image file extension
+        .regex(
+            /\.(jpeg|jpg|png)$/,
+            "Background image must be a valid image format (jpeg, jpg, png)"
+        )
+        .optional(),
+});

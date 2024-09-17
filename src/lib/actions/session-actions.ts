@@ -7,7 +7,7 @@ import { CustomAdapterUser } from "@/lib/definitions";
 /**
  * Extracts the role and name of the current user session.
  *
- * @returns {Promise<{login: boolean, role?: string, name?: string}>} - An object containing login status, role, and name.
+ * @returns {Promise<{authActions: boolean, role?: string, name?: string}>} - An object containing authActions status, role, and name.
  */
 export async function extractSessionRole() {
     // Retrieve the session information by authenticating the user
@@ -27,6 +27,6 @@ export async function extractSessionRole() {
         name = user.name;
     }
 
-    // Return an object containing the login status, role, and name
+    // Return an object containing the authActions status, role, and name
     return {login, role, name};
 }

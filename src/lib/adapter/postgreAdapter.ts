@@ -52,25 +52,16 @@ export default function PostgresAdapter(client: Pool): Adapter {
                 name = emailSplit[0]
             }
 
-            let addressToken;
-            let check;
-
-            do {
-                addressToken = crypto.randomUUID();
-                check = await kv.hgetall(addressToken);
-            } while (check !== null);
-
             const sql = `
-        INSERT INTO users (name, email, "emailVerified", image, role, "addressToken") 
-        VALUES ($1, $2, $3, $4, $5, $6) 
-        RETURNING id, name, email, "emailVerified", image, role, "addressToken"`
+        INSERT INTO users (name, email, "emailVerified", image, role) 
+        VALUES ($1, $2, $3, $4, $5) 
+        RETURNING id, name, email, "emailVerified", image, role, "userToken"`
             const result = await client.query(sql, [
                 name,
                 email,
                 emailVerified,
                 image,
-                "user",
-                addressToken
+                "user"
             ])
             return result.rows[0]
         },

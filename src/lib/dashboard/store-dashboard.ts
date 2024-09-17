@@ -1,60 +1,58 @@
 import 'server-only';
 import {sql} from "@vercel/postgres";
-import {ProductDataField} from "@/lib/definitions";
 
 export const config = {
     runtime: 'edge', // 'nodejs' is the default
 };
 
 
+
 const ITEMS_PER_PAGE = 6;
-export async function fetchUsersPages(query: string) {
+export async function fetchStoresPages(query: string) {
     try {
         const count = await sql`SELECT COUNT(*)
-    FROM users
+    FROM stores WHERE
+        stores."storeName" ILIKE ${`%${query}%`} OR
+        stores."ownerID" ILIKE ${`%${query}%`} 
   `;
-
-        const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-        return totalPages;
+        return Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch total number of invoices.');
     }
 }
 
-export type UsersTable = {
+export type StoresTable = {
     id: string;
     name: string;
-    email: string;
-    image: string;
-    role: string;
+    ownerId: string;
+    createDate: string;
 };
 
-export async function fetchFilteredUsers(
+export async function fetchFilteredStores(
     query: string,
     currentPage: number,
 ) {
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
     try {
-        const users = await sql<UsersTable>`
+        const stores = await sql<StoresTable>`
       SELECT
-        users.id,
-        users.name, 
-        users.email,
-        users.image,
-        users.role
-      FROM users
-       WHERE
-        users.name ILIKE ${`%${query}%`} OR
-        users.email ILIKE ${`%${query}%`} 
+            stores.id,
+            stores."storeName",
+            stores."ownerId",
+            stores."createDate"
+      FROM stores
+      WHERE
+         stores."storeName" ILIKE ${`%${query}%`} OR
+         stores."ownerId" ILIKE ${`%${query}%`} 
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
 
-        return users.rows;
+        return stores.rows;
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to fetch invoices.');
+        throw new Error('Failed to fetch users.');
     }
 }
 
@@ -64,10 +62,10 @@ export type UsersData = {
     email: string;
     image: string;
     role: string;
-    addressToken: string;
+    userToken: string;
 };
 
-export async function fetchUserData(
+export async function fetchStoreData(
     query: string
 ) : Promise<UsersData> {
 
@@ -79,7 +77,7 @@ export async function fetchUserData(
         users.email,
         users.image,
         users.role,
-        users."addressToken"
+        users."userToken"
       FROM users
        WHERE
         users.id = ${`${query}`}
@@ -88,6 +86,6 @@ export async function fetchUserData(
         return users.rows[0];
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to fetch invoices.');
+        throw new Error('Failed to fetch users.');
     }
 }

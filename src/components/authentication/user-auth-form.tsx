@@ -13,7 +13,7 @@ import { zodResolver} from "@hookform/resolvers/zod";
 import {LoginSchema} from "@/lib/schemas";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {FormError} from "@/components/authentication/form-error";
-import {login, loginWithProvider} from "@/lib/actions/login";
+import {login, loginWithProvider} from "@/lib/actions/auth-actions";
 import {useState, useTransition} from "react";
 import {FormSuccess} from "@/components/authentication/form-success";
 import { useSearchParams } from 'next/navigation';

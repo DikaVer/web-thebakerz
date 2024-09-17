@@ -6,7 +6,7 @@ import {
     IconAvatar
 } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
-import { logout } from "@/lib/actions/login";
+import { logout } from "@/lib/actions/auth-actions";
 import { usePathname, useRouter } from "next/navigation";
 
 interface MenuComponentProps {

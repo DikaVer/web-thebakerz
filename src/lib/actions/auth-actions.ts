@@ -5,7 +5,7 @@ import * as z from "zod";
 import { LoginSchema } from "@/lib/schemas";
 import { signIn, signOut } from "@/auth";
 
-// Function to handle login using form data
+// Function to handle authActions using form data
 export const login = async (formData: z.infer<typeof LoginSchema>) => {
     // Validate the fields in the form using the LoginSchema
     const validateFields = LoginSchema.safeParse(formData);

@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import {Header} from "@/components/header";
 import {Footer} from "@/components/footer";
 import { SessionProvider } from 'next-auth/react';
-import {extractSessionRole} from "@/lib/actions/sessionAction";
+import {extractSessionRole} from "@/lib/actions/session-actions";
 
 export const metadata: Metadata = {
     metadataBase: new URL(`https://www.TheBakerz.com/`),
