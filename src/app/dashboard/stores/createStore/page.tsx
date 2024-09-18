@@ -1,17 +1,23 @@
 "use client";
 import { useForm} from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
-import {LoginSchema, storeCreationSchema} from "@/lib/schemas";
+import {AddressDataFieldSchema, storeCreationSchema} from "@/lib/schemas";
 import { z } from "zod";
-import {login} from "@/lib/actions/auth-actions";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import * as React from "react";
-import {ChangeEvent, useCallback, useEffect, useMemo, useState, useTransition} from "react";
+import {useEffect, useState, useTransition} from "react";
 import {FormError} from "@/components/authentication/form-error";
 import {createStore} from "@/lib/actions/store/store-actions";
-import {toast} from "sonner";
+import {ImageUploader} from "@/components/upload-image";
+import {Switch} from "@/components/ui/switch";
+import {ScrollArea} from "@/components/ui/scroll-area";
+import {AddressSelection} from "@/components/store/address-selection";
+import { AddressDataField} from "@/lib/definitions";
+import {IconCross, IconEdit, IconLocation} from "@/components/ui/icons";
+import {hidden} from "next/dist/lib/picocolors";
+import {Calendar} from "@/components/ui/calendar";
 
 
 export default function CreateStore() {
@@ -20,46 +26,22 @@ export default function CreateStore() {
 
     const [isPending, startTransition] = useTransition();
 
-    const [data, setData] = useState<{
-        image: string | null
-    }>({
-        image: null
-    })
-    const [file, setFile] = useState<File | null>(null)
+    const [isAddressDialogOpen, setIsAddressDialogOpen] = useState(false);
 
-    const [dragActive, setDragActive] = useState(false)
+    const [address, setAddress] = useState<AddressDataField | null>(null);
+
+    const [isEditing, setIsEditing] = useState(false);
+
 
     const form = useForm<z.infer<typeof  storeCreationSchema>>({
         resolver: zodResolver(storeCreationSchema),
         defaultValues: {
             storeName: "",
             description: "",
-            backgroundImage: "",
+            backgroundImage: null,
+            delivery: false,
         }
     });
-
-
-    const onChangePicture = useCallback(
-        (event: ChangeEvent<HTMLInputElement>) => {
-            const file = event.currentTarget.files && event.currentTarget.files[0]
-            if (file) {
-                if (file.size / 1024 / 1024 > 5) {
-                    toast.error('File size too big (max 5MB)')
-                } else {
-                    setFile(file)
-                    const reader = new FileReader()
-
-                    reader.onload = (e) => {
-                        const base64String = e.target?.result as string;
-                        setData((prev) => ({ ...prev, image: base64String }));
-                    }
-                    form.setValue('backgroundImage', file.name)
-                    reader.readAsDataURL(file)
-                }
-            }
-        },
-        [setData]
-    )
 
 
     const onSubmit = (formData: z.infer<typeof storeCreationSchema>) => {
@@ -75,8 +57,28 @@ export default function CreateStore() {
     }
 
     return (
+
         <div className="min-h-screen bg-gradient-to-br from-primary to-secondary flex items-center justify-center rounded-lg">
-            <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+            {isAddressDialogOpen && (
+                <>
+                    <div className="fixed z-30 h-full bg-black opacity-50 inset-0"
+                         onClick={(e) => {
+                             setIsAddressDialogOpen(false);
+                         }}/>
+                    <div
+                        className={"fixed left-[50%] top-[60%] z-40 grid w-full max-w-lg sm:max-w-[425px] translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg rounded-lg"}
+                    >
+                        <ScrollArea className={"max-h-[75vh]"}>
+                            <AddressSelection
+                                initialInput={address}
+                                setInputAddress={setAddress}
+                                setAddressDialogOpen={setIsAddressDialogOpen}
+                                isEditing={isEditing}/>
+                        </ScrollArea>
+                    </div>
+                </>
+            )}
+            <div className="bg-white p-8 w-full max-w-lg rounded-lg shadow-md">
                 <h2 className="text-3xl font-semibold mb-8 text-center text-black">Create a Store</h2>
                 <Form {...form}>
                     <form
@@ -118,9 +120,11 @@ export default function CreateStore() {
                                     <FormControl>
                                         <textarea
                                             {...field}
-                                            className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                            className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black`}
                                             rows={5}
-                                            placeholder="Tell us about your store..."
+                                            placeholder="Tell us about your store... (max 500 characters)"
+                                            maxLength={500}
+                                            style={{resize: "none"}}
                                         ></textarea>
                                     </FormControl>
                                     <FormMessage />
@@ -137,106 +141,106 @@ export default function CreateStore() {
                                         Background Image
                                     </FormLabel>
                                     <FormControl>
-                                        <label
-                                            htmlFor={"image-upload"}
-                                            className={"group relative mt-2 flex h-72 cursor-pointer flex-col items-center justify-center rounded-md border border-gray-300 bg-white shadow-sm transition-all hover:bg-gray-50"}>
-                                            <div
-                                                className="absolute z-[5] h-full w-full rounded-md"
-                                                onDragOver={(e) => {
-                                                    e.preventDefault()
-                                                    e.stopPropagation()
-                                                    setDragActive(true)
-                                                }}
-                                                onDragEnter={(e) => {
-                                                    e.preventDefault()
-                                                    e.stopPropagation()
-                                                    setDragActive(true)
-                                                }}
-                                                onDragLeave={(e) => {
-                                                    e.preventDefault()
-                                                    e.stopPropagation()
-                                                    setDragActive(false)
-                                                }}
-                                                onDrop={(e) => {
-                                                    e.preventDefault()
-                                                    e.stopPropagation()
-                                                    setDragActive(false)
+                                        <ImageUploader form={form} field={field}/>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="address"
+                            render={({field}) => {
 
-                                                    const file = e.dataTransfer.files && e.dataTransfer.files[0]
-                                                    if (file) {
-                                                        if (file.size / 1024 / 1024 > 5) {
-                                                            toast.error('File size too big (max 5MB)')
-                                                        } else {
-                                                            setFile(file)
-                                                            const reader = new FileReader()
-                                                            reader.onload = (e) => {
-                                                                setData((prev) => ({
-                                                                    ...prev,
-                                                                    image: e.target?.result as string,
-                                                                }))
-                                                            }
-                                                            reader.readAsDataURL(file)
-                                                        }
-                                                    }
-                                                }}
-                                            />
-                                            <div
-                                                className={`${
-                                                    dragActive ? 'border-2 border-black' : ''
-                                                } absolute z-[3] flex h-full w-full flex-col items-center justify-center rounded-md px-10 transition-all ${
-                                                    data.image
-                                                        ? 'bg-white/80 opacity-0 hover:opacity-100 hover:backdrop-blur-md'
-                                                        : 'bg-white opacity-100 hover:bg-gray-50'
-                                                }`}
-                                            >
-                                                <svg
-                                                    className={`${
-                                                        dragActive ? 'scale-110' : 'scale-100'
-                                                    } h-7 w-7 text-primary transition-all duration-75 group-hover:scale-110 group-active:scale-95`}
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    strokeWidth="2"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
+                                useEffect(() => {
+                                    if (address) {
+                                        field.onChange(address as AddressDataField); // Update the field when address is not null
+
+                                        const result = AddressDataFieldSchema.safeParse(address);
+
+                                        if (!result.success) {
+                                            setError(result.error.issues[0].message);
+                                        } else {
+                                            setError(undefined);
+                                        }
+                                    }
+
+                                }, [address]);
+
+                                return (
+                                <FormItem>
+                                    <FormLabel
+                                        className="block text-sm font-medium text-gray-700">
+                                        Location
+                                    </FormLabel>
+                                    <FormControl>
+                                        <>
+                                            {address ? (
+                                                <div>
+                                                    <div
+                                                        className={`flex flex-row justify-between items-center space-x-2 pr-2 py-1 transition duration-300 cursor-pointer rounded-lg`}
+                                                    >
+                                                        <IconLocation
+                                                            className={"w-9 h-9"}
+                                                            color={"primary"}
+                                                        />
+                                                        <div className={"flex w-full"}>
+                                                            <p className="text-black text-lg">
+                                                                {address.streetAddress}
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            className={`transition duration-500 hover:scale-115`}
+                                                            onClick={() => {
+                                                                setIsEditing(true);
+                                                                setIsAddressDialogOpen(true);
+                                                            }}
+                                                        >
+                                                            <IconEdit className={"w-6 h-6"}/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <Button
+                                                    type={"button"}
+                                                    onClick={() => setIsAddressDialogOpen(true)}
+                                                    className="w-full"
+                                                    variant={"secondary"}
                                                 >
-                                                    <path
-                                                        d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path>
-                                                    <path d="M12 12v9"></path>
-                                                    <path d="m16 16-4-4-4 4"></path>
-                                                </svg>
-                                                <p className="mt-2 text-center text-sm text-gray-500">
-                                                    Drag and drop or click to upload.
-                                                </p>
-                                                <p className="mt-2 text-center text-sm text-gray-500">
-                                                    Max file size: 5MB
-                                                </p>
-                                                <span className="sr-only">Photo upload</span>
-                                            </div>
-                                            {data.image && (
-                                                // eslint-disable-next-line @next/next/no-img-element
-                                                <img
-                                                    src={data.image}
-                                                    alt="Preview"
-                                                    className="h-full w-full rounded-md object-cover"
-                                                />
+                                                    Add Location
+                                                </Button>
                                             )}
-                                            <div className="mt-1 flex rounded-md shadow-sm">
-                                                <Input
-                                                    {...field}
-                                                    id="image-upload"
-                                                    name="backgroundImage"
-                                                    type="file"
-                                                    accept="image/*"
-                                                    className="sr-only"
-                                                    value={undefined}
-                                                    onChange={onChangePicture}
-                                                />
-                                            </div>
-                                        </label>
+                                        </>
+                                    </FormControl>
+                                </FormItem>
+                                )
+                            }}
+                        />
+                        <div
+                            className="block text-sm font-medium text-gray-700">
+                            Availability
+                        </div>
+                        <div className={"flex justify-center"}>
+                            <Calendar
+                                mode="single"
+                                className={"border-1 rounded-lg"}
+                                initialFocus
+                            />
+                        </div>
+                        <FormField
+                            control={form.control}
+                            name="delivery"
+                            render={({field}) => (
+                                <FormItem className={"flex flex-row items-end gap-x-5 mt-0"}>
+                                    <FormLabel
+                                        className="block text-sm font-medium text-gray-700">
+                                        Delivery Options
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Switch
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

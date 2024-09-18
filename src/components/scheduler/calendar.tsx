@@ -11,7 +11,7 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 export function MiniCalendar() {
     const isSmallScreen = useIsSmallScreen(460);
-    let [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const [isSchedulerView, setIsSchedulerView] = useState<"scheduler" | "timeSelection" | "addressSelection" | "addressEditing">("scheduler");
 

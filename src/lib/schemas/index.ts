@@ -62,5 +62,7 @@ export const storeCreationSchema = z.object({
             /\.(jpeg|jpg|png)$/,
             "Background image must be a valid image format (jpeg, jpg, png)"
         )
-        .optional(),
+        .nullable(),
+    delivery: z.boolean().default(false),
+    address: AddressDataFieldSchema,
 });

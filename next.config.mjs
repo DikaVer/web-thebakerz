@@ -1,4 +1,5 @@
 // next.config.mjs
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,6 +21,20 @@ const nextConfig = {
 
         ],
     },
+    // webpack: (config, { dev }) => {
+    //     // Use MiniCssExtractPlugin in production only
+    //     if (!dev) {
+    //         config.plugins.push(new MiniCssExtractPlugin());
+    //     }
+    //
+    //     // Modify existing rules to use MiniCssExtractPlugin.loader
+    //     config.module.rules.push({
+    //         test: /\.css$/i,
+    //         use: [MiniCssExtractPlugin.loader, "css-loader"],
+    //     });
+    //
+    //     return config;
+    // },
 };
 
 export default nextConfig;

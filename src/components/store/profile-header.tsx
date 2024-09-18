@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {MiniCalendar} from "@/components/scheduler/calendar";
 import React from "react";
-import {fetchAddressData} from "@/lib/actions/session-store";
 
 interface ProfileHeaderProps {
     storeData: {
