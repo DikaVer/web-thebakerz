@@ -55,44 +55,38 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
         );
         autocomplete.addListener("place_changed", () => handlePlaceChanged({address: autocomplete}));
 
-        const mapInstance = new google.maps.Map(mapRef.current as HTMLDivElement, {
-            center: {lat: initialInput ? initialInput.latitude : 50.85, lng: initialInput ? initialInput.longitude : 5.6833},
-            zoom: 16,
-            mapId: '4504f8b37365c3d0',
-            disableDefaultUI: true,  // Disables all default UI controls like zoom buttons
-            zoomControl: false,      // Disable zoom control buttons
-            streetViewControl: false, // Disable Street View (person drop/pegman)
-            mapTypeControl: false,   // Disable map type (e.g., Satellite) control
-            fullscreenControl: false, // Disable fullscreen control
-            gestureHandling: "none",  // Disable zoom and pan gestures (scroll/drag)
+        if (!map || !marker) {
+            const mapInstance = new google.maps.Map(mapRef.current as HTMLDivElement, {
+                center: {
+                    lat: initialInput ? initialInput.latitude : 50.85,
+                    lng: initialInput ? initialInput.longitude : 5.6833
+                },
+                zoom: 16,
+                mapId: '4504f8b37365c3d0',
+                disableDefaultUI: true,  // Disables all default UI controls like zoom buttons
+                zoomControl: false,      // Disable zoom control buttons
+                streetViewControl: false, // Disable Street View (person drop/pegman)
+                mapTypeControl: false,   // Disable map type (e.g., Satellite) control
+                fullscreenControl: false, // Disable fullscreen control
+                gestureHandling: "none",  // Disable zoom and pan gestures (scroll/drag)
+            });
 
-            // styles: [
-            //     {
-            //         featureType: "poi", // Points of Interest
-            //         elementType: "labels", // Hide labels for POIs
-            //         stylers: [{visibility: "off"}] // Disable POI visibility
-            //     },
-            //     {
-            //         featureType: "poi.business", // Specifically hide business-related POIs
-            //         elementType: "all",
-            //         stylers: [{visibility: "off"}]
-            //     }
-            // ]
-
-        });
-
-        const draggableMarker = new google.maps.marker.AdvancedMarkerElement({
-            map: mapInstance,
-            position: {lat: initialInput ? initialInput.latitude : 50.85, lng: initialInput ? initialInput.longitude : 5.6833},
-            gmpDraggable: isDraggable,
-            title: "This marker is draggable.",
-        });
+            const draggableMarker = new google.maps.marker.AdvancedMarkerElement({
+                map: mapInstance,
+                position: {
+                    lat: initialInput ? initialInput.latitude : 50.85,
+                    lng: initialInput ? initialInput.longitude : 5.6833
+                },
+                gmpDraggable: isDraggable,
+                title: "This marker is draggable.",
+            });
 
 
-        setMap(mapInstance);
-        setMarker(draggableMarker);
+            setMap(() => mapInstance);
+            setMarker(() => draggableMarker);
+        }
 
-    }, [isLoaded, loadError]);
+    }, [isLoaded, loadError, map, marker]);
 
 
 
@@ -108,8 +102,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
         // Update the form data with the selected place
         formData(place);
 
-
-        if (map && marker && initialInput) {
+        if (map && marker) {
             map.setCenter(place.geometry.location);
             marker.position = place.geometry.location;
             marker.gmpDraggable = false;

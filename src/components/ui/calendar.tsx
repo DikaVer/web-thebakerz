@@ -7,15 +7,17 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } 
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import {useEffect, useState} from "react";
+import {DaySelection} from "@/components/store/availability-selection";
+import {FormError} from "@/components/authentication/form-error";
+import {timeMap} from "@/lib/local-variables";
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>
+export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+    setAvailabilityData?: React.Dispatch<React.SetStateAction<Record<string, { from: string; to: string; availability: "Free" | "Busy"  }>>>;
+    availabilityData?: Record<string, { from: string; to: string; availability: "Free" | "Busy" }>;
+};
 
 
-interface CustomDaycellProps extends DayProps {
-    fromDay: Date;
-    onClick: (day: Date) => void;
-    availabilityData: Record<string, { from: string; to: string; availability: string }>;
-}
 
 function CustomDaycell(
     {
@@ -23,37 +25,41 @@ function CustomDaycell(
         onClick,
         availabilityData,
         date,
-        ...props
+        displayMonth,
     }: {
         fromDay: Date;
         onClick: (day: Date) => void;
-        availabilityData: Record<string, { from: string; to: string; availability: string }>;
+        availabilityData: Record<string, { from: string; to: string; availability: "Free" | "Busy" }>;
         date: Date,
         displayMonth: Date
     }
 ) {
+    const [buttonVariant, setButtonVariant] = useState<"closed" | "ghost" | "free" | "busy" | "link" | "disabled" | "default" | "destructive" | "outline" | "secondary" | null | undefined>("closed");
 
     const getButtonVariant = (date: Date | null) => {
-        if (!date) return "closed" // Default variant for no date
-        if (date < fromDay) return "ghost" // Default variant for past dates
+        if (!date) return "closed"; // Default variant for no date
+        if (date < fromDay) return "ghost"; // Default variant for past dates
 
-        const dateKey = date.toISOString().split("T")[0] // Format the date to 'YYYY-MM-DD'
-        const availability = availabilityData[dateKey]?.availability
+        const dateKey = date.toLocaleDateString(); // Format the date to 'YYYY-MM-DD'
+        const availability = availabilityData[dateKey]?.availability;
 
-        if (availability === "free") return "free" // Green for free
-        if (availability === "busy") return "busy" // Orange for busy
-        return "closed" // Default variant for no data
-    }
+        if (availability === "Free") return "free"; // Green for free
+        if (availability === "Busy") return "busy"; // Orange for busy
+        return "closed"; // Default variant for no data
+    };
+
+    useEffect(() => {
+        setButtonVariant(getButtonVariant(date));
+    }, [availabilityData]);
 
     return (
         <button
             className={cn(
-                buttonVariants({ variant: getButtonVariant(date) }),
+                buttonVariants({ variant: buttonVariant }),
                 `h-9 w-9 p-0 font-normal text-sm`
             )}
             onClick={() => onClick(date)}
             disabled={date < fromDay}
-            {...props}
         >
             {date.getDate()}
         </button>
@@ -61,15 +67,39 @@ function CustomDaycell(
 }
 
 function Calendar({
-  className,
-  classNames,
-  showOutsideDays = true,
-  ...props
-}: CalendarProps) {
+                      className,
+                      classNames,
+                      showOutsideDays = true,
+                      availabilityData,
+                      setAvailabilityData,
+                      ...props
+                    }:
+                      CalendarProps
+) {
     const [selectedDay, setSelectedDay] = React.useState<Date | null>(null)
     const [isDialogOpen, setIsDialogOpen] = React.useState(false)
+    const [availability, setAvailability] = React.useState<"Free" | "Busy" | "Closed">("Closed")
+    const [fromTime, setFromTime] = React.useState<string | undefined>(undefined)
+    const [toTime, setToTime] = React.useState<string | undefined>(undefined)
+    const [error, setError] = React.useState<string | undefined>(undefined)
 
     const today = new Date()
+
+    useEffect(() => {
+        if (availabilityData && selectedDay) {
+            const dateKey = selectedDay.toLocaleDateString()
+            if (availabilityData[dateKey]) {
+                setFromTime(availabilityData[dateKey].from)
+                setToTime(availabilityData[dateKey].to)
+                setAvailability(availabilityData[dateKey].availability)
+            } else {
+                setFromTime(undefined)
+                setToTime(undefined)
+                setAvailability("Closed")
+            }
+            setError(undefined)
+        }
+    }, [selectedDay]);
 
     const handleDayClick = (day: Date) => {
         setSelectedDay(day)
@@ -80,19 +110,53 @@ function Calendar({
         setIsDialogOpen(false)
     }
 
-    const availabilityData = {
-        "2024-09-18": {
-            from: "9:00AM",
-            to: "9:00PM",
-            availability: "busy",
-        },
-        "2024-09-19": {
-            from: "9:00AM",
-            to: "9:00PM",
-            availability: "free",
-        },
-        // Add more dates as needed
+    const handleApply = () => {
+        if (selectedDay && availability && setAvailabilityData) {
+            if (availability !== "Closed" && fromTime && toTime) {
+                const updatedAvailabilityData = {
+                    ...availabilityData,
+                    [selectedDay.toLocaleDateString()]: {
+                        from: fromTime,
+                        to: toTime,
+                        availability: availability
+                    }
+                }
+                // Update the state with the new availability data
+                setAvailabilityData(updatedAvailabilityData)
+            } else if (availability === "Closed") {
+                const updatedAvailabilityData = {...availabilityData}
+                delete updatedAvailabilityData[selectedDay.toLocaleDateString()]
+                setAvailabilityData(updatedAvailabilityData)
+            } else {
+                setError("Please fill both from and to time!")
+                return
+            }
+            setToTime(undefined)
+            setFromTime(undefined)
+            setAvailability("Closed")
+            setIsDialogOpen(false)
+            setError(undefined)
+
+        } else {
+            setError("Please fill in all the fields")
+        }
     }
+
+    const components = availabilityData ?
+        {
+            IconLeft: ({...props}) => <ChevronLeft className="h-4 w-4"/>,
+            IconRight: ({...props}) => <ChevronRight className="h-4 w-4"/>,
+            Day: (props: DayProps) => <CustomDaycell
+                fromDay={today}
+                onClick={handleDayClick}
+                availabilityData={availabilityData}
+                {...props}
+            />,
+        } : {
+            IconLeft: ({...props}) => <ChevronLeft className="h-4 w-4"/>,
+            IconRight: ({...props}) => <ChevronRight className="h-4 w-4"/>,
+        }
+
 
 
   return (
@@ -117,7 +181,7 @@ function Calendar({
                   head_cell:
                       "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
                   row: "flex w-full mt-2",
-                  cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+                  cell: "h-9 w-9 text-center text-sm p-0 relative",
                   day: cn(
                       buttonVariants({variant: "ghost"}),
                       "h-9 w-9 p-0 font-normal aria-selected:opacity-100 bg"
@@ -125,7 +189,7 @@ function Calendar({
                   day_range_end: "day-range-end",
                   day_selected:
                       "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-                  day_today: " text-accent-foreground",
+                  day_today: "text-accent-foreground",
                   day_outside:
                       "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
                   day_disabled: "text-muted-foreground opacity-50",
@@ -134,39 +198,53 @@ function Calendar({
                   day_hidden: "invisible",
                   ...classNames,
               }}
-              components={{
-                  IconLeft: ({...props}) => <ChevronLeft className="h-4 w-4"/>,
-                  IconRight: ({...props}) => <ChevronRight className="h-4 w-4"/>,
-                  Day: (props: DayProps) => <CustomDaycell
-                      fromDay={today}
-                      onClick={handleDayClick}
-                      availabilityData={availabilityData}
-                      {...props}
-                  />,
-              }}
+              components={components}
+              fromDate={today}
               {...props}
           />
           {/* Dialog to open when a day is clicked */}
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogContent handleClose={handleDialogClose}>
-                  <DialogTitle>Selected Day</DialogTitle>
-                  <DialogDescription>
-                      You selected {selectedDay?.toLocaleDateString()}
-                  </DialogDescription>
-                  <button
-                      className={cn(buttonVariants({variant: "outline"}))}
-                      onClick={() => setIsDialogOpen(false)}
-                  >
-                      Close
-                  </button>
-              </DialogContent>
-          </Dialog>
+          { availabilityData && selectedDay &&
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogContent handleClose={handleDialogClose}>
+                      <DialogTitle>Selected Day - {selectedDay.toLocaleDateString()}</DialogTitle>
+                      <DialogDescription>
+                          {selectedDay && availabilityData[selectedDay.toLocaleDateString()] ? (
+                              <div>
+                                  <p><strong>From Time:</strong> {timeMap[availabilityData[selectedDay.toLocaleDateString()].from].from.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</p>
+                                  <p><strong>To Time:</strong> {timeMap[availabilityData[selectedDay.toLocaleDateString()].to].from.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</p>
+                                  <p><strong>Availability:</strong> {availabilityData[selectedDay.toLocaleDateString()].availability}</p>
+                              </div>
+
+                          ) : (
+                              <></>
+                          )}
+                      </DialogDescription>
+                      <DaySelection
+                          day={selectedDay?.toLocaleDateString() || ""}
+                          fromTime={fromTime}
+                          toTime={toTime}
+                          setFromTime={setFromTime}
+                          setToTime={setToTime}
+                          availability={availability}
+                          setAvailability={setAvailability}
+                      />
+                      <FormError message={error} />
+                      <button
+                          className={cn(buttonVariants({variant: "default"}))}
+                          onClick={handleApply}
+                      >
+                          Apply
+                      </button>
+                  </DialogContent>
+              </Dialog>
+          }
       </>
   )
 }
+
 Calendar.displayName = "Calendar"
 
-const CustomDayCell = ({ date, ...props }: DayProps) => {
+const CustomDayCell = ({date, ...props}: DayProps) => {
 
     return (
         <button

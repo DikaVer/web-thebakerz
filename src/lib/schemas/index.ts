@@ -1,17 +1,17 @@
 import * as z from 'zod';
-import {AddressData} from "@/lib/definitions";
+import {cityLatLngMap, timeMap} from "@/lib/local-variables";
 
 export const LoginSchema = z.object({
-        email: z.string()
-            .trim()
-            .min(1,
-                {
-                    message: 'Email required!'
-                })
-            .email({
-                message: 'Invalid email!'
-            }),
-        redirectTo: z.string()
+    email: z.string()
+        .trim()
+        .min(1,
+            {
+                message: 'Email required!'
+            })
+        .email({
+            message: 'Invalid email!'
+        }),
+    redirectTo: z.string()
 });
 
 // Define the schema for AddressDataField using Zod
@@ -38,6 +38,15 @@ export const CheckoutDataFieldSchema = z.object({
 });
 
 
+export const imageUploadSchema = z
+    .string()
+    // Checks if the string ends with a common image file extension
+    .regex(
+        /\.(jpeg|jpg|png)$/,
+        "Background image must be a valid image format (jpeg, jpg, png)"
+    );
+
+
 export const storeCreationSchema = z.object({
     storeName: z
         .string()
@@ -49,20 +58,52 @@ export const storeCreationSchema = z.object({
             "Store name can only contain letters, numbers, periods, underscores, and hyphens"
         )
         .regex(
-            /^(?!.*\.\.)(?!.*\.\.\.)(?!.*\.\.\.\.)(?!.*\.\.\.\.\.)(?!.*\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)/,
+            /^(?!.*\.\.)(?!.*\.\.\.)(?!.*\.\.\.\.)(?!.*\.\.\.\.\.)(?!.*\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)/,
             "Store name cannot contain two or more consecutive periods"
         )
         .toLowerCase(),
 
     description: z.string().optional(),
-    backgroundImage: z
-        .string()
-        // Checks if the string ends with a common image file extension
-        .regex(
-            /\.(jpeg|jpg|png)$/,
-            "Background image must be a valid image format (jpeg, jpg, png)"
-        )
-        .nullable(),
+    backgroundImage: imageUploadSchema.nullable(),
     delivery: z.boolean().default(false),
-    address: AddressDataFieldSchema,
+    address: AddressDataFieldSchema.optional().nullable().refine(
+        (val) => val !== null && val !== undefined,
+        {
+            message: "Address is required",
+        }
+    ),
+
+    availabilityCalendar: z.record(
+        z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, "Invalid date format, expected DD/MM/YYYY"),
+        z.object({
+            from: z.enum(Object.keys(timeMap) as [string, ...string[]], {
+                errorMap: (issue, ctx) => {
+                    return { message: "Incorrect time in availability" };
+                },
+            }),
+            to: z.enum(Object.keys(timeMap) as [string, ...string[]], {
+                errorMap: (issue, ctx) => {
+                    return { message: "Incorrect time in availability" };
+                },
+            }),
+            availability: z.enum(["Free", "Busy"], {
+                errorMap: (issue, ctx) => {
+                    return { message: "Availability must be Free or Busy" };
+                },
+            }),
+        })
+    ),
+
+    deliveryLocations: z.array(
+        z.object({
+            location: z.enum(Object.keys(cityLatLngMap) as [string, ...string[]], {
+                errorMap: (issue, ctx) => {
+                    return { message: "Delivery Location must be a valid city" };
+                },
+            }), // location key
+            range: z.number()
+                .min(1, { message: "Range must be a valid number greater than or equal to 1" })
+                .max(10, { message: "Range must be a valid number less than or equal to 10" })
+        })
+    ),
 });

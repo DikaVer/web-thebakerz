@@ -1,4 +1,4 @@
-import { setAddressData } from "@/lib/actions/session-store";
+import { setAddressData} from "@/lib/actions/address/address-actions";
 import { AddressDataFieldSchema, CheckoutDataFieldSchema } from "@/lib/schemas";
 import { AddressDataField, AddressDataStorageField } from "@/lib/definitions";
 import { NextResponse } from "next/server";

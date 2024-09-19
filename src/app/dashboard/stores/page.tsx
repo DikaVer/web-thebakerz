@@ -1,10 +1,8 @@
 import Search from "@/components/dashboard/search";
-import UsersTable from "@/components/dashboard/user/table";
 import Pagination from "@/components/dashboard/pagination";
-import {fetchUsersPages} from "@/lib/dashboard/user-dashboard";
 import StoresTable from "@/components/dashboard/store/table";
-import {Button} from "@/components/ui/button";
 import CreateStore from "@/components/dashboard/store/create-button";
+import {fetchStoresPages} from "@/lib/dashboard/store-dashboard";
 
 export default async function Page({
                                        searchParams,
@@ -17,7 +15,7 @@ export default async function Page({
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
 
-    const totalPages = await fetchUsersPages(query);
+    const totalPages = await fetchStoresPages(query);
 
     return (
         <div className="w-full">

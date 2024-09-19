@@ -4,6 +4,7 @@
 import React, {ChangeEvent, useCallback, useState} from "react";
 import {toast} from "sonner";
 import {Input} from "@/components/ui/input";
+import {imageUploadSchema} from "@/lib/schemas";
 
 
 
@@ -21,7 +22,11 @@ export function ImageUploader({form, field} : { form: any, field: any }) {
     const onChangePicture = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             const file = event.currentTarget.files && event.currentTarget.files[0]
-            if (file) {
+            const check = imageUploadSchema.safeParse(file?.name)
+            if (!check.success){
+                toast.error('Invalid file type')
+            }
+            if (file && check.success) {
                 if (file.size / 1024 / 1024 > 5) {
                     toast.error('File size too big (max 5MB)')
                 } else {
@@ -67,7 +72,11 @@ export function ImageUploader({form, field} : { form: any, field: any }) {
                     setDragActive(false)
 
                     const file = e.dataTransfer.files && e.dataTransfer.files[0]
-                    if (file) {
+                    const check = imageUploadSchema.safeParse(file?.name)
+                    if (!check.success){
+                        toast.error('Invalid file type')
+                    }
+                    if (file && check.success) {
                         if (file.size / 1024 / 1024 > 5) {
                             toast.error('File size too big (max 5MB)')
                         } else {

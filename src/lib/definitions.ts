@@ -1,4 +1,5 @@
 import {AdapterUser} from "next-auth/adapters";
+import {cityLatLngMap, timeMap} from "@/lib/local-variables";
 
 export interface Session {
     user: {
@@ -68,6 +69,26 @@ export type CartProductDataField = {
     price: number;
     image_url: string;
     avatar_url: string;
+}
+
+export interface StoreFormData {
+    storeName: string;
+    description?: string;
+    backgroundImage: string | null;
+    delivery: boolean;
+    address: AddressDataField; // Assuming AddressDataField is defined elsewhere
+    availabilityCalendar: Record<
+        string,
+        {
+            from: string;
+            to: string;
+            availability: "Free" | "Busy";
+        }
+    >;
+    deliveryLocations: Array<{
+        location: keyof typeof cityLatLngMap;
+        range: number;
+    }>;
 }
 
 export type StoreDataField = {

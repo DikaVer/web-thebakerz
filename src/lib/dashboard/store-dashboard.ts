@@ -13,20 +13,20 @@ export async function fetchStoresPages(query: string) {
         const count = await sql`SELECT COUNT(*)
     FROM stores WHERE
         stores."storeName" ILIKE ${`%${query}%`} OR
-        stores."ownerID" ILIKE ${`%${query}%`} 
+        stores."ownerId" ILIKE ${`%${query}%`} 
   `;
         return Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to fetch total number of invoices.');
+        throw new Error('Failed to fetch total number of stores.');
     }
 }
 
 export type StoresTable = {
     id: string;
-    name: string;
+    storeName: string;
     ownerId: string;
-    createDate: string;
+    createDate: Date;
 };
 
 export async function fetchFilteredStores(

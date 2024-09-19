@@ -15,6 +15,7 @@ export default async function StoresTable({
     currentPage: number;
 }) {
     const stores = await fetchFilteredStores(query, currentPage);
+    console.log(stores);
     revalidatePath('/dashboard/stores');
 
     return (
@@ -73,7 +74,7 @@ export default async function StoresTable({
                                 className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                             >
                                 <td className="whitespace-nowrap py-3 pl-6 ">
-                                    {store.name}
+                                    {store.storeName}
                                 </td>
                                 <td className=" whitespace-nowrap px-3 py-3">
                                     {store.id}
@@ -82,7 +83,7 @@ export default async function StoresTable({
                                     {store.ownerId}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-3 capitalize">
-                                    {store.createDate}
+                                    {store.createDate.toLocaleDateString()}
                                 </td>
                                 <td className="flex justify-center whitespace-nowrap py-3">
                                     <ViewStore store_id={store.id}/>

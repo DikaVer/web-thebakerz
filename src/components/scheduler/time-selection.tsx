@@ -69,11 +69,17 @@ const defaultStart = 0; // Start of the day in minutes (0:00)
 const defaultEnd = 1440; // End of the day in minutes (24:00)
 
 const generateTimeSlots = (start = defaultStart, end = defaultEnd, stepInterval = 15) => {
-    const slots = [];
+    const slots: { [key: string]: string } = {};
+    let hashtagCounter = 0;
+
     for (let minute = start; minute < end; minute += stepInterval) {
         const endMinute = minute + 30; // 30-minute range
         if (endMinute <= end) {
-            slots.push(`${formatToAmPm(minute)} - ${formatToAmPm(endMinute)}`);
+            const startTime = formatToAmPm(minute);
+            const endTime = formatToAmPm(endMinute);
+            const hashtag = `et${hashtagCounter.toString().padStart(3, '0')}`;
+            slots[hashtag] = `${startTime} - ${endTime}`;
+            hashtagCounter += stepInterval;
         }
     }
     return slots;
@@ -86,9 +92,9 @@ export function TimePickerScrollArea({ fromTime, toTime, stepInterval } : TimePi
 
     return (
         <ScrollArea className="h-72">
-            {timeSlots.map((time, index) => (
-                <React.Fragment key={index}>
-                    <div className="text-base my-4">{time}</div>
+            {Object.keys(timeSlots).map((key) => (
+                <React.Fragment key={key}>
+                    <div className="text-base my-4">{timeSlots[key]}</div>
                     <hr className="my-2" />
                 </React.Fragment>
             ))}
