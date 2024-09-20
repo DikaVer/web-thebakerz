@@ -11,11 +11,27 @@ export function createNanoid(length: number) {
   return nanoid();
 }
 
+export const formatCurrency = (amount: number) => {
+  return (amount / 100).toLocaleString('en-GB', {
+    style: 'currency',
+    currency: 'EUR',
+  });
+};
+
+
 export function formatDate(input: string | number | Date): string {
   const date = new Date(input)
-  return date.toLocaleDateString('en-US', {
-    month: 'long',
+  return date.toLocaleDateString('en-GB', {
     day: 'numeric',
+    month: 'numeric',
     year: 'numeric'
   })
+}
+
+export function formatDateTime(input: string | number | Date): string {
+    const date = new Date(input)
+    return date.toLocaleString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric'
+    })
 }

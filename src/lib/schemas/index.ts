@@ -54,7 +54,7 @@ export const storeCreationSchema = z.object({
         .max(16, "Maximum of 16 characters for store name")
         // Allows letters, numbers, periods, underscores, and hyphens
         .regex(
-            /^[a-zA-Z0-9._-]+$/,
+            /^[a-zA-Z0-9._]+$/,
             "Store name can only contain letters, numbers, periods, underscores, and hyphens"
         )
         .regex(

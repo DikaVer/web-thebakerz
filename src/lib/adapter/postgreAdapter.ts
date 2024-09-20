@@ -5,8 +5,6 @@ import type {
     AdapterSession,
 } from "@auth/core/adapters"
 import type { Pool } from "pg"
-import {createNanoid} from "@/lib/utils";
-import {kv} from "@vercel/kv";
 
 export function mapExpiresAt(account: any): any {
     const expires_at: number = parseInt(account.expires_at)
@@ -53,15 +51,14 @@ export default function PostgresAdapter(client: Pool): Adapter {
             }
 
             const sql = `
-        INSERT INTO users (name, email, "emailVerified", image, role) 
-        VALUES ($1, $2, $3, $4, $5) 
-        RETURNING id, name, email, "emailVerified", image, role, "userToken"`
+        INSERT INTO users (name, email, "emailVerified", image) 
+        VALUES ($1, $2, $3, $4) 
+        RETURNING id, name, email, "emailVerified", image`
             const result = await client.query(sql, [
                 name,
                 email,
                 emailVerified,
                 image,
-                "user"
             ])
             return result.rows[0]
         },

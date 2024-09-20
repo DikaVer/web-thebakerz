@@ -5,7 +5,6 @@ import type { Metadata } from "next";
 import {Footer} from "@/components/footer";
 import {Header} from "@/components/header";
 import {extractSessionRole} from "@/lib/actions/session-actions";
-import { fetchAddressData} from "@/lib/actions/session-store";
 
 export const metadata: Metadata = {
     metadataBase: new URL(`https://www.TheBakerz.com/`),

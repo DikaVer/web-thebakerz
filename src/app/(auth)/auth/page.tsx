@@ -1,11 +1,6 @@
 import { Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
-
-import { cn } from "@/lib/utils"
 import {UserAuthForm} from "@/components/authentication/user-auth-form";
-import {redirect} from "next/navigation";
-import {auth} from "@/auth";
 
 export const metadata: Metadata = {
     title: "Authentication",
@@ -13,11 +8,6 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-    const session = await auth();
-
-    if (session) {
-        redirect("/");
-    }
 
     return (
             <div className="container relative h-[800px] flex-col items-center justify-center grid ">

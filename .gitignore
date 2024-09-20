@@ -36,3 +36,4 @@ yarn-error.log*
 next-env.d.ts
 /.env
 /react-email/
+/src/database_schemas.txt

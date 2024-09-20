@@ -15,7 +15,6 @@ export default async function StoresTable({
     currentPage: number;
 }) {
     const stores = await fetchFilteredStores(query, currentPage);
-    console.log(stores);
     revalidatePath('/dashboard/stores');
 
     return (
