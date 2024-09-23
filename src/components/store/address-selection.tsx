@@ -1,26 +1,31 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Search} from "lucide-react";
 import {Button} from "@/components/ui/button";
-import {IconArrow, IconCross, IconLocation, IconSuccess} from "@/components/ui/icons";
-import {useDebouncedCallback} from "use-debounce";
+import {IconCross, IconLocation, IconSuccess} from "@/components/ui/icons";
 import {AddressDataField, AddressDataStorageField} from "@/lib/definitions";
 import {createNanoid} from "@/lib/utils";
 import {toast} from "sonner";
 import {FormError} from "@/components/authentication/form-error";
 import {useJsApiLoader} from "@react-google-maps/api";
 import {Library} from "@googlemaps/js-api-loader";
+import {useForm} from "react-hook-form";
+import {z} from "zod";
+import {AddressDataFieldSchema, storeCreateSchema} from "@/lib/schemas";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 interface AddressSelectionProps {
     initialInput: AddressDataField | null;
-    setInputAddress: (input: AddressDataField | null) => void;
+    setAddress: (input: AddressDataField | null) => void;
     setAddressDialogOpen: (input: boolean) => void;
     isEditing: boolean;
 }
 
 const libraries: Library[] = ["places", "maps", "marker"];
 
-export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput, setInputAddress, setAddressDialogOpen,  isEditing}) => {
+export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput, setAddress, setAddressDialogOpen,  isEditing}) => {
     const [error, setError] = useState<string | undefined>();
+
+    const [inputAddress, setInputAddress] = useState<AddressDataField | null>(initialInput);
 
     const [errorMap, setErrorMap] = useState<string | undefined>();
 
@@ -58,8 +63,8 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
         if (!map || !marker) {
             const mapInstance = new google.maps.Map(mapRef.current as HTMLDivElement, {
                 center: {
-                    lat: initialInput ? initialInput.latitude : 50.85,
-                    lng: initialInput ? initialInput.longitude : 5.6833
+                    lat: inputAddress ? inputAddress.latitude : 50.85,
+                    lng: inputAddress ? inputAddress.longitude : 5.6833
                 },
                 zoom: 16,
                 mapId: '4504f8b37365c3d0',
@@ -74,8 +79,8 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
             const draggableMarker = new google.maps.marker.AdvancedMarkerElement({
                 map: mapInstance,
                 position: {
-                    lat: initialInput ? initialInput.latitude : 50.85,
-                    lng: initialInput ? initialInput.longitude : 5.6833
+                    lat: inputAddress ? inputAddress.latitude : 50.85,
+                    lng: inputAddress ? inputAddress.longitude : 5.6833
                 },
                 gmpDraggable: isDraggable,
                 title: "This marker is draggable.",
@@ -112,7 +117,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
     };
 
     const toggleDraggable = () => {
-        if (marker && map && !isDraggable && initialInput) {
+        if (marker && map && !isDraggable && inputAddress) {
             google.maps.event.clearInstanceListeners(marker);
             marker.gmpDraggable = true;
             setIsDraggable(true);
@@ -125,7 +130,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
                 marker,
                 initialPosition,
                 setErrorMap,
-                initialInput
+                inputAddress
             );
         } else if (marker && map && isDraggable) {
             map.setCenter({lat: marker.position?.lat, lng: marker.position?.lng} as google.maps.LatLngLiteral);
@@ -169,7 +174,6 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 
 
         setInputAddress({
-            id: isEditing ? initialInput?.id : createNanoid(10),
             streetAddress: formattedAddress,
             route: componentMap.route,
             street_number: componentMap.street_number,
@@ -191,12 +195,18 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 
     const SaveAddress = async () => {
         setIsLoading(true);
-        if (initialInput) {
-            const addressData = {
-                ...initialInput,
-            } as AddressDataField;
+        if (inputAddress) {
 
-            setInputAddress(addressData);
+            const response = AddressDataFieldSchema.safeParse(inputAddress);
+
+            if (!response.success) {
+                setError(response.error.errors[0].message);
+                setIsLoading(false);
+                return;
+            }
+
+
+            setAddress(inputAddress);
             setAddressDialogOpen(false);
 
             toast.success(
@@ -205,7 +215,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 
                     <div className={"flex flex-col"}>
                         <p className={"text-base font-bold"}>
-                            {initialInput?.streetAddress}
+                            {inputAddress?.streetAddress}
                         </p>
                         {isEditing ? (
                             <p className={"text-sm font-light"}>
@@ -266,16 +276,16 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
             <div className="grid font-light gap-4">
                 <div className="grid grid-cols-2 gap-4">
                     {[
-                        {label: 'Street Name', value: initialInput?.route},
-                        {label: 'House Number', value: initialInput?.street_number},
+                        {label: 'Street Name', value: inputAddress?.route},
+                        {label: 'House Number', value: inputAddress?.street_number},
                         {
                             label: 'Apt, Suite, etc',
-                            value: `${initialInput?.subPremise} ${initialInput?.premise}`.trim(),
+                            value: `${inputAddress?.subPremise} ${inputAddress?.premise}`.trim(),
                         },
-                        {label: 'City', value: initialInput?.city},
-                        {label: 'State/Province', value: initialInput?.state},
-                        {label: 'Zip/Postal code', value: initialInput?.zipCode},
-                        {label: 'Country', value: initialInput?.country},
+                        {label: 'City', value: inputAddress?.city},
+                        {label: 'State/Province', value: inputAddress?.state},
+                        {label: 'Zip/Postal code', value: inputAddress?.zipCode},
+                        {label: 'Country', value: inputAddress?.country},
                     ].map((item, index) => (
                         <div key={index}>
                             <p>{item.label}</p>

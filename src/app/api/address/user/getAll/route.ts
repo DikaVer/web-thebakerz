@@ -1,8 +1,10 @@
 import {sql} from "@vercel/postgres";
 import {NextResponse} from "next/server";
+import {kv} from "@vercel/kv";
 export const config = {
     runtime: 'edge', // 'nodejs' is the default
 };
+
 
 const isAuthorized = (req: Request) => {
     const authHeader = req.headers.get('Authorization');
@@ -25,18 +27,21 @@ export async function GET(req: Request) {
 
     const body = await req.json();
 
-    // Product List is an array of product ids
-    const { productList } = body;
+    const { userId } = body;
 
     try {
 
-        const productsRow = await sql`
-            SELECT * FROM products
-            WHERE id = ANY(${productList})`;
+        const locationRows = await sql`
+            SELECT *
+            FROM 
+                addresses_users 
+            WHERE 
+                user_id = ${userId}`;
 
         return NextResponse.json(
             {
-                product: productsRow.rows[0]
+                locations: locationRows.rows,
+
             }, {
                 status: 200
             });
@@ -45,7 +50,7 @@ export async function GET(req: Request) {
     } catch (error) {
         return NextResponse.json(
             {
-                message: 'Failed to get product'
+                message: 'Failed to get addresses'
             }, {
                 status: 500
             });

@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { storeId, productId} = body;
+    const { storeId, description} = body;
 
     if(session){
         try {
@@ -40,17 +40,22 @@ export async function POST(req: Request) {
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
-                    const queryDelete = await sql`
-                        UPDATE products
-                        SET deleted = TRUE
-                        WHERE id = ${productId} AND store_id = ${storeId}`;
 
-                    return NextResponse.json(
-                        {
-                            message: 'Product deleted successfully'
-                        }, {
-                            status: 200
-                        });
+                const storeRow = await sql`
+                            UPDATE stores
+                            SET
+                                description = ${description}
+                            WHERE id = ${storeId}
+                            RETURNING id, nickname, description, background_url, user_id`;
+
+
+                return NextResponse.json(
+                    {
+                        message: 'Description updated successfully',
+                        storeData: storeRow.rows[0]
+                    }, {
+                        status: 200
+                    });
 
             } else {
                 return NextResponse.json(
@@ -62,10 +67,9 @@ export async function POST(req: Request) {
             }
 
         } catch (error) {
-
             return NextResponse.json(
                 {
-                    message: 'Failed to delete product'
+                    message: 'Failed to update description'
                 }, {
                     status: 500
                 });

@@ -25,18 +25,16 @@ export async function GET(req: Request) {
 
     const body = await req.json();
 
-    // Product List is an array of product ids
-    const { productList } = body;
+    const { locationId } = body;
 
     try {
-
-        const productsRow = await sql`
-            SELECT * FROM products
-            WHERE id = ANY(${productList})`;
+        const locationRow = await sql`
+            SELECT * FROM addresses_users
+            WHERE id = ${locationId}`;
 
         return NextResponse.json(
             {
-                product: productsRow.rows[0]
+                location: locationRow.rows[0]
             }, {
                 status: 200
             });
@@ -45,7 +43,7 @@ export async function GET(req: Request) {
     } catch (error) {
         return NextResponse.json(
             {
-                message: 'Failed to get product'
+                message: 'Failed to get address'
             }, {
                 status: 500
             });

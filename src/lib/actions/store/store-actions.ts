@@ -1,11 +1,12 @@
+"use server";
 import * as z from "zod";
 
-import {storeCreationSchema} from "@/lib/schemas";
-import {sql} from "@vercel/postgres";
+import {storeCreateSchema} from "@/lib/schemas";
+import {auth} from "@/auth";
 
-export const createStore = async (formData: z.infer<typeof storeCreationSchema>) => {
+export const createStore = async (formData: z.infer<typeof storeCreateSchema>) => {
     // Validate the fields in the form using the LoginSchema
-    const validateFields = storeCreationSchema.safeParse(formData);
+    const validateFields = storeCreateSchema.safeParse(formData);
 
     // If validation fails, return an error message
     if (!validateFields.success) {
@@ -15,13 +16,14 @@ export const createStore = async (formData: z.infer<typeof storeCreationSchema>)
     }
 
     try {
-        const response = await fetch(`/api/store/create`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/add`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_API_SECRET_KEY}`
             },
             body: JSON.stringify({
-                formData,
+                storeData: formData
             }),
         });
 
@@ -38,6 +40,7 @@ export const createStore = async (formData: z.infer<typeof storeCreationSchema>)
         }
 
     } catch (error) {
+        console.error("Error creating store", error);
         return {
             error: "Something went wrong. Please try again later.",
         };
@@ -46,26 +49,3 @@ export const createStore = async (formData: z.infer<typeof storeCreationSchema>)
 };
 
 
-export type StoreName = {
-    storeName: string;
-};
-
-export async function fetchStoreName(
-    query: string
-) : Promise<StoreName> {
-
-    try {
-        const storeName = await sql<StoreName>`
-      SELECT
-        stores."storeName"
-      FROM stores
-       WHERE
-        stores."storeName" = ${`${query}`}
-    `;
-
-        return storeName.rows[0];
-    } catch (error) {
-        console.error('Database Error:', error);
-        throw new Error('Failed to fetch users.');
-    }
-}

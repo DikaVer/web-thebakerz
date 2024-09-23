@@ -1,11 +1,8 @@
-import Image from 'next/image';
-import { fetchFilteredUsers} from "@/lib/dashboard/user-dashboard";
-import {IconAvatar} from "@/components/ui/icons";
-import {Button} from "@/components/ui/button";
 import { revalidatePath } from 'next/cache'
-import ViewUser from "@/components/dashboard/user/view-user";
 import {fetchFilteredStores} from "@/lib/dashboard/store-dashboard";
 import ViewStore from "@/components/dashboard/store/view-stores";
+import {formatDate} from "@/lib/utils";
+import LinkStore from "@/components/dashboard/store/link-user-button";
 
 export default async function StoresTable({
                                              query,
@@ -53,13 +50,13 @@ export default async function StoresTable({
                         <thead className="rounded-lg text-left text-sm font-normal">
                         <tr>
                             <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                                Store NickName
+                                Nickname
                             </th>
                             <th scope="col" className="px-3 py-5 font-medium ">
                                 ID
                             </th>
                             <th scope="col" className="px-3 py-5 font-medium">
-                                Owner ID
+                                User ID
                             </th>
                             <th scope="col" className="px-3 py-5 font-medium">
                                 Create Date
@@ -73,16 +70,18 @@ export default async function StoresTable({
                                 className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                             >
                                 <td className="whitespace-nowrap py-3 pl-6 ">
-                                    {store.storeName}
+                                    {store.nickname}
                                 </td>
                                 <td className=" whitespace-nowrap px-3 py-3">
                                     {store.id}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-3">
-                                    {store.ownerId}
+                                    {store.user_id ? store.user_id : (
+                                        <LinkStore store_id={store.id}/>
+                                    )}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-3 capitalize">
-                                    {store.createDate.toLocaleDateString()}
+                                    {formatDate(store.date)}
                                 </td>
                                 <td className="flex justify-center whitespace-nowrap py-3">
                                     <ViewStore store_id={store.id}/>

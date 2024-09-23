@@ -3,6 +3,8 @@ import React from "react";
 import type { Metadata } from "next";
 import SideNav from "@/components/dashboard/sidenav";
 import {ScrollArea} from "@/components/ui/scroll-area";
+import {auth} from "@/auth";
+import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
     metadataBase: new URL(`https://www.TheBakerz.com/`),
@@ -19,6 +21,16 @@ export default async function RootLayout({
                                          }: Readonly<{
     children: React.ReactNode;
 }>) {
+
+    const session = await auth();
+
+    if (!session) {
+        return notFound();
+
+        // @ts-ignore
+    } else if (session?.user?.role !== 'admin') {
+        return notFound();
+    }
 
     return (
         <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">

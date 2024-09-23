@@ -1,5 +1,6 @@
 import {sql} from "@vercel/postgres";
 import {NextResponse} from "next/server";
+import {kv} from "@vercel/kv";
 export const config = {
     runtime: 'edge', // 'nodejs' is the default
 };
@@ -11,6 +12,7 @@ const isAuthorized = (req: Request) => {
     // Validate the secret key
     return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
 };
+
 
 export async function GET(req: Request) {
 
@@ -25,18 +27,37 @@ export async function GET(req: Request) {
 
     const body = await req.json();
 
-    // Product List is an array of product ids
-    const { productList } = body;
+    const { userId } = body;
 
     try {
+        const userRow = await sql`
+            SELECT *
+            FROM 
+                users
+            WHERE 
+                id = ${userId}`;
 
-        const productsRow = await sql`
-            SELECT * FROM products
-            WHERE id = ANY(${productList})`;
+        const locationRows = await sql`
+            SELECT *
+            FROM 
+                addresses_users 
+            WHERE 
+                user_id = ${userId}`;
+
+
+        const keyCart = `cart-${userId}`;
+
+        const cart = await kv.hgetall(keyCart);
+
+
 
         return NextResponse.json(
             {
-                product: productsRow.rows[0]
+                message: 'Store data fetched successfully',
+                user: userRow.rows[0],
+                locations: locationRows.rows,
+                cart: cart
+
             }, {
                 status: 200
             });
@@ -45,7 +66,7 @@ export async function GET(req: Request) {
     } catch (error) {
         return NextResponse.json(
             {
-                message: 'Failed to get product'
+                message: 'Failed to get store data'
             }, {
                 status: 500
             });

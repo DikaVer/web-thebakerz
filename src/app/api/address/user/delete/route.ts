@@ -13,7 +13,6 @@ const isAuthorized = (req: Request) => {
     return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
 };
 
-
 export async function POST(req: Request) {
 
     // Validate the secret key
@@ -29,28 +28,24 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { storeId, productId} = body;
+    const { userId, locationId} = body;
 
     if(session){
         try {
 
-            const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${storeId}`;
-            const userId = queryUserId.rows[0].user_id;
-
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
-                    const queryDelete = await sql`
-                        UPDATE products
-                        SET deleted = TRUE
-                        WHERE id = ${productId} AND store_id = ${storeId}`;
+                const queryDelete = await sql`
+                        DELETE FROM addresses_users
+                        WHERE id = ${userId} AND user_id = ${locationId}`;
 
-                    return NextResponse.json(
-                        {
-                            message: 'Product deleted successfully'
-                        }, {
-                            status: 200
-                        });
+                return NextResponse.json(
+                    {
+                        message: 'Address deleted successfully'
+                    }, {
+                        status: 200
+                    });
 
             } else {
                 return NextResponse.json(
@@ -65,7 +60,7 @@ export async function POST(req: Request) {
 
             return NextResponse.json(
                 {
-                    message: 'Failed to delete product'
+                    message: 'Failed to delete address'
                 }, {
                     status: 500
                 });

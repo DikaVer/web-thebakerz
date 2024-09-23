@@ -1,9 +1,7 @@
+import { NextResponse } from "next/server";
 import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
-import {NextResponse} from "next/server";
-export const config = {
-    runtime: 'edge', // 'nodejs' is the default
-};
+import {AddressDataField} from "@/lib/definitions";
 
 const isAuthorized = (req: Request) => {
     const authHeader = req.headers.get('Authorization');
@@ -13,7 +11,7 @@ const isAuthorized = (req: Request) => {
     return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
 };
 
-
+// This function will handle saving the address
 export async function POST(req: Request) {
 
     // Validate the secret key
@@ -29,28 +27,41 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { storeId, productId} = body;
+    const { storeId, locationDataRaw} = body;
 
     if(session){
         try {
 
-            const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${storeId}`;
-            const userId = queryUserId.rows[0].user_id;
-
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
-                    const queryDelete = await sql`
-                        UPDATE products
-                        SET deleted = TRUE
-                        WHERE id = ${productId} AND store_id = ${storeId}`;
+                const { locationData }: { locationData: AddressDataField } = locationDataRaw;
 
-                    return NextResponse.json(
-                        {
-                            message: 'Product deleted successfully'
-                        }, {
-                            status: 200
-                        });
+
+                const userLocation = await sql`
+                UPDATE addresses_users
+                SET
+                    route = ${locationData.route},
+                    street_number = ${locationData.street_number},
+                    sub_premise = ${locationData.subPremise},
+                    premise = ${locationData.premise},
+                    country = ${locationData.country},
+                    zip_code = ${locationData.zipCode},
+                    city = ${locationData.city},
+                    state = ${locationData.state},
+                    latitude = ${locationData.latitude},
+                    longitude = ${locationData.longitude}
+                 WHERE store_id = ${storeId}
+                 RETURNING *`;
+
+
+                return NextResponse.json(
+                    {
+                        message: 'Address updated successfully',
+                        locationData: userLocation.rows[0]
+                    }, {
+                        status: 200
+                    });
 
             } else {
                 return NextResponse.json(
@@ -62,10 +73,9 @@ export async function POST(req: Request) {
             }
 
         } catch (error) {
-
             return NextResponse.json(
                 {
-                    message: 'Failed to delete product'
+                    message: 'Failed to update address'
                 }, {
                     status: 500
                 });

@@ -1,6 +1,7 @@
 import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
 import {NextResponse} from "next/server";
+import {kv} from "@vercel/kv";
 export const config = {
     runtime: 'edge', // 'nodejs' is the default
 };
@@ -12,7 +13,6 @@ const isAuthorized = (req: Request) => {
     // Validate the secret key
     return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
 };
-
 
 export async function POST(req: Request) {
 
@@ -29,9 +29,10 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { storeId, productId} = body;
+    const { storeId, availabilityData} = body;
 
     if(session){
+
         try {
 
             const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${storeId}`;
@@ -40,14 +41,15 @@ export async function POST(req: Request) {
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
-                    const queryDelete = await sql`
-                        UPDATE products
-                        SET deleted = TRUE
-                        WHERE id = ${productId} AND store_id = ${storeId}`;
+
+                    const keyAvailability = `availability-${storeId}`;
+
+                    await kv.hset(keyAvailability, availabilityData);
 
                     return NextResponse.json(
                         {
-                            message: 'Product deleted successfully'
+                            message: 'Availability updated successfully',
+                            availabilityData: availabilityData
                         }, {
                             status: 200
                         });
@@ -61,17 +63,14 @@ export async function POST(req: Request) {
                     });
             }
 
-        } catch (error) {
-
-            return NextResponse.json(
-                {
-                    message: 'Failed to delete product'
-                }, {
-                    status: 500
-                });
-        }
-
-
+            } catch (error) {
+                return NextResponse.json(
+                    {
+                        message: 'Failed to update availability'
+                    }, {
+                        status: 500
+                    });
+            }
 
     } else {
         return NextResponse.json(

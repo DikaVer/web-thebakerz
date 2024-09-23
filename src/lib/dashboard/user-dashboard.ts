@@ -64,7 +64,6 @@ export type UsersData = {
     email: string;
     image: string;
     role: string;
-    userToken: string;
 };
 
 export async function fetchUserData(
@@ -77,9 +76,7 @@ export async function fetchUserData(
         users.id,
         users.name, 
         users.email,
-        users.image,
-        users.role,
-        users."userToken"
+        users.image
       FROM users
        WHERE
         users.id = ${`${query}`}

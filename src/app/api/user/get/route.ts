@@ -12,6 +12,7 @@ const isAuthorized = (req: Request) => {
     return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
 };
 
+
 export async function GET(req: Request) {
 
     // Validate the secret key
@@ -25,18 +26,16 @@ export async function GET(req: Request) {
 
     const body = await req.json();
 
-    // Product List is an array of product ids
-    const { productList } = body;
+    const { userId } = body;
 
     try {
-
-        const productsRow = await sql`
-            SELECT * FROM products
-            WHERE id = ANY(${productList})`;
+        const userRow = await sql`
+            SELECT * FROM users
+            WHERE id = ${userId}`;
 
         return NextResponse.json(
             {
-                product: productsRow.rows[0]
+                store: userRow.rows[0]
             }, {
                 status: 200
             });

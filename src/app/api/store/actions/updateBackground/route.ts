@@ -15,8 +15,8 @@ const isAuthorized = (req: Request) => {
 };
 
 
-export async function POST(req: Request) {
 
+export async function POST(req: Request) {
     // Validate the secret key
     if (!isAuthorized(req)) {
         return NextResponse.json({
@@ -30,30 +30,27 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { storeId, productData} = body;
+    const { storeId, file} = body;
 
     if(session){
 
         try {
-
             const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${storeId}`;
             const userId = queryUserId.rows[0].user_id;
 
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
-                    const {name, description, price, category, file} = productData;
-
                     const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/image/upload`, {
                         method: 'POST',
                         headers: {
                             'content-type': file?.type,
-                            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_KEY}`
+                            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_API_SECRET_KEY}`
                         },
                         body: JSON.stringify({
                             file: file.file,
                             fileName: file.fileName,
-                            path: "storeProducts"
+                            path: "storeBackgrounds"
                         }),
                     })
 
@@ -69,50 +66,38 @@ export async function POST(req: Request) {
                     const {url} = await response.json() as PutBlobResult;
 
 
-                    const productRow = await sql`
-                        INSERT INTO products (
-                            name,
-                            description,
-                            price,
-                            category,
-                            image_url,
-                            store_id
-                        ) VALUES (
-                            ${name},
-                            ${description},
-                            ${price},
-                            ${category},
-                            ${url},
-                            ${storeId}
-                            ) RETURNING id, name, description, price, category, image_url`;
+                    const storeRow = await sql`
+                        UPDATE stores
+                        SET
+                            background_url = ${url}
+                        WHERE id = ${storeId}
+                        RETURNING id, nickname, description, background_url, user_id`;
 
                     return NextResponse.json(
                         {
-                            message: 'Product added successfully',
-                            productData: productRow.rows[0]
+                            message: 'Background image updated successfully',
+                            storeData: storeRow.rows[0]
                         }, {
                             status: 200
                         });
 
-            } else {
+                } else {
+                    return NextResponse.json(
+                        {
+                            message: 'Unauthorized access'
+                        }, {
+                            status: 401
+                        });
+                }
+
+            } catch (error) {
                 return NextResponse.json(
                     {
-                        message: 'Unauthorized access'
+                        message: 'Failed to update background image'
                     }, {
-                        status: 401
+                        status: 500
                     });
             }
-
-        } catch (error) {
-            return NextResponse.json(
-                {
-                    message: 'Failed to add product'
-                }, {
-                    status: 500
-                });
-        }
-
-
 
     } else {
         return NextResponse.json(

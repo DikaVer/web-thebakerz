@@ -13,7 +13,6 @@ const isAuthorized = (req: Request) => {
     return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
 };
 
-
 export async function POST(req: Request) {
 
     // Validate the secret key
@@ -29,25 +28,46 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { storeId, productId} = body;
+    const { storeId, nickname} = body;
 
     if(session){
         try {
-
             const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${storeId}`;
             const userId = queryUserId.rows[0].user_id;
 
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
-                    const queryDelete = await sql`
-                        UPDATE products
-                        SET deleted = TRUE
-                        WHERE id = ${productId} AND store_id = ${storeId}`;
+
+                    const storeNickname = await sql`
+                          SELECT
+                            nickname
+                          FROM stores
+                            WHERE
+                            nickname = ${nickname}`;
+
+                    if(storeNickname.rows.length > 0){
+                        return NextResponse.json(
+                            {
+                                message: 'Nickname already exists'
+                            }, {
+                                status: 400
+                            });
+                    }
+
+                    const storeRow = await sql`
+                            UPDATE stores
+                            SET
+                                nickname = ${nickname}
+                            WHERE id = ${storeId}
+                            RETURNING id, nickname, description, background_url, user_id`;
+
+
 
                     return NextResponse.json(
                         {
-                            message: 'Product deleted successfully'
+                            message: 'Nickname updated successfully',
+                            storeData: storeRow.rows[0]
                         }, {
                             status: 200
                         });
@@ -62,10 +82,9 @@ export async function POST(req: Request) {
             }
 
         } catch (error) {
-
             return NextResponse.json(
                 {
-                    message: 'Failed to delete product'
+                    message: 'Failed to update nickname'
                 }, {
                     status: 500
                 });

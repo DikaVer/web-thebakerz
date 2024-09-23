@@ -27,7 +27,7 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { userId, locationDataRaw} = body;
+    const { userId, locationId, locationDataRaw} = body;
 
     if(session){
         try {
@@ -39,31 +39,21 @@ export async function POST(req: Request) {
 
 
                 const userLocation = await sql`
-                INSERT INTO addresses_users (
-                    user_id,
-                    route,
-                    street_number,
-                    sub_premise,
-                    premise,
-                    country,
-                    zip_code,
-                    city,
-                    state,
-                    latitude,
-                    longitude
-                    ) VALUES (
-                        ${userId},
-                        ${locationData.route},
-                        ${locationData.street_number},
-                        ${locationData.subPremise},
-                        ${locationData.premise},
-                        ${locationData.country},
-                        ${locationData.zipCode},
-                        ${locationData.city},
-                        ${locationData.state},
-                        ${locationData.latitude},
-                        ${locationData.longitude}
-                    ) RETURNING *`;
+                UPDATE addresses_users
+                SET
+                    route = ${locationData.route},
+                    street_number = ${locationData.street_number},
+                    sub_premise = ${locationData.subPremise},
+                    premise = ${locationData.premise},
+                    country = ${locationData.country},
+                    zip_code = ${locationData.zipCode},
+                    city = ${locationData.city},
+                    state = ${locationData.state},
+                    latitude = ${locationData.latitude},
+                    longitude = ${locationData.longitude},
+                    delivery_notes = ${locationData.deliveryNotes}
+                WHERE user_id = ${userId} AND location_id = ${locationId}
+                 RETURNING *`;
 
 
                 return NextResponse.json(

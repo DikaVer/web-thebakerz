@@ -13,7 +13,6 @@ const isAuthorized = (req: Request) => {
     return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
 };
 
-
 export async function POST(req: Request) {
 
     // Validate the secret key
@@ -29,28 +28,31 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { storeId, productId} = body;
+    const { userId, nickname} = body;
 
     if(session){
         try {
 
-            const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${storeId}`;
-            const userId = queryUserId.rows[0].user_id;
-
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
-                    const queryDelete = await sql`
-                        UPDATE products
-                        SET deleted = TRUE
-                        WHERE id = ${productId} AND store_id = ${storeId}`;
 
-                    return NextResponse.json(
-                        {
-                            message: 'Product deleted successfully'
-                        }, {
-                            status: 200
-                        });
+                const userRow = await sql`
+                            UPDATE users
+                            SET
+                                name = ${nickname}
+                            WHERE id = ${userId}
+                            RETURNING id, name, email, image, role`;
+
+
+
+                return NextResponse.json(
+                    {
+                        message: 'Name updated successfully',
+                        storeData: userRow.rows[0]
+                    }, {
+                        status: 200
+                    });
 
             } else {
                 return NextResponse.json(
@@ -62,10 +64,9 @@ export async function POST(req: Request) {
             }
 
         } catch (error) {
-
             return NextResponse.json(
                 {
-                    message: 'Failed to delete product'
+                    message: 'Failed to update name'
                 }, {
                     status: 500
                 });

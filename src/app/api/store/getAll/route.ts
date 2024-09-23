@@ -1,5 +1,6 @@
 import {sql} from "@vercel/postgres";
 import {NextResponse} from "next/server";
+import {kv} from "@vercel/kv";
 export const config = {
     runtime: 'edge', // 'nodejs' is the default
 };
@@ -11,6 +12,7 @@ const isAuthorized = (req: Request) => {
     // Validate the secret key
     return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
 };
+
 
 export async function GET(req: Request) {
 
@@ -25,18 +27,46 @@ export async function GET(req: Request) {
 
     const body = await req.json();
 
-    // Product List is an array of product ids
-    const { productList } = body;
+    const { storeId } = body;
 
     try {
+        const storeRow = await sql`
+            SELECT *
+            FROM 
+                stores 
+            WHERE 
+                id = ${storeId}`;
+
+        const locationRow = await sql`
+            SELECT *
+            FROM 
+                addresses_stores
+            WHERE 
+                store_id = ${storeId}`;
 
         const productsRow = await sql`
             SELECT * FROM products
-            WHERE id = ANY(${productList})`;
+            WHERE store_id = ${storeId}`;
+
+
+        const keyAvailability = `availability-${storeId}`;
+
+        const availability = await kv.hgetall(keyAvailability);
+
+        const keyDelivery = `delivery-options-${storeId}`;
+
+        const deliveryOptions = await kv.lrange(keyDelivery, 0, -1);
+
 
         return NextResponse.json(
             {
-                product: productsRow.rows[0]
+                message: 'Store data fetched successfully',
+                store: storeRow.rows[0],
+                location: locationRow.rows[0],
+                products: productsRow.rows,
+                availability: availability,
+                deliveryOptions: deliveryOptions
+
             }, {
                 status: 200
             });
@@ -45,7 +75,7 @@ export async function GET(req: Request) {
     } catch (error) {
         return NextResponse.json(
             {
-                message: 'Failed to get product'
+                message: 'Failed to get store data'
             }, {
                 status: 500
             });

@@ -12,8 +12,8 @@ export async function fetchStoresPages(query: string) {
     try {
         const count = await sql`SELECT COUNT(*)
     FROM stores WHERE
-        stores."storeName" ILIKE ${`%${query}%`} OR
-        stores."ownerId" ILIKE ${`%${query}%`} 
+        stores.nickname ILIKE ${`%${query}%`} OR
+        stores.user_id ILIKE ${`%${query}%`} 
   `;
         return Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     } catch (error) {
@@ -24,9 +24,9 @@ export async function fetchStoresPages(query: string) {
 
 export type StoresTable = {
     id: string;
-    storeName: string;
-    ownerId: string;
-    createDate: Date;
+    nickname: string;
+    user_id: string;
+    date: Date;
 };
 
 export async function fetchFilteredStores(
@@ -39,13 +39,13 @@ export async function fetchFilteredStores(
         const stores = await sql<StoresTable>`
       SELECT
             stores.id,
-            stores."storeName",
-            stores."ownerId",
-            stores."createDate"
+            stores.nickname,
+            stores.user_id,
+            stores.date
       FROM stores
       WHERE
-         stores."storeName" ILIKE ${`%${query}%`} OR
-         stores."ownerId" ILIKE ${`%${query}%`} 
+         stores.nickname ILIKE ${`%${query}%`} OR
+         stores.user_id ILIKE ${`%${query}%`} 
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
 
