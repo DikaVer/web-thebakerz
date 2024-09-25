@@ -1,5 +1,5 @@
 import { revalidatePath } from 'next/cache'
-import {fetchFilteredStores} from "@/lib/dashboard/store-dashboard";
+import {fetchFilteredStores} from "@/lib/actions-server-only/store-actions";
 import ViewStore from "@/components/dashboard/store/view-stores";
 import {formatDate} from "@/lib/utils";
 import LinkStore from "@/components/dashboard/store/link-user-button";

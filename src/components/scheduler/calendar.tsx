@@ -5,9 +5,39 @@ import {IconChevronDown} from "@/components/ui/icons";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {SchedulerContent} from "@/components/scheduler/scheduler";
 import useIsSmallScreen from "@/lib/hooks/use-is-small-screen";
-import { CheckoutLocalDataField} from "@/lib/definitions";
+import {AddressData, AddressDataField, CheckoutLocalDataField} from "@/lib/definitions";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
+
+export function MiniCalendarBakerz() {
+    const isSmallScreen = useIsSmallScreen(460);
+    return (
+        <div
+            className="absolute top-2 right-2 w-full h-12 cm:h-16 flex flex-row-reverse"
+        >
+            <div
+                className="rounded-2xl bg-white px-1.5 opacity-80 h-12 w-full cm:w-128 cm:h-16 flex items-center justify-between ml-4">
+                <TooltipProvider>
+                    <Date day="MON" date={11} status="Free" bgColor="border-greenBakerz hover:bg-greenBakerz"/>
+                    <Date day="TUE" date={12} status="Busy"
+                          bgColor="border-orangeBakerz hover:bg-orangeBakerz"/>
+                    <Date day="WED" date={13} status="Closed" bgColor="border-redBakerz hover:bg-redBakerz"/>
+                    <Date day="THU" date={14} status="Free" bgColor="border-greenBakerz hover:bg-greenBakerz"/>
+                    {!isSmallScreen && <Date day="FRI" date={15} status="Busy"
+                                             bgColor="border-orangeBakerz hover:bg-orangeBakerz"/>}
+                </TooltipProvider>
+                <div
+                    className="rounded-xl w-auto h-10 cm:h-14 items-center transition duration-500 hover:bg-gray-200 cursor-default">
+                    <CheckoutDetails checkoutData={{deliveryMode: "PICKUP",
+                        shippingAddress: null,
+                        savedAddresses: null,
+                        date: null,
+                        time: null}}/>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 export function MiniCalendar() {
     const isSmallScreen = useIsSmallScreen(460);

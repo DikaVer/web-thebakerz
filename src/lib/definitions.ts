@@ -32,7 +32,6 @@ export type AddressData = {
 }
 
 export type AddressDataField = {
-    id: string;
     city: string;
     country: string;
     latitude: number;
@@ -40,10 +39,9 @@ export type AddressDataField = {
     premise: string;
     route: string;
     state: string;
-    streetAddress: string;
     street_number: string;
-    subPremise: string;
-    zipCode: string;
+    sub_premise: string;
+    zip_code: string;
     [key: string]: any;
 };
 

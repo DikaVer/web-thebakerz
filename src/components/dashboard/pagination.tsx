@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import Link from 'next/link';
-import { generatePagination} from "@/lib/dashboard/utils";
+import { generatePagination} from "@/lib/actions-server-only/utils";
 import { usePathname, useSearchParams } from 'next/navigation';
 import {IconArrow} from "@/components/ui/icons";
 

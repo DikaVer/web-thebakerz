@@ -56,36 +56,45 @@ export async function fetchFilteredStores(
     }
 }
 
-export type UsersData = {
-    id: string;
-    name: string;
-    email: string;
-    image: string;
-    role: string;
-    userToken: string;
-};
 
-export async function fetchStoreData(
-    query: string
-) : Promise<UsersData> {
+
+export const fetchStoreData = async (storeId: string) => {
 
     try {
-        const users = await sql<UsersData>`
-      SELECT
-        users.id,
-        users.name, 
-        users.email,
-        users.image,
-        users.role,
-        users."userToken"
-      FROM users
-       WHERE
-        users.id = ${`${query}`}
-    `;
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/getAll`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_API_SECRET_KEY}`
+            },
+            body: JSON.stringify({
+                storeId: storeId
+            }),
+        });
 
-        return users.rows[0];
+        const result = await response.json();
+
+        if (!response.ok) {
+            return {
+                error: result.message,
+            }
+        }
+
+        return {
+            store: result.store,
+            user: result.user,
+            location: result.location,
+            products: result.products,
+            availability: result.availability,
+            deliveryOptions: result.delivery,
+            success: 'Store data fetched successfully',
+        }
+
     } catch (error) {
-        console.error('Database Error:', error);
-        throw new Error('Failed to fetch users.');
+        console.error("Error creating store", error);
+        return {
+            error: "Something went wrong. Please try again later.",
+        };
     }
-}
+
+};

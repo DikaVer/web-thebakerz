@@ -5,10 +5,17 @@ import React, {ChangeEvent, useCallback, useState} from "react";
 import {toast} from "sonner";
 import {Input} from "@/components/ui/input";
 import {imageUploadSchema} from "@/lib/schemas";
+import {ControllerRenderProps, UseFormReturn} from "react-hook-form";
+import {FormError} from "@/components/authentication/form-error";
 
+interface ImageUploaderProps {
+    form: UseFormReturn<any>;
+    field: ControllerRenderProps<any>;
+    name: string;
+    setError: (input: string | undefined) => void;
+}
 
-
-export function ImageUploader({form, field} : { form: any, field: any }) {
+export function ImageUploader({ form, field, name, setError }: ImageUploaderProps) {
 
     const [data, setData] = useState<{
         image: string | null
@@ -24,11 +31,17 @@ export function ImageUploader({form, field} : { form: any, field: any }) {
             const file = event.currentTarget.files && event.currentTarget.files[0]
             const check = imageUploadSchema.safeParse(file?.name)
             if (!check.success){
-                toast.error('Invalid file type')
+                setError("Image must be a valid image format (jpeg, jpg, png)")
+                setFile(null)
+                setData({ image: null })
+                return
             }
             if (file && check.success) {
-                if (file.size / 1024 / 1024 > 5) {
-                    toast.error('File size too big (max 5MB)')
+                if (file.size / 1024 / 1024 > 4.5) {
+                    setError('File size too big (max 4.5MB)')
+                    setFile(null)
+                    setData({ image: null })
+                    return
                 } else {
                     setFile(file)
                     const reader = new FileReader()
@@ -37,7 +50,8 @@ export function ImageUploader({form, field} : { form: any, field: any }) {
                         const base64String = e.target?.result as string;
                         setData((prev) => ({ ...prev, image: base64String }));
                     }
-                    form.setValue('backgroundImage', file.name)
+                    setError(undefined);
+                    form.setValue(name, file.name)
                     reader.readAsDataURL(file)
                 }
             }
@@ -48,7 +62,7 @@ export function ImageUploader({form, field} : { form: any, field: any }) {
     return (
         <label
             htmlFor={"image-upload"}
-            className={"group relative mt-2 flex h-72 cursor-pointer flex-col items-center justify-center rounded-md border border-gray-300 bg-white shadow-sm transition-all hover:bg-gray-50"}>
+            className={"group relative mt-2 flex w-[390px] h-72 cursor-pointer flex-col items-center justify-center rounded-md border border-gray-300 bg-white shadow-sm transition-all hover:bg-gray-50"}>
             <div
                 className="absolute z-[5] h-full w-full rounded-md"
                 onDragOver={(e) => {
@@ -74,20 +88,21 @@ export function ImageUploader({form, field} : { form: any, field: any }) {
                     const file = e.dataTransfer.files && e.dataTransfer.files[0]
                     const check = imageUploadSchema.safeParse(file?.name)
                     if (!check.success){
-                        toast.error('Invalid file type')
+                        setError("Image must be a valid image format (jpeg, jpg, png)")
                     }
                     if (file && check.success) {
-                        if (file.size / 1024 / 1024 > 5) {
-                            toast.error('File size too big (max 5MB)')
+                        if (file.size / 1024 / 1024 > 4.5) {
+                            setError('File size too big (max 4.5MB)')
                         } else {
                             setFile(file)
                             const reader = new FileReader()
+
                             reader.onload = (e) => {
-                                setData((prev) => ({
-                                    ...prev,
-                                    image: e.target?.result as string,
-                                }))
+                                const base64String = e.target?.result as string;
+                                setData((prev) => ({ ...prev, image: base64String }));
                             }
+                            setError(undefined);
+                            form.setValue(name, file.name)
                             reader.readAsDataURL(file)
                         }
                     }
@@ -137,7 +152,7 @@ export function ImageUploader({form, field} : { form: any, field: any }) {
                     className="h-full w-full rounded-md object-cover"
                 />
             )}
-            <div className="mt-1 flex rounded-md shadow-sm">
+            <div className="flex rounded-md shadow-sm">
                 <Input
                     {...field}
                     id="image-upload"

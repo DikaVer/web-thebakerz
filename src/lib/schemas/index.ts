@@ -19,21 +19,21 @@ export const imageUploadSchema = z
     // Checks if the string ends with a common image file extension
     .regex(
         /\.(jpeg|jpg|png)$/,
-        "Background image must be a valid image format (jpeg, jpg, png)"
+        "Image must be a valid image format (jpeg, jpg, png)"
     );
 
 export const nicknameSchema = z
     .string()
-    .min(4, "Minimum of 4 characters for store name")
-    .max(16, "Maximum of 16 characters for store name")
+    .min(4, "Minimum of 4 characters for nickname")
+    .max(16, "Maximum of 16 characters for nickname")
     // Allows letters, numbers, periods, underscores, and hyphens
     .regex(
         /^[a-zA-Z0-9._]+$/,
-        "Store name can only contain letters, numbers, periods, underscores, and hyphens"
+        "Nickname can only contain letters, numbers, periods, underscores, and hyphens"
     )
     .regex(
         /^(?!.*\.\.)(?!.*\.\.\.)(?!.*\.\.\.\.)(?!.*\.\.\.\.\.)(?!.*\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)/,
-        "Store name cannot contain two or more consecutive periods"
+        "Nickname cannot contain two or more consecutive periods"
     )
     .toLowerCase();
 
@@ -75,7 +75,6 @@ export const deliveryOptionsSchema = z.array(
 
 
 export const AddressDataFieldSchema = z.object({
-    streetAddress: z.string().min(1, { message: "Street Address is required" }),
     route: z.string().min(1, { message: "Street Address Name is required" }),
     street_number: z.string().optional(),
     subPremise: z.string().optional(),
@@ -94,7 +93,7 @@ export const storeCreateSchema = z.object({
     nickname: nicknameSchema.nullable().optional().refine(
         (val) => val !== null && val !== undefined,
         {
-            message: "Address is required",
+            message: "Nickname is required",
         }
     ),
     locationData: AddressDataFieldSchema.nullable().optional().refine(
@@ -103,4 +102,28 @@ export const storeCreateSchema = z.object({
             message: "Address is required",
         }
     )
+});
+
+export const storeEditSchema = z.object({
+    nickname: nicknameSchema.nullable().optional().refine(
+        (val) => val !== null && val !== undefined,
+        {
+            message: "Nickname is required",
+        }
+    ),
+    name: z
+        .string()
+        .min(4, "Minimum of 4 characters for name")
+        .max(16, "Maximum of 16 characters for name")
+        .regex(
+            /^[a-zA-Z0-9._]+$/,
+            "Name can only contain letters, numbers, periods, underscores, and hyphens"
+        )
+        .regex(
+            /^(?!.*\.\.)(?!.*\.\.\.)(?!.*\.\.\.\.)(?!.*\.\.\.\.\.)(?!.*\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)/,
+            "Name cannot contain two or more consecutive periods"
+        ),
+    description: descriptionSchema.nullable().optional(),
+    image: imageUploadSchema.nullable().optional(),
+    background: imageUploadSchema.nullable().optional()
 });

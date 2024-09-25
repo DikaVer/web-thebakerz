@@ -14,7 +14,7 @@ const isAuthorized = (req: Request) => {
 };
 
 
-export async function GET(req: Request) {
+export async function POST(req: Request) {
 
     // Validate the secret key
     if (!isAuthorized(req)) {
@@ -36,6 +36,22 @@ export async function GET(req: Request) {
                 stores 
             WHERE 
                 id = ${storeId}`;
+
+        if (storeRow.rowCount === 0) {
+            return NextResponse.json(
+                {
+                    message: 'Store not found'
+                }, {
+                    status: 404
+                });
+        }
+
+        const userRow = await sql`
+            SELECT *
+            FROM 
+                users
+            WHERE 
+                id = ${storeRow.rows[0].user_id}`;
 
         const locationRow = await sql`
             SELECT *
@@ -62,10 +78,11 @@ export async function GET(req: Request) {
             {
                 message: 'Store data fetched successfully',
                 store: storeRow.rows[0],
+                user: userRow.rows[0],
                 location: locationRow.rows[0],
                 products: productsRow.rows,
                 availability: availability,
-                deliveryOptions: deliveryOptions
+                deliveryOptions: deliveryOptions,
 
             }, {
                 status: 200

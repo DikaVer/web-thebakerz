@@ -103,6 +103,10 @@
     width: 5.5rem;
   }
 
+  .w-30 {
+    width: 7.5rem;
+  }
+
   .w-38 {
     width: 9.5rem;
   }
@@ -133,6 +137,10 @@
 
   .h-27 {
     height: 6.75rem;
+  }
+
+  .h-30 {
+    height: 7.5rem;
   }
 
   .animate-in {

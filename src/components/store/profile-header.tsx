@@ -1,4 +1,4 @@
-"use server";
+"use client";
 import Image from "next/image";
 import {Label} from "@/components/ui/label";
 import {IconLocation, IconStar, IconThreeDots} from "@/components/ui/icons";
@@ -11,26 +11,41 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import {MiniCalendar} from "@/components/scheduler/calendar";
+import {MiniCalendar, MiniCalendarBakerz} from "@/components/scheduler/calendar";
 import React from "react";
 
 interface ProfileHeaderProps {
     storeData: {
-        store_id: string;
+        name: string;
         description: string;
         location: string;
-        avatar_url: string;
+        image: string;
         background_url: string;
     };
+}
+
+export async function ProfileHeaderBakerz({ storeData }: ProfileHeaderProps) {
+    return (
+        <div className="h-60 relative cm:h-72 rounded-lg overflow-hidden flex flex-col justify-center">
+            <Background background_url={storeData.background_url}/>
+            <Avatar avatar_url={storeData.image}/>
+            <ProfileInfo
+                store_id={storeData.name}
+                description={storeData.description}
+                location={storeData.location}
+            />
+            <MiniCalendarBakerz/>
+        </div>
+    );
 }
 
 export async function ProfileHeader({ storeData }: ProfileHeaderProps) {
     return (
         <div className="h-60 relative cm:h-72 rounded-lg overflow-hidden flex flex-col justify-center">
             <Background background_url={storeData.background_url}/>
-            <Avatar avatar_url={storeData.avatar_url}/>
+            <Avatar avatar_url={storeData.image}/>
             <ProfileInfo
-                store_id={storeData.store_id}
+                store_id={storeData.name}
                 description={storeData.description}
                 location={storeData.location}
             />
@@ -38,8 +53,6 @@ export async function ProfileHeader({ storeData }: ProfileHeaderProps) {
         </div>
     );
 }
-
-
 
 const Background = ({background_url} : {background_url: string}) => (
     <Image
@@ -54,13 +67,16 @@ const Background = ({background_url} : {background_url: string}) => (
 
 const Avatar = ({avatar_url} : {avatar_url: string}) => (
     <div className="ml-2 mt-8 cm:ml-4 cm:mt-8 absolute hover:scale-105 transition duration-500 cursor-default avatar">
-
             <Image
                 src={avatar_url}
                 alt="Avatar"
-                width={1920}
-                height={1080}
+                width={128}
+                height={128}
                 className="rounded-full relative h-28 w-28 cm:h-32 cm:w-32"
+                unoptimized={true}
+                quality={100}
+                placeholder={"blur"}
+                blurDataURL={"/avatars/store_1.jpg"}
             />
 
         <p className="text-sm cm:text-base mt-2 underline font-light text-gray-600 text-center">about me</p>

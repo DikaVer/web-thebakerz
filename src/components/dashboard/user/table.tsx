@@ -1,7 +1,6 @@
 import Image from 'next/image';
-import { fetchFilteredUsers} from "@/lib/dashboard/user-dashboard";
+import { fetchFilteredUsers} from "@/lib/actions-server-only/user-actions";
 import {IconAvatar} from "@/components/ui/icons";
-import {Button} from "@/components/ui/button";
 import { revalidatePath } from 'next/cache'
 import ViewUser from "@/components/dashboard/user/view-user";
 

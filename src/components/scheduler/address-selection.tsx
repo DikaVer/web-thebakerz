@@ -2,12 +2,11 @@ import React, {useEffect, useRef, useState} from "react";
 import {Search} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {IconArrow, IconLocation, IconSuccess} from "@/components/ui/icons";
-import {useDebouncedCallback} from "use-debounce";
 import {AddressDataField, AddressDataStorageField} from "@/lib/definitions";
-import {createNanoid} from "@/lib/utils";
 import {toast} from "sonner";
 import {FormError} from "@/components/authentication/form-error";
 import {useJsApiLoader} from "@react-google-maps/api";
+// @ts-ignore
 import {Library} from "@googlemaps/js-api-loader";
 
 interface AddressSelectionProps {
@@ -184,14 +183,12 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 
 
         setInputAddress({
-            id: isEditing ? initialInput?.id : createNanoid(10),
-            streetAddress: formattedAddress,
             route: componentMap.route,
             street_number: componentMap.street_number,
-            subPremise: componentMap.subpremise,
+            sub_premise: componentMap.subpremise,
             premise: componentMap.premise,
             country: componentMap.country,
-            zipCode: componentMap.postal_code,
+            zip_code: componentMap.postal_code,
             city: componentMap.administrative_area_level_2,
             state: componentMap.administrative_area_level_1,
             latitude: latitude,

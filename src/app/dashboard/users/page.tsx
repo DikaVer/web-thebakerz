@@ -1,7 +1,7 @@
 import Search from "@/components/dashboard/search";
 import UsersTable from "@/components/dashboard/user/table";
 import Pagination from "@/components/dashboard/pagination";
-import {fetchUsersPages} from "@/lib/dashboard/user-dashboard";
+import {fetchUsersPages} from "@/lib/actions-server-only/user-actions";
 
 export default async function Page({
                                        searchParams,

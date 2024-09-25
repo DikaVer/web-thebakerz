@@ -1,6 +1,6 @@
 import {notFound} from "next/navigation";
 import React from "react";
-import {fetchUserData} from "@/lib/dashboard/user-dashboard";
+import {fetchUserData} from "@/lib/actions-server-only/user-actions";
 import Image from "next/image";
 import {IconAvatar} from "@/components/ui/icons";
 import {fetchAddressData} from "@/lib/actions/address/address-actions";
@@ -17,7 +17,7 @@ export default async function Page({params}: UserPageProps) {
 
     const userData = await fetchUserData(params.id);
 
-    const addressData = await fetchAddressData(userData.userToken);
+    const addressData = await fetchAddressData(userData.id);
 
     if (!userData) {
 

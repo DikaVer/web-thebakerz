@@ -13,14 +13,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 
-export default function ViewHeaderUser({ user_id }: { user_id: string }) {
+export default function ViewHeaderStore({ store_id }: { store_id: string }) {
     const { refresh, push } = useRouter();
     const handleBack = () => {
-        push(`/dashboard/users`);
+        push(`/dashboard/stores`);
         refresh();
     };
     return (
-        <div className={"flex flex-row justify-between"}>
+        <div className={"flex flex-row justify-between my-4"}>
             <Button className={"w-18 px-0"} variant={"secondary"} onClick={handleBack}>
                 <IconArrow className={"w-4"} color={"black"}/>
                 Back

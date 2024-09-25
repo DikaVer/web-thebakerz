@@ -1,8 +1,10 @@
+"use server";
+
 import Search from "@/components/dashboard/search";
 import Pagination from "@/components/dashboard/pagination";
 import StoresTable from "@/components/dashboard/store/table";
 import CreateStore from "@/components/dashboard/store/create-button";
-import {fetchStoresPages} from "@/lib/dashboard/store-dashboard";
+import {fetchStoresPages} from "@/lib/actions-server-only/store-actions";
 
 export default async function Page({
                                        searchParams,

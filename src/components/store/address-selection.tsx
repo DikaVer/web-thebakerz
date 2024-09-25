@@ -2,16 +2,14 @@ import React, {useEffect, useRef, useState} from "react";
 import {Search} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {IconCross, IconLocation, IconSuccess} from "@/components/ui/icons";
-import {AddressDataField, AddressDataStorageField} from "@/lib/definitions";
-import {createNanoid} from "@/lib/utils";
+import {AddressDataField} from "@/lib/definitions";
+import {formatAddress} from "@/lib/utils";
 import {toast} from "sonner";
 import {FormError} from "@/components/authentication/form-error";
 import {useJsApiLoader} from "@react-google-maps/api";
+// @ts-ignore
 import {Library} from "@googlemaps/js-api-loader";
-import {useForm} from "react-hook-form";
-import {z} from "zod";
-import {AddressDataFieldSchema, storeCreateSchema} from "@/lib/schemas";
-import {zodResolver} from "@hookform/resolvers/zod";
+import {AddressDataFieldSchema} from "@/lib/schemas";
 
 interface AddressSelectionProps {
     initialInput: AddressDataField | null;
@@ -161,26 +159,17 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
             }
         }
 
-        const formattedAddress = [
-            componentMap.route,
-            componentMap.street_number,
-            componentMap.premise,
-            componentMap.subpremise,
-            componentMap.administrative_area_level_2
-        ].filter(Boolean).join(' ').trim().replace(/\s+/g, ', ');
-
         const latitude = data?.geometry?.location?.lat();
         const longitude = data?.geometry?.location?.lng();
 
 
         setInputAddress({
-            streetAddress: formattedAddress,
             route: componentMap.route,
             street_number: componentMap.street_number,
-            subPremise: componentMap.subpremise,
+            sub_premise: componentMap.subpremise,
             premise: componentMap.premise,
             country: componentMap.country,
-            zipCode: componentMap.postal_code,
+            zip_code: componentMap.postal_code,
             city: componentMap.administrative_area_level_2,
             state: componentMap.administrative_area_level_1,
             latitude: latitude,
@@ -215,7 +204,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 
                     <div className={"flex flex-col"}>
                         <p className={"text-base font-bold"}>
-                            {inputAddress?.streetAddress}
+                            {formatAddress(inputAddress)}
                         </p>
                         {isEditing ? (
                             <p className={"text-sm font-light"}>

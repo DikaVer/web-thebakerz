@@ -15,6 +15,8 @@ import {AddressSelection} from "@/components/store/address-selection";
 import { AddressDataField} from "@/lib/definitions";
 import {IconEdit, IconLocation} from "@/components/ui/icons";
 import {FormSuccess} from "@/components/authentication/form-success";
+import {formatAddress} from "@/lib/utils";
+import {useRouter} from "next/navigation";
 
 
 export default function StoreForm() {
@@ -30,6 +32,8 @@ export default function StoreForm() {
     const [address, setAddress] = useState<AddressDataField | null>(null);
 
     const [isEditing, setIsEditing] = useState(false);
+
+    const { refresh, push } = useRouter();
 
 
     const form = useForm<z.infer<typeof  storeCreateSchema>>({
@@ -48,10 +52,10 @@ export default function StoreForm() {
                 .then((data) => {
                 if (data && data.error) {
                     setError(data.error);
-                    setSuccess(undefined);
                 } else if (data && data.success) {
-                    setError(undefined);
                     setSuccess(data.success)
+                    push(`/dashboard/stores`);
+                    refresh();
                 }
             })
         });
@@ -140,7 +144,7 @@ export default function StoreForm() {
                                                             />
                                                             <div className={"flex w-full"}>
                                                                 <p className="text-black text-lg">
-                                                                    {address.streetAddress}
+                                                                    {formatAddress(address)}
                                                                 </p>
                                                             </div>
                                                             <div
