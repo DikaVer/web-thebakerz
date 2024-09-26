@@ -911,8 +911,6 @@ export default async function Page() {
                             country where you live, unless you are acting in the exercise of a profession or business,
                             in which case you agree to the exclusive jurisdiction of the Dutch court in disputes. By
                             accepting these Terms and Conditions, you agree to be bound by these Terms and Conditions.
-                            This concludes the full Terms and Conditions for TheBakerz, adapted from the Uber Eats
-                            example and tailored to TheBakerz&apos;s specific business model.
                         </li>
                     </ul>
                 </main>
