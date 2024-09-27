@@ -1,9 +1,8 @@
 import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
 import {NextResponse} from "next/server";
-export const config = {
-    runtime: 'edge', // 'nodejs' is the default
-};
+
+export const runtime = "edge"
 
 
 export async function POST(req: Request) {
@@ -21,17 +20,19 @@ export async function POST(req: Request) {
             if (session.user?.role === 'admin') {
 
 
-                await sql`
+                const updateStore = sql`
                     UPDATE stores
                     SET
                         user_id = ${userId}
                     WHERE id = ${storeId}`;
 
-                await sql`
+                const updateUser = sql`
                     UPDATE users
                     SET
                         role = 'bakerz'
                     WHERE id = ${userId}`;
+
+                await Promise.all([updateStore, updateUser]);
 
 
 

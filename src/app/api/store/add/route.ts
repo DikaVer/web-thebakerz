@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
-import {AddressDataField} from "@/lib/definitions";
+import {AddressDataStoreField} from "@/lib/definitions";
+
+export const runtime = "edge"
 
 const isAuthorized = (req: Request) => {
     const authHeader = req.headers.get('Authorization');
@@ -30,14 +31,14 @@ export async function POST(req: Request) {
 
     try {
 
-            const { nickname, locationData }: { nickname: string; locationData: AddressDataField } = storeData;
+            const { nickname, locationData }: { nickname: string; locationData: AddressDataStoreField } = storeData;
 
             const storeNickname = await sql`
                       SELECT
                         nickname
                       FROM stores
                         WHERE
-                        nickname = ${nickname}`;
+                        nickname = ${nickname} OR id = ${nickname}`;
 
             if(storeNickname.rows.length > 0){
                 return NextResponse.json(
@@ -74,10 +75,10 @@ export async function POST(req: Request) {
                     ${storeRow.rows[0].id},
                     ${locationData.route},
                     ${locationData.street_number},
-                    ${locationData.subPremise},
+                    ${locationData.sub_premise},
                     ${locationData.premise},
                     ${locationData.country},
-                    ${locationData.zipCode},
+                    ${locationData.zip_code},
                     ${locationData.city},
                     ${locationData.state},
                     ${locationData.latitude},

@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from 'clsx'
 import { customAlphabet } from 'nanoid'
 import { twMerge } from 'tailwind-merge'
-import {AddressDataField} from "@/lib/definitions";
+import {AddressDataStoreField} from "@/lib/definitions";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -13,7 +13,7 @@ export function createNanoid(length: number) {
 }
 
 
-export function formatAddress(address: AddressDataField): string {
+export function formatAddress(address: AddressDataStoreField): string {
     return [
         address.route,
         address.street_number,

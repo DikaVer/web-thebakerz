@@ -3,6 +3,8 @@ import UsersTable from "@/components/dashboard/user/table";
 import Pagination from "@/components/dashboard/pagination";
 import {fetchUsersPages} from "@/lib/actions-server-only/user-actions";
 
+export const revalidate = 0;
+
 export default async function Page({
                                        searchParams,
                                    }: {

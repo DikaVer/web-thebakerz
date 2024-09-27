@@ -4,7 +4,7 @@ import { IconClock, IconCross } from "@/components/ui/icons";
 import { SwitchDelivery } from "@/components/scheduler/switch-delivery";
 import { AddressSearch } from "@/components/scheduler/address-search";
 import { TimeSelection } from "@/components/scheduler/time-selection";
-import {AddressDataField, CheckoutLocalDataField} from "@/lib/definitions";
+import {AddressDataStoreField, CheckoutLocalDataField} from "@/lib/definitions";
 import { AddressSelection } from "@/components/scheduler/address-selection";
 import {ScrollArea} from "@/components/ui/scroll-area";
 
@@ -22,7 +22,7 @@ export function SchedulerContent({ checkoutData, handleDialogClose, isSchedulerV
         setIsSchedulerView(view);
     };
 
-    const [input, setInputAddress] = useState(null as AddressDataField | null);
+    const [input, setInputAddress] = useState(null as AddressDataStoreField | null);
 
     return (
 
@@ -82,7 +82,7 @@ const SchedulerContentView: React.FC<{
     updateCheckoutData: () => void;
     handleDialogClose: () => void,
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection" | "addressEditing") => void,
-    setInputAddress: (input: AddressDataField | null) => void;
+    setInputAddress: (input: AddressDataStoreField | null) => void;
 }> = ({
           handleDialogClose,
           handleSchedulerView,

@@ -1,34 +1,29 @@
 import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
 import {NextResponse} from "next/server";
-export const config = {
-    runtime: 'edge', // 'nodejs' is the default
-};
+import {nameSchema} from "@/lib/schemas";
+export const runtime = "edge";
 
-const isAuthorized = (req: Request) => {
-    const authHeader = req.headers.get('Authorization');
-    const secretKey = authHeader?.split(' ')[1]; // Extract the key after 'Bearer'
-
-    // Validate the secret key
-    return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
-};
 
 export async function POST(req: Request) {
 
-    // Validate the secret key
-    if (!isAuthorized(req)) {
-        return NextResponse.json({
-            message: 'Unauthorized access'
-        }, {
-            status: 401
-        });
-    }
-
-    const session = await auth()
 
     const body = await req.json();
 
     const { userId, nickname} = body;
+
+    const validateFields = nameSchema.safeParse(nickname);
+
+    if (!validateFields.success) {
+        return NextResponse.json(
+            {
+                message: "Invalid name"
+            }, {
+                status: 400
+            });
+    }
+
+    const session = await auth();
 
     if(session){
         try {
@@ -37,19 +32,17 @@ export async function POST(req: Request) {
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
 
-                const userRow = await sql`
-                            UPDATE users
-                            SET
-                                name = ${nickname}
-                            WHERE id = ${userId}
-                            RETURNING id, name, email, image, role`;
+                await sql`
+                    UPDATE users
+                    SET
+                        name = ${nickname}
+                    WHERE id = ${userId}`;
 
 
 
                 return NextResponse.json(
                     {
-                        message: 'Name updated successfully',
-                        storeData: userRow.rows[0]
+                        message: 'Name updated successfully'
                     }, {
                         status: 200
                     });

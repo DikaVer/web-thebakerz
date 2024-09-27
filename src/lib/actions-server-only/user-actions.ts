@@ -1,5 +1,6 @@
 import 'server-only';
 import {sql} from "@vercel/postgres";
+import {UsersTable} from "@/lib/definitions";
 
 export const config = {
     runtime: 'edge', // 'nodejs' is the default
@@ -22,13 +23,6 @@ export async function fetchUsersPages(query: string) {
     }
 }
 
-export type UsersTable = {
-    id: string;
-    name: string;
-    email: string;
-    image: string;
-    role: string;
-};
 
 export async function fetchFilteredUsers(
     query: string,

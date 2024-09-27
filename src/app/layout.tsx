@@ -3,7 +3,6 @@ import '@/styles/globals.css'
 import React from "react";
 import type { Metadata } from "next";
 import {Toaster} from "@/components/ui/sonner";
-import { cookies } from 'next/headers'
 
 export const metadata: Metadata = {
     metadataBase: new URL(`https://www.TheBakerz.com/`),
@@ -16,7 +15,9 @@ export const metadata: Metadata = {
 
 }
 
-export default async function RootLayout({
+// export const experimental_ppr = true;
+
+export default function RootLayout({
                                        children,
                                    }: Readonly<{
     children: React.ReactNode;

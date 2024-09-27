@@ -7,21 +7,22 @@ import {Input} from "@/components/ui/input";
 import {imageUploadSchema} from "@/lib/schemas";
 import {ControllerRenderProps, UseFormReturn} from "react-hook-form";
 import {FormError} from "@/components/authentication/form-error";
+import {StoreData} from "@/lib/definitions";
 
 interface ImageUploaderProps {
     form: UseFormReturn<any>;
     field: ControllerRenderProps<any>;
     name: string;
     setError: (input: string | undefined) => void;
+    setStoreData: (data: StoreData) => void;
+    data: {
+        image: string | null;
+    };
+    setData: (data: { image: string | null }) => void;
 }
 
-export function ImageUploader({ form, field, name, setError }: ImageUploaderProps) {
+export function ImageUploader({ form, field, name, setError, data, setData }: ImageUploaderProps) {
 
-    const [data, setData] = useState<{
-        image: string | null
-    }>({
-        image: null
-    })
     const [file, setFile] = useState<File | null>(null)
 
     const [dragActive, setDragActive] = useState(false)
@@ -29,9 +30,9 @@ export function ImageUploader({ form, field, name, setError }: ImageUploaderProp
     const onChangePicture = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             const file = event.currentTarget.files && event.currentTarget.files[0]
-            const check = imageUploadSchema.safeParse(file?.name)
+            const check = imageUploadSchema.safeParse(file)
             if (!check.success){
-                setError("Image must be a valid image format (jpeg, jpg, png)")
+                setError(check.error.errors[0].message)
                 setFile(null)
                 setData({ image: null })
                 return
@@ -48,10 +49,10 @@ export function ImageUploader({ form, field, name, setError }: ImageUploaderProp
 
                     reader.onload = (e) => {
                         const base64String = e.target?.result as string;
-                        setData((prev) => ({ ...prev, image: base64String }));
+                        setData({ image: base64String });
                     }
                     setError(undefined);
-                    form.setValue(name, file.name)
+                    form.setValue(name, file)
                     reader.readAsDataURL(file)
                 }
             }
@@ -86,23 +87,29 @@ export function ImageUploader({ form, field, name, setError }: ImageUploaderProp
                     setDragActive(false)
 
                     const file = e.dataTransfer.files && e.dataTransfer.files[0]
-                    const check = imageUploadSchema.safeParse(file?.name)
+                    const check = imageUploadSchema.safeParse(file)
                     if (!check.success){
-                        setError("Image must be a valid image format (jpeg, jpg, png)")
+                        setError(check.error.errors[0].message)
+                        setFile(null)
+                        setData({ image: null })
+                        return
                     }
                     if (file && check.success) {
                         if (file.size / 1024 / 1024 > 4.5) {
                             setError('File size too big (max 4.5MB)')
+                            setFile(null)
+                            setData({ image: null })
+                            return
                         } else {
                             setFile(file)
                             const reader = new FileReader()
 
                             reader.onload = (e) => {
                                 const base64String = e.target?.result as string;
-                                setData((prev) => ({ ...prev, image: base64String }));
+                                setData({image: base64String });
                             }
                             setError(undefined);
-                            form.setValue(name, file.name)
+                            form.setValue(name, file)
                             reader.readAsDataURL(file)
                         }
                     }
@@ -140,7 +147,7 @@ export function ImageUploader({ form, field, name, setError }: ImageUploaderProp
                     Drag and drop or click to upload.
                 </p>
                 <p className="mt-2 text-center text-sm text-gray-500">
-                    Max file size: 5MB
+                    Max file size: 4.5MB
                 </p>
                 <span className="sr-only">Photo upload</span>
             </div>

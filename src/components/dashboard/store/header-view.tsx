@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import {Button} from "@/components/ui/button";
 import {IconArrow, IconThreeDots} from "@/components/ui/icons";

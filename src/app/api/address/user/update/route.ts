@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
-import {AddressDataField} from "@/lib/definitions";
+import {AddressDataStoreField} from "@/lib/definitions";
 
 const isAuthorized = (req: Request) => {
     const authHeader = req.headers.get('Authorization');
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
-                const { locationData }: { locationData: AddressDataField } = locationDataRaw;
+                const { locationData }: { locationData: AddressDataStoreField } = locationDataRaw;
 
 
                 const userLocation = await sql`

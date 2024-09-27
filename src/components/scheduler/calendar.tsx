@@ -5,7 +5,7 @@ import {IconChevronDown} from "@/components/ui/icons";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {SchedulerContent} from "@/components/scheduler/scheduler";
 import useIsSmallScreen from "@/lib/hooks/use-is-small-screen";
-import {AddressData, AddressDataField, CheckoutLocalDataField} from "@/lib/definitions";
+import {AddressData, AddressDataStoreField, CheckoutLocalDataField} from "@/lib/definitions";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 

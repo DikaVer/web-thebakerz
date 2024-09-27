@@ -1,5 +1,6 @@
 import 'server-only';
 import {sql} from "@vercel/postgres";
+import {StoreData} from "@/lib/definitions";
 
 export const config = {
     runtime: 'edge', // 'nodejs' is the default
@@ -33,6 +34,7 @@ export async function fetchFilteredStores(
     query: string,
     currentPage: number,
 ) {
+
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
     try {
@@ -58,9 +60,12 @@ export async function fetchFilteredStores(
 
 
 
-export const fetchStoreData = async (storeId: string) => {
+export const fetchStoreData = async (storeId: string): Promise<StoreData | null> => {
 
     try {
+
+
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/getAll`, {
             method: 'POST',
             headers: {
@@ -75,26 +80,38 @@ export const fetchStoreData = async (storeId: string) => {
         const result = await response.json();
 
         if (!response.ok) {
-            return {
-                error: result.message,
-            }
+            console.error("Error creating store ", result);
+            return null;
         }
 
         return {
-            store: result.store,
-            user: result.user,
-            location: result.location,
+            id: result.storeData.store_id,
+            user_id: result.storeData.user_id,
+            name: result.storeData.user_name,
+            description: result.storeData.description,
+            location: {
+                city: result.storeData.city,
+                country: result.storeData.country,
+                latitude: result.storeData.latitude,
+                longitude: result.storeData.longitude,
+                premise: result.storeData.premise,
+                route: result.storeData.route,
+                state: result.storeData.state,
+                street_number: result.storeData.street_number,
+                sub_premise: result.storeData.sub_premise,
+                zip_code: result.storeData.zip_code,
+            },
+            image: result.storeData.user_image,
+            background_url: result.storeData.background_url,
+            nickname: result.storeData.nickname,
             products: result.products,
             availability: result.availability,
-            deliveryOptions: result.delivery,
-            success: 'Store data fetched successfully',
+            deliveryOptions: result.deliveryOptions
         }
 
     } catch (error) {
         console.error("Error creating store", error);
-        return {
-            error: "Something went wrong. Please try again later.",
-        };
+        return null;
     }
 
 };

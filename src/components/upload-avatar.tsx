@@ -1,7 +1,7 @@
 'use client';
 
 import 'react-image-crop/dist/ReactCrop.css';
-import React, {ChangeEvent, useCallback, useRef, useState} from "react";
+import React, {ChangeEvent, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {Input} from "@/components/ui/input";
 import {imageUploadSchema} from "@/lib/schemas";
 import {ControllerRenderProps, UseFormReturn} from "react-hook-form";
@@ -10,6 +10,7 @@ import {IconCross} from "@/components/ui/icons";
 import ReactCrop, {centerCrop, convertToPixelCrop, makeAspectCrop, PercentCrop, PixelCrop} from "react-image-crop";
 import {FormError} from "@/components/authentication/form-error";
 import setCanvasPreview from "@/components/setCanvasPreview";
+import {StoreData} from "@/lib/definitions";
 
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 128;
@@ -20,19 +21,18 @@ interface AvatarUploaderProps {
     name: string;
     isDialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
+    setStoreData: (data: StoreData) => void;
+    data: {
+        image: string | null;
+    };
+    setData: (data: { image: string | null }) => void;
 }
 
-export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen}: AvatarUploaderProps) {
+export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen, setStoreData, data, setData}: AvatarUploaderProps) {
 
     const imgRef = useRef(null);
     const previewCanvasRef = useRef(null);
 
-
-    const [data, setData] = useState<{
-        image: string | null
-    }>({
-        image: null
-    });
 
     const [error, setError] = useState<string | undefined>();
 
@@ -45,7 +45,7 @@ export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen}
     const onChangePicture = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             const file = event.currentTarget.files && event.currentTarget.files[0]
-            const check = imageUploadSchema.safeParse(file?.name)
+            const check = imageUploadSchema.safeParse(file)
             if (!check.success){
                 setError("Image must be a valid image format (jpeg, jpg, png)")
                 setFile(null);
@@ -61,15 +61,15 @@ export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen}
                 } else {
 
                     setFile(file)
+                    console.log(file)
 
                     const reader = new FileReader()
 
                     reader.onload = (e) => {
                         const base64String = e.target?.result as string;
-                        setData((prev) => ({ ...prev, image: base64String }));
+                        setData({ image: base64String });
                     }
                     setError(undefined);
-                    form.setValue(name, file.name)
                     reader.readAsDataURL(file)
                 }
             }
@@ -99,6 +99,11 @@ export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen}
         const centeredCrop = centerCrop(crop, width, height)
         setCrop(centeredCrop)
     }
+
+    const isDisabled = useMemo(() => {
+        return !data.image
+    }, [data.image]
+    );
 
     return (
         <>
@@ -146,7 +151,7 @@ export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen}
                                     setDragActive(false);
 
                                     const file = e.dataTransfer.files && e.dataTransfer.files[0];
-                                    const check = imageUploadSchema.safeParse(file?.name);
+                                    const check = imageUploadSchema.safeParse(file);
                                     if (!check.success) {
                                         setError('Image must be a valid image format (jpeg, jpg, png)');
                                     }
@@ -159,9 +164,8 @@ export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen}
 
                                             reader.onload = (e) => {
                                                 const base64String = e.target?.result as string;
-                                                setData((prev) => ({...prev, image: base64String}));
+                                                setData({ image: base64String });
                                             };
-                                            form.setValue(name, file.name);
                                             reader.readAsDataURL(file);
                                         }
                                     }
@@ -238,32 +242,52 @@ export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen}
                             onClick={() => document.getElementById('image-upload')?.click()}
                             variant={"secondary"}
                         >
-                            Upload Image
+                            Select Image
                         </Button>
                     </div>
                     <FormError message={error}/>
                     <Button
+                        type={"button"}
                         onClick={() => {
 
                             setCanvasPreview(
                                 imgRef.current,
                                 previewCanvasRef.current,
                                 convertToPixelCrop(
+                                    // @ts-ignore
                                     crop,
                                     // @ts-ignore
                                     imgRef.current.width,
                                     // @ts-ignore
                                     imgRef.current.height
                                 )
-                            )
+                            );
+
+                            // @ts-ignore
+                            previewCanvasRef.current.toBlob((blob) => {
+                                if (blob) {
+                                    // Create a File object from the Blob
+                                    const croppedFile = new File([blob], `${file?.name}`, { type: `${file?.type}` });
+
+                                    // Set the File object to your state
+                                    setFile(croppedFile);
+
+                                    // Optionally, set the File object to your form field
+                                    form.setValue(name, croppedFile);
+                                }
+                            }, `${file?.type}`);
+
+                            setDialogOpen(false);
                         }}
+                        disabled={isDisabled}
                     >
-                        Review Avatar
+                        Apply
                     </Button>
                     {crop && (
                         <canvas
+
                             ref={previewCanvasRef}
-                            className={'mt-4'}
+                            className={'mt-4 hidden'}
                             style={{
                                 border: "1px solid black",
                                 objectFit: "contain",

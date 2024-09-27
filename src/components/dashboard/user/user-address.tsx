@@ -2,11 +2,11 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import {AddressData, AddressDataField} from "@/lib/definitions";
+import {AddressData, AddressDataStoreField} from "@/lib/definitions";
 
 
 interface UserAddressProps {
-    shippingAddress: AddressDataField | null;
+    shippingAddress: AddressDataStoreField | null;
     savedAddresses: AddressData | null;
 }
 

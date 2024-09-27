@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {Search} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {IconArrow, IconLocation, IconSuccess} from "@/components/ui/icons";
-import {AddressDataField, AddressDataStorageField} from "@/lib/definitions";
+import {AddressDataStoreField, AddressDataStorageField} from "@/lib/definitions";
 import {toast} from "sonner";
 import {FormError} from "@/components/authentication/form-error";
 import {useJsApiLoader} from "@react-google-maps/api";
@@ -12,8 +12,8 @@ import {Library} from "@googlemaps/js-api-loader";
 interface AddressSelectionProps {
     checkoutData: AddressDataStorageField,
     updateCheckoutData: () => void;
-    initialInput: AddressDataField | null;
-    setInputAddress: (input: AddressDataField | null) => void;
+    initialInput: AddressDataStoreField | null;
+    setInputAddress: (input: AddressDataStoreField | null) => void;
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void;
     isEditing: boolean;
 }
@@ -193,7 +193,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
             state: componentMap.administrative_area_level_1,
             latitude: latitude,
             longitude: longitude,
-        } as AddressDataField);
+        } as AddressDataStoreField);
     };
 
 
@@ -212,7 +212,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
         const addressData = {
             ...initialInput,
             deliveryNotes: deliveryNotes,
-        } as AddressDataField;
+        } as AddressDataStoreField;
 
         try {
 
@@ -402,7 +402,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 const setupMarkerListener = (marker: google.maps.marker.AdvancedMarkerElement,
                              initialPosition: google.maps.LatLng | undefined,
                              setErrorMap: (input: (string | undefined)) => void,
-                             initialInput: AddressDataField) => {
+                             initialInput: AddressDataStoreField) => {
     const maxLatDifference = 0.002;
     const maxLngDifference = 0.003;
 

@@ -15,12 +15,12 @@ export interface Session {
     userId: string;
     expires: string;
     sessionToken: string;
-};
+}
 
 export type ProductDataField = {
-    product_id: string;
+    id: string;
     store_id: string;
-    category_id: string;
+    category: string;
     name: string;
     description: string;
     price: number;
@@ -28,35 +28,34 @@ export type ProductDataField = {
 };
 
 export type AddressData = {
-    [key: string]: AddressDataField;
+    [key: string]: AddressDataStoreField;
 }
 
-export type AddressDataField = {
+export type AddressDataStoreField = {
     city: string;
     country: string;
     latitude: number;
     longitude: number;
-    premise: string;
+    premise?: string;
     route: string;
     state: string;
     street_number: string;
-    sub_premise: string;
+    sub_premise?: string;
     zip_code: string;
-    [key: string]: any;
 };
 
-export type CheckoutLocalDataField = {
-    deliveryMode: string,
-    shippingAddress: AddressDataField | null,
-    savedAddresses: AddressData | null,
-    date: string | null,
-    time: string | null,
-}
+export type UsersTable = {
+    id: string;
+    name: string;
+    email: string;
+    image: string;
+    role: string;
+};
 
-export type AddressDataStorageField = {
-    shippingAddress: AddressDataField | null,
-    savedAddresses: AddressData | null,
-}
+// export type AddressDataStorageField = {
+//     shippingAddress: AddressDataStoreField | null,
+//     savedAddresses: AddressData | null,
+// }
 
 export type CartProductDataField = {
     product_id: string;
@@ -69,41 +68,28 @@ export type CartProductDataField = {
     avatar_url: string;
 }
 
-export interface StoreFormData {
-    storeName: string;
-    description?: string;
-    backgroundImage: string | null;
-    delivery: boolean;
-    address: AddressDataField; // Assuming AddressDataField is defined elsewhere
-    availabilityCalendar: Record<
-        string,
-        {
-            from: string;
-            to: string;
-            availability: "Free" | "Busy";
-        }
-    >;
-    deliveryLocations: Array<{
+export interface StoreData {
+    id: string;
+    user_id: string;
+    name: string;
+    description: string | null;
+    location: AddressDataStoreField;
+    image: string | null;
+    background_url: string | null;
+    nickname: string;
+    products: Array<ProductDataField>;
+    deliveryOptions: Array<{
         location: keyof typeof cityLatLngMap;
         range: number;
     }>;
-}
-
-export type StoreDataField = {
-    store_id: string;
-    description: string;
-    location: string;
-    avatar_url: string;
-    background_url: string;
-};
-
-export interface ShopItemField {
-    product_id: number;
-    name: string;
-    description: string;
-    price: number;
-    image_url: string;
-    amount: number;
+    availability: Record<
+        string,
+        {
+            from: keyof typeof timeMap;
+            to: keyof typeof timeMap;
+            availability: "Free" | "Busy";
+        }
+    > | null;
 }
 
 // Define a custom User type

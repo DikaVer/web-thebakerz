@@ -3,15 +3,25 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Command, CommandEmpty, CommandGroup,  CommandItem, CommandList } from "@/components/ui/command";
 import { CheckIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import React from "react";
 import {CaretSortIcon} from "@radix-ui/react-icons";
-import {UsersTable} from "@/lib/dashboard/user-dashboard";
+import {UsersTable} from "@/lib/definitions";
 import Search from "@/components/dashboard/search";
 import {FormError} from "@/components/authentication/form-error";
 import {FormSuccess} from "@/components/authentication/form-success";
+import {useRouter} from "next/navigation";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
 
 interface UserPopoverProps {
     userList: UsersTable[];
@@ -24,6 +34,7 @@ export default function UserLinkStore({ userList, storeId}: UserPopoverProps) {
     const [error, setError] = useState<string | undefined>();
     const [success, setSuccess] = useState<string | undefined>();
     const [isLoading, setLoading] = useState<boolean>(false);
+    const { refresh, push } = useRouter();
 
     const handleUserSelect = (user: UsersTable) => {
         setSelectedUser(user);
@@ -34,9 +45,8 @@ export default function UserLinkStore({ userList, storeId}: UserPopoverProps) {
         setLoading(true);
         try {
             if (!selectedUser) {
-                setSuccess(undefined);
                 setError("Please select a user");
-                throw new Error("Please select a user");
+                return;
             }
 
             const response = await fetch(`/api/store/link`, {
@@ -54,10 +64,11 @@ export default function UserLinkStore({ userList, storeId}: UserPopoverProps) {
 
             if (!response.ok) {
                 setError(result.message);
-                setSuccess(undefined);
             } else {
                 setError(undefined);
                 setSuccess("User linked successfully");
+                push(`/dashboard/stores`);
+                refresh();
             }
         } catch (error) {
             setError("Something went wrong. Please try again later.");
@@ -111,14 +122,34 @@ export default function UserLinkStore({ userList, storeId}: UserPopoverProps) {
             <FormError message={error}/>
             <FormSuccess message={success}/>
             <div>
-                <Button
-                    type="submit"
-                    className=" w-full"
-                    onClick={handleSubmit}
-                    disabled={isLoading}
-                >
-                    Link User
-                </Button>
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button
+                            type="button"
+                            className=" w-full"
+                            disabled={isLoading}
+                        >
+                            Link User
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This action cannot be undone. These changes will be seen to everyone.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                                type={"submit"}
+                                onClick={handleSubmit}
+                            >
+                                Apply
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </div>
         </div>
     );

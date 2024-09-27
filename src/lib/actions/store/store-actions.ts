@@ -1,7 +1,7 @@
 "use server";
 import * as z from "zod";
 
-import {storeCreateSchema} from "@/lib/schemas";
+import {storeCreateSchema, storeEditSchema} from "@/lib/schemas";
 import {auth} from "@/auth";
 
 export const createStore = async (formData: z.infer<typeof storeCreateSchema>) => {
@@ -47,5 +47,4 @@ export const createStore = async (formData: z.infer<typeof storeCreateSchema>) =
     }
 
 };
-
 

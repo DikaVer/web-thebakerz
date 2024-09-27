@@ -1,10 +1,12 @@
-"use server";
-
 import Search from "@/components/dashboard/search";
 import Pagination from "@/components/dashboard/pagination";
 import StoresTable from "@/components/dashboard/store/table";
 import CreateStore from "@/components/dashboard/store/create-button";
 import {fetchStoresPages} from "@/lib/actions-server-only/store-actions";
+import {Suspense} from "react";
+import StoresTableSkeleton from "@/components/skeletons";
+
+export const revalidate = 0;
 
 export default async function Page({
                                        searchParams,
@@ -28,7 +30,9 @@ export default async function Page({
             <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
                 <Search placeholder="Search users..." />
             </div>
-            <StoresTable query={query} currentPage={currentPage} />
+            <Suspense key={query + currentPage} fallback={<StoresTableSkeleton/>}>
+                <StoresTable query={query} currentPage={currentPage} />
+            </Suspense>
             <div className="mt-5 flex w-full justify-center">
                 <Pagination totalPages={totalPages} />
             </div>

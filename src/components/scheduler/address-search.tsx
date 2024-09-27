@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import {IconEdit, IconLocation} from "@/components/ui/icons";
 import {AddressSelection} from "@/components/scheduler/address-selection";
-import {AddressData, AddressDataField, AddressDataStorageField} from "@/lib/definitions";
+import {AddressData, AddressDataStoreField, AddressDataStorageField} from "@/lib/definitions";
 
 interface AddressSearchProps {
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection" | "addressEditing") => void;
-    setInputAddress: (input: AddressDataField | null) => void;
+    setInputAddress: (input: AddressDataStoreField | null) => void;
     checkoutData: AddressDataStorageField;
     updateCheckoutData: () => void;
 }

@@ -2,20 +2,15 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { AddressDataField} from "@/lib/definitions";
-import {formatAddress} from "@/lib/utils";
+import { AddressDataStoreField} from "@/lib/definitions";
 
 
 interface StoreAddressProps {
-    address: AddressDataField | null;
+    address: AddressDataStoreField;
 }
 
 
 const StoreAddresses = ({ address} : StoreAddressProps) => {
-
-    if (!address) {
-        return null;
-    }
 
     const [selectedAddress, setSelectedAddress] = useState(address);
 

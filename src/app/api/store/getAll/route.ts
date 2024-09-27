@@ -1,9 +1,7 @@
 import {sql} from "@vercel/postgres";
 import {NextResponse} from "next/server";
 import {kv} from "@vercel/kv";
-export const config = {
-    runtime: 'edge', // 'nodejs' is the default
-};
+export const runtime = "edge";
 
 const isAuthorized = (req: Request) => {
     const authHeader = req.headers.get('Authorization');
@@ -30,14 +28,23 @@ export async function POST(req: Request) {
     const { storeId } = body;
 
     try {
-        const storeRow = await sql`
-            SELECT *
-            FROM 
-                stores 
-            WHERE 
-                id = ${storeId}`;
 
-        if (storeRow.rowCount === 0) {
+        const combinedRow = await sql`
+        SELECT 
+            s.id as store_id, s.nickname, s.description, s.background_url, 
+            u.id as user_id, u.name as user_name, u.email, u.image as user_image, u.role as user_role, 
+            a.route, a.street_number, a.sub_premise, a.premise, a.city, a.state, a.country, a.zip_code, a.latitude, a.longitude
+        FROM 
+            stores s
+        LEFT JOIN 
+            users u ON u.id = s.user_id
+        LEFT JOIN 
+            addresses_stores a ON a.store_id = s.id
+        WHERE 
+            s.id = ${storeId}
+`;
+
+        if (combinedRow.rowCount === 0) {
             return NextResponse.json(
                 {
                     message: 'Store not found'
@@ -46,22 +53,8 @@ export async function POST(req: Request) {
                 });
         }
 
-        const userRow = await sql`
-            SELECT *
-            FROM 
-                users
-            WHERE 
-                id = ${storeRow.rows[0].user_id}`;
-
-        const locationRow = await sql`
-            SELECT *
-            FROM 
-                addresses_stores
-            WHERE 
-                store_id = ${storeId}`;
-
         const productsRow = await sql`
-            SELECT * FROM products
+            SELECT id, store_id, category, name, description, price, image_url FROM products
             WHERE store_id = ${storeId}`;
 
 
@@ -77,9 +70,7 @@ export async function POST(req: Request) {
         return NextResponse.json(
             {
                 message: 'Store data fetched successfully',
-                store: storeRow.rows[0],
-                user: userRow.rows[0],
-                location: locationRow.rows[0],
+                storeData: combinedRow.rows[0],
                 products: productsRow.rows,
                 availability: availability,
                 deliveryOptions: deliveryOptions,

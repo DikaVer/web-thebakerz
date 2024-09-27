@@ -12,11 +12,22 @@ import {FormError} from "@/components/authentication/form-error";
 import {createStore} from "@/lib/actions/store/store-actions";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {AddressSelection} from "@/components/store/address-selection";
-import { AddressDataField} from "@/lib/definitions";
+import { AddressDataStoreField} from "@/lib/definitions";
 import {IconEdit, IconLocation} from "@/components/ui/icons";
 import {FormSuccess} from "@/components/authentication/form-success";
 import {formatAddress} from "@/lib/utils";
 import {useRouter} from "next/navigation";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 
 export default function StoreForm() {
@@ -29,7 +40,7 @@ export default function StoreForm() {
 
     const [isAddressDialogOpen, setIsAddressDialogOpen] = useState(false);
 
-    const [address, setAddress] = useState<AddressDataField | null>(null);
+    const [address, setAddress] = useState<AddressDataStoreField | null>(null);
 
     const [isEditing, setIsEditing] = useState(false);
 
@@ -121,7 +132,7 @@ export default function StoreForm() {
 
                                 useEffect(() => {
                                     if (address) {
-                                        field.onChange(address as AddressDataField); // Update the field when address is not null
+                                        field.onChange(address as AddressDataStoreField); // Update the field when address is not null
                                     }
                                 }, [address]);
 
@@ -179,13 +190,34 @@ export default function StoreForm() {
                         <FormSuccess message={success}/>
                         {/* Submit Button */}
                         <div>
-                            <Button
-                                type="submit"
-                                className=" w-full"
-                                disabled={isPending}
-                            >
-                                Create Store
-                            </Button>
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button
+                                        type="button"
+                                        className=" w-full"
+                                        disabled={isPending}
+                                    >
+                                        Create Store
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            This action cannot be undone. These changes will be seen to everyone.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialogAction
+                                            onClick={() => form.handleSubmit(onSubmit)()}
+                                            disabled={isPending}
+                                        >
+                                            Apply
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
                         </div>
                     </form>
                 </Form>

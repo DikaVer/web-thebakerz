@@ -1,6 +1,6 @@
 import NextAuth from "next-auth"
 import PostgresAdapter from '@/lib/adapter/postgreAdapter'
-import { Pool } from "@neondatabase/serverless"
+import { Pool } from "@neondatabase/serverless";
 import Sendgrid from "next-auth/providers/sendgrid"
 import Google from "next-auth/providers/google"
 import Facebook from "next-auth/providers/facebook"
@@ -17,10 +17,13 @@ export const {
     auth,
     signIn,
     signOut
-} = NextAuth(() => {
+} = NextAuth( () => {
     // Create a `Pool` inside the request handler.
     const pool = new Pool({ connectionString: process.env.POSTGRES_URL })
     const adapter = PostgresAdapter(pool)
+    // const cookieHeader = await cookies(); // Await the cookies() call here
+    // const sessionCookie = cookieHeader.get("next-auth.session-token");
+
     return {
         adapter: adapter,
         providers: [

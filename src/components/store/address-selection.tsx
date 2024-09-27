@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {Search} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {IconCross, IconLocation, IconSuccess} from "@/components/ui/icons";
-import {AddressDataField} from "@/lib/definitions";
+import {AddressDataStoreField} from "@/lib/definitions";
 import {formatAddress} from "@/lib/utils";
 import {toast} from "sonner";
 import {FormError} from "@/components/authentication/form-error";
@@ -12,8 +12,8 @@ import {Library} from "@googlemaps/js-api-loader";
 import {AddressDataFieldSchema} from "@/lib/schemas";
 
 interface AddressSelectionProps {
-    initialInput: AddressDataField | null;
-    setAddress: (input: AddressDataField | null) => void;
+    initialInput: AddressDataStoreField | null;
+    setAddress: (input: AddressDataStoreField | null) => void;
     setAddressDialogOpen: (input: boolean) => void;
     isEditing: boolean;
 }
@@ -23,7 +23,7 @@ const libraries: Library[] = ["places", "maps", "marker"];
 export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput, setAddress, setAddressDialogOpen,  isEditing}) => {
     const [error, setError] = useState<string | undefined>();
 
-    const [inputAddress, setInputAddress] = useState<AddressDataField | null>(initialInput);
+    const [inputAddress, setInputAddress] = useState<AddressDataStoreField | null>(initialInput);
 
     const [errorMap, setErrorMap] = useState<string | undefined>();
 
@@ -174,7 +174,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
             state: componentMap.administrative_area_level_1,
             latitude: latitude,
             longitude: longitude,
-        } as AddressDataField);
+        } as AddressDataStoreField);
     };
 
 
@@ -269,11 +269,11 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
                         {label: 'House Number', value: inputAddress?.street_number},
                         {
                             label: 'Apt, Suite, etc',
-                            value: `${inputAddress?.subPremise} ${inputAddress?.premise}`.trim(),
+                            value: `${inputAddress?.sub_premise} ${inputAddress?.premise}`.trim(),
                         },
                         {label: 'City', value: inputAddress?.city},
                         {label: 'State/Province', value: inputAddress?.state},
-                        {label: 'Zip/Postal code', value: inputAddress?.zipCode},
+                        {label: 'Zip/Postal code', value: inputAddress?.zip_code},
                         {label: 'Country', value: inputAddress?.country},
                     ].map((item, index) => (
                         <div key={index}>
@@ -300,7 +300,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 const setupMarkerListener = (marker: google.maps.marker.AdvancedMarkerElement,
                              initialPosition: google.maps.LatLng | undefined,
                              setErrorMap: (input: (string | undefined)) => void,
-                             initialInput: AddressDataField) => {
+                             initialInput: AddressDataStoreField) => {
     const maxLatDifference = 0.002;
     const maxLngDifference = 0.003;
 

@@ -1,4 +1,3 @@
-import { lexendDeca } from "@/components/fonts";
 import '@/styles/globals.css'
 import React from "react";
 import type { Metadata } from "next";

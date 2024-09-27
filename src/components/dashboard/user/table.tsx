@@ -12,7 +12,7 @@ export default async function UsersTable({
     currentPage: number;
 }) {
     const users = await fetchFilteredUsers(query, currentPage);
-    revalidatePath('/dashboard/users');
+
     return (
         <div className="mt-6 flow-root">
             <div className="inline-block min-w-full align-middle">

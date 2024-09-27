@@ -1,10 +1,8 @@
-import { lexendDeca } from "@/components/fonts";
 import '@/styles/globals.css'
 import React from "react";
 import type { Metadata } from "next";
 import {Header} from "@/components/header";
 import {Footer} from "@/components/footer";
-import { SessionProvider } from 'next-auth/react';
 import {extractSessionRole} from "@/lib/actions/session-actions";
 
 export const metadata: Metadata = {

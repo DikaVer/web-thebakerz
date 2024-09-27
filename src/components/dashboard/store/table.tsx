@@ -12,7 +12,6 @@ export default async function StoresTable({
     currentPage: number;
 }) {
     const stores = await fetchFilteredStores(query, currentPage);
-    revalidatePath('/dashboard/stores');
 
     return (
         <div className="mt-6 flow-root">

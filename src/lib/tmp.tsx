@@ -14,7 +14,7 @@ import {ImageUploader} from "@/components/upload-image";
 import {Switch} from "@/components/ui/switch";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {AddressSelection} from "@/components/store/address-selection";
-import { AddressDataField} from "@/lib/definitions";
+import { AddressDataStoreField} from "@/lib/definitions";
 import {IconEdit, IconLocation} from "@/components/ui/icons";
 import {Calendar} from "@/components/ui/calendar";
 import {AvailabilitySelection} from "@/components/store/availability-selection";
@@ -36,7 +36,7 @@ export default function StoreForm() {
 
     const [isAddressDialogOpen, setIsAddressDialogOpen] = useState(false);
 
-    const [address, setAddress] = useState<AddressDataField | null>(null);
+    const [address, setAddress] = useState<AddressDataStoreField | null>(null);
 
     const [isEditing, setIsEditing] = useState(false);
 
@@ -193,7 +193,7 @@ export default function StoreForm() {
 
                                 useEffect(() => {
                                     if (address) {
-                                        field.onChange(address as AddressDataField); // Update the field when address is not null
+                                        field.onChange(address as AddressDataStoreField); // Update the field when address is not null
 
                                         const result = AddressDataFieldSchema.safeParse(address);
 

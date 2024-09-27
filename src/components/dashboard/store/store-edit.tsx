@@ -1,4 +1,4 @@
-import React, {useState, useTransition} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {ImageUploader} from "@/components/upload-image";
@@ -9,42 +9,364 @@ import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {storeEditSchema} from "@/lib/schemas";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {AvatarUploader} from "@/components/upload-avatar";
+import {StoreData} from "@/lib/definitions";
+import { useRouter } from 'next/navigation';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import {ClipLoader} from "react-spinners";
+import {toast} from "sonner";
+import {IconError, IconSuccess} from "@/components/ui/icons";
 
 interface StoreViewDashboardProps {
-    store: any;
-    setStore: (store: any) => void;
-    user: any;
-    setUser: (user: any) => void;
+    id: string,
+    user_id: string,
+    name:  string,
+    description: string | null,
+    nickname: string,
+    image: string | null,
+    background_url: string | null,
+    setStoreData: (data: StoreData) => void;
 }
 
-export default function StoreViewDashboard({ store, setStore, user, setUser }: StoreViewDashboardProps) {
+export default function StoreViewDashboard({ id, user_id, name, image, background_url, setStoreData, nickname, description }: StoreViewDashboardProps) {
 
     const [error, setError] = useState<string | undefined>();
     const [success, setSuccess] = useState<string | undefined>();
 
-    const [isPending, startTransition] = useTransition();
+    const [isChanged, setIsChanged] = useState(false);
+
+    const [isPending, setPending] = useState(false);
+
+    const { push } = useRouter();
+
+    const [dataAvatar, setDataAvatar] = useState<{
+        image: string | null
+    }>({
+        image: null
+    });
+
+    const [dataBackground, setDataBackground] = useState<{
+        image: string | null
+    }>({
+        image: null
+    });
+
+    const [isAvatarDialogOpen, setAvatarDialogOpen] = useState(false);
 
     const form = useForm<z.infer<typeof  storeEditSchema>>({
         resolver: zodResolver(storeEditSchema),
         defaultValues: {
-            name: user.name,
-            description: store.description,
-            image: user.image,
-            nickname: store.nickname,
-            background: store.background_url
+            name: name,
+            description: description ? description : "",
+            image: null,
+            nickname: nickname,
+            background: null
         }
     });
 
-    const onSubmit = (formData: z.infer<typeof storeEditSchema>) => {
+    const initialValues = useMemo(() => form.getValues(), []);
 
-        startTransition(() => {
+    const initialStoreValues = useMemo(() => {
+        return {
+            name: name,
+            description: description,
+            image: image,
+            nickname: nickname,
+            background_url: background_url
+        }
+    }, []);
 
-
+    useEffect(() => {
+        const subscription = form.watch((values) => {
+            setIsChanged(JSON.stringify(values) !== JSON.stringify(initialValues));
         });
+
+        return () => subscription.unsubscribe();
+    }, [form, initialValues]);
+
+    useEffect(() => {
+        const results = storeEditSchema.safeParse(form.getValues());
+        if (!results.success) {
+            console.log(results)
+        }
+    }, [form.getValues()]);
+
+    const onSubmit = async (formData: z.infer<typeof storeEditSchema>) => {
+        console.log(formData);
+
+        setPending(true);
+
+        if (initialValues.name !== formData.name) {
+            const response = await fetch(`/api/user/actions/updateName`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: user_id,
+                    nickname: formData.name
+                }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                toast.error((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+            } else {
+                toast.success((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+                // @ts-ignore
+                setStoreData(prevState => ({
+                    ...prevState,
+                    ["name"]: form.getValues().name,
+                }));
+            }
+        }
+
+        if (initialValues.nickname !== formData.nickname) {
+            const response = await fetch(`/api/store/actions/updateName`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    storeId: id,
+                    nickname: formData.nickname
+                }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                toast.error((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                        <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+            } else {
+                toast.success((
+                    <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                        <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                        <p className={"text-base font-bold"}>
+                            {result.message}
+                        </p>
+                    </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+                // @ts-ignore
+                setStoreData(prevState => ({
+                    ...prevState,
+                    ["nickname"]: form.getValues().nickname
+                }));
+            }
+        }
+
+        if (initialValues.description !== formData.description) {
+            const response = await fetch(`/api/store/actions/updateDescription`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    storeId: id,
+                    description: formData.description
+                }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                toast.error((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+            } else {
+                toast.success((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+                // @ts-ignore
+                setStoreData(prevState => ({
+                    ...prevState,
+                    ["description"]: form.getValues().description,
+                }));
+            }
+        }
+
+        if (formData.image) {
+            console.log(formData.image?.type);
+            const response = await fetch(`/api/user/actions/updateAvatar`, {
+                method: 'POST',
+                headers: {
+                    'content-type': formData.image?.type || "application/octet-stream",
+                    'user-id': user_id
+                },
+                body: formData.image,
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                // toast.error((
+                //         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                //             <IconError color={"primary"} className={"w-10 h-10"}/>
+                //             <p className={"text-base font-bold"}>
+                //                 {result.message}
+                //             </p>
+                //         </div>
+                //     ),
+                //     {
+                //         duration: 10000
+                //     }
+                // );
+                console.log(result.message);
+            } else {
+                toast.success((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+                // @ts-ignore
+                setStoreData(prevState => ({
+                    ...prevState,
+                    ["image"]: dataAvatar.image
+                }));
+            }
+        }
+
+        if (formData.background) {
+            const formDataBack = new FormData();
+            formDataBack.set(`background`, formData.background ? formData.background : "");
+
+            console.log(formData.background?.type);
+            const response = await fetch(`/api/store/actions/updateBackground`, {
+                method: 'POST',
+                headers: {
+                    'content-type': formData.background?.type || "application/octet-stream",
+                    'store-id': id
+                },
+                body: formData.background,
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                toast.error((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+                // console.log(result.message);
+            } else {
+                toast.success((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+                // @ts-ignore
+                setStoreData(prevState => ({
+                    ...prevState,
+                    ["background_url"]: dataBackground.image
+                }));
+            }
+        }
+
+        setPending(false);
     }
 
     return (
         <div>
+            {isPending ? (
+                <div className={"flex flex-col justify-center items-center"}>
+                    <ClipLoader
+                        color={"#730C6F"}
+                        loading={isPending}
+                        size={150}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        speedMultiplier={0.3}
+                    />
+                    <p className={"text-2xl"}>Your store is updating...</p>
+                </div>
+                ) : (
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -59,11 +381,32 @@ export default function StoreViewDashboard({ store, setStore, user, setUser }: S
                                     Avatar Image
                                 </FormLabel>
                                 <FormControl>
-                                    <ImageUploader
-                                        form={form}
-                                        field={field}
-                                        name={"image"}
-                                    />
+                                    <>
+                                        {isAvatarDialogOpen &&
+                                            <AvatarUploader
+                                                form={form}
+                                                field={field}
+                                                name={"image"}
+                                                isDialogOpen={isAvatarDialogOpen}
+                                                setDialogOpen={setAvatarDialogOpen}
+                                                setStoreData={setStoreData}
+                                                data={dataAvatar}
+                                                setData={setDataAvatar}
+                                            />}
+                                        <Button
+                                            type={"button"}
+                                            onClick={() => {
+                                                setDataAvatar({image: null});
+                                                form.setValue("image", null);
+                                                setAvatarDialogOpen(true)
+                                            }
+                                        }
+                                            variant={"secondary"}
+                                            disabled={isPending}
+                                        >
+                                            Change Avatar
+                                        </Button>
+                                    </>
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -82,10 +425,10 @@ export default function StoreViewDashboard({ store, setStore, user, setUser }: S
                                     <Input
                                         {...field}
                                         disabled={isPending}
-                                        value={user.name}
+                                        placeholder={form.getValues().name}
                                         required
                                         type={"text"}
-                                        onChange={(e) => field.onChange(e.target.value.toLowerCase())}
+                                        onChange={(e) => field.onChange(e.target.value)}
                                     />
                                 </FormControl>
                                 <FormMessage/>
@@ -108,7 +451,7 @@ export default function StoreViewDashboard({ store, setStore, user, setUser }: S
                                     <Input
                                         {...field}
                                         disabled={isPending}
-                                        value={store.nickname}
+                                        placeholder={form.getValues().nickname}
                                         required
                                         type={"text"}
                                         onChange={(e) => field.onChange(e.target.value.toLowerCase())}
@@ -124,7 +467,10 @@ export default function StoreViewDashboard({ store, setStore, user, setUser }: S
                     <FormField
                         control={form.control}
                         name="description"
-                        render={({field}) => (
+                        render={({field}) => {
+
+
+                            return (
                             <FormItem>
                                 <FormLabel
                                     className="block text-sm font-medium text-gray-700">
@@ -135,15 +481,16 @@ export default function StoreViewDashboard({ store, setStore, user, setUser }: S
                                             {...field}
                                             className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black`}
                                             rows={5}
-                                            value={store.description}
-                                            placeholder="Tell us about your store... (max 500 characters)"
-                                            maxLength={500}
+                                            value={form.getValues().description ?? undefined}
+                                            disabled={isPending}
+                                            placeholder={"Tell us about your store... (max 500 characters)"}                                            maxLength={500}
                                             style={{resize: "none"}}
                                         ></textarea>
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
-                        )}
+                            )
+                        }}
                     />
                     <FormField
                         control={form.control}
@@ -159,6 +506,10 @@ export default function StoreViewDashboard({ store, setStore, user, setUser }: S
                                         form={form}
                                         field={field}
                                         name={"background"}
+                                        setError={setError}
+                                        setStoreData={setStoreData}
+                                        data={dataBackground}
+                                        setData={setDataBackground}
                                     />
                                 </FormControl>
                                 <FormMessage/>
@@ -169,16 +520,79 @@ export default function StoreViewDashboard({ store, setStore, user, setUser }: S
                     <FormSuccess message={success}/>
                     {/* Submit Button */}
                     <div>
-                        <Button
-                            type="submit"
-                            className=" w-full"
-                            disabled={isPending}
-                        >
-                            Create Store
-                        </Button>
+                        <div className={"flex flex-row space-x-4"}>
+                            <Button
+                                type="button"
+                                className="mb-4 w-full"
+                                variant={"secondary"}
+                                disabled={!isChanged || isPending}
+                                onClick={() => {
+                                    // @ts-ignore
+                                    setStoreData(prevState => ({
+                                        ...prevState,
+                                        ["name"]: form.getValues().name,
+                                        ["description"]: form.getValues().description,
+                                        ["nickname"]: form.getValues().nickname,
+                                        ["image"]: dataAvatar.image,
+                                        ["background_url"]: dataBackground.image
+                                    }));
+                                    push("#main");
+                                }}
+                            >
+                                Review
+                            </Button>
+                            <Button
+                                type="button"
+                                className="mb-4 w-full"
+                                variant={"outline"}
+                                disabled={!isChanged || isPending}
+                                onClick={() => {
+                                    // @ts-ignore
+                                    setStoreData(prevState => ({
+                                        ...prevState,
+                                        ...initialStoreValues
+                                    }));
+                                    form.reset();
+                                    setDataAvatar({image: null});
+                                    setDataBackground({image: null});
+                                    push("#main");
+                                }}
+                            >
+                                Revert
+                            </Button>
+                        </div>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button
+                                    type="button"
+                                    className=" w-full"
+                                    disabled={!isChanged || isPending}
+                                >
+                                    Apply
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone. These changes will be seen to everyone.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction
+                                        onClick={() => form.handleSubmit(onSubmit)()}
+                                        disabled={isPending}
+                                    >
+                                        Apply
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     </div>
                 </form>
             </Form>
+            )}
         </div>
     );
 }

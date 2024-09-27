@@ -547,11 +547,11 @@ function IconHeart({
 }
 
 function IconSuccess({
-                       className,
-                       color = 'black', // default color
-                       viewBox = "0 0 20 20",
-                       ...props
-                   }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' | 'heart' }) {
+                         className,
+                         color = 'black', // default color
+                         viewBox = "0 0 20 20",
+                         ...props
+                     }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' | 'heart' }) {
     const styles = {
         color: colors[color],
         fill: colors[color],
@@ -567,6 +567,34 @@ function IconSuccess({
             <path fillRule="evenodd"
                   d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
                   clipRule="evenodd"></path>
+        </svg>
+    );
+}
+
+function IconError({
+                       className,
+                       color = 'black', // default color
+                       viewBox = "0 0 24 24",
+                       ...props
+                   }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' | 'heart' }) {
+    const styles = {
+        color: colors[color],
+    };
+
+    //"0 0 512 512"
+    return (
+        <svg
+            style={styles}
+            viewBox={viewBox}
+            className={`lucide lucide-circle-x ${className}`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="m15 9-6 6"/>
+            <path d="m9 9 6 6"/>
         </svg>
     );
 }
@@ -594,5 +622,6 @@ export {
     IconOrder,
     IconMessage,
     IconHeart,
-    IconSuccess
+    IconSuccess,
+    IconError
 };

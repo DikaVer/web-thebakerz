@@ -15,11 +15,28 @@ export const LoginSchema = z.object({
 });
 
 export const imageUploadSchema = z
-    .string()
-    // Checks if the string ends with a common image file extension
-    .regex(
-        /\.(jpeg|jpg|png)$/,
+    .instanceof(File)
+    .refine(
+        (file) => ["image/jpeg", "image/jpg", "image/png"].includes(file.type),
         "Image must be a valid image format (jpeg, jpg, png)"
+    )
+    .refine(
+        (file) => file.size <= 4.5 * 1024 * 1024,
+        "File size too big (max 4.5MB)"
+    );
+
+export const nameSchema = z
+    .string()
+    .min(4, "Minimum of 4 characters for name")
+    .max(16, "Maximum of 16 characters for name")
+    // Allows letters, numbers, periods, underscores, hyphens, and at most 2 spaces, not starting with space
+    .regex(
+        /^[a-zA-Z0-9._\-]+( [a-zA-Z0-9._\-]*){0,2}$/,
+        "Name can only contain letters, numbers, periods, underscores, hyphens, with a maximum of two spaces and cannot start with a space"
+    )
+    .regex(
+        /^(?!.*\.\.)(?!.*\.\.\.)(?!.*\.\.\.\.)(?!.*\.\.\.\.\.)(?!.*\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)/,
+        "Name cannot contain two or more consecutive periods"
     );
 
 export const nicknameSchema = z
@@ -37,7 +54,9 @@ export const nicknameSchema = z
     )
     .toLowerCase();
 
-export const descriptionSchema = z.string().optional();
+export const descriptionSchema = z.string()
+    .min(50, { message: "Description must be bigger than 50 characters" })
+    .max(500, { message: "Description must be less than 500 characters" });
 
 export const availabilitySchema = z.record(
     z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, "Invalid date format, expected DD/MM/YYYY"),
@@ -111,18 +130,12 @@ export const storeEditSchema = z.object({
             message: "Nickname is required",
         }
     ),
-    name: z
-        .string()
-        .min(4, "Minimum of 4 characters for name")
-        .max(16, "Maximum of 16 characters for name")
-        .regex(
-            /^[a-zA-Z0-9._]+$/,
-            "Name can only contain letters, numbers, periods, underscores, and hyphens"
-        )
-        .regex(
-            /^(?!.*\.\.)(?!.*\.\.\.)(?!.*\.\.\.\.)(?!.*\.\.\.\.\.)(?!.*\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)/,
-            "Name cannot contain two or more consecutive periods"
-        ),
+    name: nameSchema.nullable().optional().refine(
+        (val) => val !== null && val !== undefined,
+        {
+            message: "Store Name is required",
+        }
+    ),
     description: descriptionSchema.nullable().optional(),
     image: imageUploadSchema.nullable().optional(),
     background: imageUploadSchema.nullable().optional()

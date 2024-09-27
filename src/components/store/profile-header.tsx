@@ -13,50 +13,63 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {MiniCalendar, MiniCalendarBakerz} from "@/components/scheduler/calendar";
 import React from "react";
+import {AddressDataStoreField} from "@/lib/definitions";
+import {cityLatLngMap, timeMap} from "@/lib/local-variables";
+import {formatAddress} from "@/lib/utils";
 
 interface ProfileHeaderProps {
-    storeData: {
-        name: string;
-        description: string;
-        location: string;
-        image: string;
-        background_url: string;
-    };
+    name: string;
+    description: string | null;
+    location: AddressDataStoreField;
+    image: string | null;
+    background_url: string | null;
+    deliveryOptions: Array<{
+        location: keyof typeof cityLatLngMap;
+        range: number;
+    }>;
+    availability: Record<
+        string,
+        {
+            from: keyof typeof timeMap;
+            to: keyof typeof timeMap;
+            availability: "Free" | "Busy";
+        }
+    > | null;
 }
 
-export async function ProfileHeaderBakerz({ storeData }: ProfileHeaderProps) {
+export function ProfileHeaderBakerz({ name, availability, deliveryOptions, location, image, description, background_url }: ProfileHeaderProps) {
     return (
         <div className="h-60 relative cm:h-72 rounded-lg overflow-hidden flex flex-col justify-center">
-            <Background background_url={storeData.background_url}/>
-            <Avatar avatar_url={storeData.image}/>
+            <Background background_url={background_url}/>
+            <Avatar avatar_url={image}/>
             <ProfileInfo
-                store_id={storeData.name}
-                description={storeData.description}
-                location={storeData.location}
+                name={name}
+                description={description}
+                location={location}
             />
             <MiniCalendarBakerz/>
         </div>
     );
 }
 
-export async function ProfileHeader({ storeData }: ProfileHeaderProps) {
+export function ProfileHeader({ name, availability, deliveryOptions, location, image, description, background_url }: ProfileHeaderProps) {
     return (
         <div className="h-60 relative cm:h-72 rounded-lg overflow-hidden flex flex-col justify-center">
-            <Background background_url={storeData.background_url}/>
-            <Avatar avatar_url={storeData.image}/>
+            <Background background_url={background_url}/>
+            <Avatar avatar_url={image}/>
             <ProfileInfo
-                store_id={storeData.name}
-                description={storeData.description}
-                location={storeData.location}
+                name={name}
+                description={description}
+                location={location}
             />
             <MiniCalendar/>
         </div>
     );
 }
 
-const Background = ({background_url} : {background_url: string}) => (
+const Background = ({background_url} : {background_url: string | null}) => (
     <Image
-        src={background_url}
+        src={background_url ? background_url : "/background_default.jpg"}
         alt="Background"
         width={1920}
         height={1080}
@@ -65,10 +78,10 @@ const Background = ({background_url} : {background_url: string}) => (
     />
 );
 
-const Avatar = ({avatar_url} : {avatar_url: string}) => (
+const Avatar = ({avatar_url} : {avatar_url: string | null}) => (
     <div className="ml-2 mt-8 cm:ml-4 cm:mt-8 absolute hover:scale-105 transition duration-500 cursor-default avatar">
             <Image
-                src={avatar_url}
+                src={avatar_url ? avatar_url : "/avatar_default.jpg"}
                 alt="Avatar"
                 width={128}
                 height={128}
@@ -84,14 +97,14 @@ const Avatar = ({avatar_url} : {avatar_url: string}) => (
 );
 
 interface ProfileInfoProps {
-        store_id: string;
-        description: string;
-        location: string;
+        name: string;
+        description: string | null;
+        location: AddressDataStoreField;
 }
 
-const ProfileInfo = ({store_id, description, location} : ProfileInfoProps) => (
+const ProfileInfo = ({name, description, location} : ProfileInfoProps) => (
     <div className="ml-36 mt-14 cm:ml-40 cm:mt-12 absolute space-y-2">
-        <Label className="text-xl cm:text-2xl font-bold text-black">{store_id}</Label>
+        <Label className="text-xl cm:text-2xl font-bold text-black">{name}</Label>
         <Label className="flex items-center space-x-2 hover:scale-102 transition duration-300">
             <IconStar className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"}/>
             <p className="text-lg cm:text-xl text-black">5.0</p>
@@ -99,7 +112,7 @@ const ProfileInfo = ({store_id, description, location} : ProfileInfoProps) => (
         </Label>
         <Label className="flex items-center space-x-2 hover:scale-102 transition duration-300">
             <IconLocation className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"}/>
-            <p className="text-lg cm:text-xl text-black">{location}</p>
+            <p className="text-lg cm:text-xl text-black">{formatAddress(location)}</p>
         </Label>
         <div className="flex pt-2 space-x-2 cm:space-x-3 left-0">
             <Button className="cm:text-lg w-dynamic-button h-10 cm:w-auto cm:h-auto">Build your own cake</Button>

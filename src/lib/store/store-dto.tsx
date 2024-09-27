@@ -1,6 +1,6 @@
 import 'server-only';
 import {sql} from "@vercel/postgres";
-import {CartProductDataField, ProductDataField, StoreDataField} from "@/lib/definitions";
+import {CartProductDataField, ProductDataField, HeaderStoreField} from "@/lib/definitions";
 import React from "react";
 
 export const config = {
@@ -9,7 +9,7 @@ export const config = {
 
 export async function getStore(id: string) {
 
-    const storeQuery = await sql<StoreDataField>`
+    const storeQuery = await sql<HeaderStoreField>`
         SELECT store_id, description, location, avatar_url, background_url FROM stores 
         WHERE store_id = ${id}`;
 
