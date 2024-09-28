@@ -78,10 +78,12 @@ export interface StoreData {
     background_url: string | null;
     nickname: string;
     products: Array<ProductDataField>;
-    deliveryOptions: Array<{
-        location: keyof typeof cityLatLngMap;
-        range: number;
-    }>;
+    deliveryOptions: Record<
+        keyof typeof cityLatLngMap,
+        {
+            range: number;
+        }
+    > | null;
     availability: Record<
         string,
         {

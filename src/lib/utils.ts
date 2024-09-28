@@ -18,7 +18,7 @@ export function formatAddress(address: AddressDataStoreField): string {
         address.route,
         address.street_number,
         address.premise,
-        address.subPremise,
+        address.sub_premise,
         address.city
     ].filter(Boolean).join(' ').trim().replace(/\s+/g, ', ');
 }
@@ -32,20 +32,30 @@ export const formatCurrency = (amount: number) => {
   });
 };
 
+export function formatDataDate(input: string | number | Date): string {
+    const date = new Date(input)
+    return date.toLocaleDateString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric',
+    })
+}
+
 
 export function formatDate(input: string | number | Date): string {
   const date = new Date(input)
   return date.toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric'
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
   })
 }
 
 export function formatDateTime(input: string | number | Date): string {
     const date = new Date(input)
     return date.toLocaleString('en-US', {
-        hour: 'numeric',
-        minute: 'numeric'
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
     })
 }

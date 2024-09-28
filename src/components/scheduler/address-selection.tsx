@@ -363,11 +363,11 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
                         {label: 'House Number', value: initialInput.street_number},
                         {
                             label: 'Apt, Suite, etc',
-                            value: `${initialInput.subPremise} ${initialInput.premise}`.trim(),
+                            value: `${initialInput.sub_premise} ${initialInput.premise}`.trim(),
                         },
                         {label: 'City', value: initialInput.city},
                         {label: 'State/Province', value: initialInput.state},
-                        {label: 'Zip/Postal code', value: initialInput.zipCode},
+                        {label: 'Zip/Postal code', value: initialInput.zip_code},
                         {label: 'Country', value: initialInput.country},
                     ].map((item, index) => (
                         <div key={index}>

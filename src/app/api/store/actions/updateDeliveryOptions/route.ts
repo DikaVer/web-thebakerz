@@ -2,34 +2,29 @@ import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
 import {NextResponse} from "next/server";
 import {kv} from "@vercel/kv";
-export const config = {
-    runtime: 'edge', // 'nodejs' is the default
-};
+import {deliveryOptionsSchema} from "@/lib/schemas";
+export const runtime = "edge";
 
-const isAuthorized = (req: Request) => {
-    const authHeader = req.headers.get('Authorization');
-    const secretKey = authHeader?.split(' ')[1]; // Extract the key after 'Bearer'
-
-    // Validate the secret key
-    return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
-};
 
 export async function POST(req: Request) {
-
-    // Validate the secret key
-    if (!isAuthorized(req)) {
-        return NextResponse.json({
-            message: 'Unauthorized access'
-        }, {
-            status: 401
-        });
-    }
-
-    const session = await auth()
 
     const body = await req.json();
 
     const { storeId, deliveryOptionsData} = body;
+
+    const validateField = deliveryOptionsSchema.safeParse(deliveryOptionsData);
+
+    if (!validateField.success) {
+        return NextResponse.json(
+            {
+                message: "Invalid delivery options data",
+            }, {
+                status: 400
+            });
+    }
+
+
+    const session = await auth()
 
     if(session){
 
@@ -40,14 +35,13 @@ export async function POST(req: Request) {
         if (userId === session.user?.id || session.user?.role === 'admin') {
             try {
 
-                const keyDelivery = `delivery-options-${storeId}`;
+                const keyDelivery = `delivery-${storeId}`;
 
-                await kv.lpush(keyDelivery, deliveryOptionsData);
+                await kv.hset(keyDelivery, deliveryOptionsData);
 
                 return NextResponse.json(
                     {
-                        message: 'Delivery Options updated successfully',
-                        deliveryOptionsData: deliveryOptionsData
+                        message: 'Delivery Options updated successfully'
                     }, {
                         status: 200
                     });

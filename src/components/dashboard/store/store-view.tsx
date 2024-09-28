@@ -7,6 +7,8 @@ import StoreAddresses from "@/components/dashboard/store/store-address";
 import React, {useMemo, useState} from "react";
 import StoreEdit from "@/components/dashboard/store/store-edit";
 import {StoreData} from "@/lib/definitions";
+import AvailabilityEdit from "@/components/dashboard/store/availability-edit";
+import DeliveryOptionsEdit from "@/components/dashboard/store/delivery-options-edit";
 
 
 interface StoreViewDashboardProps {
@@ -21,6 +23,7 @@ export default function StoreViewDashboard({storeProps}: StoreViewDashboardProps
     const initialStoreValues = useMemo(() => {
         return storeData;
     }, []);
+
 
     return (
         <div id="main">
@@ -67,10 +70,18 @@ export default function StoreViewDashboard({storeProps}: StoreViewDashboardProps
 
                 </TabsContent>
                 <TabsContent value="availability">
-
+                    <AvailabilityEdit
+                        id={storeData.id}
+                        availability={storeData.availability}
+                        setStoreData={setStoreData}
+                    />
                 </TabsContent>
                 <TabsContent value="delivery">
-
+                    <DeliveryOptionsEdit
+                        id={storeData.id}
+                        deliveryOptions={storeData.deliveryOptions}
+                        setStoreData={setStoreData}
+                    />
                 </TabsContent>
 
             </Tabs>

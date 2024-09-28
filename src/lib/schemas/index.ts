@@ -79,13 +79,13 @@ export const availabilitySchema = z.record(
     })
 );
 
-export const deliveryOptionsSchema = z.array(
+export const deliveryOptionsSchema = z.record(
+    z.enum(Object.keys(cityLatLngMap) as [string, ...string[]], {
+        errorMap: (issue, ctx) => {
+            return { message: "Delivery Location must be a valid city" };
+        },
+    }),
     z.object({
-        location: z.enum(Object.keys(cityLatLngMap) as [string, ...string[]], {
-            errorMap: (issue, ctx) => {
-                return { message: "Delivery Location must be a valid city" };
-            },
-        }), // location key
         range: z.number()
             .min(1, { message: "Range must be a valid number greater than or equal to 1" })
             .max(10, { message: "Range must be a valid number less than or equal to 10" })

@@ -3,8 +3,6 @@ import React from "react";
 import {fetchUserData} from "@/lib/actions-server-only/user-actions";
 import Image from "next/image";
 import {IconAvatar} from "@/components/ui/icons";
-import {fetchAddressData} from "@/lib/actions/address/address-actions";
-import UserAddresses from "@/components/dashboard/user/user-address";
 import ViewHeader from "@/components/dashboard/user/header-view";
 
 interface UserPageProps {
@@ -16,8 +14,6 @@ interface UserPageProps {
 export default async function Page({params}: UserPageProps) {
 
     const userData = await fetchUserData(params.id);
-
-    const addressData = await fetchAddressData(userData.id);
 
     if (!userData) {
 
@@ -33,8 +29,8 @@ export default async function Page({params}: UserPageProps) {
                             <Image
                                 src={userData.image}
                                 className="rounded-full"
-                                width={28}
-                                height={28}
+                                width={128}
+                                height={128}
                                 alt={`${userData.name}'s profile picture`}
                             />
                         ) : (
@@ -62,16 +58,20 @@ export default async function Page({params}: UserPageProps) {
                                 <p className="font-semibold text-gray-800">Role:</p>
                                 <p className={"capitalize"}>{userData.role}</p>
                             </div>
+                            <div className="bg-gray-100 p-4 rounded-lg">
+                                <p className="font-semibold text-gray-800">Account created:</p>
+                                <p className={"capitalize"}>{userData.date.toString()}</p>
+                            </div>
                         </div>
                     </div>
-                    {addressData && (
-                        <UserAddresses
-                            // @ts-ignore
-                            shippingAddress={addressData.shippingAddress}
-                            // @ts-ignore
-                            savedAddresses={addressData.savedAddresses}
-                        />
-                        )}
+                    {/*{addressData && (*/}
+                    {/*    <UserAddresses*/}
+                    {/*        // @ts-ignore*/}
+                    {/*        shippingAddress={addressData.shippingAddress}*/}
+                    {/*        // @ts-ignore*/}
+                    {/*        savedAddresses={addressData.savedAddresses}*/}
+                    {/*    />*/}
+                    {/*    )}*/}
                 </div>
         );
     }

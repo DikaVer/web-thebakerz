@@ -8,7 +8,7 @@ const SessionDetails: React.FC<{ session: Session | null}> = ({ session }) => {
         return <div>Session is not found</div>;
 
     const {
-        user: { id: userId, name, email, emailVerified, image, role, userToken },
+        user: { id: userId, name, email, emailVerified, image, role },
         id: sessionId,
         userId: sessionUserId,
         expires,
@@ -42,10 +42,6 @@ const SessionDetails: React.FC<{ session: Session | null}> = ({ session }) => {
                     <div className="flex justify-between">
                         <p className="text-gray-600">Role:</p>
                         <p className="text-gray-900 capitalize">{role}</p>
-                    </div>
-                    <div className="flex justify-between">
-                        <p className="text-gray-600">User Token:</p>
-                        <p className="text-gray-900">{userToken}</p>
                     </div>
                 </div>
 

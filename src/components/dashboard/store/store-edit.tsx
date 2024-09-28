@@ -94,16 +94,8 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
         return () => subscription.unsubscribe();
     }, [form, initialValues]);
 
-    useEffect(() => {
-        const results = storeEditSchema.safeParse(form.getValues());
-        if (!results.success) {
-            console.log(results)
-        }
-    }, [form.getValues()]);
 
     const onSubmit = async (formData: z.infer<typeof storeEditSchema>) => {
-        console.log(formData);
-
         setPending(true);
 
         if (initialValues.name !== formData.name) {
@@ -264,19 +256,18 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
             const result = await response.json();
 
             if (!response.ok) {
-                // toast.error((
-                //         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                //             <IconError color={"primary"} className={"w-10 h-10"}/>
-                //             <p className={"text-base font-bold"}>
-                //                 {result.message}
-                //             </p>
-                //         </div>
-                //     ),
-                //     {
-                //         duration: 10000
-                //     }
-                // );
-                console.log(result.message);
+                toast.error((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
             } else {
                 toast.success((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
@@ -536,7 +527,8 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                         ["image"]: dataAvatar.image,
                                         ["background_url"]: dataBackground.image
                                     }));
-                                    push("#main");
+                                    // @ts-ignore
+                                    document.getElementById("main").scrollIntoView({ behavior: "smooth" });
                                 }}
                             >
                                 Review
@@ -555,7 +547,6 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                     form.reset();
                                     setDataAvatar({image: null});
                                     setDataBackground({image: null});
-                                    push("#main");
                                 }}
                             >
                                 Revert

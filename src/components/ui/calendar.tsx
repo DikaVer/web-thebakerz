@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import {DayPicker, DayProps} from "react-day-picker"
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
-import { cn } from "@/lib/utils"
+import {cn, formatDataDate, formatDate, formatDateTime} from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import {useEffect, useState} from "react";
 import {DaySelection} from "@/components/store/availability-selection";
@@ -13,8 +13,18 @@ import {FormError} from "@/components/authentication/form-error";
 import {timeMap} from "@/lib/local-variables";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-    setAvailabilityData?: React.Dispatch<React.SetStateAction<Record<string, { from: string; to: string; availability: "Free" | "Busy"  }>>>;
-    availabilityData?: Record<string, { from: string; to: string; availability: "Free" | "Busy" }>;
+    setAvailabilityData?: React.Dispatch<React.SetStateAction<Record<string,
+        {
+            from: keyof typeof timeMap;
+            to: keyof typeof timeMap;
+            availability: "Free" | "Busy";
+        }>>>;
+    availabilityData?: Record<string,
+        {
+            from: keyof typeof timeMap;
+            to: keyof typeof timeMap;
+            availability: "Free" | "Busy";
+        }>;
 };
 
 
@@ -29,7 +39,12 @@ function CustomDaycell(
     }: {
         fromDay: Date;
         onClick: (day: Date) => void;
-        availabilityData: Record<string, { from: string; to: string; availability: "Free" | "Busy" }>;
+        availabilityData: Record<string,
+            {
+                from: keyof typeof timeMap;
+                to: keyof typeof timeMap;
+                availability: "Free" | "Busy";
+            }>;
         date: Date,
         displayMonth: Date
     }
@@ -40,7 +55,7 @@ function CustomDaycell(
         if (!date) return "closed"; // Default variant for no date
         if (date < fromDay) return "ghost"; // Default variant for past dates
 
-        const dateKey = date.toLocaleDateString(); // Format the date to 'YYYY-MM-DD'
+        const dateKey = formatDataDate(date); // Format the date to 'YYYY-MM-DD'
         const availability = availabilityData[dateKey]?.availability;
 
         if (availability === "Free") return "free"; // Green for free
@@ -87,10 +102,10 @@ function Calendar({
 
     useEffect(() => {
         if (availabilityData && selectedDay) {
-            const dateKey = selectedDay.toLocaleDateString()
+            const dateKey = formatDateTime(selectedDay);
             if (availabilityData[dateKey]) {
-                setFromTime(availabilityData[dateKey].from)
-                setToTime(availabilityData[dateKey].to)
+                setFromTime(formatDateTime(timeMap[availabilityData[dateKey].from].from))
+                setToTime(formatDateTime(timeMap[availabilityData[dateKey].from].to))
                 setAvailability(availabilityData[dateKey].availability)
             } else {
                 setFromTime(undefined)
@@ -115,7 +130,7 @@ function Calendar({
             if (availability !== "Closed" && fromTime && toTime) {
                 const updatedAvailabilityData = {
                     ...availabilityData,
-                    [selectedDay.toLocaleDateString()]: {
+                    [formatDataDate(selectedDay)]: {
                         from: fromTime,
                         to: toTime,
                         availability: availability
@@ -125,7 +140,7 @@ function Calendar({
                 setAvailabilityData(updatedAvailabilityData)
             } else if (availability === "Closed") {
                 const updatedAvailabilityData = {...availabilityData}
-                delete updatedAvailabilityData[selectedDay.toLocaleDateString()]
+                delete updatedAvailabilityData[formatDataDate(selectedDay)]
                 setAvailabilityData(updatedAvailabilityData)
             } else {
                 setError("Please fill both from and to time!")
@@ -206,21 +221,21 @@ function Calendar({
           { availabilityData && selectedDay &&
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogContent handleClose={handleDialogClose}>
-                      <DialogTitle>Selected Day - {selectedDay.toLocaleDateString()}</DialogTitle>
-                      <DialogDescription>
-                          {selectedDay && availabilityData[selectedDay.toLocaleDateString()] ? (
-                              <div>
-                                  <p><strong>From Time:</strong> {timeMap[availabilityData[selectedDay.toLocaleDateString()].from].from.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</p>
-                                  <p><strong>To Time:</strong> {timeMap[availabilityData[selectedDay.toLocaleDateString()].to].from.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</p>
-                                  <p><strong>Availability:</strong> {availabilityData[selectedDay.toLocaleDateString()].availability}</p>
-                              </div>
+                      <DialogTitle>Selected Day - {formatDate(selectedDay)}</DialogTitle>
+                      <DialogDescription className={"grid grid-cols-[0.5fr_1.5fr] "}>
+                          {selectedDay && availabilityData[formatDataDate(selectedDay)] ? (
+                              <>
+                                  <strong>From Time:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].from].from)}
+                                  <strong>To Time:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].to].from)}
+                                  <strong>Availability:</strong> {availabilityData[formatDataDate(selectedDay)].availability}
+                              </>
 
                           ) : (
                               <></>
                           )}
                       </DialogDescription>
                       <DaySelection
-                          day={selectedDay?.toLocaleDateString() || ""}
+                          day={selectedDay ? formatDate(selectedDay) : ""}
                           fromTime={fromTime}
                           toTime={toTime}
                           setFromTime={setFromTime}

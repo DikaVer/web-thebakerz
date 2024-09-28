@@ -23,10 +23,12 @@ interface ProfileHeaderProps {
     location: AddressDataStoreField;
     image: string | null;
     background_url: string | null;
-    deliveryOptions: Array<{
-        location: keyof typeof cityLatLngMap;
-        range: number;
-    }>;
+    deliveryOptions: Record<
+        keyof typeof cityLatLngMap,
+        {
+            range: number;
+        }
+    > | null;
     availability: Record<
         string,
         {

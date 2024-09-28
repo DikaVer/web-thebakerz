@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
+import {cn, formatDataDate, formatDateTime} from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { eachDayOfInterval, format, getDay } from 'date-fns';
 import {Separator} from "@/components/ui/separator";
@@ -40,8 +40,22 @@ export function AvailabilitySelection(
         availabilityData
     }:
         {
-            setAvailabilityData: (value: Record<string, { from: string; to: string; availability: "Free" | "Busy" }>) => void;
-            availabilityData: Record<string, { from: string; to: string; availability: "Free" | "Busy" }>;
+            setAvailabilityData: (value: Record<
+                string,
+                {
+                    from: keyof typeof timeMap;
+                    to: keyof typeof timeMap;
+                    availability: "Free" | "Busy";
+                }
+            >) => void;
+            availabilityData: Record<
+                string,
+                {
+                    from: keyof typeof timeMap;
+                    to: keyof typeof timeMap;
+                    availability: "Free" | "Busy";
+                }
+            >;
         }) {
     const today = new Date();
     today.setDate(today.getDate() + 1);
@@ -126,7 +140,7 @@ export function AvailabilitySelection(
             if (times[dayOfWeek]) {
                 const { fromTime, toTime, availability } = times[dayOfWeek];
                 if (fromTime && toTime && availability !== "Closed") {
-                    updatedAvailabilityData[date.toLocaleDateString()] = {
+                    updatedAvailabilityData[formatDataDate(date)] = {
                         from: fromTime,
                         to: toTime,
                         availability: availability,
@@ -179,7 +193,7 @@ export function AvailabilitySelection(
                     </PopoverContent>
                 </Popover>
             </div>
-            <div className={"flex flex-row gap-x-7 items-center text-sm"}>
+            <div className={"flex flex-row gap-x-7 items-center text-sm mt-4"}>
                 <span className={'w-fit'}>To Date:</span>
                 <Popover open={toPopoverOpen} onOpenChange={setToPopoverOpen}>
                     <PopoverTrigger asChild>
@@ -193,7 +207,7 @@ export function AvailabilitySelection(
                             {toDate ? (
                                 format(toDate, "PPP")
                             ) : (
-                                <span>Pick a date</span>
+                                "Pick a date"
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50"/>
                         </Button>
@@ -208,7 +222,7 @@ export function AvailabilitySelection(
                     </PopoverContent>
                 </Popover>
             </div>
-            <Separator/>
+            <Separator className={"my-4"}/>
             <div className="flex flex-col items-center gap-y-4 text-sm">
                 {weekDaysInRange.map(day => (
                     <React.Fragment key={day}>
@@ -232,7 +246,7 @@ export function AvailabilitySelection(
                     {weekDaysInRange.length > 0 && (
                         <Button
                             variant={"secondary"}
-                            className={"w-full"}
+                            className={"w-full mt-4"}
                             onClick={(event) => {
                                 event.preventDefault();
                                 setIsAlertDialogOpen(true);
@@ -262,7 +276,7 @@ export function AvailabilitySelection(
                                                     <strong>{day}: </strong>
                                                     {times[day].availability === "Closed" ? "" :
                                                         `${times[day].fromTime && times[day].toTime ?
-                                                            `${timeMap[times[day].fromTime].from.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })} - ${timeMap[times[day].toTime].from.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}`
+                                                            `${formatDateTime(timeMap[times[day].fromTime].from)} - ${formatDateTime(timeMap[times[day].toTime].from)}`
                                                             : ""}`
                                                     } ({times[day].availability})
                                                     <Separator />
@@ -316,7 +330,7 @@ export const DaySelection: React.FC<DaySelectionProps> = ({ day, fromTime, toTim
                 <SelectContent>
                     {Object.keys(timeMap).map(key => (
                         <SelectItem key={key} value={key}>
-                            {timeMap[key].from.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+                            {formatDateTime(timeMap[key].from)}
                         </SelectItem>
                     ))}
                 </SelectContent>
@@ -330,7 +344,7 @@ export const DaySelection: React.FC<DaySelectionProps> = ({ day, fromTime, toTim
                         .filter(key => (fromTime ? timeMap[key].from > timeMap[fromTime].from : true))
                         .map(key => (
                             <SelectItem key={key} value={key}>
-                                {timeMap[key].from.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+                                {formatDateTime(timeMap[key].from)}
                             </SelectItem>
                         ))}
                 </SelectContent>

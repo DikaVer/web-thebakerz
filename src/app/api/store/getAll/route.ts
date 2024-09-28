@@ -62,9 +62,9 @@ export async function POST(req: Request) {
 
         const availability = await kv.hgetall(keyAvailability);
 
-        const keyDelivery = `delivery-options-${storeId}`;
+        const keyDelivery = `delivery-${storeId}`;
 
-        const deliveryOptions = await kv.lrange(keyDelivery, 0, -1);
+        const deliveryOptions = await kv.hgetall(keyDelivery);
 
 
         return NextResponse.json(

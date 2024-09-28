@@ -74,12 +74,12 @@ export default async function UsersTable({
                                             <Image
                                                 src={user.image}
                                                 className="rounded-full"
-                                                width={28}
-                                                height={28}
+                                                width={48}
+                                                height={48}
                                                 alt={`${user.name}'s profile picture`}
                                             />
                                         ) : (
-                                            <IconAvatar className="w-10"/>
+                                            <IconAvatar className="w-12"/>
                                         )}
                                         <p>{user.name}</p>
                                     </div>

@@ -38,22 +38,28 @@ import { cn } from "@/lib/utils";
 import { IconCross } from "@/components/ui/icons";
 import Image from "next/image";
 
-export interface DeliveryLocation {
-    location: string;
-    range: number;
-}
-
 interface DeliveryLocationFormProps {
-    index: number;
-    removeLocation: (index: number) => void;
-    deliveryLocations: DeliveryLocation[];
-    setDeliveryLocations: React.Dispatch<React.SetStateAction<DeliveryLocation[]>>;
+    locationMap: string;
+    rangeMap: number;
+    removeLocation: (location: string) => void;
+    deliveryLocations: Record<
+        keyof typeof cityLatLngMap,
+        {
+            range: number;
+        }
+    >;
+    setDeliveryLocations: React.Dispatch<React.SetStateAction<Record<
+        keyof typeof cityLatLngMap,
+        {
+            range: number;
+        }
+    >>>;
 }
 
-const DeliveryLocationForm: React.FC<DeliveryLocationFormProps> = ({ index, removeLocation, deliveryLocations, setDeliveryLocations }) => {
+const DeliveryLocationForm: React.FC<DeliveryLocationFormProps> = ({ locationMap, rangeMap, removeLocation, deliveryLocations, setDeliveryLocations }) => {
     const [open, setOpen] = React.useState<boolean>(false);
-    const [location, setLocation] = React.useState<string>("");
-    const [range, setRange] = React.useState<string>("");
+    const [location, setLocation] = React.useState<string>(locationMap);
+    const [range, setRange] = React.useState<string>(rangeMap.toString());
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const generateMapUrl = (latitude: number, longitude: number, radius: number): string => {
@@ -83,21 +89,29 @@ const DeliveryLocationForm: React.FC<DeliveryLocationFormProps> = ({ index, remo
     };
 
     const handleLocationChange = (currentValue: string) => {
-        setLocation(currentValue === location ? "" : currentValue);
+        if (currentValue === location) {
+            // City hasn't changed
+            setOpen(false);
+            return;
+        }
+        removeLocation(location);
+        setLocation(currentValue);
         setOpen(false);
-        updateDeliveryLocation(index, currentValue, range);
+        updateDeliveryLocation(currentValue, range);
     };
 
     const handleRangeChange = (currentValue: string) => {
         setRange(currentValue);
-        updateDeliveryLocation(index, location, currentValue);
+        updateDeliveryLocation(location, currentValue);
     };
 
-    const updateDeliveryLocation = (index: number, location: string, stringRange: string) => {
-        const updatedLocations = [...deliveryLocations];
+    const updateDeliveryLocation = (location: string, stringRange: string) => {
         const range = parseInt(stringRange);
-        updatedLocations[index] = { location, range};
-        setDeliveryLocations(updatedLocations);
+        setDeliveryLocations((prevDeliveryLocations) => {
+            const updatedLocations = { ...prevDeliveryLocations };
+            updatedLocations[location] = { range: range };
+            return updatedLocations;
+        });
     };
 
     return (
@@ -108,7 +122,7 @@ const DeliveryLocationForm: React.FC<DeliveryLocationFormProps> = ({ index, remo
                         variant="outline"
                         role="combobox"
                         aria-expanded={open}
-                        className="w-[150px] justify-between"
+                        className="w-[150px] justify-between truncate"
                     >
                         {location
                             ? Object.keys(cityLatLngMap).find((city) => city === location)
@@ -118,7 +132,7 @@ const DeliveryLocationForm: React.FC<DeliveryLocationFormProps> = ({ index, remo
                 </PopoverTrigger>
                 <PopoverContent className="w-[150px] p-0">
                     <Command>
-                        <CommandInput placeholder="Search city..." className="h-9" />
+                        <CommandInput placeholder={"Search city..."} className="h-9" />
                         <CommandList>
                             <CommandEmpty>No city found.</CommandEmpty>
                             <CommandGroup>
@@ -144,7 +158,7 @@ const DeliveryLocationForm: React.FC<DeliveryLocationFormProps> = ({ index, remo
             </Popover>
             <Select onValueChange={handleRangeChange}>
                 <SelectTrigger className="w-[70px] p-1">
-                    <SelectValue placeholder="Select range" />
+                    <SelectValue placeholder={range !== "0" ? `${range} km` : "Select range"} />
                 </SelectTrigger>
                 <SelectContent className="w-[70px] p-1">
                     <SelectGroup>
@@ -183,7 +197,7 @@ const DeliveryLocationForm: React.FC<DeliveryLocationFormProps> = ({ index, remo
             )}
             <Button
                 type="button"
-                onClick={() => removeLocation(index)}
+                onClick={() => removeLocation(location)}
                 variant={"outline"}
                 className={"px-2"}
             >
@@ -194,25 +208,43 @@ const DeliveryLocationForm: React.FC<DeliveryLocationFormProps> = ({ index, remo
 };
 
 interface DeliveryOptionsProps {
-    deliveryLocations: DeliveryLocation[];
-    setDeliveryLocations: React.Dispatch<React.SetStateAction<DeliveryLocation[]>>;
+    deliveryLocations: Record<
+        keyof typeof cityLatLngMap,
+        {
+            range: number;
+        }
+    >;
+    setDeliveryLocations: React.Dispatch<React.SetStateAction<Record<
+        keyof typeof cityLatLngMap,
+        {
+            range: number;
+        }
+    >>>;
 }
 
 const DeliveryOptions: React.FC<DeliveryOptionsProps> = ({ deliveryLocations, setDeliveryLocations }) => {
     const addDeliveryLocation = () => {
-        setDeliveryLocations([...deliveryLocations, { location: "", range: 0 }]);
+        setDeliveryLocations({
+            ...deliveryLocations,
+            "" : { range: 0 }
+        });
     };
 
-    const removeDeliveryLocation = (index: number) => {
-        setDeliveryLocations(deliveryLocations.filter((_, i) => i !== index));
+    const removeDeliveryLocation = (location: string) => {
+        setDeliveryLocations((prevLocations) => {
+            const updatedLocations = { ...prevLocations };
+            delete updatedLocations[location];
+            return updatedLocations;
+        });
     };
 
     return (
         <div className={"flex flex-col gap-y-4"}>
-            {deliveryLocations.map((_, index) => (
+            {Object.keys(deliveryLocations).map((location, index) => (
                 <DeliveryLocationForm
-                    key={index}
-                    index={index}
+                    key={location || index}
+                    locationMap={location}
+                    rangeMap={deliveryLocations[location].range}
                     removeLocation={removeDeliveryLocation}
                     deliveryLocations={deliveryLocations}
                     setDeliveryLocations={setDeliveryLocations}
