@@ -8,6 +8,15 @@ import {toast} from "sonner";
 import {IconError, IconSuccess} from "@/components/ui/icons";
 import {Button} from "@/components/ui/button";
 import {ClipLoader} from "react-spinners";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
 
 interface DeliveryOptionsEditProps {
     id: string;
@@ -24,7 +33,6 @@ export default function DeliveryOptionsEdit({ id, deliveryOptions, setStoreData 
 
     const [isPending, setPending] = useState(false);
 
-    const [isChanged, setIsChanged] = useState(false);
 
     const [deliveryLocations, setDeliveryLocations] = useState<Record<
         keyof typeof cityLatLngMap,
@@ -33,17 +41,11 @@ export default function DeliveryOptionsEdit({ id, deliveryOptions, setStoreData 
         }
     >>(deliveryOptions || {});
 
-    const initialDeliveryOptions = useMemo(() => deliveryLocations, []);
+    let initialDeliveryOptions = {...deliveryOptions};
 
-    useEffect(() => {
-        // @ts-ignore
-        setStoreData(prevState => ({
-            ...prevState,
-            ["deliveryOptions"]: deliveryLocations,
-        }));
-        console.log(deliveryLocations);
-        setIsChanged(JSON.stringify(initialDeliveryOptions) !== JSON.stringify(deliveryLocations));
-    }, [deliveryLocations]);
+    const isChanged = useMemo(() => JSON.stringify(deliveryLocations) !== JSON.stringify(initialDeliveryOptions),
+        [deliveryLocations, initialDeliveryOptions]
+    );
 
     const onSubmit = async (formDeliveryOptionsData : Record<
         keyof typeof cityLatLngMap,
@@ -51,67 +53,78 @@ export default function DeliveryOptionsEdit({ id, deliveryOptions, setStoreData 
             range: number;
         }
     >) => {
-        setPending(true);
 
-        const validateField = deliveryOptionsSchema.safeParse(formDeliveryOptionsData);
+        if (JSON.stringify(deliveryLocations) !== JSON.stringify(initialDeliveryOptions)) {
+            setPending(true);
+            const validateField = deliveryOptionsSchema.safeParse(formDeliveryOptionsData);
 
-        if (!validateField.success) {
-            toast.error((
-                    <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconError color={"primary"} className={"w-10 h-10"}/>
-                        <p className={"text-base font-bold"}>
-                            {validateField.error.errors[0].message}
-                        </p>
-                    </div>
-                ),
-                {
-                    duration: 10000
-                }
-            );
-            setPending(false);
-            return;
+            if (!validateField.success) {
+                toast.error((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {validateField.error.errors[0].message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+                setPending(false);
+                return;
+            }
+
+            const response = await fetch(`/api/store/actions/updateDeliveryOptions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    storeId: id,
+                    deliveryOptionsData: formDeliveryOptionsData
+                }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                toast.error((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+            } else {
+                toast.success((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+
+                // @ts-ignore
+                setStoreData(prevState => ({
+                    ...prevState,
+                    ["deliveryOptions"]: formDeliveryOptionsData,
+                }));
+
+
+            }
         }
 
-        const response = await fetch(`/api/store/actions/updateDeliveryOptions`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                storeId: id,
-                deliveryOptionsData: formDeliveryOptionsData
-            }),
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-            toast.error((
-                    <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconError color={"primary"} className={"w-10 h-10"}/>
-                        <p className={"text-base font-bold"}>
-                            {result.message}
-                        </p>
-                    </div>
-                ),
-                {
-                    duration: 10000
-                }
-            );
-        } else {
-            toast.success((
-                    <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconSuccess color={"primary"} className={"w-10 h-10"}/>
-                        <p className={"text-base font-bold"}>
-                            {result.message}
-                        </p>
-                    </div>
-                ),
-                {
-                    duration: 10000
-                }
-            );
-        }
 
         setPending(false);
 
@@ -139,30 +152,49 @@ export default function DeliveryOptionsEdit({ id, deliveryOptions, setStoreData 
                         setDeliveryLocations={setDeliveryLocations}
                     />
                     <div className={"flex flex-row space-x-4"}>
-                        <Button
-                            type={"submit"}
-                            className={"w-full mt-4"}
-                            variant={"outline"}
-                            disabled={!isChanged}
-                            onClick={() => {
-                                setDeliveryLocations(initialDeliveryOptions);
-                                // @ts-ignore
-                                setStoreData(prevState => ({
-                                    ...prevState,
-                                    ["deliveryOptions"]: initialDeliveryOptions,
-                                }));
-                            }}
-                        >
-                            Revert
-                        </Button>
-                        <Button
-                            type={"submit"}
-                            className={"w-full mt-4"}
-                            disabled={!isChanged}
-                            onClick={() => onSubmit(deliveryLocations)}
-                        >
-                            Apply
-                        </Button>
+                        {/*<Button*/}
+                        {/*    type={"submit"}*/}
+                        {/*    className={"w-full mt-4"}*/}
+                        {/*    variant={"outline"}*/}
+                        {/*    onClick={() => {*/}
+                        {/*        setDeliveryLocations(initialDeliveryOptions);*/}
+                        {/*        // @ts-ignore*/}
+                        {/*        setStoreData(prevState => ({*/}
+                        {/*            ...prevState,*/}
+                        {/*            ["deliveryOptions"]: initialDeliveryOptions,*/}
+                        {/*        }));*/}
+                        {/*    }}*/}
+                        {/*>*/}
+                        {/*    Revert*/}
+                        {/*</Button>*/}
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button
+                                    type={"submit"}
+                                    className={"w-full mt-4"}
+                                    disabled={!isChanged}
+                                >
+                                    Apply
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone. These changes will be seen to everyone.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction
+                                        onClick={() => onSubmit(deliveryLocations)}
+                                        disabled={isPending}
+                                    >
+                                        Apply
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     </div>
                 </>
         )}

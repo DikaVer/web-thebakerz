@@ -2,12 +2,13 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import {AddressData, AddressDataStoreField} from "@/lib/definitions";
+import {AddressUserData, AddressDataUserField} from "@/lib/definitions";
+import {formatAddress} from "@/lib/utils";
 
 
 interface UserAddressProps {
-    shippingAddress: AddressDataStoreField | null;
-    savedAddresses: AddressData | null;
+    shippingAddress: AddressDataUserField | null;
+    savedAddresses: AddressUserData | null;
 }
 
 
@@ -29,12 +30,8 @@ const UserAddresses = ({ shippingAddress, savedAddresses } : UserAddressProps) =
 
             <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className="bg-gray-100 p-4 rounded-lg">
-                    <p className="font-semibold text-gray-800">Street Address:</p>
-                    <p>{selectedAddress.streetAddress}</p>
-                </div>
-                <div className="bg-gray-100 p-4 rounded-lg">
                     <p className="font-semibold text-gray-800">SubPremise:</p>
-                    <p>{selectedAddress.subPremise}</p>
+                    <p>{selectedAddress.sub_premise}</p>
                 </div>
                 <div className="bg-gray-100 p-4 rounded-lg">
                     <p className="font-semibold text-gray-800">Premise:</p>
@@ -58,7 +55,7 @@ const UserAddresses = ({ shippingAddress, savedAddresses } : UserAddressProps) =
                 </div>
                 <div className="bg-gray-100 p-4 rounded-lg">
                     <p className="font-semibold text-gray-800">Zip Code:</p>
-                    <p>{selectedAddress.zipCode}</p>
+                    <p>{selectedAddress.zip_code}</p>
                 </div>
                 <div className="bg-gray-100 p-4 rounded-lg">
                     <p className="font-semibold text-gray-800">Country:</p>
@@ -74,7 +71,7 @@ const UserAddresses = ({ shippingAddress, savedAddresses } : UserAddressProps) =
                 </div>
                 <div className="bg-gray-100 p-4 rounded-lg">
                     <p className="font-semibold text-gray-800">Delivery Notes:</p>
-                    <p>{selectedAddress.deliveryNotes}</p>
+                    <p>{selectedAddress.delivery_notes}</p>
                 </div>
             </div>
 
@@ -97,8 +94,8 @@ const UserAddresses = ({ shippingAddress, savedAddresses } : UserAddressProps) =
                         className="p-4 bg-gray-200 rounded-lg hover:bg-gray-300 cursor-pointer"
                         onClick={() => setSelectedAddress(address)}
                     >
-                        <p className="font-semibold text-gray-800">{address.streetAddress}</p>
-                        <p className="text-gray-600">{address.city}, {address.zipCode}</p>
+                        <p className="font-semibold text-gray-800">{formatAddress(address)}</p>
+                        <p className="text-gray-600">{address.city}, {address.zip_code}</p>
                     </div>
                 ))}
             </div>

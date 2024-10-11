@@ -17,6 +17,8 @@ export interface Session {
     sessionToken: string;
 }
 
+export type ProductData = Array<ProductDataField>;
+
 export type ProductDataField = {
     id: string;
     store_id: string;
@@ -27,8 +29,8 @@ export type ProductDataField = {
     image_url: string;
 };
 
-export type AddressData = {
-    [key: string]: AddressDataStoreField;
+export type AddressUserData = {
+    [key: string]: AddressDataUserField;
 }
 
 export type AddressDataStoreField = {
@@ -44,18 +46,29 @@ export type AddressDataStoreField = {
     zip_code: string;
 };
 
-export type UsersTable = {
+export type AddressDataUserField = {
+    id: string;
+    city: string;
+    country: string;
+    latitude: number;
+    longitude: number;
+    premise?: string;
+    route: string;
+    state: string;
+    street_number: string;
+    sub_premise?: string;
+    zip_code: string;
+    delivery_notes?: string;
+};
+
+export type UsersData = {
     id: string;
     name: string;
     email: string;
-    image: string;
+    image: string | null;
     role: string;
+    date: string;
 };
-
-// export type AddressDataStorageField = {
-//     shippingAddress: AddressDataStoreField | null,
-//     savedAddresses: AddressData | null,
-// }
 
 export type CartProductDataField = {
     product_id: string;

@@ -66,6 +66,17 @@ export async function POST(req: Request) {
 
                     const keyAvailability = `availability-${storeId}`;
 
+                    await kv.del(keyAvailability);
+
+                    if (Object.keys(filteredAvailabilityData).length === 0) {
+                        return NextResponse.json(
+                            {
+                                message: 'Availability updated successfully'
+                            }, {
+                                status: 200
+                            });
+                    }
+
                     await kv.hset(keyAvailability, filteredAvailabilityData);
 
                     return NextResponse.json(

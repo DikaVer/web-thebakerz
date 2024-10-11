@@ -10,6 +10,7 @@ const nanoid = customAlphabet(
     20
 )
 
+
 export async function POST(req: Request) {
 
     const file = req.body || ''
@@ -24,23 +25,23 @@ export async function POST(req: Request) {
 
     const contentType = req.headers.get('content-type') || 'text/plain';
 
+    const storeId = req.headers.get('store-id');
+
+    if (!storeId) {
+        return NextResponse.json(
+            {
+                message: 'Unauthorized access'
+            }, {
+                status: 401
+            });
+    }
+
     if(contentType !== 'image/png' && contentType !== 'image/jpeg' && contentType !== 'image/jpg'){
         return NextResponse.json({
             message: 'Invalid file type'
         }, {
             status: 400
         });
-    }
-
-    const userId = req.headers.get('user-id');
-
-    if (!userId) {
-        return NextResponse.json(
-            {
-                message: 'Missing user'
-            }, {
-                status: 401
-            });
     }
 
 
@@ -50,11 +51,14 @@ export async function POST(req: Request) {
 
         try {
 
+            const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${storeId}`;
+            const userId = queryUserId.rows[0].user_id;
+
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
                 // @ts-ignore
-                const filename = `avatars/${nanoid()}.${file?.type}`;
+                const filename = `storeBackgrounds/${nanoid()}.${contentType}`;
 
                 const blob = await put(filename, file, {
                     contentType,
@@ -62,15 +66,11 @@ export async function POST(req: Request) {
                 });
 
 
-                await sql`
-                        UPDATE users
-                        SET
-                            image = ${blob.url}
-                        WHERE id = ${userId}`;
 
                 return NextResponse.json(
                     {
-                        message: 'Avatar image updated successfully'
+                        message: 'Product image is uploaded successfully',
+                        url: blob.url
                     }, {
                         status: 200
                     });
@@ -87,7 +87,7 @@ export async function POST(req: Request) {
         } catch (error) {
             return NextResponse.json(
                 {
-                    message: 'Failed to update avatar image'
+                    message: `Failed to update background image: ${error}`
                 }, {
                     status: 500
                 });

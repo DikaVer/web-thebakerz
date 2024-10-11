@@ -9,6 +9,15 @@ import {ClipLoader} from "react-spinners";
 import {availabilitySchema} from "@/lib/schemas";
 import {toast} from "sonner";
 import {IconError, IconSuccess} from "@/components/ui/icons";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
 
 
 interface AvailabilityEditProps {
@@ -28,8 +37,6 @@ export default function AvailabilityEdit({ id, availability, setStoreData }: Ava
 
     const [isPending, setPending] = useState(false);
 
-    const [isChanged, setIsChanged] = useState(false);
-
     const [availabilityData, setAvailabilityData] = useState<
         Record<string,
         {
@@ -39,16 +46,11 @@ export default function AvailabilityEdit({ id, availability, setStoreData }: Ava
         }>>
     (availability || {});
 
-    const initialAvailability = useMemo(() => availabilityData, []);
+    let initialAvailability = {...availability};
 
-    useEffect(() => {
-        // @ts-ignore
-        setStoreData(prevState => ({
-            ...prevState,
-            ["availability"]: availabilityData,
-        }));
-        setIsChanged(JSON.stringify(initialAvailability) !== JSON.stringify(availabilityData));
-    }, [availabilityData]);
+    const isChanged = useMemo(() => JSON.stringify(availabilityData) !== JSON.stringify(initialAvailability),
+        [availabilityData, initialAvailability]
+    );
 
 
     const onSubmit = async (formAvailabilityData : Record<
@@ -59,79 +61,76 @@ export default function AvailabilityEdit({ id, availability, setStoreData }: Ava
             availability: "Free" | "Busy";
         }
     >) => {
+
         setPending(true);
 
-        const validateField = availabilitySchema.safeParse(formAvailabilityData);
+        if (JSON.stringify(formAvailabilityData) !== JSON.stringify(initialAvailability)) {
 
-        const today = new Date();
+            const validateField = availabilitySchema.safeParse(formAvailabilityData);
 
-        const filteredAvailabilityData = Object.keys(availabilityData).reduce((acc:{ [key: string]: typeof availabilityData[keyof typeof availabilityData] }, dateKey) => {
-            const date = new Date(dateKey);
-            if (date > today) {
-                const { from, to } = availabilityData[dateKey];
-                if (timeMap[from].from < timeMap[to].from) {
-                    acc[dateKey] = availabilityData[dateKey];
-                }
+            if (!validateField.success) {
+                toast.error((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {validateField.error.errors[0].message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+                setPending(false);
+                return;
             }
-            return acc;
-        }, {});
 
-        if (!validateField.success) {
-            toast.error((
-                    <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconError color={"primary"} className={"w-10 h-10"}/>
-                        <p className={"text-base font-bold"}>
-                            {validateField.error.errors[0].message}
-                        </p>
-                    </div>
-                ),
-                {
-                    duration: 10000
-                }
-            );
-            setPending(false);
-            return;
-        }
+            const response = await fetch(`/api/store/actions/updateAvailability`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    storeId: id,
+                    availabilityData: formAvailabilityData
+                }),
+            });
 
-        const response = await fetch(`/api/store/actions/updateAvailability`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                storeId: id,
-                availabilityData: formAvailabilityData
-            }),
-        });
+            const result = await response.json();
 
-        const result = await response.json();
-
-        if (!response.ok) {
-            toast.error((
-                    <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconError color={"primary"} className={"w-10 h-10"}/>
-                        <p className={"text-base font-bold"}>
-                            {result.message}
-                        </p>
-                    </div>
-                ),
-                {
-                    duration: 10000
-                }
-            );
-        } else {
-            toast.success((
-                    <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconSuccess color={"primary"} className={"w-10 h-10"}/>
-                        <p className={"text-base font-bold"}>
-                            {result.message}
-                        </p>
-                    </div>
-                ),
-                {
-                    duration: 10000
-                }
-            );
+            if (!response.ok) {
+                toast.error((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+            } else {
+                toast.success((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+                // @ts-ignore
+                setStoreData(prevState => ({
+                    ...prevState,
+                    ["availability"]: availabilityData,
+                }));
+                initialAvailability = {...formAvailabilityData};
+            }
         }
 
         setPending(false);
@@ -172,30 +171,49 @@ export default function AvailabilityEdit({ id, availability, setStoreData }: Ava
                     availabilityData={availabilityData}
                 />
                 <div className={"flex flex-row space-x-4"}>
-                    <Button
-                        type={"submit"}
-                        className={"w-full mt-4"}
-                        variant={"outline"}
-                        disabled={!isChanged}
-                        onClick={() => {
-                            setAvailabilityData(initialAvailability);
-                            // @ts-ignore
-                            setStoreData(prevState => ({
-                                ...prevState,
-                                ["availability"]: initialAvailability,
-                            }));
-                        }}
-                    >
-                        Revert
-                    </Button>
-                    <Button
-                        type={"submit"}
-                        className={"w-full mt-4"}
-                        disabled={!isChanged}
-                        onClick={() => onSubmit(availabilityData)}
-                    >
-                        Apply
-                    </Button>
+                    {/*<Button*/}
+                    {/*    type={"submit"}*/}
+                    {/*    className={"w-full mt-4"}*/}
+                    {/*    variant={"outline"}*/}
+                    {/*    onClick={() => {*/}
+                    {/*        setAvailabilityData(initialAvailability);*/}
+                    {/*        // @ts-ignore*/}
+                    {/*        setStoreData(prevState => ({*/}
+                    {/*            ...prevState,*/}
+                    {/*            ["availability"]: initialAvailability,*/}
+                    {/*        }));*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    Revert*/}
+                    {/*</Button>*/}
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button
+                                type={"submit"}
+                                disabled={!isChanged}
+                                className={"w-full mt-4"}
+                            >
+                                Apply
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. These changes will be seen to everyone.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                    onClick={() => onSubmit(availabilityData)}
+                                    disabled={isPending}
+                                >
+                                    Apply
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 </div>
             </>
         )}

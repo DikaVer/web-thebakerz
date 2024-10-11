@@ -12,6 +12,15 @@ export async function POST(req: Request) {
 
     const { userId, nickname} = body;
 
+    if (!userId) {
+        return NextResponse.json(
+            {
+                message: 'Missing user'
+            }, {
+                status: 401
+            });
+    }
+
     const validateFields = nameSchema.safeParse(nickname);
 
     if (!validateFields.success) {

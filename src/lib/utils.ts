@@ -23,13 +23,15 @@ export function formatAddress(address: AddressDataStoreField): string {
     ].filter(Boolean).join(' ').trim().replace(/\s+/g, ', ');
 }
 
-
-
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-GB', {
     style: 'currency',
     currency: 'EUR',
   });
+};
+
+export const formatPrice = (amount: number) => {
+    return (amount / 100)
 };
 
 export function formatDataDate(input: string | number | Date): string {
@@ -56,6 +58,6 @@ export function formatDateTime(input: string | number | Date): string {
     return date.toLocaleString('en-US', {
         hour: '2-digit',
         minute: '2-digit',
-        hour12: true
+        hour12: false
     })
 }

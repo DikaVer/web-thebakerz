@@ -9,6 +9,7 @@ import StoreEdit from "@/components/dashboard/store/store-edit";
 import {StoreData} from "@/lib/definitions";
 import AvailabilityEdit from "@/components/dashboard/store/availability-edit";
 import DeliveryOptionsEdit from "@/components/dashboard/store/delivery-options-edit";
+import ProductsStoreEdit from "@/components/dashboard/store/products-store-edit";
 
 
 interface StoreViewDashboardProps {
@@ -19,10 +20,6 @@ interface StoreViewDashboardProps {
 export default function StoreViewDashboard({storeProps}: StoreViewDashboardProps) {
 
     const [storeData, setStoreData] = useState<StoreData>(storeProps);
-
-    const initialStoreValues = useMemo(() => {
-        return storeData;
-    }, []);
 
 
     return (
@@ -38,11 +35,7 @@ export default function StoreViewDashboard({storeProps}: StoreViewDashboardProps
                 availability={storeData.availability}
             />
             <Tabs defaultValue="store" className="w-full mt-4">
-                <TabsList className="grid w-full grid-cols-5" onClick={
-                    () => {
-                        setStoreData(initialStoreValues);
-                    }
-                }>
+                <TabsList className="grid w-full grid-cols-5" >
                     <TabsTrigger value="store">Store</TabsTrigger>
                     <TabsTrigger value="location">Location</TabsTrigger>
                     <TabsTrigger value="products">Products</TabsTrigger>
@@ -52,8 +45,8 @@ export default function StoreViewDashboard({storeProps}: StoreViewDashboardProps
                 <TabsContent value="store">
                     <StoreEdit
                         id={storeData.id}
-                        user_id={storeData.user_id}
-                        name={storeData.name}
+                        user_id={storeData.user_id ? storeData.user_id : ""}
+                        name={storeData.name ? storeData.name : ""}
                         description={storeData.description}
                         image={storeData.image}
                         background_url={storeData.background_url}
@@ -67,7 +60,11 @@ export default function StoreViewDashboard({storeProps}: StoreViewDashboardProps
                     />
                 </TabsContent>
                 <TabsContent value="products">
-
+                    <ProductsStoreEdit
+                        id={storeData.id}
+                        productData={storeData.products}
+                        setStoreData={setStoreData}
+                        />
                 </TabsContent>
                 <TabsContent value="availability">
                     <AvailabilityEdit

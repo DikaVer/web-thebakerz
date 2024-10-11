@@ -14,7 +14,6 @@ interface ImageUploaderProps {
     field: ControllerRenderProps<any>;
     name: string;
     setError: (input: string | undefined) => void;
-    setStoreData: (data: StoreData) => void;
     data: {
         image: string | null;
     };

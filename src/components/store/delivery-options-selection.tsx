@@ -89,6 +89,12 @@ const DeliveryLocationForm: React.FC<DeliveryLocationFormProps> = ({ locationMap
     };
 
     const handleLocationChange = (currentValue: string) => {
+        // if current value is in deliveryLocations, then don't update
+        if (Object.keys(deliveryLocations).includes(currentValue)) {
+            setOpen(false);
+            return;
+        }
+
         if (currentValue === location) {
             // City hasn't changed
             setOpen(false);

@@ -1,13 +1,18 @@
 import React from "react";
-import {getProductsByCategory} from "@/lib/store/store-dto";
 import {ProductList} from "@/components/store/product-list";
 import {ExternalLink} from "@/components/external-link";
+import {ProductData, ProductDataField, StoreData} from "@/lib/definitions";
 
 
-export async function ProductComponent({id}: { id: string }) {
-    const productsByCategory = await getProductsByCategory(id);
+export function ProductComponent({id, productData, setStoreData, isPending, setPending}: {
+    id: string,
+    productData: ProductData,
+    isPending: boolean,
+    setPending: (isPending: boolean) => void,
+    setStoreData: (data: StoreData) => void
+}) {
 
-    if (!productsByCategory) {
+    if (productData.length === 0) {
         return (
             <div className="text-center">
                 <p className={"text-2xl my-10"}>Sorry, {id} does not have any products yet.</p>
@@ -16,6 +21,21 @@ export async function ProductComponent({id}: { id: string }) {
         );
     } else {
 
-        return <ProductList productsByCategories={productsByCategory}/>;
+        const productsByCategory: { [key: string]: ProductDataField[] } = {};
+
+        productData.forEach(product => {
+            if (!productsByCategory[product.category]) {
+                productsByCategory[product.category] = [];
+            }
+            productsByCategory[product.category].push(product);
+        });
+
+        return <ProductList
+            id={id}
+            productsByCategories={productsByCategory}
+            isPending={isPending}
+            setStoreData={setStoreData}
+            setPending={setPending}
+        />;
     }
 }

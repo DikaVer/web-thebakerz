@@ -32,12 +32,10 @@ export default function ViewHeaderUser({ user_id }: { user_id: string }) {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuLabel>Options</DropdownMenuLabel>
                     <DropdownMenuSeparator/>
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
+                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                    <DropdownMenuItem>Ban</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

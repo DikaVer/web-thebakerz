@@ -1,6 +1,6 @@
 import 'server-only';
 import {sql} from "@vercel/postgres";
-import {UsersTable} from "@/lib/definitions";
+import {UsersData} from "@/lib/definitions";
 
 export const config = {
     runtime: 'edge', // 'nodejs' is the default
@@ -31,7 +31,7 @@ export async function fetchFilteredUsers(
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
     try {
-        const users = await sql<UsersTable>`
+        const users = await sql<UsersData>`
       SELECT
         users.id,
         users.name, 
@@ -59,7 +59,7 @@ export async function fetchFilteredUsersDefault(
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
     try {
-        const users = await sql<UsersTable>`
+        const users = await sql<UsersData>`
       SELECT
         users.id,
         users.name, 
@@ -80,15 +80,6 @@ export async function fetchFilteredUsersDefault(
         throw new Error('Failed to fetch users.');
     }
 }
-
-export type UsersData = {
-    id: string;
-    name: string;
-    email: string;
-    image: string;
-    role: string;
-    date: string;
-};
 
 export async function fetchUserData(
     query: string

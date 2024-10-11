@@ -37,6 +37,18 @@ export async function POST(req: Request) {
 
                 const keyDelivery = `delivery-${storeId}`;
 
+                await kv.del(keyDelivery);
+
+                // if delivery options are empty, delete the key and return
+                if (Object.keys(deliveryOptionsData).length === 0) {
+                    return NextResponse.json(
+                        {
+                            message: 'Delivery Options updated successfully'
+                        }, {
+                            status: 200
+                        });
+                }
+
                 await kv.hset(keyDelivery, deliveryOptionsData);
 
                 return NextResponse.json(

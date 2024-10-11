@@ -16,6 +16,8 @@ export default async function Page({params}: UserPageProps) {
 
     const storeData = await fetchStoreData(params.id);
 
+    console.log(storeData);
+
     if (!storeData) {
         return notFound();
     }

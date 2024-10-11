@@ -1,36 +1,30 @@
 import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
 import {NextResponse} from "next/server";
-import {PutBlobResult} from "@vercel/blob";
+import {productApiSchema} from "@/lib/schemas";
 export const config = {
     runtime: 'edge', // 'nodejs' is the default
-};
-
-const isAuthorized = (req: Request) => {
-    const authHeader = req.headers.get('Authorization');
-    const secretKey = authHeader?.split(' ')[1]; // Extract the key after 'Bearer'
-
-    // Validate the secret key
-    return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
 };
 
 
 export async function POST(req: Request) {
 
-    // Validate the secret key
-    if (!isAuthorized(req)) {
-        return NextResponse.json({
-            message: 'Unauthorized access'
-        }, {
-            status: 401
-        });
-    }
-
-    const session = await auth()
-
     const body = await req.json();
 
     const { storeId, productData} = body;
+
+    const validateField = productApiSchema.safeParse(productData);
+
+    if (!validateField.success) {
+        return NextResponse.json(
+            {
+                message: "Invalid product data",
+            }, {
+                status: 400
+            });
+    }
+
+    const session = await auth()
 
     if(session){
 
@@ -42,31 +36,10 @@ export async function POST(req: Request) {
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
-                    const {name, description, price, category, file} = productData;
+                    const {name, description, price, category, file_url} = productData;
 
-                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/image/upload`, {
-                        method: 'POST',
-                        headers: {
-                            'content-type': file?.type,
-                            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_KEY}`
-                        },
-                        body: JSON.stringify({
-                            file: file.file,
-                            fileName: file.fileName,
-                            path: "storeProducts"
-                        }),
-                    })
-
-                    if (!response.ok) {
-                        return NextResponse.json(
-                            {
-                                message: 'Failed to upload image'
-                            }, {
-                                status: 400
-                            });
-                    }
-
-                    const {url} = await response.json() as PutBlobResult;
+                    // Convert price from float to integer
+                    const priceNew = Math.round(price * 100);
 
 
                     const productRow = await sql`
@@ -80,9 +53,9 @@ export async function POST(req: Request) {
                         ) VALUES (
                             ${name},
                             ${description},
-                            ${price},
+                            ${priceNew},
                             ${category},
-                            ${url},
+                            ${file_url},
                             ${storeId}
                             ) RETURNING id, name, description, price, category, image_url`;
 

@@ -3,7 +3,6 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import {Input} from "@/components/ui/input";
 import {ImageUploader} from "@/components/upload-image";
 import {FormError} from "@/components/authentication/form-error";
-import {FormSuccess} from "@/components/authentication/form-success";
 import {Button} from "@/components/ui/button";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
@@ -11,7 +10,6 @@ import {storeEditSchema} from "@/lib/schemas";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {AvatarUploader} from "@/components/upload-avatar";
 import {StoreData} from "@/lib/definitions";
-import { useRouter } from 'next/navigation';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -41,29 +39,24 @@ interface StoreViewDashboardProps {
 export default function StoreViewDashboard({ id, user_id, name, image, background_url, setStoreData, nickname, description }: StoreViewDashboardProps) {
 
     const [error, setError] = useState<string | undefined>();
-    const [success, setSuccess] = useState<string | undefined>();
-
-    const [isChanged, setIsChanged] = useState(false);
 
     const [isPending, setPending] = useState(false);
-
-    const { push } = useRouter();
 
     const [dataAvatar, setDataAvatar] = useState<{
         image: string | null
     }>({
-        image: null
+        image: image
     });
 
     const [dataBackground, setDataBackground] = useState<{
         image: string | null
     }>({
-        image: null
+        image: background_url
     });
 
     const [isAvatarDialogOpen, setAvatarDialogOpen] = useState(false);
 
-    const form = useForm<z.infer<typeof  storeEditSchema>>({
+    const form = useForm<z.infer<typeof storeEditSchema>>({
         resolver: zodResolver(storeEditSchema),
         defaultValues: {
             name: name,
@@ -74,24 +67,23 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
         }
     });
 
-    const initialValues = useMemo(() => form.getValues(), []);
+    let initialValues =   {
+        name: name,
+        description: description ? description : "",
+        nickname: nickname,
+        image: image,
+        background: background_url
+    };
 
-    const initialStoreValues = useMemo(() => {
-        return {
-            name: name,
-            description: description,
-            image: image,
-            nickname: nickname,
-            background_url: background_url
-        }
-    }, []);
-
-    useEffect(() => {
-        const subscription = form.watch((values) => {
-            setIsChanged(JSON.stringify(values) !== JSON.stringify(initialValues));
-        });
-
-        return () => subscription.unsubscribe();
+    const isChanged = useMemo(() => {
+        const formValues = form.getValues();
+        return (
+            JSON.stringify(formValues.name) !== JSON.stringify(initialValues.name) ||
+            JSON.stringify(formValues.description) !== JSON.stringify(initialValues.description) ||
+            JSON.stringify(formValues.nickname) !== JSON.stringify(initialValues.nickname) ||
+            formValues.image !== null ||
+            formValues.background !== null
+        );
     }, [form, initialValues]);
 
 
@@ -138,6 +130,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                         duration: 10000
                     }
                 );
+                initialValues.name = formData.name;
                 // @ts-ignore
                 setStoreData(prevState => ({
                     ...prevState,
@@ -186,6 +179,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                         duration: 10000
                     }
                 );
+                initialValues.nickname = formData.nickname;
                 // @ts-ignore
                 setStoreData(prevState => ({
                     ...prevState,
@@ -243,7 +237,6 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
         }
 
         if (formData.image) {
-            console.log(formData.image?.type);
             const response = await fetch(`/api/user/actions/updateAvatar`, {
                 method: 'POST',
                 headers: {
@@ -290,10 +283,6 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
         }
 
         if (formData.background) {
-            const formDataBack = new FormData();
-            formDataBack.set(`background`, formData.background ? formData.background : "");
-
-            console.log(formData.background?.type);
             const response = await fetch(`/api/store/actions/updateBackground`, {
                 method: 'POST',
                 headers: {
@@ -332,6 +321,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                         duration: 10000
                     }
                 );
+                initialValues.background = dataBackground.image ? dataBackground.image : null;
                 // @ts-ignore
                 setStoreData(prevState => ({
                     ...prevState,
@@ -378,11 +368,8 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                                 form={form}
                                                 field={field}
                                                 name={"image"}
-                                                isDialogOpen={isAvatarDialogOpen}
                                                 setDialogOpen={setAvatarDialogOpen}
-                                                setStoreData={setStoreData}
-                                                data={dataAvatar}
-                                                setData={setDataAvatar}
+                                                setGlobalData={setDataAvatar}
                                             />}
                                         <Button
                                             type={"button"}
@@ -400,6 +387,9 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                     </>
                                 </FormControl>
                                 <FormMessage/>
+                                <FormDescription className={"ml-1"}>
+                                    {dataAvatar.image != initialValues.image ? "Avatar image is set, click preview to see changes" : "No avatar image set"}
+                                </FormDescription>
                             </FormItem>
                         )}
                     />
@@ -458,10 +448,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                     <FormField
                         control={form.control}
                         name="description"
-                        render={({field}) => {
-
-
-                            return (
+                        render={({field}) => (
                             <FormItem>
                                 <FormLabel
                                     className="block text-sm font-medium text-gray-700">
@@ -481,7 +468,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                 <FormMessage/>
                             </FormItem>
                             )
-                        }}
+                        }
                     />
                     <FormField
                         control={form.control}
@@ -498,7 +485,6 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                         field={field}
                                         name={"background"}
                                         setError={setError}
-                                        setStoreData={setStoreData}
                                         data={dataBackground}
                                         setData={setDataBackground}
                                     />
@@ -508,7 +494,6 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                         )}
                     />
                     <FormError message={error}/>
-                    <FormSuccess message={success}/>
                     {/* Submit Button */}
                     <div>
                         <div className={"flex flex-row space-x-4"}>
@@ -531,26 +516,26 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                     document.getElementById("main").scrollIntoView({ behavior: "smooth" });
                                 }}
                             >
-                                Review
+                                Preview
                             </Button>
-                            <Button
-                                type="button"
-                                className="mb-4 w-full"
-                                variant={"outline"}
-                                disabled={!isChanged || isPending}
-                                onClick={() => {
-                                    // @ts-ignore
-                                    setStoreData(prevState => ({
-                                        ...prevState,
-                                        ...initialStoreValues
-                                    }));
-                                    form.reset();
-                                    setDataAvatar({image: null});
-                                    setDataBackground({image: null});
-                                }}
-                            >
-                                Revert
-                            </Button>
+                            {/*<Button*/}
+                            {/*    type="button"*/}
+                            {/*    className="mb-4 w-full"*/}
+                            {/*    variant={"outline"}*/}
+                            {/*    disabled={isPending}*/}
+                            {/*    onClick={() => {*/}
+                            {/*        // @ts-ignore*/}
+                            {/*        setStoreData(prevState => ({*/}
+                            {/*            ...prevState,*/}
+                            {/*            ...initialStoreValues*/}
+                            {/*        }));*/}
+                            {/*        form.reset();*/}
+                            {/*        setDataAvatar({image: null});*/}
+                            {/*        setDataBackground({image: null});*/}
+                            {/*    }}*/}
+                            {/*>*/}
+                            {/*    Revert*/}
+                            {/*</Button>*/}
                         </div>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>

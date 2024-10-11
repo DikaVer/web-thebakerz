@@ -18,7 +18,7 @@ import {cityLatLngMap, timeMap} from "@/lib/local-variables";
 import {formatAddress} from "@/lib/utils";
 
 interface ProfileHeaderProps {
-    name: string;
+    name: string | null;
     description: string | null;
     location: AddressDataStoreField;
     image: string | null;
@@ -99,14 +99,14 @@ const Avatar = ({avatar_url} : {avatar_url: string | null}) => (
 );
 
 interface ProfileInfoProps {
-        name: string;
+        name: string | null;
         description: string | null;
         location: AddressDataStoreField;
 }
 
 const ProfileInfo = ({name, description, location} : ProfileInfoProps) => (
     <div className="ml-36 mt-14 cm:ml-40 cm:mt-12 absolute space-y-2">
-        <Label className="text-xl cm:text-2xl font-bold text-black">{name}</Label>
+        <Label className="text-xl cm:text-2xl font-bold text-black">{name ? name : "Empty name"}</Label>
         <Label className="flex items-center space-x-2 hover:scale-102 transition duration-300">
             <IconStar className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"}/>
             <p className="text-lg cm:text-xl text-black">5.0</p>

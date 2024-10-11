@@ -2,10 +2,16 @@
 
 import React, { useState } from "react";
 import { Product } from "@/components/store/product";
-import { ProductByCategory } from "@/lib/definitions";
+import {ProductByCategory, StoreData} from "@/lib/definitions";
 import { Search } from "lucide-react";
 
-export function ProductList({ productsByCategories }: { productsByCategories: ProductByCategory }) {
+export function ProductList({id, productsByCategories, setStoreData, setPending, isPending}: {
+    id: string,
+    productsByCategories: ProductByCategory,
+    isPending: boolean,
+    setPending: (isPending: boolean) => void,
+    setStoreData: (data: StoreData) => void
+}) {
     const [searchTerm, setSearchTerm] = useState("");
 
     // Helper function to filter products based on the search term
@@ -47,13 +53,18 @@ export function ProductList({ productsByCategories }: { productsByCategories: Pr
             <ul className="grid gap-4 grid-cols-1 store-sm:grid-cols-2 py-3">
                 {products.map(product => (
                     <Product
-                        key={product.product_id}
+                        key={product.id}
+                        id={id}
                         name={product.name}
+                        category={product.category}
                         description={product.description}
                         rating="4.5" // Assuming rating is a static value for now
                         price={product.price}
                         image={product.image_url}
-                        productId={product.product_id}
+                        productId={product.id}
+                        isPending={isPending}
+                        setStoreData={setStoreData}
+                        setPending={setPending}
                     />
                 ))}
             </ul>

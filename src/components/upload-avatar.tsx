@@ -19,20 +19,18 @@ interface AvatarUploaderProps {
     form: UseFormReturn<any>;
     field: ControllerRenderProps<any>;
     name: string;
-    isDialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
-    setStoreData: (data: StoreData) => void;
-    data: {
-        image: string | null;
-    };
-    setData: (data: { image: string | null }) => void;
+    setGlobalData: (data: { image: string | null }) => void;
 }
 
-export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen, setStoreData, data, setData}: AvatarUploaderProps) {
+export function AvatarUploader({ form, field, name, setDialogOpen, setGlobalData}: AvatarUploaderProps) {
 
     const imgRef = useRef(null);
     const previewCanvasRef = useRef(null);
 
+    const [data, setData] = useState<{ image: string | null }>({
+        image: null,
+    });
 
     const [error, setError] = useState<string | undefined>();
 
@@ -61,7 +59,6 @@ export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen,
                 } else {
 
                     setFile(file)
-                    console.log(file)
 
                     const reader = new FileReader()
 
@@ -152,21 +149,30 @@ export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen,
 
                                     const file = e.dataTransfer.files && e.dataTransfer.files[0];
                                     const check = imageUploadSchema.safeParse(file);
-                                    if (!check.success) {
-                                        setError('Image must be a valid image format (jpeg, jpg, png)');
+                                    if (!check.success){
+                                        setError("Image must be a valid image format (jpeg, jpg, png)")
+                                        setFile(null);
+                                        setData({ image: null });
+                                        return
                                     }
                                     if (file && check.success) {
                                         if (file.size / 1024 / 1024 > 4.5) {
-                                            setError('File size too big (max 4.5MB)');
+                                            setError('File size too big (max 4.5MB)')
+                                            setFile(null);
+                                            setData({ image: null });
+                                            return
                                         } else {
-                                            setFile(file);
-                                            const reader = new FileReader();
+
+                                            setFile(file)
+
+                                            const reader = new FileReader()
 
                                             reader.onload = (e) => {
                                                 const base64String = e.target?.result as string;
                                                 setData({ image: base64String });
-                                            };
-                                            reader.readAsDataURL(file);
+                                            }
+                                            setError(undefined);
+                                            reader.readAsDataURL(file)
                                         }
                                     }
                                 }}
@@ -276,6 +282,9 @@ export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen,
                                     form.setValue(name, croppedFile);
                                 }
                             }, `${file?.type}`);
+
+                            // @ts-ignore
+                            setGlobalData({ image: previewCanvasRef.current.toDataURL() });
 
                             setDialogOpen(false);
                         }}
