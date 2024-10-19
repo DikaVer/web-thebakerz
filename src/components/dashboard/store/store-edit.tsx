@@ -10,6 +10,7 @@ import {storeEditSchema} from "@/lib/schemas";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {AvatarUploader} from "@/components/upload-avatar";
 import {StoreData} from "@/lib/definitions";
+import Image from "next/image";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -24,6 +25,7 @@ import {
 import {ClipLoader} from "react-spinners";
 import {toast} from "sonner";
 import {IconError, IconSuccess} from "@/components/ui/icons";
+
 
 interface StoreViewDashboardProps {
     id: string,
@@ -363,14 +365,26 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                 </FormLabel>
                                 <FormControl>
                                     <>
-                                        {isAvatarDialogOpen &&
-                                            <AvatarUploader
-                                                form={form}
-                                                field={field}
-                                                name={"image"}
-                                                setDialogOpen={setAvatarDialogOpen}
-                                                setGlobalData={setDataAvatar}
-                                            />}
+                                        {
+                                            isAvatarDialogOpen &&
+                                                <AvatarUploader
+                                                    form={form}
+                                                    field={field}
+                                                    name={"image"}
+                                                    setDialogOpen={setAvatarDialogOpen}
+                                                    setGlobalData={setDataAvatar}
+                                                />
+                                        }
+                                        {
+                                            dataAvatar.image &&
+                                                <Image
+                                                    src={dataAvatar.image}
+                                                    width={128}
+                                                    height={128}
+                                                    alt={name}
+                                                    className={"rounded-full w-32 h-32"}
+                                                />
+                                        }
                                         <Button
                                             type={"button"}
                                             onClick={() => {
@@ -386,10 +400,10 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                         </Button>
                                     </>
                                 </FormControl>
-                                <FormMessage/>
-                                <FormDescription className={"ml-1"}>
-                                    {dataAvatar.image != initialValues.image ? "Avatar image is set, click preview to see changes" : "No avatar image set"}
+                                <FormDescription>
+                                    {dataAvatar.image ? "Click on the image to change it." : "Upload an image to represent your store."}
                                 </FormDescription>
+                                <FormMessage/>
                             </FormItem>
                         )}
                     />

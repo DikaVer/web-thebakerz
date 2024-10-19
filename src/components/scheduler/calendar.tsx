@@ -5,8 +5,9 @@ import {IconChevronDown} from "@/components/ui/icons";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {SchedulerContent} from "@/components/scheduler/scheduler";
 import useIsSmallScreen from "@/lib/hooks/use-is-small-screen";
-import {AddressData, AddressDataStoreField, CheckoutLocalDataField} from "@/lib/definitions";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import {AddressDataUserField, AddressUserData, CheckoutData} from "@/lib/definitions";
+import {timeMap} from "@/lib/local-variables";
 
 
 export function MiniCalendarBakerz() {
@@ -29,7 +30,7 @@ export function MiniCalendarBakerz() {
                 <div
                     className="rounded-xl w-auto h-10 cm:h-14 items-center transition duration-500 hover:bg-gray-200 cursor-default">
                     <CheckoutDetails checkoutData={{deliveryMode: "PICKUP",
-                        shippingAddress: null,
+                        deliveryAddress: null,
                         savedAddresses: null,
                         date: null,
                         time: null}}/>
@@ -49,11 +50,11 @@ export function MiniCalendar() {
     const useCheckoutSettings = () => {
         const [checkoutData, setCheckoutData] = useState({
             deliveryMode: "PICKUP",
-            shippingAddress: null,
+            deliveryAddress: null,
             savedAddresses: null,
             date: null,
             time: null,
-        } as CheckoutLocalDataField);
+        } as CheckoutData);
 
         const pathname = usePathname();
         const { replace } = useRouter();
@@ -72,12 +73,12 @@ export function MiniCalendar() {
         // Function to update checkout settings from localStorage
         const updateCheckoutData = useCallback(() => {
             const updatedCheckoutData = {
-                deliveryMode: getLocalStorageItem<string>('deliveryMode', "PICKUP"),
-                shippingAddress: getLocalStorageItem<any>('shippingAddress', null),
-                savedAddresses: getLocalStorageItem<any>('savedAddresses', null),
-                date: getLocalStorageItem<string | null>('date', null),
-                time: getLocalStorageItem<string | null>('time', null),
-            };
+                deliveryMode: getLocalStorageItem<"PICKUP" | "DELIVERY">('deliveryMode', "PICKUP"),
+                deliveryAddress: getLocalStorageItem<AddressDataUserField>('deliveryAddress', null),
+                savedAddresses: getLocalStorageItem<AddressUserData>('savedAddresses', null),
+                date: getLocalStorageItem<`${number}/${number}/${number}` | null>('date', null),
+                time: getLocalStorageItem<keyof typeof timeMap | null>('time', null),
+            } as CheckoutData;
 
             setCheckoutData(updatedCheckoutData);
 
@@ -86,7 +87,7 @@ export function MiniCalendar() {
 
             if (updatedCheckoutData.date && updatedCheckoutData.time) {
                 params.set('date', updatedCheckoutData.date);
-                params.set('time', updatedCheckoutData.time);
+                params.set('time', updatedCheckoutData.time.toString());
             }
 
             replace(`${pathname}?${params.toString()}`);
@@ -159,7 +160,7 @@ export function MiniCalendar() {
 }
 
 // Extracted component to reduce duplication
-const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutLocalDataField }) => {
+const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutData }) => {
     return (
         <div className="ml-2">
             {checkoutData.deliveryMode === "PICKUP" ? (
@@ -177,7 +178,7 @@ const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutLocalDataFiel
                     <p className="text-sm cm:text-base text-black">{checkoutData.time || <strong>Select Time</strong>}</p>
                     <div className="flex">
                     <p className="text-sm cm:text-base text-black clamp-title w-24">
-                            {checkoutData.shippingAddress?.route || <strong>Select Address</strong>}
+                            {checkoutData.deliveryAddress?.route || <strong>Select Address</strong>}
                         </p>
                         <IconChevronDown className="w-5 h-5 cm:w-6 cm:h-6" />
                     </div>

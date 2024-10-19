@@ -19,23 +19,10 @@ interface ItemProps {
     price: number;
     image: string;
     productId: string;
-    isPending: boolean,
-    setPending: (isPending: boolean) => void,
-    setStoreData: (data: StoreData) => void
 }
 
-export function Product({ name, description, category, price, image, rating, productId, setPending, isPending, setStoreData, id }: ItemProps) {
-    // const handleClick = async () => {
-    //     await updateProductCart(productId, 1); // Assuming amount is 1 for adding the product
-    //     toast.success(
-    //         <div className={"flex flex-row gap-x-7 justify-between items-center"}>
-    //             <IconSuccess  color={"primary"} className={"w-10 h-10"}/>
-    //             <p className={"text-base font-semibold"}>
-    //                 <span className={"font-bold"}>{name}</span> was added to the cart
-    //             </p>
-    //         </div>
-    //     );
-    // };
+export function Product({ name, description, category, price, image, rating, productId, id }: ItemProps) {
+
 
     const [isProductDialogOpen, setProductDialogOpen] = useState(false);
 
@@ -45,25 +32,6 @@ export function Product({ name, description, category, price, image, rating, pro
             {
                 isProductDialogOpen && (
                     <div>
-                        <ProductsAdd
-                            id={id}
-                            isPending={isPending}
-                            setStoreData={setStoreData}
-                            setPending={setPending}
-                            setDialogOpen={setProductDialogOpen}
-                            productData={
-                                {
-                                    store_id: id,
-                                    id: productId,
-                                    category: category,
-                                    name: name,
-                                    description: description,
-                                    price: formatPrice(price),
-                                    image_url: image
-                                }
-                            }
-                            action={"update"}
-                        />
                     </div>
                 )
             }
@@ -104,7 +72,7 @@ export function Product({ name, description, category, price, image, rating, pro
                         <div
                             className={"absolute rounded-full bg-grayBg h-9 w-9 right-1 bottom-1 scale-on-hover-115"}>
                             <div className={"flex justify-center items-center h-full"}>
-                                <IconEdit className={"w-6 h-6"}/>
+                                <IconPlus className={"w-6 h-6"}/>
                             </div>
                         </div>
                     </div>

@@ -41,7 +41,8 @@ export async function POST(req: Request) {
         LEFT JOIN 
             addresses_stores a ON a.store_id = s.id
         WHERE 
-            s.id = ${storeId}
+            s.id = ${storeId} AND s.deleted = FALSE
+           
 `;
 
         if (combinedRow.rowCount === 0) {
@@ -55,7 +56,7 @@ export async function POST(req: Request) {
 
         const productsRow = await sql`
             SELECT id, store_id, category, name, description, price, image_url FROM products
-            WHERE store_id = ${storeId}`;
+            WHERE store_id = ${storeId} AND deleted = FALSE`;
 
 
         const keyAvailability = `availability-${storeId}`;

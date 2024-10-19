@@ -1,14 +1,11 @@
 import React from "react";
-import {ProductList} from "@/components/store/product-list";
-import {ProductData, ProductDataField, StoreData} from "@/lib/definitions";
+import {ProductList} from "@/components/user/product-list";
+import {ProductData, ProductDataField} from "@/lib/definitions";
 
 
-export function ProductComponent({id, productData, setStoreData, isPending, setPending}: {
+export function ProductComponentUser({id, productData}: {
     id: string,
     productData: ProductData,
-    isPending: boolean,
-    setPending: (isPending: boolean) => void,
-    setStoreData: (data: StoreData) => void
 }) {
 
     if (productData.length === 0) {
@@ -31,9 +28,6 @@ export function ProductComponent({id, productData, setStoreData, isPending, setP
         return <ProductList
             id={id}
             productsByCategories={productsByCategory}
-            isPending={isPending}
-            setStoreData={setStoreData}
-            setPending={setPending}
         />;
     }
 }

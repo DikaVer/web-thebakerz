@@ -63,6 +63,14 @@ export async function fetchFilteredStores(
 export const fetchStoreData = async (storeId: string): Promise<StoreData | null> => {
 
     try {
+        const lowerCaseStoreId = storeId.toLowerCase();
+
+        const queryStoreId = await sql`SELECT id FROM stores WHERE id = ${storeId} OR nickname = ${lowerCaseStoreId} AND deleted = FALSE`;
+        const originalStoreId = queryStoreId.rows[0].id;
+
+        if (!originalStoreId) {
+            return null;
+        }
 
 
 
@@ -73,7 +81,7 @@ export const fetchStoreData = async (storeId: string): Promise<StoreData | null>
                 'Authorization': `Bearer ${process.env.NEXT_PRIVATE_API_SECRET_KEY}`
             },
             body: JSON.stringify({
-                storeId: storeId
+                storeId: originalStoreId
             }),
         });
 

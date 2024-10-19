@@ -17,6 +17,14 @@ export interface Session {
     sessionToken: string;
 }
 
+export type CheckoutData = {
+    deliveryMode: "PICKUP" | "DELIVERY";
+    deliveryAddress: AddressDataUserField | null;
+    savedAddresses: AddressUserData | null;
+    date: `${number}/${number}/${number}` | null;
+    time: keyof typeof timeMap | null;
+}
+
 export type ProductData = Array<ProductDataField>;
 
 export type ProductDataField = {

@@ -44,6 +44,7 @@ export default function ProductsStoreEdit({ id, productData, setStoreData }: Pro
                                     setStoreData={setStoreData}
                                     setPending={setPending}
                                     setDialogOpen={setProductDialogOpen}
+                                    action={"add"}
                                 />
                             </div>
                         )

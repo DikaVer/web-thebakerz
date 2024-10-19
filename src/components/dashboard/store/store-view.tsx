@@ -1,7 +1,7 @@
 "use client";
 
 import ViewHeaderStore from "@/components/dashboard/store/header-view";
-import {ProfileHeaderBakerz} from "@/components/store/profile-header";
+import {ProfileHeader, ProfileHeaderBakerz} from "@/components/store/profile-header";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import StoreAddresses from "@/components/dashboard/store/store-address";
 import React, {useMemo, useState} from "react";
@@ -10,21 +10,21 @@ import {StoreData} from "@/lib/definitions";
 import AvailabilityEdit from "@/components/dashboard/store/availability-edit";
 import DeliveryOptionsEdit from "@/components/dashboard/store/delivery-options-edit";
 import ProductsStoreEdit from "@/components/dashboard/store/products-store-edit";
+import {ProductComponentUser} from "@/components/user/product-comp";
 
 
-interface StoreViewDashboardProps {
+interface StoreViewProps {
     storeProps: StoreData,
 }
 
 
-export default function StoreViewDashboard({storeProps}: StoreViewDashboardProps) {
+export default function StoreViewBakerz({storeProps}: StoreViewProps) {
 
     const [storeData, setStoreData] = useState<StoreData>(storeProps);
 
 
     return (
-        <div id="main">
-            <ViewHeaderStore store_id={storeData.id} />
+        <div id="main" className={"mb-4"}>
             <ProfileHeaderBakerz
                 name={storeData.name}
                 description={storeData.description}
@@ -82,6 +82,31 @@ export default function StoreViewDashboard({storeProps}: StoreViewDashboardProps
                 </TabsContent>
 
             </Tabs>
+        </div>
+    );
+}
+
+export function StoreViewUser({storeProps}: StoreViewProps) {
+
+    const [storeData, setStoreData] = useState<StoreData>(storeProps);
+
+
+    return (
+        <div className={"mb-4"}>
+            <ProfileHeader
+                name={storeData.name}
+                description={storeData.description}
+                location={storeData.location}
+                image={storeData.image}
+                background_url={storeData.background_url}
+                deliveryOptions={storeData.deliveryOptions}
+                availability={storeData.availability}
+            />
+            <ProductComponentUser
+                id={storeData.id}
+                productData={storeData.products}
+            />
+
         </div>
     );
 }

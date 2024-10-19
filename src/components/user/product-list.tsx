@@ -1,16 +1,13 @@
 'use client';
 
 import React, { useState } from "react";
-import { Product } from "@/components/store/product";
-import {ProductByCategory, StoreData} from "@/lib/definitions";
+import { Product } from "@/components/user/product";
+import {ProductByCategory} from "@/lib/definitions";
 import { Search } from "lucide-react";
 
-export function ProductList({id, productsByCategories, setStoreData, setPending, isPending}: {
+export function ProductList({id, productsByCategories}: {
     id: string,
-    productsByCategories: ProductByCategory,
-    isPending: boolean,
-    setPending: (isPending: boolean) => void,
-    setStoreData: (data: StoreData) => void
+    productsByCategories: ProductByCategory
 }) {
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -62,9 +59,6 @@ export function ProductList({id, productsByCategories, setStoreData, setPending,
                         price={product.price}
                         image={product.image_url}
                         productId={product.id}
-                        isPending={isPending}
-                        setStoreData={setStoreData}
-                        setPending={setPending}
                     />
                 ))}
             </ul>

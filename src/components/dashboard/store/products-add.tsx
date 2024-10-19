@@ -1,12 +1,11 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 import {ClipLoader} from "react-spinners";
 import {Button} from "@/components/ui/button";
 import {IconCross, IconError, IconSuccess} from "@/components/ui/icons";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
-import {ImageUploader} from "@/components/upload-image";
 import {
     AlertDialog, AlertDialogAction, AlertDialogCancel,
     AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
@@ -28,6 +27,8 @@ import {ScrollArea} from "@/components/ui/scroll-area";
 import {toast} from "sonner";
 import {FormError} from "@/components/authentication/form-error";
 import {ProductDataField, StoreData} from "@/lib/definitions";
+import {ProductImageUploader} from "@/components/upload-product-image";
+import Image from "next/image";
 
 interface ProductsEditProps {
     id: string;
@@ -36,9 +37,10 @@ interface ProductsEditProps {
     setPending: (isPending: boolean) => void;
     setStoreData: (data: StoreData) => void;
     productData?: ProductDataField;
+    action: "add" | "update";
 }
 
-export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, setStoreData, productData}: ProductsEditProps) {
+export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, setStoreData, productData, action}: ProductsEditProps) {
 
 
     const form = useForm<z.infer<typeof productEditSchema>>({
@@ -59,6 +61,8 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
     const [dataBackground, setDataBackground] = useState<{ image: string | null }>({
         image: productData?.image_url || null,
     });
+
+    const [isDialogImageOpen, setDialogImageOpen,] = useState(false);
 
     const onSubmit = async (formData: z.infer<typeof productEditSchema>) => {
         setPending(true);
@@ -116,7 +120,7 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                 file_url: imageUrl
         });
 
-        const response = await fetch(`/api/store/actions/product/add`, {
+        const response = await fetch(`/api/store/actions/product/${action}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -124,6 +128,7 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
             body: JSON.stringify({
                 storeId: id,
                 productData:{
+                    id: productData?.id,
                     name: formData.name,
                     description: formData.description,
                     price: formData.price,
@@ -162,20 +167,40 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                     duration: 10000
                 }
             );
-            // @ts-ignore
-            setStoreData(prevState => ({
-                ...prevState,
-                products: [
-                    ...prevState.products,
-                    {
-                        name: formData.name,
-                        description: formData.description,
-                        price: formData.price,
-                        category: formData.category,
-                        file_url: imageUrl
-                    }
-                ]
-            }));
+            if (action === "add") {
+                // @ts-ignore
+                setStoreData(prevState => ({
+                    ...prevState,
+                    products: [
+                        ...prevState.products,
+                        {
+                            name: formData.name,
+                            description: formData.description,
+                            price: formData.price,
+                            category: formData.category,
+                            file_url: imageUrl
+                        }
+                    ]
+                }));
+            } else {
+                // @ts-ignore
+                setStoreData(prevState => ({
+                    ...prevState,
+                    // @ts-ignore
+                    products: prevState.products.map((product) => {
+                        if (product.id === productData?.id) {
+                            return {
+                                name: formData.name,
+                                description: formData.description,
+                                price: formData.price,
+                                category: formData.category,
+                                file_url: imageUrl
+                            }
+                        }
+                        return product;
+                    })
+                }));
+            }
         }
 
         setDialogOpen(false);
@@ -220,15 +245,35 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                                                     className="block text-sm font-medium text-gray-700">
                                                     Image
                                                 </FormLabel>
-                                                <FormControl>
-                                                    <ImageUploader
+                                                {
+                                                    isDialogImageOpen &&
+                                                    <ProductImageUploader
                                                         form={form}
                                                         field={field}
                                                         name={"image"}
-                                                        setError={setError}
-                                                        data={dataBackground}
-                                                        setData={setDataBackground}
+                                                        setDialogOpen={setDialogImageOpen}
+                                                        setGlobalData={setDataBackground}
                                                     />
+                                                }
+                                                <FormControl>
+                                                    <>
+                                                        {dataBackground.image && (
+                                                            <Image
+                                                                src={dataBackground.image}
+                                                                width={128}
+                                                                height={128}
+                                                                alt="Avatar"
+                                                                className="rounded-xl h-28 w-28 cm:h-32 cm:w-32"
+                                                            />
+                                                        )}
+                                                        <Button
+                                                            type="button"
+                                                            onClick={() => setDialogImageOpen(true)}
+                                                            variant={"secondary"}
+                                                        >
+                                                            Choose Picture
+                                                        </Button>
+                                                    </>
                                                 </FormControl>
                                                 <FormMessage/>
                                             </FormItem>
