@@ -1,26 +1,31 @@
 "use client";
 
-import ViewHeaderStore from "@/components/dashboard/store/header-view";
 import {ProfileHeader, ProfileHeaderBakerz} from "@/components/store/profile-header";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import StoreAddresses from "@/components/dashboard/store/store-address";
-import React, {useMemo, useState} from "react";
+import React, {useState} from "react";
 import StoreEdit from "@/components/dashboard/store/store-edit";
 import {StoreData} from "@/lib/definitions";
 import AvailabilityEdit from "@/components/dashboard/store/availability-edit";
 import DeliveryOptionsEdit from "@/components/dashboard/store/delivery-options-edit";
 import ProductsStoreEdit from "@/components/dashboard/store/products-store-edit";
 import {ProductComponentUser} from "@/components/user/product-comp";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 
 interface StoreViewProps {
     storeProps: StoreData,
+    tab?: string
 }
 
 
-export default function StoreViewBakerz({storeProps}: StoreViewProps) {
+export default function StoreViewBakerz({storeProps, tab}: StoreViewProps) {
 
     const [storeData, setStoreData] = useState<StoreData>(storeProps);
+
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const { replace } = useRouter();
 
 
     return (
@@ -34,7 +39,15 @@ export default function StoreViewBakerz({storeProps}: StoreViewProps) {
                 deliveryOptions={storeData.deliveryOptions}
                 availability={storeData.availability}
             />
-            <Tabs defaultValue="store" className="w-full mt-4">
+            <Tabs
+                defaultValue={tab ? tab : "products"}
+                className="w-full mt-4"
+                onValueChange={(value) => {
+                    const params = new URLSearchParams(searchParams);
+                    params.set("tab", value);
+                    replace(`${pathname}?${params.toString()}`);
+                }}
+            >
                 <TabsList className="grid w-full grid-cols-5" >
                     <TabsTrigger value="store">Store</TabsTrigger>
                     <TabsTrigger value="location">Location</TabsTrigger>

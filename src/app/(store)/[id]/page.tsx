@@ -7,12 +7,17 @@ import StoreTransit from "@/components/store-transit";
 interface StorePageProps {
     params: {
         id: string
-    }
+    },
+    searchParams?: {
+        tab?: string;
+    };
 }
 
-export default async function Page({params}: StorePageProps) {
+export default async function Page({params, searchParams}: StorePageProps) {
 
     const session = await auth();
+
+    console.log(searchParams);
 
     return (
         <div>
@@ -22,6 +27,7 @@ export default async function Page({params}: StorePageProps) {
                     // @ts-ignore
                     role={session?.user?.role}
                     isDashboard={false}
+                    tab={searchParams?.tab}
                 />
             </Suspense>
         </div>

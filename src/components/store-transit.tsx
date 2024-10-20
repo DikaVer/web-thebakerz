@@ -1,16 +1,17 @@
 import {notFound} from "next/navigation";
 import React from "react";
 import {fetchStoreData} from "@/lib/actions-server-only/store-actions";
-import StoreViewBakerz, {StoreViewUser} from "@/components/dashboard/store/store-view";
+import StoreViewBakerz, {StoreViewUser} from "@/components/store/store-view";
 import ViewHeaderStore from "@/components/dashboard/store/header-view";
 
 interface StorePageProps {
     id: string
     role: string | undefined
     isDashboard: boolean
+    tab?: string
 }
 
-export default async function StoreTransit({id, role, isDashboard}: StorePageProps) {
+export default async function StoreTransit({id, role, isDashboard, tab}: StorePageProps) {
 
     const storeData = await fetchStoreData(id);
 
@@ -26,7 +27,10 @@ export default async function StoreTransit({id, role, isDashboard}: StorePagePro
                         (
                             <>
                                 <ViewHeaderStore store_id={storeData.id} />
-                                <StoreViewBakerz storeProps={storeData}/>
+                                <StoreViewBakerz
+                                    storeProps={storeData}
+                                    tab={tab}
+                                />
                             </>
                         ) : (
                             <StoreViewUser storeProps={storeData}/>
@@ -39,7 +43,10 @@ export default async function StoreTransit({id, role, isDashboard}: StorePagePro
         return (
             <div className="flex flex-col min-h-screen">
                 <div className="z-10 flex-grow container mx-auto pt-2">
-                    <StoreViewBakerz storeProps={storeData}/>
+                    <StoreViewBakerz
+                        storeProps={storeData}
+                        tab={tab}
+                    />
                 </div>
             </div>
         );

@@ -5,6 +5,7 @@ import Image from "next/image";
 import {MenuButton} from "@/components/menu/menu-button";
 import {MenuItems} from "@/components/menu/menu-items";
 import {SigninButton} from "@/components/ui/signin-button";
+import {CartButton} from "@/components/cart/cart-button";
 
 // Define the props that the Header component will accept
 interface HeaderProps {
@@ -40,38 +41,20 @@ export async function Header({ main, login, role, name }: HeaderProps) {
                                 quality={100}
                             />
                         )}
-                        <a href="/public" className="text-2xl font-bold mx-auto">TheBakerz</a>
+                        <a href="/" className="text-2xl font-bold mx-auto">TheBakerz</a>
                     </div>
 
                     {/* Conditionally render the cart or sign-in button*/}
                     {main && login ? (
-                        // <Button className="flex p-2 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200" onClick={toggleCart}>
-                        //     <IconCart className="w-7 h-6" />
-                        // </Button>
-                        <div></div>
+                        <CartButton/>
                     ) : main && !login ? (
                         <SigninButton className={"rounded-lg text-sm "} variant={"secondary"}/>
                     ) : (
-                        <div>
-                        </div>
-
+                        <CartButton/>
                     )}
                 </div>
                 <hr className="mt-2"/>
             </nav>
-
-            {/* Conditionally render Menu and Cart Components */}
-            {/*{login ? (*/}
-            {/*    <>*/}
-
-            {/*        <CartComponent isOpen={isCartOpen} cart={cart} onClose={() => setCartOpen(false)} />*/}
-            {/*    </>*/}
-            {/*) : (*/}
-            {/*    <>*/}
-            {/*        <MenuComponent isOpen={isMenuOpen} login={login} role={role} name={name} onClose={() => setMenuOpen(false)} />*/}
-            {/*        <CartComponent isOpen={isCartOpen} cart={cart} onClose={() => setCartOpen(false)} />*/}
-            {/*    </>*/}
-            {/*)}*/}
         </header>
     );
 }

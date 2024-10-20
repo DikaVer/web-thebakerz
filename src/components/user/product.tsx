@@ -1,14 +1,8 @@
 'use client';
 import React, {useState} from "react";
-import {IconEdit, IconPlus, IconStar, IconSuccess} from "@/components/ui/icons";
+import {IconPlus, IconStar} from "@/components/ui/icons";
 import Image from "next/image";
-import {getAllProducts, updateProductCart} from "@/lib/actions/session-store";
-import { toast } from "sonner"
-import { Toaster } from "@/components/ui/sonner"
-import {Button} from "@/components/ui/button";
-import {formatCurrency, formatPrice} from "@/lib/utils";
-import ProductsAdd from "@/components/dashboard/store/products-add";
-import {StoreData} from "@/lib/definitions";
+import {formatCurrency} from "@/lib/utils";
 
 interface ItemProps {
     id: string;

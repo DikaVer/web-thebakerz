@@ -1,32 +1,35 @@
-
+"use server";
 import React, {Suspense} from "react";
+import {auth} from "@/auth";
 import StoreSkeleton from "@/components/skeletons";
 import StoreTransit from "@/components/store-transit";
-import { auth } from "@/auth";
-
-export const revalidate = 0;
 
 interface StorePageProps {
     params: {
         id: string
-    }
+    },
+    searchParams?: {
+        tab?: string;
+    };
 }
 
-export default async function Page({params}: StorePageProps) {
+export default async function Page({params, searchParams}: StorePageProps) {
 
     const session = await auth();
 
+    console.log(searchParams);
+
     return (
-        <div className="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
+        <div>
             <Suspense fallback={<StoreSkeleton/>}>
                 <StoreTransit
                     id={params.id}
                     // @ts-ignore
                     role={session?.user?.role}
                     isDashboard={true}
+                    tab={searchParams?.tab}
                 />
             </Suspense>
         </div>
     );
-
 }

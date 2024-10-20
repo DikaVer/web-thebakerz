@@ -8,7 +8,7 @@ import { CheckIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import React from "react";
 import {CaretSortIcon} from "@radix-ui/react-icons";
-import {UsersTable} from "@/lib/definitions";
+import {UsersData} from "@/lib/definitions";
 import Search from "@/components/dashboard/search";
 import {FormError} from "@/components/authentication/form-error";
 import {FormSuccess} from "@/components/authentication/form-success";
@@ -24,19 +24,19 @@ import {
 } from "@/components/ui/alert-dialog";
 
 interface UserPopoverProps {
-    userList: UsersTable[];
+    userList: UsersData[];
     storeId: string;
 }
 
 export default function UserLinkStore({ userList, storeId}: UserPopoverProps) {
     const [open, setOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState<UsersTable | null>(null);
+    const [selectedUser, setSelectedUser] = useState<UsersData | null>(null);
     const [error, setError] = useState<string | undefined>();
     const [success, setSuccess] = useState<string | undefined>();
     const [isLoading, setLoading] = useState<boolean>(false);
     const { refresh, push } = useRouter();
 
-    const handleUserSelect = (user: UsersTable) => {
+    const handleUserSelect = (user: UsersData) => {
         setSelectedUser(user);
         setOpen(false);
     };

@@ -17,10 +17,10 @@ export const MenuButton = ({ menuItems }: { menuItems: React.ReactNode }) => {
 
     return (
         <>
-        <Button className="flex p-2 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200" onClick={toggleMenu}>
-            <IconMenu className="w-7 h-6" />
-        </Button>
-        <MenuComponent menuItems={menuItems} isOpen={isMenuOpen} onClose={() => setMenuOpen(false)} />
+            <Button className="flex p-2 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200" onClick={toggleMenu}>
+                <IconMenu className="w-7 h-6" />
+            </Button>
+            <MenuComponent menuItems={menuItems} isOpen={isMenuOpen} onClose={() => setMenuOpen(false)} />
         </>
     );
 }

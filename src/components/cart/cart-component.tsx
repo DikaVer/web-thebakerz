@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ShopList from "@/components/cart/shop-list";
-import {ShopItemField} from "@/lib/definitions";
 
 interface CartComponentProps {
-    cart: ShopItemField[];
+    cart: any;
     isOpen: boolean;
     onClose: () => void;
 }
