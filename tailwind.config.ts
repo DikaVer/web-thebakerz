@@ -12,9 +12,13 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: {
+        DEFAULT: "1rem",
+        cm: "2rem",
+        lg: "4rem",
+      },
       screens: {
-        "2xl": "1400px",
+        "2xl": "1000px",
       },
     },
     extend: {
@@ -31,6 +35,7 @@ const config = {
         grayText: "hsl(var(--gray-text))",
         grayComp: "hsl(var(--gray-component))",
         grayCompHover: "hsl(var(--gray-component-hover))",
+        grayCompFa: "hsl(var(--gray-fafafa))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

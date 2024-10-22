@@ -35,6 +35,7 @@ export type ProductDataField = {
     description: string;
     price: number;
     image_url: string;
+    rating?: string;
 };
 
 export type AddressUserData = {

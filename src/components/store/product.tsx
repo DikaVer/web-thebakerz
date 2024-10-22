@@ -8,23 +8,16 @@ import { Toaster } from "@/components/ui/sonner"
 import {Button} from "@/components/ui/button";
 import {formatCurrency, formatPrice} from "@/lib/utils";
 import ProductsAdd from "@/components/dashboard/store/products-add";
-import {StoreData} from "@/lib/definitions";
+import {ProductDataField, StoreData} from "@/lib/definitions";
 
 interface ItemProps {
-    id: string;
-    name: string;
-    description: string;
-    rating: string;
-    category: string;
-    price: number;
-    image: string;
-    productId: string;
+    productData: ProductDataField,
     isPending: boolean,
     setPending: (isPending: boolean) => void,
     setStoreData: (data: StoreData) => void
 }
 
-export function Product({ name, description, category, price, image, rating, productId, setPending, isPending, setStoreData, id }: ItemProps) {
+export function Product({ productData, setPending, isPending, setStoreData}: ItemProps) {
     // const handleClick = async () => {
     //     await updateProductCart(productId, 1); // Assuming amount is 1 for adding the product
     //     toast.success(
@@ -46,7 +39,7 @@ export function Product({ name, description, category, price, image, rating, pro
                 isProductDialogOpen && (
                     <div>
                         <ProductsAdd
-                            id={id}
+                            storeId={productData.store_id}
                             isPending={isPending}
                             setStoreData={setStoreData}
                             setPending={setPending}
@@ -54,13 +47,13 @@ export function Product({ name, description, category, price, image, rating, pro
                             setDialogOpen={setProductDialogOpen}
                             productData={
                                 {
-                                    store_id: id,
-                                    id: productId,
-                                    category: category,
-                                    name: name,
-                                    description: description,
-                                    price: formatPrice(price),
-                                    image_url: image
+                                    store_id: productData.store_id,
+                                    id: productData.id,
+                                    category: productData.category,
+                                    name: productData.name,
+                                    description: productData.description,
+                                    price: formatPrice(productData.price),
+                                    image_url: productData.image_url
                                 }
                             }
                             action={"update"}
@@ -75,20 +68,20 @@ export function Product({ name, description, category, price, image, rating, pro
                 <div className={"flex flex-col justify-between p-1 w-full"}>
                     <div className="flex flex-col h-26 cm:h-27">
                     <span className="text-lg font-medium clamp-title">
-                        {name}
+                        {productData.name}
                     </span>
                         <span className="text-sm pb-3 text-grayText clamp-description">
-                        {description}
+                        {productData.description}
                     </span>
                     </div>
                     <div className={"flex flex-row justify-between pr-2 items-end"}>
                     <span className={"text-grayText font-medium"}>
-                        {formatCurrency(price)}
+                        {formatCurrency(productData.price)}
                     </span>
                         <div className={"flex items-center space-x-0.5"}>
                             <IconStar className={"w-5 h-5 cm:w-5 cm:h-5"} color={"primary"}/>
                             <p className="text-base cm:text-lg text-black ">
-                                {rating}
+                                {productData.rating}
                             </p>
                         </div>
                     </div>
@@ -96,7 +89,7 @@ export function Product({ name, description, category, price, image, rating, pro
                 <div className={"p-2"}>
                     <div className="relative h-28 w-28 cm:h-32 cm:w-32">
                         <Image
-                            src={image}
+                            src={productData.image_url}
                             width={128}
                             height={128}
                             alt="Avatar"

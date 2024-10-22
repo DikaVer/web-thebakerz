@@ -17,8 +17,6 @@ export default async function Page({params, searchParams}: StorePageProps) {
 
     const session = await auth();
 
-    console.log(searchParams);
-
     return (
         <div>
             <Suspense fallback={<StoreSkeleton/>}>

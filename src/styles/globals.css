@@ -37,6 +37,7 @@
     --gray-text: 60, 1%, 36%;
     --gray-component: 0, 0%, 85%;
     --gray-component-hover: 0, 0%, 75%;
+    --gray-fafafa: 0, 0%, 98%;
   }
 
   .dark {
@@ -71,6 +72,7 @@
     --gray-text: 60, 1%, 36%;
     --gray-component: 0, 0%, 85%;
     --gray-component-hover: 0, 0%, 75%;
+    --gray-fafafa: 0, 0%, 98%;
   }
 }
 
@@ -160,8 +162,8 @@
   }
 
   .w-dynamic-button {
-    width: 30vw;
-    font-size: 2.8vw;
+    width: 34vw;
+    font-size: 3.5vw;
   }
 
   .trigger-hover:hover .underline-on-hover {
@@ -207,6 +209,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 4; /* Adjust number of lines as needed */
+  }
+
+  .clamp-product-description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 9; /* Adjust number of lines as needed */
   }
 
 

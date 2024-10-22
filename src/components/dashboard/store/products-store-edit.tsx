@@ -8,12 +8,12 @@ import {ProductComponent} from "@/components/store/product-comp";
 import {ProductData, StoreData} from "@/lib/definitions";
 
 interface ProductsEditProps {
-    id: string;
+    storeId: string;
     productData: ProductData;
     setStoreData: (data: StoreData) => void;
 }
 
-export default function ProductsStoreEdit({ id, productData, setStoreData }: ProductsEditProps) {
+export default function ProductsStoreEdit({ storeId, productData, setStoreData }: ProductsEditProps) {
 
     const [isPending, setPending] = useState(false);
 
@@ -39,7 +39,7 @@ export default function ProductsStoreEdit({ id, productData, setStoreData }: Pro
                         isProductDialogOpen && (
                             <div>
                                 <ProductsAdd
-                                    id={id}
+                                    storeId={storeId}
                                     isPending={isPending}
                                     setStoreData={setStoreData}
                                     setPending={setPending}
@@ -59,7 +59,7 @@ export default function ProductsStoreEdit({ id, productData, setStoreData }: Pro
                     </Button>
 
                     <ProductComponent
-                        id={id}
+                        storeId={storeId}
                         productData={productData}
                         isPending={isPending}
                         setStoreData={setStoreData}

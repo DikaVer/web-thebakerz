@@ -31,7 +31,7 @@ import {ProductImageUploader} from "@/components/upload-product-image";
 import Image from "next/image";
 
 interface ProductsEditProps {
-    id: string;
+    storeId: string;
     isDialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
     isPending: boolean;
@@ -41,7 +41,7 @@ interface ProductsEditProps {
     action: "add" | "update";
 }
 
-export default function ProductsAdd({ id, isDialogOpen, isPending, setPending, setDialogOpen, setStoreData, productData, action}: ProductsEditProps) {
+export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPending, setDialogOpen, setStoreData, productData, action}: ProductsEditProps) {
 
 
     const form = useForm<z.infer<typeof productEditSchema>>({
@@ -75,7 +75,7 @@ export default function ProductsAdd({ id, isDialogOpen, isPending, setPending, s
                 method: 'POST',
                 headers: {
                     'content-type': formData.image?.type || "application/octet-stream",
-                    'store-id': id
+                    'store-id': storeId
                 },
                 body: formData.image,
             });
@@ -127,7 +127,7 @@ export default function ProductsAdd({ id, isDialogOpen, isPending, setPending, s
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                storeId: id,
+                storeId: storeId,
                 productData:{
                     id: productData?.id,
                     name: formData.name,
@@ -470,7 +470,7 @@ export default function ProductsAdd({ id, isDialogOpen, isPending, setPending, s
     );
 }
 
-export function ProductsEdit({id, isPending, setPending, setDialogOpen}: ProductsEditProps) {
+export function ProductsEdit({storeId, isPending, setPending, setDialogOpen}: ProductsEditProps) {
 
     return (
         <div className={"mt-4"}>

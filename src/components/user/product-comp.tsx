@@ -3,8 +3,8 @@ import {ProductList} from "@/components/user/product-list";
 import {ProductData, ProductDataField} from "@/lib/definitions";
 
 
-export function ProductComponentUser({id, productData}: {
-    id: string,
+export function ProductComponentUser({storeId, productData}: {
+    storeId: string,
     productData: ProductData,
 }) {
 
@@ -26,7 +26,7 @@ export function ProductComponentUser({id, productData}: {
         });
 
         return <ProductList
-            id={id}
+            storeId={storeId}
             productsByCategories={productsByCategory}
         />;
     }

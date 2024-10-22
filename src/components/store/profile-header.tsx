@@ -43,22 +43,12 @@ interface ProfileHeaderProps {
 export function ProfileHeaderBakerz({ name, availability, deliveryOptions, location, image, description, background_url }: ProfileHeaderProps) {
     const [isDialogOpen, setDialogOpen] = useState(false);
 
+    const [sectionId, setSectionId] = useState<"profile-section" | "review-section" | "location-section">("profile-section");
 
-    useEffect(() => {
-        if (isDialogOpen) {
-            const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-            document.body.style.paddingRight = `${scrollBarWidth}px`;
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.paddingRight = '';
-            document.body.style.overflow = '';
-        }
-
-        return () => {
-            document.body.style.paddingRight = '';
-            document.body.style.overflow = '';
-        };
-    }, [isDialogOpen]);
+    const openDialog = (id: "profile-section" | "review-section" | "location-section") => {
+        setSectionId(id);
+        setDialogOpen(true);
+    };
 
     return (
         <>
@@ -74,6 +64,7 @@ export function ProfileHeaderBakerz({ name, availability, deliveryOptions, locat
                         avatar_url={image}
                         name={name}
                         availability={availability}
+                        sectionId={sectionId}
                     />
                 )
             }
@@ -81,13 +72,13 @@ export function ProfileHeaderBakerz({ name, availability, deliveryOptions, locat
                 <Background background_url={background_url}/>
                 <Avatar
                     avatar_url={image}
-                    toggleDialog={() => setDialogOpen(true)}
+                    toggleDialog={openDialog}
                 />
                 <ProfileInfo
                     name={name}
                     location={location}
                     deliveryOptions={deliveryOptions}
-                    toggleDialog={() => setDialogOpen(true)}
+                    toggleDialog={openDialog}
                 />
                 <MiniCalendarBakerz/>
             </div>
@@ -99,21 +90,12 @@ export function ProfileHeader({ name, availability, deliveryOptions, location, i
 
     const [isDialogOpen, setDialogOpen] = useState(false);
 
-    useEffect(() => {
-        if (isDialogOpen) {
-            const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-            document.body.style.paddingRight = `${scrollBarWidth}px`;
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.paddingRight = '';
-            document.body.style.overflow = '';
-        }
+    const [sectionId, setSectionId] = useState<"profile-section" | "review-section" | "location-section">("profile-section");
 
-        return () => {
-            document.body.style.paddingRight = '';
-            document.body.style.overflow = '';
-        };
-    }, [isDialogOpen]);
+    const openDialog = (id: "profile-section" | "review-section" | "location-section") => {
+        setSectionId(id);
+        setDialogOpen(true);
+    };
 
     return (
         <>
@@ -129,20 +111,21 @@ export function ProfileHeader({ name, availability, deliveryOptions, location, i
                         avatar_url={image}
                         name={name}
                         availability={availability}
+                        sectionId={sectionId}
                     />
                 )
             }
-            <div className="h-60 relative cm:h-72 rounded-lg overflow-hidden flex flex-col justify-center">
+            <div className="h-60 relative cm:h-[272px] rounded-lg overflow-hidden flex flex-col justify-center">
                 <Background background_url={background_url}/>
                 <Avatar
                     avatar_url={image}
-                    toggleDialog={() => setDialogOpen(true)}
+                    toggleDialog={openDialog}
                 />
                 <ProfileInfo
                     name={name}
                     location={location}
                     deliveryOptions={deliveryOptions}
-                    toggleDialog={() => setDialogOpen(true)}
+                    toggleDialog={openDialog}
                 />
                 <MiniCalendar/>
             </div>
@@ -161,17 +144,17 @@ const Background = ({background_url} : {background_url: string | null}) => (
     />
 );
 
-const Avatar = ({avatar_url, toggleDialog} : {avatar_url: string | null, toggleDialog: () => void }) => (
+const Avatar = ({avatar_url, toggleDialog} : {avatar_url: string | null, toggleDialog: (id: "profile-section" | "review-section" | "location-section") => void }) => (
     <div
-        className="ml-2 mt-8 cm:ml-4 cm:mt-8 absolute hover:scale-105 transition duration-500 cursor-pointer avatar"
-        onClick={toggleDialog}
+        className="ml-2 mt-10 cm:ml-4 cm:mt-14 absolute hover:scale-105 transition duration-500 cursor-pointer avatar"
+        onClick={() => toggleDialog("profile-section")}
     >
             <Image
                 src={avatar_url ? avatar_url : "/avatar_default.jpg"}
                 alt="Avatar"
                 width={128}
                 height={128}
-                className="rounded-full relative h-28 w-28 cm:h-32 cm:w-32"
+                className="rounded-full relative"
                 unoptimized={true}
                 quality={100}
                 placeholder={"blur"}
@@ -191,23 +174,34 @@ interface ProfileInfoProps {
                 range: number;
             }
         > | null;
-        toggleDialog: () => void;
+        toggleDialog: (id: "profile-section" | "review-section" | "location-section") => void;
 }
 
 const ProfileInfo = ({name, location, deliveryOptions, toggleDialog} : ProfileInfoProps) => (
-    <div className="ml-36 mt-14 cm:ml-40 cm:mt-12 absolute space-y-2">
+    <div className="ml-36 mt-14 cm:ml-40 cm:mt-16 absolute space-y-2">
         <div
             className={"cursor-pointer space-y-2 font-medium"}
-            onClick={toggleDialog}
         >
-            <span className="text-xl cm:text-2xl font-bold text-black clamp-title">{name ? name : "Empty name"}</span>
-            <div className="flex items-center space-x-2 hover:scale-102 transition duration-300 ">
+            <div
+                className="flex items-center space-x-2 hover:scale-102 transition duration-300"
+                onClick={() => toggleDialog("profile-section")}
+            >
+                <span
+                    className="text-xl cm:text-2xl font-bold text-black clamp-title">{name ? name : "Empty name"}</span>
+            </div>
+            <div
+                className="flex items-center space-x-2 hover:scale-102 transition duration-300"
+                onClick={() => toggleDialog("review-section")}
+            >
                 <IconStar className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"}/>
                 <p className="text-lg cm:text-xl text-black">5.0</p>
                 <p className="text-sm cm:text-base underline font-light text-gray-600 clamp-title">260 reviews</p>
             </div>
-            <div className="flex items-center space-x-2 hover:scale-102 transition duration-300">
-                <IconLocation className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"}/>
+            <div
+                className="flex flex-row items-center space-x-2 hover:scale-102 transition duration-300"
+                onClick={() => toggleDialog("location-section")}
+            >
+                <IconLocation className={"w-[24px] cm:w-[32px]"} color={"primary"}/>
                 <div className={"-space-y-1"}>
                     <p className="text-lg  cm:text-xl text-black clamp-title">{formatAddress(location)}</p>
                     <p className="text-sm  cm:text-md text-grayText underline underline-offset-2 clamp-title">{deliveryOptions ? "Store has delivery locations" : ""}</p>

@@ -11,6 +11,7 @@ import {timeMap} from "@/lib/local-variables";
 
 
 export function MiniCalendarBakerz() {
+    const isTinyScreen = useIsSmallScreen(400);
     const isSmallScreen = useIsSmallScreen(460);
     return (
         <div
@@ -23,7 +24,8 @@ export function MiniCalendarBakerz() {
                     <Date day="TUE" date={12} status="Busy"
                           bgColor="border-orangeBakerz hover:bg-orangeBakerz"/>
                     <Date day="WED" date={13} status="Closed" bgColor="border-redBakerz hover:bg-redBakerz"/>
-                    <Date day="THU" date={14} status="Free" bgColor="border-greenBakerz hover:bg-greenBakerz"/>
+                    {!isTinyScreen && <Date day="THU" date={14} status="Free"
+                                             bgColor="border-greenBakerz hover:bg-greenBakerz"/>}
                     {!isSmallScreen && <Date day="FRI" date={15} status="Busy"
                                              bgColor="border-orangeBakerz hover:bg-orangeBakerz"/>}
                 </TooltipProvider>
@@ -41,7 +43,9 @@ export function MiniCalendarBakerz() {
 }
 
 export function MiniCalendar() {
+    const isTinyScreen = useIsSmallScreen(400);
     const isSmallScreen = useIsSmallScreen(460);
+
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const [isSchedulerView, setIsSchedulerView] = useState<"scheduler" | "timeSelection" | "addressSelection" | "addressEditing">("scheduler");
@@ -141,7 +145,8 @@ export function MiniCalendar() {
                     <Date day="TUE" date={12} status="Busy"
                           bgColor="border-orangeBakerz hover:bg-orangeBakerz"/>
                     <Date day="WED" date={13} status="Closed" bgColor="border-redBakerz hover:bg-redBakerz"/>
-                    <Date day="THU" date={14} status="Free" bgColor="border-greenBakerz hover:bg-greenBakerz"/>
+                    {!isTinyScreen && <Date day="THU" date={14} status="Free"
+                                            bgColor="border-greenBakerz hover:bg-greenBakerz"/>}
                     {!isSmallScreen && <Date day="FRI" date={15} status="Busy"
                                              bgColor="border-orangeBakerz hover:bg-orangeBakerz"/>}
                 </TooltipProvider>

@@ -74,7 +74,7 @@ export default function StoreViewBakerz({storeProps, tab}: StoreViewProps) {
                 </TabsContent>
                 <TabsContent value="products">
                     <ProductsStoreEdit
-                        id={storeData.id}
+                        storeId={storeData.id}
                         productData={storeData.products}
                         setStoreData={setStoreData}
                         />
@@ -116,7 +116,7 @@ export function StoreViewUser({storeProps}: StoreViewProps) {
                 availability={storeData.availability}
             />
             <ProductComponentUser
-                id={storeData.id}
+                storeId={storeData.id}
                 productData={storeData.products}
             />
 

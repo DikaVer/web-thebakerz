@@ -3,8 +3,8 @@ import {ProductList} from "@/components/store/product-list";
 import {ProductData, ProductDataField, StoreData} from "@/lib/definitions";
 
 
-export function ProductComponent({id, productData, setStoreData, isPending, setPending}: {
-    id: string,
+export function ProductComponent({storeId, productData, setStoreData, isPending, setPending}: {
+    storeId: string,
     productData: ProductData,
     isPending: boolean,
     setPending: (isPending: boolean) => void,
@@ -29,7 +29,7 @@ export function ProductComponent({id, productData, setStoreData, isPending, setP
         });
 
         return <ProductList
-            id={id}
+            storeId={storeId}
             productsByCategories={productsByCategory}
             isPending={isPending}
             setStoreData={setStoreData}

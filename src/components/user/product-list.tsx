@@ -5,8 +5,8 @@ import { Product } from "@/components/user/product";
 import {ProductByCategory} from "@/lib/definitions";
 import { Search } from "lucide-react";
 
-export function ProductList({id, productsByCategories}: {
-    id: string,
+export function ProductList({storeId, productsByCategories}: {
+    storeId: string,
     productsByCategories: ProductByCategory
 }) {
     const [searchTerm, setSearchTerm] = useState("");
@@ -45,20 +45,24 @@ export function ProductList({id, productsByCategories}: {
 
     // Render category and product list
     const renderCategoryProducts = (category: string, products: ProductByCategory[string]) => (
-        <div className="mt-4" key={category}>
+        <div className="mt-2" key={category}>
             <span className="text-xl font-bold">{category}</span>
             <ul className="grid gap-4 grid-cols-1 store-sm:grid-cols-2 py-3">
                 {products.map(product => (
                     <Product
                         key={product.id}
-                        id={id}
-                        name={product.name}
-                        category={product.category}
-                        description={product.description}
-                        rating="4.5" // Assuming rating is a static value for now
-                        price={product.price}
-                        image={product.image_url}
-                        productId={product.id}
+                        productData={
+                            {
+                                store_id: storeId,
+                                name: product.name,
+                                description: product.description,
+                                rating: "4.5", // Assuming rating is a static value for now
+                                category: product.category,
+                                price: product.price,
+                                image_url: product.image_url,
+                                id: product.id
+                            }
+                        }
                     />
                 ))}
             </ul>
@@ -66,7 +70,7 @@ export function ProductList({id, productsByCategories}: {
     );
 
     return (
-        <div className="my-6">
+        <div className="mt-4">
             {renderSearchInput()}
             {Object.keys(filteredProductsByCategories).map(category =>
                 renderCategoryProducts(category, filteredProductsByCategories[category])

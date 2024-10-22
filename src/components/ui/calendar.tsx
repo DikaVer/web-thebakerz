@@ -3,7 +3,14 @@
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import {DayPicker, DayProps} from "react-day-picker"
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import {
+    Dialog,
+    DialogTrigger,
+    DialogContent,
+    DialogTitle,
+    DialogDescription,
+    DialogFooter
+} from "@/components/ui/dialog"
 
 import {cn, formatDataDate, formatDate, formatDateTime} from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
@@ -25,6 +32,7 @@ export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
             to: keyof typeof timeMap;
             availability: "Free" | "Busy";
         }>;
+    userView?: boolean;
 };
 
 
@@ -71,7 +79,7 @@ function CustomDaycell(
         <button
             className={cn(
                 buttonVariants({ variant: buttonVariant }),
-                `h-9 w-9 p-0 font-normal text-sm`
+                `h-8 w-8 p-0 font-medium text-sm`
             )}
             onClick={() => onClick(date)}
             disabled={date < fromDay}
@@ -87,6 +95,7 @@ function Calendar({
                       showOutsideDays = true,
                       availabilityData,
                       setAvailabilityData,
+                      userView = false,
                       ...props
                     }:
                       CalendarProps
@@ -183,7 +192,7 @@ function Calendar({
                   months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
                   month: "space-y-4",
                   caption: "flex justify-center pt-1 relative items-center",
-                  caption_label: "text-sm font-medium",
+                  caption_label: "text-base font-bold",
                   nav: "space-x-1 flex items-center",
                   nav_button: cn(
                       buttonVariants({variant: "outline"}),
@@ -194,12 +203,12 @@ function Calendar({
                   table: "w-full border-collapse space-y-1",
                   head_row: "flex",
                   head_cell:
-                      "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+                      "text-muted-foreground rounded-md w-9 text-[0.9rem] font-medium",
                   row: "flex w-full mt-2",
                   cell: "h-9 w-9 text-center text-sm p-0 relative",
                   day: cn(
                       buttonVariants({variant: "ghost"}),
-                      "h-9 w-9 p-0 font-normal aria-selected:opacity-100 bg"
+                      "h-9 w-9 p-0 aria-selected:opacity-100 bg"
                   ),
                   day_range_end: "day-range-end",
                   day_selected:
@@ -217,8 +226,38 @@ function Calendar({
               fromDate={today}
               {...props}
           />
+          { availabilityData && selectedDay && userView &&
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogContent handleClose={handleDialogClose}>
+                      <DialogTitle>Selected Day - {formatDate(selectedDay)}</DialogTitle>
+                      <DialogDescription className={"grid grid-cols-[0.5fr_1.5fr] "}>
+                          {selectedDay && availabilityData[formatDataDate(selectedDay)] ? (
+                              <>
+                                  <strong>Store is open</strong>
+                                  <strong>From:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].from].from)}
+                                  <strong>To:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].to].from)}
+                                  <strong>Availability:</strong> {availabilityData[formatDataDate(selectedDay)].availability}
+                              </>
+
+                          ) : (
+                              <>
+                                  <strong>Store is closed</strong>
+                              </>
+                          )}
+                      </DialogDescription>
+                      <DialogFooter>
+                          <button
+                              className={cn(buttonVariants({variant: "default"}))}
+                              onClick={handleDialogClose}
+                          >
+                              Close
+                          </button>
+                      </DialogFooter>
+                  </DialogContent>
+              </Dialog>
+          }
           {/* Dialog to open when a day is clicked */}
-          { availabilityData && selectedDay &&
+          { availabilityData && selectedDay && !userView &&
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogContent handleClose={handleDialogClose}>
                       <DialogTitle>Selected Day - {formatDate(selectedDay)}</DialogTitle>

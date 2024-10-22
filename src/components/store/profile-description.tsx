@@ -1,9 +1,9 @@
 'use client';
 
 import 'react-image-crop/dist/ReactCrop.css';
-import React, { useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Button} from "@/components/ui/button";
-import {IconCopy, IconCross, IconLocation} from "@/components/ui/icons";
+import {IconArrow, IconChevronDown, IconCopy, IconCross, IconLocation, IconStar} from "@/components/ui/icons";
 import {AddressDataStoreField} from "@/lib/definitions";
 import {cityLatLngMap, timeMap} from "@/lib/local-variables";
 import Image from "next/image";
@@ -11,6 +11,8 @@ import {ScrollArea} from "@/components/ui/scroll-area";
 import {formatAddress} from "@/lib/utils";
 import {Label} from "@/components/ui/label";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import {Calendar} from "@/components/ui/calendar";
+import {ExternalLink} from "@/components/external-link";
 
 
 interface ProfileDescriptionProps {
@@ -35,11 +37,46 @@ interface ProfileDescriptionProps {
             availability: "Free" | "Busy";
         }
     > | null;
+    sectionId: "profile-section" | "review-section" | "location-section";
 }
 
-export function ProfileDescription({isDialogOpen, setDialogOpen, description, background_url, deliveryOptions, location, avatar_url, name, availability } : ProfileDescriptionProps) {
+export function ProfileDescription({isDialogOpen, setDialogOpen, description, background_url, deliveryOptions, location, avatar_url, name, availability, sectionId } : ProfileDescriptionProps) {
 
     const [isOpen, setIsOpen] = useState<boolean>(isDialogOpen);
+
+    useEffect(() => {
+        if (isDialogOpen) {
+            const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.paddingRight = `${scrollBarWidth}px`;
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
+        }
+
+        return () => {
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
+        };
+    }, [isDialogOpen]);
+
+    const profileSectionRef = useRef<HTMLDivElement>(null);
+    const reviewSectionRef = useRef<HTMLDivElement>(null);
+    const locationSectionRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (isDialogOpen) {
+            const sectionRef = {
+                "profile-section": profileSectionRef,
+                "review-section": reviewSectionRef,
+                "location-section": locationSectionRef
+            }[sectionId];
+
+            if (sectionRef && sectionRef.current) {
+                sectionRef.current.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [isDialogOpen, sectionId]);
 
     const toggleClose = () => {
         setIsOpen(false);
@@ -79,68 +116,109 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                         </div>
                         <hr className={"my-1"}/>
 
-                        <div className={"relative h-40"}>
-                            <Image
-                                src={background_url ? background_url : "/background_default.jpg"}
-                                alt="Background"
-                                priority={true}
-                                quality={100}
-                                fill
-                                sizes="100vw"
-                                style={{
-                                    objectFit: 'cover',
-                                }}
-                                className={"opacity-30 rounded-lg"}
-                            />
-                            <div
-                                className="absolute ml-2 mt-4 flex flex-row items-center justify-start avatar"
-                            >
+                        <div className={"grid gap-4 slide-in-from-top-[5%]"} id="profile-section" ref={profileSectionRef}>
+                            <div className={"relative h-40"}>
                                 <Image
-                                    src={avatar_url ? avatar_url : "/avatar_default.jpg"}
-                                    alt="Avatar"
-                                    width={128}
-                                    height={128}
-                                    className="rounded-full relative h-32 w-32"
-                                    unoptimized={true}
+                                    src={background_url ? background_url : "/background_default.jpg"}
+                                    alt="Background"
+                                    priority={true}
                                     quality={100}
-                                    placeholder={"blur"}
-                                    blurDataURL={"/avatars/store_1.jpg"}
+                                    fill
+                                    sizes="50vw"
+                                    style={{
+                                        objectFit: 'cover',
+                                    }}
+                                    className={"opacity-30 rounded-lg"}
                                 />
-                                <span
-                                    className="ml-4 text-2xl font-bold text-black clamp-title">{name ? name : "Empty name"}
+                                <div
+                                    className="absolute ml-2 mt-4 flex flex-row items-center justify-start avatar"
+                                >
+                                    <Image
+                                        src={avatar_url ? avatar_url : "/avatar_default.jpg"}
+                                        alt="Avatar"
+                                        width={128}
+                                        height={128}
+                                        className="rounded-full relative h-32 w-32"
+                                        unoptimized={true}
+                                        quality={100}
+                                        placeholder={"blur"}
+                                        blurDataURL={"/avatars/store_1.jpg"}
+                                    />
+                                    <span
+                                        className="ml-4 text-2xl font-bold text-black clamp-title">{name ? name : "Empty name"}
                                 </span>
+                                </div>
                             </div>
-                        </div>
-                        <span className={"font-medium text-grayText"}>
-                            {description}
-                        </span>
-                        <hr/>
-                        <Label className={"text-xl"}>
-                            Store Location
-                        </Label>
-                        <div className={"flex justify-between mr-2 items-center"}>
-                            <div className="flex items-center space-x-2">
-                                <IconLocation className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"}/>
-                                <p className="text-lg  cm:text-xl text-black clamp-title">{formatAddress(location)}</p>
-                            </div>
-                            <IconCopy className={"w-6 h-6 cursor-pointer"} color={"primary"}/>
-                        </div>
-                        <div className="flex justify-center">
-                            <Image
-                                src={generateMapUrl(location.latitude, location.longitude)}
-                                alt="Map showing the location"
-                                width={400}
-                                height={300}
-                                className="rounded-lg"
-                            />
+                            <span className={"font-medium text-grayText"}>
+                                {description}
+                            </span>
                         </div>
                         <hr/>
-                        {deliveryOptions && (
+                            {availability && (
+                                <>
+                                    <div className={"flex flex-col justify-center bg-grayBg rounded-lg"}>
+                                        <div className={"flex flex-col items-start pl-4 p-4"}>
+                                            <Label className={"text-xl"}>
+                                                Calendar Availability
+                                            </Label>
+                                            <ExternalLink href="/faq">
+                                                Availability explanation
+                                            </ExternalLink>
+                                        </div>
+                                        <div className={"flex justify-center"}>
+                                            <Calendar
+                                                availabilityData={availability}
+                                                mode="single"
+                                                className={"border-1 rounded-lg mb-4 bg-grayCompFa"}
+                                                userView={true}
+                                                initialFocus
+                                            />
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        <hr/>
+                        <div className={"grid gap-4  slide-in-from-top-[5%]"} id="location-section"
+                             ref={locationSectionRef}>
+                            <Label className={"text-xl"}>
+                                Store Location
+                            </Label>
+                            <LocationComponent location={location}/>
+                            <div className="flex justify-center">
+                                <Image
+                                    src={generateMapUrl(location.latitude, location.longitude)}
+                                    alt="Map showing the location"
+                                    width={400}
+                                    height={300}
+                                    className="rounded-lg"
+                                />
+                            </div>
+                            <hr/>
+                            {deliveryOptions && (
                                 <DeliveryLocationsTable
                                     deliveryOptions={deliveryOptions}
                                 />
-                        )}
-
+                            )}
+                        </div>
+                        <div
+                            className={"flex flex-row justify-between items-center cursor-pointer hover:scale-102 hover:bg-grayBg transition duration-300 rounded-lg py-3"}
+                            id={"review-section"} ref={reviewSectionRef}
+                        >
+                            <div>
+                                <Label className={"text-xl cursor-pointer"}>
+                                    Customer Reviews
+                                </Label>
+                                <div className={"flex flex-row items-center"}>
+                                    <IconStar className={"w-6"} color={"primary"}/>
+                                    <IconStar className={"w-6"} color={"primary"}/>
+                                    <IconStar className={"w-6"} color={"primary"}/>
+                                    <IconStar className={"w-6"} color={"primary"} state={"half"}/>
+                                    <IconStar className={"w-6"} color={"primary"} state={"empty"}/>
+                                    <p className="ml-2 text-black font-medium text-grayText">5.0 (260 reviews)</p>
+                                </div>
+                            </div>
+                            <IconChevronDown className={"w-12 transform -rotate-90"}/>
+                        </div>
 
 
                     </div>
@@ -189,35 +267,67 @@ const DeliveryLocationsTable: React.FC<{ deliveryOptions: Record<
         <>
             <Label className={"text-xl"}>Delivery Locations</Label>
             {Object.keys(deliveryOptions).map((city) => (
-                <div key={city} className="flex justify-between items-center py-2">
-                    <span className="text-lg font-medium text-gray-900">{city}</span>
-                    <Dialog open={isOpen && selectedCity === city} onOpenChange={(open) => setIsOpen(open)}>
-                        <DialogTrigger asChild>
-                            <Button onClick={() => { setSelectedCity(city); setIsOpen(true); }}>Preview</Button>
-                        </DialogTrigger>
-                        <DialogContent className={"w-fit"} handleClose={() => setIsOpen(false)}>
-                            <DialogHeader>
-                                <DialogTitle>Map Preview</DialogTitle>
-                            </DialogHeader>
-                            <DialogDescription>
-                                <Image
-                                    src={generateMapUrl(cityLatLngMap[city].lat, cityLatLngMap[city].lng, deliveryOptions[city].range)}
-                                    alt="Map showing the location"
-                                    width={400}
-                                    height={300}
-                                    className="rounded-lg"
-                                />
-                            </DialogDescription>
-                            <DialogFooter>
-                                <Button onClick={() => setIsOpen(false)}>Close</Button>
-                            </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
-                </div>
+                <>
+                    <div key={city} className="flex justify-between items-center">
+                        <span className="text-lg font-medium text-gray-900">{city}</span>
+                        <Dialog open={isOpen && selectedCity === city} onOpenChange={(open) => setIsOpen(open)}>
+                            <DialogTrigger asChild>
+                                <Button onClick={() => {
+                                    setSelectedCity(city);
+                                    setIsOpen(true);
+                                }}>Preview</Button>
+                            </DialogTrigger>
+                            <DialogContent className={"w-fit"} handleClose={() => setIsOpen(false)}>
+                                <DialogHeader>
+                                    <DialogTitle>Map Preview</DialogTitle>
+                                </DialogHeader>
+                                <DialogDescription>
+                                    <Image
+                                        src={generateMapUrl(cityLatLngMap[city].lat, cityLatLngMap[city].lng, deliveryOptions[city].range)}
+                                        alt="Map showing the location"
+                                        width={400}
+                                        height={300}
+                                        className="rounded-lg"
+                                    />
+                                </DialogDescription>
+                                <DialogFooter>
+                                    <Button onClick={() => setIsOpen(false)}>Close</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
+                    <hr/>
+                </>
             ))}
-            <hr/>
         </>
     );
 };
 
-export default DeliveryLocationsTable;
+const LocationComponent: React.FC<{ location: AddressDataStoreField }> = ({ location }) => {
+    const [hoveringCopy, setHoveringCopy] = useState(false);
+
+    const handleMouseEnter = () => {
+        setHoveringCopy(true);
+    };
+
+    const handleMouseLeave = () => {
+        setHoveringCopy(false);
+    };
+
+    return (
+        <div
+            className={"flex justify-between mr-2 items-center cursor-pointer"}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
+            <div className="flex items-center space-x-2">
+                <IconLocation className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"} />
+                <p className="text-lg cm:text-xl text-black clamp-title">{formatAddress(location)}</p>
+            </div>
+            <IconCopy
+                className={`w-6 h-6 cursor-pointer transition-transform duration-300 ${hoveringCopy ? 'scale-115' : ''}`}
+                color={"primary"}
+            />
+        </div>
+    );
+};
