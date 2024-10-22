@@ -14,7 +14,7 @@ export function MiniCalendarBakerz() {
     const isSmallScreen = useIsSmallScreen(460);
     return (
         <div
-            className="absolute top-2 right-2 w-full h-12 cm:h-16 flex flex-row-reverse"
+            className="absolute top-2 right-2 w-full h-12 cm:h-16 flex flex-row-reverse cursor-pointer"
         >
             <div
                 className="rounded-2xl bg-white px-1.5 opacity-80 h-12 w-full cm:w-128 cm:h-16 flex items-center justify-between ml-4">
@@ -108,15 +108,18 @@ export function MiniCalendar() {
 
 
     useEffect(() => {
-        if (!isDialogOpen) {
-            setIsSchedulerView("scheduler");
-            document.body.style.overflow = 'auto';
-        } else {
+        if (isDialogOpen) {
+            const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.paddingRight = `${scrollBarWidth}px`;
             document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
         }
 
         return () => {
-            document.body.style.overflow = 'auto';
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
         };
     }, [isDialogOpen]);
 
@@ -128,10 +131,11 @@ export function MiniCalendar() {
     return (
         <div
             className="absolute top-2 right-2 w-full h-12 cm:h-16 flex flex-row-reverse"
-            onClick={() => setIsDialogOpen(true)}
         >
             <div
-                className="rounded-2xl bg-white px-1.5 opacity-80 h-12 w-full cm:w-128 cm:h-16 flex items-center justify-between ml-4">
+                className="rounded-2xl bg-white px-1.5 opacity-80 h-12 w-full cm:w-128 cm:h-16 flex items-center justify-between ml-4 cursor-pointer"
+                onClick={() => setIsDialogOpen(true)}
+            >
                 <TooltipProvider>
                     <Date day="MON" date={11} status="Free" bgColor="border-greenBakerz hover:bg-greenBakerz"/>
                     <Date day="TUE" date={12} status="Busy"
@@ -142,7 +146,7 @@ export function MiniCalendar() {
                                              bgColor="border-orangeBakerz hover:bg-orangeBakerz"/>}
                 </TooltipProvider>
                 <div
-                    className="rounded-xl w-auto h-10 cm:h-14 items-center transition duration-500 hover:bg-gray-200 cursor-default">
+                    className="rounded-xl w-auto h-10 cm:h-14 items-center transition duration-500 hover:bg-gray-200">
                     <CheckoutDetails checkoutData={checkoutData}/>
                 </div>
             </div>
@@ -165,7 +169,7 @@ const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutData }) => {
         <div className="ml-2">
             {checkoutData.deliveryMode === "PICKUP" ? (
                 <div>
-                    <p className="text-sm cm:text-base text-black">Pick Up</p>
+                    <p className="text-sm cm:text-base text-black font-medium">Pick Up</p>
                     <div className="flex">
                         <p className="text-sm cm:text-base text-black w-24">{checkoutData.time ||
                             <strong>Select Time</strong>}</p>
@@ -174,7 +178,7 @@ const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutData }) => {
                 </div>
             ) : (
                 <div className={'grid -space-y-1.5'}>
-                    <p className="text-sm cm:text-base text-black">Delivery</p>
+                    <p className="text-sm cm:text-base text-black font-medium">Delivery</p>
                     <p className="text-sm cm:text-base text-black">{checkoutData.time || <strong>Select Time</strong>}</p>
                     <div className="flex">
                     <p className="text-sm cm:text-base text-black clamp-title w-24">
@@ -193,7 +197,7 @@ const Date = ({ day, date, status, bgColor }: { day: string, date: number, statu
     <Tooltip>
         <TooltipTrigger asChild>
             <div
-                className={`rounded-xl w-10 h-10 cm:w-12 cm:h-12 border-3 -space-y-1 flex flex-col items-center justify-center ${bgColor} trigger-hover transition duration-700 cursor-default`}>
+                className={`rounded-xl w-10 h-10 cm:w-12 cm:h-12 border-3 -space-y-1 flex flex-col font-medium items-center justify-center ${bgColor} trigger-hover transition duration-700`}>
                 <p className="text-black text-on-hover-white text-xs cm:text-sm">{day}</p>
                 <p className="text-black text-on-hover-white text-base cm:text-xl">{date}</p>
             </div>

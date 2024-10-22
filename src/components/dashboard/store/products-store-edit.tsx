@@ -43,6 +43,7 @@ export default function ProductsStoreEdit({ id, productData, setStoreData }: Pro
                                     isPending={isPending}
                                     setStoreData={setStoreData}
                                     setPending={setPending}
+                                    isDialogOpen={isProductDialogOpen}
                                     setDialogOpen={setProductDialogOpen}
                                     action={"add"}
                                 />

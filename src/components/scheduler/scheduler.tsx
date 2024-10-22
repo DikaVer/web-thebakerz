@@ -4,7 +4,7 @@ import { IconClock, IconCross } from "@/components/ui/icons";
 import { SwitchDelivery } from "@/components/scheduler/switch-delivery";
 import { AddressSearch } from "@/components/scheduler/address-search";
 import { TimeSelection } from "@/components/scheduler/time-selection";
-import {AddressDataStoreField, CheckoutLocalDataField} from "@/lib/definitions";
+import {AddressDataStoreField} from "@/lib/definitions";
 import { AddressSelection } from "@/components/scheduler/address-selection";
 import {ScrollArea} from "@/components/ui/scroll-area";
 

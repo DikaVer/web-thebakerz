@@ -12,7 +12,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {MiniCalendar, MiniCalendarBakerz} from "@/components/scheduler/calendar";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {AddressDataStoreField} from "@/lib/definitions";
 import {cityLatLngMap, timeMap} from "@/lib/local-variables";
 import {formatAddress} from "@/lib/utils";
@@ -44,12 +44,36 @@ export function ProfileHeaderBakerz({ name, availability, deliveryOptions, locat
     const [isDialogOpen, setDialogOpen] = useState(false);
 
 
+    useEffect(() => {
+        if (isDialogOpen) {
+            const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.paddingRight = `${scrollBarWidth}px`;
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
+        }
+
+        return () => {
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
+        };
+    }, [isDialogOpen]);
+
     return (
         <>
             {
                 isDialogOpen && (
                     <ProfileDescription
+                        isDialogOpen={isDialogOpen}
                         setDialogOpen={setDialogOpen}
+                        description={description}
+                        background_url={background_url}
+                        deliveryOptions={deliveryOptions}
+                        location={location}
+                        avatar_url={image}
+                        name={name}
+                        availability={availability}
                     />
                 )
             }
@@ -62,6 +86,7 @@ export function ProfileHeaderBakerz({ name, availability, deliveryOptions, locat
                 <ProfileInfo
                     name={name}
                     location={location}
+                    deliveryOptions={deliveryOptions}
                     toggleDialog={() => setDialogOpen(true)}
                 />
                 <MiniCalendarBakerz/>
@@ -74,12 +99,36 @@ export function ProfileHeader({ name, availability, deliveryOptions, location, i
 
     const [isDialogOpen, setDialogOpen] = useState(false);
 
+    useEffect(() => {
+        if (isDialogOpen) {
+            const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.paddingRight = `${scrollBarWidth}px`;
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
+        }
+
+        return () => {
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
+        };
+    }, [isDialogOpen]);
+
     return (
         <>
             {
                 isDialogOpen && (
                     <ProfileDescription
+                        isDialogOpen={isDialogOpen}
                         setDialogOpen={setDialogOpen}
+                        description={description}
+                        background_url={background_url}
+                        deliveryOptions={deliveryOptions}
+                        location={location}
+                        avatar_url={image}
+                        name={name}
+                        availability={availability}
                     />
                 )
             }
@@ -92,6 +141,7 @@ export function ProfileHeader({ name, availability, deliveryOptions, location, i
                 <ProfileInfo
                     name={name}
                     location={location}
+                    deliveryOptions={deliveryOptions}
                     toggleDialog={() => setDialogOpen(true)}
                 />
                 <MiniCalendar/>
@@ -135,24 +185,33 @@ const Avatar = ({avatar_url, toggleDialog} : {avatar_url: string | null, toggleD
 interface ProfileInfoProps {
         name: string | null;
         location: AddressDataStoreField;
+        deliveryOptions: Record<
+            keyof typeof cityLatLngMap,
+            {
+                range: number;
+            }
+        > | null;
         toggleDialog: () => void;
 }
 
-const ProfileInfo = ({name, location, toggleDialog} : ProfileInfoProps) => (
+const ProfileInfo = ({name, location, deliveryOptions, toggleDialog} : ProfileInfoProps) => (
     <div className="ml-36 mt-14 cm:ml-40 cm:mt-12 absolute space-y-2">
         <div
             className={"cursor-pointer space-y-2 font-medium"}
             onClick={toggleDialog}
         >
-            <span className="text-xl cm:text-2xl font-bold text-black">{name ? name : "Empty name"}</span>
-            <div className="flex items-center space-x-2 hover:scale-102 transition duration-300">
+            <span className="text-xl cm:text-2xl font-bold text-black clamp-title">{name ? name : "Empty name"}</span>
+            <div className="flex items-center space-x-2 hover:scale-102 transition duration-300 ">
                 <IconStar className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"}/>
                 <p className="text-lg cm:text-xl text-black">5.0</p>
-                <p className="text-sm cm:text-base underline font-light text-gray-600">260 reviews</p>
+                <p className="text-sm cm:text-base underline font-light text-gray-600 clamp-title">260 reviews</p>
             </div>
             <div className="flex items-center space-x-2 hover:scale-102 transition duration-300">
                 <IconLocation className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"}/>
-                <p className="text-lg  cm:text-xl text-black">{formatAddress(location)}</p>
+                <div className={"-space-y-1"}>
+                    <p className="text-lg  cm:text-xl text-black clamp-title">{formatAddress(location)}</p>
+                    <p className="text-sm  cm:text-md text-grayText underline underline-offset-2 clamp-title">{deliveryOptions ? "Store has delivery locations" : ""}</p>
+                </div>
             </div>
         </div>
         <div className="flex pt-2 space-x-2 cm:space-x-3 left-0">

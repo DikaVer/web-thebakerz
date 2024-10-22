@@ -186,6 +186,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
                         {isNameDialogOpen &&
                             <NameChangeDialog
                                 form={form}
+                                isDialogOpen={isNameDialogOpen}
                                 setDialogOpen={setNameDialogOpen}
                                 setGlobalData={setDataName}
                                 originName={userData.name}
@@ -203,6 +204,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
                                                     form={form}
                                                     field={field}
                                                     name={"image"}
+                                                    isDialogOpen={isAvatarDialogOpen}
                                                     setDialogOpen={setAvatarDialogOpen}
                                                     setGlobalData={setDataAvatar}
                                                 />}

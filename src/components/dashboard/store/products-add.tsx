@@ -32,6 +32,7 @@ import Image from "next/image";
 
 interface ProductsEditProps {
     id: string;
+    isDialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
     isPending: boolean;
     setPending: (isPending: boolean) => void;
@@ -40,7 +41,7 @@ interface ProductsEditProps {
     action: "add" | "update";
 }
 
-export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, setStoreData, productData, action}: ProductsEditProps) {
+export default function ProductsAdd({ id, isDialogOpen, isPending, setPending, setDialogOpen, setStoreData, productData, action}: ProductsEditProps) {
 
 
     const form = useForm<z.infer<typeof productEditSchema>>({
@@ -207,31 +208,45 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
         setPending(false);
     }
 
+    const [isOpen, setIsOpen] = useState<boolean>(isDialogOpen);
+
+    const toggleClose = () => {
+        setIsOpen(false);
+        //Artificial delay to allow the animation to finish
+        setTimeout(() => {
+            setDialogOpen(false);
+        }, 400);
+    }
+
 
     return (
         <div className={"mt-4"}>
             <>
-                <div className="fixed z-40 h-full bg-black opacity-50 inset-0"
-                     onClick={(e) => {
-                         setDialogOpen(false);
-                     }}/>
                 <div
-                    className={"fixed left-[50%] top-[60%] z-40 grid w-full max-w-lg sm:max-w-[425px] translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg rounded-lg"}
+                    data-state={isOpen ? 'open' : 'closed'}
+                    className="fixed inset-0 z-30 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+                    onClick={(e) => {
+                        toggleClose();
+                    }}/>
+                <div
+                    data-state={isOpen ? 'open' : 'closed'}
+                    className={"fixed left-[50%] top-[50%] z-40 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg"}
                 >
                     <ScrollArea className={"max-h-[75vh]"}>
-                    <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-6"}>
-                        <div className={`flex flex-row justify-between items-center`}>
-                            <Button
-                                className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
-                                onClick={() => {
-                                    setDialogOpen(false);
-                                }}
-                            >
-                                <IconCross className={"w-8 h-8 cursor-pointer"}/>
-                            </Button>
-                            <p className={"text-xl"}>Product details</p>
-                            <div className="w-8 h-8 flex "></div>
-                        </div>
+                        <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-6"}>
+                            <div className={`flex flex-row justify-between items-center`}>
+                                <Button
+                                    className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
+                                    onClick={() => {
+                                        toggleClose();
+                                    }}
+                                >
+                                    <IconCross className={"w-8 h-8 cursor-pointer"}/>
+                                </Button>
+                                <p className={"text-xl"}>Product details</p>
+                                <div className="w-8 h-8 flex "></div>
+                            </div>
+                            <hr className={"my-1"}></hr>
                             <Form {...form}>
                                 <form
                                     onSubmit={form.handleSubmit(onSubmit)}
@@ -251,6 +266,7 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                                                         form={form}
                                                         field={field}
                                                         name={"image"}
+                                                        isDialogOpen={isDialogImageOpen}
                                                         setDialogOpen={setDialogImageOpen}
                                                         setGlobalData={setDataBackground}
                                                     />
@@ -279,6 +295,7 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                                             </FormItem>
                                         )}
                                     />
+                                    <hr className={"my-1"}></hr>
                                     <FormField
                                         control={form.control}
                                         name="name"
@@ -292,6 +309,7 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                                                     <Input
                                                         {...field}
                                                         disabled={isPending}
+                                                        className={"shadow"}
                                                         placeholder={form.getValues().name}
                                                         required
                                                         type={"text"}
@@ -305,7 +323,7 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                                     <FormField
                                         control={form.control}
                                         name="category"
-                                        render={({ field }) => (
+                                        render={({field}) => (
                                             <FormItem className="flex flex-col">
                                                 <FormLabel
                                                     className="block text-sm font-medium text-gray-700"
@@ -319,17 +337,19 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                                                                 variant="outline"
                                                                 role="combobox"
                                                                 aria-expanded={open}
-                                                                className="w-[300px] justify-between truncate"
+                                                                className="w-[300px] justify-between truncate shadow"
                                                             >
                                                                 {field.value
                                                                     ? Object.keys(categories).find((category) => category === field.value)
                                                                     : "Select category..."}
-                                                                <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                                <CaretSortIcon
+                                                                    className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
                                                             </Button>
                                                         </PopoverTrigger>
                                                         <PopoverContent className="w-full p-0">
                                                             <Command>
-                                                                <CommandInput placeholder={"Search category..."} className="h-9" />
+                                                                <CommandInput placeholder={"Search category..."}
+                                                                              className="h-9"/>
                                                                 <CommandList>
                                                                     <CommandEmpty>No city found.</CommandEmpty>
                                                                     <CommandGroup>
@@ -355,7 +375,7 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                                                             </Command>
                                                         </PopoverContent>
                                                     </Popover>
-                                                    </FormControl>
+                                                </FormControl>
                                                 <FormMessage/>
                                             </FormItem>
                                         )}
@@ -372,11 +392,12 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                                                 <FormControl>
                                         <textarea
                                             {...field}
-                                            className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black`}
+                                            className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-black`}
                                             rows={5}
                                             value={form.getValues().description ?? undefined}
                                             disabled={isPending}
-                                            placeholder={"Tell us about your product... (max 500 characters)"}                                            maxLength={500}
+                                            placeholder={"Tell us about your product... (max 500 characters)"}
+                                            maxLength={500}
                                             style={{resize: "none"}}
                                         ></textarea>
                                                 </FormControl>
@@ -388,7 +409,7 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                                     <FormField
                                         control={form.control}
                                         name="price"
-                                        render={({ field }) => (
+                                        render={({field}) => (
                                             <FormItem>
                                                 <FormLabel className="block text-sm font-medium text-gray-700">
                                                     Price
@@ -398,31 +419,34 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                                                         {...field}
                                                         type="number"
                                                         min="0"
+                                                        className={"shadow"}
                                                         placeholder="Enter price (e.g. 14.99)"
                                                         disabled={isPending}
                                                         onChange={(e) => field.onChange(Number(parseFloat(e.target.value).toFixed(2)))}
                                                     />
                                                 </FormControl>
-                                                <FormMessage />
+                                                <FormMessage/>
                                             </FormItem>
                                         )}
                                     />
-                                    <FormError message={error} />
+                                    <hr className={"my-1"}></hr>
+                                    <FormError message={error}/>
                                     <AlertDialog>
                                         <AlertDialogTrigger asChild>
                                             <Button
                                                 type="button"
                                                 className=" w-full"
-                                                disabled={ isPending}
+                                                disabled={isPending}
                                             >
-                                                Apply
+                                                {action === "add" ? "Add Product" : "Update Product"}
                                             </Button>
                                         </AlertDialogTrigger>
                                         <AlertDialogContent>
                                             <AlertDialogHeader>
                                                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                                 <AlertDialogDescription>
-                                                    This action cannot be undone. These changes will be seen to everyone.
+                                                    This action cannot be undone. These changes will be seen to
+                                                    everyone.
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
@@ -431,14 +455,14 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
                                                     onClick={() => form.handleSubmit(onSubmit)()}
                                                     disabled={isPending}
                                                 >
-                                                    Apply
+                                                    {action === "add" ? "Add Product" : "Update Product"}
                                                 </AlertDialogAction>
                                             </AlertDialogFooter>
                                         </AlertDialogContent>
                                     </AlertDialog>
                                 </form>
                             </Form>
-                    </div>
+                        </div>
                     </ScrollArea>
                 </div>
             </>
@@ -446,7 +470,7 @@ export default function ProductsAdd({ id, isPending, setPending, setDialogOpen, 
     );
 }
 
-export function ProductsEdit({ id, isPending, setPending, setDialogOpen}: ProductsEditProps) {
+export function ProductsEdit({id, isPending, setPending, setDialogOpen}: ProductsEditProps) {
 
     return (
         <div className={"mt-4"}>

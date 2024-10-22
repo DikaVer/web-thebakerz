@@ -35,10 +35,10 @@ export function Product({ name, description, category, price, image, rating, pro
             >
                 <div className={"flex flex-col justify-between p-1 w-full"}>
                     <div className="flex flex-col h-26 cm:h-27">
-                    <span className="text-lg clamp-title">
+                    <span className="text-lg font-medium clamp-title">
                         {name}
                     </span>
-                        <span className="text-sm pb-3 text-grayText clamp-description">
+                        <span className="text-sm pb-3 font-normal text-grayText clamp-description">
                         {description}
                     </span>
                     </div>

@@ -14,13 +14,13 @@ import {AddressDataFieldSchema} from "@/lib/schemas";
 interface AddressSelectionProps {
     initialInput: AddressDataStoreField | null;
     setAddress: (input: AddressDataStoreField | null) => void;
-    setAddressDialogOpen: (input: boolean) => void;
+    setAddressDialogClose: () => void;
     isEditing: boolean;
 }
 
 const libraries: Library[] = ["places", "maps", "marker"];
 
-export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput, setAddress, setAddressDialogOpen,  isEditing}) => {
+export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput, setAddress, setAddressDialogClose,  isEditing}) => {
     const [error, setError] = useState<string | undefined>();
 
     const [inputAddress, setInputAddress] = useState<AddressDataStoreField | null>(initialInput);
@@ -196,7 +196,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 
 
             setAddress(inputAddress);
-            setAddressDialogOpen(false);
+            setAddressDialogClose();
 
             toast.success(
                 <div className={"flex flex-row gap-x-1 justify-between items-center"}>
@@ -232,7 +232,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
             <div className={`flex flex-row justify-between items-center`}>
                 <Button
                     className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
-                    onClick={() => setAddressDialogOpen(false)}
+                    onClick={() => setAddressDialogClose()}
                 >
                     <IconCross className={"w-8 h-8 cursor-pointer"}/>
                 </Button>

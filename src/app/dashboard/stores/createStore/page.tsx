@@ -72,23 +72,36 @@ export default function StoreForm() {
         });
     }
 
+    const [isOpen, setIsOpen] = useState<boolean>(isAddressDialogOpen);
+
+    const toggleClose = () => {
+        setIsOpen(false);
+        //Artificial delay to allow the animation to finish
+        setTimeout(() => {
+            setIsAddressDialogOpen(false);
+        }, 400);
+    }
+
     return (
 
         <div className="min-h-screen bg-gradient-to-br from-primary to-secondary flex items-center justify-center rounded-lg">
             {isAddressDialogOpen && (
                 <>
-                    <div className="fixed z-30 h-full bg-black opacity-50 inset-0"
-                         onClick={(e) => {
-                             setIsAddressDialogOpen(false);
-                         }}/>
                     <div
-                        className={"fixed left-[50%] top-[60%] z-40 grid w-full max-w-lg sm:max-w-[425px] translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg rounded-lg"}
+                        data-state={isOpen ? 'open' : 'closed'}
+                        className="fixed inset-0 z-30 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+                        onClick={(e) => {
+                            toggleClose();
+                        }}/>
+                    <div
+                        data-state={isOpen ? 'open' : 'closed'}
+                        className={"fixed left-[50%] top-[50%] z-40 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg"}
                     >
                         <ScrollArea className={"max-h-[75vh]"}>
                             <AddressSelection
                                 initialInput={address}
                                 setAddress={setAddress}
-                                setAddressDialogOpen={setIsAddressDialogOpen}
+                                setAddressDialogClose={toggleClose}
                                 isEditing={isEditing}/>
                         </ScrollArea>
                     </div>

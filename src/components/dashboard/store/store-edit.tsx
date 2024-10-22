@@ -371,6 +371,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                                     form={form}
                                                     field={field}
                                                     name={"image"}
+                                                    isDialogOpen={isAvatarDialogOpen}
                                                     setDialogOpen={setAvatarDialogOpen}
                                                     setGlobalData={setDataAvatar}
                                                 />
@@ -422,6 +423,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                         disabled={isPending}
                                         placeholder={form.getValues().name}
                                         required
+                                        className={"shadow"}
                                         type={"text"}
                                         onChange={(e) => field.onChange(e.target.value)}
                                     />
@@ -447,6 +449,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                         {...field}
                                         disabled={isPending}
                                         placeholder={form.getValues().nickname}
+                                        className={"shadow"}
                                         required
                                         type={"text"}
                                         onChange={(e) => field.onChange(e.target.value.toLowerCase())}
@@ -471,7 +474,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                 <FormControl>
                                         <textarea
                                             {...field}
-                                            className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black`}
+                                            className={`mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-black`}
                                             rows={5}
                                             value={form.getValues().description ?? undefined}
                                             disabled={isPending}

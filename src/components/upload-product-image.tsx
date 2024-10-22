@@ -19,11 +19,12 @@ interface ProductImageUploaderProps {
     form: UseFormReturn<any>;
     field: ControllerRenderProps<any>;
     name: string;
+    isDialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
     setGlobalData: (data: { image: string | null }) => void;
 }
 
-export function ProductImageUploader({ form, field, name, setDialogOpen, setGlobalData}: ProductImageUploaderProps) {
+export function ProductImageUploader({ form, field, name, isDialogOpen, setDialogOpen, setGlobalData}: ProductImageUploaderProps) {
 
     const imgRef = useRef(null);
     const previewCanvasRef = useRef(null);
@@ -102,26 +103,40 @@ export function ProductImageUploader({ form, field, name, setDialogOpen, setGlob
         }, [data.image]
     );
 
+    const [isOpen, setIsOpen] = useState<boolean>(isDialogOpen);
+
+    const toggleClose = () => {
+        setIsOpen(false);
+        //Artificial delay to allow the animation to finish
+        setTimeout(() => {
+            setDialogOpen(false);
+        }, 400);
+    }
+
     return (
         <>
-            <div className="fixed z-30 h-full bg-black opacity-50 -top-2 bottom-0 -right-0 left-0 rounded-lg"
-                 onClick={(e) => {
-                     setDialogOpen(false);
-                 }}/>
             <div
-                className={"fixed left-[50%] top-[60%] z-40 grid w-full max-w-lg sm:max-w-[425px] translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg rounded-lg"}
+                data-state={isOpen ? 'open' : 'closed'}
+                className="fixed -top-2 bottom-0 -right-0 left-0 rounded-lg z-30 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+                onClick={(e) => {
+                    toggleClose();
+                }}/>
+            <div
+                data-state={isOpen ? 'open' : 'closed'}
+                className={"fixed left-[50%] top-[50%] z-40 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg"}
             >
                 <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-6"}>
                     <div className={`flex flex-row justify-between items-center`}>
                         <Button
                             className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
-                            onClick={() => setDialogOpen(false)}
+                            onClick={() => toggleClose()}
                         >
                             <IconCross className={"w-8 h-8 cursor-pointer"}/>
                         </Button>
                         <p className={"text-xl"}>Product Image Selection</p>
                         <div className="w-8 h-8 flex "></div>
                     </div>
+                    <hr className={"my-1"}></hr>
                     <label
                         className={"group relative mt-2 flex h-72 flex-col items-center justify-center rounded-md border border-gray-300 bg-white shadow-sm transition-all hover:bg-gray-50"}>
                         {!data.image && (
@@ -149,17 +164,17 @@ export function ProductImageUploader({ form, field, name, setDialogOpen, setGlob
 
                                     const file = e.dataTransfer.files && e.dataTransfer.files[0];
                                     const check = imageUploadSchema.safeParse(file);
-                                    if (!check.success){
+                                    if (!check.success) {
                                         setError("Image must be a valid image format (jpeg, jpg, png)")
                                         setFile(null);
-                                        setData({ image: null });
+                                        setData({image: null});
                                         return
                                     }
                                     if (file && check.success) {
                                         if (file.size / 1024 / 1024 > 4.5) {
                                             setError('File size too big (max 4.5MB)')
                                             setFile(null);
-                                            setData({ image: null });
+                                            setData({image: null});
                                             return
                                         } else {
 
@@ -169,7 +184,7 @@ export function ProductImageUploader({ form, field, name, setDialogOpen, setGlob
 
                                             reader.onload = (e) => {
                                                 const base64String = e.target?.result as string;
-                                                setData({ image: base64String });
+                                                setData({image: base64String});
                                             }
                                             setError(undefined);
                                             reader.readAsDataURL(file)
@@ -272,7 +287,7 @@ export function ProductImageUploader({ form, field, name, setDialogOpen, setGlob
                             previewCanvasRef.current.toBlob((blob) => {
                                 if (blob) {
                                     // Create a File object from the Blob
-                                    const croppedFile = new File([blob], `${file?.name}`, { type: `${file?.type}` });
+                                    const croppedFile = new File([blob], `${file?.name}`, {type: `${file?.type}`});
 
                                     // Set the File object to your state
                                     setFile(croppedFile);
@@ -283,7 +298,7 @@ export function ProductImageUploader({ form, field, name, setDialogOpen, setGlob
                             }, `${file?.type}`);
 
                             // @ts-ignore
-                            setGlobalData({ image: previewCanvasRef.current.toDataURL() });
+                            setGlobalData({image: previewCanvasRef.current.toDataURL()});
 
                             setDialogOpen(false);
                         }}

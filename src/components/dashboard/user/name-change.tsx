@@ -1,7 +1,7 @@
 'use client';
 
 import 'react-image-crop/dist/ReactCrop.css';
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import { UseFormReturn} from "react-hook-form";
 import {Button} from "@/components/ui/button";
 import {IconCross} from "@/components/ui/icons";
@@ -12,12 +12,13 @@ import {nameSchema} from "@/lib/schemas";
 
 interface NameChangeDialogProps {
     form: UseFormReturn<any>;
+    isDialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
     setGlobalData: (data: string) => void;
     originName: string;
 }
 
-export function NameChangeDialog({ form, setDialogOpen, setGlobalData, originName}: NameChangeDialogProps) {
+export function NameChangeDialog({ form, isDialogOpen, setDialogOpen, setGlobalData, originName}: NameChangeDialogProps) {
 
 
     const isValid = useMemo(() => form.formState.isValid, [form.formState.isValid]);
@@ -32,22 +33,35 @@ export function NameChangeDialog({ form, setDialogOpen, setGlobalData, originNam
             setError(undefined);
         }
     }, [isValid]);
+
+    const [isOpen, setIsOpen] = useState<boolean>(isDialogOpen);
+
+    const toggleClose = () => {
+        setIsOpen(false);
+        //Artificial delay to allow the animation to finish
+        setTimeout(() => {
+            setDialogOpen(false);
+        }, 400);
+    }
+
     return (
         <>
-            <div className="fixed z-30 h-full bg-black opacity-50 inset-0"
-                 onClick={(e) => {
-                     setDialogOpen(false);
-                     form.setValue("name", originName);
-                 }}/>
             <div
-                className={"fixed left-[50%] top-[60%] z-40 grid w-full max-w-lg sm:max-w-[425px] translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg rounded-lg"}
+                data-state={isOpen ? 'open' : 'closed'}
+                className="fixed inset-0 z-30 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+                onClick={(e) => {
+                    toggleClose();
+                }}/>
+            <div
+                data-state={isOpen ? 'open' : 'closed'}
+                className={"fixed left-[50%] top-[50%] z-40 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg"}
             >
                 <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-6"}>
                     <div className={`flex flex-row justify-between items-center`}>
                         <Button
                             className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
                             onClick={() => {
-                                setDialogOpen(false);
+                                toggleClose();
                                 form.setValue("name", originName);
                             }}
                         >
@@ -56,6 +70,7 @@ export function NameChangeDialog({ form, setDialogOpen, setGlobalData, originNam
                         <p className={"text-xl"}>Name Editing</p>
                         <div className="w-8 h-8 flex "></div>
                     </div>
+                    <hr className={"my-1"}></hr>
                     <FormField
                         control={form.control}
                         name="name"
