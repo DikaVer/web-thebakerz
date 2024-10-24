@@ -57,7 +57,7 @@ export async function POST(req: Request) {
 
         try {
 
-            const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${storeId}`;
+            const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${`${storeId}`}`;
             const userId = queryUserId.rows[0].user_id;
 
             // @ts-ignore

@@ -61,8 +61,8 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
         if (!map || !marker) {
             const mapInstance = new google.maps.Map(mapRef.current as HTMLDivElement, {
                 center: {
-                    lat: inputAddress ? inputAddress.latitude : 50.85,
-                    lng: inputAddress ? inputAddress.longitude : 5.6833
+                    lat: inputAddress ? Number(inputAddress.latitude) : 50.85,
+                    lng: inputAddress ? Number(inputAddress.longitude) : 5.6833
                 },
                 zoom: 16,
                 mapId: '4504f8b37365c3d0',
@@ -77,8 +77,8 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
             const draggableMarker = new google.maps.marker.AdvancedMarkerElement({
                 map: mapInstance,
                 position: {
-                    lat: inputAddress ? inputAddress.latitude : 50.85,
-                    lng: inputAddress ? inputAddress.longitude : 5.6833
+                    lat: inputAddress ? Number(inputAddress.latitude) : 50.85,
+                    lng: inputAddress ? Number(inputAddress.longitude) : 5.6833
                 },
                 gmpDraggable: isDraggable,
                 title: "This marker is draggable.",
@@ -103,7 +103,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
         }
 
         // Update the form data with the selected place
-        formData(place);
+        updateFormData(place);
 
         if (map && marker) {
             map.setCenter(place.geometry.location);
@@ -137,8 +137,9 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 
 
     // @ts-ignore
-    const formData = (data) => {
-        const addressComponents = data?.address_components;
+    const updateFormData = (place: google.maps.places.PlaceResult) => {
+
+        const addressComponents = place.address_components;
 
         const componentMap = {
             subpremise: "",
@@ -151,6 +152,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
             administrative_area_level_1: "",
         };
 
+        // @ts-ignore
         for (const component of addressComponents) {
             const componentType = component.types[0];
             if (componentMap.hasOwnProperty(componentType)) {
@@ -159,8 +161,8 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
             }
         }
 
-        const latitude = data?.geometry?.location?.lat();
-        const longitude = data?.geometry?.location?.lng();
+        const latitude = place.geometry?.location?.lat();
+        const longitude = place.geometry?.location?.lng();
 
 
         setInputAddress({

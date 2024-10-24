@@ -30,7 +30,7 @@ export async function GET(req: Request) {
     try {
         const locationRow = await sql`
             SELECT * FROM addresses_stores
-            WHERE id = ${storeId}`;
+            WHERE id = ${`${storeId}`}`;
 
         return NextResponse.json(
             {

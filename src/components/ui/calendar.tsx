@@ -3,6 +3,7 @@
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import {DayPicker, DayProps} from "react-day-picker"
+import { addDays } from 'date-fns';
 import {
     Dialog,
     DialogTrigger,
@@ -33,6 +34,8 @@ export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
             availability: "Free" | "Busy";
         }>;
     userView?: boolean;
+    addDaysParam?: number;
+    onSelect?: (date: Date | undefined) => void; // Add onSelect prop
 };
 
 
@@ -96,6 +99,8 @@ function Calendar({
                       availabilityData,
                       setAvailabilityData,
                       userView = false,
+                      addDaysParam = 0,
+                      onSelect,
                       ...props
                     }:
                       CalendarProps
@@ -107,7 +112,7 @@ function Calendar({
     const [toTime, setToTime] = React.useState<string | undefined>(undefined)
     const [error, setError] = React.useState<string | undefined>(undefined)
 
-    const today = new Date()
+    const today = addDays(new Date(), addDaysParam);
 
     useEffect(() => {
         if (availabilityData && selectedDay) {
@@ -127,7 +132,8 @@ function Calendar({
 
     const handleDayClick = (day: Date) => {
         setSelectedDay(day)
-        setIsDialogOpen(true)
+        !onSelect && setIsDialogOpen(true)
+        onSelect && onSelect(day);
     }
 
     const handleDialogClose = () => {

@@ -1,20 +1,30 @@
 // Define the interface for the props
-import React from "react";
+import React, {useState} from "react";
 import {IconArrow} from "@/components/ui/icons";
 import {Button} from "@/components/ui/button";
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {CarouselDate} from "@/components/scheduler/carousel-date";
-import {AddressDataStorageField} from "@/lib/definitions";
+import {CheckoutData} from "@/lib/definitions";
+import {timeMap} from "@/lib/local-variables";
+import { addDays } from 'date-fns';
 
 interface ScheduleSelectionProps {
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection") => void,
-    checkoutData: AddressDataStorageField,
-    updateCheckoutData: () => void
+    checkoutData: CheckoutData,
+    updateCheckoutData: () => void,
+    availability: Record<
+        string,
+        {
+            from: keyof typeof timeMap;
+            to: keyof typeof timeMap;
+            availability: "Free" | "Busy";
+        }
+    >;
 }
 
 // Create the functional component
-export const TimeSelection: React.FC<ScheduleSelectionProps> = ({ handleSchedulerView, checkoutData, updateCheckoutData }) => {
-    const [date, setDate] = React.useState<Date>()
+export const TimeSelection: React.FC<ScheduleSelectionProps> = ({availability, handleSchedulerView, checkoutData, updateCheckoutData }) => {
+    const [date, setDate] = useState<Date>(addDays(new Date(), 1));
 
     return (
         <div className={"grid w-full max-w-lg gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-6"}>
@@ -30,7 +40,11 @@ export const TimeSelection: React.FC<ScheduleSelectionProps> = ({ handleSchedule
                 <div className="w-8 h-8 flex"></div>
             </div>
             <hr className={"my-1"}></hr>
-            <CarouselDate date={date} setDate={setDate}/>
+            <CarouselDate
+                availability={availability}
+                setDate={setDate}
+                date={date}
+            />
             <TimePickerScrollArea fromTime="08:00" toTime="20:00" stepInterval={15}/>
             <Button className="rounded-lg h-14 text-lg">Schedule</Button>
         </div>

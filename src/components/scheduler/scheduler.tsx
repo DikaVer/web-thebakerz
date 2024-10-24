@@ -4,51 +4,76 @@ import { IconClock, IconCross } from "@/components/ui/icons";
 import { SwitchDelivery } from "@/components/scheduler/switch-delivery";
 import { AddressSearch } from "@/components/scheduler/address-search";
 import { TimeSelection } from "@/components/scheduler/time-selection";
-import {AddressDataStoreField} from "@/lib/definitions";
+import {AddressDataUserField, CheckoutData} from "@/lib/definitions";
 import { AddressSelection } from "@/components/scheduler/address-selection";
 import {ScrollArea} from "@/components/ui/scroll-area";
+import {timeMap} from "@/lib/local-variables";
 
 interface SchedulerContentProps {
+    isDialogOpen: boolean;
     handleDialogClose: () => void;
-    checkoutData: CheckoutLocalDataField;
+    checkoutData: CheckoutData;
     updateCheckoutData: () => void;
     isSchedulerView: "scheduler" | "timeSelection" | "addressSelection" | "addressEditing";
     setIsSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection" | "addressEditing") => void;
+    availability: Record<
+        string,
+        {
+            from: keyof typeof timeMap;
+            to: keyof typeof timeMap;
+            availability: "Free" | "Busy";
+        }
+    > | null;
 }
 
-export function SchedulerContent({ checkoutData, handleDialogClose, isSchedulerView, updateCheckoutData, setIsSchedulerView }: SchedulerContentProps) {
+export function SchedulerContent({availability, checkoutData, isDialogOpen, handleDialogClose, isSchedulerView, updateCheckoutData, setIsSchedulerView }: SchedulerContentProps) {
 
     const toggleSchedulerView = (view: "scheduler" | "timeSelection" | "addressSelection" | "addressEditing") => {
         setIsSchedulerView(view);
     };
 
-    const [input, setInputAddress] = useState(null as AddressDataStoreField | null);
+    const [input, setInputAddress] = useState(null as AddressDataUserField | null);
+
+    const [isOpen, setIsOpen] = useState<boolean>(isDialogOpen);
+
+    const toggleClose = () => {
+        setIsOpen(false);
+        //Artificial delay to allow the animation to finish
+        toggleSchedulerView("scheduler");
+        setTimeout(() => {
+            handleDialogClose();
+        }, 400);
+    }
 
     return (
 
         <>
-            <div className="fixed z-30 bg-black opacity-50 inset-0" onClick={(e) => {
-                e.stopPropagation();
-                handleDialogClose();
-            }}/>
             <div
-                className={"fixed left-[50%] top-[60%] z-40 grid w-full max-w-lg sm:max-w-[425px] translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg rounded-lg"}
+                data-state={isOpen ? 'open' : 'closed'}
+                className="fixed inset-0 z-30 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+                onClick={(e) => {
+                    toggleClose();
+                }}/>
+            <div
+                data-state={isOpen ? 'open' : 'closed'}
+                className={"fixed left-[50%] top-[50%] z-40 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg"}
             >
                 <ScrollArea className={"max-h-[75vh]"}>
                     {isSchedulerView === "scheduler" && (
                             <SchedulerContentView
                                 checkoutData={checkoutData}
                                 updateCheckoutData={updateCheckoutData}
-                                handleDialogClose={handleDialogClose}
+                                handleDialogClose={toggleClose}
                                 handleSchedulerView={toggleSchedulerView}
                                 setInputAddress={setInputAddress}
                             />
                     )}
                     {isSchedulerView === "timeSelection" && (
-                        <TimeSelection
+                        availability && <TimeSelection
                             checkoutData={checkoutData}
                             updateCheckoutData={updateCheckoutData}
                             handleSchedulerView={toggleSchedulerView}
+                            availability={availability}
                         />
                     )}
                     {isSchedulerView === "addressSelection" && (
@@ -78,11 +103,11 @@ export function SchedulerContent({ checkoutData, handleDialogClose, isSchedulerV
 }
 
 const SchedulerContentView: React.FC<{
-    checkoutData: CheckoutLocalDataField,
+    checkoutData: CheckoutData,
     updateCheckoutData: () => void;
     handleDialogClose: () => void,
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection" | "addressEditing") => void,
-    setInputAddress: (input: AddressDataStoreField | null) => void;
+    setInputAddress: (input: AddressDataUserField | null) => void;
 }> = ({
           handleDialogClose,
           handleSchedulerView,
@@ -99,7 +124,7 @@ const SchedulerContentView: React.FC<{
     };
 
     return (
-        <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-6"}>
+        <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-3 cm:p-6"}>
             <div className={`flex flex-row justify-between items-center`}>
                 <Button
                     className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
@@ -134,9 +159,9 @@ const SchedulerContentView: React.FC<{
                 <p className="text-black text-xl">Time Preferences</p>
                 <div
                     className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg">
-                    <IconClock className={"w-16 h-16"} />
+                    <IconClock className={"w-12 h-12"} />
                     <div className={"flex w-full"}>
-                        <p className="text-black text-left text-lg">Schedule delivery</p>
+                        <p className="text-black text-left text-xl">Schedule {checkoutData.deliveryMode === "PICKUP" ? "Pickup": "Delivery"}</p>
                     </div>
                     <Button className={"text-lg h-9"}
                             onClick={() => handleSchedulerView("timeSelection")}

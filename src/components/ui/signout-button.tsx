@@ -1,8 +1,7 @@
 "use client";
 
-import {Button} from "@/components/ui/button";
 import * as React from "react";
-import {usePathname, useRouter} from "next/navigation";
+import {useRouter} from "next/navigation";
 import {startTransition} from "react";
 import {logout} from "@/lib/actions/auth-actions";
 
@@ -16,6 +15,7 @@ export const SignoutButton = ({ className}: SignoutButtonProps) => {
 
     const handleSignOut = async () => {
         startTransition(() => {
+            localStorage.clear()
             logout();
             router.refresh();
         });

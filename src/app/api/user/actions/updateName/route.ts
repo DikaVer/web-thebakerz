@@ -45,7 +45,7 @@ export async function POST(req: Request) {
                     UPDATE users
                     SET
                         name = ${nickname}
-                    WHERE id = ${userId}`;
+                    WHERE id = ${`${userId}`}`;
 
 
 

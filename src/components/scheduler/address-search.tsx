@@ -1,12 +1,13 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {IconEdit, IconLocation} from "@/components/ui/icons";
 import {AddressSelection} from "@/components/scheduler/address-selection";
-import {AddressData, AddressDataStoreField, AddressDataStorageField} from "@/lib/definitions";
+import {AddressDataUserField, CheckoutData} from "@/lib/definitions";
+import {formatAddress} from "@/lib/utils";
 
 interface AddressSearchProps {
     handleSchedulerView: (view: "scheduler" | "timeSelection" | "addressSelection" | "addressEditing") => void;
-    setInputAddress: (input: AddressDataStoreField | null) => void;
-    checkoutData: AddressDataStorageField;
+    setInputAddress: (input: AddressDataUserField | null) => void;
+    checkoutData: CheckoutData;
     updateCheckoutData: () => void;
 }
 
@@ -17,7 +18,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView
     const handleAddressClick = (address: string) => {
         const selectedAddress = checkoutData.savedAddresses;
         if (selectedAddress) {
-            localStorage.setItem('shippingAddress', JSON.stringify(selectedAddress[address]));
+            localStorage.setItem('deliveryAddress', selectedAddress[address].id);
             updateCheckoutData();
         }
     };
@@ -55,14 +56,14 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView
                     {checkoutData.savedAddresses ? Object.values(checkoutData.savedAddresses).map((address) => (
                         <li key={address.id}>
                             <div
-                                className={`flex flex-row justify-between items-center space-x-2 pr-2 my-1 py-1 transition duration-300 cursor-pointer rounded-lg 
-                                            ${checkoutData.shippingAddress?.id === address.id ? 'bg-grayBg' : hoveringEdit[address.id] ? '' : 'hover:bg-grayBg'}`}
+                                className={`flex flex-row justify-between items-center space-x-2 pr-2 my-1 py-2 transition duration-300 cursor-pointer rounded-lg 
+                                            ${checkoutData.deliveryAddress === address.id ? 'bg-grayBg' : hoveringEdit[address.id] ? '' : 'hover:bg-grayBg'}`}
                                 onClick={() => handleAddressClick(address.id)}
                             >
-                                <IconLocation className={"w-9 h-9"}
-                                              color={checkoutData.shippingAddress?.id === address.id ? "primary" : "secondary"}/>
+                                <IconLocation className={"w-8 h-8"}
+                                              color={checkoutData.deliveryAddress === address.id ? "primary" : "secondary"}/>
                                 <div className={"flex w-full"}>
-                                    <p className="text-black text-lg">{address.streetAddress}</p>
+                                    <p className="text-black text-xl clamp-title">{formatAddress(address)}</p>
                                 </div>
                                 <div
                                     className={`transition duration-500 ${hoveringEdit[address.id] ? 'scale-115' : ''}`}

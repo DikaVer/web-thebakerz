@@ -1,65 +1,100 @@
 import { NextResponse } from "next/server";
 import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
-import {AddressDataStoreField} from "@/lib/definitions";
+import {AddressDataFieldSchema} from "@/lib/schemas";
+import {create} from "node:domain";
+import {createNanoid} from "@/lib/utils";
 
-const isAuthorized = (req: Request) => {
-    const authHeader = req.headers.get('Authorization');
-    const secretKey = authHeader?.split(' ')[1]; // Extract the key after 'Bearer'
-
-    // Validate the secret key
-    return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
-};
 
 // This function will handle saving the address
 export async function POST(req: Request) {
 
-    // Validate the secret key
-    if (!isAuthorized(req)) {
-        return NextResponse.json({
-            message: 'Unauthorized access'
-        }, {
-            status: 401
-        });
+    const body = await req.json();
+
+    let { userId, locationData} = body;
+
+    const validateFields = AddressDataFieldSchema.safeParse(locationData);
+
+    if (!validateFields.success) {
+        return NextResponse.json(
+            {
+                message: 'Invalid address data'
+            }, {
+                status: 400
+            });
     }
+
 
     const session = await auth()
 
-    const body = await req.json();
-
-    const { userId, locationId, locationDataRaw} = body;
 
     if(session){
         try {
 
+            if (!userId){
+                userId = session.user?.id;
+            }
+
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
-                const { locationData }: { locationData: AddressDataStoreField } = locationDataRaw;
+                let userLocation;
 
+                if (locationData.id !== undefined) {
+                    userLocation = await sql`
+                        UPDATE addresses_users
+                        SET
+                            route = ${locationData.route},
+                            street_number = ${locationData.street_number},
+                            sub_premise = ${locationData.sub_premise},
+                            premise = ${locationData.premise},
+                            country = ${locationData.country},
+                            zip_code = ${locationData.zip_code},
+                            city = ${locationData.city},
+                            state = ${locationData.state},
+                            latitude = ${locationData.latitude},
+                            longitude = ${locationData.longitude},
+                            delivery_notes = ${locationData.delivery_notes}
+                        WHERE
+                            user_id = ${`${userId}`} AND id = ${locationData.id}
+                        RETURNING id`;
+                } else {
 
-                const userLocation = await sql`
-                UPDATE addresses_users
-                SET
-                    route = ${locationData.route},
-                    street_number = ${locationData.street_number},
-                    sub_premise = ${locationData.subPremise},
-                    premise = ${locationData.premise},
-                    country = ${locationData.country},
-                    zip_code = ${locationData.zipCode},
-                    city = ${locationData.city},
-                    state = ${locationData.state},
-                    latitude = ${locationData.latitude},
-                    longitude = ${locationData.longitude},
-                    delivery_notes = ${locationData.deliveryNotes}
-                WHERE user_id = ${userId} AND location_id = ${locationId}
-                 RETURNING *`;
+                    userLocation = await sql`
+                        INSERT INTO addresses_users (
+                            user_id,
+                            route,
+                            street_number,
+                            sub_premise,
+                            premise,
+                            country,
+                            zip_code,
+                            city,
+                            state,
+                            latitude,
+                            longitude,
+                            delivery_notes
+                            ) VALUES (
+                                ${userId},
+                                ${locationData.route},
+                                ${locationData.street_number},
+                                ${locationData.sub_premise},
+                                ${locationData.premise},
+                                ${locationData.country},
+                                ${locationData.zip_code},
+                                ${locationData.city},
+                                ${locationData.state},
+                                ${locationData.latitude},
+                                ${locationData.longitude},
+                                ${locationData.delivery_notes}
+                            ) RETURNING id`;
+                }
 
 
                 return NextResponse.json(
                     {
                         message: 'Address added successfully',
-                        locationData: userLocation.rows[0]
+                        locationDataId: userLocation.rows[0].id
                     }, {
                         status: 200
                     });
@@ -76,7 +111,9 @@ export async function POST(req: Request) {
         } catch (error) {
             return NextResponse.json(
                 {
-                    message: 'Failed to add address'
+                    message: 'Failed to add address',
+                    data: {userId, locationData},
+                    error: error
                 }, {
                     status: 500
                 });
@@ -87,9 +124,10 @@ export async function POST(req: Request) {
     } else {
         return NextResponse.json(
             {
-                message: 'Unauthorized access'
+                message: 'Unauthorized access',
+                locationDataId: createNanoid(12)
             }, {
-                status: 401
+                status: 200
             });
     }
 

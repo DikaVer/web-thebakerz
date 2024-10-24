@@ -38,7 +38,7 @@ export async function POST(req: Request) {
                         nickname
                       FROM stores
                         WHERE
-                        nickname = ${nickname} OR id = ${nickname}`;
+                        nickname = ${`${nickname}`} OR id = ${`${nickname}`}`;
 
             if(storeNickname.rows.length > 0){
                 return NextResponse.json(

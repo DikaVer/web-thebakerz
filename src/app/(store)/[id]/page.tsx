@@ -22,6 +22,7 @@ export default async function Page({params, searchParams}: StorePageProps) {
             <Suspense fallback={<StoreSkeleton/>}>
                 <StoreTransit
                     id={params.id}
+                    userId={session?.user?.id}
                     // @ts-ignore
                     role={session?.user?.role}
                     isDashboard={false}

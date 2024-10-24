@@ -4,13 +4,13 @@ import 'react-image-crop/dist/ReactCrop.css';
 import React, {useEffect,  useState} from "react";
 import {Button} from "@/components/ui/button";
 import {
-    IconCross, IconHeart, IconHeartFavourites,
+    IconCross, IconHeartFavourites,
     IconShare,
 } from "@/components/ui/icons";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {ProductDataField} from "@/lib/definitions";
 import Image from "next/image";
-import {formatCurrency, formatPrice} from "@/lib/utils";
+import {formatCurrency} from "@/lib/utils";
 
 
 interface ProductDescriptionProps {
@@ -50,7 +50,7 @@ export function ProductDescription({isDialogOpen, setDialogOpen, productData } :
     }
 
     const [quantity, setQuantity] = useState<number>(1);
-    const totalPrice = (formatPrice(productData.price) * quantity).toFixed(2);
+    const totalPrice = formatCurrency(productData.price * quantity);
 
 
     return (
@@ -78,7 +78,7 @@ export function ProductDescription({isDialogOpen, setDialogOpen, productData } :
                             <div className="w-8 h-8 flex ">
                                 <Button
                                     className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
-                                    onClick={() => toggleClose()}
+                                    onClick={() => toggleClose()} //TODO: Implement share functionality
                                 >
                                     <IconShare className={"w-8 h-8 cursor-pointer"}/>
                                 </Button>
@@ -104,12 +104,10 @@ export function ProductDescription({isDialogOpen, setDialogOpen, productData } :
                                     <div className={"flex flex-row items-center space-x-2"}>
                                         <p className="text-xl font-bold">{productData.name}</p>
                                         <IconHeartFavourites
-                                            className={`w-5 h-5 cursor-pointer transition-transform duration-300 ${isHeartFilled ? 'scale-110' : ''}`}
+                                            className={`w-5 h-5 cursor-pointer transition-transform duration-300 hover:scale-110`}
                                             color="primary"
                                             state={isHeartFilled ? "full" : "empty"}
-                                            onClick={() => setIsHeartFilled(!isHeartFilled)}
-                                            onMouseEnter={(e) => e.currentTarget.classList.add('scale-110')}
-                                            onMouseLeave={(e) => e.currentTarget.classList.remove('scale-110')}
+                                            onClick={() => setIsHeartFilled(!isHeartFilled)} //TODO: Implement favourite functionality
                                         />
                                     </div>
                                     <span
@@ -143,8 +141,10 @@ export function ProductDescription({isDialogOpen, setDialogOpen, productData } :
 
                         {/* Add to Order Button */}
                         <div className="text-center">
-                            <Button className="w-full text-white py-3 rounded-md">
-                                Add {quantity} to order - ${totalPrice}
+                            <Button
+                                className="w-full text-white py-3 rounded-md" //TODO: Implement add to order functionality
+                            >
+                                Add {quantity} to order • {totalPrice}
                             </Button>
                         </div>
                     </div>

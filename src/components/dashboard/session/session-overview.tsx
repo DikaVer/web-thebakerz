@@ -1,6 +1,7 @@
+"use client";
 import React from 'react';
-import { auth } from "@/auth";
 import {Session} from "@/lib/definitions";
+import {Button} from "@/components/ui/button";
 
 
 const SessionDetails: React.FC<{ session: Session | null}> = ({ session }) => {
@@ -19,7 +20,7 @@ const SessionDetails: React.FC<{ session: Session | null}> = ({ session }) => {
         <div className="max-w-4xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg">
             <h1 className="text-2xl font-bold mb-6">Session Overview</h1>
 
-            <div className="space-y-4">
+            <div className="space-y-4 mb-4">
                 {/* User Information */}
                 <div className="border-b pb-4">
                     <h2 className="text-lg font-semibold mb-2">User Information</h2>
@@ -66,6 +67,7 @@ const SessionDetails: React.FC<{ session: Session | null}> = ({ session }) => {
                     </div>
                 </div>
             </div>
+            <Button onClick={() => localStorage.clear()}>Clear Local Storage</Button>
         </div>
     );
 };

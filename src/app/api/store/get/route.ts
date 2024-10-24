@@ -31,7 +31,7 @@ export async function GET(req: Request) {
     try {
         const storeRow = await sql`
             SELECT * FROM stores
-            WHERE id = ${storeId}`;
+            WHERE id = ${`${storeId}`}`;
 
         return NextResponse.json(
             {

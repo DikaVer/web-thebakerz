@@ -66,7 +66,7 @@ export async function POST(req: Request) {
                         UPDATE users
                         SET
                             image = ${blob.url}
-                        WHERE id = ${userId}`;
+                        WHERE id = ${`${userId}`}`;
 
                 return NextResponse.json(
                     {

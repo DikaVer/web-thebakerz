@@ -1,6 +1,6 @@
 import 'server-only';
 import {sql} from "@vercel/postgres";
-import {UsersData} from "@/lib/definitions";
+import {AddressDataUserField, AddressUserData, UsersData} from "@/lib/definitions";
 
 export const config = {
     runtime: 'edge', // 'nodejs' is the default
@@ -100,6 +100,25 @@ export async function fetchUserData(
     `;
 
         return users.rows[0];
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch users.');
+    }
+}
+
+export async function fetchUserLocationProducts(
+    query: string
+) : Promise<AddressDataUserField[]> {
+
+    try {
+        const location = await sql<AddressDataUserField>`
+      SELECT
+        *
+      FROM addresses_users
+       WHERE
+        addresses_users.user_id = ${`${query}`}`;
+
+        return location.rows;
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch users.');

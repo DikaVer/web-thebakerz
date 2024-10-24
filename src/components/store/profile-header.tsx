@@ -13,12 +13,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {MiniCalendar, MiniCalendarBakerz} from "@/components/scheduler/calendar";
 import React, {useEffect, useState} from "react";
-import {AddressDataStoreField} from "@/lib/definitions";
+import {AddressDataStoreField, AddressDataUserField} from "@/lib/definitions";
 import {cityLatLngMap, timeMap} from "@/lib/local-variables";
 import {formatAddress} from "@/lib/utils";
 import {ProfileDescription} from "@/components/store/profile-description";
 
-interface ProfileHeaderProps {
+interface ProfileHeaderBakerzProps {
     name: string | null;
     description: string | null;
     location: AddressDataStoreField;
@@ -40,7 +40,7 @@ interface ProfileHeaderProps {
     > | null;
 }
 
-export function ProfileHeaderBakerz({ name, availability, deliveryOptions, location, image, description, background_url }: ProfileHeaderProps) {
+export function ProfileHeaderBakerz({ name, availability, deliveryOptions, location, image, description, background_url }: ProfileHeaderBakerzProps) {
     const [isDialogOpen, setDialogOpen] = useState(false);
 
     const [sectionId, setSectionId] = useState<"profile-section" | "review-section" | "location-section">("profile-section");
@@ -80,13 +80,38 @@ export function ProfileHeaderBakerz({ name, availability, deliveryOptions, locat
                     deliveryOptions={deliveryOptions}
                     toggleDialog={openDialog}
                 />
-                <MiniCalendarBakerz/>
+                <MiniCalendarBakerz
+                    availability={availability}
+                />
             </div>
         </>
     );
 }
 
-export function ProfileHeader({ name, availability, deliveryOptions, location, image, description, background_url }: ProfileHeaderProps) {
+interface ProfileHeaderProps {
+    name: string | null;
+    description: string | null;
+    location: AddressDataStoreField;
+    image: string | null;
+    background_url: string | null;
+    deliveryOptions: Record<
+        keyof typeof cityLatLngMap,
+        {
+            range: number;
+        }
+    > | null;
+    availability: Record<
+        string,
+        {
+            from: keyof typeof timeMap;
+            to: keyof typeof timeMap;
+            availability: "Free" | "Busy";
+        }
+    > | null;
+    userLocation: AddressDataUserField[] | null;
+}
+
+export function ProfileHeader({ name, availability, deliveryOptions, location, image, description, background_url, userLocation }: ProfileHeaderProps) {
 
     const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -127,7 +152,12 @@ export function ProfileHeader({ name, availability, deliveryOptions, location, i
                     deliveryOptions={deliveryOptions}
                     toggleDialog={openDialog}
                 />
-                <MiniCalendar/>
+                <MiniCalendar
+                    location={location}
+                    deliveryOptions={deliveryOptions}
+                    availability={availability}
+                    userLocation={userLocation}
+                />
             </div>
         </>
     );

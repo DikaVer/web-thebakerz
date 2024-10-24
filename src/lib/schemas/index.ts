@@ -96,15 +96,20 @@ export const deliveryOptionsSchema = z.record(
 export const AddressDataFieldSchema = z.object({
     route: z.string().min(1, { message: "Street Address Name is required" }),
     street_number: z.string().optional(),
-    subPremise: z.string().optional(),
+    sub_premise: z.string().optional(),
     premise: z.string().optional(),
     country: z.string().min(1, { message: "Country is required" }),
-    zipCode: z.string().min(1, { message: "Zip Code is required" }),
-    city: z.string().min(1, { message: "City is required" }),
+    zip_code: z.string().min(1, { message: "Zip Code is required" }),
+    city: z.string().min(1, { message: "City is required" }).optional().refine(
+        (val) => val !== null && val !== undefined,
+        {
+            message: "City is required" ,
+        }
+    ),
     state: z.string().optional(),
     latitude: z.number().min(-90, { message: "Latitude must be a valid number" }).max(90, { message: "Latitude must be a valid number" }),
     longitude: z.number().min(-180, { message: "Longitude must be a valid number" }).max(180, { message: "Longitude must be a valid number" }),
-    deliveryNotes: z.string().optional(),
+    delivery_notes: z.string().max(200, {message: "Maximum 200 characters in the description note"}).optional(),
 });
 
 

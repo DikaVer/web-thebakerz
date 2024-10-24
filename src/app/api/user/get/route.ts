@@ -31,7 +31,7 @@ export async function GET(req: Request) {
     try {
         const userRow = await sql`
             SELECT * FROM users
-            WHERE id = ${userId}`;
+            WHERE id = ${`${userId}`}`;
 
         return NextResponse.json(
             {

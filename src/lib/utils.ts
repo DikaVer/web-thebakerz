@@ -30,6 +30,13 @@ export const formatCurrency = (amount: number) => {
   });
 };
 
+export const formatCurrencyNormal = (amount: number) => {
+    return (amount).toLocaleString('en-GB', {
+        style: 'currency',
+        currency: 'EUR',
+    });
+};
+
 export const formatPrice = (amount: number) => {
     return (amount / 100)
 };

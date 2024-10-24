@@ -19,7 +19,7 @@ export interface Session {
 
 export type CheckoutData = {
     deliveryMode: "PICKUP" | "DELIVERY";
-    deliveryAddress: AddressDataUserField | null;
+    deliveryAddress: "string" | null;
     savedAddresses: AddressUserData | null;
     date: `${number}/${number}/${number}` | null;
     time: keyof typeof timeMap | null;

@@ -24,13 +24,13 @@ export async function POST(req: Request) {
                     UPDATE stores
                     SET
                         user_id = ${userId}
-                    WHERE id = ${storeId}`;
+                    WHERE id = ${`${storeId}`}`;
 
                 const updateUser = sql`
                     UPDATE users
                     SET
                         role = 'bakerz'
-                    WHERE id = ${userId}`;
+                    WHERE id = ${`${userId}`}`;
 
                 await Promise.all([updateStore, updateUser]);
 

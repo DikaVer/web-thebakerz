@@ -5,21 +5,22 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import StoreAddresses from "@/components/dashboard/store/store-address";
 import React, {useState} from "react";
 import StoreEdit from "@/components/dashboard/store/store-edit";
-import {StoreData} from "@/lib/definitions";
+import {AddressDataUserField, StoreData} from "@/lib/definitions";
 import AvailabilityEdit from "@/components/dashboard/store/availability-edit";
 import DeliveryOptionsEdit from "@/components/dashboard/store/delivery-options-edit";
 import ProductsStoreEdit from "@/components/dashboard/store/products-store-edit";
 import {ProductComponentUser} from "@/components/user/product-comp";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import {Button} from "@/components/ui/button";
 
 
-interface StoreViewProps {
+interface StoreViewBakerzProps {
     storeProps: StoreData,
     tab?: string
 }
 
 
-export default function StoreViewBakerz({storeProps, tab}: StoreViewProps) {
+export default function StoreViewBakerz({storeProps, tab}: StoreViewBakerzProps) {
 
     const [storeData, setStoreData] = useState<StoreData>(storeProps);
 
@@ -99,9 +100,16 @@ export default function StoreViewBakerz({storeProps, tab}: StoreViewProps) {
     );
 }
 
-export function StoreViewUser({storeProps}: StoreViewProps) {
 
-    const [storeData, setStoreData] = useState<StoreData>(storeProps);
+interface StoreViewUserProps {
+    storeData: StoreData,
+    userData: {
+        location: AddressDataUserField[] | null
+    }
+}
+
+export function StoreViewUser({storeData, userData}: StoreViewUserProps) {
+
 
 
     return (
@@ -114,6 +122,7 @@ export function StoreViewUser({storeProps}: StoreViewProps) {
                 background_url={storeData.background_url}
                 deliveryOptions={storeData.deliveryOptions}
                 availability={storeData.availability}
+                userLocation={userData.location}
             />
             <ProductComponentUser
                 storeId={storeData.id}

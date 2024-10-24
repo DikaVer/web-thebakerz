@@ -1,20 +1,34 @@
 // src/components/scheduler/CarouselComponent.tsx
 
-import React from "react";
+import React, {useState} from "react";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { addDays } from 'date-fns';
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
+import {timeMap} from "@/lib/local-variables";
 
 interface CarouselComponentProps {
-    date: Date | undefined;
-    setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+    date: Date;
+    availability: Record<
+        string,
+        {
+            from: keyof typeof timeMap;
+            to: keyof typeof timeMap;
+            availability: "Free" | "Busy";
+        }
+    >;
+    setDate: (date: Date) => void;
 }
 
-export const CarouselDate: React.FC<CarouselComponentProps> = ({ date, setDate }) => {
+export const CarouselDate: React.FC<CarouselComponentProps> = ({date, availability, setDate }) => {
+    const [calendarDate, setCalendarDate] = useState<Date>();
+
+    const today = new Date();
+
     return (
         <Carousel
             opts={{
@@ -30,14 +44,15 @@ export const CarouselDate: React.FC<CarouselComponentProps> = ({ date, setDate }
                                 variant={"outline"}
                                 className={cn(
                                     " justify-start text-left font-normal",
-                                    !date && "text-muted-foreground",
+                                    addDays(today, index+1).getDate() !== date.getDate() && "text-muted-foreground",
                                     "border-1 border-black h-full w-full rounded-xl p-2"
                                 )}
+                                onClick={() => setDate(addDays(today, index+1))}
                             >
                                 <div className={"flex flex-row justify-between items-end w-full"}>
                                     <div className={"flex flex-col items-baseline"}>
-                                        <span className={'font-bold text-lg'}>{date ? format(date, "EEE") : "Select"}</span>
-                                        <span>{date ? format(date, "dd MMM") : "Day"}</span>
+                                        <span className={'font-bold text-lg'}>{format(addDays(today, index+1), "EEE")}</span>
+                                        <span>{format(addDays(today, index+1), "dd MMM")}</span>
                                     </div>
                                 </div>
                             </Button>
@@ -52,14 +67,14 @@ export const CarouselDate: React.FC<CarouselComponentProps> = ({ date, setDate }
                                     variant={"outline"}
                                     className={cn(
                                         " justify-start text-left font-normal",
-                                        !date && "text-muted-foreground",
+                                        calendarDate?.getDate() !== date.getDate() && "text-muted-foreground",
                                         "border-1 border-black w-full h-full rounded-xl p-2"
                                     )}
                                 >
                                     <div className={"flex flex-row justify-between items-end w-full"}>
                                         <div className={"flex flex-col items-baseline"}>
-                                            <span className={'font-bold text-lg'}>{date ? format(date, "EEE") : "Select"}</span>
-                                            <span>{date ? format(date, "dd MMM") : "Day"}</span>
+                                            <span className={'font-bold text-lg'}>{calendarDate ? format(calendarDate, "EEE") : "Select"}</span>
+                                            <span>{calendarDate ? format(calendarDate, "dd MMM") : "Day"}</span>
                                         </div>
                                         <CalendarIcon className="mr-2 h-5 w-5" />
                                     </div>
@@ -68,9 +83,15 @@ export const CarouselDate: React.FC<CarouselComponentProps> = ({ date, setDate }
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0">
                             <Calendar
+                                addDaysParam={3}
+                                availabilityData={availability}
                                 mode="single"
-                                selected={date}
-                                onSelect={setDate}
+                                className={"border-1 rounded-lg"}
+                                userView={true}
+                                onSelect={(date) => {
+                                    setCalendarDate(date);
+                                    date && setDate(date);
+                                }}
                                 initialFocus
                             />
                         </PopoverContent>

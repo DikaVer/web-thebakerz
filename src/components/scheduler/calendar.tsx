@@ -6,11 +6,24 @@ import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/compon
 import {SchedulerContent} from "@/components/scheduler/scheduler";
 import useIsSmallScreen from "@/lib/hooks/use-is-small-screen";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {AddressDataUserField, AddressUserData, CheckoutData} from "@/lib/definitions";
-import {timeMap} from "@/lib/local-variables";
+import {AddressDataStoreField, AddressDataUserField, AddressUserData, CheckoutData} from "@/lib/definitions";
+import {cityLatLngMap, timeMap} from "@/lib/local-variables";
+import { format, addDays } from 'date-fns';
+import {formatAddress} from "@/lib/utils";
 
 
-export function MiniCalendarBakerz() {
+export interface MiniCalendarBakerzProps {
+    availability: Record<
+        string,
+        {
+            from: keyof typeof timeMap;
+            to: keyof typeof timeMap;
+            availability: "Free" | "Busy";
+        }
+    > | null;
+}
+
+export function MiniCalendarBakerz({availability }: MiniCalendarBakerzProps) {
     const isTinyScreen = useIsSmallScreen(400);
     const isSmallScreen = useIsSmallScreen(460);
     return (
@@ -20,14 +33,7 @@ export function MiniCalendarBakerz() {
             <div
                 className="rounded-2xl bg-white px-1.5 opacity-80 h-12 w-full cm:w-128 cm:h-16 flex items-center justify-between ml-4">
                 <TooltipProvider>
-                    <Date day="MON" date={11} status="Free" bgColor="border-greenBakerz hover:bg-greenBakerz"/>
-                    <Date day="TUE" date={12} status="Busy"
-                          bgColor="border-orangeBakerz hover:bg-orangeBakerz"/>
-                    <Date day="WED" date={13} status="Closed" bgColor="border-redBakerz hover:bg-redBakerz"/>
-                    {!isTinyScreen && <Date day="THU" date={14} status="Free"
-                                             bgColor="border-greenBakerz hover:bg-greenBakerz"/>}
-                    {!isSmallScreen && <Date day="FRI" date={15} status="Busy"
-                                             bgColor="border-orangeBakerz hover:bg-orangeBakerz"/>}
+                    {generateDates(availability, isTinyScreen, isSmallScreen)}
                 </TooltipProvider>
                 <div
                     className="rounded-xl w-auto h-10 cm:h-14 items-center transition duration-500 hover:bg-gray-200 cursor-default">
@@ -42,13 +48,38 @@ export function MiniCalendarBakerz() {
     );
 }
 
-export function MiniCalendar() {
+export interface MiniCalendarProps {
+    location: AddressDataStoreField;
+    deliveryOptions: Record<
+        keyof typeof cityLatLngMap,
+        {
+            range: number;
+        }
+    > | null;
+    availability: Record<
+        string,
+        {
+            from: keyof typeof timeMap;
+            to: keyof typeof timeMap;
+            availability: "Free" | "Busy";
+        }
+    > | null;
+    userLocation: AddressDataUserField[] | null;
+}
+
+export function MiniCalendar({ location, deliveryOptions, availability, userLocation }: MiniCalendarProps) {
     const isTinyScreen = useIsSmallScreen(400);
     const isSmallScreen = useIsSmallScreen(460);
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const [isSchedulerView, setIsSchedulerView] = useState<"scheduler" | "timeSelection" | "addressSelection" | "addressEditing">("scheduler");
+
+    useEffect(() => {
+        if (userLocation){
+            addUserLocationData(userLocation);
+        }
+    }, []);
 
 
     const useCheckoutSettings = () => {
@@ -76,9 +107,11 @@ export function MiniCalendar() {
 
         // Function to update checkout settings from localStorage
         const updateCheckoutData = useCallback(() => {
+
+
             const updatedCheckoutData = {
                 deliveryMode: getLocalStorageItem<"PICKUP" | "DELIVERY">('deliveryMode', "PICKUP"),
-                deliveryAddress: getLocalStorageItem<AddressDataUserField>('deliveryAddress', null),
+                deliveryAddress: getLocalStorageItem<string>('deliveryAddress', null),
                 savedAddresses: getLocalStorageItem<AddressUserData>('savedAddresses', null),
                 date: getLocalStorageItem<`${number}/${number}/${number}` | null>('date', null),
                 time: getLocalStorageItem<keyof typeof timeMap | null>('time', null),
@@ -141,39 +174,82 @@ export function MiniCalendar() {
                 onClick={() => setIsDialogOpen(true)}
             >
                 <TooltipProvider>
-                    <Date day="MON" date={11} status="Free" bgColor="border-greenBakerz hover:bg-greenBakerz"/>
-                    <Date day="TUE" date={12} status="Busy"
-                          bgColor="border-orangeBakerz hover:bg-orangeBakerz"/>
-                    <Date day="WED" date={13} status="Closed" bgColor="border-redBakerz hover:bg-redBakerz"/>
-                    {!isTinyScreen && <Date day="THU" date={14} status="Free"
-                                            bgColor="border-greenBakerz hover:bg-greenBakerz"/>}
-                    {!isSmallScreen && <Date day="FRI" date={15} status="Busy"
-                                             bgColor="border-orangeBakerz hover:bg-orangeBakerz"/>}
+                    {generateDates(availability, isTinyScreen, isSmallScreen)}
                 </TooltipProvider>
                 <div
                     className="rounded-xl w-auto h-10 cm:h-14 items-center transition duration-500 hover:bg-gray-200">
                     <CheckoutDetails checkoutData={checkoutData}/>
                 </div>
             </div>
-            {isDialogOpen ?
+            {isDialogOpen &&
                 (<SchedulerContent
+                    isDialogOpen={isDialogOpen}
                     checkoutData={checkoutData}
                     updateCheckoutData={updateCheckoutData}
                     handleDialogClose={handleDialogClose}
                     isSchedulerView={isSchedulerView}
                     setIsSchedulerView={setIsSchedulerView}
-                />) : null
+                    availability={availability}
+                />)
             }
         </div>
     );
 }
+
+const generateDates = (availability: Record<string, { from: keyof typeof timeMap; to: keyof typeof timeMap; availability: "Free" | "Busy"; }> | null, isTinyScreen: boolean, isSmallScreen: boolean) => {
+    const dates = [];
+    const today = new Date();
+
+    for (let i = 1; i <= 5; i++) {
+        const currentDate = addDays(today, i);
+        const formattedDate = format(currentDate, 'yyyy-MM-dd');
+        const day = format(currentDate, 'EEE').toUpperCase();
+        const date = currentDate.getDate();
+
+        const status = availability && availability[formattedDate] ? availability[formattedDate].availability : "Closed";
+        const bgColor = status === "Free" ? "border-greenBakerz hover:bg-greenBakerz" : status === "Busy" ? "border-orangeBakerz hover:bg-orangeBakerz" : "border-redBakerz hover:bg-redBakerz";
+
+        if ((i === 4 && !isTinyScreen) || (i === 5 && !isSmallScreen) || (i !== 4 && i !== 5)) {
+            dates.push(<DateBlock key={formattedDate} day={day} date={date} status={status} bgColor={bgColor}/>);
+        }
+    }
+
+    return dates;
+};
+
+const addUserLocationData = (userLocation: AddressDataUserField[]): AddressUserData => {
+    const userLocationData: AddressUserData = userLocation ? userLocation.reduce((acc, location, index) => {
+        acc[location.id] = {
+            id: location.id,
+            city: location.city,
+            country: location.country,
+            latitude: location.latitude,
+            longitude: location.longitude,
+            premise: location.premise,
+            route: location.route,
+            state: location.state,
+            street_number: location.street_number,
+            sub_premise: location.sub_premise,
+            zip_code: location.zip_code,
+            delivery_notes: location.delivery_notes,
+        };
+        return acc;
+    }, {} as AddressUserData) : {};
+
+    if (Object.keys(userLocationData).length > 0) {
+        localStorage.setItem('deliveryAddress', "");
+        localStorage.setItem('savedAddresses', JSON.stringify(userLocationData));
+    }
+
+    return userLocationData;
+};
 
 // Extracted component to reduce duplication
 const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutData }) => {
     return (
         <div className="ml-2">
             {checkoutData.deliveryMode === "PICKUP" ? (
-                <div>
+                <div className={"cm:mt-1"}>
                     <p className="text-sm cm:text-base text-black font-medium">Pick Up</p>
                     <div className="flex">
                         <p className="text-sm cm:text-base text-black w-24">{checkoutData.time ||
@@ -182,14 +258,16 @@ const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutData }) => {
                     </div>
                 </div>
             ) : (
-                <div className={'grid -space-y-1.5'}>
+                <div className={'grid -space-y-1.5 -mt-1'}>
                     <p className="text-sm cm:text-base text-black font-medium">Delivery</p>
                     <p className="text-sm cm:text-base text-black">{checkoutData.time || <strong>Select Time</strong>}</p>
                     <div className="flex">
-                    <p className="text-sm cm:text-base text-black clamp-title w-24">
-                            {checkoutData.deliveryAddress?.route || <strong>Select Address</strong>}
+                        <p className="text-sm cm:text-base text-black clamp-title w-24">
+                            {checkoutData?.savedAddresses && checkoutData?.deliveryAddress !== null
+                                ? formatAddress(checkoutData.savedAddresses[checkoutData.deliveryAddress])
+                                : <strong>Select Address</strong>}
                         </p>
-                        <IconChevronDown className="w-5 h-5 cm:w-6 cm:h-6" />
+                        <IconChevronDown className="w-5 h-5 cm:w-6 cm:h-6"/>
                     </div>
                 </div>
             )}
@@ -198,7 +276,7 @@ const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutData }) => {
 };
 
 
-const Date = ({ day, date, status, bgColor }: { day: string, date: number, status: string, bgColor: string }) => (
+const DateBlock = ({day, date, status, bgColor}: { day: string, date: number, status: string, bgColor: string }) => (
     <Tooltip>
         <TooltipTrigger asChild>
             <div

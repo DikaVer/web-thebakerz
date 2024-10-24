@@ -41,7 +41,7 @@ export async function POST(req: Request) {
                             UPDATE stores
                             SET
                                 deleted = ${true}
-                            WHERE id = ${storeId}`;
+                            WHERE id = ${`${storeId}`}}`;
 
 
                 return NextResponse.json(
