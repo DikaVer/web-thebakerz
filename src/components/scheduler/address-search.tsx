@@ -53,7 +53,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView
             <div className={"mt-4"}>
                 <p className="text-black text-xl">Saved addresses</p>
                 <ul>
-                    {checkoutData.savedAddresses ? Object.values(checkoutData.savedAddresses).map((address) => (
+                    {checkoutData.savedAddresses && Object.keys(checkoutData.savedAddresses).length > 0 ? Object.values(checkoutData.savedAddresses).map((address) => (
                         <li key={address.id}>
                             <div
                                 className={`flex flex-row justify-between items-center space-x-2 pr-2 my-1 py-2 transition duration-300 cursor-pointer rounded-lg 

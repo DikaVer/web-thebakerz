@@ -3,6 +3,7 @@ import '@/styles/globals.css'
 import React from "react";
 import type { Metadata } from "next";
 import {Toaster} from "@/components/ui/sonner";
+import {CartProvider} from "@/components/providers/cart-provider";
 
 export const metadata: Metadata = {
     metadataBase: new URL(`https://www.TheBakerz.com/`),

@@ -8,6 +8,7 @@ import {AddressDataUserField, CheckoutData} from "@/lib/definitions";
 import { AddressSelection } from "@/components/scheduler/address-selection";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {timeMap} from "@/lib/local-variables";
+import {formatDateTime} from "@/lib/utils";
 
 interface SchedulerContentProps {
     isDialogOpen: boolean;
@@ -159,9 +160,22 @@ const SchedulerContentView: React.FC<{
                 <p className="text-black text-xl">Time Preferences</p>
                 <div
                     className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg">
-                    <IconClock className={"w-12 h-12"} />
-                    <div className={"flex w-full"}>
-                        <p className="text-black text-left text-xl">Schedule {checkoutData.deliveryMode === "PICKUP" ? "Pickup": "Delivery"}</p>
+                    <IconClock className={"w-10 h-10 tm:w-12 tm:h-12"} />
+                    <div className={"flex flex-col w-full"}>
+                        {
+                            checkoutData.selectedTime ? (
+                                <>
+                                    <p className="text-black font-medium text-left text-sm tm:text-base">
+                                        {new Date(checkoutData.selectedTime?.date as string).toDateString()}
+                                    </p>
+                                    <p className="text-black font-medium text-left text-sm tm:text-base">
+                                        {formatDateTime(timeMap[checkoutData.selectedTime.time as string].from)} - {formatDateTime(timeMap[checkoutData.selectedTime.time as string].to)}
+                                    </p>
+                                </>
+                            ) : (
+                                <p className="text-black text-left text-lg tm:text-xl">Schedule {checkoutData.deliveryMode === "PICKUP" ? "Pickup" : "Delivery"}</p>
+                            )
+                        }
                     </div>
                     <Button className={"text-lg h-9"}
                             onClick={() => handleSchedulerView("timeSelection")}

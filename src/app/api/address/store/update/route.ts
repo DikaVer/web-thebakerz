@@ -43,15 +43,15 @@ export async function POST(req: Request) {
                 SET
                     route = ${locationData.route},
                     street_number = ${locationData.street_number},
-                    sub_premise = ${locationData.subPremise},
+                    sub_premise = ${locationData.sub_premise},
                     premise = ${locationData.premise},
                     country = ${locationData.country},
-                    zip_code = ${locationData.zipCode},
+                    zip_code = ${locationData.zip_code},
                     city = ${locationData.city},
                     state = ${locationData.state},
                     latitude = ${locationData.latitude},
                     longitude = ${locationData.longitude}
-                 WHERE store_id = ${storeId}
+                 WHERE store_id = ${`${storeId}`}
                  RETURNING *`;
 
 

@@ -35,7 +35,7 @@ export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
         }>;
     userView?: boolean;
     addDaysParam?: number;
-    onSelect?: (date: Date | undefined) => void; // Add onSelect prop
+    onSelectCustom?: (date: Date | undefined) => void; // Add onSelect prop
 };
 
 
@@ -100,7 +100,7 @@ function Calendar({
                       setAvailabilityData,
                       userView = false,
                       addDaysParam = 0,
-                      onSelect,
+                      onSelectCustom,
                       ...props
                     }:
                       CalendarProps
@@ -132,8 +132,8 @@ function Calendar({
 
     const handleDayClick = (day: Date) => {
         setSelectedDay(day)
-        !onSelect && setIsDialogOpen(true)
-        onSelect && onSelect(day);
+        !onSelectCustom && setIsDialogOpen(true)
+        onSelectCustom && onSelectCustom(day);
     }
 
     const handleDialogClose = () => {

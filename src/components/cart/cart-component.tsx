@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, Suspense} from 'react';
 import ShopList from "@/components/cart/shop-list";
+import {CartData} from "@/lib/definitions";
+import StoreSkeleton from "@/components/skeletons";
 
 interface CartComponentProps {
-    cart: any;
+    cart: CartData;
     isOpen: boolean;
     onClose: () => void;
 }
@@ -26,7 +28,10 @@ const CartComponent: React.FC<CartComponentProps> = ({ onClose, isOpen, cart }) 
                 <p className="text-2xl flex justify-center items-center p-4">Delicious Cart</p>
                 <hr className="mx-2" />
                 {cart ? (
-                    <ShopList cart={cart} onClose={onClose} />
+                    <ShopList
+                        cart={cart}
+                        onClose={onClose}
+                    />
                 ) : (
                     <p className="text-center mt-5 text-xl">Your cart is empty 🥲</p>
                 )}

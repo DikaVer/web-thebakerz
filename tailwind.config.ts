@@ -72,6 +72,7 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       screens: {
+        'tm': '400px',
         'cm': '540px',
         'store-sm': '740px',
         'girl-md': '580px',

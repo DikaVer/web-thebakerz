@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
     if(session){
 
-        const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${storeId}`;
+        const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${`${storeId}`}`;
         const userId = queryUserId.rows[0].user_id;
 
         // @ts-ignore
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
             UPDATE stores
             SET
                 description = ${description}
-            WHERE id = ${storeId}`;
+            WHERE id = ${`${storeId}`}`;
 
 
         return NextResponse.json(

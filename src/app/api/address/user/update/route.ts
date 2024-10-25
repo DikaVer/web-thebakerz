@@ -112,8 +112,6 @@ export async function POST(req: Request) {
             return NextResponse.json(
                 {
                     message: 'Failed to add address',
-                    data: {userId, locationData},
-                    error: error
                 }, {
                     status: 500
                 });

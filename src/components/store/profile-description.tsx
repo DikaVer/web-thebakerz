@@ -267,8 +267,8 @@ const DeliveryLocationsTable: React.FC<{ deliveryOptions: Record<
         <>
             <Label className={"text-xl"}>Delivery Locations</Label>
             {Object.keys(deliveryOptions).map((city) => (
-                <>
-                    <div key={city} className="flex justify-between items-center">
+                <div key={city}>
+                    <div key={city} className="flex justify-between items-center mb-4">
                         <span className="text-lg font-medium text-gray-900">{city}</span>
                         <Dialog open={isOpen && selectedCity === city} onOpenChange={(open) => setIsOpen(open)}>
                             <DialogTrigger asChild>
@@ -297,7 +297,7 @@ const DeliveryLocationsTable: React.FC<{ deliveryOptions: Record<
                         </Dialog>
                     </div>
                     <hr/>
-                </>
+                </div>
             ))}
         </>
     );

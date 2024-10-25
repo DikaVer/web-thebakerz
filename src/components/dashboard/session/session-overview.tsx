@@ -2,7 +2,8 @@
 import React from 'react';
 import {Session} from "@/lib/definitions";
 import {Button} from "@/components/ui/button";
-
+import { format } from 'date-fns';
+import {toast} from "sonner";
 
 const SessionDetails: React.FC<{ session: Session | null}> = ({ session }) => {
     if (!session)
@@ -38,7 +39,7 @@ const SessionDetails: React.FC<{ session: Session | null}> = ({ session }) => {
                     </div>
                     <div className="flex justify-between">
                         <p className="text-gray-600">Email Verified:</p>
-                        <p className="text-gray-900">{new Date(emailVerified).toLocaleString()}</p>
+                        <p className="text-gray-900">{format(new Date(emailVerified), 'Pp')}</p>
                     </div>
                     <div className="flex justify-between">
                         <p className="text-gray-600">Role:</p>
@@ -59,7 +60,7 @@ const SessionDetails: React.FC<{ session: Session | null}> = ({ session }) => {
                     </div>
                     <div className="flex justify-between">
                         <p className="text-gray-600">Expires:</p>
-                        <p className="text-gray-900">{new Date(expires).toLocaleString()}</p>
+                        <p className="text-gray-900">{format(new Date(expires), 'Pp')}</p>
                     </div>
                     <div className="flex justify-between">
                         <p className="text-gray-600">Session Token:</p>
@@ -67,7 +68,14 @@ const SessionDetails: React.FC<{ session: Session | null}> = ({ session }) => {
                     </div>
                 </div>
             </div>
-            <Button onClick={() => localStorage.clear()}>Clear Local Storage</Button>
+            <Button
+                onClick={() => {
+                    localStorage.clear();
+                    toast.success('Local Storage Cleared');
+                }}
+            >
+                Clear Local Storage
+            </Button>
         </div>
     );
 };

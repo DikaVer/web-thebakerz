@@ -1,48 +1,63 @@
+import { NextResponse } from "next/server";
 import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
-import {NextResponse} from "next/server";
-export const config = {
-    runtime: 'edge', // 'nodejs' is the default
-};
+import {AddressDataFieldSchema} from "@/lib/schemas";
+import {create} from "node:domain";
+import {createNanoid} from "@/lib/utils";
 
-const isAuthorized = (req: Request) => {
-    const authHeader = req.headers.get('Authorization');
-    const secretKey = authHeader?.split(' ')[1]; // Extract the key after 'Bearer'
 
-    // Validate the secret key
-    return secretKey === process.env.NEXT_PRIVATE_API_SECRET_KEY;
-};
-
+// This function will handle saving the address
 export async function POST(req: Request) {
-
-    // Validate the secret key
-    if (!isAuthorized(req)) {
-        return NextResponse.json({
-            message: 'Unauthorized access'
-        }, {
-            status: 401
-        });
-    }
-
-    const session = await auth()
 
     const body = await req.json();
 
-    const { userId, locationId} = body;
+    let { userId, locationData} = body;
+
+    const validateFields = AddressDataFieldSchema.safeParse(locationData);
+
+    if (!validateFields.success) {
+        return NextResponse.json(
+            {
+                message: 'Invalid address data'
+            }, {
+                status: 400
+            });
+    }
+
+
+    const session = await auth()
+
 
     if(session){
         try {
 
+            if (!userId){
+                userId = session.user?.id;
+            }
+
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
-                const queryDelete = await sql`
+
+                if (locationData.id !== undefined) {
+                    await sql`
                         DELETE FROM addresses_users
-                        WHERE id = ${userId} AND user_id = ${locationId}`;
+                        WHERE
+                            user_id = ${`${userId}`} AND id = ${locationData.id}`;
+                } else {
+                    return NextResponse.json(
+                        {
+                            message: 'Location ID is required for deletion'
+                        }, {
+                            status: 400
+                        });
+                }
+
 
                 return NextResponse.json(
                     {
-                        message: 'Address deleted successfully'
+                        message: 'Address deleted successfully',
+                        locationDataId: locationData.id
                     }, {
                         status: 200
                     });
@@ -57,10 +72,9 @@ export async function POST(req: Request) {
             }
 
         } catch (error) {
-
             return NextResponse.json(
                 {
-                    message: 'Failed to delete address'
+                    message: 'Failed to add address',
                 }, {
                     status: 500
                 });

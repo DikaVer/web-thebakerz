@@ -77,8 +77,6 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({
 
             });
 
-            console.log(initialInput)
-
             const draggableMarker = new google.maps.marker.AdvancedMarkerElement({
                 map: mapInstance,
                 position: {lat: Number(initialInput.latitude), lng: Number(initialInput.longitude)},
@@ -224,8 +222,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({
             } as AddressDataUserField;
 
             const validAddress = AddressDataFieldSchema.safeParse(addressData);
-
-            console.log(addressData);
+            
             if (!validAddress.success){
                 setError(validAddress.error.errors[0].message);
                 setIsLoading(false);
@@ -254,9 +251,6 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({
                         id: result.locationDataId,
                     },
                 };
-                // Update checkoutData on success
-                checkoutData.deliveryAddress = result.locationDataId;
-                checkoutData.savedAddresses = savedAddresses;
 
                 localStorage.setItem('deliveryAddress', result.locationDataId);
                 localStorage.setItem('savedAddresses', JSON.stringify(savedAddresses));
@@ -291,19 +285,95 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({
                 );
 
             } else {
-
-                console.error('Failed to save address:', result);
-                setError(`${result.message[0].message}`);
+                setError(`Error during saving address`);
             }
 
             } catch (error){
-                console.error('Error saving address:', error);
-                setError(`Error saving address`);
+                setError(`Error during saving address`);
             }
 
 
         } else {
-            setError(`Error saving address`);
+            setError(`Error during saving address`);
+        }
+
+        setIsLoading(false);
+    };
+
+    const DeleteAddress = async () => {
+        setIsLoading(true);
+        if(initialInput){
+            try {
+
+                const addressData = {
+                    ...initialInput,
+                    delivery_notes: deliveryNotes,
+                } as AddressDataUserField;
+
+                const validAddress = AddressDataFieldSchema.safeParse(addressData);
+                
+                if (!validAddress.success){
+                    setError(validAddress.error.errors[0].message);
+                    setIsLoading(false);
+                    return;
+                }
+
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/address/user/delete`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        locationData: addressData
+                    }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+
+                    
+                    if(checkoutData.savedAddresses){
+                        const updatedSavedAddresses = {...checkoutData.savedAddresses};
+                        delete updatedSavedAddresses[result.locationDataId];
+                        localStorage.setItem('deliveryAddress', "");
+                        localStorage.setItem('savedAddresses', JSON.stringify(updatedSavedAddresses));
+                        updateCheckoutData();
+                    }
+
+                    handleSchedulerView('scheduler');
+
+                    toast.success(
+                        (
+                            <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                                <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+
+                                <div className={"flex flex-col"}>
+                                    <p className={"text-base font-bold"}>
+                                        {formatAddress(addressData)}
+                                    </p>
+                                    <p className={"text-sm font-light"}>
+                                        Address was deleted successfully
+                                    </p>
+                                </div>
+                            </div>
+                        ),
+                        {
+                            duration: 3000
+                        }
+                    );
+
+                } else {
+                    setError(`Error during deleting address`);
+                }
+
+            } catch (error){
+                setError(`Error during deleting address`);
+            }
+
+
+        } else {
+            setError(`Error during deleting address`);
         }
 
         setIsLoading(false);
@@ -434,13 +504,25 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({
                         ></textarea>
                     </div>
                     <FormError message={error}/>
-                    <Button
-                        onClick={SaveAddress}
-                        className="rounded-lg h-14 text-lg"
-                        disabled={isLoading || !!loadError}
-                    >
-                        {isEditing ? "Update Address" : "Save Address"}
-                    </Button>
+                    <div className={"flex flex-row space-x-8"}>
+                        {isEditing &&
+                            <Button
+                                onClick={DeleteAddress}
+                                className="rounded-lg h-14 text-lg w-full"
+                                disabled={isLoading || !!loadError}
+                                variant={"outline"}
+                            >
+                                Delete Address
+                            </Button>
+                        }
+                        <Button
+                            onClick={SaveAddress}
+                            className="rounded-lg h-14 text-lg w-full"
+                            disabled={isLoading || !!loadError}
+                        >
+                            {isEditing ? "Update Address" : "Save Address"}
+                        </Button>
+                    </div>
                 </div>
                 )}
         </>

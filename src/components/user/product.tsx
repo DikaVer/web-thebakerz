@@ -5,6 +5,7 @@ import Image from "next/image";
 import {formatCurrency} from "@/lib/utils";
 import {ProductDescription} from "@/components/user/product-description";
 import {ProductDataField} from "@/lib/definitions";
+import {useProductDialog} from "@/components/providers/product-provider";
 
 interface ItemProps {
     productData: ProductDataField
@@ -13,23 +14,14 @@ interface ItemProps {
 export function Product({ productData }: ItemProps) {
 
 
-    const [isProductDialogOpen, setProductDialogOpen] = useState(false);
+    const { openProductDialogStore} = useProductDialog();
 
     return (
         <li
         >
-            {
-                isProductDialogOpen && (
-                    <ProductDescription
-                        isDialogOpen={isProductDialogOpen}
-                        setDialogOpen={setProductDialogOpen}
-                        productData={productData}
-                    />
-                )
-            }
             <div
                 className={`rounded-lg border-2 border-grayBg flex flex-row w-full transition duration-500 hover:bg-grayBg trigger-hover cursor-pointer`}
-                onClick={() => setProductDialogOpen(true)}
+                onClick={() => openProductDialogStore(productData)}
             >
                 <div className={"flex flex-col justify-between p-1 w-full"}>
                     <div className="flex flex-col h-26 cm:h-27">

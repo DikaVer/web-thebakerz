@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 const colors = {
     primary: '#730C6F', //'#730C6F'
@@ -32,6 +32,60 @@ function IconCart({
         </div>
     );
 }
+
+interface RadioProps {
+    checked: boolean;
+    onChange: () => void;
+}
+
+const styles: { [key: string]: React.CSSProperties } = {
+    Container: {
+        cursor: 'pointer',
+        width: '20px',
+        height: '20px',
+        display: 'block',
+        position: 'relative',
+        pointerEvents: 'auto',
+        borderRadius: '9999px',
+        boxShadow: '0px 0px 0px rgba(0, 0, 0, 0.08)',
+        backgroundColor: 'rgba(255, 255, 255, 1)',
+        border: '3px solid rgba(93, 93, 91, 1)',
+    },
+    Check: {
+        display: 'none',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        width: 'calc(100% - 8px)',
+        height: 'calc(100% - 8px)',
+        transform: 'translate(-50%, -50%)',
+        transition: 'left 0.3s ease',
+        borderRadius: '9995px',
+        backgroundColor: 'rgba(93, 93, 91, 1)',
+    },
+    Input: {
+        position: 'absolute',
+        opacity: 0,
+        visibility: 'hidden',
+        width: '1px',
+        height: '1px',
+        pointerEvents: 'none',
+    },
+};
+
+const Radio: React.FC<RadioProps> = ({ checked, onChange }) => {
+    return (
+        <div style={styles.Container} onClick={onChange}>
+            <div
+                style={{
+                    ...styles.Check,
+                    display: checked ? 'block' : 'none',
+                }}
+            />
+            <input type="radio" style={styles.Input} checked={checked} onChange={onChange} />
+        </div>
+    );
+};
 
 function IconMenu({
                       className,
@@ -93,13 +147,13 @@ function IconStar({
                     <>
                         <path
                             d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                            fill="none" stroke-width="2"/>
+                            fill="none" strokeWidth="2"/>
                         <clipPath id="half-star">
                             <rect x="0" y="0" width="12" height="24"/>
                         </clipPath>
                         <path
                             d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                            clip-path="url(#half-star)"/>
+                            clipPath="url(#half-star)"/>
                     </>
                 ) : (
                     <path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z">
@@ -838,5 +892,6 @@ export {
     IconError,
     IconCopy,
     IconShare,
-    IconHeartFavourites
+    IconHeartFavourites,
+    Radio
 };

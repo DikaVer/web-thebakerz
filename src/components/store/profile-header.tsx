@@ -169,8 +169,8 @@ const Background = ({background_url} : {background_url: string | null}) => (
         alt="Background"
         width={1920}
         height={1080}
-        priority={true}
         className="opacity-30"
+        priority
     />
 );
 
@@ -185,10 +185,7 @@ const Avatar = ({avatar_url, toggleDialog} : {avatar_url: string | null, toggleD
                 width={128}
                 height={128}
                 className="rounded-full relative"
-                unoptimized={true}
-                quality={100}
-                placeholder={"blur"}
-                blurDataURL={"/avatars/store_1.jpg"}
+                priority
             />
 
         <p className="text-sm cm:text-base mt-2 underline font-light text-gray-600 text-center">about me</p>
@@ -223,7 +220,7 @@ const ProfileInfo = ({name, location, deliveryOptions, toggleDialog} : ProfileIn
                 className="flex items-center space-x-2 hover:scale-102 transition duration-300"
                 onClick={() => toggleDialog("review-section")}
             >
-                <IconStar className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"}/>
+                <IconStar className={"w-[24px] cm:w-[28px]"} color={"primary"}/>
                 <p className="text-lg cm:text-xl text-black">5.0</p>
                 <p className="text-sm cm:text-base underline font-light text-gray-600 clamp-title">260 reviews</p>
             </div>
@@ -231,7 +228,7 @@ const ProfileInfo = ({name, location, deliveryOptions, toggleDialog} : ProfileIn
                 className="flex flex-row items-center space-x-2 hover:scale-102 transition duration-300"
                 onClick={() => toggleDialog("location-section")}
             >
-                <IconLocation className={"w-[24px] cm:w-[32px]"} color={"primary"}/>
+                <IconLocation className={"w-[24px] cm:w-[28px]"} color={"primary"}/>
                 <div className={"-space-y-1"}>
                     <p className="text-lg  cm:text-xl text-black clamp-title">{formatAddress(location)}</p>
                     <p className="text-sm  cm:text-md text-grayText underline underline-offset-2 clamp-title">{deliveryOptions ? "Store has delivery locations" : ""}</p>

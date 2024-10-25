@@ -9,7 +9,7 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {AddressDataStoreField, AddressDataUserField, AddressUserData, CheckoutData} from "@/lib/definitions";
 import {cityLatLngMap, timeMap} from "@/lib/local-variables";
 import { format, addDays } from 'date-fns';
-import {formatAddress} from "@/lib/utils";
+import {formatAddress, formatDataDate, formatDateTime} from "@/lib/utils";
 
 
 export interface MiniCalendarBakerzProps {
@@ -37,11 +37,12 @@ export function MiniCalendarBakerz({availability }: MiniCalendarBakerzProps) {
                 </TooltipProvider>
                 <div
                     className="rounded-xl w-auto h-10 cm:h-14 items-center transition duration-500 hover:bg-gray-200 cursor-default">
-                    <CheckoutDetails checkoutData={{deliveryMode: "PICKUP",
+                    <CheckoutDetails checkoutData={{
+                        deliveryMode: "PICKUP",
                         deliveryAddress: null,
                         savedAddresses: null,
-                        date: null,
-                        time: null}}/>
+                        selectedTime: null
+                    }}/>
                 </div>
             </div>
         </div>
@@ -87,8 +88,7 @@ export function MiniCalendar({ location, deliveryOptions, availability, userLoca
             deliveryMode: "PICKUP",
             deliveryAddress: null,
             savedAddresses: null,
-            date: null,
-            time: null,
+            selectedTime: null,
         } as CheckoutData);
 
         const pathname = usePathname();
@@ -113,8 +113,10 @@ export function MiniCalendar({ location, deliveryOptions, availability, userLoca
                 deliveryMode: getLocalStorageItem<"PICKUP" | "DELIVERY">('deliveryMode', "PICKUP"),
                 deliveryAddress: getLocalStorageItem<string>('deliveryAddress', null),
                 savedAddresses: getLocalStorageItem<AddressUserData>('savedAddresses', null),
-                date: getLocalStorageItem<`${number}/${number}/${number}` | null>('date', null),
-                time: getLocalStorageItem<keyof typeof timeMap | null>('time', null),
+                selectedTime: getLocalStorageItem<{
+                    date: `${number}/${number}/${number}`;
+                    time: keyof typeof timeMap;
+                } | null>('selectedTime', null),
             } as CheckoutData;
 
             setCheckoutData(updatedCheckoutData);
@@ -122,9 +124,9 @@ export function MiniCalendar({ location, deliveryOptions, availability, userLoca
             const params = new URLSearchParams(searchParams);
             params.set('deliveryMode', updatedCheckoutData.deliveryMode);
 
-            if (updatedCheckoutData.date && updatedCheckoutData.time) {
-                params.set('date', updatedCheckoutData.date);
-                params.set('time', updatedCheckoutData.time.toString());
+            if (updatedCheckoutData.selectedTime?.date && updatedCheckoutData.selectedTime?.time) {
+                params.set('date', updatedCheckoutData.selectedTime.date);
+                params.set('time', updatedCheckoutData.selectedTime.time.toString());
             }
 
             replace(`${pathname}?${params.toString()}`);
@@ -202,12 +204,12 @@ const generateDates = (availability: Record<string, { from: keyof typeof timeMap
 
     for (let i = 1; i <= 5; i++) {
         const currentDate = addDays(today, i);
-        const formattedDate = format(currentDate, 'yyyy-MM-dd');
+        const formattedDate = formatDataDate(currentDate);
         const day = format(currentDate, 'EEE').toUpperCase();
         const date = currentDate.getDate();
 
-        const status = availability && availability[formattedDate] ? availability[formattedDate].availability : "Closed";
-        const bgColor = status === "Free" ? "border-greenBakerz hover:bg-greenBakerz" : status === "Busy" ? "border-orangeBakerz hover:bg-orangeBakerz" : "border-redBakerz hover:bg-redBakerz";
+        const status = availability && availability[formattedDate] ? (availability[formattedDate].availability === "Free" ? "Open" : "Limited") : "Closed";
+        const bgColor = status === "Open" ? "border-greenBakerz hover:bg-greenBakerz" : status === "Limited" ? "border-orangeBakerz hover:bg-orangeBakerz" : "border-redBakerz hover:bg-redBakerz";
 
         if ((i === 4 && !isTinyScreen) || (i === 5 && !isSmallScreen) || (i !== 4 && i !== 5)) {
             dates.push(<DateBlock key={formattedDate} day={day} date={date} status={status} bgColor={bgColor}/>);
@@ -223,8 +225,8 @@ const addUserLocationData = (userLocation: AddressDataUserField[]): AddressUserD
             id: location.id,
             city: location.city,
             country: location.country,
-            latitude: location.latitude,
-            longitude: location.longitude,
+            latitude: Number(location.latitude),
+            longitude: Number(location.longitude),
             premise: location.premise,
             route: location.route,
             state: location.state,
@@ -250,19 +252,42 @@ const CheckoutDetails = ({ checkoutData }: { checkoutData: CheckoutData }) => {
         <div className="ml-2">
             {checkoutData.deliveryMode === "PICKUP" ? (
                 <div className={"cm:mt-1"}>
-                    <p className="text-sm cm:text-base text-black font-medium">Pick Up</p>
+                    <p className="text-sm cm:text-base text-black font-medium">
+                        {checkoutData.selectedTime ? (
+                            `Pick Up: ${format(new Date(checkoutData.selectedTime.date as string), 'd MMM') || ""}`
+                        ) : (
+                            `Pick Up`
+                        )}
+                    </p>
                     <div className="flex">
-                        <p className="text-sm cm:text-base text-black w-24">{checkoutData.time ||
-                            <strong>Select Time</strong>}</p>
+                        <p className="text-sm cm:text-base text-black font-medium w-24">
+                            {checkoutData.selectedTime ? (
+                                `${formatDateTime(timeMap[checkoutData.selectedTime.time as string].from)} - ${formatDateTime(timeMap[checkoutData.selectedTime.time as string].to)}`
+                            ) : (
+                                <strong>Select Time</strong>
+                            )}
+                        </p>
                         <IconChevronDown className="w-5 h-5 cm:w-6 cm:h-6"/>
                     </div>
                 </div>
             ) : (
                 <div className={'grid -space-y-1.5 -mt-1'}>
-                    <p className="text-sm cm:text-base text-black font-medium">Delivery</p>
-                    <p className="text-sm cm:text-base text-black">{checkoutData.time || <strong>Select Time</strong>}</p>
+                    <p className="text-sm cm:text-base text-black font-medium">
+                        {checkoutData.selectedTime ? (
+                            `Delivery: ${format(new Date(checkoutData.selectedTime?.date as string), 'd MMM') || ""}`
+                        ) : (
+                            `Delivery`
+                        )}
+                    </p>
+                    <p className="text-sm cm:text-base text-black font-medium">
+                        {checkoutData.selectedTime ? (
+                            `${formatDateTime(timeMap[checkoutData.selectedTime.time as string].from)} - ${formatDateTime(timeMap[checkoutData.selectedTime.time as string].to)}`
+                        ) : (
+                            <strong>Select Time</strong>
+                        )}
+                    </p>
                     <div className="flex">
-                        <p className="text-sm cm:text-base text-black clamp-title w-24">
+                        <p className="text-sm cm:text-base text-black clamp-title w-24 font-medium">
                             {checkoutData?.savedAddresses && checkoutData?.deliveryAddress !== null
                                 ? formatAddress(checkoutData.savedAddresses[checkoutData.deliveryAddress])
                                 : <strong>Select Address</strong>}

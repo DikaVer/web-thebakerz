@@ -9,15 +9,15 @@ import {CartButton} from "@/components/cart/cart-button";
 
 // Define the props that the Header component will accept
 interface HeaderProps {
+    storeId?: string;  // Store ID
     main: boolean;  // Determines if the current page is the main page
     login: boolean;  // Specifies if the user is logged in
     role: string | undefined;  // Role of the user (e.g., admin, user)
     name: string | undefined | null;  // Name of the user
 }
 
-export async function Header({ main, login, role, name }: HeaderProps) {
+export async function Header({storeId, main, login, role, name }: HeaderProps) {
     const menuItems = await MenuItems({login, role, name});
-
 
     return (
         <header className="sticky top-0 w-full z-30 bg-white">
@@ -46,11 +46,13 @@ export async function Header({ main, login, role, name }: HeaderProps) {
 
                     {/* Conditionally render the cart or sign-in button*/}
                     {main && login ? (
-                        <CartButton/>
+                        <p>Search Bakerz</p>
                     ) : main && !login ? (
                         <SigninButton className={"rounded-lg text-sm "} variant={"secondary"}/>
                     ) : (
-                        <CartButton/>
+                        <CartButton
+                            storeId={storeId}
+                        />
                     )}
                 </div>
                 <hr className="mt-2"/>

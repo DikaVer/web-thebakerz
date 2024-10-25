@@ -58,6 +58,33 @@ export async function fetchFilteredStores(
     }
 }
 
+export const fetchStoreId = async (storeId: string): Promise<{ storeId: string, nickname: string, image: string } | null> => {
+    try {
+        const lowerCaseStoreId = storeId.toLowerCase();
+
+        const queryStore = await sql`
+        SELECT 
+            s.id as store_id, s.nickname,
+            u.image as user_image
+        FROM 
+            stores s
+        LEFT JOIN 
+            users u ON u.id = s.user_id
+        WHERE 
+            (s.id = ${`${storeId}`} OR s.nickname = ${`${lowerCaseStoreId}`}) AND s.deleted = FALSE
+`;
+
+        return {
+            storeId: queryStore.rows[0].store_id,
+            nickname: queryStore.rows[0].nickname,
+            image: queryStore.rows[0].user_image
+        }
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch store id.');
+    }
+}
+
 
 
 export const fetchStoreData = async (storeId: string): Promise<StoreData | null> => {
@@ -65,7 +92,7 @@ export const fetchStoreData = async (storeId: string): Promise<StoreData | null>
     try {
         const lowerCaseStoreId = storeId.toLowerCase();
 
-        const queryStoreId = await sql`SELECT id FROM stores WHERE id = ${storeId} OR nickname = ${lowerCaseStoreId} AND deleted = FALSE`;
+        const queryStoreId = await sql`SELECT id FROM stores WHERE id = ${`${storeId}`} OR nickname = ${`${lowerCaseStoreId}`} AND deleted = FALSE`;
         const originalStoreId = queryStoreId.rows[0].id;
 
         if (!originalStoreId) {

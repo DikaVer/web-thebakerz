@@ -11,18 +11,24 @@ import {ScrollArea} from "@/components/ui/scroll-area";
 import {ProductDataField} from "@/lib/definitions";
 import Image from "next/image";
 import {formatCurrency} from "@/lib/utils";
+import {useCart} from "@/components/providers/cart-provider";
 
 
 interface ProductDescriptionProps {
     isDialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
     productData: ProductDataField;
+    editCartData?: {
+        quantity: number;
+        uniqueId: string;
+    }
 }
 
-export function ProductDescription({isDialogOpen, setDialogOpen, productData } : ProductDescriptionProps) {
+export function ProductDescription({isDialogOpen, setDialogOpen, productData, editCartData } : ProductDescriptionProps) {
 
     const [isOpen, setIsOpen] = useState<boolean>(isDialogOpen);
     const [isHeartFilled, setIsHeartFilled] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (isDialogOpen) {
@@ -49,8 +55,27 @@ export function ProductDescription({isDialogOpen, setDialogOpen, productData } :
         }, 400);
     }
 
-    const [quantity, setQuantity] = useState<number>(1);
+    const [quantity, setQuantity] = useState<number>(editCartData ? editCartData.quantity : 1);
     const totalPrice = formatCurrency(productData.price * quantity);
+
+    const { addToCart, updateProductCart } = useCart();
+
+    const handleAddOrder = () => {
+        setIsLoading(true);
+
+        if(editCartData) {
+            updateProductCart({
+                ...productData,
+                quantity: editCartData.quantity,
+                uniqueId: editCartData.uniqueId
+            }, quantity);
+        } else {
+            addToCart(productData, quantity);
+        }
+
+        setDialogOpen(false);
+        setIsLoading(false);
+    }
 
 
     return (
@@ -142,7 +167,9 @@ export function ProductDescription({isDialogOpen, setDialogOpen, productData } :
                         {/* Add to Order Button */}
                         <div className="text-center">
                             <Button
-                                className="w-full text-white py-3 rounded-md" //TODO: Implement add to order functionality
+                                className="w-full text-white py-3 rounded-md"
+                                onClick={handleAddOrder}
+                                disabled={isLoading}
                             >
                                 Add {quantity} to order • {totalPrice}
                             </Button>

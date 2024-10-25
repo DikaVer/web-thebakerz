@@ -1,10 +1,13 @@
-import { lexendDeca } from "@/components/fonts";
 import '@/styles/globals.css'
 import React from "react";
-import type { Metadata } from "next";
+import type {Metadata} from "next";
 import {Footer} from "@/components/footer";
 import {Header} from "@/components/header";
 import {extractSessionRole} from "@/lib/actions/session-actions";
+import {CartProvider} from "@/components/providers/cart-provider";
+import {fetchStoreId} from "@/lib/actions-server-only/store-actions";
+import {notFound} from "next/navigation";
+import {ProductDialogProvider} from "@/components/providers/product-provider";
 
 export const metadata: Metadata = {
     metadataBase: new URL(`https://www.TheBakerz.com/`),
@@ -17,19 +20,41 @@ export const metadata: Metadata = {
 }
 
 export default async function RootLayout({
-                                       children,
-                                   }: Readonly<{
+                                             children,
+                                             params
+                                         }: Readonly<{
     children: React.ReactNode;
+    params: { id: string };
 }>) {
-    const {login, role, name} = await extractSessionRole();
+
+    const [sessionRole, storeData] = await Promise.all([
+        extractSessionRole(),
+        fetchStoreId(params.id)
+    ]);
+
+    if (!storeData){
+        return notFound();
+    }
 
 
-
+    const { login, role, name } = sessionRole;
     return (
-            <>
-                <Header main={false} login={login} role={role} name={name}/>
+        <>
+            <CartProvider
+                storeData={storeData}
+            >
+                <ProductDialogProvider>
+                    <Header
+                        storeId={storeData.storeId}
+                        main={false}
+                        login={login}
+                        role={role}
+                        name={name}
+                    />
                     {children}
-                <Footer/>
-            </>
+                </ProductDialogProvider>
+            </CartProvider>
+            <Footer />
+        </>
     );
 }

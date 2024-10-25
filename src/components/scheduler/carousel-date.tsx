@@ -1,10 +1,10 @@
 // src/components/scheduler/CarouselComponent.tsx
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import {cn, formatDataDate} from "@/lib/utils";
 import { addDays } from 'date-fns';
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -24,8 +24,46 @@ interface CarouselComponentProps {
     setDate: (date: Date) => void;
 }
 
+const getAvailabilityClassNames = (date: Date, availability: Record<string, any>) => {
+    const formattedDate = formatDataDate(date);
+    const availabilityStatus = availability[formattedDate]?.availability;
+
+
+    switch (availabilityStatus) {
+        case "Free":
+            return {
+                bgClass: "bg-greenBakerz/40",
+                textClass: "text-greenBakerz",
+                status: "Open"
+            };
+        case "Busy":
+            return {
+                bgClass: "bg-orangeBakerz/40",
+                textClass: "text-orangeBakerz",
+                status: "Limited"
+            };
+        default:
+            return {
+                bgClass: "bg-redBakerz/40",
+                textClass: "text-redBakerz",
+                status: "Closed"
+            };
+    }
+};
+
 export const CarouselDate: React.FC<CarouselComponentProps> = ({date, availability, setDate }) => {
     const [calendarDate, setCalendarDate] = useState<Date>();
+
+    let { bgClass, textClass, status } = getAvailabilityClassNames(date, availability);
+
+    useEffect(() => {
+        const { bgClass: newBgClass, textClass: newTextClass, status: newStatus } = getAvailabilityClassNames(date, availability);
+        bgClass = newBgClass;
+        textClass = newTextClass;
+        status = newStatus;
+    }, [calendarDate]);
+
+
 
     const today = new Date();
 
@@ -37,28 +75,40 @@ export const CarouselDate: React.FC<CarouselComponentProps> = ({date, availabili
             className="w-auto mx-12 my-1"
         >
             <CarouselContent>
-                {Array.from({ length: 3 }).map((_, index) => (
-                    <CarouselItem key={index} className="basis-1/2 w-14">
-                        <div className="h-18 m-0.5">
-                            <Button
-                                variant={"outline"}
-                                className={cn(
-                                    " justify-start text-left font-normal",
-                                    addDays(today, index+1).getDate() !== date.getDate() && "text-muted-foreground",
-                                    "border-1 border-black h-full w-full rounded-xl p-2"
-                                )}
-                                onClick={() => setDate(addDays(today, index+1))}
-                            >
-                                <div className={"flex flex-row justify-between items-end w-full"}>
-                                    <div className={"flex flex-col items-baseline"}>
-                                        <span className={'font-bold text-lg'}>{format(addDays(today, index+1), "EEE")}</span>
-                                        <span>{format(addDays(today, index+1), "dd MMM")}</span>
+                {Array.from({ length: 3 }).map((_, index) => {
+                    const currentDate = addDays(today, index + 1);
+                    const { bgClass, textClass, status } = getAvailabilityClassNames(currentDate, availability);
+
+                    return (
+                        <CarouselItem key={index} className="basis-1/2 w-10 tm:w-14-5">
+                            <div className="h-18 m-0.5">
+                                <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                        "justify-start text-left font-normal",
+                                        currentDate.getDate() !== date.getDate() && "text-muted-foreground",
+                                        "border-1 border-black h-full w-full rounded-xl p-2"
+                                    )}
+                                    onClick={() => setDate(currentDate)}
+                                >
+                                    <div className={"flex flex-row justify-between items-end w-full"}>
+                                        <div className={"flex flex-col items-baseline"}>
+                                            <div className={"flex flex-col items-start tm:flex-row tm:items-center space-x-1.5"}>
+                                                <span className={'font-bold text-lg'}>{format(currentDate, "EEE")}</span>
+                                                <div className={`flex items-center h-5 w-full rounded-3xl p-2 ${bgClass}`}>
+                                                    <p className={`font-medium ${textClass}`}>
+                                                        {status}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <span>{format(currentDate, "dd MMM")}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </Button>
-                        </div>
-                    </CarouselItem>
-                ))}
+                                </Button>
+                            </div>
+                        </CarouselItem>
+                    );
+                })}
                 <CarouselItem className="basis-1/2">
                     <Popover>
                         <PopoverTrigger asChild>
@@ -73,10 +123,23 @@ export const CarouselDate: React.FC<CarouselComponentProps> = ({date, availabili
                                 >
                                     <div className={"flex flex-row justify-between items-end w-full"}>
                                         <div className={"flex flex-col items-baseline"}>
-                                            <span className={'font-bold text-lg'}>{calendarDate ? format(calendarDate, "EEE") : "Select"}</span>
+                                            <div
+                                                className={"flex flex-col items-start tm:flex-row tm:items-center space-x-1.5"}>
+                                                <span
+                                                    className={'font-bold text-lg'}>{calendarDate ? format(calendarDate, "EEE") : "Select"}</span>
+
+                                                {calendarDate &&
+                                                    <div
+                                                        className={`flex items-center h-5 w-full rounded-3xl p-2 ${bgClass}`}>
+                                                        <p className={`font-medium ${textClass}`}>
+                                                            {status}
+                                                        </p>
+                                                    </div>
+                                                }
+                                            </div>
                                             <span>{calendarDate ? format(calendarDate, "dd MMM") : "Day"}</span>
                                         </div>
-                                        <CalendarIcon className="mr-2 h-5 w-5" />
+                                        <CalendarIcon className="mr-2 h-5 w-5"/>
                                     </div>
                                 </Button>
                             </div>
@@ -88,7 +151,7 @@ export const CarouselDate: React.FC<CarouselComponentProps> = ({date, availabili
                                 mode="single"
                                 className={"border-1 rounded-lg"}
                                 userView={true}
-                                onSelect={(date) => {
+                                onSelectCustom={(date) => {
                                     setCalendarDate(date);
                                     date && setDate(date);
                                 }}
