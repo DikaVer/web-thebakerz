@@ -3,8 +3,8 @@ import { useState} from "react";
 
 import {ClipLoader} from "react-spinners";
 import {Button} from "@/components/ui/button";
-import ProductsAdd from "@/components/dashboard/store/products-add";
-import {ProductComponent} from "@/components/store/product-comp";
+import ProductsAdd from "@/components/store/product/products-add";
+import {ProductComponentBakerz} from "@/components/store/product/product-comp";
 import {ProductData, StoreData} from "@/lib/definitions";
 
 interface ProductsEditProps {
@@ -58,7 +58,7 @@ export default function ProductsStoreEdit({ storeId, productData, setStoreData }
                         Add Product
                     </Button>
 
-                    <ProductComponent
+                    <ProductComponentBakerz
                         storeId={storeId}
                         productData={productData}
                         isPending={isPending}

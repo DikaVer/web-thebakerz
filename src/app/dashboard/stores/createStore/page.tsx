@@ -11,7 +11,7 @@ import {useEffect, useState, useTransition} from "react";
 import {FormError} from "@/components/authentication/form-error";
 import {createStore} from "@/lib/actions/store/store-actions";
 import {ScrollArea} from "@/components/ui/scroll-area";
-import {AddressSelection} from "@/components/store/address-selection";
+import {AddressSelection} from "@/components/store/maintaince/address-selection";
 import { AddressDataStoreField} from "@/lib/definitions";
 import {IconEdit, IconLocation} from "@/components/ui/icons";
 import {FormSuccess} from "@/components/authentication/form-success";

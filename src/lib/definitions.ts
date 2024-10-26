@@ -44,7 +44,7 @@ export type CartData = {
 
 export type CheckoutData = {
     deliveryMode: "PICKUP" | "DELIVERY";
-    deliveryAddress: "string" | null;
+    deliveryAddress: string | null;
     savedAddresses: AddressUserData | null;
     selectedTime: {
         date: `${number}/${number}/${number}`;

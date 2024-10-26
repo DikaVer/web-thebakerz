@@ -74,6 +74,10 @@ export const fetchStoreId = async (storeId: string): Promise<{ storeId: string, 
             (s.id = ${`${storeId}`} OR s.nickname = ${`${lowerCaseStoreId}`}) AND s.deleted = FALSE
 `;
 
+        if (!queryStore.rows[0]) {
+            return null;
+        }
+
         return {
             storeId: queryStore.rows[0].store_id,
             nickname: queryStore.rows[0].nickname,

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import {CartItem} from "@/lib/definitions";
 import {formatCurrency} from "@/lib/utils";
 import {useProductDialog} from "@/components/providers/product-provider";
+import Skeleton from "react-loading-skeleton";
 
 interface ShopItemProps extends CartItem {
     onDelete: (id: string) => void;
@@ -33,6 +34,7 @@ const ShopItem: React.FC<ShopItemProps> = ({
     const displayPrice = formatCurrency((price * quantity));
 
     const { openProductDialogCart } = useProductDialog();
+    const [isLoaded, setIsLoaded] = useState(false);
 
     return (
         <>
@@ -54,12 +56,15 @@ const ShopItem: React.FC<ShopItemProps> = ({
             >
                 <div className="p-2">
                     <div className="relative h-16 w-16">
+                        {!isLoaded && <Skeleton height={"100%"}/>}
                         <Image
                             src={image_url}
-                            width={128}
-                            height={128}
-                            alt="Avatar"
-                            className="rounded-xl h-16 w-16"
+                            alt={`Image of ${name}` }
+                            fill
+                            sizes="25vw"
+                            style={{objectFit: 'cover'}}
+                            className={`rounded-xl transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                            onLoad={() => setIsLoaded(true)}
                         />
                     </div>
                 </div>

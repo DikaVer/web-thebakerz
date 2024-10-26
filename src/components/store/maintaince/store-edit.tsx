@@ -238,7 +238,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
             }
         }
 
-        if (formData.image) {
+        if (formData.image && formData.image instanceof File) {
             const response = await fetch(`/api/user/actions/updateAvatar`, {
                 method: 'POST',
                 headers: {
@@ -284,7 +284,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
             }
         }
 
-        if (formData.background) {
+        if (formData.background && formData.background instanceof File) {
             const response = await fetch(`/api/store/actions/updateBackground`, {
                 method: 'POST',
                 headers: {

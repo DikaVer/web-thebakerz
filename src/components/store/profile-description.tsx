@@ -3,7 +3,15 @@
 import 'react-image-crop/dist/ReactCrop.css';
 import React, {useEffect, useRef, useState} from "react";
 import {Button} from "@/components/ui/button";
-import {IconArrow, IconChevronDown, IconCopy, IconCross, IconLocation, IconStar} from "@/components/ui/icons";
+import {
+    IconArrow,
+    IconAvatar,
+    IconChevronDown,
+    IconCopy,
+    IconCross,
+    IconLocation,
+    IconStar
+} from "@/components/ui/icons";
 import {AddressDataStoreField} from "@/lib/definitions";
 import {cityLatLngMap, timeMap} from "@/lib/local-variables";
 import Image from "next/image";
@@ -43,6 +51,8 @@ interface ProfileDescriptionProps {
 export function ProfileDescription({isDialogOpen, setDialogOpen, description, background_url, deliveryOptions, location, avatar_url, name, availability, sectionId } : ProfileDescriptionProps) {
 
     const [isOpen, setIsOpen] = useState<boolean>(isDialogOpen);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
         if (isDialogOpen) {
@@ -117,66 +127,74 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                         <hr className={"my-1"}/>
 
                         <div className={"grid gap-4 slide-in-from-top-[5%]"} id="profile-section" ref={profileSectionRef}>
-                            <div className={"relative h-40"}>
+                            <div className="relative h-40">
                                 <Image
                                     src={background_url ? background_url : "/background_default.jpg"}
                                     alt="Background"
-                                    priority={true}
-                                    quality={100}
+                                    quality={75} // Reduced quality for optimization
                                     fill
-                                    sizes="50vw"
+                                    sizes="(max-width: 768px) 100vw, 50vw"
                                     style={{
                                         objectFit: 'cover',
                                     }}
-                                    className={"opacity-30 rounded-lg"}
+                                    className="opacity-30 rounded-lg"
                                 />
-                                <div
-                                    className="absolute ml-2 mt-4 flex flex-row items-center justify-start avatar"
-                                >
-                                    <Image
-                                        src={avatar_url ? avatar_url : "/avatar_default.jpg"}
-                                        alt="Avatar"
-                                        width={128}
-                                        height={128}
-                                        className="rounded-full relative h-32 w-32"
-                                        unoptimized={true}
-                                        quality={100}
-                                        placeholder={"blur"}
-                                        blurDataURL={"/avatars/store_1.jpg"}
-                                    />
-                                    <span
-                                        className="ml-4 text-2xl font-bold text-black clamp-title">{name ? name : "Empty name"}
-                                </span>
+                                <div className="absolute ml-2 mt-4 flex flex-row items-center justify-start avatar">
+                                    <div className="relative w-32 h-32">
+                                        {!isLoaded && !hasError && (
+                                            <IconAvatar
+                                                className="w-32 h-32 absolute inset-0 flex items-center justify-center bg-gray-100 rounded-full"/>
+                                        )}
+                                        {avatar_url && !hasError && (
+                                            <Image
+                                                src={avatar_url}
+                                                alt="Avatar"
+                                                fill
+                                                sizes="25vw"
+                                                style={{objectFit: 'cover'}}
+                                                className={`rounded-full transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                                                onLoad={() => setIsLoaded(true)}
+                                                onError={() => setHasError(true)}
+                                            />
+                                        )}
+                                        {(hasError || !avatar_url) && (
+                                            <IconAvatar
+                                                className="w-32 h-32 inset-0 flex items-center justify-center bg-gray-100 rounded-full"/>
+                                        )}
+                                    </div>
+                                    <span className="ml-4 text-2xl font-bold text-black clamp-title">
+                                        {name ? name : "Empty name"}
+                                    </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <span className={"font-medium text-grayText"}>
+                                <span className={"font-medium text-grayText"}>
                                 {description}
                             </span>
                         </div>
                         <hr/>
-                            {availability && (
-                                <>
-                                    <div className={"flex flex-col justify-center bg-grayBg rounded-lg"}>
-                                        <div className={"flex flex-col items-start pl-4 p-4"}>
-                                            <Label className={"text-xl"}>
-                                                Calendar Availability
-                                            </Label>
-                                            <ExternalLink href="/faq">
-                                                Availability explanation
-                                            </ExternalLink>
-                                        </div>
-                                        <div className={"flex justify-center"}>
-                                            <Calendar
-                                                availabilityData={availability}
-                                                mode="single"
-                                                className={"border-1 rounded-lg mb-4 bg-grayCompFa"}
-                                                userView={true}
-                                                initialFocus
-                                            />
-                                        </div>
+                        {availability && (
+                            <>
+                                <div className={"flex flex-col justify-center bg-grayBg rounded-lg"}>
+                                    <div className={"flex flex-col items-start pl-4 p-4"}>
+                                        <Label className={"text-xl"}>
+                                            Calendar Availability
+                                        </Label>
+                                        <ExternalLink href="/faq">
+                                            Availability explanation
+                                        </ExternalLink>
                                     </div>
-                                </>
-                            )}
+                                    <div className={"flex justify-center"}>
+                                        <Calendar
+                                            availabilityData={availability}
+                                            mode="single"
+                                            className={"border-1 rounded-lg mb-4 bg-grayCompFa"}
+                                            userView={true}
+                                            initialFocus
+                                        />
+                                    </div>
+                                </div>
+                            </>
+                        )}
                         <hr/>
                         <div className={"grid gap-4  slide-in-from-top-[5%]"} id="location-section"
                              ref={locationSectionRef}>

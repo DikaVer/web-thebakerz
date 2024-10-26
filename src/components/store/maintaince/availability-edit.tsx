@@ -1,5 +1,5 @@
 import {Calendar} from "@/components/ui/calendar";
-import {AvailabilitySelection} from "@/components/store/availability-selection";
+import {AvailabilitySelection} from "@/components/store/maintaince/availability-selection";
 import * as React from "react";
 import {useEffect, useMemo, useState} from "react";
 import {timeMap} from "@/lib/local-variables";

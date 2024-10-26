@@ -16,7 +16,7 @@ import {
 import {cn, formatDataDate, formatDate, formatDateTime} from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import {useEffect, useState} from "react";
-import {DaySelection} from "@/components/store/availability-selection";
+import {DaySelection} from "@/components/store/maintaince/availability-selection";
 import {FormError} from "@/components/authentication/form-error";
 import {timeMap} from "@/lib/local-variables";
 
@@ -105,12 +105,12 @@ function Calendar({
                     }:
                       CalendarProps
 ) {
-    const [selectedDay, setSelectedDay] = React.useState<Date | null>(null)
-    const [isDialogOpen, setIsDialogOpen] = React.useState(false)
-    const [availability, setAvailability] = React.useState<"Free" | "Busy" | "Closed">("Closed")
-    const [fromTime, setFromTime] = React.useState<string | undefined>(undefined)
-    const [toTime, setToTime] = React.useState<string | undefined>(undefined)
-    const [error, setError] = React.useState<string | undefined>(undefined)
+    const [selectedDay, setSelectedDay] = useState<Date | null>(null)
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [availability, setAvailability] = useState<"Free" | "Busy" | "Closed">("Closed")
+    const [fromTime, setFromTime] = useState<string | undefined>(undefined)
+    const [toTime, setToTime] = useState<string | undefined>(undefined)
+    const [error, setError] = useState<string | undefined>(undefined)
 
     const today = addDays(new Date(), addDaysParam);
 

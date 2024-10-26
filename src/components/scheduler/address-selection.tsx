@@ -415,7 +415,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({
                     name="streetAddress"
                     ref={inputRef}
                     className={"h-10 w-full focus:outline-none"}
-                    placeholder="Enter Street Address"
+                    placeholder="Enter street name and house number"
                     autoComplete={"off"}
                     required
                 />
@@ -455,7 +455,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({
                                 name="streetAddress"
                                 ref={inputRef}
                                 className={"h-10 w-80 select-none focus:outline-none"}
-                                placeholder="Enter Street Address"
+                                placeholder="Enter street name and house number"
                                 autoComplete={"off"}
                                 required
                             />

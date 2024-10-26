@@ -27,11 +27,11 @@ export const useCart = (): CartContextType => {
 };
 
 interface CartProviderProps {
-    storeData: {
+    storeData?: {
         storeId: string,
         nickname: string,
         image: string
-    };
+    } | null;
     children: ReactNode;
 }
 
@@ -47,37 +47,41 @@ export const CartProvider: React.FC<CartProviderProps> = ({storeData, children }
     }, []);
 
     const addToCart = (product: ProductDataField, quantity: number) => {
-        setCart((prevCart) => {
-            const storeCart = prevCart[product.store_id]?.products || [];
-            let uniqueId: string;
-            do {
-                uniqueId = createNanoid(12);
-            } while (storeCart.some(item => item.uniqueId === uniqueId));
+        if (storeData) {
+            setCart((prevCart) => {
 
-            const updatedStoreCart = {
-                ...prevCart,
-                [product.store_id]: {
-                    ...storeData,
-                    products: [
-                        ...storeCart,
-                        { ...product, quantity, uniqueId }
-                    ]
-                }
-            };
-            localStorage.setItem('cart', JSON.stringify(updatedStoreCart));
-            return updatedStoreCart;
-        });
-        toast.success(
-            <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                const storeCart = prevCart[product.store_id]?.products || [];
+                let uniqueId: string;
+                do {
+                    uniqueId = createNanoid(12);
+                } while (storeCart.some(item => item.uniqueId === uniqueId));
 
-                <div className={"flex flex-col"}>
-                    <p className={"text-base font-bold"}>
-                        {product.name} added to the cart
-                    </p>
+                const updatedStoreCart = {
+                    ...prevCart,
+                    [product.store_id]: {
+                        ...storeData,
+                        products: [
+                            ...storeCart,
+                            {...product, quantity, uniqueId}
+                        ]
+                    }
+                };
+                localStorage.setItem('cart', JSON.stringify(updatedStoreCart));
+                return updatedStoreCart;
+            });
+
+            toast.success(
+                <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                    <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+
+                    <div className={"flex flex-col"}>
+                        <p className={"text-base font-bold"}>
+                            {product.name} added to the cart
+                        </p>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     };
 
     const updateProductCart = (product: CartItem, quantity: number) => {

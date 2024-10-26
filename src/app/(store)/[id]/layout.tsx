@@ -31,13 +31,9 @@ export default async function RootLayout({
         extractSessionRole(),
         fetchStoreId(params.id)
     ]);
-
-    if (!storeData){
-        return notFound();
-    }
-
-
     const { login, role, name } = sessionRole;
+
+
     return (
         <>
             <CartProvider
@@ -45,7 +41,7 @@ export default async function RootLayout({
             >
                 <ProductDialogProvider>
                     <Header
-                        storeId={storeData.storeId}
+                        storeId={storeData?.storeId}
                         main={false}
                         login={login}
                         role={role}

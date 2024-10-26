@@ -1,4 +1,4 @@
-import DeliveryOptions from "@/components/store/delivery-options-selection";
+import DeliveryOptions from "@/components/store/maintaince/delivery-options-selection";
 import * as React from "react";
 import {useEffect, useMemo, useState} from "react";
 import {cityLatLngMap, timeMap} from "@/lib/local-variables";

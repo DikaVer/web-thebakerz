@@ -58,7 +58,7 @@ export async function POST(req: Request) {
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
                 // @ts-ignore
-                const filename = `storeBackgrounds/${nanoid()}.${contentType}`;
+                const filename = `storeProducts/${storeId}/${nanoid()}.${contentType}`;
 
                 const blob = await put(filename, file, {
                     contentType,

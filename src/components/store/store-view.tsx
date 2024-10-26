@@ -1,17 +1,16 @@
 "use client";
 
-import {ProfileHeader, ProfileHeaderBakerz} from "@/components/store/profile-header";
+import {ProfileHeader} from "@/components/store/profile-header";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
-import StoreAddresses from "@/components/dashboard/store/store-address";
+import StoreAddresses from "@/components/store/maintaince/store-address";
 import React, {useState} from "react";
-import StoreEdit from "@/components/dashboard/store/store-edit";
+import StoreEdit from "@/components/store/maintaince/store-edit";
 import {AddressDataUserField, StoreData} from "@/lib/definitions";
-import AvailabilityEdit from "@/components/dashboard/store/availability-edit";
-import DeliveryOptionsEdit from "@/components/dashboard/store/delivery-options-edit";
-import ProductsStoreEdit from "@/components/dashboard/store/products-store-edit";
-import {ProductComponentUser} from "@/components/user/product-comp";
+import AvailabilityEdit from "@/components/store/maintaince/availability-edit";
+import DeliveryOptionsEdit from "@/components/store/maintaince/delivery-options-edit";
+import ProductsStoreEdit from "@/components/store/maintaince/products-store-edit";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {Button} from "@/components/ui/button";
+import {ProductComponentUser} from "@/components/store/product/product-comp";
 
 
 interface StoreViewBakerzProps {
@@ -31,7 +30,7 @@ export default function StoreViewBakerz({storeProps, tab}: StoreViewBakerzProps)
 
     return (
         <div id="main" className={"mb-4"}>
-            <ProfileHeaderBakerz
+            <ProfileHeader
                 name={storeData.name}
                 description={storeData.description}
                 location={storeData.location}
@@ -39,6 +38,8 @@ export default function StoreViewBakerz({storeProps, tab}: StoreViewBakerzProps)
                 background_url={storeData.background_url}
                 deliveryOptions={storeData.deliveryOptions}
                 availability={storeData.availability}
+                userLocation={null}
+                variant={"bakerz"}
             />
             <Tabs
                 defaultValue={tab ? tab : "products"}

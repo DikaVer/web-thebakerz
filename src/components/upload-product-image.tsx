@@ -246,7 +246,7 @@ export function ProductImageUploader({ form, field, name, isDialogOpen, setDialo
                             </div>
                         )}
                     </label>
-                    <div className="flex justify-center">
+                    <div className="flex justify-start">
                         <Input
                             {...field}
                             id="image-upload"

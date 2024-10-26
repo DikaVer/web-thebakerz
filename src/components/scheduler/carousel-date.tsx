@@ -53,6 +53,13 @@ const getAvailabilityClassNames = (date: Date, availability: Record<string, any>
 
 export const CarouselDate: React.FC<CarouselComponentProps> = ({date, availability, setDate }) => {
     const [calendarDate, setCalendarDate] = useState<Date>();
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+    const handleDateSelect = (date: Date | undefined) => {
+        setCalendarDate(date);
+        date && setDate(date);
+        setIsPopoverOpen(false);
+    };
 
     let { bgClass, textClass, status } = getAvailabilityClassNames(date, availability);
 
@@ -110,7 +117,7 @@ export const CarouselDate: React.FC<CarouselComponentProps> = ({date, availabili
                     );
                 })}
                 <CarouselItem className="basis-1/2">
-                    <Popover>
+                    <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                         <PopoverTrigger asChild>
                             <div className="h-18 m-0.5">
                                 <Button
@@ -151,10 +158,7 @@ export const CarouselDate: React.FC<CarouselComponentProps> = ({date, availabili
                                 mode="single"
                                 className={"border-1 rounded-lg"}
                                 userView={true}
-                                onSelectCustom={(date) => {
-                                    setCalendarDate(date);
-                                    date && setDate(date);
-                                }}
+                                onSelectCustom={handleDateSelect}
                                 initialFocus
                             />
                         </PopoverContent>

@@ -14,16 +14,16 @@ export const LoginSchema = z.object({
     redirectTo: z.string()
 });
 
-export const imageUploadSchema = z
-    .instanceof(File)
-    .refine(
+export const imageUploadSchema = z.union([
+    z.instanceof(File).refine(
         (file) => ["image/jpeg", "image/jpg", "image/png"].includes(file.type),
         "Image must be a valid image format (jpeg, jpg, png)"
-    )
-    .refine(
+    ).refine(
         (file) => file.size <= 4.5 * 1024 * 1024,
         "File size too big (max 4.5MB)"
-    );
+    ),
+    z.string().url("Image must be a valid URL")
+]);
 
 export const nameSchema = z
     .string()
