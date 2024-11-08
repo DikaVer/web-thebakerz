@@ -96,12 +96,13 @@ export const fetchStoreData = async (storeId: string): Promise<StoreData | null>
     try {
         const lowerCaseStoreId = storeId.toLowerCase();
 
-        const queryStoreId = await sql`SELECT id FROM stores WHERE id = ${`${storeId}`} OR nickname = ${`${lowerCaseStoreId}`} AND deleted = FALSE`;
-        const originalStoreId = queryStoreId.rows[0].id;
+        const queryStoreId = await sql`SELECT id FROM stores WHERE (id = ${storeId} OR nickname = ${lowerCaseStoreId}) AND deleted = FALSE`;
 
-        if (!originalStoreId) {
+        if (!queryStoreId.rows || queryStoreId.rows.length === 0) {
             return null;
         }
+
+        const originalStoreId = queryStoreId.rows[0].id;
 
 
 

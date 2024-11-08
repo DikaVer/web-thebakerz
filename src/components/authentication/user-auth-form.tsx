@@ -38,8 +38,8 @@ export function UserAuthForm(){
     });
 
     const onSubmit = (formData: z.infer<typeof LoginSchema>) => {
-
         startTransition(() => {
+            localStorage.clear();
             formData.redirectTo = next ? next : "/";
             login(formData)
                 .then((data) => {

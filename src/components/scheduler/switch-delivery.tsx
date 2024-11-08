@@ -1,13 +1,26 @@
 import React, { useState } from "react";
 import {useDebouncedCallback} from "use-debounce";
+import {CheckoutData} from "@/lib/definitions";
 
 interface SwitchDeliveryProps {
-    toggleIsPickUp: () => void;
+    checkoutData: CheckoutData,
+    updateCheckoutData: () => void;
+    onSwitchClick?: () => void;
     isPickup: boolean;
 }
 
-export const SwitchDelivery: React.FC<SwitchDeliveryProps> = ({toggleIsPickUp, isPickup}) => {
+export const SwitchDelivery: React.FC<SwitchDeliveryProps> = ({isPickup, checkoutData, updateCheckoutData, onSwitchClick}) => {
     const [isDebouncing, setIsDebouncing] = useState(false); // Track debounce state
+    console.log(isPickup);
+
+    const toggleIsPickUp = () => {
+        // Update the pickUp status in checkoutData
+        localStorage.setItem('deliveryMode', checkoutData.deliveryMode === "PICKUP" ? 'DELIVERY' : 'PICKUP');
+        updateCheckoutData();
+
+        // Call the onSwitchClick handler if it exists
+        onSwitchClick && onSwitchClick();
+    };
 
 
     // Debounce the switch handler (currently not used for later use)

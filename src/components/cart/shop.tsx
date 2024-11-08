@@ -118,7 +118,17 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
                     </ul>
                 </ScrollArea>
                 <div className="grid gap-y-2 px-2">
-                    <Button className="w-full py-0 px-4" disabled={isItemsUpdating}>
+                    <Button
+                        className="w-full py-0 px-4"
+                        disabled={isItemsUpdating}
+                        onClick={() => {
+                            const query = new URLSearchParams(window.location.search);
+                            router.push(`/${shopName}/checkout?${query.toString()}`);
+                            router.refresh();
+                            onClose();
+                        }}
+                    >
+
                         <div className="flex flex-row w-full justify-between items-center">
                             <p className="text-xl">Checkout</p>
                             <p className="text-lg">{formatCurrency(total)}</p>
@@ -133,7 +143,7 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
                             }}
                             variant="secondary">
                         <div className="flex flex-row w-full justify-between items-center">
-                            <p className="text-black text-lg">Add items</p>
+                            <p className="text-black text-lg">Back to store</p>
                         </div>
                     </Button>
                 </div>

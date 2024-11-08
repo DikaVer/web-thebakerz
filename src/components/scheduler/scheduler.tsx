@@ -33,7 +33,7 @@ export function SchedulerContent({availability, checkoutData, isDialogOpen, hand
         setIsSchedulerView(view);
     };
 
-    const [input, setInputAddress] = useState(null as AddressDataUserField | null);
+    const [input, setinputAddress] = useState(null as AddressDataUserField | null);
 
     const [isOpen, setIsOpen] = useState<boolean>(isDialogOpen);
 
@@ -66,7 +66,7 @@ export function SchedulerContent({availability, checkoutData, isDialogOpen, hand
                                 updateCheckoutData={updateCheckoutData}
                                 handleDialogClose={toggleClose}
                                 handleSchedulerView={toggleSchedulerView}
-                                setInputAddress={setInputAddress}
+                                setInputAddress={setinputAddress}
                             />
                     )}
                     {isSchedulerView === "timeSelection" && (
@@ -82,7 +82,7 @@ export function SchedulerContent({availability, checkoutData, isDialogOpen, hand
                                 checkoutData={checkoutData}
                                 updateCheckoutData={updateCheckoutData}
                                 initialInput={input}
-                                setInputAddress={setInputAddress}
+                                setInputAddress={setinputAddress}
                                 handleSchedulerView={toggleSchedulerView}
                                 isEditing={false}
                             />
@@ -92,7 +92,7 @@ export function SchedulerContent({availability, checkoutData, isDialogOpen, hand
                             checkoutData={checkoutData}
                             updateCheckoutData={updateCheckoutData}
                             initialInput={input}
-                            setInputAddress={setInputAddress}
+                            setInputAddress={setinputAddress}
                             handleSchedulerView={toggleSchedulerView}
                             isEditing={true}
                         />
@@ -118,12 +118,6 @@ const SchedulerContentView: React.FC<{
       }) => {
 
 
-    const toggleIsPickUp = () => {
-        // Update the pickUp status in checkoutData
-        localStorage.setItem('deliveryMode', checkoutData.deliveryMode === "PICKUP" ? 'DELIVERY' : 'PICKUP');
-        updateCheckoutData();
-    };
-
     return (
         <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-3 cm:p-6"}>
             <div className={`flex flex-row justify-between items-center`}>
@@ -141,7 +135,8 @@ const SchedulerContentView: React.FC<{
             <hr className={"my-1"}></hr>
             <div className={"flex flex-col justify-between items-center"}>
                 <SwitchDelivery
-                    toggleIsPickUp={toggleIsPickUp}
+                    checkoutData={checkoutData}
+                    updateCheckoutData={updateCheckoutData}
                     isPickup={checkoutData.deliveryMode === "PICKUP"}
                 />
             </div>

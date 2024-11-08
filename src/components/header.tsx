@@ -6,6 +6,7 @@ import {MenuButton} from "@/components/menu/menu-button";
 import {MenuItems} from "@/components/menu/menu-items";
 import {SigninButton} from "@/components/ui/signin-button";
 import {CartButton} from "@/components/cart/cart-button";
+import {pacifico} from "@/components/fonts";
 
 // Define the props that the Header component will accept
 interface HeaderProps {
@@ -23,7 +24,7 @@ export async function Header({storeId, main, login, role, name }: HeaderProps) {
         <header className="sticky top-0 w-full z-30 bg-white">
             <nav className="text-black pt-4">
                 <div className="container mx-auto flex justify-between items-center">
-                    {/* Conditionally render the menu button */}
+                     {/*Conditionally render the menu button*/}
                     {main && login ? (
                         <MenuButton menuItems={menuItems}/>
                     ) : !main ? (
@@ -32,16 +33,7 @@ export async function Header({storeId, main, login, role, name }: HeaderProps) {
 
                     {/* TheBakerz logo (conditionally shown if main is true) */}
                     <div className="flex flex-row hover:scale-125 transition duration-500 cursor-pointer">
-                        {main && (
-                            <Image
-                                src="https://assets.api.uizard.io/api/cdn/stream/18033399-a975-43b8-92c2-d47d79027e70.png"
-                                alt="TheBakerz Logo"
-                                width={46}
-                                height={42}
-                                quality={100}
-                            />
-                        )}
-                        <a href="/" className="text-2xl font-bold mx-auto">TheBakerz</a>
+                        <a href="/" className={`text-3xl font-bold mx-auto ${pacifico.className}`}>TheBakerz</a>
                     </div>
 
                     {/* Conditionally render the cart or sign-in button*/}

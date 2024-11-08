@@ -223,3 +223,18 @@ export const userEditSchema = z.object({
     ),
     image: imageUploadSchema.nullable().optional(),
 });
+
+
+export const CheckoutSchema = z.object({
+    deliveryMode: z.enum(['PICKUP', 'DELIVERY']),
+    deliveryAddress: AddressDataFieldSchema.nullable(),
+    selectedTime: z.object({
+        date: z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, "Invalid date format (DD/MM/YYYY)"),
+        time: z.enum(Object.keys(timeMap) as [string, ...string[]]),
+    }).nullable(),
+    email: z.string()
+        .trim()
+        .min(1, { message: 'Email is required' })
+        .email({ message: 'Invalid email address' }),
+    // Additional fields like cart can be validated separately or integrated here
+});

@@ -16,7 +16,7 @@ interface StorePageProps {
 export default async function StoreTransit({id, userId, role, isDashboard, tab}: StorePageProps) {
 
     const [storeData, userData] = await Promise.all([
-        fetchStoreData(id),
+        fetchStoreData(id) ,
         userId ? fetchUserLocationProducts(userId) : Promise.resolve(null)
     ]);
 
