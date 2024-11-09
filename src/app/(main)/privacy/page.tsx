@@ -10,6 +10,7 @@ export default async function Page() {
                 <p className={"text-3xl font-bold"}>
                     Privacy Statement - TheBakerz
                 </p>
+                <p className={"font-light"}><em>Last updated: [10.11.2024]</em></p>
                 <p>
                     TheBakerz, gevestigd aan Edmond Jasparstraat 48A, 6217HR, Maastricht, The Netherlands., is
                     verantwoordelijk voor de verwerking van persoonsgegevens
@@ -173,7 +174,8 @@ export default async function Page() {
 
                 <p>
                     TheBakerz maakt gebruik van geautomatiseerde verwerkingen die gevolgen kunnen hebben voor personen.
-                    Het gaat hier om besluiten die worden genomen door computerprogramma&apos;s of -systemen, zonder dat daar
+                    Het gaat hier om besluiten die worden genomen door computerprogramma&apos;s of -systemen, zonder dat
+                    daar
                     een mens tussen zit. We gebruiken deze geautomatiseerde systemen voor:
                     Orderverwerking: Ons systeem controleert automatisch de beschikbaarheid van producten en berekent
                     leveringstijden. Dit kan invloed hebben op de producten die u kunt bestellen en wanneer u ze
