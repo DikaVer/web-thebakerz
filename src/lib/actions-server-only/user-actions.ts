@@ -106,7 +106,7 @@ export async function fetchUserData(
     }
 }
 
-export async function fetchUserLocationProducts(
+export async function fetchUserLocation(
     query: string
 ) : Promise<AddressDataUserField[]> {
 

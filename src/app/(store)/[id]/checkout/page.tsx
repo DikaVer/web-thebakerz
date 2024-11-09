@@ -23,6 +23,7 @@ export default async function Page({params, searchParams}: StorePageProps) {
                 <CheckoutTransit
                     id={params.id}
                     userId={session?.user?.id}
+                    email={session?.user?.email}
                     // @ts-ignore
                     role={session?.user?.role}
                     tab={searchParams?.tab}

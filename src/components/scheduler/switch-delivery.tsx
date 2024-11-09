@@ -11,30 +11,35 @@ interface SwitchDeliveryProps {
 
 export const SwitchDelivery: React.FC<SwitchDeliveryProps> = ({isPickup, checkoutData, updateCheckoutData, onSwitchClick}) => {
     const [isDebouncing, setIsDebouncing] = useState(false); // Track debounce state
-    console.log(isPickup);
 
-    const toggleIsPickUp = () => {
+    // const toggleIsPickUp = () => {
+    //     // Update the pickUp status in checkoutData
+    //     localStorage.setItem('deliveryMode', checkoutData.deliveryMode === "PICKUP" ? 'DELIVERY' : 'PICKUP');
+    //     updateCheckoutData();
+    //
+    //     // Call the onSwitchClick handler if it exists
+    //     onSwitchClick && onSwitchClick();
+    //     setIsDebouncing(false);
+    // };
+
+
+    // Debounce the switch handler (currently not used for later use)
+    const handleSwitch = useDebouncedCallback(() => {
         // Update the pickUp status in checkoutData
         localStorage.setItem('deliveryMode', checkoutData.deliveryMode === "PICKUP" ? 'DELIVERY' : 'PICKUP');
         updateCheckoutData();
 
         // Call the onSwitchClick handler if it exists
         onSwitchClick && onSwitchClick();
+        setIsDebouncing(false);
+    }, 300); // Debounce for 1 second
+
+    const toggleIsPickUp = () => {
+        if (!isDebouncing) {
+            setIsDebouncing(true); // Disable clicks during debounce
+            handleSwitch(); // Call debounced function
+        }
     };
-
-
-    // Debounce the switch handler (currently not used for later use)
-    // const handleSwitch = useDebouncedCallback(() => {
-    //     toggleIsPickUp();
-    //     setIsDebouncing(false); // Re-enable clicks after debounce
-    // }, 200); // Debounce for 1 second
-    //
-    // const onSwitchClick = () => {
-    //     if (!isDebouncing) {
-    //         setIsDebouncing(true); // Disable clicks during debounce
-    //         handleSwitch(); // Call debounced function
-    //     }
-    // };
 
 
     return (

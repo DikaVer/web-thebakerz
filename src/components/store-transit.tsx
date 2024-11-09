@@ -3,7 +3,7 @@ import React from "react";
 import {fetchStoreData} from "@/lib/actions-server-only/store-actions";
 import StoreViewBakerz, {StoreViewUser} from "@/components/store/store-view";
 import ViewHeaderStore from "@/components/dashboard/store/header-view";
-import {fetchUserLocationProducts} from "@/lib/actions-server-only/user-actions";
+import {fetchUserLocation} from "@/lib/actions-server-only/user-actions";
 
 interface StorePageProps {
     id: string
@@ -17,7 +17,7 @@ export default async function StoreTransit({id, userId, role, isDashboard, tab}:
 
     const [storeData, userData] = await Promise.all([
         fetchStoreData(id) ,
-        userId ? fetchUserLocationProducts(userId) : Promise.resolve(null)
+        userId ? fetchUserLocation(userId) : Promise.resolve(null)
     ]);
 
 

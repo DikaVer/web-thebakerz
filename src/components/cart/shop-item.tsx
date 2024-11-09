@@ -83,7 +83,7 @@ const ShopItem: React.FC<ShopItemProps> = ({
                     </div>
                 </div>
             </li>
-            <hr className="border-grayBg" />
+            <hr className="border-grayBg mx-2" />
         </>
     );
 };

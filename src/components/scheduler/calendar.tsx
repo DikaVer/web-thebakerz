@@ -1,16 +1,15 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { IconChevronDown } from "@/components/ui/icons";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { SchedulerContent } from "@/components/scheduler/scheduler";
 import useIsSmallScreen from "@/lib/hooks/use-is-small-screen";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { AddressDataStoreField, AddressDataUserField, AddressUserData, CheckoutData } from "@/lib/definitions";
+import { AddressDataStoreField, AddressDataUserField,CheckoutData } from "@/lib/definitions";
 import { cityLatLngMap, timeMap } from "@/lib/local-variables";
 import { format, addDays } from 'date-fns';
 import { formatAddress, formatDataDate, formatDateTime } from "@/lib/utils";
-import {useCheckoutSettings} from "@/lib/hooks/useCheckoutSettings";
+import {addUserLocationData, useCheckoutSettings} from "@/lib/hooks/useCheckoutSettings";
 
 // ---------------------- Shared Components ---------------------- //
 
@@ -242,31 +241,4 @@ export const MiniCalendar: React.FC<MiniCalendarProps> = ({ location, deliveryOp
     );
 };
 
-// ---------------------- Utility Function ---------------------- //
 
-const addUserLocationData = (userLocation: AddressDataUserField[]): AddressUserData => {
-    const userLocationData: AddressUserData = userLocation.reduce((acc, location) => {
-        acc[location.id] = {
-            id: location.id,
-            city: location.city,
-            country: location.country,
-            latitude: Number(location.latitude),
-            longitude: Number(location.longitude),
-            premise: location.premise,
-            route: location.route,
-            state: location.state,
-            street_number: location.street_number,
-            sub_premise: location.sub_premise,
-            zip_code: location.zip_code,
-            delivery_notes: location.delivery_notes,
-        };
-        return acc;
-    }, {} as AddressUserData);
-
-    if (Object.keys(userLocationData).length > 0) {
-        localStorage.setItem('deliveryAddress', "");
-        localStorage.setItem('savedAddresses', JSON.stringify(userLocationData));
-    }
-
-    return userLocationData;
-};

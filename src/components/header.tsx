@@ -38,9 +38,12 @@ export async function Header({storeId, main, login, role, name }: HeaderProps) {
 
                     {/* Conditionally render the cart or sign-in button*/}
                     {main && login ? (
-                        <p>Search Bakerz</p>
+                        <div  className={`flex flex-col ${pacifico.className}`}>
+                            <p className={``}>Search Bakerz</p>
+                            <p className={`text-primary text-sm`}>Coming soon!</p>
+                        </div>
                     ) : main && !login ? (
-                        <SigninButton className={"rounded-lg text-sm "} variant={"secondary"}/>
+                        <SigninButton className={`rounded-lg text-sm`} variant={"secondary"}/>
                     ) : (
                         <CartButton
                             storeId={storeId}

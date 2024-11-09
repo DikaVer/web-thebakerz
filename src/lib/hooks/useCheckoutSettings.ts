@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import {AddressUserData, CheckoutData} from "@/lib/definitions";
+import {AddressDataUserField, AddressUserData, CheckoutData} from "@/lib/definitions";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {timeMap} from "@/lib/local-variables";
 
@@ -55,4 +55,31 @@ export const useCheckoutSettings = () => {
     }, [updateCheckoutData]);
 
     return { checkoutData, updateCheckoutData };
+};
+
+export const addUserLocationData = (userLocation: AddressDataUserField[]): AddressUserData => {
+    const userLocationData: AddressUserData = userLocation.reduce((acc, location) => {
+        acc[location.id] = {
+            id: location.id,
+            city: location.city,
+            country: location.country,
+            latitude: Number(location.latitude),
+            longitude: Number(location.longitude),
+            premise: location.premise,
+            route: location.route,
+            state: location.state,
+            street_number: location.street_number,
+            sub_premise: location.sub_premise,
+            zip_code: location.zip_code,
+            delivery_notes: location.delivery_notes,
+        };
+        return acc;
+    }, {} as AddressUserData);
+
+    if (Object.keys(userLocationData).length > 0) {
+        localStorage.setItem('deliveryAddress', "");
+        localStorage.setItem('savedAddresses', JSON.stringify(userLocationData));
+    }
+
+    return userLocationData;
 };

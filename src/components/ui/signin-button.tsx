@@ -3,6 +3,7 @@
 import {Button} from "@/components/ui/button";
 import * as React from "react";
 import {usePathname, useRouter} from "next/navigation";
+import {pacifico} from "@/components/fonts";
 
 interface SigninButtonProps {
     className: string;
@@ -23,7 +24,7 @@ export const SigninButton = ({ className, variant }: SigninButtonProps) => {
     };
 
     return (
-        <Button className={`${className}`} variant={variant} onClick={handleSignIn}>
+        <Button className={`${className} ${pacifico.className}`} variant={variant} onClick={handleSignIn}>
             Sign in
         </Button>
     );

@@ -2,7 +2,7 @@
 import React, {useCallback, useEffect, useState, useTransition} from "react";
 import {useCart} from "@/components/providers/cart-provider";
 import {pacifico} from "@/components/fonts";
-import {useCheckoutSettings} from "@/lib/hooks/useCheckoutSettings";
+import {addUserLocationData, useCheckoutSettings} from "@/lib/hooks/useCheckoutSettings";
 import {SwitchDelivery} from "@/components/scheduler/switch-delivery";
 import {AddressSearch} from "@/components/scheduler/address-search";
 import {IconAvatar, IconClock} from "@/components/ui/icons";
@@ -41,6 +41,8 @@ interface CheckoutViewProps {
             availability: "Free" | "Busy";
         }
     > | null;
+    userLocation: AddressDataUserField[] | null;
+    email?: string | null
 }
 
 type CheckoutFormValues = z.infer<typeof CheckoutSchema>;
@@ -50,10 +52,15 @@ export interface SelectedTime {
     time: string;
 }
 
-export default function CheckoutView({id, availability}: CheckoutViewProps) {
+export default function CheckoutView({id, availability, userLocation, email}: CheckoutViewProps) {
 
     const { cart } = useCart();
 
+    useEffect(() => {
+        if (userLocation) {
+            addUserLocationData(userLocation);
+        }
+    }, [userLocation]);
 
     const { checkoutData, updateCheckoutData } = useCheckoutSettings();
 
@@ -72,15 +79,22 @@ export default function CheckoutView({id, availability}: CheckoutViewProps) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
 
+
     const form = useForm<CheckoutFormValues>({
         resolver: zodResolver(CheckoutSchema),
         defaultValues: {
             deliveryMode: checkoutData.deliveryMode,
             deliveryAddress: (checkoutData.deliveryAddress !== null && checkoutData.savedAddresses !== null) ? checkoutData.savedAddresses[checkoutData.deliveryAddress] : null,
             selectedTime: checkoutData.selectedTime as SelectedTime,
-            email: "",
+            email: email ? email : "",
         },
     });
+
+    useEffect(() => {
+        if (checkoutData.selectedTime) {
+            form.setValue('selectedTime', checkoutData.selectedTime);
+        }
+    }, [checkoutData.selectedTime]);
 
     // Define handleSchedulerView to update the view and open the dialog
     const handleSchedulerView = (
@@ -140,7 +154,7 @@ export default function CheckoutView({id, availability}: CheckoutViewProps) {
                                         <SwitchDelivery
                                             isPickup={checkoutData.deliveryMode === "PICKUP"}
                                             onSwitchClick={() => {
-                                                setValue('deliveryAddress', checkoutData.deliveryMode);
+                                                setValue('deliveryMode', checkoutData.deliveryMode);
                                             }}
                                             checkoutData={checkoutData}
                                             updateCheckoutData={updateCheckoutData}
@@ -163,7 +177,7 @@ export default function CheckoutView({id, availability}: CheckoutViewProps) {
                                     <FormControl>
                                         <AddressSearch
                                             handleSchedulerView={handleSchedulerView}
-                                            setInputAddress={(address) => field.onChange(address)}
+                                            setInputAddress={setInputAddress}
                                             checkoutData={checkoutData}
                                             updateCheckoutData={updateCheckoutData}
                                         />
@@ -187,20 +201,22 @@ export default function CheckoutView({id, availability}: CheckoutViewProps) {
                                         className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg"
                                         onClick={() => handleSchedulerView("timeSelection")}
                                     >
-                                        <IconClock className={"w-10 h-10 tm:w-12 tm:h-12"}/>
+                                        <IconClock className={"w-8 h-8 tm:w-10 tm:h-10"}/>
                                         <div className={"flex flex-col w-full"}>
-                                            {field.value ? (
-                                                <>
-                                                    <p className="text-black font-medium text-left text-sm tm:text-base">
-                                                        {new Date(field.value.date).toDateString()}
-                                                    </p>
-                                                    <p className="text-black font-medium text-left text-sm tm:text-base">
-                                                        {formatDateTime(timeMap[field.value.time].from)} - {formatDateTime(timeMap[field.value.time].to)}
-                                                    </p>
-                                                </>
-                                            ) : (
-                                                <p className="text-black text-left text-lg tm:text-xl">Schedule {watch('deliveryMode') === "PICKUP" ? "Pickup" : "Delivery"}</p>
-                                            )}
+                                            {
+                                                checkoutData.selectedTime ? (
+                                                    <>
+                                                        <p className="text-black font-medium text-left text-sm tm:text-base">
+                                                            {new Date(checkoutData.selectedTime?.date as string).toDateString()}
+                                                        </p>
+                                                        <p className="text-black font-medium text-left text-sm tm:text-base">
+                                                            {formatDateTime(timeMap[checkoutData.selectedTime.time as string].from)} - {formatDateTime(timeMap[checkoutData.selectedTime.time as string].to)}
+                                                        </p>
+                                                    </>
+                                                ) : (
+                                                    <p className="text-black text-left text-lg tm:text-xl">Schedule {checkoutData.deliveryMode === "PICKUP" ? "Pickup" : "Delivery"}</p>
+                                                )
+                                            }
                                         </div>
                                         <Button
                                             className={"text-lg h-9"}
@@ -218,25 +234,27 @@ export default function CheckoutView({id, availability}: CheckoutViewProps) {
                     />
 
                     {/* Contact Information - Email */}
-                    <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Email Address</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        type="email"
-                                        placeholder="name@example.com"
-                                        disabled={isSubmitting}
-                                    />
-                                </FormControl>
-                                <FormDescription>Enter your email address for contact</FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                    {(email === undefined || email === null) && (
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Email Address</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            type="email"
+                                            placeholder="name@example.com"
+                                            disabled={isSubmitting}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>Enter your email address for contact</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    )}
 
                     {/* Cart Products */}
                     <div className={'gap-4'}>
@@ -277,7 +295,10 @@ export default function CheckoutView({id, availability}: CheckoutViewProps) {
                     handleDialogClose={handleDialogClose}
                     isSchedulerView={isSchedulerView}
                     setIsSchedulerView={setIsSchedulerView}
-                    setInputAddress={setInputAddress}
+                    setInputAddress={(input: AddressDataUserField | null) => {
+                        setInputAddress(input);
+                        form.setValue('deliveryAddress', input);
+                    }}
                     inputAddress={inputAddress}
                 />
             </form>
@@ -380,9 +401,10 @@ interface CartViewProps {
     storeId: string;
     value: string;
     productItems: CartItem[];
+    email?: string | null;
 }
 
-const CartView: React.FC<CartViewProps> = ({storeId, avatar_url, shopName, value, productItems}) => {
+const CartView: React.FC<CartViewProps> = ({storeId, avatar_url, shopName, value, productItems, email}) => {
     const [total, setTotal] = useState(0);
     const [isHoveringStepper, setIsHoveringStepper] = useState(false);
     const [isItemsUpdating, setIsItemsUpdating] = useState(true);
@@ -517,7 +539,7 @@ const CartView: React.FC<CartViewProps> = ({storeId, avatar_url, shopName, value
                 >
 
                     <div className="flex flex-row w-full justify-center items-center">
-                        <p className="text-xl">Next</p>
+                        <p className="text-xl">{email ? 'Proceed Payment' : 'Verify email'}</p>
                     </div>
                 </Button>
             </div>
@@ -545,76 +567,4 @@ export async function validateEmailAPI(email: string): Promise<boolean> {
         console.error('Error validating email:', error);
         return false;
     }
-}
-
-export function UserAuthCheckoutForm() {
-
-    const [error, setError] = useState<string | undefined>();
-    const [success, setSuccess] = useState<string | undefined>()
-    const [isPending, startTransition] = useTransition();
-    const nextParams = useSearchParams();
-    const next = nextParams.get('next') as string;
-
-
-    const form = useForm<z.infer<typeof LoginSchema>>({
-        resolver: zodResolver(LoginSchema),
-        defaultValues: {
-            email: "",
-            redirectTo: next ? next : "/"
-        }
-    });
-
-    const onSubmit = (formData: z.infer<typeof LoginSchema>) => {
-
-        startTransition(() => {
-            formData.redirectTo = next ? next : "/";
-            login(formData)
-                .then((data) => {
-                    if (data && data.error) {
-                        setError(data.error);
-                    }
-                })
-        });
-    }
-
-    return (
-        <div className={"grid gap-6"}>
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className={"grid gap-2"}
-                >
-                    <FormField
-                        control={form.control}
-                        name="email"
-                        render={({field}) => (
-                            <FormItem>
-                                <FormLabel className={"sr-only"}>
-                                    Email
-                                </FormLabel>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        disabled={isPending}
-                                        className={"w-[280px]"}
-                                        placeholder="name@example.com"
-                                        type="email"
-                                        autoCapitalize="none"
-                                        autoComplete="email"
-                                        autoCorrect="off"
-                                    />
-                                </FormControl>
-                                <FormDescription>
-                                    Enter your email address
-                                </FormDescription>
-                                <FormMessage/>
-                            </FormItem>
-                        )}
-                    />
-                    <FormSuccess message={success}/>
-                    <FormError message={error}/>
-                </form>
-            </Form>
-        </div>
-    )
 }

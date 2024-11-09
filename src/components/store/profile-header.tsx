@@ -18,6 +18,7 @@ import { cityLatLngMap, timeMap } from "@/lib/local-variables";
 import { formatAddress } from "@/lib/utils";
 import { ProfileDescription } from "@/components/store/profile-description";
 import Skeleton from "react-loading-skeleton";
+import {pacifico} from "@/components/fonts";
 
 interface Availability {
     from: keyof typeof timeMap;
@@ -207,7 +208,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, location, deliveryOptio
                 className="flex items-center space-x-2 hover:scale-102 transition duration-300"
                 onClick={() => toggleDialog("profile-section")}
             >
-                <span className="text-xl cm:text-2xl font-bold text-black clamp-title">
+                <span className={`text-2xl cm:text-3xl font-bold text-black clamp-title ${pacifico.className}`}>
                     {name ?? "Empty name"}
                 </span>
             </div>

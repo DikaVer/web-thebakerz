@@ -1,21 +1,22 @@
 import {notFound} from "next/navigation";
 import React from "react";
 import {fetchStoreData} from "@/lib/actions-server-only/store-actions";
-import {fetchUserLocationProducts} from "@/lib/actions-server-only/user-actions";
+import {fetchUserLocation} from "@/lib/actions-server-only/user-actions";
 import CheckoutView from "@/components/store/checkout/checkout-view";
 
 interface CheckoutPageProps {
     id: string
     userId: string | undefined
     role: string | undefined
+    email?: string | null
     tab?: string
 }
 
-export default async function CheckoutTransit({id, userId, role, tab}: CheckoutPageProps) {
+export default async function CheckoutTransit({id, userId, role, tab, email}: CheckoutPageProps) {
 
     const [storeData, userData] = await Promise.all([
         fetchStoreData(id),
-        userId ? fetchUserLocationProducts(userId) : Promise.resolve(null)
+        userId ? fetchUserLocation(userId) : Promise.resolve(null)
     ]);
 
 
@@ -29,6 +30,8 @@ export default async function CheckoutTransit({id, userId, role, tab}: CheckoutP
                 <CheckoutView
                     id={storeData.id}
                     availability={storeData.availability}
+                    email={email}
+                    userLocation={userData}
                 />
             </div>
         </div>

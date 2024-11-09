@@ -73,7 +73,7 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
         <AccordionItem value={value}>
             <AccordionTrigger>
                 <div className="-my-2 flex flex-row items-center space-x-3 justify-start">
-                    <div className="relative w-14 h-14">
+                    <div className="ml-2 relative w-14 h-14">
                         {!isLoaded && !hasError && (
                             <IconAvatar
                                 className="w-14 h-14 absolute inset-0 flex items-center justify-center bg-gray-100 rounded-full"/>

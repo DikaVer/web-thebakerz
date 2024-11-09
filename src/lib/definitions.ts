@@ -48,7 +48,7 @@ export type CheckoutData = {
     savedAddresses: AddressUserData | null;
     selectedTime: {
         date: `${number}/${number}/${number}`;
-        time: keyof typeof timeMap;
+        time: string;
     } | null;
 }
 
