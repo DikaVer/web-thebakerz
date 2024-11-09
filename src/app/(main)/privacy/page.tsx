@@ -10,6 +10,7 @@ export default async function Page() {
                 <p className={"text-3xl font-bold"}>
                     Privacy Statement - TheBakerz
                 </p>
+                <p className={"font-light"}><em>Last updated: [10.11.2024]</em></p>
                 <p>
                     TheBakerz, gevestigd aan Edmond Jasparstraat 48A, 6217HR, Maastricht, The Netherlands., is
                     verantwoordelijk voor de verwerking van persoonsgegevens
@@ -173,7 +174,8 @@ export default async function Page() {
 
                 <p>
                     TheBakerz maakt gebruik van geautomatiseerde verwerkingen die gevolgen kunnen hebben voor personen.
-                    Het gaat hier om besluiten die worden genomen door computerprogramma&apos;s of -systemen, zonder dat daar
+                    Het gaat hier om besluiten die worden genomen door computerprogramma&apos;s of -systemen, zonder dat
+                    daar
                     een mens tussen zit. We gebruiken deze geautomatiseerde systemen voor:
                     Orderverwerking: Ons systeem controleert automatisch de beschikbaarheid van producten en berekent
                     leveringstijden. Dit kan invloed hebben op de producten die u kunt bestellen en wanneer u ze
@@ -220,49 +222,6 @@ export default async function Page() {
                 </p>
 
                 <p className={"font-bold text-lg"}>
-                    Delen van persoonsgegevens met derden
-                </p>
-
-                <p>
-                    TheBakerz deelt uw persoonsgegevens met verschillende derden als dit noodzakelijk is voor het
-                    uitvoeren van de overeenkomst en om te voldoen aan een
-                    eventuele wettelijke verplichting. Met bedrijven die u gegevens verwerken in onze opdracht, sluiten
-                    wij een verwerkersovereenkomst om te zorgen voor eenzelfde
-                    niveau van beveiliging en vertrouwelijkheid van uw gegevens. TheBakerz blijft verantwoordelijk voor
-                    deze verwerkingen. Daarnaast verstrekt TheBakerz uw
-                    persoonsgegevens aan andere derden. Dit doen wij alleen met uw nadrukkelijke toestemming. [voeg hier
-                    een tabel toe met: de categorie waar derde toe behoort,
-                    naam en jurisdictie, doel en welke gegevens.]
-                </p>
-
-                <p className={"font-bold text-lg"}>
-                    Delen van persoonsgegevens met derden
-                </p>
-
-                <p>
-                    TheBakerz verstrekt uitsluitend aan derden en alleen als dit nodig is voor de uitvoering van onze
-                    overeenkomst met u of om te voldoen aan een wettelijke
-                    verplichting.
-                </p>
-
-                <p className={"font-bold text-lg"}>
-                    Cookies, of vergelijkbare technieken, die wij gebruiken
-                </p>
-
-                <p>
-                    TheBakerz gebruikt alleen technische en functionele cookies. En analytische cookies die geen inbreuk
-                    maken op uw privacy. Een cookie is een klein
-                    tekstbestand dat bij het eerste bezoek aan deze website wordt opgeslagen op uw computer, tablet of
-                    smartphone. De cookies die wij gebruiken zijn noodzakelijk
-                    voor de technische werking van de website en uw gebruiksgemak. Ze zorgen ervoor dat de website naar
-                    behoren werkt en onthouden bijvoorbeeld uw
-                    voorkeursinstellingen. Ook kunnen wij hiermee onze website optimaliseren. U kunt zich afmelden voor
-                    cookies door uw internetbrowser zo in te stellen dat deze
-                    geen cookies meer opslaat. Daarnaast kunt u ook alle informatie die eerder is opgeslagen via de
-                    instellingen van uw browser verwijderen.
-                </p>
-
-                <p className={"font-bold text-lg"}>
                     Cookies, of vergelijkbare technieken, die wij gebruiken
                 </p>
 
@@ -281,14 +240,6 @@ export default async function Page() {
                     opslaat. Daarnaast kunt u ook alle informatie die eerder is
                     opgeslagen via de instellingen van uw browser verwijderen. Zie voor een toelichting:
                     https://veiliginternetten.nl/themes/situatie/cookies-wat-zijn-het-en-wat-doe-ik-ermee/
-                </p>
-
-                <p className={"font-bold text-lg"}>
-                    Cookies, of vergelijkbare technieken, die wij gebruiken
-                </p>
-
-                <p>
-                    TheBakerz gebruikt geen cookies of vergelijkbare technieken.
                 </p>
 
                 <p className={"font-bold text-lg"}>
@@ -315,32 +266,6 @@ export default async function Page() {
                     reageren. TheBakerz wil u er tevens op wijzen dat u de mogelijkheid hebt om een klacht in te dienen
                     bij de nationale toezichthouder, de Autoriteit
                     Persoonsgegevens. Dat kan via de volgende link:
-                    https://autoriteitpersoonsgegevens.nl/nl/contact-met-de-autoriteit-persoonsgegevens/tip-ons
-                </p>
-
-                <p className={"font-bold text-lg"}>
-                    Gegevens inzien, aanpassen of verwijderen
-                </p>
-
-                <p>
-                    U heeft het recht om uw persoonsgegevens in te zien, te corrigeren of te verwijderen. Daarnaast
-                    heeft u het recht om uw eventuele toestemming voor de
-                    gegevensverwerking in te trekken of bezwaar te maken tegen de verwerking van uw persoonsgegevens
-                    door TheBakerz en heeft u het recht op
-                    gegevensoverdraagbaarheid. Dat betekent dat u bij ons een verzoek kunt indienen om de
-                    persoonsgegevens die wij van u beschikken in een computerbestand
-                    naar u of een ander, door u genoemde organisatie, te sturen. U kunt een verzoek tot inzage,
-                    correctie, verwijdering, gegevensoverdraging van uw
-                    persoonsgegevens of verzoek tot intrekking van uw toestemming of bezwaar op de verwerking van uw
-                    persoonsgegevens sturen naar info@thebakerz.com. Om
-                    er zeker van te zijn dat het verzoek tot inzage door u is gedaan, vragen wij u een kopie van uw
-                    identiteitsbewijs met het verzoek mee te sturen. Maak in deze
-                    kopie uw pasfoto, MRZ (machine readable zone, de strook met nummers onderaan het paspoort),
-                    paspoortnummer en Burgerservicenummer (BSN) zwart. Dit ter
-                    bescherming van uw privacy. We reageren zo snel mogelijk, maar binnen vier weken, op uw verzoek.
-                    TheBakerz wil u er tevens op wijzen dat u de mogelijkheid
-                    heeft om een klacht in te dienen bij de nationale toezichthouder, de Autoriteit Persoonsgegevens.
-                    Dat kan via de volgende link:
                     https://autoriteitpersoonsgegevens.nl/nl/contact-met-de-autoriteit-persoonsgegevens/tip-ons
                 </p>
 
