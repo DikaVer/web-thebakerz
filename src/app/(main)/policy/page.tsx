@@ -61,7 +61,7 @@ export default async function Page() {
                             <p>
                                 <strong>No Right of Withdrawal: </strong>Under Dutch law, the statutory right of
                                 withdrawal (cooling-off period) does not apply to the supply of goods that are made
-                                to the consumer's specifications or are highly perishable and likely to expire
+                                to the consumer&apos;s specifications or are highly perishable and likely to expire
                                 quickly (Article 6:230p sub f of the Dutch Civil Code).
                             </p>
                         </li>
@@ -170,7 +170,7 @@ export default async function Page() {
                                             preparation.
                                         </li>
                                         <li>
-                                            • To cancel, please notify the seller via the platform's messaging system or
+                                            • To cancel, please notify the seller via the platform&apos;s messaging system or
                                             contact customer support immediately.
                                         </li>
                                     </ul>
@@ -180,7 +180,7 @@ export default async function Page() {
                                     <ul className={"ml-6 grid gap-y-3"}>
                                         <li>
                                             • If you wish to cancel after preparation has started, please contact the
-                                            seller. Refunds in such cases are at the seller's discretion.
+                                            seller. Refunds in such cases are at the seller&apos;s discretion.
                                         </li>
 
                                     </ul>
@@ -241,7 +241,7 @@ export default async function Page() {
                                 How to Submit a Request:
                                 <ul className={"ml-6 grid gap-y-3"}>
                                     <li>
-                                        • Contact the seller directly through the platform's messaging system.
+                                        • Contact the seller directly through the platform&apos;s messaging system.
                                     </li>
                                     <li>
                                         • Provide detailed information about the issue, including photos if applicable.

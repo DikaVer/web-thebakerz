@@ -569,7 +569,7 @@ export default async function Page() {
                                     7.5.
                                 </p>
                                 <p>
-                                    <strong>Adherence to Policies: </strong> Sellers must adhere to TheBakerz's
+                                    <strong>Adherence to Policies: </strong> Sellers must adhere to TheBakerz&apos;s
                                     policies,
                                     including the Community Guidelines and any additional policies provided.
                                 </p>
@@ -847,7 +847,7 @@ export default async function Page() {
                                         9.3.6.
                                     </p>
                                     <p>
-                                        <strong>TheBakerz's VAT Obligations: </strong> TheBakerz is responsible for
+                                        <strong>TheBakerz&apos;s VAT Obligations: </strong> TheBakerz is responsible for
                                         collecting
                                         and remitting VAT on its commission fees and service charges in accordance with
                                         Dutch
@@ -859,7 +859,7 @@ export default async function Page() {
                                         9.3.7.
                                     </p>
                                     <p>
-                                        <strong>Seller's Tax Obligations: </strong> Sellers are solely responsible for
+                                        <strong>Seller&apos;s Tax Obligations: </strong> Sellers are solely responsible for
                                         determining their obligations to charge VAT on the sale of their products and
                                         for
                                         collecting, reporting, and remitting the correct VAT to the appropriate tax
@@ -1433,7 +1433,7 @@ export default async function Page() {
                                 <p>
                                     <strong>Reporting Mechanisms: </strong> Consumers can report any concerns or
                                     complaints
-                                    about sellers or products through the platform's reporting mechanisms.
+                                    about sellers or products through the platform&apos;s reporting mechanisms.
                                 </p>
                             </li>
                             <li className={"flex flex-row"}>
@@ -1503,7 +1503,7 @@ export default async function Page() {
                                     <strong>External Dispute Resolution: </strong> Eligible consumers can submit
                                     complaints
                                     about the TheBakerz Services or these Terms and Conditions to the European
-                                    Commission's
+                                    Commission&apos;s
                                     online dispute resolution platform, accessible <a
                                     href="https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home.chooseLanguage"
                                     className="text-grayText underline">here</a>.
