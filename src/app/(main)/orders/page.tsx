@@ -8,7 +8,7 @@ export default async function Page() {
             <p className={`text-5xl ${pacifico.className}`}>
                 Coming Soon!
             </p>
-            <div className="w-1/2 h-1/2">
+            <div className="w-2/3 h-2/3">
                 <Image
                     src="/landing/HomeBaker.svg"
                     alt="Verify Email Image"

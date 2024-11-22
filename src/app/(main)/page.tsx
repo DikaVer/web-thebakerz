@@ -34,7 +34,6 @@ export default function Page() {
 // WhyChooseSection Component
 const WhyChooseSection = () => {
     const [whyChooseRef, whyChooseInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
-    const [featureCardRef, featureCardInView] = useInView<HTMLDivElement>({ threshold: 0 });
 
     return (
         <section
@@ -52,10 +51,8 @@ const WhyChooseSection = () => {
                 Why Choose TheBakerz?
             </h2>
             <div
-                ref={featureCardRef}
                 className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 
-                            opacity-0 transform translate-y-10 
-                            ${featureCardInView ? 'animate-fadeInUpDelay2' : ''}`}
+                            opacity-0 transform translate-y-10`}
             >
                 {/* Online Store */}
                 <FeatureCard
@@ -96,17 +93,23 @@ interface FeatureCardProps {
     description: string;
 }
 
-const FeatureCard = ({ icon, title, description }: FeatureCardProps) => (
-    <article
-        className="flex flex-col items-center text-center p-6 border-2 border-grayBg rounded-lg shadow-sm"
-    >
-        <div className="bg-secondary p-4 rounded-full mb-6">
-            {icon}
-        </div>
-        <h3 className="flex text-xl lg:h-12 lg:items-center lg:justify-center font-semibold text-gray-800 mb-3">{title}</h3>
-        <p className="text-gray-600">{description}</p>
-    </article>
-);
+const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
+    const [featureCardRef, featureCardInView] = useInView<HTMLDivElement>({ threshold: 0 });
+
+    return (
+        <article
+            ref={featureCardRef}
+            className={`flex flex-col items-center text-center p-6 border-2 border-grayBg rounded-lg shadow-sm
+            ${featureCardInView ? 'animate-fadeInUpDelay2' : ''}`}
+        >
+            <div className="bg-secondary p-4 rounded-full mb-6">
+                {icon}
+            </div>
+            <h3 className="flex text-xl lg:h-12 lg:items-center lg:justify-center font-semibold text-gray-800 mb-3">{title}</h3>
+            <p className="text-gray-600">{description}</p>
+        </article>
+    )
+};
 
 // Footer Component
 const Footer = () => {

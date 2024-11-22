@@ -17,71 +17,71 @@ export default async function StoreTransit({id, userId, role, isDashboard, tab}:
 
 
 
-    const [storeData, userData] = await Promise.all([
-        fetchStoreData(id) ,
-        userId ? fetchUserLocation(userId) : Promise.resolve(null)
-    ]);
-
-
-    if (!storeData) {
-        return notFound();
-    }
-
-    if (role === "admin") {
-        return (
-            <div className="flex flex-col min-h-screen">
-                <div className="z-10 flex-grow container mx-auto pt-2">
-                    { isDashboard ?
-                        (
-                            <>
-                                <ViewHeaderStore store_id={storeData.id} />
-                                <StoreViewBakerz
-                                    storeProps={storeData}
-                                    tab={tab}
-                                />
-                            </>
-                        ) : (
-                            <StoreViewUser
-                                storeData={storeData}
-                                userData={
-                                    {
-                                        location: userData
-                                    }
-                                }
-
-                            />
-                        )
-                    }
-                </div>
-            </div>
-        );
-    } else if (role === "bakerz") {
-        return (
-            <div className="flex flex-col min-h-screen">
-                <div className="z-10 flex-grow container mx-auto pt-2">
-                    <StoreViewBakerz
-                        storeProps={storeData}
-                        tab={tab}
-                    />
-                </div>
-            </div>
-        );
-    } else {
-        return (
-            <div className="flex flex-col min-h-screen">
-                <div className="z-10 flex-grow container mx-auto pt-2">
-
-                    <StoreViewUser
-                        storeData={storeData}
-                        userData={
-                            {
-                                location: userData
-                            }
-                        }
-                    />
-                </div>
-            </div>
-        );
-    }
-    // return notFound();
+    // const [storeData, userData] = await Promise.all([
+    //     fetchStoreData(id) ,
+    //     userId ? fetchUserLocation(userId) : Promise.resolve(null)
+    // ]);
+    //
+    //
+    // if (!storeData) {
+    //     return notFound();
+    // }
+    //
+    // if (role === "admin") {
+    //     return (
+    //         <div className="flex flex-col min-h-screen">
+    //             <div className="z-10 flex-grow container mx-auto pt-2">
+    //                 { isDashboard ?
+    //                     (
+    //                         <>
+    //                             <ViewHeaderStore store_id={storeData.id} />
+    //                             <StoreViewBakerz
+    //                                 storeProps={storeData}
+    //                                 tab={tab}
+    //                             />
+    //                         </>
+    //                     ) : (
+    //                         <StoreViewUser
+    //                             storeData={storeData}
+    //                             userData={
+    //                                 {
+    //                                     location: userData
+    //                                 }
+    //                             }
+    //
+    //                         />
+    //                     )
+    //                 }
+    //             </div>
+    //         </div>
+    //     );
+    // } else if (role === "bakerz") {
+    //     return (
+    //         <div className="flex flex-col min-h-screen">
+    //             <div className="z-10 flex-grow container mx-auto pt-2">
+    //                 <StoreViewBakerz
+    //                     storeProps={storeData}
+    //                     tab={tab}
+    //                 />
+    //             </div>
+    //         </div>
+    //     );
+    // } else {
+    //     return (
+    //         <div className="flex flex-col min-h-screen">
+    //             <div className="z-10 flex-grow container mx-auto pt-2">
+    //
+    //                 <StoreViewUser
+    //                     storeData={storeData}
+    //                     userData={
+    //                         {
+    //                             location: userData
+    //                         }
+    //                     }
+    //                 />
+    //             </div>
+    //         </div>
+    //     );
+    // }
+    return notFound();
 }
