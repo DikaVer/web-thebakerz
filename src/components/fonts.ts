@@ -1,4 +1,4 @@
-import { Lexend_Deca } from 'next/font/google';
+import { Lexend_Deca, Pacifico } from 'next/font/google';
 
 // Configure Lexend Deca font
 export const lexendDeca = Lexend_Deca({ weight: [
@@ -7,3 +7,8 @@ export const lexendDeca = Lexend_Deca({ weight: [
         '500', '600',
         '700', "800",
     '900'], subsets: ['latin'] });
+
+// Configure Pacifico font
+export const pacifico = Pacifico({ weight: [
+        '400'
+    ], subsets: ['latin'] });

@@ -1,9 +1,9 @@
-import { lexendDeca } from "@/components/fonts";
 import '@/styles/globals.css'
 import React from "react";
 import type { Metadata } from "next";
 import {Header} from "@/components/header";
 import {Footer} from "@/components/footer";
+import {extractSessionRole} from "@/lib/actions/session-actions";
 
 export const metadata: Metadata = {
     metadataBase: new URL(`https://www.TheBakerz.com/`),
@@ -15,14 +15,17 @@ export const metadata: Metadata = {
 
 }
 
-export default function RootLayout({
+export default async function RootLayout({
                                        children,
                                    }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const {login, role, name} = await extractSessionRole();
+
+
     return (
         <>
-            <Header main={true}/>
+            <Header main={true} login={login} role={role} name={name}/>
             {children}
             <Footer/>
         </>

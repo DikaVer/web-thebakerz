@@ -1,4 +1,5 @@
 // next.config.mjs
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -11,9 +12,27 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'assets.api.uizard.io',
+                hostname: 'maps.googleapis.com',
             },
+            {
+                protocol: 'https',
+                hostname: '2luntz9vzwxujpdd.public.blob.vercel-storage.com',
+            }
+
         ],
+    },
+    webpack: (config, { dev }) => {
+        // Use MiniCssExtractPlugin in production only
+        // config.plugins.push(new MiniCssExtractPlugin());
+
+
+        // Modify existing rules to use MiniCssExtractPlugin.loader
+        // config.module.rules.push({
+        //     test: /\.css$/i,
+        //     use: [MiniCssExtractPlugin.loader, "css-loader"],
+        // });
+
+        return config;
     },
 };
 

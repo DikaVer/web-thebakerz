@@ -1,78 +1,49 @@
-// import {Theme} from "@auth/core/types";
-//
-//
-// export async function sendVerificationRequest({params}: { params: any }) {
-//     const { identifier: to, provider, url, theme } = params
-//     const { host } = new URL(url)
-//     const res = await fetch("https://api.sendgrid.com/v3/mail/send", {
-//         method: "POST",
-//         headers: {
-//             Authorization: `Bearer ${provider.apiKey}`,
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//             personalizations: [{ to: [{ email: to }] }],
-//             from: { email: provider.from },
-//             subject: `Sign in to ${host}`,
-//             content: [
-//                 { type: "text/plain", value: text({ url, host }) },
-//                 { type: "text/html", value: html({ url, host, theme }) },
-//             ],
-//         }),
-//     })
-//
-//     if (!res.ok) throw new Error("Sendgrid error: " + (await res.text()))
-// }
-//
-// function html(params: { url: string; host: string; theme: Theme }) {
-//     const { url, host, theme } = params
-//
-//     const escapedHost = host.replace(/\./g, "&#8203;.")
-//
-//     const brandColor = theme.brandColor || "#346df1"
-//     const color = {
-//         background: "#f9f9f9",
-//         text: "#444",
-//         mainBackground: "#fff",
-//         buttonBackground: brandColor,
-//         buttonBorder: brandColor,
-//         buttonText: theme.buttonText || "#fff",
-//     }
-//
-//     return `
-// <body style="background: ${color.background};">
-//   <table width="100%" border="0" cellspacing="20" cellpadding="0"
-//     style="background: ${color.mainBackground}; max-width: 600px; margin: auto; border-radius: 10px;">
-//     <tr>
-//       <td align="center"
-//         style="padding: 10px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">
-//         Sign in to <strong>${escapedHost}</strong>
-//       </td>
-//     </tr>
-//     <tr>
-//       <td align="center" style="padding: 20px 0;">
-//         <table border="0" cellspacing="0" cellpadding="0">
-//           <tr>
-//             <td align="center" style="border-radius: 5px;" bgcolor="${color.buttonBackground}"><a href="${url}"
-//                 target="_blank"
-//                 style="font-size: 18px; font-family: Helvetica, Arial, sans-serif; color: ${color.buttonText}; text-decoration: none; border-radius: 5px; padding: 10px 20px; border: 1px solid ${color.buttonBorder}; display: inline-block; font-weight: bold;">Sign
-//                 in</a></td>
-//           </tr>
-//         </table>
-//       </td>
-//     </tr>
-//     <tr>
-//       <td align="center"
-//         style="padding: 0px 0px 10px 0px; font-size: 16px; line-height: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">
-//         If you did not request this email you can safely ignore it.
-//       </td>
-//     </tr>
-//   </table>
-// </body>
-// `
-// }
-//
-// // Email Text body (fallback for email clients that don't render HTML, e.g. feature phones)
-// function text({ url, host }: { url: string; host: string }) {
-//     return `Sign in to ${host}\n${url}\n\n`
-// }
+"use server";
+
+import { render } from '@react-email/components';
+import { VerifyIdentityEmail } from "@/components/emails/email";
+
+// Function to send a magic link email
+export async function sendMagicLink(params: { identifier: string; url: string }) {
+    const { identifier: to, url } = params; // Destructure email identifier and URL from params
+    const { host } = new URL(url); // Extract host from the URL
+
+    console.log(`Sending magic link to ${to} with host ${host}`);
+    console.log(`Magic link URL: ${url}`);
+
+    try {
+        // Send the email using SendGrid's API
+        const res = await fetch("https://api.sendgrid.com/v3/mail/send", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${process.env.AUTH_SENDGRID_SECRET}`, // Authorization using SendGrid secret
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                personalizations: [{ to: [{ email: to }] }], // Recipient email
+                from: { email: process.env.EMAIL_FROM }, // Sender email (from environment variable)
+                subject: `${host}: Sign in to TheBakerz`, // Subject of the email
+                content: [
+                    { type: "text/plain", value: generatePlainText({ url, host }) }, // Plain text version of the email
+                    { type: "text/html", value: await render(VerifyIdentityEmail({ url })) }, // HTML version rendered using React component
+                ],
+            }),
+        });
+
+        // Check if the request was successful
+        if (!res.ok) {
+            const errorMessage = await res.text();
+            throw new Error(`SendGrid error: ${errorMessage}`);
+        }
+
+        console.log(`Magic link email sent successfully to ${to}`);
+    } catch (error) {
+        console.error(`Error sending magic link email: ${error}`);
+        throw error; // Propagate error for higher-level handling
+    }
+}
+
+// Generates plain text body for email (fallback for clients that don't render HTML)
+function generatePlainText({ url, host }: { url: string; host: string }): string {
+    return `Sign in to ${host}\n${url}\n\n`; // Simple message with link and host information
+}

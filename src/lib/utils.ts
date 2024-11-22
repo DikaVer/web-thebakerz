@@ -1,21 +1,70 @@
 import { clsx, type ClassValue } from 'clsx'
 import { customAlphabet } from 'nanoid'
 import { twMerge } from 'tailwind-merge'
+import {AddressDataStoreField} from "@/lib/definitions";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const nanoid = customAlphabet(
-    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-    11
-) // 11-character random string
+export function createNanoid(length: number) {
+  const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', length)
+  return nanoid();
+}
+
+
+export function formatAddress(address: AddressDataStoreField): string {
+    return [
+        address.route,
+        address.street_number,
+        address.premise,
+        address.sub_premise,
+        address.city
+    ].filter(Boolean).join(' ').trim().replace(/\s+/g, ', ');
+}
+
+export const formatCurrency = (amount: number) => {
+  return (amount / 100).toLocaleString('en-GB', {
+    style: 'currency',
+    currency: 'EUR',
+  });
+};
+
+export const formatCurrencyNormal = (amount: number) => {
+    return (amount).toLocaleString('en-GB', {
+        style: 'currency',
+        currency: 'EUR',
+    });
+};
+
+export const formatPrice = (amount: number) => {
+    return (amount / 100)
+};
+
+export function formatDataDate(input: string | number | Date): string {
+    const date = new Date(input)
+    return date.toLocaleDateString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric',
+    })
+}
+
 
 export function formatDate(input: string | number | Date): string {
   const date = new Date(input)
-  return date.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric'
+  return date.toLocaleDateString('en-GB', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
   })
+}
+
+export function formatDateTime(input: string | number | Date): string {
+    const date = new Date(input)
+    return date.toLocaleString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    })
 }

@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 39, 92%, 59%; Second variant*/
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -12,8 +13,8 @@
     --popover-foreground: 20 14.3% 4.1%;
     --primary: 302 81% 25%;
     --primary-foreground: 60 9.1% 97.8%;
-    --secondary: 38, 89%, 75%;
-    --secondary-hover: 38, 89%, 80%;
+    --secondary: 51, 80%, 90%;
+    --secondary-hover: 51, 80%, 80%;
     --secondary-foreground: 24 9.8% 10%;
     --muted: 60 4.8% 95.9%;
     --muted-foreground: 25 5.3% 44.7%;
@@ -37,6 +38,7 @@
     --gray-text: 60, 1%, 36%;
     --gray-component: 0, 0%, 85%;
     --gray-component-hover: 0, 0%, 75%;
+    --gray-fafafa: 0, 0%, 98%;
   }
 
   .dark {
@@ -71,22 +73,83 @@
     --gray-text: 60, 1%, 36%;
     --gray-component: 0, 0%, 85%;
     --gray-component-hover: 0, 0%, 75%;
+    --gray-fafafa: 0, 0%, 98%;
+  }
+}
+
+body {
+  @apply text-text; /* Uses the custom color defined in tailwind.config.js */
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade In Up with Delays */
+@keyframes fadeInUpDelay1 {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUpDelay2 {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @layer utilities {
-  .w-128 {
-    width: 28rem;
+
+  /* Animation Classes */
+  .animate-fadeInDown {
+    animation: fadeInDown 0.8s ease-out forwards;
   }
 
-  .scale-y-200{
-    transform: scaleY(2);
+  .animate-fadeInUp {
+    animation: fadeInUp 0.8s ease-out forwards;
   }
 
-  .scale-y-300{
-    transform: scaleY(3);
+  .animate-fadeInUp-delay-1 {
+    animation: fadeInUpDelay1 0.8s ease-out forwards;
+    animation-delay: 0.3s;
   }
 
+  .animate-fadeInUp-delay-2 {
+    animation: fadeInUpDelay2 0.8s ease-out forwards;
+    animation-delay: 0.6s;
+  }
+
+  /* ===========================
+     Width Utilities
+  ============================ */
   .w-7-5 {
     width: 1.875rem;
   }
@@ -103,6 +166,10 @@
     width: 5.5rem;
   }
 
+  .w-30 {
+    width: 7.5rem;
+  }
+
   .w-38 {
     width: 9.5rem;
   }
@@ -115,6 +182,18 @@
     width: 19.5rem;
   }
 
+  .w-128 {
+    width: 28rem;
+  }
+
+  .w-dynamic-button {
+    width: 34vw;
+    font-size: 3.5vw;
+  }
+
+  /* ===========================
+     Height Utilities
+  ============================ */
   .h-7-5 {
     height: 1.875rem;
   }
@@ -135,27 +214,69 @@
     height: 6.75rem;
   }
 
-  .animate-in {
-    animation-duration: 500ms;
+  .h-30 {
+    height: 7.5rem;
   }
 
+  /* ===========================
+     Scale Utilities
+  ============================ */
+  .scale-y-200 {
+    transform: scaleY(2);
+  }
+
+  .scale-y-300 {
+    transform: scaleY(3);
+  }
+
+  .scale-102 {
+    transform: scale(1.025);
+  }
+
+  .scale-115 {
+    transform: scale(1.15);
+  }
+
+  /* ===========================
+     Animation Utilities
+  ============================ */
+  .animate-in,
   .animate-out {
     animation-duration: 500ms;
   }
 
+  /* ===========================
+     Transition Utilities
+  ============================ */
+  .transition-duration-200 {
+    transition-duration: 200ms;
+  }
+
+  .animation-duration-200 {
+    animation-duration: 200ms;
+  }
+
+  /* ===========================
+     Padding Utilities
+  ============================ */
   .pt-18 {
     padding-top: 4.5rem;
   }
 
+  /* ===========================
+     Border Utilities
+  ============================ */
   .border-1 {
     border-width: 1px;
   }
 
-  .w-dynamic-button {
-    width: 30vw;
-    font-size: 2.8vw;
+  .border-3 {
+    border-width: 3px;
   }
 
+  /* ===========================
+     Hover Trigger Utilities
+  ============================ */
   .trigger-hover:hover .underline-on-hover {
     text-decoration: underline;
   }
@@ -164,48 +285,42 @@
     color: white;
   }
 
+  /* ===========================
+     Text Transition Utilities
+  ============================ */
   .text-on-hover-white {
     transition: transform 0.7s ease;
   }
 
-  .border-3 {
-    border-width: 3px;
-  }
-
-  .scale-102 {
-    transform: scale(1.025);
-  }
-
-  .duration-200 {
-    transition-duration: 200ms;
-  }
-
-  .duration-200 {
-    animation-duration: 200ms;
-  }
-
-  .clamp-title {
+  /* ===========================
+     Clamp Utilities
+  ============================ */
+  .clamp-title,
+  .clamp-description,
+  .clamp-product-description {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
+  }
+
+  .clamp-title {
     -webkit-line-clamp: 1; /* Adjust number of lines as needed */
   }
 
   .clamp-description {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
     -webkit-line-clamp: 4; /* Adjust number of lines as needed */
   }
 
-  .scale-115 {
-    transform: scale(1.15);
+  .clamp-product-description {
+    -webkit-line-clamp: 9; /* Adjust number of lines as needed */
   }
 
-    .trigger-hover:hover .scale-on-hover-105 {
+  /* ===========================
+     Hover Scale Utilities
+  ============================ */
+  .trigger-hover:hover .scale-on-hover-105 {
     transform: scale(1.05);
   }
 
@@ -221,10 +336,89 @@
     transition: transform 0.5s ease;
   }
 
+  /* ===========================
+     Margin Utilities
+  ============================ */
   .proportional-girl-mb {
-    margin-bottom: calc(22vw);
+    margin-bottom: 22vw;
   }
 
+  /* ===========================
+     PAC Container Utilities
+  ============================ */
+  .pac-container {
+    background-color: #FFF;
+    z-index: 1000;
+    position: fixed;
+    display: inline-block;
+    float: left;
+  }
+
+  .pac-icon {
+    display: none !important;
+  }
+
+  /* ===========================
+     Background Color Utilities
+  ============================ */
+  .bg-greenBakerz\/20 {
+    background-color: hsl(var(--green-bakerz), 0.2);
+  }
+
+  .bg-redBakerz\/20 {
+    background-color: hsl(var(--red-bakerz), 0.2);
+  }
+
+  .bg-orangeBakerz\/20 {
+    background-color: hsl(var(--orange-bakerz), 0.2);
+  }
+
+  .bg-greenBakerz\/40 {
+    background-color: hsl(var(--green-bakerz), 0.4);
+  }
+
+  .bg-redBakerz\/40 {
+    background-color: hsl(var(--red-bakerz), 0.4);
+  }
+
+  .bg-orangeBakerz\/40 {
+    background-color: hsl(var(--orange-bakerz), 0.4);
+  }
+
+  .bg-greenBakerz\/60 {
+    background-color: hsl(var(--green-bakerz), 0.6);
+  }
+
+  .bg-redBakerz\/60 {
+    background-color: hsl(var(--red-bakerz), 0.6);
+  }
+
+  .bg-orangeBakerz\/60 {
+    background-color: hsl(var(--orange-bakerz), 0.6);
+  }
+
+  .bg-greenBakerz\/80 {
+    background-color: hsl(var(--green-bakerz), 0.8);
+  }
+
+  .bg-redBakerz\/80 {
+    background-color: hsl(var(--red-bakerz), 0.8);
+  }
+
+  .bg-orangeBakerz\/80 {
+    background-color: hsl(var(--orange-bakerz), 0.8);
+  }
+
+}
+/* Reduced Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeInUp,
+  .animate-fadeInUpDelay1,
+  .animate-fadeInUpDelay2 {
+    animation: none;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 @layer base {
