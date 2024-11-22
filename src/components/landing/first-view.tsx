@@ -52,15 +52,14 @@ export function FirstView() {
                 >
                     {!isLoaded && <Skeleton height={500} />}
                     <Image
-                        src="/landing/PhoneDesign.svg"
+                        src="/landing/PhoneDesign.png"
                         alt="Application Illustration"
                         className={`w-full h-auto transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-                        width={700}
-                        height={600}
+                        width={3478}
+                        height={3188}
                         quality={100}
-                        loading="eager"
+                        priority
                         onLoad={() => setIsLoaded(true)}
-                        sizes="(max-width: 768px) 100vw, 700px"
                     />
                 </div>
 
