@@ -15,6 +15,7 @@ export default async function Page() {
                     width={200} // Adjust based on desired size
                     height={200} // Adjust based on desired size
                     className="w-full h-full"
+                    priority
                 />
             </div>
         </div>

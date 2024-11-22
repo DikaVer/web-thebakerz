@@ -22,7 +22,7 @@ export async function sendMagicLink(params: { identifier: string; url: string })
             body: JSON.stringify({
                 personalizations: [{ to: [{ email: to }] }], // Recipient email
                 from: { email: process.env.EMAIL_FROM }, // Sender email (from environment variable)
-                subject: `${host}: Sign in to TheBakerz`, // Subject of the email
+                subject: `TheBakerz: Link to sign in`, // Subject of the email
                 content: [
                     { type: "text/plain", value: generatePlainText({ url, host }) }, // Plain text version of the email
                     { type: "text/html", value: await render(VerifyIdentityEmail({ url })) }, // HTML version rendered using React component

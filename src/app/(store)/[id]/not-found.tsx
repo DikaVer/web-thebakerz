@@ -16,6 +16,7 @@ export default function NotFound() {
                         width={200} // Adjust based on desired size
                         height={200} // Adjust based on desired size
                         className="w-full h-full"
+                        priority
                     />
                 </div>
                 <p>
