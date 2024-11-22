@@ -38,7 +38,7 @@ const WhyChooseSection = () => {
     return (
         <section
             id="why-choose"
-            className="mt-12 w-full px-4 sm:px-6 lg:px-8 py-12 bg-white rounded-lg"
+            className="w-full px-4 sm:px-6 lg:px-8 py-12 bg-white rounded-lg"
             aria-labelledby="why-choose-heading"
         >
             <h2
@@ -51,7 +51,7 @@ const WhyChooseSection = () => {
                 Why Choose TheBakerz?
             </h2>
             <div
-                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8`}
+                className={`grid grid-cols-1 sm:grid-cols-2 gap-8`}
             >
                 {/* Online Store */}
                 <FeatureCard
@@ -77,8 +77,8 @@ const WhyChooseSection = () => {
                 {/* Customer Support */}
                 <FeatureCard
                     icon={<IconSupport viewBox="0 0 24 24" className="w-12 h-12" color="primary" aria-hidden="true" />}
-                    title="24/7 Support"
-                    description="Our dedicated support team is available around the clock to assist you with any queries."
+                    title="Flexible Support"
+                    description="Our dedicated team is here to help during our available hours, ensuring your queries are addressed promptly."
                 />
             </div>
         </section>
@@ -105,8 +105,8 @@ const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
             <div className="bg-secondary p-4 rounded-full mb-6">
                 {icon}
             </div>
-            <h3 className="flex text-xl lg:h-12 lg:items-center lg:justify-center font-semibold text-gray-800 mb-3">{title}</h3>
-            <p className="text-gray-600">{description}</p>
+            <h3 className="flex text-xl sm:text-2xl lg:h-12 lg:items-center lg:justify-center font-semibold text-gray-800 mb-4">{title}</h3>
+            <p className="text-gray-600 text-lg sm:text-xl">{description}</p>
         </article>
     )
 };
