@@ -36,7 +36,7 @@ export function FirstView() {
                 {/* Heading with Animation */}
                 <h1
                     ref={headingRef}
-                    className={`text-[38px] md:text-[64px] lg:text-8xl font-bold
+                    className={`text-[38px] sm:text-[48px] md:text-[64px] lg:text-8xl font-bold
                                 opacity-0 transform translate-y-10 
                                 ${headingInView ? 'animate-fadeInUp' : ''}`}
                 >
@@ -66,7 +66,7 @@ export function FirstView() {
                 {/* Subheading with Further Delayed Animation */}
                 <p
                     ref={subheadingRef}
-                    className={`text-[28px] md:text-[52px] lg:text-6xl my-4 ${pacifico.className}
+                    className={`text-[30px] sm:text-[42px] md:text-[51px] lg:text-6xl my-4 ${pacifico.className}
                                 opacity-0 transform translate-y-10 text-gray-900
                                 ${subheadingInView ? 'animate-fadeInUpDelay2' : ''}`}
                 >
@@ -78,7 +78,7 @@ export function FirstView() {
                     ref={buttonRef}
                 >
                     <p
-                        className={`text-sm italic text-primary mb-4 mt-8 
+                        className={`text-base girl-md:text-lg italic text-primary mb-4 mt-8 
                                 opacity-0 transform translate-y-10 
                                 ${buttonInView ? 'animate-fadeInUpDelay1' : ''}`}
                     >
