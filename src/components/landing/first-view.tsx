@@ -22,7 +22,6 @@ export function FirstView() {
     };
 
     const [isLoaded, setIsLoaded] = useState(false);
-    const [hasError, setHasError] = useState(false);
 
     // Initialize refs and inView states for each animated element
     const [headingRef, headingInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
@@ -58,10 +57,10 @@ export function FirstView() {
                         className={`w-full h-auto transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
                         width={2000}
                         height={2000}
+                        quality={100}
+                        priority
                         onLoad={() => setIsLoaded(true)}
-                        onError={() => setHasError(true)}
                     />
-                    {hasError && <p className="text-red-500 mt-4">Failed to load image.</p>}
                 </div>
 
                 {/* Subheading with Further Delayed Animation */}

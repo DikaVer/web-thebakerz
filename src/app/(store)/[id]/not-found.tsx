@@ -1,19 +1,30 @@
 
 import { ExternalLink } from '@/components/external-link'
 import React from "react";
+import Image from "next/image";
+import {pacifico} from "@/components/fonts";
 
 export default function NotFound() {
     return (
-        <div className="flex flex-col min-h-screen">
-            <div className="z-10 flex-grow container mx-auto text-center">
-                    <p className={"text-3xl my-10"}>Sorry, this page isn&apos;t available.</p>
-                    <p>
-                        The link you followed may be broken, or the page may have been removed.
-                    </p>
-                    <ExternalLink href="/">
-                        Go back to TheBakerz
-                    </ExternalLink>
+        <div className="flex flex-col mb-20">
+            <div className="z-10 flex flex-col justify-center items-center container mx-auto text-center">
+                <p className={`text-3xl my-10 ${pacifico.className}`}>Sorry, this page isn&apos;t available.</p>
+                <div className="w-2/3 h-2/3 ml-14 mb-2">
+                    <Image
+                        src="/landing/Search.svg"
+                        alt="Verify Email Image"
+                        width={200} // Adjust based on desired size
+                        height={200} // Adjust based on desired size
+                        className="w-full h-full"
+                    />
+                </div>
+                <p>
+                    The link you followed may be broken, or the page may have been removed.
+                </p>
+                <ExternalLink href="/">
+                    Go back to TheBakerz
+                </ExternalLink>
             </div>
         </div>
-);
+    );
 }
