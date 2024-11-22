@@ -4,16 +4,14 @@ import type { Metadata } from "next";
 import SideNav from "@/components/dashboard/sidenav";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {auth} from "@/auth";
-import { notFound } from 'next/navigation';
+import NotFound from "@/app/(error_layout)/not-found";
 
 export const metadata: Metadata = {
     metadataBase: new URL(`https://www.TheBakerz.com/`),
     title: {
         default: 'TheBakerz',
-        template: `%s - TheBakerz`
+        template: `%s - Dashboard`
     },
-    description: '',
-
 }
 
 export default async function RootLayout({
@@ -25,11 +23,11 @@ export default async function RootLayout({
     const session = await auth();
 
     if (!session) {
-        return notFound();
+        return NotFound();
 
         // @ts-ignore
     } else if (session?.user?.role !== 'admin') {
-        return notFound();
+        return NotFound();
     }
 
     return (

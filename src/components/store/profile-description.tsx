@@ -129,7 +129,7 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                         <div className={"grid gap-4 slide-in-from-top-[5%]"} id="profile-section" ref={profileSectionRef}>
                             <div className="relative h-40">
                                 <Image
-                                    src={background_url ? background_url : "/background_default.jpg"}
+                                    src={background_url ? background_url : "/images/background_default.jpg"}
                                     alt="Background"
                                     quality={75} // Reduced quality for optimization
                                     fill

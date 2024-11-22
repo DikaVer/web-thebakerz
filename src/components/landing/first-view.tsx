@@ -52,7 +52,7 @@ export function FirstView() {
                 >
                     {!isLoaded && <Skeleton height={500} />}
                     <Image
-                        src="/landing/PhoneDesign.png"
+                        src="/images/PhoneDesign.png"
                         alt="Application Illustration"
                         className={`w-full h-auto transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
                         width={3478}

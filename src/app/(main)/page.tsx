@@ -130,7 +130,7 @@ const Footer = () => {
         </div>
         <div className="relative w-36 proportional-girl-mb girl-md:mb-28">
             <Image
-                src="/landing/Mickey.svg"
+                src="/images/Mickey.svg"
                 alt="TheBakerz - Mickey"
                 className="absolute z-50"
                 width={192}
@@ -141,7 +141,7 @@ const Footer = () => {
         <span className={`text-3xl text-primary text-center ${pacifico.className}`}>We want you to succeed</span>
         <div className="relative w-36 proportional-girl-mb girl-md:mb-32">
             <Image
-                src="/landing/Wiki.svg"
+                src="/images/Wiki.svg"
                 alt="TheBakerz - Wiki"
                 className="absolute z-50 pb-20"
                 width={185}

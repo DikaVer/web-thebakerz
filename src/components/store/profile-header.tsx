@@ -138,7 +138,7 @@ const Background: FC<BackgroundProps> = ({ background_url }) => {
             ) : (
                 // Default Background Image
                 <Image
-                    src="/background_default.jpg" // Ensure this image exists in your public folder
+                    src="/images/background_default.jpg" // Ensure this image exists in your public folder
                     alt="Default Background"
                     fill
                     sizes="75vw"
