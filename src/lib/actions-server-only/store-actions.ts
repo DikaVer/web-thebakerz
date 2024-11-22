@@ -60,6 +60,9 @@ export async function fetchFilteredStores(
 
 export const fetchStoreId = async (storeId: string): Promise<{ storeId: string, nickname: string, image: string } | null> => {
     try {
+        if (!storeId){
+            return null;
+        }
         const lowerCaseStoreId = storeId.toLowerCase();
 
         const queryStore = await sql`

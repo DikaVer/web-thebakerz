@@ -24,7 +24,8 @@ export async function MenuItems({ login, name, role }: MenuItemsProps) {
             <hr className="m-4" />
             <ul className="grid pl-6 gap-6">
                 <li>
-                    <p className="text-sm hover:scale-105 transition duration-300">Create a bakery account</p>
+                    <a href="/apply" className="text-sm transition duration-300 hover:scale-105">Create a bakery
+                        account</a>
                 </li>
             </ul>
         </>
@@ -37,13 +38,16 @@ interface LoggedInMenuProps {
 
 const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ name}) => (
     <>
-        <div className="flex flex-row items-center space-x-3 p-2 pb-6 pt-6 trigger-hover cursor-pointer">
+        <a
+            className="flex flex-row items-center space-x-3 p-2 pb-6 pt-6 trigger-hover cursor-pointer"
+            href={"settings"}
+        >
             <IconAvatar className="w-14-5 h-14-5" />
             <div>
                 <p className="text-lg">{name}</p>
                 <p className="text-primary scale-on-hover-105">Account settings</p>
             </div>
-        </div>
+        </a>
         <ul className="grid pl-6 gap-6">
             <MenuItem icon={IconBill} label="Orders" link="/orders" />
             <MenuItem icon={IconPayment} label="Payment Details" link="/payments" />
@@ -80,11 +84,11 @@ interface MenuItemProps {
 
 const MenuItem: React.FC<MenuItemProps> = ({ icon: Icon, label, link }) => (
     <li>
-        <div className="flex flex-row items-center space-x-3 hover:scale-105 transition duration-300">
-            <Icon className="w-7 h-7" />
-            <a className="text-lg" href={link}>
+        <a className="flex flex-row items-center space-x-3 hover:scale-105 transition duration-300" href={link}>
+            <Icon className="w-7 h-7"/>
+            <span className="text-lg">
                 {label}
-            </a>
-        </div>
+            </span>
+        </a>
     </li>
 );

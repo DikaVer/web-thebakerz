@@ -22,7 +22,7 @@ export async function Header({storeId, main, login, role, name }: HeaderProps) {
 
     return (
         <header className="sticky top-0 w-full z-30 bg-white">
-            <nav className="text-black pt-4">
+            <nav className="pt-4">
                 <div className="container mx-auto flex justify-between items-center">
                      {/*Conditionally render the menu button*/}
                     {main && login ? (
@@ -33,12 +33,12 @@ export async function Header({storeId, main, login, role, name }: HeaderProps) {
 
                     {/* TheBakerz logo (conditionally shown if main is true) */}
                     <div className="flex flex-row hover:scale-125 transition duration-500 cursor-pointer">
-                        <a href="/" className={`text-3xl font-bold mx-auto ${pacifico.className}`}>TheBakerz</a>
+                        <a href="/" className={`text-3xl animate-fadeInDown mx-auto ${pacifico.className}`}>TheBakerz</a>
                     </div>
 
                     {/* Conditionally render the cart or sign-in button*/}
                     {main && login ? (
-                        <div  className={`flex flex-col ${pacifico.className}`}>
+                        <div  className={`flex flex-col  ${pacifico.className}`}>
                             <p className={``}>Search Bakerz</p>
                             <p className={`text-primary text-sm`}>Coming soon!</p>
                         </div>

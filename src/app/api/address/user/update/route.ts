@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
 import {AddressDataFieldSchema} from "@/lib/schemas";
-import {create} from "node:domain";
 import {createNanoid} from "@/lib/utils";
+
+export const runtime = "edge"
 
 
 // This function will handle saving the address

@@ -162,7 +162,7 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                                                 className="w-32 h-32 inset-0 flex items-center justify-center bg-gray-100 rounded-full"/>
                                         )}
                                     </div>
-                                    <span className="ml-4 text-2xl font-bold text-black clamp-title">
+                                    <span className="ml-4 text-2xl font-bold clamp-title">
                                         {name ? name : "Empty name"}
                                     </span>
                                     </div>
@@ -232,7 +232,7 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                                     <IconStar className={"w-6"} color={"primary"}/>
                                     <IconStar className={"w-6"} color={"primary"} state={"half"}/>
                                     <IconStar className={"w-6"} color={"primary"} state={"empty"}/>
-                                    <p className="ml-2 text-black font-medium text-grayText">5.0 (260 reviews)</p>
+                                    <p className="ml-2 font-medium text-grayText">5.0 (260 reviews)</p>
                                 </div>
                             </div>
                             <IconChevronDown className={"w-12 transform -rotate-90"}/>
@@ -340,7 +340,7 @@ const LocationComponent: React.FC<{ location: AddressDataStoreField }> = ({ loca
         >
             <div className="flex items-center space-x-2">
                 <IconLocation className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"} />
-                <p className="text-lg cm:text-xl text-black clamp-title">{formatAddress(location)}</p>
+                <p className="text-lg cm:text-xl clamp-title">{formatAddress(location)}</p>
             </div>
             <IconCopy
                 className={`w-6 h-6 cursor-pointer transition-transform duration-300 ${hoveringCopy ? 'scale-115' : ''}`}

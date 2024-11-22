@@ -143,7 +143,7 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
                             }}
                             variant="secondary">
                         <div className="flex flex-row w-full justify-between items-center">
-                            <p className="text-black text-lg">Back to store</p>
+                            <p className="text-lg">Back to store</p>
                         </div>
                     </Button>
                 </div>

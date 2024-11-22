@@ -33,7 +33,7 @@ export const useCheckoutSettings = () => {
             savedAddresses: getLocalStorageItem<AddressUserData>('savedAddresses', null),
             selectedTime: getLocalStorageItem<{
                 date: `${number}/${number}/${number}`;
-                time: keyof typeof timeMap;
+                time: string;
             } | null>('selectedTime', null),
         };
 

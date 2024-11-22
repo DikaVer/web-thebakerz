@@ -1,10 +1,11 @@
 import { Metadata } from "next"
 import Link from "next/link"
 import {UserAuthForm} from "@/components/authentication/user-auth-form";
+import {pacifico} from "@/components/fonts";
 
 export const metadata: Metadata = {
     title: "Authentication",
-    description: "Authentication forms built using the components.",
+    description: "TheBakerz authentication to sign in the platform.",
 }
 
 export default async function Page() {
@@ -18,7 +19,7 @@ export default async function Page() {
                 <div className="lg:p-8">
                     <div className="mx-auto flex flex-col justify-center space-y-6 w-[350px]">
                         <div className={"container flex flex-col items-center w-full gap-1"}>
-                            <p className={"flex text-6xl font-bold"}>TheBakerz</p>
+                            <p className={`flex text-7xl ${pacifico.className}`}>TheBakerz</p>
                             <p className={"flex text-grayText"}>Sign in to order delicious treats</p>
                         </div>
                         <UserAuthForm/>

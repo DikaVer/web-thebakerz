@@ -46,7 +46,6 @@ export default function StoreForm() {
 
     const { refresh, push } = useRouter();
 
-
     const form = useForm<z.infer<typeof  storeCreateSchema>>({
         resolver: zodResolver(storeCreateSchema),
         defaultValues: {
@@ -54,6 +53,13 @@ export default function StoreForm() {
             locationData: undefined
         }
     });
+
+    useEffect(() => {
+        if (address) {
+            form.setValue('locationData', address);
+        }
+        // Include form in dependencies to ensure it's up-to-date
+    }, [address]);
 
 
 
@@ -108,7 +114,7 @@ export default function StoreForm() {
                 </>
             )}
             <div className="bg-white p-8 w-full max-w-lg rounded-lg shadow-md">
-                <h2 className="text-3xl font-semibold mb-8 text-center text-black">Create a Store</h2>
+                <h2 className="text-3xl font-semibold mb-8 text-center">Create a Store</h2>
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
@@ -143,12 +149,6 @@ export default function StoreForm() {
                             name="locationData"
                             render={({field, fieldState}) => {
 
-                                useEffect(() => {
-                                    if (address) {
-                                        field.onChange(address as AddressDataStoreField); // Update the field when address is not null
-                                    }
-                                }, [address]);
-
                                 return (
                                     <FormItem>
                                         <FormLabel
@@ -167,7 +167,7 @@ export default function StoreForm() {
                                                                 color={"primary"}
                                                             />
                                                             <div className={"flex w-full"}>
-                                                                <p className="text-black text-lg">
+                                                                <p className=" text-lg">
                                                                     {formatAddress(address)}
                                                                 </p>
                                                             </div>

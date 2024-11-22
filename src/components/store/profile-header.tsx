@@ -208,7 +208,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, location, deliveryOptio
                 className="flex items-center space-x-2 hover:scale-102 transition duration-300"
                 onClick={() => toggleDialog("profile-section")}
             >
-                <span className={`text-2xl cm:text-3xl font-bold text-black clamp-title ${pacifico.className}`}>
+                <span className={`text-2xl cm:text-3xl font-bold clamp-title ${pacifico.className}`}>
                     {name ?? "Empty name"}
                 </span>
             </div>
@@ -217,7 +217,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, location, deliveryOptio
                 onClick={() => toggleDialog("review-section")}
             >
                 <IconStar className="w-[24px] cm:w-[28px]" color="primary" />
-                <p className="text-lg cm:text-xl text-black">5.0</p>
+                <p className="text-lg cm:text-xl">5.0</p>
                 <p className="text-sm cm:text-base underline font-light text-gray-600 clamp-title">260 reviews</p>
             </div>
             <div
@@ -226,7 +226,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, location, deliveryOptio
             >
                 <IconLocation className="w-[24px] cm:w-[28px]" color="primary" />
                 <div className="-space-y-1">
-                    <p className="text-lg cm:text-xl text-black clamp-title">{formatAddress(location)}</p>
+                    <p className="text-lg cm:text-xl clamp-title">{formatAddress(location)}</p>
                     {deliveryOptions && (
                         <p className="text-sm cm:text-md text-grayText underline underline-offset-2 clamp-title">
                             Store has delivery locations

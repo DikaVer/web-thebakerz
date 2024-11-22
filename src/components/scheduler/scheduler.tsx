@@ -152,7 +152,7 @@ const SchedulerContentView: React.FC<{
                 />
             )}
             <div>
-                <p className="text-black text-xl">Time Preferences</p>
+                <p className=" text-xl">Time Preferences</p>
                 <div
                     className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg">
                     <IconClock className={"w-10 h-10 tm:w-12 tm:h-12"} />
@@ -160,15 +160,15 @@ const SchedulerContentView: React.FC<{
                         {
                             checkoutData.selectedTime ? (
                                 <>
-                                    <p className="text-black font-medium text-left text-sm tm:text-base">
+                                    <p className="font-medium text-left text-sm tm:text-base">
                                         {new Date(checkoutData.selectedTime?.date as string).toDateString()}
                                     </p>
-                                    <p className="text-black font-medium text-left text-sm tm:text-base">
+                                    <p className="font-medium text-left text-sm tm:text-base">
                                         {formatDateTime(timeMap[checkoutData.selectedTime.time as string].from)} - {formatDateTime(timeMap[checkoutData.selectedTime.time as string].to)}
                                     </p>
                                 </>
                             ) : (
-                                <p className="text-black text-left text-lg tm:text-xl">Schedule {checkoutData.deliveryMode === "PICKUP" ? "Pickup" : "Delivery"}</p>
+                                <p className="text-left text-lg tm:text-xl">Schedule {checkoutData.deliveryMode === "PICKUP" ? "Pickup" : "Delivery"}</p>
                             )
                         }
                     </div>

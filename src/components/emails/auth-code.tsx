@@ -7,16 +7,17 @@ import {
     Hr,
     Link,
     Text,
-    Button
+    Button,
 } from "@react-email/components";
 import * as React from "react";
 
 interface VerifyIdentityEmailProps {
-    url: string;
+    verificationCode: string;
 }
 
-export function VerifyIdentityEmail({url} : VerifyIdentityEmailProps) {
-
+export default function VerifyCodeEmail({ verificationCode }: VerifyIdentityEmailProps) {
+    // Format the verification code as ###-###
+    const formattedCode = `443554`;
 
     return (
         <Html>
@@ -65,36 +66,16 @@ export function VerifyIdentityEmail({url} : VerifyIdentityEmailProps) {
                             Hello there!
                         </Text>
                         <Text style={description}>
-                            Use the link below to verify your identity and sign in to your TheBakerz account. If you didn&apos;t request this, please ignore this email or contact support.
+                            Use the 6-digit code below to verify your identity and sign in to your TheBakerz account. If you didn&apos;t request this, please ignore this email or contact support.
                         </Text>
-                        {/*<Text style={code} className="code">*/}
-                        {/*    {formattedCode}*/}
-                        {/*</Text>*/}
-                        <Button
-                            href={url}
-                            style={{
-                                cursor: 'pointer',
-                                width: "80%",
-                                padding: 8,
-                                border: '0',
-                                boxSizing: 'border-box',
-                                borderRadius: '8px',
-                                backgroundColor: '#730c6f',
-                                color: '#ffffff',
-                                fontSize: '20px',
-                                textAlign: 'center',
-                                fontWeight: 600,
-                                display: 'block',
-                                margin: '20px auto',
-                            }}
-                        >
-                            Sign in by Email
-                        </Button>
-                        {/*<Text style={copyInstruction} className="copy-instruction">*/}
-                        {/*    Please copy and paste this code into the verification field.*/}
-                        {/*</Text>*/}
+                        <Text style={code} className="code">
+                            {formattedCode}
+                        </Text>
+                        <Text style={copyInstruction} className="copy-instruction">
+                            Please copy and paste this code into the verification field.
+                        </Text>
                         <Text style={note}>
-                            This link will expire in 10 minutes.
+                            This code will expire in 10 minutes.
                         </Text>
                     </Container>
 

@@ -43,7 +43,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                         {/* Uncomment if rating is needed */}
                         {/* <div className="flex items-center space-x-0.5">
               <IconStar className="w-5 h-5 cm:w-5 cm:h-5" color="primary" />
-              <p className="text-base cm:text-lg text-black">
+              <p className="text-base cm:text-lg">
                 {productData.rating}
               </p>
             </div> */}

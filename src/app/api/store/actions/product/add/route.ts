@@ -2,9 +2,7 @@ import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
 import {NextResponse} from "next/server";
 import {productApiSchema} from "@/lib/schemas";
-export const config = {
-    runtime: 'edge', // 'nodejs' is the default
-};
+export const runtime = "edge"
 
 
 export async function POST(req: Request) {

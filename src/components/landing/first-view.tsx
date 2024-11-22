@@ -3,7 +3,12 @@
 import { useRouter } from 'next/navigation';
 import {Button} from "@/components/ui/button";
 import Image from "next/image";
-import React from "react";
+import React, {useState} from "react";
+import {pacifico} from "@/components/fonts";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
+import {useInView} from "@/lib/hooks/useInView";
+
 
 
 
@@ -12,37 +17,90 @@ export function FirstView() {
     const router = useRouter();
 
     const handleCreate = () => {
-        router.push('/create')
+        router.push('/apply')
         router.refresh()
     };
 
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [hasError, setHasError] = useState(false);
+
+    // Initialize refs and inView states for each animated element
+    const [headingRef, headingInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
+    const [imageRef, imageInView] = useInView<HTMLDivElement>({ threshold: 0 });
+    const [subheadingRef, subheadingInView] = useInView<HTMLParagraphElement>({ threshold: 0 });
+    const [buttonRef, buttonInView] = useInView<HTMLDivElement>({ threshold: 0 });
+
     return (
-        <div className={"flex flex-col md:flex-row justify-center items-center"}>
-            <div className="bg-white w-full md:w-1/2 py-12 flex flex-col items-center text-center">
-                <h1 className="text-4xl font-bold">
+        <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen overflow-hidden">
+            <div className="bg-white w-full py-12 flex flex-col items-center text-center">
+
+                {/* Heading with Animation */}
+                <h1
+                    ref={headingRef}
+                    className={`text-[38px] md:text-[64px] lg:text-8xl font-bold
+                                opacity-0 transform translate-y-10 
+                                ${headingInView ? 'animate-fadeInUp' : ''}`}
+                >
                     Stop getting lost in customer messages, orders, and recipes.
                 </h1>
-                <p className="text-base my-2">
+
+                {/* Image with Delayed Animation */}
+                <div
+                    ref={imageRef}
+                    className={`mt-8 w-full h-auto 
+                                opacity-0 transform translate-y-10 
+                                ${imageInView ? 'animate-fadeInUpDelay1' : ''}`}
+                >
+                    {!isLoaded && <Skeleton height={500} />}
+                    <Image
+                        src="/landing/PhoneDesign.svg"
+                        alt="Application Illustration"
+                        className={`w-full h-auto transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                        width={2000}
+                        height={2000}
+                        onLoad={() => setIsLoaded(true)}
+                        onError={() => setHasError(true)}
+                    />
+                    {hasError && <p className="text-red-500 mt-4">Failed to load image.</p>}
+                </div>
+
+                {/* Subheading with Further Delayed Animation */}
+                <p
+                    ref={subheadingRef}
+                    className={`text-[28px] md:text-[52px] lg:text-6xl my-4 ${pacifico.className}
+                                opacity-0 transform translate-y-10 text-gray-900
+                                ${subheadingInView ? 'animate-fadeInUpDelay2' : ''}`}
+                >
                     TheBakerz - the only platform you need to manage your business.
                 </p>
-                <p className="text-sm italic text-primary mb-1 mt-10">
-                    Exclusive offer: start for 3 months for free!
-                </p>
-                <div className={"flex flex-col"}>
-                    <Button className="py-2 px-6 rounded-lg text-base" variant={"default"} onClick={handleCreate}>
-                        Create a bakery account
-                    </Button>
+
+                {/* Offer Text with Animation */}
+                <div
+                    ref={buttonRef}
+                >
+                    <p
+                        className={`text-sm italic text-primary mb-4 mt-8 
+                                opacity-0 transform translate-y-10 
+                                ${buttonInView ? 'animate-fadeInUpDelay1' : ''}`}
+                    >
+                        Exclusive offer: start for 3 months for free!
+                    </p>
+
+                    {/* Button with Animation */}
+                    <div
+                        className={`flex flex-col 
+                                opacity-0 transform translate-y-10 
+                                ${buttonInView ? 'animate-fadeInUpDelay1' : ''}`}
+                    >
+                        <Button
+                            className="py-6 px-6 rounded-lg text-2xl transition-transform transform hover:scale-105"
+                            variant="default"
+                            onClick={handleCreate}
+                        >
+                            Create a bakery account
+                        </Button>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <Image
-                    src="https://assets.api.uizard.io/api/cdn/stream/113b1775-e8c3-42a6-b14a-65709fb5c983.png"
-                    alt="Kitchen Illustration"
-                    className="w-full h-auto"
-                    width={1000}
-                    height={1000}
-                    quality={100}
-                />
             </div>
         </div>
     );

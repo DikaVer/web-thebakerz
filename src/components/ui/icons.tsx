@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 const colors = {
     primary: '#730C6F', //'#730C6F'
     secondary: '#F8CE87', //'#F8CE87'
-    black: '#000000',
+    black: '#1f2937',
     heart: '#ce2751',
     white: '#ffffff',
 };
@@ -598,7 +598,7 @@ function IconStore({
                        color = 'black', // default color
                        viewBox = "0 0 24 24",
                        ...props
-                   }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
+                   }: React.ComponentProps<'svg'> & { color?: keyof typeof colors }) {
     const styles = {
         color: colors[color],
         fill: colors[color],
@@ -624,7 +624,7 @@ function IconOrder({
                        color = 'black', // default color
                        viewBox = "0 0 24 24",
                        ...props
-                   }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
+                   }: React.ComponentProps<'svg'> & { color?: keyof typeof colors}) {
     const styles = {
         color: colors[color],
         fill: colors[color],
@@ -650,7 +650,7 @@ function IconMessage({
                          color = 'black', // default color
                          viewBox = "0 0 24 24",
                          ...props
-                     }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
+                     }: React.ComponentProps<'svg'> & { color?: keyof typeof colors }) {
     const styles = {
         color: colors[color],
         fill: colors[color],

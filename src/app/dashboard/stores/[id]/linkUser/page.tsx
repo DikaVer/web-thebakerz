@@ -25,7 +25,7 @@ export default async function Page({params, searchParams}: StoreLinkPageProps) {
 
         <div className="min-h-screen bg-gradient-to-br from-primary to-secondary flex items-center justify-center rounded-lg">
             <div className="bg-white p-8 w-full max-w-lg rounded-lg shadow-md">
-                <h2 className="text-3xl font-semibold mb-8 text-center text-black">Link User to the store {params.id}</h2>
+                <h2 className="text-3xl font-semibold mb-8 text-center">Link User to the store {params.id}</h2>
                     <UserLinkStore userList={users}  storeId={params.id}/>
 
             </div>

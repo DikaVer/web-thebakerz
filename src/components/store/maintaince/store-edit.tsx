@@ -430,7 +430,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                 </FormControl>
                                 <FormMessage/>
                                 <FormDescription>
-                                    This is the name that will be used in your store's page near avatar.
+                                    This is the name that will be used in your store&apos;s page near avatar.
                                 </FormDescription>
                             </FormItem>
                         )}
@@ -457,7 +457,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                 </FormControl>
                                 <FormMessage/>
                                 <FormDescription>
-                                    This is the name that will be used in your store's URL.
+                                    This is the name that will be used in your store&apos;s URL.
                                 </FormDescription>
                             </FormItem>
                         )}

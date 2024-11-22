@@ -51,7 +51,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView
                 isEditing={false}
             />
             <div className={"mt-4"}>
-                <p className="text-black text-xl">Saved addresses</p>
+                <p className="text-xl">Saved addresses</p>
                 <ul>
                     {checkoutData.savedAddresses && Object.keys(checkoutData.savedAddresses).length > 0 ? Object.values(checkoutData.savedAddresses).map((address) => (
                         <li key={address.id}>
@@ -63,7 +63,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView
                                 <IconLocation className={"w-8 h-8"}
                                               color={checkoutData.deliveryAddress === address.id ? "primary" : "secondary"}/>
                                 <div className={"flex w-full"}>
-                                    <p className="text-black text-xl clamp-title">{formatAddress(address)}</p>
+                                    <p className="text-xl clamp-title">{formatAddress(address)}</p>
                                 </div>
                                 <div
                                     className={`transition duration-500 ${hoveringEdit[address.id] ? 'scale-115' : ''}`}

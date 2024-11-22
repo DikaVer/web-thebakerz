@@ -24,6 +24,7 @@ const config = {
     },
     extend: {
       colors: {
+        text: '#1f2937',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -88,10 +89,18 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
       },
       animation: {
+        "fadeInUp": 'fadeInUp 0.8s ease-out forwards',
+        "fadeInUpDelay1": 'fadeInUp 0.8s ease-out forwards 0.3s',
+        "fadeInUpDelay2": 'fadeInUp 0.8s ease-out forwards 0.6s',
         "accordion-down": "accordion-down 0.5s ease-out",
         "accordion-up": "accordion-up 0.5s ease-out",
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
       },
     },
   },

@@ -13,11 +13,13 @@ interface UserAddressProps {
 
 
 const UserAddresses = ({ shippingAddress, savedAddresses } : UserAddressProps) => {
-    if (shippingAddress === null || savedAddresses === null || savedAddresses === undefined || shippingAddress === undefined) {
+
+    const [selectedAddress, setSelectedAddress] = useState(shippingAddress);
+
+    if (selectedAddress === null || shippingAddress === null || savedAddresses === null || savedAddresses === undefined || shippingAddress === undefined) {
         return null;
     }
 
-    const [selectedAddress, setSelectedAddress] = useState(shippingAddress);
 
     // Function to generate static map URL
     const generateMapUrl = (latitude: number, longitude: number) => {

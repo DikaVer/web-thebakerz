@@ -25,8 +25,8 @@ const DateBlock: React.FC<DateBlockProps> = ({ day, date, status, bgColor }) => 
         <TooltipTrigger asChild>
             <div
                 className={`rounded-xl w-10 h-10 cm:w-12 cm:h-12 border-3 -space-y-1 flex flex-col font-medium items-center justify-center ${bgColor} trigger-hover transition duration-700`}>
-                <p className="text-black text-on-hover-white text-xs cm:text-sm">{day}</p>
-                <p className="text-black text-on-hover-white text-base cm:text-xl">{date}</p>
+                <p className="text-on-hover-white text-xs cm:text-sm">{day}</p>
+                <p className="text-on-hover-white text-base cm:text-xl">{date}</p>
             </div>
         </TooltipTrigger>
         <TooltipContent>
@@ -44,13 +44,13 @@ const CheckoutDetails: React.FC<CheckoutDetailsProps> = ({ checkoutData }) => {
         <div className="ml-2">
             {checkoutData.deliveryMode === "PICKUP" ? (
                 <div className="cm:mt-1">
-                    <p className="text-sm cm:text-base text-black font-medium">
+                    <p className="text-sm cm:text-base font-medium">
                         {checkoutData.selectedTime
                             ? `Pick Up: ${format(new Date(checkoutData.selectedTime.date), 'd MMM')}`
                             : "Pick Up"}
                     </p>
                     <div className="flex">
-                        <p className="text-sm cm:text-base text-black font-medium w-24">
+                        <p className="text-sm cm:text-base font-medium w-24">
                             {checkoutData.selectedTime ? (
                                 `${formatDateTime(timeMap[checkoutData.selectedTime.time].from)} - ${formatDateTime(timeMap[checkoutData.selectedTime.time].to)}`
                             ) : (
@@ -62,12 +62,12 @@ const CheckoutDetails: React.FC<CheckoutDetailsProps> = ({ checkoutData }) => {
                 </div>
             ) : (
                 <div className="grid -space-y-1.5 -mt-1">
-                    <p className="text-sm cm:text-base text-black font-medium">
+                    <p className="text-sm cm:text-base font-medium">
                         {checkoutData.selectedTime
                             ? `Delivery: ${format(new Date(checkoutData.selectedTime.date), 'd MMM')}`
                             : "Delivery"}
                     </p>
-                    <p className="text-sm cm:text-base text-black font-medium">
+                    <p className="text-sm cm:text-base font-medium">
                         {checkoutData.selectedTime ? (
                             `${formatDateTime(timeMap[checkoutData.selectedTime.time].from)} - ${formatDateTime(timeMap[checkoutData.selectedTime.time].to)}`
                         ) : (
@@ -75,7 +75,7 @@ const CheckoutDetails: React.FC<CheckoutDetailsProps> = ({ checkoutData }) => {
                         )}
                     </p>
                     <div className="flex">
-                        <p className="text-sm cm:text-base text-black clamp-title w-24 font-medium">
+                        <p className="text-sm cm:text-base clamp-title w-24 font-medium">
                             {checkoutData.savedAddresses && checkoutData.deliveryAddress ? (
                                 formatAddress(checkoutData.savedAddresses[checkoutData.deliveryAddress])
                             ) : (

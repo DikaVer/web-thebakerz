@@ -3,6 +3,8 @@ import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
 import {AddressDataStoreField} from "@/lib/definitions";
 
+export const runtime = "edge"
+
 const isAuthorized = (req: Request) => {
     const authHeader = req.headers.get('Authorization');
     const secretKey = authHeader?.split(' ')[1]; // Extract the key after 'Bearer'

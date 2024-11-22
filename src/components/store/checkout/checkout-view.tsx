@@ -29,6 +29,7 @@ import {FormSuccess} from "@/components/authentication/form-success";
 import {FormError} from "@/components/authentication/form-error";
 import {Search} from "lucide-react";
 import {ClipLoader} from "react-spinners";
+import VerifyCode from "@/components/emails/verification/verify-email-code";
 
 
 interface CheckoutViewProps {
@@ -79,6 +80,9 @@ export default function CheckoutView({id, availability, userLocation, email}: Ch
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
 
+    const [isOTPWindow, setOTPWindow] = useState(false);
+    const [otpCode, setOTPcode] = useState("");
+
 
     const form = useForm<CheckoutFormValues>({
         resolver: zodResolver(CheckoutSchema),
@@ -110,6 +114,20 @@ export default function CheckoutView({id, availability, userLocation, email}: Ch
     };
     const { handleSubmit, setValue, watch, formState: { errors, isSubmitting }, setError: setFormError } = form;
 
+    const emailVerify = async (email: string) => {
+        try {
+            const emailValid = await validateEmailAPI(email);
+            if (!emailValid) {
+                setFormError('email', { type: 'manual', message: 'Email is already used' });
+                return;
+            } else {
+
+            }
+        } catch (err) {
+            setError('An unexpected error occurred. Please try again.');
+        }
+    }
+
     const onSubmit: SubmitHandler<CheckoutFormValues> = async (data) => {
         // Validate cart
         if (!cart[id] || cart[id].products.length === 0) {
@@ -118,191 +136,192 @@ export default function CheckoutView({id, availability, userLocation, email}: Ch
         }
 
         try {
-            // Validate email via API
-            const emailValid = await validateEmailAPI(data.email);
-            if (!emailValid) {
-                setFormError('email', { type: 'manual', message: 'Email validation failed' });
-                return;
-            }
 
-            // Update checkout data in local storage or context
-            updateCheckoutData();
-
-            // Proceed to the next step, e.g., payment
+            // Proceed to the next step, e.g., payments
             router.push('/payment');
         } catch (err) {
-            console.error(err);
             setError('An unexpected error occurred. Please try again.');
         }
     };
 
     return (
-        <Form {...form}>
-            <form onSubmit={handleSubmit(onSubmit)} className={`border-1 border-grayComp rounded-lg h-fit shadow-md`}>
-                <div className={'flex flex-col justify-center p-5 gap-4'}>
-                    <p className={`text-3xl font-bold text-center ${pacifico.className}`}>Checkout Process</p>
-                    <hr className="border-grayBg"/>
-
-                    {/* Delivery Mode Switch */}
-                    <div className={"flex flex-col justify-between items-center"}>
-                        <FormField
-                            control={form.control}
-                            name="deliveryMode"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <SwitchDelivery
-                                            isPickup={checkoutData.deliveryMode === "PICKUP"}
-                                            onSwitchClick={() => {
-                                                setValue('deliveryMode', checkoutData.deliveryMode);
-                                            }}
-                                            checkoutData={checkoutData}
-                                            updateCheckoutData={updateCheckoutData}
-                                        />
-
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    {/* Address Search */}
-                    {checkoutData.deliveryMode === "DELIVERY" && (
-                        <FormField
-                            control={form.control}
-                            name="deliveryAddress"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <AddressSearch
-                                            handleSchedulerView={handleSchedulerView}
-                                            setInputAddress={setInputAddress}
-                                            checkoutData={checkoutData}
-                                            updateCheckoutData={updateCheckoutData}
-                                        />
-                                    </FormControl>
-                                    <FormDescription>Select your delivery address</FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    )}
-
-                    {/* Time Preferences */}
-                    <FormField
-                        control={form.control}
-                        name="selectedTime"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-black text-xl font-medium">Time Preferences</FormLabel>
-                                <FormControl>
-                                    <div
-                                        className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg"
-                                        onClick={() => handleSchedulerView("timeSelection")}
-                                    >
-                                        <IconClock className={"w-8 h-8 tm:w-10 tm:h-10"}/>
-                                        <div className={"flex flex-col w-full"}>
-                                            {
-                                                checkoutData.selectedTime ? (
-                                                    <>
-                                                        <p className="text-black font-medium text-left text-sm tm:text-base">
-                                                            {new Date(checkoutData.selectedTime?.date as string).toDateString()}
-                                                        </p>
-                                                        <p className="text-black font-medium text-left text-sm tm:text-base">
-                                                            {formatDateTime(timeMap[checkoutData.selectedTime.time as string].from)} - {formatDateTime(timeMap[checkoutData.selectedTime.time as string].to)}
-                                                        </p>
-                                                    </>
-                                                ) : (
-                                                    <p className="text-black text-left text-lg tm:text-xl">Schedule {checkoutData.deliveryMode === "PICKUP" ? "Pickup" : "Delivery"}</p>
-                                                )
-                                            }
-                                        </div>
-                                        <Button
-                                            className={"text-lg h-9"}
-                                            type="button"
-                                            onClick={() => handleSchedulerView("timeSelection")}
-                                        >
-                                            Schedule
-                                        </Button>
-                                    </div>
-                                </FormControl>
-                                <FormDescription>Select your preferred time</FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+            !isOTPWindow ? (
+                <div>
+                    <VerifyCode
+                        setOTPWindow={setOTPWindow}
+                        setOTPcode={setOTPcode}
+                        error={error}
                     />
-
-                    {/* Contact Information - Email */}
-                    {(email === undefined || email === null) && (
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email Address</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            type="email"
-                                            placeholder="name@example.com"
-                                            disabled={isSubmitting}
-                                        />
-                                    </FormControl>
-                                    <FormDescription>Enter your email address for contact</FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    )}
-
-                    {/* Cart Products */}
-                    <div className={'gap-4'}>
-                        <p className="text-black text-xl font-medium">Cart Products</p>
-                        {cart[id] && (
-                            <CartView
-                                storeId={cart[id].storeId}
-                                avatar_url={cart[id].image}
-                                shopName={cart[id].nickname}
-                                value={`shop-${id}`}
-                                productItems={cart[id].products}
-                            />
-                        )}
-                        {errors && <p className="text-red-500">{errors.root?.message}</p>}
-                    </div>
-
-                    {/* General Form Error */}
-                    {error && <p className="text-red-500">{error}</p>}
-
-                    {/* Submit Button */}
-                    {/*<div className="flex my-4 justify-end">*/}
-                    {/*    <Button*/}
-                    {/*        className="w-48 h-10 py-0 px-4"*/}
-                    {/*        type="submit"*/}
-                    {/*        disabled={isSubmitting}*/}
-                    {/*    >*/}
-                    {/*        {isSubmitting ? 'Processing...' : 'Next'}*/}
-                    {/*    </Button>*/}
-                    {/*</div>*/}
                 </div>
+            ) : (
 
-                {/* Scheduler Dialog */}
-                <CheckoutContent
-                    availability={availability}
-                    checkoutData={checkoutData}
-                    updateCheckoutData={updateCheckoutData}
-                    isDialogOpen={isDialogOpen}
-                    handleDialogClose={handleDialogClose}
-                    isSchedulerView={isSchedulerView}
-                    setIsSchedulerView={setIsSchedulerView}
-                    setInputAddress={(input: AddressDataUserField | null) => {
-                        setInputAddress(input);
-                        form.setValue('deliveryAddress', input);
-                    }}
-                    inputAddress={inputAddress}
-                />
-            </form>
-        </Form>
+            <Form {...form}>
+                <form onSubmit={handleSubmit(onSubmit)} className={`border-1 border-grayComp rounded-lg h-fit shadow-md`}>
+                        <div className={'flex flex-col justify-center p-5 gap-4'}>
+                            <p className={`text-3xl font-bold text-center ${pacifico.className}`}>Checkout Process</p>
+                            <hr className="border-grayBg"/>
+
+                            {/* Delivery Mode Switch */}
+                            <div className={"flex flex-col justify-between items-center"}>
+                                <FormField
+                                    control={form.control}
+                                    name="deliveryMode"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <SwitchDelivery
+                                                    isPickup={checkoutData.deliveryMode === "PICKUP"}
+                                                    onSwitchClick={() => {
+                                                        setValue('deliveryMode', checkoutData.deliveryMode);
+                                                    }}
+                                                    checkoutData={checkoutData}
+                                                    updateCheckoutData={updateCheckoutData}
+                                                />
+
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            {/* Address Search */}
+                            {checkoutData.deliveryMode === "DELIVERY" && (
+                                <FormField
+                                    control={form.control}
+                                    name="deliveryAddress"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <AddressSearch
+                                                    handleSchedulerView={handleSchedulerView}
+                                                    setInputAddress={setInputAddress}
+                                                    checkoutData={checkoutData}
+                                                    updateCheckoutData={updateCheckoutData}
+                                                />
+                                            </FormControl>
+                                            <FormDescription>Select your delivery address</FormDescription>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            )}
+
+                            {/* Time Preferences */}
+                            <FormField
+                                control={form.control}
+                                name="selectedTime"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-xl font-medium">Time Preferences</FormLabel>
+                                        <FormControl>
+                                            <div
+                                                className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg"
+                                                onClick={() => handleSchedulerView("timeSelection")}
+                                            >
+                                                <IconClock className={"w-8 h-8 tm:w-10 tm:h-10"}/>
+                                                <div className={"flex flex-col w-full"}>
+                                                    {
+                                                        checkoutData.selectedTime ? (
+                                                            <>
+                                                                <p className="font-medium text-left text-sm tm:text-base">
+                                                                    {new Date(checkoutData.selectedTime?.date as string).toDateString()}
+                                                                </p>
+                                                                <p className="font-medium text-left text-sm tm:text-base">
+                                                                    {formatDateTime(timeMap[checkoutData.selectedTime.time as string].from)} - {formatDateTime(timeMap[checkoutData.selectedTime.time as string].to)}
+                                                                </p>
+                                                            </>
+                                                        ) : (
+                                                            <p className="text-left text-lg tm:text-xl">Schedule {checkoutData.deliveryMode === "PICKUP" ? "Pickup" : "Delivery"}</p>
+                                                        )
+                                                    }
+                                                </div>
+                                                <Button
+                                                    className={"text-lg h-9"}
+                                                    type="button"
+                                                    onClick={() => handleSchedulerView("timeSelection")}
+                                                >
+                                                    Schedule
+                                                </Button>
+                                            </div>
+                                        </FormControl>
+                                        <FormDescription>Select your preferred time</FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* Contact Information - Email */}
+                            {(email === undefined || email === null) && (
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Email Address</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    type="email"
+                                                    placeholder="name@example.com"
+                                                    disabled={isSubmitting}
+                                                />
+                                            </FormControl>
+                                            <FormDescription>Enter your email address for contact</FormDescription>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            )}
+
+                            {/* Cart Products */}
+                            <div className={'gap-4'}>
+                                <p className="text-xl font-medium">Cart Products</p>
+                                {cart[id] && (
+                                    <CartView
+                                        storeId={cart[id].storeId}
+                                        avatar_url={cart[id].image}
+                                        shopName={cart[id].nickname}
+                                        value={`shop-${id}`}
+                                        productItems={cart[id].products}
+                                    />
+                                )}
+                                {errors && <p className="text-red-500">{errors.root?.message}</p>}
+                            </div>
+
+                            {/* General Form Error */}
+                            {error && <p className="text-red-500">{error}</p>}
+
+                            {/* Submit Button */}
+                            {/*<div className="flex my-4 justify-end">*/}
+                            {/*    <Button*/}
+                            {/*        className="w-48 h-10 py-0 px-4"*/}
+                            {/*        type="submit"*/}
+                            {/*        disabled={isSubmitting}*/}
+                            {/*    >*/}
+                            {/*        {isSubmitting ? 'Processing...' : 'Next'}*/}
+                            {/*    </Button>*/}
+                            {/*</div>*/}
+                        </div>
+
+                        {/* Scheduler Dialog */}
+                        <CheckoutContent
+                            availability={availability}
+                            checkoutData={checkoutData}
+                            updateCheckoutData={updateCheckoutData}
+                            isDialogOpen={isDialogOpen}
+                            handleDialogClose={handleDialogClose}
+                            isSchedulerView={isSchedulerView}
+                            setIsSchedulerView={setIsSchedulerView}
+                            setInputAddress={(input: AddressDataUserField | null) => {
+                                setInputAddress(input);
+                                form.setValue('deliveryAddress', input);
+                            }}
+                            inputAddress={inputAddress}
+                        />
+                    </form>
+                </Form>
+            )
     );
 }
 
@@ -531,11 +550,7 @@ const CartView: React.FC<CartViewProps> = ({storeId, avatar_url, shopName, value
                 <Button
                     className="w-48 h-10 py-0 px-4"
                     disabled={isItemsUpdating}
-                    onClick={() => {
-                        const query = new URLSearchParams(window.location.search);
-                        router.push(`/${shopName}/checkout?${query.toString()}`);
-                        router.refresh();
-                    }}
+                    type={"button"}
                 >
 
                     <div className="flex flex-row w-full justify-center items-center">

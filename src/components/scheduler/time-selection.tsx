@@ -90,13 +90,20 @@ const TimePickerScrollArea: React.FC<TimePickerScrollAreaProps> = ({
     const fromIndex = sortedTimeKeys.indexOf(fromTime);
     const toIndex = sortedTimeKeys.indexOf(toTime);
 
+    // **Unconditional Hook Call**
+    const [selectedKey, setSelectedKey] = useState<string | undefined>(checkoutKey);
+
+    // **Conditional Early Return After Hooks**
     if (fromIndex === -1 || toIndex === -1 || fromIndex > toIndex) {
-        return <div className={"font-medium"}>Invalid time range selected. Contact support support@thebakerz.com</div>;
+        return (
+            <div className={"font-medium"}>
+                Invalid time range selected. Contact support at support@thebakerz.com
+            </div>
+        );
     }
 
     const selectedKeys = sortedTimeKeys.slice(fromIndex, toIndex);
 
-    const [selectedKey, setSelectedKey] = useState<string | undefined>(checkoutKey);
 
     const handleSelect = (key: string) => {
         setSelectedKey(key);

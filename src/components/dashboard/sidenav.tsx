@@ -28,7 +28,7 @@ export default function SideNav() {
                 <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
                 <form onClick={handleSignOut}>
                     <button
-                        className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-secondary hover:text-black md:flex-none md:justify-start md:p-2 md:px-3" type="submit">
+                        className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-secondary hover:text-gray-800 md:flex-none md:justify-start md:p-2 md:px-3" type="submit">
                         <div className="hidden md:block">Sign Out</div>
                     </button>
                 </form>

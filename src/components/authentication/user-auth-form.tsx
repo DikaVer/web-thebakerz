@@ -100,60 +100,63 @@ export function UserAuthForm(){
           </span>
         </div>
       </div>
-        <div className="flex flex-row justify-between items-center mx-10 -my-1">
+        <div className="flex flex-row w-full justify-between items-center -my-1">
             <form
                 action={async () => {
                     await loginWithProvider("google", next ? next : "/");
                 }}
+                className={"w-full"}
             >
-                <button
+                <Button
                     type="submit"
-                    className={""}
+                    variant={"outline"}
+                    className={"w-full py-5"}
                     disabled={isPending}
                 >
                     <Image
                         style={{display: "block"}}
-                        src="https://authjs.dev/img/providers/google.svg"
+                        src="/brandIcons/google.svg"
                         height="32"
                         width="32"
-                        alt={"Google"}/>
-                </button>
+                        alt={"Google"}
+                    />
+                </Button>
             </form>
-            <form
+            {/*<form*/}
 
-            >
-                <button
-                    type="submit"
-                    className={""}
-                    disabled={isPending}
-                >
-                    <Image
-                        style={{display: "block"}}
-                        src="https://authjs.dev/img/providers/instagram.svg"
-                        height="32"
-                        width="32"
-                        alt={"Instagram"}/>
-                </button>
-            </form>
-            <form
-                // action={async () => {
-                //     "use server"
-                //     await signIn("facebook")
-                // }}
-            >
-                <button
-                    type="submit"
-                    className={""}
-                    disabled={isPending}
-                >
-                    <Image
-                        style={{display: "block"}}
-                        src="https://authjs.dev/img/providers/facebook.svg"
-                        height="32"
-                        width="32"
-                        alt={"Instagram"}/>
-                </button>
-            </form>
+            {/*>*/}
+            {/*    <button*/}
+            {/*        type="submit"*/}
+            {/*        className={""}*/}
+            {/*        disabled={isPending}*/}
+            {/*    >*/}
+            {/*        <Image*/}
+            {/*            style={{display: "block"}}*/}
+            {/*            src="https://authjs.dev/img/providers/instagram.svg"*/}
+            {/*            height="32"*/}
+            {/*            width="32"*/}
+            {/*            alt={"Instagram"}/>*/}
+            {/*    </button>*/}
+            {/*</form>*/}
+            {/*<form*/}
+            {/*    // action={async () => {*/}
+            {/*    //     "use server"*/}
+            {/*    //     await signIn("facebook")*/}
+            {/*    // }}*/}
+            {/*>*/}
+            {/*    <button*/}
+            {/*        type="submit"*/}
+            {/*        className={""}*/}
+            {/*        disabled={isPending}*/}
+            {/*    >*/}
+            {/*        <Image*/}
+            {/*            style={{display: "block"}}*/}
+            {/*            src="https://authjs.dev/img/providers/facebook.svg"*/}
+            {/*            height="32"*/}
+            {/*            width="32"*/}
+            {/*            alt={"Instagram"}/>*/}
+            {/*    </button>*/}
+            {/*</form>*/}
         </div>
     </div>
   )

@@ -1,9 +1,7 @@
 import {auth} from "@/auth";
 import {sql} from "@vercel/postgres";
 import {NextResponse} from "next/server";
-export const config = {
-    runtime: 'edge', // 'nodejs' is the default
-};
+export const runtime = "edge"
 
 const isAuthorized = (req: Request) => {
     const authHeader = req.headers.get('Authorization');
