@@ -55,11 +55,12 @@ export function FirstView() {
                         src="/landing/PhoneDesign.svg"
                         alt="Application Illustration"
                         className={`w-full h-auto transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-                        width={2000}
-                        height={2000}
+                        width={700}
+                        height={600}
                         quality={100}
-                        priority
+                        loading="eager"
                         onLoad={() => setIsLoaded(true)}
+                        sizes="(max-width: 768px) 100vw, 700px"
                     />
                 </div>
 

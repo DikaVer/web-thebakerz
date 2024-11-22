@@ -51,8 +51,7 @@ const WhyChooseSection = () => {
                 Why Choose TheBakerz?
             </h2>
             <div
-                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 
-                            opacity-0 transform translate-y-10`}
+                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8`}
             >
                 {/* Online Store */}
                 <FeatureCard
@@ -100,7 +99,8 @@ const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
         <article
             ref={featureCardRef}
             className={`flex flex-col items-center text-center p-6 border-2 border-grayBg rounded-lg shadow-sm
-            ${featureCardInView ? 'animate-fadeInUpDelay2' : ''}`}
+                opacity-0 transform translate-y-10 
+                ${featureCardInView ? 'animate-fadeInUpDelay2' : ''}`}
         >
             <div className="bg-secondary p-4 rounded-full mb-6">
                 {icon}
