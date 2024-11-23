@@ -46,7 +46,7 @@ const WhyChooseSection = () => {
                 id="why-choose-heading"
                 className={`text-3xl sm:text-4xl font-extrabold text-center text-gray-800 mb-10 
                             opacity-0 transform translate-y-10 
-                            ${whyChooseInView ? 'animate-fadeInUpDelay1' : ''}`}
+                            ${whyChooseInView ? 'animate-fadeInUp' : ''}`}
             >
                 Why Choose TheBakerz?
             </h2>
@@ -100,7 +100,7 @@ const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
             ref={featureCardRef}
             className={`flex flex-col items-center text-center p-6 border-2 border-grayBg rounded-lg shadow-sm
                 opacity-0 transform translate-y-10 
-                ${featureCardInView ? 'animate-fadeInUpDelay2' : ''}`}
+                ${featureCardInView ? 'animate-fadeInUp' : ''}`}
         >
             <div className="bg-secondary p-4 rounded-full mb-6">
                 {icon}
@@ -119,42 +119,55 @@ const Footer = () => {
         <div
             ref={footerRef}
             className={`relative mt-16 lg:px-16 bg-secondary w-full flex justify-between items-center rounded-lg
+            opacity-0 transform translate-y-10 
             ${footerInView ? 'animate-fadeInUp' : ''}
             `}
         >
-        <div className={"flex flex-row items-end"}>
-            <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-32 heart-display:h-32"}
-                       color={"heart"}/>
-            <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-10 heart-display:h-10"}
-                       color={"heart"}/>
-        </div>
-        <div className="relative w-36 proportional-girl-mb girl-md:mb-28">
-            <Image
-                src="/images/Mickey.svg"
-                alt="TheBakerz - Mickey"
-                className="absolute z-50"
-                width={192}
-                height={279}
-                quality={100}
-            />
-        </div>
-        <span className={`text-3xl text-primary text-center ${pacifico.className}`}>We want you to succeed</span>
-        <div className="relative w-36 proportional-girl-mb girl-md:mb-32">
-            <Image
-                src="/images/Wiki.svg"
-                alt="TheBakerz - Wiki"
-                className="absolute z-50 pb-20"
-                width={185}
-                height={278}
-                quality={100}
-            />
-        </div>
-        <div className={"flex flex-row items-end"}>
-            <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-10 heart-display:h-10"}
-                       color={"heart"}/>
-            <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-32 heart-display:h-32"}
-                       color={"heart"}/>
-        </div>
+            <div className={"flex flex-row items-end"}>
+                <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-32 heart-display:h-32"}
+                           color={"heart"}/>
+                <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-10 heart-display:h-10"}
+                           color={"heart"}/>
+            </div>
+            <div
+                ref={footerRef}
+                className={`relative w-36 proportional-girl-mb girl-md:mb-28
+                opacity-0 transform translate-y-10 
+                ${footerInView ? 'animate-fadeInUp' : ''}
+                `}
+            >
+                <Image
+                    src="/images/Mickey.svg"
+                    alt="TheBakerz - Mickey"
+                    className={`absolute z-50`}
+                    width={192}
+                    height={279}
+                    quality={100}
+                />
+            </div>
+            <span className={`text-3xl text-primary text-center ${pacifico.className}`}>We want you to succeed</span>
+            <div
+                ref={footerRef}
+                className={`relative w-36 proportional-girl-mb girl-md:mb-32
+                opacity-0 transform translate-y-10 
+                ${footerInView ? 'animate-fadeInUp' : ''}
+                `}
+            >
+                <Image
+                    src="/images/Wiki.svg"
+                    alt="TheBakerz - Wiki"
+                    className={`absolute z-50 pb-20`}
+                    width={185}
+                    height={278}
+                    quality={100}
+                />
+            </div>
+            <div className={"flex flex-row items-end"}>
+                <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-10 heart-display:h-10"}
+                           color={"heart"}/>
+                <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-32 heart-display:h-32"}
+                           color={"heart"}/>
+            </div>
         </div>
     );
 };

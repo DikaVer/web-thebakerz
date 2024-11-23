@@ -95,9 +95,6 @@ const config = {
         },
       },
       animation: {
-        "fadeInUp": 'fadeInUp 0.8s ease-out forwards',
-        "fadeInUpDelay1": 'fadeInUp 0.8s ease-out forwards 0.3s',
-        "fadeInUpDelay2": 'fadeInUp 0.8s ease-out forwards 0.6s',
         "accordion-down": "accordion-down 0.5s ease-out",
         "accordion-up": "accordion-up 0.5s ease-out",
         "caret-blink": "caret-blink 1.25s ease-out infinite",

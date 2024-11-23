@@ -48,7 +48,7 @@ export function FirstView() {
                     ref={imageRef}
                     className={`mt-8 w-full h-auto 
                                 opacity-0 transform translate-y-10 
-                                ${imageInView ? 'animate-fadeInUpDelay1' : ''}`}
+                                ${imageInView ? 'animate-fadeInUp' : ''}`}
                 >
                     {!isLoaded && <Skeleton height={500} />}
                     <Image
@@ -68,7 +68,7 @@ export function FirstView() {
                     ref={subheadingRef}
                     className={`text-[30px] sm:text-[42px] md:text-[51px] lg:text-6xl my-4 ${pacifico.className}
                                 opacity-0 transform translate-y-10 text-gray-900
-                                ${subheadingInView ? 'animate-fadeInUpDelay2' : ''}`}
+                                ${subheadingInView ? 'animate-fadeInUp' : ''}`}
                 >
                     TheBakerz - the only platform you need to manage your business.
                 </p>
@@ -80,7 +80,7 @@ export function FirstView() {
                     <p
                         className={`text-base girl-md:text-lg italic text-primary mb-4 mt-8 
                                 opacity-0 transform translate-y-10 
-                                ${buttonInView ? 'animate-fadeInUpDelay1' : ''}`}
+                                ${buttonInView ? 'animate-fadeInUp' : ''}`}
                     >
                         Exclusive offer: start for 3 months for free!
                     </p>
@@ -89,7 +89,7 @@ export function FirstView() {
                     <div
                         className={`flex flex-col 
                                 opacity-0 transform translate-y-10 
-                                ${buttonInView ? 'animate-fadeInUpDelay1' : ''}`}
+                                ${buttonInView ? 'animate-fadeInUp' : ''}`}
                     >
                         <Button
                             className="py-6 px-6 rounded-lg text-2xl transition-transform transform hover:scale-105"
