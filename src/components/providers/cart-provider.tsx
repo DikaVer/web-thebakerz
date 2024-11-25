@@ -81,6 +81,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({storeData, children }
                     </div>
                 </div>
             );
+        } else {
+            toast.error("Something went wrong, please try again later");
         }
     };
 

@@ -23,7 +23,7 @@ export default async function RootLayout({
 
     const [sessionRole, storeData] = await Promise.all([
         extractSessionRole(),
-        fetchStoreId(params?.id)
+        fetchStoreId(params.id)
     ]);
 
     const { login, role, name } = sessionRole;

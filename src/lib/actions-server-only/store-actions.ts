@@ -60,6 +60,7 @@ export async function fetchFilteredStores(
 
 export const fetchStoreId = async (storeId: string): Promise<{ storeId: string, nickname: string, image: string } | null> => {
     try {
+        console.log('store id', storeId);
         if (!storeId){
             return null;
         }
