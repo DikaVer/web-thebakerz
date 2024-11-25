@@ -20,7 +20,7 @@ interface ScheduleSelectionProps {
             to: keyof typeof timeMap;
             availability: "Free" | "Busy";
         }
-    >;
+    > | null;
 }
 
 // Create the functional component
@@ -52,7 +52,7 @@ export const TimeSelection: React.FC<ScheduleSelectionProps> = ({availability, h
                 setDate={handleSetDate}
                 date={date}
             />
-            { availability[formatDataDate(date)] ? (
+            { availability && availability[formatDataDate(date)] ? (
                     <TimePickerScrollArea
                         fromTime={availability[formatDataDate(date)].from as string}
                         toTime={availability[formatDataDate(date)].to as string}

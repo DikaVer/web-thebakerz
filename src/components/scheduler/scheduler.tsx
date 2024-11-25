@@ -70,7 +70,7 @@ export function SchedulerContent({availability, checkoutData, isDialogOpen, hand
                             />
                     )}
                     {isSchedulerView === "timeSelection" && (
-                        availability && <TimeSelection
+                         <TimeSelection
                             checkoutData={checkoutData}
                             updateCheckoutData={updateCheckoutData}
                             handleSchedulerView={toggleSchedulerView}

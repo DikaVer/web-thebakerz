@@ -379,7 +379,7 @@ function CheckoutContent({availability, checkoutData, isDialogOpen, handleDialog
                     <ScrollArea className={"max-h-[75vh]"}>
 
                         {isSchedulerView === "timeSelection" && (
-                            availability && <TimeSelection
+                            <TimeSelection
                                 checkoutData={checkoutData}
                                 updateCheckoutData={updateCheckoutData}
                                 handleSchedulerView={toggleSchedulerView}
