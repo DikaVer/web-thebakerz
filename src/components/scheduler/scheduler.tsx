@@ -163,9 +163,16 @@ const SchedulerContentView: React.FC<{
                                     <p className="font-medium text-left text-sm tm:text-base">
                                         {new Date(checkoutData.selectedTime?.date as string).toDateString()}
                                     </p>
-                                    <p className="font-medium text-left text-sm tm:text-base">
-                                        {formatDateTime(timeMap[checkoutData.selectedTime.time as string].from)} - {formatDateTime(timeMap[checkoutData.selectedTime.time as string].to)}
-                                    </p>
+                                    <div className={`flex flex-col tm:flex-row gap-x-5 tm:items-center`}>
+                                        <p className="font-medium text-left text-sm tm:text-base">
+                                            {formatDateTime(timeMap[checkoutData.selectedTime.time as string].from)} - {formatDateTime(timeMap[checkoutData.selectedTime.time as string].to)}
+                                        </p>
+                                        <div className={`-ml-0.5 mb-1 flex bg-greenBakerz/40 px-2 rounded-xl items-center justify-center w-fit`}>
+                                            <p className={`text-sm text-greenBakerz`}>
+                                                Selected
+                                            </p>
+                                        </div>
+                                    </div>
                                 </>
                             ) : (
                                 <p className="text-left text-lg tm:text-xl">Schedule {checkoutData.deliveryMode === "PICKUP" ? "Pickup" : "Delivery"}</p>

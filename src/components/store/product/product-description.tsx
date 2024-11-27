@@ -4,9 +4,9 @@ import 'react-image-crop/dist/ReactCrop.css';
 import React, { useEffect, useState, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import {
-    IconCross,
+    IconCross, IconError,
     IconHeartFavourites,
-    IconShare,
+    IconShare, IconSuccess,
 } from "@/components/ui/icons";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
@@ -15,6 +15,9 @@ import {ProductDataField, StoreData} from "@/lib/definitions";
 import {useCart} from "@/components/providers/cart-provider";
 import {useProductDialog} from "@/components/providers/product-provider";
 import Skeleton from "react-loading-skeleton";
+import {z} from "zod";
+import {productEditSchema} from "@/lib/schemas";
+import {toast} from "sonner";
 
 interface ProductDescriptionModalProps {
     isOpen: boolean;
@@ -263,6 +266,69 @@ export function ProductDescriptionBakerz({
         setIsLoading(false);
     };
 
+    const onSubmit = async () => {
+        setPending(true);
+        setIsLoading(true);
+
+
+        const response = await fetch(`/api/store/actions/product/delete`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                storeId: productData.store_id,
+                productId: productData.id
+            }),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            toast.error((
+                    <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                        <IconError color={"primary"} className={"w-10 h-10"}/>
+                        <p className={"text-base font-bold"}>
+                            {result.message}
+                        </p>
+                    </div>
+                ),
+                {
+                    duration: 10000
+                }
+            );
+            setIsLoading(false);
+            setPending(false);
+            return;
+        } else {
+            toast.success((
+                    <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                        <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                        <p className={"text-base font-bold"}>
+                            {result.message}
+                        </p>
+                    </div>
+                ),
+                {
+                    duration: 10000
+                }
+            );
+
+            // @ts-ignore
+            setStoreData(prevState => ({
+                ...prevState,
+                // @ts-ignore
+                products: prevState.products.filter((product) => product.id !== productData?.id)
+            }));
+        }
+
+        setIsLoading(false);
+        setDialogOpen(false);
+        setPending(false);
+    }
+
+
+
     return (
         <ProductDescriptionBase
             isOpen={isDialogOpen}
@@ -272,13 +338,21 @@ export function ProductDescriptionBakerz({
             onToggleHeart={() => setIsHeartFilled(!isHeartFilled)}
         >
             {/* Update Product Button */}
-            <div className="text-center">
+            <div className="flex flex-row text-center gap-x-10">
+                <Button
+                    className="w-full py-3 rounded-md"
+                    onClick={() => onSubmit()}
+                    disabled={isLoading}
+                    variant={"outline"}
+                >
+                    Delete
+                </Button>
                 <Button
                     className="w-full text-white py-3 rounded-md"
                     onClick={handleEditProduct}
                     disabled={isLoading}
                 >
-                    Update Product
+                    Update
                 </Button>
             </div>
         </ProductDescriptionBase>

@@ -145,7 +145,7 @@ export default function CheckoutView({id, availability, userLocation, email}: Ch
     };
 
     return (
-            !isOTPWindow ? (
+            isOTPWindow ? (
                 <div>
                     <VerifyCode
                         setOTPWindow={setOTPWindow}

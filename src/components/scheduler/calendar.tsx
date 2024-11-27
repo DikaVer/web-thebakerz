@@ -50,7 +50,7 @@ const CheckoutDetails: React.FC<CheckoutDetailsProps> = ({ checkoutData }) => {
                             : "Pick Up"}
                     </p>
                     <div className="flex">
-                        <p className="text-sm cm:text-base font-medium w-24">
+                        <p className="text-sm cm:text-base font-medium w-[104px]">
                             {checkoutData.selectedTime ? (
                                 `${formatDateTime(timeMap[checkoutData.selectedTime.time].from)} - ${formatDateTime(timeMap[checkoutData.selectedTime.time].to)}`
                             ) : (

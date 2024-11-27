@@ -223,7 +223,7 @@ export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPendi
     return (
             <>
                 <div
-                    data-state={isOpen ? 'open' : 'closed'}
+                    data-state={isOpen ? 'open' : ''}
                     className="fixed inset-0 z-30 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
                     onClick={(e) => {
                         toggleClose();

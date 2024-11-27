@@ -25,6 +25,7 @@ import {
 import {ClipLoader} from "react-spinners";
 import {toast} from "sonner";
 import {IconError, IconSuccess} from "@/components/ui/icons";
+import {useRouter} from "next/navigation";
 
 
 interface StoreViewDashboardProps {
@@ -43,6 +44,8 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
     const [error, setError] = useState<string | undefined>();
 
     const [isPending, setPending] = useState(false);
+
+    const router = useRouter();
 
     const [dataAvatar, setDataAvatar] = useState<{
         image: string | null
@@ -137,55 +140,6 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                 setStoreData(prevState => ({
                     ...prevState,
                     ["name"]: form.getValues().name,
-                }));
-            }
-        }
-
-        if (initialValues.nickname !== formData.nickname) {
-            const response = await fetch(`/api/store/actions/updateName`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    storeId: id,
-                    nickname: formData.nickname
-                }),
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                toast.error((
-                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconError color={"primary"} className={"w-10 h-10"}/>
-                            <p className={"text-base font-bold"}>
-                                {result.message}
-                            </p>
-                        </div>
-                    ),
-                    {
-                        duration: 10000
-                    }
-                );
-            } else {
-                toast.success((
-                    <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconSuccess color={"primary"} className={"w-10 h-10"}/>
-                        <p className={"text-base font-bold"}>
-                            {result.message}
-                        </p>
-                    </div>
-                    ),
-                    {
-                        duration: 10000
-                    }
-                );
-                initialValues.nickname = formData.nickname;
-                // @ts-ignore
-                setStoreData(prevState => ({
-                    ...prevState,
-                    ["nickname"]: form.getValues().nickname
                 }));
             }
         }
@@ -329,6 +283,57 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                     ...prevState,
                     ["background_url"]: dataBackground.image
                 }));
+            }
+        }
+
+        if (initialValues.nickname !== formData.nickname) {
+            const response = await fetch(`/api/store/actions/updateName`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    storeId: id,
+                    nickname: formData.nickname
+                }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                toast.error((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+            } else {
+                toast.success((
+                        <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+                            <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                            <p className={"text-base font-bold"}>
+                                {result.message}
+                            </p>
+                        </div>
+                    ),
+                    {
+                        duration: 10000
+                    }
+                );
+                initialValues.nickname = formData.nickname;
+                // @ts-ignore
+                setStoreData(prevState => ({
+                    ...prevState,
+                    ["nickname"]: form.getValues().nickname
+                }));
+                router.push(`/${formData.nickname}`);
+                router.refresh();
             }
         }
 

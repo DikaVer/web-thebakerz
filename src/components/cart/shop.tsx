@@ -28,6 +28,11 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
 
     const router = useRouter();
 
+    useEffect(() => {
+        const query = new URLSearchParams(window.location.search);
+        router.prefetch(`/${shopName}/checkout?${query.toString()}`);
+    }, []);
+
     const { removeFromCart, updateProductCart } = useCart();
 
     // Function to calculate the total sum

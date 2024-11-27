@@ -10,14 +10,12 @@ interface SignoutButtonProps {
 }
 
 export const SignoutButton = ({ className}: SignoutButtonProps) => {
-    const router = useRouter();
-
 
     const handleSignOut = async () => {
         startTransition(() => {
             localStorage.clear()
             logout();
-            router.refresh();
+            window.location.reload();
         });
     };
 

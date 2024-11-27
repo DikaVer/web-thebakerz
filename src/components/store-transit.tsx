@@ -55,7 +55,7 @@ export default async function StoreTransit({id, userId, role, isDashboard, tab}:
                 </div>
             </div>
         );
-    } else if (role === "bakerz") {
+    } else if (role === "bakerz" && storeData.user_id === userId) {
         return (
             <div className="flex flex-col min-h-screen">
                 <div className="z-10 flex-grow container mx-auto pt-2">
