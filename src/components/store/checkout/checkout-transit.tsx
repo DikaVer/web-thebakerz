@@ -25,7 +25,7 @@ export default async function CheckoutTransit({id, userId, role, tab, email}: Ch
     }
 
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex min-h-screen items-center justify-center">
             <div className="z-10 flex-grow container mx-auto pt-2">
                 <CheckoutView
                     id={storeData.id}

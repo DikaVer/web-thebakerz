@@ -27,7 +27,7 @@ const CartComponent: React.FC<CartComponentProps> = ({ onClose, isOpen, cart }) 
             <div className="absolute bg-black opacity-50 inset-0" onClick={onClose}></div>
             <div className={`absolute right-0 w-80 h-full bg-white shadow-lg transform transition-transform duration-700 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 <p className={`text-2xl flex justify-center items-center p-4 ${pacifico.className}`}>Delicious Cart</p>
-                <hr className="mx-2" />
+                <hr className="ml-2 mr-5" />
                 {cart ? (
                     <ShopList
                         cart={cart}

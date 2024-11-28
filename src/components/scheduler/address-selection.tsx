@@ -423,7 +423,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({
     ) : (
         <>
             {isLoading ? (
-                <div className={"flex flex-col justify-center items-center"}>
+                <div className={"flex flex-col my-10 justify-center items-center"}>
                     <ClipLoader
                         color={"#730C6F"}
                         loading={isLoading}

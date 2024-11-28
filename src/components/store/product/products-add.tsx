@@ -235,7 +235,7 @@ export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPendi
                     <ScrollArea className={"max-h-[75vh]"}>
                         <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-6"}>
                             {isLoading ? (
-                                <div className={"flex flex-col justify-center items-center"}>
+                                <div className={"flex flex-col my-10 justify-center items-center"}>
                                     <ClipLoader
                                         color={"#730C6F"}
                                         loading={isPending}

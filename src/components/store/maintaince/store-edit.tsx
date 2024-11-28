@@ -343,7 +343,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
     return (
         <div>
             {isPending ? (
-                <div className={"flex flex-col justify-center items-center"}>
+                <div className={"flex flex-col min-h-screen justify-center items-center"}>
                     <ClipLoader
                         color={"#730C6F"}
                         loading={isPending}

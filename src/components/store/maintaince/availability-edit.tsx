@@ -140,7 +140,7 @@ export default function AvailabilityEdit({ id, availability, setStoreData }: Ava
     return (
     <div>
         {isPending ? (
-            <div className={"flex flex-col justify-center items-center"}>
+            <div className={"flex flex-col min-h-screen justify-center items-center"}>
                 <ClipLoader
                     color={"#730C6F"}
                     loading={isPending}

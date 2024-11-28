@@ -22,7 +22,7 @@ export default function ProductsStoreEdit({ storeId, productData, setStoreData }
     return (
         <div className={"mt-4"}>
             {isPending ? (
-                <div className={"flex flex-col justify-center items-center"}>
+                <div className={"flex flex-col min-h-screen justify-center items-center"}>
                     <ClipLoader
                         color={"#730C6F"}
                         loading={isPending}

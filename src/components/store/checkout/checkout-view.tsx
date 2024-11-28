@@ -520,7 +520,7 @@ const CartView: React.FC<CartViewProps> = ({storeId, avatar_url, shopName, value
                 </ul>
             </ScrollArea>
             {isItemsUpdating ? (
-                <div className={"flex flex-col justify-center items-center"}>
+                <div className={"flex flex-col min-h-screen justify-center items-center"}>
                     <ClipLoader
                         color={"#730C6F"}
                         loading={isItemsUpdating}
