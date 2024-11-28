@@ -185,6 +185,11 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                                     </div>
                                     <div className={"flex justify-center"}>
                                         <Calendar
+                                            panelClassName={{
+                                                width: "w-full",
+                                                mx: "mx-4",
+                                                justifyContent: "justify-between",
+                                            }}
                                             availabilityData={availability}
                                             mode="single"
                                             className={"border-1 rounded-lg mb-4 bg-grayCompFa"}

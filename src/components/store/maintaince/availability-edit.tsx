@@ -155,6 +155,10 @@ export default function AvailabilityEdit({ id, availability, setStoreData }: Ava
             <>
                 <div className={"flex justify-center"}>
                     <Calendar
+                        panelClassName={{
+                            width: "w-full cm:w-[400px]",
+                            justifyContent: "justify-between",
+                        }}
                         setAvailabilityData={setAvailabilityData}
                         availabilityData={availabilityData}
                         mode="single"

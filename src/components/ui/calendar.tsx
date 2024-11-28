@@ -21,6 +21,11 @@ import {FormError} from "@/components/authentication/form-error";
 import {timeMap} from "@/lib/local-variables";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+    panelClassName?:{
+        width?: string;
+        justifyContent?: string;
+        mx?: string;
+    }
     setAvailabilityData?: React.Dispatch<React.SetStateAction<Record<string,
         {
             from: keyof typeof timeMap;
@@ -57,7 +62,7 @@ function CustomDaycell(
                 availability: "Free" | "Busy";
             }>;
         date: Date,
-        displayMonth: Date
+        displayMonth: Date,
     }
 ) {
     const [buttonVariant, setButtonVariant] = useState<"closed" | "ghost" | "free" | "busy" | "link" | "disabled" | "default" | "destructive" | "outline" | "secondary" | null | undefined>("closed");
@@ -95,6 +100,7 @@ function CustomDaycell(
 function Calendar({
                       className,
                       classNames,
+                      panelClassName,
                       showOutsideDays = true,
                       availabilityData,
                       setAvailabilityData,
@@ -193,10 +199,10 @@ function Calendar({
       <>
           <DayPicker
               showOutsideDays={showOutsideDays}
-              className={cn("p-3", className)}
+              className={cn("p-3", className, panelClassName?.width, panelClassName?.mx)}
               classNames={{
-                  months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-                  month: "space-y-4",
+                  months: "flex flex-col cm:flex-row space-y-4 cm:space-x-4 cm:space-y-0",
+                  month: `space-y-4 ${panelClassName?.width}`,
                   caption: "flex justify-center pt-1 relative items-center",
                   caption_label: "text-base font-bold",
                   nav: "space-x-1 flex items-center",
@@ -207,10 +213,10 @@ function Calendar({
                   nav_button_previous: "absolute left-1",
                   nav_button_next: "absolute right-1",
                   table: "w-full border-collapse space-y-1",
-                  head_row: "flex",
+                  head_row: `flex ${panelClassName?.justifyContent}`,
                   head_cell:
                       "text-muted-foreground rounded-md w-9 text-[0.9rem] font-medium",
-                  row: "flex w-full mt-2",
+                  row: `flex ${panelClassName?.justifyContent} w-full mt-2`,
                   cell: "h-9 w-9 text-center text-sm p-0 relative",
                   day: cn(
                       buttonVariants({variant: "ghost"}),

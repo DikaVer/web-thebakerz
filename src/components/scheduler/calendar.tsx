@@ -179,7 +179,7 @@ export interface MiniCalendarProps {
 }
 
 export const MiniCalendar: React.FC<MiniCalendarProps> = ({ location, deliveryOptions, availability, userLocation }) => {
-    const isTinyScreen = useIsSmallScreen(400);
+    const isTinyScreen = useIsSmallScreen(389);
     const isSmallScreen = useIsSmallScreen(460);
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
