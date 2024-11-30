@@ -1,11 +1,13 @@
 'use client';
 
 import 'react-image-crop/dist/ReactCrop.css';
+import {ScrollShadow} from "@nextui-org/scroll-shadow";
 import React, {useEffect, useRef, useState} from "react";
 import {Button} from "@/components/ui/button";
+import {Card, CardBody, Image} from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure} from "@nextui-org/react";
 import {
     IconArrow,
-    IconAvatar,
     IconChevronDown,
     IconCopy,
     IconCross,
@@ -13,14 +15,15 @@ import {
     IconStar
 } from "@/components/ui/icons";
 import {AddressDataStoreField} from "@/lib/definitions";
-import {cityLatLngMap, timeMap} from "@/lib/local-variables";
-import Image from "next/image";
-import {ScrollArea} from "@/components/ui/scroll-area";
+import {backdropEffect, cityLatLngMap, timeMap} from "@/lib/local-variables";
 import {formatAddress} from "@/lib/utils";
+import {Avatar, AvatarIcon} from "@nextui-org/react";
 import {Label} from "@/components/ui/label";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import {Calendar} from "@/components/ui/calendar";
 import {ExternalLink} from "@/components/external-link";
+import {CardHeader} from "@nextui-org/card";
+import {pacifico} from "@/components/fonts";
 
 
 interface ProfileDescriptionProps {
@@ -100,153 +103,141 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
         return `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=14&size=400x300&markers=color:red%7Clabel:A%7C${latitude},${longitude}&key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}`;
     };
 
+
     return (
         <>
-            <div
-                data-state={isOpen ? 'open' : 'closed'}
-                className="fixed inset-0 z-30 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
-                onClick={(e) => {
-                    toggleClose();
-                }}/>
-            <div
-                data-state={isOpen ? 'open' : 'closed'}
-                className={"fixed left-[50%] top-[50%] z-40 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 bg-background shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg"}
-            >
-                <ScrollArea className={"max-h-[75vh]"}>
-                    <div className={"grid gap-4  slide-in-from-top-[5%] p-6"}>
-                        <div className={`flex flex-row justify-between items-center`}>
-                            <Button
-                                className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
-                                onClick={() => toggleClose()}
-                            >
-                                <IconCross className={"w-8 h-8 cursor-pointer"}/>
-                            </Button>
-                            <p className={"text-xl font-medium"}>Profile</p>
-                            <div className="w-8 h-8 flex "></div>
-                        </div>
-                        <hr className={"my-1"}/>
+            <Modal backdrop={backdropEffect} isOpen={isOpen} onClose={toggleClose} size={'xl'} shadow={"lg"}>
+                <ModalContent>
+                    {(onClose) => (
+                        <ModalBody >
+                            <ScrollShadow hideScrollBar size={50} className={"max-h-[75vh]"}>
+                                <div className={"grid gap-4  slide-in-from-top-[5%]"}>
+                                    <div className={`flex justify-center items-center`}>
+                                        <p className={"text-2xl font-medium"}>Profile</p>
+                                    </div>
+                                    <hr className={"my-1"}/>
 
-                        <div className={"grid gap-4 slide-in-from-top-[5%]"} id="profile-section" ref={profileSectionRef}>
-                            <div className="relative h-40">
-                                <Image
-                                    src={background_url ? background_url : "/images/background_default.jpg"}
-                                    alt="Background"
-                                    quality={75} // Reduced quality for optimization
-                                    fill
-                                    sizes="(max-width: 768px) 100vw, 50vw"
-                                    style={{
-                                        objectFit: 'cover',
-                                    }}
-                                    className="opacity-30 rounded-lg"
-                                />
-                                <div className="absolute ml-2 mt-4 flex flex-row items-center justify-start avatar">
-                                    <div className="relative w-32 h-32">
-                                        {!isLoaded && !hasError && (
-                                            <IconAvatar
-                                                className="w-32 h-32 absolute inset-0 flex items-center justify-center bg-gray-100 rounded-full"/>
-                                        )}
-                                        {avatar_url && !hasError && (
-                                            <Image
-                                                src={avatar_url}
-                                                alt="Avatar"
-                                                fill
-                                                sizes="25vw"
-                                                style={{objectFit: 'cover'}}
-                                                className={`rounded-full transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-                                                onLoad={() => setIsLoaded(true)}
-                                                onError={() => setHasError(true)}
+                                        <div className={"grid gap-4 slide-in-from-top-[5%]"} id="profile-section"
+                                             ref={profileSectionRef}>
+                                            <div className={"w-full h-40 bg-gradient-to-tr from-primary to-secondary rounded-xl"}>
+                                                <Card
+                                                    isBlurred
+                                                    className="border-none bg-background/60 dark:bg-default-100/50 max-w-[610px] m-3"
+                                                    shadow="sm"
+                                                >
+
+                                                    <div className={`flex flex-row items-end justify-between h-[136px] p-1 px-4`}>
+                                                        <Avatar
+                                                            showFallback
+                                                            //@ts-ignore
+                                                            src={avatar_url}
+                                                            icon={<AvatarIcon/>}
+                                                            className={"w-32 h-32 items-center"}
+                                                            width={128}
+                                                            height={128}
+                                                            classNames={{
+                                                                base: "bg-gradient-to-br from-primary to-secondary",
+                                                                icon: "text-black/80",
+                                                            }}
+                                                        />
+                                                        <span className={`text-2xl font-bold clamp-title ${pacifico.className}`}>
+                                                        {name ? name : "Empty name"}
+                                                     </span>
+                                                    </div>
+                                                    </Card>
+                                            </div>
+                                            <span className={"font-medium text-grayText"}>
+                                            {description}
+                                            </span>
+                                        </div>
+                                    <hr/>
+                                    {availability && (
+                                        <Card
+                                            className={"shadow-border"}
+                                        >
+                                            <CardBody>
+                                                    <div className={"flex flex-col items-start pl-4 pb-4"}>
+                                                        <Label className={"text-xl"}>
+                                                            Calendar Availability
+                                                        </Label>
+                                                        <ExternalLink href="/faq">
+                                                            Availability explanation
+                                                        </ExternalLink>
+                                                    </div>
+                                                    <div className={"flex justify-center"}>
+                                                        <Calendar
+                                                            panelClassName={{
+                                                                width: "w-full",
+                                                                mx: "mx-4",
+                                                                justifyContent: "justify-between",
+                                                            }}
+                                                            availabilityData={availability}
+                                                            mode="single"
+                                                            className={"border-1 rounded-lg mb-4 bg-grayCompFa"}
+                                                            userView={true}
+                                                            initialFocus
+                                                        />
+                                                    </div>
+                                            </CardBody>
+                                        </Card>
+                                    )}
+                                    <hr/>
+
+                                    <div className={"grid gap-4  slide-in-from-top-[5%]"} id="location-section"
+                                         ref={locationSectionRef}>
+                                        <Label className={"text-xl"}>
+                                            Store Location
+                                        </Label>
+                                        <Card>
+                                            <CardBody className={"w-full"}>
+                                                <LocationComponent location={location}/>
+                                            </CardBody>
+                                            <CardBody>
+                                                <div className="flex justify-center">
+                                                    <Image
+                                                        src={generateMapUrl(location.latitude, location.longitude)}
+                                                        alt="Map showing the location"
+                                                        width={400}
+                                                        height={300}
+                                                        className="rounded-lg"
+                                                    />
+                                                </div>
+                                            </CardBody>
+                                        </Card>
+                                        <hr/>
+                                        {deliveryOptions && (
+                                            <DeliveryLocationsTable
+                                                deliveryOptions={deliveryOptions}
                                             />
                                         )}
-                                        {(hasError || !avatar_url) && (
-                                            <IconAvatar
-                                                className="w-32 h-32 inset-0 flex items-center justify-center bg-gray-100 rounded-full"/>
-                                        )}
                                     </div>
-                                    <span className="ml-4 text-2xl font-bold clamp-title">
-                                        {name ? name : "Empty name"}
-                                    </span>
+                                    <div
+                                        className={"flex flex-row justify-between items-center cursor-pointer hover:scale-102 hover:bg-grayBg transition duration-300 rounded-lg p-3 py-3"}
+                                        id={"review-section"} ref={reviewSectionRef}
+                                    >
+                                        <div>
+                                            <Label className={"text-xl cursor-pointer"}>
+                                                Customer Reviews
+                                            </Label>
+                                            <div className={"flex flex-row items-center"}>
+                                                <IconStar className={"w-6 text-primary"}/>
+                                                <IconStar className={"w-6 text-primary"}/>
+                                                <IconStar className={"w-6 text-primary"}/>
+                                                <IconStar className={"w-6 text-primary"} state={"half"}/>
+                                                <IconStar className={"w-6 text-primary"} state={"empty"}/>
+                                                <p className="font-medium text-grayText">5.0 (260 reviews)</p>
+                                            </div>
+                                        </div>
+                                        <IconChevronDown className={"w-12 transform -rotate-90 text-text"}/>
                                     </div>
-                                </div>
-                                <span className={"font-medium text-grayText"}>
-                                {description}
-                            </span>
-                        </div>
-                        <hr/>
-                        {availability && (
-                            <>
-                                <div className={"flex flex-col justify-center bg-grayBg rounded-lg"}>
-                                    <div className={"flex flex-col items-start pl-4 p-4"}>
-                                        <Label className={"text-xl"}>
-                                            Calendar Availability
-                                        </Label>
-                                        <ExternalLink href="/faq">
-                                            Availability explanation
-                                        </ExternalLink>
-                                    </div>
-                                    <div className={"flex justify-center"}>
-                                        <Calendar
-                                            panelClassName={{
-                                                width: "w-full",
-                                                mx: "mx-4",
-                                                justifyContent: "justify-between",
-                                            }}
-                                            availabilityData={availability}
-                                            mode="single"
-                                            className={"border-1 rounded-lg mb-4 bg-grayCompFa"}
-                                            userView={true}
-                                            initialFocus
-                                        />
-                                    </div>
-                                </div>
-                            </>
-                        )}
-                        <hr/>
-                        <div className={"grid gap-4  slide-in-from-top-[5%]"} id="location-section"
-                             ref={locationSectionRef}>
-                            <Label className={"text-xl"}>
-                                Store Location
-                            </Label>
-                            <LocationComponent location={location}/>
-                            <div className="flex justify-center">
-                                <Image
-                                    src={generateMapUrl(location.latitude, location.longitude)}
-                                    alt="Map showing the location"
-                                    width={400}
-                                    height={300}
-                                    className="rounded-lg"
-                                />
-                            </div>
-                            <hr/>
-                            {deliveryOptions && (
-                                <DeliveryLocationsTable
-                                    deliveryOptions={deliveryOptions}
-                                />
-                            )}
-                        </div>
-                        <div
-                            className={"flex flex-row justify-between items-center cursor-pointer hover:scale-102 hover:bg-grayBg transition duration-300 rounded-lg py-3"}
-                            id={"review-section"} ref={reviewSectionRef}
-                        >
-                            <div>
-                                <Label className={"text-xl cursor-pointer"}>
-                                    Customer Reviews
-                                </Label>
-                                <div className={"flex flex-row items-center"}>
-                                    <IconStar className={"w-6"} color={"primary"}/>
-                                    <IconStar className={"w-6"} color={"primary"}/>
-                                    <IconStar className={"w-6"} color={"primary"}/>
-                                    <IconStar className={"w-6"} color={"primary"} state={"half"}/>
-                                    <IconStar className={"w-6"} color={"primary"} state={"empty"}/>
-                                    <p className="ml-2 font-medium text-grayText">5.0 (260 reviews)</p>
-                                </div>
-                            </div>
-                            <IconChevronDown className={"w-12 transform -rotate-90"}/>
-                        </div>
 
 
-                    </div>
-                </ScrollArea>
-            </div>
+                                </div>
+                            </ScrollShadow>
+                        </ModalBody>
+                    )}
+                    </ModalContent>
+            </Modal>
         </>
     );
 }
@@ -290,35 +281,43 @@ const DeliveryLocationsTable: React.FC<{ deliveryOptions: Record<
         <>
             <Label className={"text-xl"}>Delivery Locations</Label>
             {Object.keys(deliveryOptions).map((city) => (
-                <div key={city}>
-                    <div key={city} className="flex justify-between items-center mb-4">
-                        <span className="text-lg font-medium text-gray-900">{city}</span>
-                        <Dialog open={isOpen && selectedCity === city} onOpenChange={(open) => setIsOpen(open)}>
-                            <DialogTrigger asChild>
-                                <Button onClick={() => {
-                                    setSelectedCity(city);
-                                    setIsOpen(true);
-                                }}>Preview</Button>
-                            </DialogTrigger>
-                            <DialogContent className={"w-fit"} handleClose={() => setIsOpen(false)}>
-                                <DialogHeader>
-                                    <DialogTitle>Map Preview</DialogTitle>
-                                </DialogHeader>
-                                <DialogDescription>
-                                    <Image
-                                        src={generateMapUrl(cityLatLngMap[city].lat, cityLatLngMap[city].lng, deliveryOptions[city].range)}
-                                        alt="Map showing the location"
-                                        width={400}
-                                        height={300}
-                                        className="rounded-lg"
-                                    />
-                                </DialogDescription>
-                                <DialogFooter>
-                                    <Button onClick={() => setIsOpen(false)}>Close</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
-                    </div>
+                <div key={city} >
+                    <Card className={"mb-4"}>
+                        <CardBody>
+                            <div key={city} className="flex justify-between items-center">
+                                <span className="text-lg font-medium justify-end text-text">{city}</span>
+                                <Dialog open={isOpen && selectedCity === city} onOpenChange={(open) => setIsOpen(open)}>
+                                    <DialogTrigger asChild>
+                                        <Button
+                                            variant={"secondary"}
+                                            onClick={() => {
+                                            setSelectedCity(city);
+                                            setIsOpen(true);
+                                        }}>
+                                            Preview
+                                        </Button>
+                                    </DialogTrigger>
+                                    <DialogContent className={"w-fit"} handleClose={() => setIsOpen(false)}>
+                                        <DialogHeader>
+                                            <DialogTitle>Map Preview</DialogTitle>
+                                        </DialogHeader>
+                                        <DialogDescription>
+                                            <Image
+                                                src={generateMapUrl(cityLatLngMap[city].lat, cityLatLngMap[city].lng, deliveryOptions[city].range)}
+                                                alt="Map showing the location"
+                                                width={400}
+                                                height={300}
+                                                className="rounded-lg"
+                                            />
+                                        </DialogDescription>
+                                        <DialogFooter>
+                                            <Button onClick={() => setIsOpen(false)}>Close</Button>
+                                        </DialogFooter>
+                                    </DialogContent>
+                                </Dialog>
+                            </div>
+                        </CardBody>
+                    </Card>
                     <hr/>
                 </div>
             ))}
@@ -344,11 +343,11 @@ const LocationComponent: React.FC<{ location: AddressDataStoreField }> = ({ loca
             onMouseLeave={handleMouseLeave}
         >
             <div className="flex items-center space-x-2">
-                <IconLocation className={"w-5 h-5 cm:w-6 cm:h-6"} color={"primary"} />
+                <IconLocation className={"w-6 h-6 cm:w-8 cm:h-8 text-primary"} />
                 <p className="text-lg cm:text-xl clamp-title">{formatAddress(location)}</p>
             </div>
             <IconCopy
-                className={`w-6 h-6 cursor-pointer transition-transform duration-300 ${hoveringCopy ? 'scale-115' : ''}`}
+                className={`w-8 h-8 cursor-pointer transition-transform duration-300 ${hoveringCopy ? 'scale-115' : ''}`}
                 color={"primary"}
             />
         </div>

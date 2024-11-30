@@ -127,7 +127,7 @@ const SchedulerContentView: React.FC<{
                         e.stopPropagation();
                         handleDialogClose();
                     }}>
-                    <IconCross className={"w-8 h-8 cursor-pointer"} />
+                    <IconCross className={"w-8 h-8 cursor-pointer text-text"} />
                 </Button>
                 <p className={"text-xl"}>Schedule Delivery</p>
                 <div className="w-8 h-8 flex"></div>
@@ -155,7 +155,7 @@ const SchedulerContentView: React.FC<{
                 <p className=" text-xl">Time Preferences</p>
                 <div
                     className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg">
-                    <IconClock className={"w-10 h-10 tm:w-12 tm:h-12"} />
+                    <IconClock className={"w-10 h-10 tm:w-12 tm:h-12 text-text"} />
                     <div className={"flex flex-col w-full"}>
                         {
                             checkoutData.selectedTime ? (

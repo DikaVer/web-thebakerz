@@ -240,7 +240,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
                         <IconAvatar className="w-32"/>
                     )}
                     <IconEdit
-                        className={`absolute ${dataAvatar.image ? "mt-32" : "mt-[104px]"} w-8 rounded-full bg-grayBg p-1 border-1 border-black `}/>
+                        className={`absolute ${dataAvatar.image ? "mt-32" : "mt-[104px]"} w-8 rounded-full text-text bg-grayBg p-1 border-1 border-black `}/>
                 </div>
 
                 <div className="mt-6 text-center">
@@ -259,7 +259,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
                                  }}
                             >
                                 <p>{dataName}</p>
-                                <IconEdit className="w-5 ml-2 hover:scale-115 transition duration-500"/>
+                                <IconEdit className="w-5 ml-2 text-text hover:scale-115 transition duration-500"/>
                             </div>
                         </div>
                         <div className="bg-grayBg p-4 rounded-lg">

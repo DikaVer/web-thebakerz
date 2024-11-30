@@ -120,7 +120,7 @@ export function StoreViewUser({storeData, userData}: StoreViewUserProps) {
                 description={storeData.description}
                 location={storeData.location}
                 image={storeData.image}
-                background_url={storeData.background_url}
+                background_url={"/images/background_default.webp"}
                 deliveryOptions={storeData.deliveryOptions}
                 availability={storeData.availability}
                 userLocation={userData.location}

@@ -2,22 +2,27 @@
 
 import 'react-image-crop/dist/ReactCrop.css';
 import React, { useEffect, useState, ReactNode } from "react";
-import { Button } from "@/components/ui/button";
+import {Button} from '@/components/ui/button';
 import {
     IconCross, IconError,
     IconHeartFavourites,
     IconShare, IconSuccess,
 } from "@/components/ui/icons";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import Image from "next/image";
 import { formatCurrency } from "@/lib/utils";
 import {ProductDataField, StoreData} from "@/lib/definitions";
 import {useCart} from "@/components/providers/cart-provider";
 import {useProductDialog} from "@/components/providers/product-provider";
 import Skeleton from "react-loading-skeleton";
-import {z} from "zod";
-import {productEditSchema} from "@/lib/schemas";
+
+// @ts-ignore
+import confetti from 'canvas-confetti';
+
 import {toast} from "sonner";
+import {ScrollShadow} from "@nextui-org/scroll-shadow";
+import {Card, Image, Modal, ModalBody, ModalContent} from "@nextui-org/react";
+import useIsSmallScreen from "@/lib/hooks/use-is-small-screen";
+import {backdropEffect} from "@/lib/local-variables";
+import {useTheme} from "next-themes";
 
 interface ProductDescriptionModalProps {
     isOpen: boolean;
@@ -56,55 +61,47 @@ export function ProductDescriptionBase({
 
     return (
         <>
-            <div
-                data-state={isOpen ? 'open' : 'closed'}
-                className="fixed inset-0 z-30 bg-black/80 animate-fade"
-                onClick={onClose}
-            />
-            <div
-                data-state={isOpen ? 'open' : 'closed'}
-                className="fixed left-1/2 top-1/2 z-40 grid w-full max-w-[345px] cm:max-w-[445px]
-                           translate-x-[-50%] translate-y-[-50%] gap-4 bg-background
-                           shadow-lg animate-scale rounded-lg"
-            >
-                <ScrollArea className="max-h-[75vh]">
-                    <div className="grid gap-4 p-6">
-                        <ModalHeader onClose={onClose} />
-                        <hr className="my-1" />
-                        <ProductImage productData={productData} />
-                        <ProductDetails
-                            productData={productData}
-                            isHeartFilled={isHeartFilled}
-                            onToggleHeart={onToggleHeart}
-                        />
-                        {children}
-                    </div>
-                </ScrollArea>
-            </div>
+            <Modal backdrop={backdropEffect} isOpen={isOpen} onClose={onClose} size={'xl'} shadow={"lg"}>
+                <ModalContent>
+                    {(onClose) => (
+                        <ModalBody >
+                            <ScrollShadow size={50} hideScrollBar className="max-h-[75vh]">
+                                <div className="grid gap-4 p-4">
+                                    <ModalHeader />
+                                    <hr className="my-1" />
+                                    <ProductImage productData={productData} />
+                                    <ProductDetails
+                                        productData={productData}
+                                        isHeartFilled={isHeartFilled}
+                                        onToggleHeart={onToggleHeart}
+                                    />
+                                    {children}
+                                </div>
+                            </ScrollShadow>
+                        </ModalBody>
+                    )}
+                </ModalContent>
+            </Modal>
         </>
     );
 }
 
-interface ModalHeaderProps {
-    onClose: () => void;
-}
 
-function ModalHeader({ onClose }: ModalHeaderProps) {
+
+function ModalHeader() {
     return (
         <div className="flex justify-between items-center">
             <Button
-                className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
-                onClick={onClose}
-            >
-                <IconCross className="w-8 h-8 cursor-pointer" />
-            </Button>
-            <p className="text-xl font-medium">Product Detail</p>
-            <Button
-                className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
+                isIconOnly
+                className="flex items-center rounded-full"
+                variant={"ghost"}
                 onClick={() => { /* TODO: Implement share functionality */ }}
             >
-                <IconShare className="w-8 h-8 cursor-pointer" />
+                <IconShare className="w-8 h-8 cursor-pointer text-text" />
             </Button>
+            <p className="text-xl font-medium">Product Detail</p>
+            <div className={"w-8 h-8"}>
+            </div>
         </div>
     );
 }
@@ -114,18 +111,18 @@ interface ProductImageProps {
 }
 
 function ProductImage({ productData }: ProductImageProps) {
-    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const isSmallScreen = useIsSmallScreen(540);
+
     return (
-        <div className="relative h-[300px] w-[300px] cm:h-[400px] cm:w-[400px]">
-            {!isLoaded && <Skeleton height={"100%"} />}
+        <div className="flex justify-center w-full">
             <Image
+                isZoomed
+                isBlurred
                 src={productData.image_url}
                 alt={productData.name}
-                fill
-                style={{ objectFit: 'cover' }}
-                onLoad={() => setIsLoaded(true)}
-                className={`rounded-xl transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-                sizes="(max-width: 540px) 300px, 400px"
+                className={"rounded-xl object-center"}
+                width={isSmallScreen ? 300 : 400}
+                height={isSmallScreen ? 300 : 400}
             />
         </div>
     );
@@ -140,18 +137,28 @@ interface ProductDetailsProps {
 function ProductDetails({ productData, isHeartFilled, onToggleHeart }: ProductDetailsProps) {
     return (
         <div className="flex flex-col gap-2">
-            <div className="flex justify-between items-end">
-                <div className="flex items-center space-x-2">
+            <Card
+                className={"flex flex-row justify-between items-center p-2"}
+            >
+                <div>
                     <p className="text-xl font-bold">{productData.name}</p>
-                    <IconHeartFavourites
-                        className="w-5 h-5 cursor-pointer transition-transform duration-300 hover:scale-110"
-                        color="primary"
+                    <span className="text-lg font-bold text-grayText">{formatCurrency(productData.price)}</span>
+                </div>
+                <Button
+                    isIconOnly
+                    className={`w-12 h-12 flex items-center rounded-full`}
+                    variant={"ghost"}
+                    endContent={<IconHeartFavourites
+                        className="w-10 h-10 text-primary"
                         state={isHeartFilled ? "full" : "empty"}
                         onClick={onToggleHeart}
-                    />
-                </div>
-                <span className="text-lg font-bold text-grayText">{formatCurrency(productData.price)}</span>
-            </div>
+                    />}
+                    onClick={() => { /* TODO: Implement share functionality */
+                    }}
+                >
+
+                </Button>
+            </Card>
             <p className="font-medium text-grayText clamp-product-description">{productData.description}</p>
         </div>
     );
@@ -199,6 +206,16 @@ export function ProductDescriptionUser({
         setIsLoading(false);
     };
 
+    // const confetti = require('canvas-confetti').default;
+
+    const handleConfetti = () => {
+        confetti({
+            particleCount: 150,
+            spread: 300,
+            origin: { y: 0.6 }
+        });
+    };
+
     return (
         <ProductDescriptionBase
             isOpen={isDialogOpen}
@@ -228,8 +245,10 @@ export function ProductDescriptionUser({
             <div className="text-center">
                 <Button
                     className="w-full text-white py-3 rounded-md"
+                    variant={"default"}
                     onClick={handleAddOrder}
                     disabled={isLoading}
+                    onPress={handleConfetti}
                 >
                     Add {quantity} to order • {totalPrice}
                 </Button>
@@ -343,7 +362,7 @@ export function ProductDescriptionBakerz({
                     className="w-full py-3 rounded-md"
                     onClick={() => onSubmit()}
                     disabled={isLoading}
-                    variant={"outline"}
+                    color={"warning"}
                 >
                     Delete
                 </Button>

@@ -128,10 +128,10 @@ export function ProductImageUploader({ form, field, name, isDialogOpen, setDialo
                 <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-6"}>
                     <div className={`flex flex-row justify-between items-center`}>
                         <Button
-                            className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
+                            className="flex px-2 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
                             onClick={() => toggleClose()}
                         >
-                            <IconCross className={"w-8 h-8 cursor-pointer"}/>
+                            <IconCross className={"w-8 h-8 cursor-pointer text-text"}/>
                         </Button>
                         <p className={"text-xl"}>Product Image Selection</p>
                         <div className="w-8 h-8 flex "></div>

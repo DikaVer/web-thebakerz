@@ -112,9 +112,9 @@ function PaginationArrow({
 
     const icon =
         direction === 'left' ? (
-            <IconArrow className="w-4" />
+            <IconArrow className="w-4 text-text" />
         ) : (
-            <IconArrow className="w-4 rotate-180" />
+            <IconArrow className="w-4 rotate-180 text-text" />
         );
 
     return isDisabled ? (

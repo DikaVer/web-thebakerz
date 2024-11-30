@@ -61,7 +61,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView
                                             ${checkoutData.deliveryAddress === String(address.id) ? 'bg-grayBg' : hoveringEdit[address.id] ? '' : 'hover:bg-grayBg'}`}
                                 onClick={() => handleAddressClick(address.id)}
                             >
-                                <IconLocation className={"w-8 h-8"}
+                                <IconLocation className={"w-8 h-8 text-primary"}
                                               color={checkoutData.deliveryAddress === String(address.id) ? "primary" : "secondary"}/>
                                 <div className={"flex w-full"}>
                                     <p className="text-xl clamp-title">{formatAddress(address)}</p>
@@ -72,7 +72,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({handleSchedulerView
                                     onMouseLeave={() => handleMouseLeave(address.id)}
                                     onClick={() => handleEditAddress(address.id)}
                                 >
-                                    <IconEdit className={"w-6 h-6"}/>
+                                    <IconEdit className={"w-6 h-6 text-text"}/>
                                 </div>
                             </div>
                             <hr></hr>

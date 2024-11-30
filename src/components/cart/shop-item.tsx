@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import Stepper from '@/components/cart/stepper';
-import Image from 'next/image';
 import {CartItem} from "@/lib/definitions";
 import {formatCurrency} from "@/lib/utils";
 import {useProductDialog} from "@/components/providers/product-provider";
 import Skeleton from "react-loading-skeleton";
+import {Card, CardBody, Image, Modal, ModalBody, ModalContent} from "@nextui-org/react";
+import {Button} from "@/components/ui/button";
 
 interface ShopItemProps extends CartItem {
     onDelete: (id: string) => void;
@@ -39,7 +40,7 @@ const ShopItem: React.FC<ShopItemProps> = ({
     return (
         <>
             <li
-                className={`flex flex-row rounded transition duration-500 ${!isHoveringStepper ? 'hover:bg-grayBg' : ''} cursor-pointer my-1`}
+                className={`flex flex-row rounded w-full  p-4 transition duration-500 ${!isHoveringStepper ? 'hover:bg-grayBg' : ''} cursor-pointer my-1`}
                 onClick={!isHoveringStepper ? () => openProductDialogCart(
                     {
                         id: id,
@@ -54,24 +55,42 @@ const ShopItem: React.FC<ShopItemProps> = ({
                     },
                 ) : undefined}
             >
-                <div className="p-2">
-                    <div className="relative h-16 w-16">
-                        {!isLoaded && <Skeleton height={"100%"}/>}
+                <div className="mb-4">
+                    <div className="h-20 w-20">
                         <Image
+                            isBlurred
                             src={image_url}
-                            alt={`Image of ${name}` }
-                            fill
-                            sizes="25vw"
-                            style={{objectFit: 'cover'}}
-                            className={`rounded-xl transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-                            onLoad={() => setIsLoaded(true)}
+                            alt={`Image of ${name}`}
+                            className={"rounded-xl object-center"}
+                            width={96}
+                            height={80}
                         />
                     </div>
                 </div>
-                <div className="flex flex-col gap-0.5 justify-between p-1 w-full">
-                    <span className="text-base font-medium">{name}</span>
-                    <div className="flex flex-row justify-between items-end">
+                <div className="flex flex-row justify-between w-full ml-2">
+                    <div>
+                        <span className="text-base font-medium">{name}</span>
                         <p className="text-grayText font-medium text-base">{displayPrice}</p>
+                    </div>
+                    <div className="flex flex-col justify-between items-end">
+                        <Button
+                            variant={"outline"}
+                            onClick={!isHoveringStepper ? () => openProductDialogCart(
+                                {
+                                    id: id,
+                                    store_id: store_id,
+                                    category: category,
+                                    name: name,
+                                    description: description,
+                                    price: price,
+                                    image_url: image_url,
+                                    quantity: quantity,
+                                    uniqueId: uniqueId,
+                                },
+                            ) : undefined}
+                        >
+                            change
+                        </Button>
                         <Stepper
                             product_id={uniqueId}
                             onDelete={() => onDelete(uniqueId)}
@@ -83,7 +102,7 @@ const ShopItem: React.FC<ShopItemProps> = ({
                     </div>
                 </div>
             </li>
-            <hr className="border-grayBg mx-2" />
+            <hr className="border-grayBg mx-2"/>
         </>
     );
 };

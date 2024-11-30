@@ -163,7 +163,7 @@ export default function StoreForm() {
                                                             className={`flex flex-row justify-between items-center space-x-2 pr-2 py-1 transition duration-300 cursor-pointer rounded-lg`}
                                                         >
                                                             <IconLocation
-                                                                className={"w-9 h-9"}
+                                                                className={"w-9 h-9 text-primary"}
                                                                 color={"primary"}
                                                             />
                                                             <div className={"flex w-full"}>
@@ -178,7 +178,7 @@ export default function StoreForm() {
                                                                     setIsAddressDialogOpen(true);
                                                                 }}
                                                             >
-                                                                <IconEdit className={"w-6 h-6"}/>
+                                                                <IconEdit className={"w-6 h-6 text-text"}/>
                                                             </div>
                                                         </div>
                                                     </div>

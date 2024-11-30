@@ -22,13 +22,13 @@ export default function ViewHeaderUser({ user_id }: { user_id: string }) {
     return (
         <div className={"flex flex-row justify-between"}>
             <Button className={"w-18 px-0"} variant={"secondary"} onClick={handleBack}>
-                <IconArrow className={"w-4"} color={"black"}/>
+                <IconArrow className={"w-4 text-text"} />
                 Back
             </Button>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button className="bg-secondary w-10 px-1 cm:px-1.5 opacity-80" variant="outline">
-                        <IconThreeDots className={"w-7-5 h-7-5"}/>
+                        <IconThreeDots className={"w-7-5 h-7-5 text-background"}/>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>

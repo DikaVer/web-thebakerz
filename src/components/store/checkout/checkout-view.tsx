@@ -219,7 +219,7 @@ export default function CheckoutView({id, availability, userLocation, email}: Ch
                                                 className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg"
                                                 onClick={() => handleSchedulerView("timeSelection")}
                                             >
-                                                <IconClock className={"w-8 h-8 tm:w-10 tm:h-10"}/>
+                                                <IconClock className={"w-8 h-8 tm:w-10 tm:h-10 text-text"}/>
                                                 <div className={"flex flex-col w-full"}>
                                                     {
                                                         checkoutData.selectedTime ? (

@@ -8,6 +8,8 @@ import {fetchStoreId} from "@/lib/actions-server-only/store-actions";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import type {Metadata} from "next";
 import {metadataDefault} from "@/components/metadata";
+import {AppSidebar} from "@/components/app-sidebar";
+import {HeaderAligner} from "@/components/header-aligner";
 
 
 export const metadata: Metadata = metadataDefault;
@@ -42,10 +44,13 @@ export default async function RootLayout({
                         role={role}
                         name={name}
                     />
-                    {children}
+                    <HeaderAligner>
+                        <AppSidebar main={true} login={login} role={role} name={name}/>
+                        {children}
+                        <Footer/>
+                    </HeaderAligner>
                 </ProductDialogProvider>
             </CartProvider>
-            <Footer />
         </>
     );
 }

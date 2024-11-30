@@ -41,7 +41,7 @@ export async function ComingSoon() {
                 <div className="w-2/3 h-2/3">
                     <Image
                         src="/images/HomeBaker.svg"
-                        alt="Verify Email Image"
+                        alt="Home Baker Image"
                         width={200} // Adjust based on desired size
                         height={200} // Adjust based on desired size
                         className="w-full h-full"

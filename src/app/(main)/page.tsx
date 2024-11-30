@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useState} from "react";
 import Image from "next/image";
 import {
     IconHeart,
@@ -11,9 +11,13 @@ import {
     IconSupport,
 } from "@/components/ui/icons";
 import { FirstView } from "@/components/landing/first-view";
-import Skeleton from "react-loading-skeleton";
+// @ts-ignore
+import {Gradient} from "react-gradient";
 import {pacifico} from "@/components/fonts";
 import {useInView} from "@/lib/hooks/useInView";
+import {backdropEffect} from "@/lib/local-variables";
+import {Modal, ModalBody, ModalContent} from "@nextui-org/react";
+import {ScrollShadow} from "@nextui-org/scroll-shadow";
 
 export default function Page() {
     return (
@@ -28,6 +32,7 @@ export default function Page() {
                 {/* Succeed Footer */}
                 <Footer/>
             </div>
+
     );
 }
 
@@ -38,45 +43,45 @@ const WhyChooseSection = () => {
     return (
         <section
             id="why-choose"
-            className="w-full px-4 sm:px-6 lg:px-8 py-12 bg-white rounded-lg"
+            className="w-full px-4 sm:px-6 lg:px-8 py-12 rounded-lg"
             aria-labelledby="why-choose-heading"
         >
             <h2
                 ref={whyChooseRef}
                 id="why-choose-heading"
-                className={`text-3xl sm:text-4xl font-extrabold text-center text-gray-800 mb-10 
+                className={`text-3xl sm:text-4xl font-extrabold text-center mb-10 
                             opacity-0 transform translate-y-10 
                             ${whyChooseInView ? 'animate-fadeInUp' : ''}`}
             >
                 Why Choose TheBakerz?
             </h2>
             <div
-                className={`grid grid-cols-1 sm:grid-cols-2 gap-8`}
+                className={`grid grid-cols-1 lg:grid-cols-2 gap-8`}
             >
                 {/* Online Store */}
                 <FeatureCard
-                    icon={<IconStore viewBox="0 0 576 512" className="w-12 h-12" color="primary" aria-hidden="true" />}
+                    icon={<IconStore className="w-12 h-12 text-primary" />}
                     title="Online Store"
                     description="We create your own online store to showcase your delicious creations and accept orders seamlessly."
                 />
 
                 {/* Order Management */}
                 <FeatureCard
-                    icon={<IconOrder viewBox="0 0 384 512" className="w-12 h-12" color="primary" aria-hidden="true" />}
+                    icon={<IconOrder className="w-12 h-12 text-primary" />}
                     title="Order Management"
                     description="Easily track and manage all your orders in one place, reducing the risk of errors and missed orders."
                 />
 
                 {/* All Chats in One Place */}
                 <FeatureCard
-                    icon={<IconMessage viewBox="0 0 24 24" className="w-12 h-12" color="primary" aria-hidden="true" />}
+                    icon={<IconMessage className="w-12 h-12 text-primary" />}
                     title="All Chats in One Place"
                     description="Connect customer chats from Instagram and WhatsApp to orders in one place for easy communication."
                 />
 
                 {/* Customer Support */}
                 <FeatureCard
-                    icon={<IconSupport viewBox="0 0 24 24" className="w-12 h-12" color="primary" aria-hidden="true" />}
+                    icon={<IconSupport className="w-12 h-12 text-primary" />}
                     title="Flexible Support"
                     description="Our dedicated team is here to help during our available hours, ensuring your queries are addressed promptly."
                 />
@@ -94,26 +99,50 @@ interface FeatureCardProps {
 
 const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
     const [featureCardRef, featureCardInView] = useInView<HTMLDivElement>({ threshold: 0 });
+    const [isOpen, onClose] = useState(false);
 
     return (
-        <article
-            ref={featureCardRef}
-            className={`flex flex-col items-center text-center p-6 border-2 border-grayBg rounded-lg shadow-sm
+        <>
+            <article
+                ref={featureCardRef}
+                className={`flex flex-col items-center text-center p-6 border-2 border-grayBg hover:bg-grayBg rounded-lg shadow-sm
                 opacity-0 transform translate-y-10 
                 ${featureCardInView ? 'animate-fadeInUp' : ''}`}
-        >
-            <div className="bg-secondary p-4 rounded-full mb-6">
-                {icon}
-            </div>
-            <h3 className="flex text-xl sm:text-2xl lg:h-12 lg:items-center lg:justify-center font-semibold text-gray-800 mb-4">{title}</h3>
-            <p className="text-gray-600 text-lg sm:text-xl">{description}</p>
-        </article>
+                onClick={() => onClose(true)}
+            >
+                <div className="bg-secondary p-4 rounded-full mb-6">
+                    {icon}
+                </div>
+                <h3 className="flex text-xl sm:text-2xl lg:h-12 lg:items-center lg:justify-center font-semibold mb-4">{title}</h3>
+                <p className=" text-lg sm:text-xl">{description}</p>
+            </article>
+            <Modal backdrop={backdropEffect} isOpen={isOpen} onClose={() => onClose(false)} size={'xl'} shadow={"lg"}>
+                <ModalContent>
+                    {(onClose) => (
+                        <ModalBody>
+                            <article
+                                ref={featureCardRef}
+                                className={`flex flex-col items-center text-center p-6 rounded-lg shadow-sm
+                                opacity-0 transform translate-y-10 
+                                ${featureCardInView ? 'animate-fadeInUp' : ''}`}
+                            >
+                                <div className="bg-secondary p-4 rounded-full mb-6">
+                                    {icon}
+                                </div>
+                                <h3 className="flex text-xl sm:text-2xl lg:h-12 lg:items-center lg:justify-center font-semibold mb-4">{title}</h3>
+                                <p className=" text-lg sm:text-xl">{description}</p>
+                            </article>
+                        </ModalBody>
+                    )}
+                </ModalContent>
+            </Modal>
+        </>
     )
 };
 
 // Footer Component
 const Footer = () => {
-    const [footerRef, footerInView] = useInView<HTMLDivElement>({ threshold: 0 });
+    const [footerRef, footerInView] = useInView<HTMLDivElement>({threshold: 0});
 
     return (
         <div
@@ -124,9 +153,9 @@ const Footer = () => {
             `}
         >
             <div className={"flex flex-row items-end"}>
-                <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-32 heart-display:h-32"}
+                <IconHeart viewBox={"0 0 512 512"} className="hidden heart-display:block w-32 h-32"
                            color={"heart"}/>
-                <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-10 heart-display:h-10"}
+                <IconHeart viewBox={"0 0 512 512"} className="hidden heart-display:block w-10 h-10"
                            color={"heart"}/>
             </div>
             <div
@@ -145,7 +174,7 @@ const Footer = () => {
                     quality={100}
                 />
             </div>
-            <span className={`text-3xl text-primary text-center ${pacifico.className}`}>We want you to succeed</span>
+            <span className={`text-[3vh] text-primary text-center ${pacifico.className}`}>We want you to succeed</span>
             <div
                 ref={footerRef}
                 className={`relative w-36 proportional-girl-mb girl-md:mb-32
@@ -163,9 +192,9 @@ const Footer = () => {
                 />
             </div>
             <div className={"flex flex-row items-end"}>
-                <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-10 heart-display:h-10"}
+                <IconHeart viewBox={"0 0 512 512"} className="hidden heart-display:block w-10 h-10"
                            color={"heart"}/>
-                <IconHeart viewBox={"0 0 512 512"} className={"w-0 h-0 heart-display:w-32 heart-display:h-32"}
+                <IconHeart viewBox={"0 0 512 512"} className="hidden heart-display:block w-32 h-32"
                            color={"heart"}/>
             </div>
         </div>

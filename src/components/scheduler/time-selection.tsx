@@ -41,7 +41,7 @@ export const TimeSelection: React.FC<ScheduleSelectionProps> = ({availability, h
                     className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
                     onClick={() => handleSchedulerView("scheduler")}
                 >
-                    <IconArrow className={"w-8 h-8 cursor-pointer"}/>
+                    <IconArrow className={"w-8 h-8 cursor-pointer text-text"}/>
                 </Button>
                 <p className={"text-xl"}>Time Selection</p>
                 <div className="w-8 h-8 flex"></div>

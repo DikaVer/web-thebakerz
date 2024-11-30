@@ -65,7 +65,7 @@ export function NameChangeDialog({ form, isDialogOpen, setDialogOpen, setGlobalD
                                 form.setValue("name", originName);
                             }}
                         >
-                            <IconCross className={"w-8 h-8 cursor-pointer"}/>
+                            <IconCross className={"w-8 h-8 cursor-pointer text-text"}/>
                         </Button>
                         <p className={"text-xl"}>Name Editing</p>
                         <div className="w-8 h-8 flex "></div>
