@@ -696,7 +696,7 @@ export function ProductDescriptionUser({
                             <Textarea
                                 variant="faded"
                                 placeholder="Enter your custom notes for Bakerz"
-                                description="Enter a description in case you want something truly special."
+                                description="Enter a note in case you want something truly special."
                                 className="max-w-xs"
                             />
                         </div>
