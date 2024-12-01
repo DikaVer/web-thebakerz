@@ -5,6 +5,9 @@ import { Search } from "lucide-react";
 import { ProductByCategory, StoreData, ProductDataField } from "@/lib/definitions";
 import {ProductBakerz, ProductUser} from "@/components/store/product/product";
 import {createNanoid} from "@/lib/utils";
+import {IconSearch} from "@/components/ui/icons";
+import {Input} from "@nextui-org/input";
+import MyInput from "@/components/ui/search";
 
 interface ProductListBaseProps<P> {
     storeId: string;
@@ -43,7 +46,7 @@ export const ProductListBase = <P,>({
 
     const renderSearchInput = () => (
         <div className="flex flex-row w-full justify-center">
-            <div className="flex flex-row items-center w-80 border-b border-1 px-3 rounded-lg">
+            <div className="flex bg-outline flex-row items-center w-80 shadow-md px-3 rounded-xl hover:bg-outline-foreground">
                 <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                 <input
                     type="text"

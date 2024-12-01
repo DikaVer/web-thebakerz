@@ -8,7 +8,7 @@ import {Button} from "@/components/ui/button";
 import {ClipLoader} from "react-spinners";
 import {availabilitySchema} from "@/lib/schemas";
 import {toast} from "sonner";
-import {IconError, IconSuccess} from "@/components/ui/icons";
+import {IconCircleAlert, IconSuccess} from "@/components/ui/icons";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -71,7 +71,7 @@ export default function AvailabilityEdit({ id, availability, setStoreData }: Ava
             if (!validateField.success) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                             <p className={"text-base font-bold"}>
                                 {validateField.error.errors[0].message}
                             </p>
@@ -101,7 +101,7 @@ export default function AvailabilityEdit({ id, availability, setStoreData }: Ava
             if (!response.ok) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert className={"w-10 h-10 text-primary"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>

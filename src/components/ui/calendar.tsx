@@ -14,11 +14,13 @@ import {
 } from "@/components/ui/dialog"
 
 import {cn, formatDataDate, formatDate, formatDateTime} from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import {Button, buttonVariants} from "@/components/ui/button"
 import {useEffect, useState} from "react";
 import {DaySelection} from "@/components/store/maintaince/availability-selection";
 import {FormError} from "@/components/authentication/form-error";
-import {timeMap} from "@/lib/local-variables";
+import {backdropEffect, timeMap} from "@/lib/local-variables";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
+import {ScrollShadow} from "@nextui-org/scroll-shadow";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
     panelClassName?:{
@@ -220,7 +222,7 @@ function Calendar({
                   cell: "h-9 w-9 text-center text-sm p-0 relative",
                   day: cn(
                       buttonVariants({variant: "ghost"}),
-                      "h-9 w-9 p-0 aria-selected:opacity-100 bg"
+                      "h-9 w-9 p-0 aria-selected:opacity-100"
                   ),
                   day_range_end: "day-range-end",
                   day_selected:
@@ -239,37 +241,72 @@ function Calendar({
               {...props}
           />
           { availabilityData && selectedDay && userView &&
-              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                  <DialogContent handleClose={handleDialogClose}>
-                      <DialogTitle>Selected Day - {formatDate(selectedDay)}</DialogTitle>
-                      <DialogDescription className={"grid grid-cols-[0.5fr_1.5fr] "}>
-                          {selectedDay && availabilityData[formatDataDate(selectedDay)] ? (
-                              <>
-                                  <strong>Store is open</strong>
-                                  <strong>From:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].from].from)}
-                                  <strong>To:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].to].from)}
-                                  <strong>Availability:</strong> {availabilityData[formatDataDate(selectedDay)].availability}
-                              </>
+              // <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              //     <DialogContent handleClose={handleDialogClose}>
+              //         <DialogTitle>Selected Day - {formatDate(selectedDay)}</DialogTitle>
+              //         <DialogDescription className={"grid grid-cols-[0.5fr_1.5fr] "}>
+              //             {selectedDay && availabilityData[formatDataDate(selectedDay)] ? (
+              //                 <>
+              //                     <strong>Store is open</strong>
+              //                     <strong>From:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].from].from)}
+              //                     <strong>To:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].to].from)}
+              //                     <strong>Availability:</strong> {availabilityData[formatDataDate(selectedDay)].availability}
+              //                 </>
+              //
+              //             ) : (
+              //                 <>
+              //                     <strong>Store is closed</strong>
+              //                 </>
+              //             )}
+              //         </DialogDescription>
+              //         <DialogFooter>
+              //             <button
+              //                 className={cn(buttonVariants({variant: "default"}))}
+              //                 onClick={handleDialogClose}
+              //             >
+              //                 Close
+              //             </button>
+              //         </DialogFooter>
+              //     </DialogContent>
+              // </Dialog>
+              <Modal backdrop={backdropEffect} isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} size={'sm'} shadow={"lg"} placement={"center"}>
+                  <ModalContent>
+                      {(onClose) => (
+                          <>
+                              <ModalHeader>
+                                  Selected Day - {formatDate(selectedDay)}
+                              </ModalHeader>
+                              <ModalBody>
+                                  {selectedDay && availabilityData[formatDataDate(selectedDay)] ? (
+                                      <>
+                                          <strong>Store is open</strong>
+                                          <strong>From:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].from].from)}
+                                          <strong>To:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].to].from)}
+                                          <strong>Availability:</strong> {availabilityData[formatDataDate(selectedDay)].availability}
+                                      </>
 
-                          ) : (
-                              <>
-                                  <strong>Store is closed</strong>
-                              </>
-                          )}
-                      </DialogDescription>
-                      <DialogFooter>
-                          <button
-                              className={cn(buttonVariants({variant: "default"}))}
-                              onClick={handleDialogClose}
-                          >
-                              Close
-                          </button>
-                      </DialogFooter>
-                  </DialogContent>
-              </Dialog>
+                                  ) : (
+                                      <>
+                                          <strong>Store is closed</strong>
+                                      </>
+                                  )}
+                              </ModalBody>
+                              <ModalFooter>
+                                  <Button
+                                      variant="outline"
+                                      onClick={handleDialogClose}
+                                  >
+                                      Close
+                                  </Button>
+                              </ModalFooter>
+                          </>
+                      )}
+                  </ModalContent>
+              </Modal>
+
           }
           {/* Dialog to open when a day is clicked */}
-          { availabilityData && selectedDay && !userView &&
+          {availabilityData && selectedDay && !userView &&
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogContent handleClose={handleDialogClose}>
                       <DialogTitle>Selected Day - {formatDate(selectedDay)}</DialogTitle>

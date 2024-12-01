@@ -1,7 +1,6 @@
 "use client";
 
 import React, { FC, useState } from "react";
-import Image from "next/image";
 import {
     IconAvatar, IconCalendar, IconCopy,
     IconLocation,
@@ -28,7 +27,7 @@ import {cn, formatAddress} from "@/lib/utils";
 import { ProfileDescription } from "@/components/store/profile-description";
 import Skeleton from "react-loading-skeleton";
 import {pacifico} from "@/components/fonts";
-import {Accordion, AccordionItem, Avatar, AvatarIcon, Card, CardBody, Switch} from "@nextui-org/react";
+import {Accordion, AccordionItem, Avatar, AvatarIcon, Card, CardBody, Image, Switch} from "@nextui-org/react";
 
 import {AnchorIcon} from "@nextui-org/shared-icons";
 
@@ -148,8 +147,8 @@ export function ProfileHeader({
                 </Button>
 
             </div>
-            <div>
-                <div className={"flex flex-col space-y-4"}>
+            <div className={"flex flex-row justify-between"}>
+                <div className={"flex flex-col space-y-4 w-full max-w-2xl justify-center items-center"}>
                     <Accordion
                         variant={"splitted"}
                         selectionMode="single"
@@ -230,7 +229,17 @@ export function ProfileHeader({
                         </AccordionItem>
                     </Accordion>
                 </div>
-
+                <div className={"w-full justify-center hidden store-image:block"}>
+                    <div className={"flex flex-col items-center"}>
+                        <Image
+                            isBlurred
+                            src={"/images/Alone_Time.svg"}
+                            alt={"Customer at home choose the dessert from Bakerz ml-10"}
+                            width={450}
+                        />
+                        <p className={`text-4xl w-fit ${pacifico.className}`}>Sweet dreams come true!</p>
+                    </div>
+                </div>
             </div>
         </>
     );

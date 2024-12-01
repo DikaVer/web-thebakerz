@@ -6,7 +6,7 @@ const useHowManyCalendars = () => {
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth > 768) {
-                setNumber(Math.min(Math.floor(window.innerWidth / 140), 19));
+                setNumber(Math.min(Math.floor(window.innerWidth / 140), 7));
             } else {
                 setNumber(Math.floor(window.innerWidth / 150) + 2);
             }

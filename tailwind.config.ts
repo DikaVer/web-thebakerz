@@ -45,9 +45,8 @@ const config = {
   			orangeBakerz: 'hsl(var(--orange-bakerz))',
   			grayBg: 'hsl(var(--gray-bg))',
   			grayText: 'hsl(var(--gray-text))',
-  			grayComp: 'hsl(var(--gray-component))',
-  			grayCompHover: 'hsl(var(--gray-component-hover))',
-  			grayCompFa: 'hsl(var(--gray-fafafa))',
+  			grayBgComp: 'hsl(var(--gray-bg-component))',
+			outlineComp: 'hsl(var(--outline-component))',
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',
   				foreground: 'hsl(var(--primary-foreground))'
@@ -69,6 +68,10 @@ const config = {
   				DEFAULT: 'hsl(var(--accent))',
   				foreground: 'hsl(var(--accent-foreground))'
   			},
+			outline: {
+				DEFAULT: 'hsl(var(--outline))',
+				foreground: 'hsl(var(--outline-foreground))'
+			},
   			popover: {
   				DEFAULT: 'hsl(var(--popover))',
   				foreground: 'hsl(var(--popover-foreground))'
@@ -99,6 +102,7 @@ const config = {
 			'desktop': '768px',
   			'store-sm': '1000px',
   			'girl-md': '580px',
+			'store-image': '1350px',
   			'heart-display': '1370px'
   		},
   		keyframes: {

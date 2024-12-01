@@ -3,7 +3,7 @@ import {useState} from "react";
 
 import {ClipLoader} from "react-spinners";
 import {Button} from "@/components/ui/button";
-import {IconCross, IconError, IconSuccess} from "@/components/ui/icons";
+import {IconCross, IconCircleAlert, IconSuccess} from "@/components/ui/icons";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {
@@ -88,7 +88,7 @@ export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPendi
             if (!responseImage.ok) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                             <p className={"text-base font-bold"}>
                                 {resultImage.message}
                             </p>
@@ -142,7 +142,7 @@ export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPendi
         if (!response.ok) {
             toast.error((
                     <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconError color={"primary"} className={"w-10 h-10"}/>
+                        <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                         <p className={"text-base font-bold"}>
                             {result.message}
                         </p>

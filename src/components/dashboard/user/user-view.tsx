@@ -3,7 +3,7 @@
 
 import ViewHeader from "@/components/dashboard/user/header-view";
 import Image from "next/image";
-import {IconAvatar, IconEdit, IconError, IconSuccess} from "@/components/ui/icons";
+import {IconAvatar, IconEdit, IconCircleAlert, IconSuccess} from "@/components/ui/icons";
 import React, { useMemo, useState} from "react";
 import {UsersData} from "@/lib/definitions";
 import {useForm} from "react-hook-form";
@@ -88,7 +88,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
             if (!response.ok) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>
@@ -131,7 +131,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
             if (!response.ok) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>

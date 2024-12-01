@@ -3,26 +3,43 @@
 import 'react-image-crop/dist/ReactCrop.css';
 import React, { useEffect, useState, ReactNode } from "react";
 import {Button} from '@/components/ui/button';
+import {Slider} from "@nextui-org/slider";
 import {
-    IconCross, IconError,
-    IconHeartFavourites,
-    IconShare, IconSuccess,
+    IconCircleAlert,
+    IconCross, IconEdit, IconEgg, IconEggOff, IconGluten, IconGlutenFree,
+    IconHeartFavourites, IconMeet, IconNotebookPen, IconNuts, IconNutsFree,
+    IconShare, IconSuccess, IconVegan, MoonIcon, SunIcon,
 } from "@/components/ui/icons";
 import { formatCurrency } from "@/lib/utils";
 import {ProductDataField, StoreData} from "@/lib/definitions";
 import {useCart} from "@/components/providers/cart-provider";
 import {useProductDialog} from "@/components/providers/product-provider";
 import Skeleton from "react-loading-skeleton";
+// @ts-ignore
+import ExpandText from 'react-expand-text';
 
 // @ts-ignore
 import confetti from 'canvas-confetti';
 
 import {toast} from "sonner";
 import {ScrollShadow} from "@nextui-org/scroll-shadow";
-import {Card, Image, Modal, ModalBody, ModalContent} from "@nextui-org/react";
+import {
+    Accordion,
+    AccordionItem,
+    Card,
+    Image,
+    Modal,
+    ModalBody,
+    ModalContent,
+    Select,
+    SelectItem, Switch
+} from "@nextui-org/react";
 import useIsSmallScreen from "@/lib/hooks/use-is-small-screen";
 import {backdropEffect} from "@/lib/local-variables";
 import {useTheme} from "next-themes";
+import Progress from "@/components/ui/progress";
+import {limitChar} from "@/components/ui/limitChar";
+import {Textarea} from "@nextui-org/input";
 
 interface ProductDescriptionModalProps {
     isOpen: boolean;
@@ -61,7 +78,15 @@ export function ProductDescriptionBase({
 
     return (
         <>
-            <Modal backdrop={backdropEffect} isOpen={isOpen} onClose={onClose} size={'xl'} shadow={"lg"}>
+            <Modal
+                backdrop={backdropEffect}
+                isOpen={isOpen}
+                onClose={onClose}
+                size={'xl'}
+                shadow={"lg"}
+                placement={"center"}
+                className={"bg-background"}
+            >
                 <ModalContent>
                     {(onClose) => (
                         <ModalBody >
@@ -174,6 +199,21 @@ interface ProductDescriptionUserProps {
     };
 }
 
+const flavourTypes = [
+    { key: "Vanilla", label: "Vanilla" },
+    { key: "Chocolate", label: "Chocolate" },
+    { key: "Strawberry", label: "Strawberry" },
+    { key: "Mint", label: "Mint" },
+    { key: "Coffee", label: "Coffee" },
+    { key: "Lemon", label: "Lemon" },
+    { key: "Caramel", label: "Caramel" },
+    { key: "Raspberry", label: "Raspberry" },
+    { key: "Blueberry", label: "Blueberry" },
+    { key: "Blackberry", label: "Blackberry" },
+    { key: "Peach", label: "Peach" }
+]
+
+
 export function ProductDescriptionUser({
                                            isDialogOpen,
                                            setDialogOpen,
@@ -185,6 +225,62 @@ export function ProductDescriptionUser({
     const [quantity, setQuantity] = useState<number>(editCartData ? editCartData.quantity : 1);
     const totalPrice = formatCurrency(productData.price * quantity);
     const { addToCart, updateProductCart } = useCart();
+
+    const [sweetnessLevel, setSweetnessLevel] = useState<number>(0);
+    const [tartnessLevel, setTartnessLevel] = useState<number>(0);
+    const getOverviewTartness = () => {
+        switch (tartnessLevel) {
+            case 0:
+                return "like vanilla cake";
+            case 1:
+                return "strawberries";
+            case 2:
+                return "raspberries";
+            case 3:
+                return "lemon bars";
+            case 4:
+                return "pure citrus, unripe fruits";
+        }
+    }
+
+
+    const [umamiLevel, setUmamiLevel] = useState<number>(0);
+
+    const getOverviewUmami = () => {
+        switch (umamiLevel) {
+            case 0:
+                return "traditional desserts";
+            case 1:
+                return "caramel";
+            case 2:
+                return "miso desserts";
+            case 3:
+                return "fermented ingredients";
+            case 4:
+                return "concentrated savory elements";
+        }
+    }
+
+
+    const [bitternessLevel, setBitternessLevel] = useState<number>(0);
+
+    const getOverviewBitternessLevel = () => {
+        switch (bitternessLevel) {
+            case 0:
+                return "milk chocolate";
+            case 1:
+                return "35% cocoa";
+            case 2:
+                return "70% cocoa";
+            case 3:
+                return "85% cocoa";
+            case 4:
+                return "100% pure cocoa";
+        }
+    }
+
+
+    const [type, setType] = useState<string>("");
 
     const handleAddOrder = () => {
         setIsLoading(true);
@@ -216,6 +312,24 @@ export function ProductDescriptionUser({
         });
     };
 
+    const [extraInfo, setExtraInfo] = React.useState(false);
+    const text =
+        "The \"65% Moistness level\" indicates that the\n" +
+        "                                product has a moderate level of moisture, which is likely to be perceived as neither too\n" +
+        "                                dry nor too wet. This level of moistness is typically desirable for products that need\n" +
+        "                                to maintain a certain texture and freshness, such as baked goods or other food\n" +
+        "                                items.";
+    const limitCharLength = 100;
+
+    const [extraFreezInfo, setExtraFreezInfo] = React.useState(false);
+    const textFreez =
+        "The \"Low Freezing capability\" indicates that the\n" +
+        "                                product has a very low ability to withstand freezing conditions. This means that the\n" +
+        "                                product is likely to be negatively affected by freezing, potentially leading to changes\n" +
+        "                                in texture, taste, or overall quality. Products with low freezing capability are\n" +
+        "                                generally not suitable for storage in freezing temperatures and may require special\n" +
+        "                                handling to maintain their quality.";
+
     return (
         <ProductDescriptionBase
             isOpen={isDialogOpen}
@@ -224,21 +338,376 @@ export function ProductDescriptionUser({
             isHeartFilled={isHeartFilled}
             onToggleHeart={() => setIsHeartFilled(!isHeartFilled)}
         >
-            {/* Quantity Selector */}
-            <div className="flex justify-between items-end space-x-4">
-                <select
-                    id="quantity"
-                    className="border rounded-md p-2"
-                    value={quantity}
-                    onChange={(e) => setQuantity(Number(e.target.value))}
+            {/* Customization */}
+            <Accordion variant="splitted">
+                <AccordionItem
+                    key="Property"
+                    aria-label="Property"
+                    title={`${productData.name} Property`}
+                    className={"px-10"}
+                    indicator={<IconNotebookPen className="w-6 h-6 text-text rotate-45" />}
                 >
-                    {[...Array(99).keys()].map((i) => (
-                        <option key={i + 1} value={i + 1}>
-                            {i + 1}
-                        </option>
-                    ))}
-                </select>
-                <label htmlFor="quantity" className="sr-only">Quantity</label>
+                    <div className={`flex flex-col space-y-4 mb-6`}>
+                        <div className="flex flex-col w-full space-y-4">
+                            <Progress
+                                // @ts-ignore
+                                size="sm"
+                                radius="sm"
+                                aria-label={"Moistness hghg"}
+                                classNames={{
+                                    base: "max-w-md",
+                                    track: "drop-shadow-md border border-default",
+                                    indicator: "bg-gradient-to-r from-secondary to-primary",
+                                    label: "tracking-wider font-medium text-default-600",
+                                    value: "text-foreground/60",
+                                }}
+                                label="Moistness level"
+                                value={65}
+                                showCustomLabelString={false}
+                                showValueLabel={true}
+                            />
+                            <div>
+                                <p className={"text-small text-default-500"}>{extraInfo ? text : limitChar(text, limitCharLength)}</p>
+                                <button className={`text-small text-default-500 ${extraInfo ? "hidden" : ""}`}
+                                        onClick={() => setExtraInfo(true)}>Show More!
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col w-full space-y-4">
+                            <Progress
+                                // @ts-ignore
+                                size="sm"
+                                radius="sm"
+                                classNames={{
+                                    base: "max-w-md",
+                                    track: "drop-shadow-md border border-default",
+                                    indicator: "bg-gradient-to-r from-secondary to-primary",
+                                    label: "tracking-wider font-medium text-default-600",
+                                    value: "text-foreground/60",
+                                }}
+                                label="Freezing Level"
+                                value={10}
+
+                                showValueLabel={false}
+                                showCustomLabelString={true}
+                                labelValueString={"Low Freezing Level"}
+                            />
+                            <div>
+                                <p className={"text-small text-default-500"}>{extraFreezInfo ? textFreez : limitChar(textFreez, limitCharLength)}</p>
+                                <button className={`text-small text-default-500 ${extraFreezInfo ? "hidden" : ""}`}
+                                        onClick={() => setExtraFreezInfo(true)}>Show More!
+                                </button>
+                            </div>
+
+                        </div>
+                        <div>
+
+                            <span>Nutrition Content</span>
+                            <p className={`text-small text-default-500`}>Nutrition progress bars below indicates the average
+                                proportion compared with other desserts of similar type. Nutrition properties can be
+                                changed after customization of your dessert.</p>
+                        </div>
+
+                        <div className="flex flex-col w-full space-y-4">
+                            <Progress
+                                // @ts-ignore
+                                size="sm"
+                                radius="sm"
+                                classNames={{
+                                    base: "max-w-md",
+                                    track: "drop-shadow-md border border-default",
+                                    indicator: "bg-gradient-to-r from-secondary to-primary",
+                                    label: "tracking-wider font-medium text-default-600",
+                                    value: "text-foreground/60",
+                                }}
+                                label="Calories"
+                                value={70}
+                                showCustomLabelString={true}
+                                showValueLabel={false}
+                                labelValueString={"616 cal"}
+                            />
+                        </div>
+                        <div className="flex flex-col w-full space-y-4">
+                            <Progress
+                                // @ts-ignore
+                                size="sm"
+                                radius="sm"
+                                classNames={{
+                                    base: "max-w-md",
+                                    track: "drop-shadow-md border border-default",
+                                    indicator: "bg-gradient-to-r from-secondary to-primary",
+                                    label: "tracking-wider font-medium text-default-600",
+                                    value: "text-foreground/60",
+                                }}
+                                label="Fat"
+                                value={20}
+                                showCustomLabelString={true}
+                                showValueLabel={false}
+                                labelValueString={"42.2g"}
+                            />
+                        </div>
+                        <div className="flex flex-col w-full space-y-4">
+                            <Progress
+                                // @ts-ignore
+                                size="sm"
+                                radius="sm"
+                                classNames={{
+                                    base: "max-w-md",
+                                    track: "drop-shadow-md border border-default",
+                                    indicator: "bg-gradient-to-r from-secondary to-primary",
+                                    label: "tracking-wider font-medium text-default-600",
+                                    value: "text-foreground/60",
+                                }}
+                                label="Protein"
+                                value={40}
+                                showCustomLabelString={true}
+                                showValueLabel={false}
+                                labelValueString={"10.3g"}
+                            />
+                        </div>
+                        <div className="flex flex-col w-full space-y-4">
+                            <Progress
+                                // @ts-ignore
+                                size="sm"
+                                radius="sm"
+                                classNames={{
+                                    base: "max-w-md",
+                                    track: "drop-shadow-md border border-default",
+                                    indicator: "bg-gradient-to-r from-secondary to-primary",
+                                    label: "tracking-wider font-medium text-default-600",
+                                    value: "text-foreground/60",
+                                }}
+                                label="Carbonhydrate"
+                                value={40}
+                                showCustomLabelString={true}
+                                showValueLabel={false}
+                                labelValueString={"70.4 g"}
+                            />
+                        </div>
+                    </div>
+
+                </AccordionItem>
+                <AccordionItem
+                    key="Customize"
+                    aria-label="Customize"
+                    title={`Customize ${productData.name}`}
+                    className={"px-10"}
+                    indicator={<IconEdit className="w-6 h-6 text-text"/>}
+                >
+                    <div className={`flex flex-col w-full space-y-12 mb-6`}>
+                        <Slider
+                            label="Sweetness Level"
+                            color={"secondary"}
+                            showTooltip={true}
+                            showSteps={true}
+                            step={1}
+                            formatOptions={{style: "decimal"}}
+                            maxValue={4}
+                            minValue={0}
+                            renderValue={() => {
+                                switch (sweetnessLevel) {
+                                    case 0:
+                                        return "Sugar Free";
+                                    case 1:
+                                        return "Light";
+                                    case 2:
+                                        return "Normal";
+                                    case 3:
+                                        return "Sweet";
+                                    case 4:
+                                        return "Sweet Bomb";
+                                    default:
+                                        return "Normal";
+                                }
+                            }}
+                            marks={[
+                                {
+                                    value: 0,
+                                    label: "Sugar Free",
+                                },
+                                {
+                                    value: 2,
+                                    label: "Normal",
+                                },
+                                {
+                                    value: 4,
+                                    label: "Sweet Bomb",
+                                },
+                            ]}
+                            defaultValue={0}
+                            onChange={(value) => setSweetnessLevel(Number(value))}
+                            className="max-w-full"
+                        />
+                        <div className="flex flex-col w-full space-y-4">
+                            <Slider
+                                label="Tartness Level"
+                                color={"secondary"}
+                                showTooltip={true}
+                                showSteps={true}
+                                step={1}
+                                formatOptions={{style: "decimal"}}
+                                maxValue={4}
+                                minValue={0}
+                                renderValue={() => {
+                                    switch (tartnessLevel) {
+                                        case 0:
+                                            return "No tartness";
+                                        case 1:
+                                            return "Mild";
+                                        case 2:
+                                            return "Medium";
+                                        case 3:
+                                            return "High";
+                                        case 4:
+                                            return "Extreme";
+                                    }
+                                }}
+                                marks={[
+                                    {
+                                        value: 0,
+                                        label: "No tartness",
+                                    },
+                                    {
+                                        value: 2,
+                                        label: "Medium tart",
+                                    },
+                                    {
+                                        value: 4,
+                                        label: "High Tart",
+                                    },
+                                ]}
+                                defaultValue={0}
+                                onChange={(value) => setTartnessLevel(Number(value))}
+                                className="max-w-full"
+                            />
+                            <p className="text-small text-default-500">Overview: {getOverviewTartness()}</p>
+                        </div>
+                        <div className="flex flex-col w-full space-y-4">
+                            <Slider
+                                label="Bitterness Level"
+                                color={"secondary"}
+                                showTooltip={true}
+                                showSteps={true}
+                                step={1}
+                                formatOptions={{style: "decimal"}}
+                                maxValue={4}
+                                minValue={0}
+                                renderValue={() => {
+                                    switch (bitternessLevel) {
+                                        case 0:
+                                            return "No bitterness";
+                                        case 1:
+                                            return "Slight";
+                                        case 2:
+                                            return "Moderate";
+                                        case 3:
+                                            return "Strong";
+                                        case 4:
+                                            return "Intense";
+                                    }
+                                }}
+                                marks={[
+                                    {
+                                        value: 0,
+                                        label: "No bitterness",
+                                    },
+                                    {
+                                        value: 2,
+                                        label: "Moderate bitterness",
+                                    },
+                                    {
+                                        value: 4,
+                                        label: "Intense bitterness",
+                                    },
+                                ]}
+                                defaultValue={0}
+                                onChange={(value) => setBitternessLevel(Number(value))}
+                                className="max-w-full"
+                            />
+                            <p className="text-small text-default-500">Overview: {getOverviewBitternessLevel()}</p>
+                        </div>
+                        <div className="flex w-full max-w-xs flex-col gap-2">
+                            <Select
+                                label="Flavour Type"
+                                placeholder="Select a flavour"
+                                description={`${productData.name} can have different flavours`}
+                                defaultSelectedKeys={["vanilla"]}
+                                selectedKeys={type}
+                                className="max-w-xs"
+                                onSelectionChange={(selected) => setType(selected as string)}
+                            >
+                                {flavourTypes.map((flavour) => (
+                                    <SelectItem key={flavour.key}>
+                                        {flavour.label}
+                                    </SelectItem>
+                                ))}
+                            </Select>
+                            <p className="text-small text-default-500">Selected: {type}</p>
+                        </div>
+                        <div className={"flex flex-col space-y-3"}>
+                            <span>Dietary Accommodation</span>
+                            <div className={"grid grid-cols-1  desktop:grid-cols-2 space-y-3"}>
+                                <Switch
+                                    size="lg"
+                                    color="secondary"
+                                    startContent={<IconGlutenFree/>}
+                                    endContent={<IconGluten/>}
+                                >
+                                    Gluten
+                                </Switch>
+                                <Switch
+
+                                    size="lg"
+                                    color="secondary"
+                                    startContent={<IconVegan/>}
+                                    endContent={<IconMeet/>}
+                                >
+                                    Vegan
+                                </Switch>
+                                <Switch
+                                    size="lg"
+                                    color="secondary"
+                                    startContent={<IconEggOff/>}
+                                    endContent={<IconEgg/>}
+                                >
+                                    Egg
+                                </Switch>
+                                <Switch
+                                    size="lg"
+                                    color="secondary"
+                                    startContent={<IconNutsFree/>}
+                                    endContent={<IconNuts/>}
+                                >
+                                    Nuts
+                                </Switch>
+                            </div>
+                        </div>
+                        <div className={"flex flex-col space-y-3"}>
+                            <span>Notes </span>
+                            <Textarea
+                                variant="faded"
+                                placeholder="Enter your custom notes for Bakerz"
+                                description="Enter a description in case you want something truly special."
+                                className="max-w-xs"
+                            />
+                        </div>
+                    </div>
+                </AccordionItem>
+            </Accordion>
+            {/* Quantity Selector */}
+            <div>
+                <Slider
+                    label={`${productData.name} to buy`}
+                    size="lg"
+                    color={"secondary"}
+                    defaultValue={quantity}
+                    minValue={1}
+                    maxValue={100}
+                    getValue={(items) => `${items} of 100 ${productData.name}`}
+                    onChangeEnd={(value) => setQuantity(Number(value))}
+                    className="max-w-full"
+                />
             </div>
 
             {/* Add to Order Button */}
@@ -276,7 +745,7 @@ export function ProductDescriptionBakerz({
                                          }: ProductDescriptionBakerzProps) {
     const [isHeartFilled, setIsHeartFilled] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const { editProductDialogBakerz } = useProductDialog();
+    const {editProductDialogBakerz} = useProductDialog();
 
     const handleEditProduct = () => {
         setIsLoading(true);
@@ -306,7 +775,7 @@ export function ProductDescriptionBakerz({
         if (!response.ok) {
             toast.error((
                     <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconError color={"primary"} className={"w-10 h-10"}/>
+                        <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                         <p className={"text-base font-bold"}>
                             {result.message}
                         </p>

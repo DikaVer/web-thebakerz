@@ -24,13 +24,7 @@ export async function Header({storeId, main, login, role, name }: HeaderProps) {
         <header className="sticky header top-0 w-full z-30 pt-4 bg-background">
             <nav>
                 <div className={`${login ? "" : "mx-2"} desktop:mx-10 flex justify-between items-center`}>
-                     {/*Conditionally render the menu button*/}
-                    {main && login ? (
-                        <MenuButton menuItems={menuItems}/>
-                    ) : !main ? (
-                        <MenuButton menuItems={menuItems}/>
-                    ) : null}
-
+                    <MenuButton menuItems={menuItems}/>
                     {/* TheBakerz logo (conditionally shown if main is true) */}
                     <div className="flex flex-row hover:scale-125 transition duration-500 cursor-pointer">
                         <a href="/" className={`text-3xl animate-fadeInDown mx-auto ${pacifico.className}`}>TheBakerz</a>

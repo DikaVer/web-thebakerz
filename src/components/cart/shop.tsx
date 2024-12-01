@@ -59,7 +59,7 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
     }, [productItems]);
 
 
-    const updateItem = useCallback(async (id: string, amount: number) => {
+    const updateItem = useCallback((id: string, amount: number) => {
         setIsItemsUpdating(true);
 
         const product = productItems.find((item) => item.uniqueId === id);

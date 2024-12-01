@@ -106,7 +106,14 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
 
     return (
         <>
-            <Modal backdrop={backdropEffect} isOpen={isOpen} onClose={toggleClose} size={'xl'} shadow={"lg"}>
+            <Modal
+                backdrop={backdropEffect}
+                isOpen={isOpen}
+                onClose={toggleClose}
+                size={'xl'}
+                shadow={"lg"}
+                className={"bg-background"}
+            >
                 <ModalContent>
                     {(onClose) => (
                         <ModalBody >
@@ -173,7 +180,7 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                                                             }}
                                                             availabilityData={availability}
                                                             mode="single"
-                                                            className={"border-1 rounded-lg mb-4 bg-grayCompFa"}
+                                                            className={"border-1 rounded-lg mb-4 bg-grayBgComp backdrop-blur-xl"}
                                                             userView={true}
                                                             initialFocus
                                                         />
@@ -212,7 +219,7 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                                         )}
                                     </div>
                                     <div
-                                        className={"flex flex-row justify-between items-center cursor-pointer hover:scale-102 hover:bg-grayBg transition duration-300 rounded-lg p-3 py-3"}
+                                        className={"flex flex-row justify-between items-center cursor-pointer hover:scale-102 hover:bg-grayBg transition duration-300 p-3 py-3 rounded"}
                                         id={"review-section"} ref={reviewSectionRef}
                                     >
                                         <div>
@@ -230,8 +237,6 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                                         </div>
                                         <IconChevronDown className={"w-12 transform -rotate-90 text-text"}/>
                                     </div>
-
-
                                 </div>
                             </ScrollShadow>
                         </ModalBody>
@@ -286,35 +291,43 @@ const DeliveryLocationsTable: React.FC<{ deliveryOptions: Record<
                         <CardBody>
                             <div key={city} className="flex justify-between items-center">
                                 <span className="text-lg font-medium justify-end text-text">{city}</span>
-                                <Dialog open={isOpen && selectedCity === city} onOpenChange={(open) => setIsOpen(open)}>
-                                    <DialogTrigger asChild>
-                                        <Button
-                                            variant={"secondary"}
-                                            onClick={() => {
-                                            setSelectedCity(city);
-                                            setIsOpen(true);
-                                        }}>
-                                            Preview
-                                        </Button>
-                                    </DialogTrigger>
-                                    <DialogContent className={"w-fit"} handleClose={() => setIsOpen(false)}>
-                                        <DialogHeader>
-                                            <DialogTitle>Map Preview</DialogTitle>
-                                        </DialogHeader>
-                                        <DialogDescription>
-                                            <Image
-                                                src={generateMapUrl(cityLatLngMap[city].lat, cityLatLngMap[city].lng, deliveryOptions[city].range)}
-                                                alt="Map showing the location"
-                                                width={400}
-                                                height={300}
-                                                className="rounded-lg"
-                                            />
-                                        </DialogDescription>
-                                        <DialogFooter>
-                                            <Button onClick={() => setIsOpen(false)}>Close</Button>
-                                        </DialogFooter>
-                                    </DialogContent>
-                                </Dialog>
+
+                                <Button
+                                    variant={"secondary"}
+                                    onClick={() => {
+                                        setSelectedCity(city);
+                                        setIsOpen(true);
+                                    }}>
+                                    Preview
+                                </Button>
+                                <Modal
+                                    backdrop={backdropEffect}
+                                    isOpen={isOpen}
+                                    onClose={() => setIsOpen(false)}
+                                    size={'md'}
+                                    shadow={"lg"}
+                                    placement={"center"}
+                                    className={"bg-background"}
+                                >
+                                    <ModalContent>
+                                        {(onClose) => (
+                                            <>
+                                                <ModalHeader>
+                                                    Map Preview
+                                                </ModalHeader>
+                                                <ModalBody>
+                                                    <Image
+                                                        src={generateMapUrl(cityLatLngMap[city].lat, cityLatLngMap[city].lng, deliveryOptions[city].range)}
+                                                        alt="Map showing the location"
+                                                        width={400}
+                                                        height={300}
+                                                        className="rounded-lg"
+                                                    />
+                                                </ModalBody>
+                                            </>
+                                        )}
+                                    </ModalContent>
+                                </Modal>
                             </div>
                         </CardBody>
                     </Card>
@@ -347,8 +360,7 @@ const LocationComponent: React.FC<{ location: AddressDataStoreField }> = ({ loca
                 <p className="text-lg cm:text-xl clamp-title">{formatAddress(location)}</p>
             </div>
             <IconCopy
-                className={`w-8 h-8 cursor-pointer transition-transform duration-300 ${hoveringCopy ? 'scale-115' : ''}`}
-                color={"primary"}
+                className={`w-8 h-8 text-primary cursor-pointer transition-transform duration-300 ${hoveringCopy ? 'scale-115' : ''}`}
             />
         </div>
     );

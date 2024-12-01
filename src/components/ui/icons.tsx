@@ -757,63 +757,225 @@ const IconTruck: React.FC<IconProps> = ({
     );
 };
 
-function IconError({
-                       className,
-                       color = 'black', // default color
-                       viewBox = "0 0 24 24",
-                       ...props
-                   }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' | 'heart' }) {
-    const styles = {
-        color: colors[color],
-    };
+const IconEggOff: React.FC<IconProps> = ({ className = '', ...props }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-egg-off ${className}`}
+        {...props}
+    >
+        <path d="M6.399 6.399C5.362 8.157 4.65 10.189 4.5 12c-.37 4.43 1.27 9.95 7.5 10 3.256-.026 5.259-1.547 6.375-3.625" />
+        <path d="M19.532 13.875A14.07 14.07 0 0 0 19.5 12c-.36-4.34-3.95-9.96-7.5-10-1.04.012-2.082.502-3.046 1.297" />
+        <line x1="2" y1="2" x2="22" y2="22" />
+    </svg>
+);
 
-    //"0 0 512 512"
-    return (
-        <div>
-            <svg
-                style={styles}
-                viewBox={viewBox}
-                className={`lucide lucide-circle-x ${className}`}
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="m15 9-6 6"/>
-                <path d="m9 9 6 6"/>
-            </svg>
-        </div>
-    );
-}
 
-function IconCopy({
-                      className,
-                      color = 'black', // default color
-                      viewBox = "0 0 24 24",
-                      ...props
-                  }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' }) {
-    const styles = {
-        color: colors[color],
-        fill: colors[color],
-    };
-    // "0 0 384 512"
-    return (
-        <div>
-            <svg style={styles}
-                 viewBox={viewBox}
-                 className={`${className}`}
-                 {...props}
-            >
-                <path d="M0 0h24v24H0z" fill="none">
-                </path>
-                <path
-                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z">
-                </path>
-            </svg>
-        </div>
-    );
-}
+const IconEgg: React.FC<IconProps> = ({ className = '', ...props }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-egg ${className}`}
+        {...props}
+    >
+        <path d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z" />
+    </svg>
+);
+
+const IconMeet: React.FC<IconProps> = ({ className = '', ...props }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-beef ${className}`}
+        {...props}
+    >
+        <circle cx="12.5" cy="8.5" r="2.5" />
+        <path d="M12.5 2a6.5 6.5 0 0 0-6.22 4.6c-1.1 3.13-.78 3.9-3.18 6.08A3 3 0 0 0 5 18c4 0 8.4-1.8 11.4-4.3A6.5 6.5 0 0 0 12.5 2Z" />
+        <path d="m18.5 6 2.19 4.5a6.48 6.48 0 0 1 .31 2 6.49 6.49 0 0 1-2.6 5.2C15.4 20.2 11 22 7 22a3 3 0 0 1-2.68-1.66L2.4 16.5" />
+    </svg>
+);
+
+
+const IconVegan: React.FC<IconProps> = ({ className = '', ...props }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-vegan ${className}`}
+        {...props}
+    >
+        <path d="M16 8q6 0 6-6-6 0-6 6" />
+        <path d="M17.41 3.59a10 10 0 1 0 3 3" />
+        <path d="M2 2a26.6 26.6 0 0 1 10 20c.9-6.82 1.5-9.5 4-14" />
+    </svg>
+);
+
+
+const IconGluten: React.FC<IconProps> = ({ className = '', ...props }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-wheat ${className}`}
+        {...props}
+    >
+        <path d="M2 22 16 8" />
+        <path d="M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z" />
+        <path d="M7.47 8.53 9 7l1.53 1.53a3.5 3.5 0 0 1 0 4.94L9 15l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z" />
+        <path d="M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z" />
+        <path d="M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z" />
+        <path d="M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z" />
+        <path d="M15.47 13.47 17 15l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z" />
+        <path d="M19.47 9.47 21 11l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L13 11l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z" />
+    </svg>
+);
+
+
+const IconGlutenFree: React.FC<IconProps> = ({ className = '', ...props }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-wheat-off ${className}`}
+        {...props}
+    >
+        <path d="m2 22 10-10" />
+        <path d="m16 8-1.17 1.17" />
+        <path d="M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z" />
+        <path d="m8 8-.53.53a3.5 3.5 0 0 0 0 4.94L9 15l1.53-1.53c.55-.55.88-1.25.98-1.97" />
+        <path d="M10.91 5.26c.15-.26.34-.51.56-.73L13 3l1.53 1.53a3.5 3.5 0 0 1 .28 4.62" />
+        <path d="M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z" />
+        <path d="M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z" />
+        <path d="m16 16-.53.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.49 3.49 0 0 1 1.97-.98" />
+        <path d="M18.74 13.09c.26-.15.51-.34.73-.56L21 11l-1.53-1.53a3.5 3.5 0 0 0-4.62-.28" />
+        <line x1="2" x2="22" y1="2" y2="22" />
+    </svg>
+);
+
+const IconNuts: React.FC<IconProps> = ({ className = '', ...props }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-nut ${className}`}
+        {...props}
+    >
+        <path d="M12 4V2" />
+        <path d="M5 10v4a7.004 7.004 0 0 0 5.277 6.787c.412.104.802.292 1.102.592L12 22l.621-.621c.3-.3.69-.488 1.102-.592A7.003 7.003 0 0 0 19 14v-4" />
+        <path d="M12 4C8 4 4.5 6 4 8c-.243.97-.919 1.952-2 3 1.31-.082 1.972-.29 3-1 .54.92.982 1.356 2 2 1.452-.647 1.954-1.098 2.5-2 .595.995 1.151 1.427 2.5 2 1.31-.621 1.862-1.058 2.5-2 .629.977 1.162 1.423 2.5 2 1.209-.548 1.68-.967 2-2 1.032.916 1.683 1.157 3 1-1.297-1.036-1.758-2.03-2-3-.5-2-4-4-8-4Z" />
+    </svg>
+);
+
+
+const IconNutsFree: React.FC<IconProps> = ({ className = '', ...props }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-nut-off ${className}`}
+        {...props}
+    >
+        <path d="M12 4V2" />
+        <path d="M5 10v4a7.004 7.004 0 0 0 5.277 6.787c.412.104.802.292 1.102.592L12 22l.621-.621c.3-.3.69-.488 1.102-.592a7.01 7.01 0 0 0 4.125-2.939" />
+        <path d="M19 10v3.343" />
+        <path d="M12 12c-1.349-.573-1.905-1.005-2.5-2-.546.902-1.048 1.353-2.5 2-1.018-.644-1.46-1.08-2-2-1.028.71-1.69.918-3 1 1.081-1.048 1.757-2.03 2-3 .194-.776.84-1.551 1.79-2.21m11.654 5.997c.887-.457 1.28-.891 1.556-1.787 1.032.916 1.683 1.157 3 1-1.297-1.036-1.758-2.03-2-3-.5-2-4-4-8-4-.74 0-1.461.068-2.15.192" />
+        <line x1="2" y1="2" x2="22" y2="22" />
+    </svg>
+);
+
+
+
+const IconCircleAlert: React.FC<IconProps> = ({className = '', ...props}) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-circle-alert ${className}`}
+        {...props}
+    >
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+);
+
+
+const IconCopy: React.FC<IconProps> = ({className = '', ...props}) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-files ${className}`}
+        {...props}
+    >
+        <path d="M20 7h-3a2 2 0 0 1-2-2V2" />
+        <path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l4 4v10a2 2 0 0 1-2 2Z" />
+        <path d="M3 7.6v12.8A1.6 1.6 0 0 0 4.6 22h9.8" />
+    </svg>
+);
 
 const IconChefHat: React.FC<IconProps> = ({
                                                      className = '',
@@ -894,6 +1056,30 @@ const IconNotification: React.FC<IconProps> = ({
     );
 };
 
+const IconNotebookPen: React.FC<IconProps> = ({ className = '', ...props }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-notebook-pen ${className}`}
+        {...props}
+    >
+        <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" />
+        <path d="M2 6h4" />
+        <path d="M2 10h4" />
+        <path d="M2 14h4" />
+        <path d="M2 18h4" />
+        <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
+    </svg>
+);
+
+
 
 const IconSearch: React.FC<IconProps> = ({
                                                    className = '',
@@ -920,6 +1106,27 @@ const IconSearch: React.FC<IconProps> = ({
     );
 };
 
+const IconCirclePlus: React.FC<IconProps> = ({ className = '', ...props }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-circle-plus ${className}`}
+        {...props}
+    >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M8 12h8" />
+        <path d="M12 8v8" />
+    </svg>
+);
+
+
 
 export {
     IconCart,
@@ -945,7 +1152,6 @@ export {
     IconMessage,
     IconHeart,
     IconSuccess,
-    IconError,
     IconCopy,
     IconShare,
     IconHeartFavourites,
@@ -957,6 +1163,16 @@ export {
     IconChefHat,
     IconAboutUs,
     IconSearch,
-    IconNotification
-
+    IconNotification,
+    IconCircleAlert,
+    IconGlutenFree,
+    IconGluten,
+    IconVegan,
+    IconMeet,
+    IconEgg,
+    IconEggOff,
+    IconNuts,
+    IconNutsFree,
+    IconNotebookPen,
+    IconCirclePlus
 };

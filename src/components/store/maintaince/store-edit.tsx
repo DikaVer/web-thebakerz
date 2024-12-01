@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import {ClipLoader} from "react-spinners";
 import {toast} from "sonner";
-import {IconError, IconSuccess} from "@/components/ui/icons";
+import {IconCircleAlert, IconSuccess} from "@/components/ui/icons";
 import {useRouter} from "next/navigation";
 
 
@@ -112,7 +112,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
             if (!response.ok) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>
@@ -161,7 +161,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
             if (!response.ok) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>
@@ -207,7 +207,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
             if (!response.ok) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>
@@ -253,7 +253,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
             if (!response.ok) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>
@@ -303,7 +303,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
             if (!response.ok) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>

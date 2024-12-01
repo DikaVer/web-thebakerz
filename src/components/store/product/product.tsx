@@ -9,6 +9,7 @@ import {IconEdit, IconPlus} from "@/components/ui/icons";
 import { useProductDialog } from "@/components/providers/product-provider";
 
 import {Badge} from "@nextui-org/badge";
+import {Chip} from "@nextui-org/chip";
 
 interface ProductBaseProps {
     productData: ProductDataField;
@@ -28,7 +29,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
             onClick={onClick}>
                 <Card
                     className={"shadow"}>
-                <div
+                    <div
                     className={`rounded-lg flex flex-row w-full transition duration-500 hover:bg-grayBg `}
                 >
                     <div className="flex flex-col justify-between p-1 w-full">
@@ -40,10 +41,17 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                   {productData.description}
                 </span>
                         </div>
-                        <div className="flex flex-row justify-between pr-2 items-end">
-                <span className="text-grayText font-medium">
-                  {formatCurrency(productData.price)}
-                </span>
+                <div className="flex flex-row justify-between pr-2 items-end">
+                        <span className="text-grayText font-medium">
+                          {formatCurrency(productData.price)}
+                        </span>
+                        <Chip
+                            startContent={<IconEdit className={" w-5 h-5 text-grayText"}/>}
+                            variant="faded"
+                            color="default"
+                        >
+                            Customize
+                        </Chip>
                             {/* Uncomment if rating is needed */}
                             {/* <div className="flex items-center space-x-0.5">
                   <IconStar className="w-5 h-5 cm:w-5 cm:h-5" color="primary" />
@@ -51,7 +59,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                     {productData.rating}
                   </p>
                 </div> */}
-                        </div>
+                </div>
                     </div>
                     <Badge isOneChar className={"bg-grayBg w-10 h-10 m-6"} content={overlayIcon}  variant={"shadow"} placement="bottom-right">
                         <Badge className={"text-lg m-6 mx-7"} content="new" color="secondary" variant={"shadow"}>
