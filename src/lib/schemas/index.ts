@@ -19,7 +19,7 @@ export const imageUploadSchema = z.union([
         (file) => ["image/jpeg", "image/jpg", "image/png"].includes(file.type),
         "Image must be a valid image format (jpeg, jpg, png)"
     ).refine(
-        (file) => file.size <= 4.5 * 1024 * 1024,
+        (file) => file.size <= 100000 * 1024 * 1024,
         "File size too big (max 4.5MB)"
     ),
     z.string().url("Image must be a valid URL")
@@ -28,10 +28,10 @@ export const imageUploadSchema = z.union([
 export const nameSchema = z
     .string()
     .min(4, "Minimum of 4 characters for name")
-    .max(16, "Maximum of 16 characters for name")
+    .max(120, "Maximum of 120 characters for name")
     // Allows letters, numbers, periods, underscores, hyphens, and at most 2 spaces, not starting with space
     .regex(
-        /^[a-zA-Z0-9._\-]+( [a-zA-Z0-9._\-]*){0,2}$/,
+        /^[a-zA-Z0-9._\-&]+( [a-zA-Z0-9._\-&]*){0,2}$/,
         "Name can only contain letters, numbers, periods, underscores, hyphens, with a maximum of two spaces and cannot start with a space"
     )
     .regex(
@@ -42,7 +42,7 @@ export const nameSchema = z
 export const nicknameSchema = z
     .string()
     .min(4, "Minimum of 4 characters for nickname")
-    .max(16, "Maximum of 16 characters for nickname")
+    .max(120, "Maximum of 120 characters for nickname")
     // Allows letters, numbers, periods, underscores, and hyphens
     .regex(
         /^[a-zA-Z0-9._]+$/,
