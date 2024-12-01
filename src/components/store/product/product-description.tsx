@@ -226,6 +226,11 @@ export function ProductDescriptionUser({
     const totalPrice = formatCurrency(productData.price * quantity);
     const { addToCart, updateProductCart } = useCart();
 
+    const [isGlutenFree, setIsGlutenFree] = useState<boolean>(false);
+    const [isVegan, setIsVegan] = useState<boolean>(false);
+    const [isEggFree, setIsEggFree] = useState<boolean>(false);
+    const [isNutFree, setIsNutFree] = useState<boolean>(false);
+
     const [sweetnessLevel, setSweetnessLevel] = useState<number>(0);
     const [tartnessLevel, setTartnessLevel] = useState<number>(0);
     const getOverviewTartness = () => {
@@ -344,7 +349,6 @@ export function ProductDescriptionUser({
                     key="Property"
                     aria-label="Property"
                     title={`${productData.name} Property`}
-                    className={"px-10"}
                     indicator={<IconNotebookPen className="w-6 h-6 text-text rotate-45" />}
                 >
                     <div className={`flex flex-col space-y-4 mb-6`}>
@@ -492,10 +496,9 @@ export function ProductDescriptionUser({
                     key="Customize"
                     aria-label="Customize"
                     title={`Customize ${productData.name}`}
-                    className={"px-10"}
                     indicator={<IconEdit className="w-6 h-6 text-text"/>}
                 >
-                    <div className={`flex flex-col w-full space-y-12 mb-6`}>
+                    <div className={`flex flex-col w-full space-y-12 mb-6 desktop:px-10 px-3`}>
                         <Slider
                             label="Sweetness Level"
                             color={"secondary"}
@@ -508,23 +511,21 @@ export function ProductDescriptionUser({
                             renderValue={() => {
                                 switch (sweetnessLevel) {
                                     case 0:
-                                        return "Sugar Free";
+                                        return "Low";
                                     case 1:
                                         return "Light";
                                     case 2:
-                                        return "Normal";
+                                        return "Medium";
                                     case 3:
-                                        return "Sweet";
+                                        return "High";
                                     case 4:
                                         return "Sweet Bomb";
-                                    default:
-                                        return "Normal";
                                 }
                             }}
                             marks={[
                                 {
                                     value: 0,
-                                    label: "Sugar Free",
+                                    label: "Low",
                                 },
                                 {
                                     value: 2,
@@ -532,10 +533,10 @@ export function ProductDescriptionUser({
                                 },
                                 {
                                     value: 4,
-                                    label: "Sweet Bomb",
+                                    label: "Extreme",
                                 },
                             ]}
-                            defaultValue={0}
+                            defaultValue={2}
                             onChange={(value) => setSweetnessLevel(Number(value))}
                             className="max-w-full"
                         />
@@ -566,18 +567,18 @@ export function ProductDescriptionUser({
                                 marks={[
                                     {
                                         value: 0,
-                                        label: "No tartness",
+                                        label: "Without",
                                     },
                                     {
                                         value: 2,
-                                        label: "Medium tart",
+                                        label: "Medium",
                                     },
                                     {
                                         value: 4,
-                                        label: "High Tart",
+                                        label: "Extreme",
                                     },
                                 ]}
-                                defaultValue={0}
+                                defaultValue={1}
                                 onChange={(value) => setTartnessLevel(Number(value))}
                                 className="max-w-full"
                             />
@@ -610,18 +611,18 @@ export function ProductDescriptionUser({
                                 marks={[
                                     {
                                         value: 0,
-                                        label: "No bitterness",
+                                        label: "Without",
                                     },
                                     {
                                         value: 2,
-                                        label: "Moderate bitterness",
+                                        label: "Moderate",
                                     },
                                     {
                                         value: 4,
-                                        label: "Intense bitterness",
+                                        label: "Intense",
                                     },
                                 ]}
-                                defaultValue={0}
+                                defaultValue={3}
                                 onChange={(value) => setBitternessLevel(Number(value))}
                                 className="max-w-full"
                             />
@@ -647,39 +648,46 @@ export function ProductDescriptionUser({
                         </div>
                         <div className={"flex flex-col space-y-3"}>
                             <span>Dietary Accommodation</span>
-                            <div className={"grid grid-cols-1  desktop:grid-cols-2 space-y-3"}>
+                            <div className={"grid grid-cols-1  space-y-3"}>
                                 <Switch
                                     size="lg"
                                     color="secondary"
-                                    startContent={<IconGlutenFree/>}
-                                    endContent={<IconGluten/>}
+                                    startContent={<IconGlutenFree />}
+                                    endContent={<IconGluten />}
+                                    isSelected={isGlutenFree}
+                                    onChange={() => setIsGlutenFree(!isGlutenFree)}
                                 >
-                                    Gluten
-                                </Switch>
-                                <Switch
-
-                                    size="lg"
-                                    color="secondary"
-                                    startContent={<IconVegan/>}
-                                    endContent={<IconMeet/>}
-                                >
-                                    Vegan
+                                    {isGlutenFree ? "Gluten Free" : "Contains Gluten"}
                                 </Switch>
                                 <Switch
                                     size="lg"
                                     color="secondary"
-                                    startContent={<IconEggOff/>}
-                                    endContent={<IconEgg/>}
+                                    startContent={<IconVegan />}
+                                    endContent={<IconMeet />}
+                                    isSelected={isVegan}
+                                    onChange={() => setIsVegan(!isVegan)}
                                 >
-                                    Egg
+                                    {isVegan ? "Vegan" : "Non-Vegan"}
                                 </Switch>
                                 <Switch
                                     size="lg"
                                     color="secondary"
-                                    startContent={<IconNutsFree/>}
-                                    endContent={<IconNuts/>}
+                                    startContent={<IconEggOff />}
+                                    endContent={<IconEgg />}
+                                    isSelected={isEggFree}
+                                    onChange={() => setIsEggFree(!isEggFree)}
                                 >
-                                    Nuts
+                                    {isEggFree ? "Egg Free" : "Contains Egg"}
+                                </Switch>
+                                <Switch
+                                    size="lg"
+                                    color="secondary"
+                                    startContent={<IconNutsFree />}
+                                    endContent={<IconNuts />}
+                                    isSelected={isNutFree}
+                                    onChange={() => setIsNutFree(!isNutFree)}
+                                >
+                                    {isNutFree ? "Nut Free" : "Contains Nuts"}
                                 </Switch>
                             </div>
                         </div>
