@@ -8,6 +8,7 @@ import {createNanoid} from "@/lib/utils";
 import {IconSearch} from "@/components/ui/icons";
 import {Input} from "@nextui-org/input";
 import MyInput from "@/components/ui/search";
+import {useSearchParams} from "next/navigation";
 
 interface ProductListBaseProps<P> {
     storeId: string;
@@ -61,8 +62,8 @@ export const ProductListBase = <P,>({
 
     const renderCategoryProducts = (category: string, products: ProductDataField[]) => (
         <div className="mt-2" key={category}>
-            <span className="text-xl font-bold">{category}</span>
-            <ul className="grid gap-4 grid-cols-1 store-sm:grid-cols-2 py-3">
+            <span className="text-xl desktop:text-2xl font-bold">{category}</span>
+            <ul className="grid gap-4 grid-cols-2 store-sm:grid-cols-3 py-3">
                 {products.map((product, index) => renderProduct(product, index))}
             </ul>
         </div>
@@ -93,6 +94,8 @@ export const ProductListBakerz: React.FC<ProductListBakerzProps> = ({
                                                                         setPending,
                                                                         setStoreData,
                                                                     }) => {
+    const searchParams = useSearchParams();
+
     const renderProduct = (product: ProductDataField, index: number) => (
         <ProductBakerz
             key={product.id + index}
@@ -106,6 +109,7 @@ export const ProductListBakerz: React.FC<ProductListBakerzProps> = ({
                 image_url: product.image_url,
                 id: product.id,
             }}
+            isShared={searchParams.get("focus") === product.id}
             isPending={isPending}
             setStoreData={setStoreData}
             setPending={setPending}
@@ -130,6 +134,7 @@ export const ProductListUser: React.FC<ProductListUserProps> = ({
                                                                     storeId,
                                                                     productsByCategories,
                                                                 }) => {
+    const searchParams = useSearchParams();
     const renderProduct = (product: ProductDataField, index: number) => (
         <ProductUser
             key={product.id + index}
@@ -143,6 +148,7 @@ export const ProductListUser: React.FC<ProductListUserProps> = ({
                 image_url: product.image_url,
                 id: product.id,
             }}
+            isShared={searchParams.get("focus") === product.id}
             // Add any additional props specific to ProductUser if necessary
         />
     );

@@ -84,6 +84,7 @@ export function UserAuthForm(){
                 <FormError message={error}/>
                 <Button
                     type="submit"
+                    variant={"default"}
                     disabled={isPending}
                 >
                     Continue with Email

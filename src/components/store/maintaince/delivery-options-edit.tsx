@@ -104,7 +104,7 @@ export default function DeliveryOptionsEdit({ id, deliveryOptions, setStoreData 
             } else {
                 toast.success((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                            <IconSuccess className={"w-10 h-10 text-primary"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>

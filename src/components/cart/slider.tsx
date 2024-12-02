@@ -15,13 +15,13 @@ const SliderStepper: React.FC<SliderProps> = ({ product_id, productName, onUpdat
         <div
         >
             <Slider
-                label={`${productName} to buy`}
+                label={`Amount`}
                 size="lg"
                 color={"secondary"}
                 defaultValue={amount}
                 minValue={1}
                 maxValue={100}
-                getValue={(items) => `${items} of 100 ${productName}`}
+                getValue={(items) => `${items} of 100`}
                 onChangeEnd={(value) => onUpdate(product_id, value as number)}
                 className="max-w-full"
             />

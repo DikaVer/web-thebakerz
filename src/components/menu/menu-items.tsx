@@ -119,7 +119,7 @@ const GuestMenu = () => (
             <div className="grid gap-1 -mt-1">
                 <p className="text-lg">Guest</p>
                 <a className="text-grayText scale-on-hover-105"
-                   href={"/signin"}
+                   href={"/auth"}
                 >
                     Sign In
                 </a>

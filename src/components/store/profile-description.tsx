@@ -116,13 +116,9 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
             >
                 <ModalContent>
                     {(onClose) => (
-                        <ModalBody >
+                        <ModalBody className={'mt-5'}>
                             <ScrollShadow hideScrollBar size={50} className={"max-h-[75vh]"}>
                                 <div className={"grid gap-4  slide-in-from-top-[5%]"}>
-                                    <div className={`flex justify-center items-center`}>
-                                        <p className={"text-2xl font-medium"}>Profile</p>
-                                    </div>
-                                    <hr className={"my-1"}/>
 
                                         <div className={"grid gap-4 slide-in-from-top-[5%]"} id="profile-section"
                                              ref={profileSectionRef}>
@@ -160,7 +156,7 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                                     <hr/>
                                     {availability && (
                                         <Card
-                                            className={"shadow-border"}
+                                            className={"shadow-md border-1"}
                                         >
                                             <CardBody>
                                                     <div className={"flex flex-col items-start pl-4 pb-4"}>
@@ -195,7 +191,7 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                                         <Label className={"text-xl"}>
                                             Store Location
                                         </Label>
-                                        <Card>
+                                        <Card className={`shadow-md border-1`}>
                                             <CardBody className={"w-full"}>
                                                 <LocationComponent location={location}/>
                                             </CardBody>
@@ -218,25 +214,25 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                                             />
                                         )}
                                     </div>
-                                    <div
-                                        className={"flex flex-row justify-between items-center cursor-pointer hover:scale-102 hover:bg-grayBg transition duration-300 p-3 py-3 rounded"}
-                                        id={"review-section"} ref={reviewSectionRef}
-                                    >
-                                        <div>
-                                            <Label className={"text-xl cursor-pointer"}>
-                                                Customer Reviews
-                                            </Label>
-                                            <div className={"flex flex-row items-center"}>
-                                                <IconStar className={"w-6 text-primary"}/>
-                                                <IconStar className={"w-6 text-primary"}/>
-                                                <IconStar className={"w-6 text-primary"}/>
-                                                <IconStar className={"w-6 text-primary"} state={"half"}/>
-                                                <IconStar className={"w-6 text-primary"} state={"empty"}/>
-                                                <p className="font-medium text-grayText">5.0 (260 reviews)</p>
-                                            </div>
-                                        </div>
-                                        <IconChevronDown className={"w-12 transform -rotate-90 text-text"}/>
-                                    </div>
+                                    {/*<div*/}
+                                    {/*    className={"flex flex-row justify-between items-center cursor-pointer hover:scale-102 hover:bg-grayBg transition duration-300 p-3 py-3 rounded"}*/}
+                                    {/*    id={"review-section"} ref={reviewSectionRef}*/}
+                                    {/*>*/}
+                                    {/*    <div>*/}
+                                    {/*        <Label className={"text-xl cursor-pointer"}>*/}
+                                    {/*            Customer Reviews*/}
+                                    {/*        </Label>*/}
+                                    {/*        <div className={"flex flex-row items-center"}>*/}
+                                    {/*            <IconStar className={"w-6 text-primary"}/>*/}
+                                    {/*            <IconStar className={"w-6 text-primary"}/>*/}
+                                    {/*            <IconStar className={"w-6 text-primary"}/>*/}
+                                    {/*            <IconStar className={"w-6 text-primary"} state={"half"}/>*/}
+                                    {/*            <IconStar className={"w-6 text-primary"} state={"empty"}/>*/}
+                                    {/*            <p className="font-medium text-grayText">5.0 (260 reviews)</p>*/}
+                                    {/*        </div>*/}
+                                    {/*    </div>*/}
+                                    {/*    <IconChevronDown className={"w-12 transform -rotate-90 text-text"}/>*/}
+                                    {/*</div>*/}
                                 </div>
                             </ScrollShadow>
                         </ModalBody>
@@ -287,7 +283,7 @@ const DeliveryLocationsTable: React.FC<{ deliveryOptions: Record<
             <Label className={"text-xl"}>Delivery Locations</Label>
             {Object.keys(deliveryOptions).map((city) => (
                 <div key={city} >
-                    <Card className={"mb-4"}>
+                    <Card className={"mb-4 shadow-md border-1"}>
                         <CardBody>
                             <div key={city} className="flex justify-between items-center">
                                 <span className="text-lg font-medium justify-end text-text">{city}</span>
@@ -331,7 +327,6 @@ const DeliveryLocationsTable: React.FC<{ deliveryOptions: Record<
                             </div>
                         </CardBody>
                     </Card>
-                    <hr/>
                 </div>
             ))}
         </>

@@ -172,55 +172,30 @@ const IconMenu: React.FC<IconProps> = ({
     );
 };
 
-interface IconStarProps extends IconProps {
-    state?: 'full' | 'half' | 'empty';
-}
 
-const IconStar: React.FC<IconStarProps> = ({
-                                               className = '',
-                                               viewBox = "0 0 24 24",
-                                               state = 'full',
-                                               ...props
-                                           }) => {
-    // Determine additional classes based on the state
-    const stateClasses = {
-        full: "fill-current text-current stroke-current",
-        half: "fill-current text-current",
-        empty: "fill-none stroke-current text-primary",
-    };
+const IconStar: React.FC<IconProps> = ({ className = '', ...props }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        fill="none"
+        className={`lucide lucide-star ${className}`}
+        {...props}
+    >
+        <desc>Star 1 Streamline Icon: https://streamlinehq.com</desc>
+        <g id="star-1--reward-rating-rate-social-star-media-favorite-like-stars">
+            <path
+                id="Union"
+                fill="currentColor"
+                fillRule="evenodd"
+                d="M12 0.475c-0.34 0-0.673 0.097-0.96 0.281-0.283 0.181-0.509 0.438-0.652 0.741L7.666 6.991c-0.005 0.011-0.01 0.022-0.015 0.033a0.152 0.152 0 0 1-0.014 0.008c-0.002 0.001-0.003 0.002-0.005 0.007a0.109 0.109 0 0 1-0.005 0.007c-0.002 0.001-0.005 0.003-0.008 0.003a0.34 0.34 0 0 1-0.031 0.004L1.595 7.92c-0.331 0.032-0.647 0.157-0.912 0.359a1.63 1.63 0 0 0-0.596 0.819c-0.115 0.325-0.134 0.676-0.054 1.012a1.704 1.704 0 0 0 0.503 0.875l4.387 4.232a0.12 0.12 0 0 0 0.014 0.021c0.003 0.007 0.005 0.015 0.002 0.025l-1.045 6.117c-0.057 0.332-0.021 0.673 0.106 0.984 0.127 0.312 0.339 0.583 0.611 0.78 0.273 0.198 0.596 0.315 0.932 0.338a1.81 1.81 0 0 0 0.968-0.205l5.399-2.853a0.08 0.08 0 0 1 0.061 0l5.399 2.853c0.298 0.158 0.633 0.229 0.969 0.205 0.336-0.023 0.659-0.14 0.932-0.338 0.273-0.198 0.484-0.468 0.611-0.78 0.126-0.311 0.163-0.652 0.106-0.984l-1.045-6.117a0.12 0.12 0 0 0 0.003-0.026c0.007-0.007 0.014-0.014 0.02-0.02l4.386-4.232a1.63 1.63 0 0 0 0.503-0.875c0.08-0.335 0.061-0.686-0.054-1.012a1.63 1.63 0 0 0-0.596-0.819c-0.264-0.202-0.58-0.326-0.911-0.359l-5.992-0.888c-0.01-0.001-0.02-0.002-0.031-0.004a0.109 0.109 0 0 1-0.008-0.003c-0.002-0.001-0.004-0.003-0.005-0.007a0.152 0.152 0 0 1-0.014-0.008c-0.005-0.011-0.01-0.022-0.015-0.033L13.612 1.496a1.63 1.63 0 0 0-0.653-0.741A1.495 1.495 0 0 0 12 0.475z"
+                clipRule="evenodd"
+            />
+        </g>
+    </svg>
+);
 
-    return (
-        <svg
-            viewBox={viewBox}
-            className={`${stateClasses[state]} ${className}`}
-            aria-hidden="true"
-            focusable="false"
-            role="presentation"
-            {...props}
-        >
-            {state === 'half' ? (
-                <>
-                    <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                    />
-                    <clipPath id="half-star">
-                        <rect x="0" y="0" width="12" height="24" />
-                    </clipPath>
-                    <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                        clipPath="url(#half-star)"
-                        fill="currentColor"
-                    />
-                </>
-            ) : (
-                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-            )}
-        </svg>
-    );
-};
 
 const IconPlus: React.FC<IconProps> = ({
                                                className = '',
@@ -702,32 +677,26 @@ const IconHeartFavourites: React.FC<IconHeartFavouritesProps> = ({
     );
 };
 
-function IconSuccess({
-                         className,
-                         color = 'black', // default color
-                         viewBox = "0 0 20 20",
-                         ...props
-                     }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' | 'heart' }) {
-    const styles = {
-        color: colors[color],
-        fill: colors[color],
-    };
-
-    //"0 0 512 512"
-    return (
-        <div>
-            <svg style={styles}
-                 viewBox={viewBox}
-                 className={`${className}`}
-                 {...props}
-            >
-            <path fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                      clipRule="evenodd"></path>
-            </svg>
-        </div>
-    );
-}
+const IconSuccess: React.FC<IconProps> = ({
+                                                     className = '',
+                                                     color = 'primary',
+                                                     viewBox = "0 0 20 20",
+                                                     ...props
+                                                 }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox={viewBox}
+        fill="currentColor"
+        className={`${className} text-${color}`}
+        {...props}
+    >
+        <path
+            fillRule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+            clipRule="evenodd"
+        />
+    </svg>
+);
 
 const IconTruck: React.FC<IconProps> = ({
                                                  className = '',
@@ -1126,6 +1095,63 @@ const IconCirclePlus: React.FC<IconProps> = ({ className = '', ...props }) => (
     </svg>
 );
 
+interface HeartIconProps extends React.SVGProps<SVGSVGElement> {
+    fill?: string;
+    filled?: boolean;
+    size?: number;
+    height?: number;
+    width?: number;
+    label?: string;
+}
+
+const HeartIcon: React.FC<HeartIconProps> = ({
+                                                 fill = 'currentColor',
+                                                 filled,
+                                                 size,
+                                                 height,
+                                                 width,
+                                                 label,
+                                                 ...props
+                                             }) => {
+    return (
+        <svg
+            width={size || width || 24}
+            height={size || height || 24}
+            viewBox="0 0 24 24"
+            fill={filled ? fill : 'none'}
+            xmlns="http://www.w3.org/2000/svg"
+            {...props}
+        >
+            <path
+                d="M12.62 20.81c-.34.12-.9.12-1.24 0C8.48 19.82 2 15.69 2 8.69 2 5.6 4.49 3.1 7.56 3.1c1.82 0 3.43.88 4.44 2.24a5.53 5.53 0 0 1 4.44-2.24C19.51 3.1 22 5.6 22 8.69c0 7-6.48 11.13-9.38 12.12Z"
+                stroke={fill}
+                strokeWidth={1.5}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    );
+};
+
+const IconSend: React.FC<IconProps> = ({ className = '', ...props }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`lucide lucide-send ${className}`}
+        {...props}
+    >
+        <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+        <path d="m21.854 2.147-10.94 10.939" />
+    </svg>
+);
+
 
 
 export {
@@ -1174,5 +1200,7 @@ export {
     IconNuts,
     IconNutsFree,
     IconNotebookPen,
-    IconCirclePlus
+    IconCirclePlus,
+    HeartIcon,
+    IconSend
 };

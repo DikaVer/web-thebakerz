@@ -112,7 +112,7 @@ export function ProfileHeader({
             )}
             <div
                 className={`h-64 cm:h-[272px] rounded-lg overflow-hidden flex flex-col justify-center bg-gradient-to-tr from-secondary to-primary-foreground mb-4`}>
-                <div className={"w-full px-5"}>
+                <div className={"w-full px-3"}>
                     <Card
                         isBlurred
                         className="w-full border-none bg-background/20 border-1 h-60 cm:h-[252px]"
@@ -229,17 +229,17 @@ export function ProfileHeader({
                         </AccordionItem>
                     </Accordion>
                 </div>
-                <div className={"w-full justify-center hidden store-image:block"}>
-                    <div className={"flex flex-col items-center"}>
-                        <Image
-                            isBlurred
-                            src={"/images/Alone_Time.svg"}
-                            alt={"Customer at home choose the dessert from Bakerz ml-10"}
-                            width={450}
-                        />
-                        <p className={`text-4xl w-fit ${pacifico.className}`}>Sweet dreams come true!</p>
-                    </div>
-                </div>
+                {/*<div className={"w-full justify-center hidden store-image:block"}>*/}
+                {/*    <div className={"flex flex-col items-center"}>*/}
+                {/*        <Image*/}
+                {/*            isBlurred*/}
+                {/*            src={"/images/Alone_Time.svg"}*/}
+                {/*            alt={"Customer at home choose the dessert from Bakerz ml-10"}*/}
+                {/*            width={450}*/}
+                {/*        />*/}
+                {/*        <p className={`text-4xl w-fit ${pacifico.className}`}>Sweet dreams come true!</p>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </div>
         </>
     );

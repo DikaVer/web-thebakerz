@@ -202,7 +202,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 
             toast.success(
                 <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                    <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                    <IconSuccess className={"w-10 h-10 text-primary"}/>
 
                     <div className={"flex flex-col"}>
                         <p className={"text-base font-bold"}>
