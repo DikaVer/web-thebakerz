@@ -5,10 +5,11 @@ import React, { useEffect, useState, ReactNode } from "react";
 import {Button} from '@/components/ui/button';
 import {Slider} from "@nextui-org/slider";
 import {
+    HeartIcon,
     IconCircleAlert,
     IconCross, IconEdit, IconEgg, IconEggOff, IconGluten, IconGlutenFree,
-    IconHeartFavourites, IconMeet, IconNotebookPen, IconNuts, IconNutsFree,
-    IconShare, IconSuccess, IconVegan, MoonIcon, SunIcon,
+    IconHeartFavourites, IconMeet, IconNotebookPen, IconNuts, IconNutsFree, IconSend,
+    IconShare, IconStar, IconSuccess, IconVegan, MoonIcon, SunIcon,
 } from "@/components/ui/icons";
 import { formatCurrency } from "@/lib/utils";
 import {ProductDataField, StoreData} from "@/lib/definitions";
@@ -40,6 +41,12 @@ import {useTheme} from "next-themes";
 import Progress from "@/components/ui/progress";
 import {limitChar} from "@/components/ui/limitChar";
 import {Textarea} from "@nextui-org/input";
+import {CardFooter, CardHeader} from "@nextui-org/card";
+import {Chip} from "@nextui-org/chip";
+import {motion} from "framer-motion";
+import {pacifico} from "@/components/fonts";
+import showToast from "@/components/ui/transmitter-api";
+import { useCopyToClipboard } from '@/lib/hooks/use-copy-to-clipboard';
 
 interface ProductDescriptionModalProps {
     isOpen: boolean;
@@ -91,9 +98,8 @@ export function ProductDescriptionBase({
                     {(onClose) => (
                         <ModalBody >
                             <ScrollShadow size={50} hideScrollBar className="max-h-[75vh]">
-                                <div className="grid gap-4 p-4">
-                                    <ModalHeader />
-                                    <hr className="my-1" />
+                                <div className="grid gap-4 p-2">
+                                    {/*<ModalHeader />*/}
                                     <ProductImage productData={productData} />
                                     <ProductDetails
                                         productData={productData}
@@ -136,20 +142,67 @@ interface ProductImageProps {
 }
 
 function ProductImage({ productData }: ProductImageProps) {
-    const isSmallScreen = useIsSmallScreen(540);
+
+    const { copyToClipboard } = useCopyToClipboard({ timeout: 1000 })
+
+    const copyShareLink = React.useCallback(
+        async (item: string) => {
+
+            copyToClipboard(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${productData.store_id}?focus=${productData.id}`)
+            showToast({
+                message: `Link of ${productData.name} copied to clipboard`,
+                duration: 3000
+            })
+        },
+        [copyToClipboard]
+    )
 
     return (
-        <div className="flex justify-center w-full">
-            <Image
-                isZoomed
-                isBlurred
-                src={productData.image_url}
-                alt={productData.name}
-                className={"rounded-xl object-center"}
-                width={isSmallScreen ? 300 : 400}
-                height={isSmallScreen ? 300 : 400}
-            />
-        </div>
+        <Card
+            radius="lg"
+            className="border-none shadow-none mt-4"
+        >
+            <CardHeader className={"absolute z-10 top-1 flex-row !items-start justify-between"}>
+                <Button
+                    isIconOnly
+                    className="flex items-center rounded-full"
+                    variant={"ghost"}
+                    onClick={() => {copyShareLink(productData.name)}}
+                >
+                    <IconShare className="w-8 h-8 cursor-pointer text-text" />
+                </Button>
+
+            </CardHeader>
+            <div className="z-0 w-full max-w-[600px] aspect-[3/2]">
+                <Image
+                    isZoomed
+                    removeWrapper
+                    alt={productData.name}
+                    className="object-cover"
+                    src={productData.image_url}
+                    sizes="(max-width: 768px) 100vw, 600px"
+                />
+            </div>
+            <CardFooter
+                className="justify-between bg-background/40 border-white/20 border-1 aspect-[12/1] overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+                <div className={`flex w-full items-end`}>
+                    <Chip
+                        startContent={<div className={`mr-1 flex flex-row space-x-1`}>
+                            <IconStar className="w-5 cm:w-6 text-warning"/>
+                            <IconStar className="w-5 cm:w-6 text-warning"/>
+                            <IconStar className="w-5 cm:w-6 text-warning"/>
+                            <IconStar className="w-5 cm:w-6 text-warning"/>
+                            <IconStar className="w-5 cm:w-6 text-warning"/>
+                        </div>}
+                        variant="light"
+                        className={`text-lg cm:text-xl`}
+                    >
+                        {(Math.random() * 0.4 + 4.6).toFixed(1)}
+                    </Chip>
+                </div>
+                <p className={` text-2xl cm:text-3xl ${pacifico.className}`}>{formatCurrency(productData.price)}</p>
+            </CardFooter>
+        </Card>
     );
 }
 
@@ -160,30 +213,33 @@ interface ProductDetailsProps {
 }
 
 function ProductDetails({ productData, isHeartFilled, onToggleHeart }: ProductDetailsProps) {
+    const [isFilled, setIsFilled] = useState<boolean>(isHeartFilled);
     return (
         <div className="flex flex-col gap-2">
-            <Card
-                className={"flex flex-row justify-between items-center p-2"}
-            >
-                <div>
-                    <p className="text-xl font-bold">{productData.name}</p>
-                    <span className="text-lg font-bold text-grayText">{formatCurrency(productData.price)}</span>
-                </div>
-                <Button
-                    isIconOnly
-                    className={`w-12 h-12 flex items-center rounded-full`}
-                    variant={"ghost"}
-                    endContent={<IconHeartFavourites
-                        className="w-10 h-10 text-primary"
-                        state={isHeartFilled ? "full" : "empty"}
-                        onClick={onToggleHeart}
-                    />}
-                    onClick={() => { /* TODO: Implement share functionality */
-                    }}
-                >
 
+            <div className={'flex flex-row justify-between items-center'}>
+                <p className="text-xl font-bold">{productData.name}</p>
+                <Button isIconOnly
+                        className={"rounded-full"}
+                        variant={"ghost"}
+                        onClick={() => setIsFilled(!isFilled)}
+                >
+                    <motion.button
+
+                        whileTap={{scale: 0.9}}
+                        whileHover={{scale: 1.1}}
+                        className={"rounded-full"}
+                        onClick={() => setIsFilled(!isFilled)}
+                    >
+                        <HeartIcon
+                            className={"text-danger"}
+                            size={24}
+                            filled={isFilled}/>
+                    </motion.button>
                 </Button>
-            </Card>
+            </div>
+
+
             <p className="font-medium text-grayText clamp-product-description">{productData.description}</p>
         </div>
     );
@@ -245,24 +301,6 @@ export function ProductDescriptionUser({
                 return "lemon bars";
             case 4:
                 return "pure citrus, unripe fruits";
-        }
-    }
-
-
-    const [umamiLevel, setUmamiLevel] = useState<number>(0);
-
-    const getOverviewUmami = () => {
-        switch (umamiLevel) {
-            case 0:
-                return "traditional desserts";
-            case 1:
-                return "caramel";
-            case 2:
-                return "miso desserts";
-            case 3:
-                return "fermented ingredients";
-            case 4:
-                return "concentrated savory elements";
         }
     }
 
@@ -344,12 +382,12 @@ export function ProductDescriptionUser({
             onToggleHeart={() => setIsHeartFilled(!isHeartFilled)}
         >
             {/* Customization */}
-            <Accordion variant="splitted">
+            <Accordion variant="splitted" className={"mx-2"}>
                 <AccordionItem
                     key="Property"
                     aria-label="Property"
                     title={`${productData.name} Property`}
-                    indicator={<IconNotebookPen className="w-6 h-6 text-text rotate-45" />}
+                    indicator={<IconNotebookPen className="w-6 h-6 px-0 text-text rotate-45" />}
                 >
                     <div className={`flex flex-col space-y-4 mb-6`}>
                         <div className="flex flex-col w-full space-y-4">
@@ -719,7 +757,7 @@ export function ProductDescriptionUser({
             </div>
 
             {/* Add to Order Button */}
-            <div className="text-center">
+            <div className="text-center w-full space-y-4 mb-4">
                 <Button
                     className="w-full text-white py-3 rounded-md"
                     variant={"default"}
@@ -728,6 +766,20 @@ export function ProductDescriptionUser({
                     onPress={handleConfetti}
                 >
                     Add {quantity} to order • {totalPrice}
+                </Button>
+                <Button
+                    variant="secondary"
+                    className={"w-full"}
+                    startContent={<IconSend/>}
+                    onClick={() => {
+                        showToast({
+                            message: `${productData.name} attached to message`,
+                            duration: 3000
+                        });
+                        setDialogOpen(false);
+                    }}
+                >
+                    Attach to message
                 </Button>
             </div>
         </ProductDescriptionBase>
@@ -799,7 +851,7 @@ export function ProductDescriptionBakerz({
         } else {
             toast.success((
                     <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                        <IconSuccess className={"w-10 h-10 text-primary"}/>
                         <p className={"text-base font-bold"}>
                             {result.message}
                         </p>

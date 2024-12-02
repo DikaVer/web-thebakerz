@@ -26,7 +26,6 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
     const [isHoveringStepper, setIsHoveringStepper] = useState(false);
     const [isItemsUpdating, setIsItemsUpdating] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [hasError, setHasError] = useState(false);
 
     const router = useRouter();
 
@@ -128,8 +127,10 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
                             const query = new URLSearchParams(window.location.search);
                             router.push(`/${shopName}/checkout?${query.toString()}`);
                             router.refresh();
+                            setIsLoaded(true);
                             onClose();
                         }}
+                        isLoading={isLoaded}
                     >
 
                         <div className="flex flex-row w-full justify-between items-center">
@@ -145,6 +146,7 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
                                 router.refresh();
                                 onClose();
                             }}
+                            isLoading={isLoaded}
                             variant="secondary">
                         <div className="flex flex-row w-full justify-between items-center">
                             <p className="text-lg">Back to store</p>

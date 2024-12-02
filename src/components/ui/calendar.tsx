@@ -280,9 +280,15 @@ function Calendar({
                                   {selectedDay && availabilityData[formatDataDate(selectedDay)] ? (
                                       <>
                                           <strong>Store is open</strong>
-                                          <strong>From:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].from].from)}
-                                          <strong>To:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].to].from)}
-                                          <strong>Availability:</strong> {availabilityData[formatDataDate(selectedDay)].availability}
+                                          <p>
+                                              <strong>From:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].from].from)}
+                                          </p>
+                                          <p>
+                                              <strong>To:</strong> {formatDateTime(timeMap[availabilityData[formatDataDate(selectedDay)].to].from)}
+                                          </p>
+                                          <p>
+                                              <strong>Availability:</strong> {availabilityData[formatDataDate(selectedDay)].availability}
+                                          </p>
                                       </>
 
                                   ) : (
