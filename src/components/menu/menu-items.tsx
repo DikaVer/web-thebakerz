@@ -26,8 +26,8 @@ export async function MenuItems({ login, name, role }: MenuItemsProps) {
 
 
     return (
-        <div className="min-h-screen border-r w-[16rem] shadow-lg z-20">
-            <div className="fixed top-5 desktop:top-16 bg-background left-0 flex flex-col justify-between h-full px-2">
+        <div className="min-h-svh border-r w-[16rem] shadow-lg z-20">
+            <div className="fixed pb-6 desktop:pb-0 top-5 desktop:top-16 bg-background left-0 flex flex-col justify-between min-h-svh px-2">
                 {/* Header */}
                 <header className="block desktop:hidden">
                     <a
