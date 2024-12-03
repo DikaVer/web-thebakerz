@@ -61,8 +61,8 @@ export function FirstView() {
                             <span>Manage less.</span>
                         </h1>
                         <p ref={subheadingRef} className={`mt-8 text-pretty flex flex-col text-lg font-medium text-gray-500 sm:text-xl/8  opacity-0 ${subheadingInView ? 'animate-fadeInUpDelay3' : ''}`}>
-                            <span>TheBakerz is your receipt for success</span>
-                            <span>One Platform, No Stress</span>
+                            <span>TheBakerz is your recipe for success</span>
+                            <span>One Platform, Zero Stress</span>
                         </p>
                         <div ref={buttonRef} className={`mt-10 flex items-center justify-center gap-x-6 opacity-0 ${buttonInView ? 'animate-fadeInUpDelay4' : ''}`}>
                             <div className="flex flex-col">

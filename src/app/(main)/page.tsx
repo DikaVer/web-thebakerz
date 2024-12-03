@@ -77,7 +77,7 @@ const WhyChooseSection = () => {
                         },
                         {
                             title: "All Chats in One Place",
-                            description: "Connect customer chats from Instagram and WhatsApp to orders in one place for easy communication.",
+                            description: "Connect customer chats from Instagram, Facebook, and WhatsApp to orders in one place for easy communication.",
                         },
                         {
                             title: "Flexible Support",

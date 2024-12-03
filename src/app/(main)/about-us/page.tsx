@@ -64,9 +64,6 @@ export default async function Page() {
                         },
                     ]}
                 />
-                <p className={`ml-10`}>
-                    This timeline represents the beginning of our journey, with many more milestones ahead as we continue to innovate and grow.
-                </p>
 
                 <p className={`text-2xl font-bold`}>
                     Our Story

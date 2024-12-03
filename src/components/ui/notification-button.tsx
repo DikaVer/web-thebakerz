@@ -13,7 +13,7 @@ export default function NotificationButton() {
             className="flex p-2 pt-5 items-center rounded-full"
             variant={"ghost"}
         >
-            <Badge color="primary" content={69} shape="circle">
+            <Badge color="primary" content={1} shape="circle">
                 <IconNotification className=" w-8 h-8 text-text"/>
             </Badge>
         </Button>
