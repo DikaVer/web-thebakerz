@@ -62,7 +62,7 @@ const WhyChooseSection = () => {
             >
                 Why Choose TheBakerz?
             </h2>
-            <div className={`${whyChooseMilestoneInView ? 'animate-fadeInUp' : ''}`}
+            <div className={` opacity-0 ${whyChooseMilestoneInView ? 'animate-fadeInUp' : ''}`}
                  ref={whyChooseMilestoneRef}>
                 <VerticalStepsLanding
                     defaultStep={0}
@@ -111,7 +111,7 @@ const CheckItOutSection = () => {
             aria-labelledby="check-it-out-section"
         >
             <Card
-                className={`h-[400px] p-4 w-full max-w-2xl flex flex-col justify-center bg-gradient-to-tr from-primary to-secondary
+                className={`h-[400px] p-4 w-full max-w-2xl flex flex-col justify-center bg-gradient-to-tr from-primary to-secondary opacity-0
                 ${checkItOutInView ? 'animate-fadeInUp' : ''}`}
                 ref={checkItOut}
             >
@@ -357,7 +357,7 @@ const PricingSection = () => {
             </Modal>
 
             <Card
-                className={`w-full max-w-2xl h-fit py-4 px-2 desktop:px-10 
+                className={`w-full max-w-2xl h-fit py-4 px-2 desktop:px-10 opacity-0
                 ${PricingInView ? 'animate-fadeInUp' : ''}`}
                 ref={pricingOut}
             >

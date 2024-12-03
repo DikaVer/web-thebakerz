@@ -23,6 +23,8 @@ interface MenuItemsProps {
 }
 
 export async function MenuItems({ login, name, role }: MenuItemsProps) {
+
+
     return (
         <div className="min-h-screen border-r w-[16rem] shadow-lg z-20">
             <div className="fixed top-5 desktop:top-16 bg-background left-0 flex flex-col justify-between h-full px-2">
