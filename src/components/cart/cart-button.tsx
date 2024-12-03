@@ -6,6 +6,7 @@ import {IconCart} from "@/components/ui/icons";
 import {useEffect, useState} from "react";
 import CartComponent from "@/components/cart/cart-component";
 import {useCart} from "@/components/providers/cart-provider";
+import {Badge} from "@nextui-org/badge";
 
 
 export const CartButton = ({
@@ -28,13 +29,14 @@ export const CartButton = ({
 
     return (
         <>
-            <Button className="flex p-2 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200" onClick={toggleCart}>
-                {count > 0 &&
-                    <div className="absolute w-5 h-5 bg-primary rounded-full ml-6 mb-6">
-                        <span className="text-white text-sm font-medium">{count}</span>
-                    </div>
-                }
-                <IconCart className="w-7 h-6" />
+            <Button className="flex p-2 items-center rounded-full"
+                    size={"lg"}
+                    variant={"ghost"}
+                    onClick={toggleCart}
+            >
+                    <Badge color="primary" content={count} isInvisible={count <= 0} shape="circle">
+                        <IconCart className="w-7 h-6 pr-1 text-text"/>
+                    </Badge>
             </Button>
             <CartComponent
                 isOpen={isCartOpen}

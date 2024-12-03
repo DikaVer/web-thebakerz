@@ -5,6 +5,7 @@ import * as React from "react";
 import {IconMenu} from "@/components/ui/icons";
 import {useState} from "react";
 import MenuComponent from "@/components/menu/user-menu";
+import {useIsMobile} from "@/lib/hooks/use-mobile";
 
 
 export const MenuButton = ({ menuItems }: { menuItems: React.ReactNode }) => {
@@ -15,10 +16,20 @@ export const MenuButton = ({ menuItems }: { menuItems: React.ReactNode }) => {
         setMenuOpen((prevState) => !prevState);
     };
 
+    const isMobile = useIsMobile();
+    if (!isMobile) {
+        return null;
+    }
+
+
     return (
         <>
-            <Button className="flex p-2 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200" onClick={toggleMenu}>
-                <IconMenu className="w-7 h-6" />
+            <Button
+                variant={"ghost"}
+                className="flex p-2 items-center"
+
+                onClick={toggleMenu}>
+                <IconMenu className="w-7 h-6 text-text" />
             </Button>
             <MenuComponent menuItems={menuItems} isOpen={isMenuOpen} onClose={() => setMenuOpen(false)} />
         </>

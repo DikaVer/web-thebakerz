@@ -4,7 +4,7 @@ import React from "react";
 import type { Metadata } from "next";
 import {Toaster} from "@/components/ui/sonner";
 import {metadataDefault} from "@/components/metadata";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import {Providers} from "@/app/providers";
 
 
 export const metadata: Metadata = metadataDefault;
@@ -21,11 +21,10 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={lexendDeca.className}>
-                <main>
-                    {children}
-                </main>
-                <SpeedInsights />
-                <Toaster/>
+                <Providers>
+                            {children}
+                            <Toaster/>
+                </Providers>
             </body>
             </html>
     );

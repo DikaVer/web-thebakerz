@@ -1,3 +1,5 @@
+export const backdropEffect = "blur";
+
 export const timeMap: Readonly<{ [key: string]: { from: number, to: number } }> = {
     "et000": {from: new Date(0, 0, 0, 0, 0).getTime(), to: new Date(0, 0, 0, 0, 15).getTime()},
     "et015": {from: new Date(0, 0, 0, 0, 15).getTime(), to: new Date(0, 0, 0, 0, 30).getTime()},

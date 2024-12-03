@@ -145,7 +145,7 @@ export default function CheckoutView({id, availability, userLocation, email}: Ch
     };
 
     return (
-            !isOTPWindow ? (
+            isOTPWindow ? (
                 <div>
                     <VerifyCode
                         setOTPWindow={setOTPWindow}
@@ -219,7 +219,7 @@ export default function CheckoutView({id, availability, userLocation, email}: Ch
                                                 className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg"
                                                 onClick={() => handleSchedulerView("timeSelection")}
                                             >
-                                                <IconClock className={"w-8 h-8 tm:w-10 tm:h-10"}/>
+                                                <IconClock className={"w-8 h-8 tm:w-10 tm:h-10 text-text"}/>
                                                 <div className={"flex flex-col w-full"}>
                                                     {
                                                         checkoutData.selectedTime ? (
@@ -379,7 +379,7 @@ function CheckoutContent({availability, checkoutData, isDialogOpen, handleDialog
                     <ScrollArea className={"max-h-[75vh]"}>
 
                         {isSchedulerView === "timeSelection" && (
-                            availability && <TimeSelection
+                            <TimeSelection
                                 checkoutData={checkoutData}
                                 updateCheckoutData={updateCheckoutData}
                                 handleSchedulerView={toggleSchedulerView}
@@ -520,7 +520,7 @@ const CartView: React.FC<CartViewProps> = ({storeId, avatar_url, shopName, value
                 </ul>
             </ScrollArea>
             {isItemsUpdating ? (
-                <div className={"flex flex-col justify-center items-center"}>
+                <div className={"flex flex-col min-h-screen justify-center items-center"}>
                     <ClipLoader
                         color={"#730C6F"}
                         loading={isItemsUpdating}

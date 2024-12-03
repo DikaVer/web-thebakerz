@@ -131,7 +131,7 @@ export function AvatarUploader({ form, field, name, isDialogOpen, setDialogOpen,
                             className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
                             onClick={() => toggleClose()}
                         >
-                            <IconCross className={"w-8 h-8 cursor-pointer"}/>
+                            <IconCross className={"w-8 h-8 cursor-pointer text-text"}/>
                         </Button>
                         <p className={"text-xl"}>Avatar Selection</p>
                         <div className="w-8 h-8 flex "></div>

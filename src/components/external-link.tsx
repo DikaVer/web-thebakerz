@@ -9,7 +9,7 @@ export function ExternalLink({
 }) {
   return (
       <div
-          className="text-grayText inline-flex flex-1 justify-center gap-1 leading-4 hover:underline cursor-pointer"
+          className="text-grayText inline-flex flex-1 justify-center gap-1 leading-4 hover:underline cursor-pointer h-10"
       >
           <a href={href}>
               {children}

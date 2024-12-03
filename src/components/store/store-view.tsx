@@ -1,6 +1,6 @@
 "use client";
 
-import {ProfileHeader} from "@/components/store/profile-header";
+import {ProfileHeader} from "@/components/store/store-header/profile-header";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import StoreAddresses from "@/components/store/maintaince/store-address";
 import React, {useState} from "react";
@@ -106,6 +106,7 @@ interface StoreViewUserProps {
     storeData: StoreData,
     userData: {
         location: AddressDataUserField[] | null
+        userId?: string
     }
 }
 
@@ -120,10 +121,11 @@ export function StoreViewUser({storeData, userData}: StoreViewUserProps) {
                 description={storeData.description}
                 location={storeData.location}
                 image={storeData.image}
-                background_url={storeData.background_url}
+                background_url={"/images/background_default.webp"}
                 deliveryOptions={storeData.deliveryOptions}
                 availability={storeData.availability}
                 userLocation={userData.location}
+                userId={userData.userId}
             />
             <ProductComponentUser
                 storeId={storeData.id}

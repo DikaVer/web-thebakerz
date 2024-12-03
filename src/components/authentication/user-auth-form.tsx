@@ -84,9 +84,11 @@ export function UserAuthForm(){
                 <FormError message={error}/>
                 <Button
                     type="submit"
+                    variant={"default"}
                     disabled={isPending}
+                    isLoading={isPending}
                 >
-                    Continue with Email
+                    {isPending ? "Loading" : "Continue with Email"}
                 </Button>
             </form>
         </Form>
@@ -112,14 +114,17 @@ export function UserAuthForm(){
                     variant={"outline"}
                     className={"w-full py-5"}
                     disabled={isPending}
+                    isLoading={isPending}
                 >
-                    <Image
-                        style={{display: "block"}}
-                        src="/brandIcons/google.svg"
-                        height="32"
-                        width="32"
-                        alt={"Google"}
-                    />
+                    {!isPending && (
+                        <Image
+                            style={{display: "block"}}
+                            src="/brandIcons/google.svg"
+                            height="32"
+                            width="32"
+                            alt={"Google"}
+                        />
+                    )}
                 </Button>
             </form>
             {/*<form*/}

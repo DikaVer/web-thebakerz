@@ -202,7 +202,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 
             toast.success(
                 <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                    <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                    <IconSuccess className={"w-10 h-10 text-primary"}/>
 
                     <div className={"flex flex-col"}>
                         <p className={"text-base font-bold"}>
@@ -236,7 +236,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
                     className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
                     onClick={() => setAddressDialogClose()}
                 >
-                    <IconCross className={"w-8 h-8 cursor-pointer"}/>
+                    <IconCross className={"w-8 h-8 cursor-pointer text-text"}/>
                 </Button>
                 <p className={"text-xl"}>Address Selection</p>
                 <div className="w-8 h-8 flex"></div>
@@ -259,7 +259,7 @@ export const AddressSelection: React.FC<AddressSelectionProps> = ({initialInput,
 
             <div className={" flex flex-row-reverse"}>
                 <Button onClick={toggleDraggable} variant={"secondary"} className={"rounded-3xl w-28 px-0 items-center font-medium"}>
-                    <IconLocation className={"w-6 h-6"}/>
+                    <IconLocation className={"w-6 h-6 text-primary"}/>
                     Adjust Pin
                 </Button>
             </div>

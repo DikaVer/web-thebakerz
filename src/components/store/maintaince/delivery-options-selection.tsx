@@ -207,7 +207,7 @@ const DeliveryLocationForm: React.FC<DeliveryLocationFormProps> = ({ locationMap
                 variant={"outline"}
                 className={"px-2"}
             >
-                <IconCross className={"w-5"} />
+                <IconCross className={"w-5 text-text"} />
             </Button>
         </div>
     );

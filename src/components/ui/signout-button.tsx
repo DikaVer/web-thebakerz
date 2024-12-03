@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import {useRouter} from "next/navigation";
-import {startTransition} from "react";
+import {usePathname, useRouter} from "next/navigation";
+import {startTransition, useEffect} from "react";
 import {logout} from "@/lib/actions/auth-actions";
 
 interface SignoutButtonProps {
@@ -11,12 +11,19 @@ interface SignoutButtonProps {
 
 export const SignoutButton = ({ className}: SignoutButtonProps) => {
     const router = useRouter();
+    const pathname = usePathname();
 
+    useEffect(() => {
+
+        router.prefetch(`/auth/logout?next=${pathname}`);
+    }, []);
 
     const handleSignOut = async () => {
         startTransition(() => {
-            localStorage.clear()
+            sessionStorage.clear();
+            localStorage.clear();
             logout();
+            router.push(`/auth/transit-exit?next=${pathname}`);
             router.refresh();
         });
     };

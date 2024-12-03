@@ -9,6 +9,8 @@ import {useCart} from "@/components/providers/cart-provider";
 import {formatCurrency} from "@/lib/utils";
 import {useRouter} from "next/navigation";
 import {IconAvatar} from "@/components/ui/icons";
+import {ScrollShadow} from "@nextui-org/scroll-shadow";
+import {Avatar, AvatarIcon} from "@nextui-org/react";
 
 interface ShopProps {
     avatar_url: string;
@@ -24,9 +26,13 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
     const [isHoveringStepper, setIsHoveringStepper] = useState(false);
     const [isItemsUpdating, setIsItemsUpdating] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [hasError, setHasError] = useState(false);
 
     const router = useRouter();
+
+    useEffect(() => {
+        const query = new URLSearchParams(window.location.search);
+        router.prefetch(`/${shopName}/checkout?${query.toString()}`);
+    }, []);
 
     const { removeFromCart, updateProductCart } = useCart();
 
@@ -52,7 +58,7 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
     }, [productItems]);
 
 
-    const updateItem = useCallback(async (id: string, amount: number) => {
+    const updateItem = useCallback((id: string, amount: number) => {
         setIsItemsUpdating(true);
 
         const product = productItems.find((item) => item.uniqueId === id);
@@ -74,26 +80,21 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
             <AccordionTrigger>
                 <div className="-my-2 flex flex-row items-center space-x-3 justify-start">
                     <div className="ml-2 relative w-14 h-14">
-                        {!isLoaded && !hasError && (
-                            <IconAvatar
-                                className="w-14 h-14 absolute inset-0 flex items-center justify-center bg-gray-100 rounded-full"/>
-                        )}
-                        {avatar_url && !hasError && (
-                            <Image
-                                src={avatar_url}
-                                alt="Avatar"
-                                fill
-                                sizes="25vw"
-                                style={{objectFit: 'cover'}}
-                                className={`rounded-full transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-                                onLoad={() => setIsLoaded(true)}
-                                onError={() => setHasError(true)}
-                            />
-                        )}
-                        {(hasError || !avatar_url) && (
-                            <IconAvatar
-                                className="w-14 h-14 inset-0 flex items-center justify-center bg-gray-100 rounded-full"/>
-                        )}
+
+                        <Avatar
+                            showFallback
+                            //@ts-ignore
+                            src={avatar_url}
+                            icon={<AvatarIcon/>}
+                            className={"w-14 h-14 items-center"}
+                            //@ts-ignore
+                            width={128}
+                            height={128}
+                            classNames={{
+                                base: "bg-gradient-to-br from-primary to-secondary",
+                                icon: "text-black/80",
+                            }}
+                        />
                     </div>
                     <div className="grid grid-col gap-0">
                         <p className="flex text-lg font-medium underline-on-hover">{shopName.charAt(0).toUpperCase() + shopName.slice(1)}</p>
@@ -102,7 +103,7 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
                 </div>
             </AccordionTrigger>
             <AccordionContent className="grid gap-y-4 w-full">
-                <ScrollArea className="max-h-72">
+                <ScrollShadow hideScrollBar className="max-h-72">
                     <ul className="grid">
                         {Object.values(productItems).map((item, index) => (
                             <ShopItem
@@ -116,17 +117,20 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
                             />
                         ))}
                     </ul>
-                </ScrollArea>
+                </ScrollShadow>
                 <div className="grid gap-y-2 px-2">
                     <Button
                         className="w-full py-0 px-4"
+                        variant={"default"}
                         disabled={isItemsUpdating}
                         onClick={() => {
                             const query = new URLSearchParams(window.location.search);
                             router.push(`/${shopName}/checkout?${query.toString()}`);
                             router.refresh();
+                            setIsLoaded(true);
                             onClose();
                         }}
+                        isLoading={isLoaded}
                     >
 
                         <div className="flex flex-row w-full justify-between items-center">
@@ -134,13 +138,15 @@ const Shop: React.FC<ShopProps> = ({storeId, avatar_url, shopName, value, produc
                             <p className="text-lg">{formatCurrency(total)}</p>
                         </div>
                     </Button>
-                    <Button className="w-full py-0 px-4"
+                    <Button
+                        className="w-full py-0 px-4"
                             onClick={() => {
                                 const query = new URLSearchParams(window.location.search);
                                 router.push(`/${shopName}?${query.toString()}`);
                                 router.refresh();
                                 onClose();
                             }}
+                            isLoading={isLoaded}
                             variant="secondary">
                         <div className="flex flex-row w-full justify-between items-center">
                             <p className="text-lg">Back to store</p>

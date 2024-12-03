@@ -70,7 +70,7 @@ export function SchedulerContent({availability, checkoutData, isDialogOpen, hand
                             />
                     )}
                     {isSchedulerView === "timeSelection" && (
-                        availability && <TimeSelection
+                         <TimeSelection
                             checkoutData={checkoutData}
                             updateCheckoutData={updateCheckoutData}
                             handleSchedulerView={toggleSchedulerView}
@@ -127,7 +127,7 @@ const SchedulerContentView: React.FC<{
                         e.stopPropagation();
                         handleDialogClose();
                     }}>
-                    <IconCross className={"w-8 h-8 cursor-pointer"} />
+                    <IconCross className={"w-8 h-8 cursor-pointer text-text"} />
                 </Button>
                 <p className={"text-xl"}>Schedule Delivery</p>
                 <div className="w-8 h-8 flex"></div>
@@ -155,7 +155,7 @@ const SchedulerContentView: React.FC<{
                 <p className=" text-xl">Time Preferences</p>
                 <div
                     className="flex flex-row justify-between items-center space-x-2 my-1 py-1 transition duration-500 cursor-pointer rounded-lg">
-                    <IconClock className={"w-10 h-10 tm:w-12 tm:h-12"} />
+                    <IconClock className={"w-10 h-10 tm:w-12 tm:h-12 text-text"} />
                     <div className={"flex flex-col w-full"}>
                         {
                             checkoutData.selectedTime ? (
@@ -163,9 +163,16 @@ const SchedulerContentView: React.FC<{
                                     <p className="font-medium text-left text-sm tm:text-base">
                                         {new Date(checkoutData.selectedTime?.date as string).toDateString()}
                                     </p>
-                                    <p className="font-medium text-left text-sm tm:text-base">
-                                        {formatDateTime(timeMap[checkoutData.selectedTime.time as string].from)} - {formatDateTime(timeMap[checkoutData.selectedTime.time as string].to)}
-                                    </p>
+                                    <div className={`flex flex-col tm:flex-row gap-x-5 tm:items-center`}>
+                                        <p className="font-medium text-left text-sm tm:text-base">
+                                            {formatDateTime(timeMap[checkoutData.selectedTime.time as string].from)} - {formatDateTime(timeMap[checkoutData.selectedTime.time as string].to)}
+                                        </p>
+                                        <div className={`-ml-0.5 mb-1 flex bg-greenBakerz/40 px-2 rounded-xl items-center justify-center w-fit`}>
+                                            <p className={`text-sm text-greenBakerz`}>
+                                                Selected
+                                            </p>
+                                        </div>
+                                    </div>
                                 </>
                             ) : (
                                 <p className="text-left text-lg tm:text-xl">Schedule {checkoutData.deliveryMode === "PICKUP" ? "Pickup" : "Delivery"}</p>

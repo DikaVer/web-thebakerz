@@ -49,21 +49,21 @@ const Stepper: React.FC<StepperProps> = ({ product_id, onHoverChange, onDelete, 
             {count === 1 ? (
                 <>
                     <button onClick={handleReset} className="hover:bg-red-200 transition duration-300 focus:outline-none pl-1 py-1">
-                        <IconTrash className="w-5 h-5" />
+                        <IconTrash className="w-5 h-5 text-text" />
                     </button>
                     <div className="text-center font-medium">{count}</div>
                     <button onClick={handleIncrement} className="hover:bg-grayCompHover transition duration-300 focus:outline-none pr-1 py-1">
-                        <IconPlus className="w-5 h-5" />
+                        <IconPlus className="w-5 h-5 text-text" />
                     </button>
                 </>
             ) : (
                 <>
                     <button onClick={handleDecrement} disabled={count <= 0} className="hover:bg-grayCompHover transition duration-300 focus:outline-none pl-1 py-1">
-                        <IconMinus className="w-5 h-5" />
+                        <IconMinus className="w-5 h-5 text-text" />
                     </button>
                     <div className="text-center font-medium">{count}</div>
                     <button onClick={handleIncrement} disabled={count >= 99} className="hover:bg-grayCompHover transition duration-300 focus:outline-none pr-1 py-1">
-                        <IconPlus className="w-5 h-5" />
+                        <IconPlus className="w-5 h-5 text-text" />
                     </button>
                 </>
             )}

@@ -20,14 +20,29 @@ const CartComponent: React.FC<CartComponentProps> = ({ onClose, isOpen, cart }) 
             const timer = setTimeout(() => setIsVisible(false), 500);
             return () => clearTimeout(timer);
         }
+
+        if (isOpen) {
+            const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.paddingRight = `${scrollBarWidth}px`;
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
+        }
+
+        return () => {
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
+        };
     }, [isOpen]);
+
 
     return (
         <div className={`fixed inset-0 z-50 transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'} ${isVisible ? 'visible' : 'invisible'}`}>
-            <div className="absolute bg-black opacity-50 inset-0" onClick={onClose}></div>
-            <div className={`absolute right-0 w-80 h-full bg-white shadow-lg transform transition-transform duration-700 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className="absolute backdrop-blur-xl inset-0" onClick={onClose}/>
+            <div className={`absolute right-0 w-80 h-full bg-background shadow-lg transform transition-transform duration-700 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 <p className={`text-2xl flex justify-center items-center p-4 ${pacifico.className}`}>Delicious Cart</p>
-                <hr className="mx-2" />
+                <hr className="ml-2 mr-5" />
                 {cart ? (
                     <ShopList
                         cart={cart}

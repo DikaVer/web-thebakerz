@@ -3,7 +3,7 @@ import {useState} from "react";
 
 import {ClipLoader} from "react-spinners";
 import {Button} from "@/components/ui/button";
-import {IconCross, IconError, IconSuccess} from "@/components/ui/icons";
+import {IconCross, IconCircleAlert, IconSuccess} from "@/components/ui/icons";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {
@@ -88,7 +88,7 @@ export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPendi
             if (!responseImage.ok) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                             <p className={"text-base font-bold"}>
                                 {resultImage.message}
                             </p>
@@ -104,7 +104,7 @@ export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPendi
             } else {
                 toast.success((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                            <IconSuccess className={"w-10 h-10 text-primary"}/>
                             <p className={"text-base font-bold"}>
                                 {resultImage.message}
                             </p>
@@ -142,7 +142,7 @@ export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPendi
         if (!response.ok) {
             toast.error((
                     <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconError color={"primary"} className={"w-10 h-10"}/>
+                        <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                         <p className={"text-base font-bold"}>
                             {result.message}
                         </p>
@@ -158,7 +158,7 @@ export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPendi
         } else {
             toast.success((
                     <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                        <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                        <IconSuccess className={"w-10 h-10 text-primary"}/>
                         <p className={"text-base font-bold"}>
                             {result.message}
                         </p>
@@ -223,7 +223,7 @@ export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPendi
     return (
             <>
                 <div
-                    data-state={isOpen ? 'open' : 'closed'}
+                    data-state={isOpen ? 'open' : ''}
                     className="fixed inset-0 z-30 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
                     onClick={(e) => {
                         toggleClose();
@@ -235,7 +235,7 @@ export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPendi
                     <ScrollArea className={"max-h-[75vh]"}>
                         <div className={"grid gap-4 animate-in fade-in-0 zoom-in-95 slide-in-from-top-[5%] p-6"}>
                             {isLoading ? (
-                                <div className={"flex flex-col justify-center items-center"}>
+                                <div className={"flex flex-col my-10 justify-center items-center"}>
                                     <ClipLoader
                                         color={"#730C6F"}
                                         loading={isPending}

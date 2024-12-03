@@ -4,22 +4,26 @@
 
 /* 39, 92%, 59%; Second variant*/
 @layer base {
+
   :root {
     --background: 0 0% 100%;
     --foreground: 20 14.3% 4.1%;
+    --text: 215, 28%, 17%;
     --card: 0 0% 100%;
     --card-foreground: 20 14.3% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 20 14.3% 4.1%;
-    --primary: 302 81% 25%;
+    --primary: 302 81% 25%; /* #730c70 */
     --primary-foreground: 60 9.1% 97.8%;
     --secondary: 51, 80%, 90%;
     --secondary-hover: 51, 80%, 80%;
     --secondary-foreground: 24 9.8% 10%;
     --muted: 60 4.8% 95.9%;
     --muted-foreground: 25 5.3% 44.7%;
-    --accent: 60 4.8% 95.9%;
-    --accent-foreground: 24 9.8% 10%;
+    --accent: 0 0% 100%;
+    --accent-foreground: 0 0% 100%;
+    --outline: 0 0% 100%;
+    --outline-foreground: 240, 10%, 96%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
     --border: 20 5.9% 90%;
@@ -36,26 +40,29 @@
     --red-bakerz: 354, 70%, 44%;
     --gray-bg: 240, 10%, 96%;
     --gray-text: 60, 1%, 36%;
-    --gray-component: 0, 0%, 85%;
-    --gray-component-hover: 0, 0%, 75%;
-    --gray-fafafa: 0, 0%, 98%;
+    --gray-bg-component: 0, 0%, 98%;
+    --outline-component: 0 0% 100%;
   }
 
   .dark {
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;
+    --text: 180, 50%, 99%;
     --card: 20 14.3% 4.1%;
     --card-foreground: 60 9.1% 97.8%;
     --popover: 20 14.3% 4.1%;
     --popover-foreground: 60 9.1% 97.8%;
-    --primary: 60 9.1% 97.8%;
-    --primary-foreground: 24 9.8% 10%;
-    --secondary: 38, 89%, 75%;
-    --secondary-foreground: 60 9.1% 97.8%;
+    --primary: 270 59.26% 45.65%;
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 51, 80%, 90%;
+    --secondary-hover: 51, 80%, 80%;
+    --secondary-foreground: 24 9.8% 10%;
     --muted: 12 6.5% 15.1%;
     --muted-foreground: 24 5.4% 63.9%;
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 60 9.1% 97.8%;
+    --accent: 240 5.88% 10%;
+    --accent-foreground: 240 5.88% 10%;
+    --outline: 240 5.88% 10%;
+    --outline-foreground: 0, 0%, 63.9%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 60 9.1% 97.8%;
     --border: 12 6.5% 15.1%;
@@ -69,17 +76,18 @@
     --green-bakerz: 168, 86%, 17%;
     --orange-bakerz: 31, 81%, 51%;
     --red-bakerz: 354, 70%, 44%;
-    --gray-bg: 240, 10%, 96%;
-    --gray-text: 60, 1%, 36%;
-    --gray-component: 0, 0%, 85%;
-    --gray-component-hover: 0, 0%, 75%;
-    --gray-fafafa: 0, 0%, 98%;
+    --gray-bg: 240 5.88% 10%;
+    --gray-text: 0, 0%, 63.9%;
+    --gray-bg-component: 240 5.88% 20%;
+    --outline-component: 240 5.88% 10%;
   }
 }
+
 
 body {
   @apply text-text; /* Uses the custom color defined in tailwind.config.js */
 }
+
 
 @keyframes fadeInUp {
   0% {
@@ -105,6 +113,7 @@ body {
 
 @layer utilities {
 
+
   /* Animation Classes */
   .animate-fadeInDown {
     animation: fadeInDown 0.8s ease-out forwards;
@@ -112,6 +121,26 @@ body {
 
   .animate-fadeInUp {
     animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .animate-fadeInUpDelay1 {
+    animation: fadeInUp 1.6s ease-out forwards ;
+  }
+
+  .animate-fadeInUpDelay2 {
+    animation: fadeInUp 2.4s ease-out 0.5s forwards;
+  }
+
+  .animate-fadeInUpDelay3 {
+    animation: fadeInUp 3.2s ease-out 1s forwards;
+  }
+
+  .animate-fadeInUpDelay4 {
+    animation: fadeInUp 4.0s ease-out 1.5s forwards;
+  }
+
+  .animate-fadeInUpDelay5 {
+    animation: fadeInUp 4.4s ease-out 1.5s forwards;
   }
 
   /* ===========================

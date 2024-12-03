@@ -20,7 +20,7 @@ interface ScheduleSelectionProps {
             to: keyof typeof timeMap;
             availability: "Free" | "Busy";
         }
-    >;
+    > | null;
 }
 
 // Create the functional component
@@ -41,7 +41,7 @@ export const TimeSelection: React.FC<ScheduleSelectionProps> = ({availability, h
                     className="flex p-1 items-center bg-white rounded-full transition duration-500 hover:bg-gray-200"
                     onClick={() => handleSchedulerView("scheduler")}
                 >
-                    <IconArrow className={"w-8 h-8 cursor-pointer"}/>
+                    <IconArrow className={"w-8 h-8 cursor-pointer text-text"}/>
                 </Button>
                 <p className={"text-xl"}>Time Selection</p>
                 <div className="w-8 h-8 flex"></div>
@@ -52,7 +52,7 @@ export const TimeSelection: React.FC<ScheduleSelectionProps> = ({availability, h
                 setDate={handleSetDate}
                 date={date}
             />
-            { availability[formatDataDate(date)] ? (
+            { availability && availability[formatDataDate(date)] ? (
                     <TimePickerScrollArea
                         fromTime={availability[formatDataDate(date)].from as string}
                         toTime={availability[formatDataDate(date)].to as string}

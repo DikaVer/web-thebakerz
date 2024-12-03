@@ -2,8 +2,8 @@ import * as React from "react";
 
 export function Footer() {
   return (
-      <footer className="absolute border-t border-ui-border-base w-full bg-grayBg rounded-3xl">
-          <div className="container flex flex-col w-full">
+      <footer className=" border-t border-ui-border-base w-full bg-grayBg rounded-xl">
+          <div className="mx-4 2xl:mx-10 flex flex-col w-full">
               <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-20">
                   <a
                       className={"text-2xl font-bold text-ui-fg-subtle hover:text-ui-fg-base"}
@@ -16,10 +16,10 @@ export function Footer() {
                           <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
                               <li>
                                   <a
-                                      href="/apply"
+                                      href="/application"
                                       className="hover:text-ui-fg-base"
                                   >
-                                      Create a bakery account
+                                      Work with Bakerz
                                   </a>
                               </li>
                               <li>
@@ -36,14 +36,14 @@ export function Footer() {
                           <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
                               <li>
                                   <a
-                                      href="/privacy"
+                                      href="/policies/privacy-policy"
                                   >
                                       Privacy Policy
                                   </a>
                               </li>
                               <li>
                                   <a
-                                      href="/terms"
+                                      href="/policies/terms-of-use"
                                   >
                                       Terms of Use
                                   </a>

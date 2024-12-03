@@ -10,7 +10,7 @@ interface ShopListProps {
 
 const ShopList: React.FC<ShopListProps> = ({ cart, onClose }) => {
     return (
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion type="single" collapsible className="w-full pr-3">
             {Object.keys(cart).map((shopName, index) => (
                 cart[shopName] && (
                     <Shop

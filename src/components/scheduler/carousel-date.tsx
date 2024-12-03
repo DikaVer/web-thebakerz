@@ -20,13 +20,13 @@ interface CarouselComponentProps {
             to: keyof typeof timeMap;
             availability: "Free" | "Busy";
         }
-    >;
+    > | null;
     setDate: (date: Date) => void;
 }
 
-const getAvailabilityClassNames = (date: Date, availability: Record<string, any>) => {
+const getAvailabilityClassNames = (date: Date, availability: Record<string, any> | null) => {
     const formattedDate = formatDataDate(date);
-    const availabilityStatus = availability[formattedDate]?.availability;
+    const availabilityStatus = availability ? availability[formattedDate]?.availability : "Closed";
 
 
     switch (availabilityStatus) {
@@ -154,7 +154,7 @@ export const CarouselDate: React.FC<CarouselComponentProps> = ({date, availabili
                         <PopoverContent className="w-auto p-0">
                             <Calendar
                                 addDaysParam={3}
-                                availabilityData={availability}
+                                availabilityData={availability ? availability : {}}
                                 mode="single"
                                 className={"border-1 rounded-lg"}
                                 userView={true}

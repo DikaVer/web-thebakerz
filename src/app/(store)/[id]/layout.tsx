@@ -8,6 +8,9 @@ import {fetchStoreId} from "@/lib/actions-server-only/store-actions";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import type {Metadata} from "next";
 import {metadataDefault} from "@/components/metadata";
+import {HeaderAligner} from "@/components/header-aligner";
+import {MenuItems} from "@/components/menu/menu-items";
+
 
 
 export const metadata: Metadata = metadataDefault;
@@ -21,13 +24,15 @@ export default async function RootLayout({
 }>) {
 
 
+
     const [sessionRole, storeData] = await Promise.all([
         extractSessionRole(),
-        fetchStoreId(params?.id)
+        fetchStoreId(params.id)
     ]);
 
     const { login, role, name } = sessionRole;
 
+    const menuItems = await MenuItems({login, role, name});
 
     return (
         <>
@@ -41,11 +46,16 @@ export default async function RootLayout({
                         login={login}
                         role={role}
                         name={name}
+                        menuItems={menuItems}
                     />
-                    {children}
+                    <HeaderAligner
+                        menuItems={menuItems}
+                    >
+                        {children}
+                        <Footer/>
+                    </HeaderAligner>
                 </ProductDialogProvider>
             </CartProvider>
-            <Footer />
         </>
     );
 }

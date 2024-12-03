@@ -3,7 +3,7 @@
 
 import ViewHeader from "@/components/dashboard/user/header-view";
 import Image from "next/image";
-import {IconAvatar, IconEdit, IconError, IconSuccess} from "@/components/ui/icons";
+import {IconAvatar, IconEdit, IconCircleAlert, IconSuccess} from "@/components/ui/icons";
 import React, { useMemo, useState} from "react";
 import {UsersData} from "@/lib/definitions";
 import {useForm} from "react-hook-form";
@@ -88,7 +88,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
             if (!response.ok) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>
@@ -101,7 +101,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
             } else {
                 toast.success((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                            <IconSuccess className={"w-10 h-10 text-primary"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>
@@ -131,7 +131,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
             if (!response.ok) {
                 toast.error((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconError color={"primary"} className={"w-10 h-10"}/>
+                            <IconCircleAlert color={"primary"} className={"w-10 h-10"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>
@@ -144,7 +144,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
             } else {
                 toast.success((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                            <IconSuccess color={"primary"} className={"w-10 h-10"}/>
+                            <IconSuccess className={"w-10 h-10 text-primary"}/>
                             <p className={"text-base font-bold"}>
                                 {result.message}
                             </p>
@@ -165,7 +165,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
     return (
         <>
             {isPending ? (
-                    <div className={"flex flex-col justify-center items-center"}>
+                    <div className={"flex flex-col min-h-screen justify-center items-center"}>
                         <ClipLoader
                             color={"#730C6F"}
                             loading={isPending}
@@ -240,7 +240,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
                         <IconAvatar className="w-32"/>
                     )}
                     <IconEdit
-                        className={`absolute ${dataAvatar.image ? "mt-32" : "mt-[104px]"} w-8 rounded-full bg-grayBg p-1 border-1 border-black `}/>
+                        className={`absolute ${dataAvatar.image ? "mt-32" : "mt-[104px]"} w-8 rounded-full text-text bg-grayBg p-1 border-1 border-black `}/>
                 </div>
 
                 <div className="mt-6 text-center">
@@ -259,7 +259,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
                                  }}
                             >
                                 <p>{dataName}</p>
-                                <IconEdit className="w-5 ml-2 hover:scale-115 transition duration-500"/>
+                                <IconEdit className="w-5 ml-2 text-text hover:scale-115 transition duration-500"/>
                             </div>
                         </div>
                         <div className="bg-grayBg p-4 rounded-lg">
