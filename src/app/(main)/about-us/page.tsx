@@ -15,7 +15,7 @@ export default async function Page() {
                     steps={[
                         {
                             title: "April 2024",
-                            description: "TheBakerz emerged from extensive consultations with artisan bakers across multiple countries. These discussions shaped our understanding of the industry’s needs and set our development direction.",
+                            description: "TheBakerz emerged from extensive consultations with artisan bakers across multiple countries. These discussions shaped our understanding of the industry’s needs and set our development direction",
                         },
                         {
                             title: "August 2024",
@@ -23,7 +23,7 @@ export default async function Page() {
                         },
                         {
                             title: "September 2024",
-                            description: "In September, we joined the Ondernemersklankbord (OKB) mentorship program, connecting with experienced business advisors who guide our strategic growth.",
+                            description: "In September, we joined the Ondernemersklankbord (OKB) mentorship program, connecting with experienced business advisors who guide our strategic growth",
                         },
                         {
                             title: "November 2024",
@@ -31,7 +31,7 @@ export default async function Page() {
                         },
                         {
                             title: "December 2024",
-                            description: "December brought an exclusive invitation to participate in the Philips Innovation Award competition, which we proudly accepted.",
+                            description: "December brought an exclusive invitation to participate in the Philips Innovation Award competition, which we proudly accepted",
                         },
                     ]}
                 />
