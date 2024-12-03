@@ -7,8 +7,8 @@ import {fetchUserLocation} from "@/lib/actions-server-only/user-actions";
 
 interface StorePageProps {
     id: string
-    userId: string | undefined
-    role: string | undefined
+    userId?: string
+    role?: string
     isDashboard: boolean
     tab?: string
 }
@@ -23,7 +23,7 @@ export default async function StoreTransit({id, userId, role, isDashboard, tab}:
     ]);
 
 
-    if (!storeData) {
+    if (!storeData || "cakes_and_more" !== storeData.nickname) {
         return notFound();
     }
 
@@ -45,6 +45,7 @@ export default async function StoreTransit({id, userId, role, isDashboard, tab}:
                                 storeData={storeData}
                                 userData={
                                     {
+                                        userId: userId,
                                         location: userData
                                     }
                                 }
@@ -75,6 +76,7 @@ export default async function StoreTransit({id, userId, role, isDashboard, tab}:
                         storeData={storeData}
                         userData={
                             {
+                                userId: userId,
                                 location: userData
                             }
                         }

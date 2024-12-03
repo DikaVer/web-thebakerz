@@ -1,9 +1,15 @@
-import React, { ReactNode } from "react";
+'use client';
 
-export const HeaderAligner = ({ children }: { children: ReactNode }) => {
+import React, { ReactNode } from "react";
+import {useIsMobile} from "@/lib/hooks/use-mobile";
+
+export const HeaderAligner = ({ children, menuItems}: { children: ReactNode, menuItems: React.ReactNode }) => {
+
+    const isMobile = useIsMobile();
+
     return (
         <div className={'flex flex-row'}>
-            <span className={`w-[18rem] min-h-screen hidden desktop:flex`} />
+            {isMobile ? null : menuItems}
             <div className={'w-full flex-1'}>
                 {children}
             </div>

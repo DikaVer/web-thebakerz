@@ -217,7 +217,6 @@ export const MiniCalendar: React.FC<MiniCalendarProps> = ({ location, deliveryOp
         <div className="w-full h-12 cm:h-16 flex pr-5">
             <div
                 className="rounded-2xl opacity-80 h-12 w-full cm:h-16 flex items-center justify-between cursor-pointer pr-5"
-                onClick={() => setIsDialogOpen(true)}
             >
                 <TooltipProvider>
                     {generateDates(numCalendars, availability)}
@@ -226,17 +225,17 @@ export const MiniCalendar: React.FC<MiniCalendarProps> = ({ location, deliveryOp
                 {/*    <CheckoutDetails checkoutData={checkoutData} />*/}
                 {/*</div>*/}
             </div>
-            {isDialogOpen && (
-                <SchedulerContent
-                    isDialogOpen={isDialogOpen}
-                    checkoutData={checkoutData}
-                    updateCheckoutData={updateCheckoutData}
-                    handleDialogClose={handleDialogClose}
-                    isSchedulerView={isSchedulerView}
-                    setIsSchedulerView={setIsSchedulerView}
-                    availability={availability}
-                />
-            )}
+            {/*{isDialogOpen && (*/}
+            {/*    <SchedulerContent*/}
+            {/*        isDialogOpen={isDialogOpen}*/}
+            {/*        checkoutData={checkoutData}*/}
+            {/*        updateCheckoutData={updateCheckoutData}*/}
+            {/*        handleDialogClose={handleDialogClose}*/}
+            {/*        isSchedulerView={isSchedulerView}*/}
+            {/*        setIsSchedulerView={setIsSchedulerView}*/}
+            {/*        availability={availability}*/}
+            {/*    />*/}
+            {/*)}*/}
         </div>
     );
 };

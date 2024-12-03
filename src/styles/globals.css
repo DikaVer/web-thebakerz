@@ -113,7 +113,6 @@ body {
 
 @layer utilities {
 
-  /* Existing utility classes */
 
   /* Animation Classes */
   .animate-fadeInDown {
@@ -122,6 +121,22 @@ body {
 
   .animate-fadeInUp {
     animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .animate-fadeInUpDelay1 {
+    animation: fadeInUp 1.6s ease-out forwards ;
+  }
+
+  .animate-fadeInUpDelay2 {
+    animation: fadeInUp 2.4s ease-out 0.5s forwards;
+  }
+
+  .animate-fadeInUpDelay3 {
+    animation: fadeInUp 3.2s ease-out 1s forwards;
+  }
+
+  .animate-fadeInUpDelay4 {
+    animation: fadeInUp 4.0s ease-out 1.5s forwards;
   }
 
   /* ===========================

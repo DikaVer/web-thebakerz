@@ -3,7 +3,7 @@ import * as React from "react";
 export function Footer() {
   return (
       <footer className=" border-t border-ui-border-base w-full bg-grayBg rounded-xl">
-          <div className="mx-2 2xl:mx-10 flex flex-col w-full">
+          <div className="mx-4 2xl:mx-10 flex flex-col w-full">
               <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-20">
                   <a
                       className={"text-2xl font-bold text-ui-fg-subtle hover:text-ui-fg-base"}

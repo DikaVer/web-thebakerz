@@ -1,35 +1,22 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import {
-    IconAvatar, IconCalendar, IconCopy,
+     IconCalendar,
     IconLocation,
     IconStar,
     IconStore,
-    IconThreeDots,
     IconTruck,
-    MoonIcon,
-    SunIcon
 } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
 import { MiniCalendar, MiniCalendarBakerz } from "@/components/scheduler/calendar";
 import { AddressDataStoreField, AddressDataUserField } from "@/lib/definitions";
-import { cityLatLngMap, timeMap } from "@/lib/local-variables";
-import {cn, formatAddress} from "@/lib/utils";
-import { ProfileDescription } from "@/components/store/profile-description";
-import Skeleton from "react-loading-skeleton";
+import {cityLatLngMap, timeMap} from "@/lib/local-variables";
+import {formatAddress} from "@/lib/utils";
+import { ProfileDescription } from "@/components/store/store-header/profile-description";
 import {pacifico} from "@/components/fonts";
-import {Accordion, AccordionItem, Avatar, AvatarIcon, Card, CardBody, Image, Switch} from "@nextui-org/react";
-
-import {AnchorIcon} from "@nextui-org/shared-icons";
+import {Accordion, AccordionItem, Avatar, AvatarIcon, Card, CardBody, Switch} from "@nextui-org/react";
+import {HeaderButtons} from "@/components/store/store-header/header-buttons";
 
 
 interface Availability {
@@ -54,6 +41,7 @@ interface BaseProfileHeaderProps {
 
 interface ProfileHeaderProps extends BaseProfileHeaderProps {
     userLocation: AddressDataUserField[] | null;
+    userId?: string;
     variant?: "default" | "bakerz";
 }
 
@@ -66,7 +54,8 @@ export function ProfileHeader({
                                   description,
                                   background_url,
                                   userLocation,
-                                  variant = "default"
+                                  variant = "default",
+                                  userId,
                               }: ProfileHeaderProps) {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [sectionId, setSectionId] = useState<"profile-section" | "review-section" | "location-section">("profile-section");
@@ -110,12 +99,11 @@ export function ProfileHeader({
                     sectionId={sectionId}
                 />
             )}
-            <div
-                className={`h-64 cm:h-[272px] rounded-lg overflow-hidden flex flex-col justify-center bg-gradient-to-tr from-secondary to-primary-foreground mb-4`}>
-                <div className={"w-full px-3"}>
+            <Card
+                className={`h-64 cm:h-[272px] p-3 rounded-lg overflow-hidden flex flex-col justify-center bg-gradient-to-tr from-secondary to-primary-foreground mb-4`}>
                     <Card
                         isBlurred
-                        className="w-full border-none bg-background/20 border-1 h-60 cm:h-[252px]"
+                        className="w-full h-full border-none bg-background/60 border-1"
                         shadow="sm"
                     >
                         <ProfileInfo
@@ -126,27 +114,10 @@ export function ProfileHeader({
                             avatar_url={image}
                         />
                     </Card>
-                </div>
-            </div>
-            <div className="flex flex-row justify-end space-x-4 mb-4">
-                <Button
-                    isIconOnly
-                    className=" px-1 cm:px-1.5 opacity-80"
-                    variant="outline">
-                    <IconThreeDots className="w-7-5 h-7-5 text-background"/>
-                </Button>
-                <Button
-                    variant={'secondary'}
-                    className="cm:text-lg w-dynamic-button h-10 cm:w-auto cm:h-auto">
-                    Message Me
-                </Button>
-                <Button
-                    variant={'default'}
-                    className="cm:text-lg w-dynamic-button h-10 cm:w-auto cm:h-auto">
-                    Sweet Builder
-                </Button>
-
-            </div>
+            </Card>
+            <HeaderButtons
+                userId={userId}
+            />
             <div className={"flex flex-row justify-between"}>
                 <div className={"flex flex-col space-y-4 w-full max-w-2xl justify-center items-center"}>
                     <Accordion
@@ -225,7 +196,12 @@ export function ProfileHeader({
                                     {renderCalendar()}
                                 </div>
                             } className={"shadow-md"}>
-                            Here Should Be Easy way to select the day
+                            <p>
+                                Here Should Be an Easy way to select the day for customer
+                            </p>
+                            <p>
+                                Previous idea did not align with TheBakerz principles
+                            </p>
                         </AccordionItem>
                     </Accordion>
                 </div>
@@ -244,7 +220,6 @@ export function ProfileHeader({
         </>
     );
 }
-
 
 interface ProfileInfoProps {
     name: string | null;

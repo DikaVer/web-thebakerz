@@ -5,7 +5,6 @@ import type { Metadata } from "next";
 import {Toaster} from "@/components/ui/sonner";
 import {metadataDefault} from "@/components/metadata";
 import {Providers} from "@/app/providers";
-import {SidebarProvider} from "@/components/ui/sidebar";
 
 
 export const metadata: Metadata = metadataDefault;
@@ -23,12 +22,8 @@ export default function RootLayout({
         <html lang="en">
             <body className={lexendDeca.className}>
                 <Providers>
-                    <SidebarProvider>
-                        <main>
                             {children}
                             <Toaster/>
-                        </main>
-                    </SidebarProvider>
                 </Providers>
             </body>
             </html>

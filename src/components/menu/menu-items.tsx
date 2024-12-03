@@ -10,10 +10,8 @@ import {
     IconPayment, IconSearch,
     IconSupport
 } from "@/components/ui/icons";
-import {SigninButton} from "@/components/ui/signin-button";
 import {SignoutButton} from "@/components/ui/signout-button";
 import {ThemeSwitcher} from "@/components/ui/ThemeSwitcher";
-import {SidebarFooter} from "@/components/ui/sidebar";
 import {Avatar, AvatarIcon} from "@nextui-org/react";
 import {pacifico} from "@/components/fonts";
 
@@ -26,53 +24,58 @@ interface MenuItemsProps {
 
 export async function MenuItems({ login, name, role }: MenuItemsProps) {
     return (
-        <div className="desktop:mt-16 min-h-svh ml-2 flex flex-col justify-between">
+        <div className="min-h-screen border-r w-[16rem] shadow-lg z-20">
+            <div className="fixed top-5 desktop:top-16 bg-background left-0 flex flex-col justify-between h-full px-2">
+                {/* Header */}
+                <header className="block desktop:hidden">
+                    <a
+                        href="/"
+                        className={`text-3xl ml-7 animate-fadeInDown mx-auto ${pacifico.className}`}
+                    >
+                        TheBakerz
+                    </a>
+                    <hr className="my-2" />
+                </header>
 
-            <header className={"block desktop:hidden mt-4"}>
-                <a href="/" className={`text-3xl ml-7 animate-fadeInDown mx-auto ${pacifico.className}`}>TheBakerz</a>
-                <hr className="my-4"/>
-            </header>
-
-            {/* Content */}
-            <main className="flex-grow desktop:mt-6">
-                <ul className="grid gap-6">
-                    <MenuItem icon={IconHome} label="Home" link="/"/>
-                    <MenuItem icon={IconSearch} label="Search Bakerz" subtitle={"Coming Soon!"} link="/search"/>
-                    <MenuItem icon={IconChefHat} label="Become Bakerz" link="/application"/>
-                    <MenuItem icon={IconAboutUs} label="About Us" link="/about-us"/>
-                </ul>
-                <hr className="my-4"/>
-                {login ? (
-                    <>
-                        <ul className="grid gap-6">
-                            <MenuItem icon={IconBill} label="Orders" link="/orders"/>
-                            <MenuItem icon={IconPayment} label="Payment" link="/payments"/>
-                            <MenuItem icon={IconSupport} label="Get Help" link="/support"/>
-                        </ul>
-                        <hr className="my-4"/>
-                        <SignoutButton className={"text-grayText hover:scale-105 transition duration-300"}/>
-                    </>
-                ) : (
-                    <ul className="grid gap-6">
-                        <MenuItem icon={IconSupport} label="Get Help" link="/support"/>
+                {/* Content */}
+                <main className="flex-grow desktop:mt-2 overflow-y-auto">
+                    <ul className="space-y-2">
+                        <MenuItem icon={IconHome} label="Home" link="/" />
+                        <MenuItem
+                            icon={IconSearch}
+                            label="Search Bakerz"
+                            subtitle={"Coming Soon!"}
+                            link="/search"
+                        />
+                        <MenuItem icon={IconChefHat} label="Become Bakerz" link="/application" />
+                        <MenuItem icon={IconAboutUs} label="About Us" link="/about-us" />
                     </ul>
-                )}
+                    <hr className="my-2" />
+                    {login ? (
+                        <>
+                            <ul className="space-y-2">
+                                <MenuItem icon={IconBill} label="Orders" link="/orders" />
+                                <MenuItem icon={IconPayment} label="Payment" link="/payments" />
+                                <MenuItem icon={IconSupport} label="Get Help" link="/support" />
+                            </ul>
+                            <hr className="my-2" />
+                            <SignoutButton className="ml-4 text-grayText py-4" />
+                        </>
+                    ) : (
+                        <ul className="space-y-2">
+                            <MenuItem icon={IconSupport} label="Get Help" link="/support" />
+                        </ul>
+                    )}
+                </main>
 
-            </main>
-
-            {/* Footer */}
-            <footer className={'desktop:mb-24 '}>
-                <hr className="my-1"/>
-                {login ? (
-                    <LoggedInMenu name={name}/>
-                ) : (
-                    <GuestMenu/>
-                )}
-                <hr className="my-1"/>
-                {/* You can add additional footer links or information here */}
-                <ThemeSwitcher/>
-            </footer>
-
+                {/* Footer */}
+                <footer className="desktop:mb-24">
+                    <hr className="my-1" />
+                    {login ? <LoggedInMenu name={name} /> : <GuestMenu />}
+                    <hr className="my-1" />
+                    <ThemeSwitcher />
+                </footer>
+            </div>
         </div>
     );
 }
@@ -84,7 +87,7 @@ interface LoggedInMenuProps {
 const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ name}) => (
     <>
         <a
-            className="flex flex-row items-center space-x-3 trigger-hover cursor-pointer hover:bg-grayBg p-2 rounded"
+            className="flex flex-row items-center space-x-3 p-2 trigger-hover cursor-pointer hover:bg-grayBg rounded-2xl mr-2"
             href={"settings"}
         >
             <Avatar
@@ -97,7 +100,7 @@ const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ name}) => (
             />
             <div>
                 <p className="text-lg">{name}</p>
-                <p className="text-grayText scale-on-hover-105">email@gmail.com</p>
+                <p className="text-grayText">email@gmail.com</p>
             </div>
         </a>
     </>
@@ -107,7 +110,9 @@ const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ name}) => (
 
 const GuestMenu = () => (
     <>
-        <div className="flex flex-row items-center space-x-3 px-2">
+        <a className="flex flex-row items-center space-x-3 p-2 hover:bg-grayBg rounded-2xl mr-2"
+           href={"/auth"}
+        >
             <Avatar
                 icon={<AvatarIcon/>}
                 className={"w-14-5 w-14-5 "}
@@ -118,13 +123,12 @@ const GuestMenu = () => (
             />
             <div className="grid gap-1 -mt-1">
                 <p className="text-lg">Guest</p>
-                <a className="text-grayText scale-on-hover-105"
-                   href={"/auth"}
+                <p className="text-grayText scale-on-hover-105"
                 >
                     Sign In
-                </a>
+                </p>
             </div>
-        </div>
+        </a>
     </>
 );
 
@@ -137,15 +141,15 @@ interface MenuItemProps {
 
 const MenuItem: React.FC<MenuItemProps> = ({ icon: Icon, label, link, subtitle }) => (
     <li>
-        <a className="flex flex-row items-center space-x-3 hover:scale-105 transition duration-300" href={link}>
+        <a className="flex flex-row items-center space-x-3 hover:bg-grayBg rounded-2xl pr-12 p-2" href={link}>
             <Icon className="w-8 h-8 text-text"/>
             <div className={"flex flex-col"}>
-                <span className="text-lg">
+                <span className={`text-lg flex items-center ${!subtitle && "h-[48px]"}`}>
                     {label}
                 </span>
-                <span className={`text-base text-primary ${pacifico.className}`}>
+                <span className={`text-md text-primary ${pacifico.className}`}>
                     {subtitle}
-            </span>
+                </span>
             </div>
         </a>
     </li>

@@ -122,10 +122,10 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
 
                                         <div className={"grid gap-4 slide-in-from-top-[5%]"} id="profile-section"
                                              ref={profileSectionRef}>
-                                            <div className={"w-full h-40 bg-gradient-to-tr from-primary to-secondary rounded-xl"}>
+                                            <Card className={"w-full h-40 p-3 bg-gradient-to-tr from-primary to-secondary rounded-xl"}>
                                                 <Card
                                                     isBlurred
-                                                    className="border-none bg-background/60 dark:bg-default-100/50 max-w-[610px] m-3"
+                                                    className="border-none bg-background/60 h-full "
                                                     shadow="sm"
                                                 >
 
@@ -148,7 +148,7 @@ export function ProfileDescription({isDialogOpen, setDialogOpen, description, ba
                                                      </span>
                                                     </div>
                                                     </Card>
-                                            </div>
+                                            </Card>
                                             <span className={"font-medium text-grayText"}>
                                             {description}
                                             </span>

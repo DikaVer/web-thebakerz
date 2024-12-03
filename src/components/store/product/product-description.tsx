@@ -148,7 +148,7 @@ function ProductImage({ productData }: ProductImageProps) {
     const copyShareLink = React.useCallback(
         async (item: string) => {
 
-            copyToClipboard(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${productData.store_id}?focus=${productData.id}`)
+            copyToClipboard(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${productData.store_id}?share=${productData.id}`)
             showToast({
                 message: `Link of ${productData.name} copied to clipboard`,
                 duration: 3000

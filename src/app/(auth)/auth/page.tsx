@@ -11,12 +11,12 @@ export const metadata: Metadata = {
 export default async function Page() {
 
     return (
-            <div className="container relative h-[800px] flex-col items-center justify-center grid ">
+            <main className="relative flex flex-col isolate min-h-screen items-center justify-center">
                 {/*<div className={"container flex flex-col items-center w-full gap-1"}>*/}
                 {/*    <p className={"flex text-6xl font-bold"}>TheBakerz</p>*/}
                 {/*    <p className={"flex text-grayText"}>Sign in to order delicious treats</p>*/}
                 {/*</div>*/}
-                <div className="lg:p-8">
+                <div className="lg:p-8 w-full">
                     <div className="mx-auto flex flex-col justify-center space-y-6 w-[350px]">
                         <div className={"container flex flex-col items-center w-full gap-1"}>
                             <p className={`flex text-7xl ${pacifico.className}`}>TheBakerz</p>
@@ -42,6 +42,6 @@ export default async function Page() {
                         </p>
                     </div>
                 </div>
-            </div>
+            </main>
     );
 }
