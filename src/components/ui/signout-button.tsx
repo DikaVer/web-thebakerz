@@ -23,7 +23,7 @@ export const SignoutButton = ({ className}: SignoutButtonProps) => {
             sessionStorage.clear();
             localStorage.clear();
             logout();
-            router.push(`/auth/transit-exit?next=${pathname}`);
+            router.push(`/transit-exit?next=${pathname}`);
             router.refresh();
         });
     };
