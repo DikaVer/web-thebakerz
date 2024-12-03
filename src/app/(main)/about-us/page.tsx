@@ -1,5 +1,6 @@
-import {Image} from "@nextui-org/react";
-import VerticalStepsAboutUs from "@/components/ui/vertical-steps-about-us";
+import {VerticalStepsAboutUs, VerticalStepsForecast} from "@/components/ui/vertical-steps-about-us";
+import { Image } from "@nextui-org/react";
+
 
 export default async function Page() {
 
@@ -37,7 +38,7 @@ export default async function Page() {
                 <p className={`text-2xl font-bold`}>
                     Our Forecast
                 </p>
-                <VerticalStepsAboutUs
+                <VerticalStepsForecast
                     currentStep={-1}
                     plusRange={5}
                     steps={[
