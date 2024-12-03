@@ -27,7 +27,7 @@ export default async function Page() {
                         },
                         {
                             title: "November 2024",
-                            description: "By November, TheBakerz achieved recognition as one of the top 40 startups in the Brightlands Startup Challenge and submitted our application for €50.000 LIOF’s InnovatieProject funding. In addition we got accepted to Microsoft’s Startups Founders Hub and to the Google’s Startups Cloud Program. ",
+                            description: "By November, TheBakerz achieved recognition as one of the top 40 startups in the Brightlands Startup Challenge and submitted our application for €50.000 LIOF’s InnovatieProject funding. In addition we got accepted to Microsoft’s Startups Founders Hub and to the Google’s Startups Cloud Program",
                         },
                         {
                             title: "December 2024",
