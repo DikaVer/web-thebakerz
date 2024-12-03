@@ -118,7 +118,7 @@ export function FirstView() {
                     <Image
                         src="/images/PhoneDesign.png"
                         alt="Application Illustration"
-                        className={`w-full h-auto transition-opacity duration-500 mt-10`}
+                        className={`w-full h-auto transition-opacity duration-500 mt-10 animate-fadeInUpDelay5`}
                         width={678}
                     />
                 </div>

@@ -45,6 +45,7 @@ export default function Page() {
 // WhyChooseSection Component
 const WhyChooseSection = () => {
     const [whyChooseRef, whyChooseInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
+    const [whyChooseMilestoneRef, whyChooseMilestoneInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
 
     return (
         <section
@@ -61,27 +62,30 @@ const WhyChooseSection = () => {
             >
                 Why Choose TheBakerz?
             </h2>
-            <VerticalStepsLanding
-                defaultStep={0}
-                steps={[
-                    {
-                        title: "Online Store",
-                        description: "We create your own online store to showcase your delicious creations and accept orders seamlessly.",
-                    },
-                    {
-                        title: "Order Management",
-                        description: "Easily track and manage all your orders in one place, reducing the risk of errors and missed orders.",
-                    },
-                    {
-                        title: "All Chats in One Place",
-                        description: "Connect customer chats from Instagram and WhatsApp to orders in one place for easy communication.",
-                    },
-                    {
-                        title: "Flexible Support",
-                        description: "Our dedicated team is here to help during our available hours, ensuring your queries are addressed promptly.",
-                    },
-                ]}
-            />
+            <div className={`${whyChooseMilestoneInView ? 'animate-fadeInUp' : ''}`}
+                 ref={whyChooseMilestoneRef}>
+                <VerticalStepsLanding
+                    defaultStep={0}
+                    steps={[
+                        {
+                            title: "Online Store",
+                            description: "We create your own online store to showcase your delicious creations and accept orders seamlessly.",
+                        },
+                        {
+                            title: "Order Management",
+                            description: "Easily track and manage all your orders in one place, reducing the risk of errors and missed orders.",
+                        },
+                        {
+                            title: "All Chats in One Place",
+                            description: "Connect customer chats from Instagram and WhatsApp to orders in one place for easy communication.",
+                        },
+                        {
+                            title: "Flexible Support",
+                            description: "Our dedicated team is here to help during our available hours, ensuring your queries are addressed promptly.",
+                        },
+                    ]}
+                />
+            </div>
         </section>
     );
 };
@@ -279,6 +283,8 @@ const PricingSection = () => {
     const [isLoading, setLoading] = useState(false);
     const [isOpen, setOpen] = useState(false);
 
+    const [pricingOut, PricingInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
+
 
 
     // Redirects the user to the sign-in page, appending the current path for post-authActions redirection
@@ -351,7 +357,9 @@ const PricingSection = () => {
             </Modal>
 
             <Card
-                className={`w-full max-w-2xl h-fit py-4 px-2 desktop:px-10`}
+                className={`w-full max-w-2xl h-fit py-4 px-2 desktop:px-10 
+                ${PricingInView ? 'animate-fadeInUp' : ''}`}
+                ref={pricingOut}
             >
                 <CardFooter className={`justify-end`}>
                     <Chip

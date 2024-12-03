@@ -139,6 +139,10 @@ body {
     animation: fadeInUp 4.0s ease-out 1.5s forwards;
   }
 
+  .animate-fadeInUpDelay5 {
+    animation: fadeInUp 4.4s ease-out 1.5s forwards;
+  }
+
   /* ===========================
      Width Utilities
   ============================ */
