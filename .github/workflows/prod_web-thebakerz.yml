@@ -37,5 +37,5 @@ jobs:
           app-name: 'web-thebakerz'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2B7AE9B9DE8F4ABA80D27DB132FBC605 }}
-          package: .
+          package: .vercel/output
 
