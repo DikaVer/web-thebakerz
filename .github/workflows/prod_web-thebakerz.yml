@@ -2,40 +2,41 @@ name: Build and deploy Node.js app to Azure Web App - web-thebakerz
 
 on:
   push:
-    branches:
-      - prod
+    branches: [prod]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install Node.js
+
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
+
       - uses: pnpm/action-setup@v2
         name: Install pnpm
         id: pnpm-install
         with:
           version: '9.x'
           run_install: false
-      - name: Install Vercel CLI
-        run: pnpm add --global vercel@latest
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build Project
+        run: pnpm run build
+
+      # Optional: If your Next.js app uses environment variables from somewhere else,
+      # handle that before build or configure them in Azure Settings.
 
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'web-thebakerz'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2B7AE9B9DE8F4ABA80D27DB132FBC605 }}
-          package: .vercel/output
-
+          package: '.'  # Deploy from project root
