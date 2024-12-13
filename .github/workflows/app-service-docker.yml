@@ -2,14 +2,14 @@ name: App Service Docker
 
 on:
   push:
-    branches:
-      - prod
+    branches: [ "prod", "preview", "dev" ]
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: dikaver/web-thebakerz
   AZURE_WEBAPP_NAME: web-thebakerz
+  # Using github.ref_name to simplify logic:
+  TYPE: ${{ github.ref_name == 'prod' && 'prod' || github.ref_name == 'preview' && 'preview' || 'dev' }}
 
 jobs:
   build:
@@ -22,6 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
+
       - name: Log in to GitHub container registry
         uses: docker/login-action@v3
         with:
@@ -29,11 +32,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Lowercase the repo name and username
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+
       - name: Build and push container image to registry
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ env.REPO }}:${{ github.sha }}
           file: ./Dockerfile
 
 
@@ -42,42 +48,19 @@ jobs:
     needs: build
 
     environment:
-      name: production
+      name: ${{ github.ref_name == 'prod' && 'production' || github.ref_name == 'preview' && 'preview' || 'development' }}
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+      - name: Lowercase the repo name and username
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.PUBLISH_PROFILE_DOCKER }}
-          images: "${{ env.REGISTRY }}/${{ github.repository }}:${{ github.sha }}"
+          images: "${{ env.REGISTRY }}/${{ env.REPO }}:${{ github.sha }}"
 
-      # Step 2: Set environment variables in Azure App Service using Azure CLI
-      - name: Set Azure App Service Environment Variables
-        env:
-          AZURE_WEBAPP_NAME: ${{ env.AZURE_WEBAPP_NAME }}
-          AZURE_RESOURCE_GROUP: ${{ env.AZURE_RESOURCE_GROUP }}
-          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
-          POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
-          POSTGRES_URL_NO_SSL: ${{ secrets.POSTGRES_URL_NO_SSL }}
-          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DATABASE: ${{ secrets.POSTGRES_DATABASE }}
-          AUTH_TRUST_HOST: ${{ secrets.AUTH_TRUST_HOST }}
-          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-          AUTH_GOOGLE_ID: ${{ secrets.AUTH_GOOGLE_ID }}
-          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
-          NEXT_PRIVATE_API_SECRET_KEY: ${{ secrets.NEXT_PRIVATE_API_SECRET_KEY }}
-          NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
-          NEXT_PUBLIC_GOOGLE_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_API_KEY }}
-          KV_URL: ${{ secrets.KV_URL }}
-          KV_REST_API_URL: ${{ secrets.KV_REST_API_URL }}
-          KV_REST_API_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
-          KV_REST_API_READ_ONLY_TOKEN: ${{ secrets.KV_REST_API_READ_ONLY_TOKEN }}
-          AUTH_EMAIL_SERVER: ${{ secrets.AUTH_EMAIL_SERVER }}
-          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
-          AUTH_SENDGRID_SECRET: ${{ secrets.AUTH_SENDGRID_SECRET }}
