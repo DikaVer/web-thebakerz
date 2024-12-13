@@ -20,8 +20,7 @@ import {Chip} from "@nextui-org/chip";
 import {Image as NextImage} from "@nextui-org/react";
 import {formatCurrency} from "@/lib/utils";
 import {Button} from "@/components/ui/button";
-import {usePathname, useRouter} from "next/navigation";
-import {ScrollShadow} from "@nextui-org/scroll-shadow";
+import {useRouter} from "next/navigation";
 
 export default function Page() {
     return (

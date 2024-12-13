@@ -8,6 +8,7 @@ const nextConfig = {
         // your project has ESLint errors.
         ignoreDuringBuilds: false,
     },
+    output: 'standalone',
     images: {
         remotePatterns: [
             {

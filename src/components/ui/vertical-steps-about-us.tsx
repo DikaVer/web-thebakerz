@@ -4,15 +4,11 @@ import {ComponentProps, useState} from "react";
 import type {ButtonProps} from "@nextui-org/react";
 
 import React from "react";
-// @ts-ignore
+
 import {useControlledState} from "@react-stately/utils";
-// @ts-ignore
-import {Gradient} from "react-gradient";
 
 import {m, LazyMotion, domAnimation} from "framer-motion";
 import {cn} from "@nextui-org/react";
-import {IconArrow, IconMessage, IconOrder, IconStore, IconSupport} from "@/components/ui/icons";
-import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 
 export type RowStepProps = {

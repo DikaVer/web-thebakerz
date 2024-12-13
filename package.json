@@ -51,6 +51,7 @@
     "@radix-ui/react-visually-hidden": "^1.1.0",
     "@react-email/components": "^0.0.23",
     "@react-google-maps/api": "^2.19.3",
+    "@react-stately/utils": "^3.10.5",
     "@types/google.maps": "^3.58.1",
     "@types/pg": "^8.11.10",
     "@vercel/blob": "^0.24.0",
