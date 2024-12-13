@@ -15,7 +15,7 @@ import {
 
 import {cn, formatDataDate, formatDate, formatDateTime} from "@/lib/utils"
 import {Button, buttonVariants} from "@/components/ui/button"
-import {useEffect, useState} from "react";
+import {MouseEventHandler, useEffect, useState} from "react";
 import {DaySelection} from "@/components/store/maintaince/availability-selection";
 import {FormError} from "@/components/authentication/form-error";
 import {backdropEffect, timeMap} from "@/lib/local-variables";
@@ -47,7 +47,7 @@ export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
 
 
 
-function CustomDaycell(
+function CustomDayCell(
     {
         fromDay,
         onClick,
@@ -184,8 +184,9 @@ function Calendar({
         {
             IconLeft: ({...props}) => <ChevronLeft className="h-4 w-4"/>,
             IconRight: ({...props}) => <ChevronRight className="h-4 w-4"/>,
-            Day: (props: DayProps) => <CustomDaycell
+            Day: (props: DayProps) => <CustomDayCell
                 fromDay={today}
+                //@ts-ignore
                 onClick={handleDayClick}
                 availabilityData={availabilityData}
                 {...props}
@@ -353,21 +354,5 @@ function Calendar({
 
 Calendar.displayName = "Calendar"
 
-const CustomDayCell = ({date, ...props}: DayProps) => {
-
-    return (
-        <button
-            className={cn(
-                buttonVariants({ variant: "ghost" }),
-                "h-9 w-9 p-0 font-normal text-sm", // Adjust styles as needed
-            )}
-            {...props}
-        >
-            {date.getDate()}
-        </button>
-    );
-};
-
-export default CustomDayCell;
 
 export { Calendar }

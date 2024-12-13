@@ -22,17 +22,8 @@ const nextConfig = {
 
         ],
     },
-    webpack: (config, { dev }) => {
-        // Use MiniCssExtractPlugin in production only
-        // config.plugins.push(new MiniCssExtractPlugin());
-
-
-        // Modify existing rules to use MiniCssExtractPlugin.loader
-        // config.module.rules.push({
-        //     test: /\.css$/i,
-        //     use: [MiniCssExtractPlugin.loader, "css-loader"],
-        // });
-
+    webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+        // Ensure no aliases or modifications are breaking module resolution
         return config;
     },
 };

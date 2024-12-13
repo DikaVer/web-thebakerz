@@ -26,6 +26,7 @@ export const {
 
     return {
         adapter: adapter,
+        trustHost: true,
         providers: [
             Sendgrid({
                 server: process.env.AUTH_EMAIL_SERVER,
