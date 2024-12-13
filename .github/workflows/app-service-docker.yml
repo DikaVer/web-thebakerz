@@ -39,7 +39,7 @@ jobs:
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{env.TYPE}}-${{ env.REPO }}:${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ env.REPO }}:${{ github.sha }}
           file: ./Dockerfile
 
 
@@ -62,5 +62,5 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.PUBLISH_PROFILE_DOCKER }}
-          images: "${{ env.REGISTRY }}/${{env.TYPE}}-${{ env.REPO }}:${{ github.sha }}"
+          images: "${{ env.REGISTRY }}/${{ env.REPO }}:${{ github.sha }}"
 
