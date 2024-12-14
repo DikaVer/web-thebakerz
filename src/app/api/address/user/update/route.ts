@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import {auth} from "@/auth";
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {AddressDataFieldSchema} from "@/lib/schemas";
 import {createNanoid} from "@/lib/utils";
 
@@ -42,53 +42,55 @@ export async function POST(req: Request) {
                 let userLocation;
 
                 if (locationData.id !== undefined) {
-                    userLocation = await sql`
-                        UPDATE addresses_users
-                        SET
-                            route = ${locationData.route},
-                            street_number = ${locationData.street_number},
-                            sub_premise = ${locationData.sub_premise},
-                            premise = ${locationData.premise},
-                            country = ${locationData.country},
-                            zip_code = ${locationData.zip_code},
-                            city = ${locationData.city},
-                            state = ${locationData.state},
-                            latitude = ${locationData.latitude},
-                            longitude = ${locationData.longitude},
-                            delivery_notes = ${locationData.delivery_notes}
-                        WHERE
-                            user_id = ${`${userId}`} AND id = ${locationData.id}
-                        RETURNING id`;
+                    userLocation = await connectionPool.query(`
+                      UPDATE addresses_users
+                      SET
+                        route = '${locationData.route}',
+                        street_number = '${locationData.street_number}',
+                        sub_premise = '${locationData.sub_premise}',
+                        premise = '${locationData.premise}',
+                        country = '${locationData.country}',
+                        zip_code = '${locationData.zip_code}',
+                        city = '${locationData.city}',
+                        state = '${locationData.state}',
+                        latitude = '${locationData.latitude}',
+                        longitude = '${locationData.longitude}',
+                        delivery_notes = '${locationData.delivery_notes}'
+                      WHERE
+                        user_id = '${userId}' AND id = '${locationData.id}'
+                      RETURNING id`);
+
                 } else {
 
-                    userLocation = await sql`
-                        INSERT INTO addresses_users (
-                            user_id,
-                            route,
-                            street_number,
-                            sub_premise,
-                            premise,
-                            country,
-                            zip_code,
-                            city,
-                            state,
-                            latitude,
-                            longitude,
-                            delivery_notes
-                            ) VALUES (
-                                ${userId},
-                                ${locationData.route},
-                                ${locationData.street_number},
-                                ${locationData.sub_premise},
-                                ${locationData.premise},
-                                ${locationData.country},
-                                ${locationData.zip_code},
-                                ${locationData.city},
-                                ${locationData.state},
-                                ${locationData.latitude},
-                                ${locationData.longitude},
-                                ${locationData.delivery_notes}
-                            ) RETURNING id`;
+                    userLocation = await connectionPool.query(`
+                      INSERT INTO addresses_users (
+                        user_id,
+                        route,
+                        street_number,
+                        sub_premise,
+                        premise,
+                        country,
+                        zip_code,
+                        city,
+                        state,
+                        latitude,
+                        longitude,
+                        delivery_notes
+                      ) VALUES (
+                        '${userId}',
+                        '${locationData.route}',
+                        '${locationData.street_number}',
+                        '${locationData.sub_premise}',
+                        '${locationData.premise}',
+                        '${locationData.country}',
+                        '${locationData.zip_code}',
+                        '${locationData.city}',
+                        '${locationData.state}',
+                        '${locationData.latitude}',
+                        '${locationData.longitude}',
+                        '${locationData.delivery_notes}'
+                      ) RETURNING id`);
+
                 }
 
 

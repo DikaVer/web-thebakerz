@@ -1,16 +1,14 @@
 import NextAuth from "next-auth"
 import PostgresAdapter from '@/lib/adapter/postgreAdapter'
-import { Pool } from "@neondatabase/serverless";
+import { Pool } from "pg"
 import Sendgrid from "next-auth/providers/sendgrid"
 import Google from "next-auth/providers/google"
 import Facebook from "next-auth/providers/facebook"
 import Instagram from "next-auth/providers/instagram"
 import {sendMagicLink} from "@/lib/authSendRequest";
 import {CustomAdapterUser} from "@/lib/definitions";
-import {cookies} from "next/headers";
 
-// *DO NOT* create a `Pool` here, outside the request handler.
-// Neon's Postgres cannot keep a pool alive between requests.
+
 
 export const {
     handlers,
@@ -18,11 +16,20 @@ export const {
     signIn,
     signOut
 } = NextAuth( () => {
-    // Create a `Pool` inside the request handler.
-    const pool = new Pool({ connectionString: process.env.POSTGRES_URL })
+
+    const pool = new Pool({
+        host: process.env.DATABASE_HOST,
+        user: process.env.DATABASE_USER,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_NAME,
+        ssl: true,
+        max: 20,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 2000,
+    })
+
     const adapter = PostgresAdapter(pool)
-    // const cookieHeader = await cookies(); // Await the cookies() call here
-    // const sessionCookie = cookieHeader.get("next-auth.session-token");
+
 
     return {
         adapter: adapter,

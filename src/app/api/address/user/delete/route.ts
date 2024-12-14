@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import {auth} from "@/auth";
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {AddressDataFieldSchema} from "@/lib/schemas";
 
 export const runtime = "edge"
@@ -40,10 +40,11 @@ export async function POST(req: Request) {
 
 
                 if (locationData.id !== undefined) {
-                    await sql`
-                        DELETE FROM addresses_users
-                        WHERE
-                            user_id = ${`${userId}`} AND id = ${locationData.id}`;
+                    await connectionPool.query(`
+                      DELETE FROM addresses_users
+                      WHERE
+                        user_id = '${userId}' AND id = '${locationData.id}'
+                    `);
                 } else {
                     return NextResponse.json(
                         {

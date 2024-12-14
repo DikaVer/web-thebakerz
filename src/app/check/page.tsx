@@ -11,7 +11,7 @@ export default async function Page({
 
     return (
         <div className="w-full flex flex-col">
-            {process.env.AUTH_SECRET}
+
         </div>
     );
 }

@@ -23,6 +23,24 @@ const nextConfig = {
         ],
     },
     webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+        if (isServer) {
+            config.plugins.push(
+                new webpack.IgnorePlugin({
+                    resourceRegExp: /^pg-native$/,
+                })
+            );
+        }
+
+        config.resolve.fallback = {
+            fs: false,
+            stream: false,
+            string_decoder: false,
+            dns: false,
+            net: false,
+            crypto: false,
+            tls: false,
+        };
+
         // Ensure no aliases or modifications are breaking module resolution
         return config;
     },

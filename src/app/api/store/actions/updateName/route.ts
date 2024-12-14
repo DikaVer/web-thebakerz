@@ -1,4 +1,4 @@
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {NextResponse} from "next/server";
 import {auth} from "@/auth";
 import {nicknameSchema} from "@/lib/schemas";
@@ -25,18 +25,23 @@ export async function POST(req: Request) {
 
     if(session){
 
-        const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${`${storeId}`}`;
+        const queryUserId = await connectionPool.query(`
+          SELECT user_id FROM stores WHERE id = '${storeId}';
+        `);
+
         const userId = queryUserId.rows[0].user_id;
 
         // @ts-ignore
         if (userId === session.user?.id || session.user?.role === 'admin') {
             try {
-                const storeNickname = await sql`
-                    SELECT
-                        nickname
-                    FROM stores
-                    WHERE
-                        nickname = ${`${nickname}`} OR id = ${`${nickname}`}`;
+                const storeNickname = await connectionPool.query(`
+                  SELECT
+                    nickname
+                  FROM stores
+                  WHERE
+                    nickname = '${nickname}' OR id = '${nickname}';
+                `);
+
 
                 if(storeNickname.rows.length > 0){
                     return NextResponse.json(
@@ -47,11 +52,13 @@ export async function POST(req: Request) {
                         });
                 }
 
-                 await sql`
-                    UPDATE stores
-                    SET
-                        nickname = ${nickname}
-                    WHERE id = ${`${storeId}`}`;
+                await connectionPool.query(`
+                  UPDATE stores
+                  SET
+                    nickname = '${nickname}'
+                  WHERE id = '${storeId}';
+                `);
+
 
 
                 return NextResponse.json(

@@ -1,5 +1,5 @@
 import {auth} from "@/auth";
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {NextResponse} from "next/server";
 
 export const runtime = "edge"
@@ -20,17 +20,19 @@ export async function POST(req: Request) {
             if (session.user?.role === 'admin') {
 
 
-                const updateStore = sql`
-                    UPDATE stores
-                    SET
-                        user_id = ${userId}
-                    WHERE id = ${`${storeId}`}`;
+                const updateStore = connectionPool.query(`
+                  UPDATE stores
+                  SET
+                    user_id = '${userId}'
+                  WHERE id = '${storeId}'`);
 
-                const updateUser = sql`
-                    UPDATE users
-                    SET
-                        role = 'bakerz'
-                    WHERE id = ${`${userId}`}`;
+                const updateUser = await connectionPool.query(`
+                  UPDATE users
+                  SET
+                    role = 'bakerz'
+                  WHERE id = '${userId}';
+                `);
+
 
                 await Promise.all([updateStore, updateUser]);
 

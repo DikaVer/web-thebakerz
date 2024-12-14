@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {AddressDataStoreField} from "@/lib/definitions";
 
 export const runtime = "edge"
@@ -31,16 +31,18 @@ export async function POST(req: Request) {
 
     try {
 
-            const { nickname, locationData }: { nickname: string; locationData: AddressDataStoreField } = storeData;
+        const { nickname, locationData }: { nickname: string; locationData: AddressDataStoreField } = storeData;
 
-            const storeNickname = await sql`
-                      SELECT
-                        nickname
-                      FROM stores
-                        WHERE
-                        nickname = ${`${nickname}`} OR id = ${`${nickname}`}`;
+        const storeNickname = await connectionPool.query(`
+          SELECT
+            nickname
+          FROM stores
+          WHERE
+            nickname = '${nickname}' OR id = '${nickname}';
+        `);
 
-            if(storeNickname.rows.length > 0){
+
+        if(storeNickname.rows.length > 0){
                 return NextResponse.json(
                     {
                         message: 'Nickname already exists'
@@ -49,51 +51,52 @@ export async function POST(req: Request) {
                     });
             }
 
-            const storeRow = await sql`
-                INSERT INTO stores (
-                    nickname
-                ) VALUES (
-                    ${nickname}
-                )
-                RETURNING *`;
+        const storeRow = await connectionPool.query(`
+          INSERT INTO stores (
+            nickname
+          ) VALUES (
+            '${nickname}'
+          )
+          RETURNING *`);
 
 
-            const storeLocation = await sql`
-            INSERT INTO addresses_stores (
-                store_id,
-                route,
-                street_number,
-                sub_premise,
-                premise,
-                country,
-                zip_code,
-                city,
-                state,
-                latitude,
-                longitude
-                ) VALUES (
-                    ${storeRow.rows[0].id},
-                    ${locationData.route},
-                    ${locationData.street_number},
-                    ${locationData.sub_premise},
-                    ${locationData.premise},
-                    ${locationData.country},
-                    ${locationData.zip_code},
-                    ${locationData.city},
-                    ${locationData.state},
-                    ${locationData.latitude},
-                    ${locationData.longitude}
-                ) RETURNING *`;
+        const storeLocation = await connectionPool.query(`
+          INSERT INTO addresses_stores (
+            store_id,
+            route,
+            street_number,
+            sub_premise,
+            premise,
+            country,
+            zip_code,
+            city,
+            state,
+            latitude,
+            longitude
+          ) VALUES (
+            '${storeRow.rows[0].id}',
+            '${locationData.route}',
+            '${locationData.street_number}',
+            '${locationData.sub_premise}',
+            '${locationData.premise}',
+            '${locationData.country}',
+            '${locationData.zip_code}',
+            '${locationData.city}',
+            '${locationData.state}',
+            '${locationData.latitude}',
+            '${locationData.longitude}'
+          ) RETURNING *`);
 
 
-            return NextResponse.json(
-                {
-                    message: 'Store added successfully',
-                    storeData: storeRow.rows[0],
-                    locationData: storeLocation.rows[0]
-                }, {
-                    status: 200
-                });
+
+        return NextResponse.json(
+            {
+                message: 'Store added successfully',
+                storeData: storeRow.rows[0],
+                locationData: storeLocation.rows[0]
+            }, {
+                status: 200
+            });
 
     } catch (error) {
         console.log(error);

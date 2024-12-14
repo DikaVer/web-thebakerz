@@ -1,5 +1,5 @@
 import {auth} from "@/auth";
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {NextResponse} from "next/server";
 import {descriptionSchema} from "@/lib/schemas";
 export const runtime = "edge";
@@ -26,7 +26,9 @@ export async function POST(req: Request) {
 
     if(session){
 
-        const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${`${storeId}`}`;
+        const queryUserId = await connectionPool.query(`
+          SELECT user_id FROM stores WHERE id = '${storeId}';
+        `);
         const userId = queryUserId.rows[0].user_id;
 
         // @ts-ignore
@@ -35,11 +37,13 @@ export async function POST(req: Request) {
 
     try {
 
-        await sql`
-            UPDATE stores
-            SET
-                description = ${description}
-            WHERE id = ${`${storeId}`}`;
+        await connectionPool.query(`
+          UPDATE stores
+          SET
+            description = '${description}'
+          WHERE id = '${storeId}';
+        `);
+
 
 
         return NextResponse.json(

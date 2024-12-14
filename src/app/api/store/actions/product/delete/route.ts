@@ -1,5 +1,5 @@
 import {auth} from "@/auth";
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {NextResponse} from "next/server";
 import {productApiSchema} from "@/lib/schemas";
 export const runtime = "edge"
@@ -18,13 +18,19 @@ export async function POST(req: Request) {
 
         try {
 
-            const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${storeId}`;
+            const queryUserId = await connectionPool.query(`
+              SELECT user_id FROM stores WHERE id = '${storeId}';
+            `);
+
             const userId = queryUserId.rows[0].user_id;
 
             // @ts-ignore
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
-                const queryStore = await sql`SELECT store_id FROM products WHERE id = ${productId}`;
+                const queryStore = await connectionPool.query(`
+                  SELECT store_id FROM products WHERE id = '${productId}'
+                `);
+
                 const storeIdProduct = queryStore.rows[0].store_id;
 
                 if(storeIdProduct !== storeId){
@@ -36,7 +42,10 @@ export async function POST(req: Request) {
                         });
                 }
 
-                await sql`UPDATE products SET deleted=TRUE WHERE id = ${productId}`;
+                await connectionPool.query(`
+                  UPDATE products SET deleted='${true}' WHERE id = '${productId}';
+                `);
+
 
 
                 return NextResponse.json(

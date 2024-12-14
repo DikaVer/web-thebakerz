@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import {Toaster} from "@/components/ui/sonner";
 import {metadataDefault} from "@/components/metadata";
 import {Providers} from "@/app/providers";
-import { SpeedInsights } from '@vercel/speed-insights/next';
+
 
 
 export const metadata: Metadata = metadataDefault;
@@ -26,7 +26,6 @@ export default function RootLayout({
                             {children}
                             <Toaster/>
                 </Providers>
-                <SpeedInsights />
             </body>
             </html>
     );

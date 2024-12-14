@@ -1,4 +1,4 @@
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {NextResponse} from "next/server";
 export const runtime = "edge"
 
@@ -28,9 +28,11 @@ export async function GET(req: Request) {
 
     try {
 
-        const productsRow = await sql`
-            SELECT * FROM products
-            WHERE id = ANY(${productList})`;
+        const productsRow = await connectionPool.query(`
+          SELECT * FROM products
+          WHERE id = ANY('${productList}')
+        `);
+
 
         return NextResponse.json(
             {

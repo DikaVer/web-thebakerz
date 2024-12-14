@@ -1,5 +1,5 @@
 import {auth} from "@/auth";
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {NextResponse} from "next/server";
 import {put} from "@vercel/blob";
 import {customAlphabet} from "nanoid";
@@ -62,11 +62,11 @@ export async function POST(req: Request) {
                 });
 
 
-                await sql`
-                        UPDATE users
-                        SET
-                            image = ${blob.url}
-                        WHERE id = ${`${userId}`}`;
+                await connectionPool.query(`
+                  UPDATE users
+                  SET
+                    image = '${blob.url}'
+                  WHERE id = '${userId}'`);
 
                 return NextResponse.json(
                     {

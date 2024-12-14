@@ -1,5 +1,5 @@
 import {auth} from "@/auth";
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {NextResponse} from "next/server";
 import {productApiSchema} from "@/lib/schemas";
 export const runtime = "edge"
@@ -28,7 +28,10 @@ export async function POST(req: Request) {
 
         try {
 
-            const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${storeId}`;
+            const queryUserId = await connectionPool.query(`
+              SELECT user_id FROM stores WHERE id = '${storeId}';
+            `);
+
             const userId = queryUserId.rows[0].user_id;
 
             // @ts-ignore
@@ -36,7 +39,10 @@ export async function POST(req: Request) {
 
                 const {id, name, description, price, category, file_url} = productData;
 
-                const queryStore = await sql`SELECT store_id FROM products WHERE id = ${id}`;
+                const queryStore = await connectionPool.query(`
+                  SELECT store_id FROM products WHERE id = '${id}';
+                `);
+
                 const storeIdProduct = queryStore.rows[0].store_id;
 
                 if(storeIdProduct !== storeId){
@@ -48,28 +54,32 @@ export async function POST(req: Request) {
                         });
                 }
 
-                await sql`UPDATE products SET deleted=TRUE WHERE id = ${id}`;
+                await connectionPool.query(`
+                  UPDATE products SET deleted='${true}' WHERE id = '${id}';
+                `);
+
 
                 // Convert price from float to integer
                 const priceNew = Math.round(price * 100);
 
 
-                const productRow = await sql`
-                        INSERT INTO products (
-                            name,
-                            description,
-                            price,
-                            category,
-                            image_url,
-                            store_id
-                        ) VALUES (
-                            ${name},
-                            ${description},
-                            ${priceNew},
-                            ${category},
-                            ${file_url},
-                            ${storeId}
-                            ) RETURNING id, name, description, price, category, image_url`;
+                const productRow = await connectionPool.query(`
+                  INSERT INTO products (
+                    name,
+                    description,
+                    price,
+                    category,
+                    image_url,
+                    store_id
+                  ) VALUES (
+                    '${name}',
+                    '${description}',
+                    '${priceNew}',
+                    '${category}',
+                    '${file_url}',
+                    '${storeId}'
+                  ) RETURNING id, name, description, price, category, image_url`);
+
 
                 return NextResponse.json(
                     {

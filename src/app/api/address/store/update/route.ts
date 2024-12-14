@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import {auth} from "@/auth";
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {AddressDataStoreField} from "@/lib/definitions";
 
 export const runtime = "edge"
@@ -40,21 +40,21 @@ export async function POST(req: Request) {
                 const { locationData }: { locationData: AddressDataStoreField } = locationDataRaw;
 
 
-                const userLocation = await sql`
-                UPDATE addresses_users
-                SET
-                    route = ${locationData.route},
-                    street_number = ${locationData.street_number},
-                    sub_premise = ${locationData.sub_premise},
-                    premise = ${locationData.premise},
-                    country = ${locationData.country},
-                    zip_code = ${locationData.zip_code},
-                    city = ${locationData.city},
-                    state = ${locationData.state},
-                    latitude = ${locationData.latitude},
-                    longitude = ${locationData.longitude}
-                 WHERE store_id = ${`${storeId}`}
-                 RETURNING *`;
+                const userLocation = await connectionPool.query(`
+                  UPDATE addresses_users
+                  SET
+                    route = '${locationData.route}',
+                    street_number = '${locationData.street_number}',
+                    sub_premise = '${locationData.sub_premise}',
+                    premise = '${locationData.premise}',
+                    country = '${locationData.country}',
+                    zip_code = '${locationData.zip_code}',
+                    city = '${locationData.city}',
+                    state = '${locationData.state}',
+                    latitude = '${locationData.latitude}',
+                    longitude = '${locationData.longitude}'
+                  WHERE store_id = '${storeId}'
+                  RETURNING *`);
 
 
                 return NextResponse.json(

@@ -1,4 +1,4 @@
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {NextResponse} from "next/server";
 import {kv} from "@vercel/kv";
 export const runtime = "edge";
@@ -29,21 +29,19 @@ export async function POST(req: Request) {
 
     try {
 
-        const combinedRow = await sql`
-        SELECT 
+        const combinedRow = await connectionPool.query(`
+          SELECT 
             s.id as store_id, s.nickname, s.description, s.background_url, 
             u.id as user_id, u.name as user_name, u.email, u.image as user_image, u.role as user_role, 
             a.route, a.street_number, a.sub_premise, a.premise, a.city, a.state, a.country, a.zip_code, a.latitude, a.longitude
-        FROM 
+          FROM 
             stores s
-        LEFT JOIN 
+          LEFT JOIN 
             users u ON u.id = s.user_id
-        LEFT JOIN 
+          LEFT JOIN 
             addresses_stores a ON a.store_id = s.id
-        WHERE 
-            s.id = ${`${storeId}`} AND s.deleted = FALSE
-           
-`;
+          WHERE 
+            s.id = '${storeId}' AND s.deleted = '${false}'`);
 
         if (combinedRow.rowCount === 0) {
             return NextResponse.json(
@@ -54,9 +52,10 @@ export async function POST(req: Request) {
                 });
         }
 
-        const productsRow = await sql`
-            SELECT id, store_id, category, name, description, price, image_url FROM products
-            WHERE store_id = ${`${storeId}`} AND deleted = FALSE`;
+        const productsRow = await connectionPool.query(`
+          SELECT id, store_id, category, name, description, price, image_url FROM products
+          WHERE store_id = '${storeId}' AND deleted = FALSE;
+        `);
 
 
         const keyAvailability = `availability-${storeId}`;

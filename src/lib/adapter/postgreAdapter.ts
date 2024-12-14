@@ -4,7 +4,7 @@ import type {
     VerificationToken,
     AdapterSession,
 } from "@auth/core/adapters"
-import { Pool } from "@neondatabase/serverless";
+import type { Pool } from "pg"
 
 export function mapExpiresAt(account: any): any {
     const expires_at: number = parseInt(account.expires_at)

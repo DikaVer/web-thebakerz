@@ -1,5 +1,5 @@
 import {auth} from "@/auth";
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {NextResponse} from "next/server";
 import {nameSchema} from "@/lib/schemas";
 export const runtime = "edge";
@@ -41,11 +41,13 @@ export async function POST(req: Request) {
             if (userId === session.user?.id || session.user?.role === 'admin') {
 
 
-                await sql`
-                    UPDATE users
-                    SET
-                        name = ${nickname}
-                    WHERE id = ${`${userId}`}`;
+                await connectionPool.query(`
+                  UPDATE users
+                  SET
+                    name = '${nickname}'
+                  WHERE id = '${userId}';
+                `);
+
 
 
 

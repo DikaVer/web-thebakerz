@@ -1,5 +1,5 @@
 import {auth} from "@/auth";
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {NextResponse} from "next/server";
 import {kv} from "@vercel/kv";
 import {deliveryOptionsSchema} from "@/lib/schemas";
@@ -28,7 +28,10 @@ export async function POST(req: Request) {
 
     if(session){
 
-        const queryUserId = await sql`SELECT user_id FROM stores WHERE id = ${`${storeId}`}`;
+        const queryUserId = await connectionPool.query(`
+          SELECT user_id FROM stores WHERE id = '${storeId}';
+        `);
+
         const userId = queryUserId.rows[0].user_id;
 
         // @ts-ignore
