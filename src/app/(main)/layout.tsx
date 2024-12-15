@@ -19,7 +19,7 @@ export default async function Layout({
     const session = await extractSession();
 
     return (
-            <>
+            <main>
                 <Header main={true}
                         session={session}
                 />
@@ -29,6 +29,6 @@ export default async function Layout({
                     {children}
                     <Footer/>
                 </HeaderAligner>
-            </>
+            </main>
     );
 }
