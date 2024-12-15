@@ -21,12 +21,14 @@ export default function RootLayout({
 
     return (
         <html lang="en">
-            <body className={`${lexendDeca.className} touch-none`}>
+
+        <body className={`${lexendDeca.className} max-w-full touch-pan-y `}>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <Providers>
-                            {children}
-                            <Toaster/>
+                    {children}
+                    <Toaster/>
                 </Providers>
             </body>
-            </html>
+        </html>
     );
 }

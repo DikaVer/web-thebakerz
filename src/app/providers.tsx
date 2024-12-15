@@ -11,6 +11,9 @@ const NextThemesProvider = dynamic(
 )
 
 export function Providers({children}: { children: React.ReactNode }) {
+
+
+
     return (
         <NextUIProvider>
             <NextThemesProvider attribute="class" defaultTheme="dark">

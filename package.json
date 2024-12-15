@@ -61,6 +61,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
     "date-fns": "^3.6.0",
+    "dragula": "^3.7.3",
     "embla-carousel-react": "^8.5.1",
     "eslint": "^9.16.0",
     "formidable": "^3.5.2",
