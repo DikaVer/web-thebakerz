@@ -1,12 +1,18 @@
 import React, { useState, useEffect} from 'react';
+import {MenuItems} from "@/components/menu/menu-items";
 
 interface MenuComponentProps {
     onClose: () => void;
     isOpen: boolean;
-    menuItems: React.ReactNode
+    session: {
+        login: boolean;  // Specifies if the user is logged in
+        role: string | undefined;  // Role of the user (e.g., admin, user)
+        name: string | undefined | null;  // Name of the user
+        email: string | undefined | null;  // Email of the user
+    }
 }
 
-const MenuComponent: React.FC<MenuComponentProps> = ({ onClose, isOpen, menuItems }) => {
+const MenuComponent: React.FC<MenuComponentProps> = ({session, onClose, isOpen}) => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -37,7 +43,9 @@ const MenuComponent: React.FC<MenuComponentProps> = ({ onClose, isOpen, menuItem
             <div className="absolute backdrop-blur-xl inset-0" onClick={onClose}/>
             <div
                 className={`relative w-64 h-full bg-background shadow-lg transform transition-transform duration-700 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                {menuItems}
+                <MenuItems
+                    session={session}
+                />
             </div>
         </div>
     );

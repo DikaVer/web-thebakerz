@@ -5,15 +5,17 @@ import StoreSkeleton from "@/components/skeletons";
 import CheckoutTransit from "@/components/store/checkout/checkout-transit";
 
 interface StorePageProps {
-    params: {
+    params: Promise<{
         id: string
-    },
-    searchParams?: {
+    }>,
+    searchParams?: Promise<{
         tab?: string;
-    };
+    }>;
 }
 
-export default async function Page({params, searchParams}: StorePageProps) {
+export default async function Page(props: StorePageProps) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
 
     const session = await auth();
 

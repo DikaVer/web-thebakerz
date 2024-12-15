@@ -8,7 +8,16 @@ import MenuComponent from "@/components/menu/user-menu";
 import {useIsMobile} from "@/lib/hooks/use-mobile";
 
 
-export const MenuButton = ({ menuItems }: { menuItems: React.ReactNode }) => {
+interface MenuButtonProps {
+    session: {
+        login: boolean;  // Specifies if the user is logged in
+        role: string | undefined;  // Role of the user (e.g., admin, user)
+        name: string | undefined | null;  // Name of the user
+        email: string | undefined | null;  // Email of the user
+    }
+}
+
+export const MenuButton: React.FC<MenuButtonProps> = ({ session }) => {
     const [isMenuOpen, setMenuOpen] = useState(false);
 
     // Toggles the visibility of the menu
@@ -28,10 +37,14 @@ export const MenuButton = ({ menuItems }: { menuItems: React.ReactNode }) => {
                 variant={"ghost"}
                 className="flex p-2 items-center"
 
-                onClick={toggleMenu}>
+                onPress={toggleMenu}>
                 <IconMenu className="w-7 h-6 text-text" />
             </Button>
-            <MenuComponent menuItems={menuItems} isOpen={isMenuOpen} onClose={() => setMenuOpen(false)} />
+            <MenuComponent
+                session={session}
+                isOpen={isMenuOpen}
+                onClose={() => setMenuOpen(false)}
+            />
         </>
     );
 }

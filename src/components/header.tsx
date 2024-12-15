@@ -2,36 +2,25 @@
 
 import * as React from 'react';
 import {MenuButton} from "@/components/menu/menu-button";
-import {MenuItems} from "@/components/menu/menu-items";
 import {SigninButton} from "@/components/ui/signin-button";
 import {CartButton} from "@/components/cart/cart-button";
 import {pacifico} from "@/components/fonts";
 import NotificationButton from "@/components/ui/notification-button";
 
-import {
-    Navbar,
-    NavbarBrand,
-    NavbarContent,
-    NavbarItem,
-    NavbarMenu,
-    NavbarMenuItem,
-    NavbarMenuToggle,
-    Link,
-    Button,
-    Divider,
-} from "@nextui-org/react";
 
 // Define the props that the Header component will accept
 interface HeaderProps {
     storeId?: string;  // Store ID
     main: boolean;  // Determines if the current page is the main page
-    login: boolean;  // Specifies if the user is logged in
-    role: string | undefined;  // Role of the user (e.g., admin, user)
-    name: string | undefined | null;  // Name of the user
-    menuItems: React.ReactNode
+    session: {
+        login: boolean;  // Specifies if the user is logged in
+        role: string | undefined;  // Role of the user (e.g., admin, user)
+        name: string | undefined | null;  // Name of the user
+        email: string | undefined | null;  // Email of the user
+    }
 }
 
-export async function Header({storeId, main, login, role, name, menuItems }: HeaderProps) {
+export async function Header({storeId, main, session }: HeaderProps) {
 
     return (
         // <Navbar
@@ -45,8 +34,10 @@ export async function Header({storeId, main, login, role, name, menuItems }: Hea
         // >
         <header className="sticky header top-0 w-full z-30 pt-4 bg-background">
             <nav className={"w-full"}>
-                <div className={`${login ? "" : "mx-2"} desktop:mx-10 flex justify-between items-center`}>
-                    <MenuButton menuItems={menuItems}/>
+                <div className={`${session.login ? "" : "mx-2"} desktop:mx-10 flex justify-between items-center`}>
+                    <MenuButton
+                        session={session}
+                    />
                     {/* TheBakerz logo (conditionally shown if main is true) */}
                     <div className="flex flex-row hover:scale-125 transition duration-500 cursor-pointer">
                         <a href="/"
@@ -54,9 +45,9 @@ export async function Header({storeId, main, login, role, name, menuItems }: Hea
                     </div>
 
                     {/* Conditionally render the cart or sign-in button*/}
-                    {main && login ? (
+                    {main && session.login ? (
                         <NotificationButton/>
-                    ) : main && !login ? (
+                    ) : main && !session.login ? (
                         <SigninButton className={`text-large mr-4`} variant={"secondary"}/>
                     ) : (
                         <CartButton

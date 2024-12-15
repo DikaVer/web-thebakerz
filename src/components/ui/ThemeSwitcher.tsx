@@ -16,7 +16,7 @@ export const ThemeSwitcher = () => {
                 startContent={<SunIcon />}
                 endContent={<MoonIcon />}
 
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                onValueChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
                 {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
             </Switch>

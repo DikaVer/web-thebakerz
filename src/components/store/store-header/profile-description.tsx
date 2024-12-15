@@ -19,10 +19,9 @@ import {backdropEffect, cityLatLngMap, timeMap} from "@/lib/local-variables";
 import {formatAddress} from "@/lib/utils";
 import {Avatar, AvatarIcon} from "@nextui-org/react";
 import {Label} from "@/components/ui/label";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import {Calendar} from "@/components/ui/calendar";
 import {ExternalLink} from "@/components/external-link";
-import {CardHeader} from "@nextui-org/card";
+
 import {pacifico} from "@/components/fonts";
 
 
@@ -289,8 +288,9 @@ const DeliveryLocationsTable: React.FC<{ deliveryOptions: Record<
                                 <span className="text-lg font-medium justify-end text-text">{city}</span>
 
                                 <Button
+                                    // @ts-ignore
                                     variant={"secondary"}
-                                    onClick={() => {
+                                    onPress={() => {
                                         setSelectedCity(city);
                                         setIsOpen(true);
                                     }}>

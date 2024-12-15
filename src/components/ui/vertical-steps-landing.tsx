@@ -7,9 +7,6 @@ import React from "react";
 
 import {useControlledState} from "@react-stately/utils";
 
-//@ts-ignore
-import {Gradient} from "react-gradient";
-
 import {m, LazyMotion, domAnimation} from "framer-motion";
 import {cn} from "@nextui-org/react";
 import {IconArrow, IconMessage, IconOrder, IconStore, IconSupport} from "@/components/ui/icons";
@@ -110,6 +107,8 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
 
         const [isLoading, setLoading] = useState(false);
 
+
+
         const handleCreate = () => {
             setLoading(true);
             router.push('/application');
@@ -169,7 +168,7 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                                                 <m.div animate={status} className="relative">
                                                     <m.div
                                                         className={cn(
-                                                            "relative flex h-[80px] w-[80px] items-center justify-center rounded-full border-medium text-large font-semibold text-default-foreground",
+                                                            "relative flex h-[80px] w-[80px] items-center justify-center rounded-full transition from-text to-secondary border-medium text-large font-semibold text-default-foreground",
                                                             {
                                                                 "shadow-lg": status === "complete",
                                                             },
@@ -255,7 +254,7 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                                                 variant={"outline"}
                                                 startContent={<IconArrow className="w-4 h-4" />}
                                                 className="btn-prev"
-                                                onClick={() => setCurrentStep(stepIdx - 1)}
+                                                onPress={() => setCurrentStep(stepIdx - 1)}
                                             >
                                                 Previous
                                             </Button>
@@ -265,37 +264,26 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                                                 variant={"default"}
                                                 endContent={<IconArrow className="w-4 h-4 rotate-180" />}
                                                 className="btn-next"
-                                                onClick={() => setCurrentStep(stepIdx + 1)}
+                                                onPress={() => setCurrentStep(stepIdx + 1)}
                                             >
                                                 Next
                                             </Button>
                                         ) : (
                                             <Button
-                                                className={`btn-work-with-bakerz -px-1 ${isLoading && "px-7"}`}
+                                                className={`btn-work-with-bakerz px-7 ${isLoading && "px-10"} gradient-background`}
                                                 isLoading={isLoading}
                                                 disabled={isLoading}
                                                 variant={"default"}
-                                                onClick={() => handleCreate()}
+                                                onPress={() => handleCreate()}
                                             >
                                                 {isLoading ? (
                                                     <>
                                                         Loading...
                                                     </>
                                                 ) : (
-                                                    <Gradient
-                                                        gradients={[
-                                                            ['#730C70', '#FAF4D1']
-                                                        ]}
-                                                        property="background"
-                                                        element="button"
-                                                        angle="90deg"
-                                                        transitionType="sequential"
-                                                        duration="3000"
-                                                        className={`py-10 px-4 rounded-lg transition-transform transform scale-105`}
-
-                                                    >
+                                                    <>
                                                         Work with Bakerz
-                                                    </Gradient>
+                                                    </>
                                                 )}
                                             </Button>
                                         )}

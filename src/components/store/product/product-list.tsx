@@ -13,7 +13,7 @@ import {useSearchParams} from "next/navigation";
 interface ProductListBaseProps<P> {
     storeId: string;
     productsByCategories: ProductByCategory;
-    renderProduct: (product: ProductDataField, index: number) => ReactElement;
+    renderProduct: (product: ProductDataField, index: number) => ReactElement<any>;
 }
 
 export const ProductListBase = <P,>({

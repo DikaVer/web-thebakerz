@@ -1,20 +1,21 @@
 "use server";
-import {Button} from "@/components/ui/button";
 import * as React from "react";
 import UserLinkStore from "@/components/dashboard/store/user-link-store";
 import {fetchFilteredUsersDefault} from "@/lib/actions-server-only/user-actions";
 
 interface StoreLinkPageProps {
-    params: {
+    params: Promise<{
         id: string
-    },
-    searchParams?: {
+    }>,
+    searchParams?: Promise<{
         query?: string;
         page?: string;
-    };
+    }>;
 }
 
-export default async function Page({params, searchParams}: StoreLinkPageProps) {
+export default async function Page(props: StoreLinkPageProps) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
 
     const query = searchParams?.query || '';
 

@@ -1,8 +1,19 @@
-// next.config.mjs
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// next.config.js
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
+    // cacheHandler: require.resolve("./cache-handler.mjs"),
+    experimental: {
+        turbo: {
+            rules: {
+                '*.svg': {
+                    loaders: ['@svgr/webpack'],
+                    as: '*.js',
+                },
+            },
+        },
+    },
+    bundlePagesRouterDependencies: true,
     eslint: {
         // Warning: This will allow production builds to successfully complete even if
         // your project has ESLint errors.
@@ -46,4 +57,3 @@ const nextConfig = {
     },
 };
 
-export default nextConfig;

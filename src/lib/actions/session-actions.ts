@@ -9,7 +9,7 @@ import { CustomAdapterUser } from "@/lib/definitions";
  *
  * @returns {Promise<{authActions: boolean, role?: string, name?: string}>} - An object containing authActions status, role, and name.
  */
-export async function extractSessionRole() {
+export const extractSession = async () => {
     // Retrieve the session information by authenticating the user
     const session = await auth();
 
@@ -19,14 +19,16 @@ export async function extractSessionRole() {
     // Initialize role and name to undefined
     let role: string | undefined;
     let name: string | undefined | null;
+    let email: string | undefined | null;
 
     // If the user is logged in, extract role and name from the session object
     if (login) {
         const user = session?.user as CustomAdapterUser;
         role = user.role;
         name = user.name;
+        email = user.email;
     }
 
     // Return an object containing the authActions status, role, and name
-    return {login, role, name};
-}
+    return {login, role, name, email};
+};

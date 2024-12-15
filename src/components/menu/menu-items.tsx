@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 import React from "react";
 import {
@@ -17,12 +17,15 @@ import {pacifico} from "@/components/fonts";
 
 
 interface MenuItemsProps {
-    login: boolean;  // Specifies if the user is logged in
-    role: string | undefined;  // Role of the user (e.g., admin, user)
-    name: string | undefined | null;  // Name of the user
+    session: {
+        login: boolean;  // Specifies if the user is logged in
+        role: string | undefined;  // Role of the user (e.g., admin, user)
+        name: string | undefined | null;  // Name of the user
+        email: string | undefined | null;  // Email of the user
+    }
 }
 
-export async function MenuItems({ login, name, role }: MenuItemsProps) {
+export function MenuItems({ session }: MenuItemsProps) {
 
 
     return (
@@ -53,7 +56,7 @@ export async function MenuItems({ login, name, role }: MenuItemsProps) {
                         <MenuItem icon={IconAboutUs} label="About Us" link="/about-us" />
                     </ul>
                     <hr className="my-2" />
-                    {login ? (
+                    {session.login ? (
                         <>
                             <ul className="space-y-2">
                                 <MenuItem icon={IconBill} label="Orders" link="/orders" />
@@ -73,7 +76,10 @@ export async function MenuItems({ login, name, role }: MenuItemsProps) {
                 {/* Footer */}
                 <footer className="desktop:mb-24">
                     <hr className="my-1" />
-                    {login ? <LoggedInMenu name={name} /> : <GuestMenu />}
+                    {session.login ? <LoggedInMenu
+                        email={session.email}
+                        name={session.name}
+                    /> : <GuestMenu />}
                     <hr className="my-1" />
                     <ThemeSwitcher />
                 </footer>
@@ -84,9 +90,10 @@ export async function MenuItems({ login, name, role }: MenuItemsProps) {
 
 interface LoggedInMenuProps {
     name?: string | null;
+    email?: string | null;
 }
 
-const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ name}) => (
+const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ name, email}) => (
     <>
         <a
             className="flex flex-row items-center space-x-3 p-2 trigger-hover cursor-pointer hover:bg-grayBg rounded-2xl mr-2"
@@ -102,7 +109,7 @@ const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ name}) => (
             />
             <div>
                 <p className="text-lg">{name}</p>
-                <p className="text-grayText">email@gmail.com</p>
+                <p className="text-grayText ">{email}</p>
             </div>
         </a>
     </>

@@ -6,15 +6,17 @@ import StoreTransit from "@/components/store-transit";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 
 interface StorePageProps {
-    params: {
+    params: Promise<{
         id: string
-    },
-    searchParams?: {
+    }>,
+    searchParams?: Promise<{
         tab?: string;
-    };
+    }>;
 }
 
-export default async function Page({params, searchParams}: StorePageProps) {
+export default async function Page(props: StorePageProps) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
 
     const session = await auth();
 

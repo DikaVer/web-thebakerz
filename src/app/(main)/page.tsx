@@ -2,8 +2,6 @@
 
 import React, {useState} from "react";
 import Image from "next/image";
-// @ts-ignore
-import {Gradient} from "react-gradient";
 import {
     HeartIcon, IconBadge, IconBadgeCheck, IconBadgeInfo,
     IconHeart, IconStar,
@@ -14,7 +12,6 @@ import {useInView} from "@/lib/hooks/useInView";
 import {backdropEffect} from "@/lib/local-variables";
 import {Avatar, AvatarIcon, Card, CardBody, Modal, ModalBody, ModalContent, ModalHeader} from "@nextui-org/react";
 import VerticalStepsLanding from "@/components/ui/vertical-steps-landing";
-import Slider from 'react-infinite-logo-slider'
 import {CardFooter, CardHeader} from "@nextui-org/card";
 import {Chip} from "@nextui-org/chip";
 import {Image as NextImage} from "@nextui-org/react";
@@ -28,9 +25,9 @@ export default function Page() {
                 <FirstView/>
                 <div className="flex flex-col container mx-auto items-center justify-center">
 
-                    {/* Why Choose Section */}
+                     {/*Why Choose Section */}
                     <WhyChooseSection/>
-                    <CheckItOutSection/>
+                    {/*<CheckItOutSection/>*/}
                     <PricingSection/>
                 </div>
 
@@ -105,7 +102,7 @@ const CheckItOutSection = () => {
 
     return (
         <section
-            id="why-choose"
+            id="check-it-out-section"
             className="w-full px-4 sm:px-6 lg:px-8 py-12 rounded-lg max-w-2xl"
             aria-labelledby="check-it-out-section"
         >
@@ -139,86 +136,88 @@ const CheckItOutSection = () => {
                                 Cakes and more
                         </span>
                     </div>
-                    <Slider
-                        width="190px"
-                        duration={40}
+                    {/*<Slider*/}
+                    {/*    width="190px"*/}
+                    {/*    duration={40}*/}
 
-                        pauseOnHover={false}
-                        blurBorders={false}
-                    >
-                        <Slider.Slide>
-                            <DumpProduct productData={{
-                                name: 'Marble cake',
-                                image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/0AmYIk5mGaph7H4Xt1GI-BNy8VvXYgDQ1IAKl53fRGyVWkb7ekv.image/jpeg',
-                                price: 2600}}
-                            />
+                    {/*    pauseOnHover={false}*/}
+                    {/*    blurBorders={false}*/}
+                    {/*>*/}
+                    {/*    <Slider.Slide>*/}
+                    {/*        <DumpProduct productData={{*/}
+                    {/*            name: 'Marble cake',*/}
+                    {/*            image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/0AmYIk5mGaph7H4Xt1GI-BNy8VvXYgDQ1IAKl53fRGyVWkb7ekv.image/jpeg',*/}
+                    {/*            price: 2600}}*/}
+                    {/*        />*/}
 
-                        </Slider.Slide>
-                        <Slider.Slide>
-                            <DumpProduct productData={{
-                                name: 'Roses of Love',
-                                image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/HEUXwdCalDSQzts6eE3C-mCvSZxLozAiNOUajBymYtrSPtz2FZH.image/jpeg',
-                                price: 43000}}
-                            />
-                        </Slider.Slide>
-                        <Slider.Slide>
-                            <DumpProduct productData={{
-                                name: 'Black Gold',
-                                image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/kU4eGnbmxWCKFfugWhXF-nnrNSOVTKzrZqKl1IWwWFbeL01g7a0.image/jpeg',
-                                price: 25000}}
-                            />
-                        </Slider.Slide>
-                        <Slider.Slide>
-                            <DumpProduct productData={{
-                                name: 'Lime Mille Crepe',
-                                image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/ZDfQH42suEq8DNDVqVGB-te4yFqibN5qPUE0g25gAoElBdWGAG0.image/jpeg',
-                                price: 2300}}
-                            />
-                        </Slider.Slide>
-                        <Slider.Slide>
-                            <DumpProduct productData={{
-                                name: 'Chocolate mousse',
-                                image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/PvpCdbFIAFUk9PSsTc78-9wRrJYKMHIbGg1pvcAzuROXs86C2UM.image/jpeg',
-                                price: 2499}}
-                            />
-                        </Slider.Slide>
-                        <Slider.Slide>
-                            <DumpProduct productData={{
-                                name: 'Tropical Dream',
-                                image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/dkSx2WjBKpYVoNkn8Nn0-fGt6qDOTNV9vYnCXwbTxlaOtnLrKvq.image/jpeg',
-                                price: 2450}}
-                            />
-                        </Slider.Slide>
-                        <Slider.Slide>
-                            <DumpProduct productData={{
-                                name: 'Red Velvet',
-                                image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/cuRBLmWsFOI5JKO1mRsE-tcecXzsUbJlZ8Ydx7SuHwdGpVk4j5P.image/jpeg',
-                                price: 2400}}
-                            />
-                        </Slider.Slide>
-                        <Slider.Slide>
-                            <DumpProduct productData={{
-                                name: 'Orange Sunset ',
-                                image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/0axrou2Q0sjqiEBvmBQX-1z0ERvTPWdWCfh7sdfCVRog36OMn6f.image/png',
-                                price: 3000}}
-                            />
-                        </Slider.Slide>
-                        <Slider.Slide>
-                            <DumpProduct productData={{
-                                name: 'Strawberry Cake',
-                                image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/iHWMGasKz4bsNXzxNqU2-I3TJuQDqN1rVhS0CgKg2HCMRa7edHI.image/jpeg',
-                                price: 2330}}
-                            />
-                        </Slider.Slide>
-                    </Slider>
+                    {/*    </Slider.Slide>*/}
+                    {/*    <Slider.Slide>*/}
+                    {/*        <DumpProduct productData={{*/}
+                    {/*            name: 'Roses of Love',*/}
+                    {/*            image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/HEUXwdCalDSQzts6eE3C-mCvSZxLozAiNOUajBymYtrSPtz2FZH.image/jpeg',*/}
+                    {/*            price: 43000}}*/}
+                    {/*        />*/}
+                    {/*    </Slider.Slide>*/}
+                    {/*    <Slider.Slide>*/}
+                    {/*        <DumpProduct productData={{*/}
+                    {/*            name: 'Black Gold',*/}
+                    {/*            image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/kU4eGnbmxWCKFfugWhXF-nnrNSOVTKzrZqKl1IWwWFbeL01g7a0.image/jpeg',*/}
+                    {/*            price: 25000}}*/}
+                    {/*        />*/}
+                    {/*    </Slider.Slide>*/}
+                    {/*    <Slider.Slide>*/}
+                    {/*        <DumpProduct productData={{*/}
+                    {/*            name: 'Lime Mille Crepe',*/}
+                    {/*            image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/ZDfQH42suEq8DNDVqVGB-te4yFqibN5qPUE0g25gAoElBdWGAG0.image/jpeg',*/}
+                    {/*            price: 2300}}*/}
+                    {/*        />*/}
+                    {/*    </Slider.Slide>*/}
+                    {/*    <Slider.Slide>*/}
+                    {/*        <DumpProduct productData={{*/}
+                    {/*            name: 'Chocolate mousse',*/}
+                    {/*            image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/PvpCdbFIAFUk9PSsTc78-9wRrJYKMHIbGg1pvcAzuROXs86C2UM.image/jpeg',*/}
+                    {/*            price: 2499}}*/}
+                    {/*        />*/}
+                    {/*    </Slider.Slide>*/}
+                    {/*    <Slider.Slide>*/}
+                    {/*        <DumpProduct productData={{*/}
+                    {/*            name: 'Tropical Dream',*/}
+                    {/*            image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/dkSx2WjBKpYVoNkn8Nn0-fGt6qDOTNV9vYnCXwbTxlaOtnLrKvq.image/jpeg',*/}
+                    {/*            price: 2450}}*/}
+                    {/*        />*/}
+                    {/*    </Slider.Slide>*/}
+                    {/*    <Slider.Slide>*/}
+                    {/*        <DumpProduct productData={{*/}
+                    {/*            name: 'Red Velvet',*/}
+                    {/*            image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/cuRBLmWsFOI5JKO1mRsE-tcecXzsUbJlZ8Ydx7SuHwdGpVk4j5P.image/jpeg',*/}
+                    {/*            price: 2400}}*/}
+                    {/*        />*/}
+                    {/*    </Slider.Slide>*/}
+                    {/*    <Slider.Slide>*/}
+                    {/*        <DumpProduct productData={{*/}
+                    {/*            name: 'Orange Sunset ',*/}
+                    {/*            image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/0axrou2Q0sjqiEBvmBQX-1z0ERvTPWdWCfh7sdfCVRog36OMn6f.image/png',*/}
+                    {/*            price: 3000}}*/}
+                    {/*        />*/}
+                    {/*    </Slider.Slide>*/}
+                    {/*    <Slider.Slide>*/}
+                    {/*        <DumpProduct productData={{*/}
+                    {/*            name: 'Strawberry Cake',*/}
+                    {/*            image_url: 'https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/storeProducts/JIyRcYneXW/iHWMGasKz4bsNXzxNqU2-I3TJuQDqN1rVhS0CgKg2HCMRa7edHI.image/jpeg',*/}
+                    {/*            price: 2330}}*/}
+                    {/*        />*/}
+                    {/*    </Slider.Slide>*/}
+                    {/*</Slider>*/}
                     <div className={`flex w-full justify-end`}>
                         <Button
                             className=" text-sm text-background bg-black/20 dark:bg-white/20"
+                            //@ts-ignore
                             variant={"flat"}
                             color="default"
                             isLoading={isLoading}
+                            //@ts-ignore
                             size={"md"}
-                            onClick={() => handleRedirectToStore()}
+                            onPress={() => handleRedirectToStore()}
                         >
                             Review Store
                         </Button>
@@ -295,7 +294,7 @@ const PricingSection = () => {
 
     return (
         <section
-            id="why-choose"
+            id="pricing-section"
             className="w-full px-4 sm:px-6 lg:px-8 py-12 rounded-lg max-w-2xl"
             aria-labelledby="pricing-section"
         >
@@ -381,10 +380,10 @@ const PricingSection = () => {
                     </div>
                     <div>
                         <Button
-                            startContent={<IconBadgeInfo/>}
+                            startContent={<IconBadgeInfo className={`w-4 h-4`}/>}
                             variant={"ghost"}
-                            className={`w-48`}
-                            onClick={() => setOpen(true)}
+                            className={`w-48 px-3 h-8 gap-1 text-sm justify-start`}
+                            onPress={() => setOpen(true)}
                         >
                             Transparent pricing
                         </Button>
@@ -392,7 +391,7 @@ const PricingSection = () => {
                     <hr/>
                     <div>
                         <p
-                            className={`text-small girl-md:text-lg italic text-primary text-center my-1`}
+                            className={`text-small girl-md:text-lg italic text-primary text-center my-3`}
                         >
                             Exclusive offer: start for 3 months for free!
                         </p>
@@ -401,38 +400,24 @@ const PricingSection = () => {
                         isLoading={isLoading}
                         disabled={isLoading}
 
-                        className={`py-6 -px-1 ${isLoading ? "px-6" : "-px-1"} text-2xl`}
-
+                        className={`py-6 -px-1 ${isLoading ? "px-6" : "-px-1"} text-2xl gradient-background`}
+                        //@ts-ignore
                         variant={"default"}
-                        onClick={handleCreate}
+                        onPress={handleCreate}
                     >
                         {isLoading ? (
                             <>
                                 Loading...
                             </>
                         ) : (
-                            <Gradient
-                                gradients={[
-                                    ['#730C70', '#FAF4D1']
-                                ]}
-                                property="background"
-                                element="button"
-                                angle="90deg"
-                                transitionType="sequential"
-                                duration="3000"
-                                className={`py-10 px-96`}
 
-                            >
-                                <div className={`flex flex-col`}>
-                                                <span className={`text-xl desktop:text-2xl`}>
-                                                    Get started with TheBakerz
-                                                </span>
+                                <div className={`flex flex-col text-xl desktop:text-2xl`}>
+                                    Get started with TheBakerz
                                 </div>
-                            </Gradient>
                         )}
                     </Button>
 
-                    <div className={`w-full space-y-4 pt-4`}>
+                    <div className={`w-full space-y-4 pt-6`}>
                         <div className={'w-full flex flex-row space-x-3 items-center'}>
                             <IconBadgeCheck className={`w-10 h-10 text-success`}/>
                             <div className={'w-full flex flex-col'}>

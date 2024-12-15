@@ -21,7 +21,7 @@ export default function RootLayout({
 
     return (
         <html lang="en">
-            <body className={lexendDeca.className}>
+            <body className={`${lexendDeca.className} touch-none`}>
                 <Providers>
                             {children}
                             <Toaster/>

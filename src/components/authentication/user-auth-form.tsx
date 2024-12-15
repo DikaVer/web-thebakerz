@@ -2,9 +2,6 @@
 
 import * as React from "react"
 import * as z from "zod"
-
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import Image from "next/image";
 
 import { useForm} from "react-hook-form";
@@ -14,9 +11,13 @@ import {LoginSchema} from "@/lib/schemas";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {FormError} from "@/components/authentication/form-error";
 import {login, loginWithProvider} from "@/lib/actions/auth-actions";
-import {useState, useTransition} from "react";
+import {useEffect, useRef, useState, useTransition} from "react";
 import {FormSuccess} from "@/components/authentication/form-success";
 import { useSearchParams } from 'next/navigation';
+import {IconMail, MoonIcon} from "@/components/ui/icons";
+import {Input} from "@nextui-org/input";
+import {Separator} from "@/components/ui/separator";
+import {Button} from "@/components/ui/button";
 
 
 
@@ -50,6 +51,13 @@ export function UserAuthForm(){
         });
     }
 
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        // @ts-ignore
+        inputRef.current.focus(); // Focus the input on component mount
+    }, [])
+
     return (
         <div className={"grid gap-6"}>
             <Form {...form}>
@@ -66,46 +74,52 @@ export function UserAuthForm(){
                                     Email
                                 </FormLabel>
                                 <FormControl>
+                            {/*        <Input*/}
+                            {/*            {...field}*/}
+                            {/*            disabled={isPending}*/}
+                            {/*            placeholder="name@example.com"*/}
+                            {/*            type="email"*/}
+                            {/*            autoCapitalize="none"*/}
+                            {/*    autoComplete="email"*/}
+                            {/*    autoCorrect="off"*/}
+                            {/*/>*/}
                                     <Input
                                         {...field}
-                                        disabled={isPending}
-                                        placeholder="name@example.com"
+                                        ref={inputRef}
+                                        endContent={
+                                            <IconMail className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                                        }
+                                        label="Email"
+                                        variant={"bordered"}
+                                        placeholder="you@thebakerz.com"
                                         type="email"
-                                        autoCapitalize="none"
-                                autoComplete="email"
-                                autoCorrect="off"
-                            />
+                                        errorMessage={error}
+                                        disabled={isPending}
+                                        required
+                                    />
                         </FormControl>
-                        <FormMessage/>
                     </FormItem>
                 )}
                 />
-                <FormSuccess message={success}/>
-                <FormError message={error}/>
                 <Button
                     type="submit"
                     variant={"default"}
                     disabled={isPending}
                     isLoading={isPending}
                 >
-                    {isPending ? "Loading" : "Continue with Email"}
+                    {isPending ? "Loading" : "Continue"}
                 </Button>
             </form>
         </Form>
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t"/>
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-        <div className="flex flex-row w-full justify-between items-center -my-1">
-            <form
-                action={async () => {
-                    await loginWithProvider("google", next ? next : "/");
+            <div className="flex items-center gap-4">
+                <Separator className="flex-1 bg-grayText"/>
+                <span className="text-grayText">or continue with</span>
+                <Separator className="flex-1 bg-grayText"/>
+            </div>
+            <div className="flex flex-row w-full justify-between items-center -my-1">
+                <form
+                    action={async () => {
+                        await loginWithProvider("google", next ? next : "/");
                 }}
                 className={"w-full"}
             >
@@ -120,8 +134,8 @@ export function UserAuthForm(){
                         <Image
                             style={{display: "block"}}
                             src="/brandIcons/google.svg"
-                            height="32"
-                            width="32"
+                            height="30"
+                            width="30"
                             alt={"Google"}
                         />
                     )}

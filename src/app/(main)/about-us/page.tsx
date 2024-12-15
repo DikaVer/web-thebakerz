@@ -1,5 +1,5 @@
 import {VerticalStepsAboutUs, VerticalStepsForecast} from "@/components/ui/vertical-steps-about-us";
-import { Image } from "@nextui-org/react";
+import {FooterImage} from "@/components/about-us/footer-image";
 
 
 export default async function Page() {
@@ -125,17 +125,17 @@ export default async function Page() {
                 </p>
 
                 <p className={`ml-10`}>
-                    <p>
+                    <span>
                         • Talented bakers can thrive by focusing on their craft
-                    </p>
+                    </span>
 
-                    <p>
+                    <span>
                         • Every special occasion finds its perfect dessert match
-                    </p>
+                    </span>
 
-                    <p>
+                    <span>
                         • Local communities grow stronger through the shared love of artisanal baking
-                    </p>
+                    </span>
                 </p>
 
 
@@ -146,10 +146,7 @@ export default async function Page() {
                     together.
                 </p>
                 <div className={`w-full flex justify-center`}>
-                    <Image
-                        src={'/images/TheBakerzBack4K.svg'}
-                        alt={'TheBakerz background image'}
-                    />
+                    <FooterImage/>
                 </div>
             </main>
         </div>

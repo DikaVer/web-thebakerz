@@ -16,7 +16,7 @@ import {pacifico} from "@/components/fonts";
 interface ProductBaseProps {
     productData: ProductDataField;
     onClick: () => void;
-    overlayIcon: ReactElement;
+    overlayIcon: ReactElement<any>;
     isShared: boolean;
 }
 

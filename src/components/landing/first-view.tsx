@@ -1,14 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useState } from "react";
+import React, {useState} from "react";
 import { pacifico } from "@/components/fonts";
-import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useInView } from "@/lib/hooks/useInView";
 import { Image } from "@nextui-org/react";
-// @ts-ignore
-import { Gradient } from "react-gradient";
+
 import { Button } from "@/components/ui/button";
 
 export function FirstView() {
@@ -66,31 +64,26 @@ export function FirstView() {
                         </p>
                         <div ref={buttonRef} className={`mt-10 flex items-center justify-center gap-x-6 opacity-0 ${buttonInView ? 'animate-fadeInUpDelay4' : ''}`}>
                             <div className="flex flex-col">
-                                <Button
-                                    isLoading={isLoading}
-                                    disabled={isLoading}
-                                    className={`py-6 -px-1 ${isLoading ? "px-6" : "-px-1"} text-2xl transition-transform transform hover:scale-105`}
-                                    variant={"default"}
-                                    onClick={handleCreate}
-                                >
-                                    {isLoading ? (
-                                        <>Loading...</>
-                                    ) : (
-                                        <Gradient
-                                            gradients={[['#730C70', '#FAF4D1']]}
-                                            property="background"
-                                            element="button"
-                                            angle="90deg"
-                                            transitionType="sequential"
-                                            duration="3000"
-                                            className="py-10 px-6 text-2xl transition-transform transform scale-105"
-                                        >
-                                            <div className="flex flex-col">
-                                                <span>Get started</span>
-                                            </div>
-                                        </Gradient>
-                                    )}
-                                </Button>
+
+                                    <Button
+                                        isLoading={isLoading}
+                                        disabled={isLoading}
+                                        className={`py-6 -px-1 ${isLoading ? "px-6" : "-px-1"} gradient-background text-2xl`}
+                                        variant={"default"}
+                                        onPress={handleCreate}
+                                    >
+                                        <>
+
+                                            {isLoading ? (
+                                                <>Loading...</>
+                                            ) : (
+                                                <div className="px-6 flex flex-col"
+                                                >
+                                                    Get started
+                                                </div>
+                                            )}
+                                        </>
+                                    </Button>
                             </div>
                             <a href="#why-choose" className="text-sm/6 font-semibold text-text">
                                 Learn more <span aria-hidden="true">&rarr;</span>
@@ -99,7 +92,7 @@ export function FirstView() {
                     </div>
                     <div
                         className={`transition-opacity duration-500 opacity-0 ${imageInView ? 'animate-fadeInUpDelay5' : ''}`}
-                         ref={imageRef}>
+                        ref={imageRef}>
                         <Image
                             src="/images/PhoneDesign.png"
                             alt="Application Illustration"

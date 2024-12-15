@@ -4,12 +4,13 @@ import {fetchUserData} from "@/lib/actions-server-only/user-actions";
 import UserViewDashboard from "@/components/dashboard/user/user-view";
 
 interface UserPageProps {
-    params: {
+    params: Promise<{
         id: string
-    }
+    }>
 }
 
-export default async function Page({params}: UserPageProps) {
+export default async function Page(props: UserPageProps) {
+    const params = await props.params;
 
     const userData = await fetchUserData(params.id);
 
