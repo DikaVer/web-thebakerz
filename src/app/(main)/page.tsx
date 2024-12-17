@@ -288,7 +288,7 @@ const PricingSection = () => {
     // Redirects the user to the sign-in page, appending the current path for post-authActions redirection
     const handleCreate = () => {
         setLoading(true);
-        router.push('/application');
+        router.push('/join-thebakerz');
         router.refresh();
     };
 

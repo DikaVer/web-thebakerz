@@ -32,7 +32,7 @@ export const SigninButton = ({ className, variant }: SigninButtonProps) => {
             disabled={isLoading}
             className={`${className} ${pacifico.className}`}
             color={variant === "default" ? "primary" : "secondary"}
-            onClick={handleSignIn}
+            onPress={handleSignIn}
         >
             {isLoading ? "Loading" : "Sign in"}
         </Button>

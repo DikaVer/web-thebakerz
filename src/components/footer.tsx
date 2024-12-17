@@ -16,7 +16,7 @@ export function Footer() {
                           <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
                               <li>
                                   <a
-                                      href="/application"
+                                      href="/join-thebakerz"
                                       className="hover:text-ui-fg-base"
                                   >
                                       Work with Bakerz

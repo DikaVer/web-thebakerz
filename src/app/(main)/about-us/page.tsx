@@ -11,7 +11,7 @@ export default async function Page() {
                     Our Journey
                 </p>
                 <VerticalStepsAboutUs
-                    currentStep={3}
+                    currentStep={5}
                     steps={[
                         {
                             title: "April 2024",
@@ -39,7 +39,7 @@ export default async function Page() {
                     Our Forecast
                 </p>
                 <VerticalStepsForecast
-                    currentStep={-1}
+                    currentStep={5}
                     plusRange={5}
                     steps={[
                         {

@@ -14,6 +14,7 @@ import {SignoutButton} from "@/components/ui/signout-button";
 import {ThemeSwitcher} from "@/components/ui/ThemeSwitcher";
 import {Avatar, AvatarIcon} from "@nextui-org/react";
 import {pacifico} from "@/components/fonts";
+import {usePathname} from "next/navigation";
 
 
 interface MenuItemsProps {
@@ -52,7 +53,7 @@ export function MenuItems({ session }: MenuItemsProps) {
                             subtitle={"Coming Soon!"}
                             link="/search"
                         />
-                        <MenuItem icon={IconChefHat} label="Become Bakerz" link="/application" />
+                        <MenuItem icon={IconChefHat} label="Become Bakerz" link="/join-thebakerz" />
                         <MenuItem icon={IconAboutUs} label="About Us" link="/about-us" />
                     </ul>
                     <hr className="my-2" />
@@ -117,10 +118,11 @@ const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ name, email}) => (
 
 
 
-const GuestMenu = () => (
-    <>
+const GuestMenu = () => {
+    const pathname = usePathname();
+    return (
         <a className="flex flex-row items-center space-x-3 p-2 hover:bg-grayBg rounded-2xl mr-2"
-           href={"/auth"}
+           href={`/auth?next=${pathname}`}
         >
             <Avatar
                 icon={<AvatarIcon/>}
@@ -132,14 +134,14 @@ const GuestMenu = () => (
             />
             <div className="grid gap-1 -mt-1">
                 <p className="text-lg">Guest</p>
-                <p className="text-grayText scale-on-hover-105"
-                >
+                <p className="text-grayText scale-on-hover-105">
                     Sign In
                 </p>
             </div>
         </a>
-    </>
-);
+    );
+};
+
 
 interface MenuItemProps {
     icon: React.ElementType;

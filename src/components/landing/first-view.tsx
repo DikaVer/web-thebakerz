@@ -15,7 +15,7 @@ export function FirstView() {
 
     const handleCreate = () => {
         setLoading(true);
-        router.push('/application');
+        router.push('/join-thebakerz');
         router.refresh();
     };
 

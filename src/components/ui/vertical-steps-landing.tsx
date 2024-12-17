@@ -111,7 +111,7 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
 
         const handleCreate = () => {
             setLoading(true);
-            router.push('/application');
+            router.push('/join-thebakerz');
             router.refresh();
         };
 
@@ -282,7 +282,7 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                                                     </>
                                                 ) : (
                                                     <>
-                                                        Work with Bakerz
+                                                        Join TheBakerz
                                                     </>
                                                 )}
                                             </Button>
