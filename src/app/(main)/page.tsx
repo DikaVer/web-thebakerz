@@ -307,7 +307,8 @@ const PricingSection = () => {
                 placement={"center"}
                 className={"bg-background"}
             >
-                <ModalContent>
+                <ModalContent
+                >
                     {(onClose) => (
                         <>
                             <ModalHeader>
@@ -355,7 +356,7 @@ const PricingSection = () => {
             </Modal>
 
             <Card
-                className={`w-full max-w-2xl h-fit py-4 px-2 desktop:px-10 opacity-0
+                className={`w-full max-w-2xl h-fit py-4 px-2 desktop:px-10 opacity-0 bg-gradient-to-br from-grayBgComp to-grayBg
                 ${PricingInView ? 'animate-fadeInUp' : ''}`}
                 ref={pricingOut}
             >

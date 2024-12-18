@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import {Toaster} from "@/components/ui/sonner";
 import {metadataDefault} from "@/components/metadata";
 import {Providers} from "@/app/providers";
+import CookieConsentComponent from "@/components/ui/cookie-consent";
 
 
 
@@ -26,6 +27,7 @@ export default function RootLayout({
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <Providers>
                     {children}
+                    <CookieConsentComponent />
                     <Toaster/>
                 </Providers>
             </body>

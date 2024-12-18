@@ -15,11 +15,7 @@ import { formatCurrency } from "@/lib/utils";
 import {ProductDataField, StoreData} from "@/lib/definitions";
 import {useCart} from "@/components/providers/cart-provider";
 import {useProductDialog} from "@/components/providers/product-provider";
-import Skeleton from "react-loading-skeleton";
-// @ts-ignore
-import ExpandText from 'react-expand-text';
 
-// @ts-ignore
 import confetti from 'canvas-confetti';
 
 import {toast} from "sonner";
@@ -35,9 +31,7 @@ import {
     Select,
     SelectItem, Switch
 } from "@nextui-org/react";
-import useIsSmallScreen from "@/lib/hooks/use-is-small-screen";
 import {backdropEffect} from "@/lib/local-variables";
-import {useTheme} from "next-themes";
 import Progress from "@/components/ui/progress";
 import {limitChar} from "@/components/ui/limitChar";
 import {Textarea} from "@nextui-org/input";
