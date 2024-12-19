@@ -229,7 +229,7 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                                     {stepIdx < steps.length - 1 && !hideProgressBars && (
                                         <div
                                             aria-hidden="true"
-                                            className="pointer-events-none absolute translate-y-24 ml-2 left-0 w-16 flex-none items-center"
+                                            className={`pointer-events-none  absolute ml-2 left-0 ${status === "active" ? "w-28 translate-y-[116px] -translate-x-6" : "w-16 translate-y-24"} flex-none items-center`}
                                             style={{
                                                 // @ts-ignore
                                                 "--idx": stepIdx,
@@ -248,7 +248,7 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                                     )}
                                 </button>
                                 {status === "active" && (
-                                    <div className="flex w-full justify-end space-x-8">
+                                    <div className="flex w-full justify-end space-x-8 ">
                                         {stepIdx > 0 && (
                                             <Button
                                                 variant={"outline"}

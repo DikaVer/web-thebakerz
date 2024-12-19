@@ -26,25 +26,22 @@ export default function NavbarComponent({isMobile, setIsCollapsed, onOpenChange,
 
     return (
         <>
-
-
-
-            <div className={`absolute  h-[86px] bg-grayBg/40  backdrop-blur-2xl `}/>
+            <div className={`absolute h-[86px] bg-grayBg/40  backdrop-blur-2xl `}/>
             <Navbar
                 {...props}
                 classNames={{
-                    base: "sticky py-4 backdrop-filter-none bg-transparent",
+                    base: `sticky py-4 backdrop-filter-none bg-transparent`,
                     wrapper: "px-0 w-full justify-center bg-transparent",
                     item: "hidden md:flex",
                 }}
                 height="54px"
             >
             <NavbarContent
-                    className="justify-center gap-4 md:gap-[10vw] rounded-full border-small border-default-200/20 px-2 shadow-medium backdrop-blur-xl bg-grayBg/50"
-                    justify="center"
+                    className={`flex data-[justify=center]:justify-between w-full ${isMobile ? "max-w-[400px]" : "max-w-2xl"} gap-8 rounded-full border-small border-default-200/20 px-2 shadow-medium backdrop-blur-xl bg-grayBg/50`}
+                    justify={"center"}
                 >
                     {/* Toggle */}
-                    <NavbarItem className="mr-2 !flex">
+                    <NavbarItem className="ml-1 !flex">
                         <Button isIconOnly size="sm" variant="light" onPress={() => {
                             if (isMobile) {
                                 setIsCollapsed(false);
@@ -65,7 +62,7 @@ export default function NavbarComponent({isMobile, setIsCollapsed, onOpenChange,
 
 
                     {/* Logo */}
-                    <NavbarBrand className="mr-2 w-[40vw]  max-w-fit">
+                    <NavbarBrand className=" w-[40rem]  max-w-fit">
                         <a
                             className={`font-medium ${!isCollapsed && !isMobile && "hidden"} text-2xl ${pacifico.className}`}
                             href={"/"}
@@ -74,7 +71,7 @@ export default function NavbarComponent({isMobile, setIsCollapsed, onOpenChange,
                         </a>
                     </NavbarBrand>
 
-                    <NavbarItem className="ml-2 !flex">
+                    <NavbarItem className="mr-1 !flex">
                         <SigninButton className={`text-large rounded-full`} variant={"secondary"}/>
                     </NavbarItem>
                 </NavbarContent>

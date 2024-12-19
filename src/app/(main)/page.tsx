@@ -588,7 +588,7 @@ const Footer = () => {
     return (
         <div
             ref={footerRef}
-            className={`relative lg:px-16 bg-secondary w-full flex justify-between items-center rounded-lg
+            className={`relative lg:px-16 bg-secondary w-full flex justify-between items-center rounded-lg mt-12
             opacity-0 transform translate-y-10 
             ${footerInView ? 'animate-fadeInUp' : ''}
             `}
