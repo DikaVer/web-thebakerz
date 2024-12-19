@@ -201,7 +201,7 @@ export function Footer() {
                             Subscribe to our newsletter
                         </h3>
                         <p className="mt-2 text-small text-grayText">
-                            Receive weekly updates with the newest insights, trends, and tools, straight to your
+                            Receive updates with the newest insights, tools from TheBakerz straight to your
                             email.
                         </p>
                     </div>

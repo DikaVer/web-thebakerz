@@ -4,7 +4,7 @@ import {ScrollShadow} from "@nextui-org/scroll-shadow";
 import Sidebar from "@/components/sidebar/sidebar";
 import {Icon} from "@iconify/react";
 import SidebarDrawer from "@/components/sidebar/sidebar-drawer";
-import React from "react";
+import React, {useEffect} from "react";
 import {usePathname, useRouter} from "next/navigation";
 import {ThemeSwitcher} from "@/components/ui/ThemeSwitcher";
 import {SignOutButton} from "@/components/ui/signout-button";
@@ -28,11 +28,18 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
     const router = useRouter();
     const currentPath = pathname.split("/")?.[1]
 
+    useEffect(() => {
+        if (isOpen) {
+            onOpenChange();
+        }
+    }, [pathname]);
+
 
     return (
         <SidebarDrawer
             className={cn("min-w-[288px] rounded-lg", {"min-w-[82px]": isCollapsed})}
             hideCloseButton={true}
+
             isOpen={isOpen}
             onOpenChange={onOpenChange}
         >
