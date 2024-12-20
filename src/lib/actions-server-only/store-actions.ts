@@ -2,9 +2,7 @@ import 'server-only';
 import {connectionPool} from "@/db";
 import {StoreData} from "@/lib/definitions";
 
-export const config = {
-    runtime: 'edge', // 'nodejs' is the default
-};
+export const config = "edge";
 
 
 

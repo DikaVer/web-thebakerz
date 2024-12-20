@@ -139,18 +139,6 @@ export function Footer() {
         [],
     );
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-        setIsModalOpen(true);
-        confetti({
-            particleCount: 150,
-            spread: 300,
-            origin: { y: 0.6 }
-        });
-    };
-
     return (
         <footer className="flex w-full flex-col bg-gradient-to-br from-grayBg to-grayBgComp rounded-xl">
             <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
@@ -193,68 +181,6 @@ export function Footer() {
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div className="my-10 rounded-medium bg-grayBgComp p-4 sm:my-14 sm:p-8 lg:my-16 lg:flex lg:items-center lg:justify-between lg:gap-2 shadow">
-                    <div>
-                        <h3 className="text-small font-semibold text-default-600">
-                            Subscribe to our newsletter
-                        </h3>
-                        <p className="mt-2 text-small text-grayText">
-                            Receive updates with the newest insights, tools from TheBakerz straight to your
-                            email.
-                        </p>
-                    </div>
-                    <form className="mt-6 sm:flex sm:max-w-md lg:mt-0" onSubmit={handleSubmit}>
-                        <Input
-                            isRequired
-                            aria-label="Email"
-                            autoComplete="email"
-                            id="email-address"
-                            labelPlacement="outside"
-                            name="email-address"
-                            placeholder="you@thebakerz.com"
-                            startContent={<Icon className="text-default-500" icon="solar:letter-linear" />}
-                            type="email"
-                        />
-                        <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
-                            <Button color="primary" type="submit">
-                                Subscribe
-                            </Button>
-                        </div>
-                    </form>
-
-                    <Modal
-                       backdrop={backdropEffect}
-                       isOpen={isModalOpen}
-                       onClose={() => setIsModalOpen(false)}
-                       size={'xl'}
-                       shadow={"lg"}
-                       placement={"center"}
-                       className={"bg-background"}
-                    >
-                        <ModalContent>
-                            {(onClose) => (
-                                <>
-                                    <ModalHeader>
-                                        <p id="modal-title">
-                                            Subscription Successful
-                                        </p>
-                                    </ModalHeader>
-                                    <ModalBody>
-                                        <p>
-                                            Thank you for subscribing to our newsletter!
-                                        </p>
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="primary" onPress={() => setIsModalOpen(false)}>
-                                            Close
-                                        </Button>
-                                    </ModalFooter>
-                                </>
-                            )}
-                        </ModalContent>
-                    </Modal>
                 </div>
             </div>
         </footer>

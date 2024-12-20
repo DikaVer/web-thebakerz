@@ -2,13 +2,11 @@ import 'server-only';
 import {connectionPool} from "@/db";
 import {AddressDataUserField, AddressUserData, UsersData} from "@/lib/definitions";
 
-export const config = {
-    runtime: 'edge', // 'nodejs' is the default
-};
+export const config = "edge";
 
 
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 10;
 export async function fetchUsersPages(query: string) {
     try {
         const count = await connectionPool.query(`

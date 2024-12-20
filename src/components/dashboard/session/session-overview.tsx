@@ -18,7 +18,7 @@ const SessionDetails: React.FC<{ session: Session | null}> = ({ session }) => {
     } = session;
 
     return (
-        <div className="max-w-4xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg">
+        <div className="mx-auto mt-8 p-6 ">
             <h1 className="text-2xl font-bold mb-6">Session Overview</h1>
 
             <div className="space-y-4 mb-4">
@@ -26,24 +26,24 @@ const SessionDetails: React.FC<{ session: Session | null}> = ({ session }) => {
                 <div className="border-b pb-4">
                     <h2 className="text-lg font-semibold mb-2">User Information</h2>
                     <div className="flex justify-between">
-                        <p className="text-gray-600">User ID:</p>
-                        <p className="text-gray-900">{userId}</p>
+                        <p className="">User ID:</p>
+                        <p className="text-grayText">{userId}</p>
                     </div>
                     <div className="flex justify-between">
-                        <p className="text-gray-600">Name:</p>
-                        <p className="text-gray-900">{name}</p>
+                        <p className="">Name:</p>
+                        <p className="text-grayText">{name}</p>
                     </div>
                     <div className="flex justify-between">
-                        <p className="text-gray-600">Email:</p>
-                        <p className="text-gray-900">{email}</p>
+                        <p className="">Email:</p>
+                        <p className="text-grayText">{email}</p>
                     </div>
                     <div className="flex justify-between">
-                        <p className="text-gray-600">Email Verified:</p>
-                        <p className="text-gray-900">{format(new Date(emailVerified), 'Pp')}</p>
+                        <p className="">Email Verified:</p>
+                        <p className="text-grayText">{format(new Date(emailVerified), 'Pp')}</p>
                     </div>
                     <div className="flex justify-between">
-                        <p className="text-gray-600">Role:</p>
-                        <p className="text-gray-900 capitalize">{role}</p>
+                        <p className="">Role:</p>
+                        <p className="text-grayText capitalize">{role}</p>
                     </div>
                 </div>
 
@@ -51,20 +51,20 @@ const SessionDetails: React.FC<{ session: Session | null}> = ({ session }) => {
                 <div className="border-b pb-4">
                     <h2 className="text-lg font-semibold mb-2">Session Information</h2>
                     <div className="flex justify-between">
-                        <p className="text-gray-600">Session ID:</p>
-                        <p className="text-gray-900">{sessionId}</p>
+                        <p className="">Session ID:</p>
+                        <p className="text-grayText">{sessionId}</p>
                     </div>
                     <div className="flex justify-between">
-                        <p className="text-gray-600">User ID (from session):</p>
-                        <p className="text-gray-900">{sessionUserId}</p>
+                        <p className="">User ID (from session):</p>
+                        <p className="text-grayText">{sessionUserId}</p>
                     </div>
                     <div className="flex justify-between">
-                        <p className="text-gray-600">Expires:</p>
-                        <p className="text-gray-900">{format(new Date(expires), 'Pp')}</p>
+                        <p className="">Expires:</p>
+                        <p className="text-grayText">{format(new Date(expires), 'Pp')}</p>
                     </div>
                     <div className="flex justify-between">
-                        <p className="text-gray-600">Session Token:</p>
-                        <p className="text-gray-900 break-words">{sessionToken}</p>
+                        <p className="">Session Token:</p>
+                        <p className="text-grayText break-words">{sessionToken}</p>
                     </div>
                 </div>
             </div>

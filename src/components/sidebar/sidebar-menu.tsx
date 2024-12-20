@@ -8,7 +8,12 @@ import React, {useEffect} from "react";
 import {usePathname, useRouter} from "next/navigation";
 import {ThemeSwitcher} from "@/components/ui/ThemeSwitcher";
 import {SignOutButton} from "@/components/ui/signout-button";
-import {sectionItemsUser} from "@/components/sidebar/sidebar-items";
+import {
+    sectionItemsAdmin,
+    sectionItemsBakerz,
+    sectionItemsGuest,
+    sectionItemsUser
+} from "@/components/sidebar/sidebar-items";
 
 
 interface SidebarMenuProps {
@@ -117,7 +122,7 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
                             base: "px-3 rounded-large data-[selected=true]:shadow",
                             title: "group-data-[selected=true]:text-text",
                         }}
-                        items={sectionItemsUser}
+                        items={getItemsByRole(session.role ?? "")}
                     />
                 </ScrollShadow>
 
@@ -197,6 +202,19 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
         </SidebarDrawer>
     );
 }
+
+const getItemsByRole = (role : string) => {
+    switch (role) {
+        case 'admin':
+            return sectionItemsAdmin;
+        case 'user':
+            return sectionItemsUser;
+        case 'bakerz':
+            return sectionItemsBakerz;
+        default:
+            return sectionItemsGuest;
+    }
+};
 
 interface LoggedInMenuProps {
     name?: string | null;

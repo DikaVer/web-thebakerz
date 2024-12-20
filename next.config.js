@@ -10,6 +10,10 @@ module.exports = {
                     loaders: ['@svgr/webpack'],
                     as: '*.js',
                 },
+                '*.webp': {
+                    loaders: ['@webpr/webpack'],
+                    as: '*.js',
+                },
             },
         },
     },

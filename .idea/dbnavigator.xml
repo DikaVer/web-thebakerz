@@ -17,7 +17,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="e0ddc995-60f4-46e2-a305-e4a41045359e">
-      <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[SELECT * from verification_token;]]></console>
+      <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[Update users set role='admin' where name = 'dika1596';]]></console>
     </connection>
     <connection id="3ef453d2-c35c-4718-b4df-778fa30eed53">
       <console name="Connection 1" type="STANDARD" schema="" session="Main" />
@@ -47,6 +47,9 @@
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
     <filters />
+  </component>
+  <component name="DBNavigator.Project.ParserDiagnosticsManager">
+    <diagnostics-history />
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>

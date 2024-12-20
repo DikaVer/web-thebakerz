@@ -8,9 +8,10 @@ import LayoutComp from "@/components/layout-comp";
 
 export const metadata: Metadata = metadataDefault;
 
-export default async function Layout({
+export default async function Layout(
+    {
                                          children,
-                                  }: {
+                                  } : {
     children: React.ReactNode
 }) {
 
@@ -21,7 +22,9 @@ export default async function Layout({
                 <LayoutComp
                     session={session}
                 >
-                    {children}
+                    <div className={'min-h-svh'}>
+                        {children}
+                    </div>
                     <Footer/>
                 </LayoutComp>
             </>
