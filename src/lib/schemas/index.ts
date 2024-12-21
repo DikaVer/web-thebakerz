@@ -1,6 +1,21 @@
 import * as z from 'zod';
 import {categories, cityLatLngMap, timeMap} from "@/lib/local-variables";
 
+
+export const ContactSchema = z.object({
+    email: z.string()
+        .trim()
+        .min(1,
+            {
+                message: 'Email required!'
+            })
+        .email({
+            message: 'Invalid email!'
+        }),
+    subject: z.string().min(1, { message: "Subject is required" }).max(200, { message: "Context must be less than 200 characters" }),
+    context: z.string().min(20, { message: "Context must be bigger than 50 characters" }).max(2000, { message: "Context must be less than 2000 characters" }),
+});
+
 export const LoginSchema = z.object({
     email: z.string()
         .trim()

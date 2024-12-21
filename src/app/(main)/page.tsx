@@ -21,11 +21,12 @@ import {useRouter} from "next/navigation";
 
 export default function Page() {
     return (
+        <>
             <div className="flex flex-col min-h-screen relative z-10 items-center">
                 <FirstView/>
                 <div className="flex flex-col container mx-auto items-center justify-center">
 
-                     {/*Why Choose Section */}
+                    {/*Why Choose Section */}
                     <WhyChooseSection/>
                     {/*<CheckItOutSection/>*/}
                     <PricingSection/>
@@ -34,6 +35,7 @@ export default function Page() {
                 {/* Succeed Footer */}
                 <Footer/>
             </div>
+        </>
 
     );
 }

@@ -59,31 +59,33 @@ export function FirstView() {
                             <p>Bake more.</p>
                             <p>Manage less.</p>
                         </h1>
-                        <p ref={subheadingRef} className={`mt-8 text-pretty flex flex-col text-lg font-medium text-grayText sm:text-xl/8  opacity-0 ${subheadingInView ? 'animate-fadeInUpDelay3' : ''}`}>
+                        <p ref={subheadingRef}
+                           className={`mt-8 text-pretty flex flex-col text-lg font-medium text-grayText sm:text-xl/8  opacity-0 ${subheadingInView ? 'animate-fadeInUpDelay3' : ''}`}>
                             <span>TheBakerz - all orders, customer messages and recipes in one place</span>
                         </p>
-                        <div ref={buttonRef} className={`mt-10 flex items-center justify-center gap-x-6 opacity-0 ${buttonInView ? 'animate-fadeInUpDelay4' : ''}`}>
+                        <div ref={buttonRef}
+                             className={`mt-10 flex items-center justify-center gap-x-6 opacity-0 ${buttonInView ? 'animate-fadeInUpDelay4' : ''}`}>
                             <div className="flex flex-col">
 
-                                    <Button
-                                        isLoading={isLoading}
-                                        disabled={isLoading}
-                                        className={`py-6 -px-1 ${isLoading ? "px-6" : "-px-1"} gradient-background text-2xl`}
-                                        variant={"default"}
-                                        onPress={handleCreate}
-                                    >
-                                        <>
+                                <Button
+                                    isLoading={isLoading}
+                                    disabled={isLoading}
+                                    className={`py-6 -px-1 ${isLoading ? "px-6" : "-px-1"} gradient-background text-2xl`}
+                                    variant={"default"}
+                                    onPress={handleCreate}
+                                >
+                                    <>
 
-                                            {isLoading ? (
-                                                <>Loading...</>
-                                            ) : (
-                                                <div className="px-6 flex flex-col"
-                                                >
-                                                    Get started
-                                                </div>
-                                            )}
-                                        </>
-                                    </Button>
+                                        {isLoading ? (
+                                            <>Loading...</>
+                                        ) : (
+                                            <div className="px-6 flex flex-col"
+                                            >
+                                                Get started
+                                            </div>
+                                        )}
+                                    </>
+                                </Button>
                             </div>
                             <a href="#why-choose" className="text-sm/6 font-semibold text-text">
                                 Learn more <span aria-hidden="true">&rarr;</span>

@@ -12,16 +12,16 @@ export default async function Page() {
                 <section id={'nice-to-meet-you'}>
                     <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 relative">
                         <div
-                            className="flex items-center justify-center bg-secondary rounded-none rounded-b-lg lg:rounded-none lg:rounded-l-lg">
+                            className="flex items-center justify-center bg-gradient-to-tl from-secondary to-white rounded-none rounded-b-lg lg:rounded-none lg:rounded-l-lg">
                             <div
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
-                                <h2 className={`text-center lg:text-left text-4xl lg:text-6xl font-bold mb-10 ${pacifico.className}`}>
+                                <h2 className={`text-left text-4xl lg:text-6xl font-bold mb-10 ${pacifico.className}`}>
                                     Nice to meet you
                                 </h2>
 
                                 <div className="mb-6 text-md lg:text-lg font-light ">
-                                    <p className={'text-center lg:text-left'}>
+                                    <p className={'text-left'}>
                                         We’re David and Dumitru, and TheBakerz means a lot to us. After seeing our
                                         friends and family who bake struggle with late-night orders, juggling too many
                                         apps, and feeling like they never had time for the craft they love, we knew
@@ -45,9 +45,9 @@ export default async function Page() {
                     </div>
                 </section>
                 <section id={'bake-more-manage-less'}>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 relative">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 relative bg-gradient-to-tl from-secondary to-white rounded-lg">
                         <div
-                            className="relative overflow-hidden w-full rounded-none rounded-t-lg lg:rounded-none lg:rounded-l-lg bg-secondary">
+                            className="relative overflow-hidden w-full">
 
                             <div className={`h-full flex justify-center`}>
                                 <Image
@@ -62,7 +62,7 @@ export default async function Page() {
 
                         </div>
                         <div
-                            className="flex items-center justify-center bg-secondary rounded-none rounded-b-lg lg:rounded-none lg:rounded-r-lg bg-secondary">
+                            className="flex items-center justify-center">
                             <div
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
@@ -86,7 +86,7 @@ export default async function Page() {
                 </section>
                 <section id={'bake-more-manage-less'}>
                     <div className="flex flex-col lg:grid lg:grid-cols-2 relative">
-                        <div className="flex items-center justify-center bg-secondary rounded-lg">
+                        <div className="flex items-center justify-center bg-gradient-to-tl from-secondary to-white rounded-lg">
                             <div
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
