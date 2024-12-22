@@ -236,8 +236,12 @@ body {
     border-width: 3px;
   }
 
-
-
+  /* ===========================
+     Margin Utilities
+  ============================ */
+  .proportional-girl-mb {
+    margin-bottom: 22vw;
+  }
 
 
   /* ===========================

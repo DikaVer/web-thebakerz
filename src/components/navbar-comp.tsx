@@ -12,6 +12,7 @@ import {  Navbar,
 import {pacifico} from "@/components/fonts";
 import {Icon} from "@iconify/react";
 import {SigninButton} from "@/components/ui/signin-button";
+import {useMediaQuery} from "usehooks-ts";
 
 interface LayoutProps {
     onOpenChange: () => void;
@@ -23,6 +24,8 @@ interface LayoutProps {
 }
 
 export default function NavbarComponent({isMobile, setIsCollapsed, onOpenChange, isCollapsed, onToggle, props = {}}: LayoutProps) {
+
+    const isSmall = useMediaQuery("(max-width: 1024px)");
 
     return (
         <>
@@ -43,7 +46,7 @@ export default function NavbarComponent({isMobile, setIsCollapsed, onOpenChange,
                     {/* Toggle */}
                     <NavbarItem className="ml-1 !flex">
                         <Button isIconOnly size="sm" variant="light" onPress={() => {
-                            if (isMobile) {
+                            if (isSmall) {
                                 setIsCollapsed(false);
                                 onOpenChange();
                             } else {

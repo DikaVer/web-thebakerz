@@ -44,7 +44,6 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
         <SidebarDrawer
             className={cn("min-w-[288px] rounded-lg", {"min-w-[82px]": isCollapsed})}
             hideCloseButton={true}
-
             isOpen={isOpen}
             onOpenChange={onOpenChange}
         >

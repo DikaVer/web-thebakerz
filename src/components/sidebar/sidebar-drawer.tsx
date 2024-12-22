@@ -85,6 +85,7 @@ const SidebarDrawer = React.forwardRef<
           motionProps={motionProps}
           backdrop={"blur"}
           radius="none"
+
           scrollBehavior="inside"
           style={{
             // @ts-ignore
@@ -98,7 +99,7 @@ const SidebarDrawer = React.forwardRef<
         </Drawer>
         <div
           className={cn(
-            "hidden h-full max-w-[var(--sidebar-width)] overflow-x-hidden overflow-y-hidden md:flex",
+            "hidden h-full max-w-[var(--sidebar-width)] overflow-x-hidden overflow-y-hidden lg:flex",
             className,
           )}
         >

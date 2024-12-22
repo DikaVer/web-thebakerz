@@ -21,6 +21,7 @@ import {useRouter} from "next/navigation";
 import {Icon} from "@iconify/react";
 import ScrollTriggered from "@/components/landing/scroll-triggered";
 import ApplyComponent from "@/components/landing/apply-component";
+import {useIsMobile} from "@/lib/hooks/use-mobile";
 
 export default function Page() {
     return (
@@ -321,6 +322,7 @@ const PricingSection = () => {
 // Footer Component
 const Footer = () => {
     const [footerRef, footerInView] = useInView<HTMLDivElement>({threshold: 0});
+    const isMobile = useIsMobile();
 
     return (
         <div
@@ -338,42 +340,42 @@ const Footer = () => {
             </div>
             <div
                 ref={footerRef}
-                className={`relative w-36 proportional-girl-mb mb-36
+                className={` hidden md:flex relative ${isMobile ? "w-16 mb-20" : "w-36 mb-36"} 
                 opacity-0 transform translate-y-10 
                 ${footerInView ? 'animate-fadeInUp' : ''}
                 `}
             >
                 <div
                     className={`absolute`}
-                    style={{width: '150px', height: '192px'}}
+                    style={{width: `${isMobile ? "90px" : "150px"}`, height: '192px'}}
                 >
                     <Image
                         src="/images/Mickey.svg"
                         alt="TheBakerz - Mickey"
                         className={`absolute z-50`}
-                        width={150}
+                        width={isMobile ? 90 : 150}
                         height={192}
                         quality={100}
                     />
                 </div>
             </div>
-            <span className={`text-[3vh] text-primary text-center ${pacifico.className}`}>We want you to succeed</span>
+            <span className={`text-[3vh] py-12 text-primary text-center ${pacifico.className}`}>We want you to succeed</span>
             <div
                 ref={footerRef}
-                className={`relative w-36 proportional-girl-mb mb-36
+                className={`hidden md:flex relative ${isMobile ? "w-16 mb-20" : "w-36 mb-36"} 
                 opacity-0 transform translate-y-10 
                 ${footerInView ? 'animate-fadeInUp' : ''}
                 `}
             >
                 <div
                     className={`absolute`}
-                    style={{width: '150px', height: '192px'}}
+                    style={{width: `${isMobile ? "90px" : "150px"}`, height: '192px'}}
                 >
                     <Image
                         src="/images/Wiki.svg"
                         alt="TheBakerz - Wiki"
                         className={`absolute z-50`}
-                        width={150}
+                        width={isMobile ? 90 : 150}
                         height={192}
                         quality={100}
                     />

@@ -205,12 +205,10 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                                 isSelected={field.value}
                                                                 className="m-0 text-left mb-2"
                                                                 color="primary"
-                                                                name="terms-and-privacy-agreement"
+                                                                name="terms"
                                                                 size="md"
-                                                                validate={() => {
-                                                                    return fieldState.error?.message;
-                                                                }}
                                                             >
+
                                                                 I read and agree with the
                                                                 <Link className="mx-1 text-grayText underline" href="/policies/terms-of-use" size="md">
                                                                     Terms

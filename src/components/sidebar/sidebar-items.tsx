@@ -67,8 +67,8 @@ export const sectionItemsUser: SidebarItem[] = [
                 title: "About Us",
             },
             {
-                key: "join-thebakerz",
-                href: "/join-thebakerz",
+                key: "#join-thebakerz",
+                href: "/#join-thebakerz",
                 title: "Join TheBakerz",
                 icon: "solar:chef-hat-heart-broken",
             }
@@ -223,8 +223,8 @@ export const sectionItemsGuest: SidebarItem[] = [  {
             title: "About TheBakerz",
         },
         {
-            key: "join-thebakerz",
-            href: "/join-thebakerz",
+            key: "#join-thebakerz",
+            href: "/#join-thebakerz",
             title: "Join TheBakerz",
             icon: "solar:chef-hat-heart-broken",
         }
