@@ -171,7 +171,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                     <Listbox
                       className={"mt-0.5"}
                       classNames={{
-                        list: cn("border-l border-default-200 pl-4"),
+                        list: cn("border-l  pl-4"),
                       }}
                       items={item.items}
                       variant="flat"

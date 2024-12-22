@@ -30,7 +30,7 @@ export const SigninButton = ({ className, variant }: SigninButtonProps) => {
         <Button
             isLoading={isLoading}
             disabled={isLoading}
-            className={`${className} ${pacifico.className}`}
+            className={`${className} ${pacifico.className} shadow-lg`}
             color={variant === "default" ? "primary" : "secondary"}
             onPress={handleSignIn}
         >

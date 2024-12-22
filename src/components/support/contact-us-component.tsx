@@ -11,7 +11,7 @@ import {Card, CardBody, Input, Textarea} from "@nextui-org/react";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem} from "@/components/ui/form";
 import { FormError } from "@/components/authentication/form-error";
-import { sendEmail } from "@/lib/actions/support-action";
+import { sendEmail } from "@/lib/actions/email-action";
 import SuccessRedirect from "@/components/redirect-page";
 
 export default function ContactUsComponent() {
@@ -55,7 +55,7 @@ export default function ContactUsComponent() {
     }
 
     return (
-        <Card className={'w-full max-w-xl'}>
+        <Card className={'w-full max-w-xl bg-gradient-card'}>
             <CardBody className={'w-full max-w-xl'}>
                 <Form {...form}>
                     <form
@@ -131,7 +131,7 @@ export default function ContactUsComponent() {
                         <FormError message={state?.error || undefined} />
                         <Button
                             type="submit"
-                            className={'w-full rounded-xl'}
+                            className={'w-full rounded-xl bg-gradient-primary'}
                             isLoading={isPending}
                             disabled={isPending}
                         >

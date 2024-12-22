@@ -15,7 +15,7 @@
     --popover-foreground: 20 14.3% 4.1%;
     --primary: 302 81% 25%; /* #730c70 */
     --primary-foreground: 60 9.1% 97.8%;
-    --secondary: 51, 80%, 90%;
+    --secondary: 51, 100%, 94%;
     --secondary-hover: 51, 80%, 80%;
     --secondary-foreground: 24 9.8% 10%;
     --muted: 60 4.8% 95.9%;
@@ -26,36 +26,29 @@
     --outline-foreground: 240, 10%, 96%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
-    --border: 20 5.9% 90%;
+    --border: 20 5.9% 85%;
     --input: 20 5.9% 90%;
     --ring: 20 14.3% 4.1%;
     --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
     --green-bakerz: 168, 86%, 17%;
     --orange-bakerz: 31, 81%, 51%;
     --red-bakerz: 354, 70%, 44%;
-    --gray-bg: 240, 10%, 96%;
     --gray-text: 60, 1%, 36%;
-    --gray-bg-component: 0, 0%, 98%;
     --outline-component: 0 0% 100%;
   }
 
   .dark {
-    --background: 20 14.3% 4.1%;
+    --background: 215, 28%, 7%;
     --foreground: 60 9.1% 97.8%;
-    --text: 180, 50%, 99%;
+    --text: 0 0% 96%;
     --card: 20 14.3% 4.1%;
     --card-foreground: 60 9.1% 97.8%;
     --popover: 20 14.3% 4.1%;
     --popover-foreground: 60 9.1% 97.8%;
-    --primary: 270 59.26% 45.65%;
+    --primary: 302 81% 25%;
     --primary-foreground: 60 9.1% 97.8%;
     --secondary: 51, 80%, 90%;
-    --secondary-hover: 51, 80%, 80%;
+    --secondary-hover: 51, 80%, 85%;
     --secondary-foreground: 24 9.8% 10%;
     --muted: 12 6.5% 15.1%;
     --muted-foreground: 24 5.4% 63.9%;
@@ -65,20 +58,13 @@
     --outline-foreground: 0, 0%, 63.9%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 60 9.1% 97.8%;
-    --border: 12 6.5% 15.1%;
+    --border: 0, 0%, 45.9%;
     --input: 12 6.5% 15.1%;
     --ring: 24 5.7% 82.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
     --green-bakerz: 168, 86%, 17%;
     --orange-bakerz: 31, 81%, 51%;
     --red-bakerz: 354, 70%, 44%;
-    --gray-bg: 240 5.88% 10%;
     --gray-text: 0, 0%, 63.9%;
-    --gray-bg-component: 240 5.88% 20%;
     --outline-component: 240 5.88% 10%;
   }
 }
@@ -145,6 +131,48 @@ body {
     animation: pulsate-bck-normal 1s ease 0s infinite normal none;
   }
 
+  #join-thebakerz {
+    scroll-margin-top: 80px; /* Adjust this value based on your header height */
+  }
+
+  .bg-gradient-primary {
+    background: linear-gradient(to bottom right, hsl(302 81% 25%) 50%, hsl(302 81% 35%));
+  }
+
+  .bg-gradient-secondary {
+    background: linear-gradient(to bottom right, hsl(0 0% 98%), hsl(var(--secondary)));
+  }
+
+
+  .bg-gradient-card {
+    background: linear-gradient(to bottom right, hsl(21, 0%, 99%) 60%, hsl(0, 0%, 90%));
+  }
+
+  .dark .bg-gradient-card {
+    background: linear-gradient(to bottom right, hsl(240 5.88% 20%) 60%, hsl(240 5.88% 10%));
+  }
+
+  .bg-gradient-item {
+    background: linear-gradient(to bottom right, hsl(240 5.88% 20%) 60%, hsl(240 5.88% 10%));
+  }
+
+  .dark .bg-gradient-item {
+    background: linear-gradient(to bottom right, hsl(21, 0%, 99%) 60%, hsl(0, 0%, 90%));
+  }
+
+  .bg-gradient-text {
+    background: linear-gradient(to bottom right, hsl(240 5.88% 20%) 60%, hsl(240 5.88% 10%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dark .bg-gradient-text {
+    background: linear-gradient(to bottom right, hsl(21, 0%, 99%) 60%, hsl(0, 0%, 90%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+
 
   /* Animation Classes */
   .animate-fadeInDown {
@@ -175,95 +203,7 @@ body {
     animation: fadeInUp 4.4s ease-out 1.5s forwards;
   }
 
-  /* ===========================
-     Width Utilities
-  ============================ */
-  .w-7-5 {
-    width: 1.875rem;
-  }
 
-  .w-14-5 {
-    width: 3.75rem;
-  }
-
-  .w-18 {
-    width: 4.5rem;
-  }
-
-  .w-22 {
-    width: 5.5rem;
-  }
-
-  .w-30 {
-    width: 7.5rem;
-  }
-
-  .w-38 {
-    width: 9.5rem;
-  }
-
-  .w-39 {
-    width: 9.75rem;
-  }
-
-  .w-76 {
-    width: 19.5rem;
-  }
-
-  .w-128 {
-    width: 28rem;
-  }
-
-  .w-dynamic-button {
-    width: 34vw;
-    font-size: 3.5vw;
-  }
-
-  /* ===========================
-     Height Utilities
-  ============================ */
-  .h-7-5 {
-    height: 1.875rem;
-  }
-
-  .h-14-5 {
-    height: 3.75rem;
-  }
-
-  .h-18 {
-    height: 4.5rem;
-  }
-
-  .h-26 {
-    height: 6.5rem;
-  }
-
-  .h-27 {
-    height: 6.75rem;
-  }
-
-  .h-30 {
-    height: 7.5rem;
-  }
-
-  /* ===========================
-     Scale Utilities
-  ============================ */
-  .scale-y-200 {
-    transform: scaleY(2);
-  }
-
-  .scale-y-300 {
-    transform: scaleY(3);
-  }
-
-  .scale-102 {
-    transform: scale(1.025);
-  }
-
-  .scale-115 {
-    transform: scale(1.15);
-  }
 
   /* ===========================
      Animation Utilities
@@ -284,12 +224,6 @@ body {
     animation-duration: 200ms;
   }
 
-  /* ===========================
-     Padding Utilities
-  ============================ */
-  .pt-18 {
-    padding-top: 4.5rem;
-  }
 
   /* ===========================
      Border Utilities
@@ -302,89 +236,9 @@ body {
     border-width: 3px;
   }
 
-  /* ===========================
-     Hover Trigger Utilities
-  ============================ */
-  .trigger-hover:hover .underline-on-hover {
-    text-decoration: underline;
-  }
 
-  .trigger-hover:hover .text-on-hover-white {
-    color: white;
-  }
 
-  /* ===========================
-     Text Transition Utilities
-  ============================ */
-  .text-on-hover-white {
-    transition: transform 0.7s ease;
-  }
 
-  /* ===========================
-     Clamp Utilities
-  ============================ */
-  .clamp-title,
-  .clamp-description,
-  .clamp-product-description {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
-  }
-
-  .clamp-title {
-    -webkit-line-clamp: 1; /* Adjust number of lines as needed */
-  }
-
-  .clamp-description {
-    -webkit-line-clamp: 4; /* Adjust number of lines as needed */
-  }
-
-  .clamp-product-description {
-    -webkit-line-clamp: 9; /* Adjust number of lines as needed */
-  }
-
-  /* ===========================
-     Hover Scale Utilities
-  ============================ */
-  .trigger-hover:hover .scale-on-hover-105 {
-    transform: scale(1.05);
-  }
-
-  .trigger-hover:hover .scale-on-hover-115 {
-    transform: scale(1.15);
-  }
-
-  .scale-on-hover-105 {
-    transition: transform 0.3s ease;
-  }
-
-  .scale-on-hover-115 {
-    transition: transform 0.5s ease;
-  }
-
-  /* ===========================
-     Margin Utilities
-  ============================ */
-  .proportional-girl-mb {
-    margin-bottom: 22vw;
-  }
-
-  /* ===========================
-     PAC Container Utilities
-  ============================ */
-  .pac-container {
-    background-color: #FFF;
-    z-index: 1000;
-    position: fixed;
-    display: inline-block;
-    float: left;
-  }
-
-  .pac-icon {
-    display: none !important;
-  }
 
   /* ===========================
      Background Color Utilities

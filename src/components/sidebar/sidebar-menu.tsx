@@ -5,7 +5,7 @@ import Sidebar from "@/components/sidebar/sidebar";
 import {Icon} from "@iconify/react";
 import SidebarDrawer from "@/components/sidebar/sidebar-drawer";
 import React, {useEffect} from "react";
-import {usePathname, useRouter} from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {ThemeSwitcher} from "@/components/ui/ThemeSwitcher";
 import {SignOutButton} from "@/components/ui/signout-button";
 import {
@@ -50,7 +50,7 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
         >
             <div
                 className={cn(
-                    `fixed will-change flex h-full w-72 flex-col  p-6 transition-width border-1`,
+                    `fixed will-change flex h-full w-72 flex-col  p-6 transition-width border-r bg-background`,
                     {
                         "w-[83px] items-center px-[6px] py-6": isCollapsed,
                     },
@@ -83,7 +83,7 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
                         iconClassName="group-data-[selected=true]:text-text"
                         isCompact={isCollapsed}
                         itemClasses={{
-                            base: "px-3 rounded-large data-[selected=true]:shadow",
+                            base: "px-3 rounded-large data-[selected=true]:shadow ",
                             title: "group-data-[selected=true]:text-text",
                         }}
                         items={getItemsByRole(session.role ?? "")}

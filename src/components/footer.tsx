@@ -77,9 +77,10 @@ type SocialIconProps = Omit<IconProps, "icon">;
 
 const footerNavigation = {
     overview: [
-        {name: "Home", href: "/"},
+        {name: "Home TheBakerz", href: "/"},
         {name: "Search", href: "/search"},
-        {name: "About Us", href: "/about-us"},
+        {name: "About TheBakerz", href: "/about-us"},
+        {name: "Join TheBakerz", href: "/#join-thebakerz"},
         // {name: "Market Research", href: "#"},
     ],
     supportOptions: [
@@ -87,13 +88,6 @@ const footerNavigation = {
         // {name: "User Guides", href: "#"},
         // {name: "Tutorials", href: "#"},
         // {name: "Service Status", href: "#"},
-    ],
-    services: [
-        {name: "Services", href: "/join-thebakerz"},
-        // {name: "Latest News", href: "/about-us"},
-        // {name: "Career Opportunities", href: "#"},
-        // {name: "Media Enquiries", href: "#"},
-        // {name: "Collaborations", href: "#"},
     ],
     legal: [
         {name: "Privacy Policy", href: "/policies/privacy-policy"},
@@ -140,7 +134,7 @@ export function Footer() {
     );
 
     return (
-        <footer className="flex w-full flex-col bg-gradient-to-br from-grayBg to-grayBgComp rounded-xl">
+        <footer className="flex w-full flex-col bg-gradient-card rounded-xl drop-shadow">
             <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
                 <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     <div className="space-y-8 md:pr-8">
@@ -169,13 +163,13 @@ export function Footer() {
                     </div>
                     <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
                         <div className="md:grid md:grid-cols-2 md:gap-8">
-                            <div>{renderList({title: "Overview", items: footerNavigation.overview})}</div>
+                            <div>{renderList({title: "Navigation", items: footerNavigation.overview})}</div>
                             <div className="mt-10 md:mt-0">
                                 {renderList({title: "Support", items: footerNavigation.supportOptions})}
                             </div>
                         </div>
                         <div className="md:grid md:grid-cols-2 md:gap-8">
-                            <div>{renderList({title: "Services", items: footerNavigation.services})}</div>
+                            {/*<div>{renderList({title: "Services", items: footerNavigation.services})}</div>*/}
                             <div className="mt-10 md:mt-0">
                                 {renderList({title: "Legal", items: footerNavigation.legal})}
                             </div>

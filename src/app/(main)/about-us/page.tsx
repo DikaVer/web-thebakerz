@@ -12,7 +12,7 @@ export default async function Page() {
                 <section id={'nice-to-meet-you'}>
                     <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 relative">
                         <div
-                            className="flex items-center justify-center bg-gradient-to-tl from-secondary to-white rounded-none rounded-b-lg lg:rounded-none lg:rounded-l-lg">
+                            className="flex items-center justify-center bg-gradient-secondary to-white rounded-none rounded-b-lg lg:rounded-none lg:rounded-l-lg">
                             <div
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
@@ -45,7 +45,7 @@ export default async function Page() {
                     </div>
                 </section>
                 <section id={'bake-more-manage-less'}>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 relative bg-gradient-to-tl from-secondary to-white rounded-lg">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 relative bg-gradient-secondary rounded-lg">
                         <div
                             className="relative overflow-hidden w-full">
 
@@ -86,7 +86,7 @@ export default async function Page() {
                 </section>
                 <section id={'bake-more-manage-less'}>
                     <div className="flex flex-col lg:grid lg:grid-cols-2 relative">
-                        <div className="flex items-center justify-center bg-gradient-to-tl from-secondary to-white rounded-lg">
+                        <div className="flex items-center justify-center bg-gradient-secondary rounded-lg">
                             <div
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
@@ -118,9 +118,6 @@ export default async function Page() {
                         </div>
                     </div>
                 </section>
-                <div className={`w-full flex justify-center`}>
-                    <FooterImage/>
-                </div>
 
             </main>
         </div>

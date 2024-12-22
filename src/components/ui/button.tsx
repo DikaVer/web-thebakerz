@@ -10,7 +10,7 @@ const variants = {
         "border border-input bg-outline hover:bg-outline-foreground ",
     secondary:
         "bg-secondary text-secondary-foreground hover:bg-secondary-hover",
-    ghost: "bg-accent hover:bg-accent border-0",
+    ghost: "bg-transparent border-0",
     link: "text-primary underline-offset-4 hover:underline",
     free: "bg-greenBakerz text-white rounded-full hover:scale-100 scale-95",
     busy: "bg-orangeBakerz text-white rounded-full hover:scale-100 scale-95",

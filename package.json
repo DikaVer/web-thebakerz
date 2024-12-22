@@ -60,6 +60,7 @@
     "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.17.13",
     "@types/pg": "^8.11.10",
+    "@types/validator": "^13.12.2",
     "@vercel/blob": "^0.24.1",
     "@vercel/kv": "^3.0.0",
     "canvas-confetti": "^1.9.3",
@@ -78,6 +79,7 @@
     "lucide-react": "^0.424.0",
     "mini-css-extract-plugin": "^2.9.2",
     "module_name": "^1.0.0",
+    "motion": "^11.15.0",
     "nanoid": "^5.0.9",
     "next": "15.1.0",
     "next-auth": "5.0.0-beta.25",
@@ -102,6 +104,7 @@
     "tailwindcss-animate": "^1.0.7",
     "use-debounce": "^10.0.4",
     "usehooks-ts": "^3.1.0",
+    "validator": "^13.12.0",
     "zod": "^3.24.1"
   },
   "engines": {

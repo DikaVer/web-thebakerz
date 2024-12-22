@@ -79,16 +79,6 @@ const config = {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
   			},
-  			sidebar: {
-  				DEFAULT: 'hsl(var(--sidebar-background))',
-  				foreground: 'hsl(var(--sidebar-foreground))',
-  				primary: 'hsl(var(--sidebar-primary))',
-  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-  				accent: 'hsl(var(--sidebar-accent))',
-  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-  				border: 'hsl(var(--sidebar-border))',
-  				ring: 'hsl(var(--sidebar-ring))'
-  			}
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -139,6 +129,54 @@ const config = {
   },
 
   plugins: [require("tailwindcss-animate"), nextui({
+	  colors: {
+		  text: 'hsl(var(--text))',
+		  border: 'hsl(var(--border))',
+		  input: 'hsl(var(--input))',
+		  ring: 'hsl(var(--ring))',
+		  background: 'hsl(var(--background))',
+		  foreground: 'hsl(var(--foreground))',
+		  greenBakerz: 'hsl(var(--green-bakerz))',
+		  redBakerz: 'hsl(var(--red-bakerz))',
+		  orangeBakerz: 'hsl(var(--orange-bakerz))',
+		  grayBg: 'hsl(var(--gray-bg))',
+		  grayText: 'hsl(var(--gray-text))',
+		  grayBgComp: 'hsl(var(--gray-bg-component))',
+		  outlineComp: 'hsl(var(--outline-component))',
+		  primary: {
+			  DEFAULT: 'hsl(var(--primary))',
+			  foreground: 'hsl(var(--primary-foreground))'
+		  },
+		  secondary: {
+			  DEFAULT: 'hsl(var(--secondary))',
+			  hover: 'hsl(var(--secondary-hover))',
+			  foreground: 'hsl(var(--secondary-foreground))'
+		  },
+		  destructive: {
+			  DEFAULT: 'hsl(var(--destructive))',
+			  foreground: 'hsl(var(--destructive-foreground))'
+		  },
+		  muted: {
+			  DEFAULT: 'hsl(var(--muted))',
+			  foreground: 'hsl(var(--muted-foreground))'
+		  },
+		  accent: {
+			  DEFAULT: 'hsl(var(--accent))',
+			  foreground: 'hsl(var(--accent-foreground))'
+		  },
+		  outline: {
+			  DEFAULT: 'hsl(var(--outline))',
+			  foreground: 'hsl(var(--outline-foreground))'
+		  },
+		  popover: {
+			  DEFAULT: 'hsl(var(--popover))',
+			  foreground: 'hsl(var(--popover-foreground))'
+		  },
+		  card: {
+			  DEFAULT: 'hsl(var(--card))',
+			  foreground: 'hsl(var(--card-foreground))'
+		  },
+	  },
     layout: {
       dividerWeight: "1px", // h-divider the default height applied to the divider component
       disabledOpacity: 0.5, // this value is applied as opacity-[value] when the component is disabled

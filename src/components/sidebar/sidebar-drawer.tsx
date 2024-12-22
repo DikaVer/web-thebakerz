@@ -64,7 +64,7 @@ const SidebarDrawer = React.forwardRef<
           classNames={{
             ...classNames,
             wrapper: cn("!w-[var(--sidebar-width)]", classNames?.wrapper, {
-              "!items-start !justify-start ": sidebarPlacement === "left",
+              "!items-start !justify-start border-none border-l": sidebarPlacement === "left",
               "!items-end !justify-end": sidebarPlacement === "right",
             }),
             base: cn(

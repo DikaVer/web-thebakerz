@@ -122,15 +122,7 @@ export function UserAuthForm(){
                         await loginWithProvider("google", next ? next : "/");
                 }}
                 className={"w-full"}
-            ><Input
-                    isRequired
-                    label="Email"
-                    placeholder="Enter your email"
-                    type="email"
-                    validate={(value) => {
-                        return form.formState.errors.email?.message;
-                    }}
-                />
+            >
                 <Button
                     type="submit"
                     variant={"outline"}

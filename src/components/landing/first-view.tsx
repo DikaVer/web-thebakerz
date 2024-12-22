@@ -15,8 +15,9 @@ export function FirstView() {
 
     const handleCreate = () => {
         setLoading(true);
-        router.push('/join-thebakerz');
+        router.push('/#join-thebakerz');
         router.refresh();
+        setLoading(false);
     };
 
     const [aboutusRef, aboutusInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
@@ -54,13 +55,13 @@ export function FirstView() {
                     {/*    </div>*/}
                     {/*</div>*/}
                     <div className="text-center">
-                        <h1 ref={headingRef} className={`${pacifico.className} flex flex-col  text-balance text-5xl font-semibold tracking-tight  sm:text-7xl opacity-0 mb-20 
+                        <h1 ref={headingRef} className={`${pacifico.className} flex flex-col bg-gradient-text py-8 text-balance text-5xl font-semibold tracking-tight  sm:text-7xl opacity-0 mb-12 
                         ${headingInView ? 'animate-fadeInUpDelay2' : ''}`}>
                             <p>Bake more.</p>
                             <p>Manage less.</p>
                         </h1>
                         <p ref={subheadingRef}
-                           className={`mt-8 text-pretty flex flex-col text-lg font-medium text-grayText sm:text-xl/8  opacity-0 ${subheadingInView ? 'animate-fadeInUpDelay3' : ''}`}>
+                           className={`text-pretty flex flex-col text-lg font-medium text-grayText sm:text-xl/8  opacity-0 ${subheadingInView ? 'animate-fadeInUpDelay3' : ''}`}>
                             <span>TheBakerz - all orders, customer messages and recipes in one place</span>
                         </p>
                         <div ref={buttonRef}
@@ -70,7 +71,7 @@ export function FirstView() {
                                 <Button
                                     isLoading={isLoading}
                                     disabled={isLoading}
-                                    className={`py-6 -px-1 ${isLoading ? "px-6" : "-px-1"} gradient-background text-2xl`}
+                                    className={`py-6 -px-1 ${isLoading ? "px-6" : "-px-1"} bg-gradient-primary text-2xl shadow-xl rounded-3xl`}
                                     variant={"default"}
                                     onPress={handleCreate}
                                 >
