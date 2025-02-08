@@ -1,14 +1,14 @@
 "use client";
 
 import {ComponentProps, useState} from "react";
-import type {ButtonProps} from "@nextui-org/react";
+import type {ButtonProps} from "@heroui/react";
 
 import React from "react";
 
 import {useControlledState} from "@react-stately/utils";
 
 import {m, LazyMotion, domAnimation} from "framer-motion";
-import {cn} from "@nextui-org/react";
+import {cn} from "@heroui/react";
 import {useRouter} from "next/navigation";
 
 export type RowStepProps = {
@@ -104,15 +104,7 @@ export const VerticalStepsAboutUs = React.forwardRef<HTMLButtonElement, RowSteps
             onStepChange,
         );
 
-        const router = useRouter();
 
-        const [isLoading, setLoading] = useState(false);
-
-        const handleCreate = () => {
-            setLoading(true);
-            router.push('/application');
-            router.refresh();
-        };
 
         const colors = React.useMemo(() => {
             let userColor;
@@ -280,15 +272,6 @@ export const VerticalStepsForecast = React.forwardRef<HTMLButtonElement, RowStep
             onStepChange,
         );
 
-        const router = useRouter();
-
-        const [isLoading, setLoading] = useState(false);
-
-        const handleCreate = () => {
-            setLoading(true);
-            router.push('/application');
-            router.refresh();
-        };
 
         const colors = React.useMemo(() => {
             let userColor;

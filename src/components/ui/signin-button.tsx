@@ -1,6 +1,6 @@
 "use client";
 
-import {Button} from '@nextui-org/button'
+import {Button} from '@heroui/button'
 import * as React from "react";
 import {usePathname, useRouter} from "next/navigation";
 import {pacifico} from "@/components/fonts";
@@ -30,9 +30,9 @@ export const SigninButton = ({ className, variant }: SigninButtonProps) => {
         <Button
             isLoading={isLoading}
             disabled={isLoading}
-            className={`${className} ${pacifico.className}`}
+            className={`${className} ${pacifico.className} shadow-lg`}
             color={variant === "default" ? "primary" : "secondary"}
-            onClick={handleSignIn}
+            onPress={handleSignIn}
         >
             {isLoading ? "Loading" : "Sign in"}
         </Button>

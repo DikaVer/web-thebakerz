@@ -1,0 +1,207 @@
+"use client";
+
+import React, {useEffect, useState} from "react";
+import {Button, cn, Link, ResizablePanel, Spacer} from "@heroui/react";
+import useCookieConsent from "@/lib/hooks/useCookieConsent";
+import {LazyMotion, domAnimation, AnimatePresence, m} from "framer-motion";
+import SwitchCell from "@/components/settings/switch-cell";
+import {Icon} from "@iconify/react";
+
+const variants = {
+    visible: {opacity: 1},
+    hidden: {opacity: 0},
+};
+
+export default function CookieConsentComponent() {
+
+
+    const { consent, preferences, acceptAll, rejectAll, savePreferences } = useCookieConsent();
+    const [localPreferences, setLocalPreferences] = useState(preferences);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [currentVariant, setCurrentVariant] = useState("visible");
+
+    useEffect(() => {
+        setLocalPreferences(preferences);
+    }, [preferences]);
+
+    // Show banner only if consent is not given
+    if (consent) {
+        return null;
+    }
+
+
+
+
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = e.target;
+        setLocalPreferences((prev) => ({
+            ...prev,
+            [name]: checked,
+        }));
+    };
+
+    const handleAcceptSelected = () => {
+        savePreferences(localPreferences);
+        setIsSettingsOpen(false);
+    };
+
+
+
+    const AnimatedWrapper = ({
+                                 children,
+                                 className,
+                                 ...props
+                             }: React.PropsWithChildren<{className?: string}>) => (
+        <m.div
+            className={cn(
+                "pointer-events-auto ml-auto max-w-sm rounded-large border border-divider bg-background/15 p-6 shadow-small backdrop-blur",
+                className,
+            )}
+            exit="hidden"
+            initial="hidden"
+            transition={{
+                opacity: {
+                    duration: 0.5,
+                },
+            }}
+            variants={variants}
+            {...props}
+        >
+            {children}
+        </m.div>
+    );
+
+    const cookieSettingsContent = (
+        <div className={`pointer-events-auto ml-auto max-w-sm rounded-large border border-divider bg-background/15 p-6 shadow-small backdrop-blur`}>
+            <h1 className="text-large font-semibold">Your Privacy</h1>
+            <p className="text-small font-normal text-default-700">
+                This site uses tracking technologies to improve your experience. You may choose to accept or
+                reject these technologies. Check our{" "}
+                <Link href="/policies/privacy-policy" size="sm" underline="always">
+                    Privacy
+                </Link>{" "}
+                for more information.
+            </p>
+            <Spacer y={4} />
+            <div className="flex flex-col gap-y-2">
+                <SwitchCell
+                    defaultSelected={localPreferences.necessary}
+                    classNames={{
+                        base: "dark:bg-content1",
+                        label: "text-small",
+                    }}
+                    description="Essential for the site to function"
+                    label="Essential"
+                    name="necessary"
+                    onChange={handleCheckboxChange}
+                    isDisabled
+                />
+                <SwitchCell
+                    defaultSelected={localPreferences.marketing}
+                    classNames={{
+                        base: "dark:bg-content1",
+                        label: "text-small",
+                    }}
+                    description="To show you relevant content"
+                    label="Marketing"
+                    name="marketing"
+                    onChange={handleCheckboxChange}
+                />
+                <SwitchCell
+                    defaultSelected={localPreferences.analytics}
+                    classNames={{
+                        base: "dark:bg-content1",
+                        label: "text-small",
+                    }}
+                    description="To understand how you use the site"
+                    label="Analytics"
+                    name="analytics"
+                    onChange={handleCheckboxChange}
+                />
+            </div>
+            <Spacer y={4} />
+            <div className="flex justify-between gap-x-3">
+                <Button
+                    fullWidth
+                    radius="lg"
+                    style={{
+                        border: "solid 2px transparent",
+                        backgroundImage: `linear-gradient(hsl(var(--nextui-background)), hsl(var(--nextui-background))), linear-gradient(83.87deg, #F54180, #9353D3)`,
+                        backgroundOrigin: "border-box",
+                        backgroundClip: "padding-box, border-box",
+                    }}
+                    onPress={handleAcceptSelected}
+                >
+                    Accept Selected
+                </Button>
+                <Button fullWidth variant="bordered" onPress={rejectAll}>
+                    Reject All
+                </Button>
+            </div>
+        </div>
+    );
+
+    const cookiesAlertContent = (
+        <AnimatedWrapper>
+            <p className="text-small font-normal text-default-700">
+                We use cookies on our website to give you the most relevant experience by remembering your
+                preferences and repeat visits. By clicking&nbsp;
+                <b className="font-semibold">&quot;Accept All&quot;</b>, you consent to the use of ALL the
+                cookies. However, you may visit&nbsp;
+                <span className="font-semibold">&quot;Cookie Settings&quot;</span> to provide a controlled
+                consent. For more information, please read our{" "}
+                <Link href="/policies/privacy-policy" size="sm" underline="hover">
+                    Cookie Policy.
+                </Link>
+            </p>
+            <div className="mt-4 space-y-2">
+                <Button
+                    fullWidth
+                    className="px-4 font-medium"
+                    radius="lg"
+                    style={{
+                        border: "solid 2px transparent",
+                        backgroundImage: `linear-gradient(hsl(var(--nextui-background)), hsl(var(--nextui-background))), linear-gradient(83.87deg, #F54180, #9353D3)`,
+                        backgroundOrigin: "border-box",
+                        backgroundClip: "padding-box, border-box",
+                    }}
+                    endContent={<Icon className="ml-2 inline-block h-6 w-6 text-text" icon="lucide:cookie" />}
+                    onPress={acceptAll}
+                >
+                    Accept All
+                </Button>
+                <Button
+                    fullWidth
+                    className="border-default-200 font-medium text-default-foreground"
+                    radius="lg"
+                    variant="bordered"
+                    onPress={rejectAll}
+                >
+                    Reject All
+                </Button>
+                <Button
+                    fullWidth
+                    className="font-medium text-default-foreground"
+                    radius="lg"
+                    variant="light"
+                    onPress={() => setIsSettingsOpen(true)}
+                >
+                    Cookie Settings
+                </Button>
+            </div>
+        </AnimatedWrapper>
+    );
+
+
+    return (
+        <div className="pointer-events-none fixed inset-x-0 bottom-0 px-6 pb-6 z-50">
+            <ResizablePanel>
+                <AnimatePresence initial={false} mode="wait">
+                    <LazyMotion features={domAnimation}>
+                        {isSettingsOpen ? cookieSettingsContent : cookiesAlertContent}
+                    </LazyMotion>
+                </AnimatePresence>
+            </ResizablePanel>
+        </div>
+    );
+}

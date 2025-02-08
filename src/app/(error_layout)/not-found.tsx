@@ -39,9 +39,11 @@ export async function ComingSoon() {
                 <p className={`text-center text-5xl ${pacifico.className}`}>
                     Coming Soon!
                 </p>
-                <ExternalLink href="/">
-                    Go back to TheBakerz
-                </ExternalLink>
+                <div className={`h-10`}>
+                    <ExternalLink href="/">
+                        Go back to TheBakerz
+                    </ExternalLink>
+                </div>
                 <div className="w-2/3 h-2/3">
                     <Image
                         src="/images/HomeBaker.svg"
@@ -67,9 +69,15 @@ export async function UnderConstruction(
                 <p className={`text-5xl text-center ${pacifico.className}`}>
                     Under Construction!
                 </p>
-                <ExternalLink href={link}>
-                    {title}
-                </ExternalLink>
+                <div
+                    className={`h-10`}
+                >
+                    <ExternalLink
+                        href={link}
+                    >
+                        {title}
+                    </ExternalLink>
+                </div>
                 <div className="w-full max-w-2xl">
                     <IconHeartCrack className="w-full h-full text-primary" />
                 </div>

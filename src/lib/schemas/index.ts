@@ -1,5 +1,90 @@
 import * as z from 'zod';
+import validator from "validator";
 import {categories, cityLatLngMap, timeMap} from "@/lib/local-variables";
+
+
+export const PhoneSchema = z.string().refine(validator.isMobilePhone, { message: "Invalid phone number" });
+
+
+export const EmailSchema = z.object(
+    {
+        email: z.string()
+            .trim()
+            .min(1,
+                {
+                    message: 'Email required!'
+                })
+            .email({
+                message: 'Invalid email!'
+            })
+            .refine(
+                validator.isEmail,
+                { message: "Invalid email" }
+            )
+    }
+)
+
+
+export const OTPSchema = z.object({
+    otp: z.string().min(6, "OTP must be 6 digits"),
+    email: z.string()
+        .trim()
+        .min(1,
+            {
+                message: 'Email required!'
+            })
+        .email({
+            message: 'Invalid email!'
+        })
+        .refine(
+            validator.isEmail,
+            { message: "Invalid email" }
+        )
+});
+
+export const GetStartedSchema = z.object({
+    phone: PhoneSchema,
+    terms: z.boolean().refine(val => val === true, { message: "You need to agreed with the Terms and Privacy Policy" }),
+});
+
+export const ApplySchema = z.object({
+    email: z.string()
+        .trim()
+        .min(1,
+            {
+                message: 'Email required!'
+            })
+        .email({
+            message: 'Invalid email!'
+        })
+        .refine(
+            validator.isEmail,
+            { message: "Invalid email" }
+        ),
+    name: z.string().min(1, { message: "Name is required" }),
+    phone: PhoneSchema,
+    terms: z.boolean().refine(val => val === true, { message: "You need to agreed with the Terms and Privacy Policy" }),
+});
+
+
+
+export const ContactSchema = z.object({
+    email: z.string()
+    .trim()
+    .min(1,
+        {
+            message: 'Email required!'
+        })
+    .email({
+        message: 'Invalid email!'
+    })
+    .refine(
+        validator.isEmail,
+        { message: "Invalid email" }
+    ),
+    subject: z.string().min(1, { message: "Subject is required" }).max(200, { message: "Context must be less than 200 characters" }),
+    context: z.string().min(5, { message: "Context must be bigger than 5 characters" }).max(2000, { message: "Context must be less than 2000 characters" }),
+});
 
 export const LoginSchema = z.object({
     email: z.string()
@@ -10,7 +95,11 @@ export const LoginSchema = z.object({
             })
         .email({
             message: 'Invalid email!'
-        }),
+        })
+        .refine(
+            validator.isEmail,
+            { message: "Invalid email" }
+        ),
     redirectTo: z.string()
 });
 

@@ -1,157 +1,126 @@
-import {VerticalStepsAboutUs, VerticalStepsForecast} from "@/components/ui/vertical-steps-about-us";
-import { Image } from "@nextui-org/react";
-
+import {pacifico} from "@/components/fonts";
+import Image from 'next/image';
+import React from "react";
+import {FollowUs} from "@/components/about-us/follow-us";
+import {FooterImage} from "@/components/about-us/footer-image";
 
 export default async function Page() {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <main className="z-10 grid container mx-auto py-6 gap-y-3">
-                <p className={`text-2xl font-bold`}>
-                    Our Journey
-                </p>
-                <VerticalStepsAboutUs
-                    currentStep={3}
-                    steps={[
-                        {
-                            title: "April 2024",
-                            description: "TheBakerz emerged from extensive consultations with artisan bakers across multiple countries. These discussions shaped our understanding of the industry’s needs and set our development direction",
-                        },
-                        {
-                            title: "August 2024",
-                            description: "August marked our official registration with the Dutch Chamber of Commerce (KVK) and our entry into the prestigious Brightlands Startup Challenge",
-                        },
-                        {
-                            title: "September 2024",
-                            description: "In September, we joined the Ondernemersklankbord (OKB) mentorship program, connecting with experienced business advisors who guide our strategic growth",
-                        },
-                        {
-                            title: "November 2024",
-                            description: "By November, TheBakerz achieved recognition as one of the top 40 startups in the Brightlands Startup Challenge and submitted our application for €50.000 LIOF’s InnovatieProject funding. In addition we got accepted to Microsoft’s Startups Founders Hub and to the Google’s Startups Cloud Program",
-                        },
-                        {
-                            title: "December 2024",
-                            description: "December brought an exclusive invitation to participate in the Philips Innovation Award competition, which we proudly accepted",
-                        },
-                    ]}
-                />
-                <p className={`text-2xl font-bold`}>
-                    Our Forecast
-                </p>
-                <VerticalStepsForecast
-                    currentStep={-1}
-                    plusRange={5}
-                    steps={[
-                        {
-                            title: "April 2025",
-                            description: "Launch of our web platform",
-                        },
-                        {
-                            title: "June 2025",
-                            description: "Initial onboarding phase with 10 artisan bakers",
-                        },
-                        {
-                            title: "July 2025",
-                            description: "Mobile platform release",
-                        },
-                        {
-                            title: "September 2025",
-                            description: "Expansion to 30 bakers",
-                        },
-                        {
-                            title: "January 2026",
-                            description: "Complete integration of AI capabilities",
-                        },
-                    ]}
-                />
+            <main className="z-10 grid container mx-auto py-6 gap-y-3 text-[#1F2937]">
+                <section id={'nice-to-meet-you'}>
+                    <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 relative">
+                        <div
+                            className="flex items-center justify-center bg-gradient-secondary to-white rounded-none rounded-b-lg lg:rounded-none lg:rounded-l-lg">
+                            <div
+                                className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
-                <p className={`text-2xl font-bold`}>
-                    Our Story
-                </p>
-                <p className={`ml-10`}>
-                    In a world where special moments deserve extraordinary desserts, TheBakerz emerged from a simple yet
-                    powerful observation: the artisanal bakery industry is in urgent need of digital transformation.
-                    While
-                    the Netherlands has seen a remarkable 85% surge in self-employment and a 20% growth in bakery
-                    establishments, we noticed that some talented bakers were spending more time managing spreadsheets
-                    than
-                    creating magical desserts.
-                </p>
+                                <h2 className={`text-left text-4xl lg:text-6xl font-bold mb-10 ${pacifico.className}`}>
+                                    Nice to meet you
+                                </h2>
 
-                <p className={`text-2xl font-bold`}>
-                    Our Purpose
-                </p>
-                <p className={`ml-10`}>
-                    We believe that every celebration, every gathering, and every precious moment deserves its perfect
-                    sweet
-                    companion. More importantly, we believe that talented bakers should be free to focus on what they do
-                    best - crafting exceptional desserts that make these moments unforgettable.
-                </p>
+                                <div className="mb-6 text-md lg:text-lg font-light ">
+                                    <p className={'text-left'}>
+                                        We’re David and Dumitru, and TheBakerz means a lot to us. After seeing our
+                                        friends and family who bake struggle with late-night orders, juggling too many
+                                        apps, and feeling like they never had time for the craft they love, we knew
+                                        something had to change.
+                                        <br/><br/>
+                                        So we stepped in to help.
+                                    </p>
+                                </div>
 
-                <p className={`text-2xl font-bold`}>
-                    Our Community
-                </p>
-                <p className={`text-xl font-semibold ml-5`}>
-                    For Artisanal Professionals
-                </p>
-                <p className={`ml-10`}>
-                    We unite passionate bakers across the spectrum - from established pastry shops to emerging home
-                    bakers -
-                    in a vibrant digital ecosystem where craft meets innovation. By handling the complexities of
-                    business
-                    management through our AI-powered tools, we empower baking professionals to grow their businesses
-                    while
-                    staying true to their artistry.
-                </p>
+                            </div>
+                        </div>
+                        <div className="relative w-full h-[500px] lg:h-auto">
+                            <Image
+                                src="/images/hero.webp"
+                                alt="TheBakerz Hero"
+                                fill
+                                className="object-cover rounded-none rounded-t-lg lg:rounded-none lg:rounded-r-lg"
+                                priority
+                            />
+                        </div>
+                    </div>
+                </section>
+                <section id={'bake-more-manage-less'}>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 relative bg-gradient-secondary rounded-lg">
+                        <div
+                            className="relative overflow-hidden w-full">
 
+                            <div className={`h-full flex justify-center`}>
+                                <Image
+                                    src="/images/HomeKitchen.svg"
+                                    alt="TheBakerz Hero"
+                                    width={1920}
+                                    height={1536}
+                                    className="rounded-none rounded-t-lg lg:rounded-none lg:rounded-r-lg"
+                                    priority
+                                />
+                            </div>
 
-                <p className={`text-xl font-semibold ml-5`}>
-                    For Dessert Enthusiasts
-                </p>
-                <p className={`ml-10`}>
-                    Finding the perfect dessert for your special occasion shouldn&apos;t be a challenge. Our platform
-                    connects
-                    you with talented local bakers who can bring your sweet dreams to life, whether you&apos;re seeking
-                    traditional favorites or specialized dietary options.
-                </p>
+                        </div>
+                        <div
+                            className="flex items-center justify-center">
+                            <div
+                                className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
-                <p className={`text-2xl font-bold`}>
-                    Our Vision
-                </p>
-                <p className={`ml-5`}>
-                    We&apos;re building more than just a platform - we&apos;re nurturing a revolution in artisanal baking.
-                    Starting
-                    from our home in Limburg, we&apos;re creating a future where:
-                </p>
+                                <h2 className="text-3xl lg:text-5xl font-bold mb-4">
+                                    Bake More, Manage Less
+                                </h2>
 
-                <p className={`ml-10`}>
-                    <p>
-                        • Talented bakers can thrive by focusing on their craft
-                    </p>
+                                <div className="mb-6 text-md lg:text-lg font-light">
+                                    <p>
+                                        TheBakerz puts everything bakers need in one place. Instead of bouncing between
+                                        spreadsheets, emails, and messages, you can handle all your orders, schedules,
+                                        and customer details from a single, organized spot. Less hassle, fewer
+                                        headaches,
+                                        and more energy for doing what you do best—baking.
+                                    </p>
+                                </div>
 
-                    <p>
-                        • Every special occasion finds its perfect dessert match
-                    </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id={'bake-more-manage-less'}>
+                    <div className="flex flex-col lg:grid lg:grid-cols-2 relative">
+                        <div className="flex items-center justify-center bg-gradient-secondary rounded-lg">
+                            <div
+                                className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
-                    <p>
-                        • Local communities grow stronger through the shared love of artisanal baking
-                    </p>
-                </p>
+                                <h2 className="text-3xl lg:text-5xl font-bold mb-4">
+                                    Why We Do This
+                                </h2>
 
+                                <div className="mb-6 text-md lg:text-lg font-light">
+                                    <p>
+                                        For us, TheBakerz isn’t just another idea—it’s a direct response to what
+                                        our friends and family bakers told us they need. We’re here to make it easier,
+                                        so you can focus on what you love most. Follow us on social and let’s shape
+                                        a better future together.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-center text-text">
+                            <div
+                                className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
-                <p className={`ml-5`}>
-                    Join us in transforming the world of artisanal baking, one celebration at a time. Because at
-                    TheBakerz,
-                    we believe that when bakers succeed, celebrations become sweeter, and communities grow stronger
-                    together.
-                </p>
-                <div className={`w-full flex justify-center`}>
-                    <Image
-                        src={'/images/TheBakerzBack4K.svg'}
-                        alt={'TheBakerz background image'}
-                    />
-                </div>
+                                <h2 className={`text-4xl lg:text-6xl font-bold text-center mb-6 ${pacifico.className}`}>
+                                    Follow Us
+                                </h2>
+                                <div className="flex space-x-6">
+                                    <FollowUs/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </main>
         </div>
     );
 }
+

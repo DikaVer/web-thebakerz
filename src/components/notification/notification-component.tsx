@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Suspense} from 'react';
 
 import {pacifico} from "@/components/fonts";
-import {Card, CardBody} from "@nextui-org/react";
+import {Card, CardBody} from "@heroui/react";
 import {ExternalLink} from "@/components/external-link";
 
 interface NotificationComponentProps {
@@ -39,10 +39,10 @@ const NotificationComponent: React.FC<NotificationComponentProps> = ({ onClose, 
     return (
         <div className={`fixed inset-0 z-50 transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'} ${isVisible ? 'visible' : 'invisible'}`}>
             <div className="absolute backdrop-blur-xl inset-0" onClick={onClose}/>
-            <div className={`absolute right-0 w-80 h-full bg-background shadow-lg transform transition-transform duration-700 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className={`absolute right-0 w-80 h-full bg-background shadow-lg transform transition-transform duration-700 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'} pl-2 pr-5`}>
                 <p className={`text-2xl flex justify-center items-center p-4 ${pacifico.className}`}>Notifications</p>
-                <hr className="ml-2 mr-5" />
-                <Card className={'mt-4'}>
+                <hr/>
+                <Card className={'my-4'}>
                     <CardBody>
                         <p className={'mb-4'}>
                             Psst… You’ve stumbled upon something special! 🍪 We’re quietly building the first marketplace

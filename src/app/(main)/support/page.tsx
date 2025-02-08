@@ -1,6 +1,6 @@
-import {UnderConstruction} from "@/app/(error_layout)/not-found";
+import SupportComponent from "@/components/support/support-component";
 
 export default async function Page() {
 
-    return UnderConstruction();
+    return <SupportComponent/>
 }

@@ -46,5 +46,5 @@ export const metadataDefault: Metadata = {
         description: 'Transform your bakery business with TheBakerz - the complete platform for artisanal bakers. Manage orders, run your webshop, and grow your business in one place.',
         images: ['https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/webStorage/TheBakerzLogo-50OzU9kUKfg3O3kD1MT1p8bBfdxxY2.png'],
         creator: '@the_bakerz',
-    },
+    }
 }

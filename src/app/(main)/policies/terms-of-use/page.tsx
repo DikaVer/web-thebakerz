@@ -952,7 +952,7 @@ export default async function Page() {
                                 </p>
                                 <p>
                                     <strong>Detailed Policies: </strong> Detailed cancellation and refund procedures are
-                                    outlined in our<a href="/policy" className="text-grayText underline">Cancellation
+                                    outlined in our<a href="/policies/refund-policy" className="text-grayText underline">Cancellation
                                     and
                                     Refund Policy</a>.
                                 </p>
@@ -1009,7 +1009,7 @@ export default async function Page() {
                                 </p>
                                 <p>
                                     <strong>Refund Procedures: </strong> Detailed information about return and refund
-                                    procedures can be found in our <a href="/policy"
+                                    procedures can be found in our <a href="/policies/refund-policy"
                                                                       className="text-grayText underline">Refund
                                     Policy</a>.
                                 </p>
@@ -1077,7 +1077,7 @@ export default async function Page() {
                                 <p>
                                     <strong>Refund Procedures: </strong> We collect, use, and disclose personal data
                                     from or
-                                    about you as described in our <a href="/privacy"
+                                    about you as described in our <a href="/policies/privacy-policy"
                                                                      className="text-grayText underline">Privacy
                                     Notice</a>,
                                     which complies with the General Data Protection Regulation (GDPR) and Dutch data

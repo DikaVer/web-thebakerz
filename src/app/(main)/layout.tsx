@@ -1,34 +1,32 @@
 import '@/styles/globals.css'
 import React from "react";
-import {Header} from "@/components/header";
 import {Footer} from "@/components/footer";
-import {extractSessionRole} from "@/lib/actions/session-actions";
+import {extractSession} from "@/lib/actions/session-actions";
 import type {Metadata} from "next";
 import {metadataDefault} from "@/components/metadata";
-import {HeaderAligner} from "@/components/header-aligner";
-import {MenuItems} from "@/components/menu/menu-items";
+import LayoutComp from "@/components/layout-comp";
 
 export const metadata: Metadata = metadataDefault;
 
-export default async function RootLayout({
-                                       children,
-                                   }: Readonly<{
-    children: React.ReactNode;
-}>) {
+export default async function Layout(
+    {
+                                         children,
+                                  } : {
+    children: React.ReactNode
+}) {
 
-    const {login, role, name} = await extractSessionRole();
-
-    const menuItems = await MenuItems({login, role, name});
+    const session = await extractSession();
 
     return (
             <>
-                <Header main={true} login={login} role={role} name={name} menuItems={menuItems}/>
-                <HeaderAligner
-                    menuItems={menuItems}
+                <LayoutComp
+                    session={session}
                 >
-                    {children}
+                    <div className={'min-h-svh'}>
+                        {children}
+                    </div>
                     <Footer/>
-                </HeaderAligner>
+                </LayoutComp>
             </>
     );
 }

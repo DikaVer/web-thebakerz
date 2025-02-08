@@ -3,7 +3,7 @@
 import 'react-image-crop/dist/ReactCrop.css';
 import React, { useEffect, useState, ReactNode } from "react";
 import {Button} from '@/components/ui/button';
-import {Slider} from "@nextui-org/slider";
+import {Slider} from "@heroui/slider";
 import {
     HeartIcon,
     IconCircleAlert,
@@ -15,15 +15,11 @@ import { formatCurrency } from "@/lib/utils";
 import {ProductDataField, StoreData} from "@/lib/definitions";
 import {useCart} from "@/components/providers/cart-provider";
 import {useProductDialog} from "@/components/providers/product-provider";
-import Skeleton from "react-loading-skeleton";
-// @ts-ignore
-import ExpandText from 'react-expand-text';
 
-// @ts-ignore
 import confetti from 'canvas-confetti';
 
 import {toast} from "sonner";
-import {ScrollShadow} from "@nextui-org/scroll-shadow";
+import {ScrollShadow} from "@heroui/scroll-shadow";
 import {
     Accordion,
     AccordionItem,
@@ -34,15 +30,13 @@ import {
     ModalContent,
     Select,
     SelectItem, Switch
-} from "@nextui-org/react";
-import useIsSmallScreen from "@/lib/hooks/use-is-small-screen";
+} from "@heroui/react";
 import {backdropEffect} from "@/lib/local-variables";
-import {useTheme} from "next-themes";
 import Progress from "@/components/ui/progress";
 import {limitChar} from "@/components/ui/limitChar";
-import {Textarea} from "@nextui-org/input";
-import {CardFooter, CardHeader} from "@nextui-org/card";
-import {Chip} from "@nextui-org/chip";
+import {Textarea} from "@heroui/input";
+import {CardFooter, CardHeader} from "@heroui/card";
+import {Chip} from "@heroui/chip";
 import {motion} from "framer-motion";
 import {pacifico} from "@/components/fonts";
 import showToast from "@/components/ui/transmitter-api";

@@ -15,7 +15,7 @@ import {
     ModalHeader,
     ModalFooter,
     ModalBody
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 // Renamed from renderHeaderButtons to HeaderButtons
 export function HeaderButtons(
