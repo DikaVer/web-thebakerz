@@ -75,7 +75,9 @@ export async function validateSessionToken(
         session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
         await connectionPool.query(
             `UPDATE sessions SET expires_at = $1 WHERE id = $2`,
-            [session.expiresAt.getTime(), session.id]
+
+            [session.expiresAt, session.id]
+
         );
     }
 

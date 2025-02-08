@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DBNavigator.Project.DDLFileAttachmentManager">
-    <mappings />
-    <preferences />
-  </component>
-  <component name="DBNavigator.Project.DataEditorManager">
-    <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="false" />
-    <value-preview-pinned value="false" />
-  </component>
-  <component name="DBNavigator.Project.DatabaseBrowserManager">
-    <autoscroll-to-editor value="false" />
-    <autoscroll-from-editor value="true" />
-    <show-object-properties value="true" />
-    <loaded-nodes />
-  </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="e0ddc995-60f4-46e2-a305-e4a41045359e">
       <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[Update users set role='admin' where name = 'dika1596';]]></console>
@@ -23,33 +8,8 @@
       <console name="Connection 1" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
-  <component name="DBNavigator.Project.DatabaseEditorStateManager">
-    <last-used-providers />
-  </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
-  </component>
-  <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="e0ddc995-60f4-46e2-a305-e4a41045359e" />
-    <connection id="3ef453d2-c35c-4718-b4df-778fa30eed53" />
-  </component>
-  <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="e0ddc995-60f4-46e2-a305-e4a41045359e" dataset="public.verification_token" active-filter-id="629457f8-4a04-46e6-b7cb-177216f34701">
-      <filter id="629457f8-4a04-46e6-b7cb-177216f34701" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="identifier" operator="=" value="" active="true" />
-      </filter>
-    </filter-actions>
-    <filter-actions connection-id="e0ddc995-60f4-46e2-a305-e4a41045359e" dataset="public.accounts" active-filter-id="" />
-  </component>
-  <component name="DBNavigator.Project.ExecutionManager">
-    <retain-sticky-names value="false" />
-  </component>
-  <component name="DBNavigator.Project.ObjectQuickFilterManager">
-    <last-used-operator value="EQUAL" />
-    <filters />
-  </component>
-  <component name="DBNavigator.Project.ParserDiagnosticsManager">
-    <diagnostics-history />
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
@@ -634,9 +594,5 @@
         </visibility-settings>
       </environment>
     </general-settings>
-  </component>
-  <component name="DBNavigator.Project.StatementExecutionManager">
-    <execution-variables />
-    <execution-variable-types />
   </component>
 </project>
