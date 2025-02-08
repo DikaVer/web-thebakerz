@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { Button as Btn } from "@nextui-org/react";
+import { Button as Btn } from "@heroui/react";
 import { cva } from "class-variance-authority";
 
 const variants = {

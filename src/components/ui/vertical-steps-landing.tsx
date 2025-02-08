@@ -1,14 +1,14 @@
 "use client";
 
 import {ComponentProps, useState} from "react";
-import type {ButtonProps} from "@nextui-org/react";
+import type {ButtonProps} from "@heroui/react";
 
 import React from "react";
 
 import {useControlledState} from "@react-stately/utils";
 
 import {m, LazyMotion, domAnimation} from "framer-motion";
-import {cn} from "@nextui-org/react";
+import {cn} from "@heroui/react";
 import {IconArrow, IconMessage, IconOrder, IconStore, IconSupport} from "@/components/ui/icons";
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";

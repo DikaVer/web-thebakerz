@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import {Button, Chip} from "@nextui-org/react";
+import {Button, Chip} from "@heroui/react";
 import {Icon} from "@iconify/react";
-import {cn} from "@nextui-org/react";
+import {cn} from "@heroui/react";
 
 export interface MessagingChatHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   page?: number;

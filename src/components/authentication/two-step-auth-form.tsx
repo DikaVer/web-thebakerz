@@ -1,0 +1,454 @@
+"use client";
+
+import React, {useState, startTransition, useActionState, useRef, useEffect} from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@heroui/input";
+import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
+import {InputOtp, Tooltip} from "@heroui/react";
+import { Icon } from "@iconify/react";
+import {useRouter, useSearchParams} from "next/navigation";
+import {Separator} from "@/components/ui/separator";
+import {loginWithProvider} from "@/lib/actions/auth-actions";
+import Image from "next/image";
+import {IconMail} from "@/components/ui/icons";
+import Link from "next/link";
+import {loginAction, resendEmailVerificationCodeAction, verifyEmailAction} from "@/app/(auth)/auth/actions";
+import {EmailSchema, OTPSchema} from "@/lib/schemas";
+import {FormError} from "@/components/authentication/form-error";
+
+
+
+export default function TwoStepAuthForm() {
+
+    const nextParams = useSearchParams();
+    const next = nextParams.get('next') as string;
+
+    const inputRef = useRef(null);
+    const [error, setError] = useState<string>();
+
+    useEffect(() => {
+        // @ts-ignore
+        inputRef.current.focus(); // Focus the input on component mount
+    }, [])
+
+    // States for "Resend Code" button
+    const [resendCooldown, setResendCooldown] = useState(0);
+    const [isResending, setIsResending] = useState(false);
+    const [resendMessage, setResendMessage] = useState<string | null>(null);
+
+    // Start a countdown timer whenever resendCooldown > 0.
+    useEffect(() => {
+        if (resendCooldown > 0) {
+            const timer = setInterval(() => {
+                setResendCooldown((prev) => prev - 1);
+            }, 1000);
+            return () => clearInterval(timer);
+        }
+    }, [resendCooldown]);
+
+
+    const router = useRouter();
+
+    // Page and animation state
+    const [page, setPage] = useState(0);
+    const [direction, setDirection] = useState(0);
+    const [email, setEmail] = useState(""); // Store email from step 1
+
+    // Form instance for email submission
+    const formEmail = useForm<z.infer<typeof EmailSchema>>({
+        resolver: zodResolver(EmailSchema),
+        defaultValues: { email: "" },
+    });
+
+    // Form instance for OTP verification
+    const formOTP = useForm<z.infer<typeof OTPSchema>>({
+        resolver: zodResolver(OTPSchema),
+        defaultValues: { otp: "" },
+    });
+
+    const [stateEmail, submitActionEmail, isPendingEmail] = useActionState(
+        async (previousState: any, formData: z.infer<typeof EmailSchema>) => {
+            const state = await loginAction(previousState, formData);
+
+            if (state === null) {
+                setEmail(formData.email);
+                setPage(1);
+                setDirection(1);
+                formOTP.setValue("email", formData.email);
+            }
+            setError(state?.message);
+        },
+        null,
+    );
+
+    const [stateOTP, submitActionOTP, isPendingOTP] = useActionState(
+        async (previousState: any, formData: z.infer<typeof OTPSchema>) => {
+            const state = await verifyEmailAction(previousState, formData);
+
+            if (state === null) {
+                router.push(`${next ? next : "/"}`);
+                router.refresh();
+            }
+
+            setError(state?.message);
+        },
+        null,
+    );
+
+    const handleSubmitEmail = (formData: z.infer<typeof EmailSchema>) => {
+        startTransition(() => {
+            submitActionEmail(formData);
+        });
+    };
+
+    const handleSubmitOTP = (formData: z.infer<typeof OTPSchema>) => {
+        startTransition(() => {
+            submitActionOTP(formData);
+        });
+    };
+
+    // Updated Handler for resending the OTP code with error handling.
+    const handleResend = async () => {
+        setIsResending(true);
+        setResendMessage(null); // Clear previous message
+        try {
+            // Optionally simulate a 2-second delay:
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+            const result = await resendEmailVerificationCodeAction(email);
+            // Check the returned message and update state accordingly.
+            if (result === null) {
+                setResendMessage("A new code was sent to your email.");
+            } else {
+                setResendMessage(result.message);
+            }
+        } catch (error) {
+            setResendMessage("An unexpected error occurred.");
+        }
+        setIsResending(false);
+        setResendCooldown(60); // Reset the cooldown timer to 60 seconds.
+    };
+
+
+    // Variants for page transition animations
+    const variants = {
+        enter: (direction: number) => ({
+            x: direction > 0 ? 50 : -50,
+            opacity: 0,
+        }),
+        center: {
+            x: 0,
+            opacity: 1,
+            zIndex: 1,
+        },
+        exit: (direction: number) => ({
+            x: direction < 0 ? 50 : -50,
+            opacity: 0,
+            zIndex: 0,
+        }),
+    };
+
+    return (
+        <div className={`grid gap-6 w-full justify-center`}>
+            {/* Header */}
+            {/*<div className="flex flex-col text-left gap-2 mb-4">*/}
+            {/*    {page === 0 && (*/}
+            {/*        <p className="text-lg lg:text-xl font-bold text-grayText">*/}
+            {/*            Enter your email to receive an OTP.*/}
+            {/*        </p>*/}
+            {/*    )}*/}
+            {/*    {page === 1 && (*/}
+            {/*        <p className="text-lg lg:text-xl font-bold text-grayText">*/}
+            {/*            Enter the OTP sent to <span className="font-semibold">{email}</span>*/}
+            {/*        </p>*/}
+            {/*    )}*/}
+            {/*</div>*/}
+
+            <LazyMotion features={domAnimation}>
+                <AnimatePresence custom={direction} initial={false} mode="wait">
+                    <m.div
+                        key={page}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        custom={direction}
+                        variants={variants}
+                        transition={{duration: 0.2}}
+                        className="flex flex-col gap-y-8"
+                    >
+                        {page === 0 && (
+                            <Form {...formEmail}>
+                                <form onSubmit={formEmail.handleSubmit(handleSubmitEmail)}
+                                      className="flex flex-col gap-y-4">
+                                    <FormField
+                                        control={formEmail.control}
+                                        name="email"
+                                        render={({field, fieldState}) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        ref={inputRef}
+                                                        isRequired
+                                                        endContent={
+                                                            <IconMail className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                                                        }
+                                                        label="Email"
+                                                        placeholder="you@thebakerz.com"
+                                                        type="email"
+                                                        disabled={isPendingEmail}
+                                                        validate={() => {
+                                                            setError(undefined);
+                                                            return fieldState.error?.message;
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                                {/*<FormMessage>{fieldState.error?.message}</FormMessage>*/}
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormError message={error || undefined}/>
+                                    <Button
+                                        fullWidth
+                                        type="submit"
+                                        endContent={<Icon icon="solar:arrow-right-broken" height={24}/>}
+                                        isLoading={isPendingEmail}
+                                    >
+                                        Continue with Email
+                                    </Button>
+                                </form>
+                            </Form>
+                        )}
+                        {page === 1 && (
+
+                            <>
+                                <Form {...formOTP}>
+                                    <form onSubmit={formOTP.handleSubmit(handleSubmitOTP)}
+                                          className="flex flex-col gap-y-4">
+                                        <FormField
+                                            control={formOTP.control}
+                                            name="otp"
+                                            render={({field, fieldState}) => (
+                                                <FormItem>
+                                                    <FormControl>
+                                                        {/*<Input*/}
+                                                        {/*    {...field}*/}
+                                                        {/*    isRequired*/}
+                                                        {/*    label="OTP"*/}
+                                                        {/*    placeholder="Enter OTP"*/}
+                                                        {/*    type="text"*/}
+                                                        {/*    validate={() => {*/}
+                                                        {/*        return fieldState.error?.message;*/}
+                                                        {/*    }}*/}
+                                                        {/*/>*/}
+                                                        <div>
+                                                            {/*<p className="text-lg lg:text-xl  font-bold text-grayText">*/}
+                                                            {/*    Enter the OTP sent to <span*/}
+                                                            {/*    className="font-semibold">{email}</span>*/}
+                                                            {/*</p>*/}
+                                                            <InputOtp
+                                                                {...field}
+                                                                isRequired
+                                                                label="OTP"
+                                                                type={"number"}
+                                                                classNames={{
+                                                                    segmentWrapper: "gap-x-0",
+                                                                    segment: [
+                                                                        "relative",
+                                                                        "h-14",
+                                                                        "w-14",
+                                                                        "border-y",
+                                                                        "border-r",
+                                                                        "first:rounded-l-md",
+                                                                        "first:border-l",
+                                                                        "last:rounded-r-md",
+                                                                        "border-default-200",
+                                                                        "data-[active=true]:border",
+                                                                        "data-[active=true]:z-20",
+                                                                        "data-[active=true]:ring-2",
+                                                                        "data-[active=true]:ring-offset-2",
+                                                                        "data-[active=true]:ring-offset-background",
+                                                                        "data-[active=true]:ring-foreground",
+                                                                    ],
+                                                                }}
+                                                                validationBehavior="native"
+                                                                radius="none"
+                                                                placeholder="Enter OTP"
+                                                                validate={() => {
+
+                                                                    setError(undefined);
+                                                                    return fieldState.error?.message;
+                                                                }}
+                                                                description={`Enter the 6 digit code sent to ${email}`}
+                                                                length={6}
+                                                            />
+                                                        </div>
+
+                                                    </FormControl>
+                                                    {/*<FormMessage>{fieldState.error?.message}</FormMessage>*/}
+                                                </FormItem>
+                                            )}
+                                        />
+                      {/*                  <div className="text-center">*/}
+                      {/*<span className="text-sm text-grayText">*/}
+                      {/*  Didn’t receive the code?{" "}*/}
+                      {/*</span>*/}
+                      {/*                      <Tooltip*/}
+                      {/*                          content={*/}
+                      {/*                              resendCooldown > 0*/}
+                      {/*                                  ? `Resend available in ${resendCooldown} seconds`*/}
+                      {/*                                  : "Click to resend"*/}
+                      {/*                          }*/}
+                      {/*                          delay={300}*/}
+                      {/*                      >*/}
+                      {/*                          <Button*/}
+                      {/*                              type="button"*/}
+                      {/*                              variant="link"*/}
+                      {/*                              disabled={resendCooldown > 0 || isResending}*/}
+                      {/*                              isLoading={isResending}*/}
+                      {/*                              onPress={handleResend}*/}
+                      {/*                          >*/}
+                      {/*                              Resend*/}
+                      {/*                          </Button>*/}
+                      {/*                      </Tooltip>*/}
+                      {/*                  </div>*/}
+
+                                        {/*{resendMessage && (*/}
+                                        {/*    <p*/}
+                                        {/*        className={`mt-2 text-center text-sm ${*/}
+                                        {/*            resendMessage.includes("new code")*/}
+                                        {/*                ? "text-green-500"*/}
+                                        {/*                : "text-red-500"*/}
+                                        {/*        }`}*/}
+                                        {/*    >*/}
+                                        {/*        {resendMessage}*/}
+                                        {/*    </p>*/}
+                                        {/*)}*/}
+                                        <div className="flex justify-between">
+                                            {/* Back button to return to the email page */}
+
+                                            <Tooltip content="Go back" delay={300}>
+                                                <Button
+                                                    isIconOnly
+                                                    size="sm"
+                                                    variant="ghost"
+                                                    onPress={() => {
+                                                        formOTP.reset();
+                                                        setError(undefined);
+                                                        setPage(0);
+                                                        setDirection(-1);
+                                                    }}
+                                                >
+                                                    <Icon icon="solar:alt-arrow-left-linear" width={16}/>
+                                                </Button>
+                                            </Tooltip>
+                                            <Button
+                                                endContent={<Icon icon="solar:arrow-right-broken" height={24}/>}
+                                                type="submit"
+                                                isLoading={isPendingOTP}
+                                            >
+                                                Verify
+                                            </Button>
+                                        </div>
+                                    </form>
+                                </Form>
+                            </>
+                        )}
+                    </m.div>
+                </AnimatePresence>
+            </LazyMotion>
+            {
+                page === 0 && (
+                    <>
+                        <div className="flex items-center gap-4">
+                            <Separator className="flex-1 bg-grayText"/>
+                            <span className="text-grayText">or continue with</span>
+                            <Separator className="flex-1 bg-grayText"/>
+                        </div>
+                        <div className="flex flex-row w-full justify-between items-center -my-1">
+                            <form
+                                action={async () => {
+                                    router.push(`/api/auth/google?${next ? `next=${next}` : ""}`);
+                                }}
+                                className={"w-full"}
+                            >
+                                <Button
+                                    type="submit"
+                                    variant={"outline"}
+                                    className={"w-full py-5"}
+                                    disabled={isPendingEmail}
+                                    isLoading={isPendingEmail}
+                                >
+                                    {!isPendingEmail && (
+                                        <Image
+                                            style={{display: "block"}}
+                                            src="/brandIcons/google.svg"
+                                            height="30"
+                                            width="30"
+                                            alt={"Google"}
+                                        />
+                                    )}
+                                </Button>
+                            </form>
+                            {/*<form*/}
+
+                            {/*>*/}
+                            {/*    <button*/}
+                            {/*        type="submit"*/}
+                            {/*        className={""}*/}
+                            {/*        disabled={isPending}*/}
+                            {/*    >*/}
+                            {/*        <Image*/}
+                            {/*            style={{display: "block"}}*/}
+                            {/*            src="https://authjs.dev/img/providers/instagram.svg"*/}
+                            {/*            height="32"*/}
+                            {/*            width="32"*/}
+                            {/*            alt={"Instagram"}/>*/}
+                            {/*    </button>*/}
+                            {/*</form>*/}
+                            {/*<form*/}
+                            {/*    // action={async () => {*/}
+                            {/*    //     "use server"*/}
+                            {/*    //     await signIn("facebook")*/}
+                            {/*    // }}*/}
+                            {/*>*/}
+                            {/*    <button*/}
+                            {/*        type="submit"*/}
+                            {/*        className={""}*/}
+                            {/*        disabled={isPending}*/}
+                            {/*    >*/}
+                            {/*        <Image*/}
+                            {/*            style={{display: "block"}}*/}
+                            {/*            src="https://authjs.dev/img/providers/facebook.svg"*/}
+                            {/*            height="32"*/}
+                            {/*            width="32"*/}
+                            {/*            alt={"Instagram"}/>*/}
+                            {/*    </button>*/}
+                            {/*</form>*/}
+                        </div>
+                        <p className="px-8 text-center text-sm text-muted-foreground">
+                            By clicking continue, you agree to our{" "}
+                            <Link
+                                href="/terms"
+                                className="underline underline-offset-4 hover:text-primary"
+                            >
+                                Terms of Service
+                            </Link>{" "}
+                            and{" "}
+                            <Link
+                                href="/privacy"
+                                className="underline underline-offset-4 hover:text-primary"
+                            >
+                                Privacy Policy
+                            </Link>
+                            .
+                        </p>
+                    </>
+                )
+            }
+        </div>
+    );
+}

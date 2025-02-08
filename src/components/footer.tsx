@@ -67,7 +67,7 @@
 import type {IconProps} from "@iconify/react";
 
 import React, {useState} from "react";
-import {Button, Image, Input, Link, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
+import {Button, Image, Input, Link, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {pacifico} from "@/components/fonts";
 import {backdropEffect} from "@/lib/local-variables";
@@ -77,8 +77,7 @@ type SocialIconProps = Omit<IconProps, "icon">;
 
 const footerNavigation = {
     overview: [
-        {name: "Home TheBakerz", href: "/"},
-        {name: "Search", href: "/search"},
+        {name: "TheBakerz", href: "/"},
         {name: "About TheBakerz", href: "/about-us"},
         {name: "Join TheBakerz", href: "/#join-thebakerz"},
         // {name: "Market Research", href: "#"},
@@ -135,7 +134,7 @@ export function Footer() {
 
     return (
         <footer className="flex w-full flex-col bg-gradient-card rounded-xl drop-shadow">
-            <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
+            <div className=" px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
                 <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     <div className="space-y-8 md:pr-8">
                         <a
@@ -144,8 +143,8 @@ export function Footer() {
                         >
                             <Image
                                 src={`/images/TheBakerzLogo.svg`}
-                                width={64}
-                                height={64}
+                                width={42}
+                                height={42}
                             />
                             <span className={`text-3xl ml-2 ${pacifico.className}`}>TheBakerz</span>
                         </a>

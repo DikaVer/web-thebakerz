@@ -7,18 +7,16 @@ import React, { startTransition} from 'react';
 import { useActionState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import {ApplySchema, ContactSchema, GetStartedSchema, PhoneSchema} from "@/lib/schemas";
+import {ApplySchema, GetStartedSchema} from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {Card, CardBody, Input, Textarea, Checkbox, Link, Tooltip} from "@nextui-org/react";
+import { Input, Checkbox, Link, Tooltip} from "@heroui/react";
 import { Button } from "@/components/ui/button";
 import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
 import { FormError } from "@/components/authentication/form-error";
-import {sendApplication, sendEmail, validatePhone} from "@/lib/actions/email-action";
-import SuccessRedirect from "@/components/redirect-page";
+import {sendApplication, validatePhone} from "@/lib/actions/email-action";
 import {AnimatePresence, domAnimation, LazyMotion, m} from "framer-motion";
 import {Icon} from "@iconify/react";
-
-export type SignUpFormProps = React.HTMLAttributes<HTMLFormElement>;
+import {IconMail} from "@/components/ui/icons";
 
 export type ApplyFormProps = React.HTMLAttributes<HTMLDivElement> & {
     onNext: () => void;
@@ -224,7 +222,7 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                     </FormItem>
                                                 )}
                                             />
-                                            <FormError message={state?.error || undefined}/>
+                                            <FormError message={stateStarted?.error || undefined}/>
                                             <Button fullWidth
                                                     className="bg-gradient-primary w-fit"
                                                     type="submit"
@@ -270,6 +268,9 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                             <Input
                                                                 {...field}
                                                                 isRequired
+                                                                endContent={
+                                                                    <IconMail className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                                                                }
                                                                 label="Email"
                                                                 placeholder="you@thebkaerz.com"
                                                                 type="email"

@@ -15,7 +15,7 @@ import {cityLatLngMap, timeMap} from "@/lib/local-variables";
 import {formatAddress} from "@/lib/utils";
 import { ProfileDescription } from "@/components/store/store-header/profile-description";
 import {pacifico} from "@/components/fonts";
-import {Accordion, AccordionItem, Avatar, AvatarIcon, Card, CardBody, Switch} from "@nextui-org/react";
+import {Accordion, AccordionItem, Avatar, AvatarIcon, Card, CardBody, Switch} from "@heroui/react";
 import {HeaderButtons} from "@/components/store/store-header/header-buttons";
 
 

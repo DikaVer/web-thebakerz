@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import {Button, Input, Select, SelectItem, Spacer} from "@nextui-org/react";
-import {cn} from "@nextui-org/react";
+import {Button, Input, Select, SelectItem, Spacer} from "@heroui/react";
+import {cn} from "@heroui/react";
 
 interface AccountSettingCardProps {
   className?: string;

@@ -19,8 +19,8 @@ import {MouseEventHandler, useEffect, useState} from "react";
 import {DaySelection} from "@/components/store/maintaince/availability-selection";
 import {FormError} from "@/components/authentication/form-error";
 import {backdropEffect, timeMap} from "@/lib/local-variables";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
-import {ScrollShadow} from "@nextui-org/scroll-shadow";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@heroui/react";
+import {ScrollShadow} from "@heroui/scroll-shadow";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
     panelClassName?:{

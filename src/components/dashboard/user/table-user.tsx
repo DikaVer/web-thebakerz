@@ -1,6 +1,6 @@
 "use client";
 
-import type {Selection} from "@nextui-org/react";
+import type {Selection} from "@heroui/react";
 import type {ColumnsKey} from "./user-data";
 
 
@@ -17,11 +17,11 @@ import {
     Pagination,
     Tooltip,
     useButton,
-} from "@nextui-org/react";
-import {SearchIcon} from "@nextui-org/shared-icons";
+} from "@heroui/react";
+import {SearchIcon} from "@heroui/shared-icons";
 import React, {useMemo, useRef, useCallback, useState} from "react";
 import {Icon} from "@iconify/react";
-import {cn} from "@nextui-org/react";
+import {cn} from "@heroui/react";
 
 import {CopyText} from "@/components/table/copy-text";
 import {

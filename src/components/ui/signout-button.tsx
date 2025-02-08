@@ -1,13 +1,10 @@
 "use client";
 
-
-
-
 import {usePathname, useRouter} from "next/navigation";
-import React, {startTransition, useEffect} from "react";
-import {logout} from "@/lib/actions/auth-actions";
-import {Button, cn, Tooltip} from "@nextui-org/react";
+import React, {startTransition} from "react";
+import {Button, cn, Tooltip} from "@heroui/react";
 import {Icon} from "@iconify/react";
+import {logoutAction} from "@/app/actions";
 
 interface SignOutButtonProps {
     isCollapsed: boolean;
@@ -16,16 +13,12 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
     const router = useRouter();
     const pathname = usePathname();
 
-    useEffect(() => {
-
-        router.prefetch(`/auth/logout?next=${pathname}`);
-    }, []);
 
     const handleSignOut = async () => {
         startTransition(() => {
             sessionStorage.clear();
             localStorage.clear();
-            logout();
+            logoutAction()
             router.push(`/transit-exit?next=${pathname}`);
             router.refresh();
         });

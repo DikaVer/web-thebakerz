@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Suspense} from 'react';
 
 import {pacifico} from "@/components/fonts";
-import {Card, CardBody} from "@nextui-org/react";
+import {Card, CardBody} from "@heroui/react";
 import {ExternalLink} from "@/components/external-link";
 
 interface NotificationComponentProps {

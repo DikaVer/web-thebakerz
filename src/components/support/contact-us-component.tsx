@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { ContactSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {Card, CardBody, Input, Textarea} from "@nextui-org/react";
+import {Card, CardBody, Input, Textarea} from "@heroui/react";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem} from "@/components/ui/form";
 import { FormError } from "@/components/authentication/form-error";

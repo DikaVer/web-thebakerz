@@ -11,7 +11,7 @@
 //     IconSupport
 // } from "@/components/ui/icons";
 // import {ThemeSwitcher} from "@/components/ui/ThemeSwitcher";
-// import {Avatar, AvatarIcon} from "@nextui-org/react";
+// import {Avatar, AvatarIcon} from "@heroui/react";
 // import {pacifico} from "@/components/fonts";
 // import {usePathname} from "next/navigation";
 //

@@ -1,6 +1,6 @@
-import {Avatar, AvatarIcon, Button, cn, Image, Spacer, Tooltip} from "@nextui-org/react";
+import {Avatar, AvatarIcon, Button, cn, Image, Spacer, Tooltip} from "@heroui/react";
 import {pacifico} from "@/components/fonts";
-import {ScrollShadow} from "@nextui-org/scroll-shadow";
+import {ScrollShadow} from "@heroui/scroll-shadow";
 import Sidebar from "@/components/sidebar/sidebar";
 import {Icon} from "@iconify/react";
 import SidebarDrawer from "@/components/sidebar/sidebar-drawer";
@@ -11,7 +11,7 @@ import {SignOutButton} from "@/components/ui/signout-button";
 import {
     sectionItemsAdmin,
     sectionItemsBakerz,
-    sectionItemsGuest,
+    sectionItemsGuestTheBakerz,
     sectionItemsUser
 } from "@/components/sidebar/sidebar-items";
 
@@ -23,8 +23,9 @@ interface SidebarMenuProps {
     isMobile: boolean;
     session: {
         login: boolean;  // Specifies if the user is logged in
-        role: string | undefined;  // Role of the user (e.g., admin, user)
-        name: string | undefined | null;  // Name of the user
+        role?: string;  // Role of the user (e.g., admin, user)
+        name?: string;  // Name of the user
+        email?: string;  // Email of the user
     }
 }
 
@@ -42,16 +43,16 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
 
     return (
         <SidebarDrawer
-            className={cn("min-w-[288px] rounded-lg", {"min-w-[82px]": isCollapsed})}
+            className={cn("min-w-[240px] rounded-lg", {"min-w-[64px]": isCollapsed})}
             hideCloseButton={true}
             isOpen={isOpen}
             onOpenChange={onOpenChange}
         >
             <div
                 className={cn(
-                    `fixed will-change flex h-full w-72 flex-col  p-6 transition-width border-r bg-background`,
+                    `fixed will-change flex h-full w-60 rounded-r-lg flex-col px-2 py-6 transition-width border-r bg-background`,
                     {
-                        "w-[83px] items-center px-[6px] py-6": isCollapsed,
+                        "w-[64px] items-center px-[6px] py-6": isCollapsed,
                     },
                 )}
             >
@@ -175,7 +176,7 @@ const getItemsByRole = (role : string) => {
         case 'bakerz':
             return sectionItemsBakerz;
         default:
-            return sectionItemsGuest;
+            return sectionItemsGuestTheBakerz;
     }
 };
 

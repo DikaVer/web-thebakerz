@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card, CardBody } from '@nextui-org/react';
+import { Card, CardBody } from '@heroui/react';
 import { Button } from '@/components/ui/button';
 import {IconLoadingCircle} from "@/components/ui/icons";
 

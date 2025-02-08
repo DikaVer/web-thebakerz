@@ -6,7 +6,7 @@ import { ProductByCategory, StoreData, ProductDataField } from "@/lib/definition
 import {ProductBakerz, ProductUser} from "@/components/store/product/product";
 import {createNanoid} from "@/lib/utils";
 import {IconSearch} from "@/components/ui/icons";
-import {Input} from "@nextui-org/input";
+import {Input} from "@heroui/input";
 import MyInput from "@/components/ui/search";
 import {useSearchParams} from "next/navigation";
 

@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
-import { Switch, SwitchProps } from "@nextui-org/react";
-import { cn } from "@nextui-org/react";
+import { Switch, SwitchProps } from "@heroui/react";
+import { cn } from "@heroui/react";
 
 // Define a new type that includes the original SwitchProps and adds "foreground" to the color property
 type CustomSwitchProps = Omit<SwitchProps, "color"> & {

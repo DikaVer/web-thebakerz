@@ -1,10 +1,10 @@
 "use client";
-import type {ModalProps} from "@nextui-org/react";
+import type {ModalProps} from "@heroui/react";
 
 import React from "react";
-import {TRANSITION_EASINGS} from "@nextui-org/framer-utils";
-import {Drawer, DrawerBody, DrawerContent} from "@nextui-org/react";
-import {cn} from "@nextui-org/react";
+import {TRANSITION_EASINGS} from "@heroui/framer-utils";
+import {Drawer, DrawerBody, DrawerContent} from "@heroui/react";
+import {cn} from "@heroui/react";
 
 const SidebarDrawer = React.forwardRef<
   HTMLDivElement,
@@ -19,7 +19,7 @@ const SidebarDrawer = React.forwardRef<
       className,
       onOpenChange,
       isOpen,
-      sidebarWidth = 288,
+      sidebarWidth = 240,
       classNames = {},
       sidebarPlacement = "left",
       motionProps: drawerMotionProps,
@@ -78,7 +78,7 @@ const SidebarDrawer = React.forwardRef<
                   sidebarPlacement === "right",
               },
             ),
-            body: cn("p-0", classNames?.body),
+            body: cn("p-0 ", classNames?.body),
             closeButton: cn("z-50", classNames?.closeButton),
           }}
           isOpen={isOpen}

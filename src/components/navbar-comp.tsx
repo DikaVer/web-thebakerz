@@ -1,6 +1,6 @@
 "use client";
 
-import type {NavbarProps} from "@nextui-org/react";
+import type {NavbarProps} from "@heroui/react";
 
 import React from "react";
 import {  Navbar,
@@ -8,7 +8,7 @@ import {  Navbar,
     NavbarContent,
     NavbarItem,
     Button,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {pacifico} from "@/components/fonts";
 import {Icon} from "@iconify/react";
 import {SigninButton} from "@/components/ui/signin-button";

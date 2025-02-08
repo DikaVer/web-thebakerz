@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import {Button, Input, RadioGroup, Select, SelectItem, Spacer} from "@nextui-org/react";
+import {Button, Input, RadioGroup, Select, SelectItem, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
-import {cn} from "@nextui-org/react";
+import {cn} from "@heroui/react";
 
 import {PlanCustomRadio} from "./plan-custom-radio";
 

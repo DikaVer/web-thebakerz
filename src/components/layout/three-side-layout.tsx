@@ -1,11 +1,11 @@
 // "use client";
 //
 // import React from "react";
-// import {Avatar, Button, Spacer, useDisclosure, Tooltip} from "@nextui-org/react";
+// import {Avatar, Button, Spacer, useDisclosure, Tooltip} from "@heroui/react";
 // import {Icon} from "@iconify/react";
 // import {useMediaQuery} from "usehooks-ts";
 // import {AnimatePresence, domAnimation, LazyMotion, m} from "framer-motion";
-// import {cn} from "@nextui-org/react";
+// import {cn} from "@heroui/react";
 //
 // import MessagingChatInbox from "@/components/chat/messaging-chat-inbox";
 // import MessagingChatWindow from "@/components/chat/messaging-chat-window";

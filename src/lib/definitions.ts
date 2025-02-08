@@ -133,10 +133,6 @@ export interface StoreData {
     > | null;
 }
 
-// Define a custom User type
-export interface CustomAdapterUser extends AdapterUser {
-    role: string;
-}
 
 export interface ProductByCategory {
     [key: string]: ProductDataField[];

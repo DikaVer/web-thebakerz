@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import {RadioGroup, Select, SelectItem, Spacer} from "@nextui-org/react";
-import {cn} from "@nextui-org/react";
+import {RadioGroup, Select, SelectItem, Spacer} from "@heroui/react";
+import {cn} from "@heroui/react";
 
 import {ThemeCustomRadio} from "./theme-custom-radio";
 

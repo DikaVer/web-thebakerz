@@ -1,6 +1,6 @@
 "use client";
 
-import {Image} from "@nextui-org/react";
+import {Image} from "@heroui/react";
 import {useTheme} from "next-themes";
 
 export const FooterImage = () => {

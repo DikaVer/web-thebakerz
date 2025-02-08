@@ -1,8 +1,7 @@
 "use server";
 import * as z from "zod";
 
-import {storeCreateSchema, storeEditSchema} from "@/lib/schemas";
-import {auth} from "@/auth";
+import {storeCreateSchema} from "@/lib/schemas";
 
 export const createStore = async (formData: z.infer<typeof storeCreateSchema>) => {
     // Validate the fields in the form using the LoginSchema

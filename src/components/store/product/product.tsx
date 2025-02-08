@@ -1,13 +1,13 @@
 'use client';
 
 import React, {ReactElement, useEffect, useState} from "react";
-import {Card, Image} from "@nextui-org/react";
+import {Card, Image} from "@heroui/react";
 import { formatCurrency } from "@/lib/utils";
 import {ProductDataField, StoreData} from "@/lib/definitions";
 import {HeartIcon, IconEdit, IconPlus, IconStar} from "@/components/ui/icons";
 import { useProductDialog } from "@/components/providers/product-provider";
-import {Chip} from "@nextui-org/chip";
-import {CardFooter, CardHeader} from "@nextui-org/card";
+import {Chip} from "@heroui/chip";
+import {CardFooter, CardHeader} from "@heroui/card";
 import {Button} from "@/components/ui/button";
 import { motion } from "framer-motion";
 import useIsSmallScreen from "@/lib/hooks/use-is-small-screen";

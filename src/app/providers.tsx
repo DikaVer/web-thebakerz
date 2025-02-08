@@ -1,7 +1,6 @@
-
 'use client'
 
-import {NextUIProvider} from '@nextui-org/react'
+import {HeroUIProvider} from "@heroui/react";
 import dynamic from 'next/dynamic'
 import {CookieConsentProvider} from "@/components/CookieConsentContext";
 import {useRouter} from "next/navigation";
@@ -23,14 +22,14 @@ export function Providers({children}: { children: React.ReactNode }) {
     const router = useRouter();
 
     return (
-            <NextUIProvider
+            <HeroUIProvider
                 navigate={router.push}
             >
                 <CookieConsentProvider>
-                    <NextThemesProvider attribute="class" defaultTheme="dark">
+                    <NextThemesProvider attribute="class" defaultTheme="light">
                         {children}
                     </NextThemesProvider>
                 </CookieConsentProvider>
-            </NextUIProvider>
+            </HeroUIProvider>
     )
 }

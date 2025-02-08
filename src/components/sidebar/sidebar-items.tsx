@@ -1,4 +1,4 @@
-import {Chip} from "@nextui-org/react";
+import {Chip} from "@heroui/react";
 import {Icon} from "@iconify/react";
 
 import {type SidebarItem, SidebarItemType} from "./sidebar";
@@ -196,26 +196,23 @@ export const sectionItemsAdmin: SidebarItem[] = [
     },
 ];
 
-export const sectionItemsGuest: SidebarItem[] = [  {
-    key: "navigation",
-    title: "Navigation",
-    items: [
+export const sectionItemsGuestTheBakerz: SidebarItem[] = [
         {
             key: "",
             href: "/",
             icon: "solar:home-2-linear",
             title: "TheBakerz",
         },
-        {
-            key: "search",
-            href: "/search",
-            icon: "lucide:search",
-            title: "Search",
-            endContent: (
-                <Chip size="md" className={`${pacifico.className}`} variant="flat">
-                    Coming soon!        </Chip>
-            ),
-        },
+        // {
+        //     key: "search",
+        //     href: "/search",
+        //     icon: "lucide:search",
+        //     title: "Search",
+        //     endContent: (
+        //         <Chip size="md" className={`${pacifico.className}`} variant="flat">
+        //             Coming soon!        </Chip>
+        //     ),
+        // },
         {
             key: "about-us",
             href: "/about-us",
@@ -228,8 +225,6 @@ export const sectionItemsGuest: SidebarItem[] = [  {
             title: "Join TheBakerz",
             icon: "solar:chef-hat-heart-broken",
         }
-    ],
-},
 ];
 
 

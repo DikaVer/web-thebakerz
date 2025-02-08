@@ -10,12 +10,11 @@ import { FirstView } from "@/components/landing/first-view";
 import {pacifico} from "@/components/fonts";
 import {useInView} from "@/lib/hooks/useInView";
 import {backdropEffect} from "@/lib/local-variables";
-import {Avatar, AvatarIcon, Card, CardBody, Modal, ModalBody, ModalContent, ModalHeader} from "@nextui-org/react";
+import { Card, CardBody, Modal, ModalBody, ModalContent, ModalHeader} from "@heroui/react";
 import VerticalStepsLanding from "@/components/ui/vertical-steps-landing";
-import {CardFooter, CardHeader} from "@nextui-org/card";
-import {Chip} from "@nextui-org/chip";
-import {Image as NextImage} from "@nextui-org/react";
-import {formatCurrency} from "@/lib/utils";
+import {CardFooter} from "@heroui/card";
+import {Chip} from "@heroui/chip";
+
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 import {Icon} from "@iconify/react";

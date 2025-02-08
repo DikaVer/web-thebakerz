@@ -6,7 +6,7 @@ import {IconCart} from "@/components/ui/icons";
 import {useEffect, useState} from "react";
 import CartComponent from "@/components/cart/cart-component";
 import {useCart} from "@/components/providers/cart-provider";
-import {Badge} from "@nextui-org/badge";
+import {Badge} from "@heroui/badge";
 
 
 export const CartButton = ({

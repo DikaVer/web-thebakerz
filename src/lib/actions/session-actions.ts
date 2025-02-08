@@ -1,7 +1,6 @@
 "use server";
 
-import { auth } from "@/auth";
-import { CustomAdapterUser } from "@/lib/definitions";
+import {getCurrentSession} from "@/lib/actions/session";
 
 
 /**
@@ -11,24 +10,16 @@ import { CustomAdapterUser } from "@/lib/definitions";
  */
 export const extractSession = async () => {
     // Retrieve the session information by authenticating the user
-    const session = await auth();
+    const { session, user } = await getCurrentSession();
 
     // Check if the session exists (i.e., the user is logged in)
     const login = Boolean(session);
 
-    // Initialize role and name to undefined
-    let role: string | undefined;
-    let name: string | undefined | null;
-    let email: string | undefined | null;
-
-    // If the user is logged in, extract role and name from the session object
-    if (login) {
-        const user = session?.user as CustomAdapterUser;
-        role = user.role;
-        name = user.name;
-        email = user.email;
+    if (user === null) {
+        // Return an object containing the authActions status
+        return { login };
     }
 
     // Return an object containing the authActions status, role, and name
-    return {login, role, name, email};
+    return { login, role: user.role, name: user.username, email: user.email };
 };

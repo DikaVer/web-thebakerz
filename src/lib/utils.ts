@@ -68,3 +68,17 @@ export function formatDateTime(input: string | number | Date): string {
         hour12: false
     })
 }
+
+
+
+export function generateRandomOTP(): string {
+    const randomValues = new Uint8Array(6);
+    crypto.getRandomValues(randomValues);
+
+    // Convert each byte to a digit (0-9) and join them to form a 6-digit string.
+    let otp = "";
+    for (const byte of randomValues) {
+        otp += (byte % 10).toString();
+    }
+    return otp;
+}

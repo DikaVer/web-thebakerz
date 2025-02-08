@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import {Button, cn, Link, ResizablePanel, Spacer} from "@nextui-org/react";
+import {Button, cn, Link, ResizablePanel, Spacer} from "@heroui/react";
 import useCookieConsent from "@/lib/hooks/useCookieConsent";
 import {LazyMotion, domAnimation, AnimatePresence, m} from "framer-motion";
 import SwitchCell from "@/components/settings/switch-cell";

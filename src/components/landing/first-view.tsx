@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import { pacifico } from "@/components/fonts";
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useInView } from "@/lib/hooks/useInView";
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/react";
 
 import { Button } from "@/components/ui/button";
 

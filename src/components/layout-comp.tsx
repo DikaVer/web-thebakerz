@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useEffect} from "react";
-import {useDisclosure} from "@nextui-org/react";
+import {useDisclosure} from "@heroui/react";
 import {useMediaQuery} from "usehooks-ts";
 import SidebarMenu from "@/components/sidebar/sidebar-menu";
 import NavbarComponent from "@/components/navbar-comp";
@@ -9,8 +9,9 @@ import NavbarComponent from "@/components/navbar-comp";
 
 interface Session {
     login: boolean;  // Specifies if the user is logged in
-    role: string | undefined;  // Role of the user (e.g., admin, user)
-    name: string | undefined | null;  // Name of the user
+    role?: string;  // Role of the user (e.g., admin, user)
+    name?: string;  // Name of the user
+    email?: string;  // Email of the user
 }
 
 export default function LayoutComp({ children, session }: { children: React.ReactNode, session: Session }) {

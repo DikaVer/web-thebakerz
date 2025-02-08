@@ -1,8 +1,8 @@
 "use server";
 import React, {Suspense} from "react";
-import {auth} from "@/auth";
 import StoreSkeleton from "@/components/skeletons";
 import StoreTransit from "@/components/store-transit";
+import {getCurrentSession} from "@/lib/actions/session";
 
 interface StorePageProps {
     params: Promise<{
@@ -17,7 +17,7 @@ export default async function Page(props: StorePageProps) {
     const searchParams = await props.searchParams;
     const params = await props.params;
 
-    const session = await auth();
+    const {session, user} = await getCurrentSession();
 
     return (
         <div>
@@ -36,7 +36,7 @@ export default async function Page(props: StorePageProps) {
                 </div>
                 <StoreTransit
                     id={params.id}
-                    userId={session?.user?.id}
+                    userId={user?.id}
                     // @ts-ignore
                     role={session?.user?.role}
                     isDashboard={false}
