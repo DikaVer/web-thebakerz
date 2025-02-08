@@ -3,7 +3,6 @@
 import * as z from "zod";
 
 import { LoginSchema } from "@/lib/schemas";
-import { signIn, signOut } from "@/auth";
 
 // Function to handle authActions using form data
 export const login = async (formData: z.infer<typeof LoginSchema>) => {
@@ -18,19 +17,19 @@ export const login = async (formData: z.infer<typeof LoginSchema>) => {
     }
 
     // If validation succeeds, attempt to sign in using the "sendgrid" provider
-    await signIn("sendgrid", formData);
+    // await signIn("sendgrid", formData);
 };
 
 export const loginWithProvider = async (provider: string, redirectTo: string) => {
     // Attempt to sign in using the provided provider and redirect URL
-    await signIn(provider, { redirectTo });
+    // await signIn(provider, { redirectTo });
 };
 
 // Function to handle logout
 export const logout = async () => {
 
     // Attempt to sign out the user
-    await signOut();
+    // await signOut();
 
     // Return success message when the user is logged out
     return {

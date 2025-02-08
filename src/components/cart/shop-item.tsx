@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import {CartItem} from "@/lib/definitions";
 import {formatCurrency} from "@/lib/utils";
 import {useProductDialog} from "@/components/providers/product-provider";
-import {Image, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
+import {Image, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@heroui/react";
 import {Button} from "@/components/ui/button";
 import SliderStepper from "@/components/cart/slider";
 import {IconTrash} from "@/components/ui/icons";
 import {backdropEffect} from "@/lib/local-variables";
-import {ScrollShadow} from "@nextui-org/scroll-shadow";
+import {ScrollShadow} from "@heroui/scroll-shadow";
 
 interface ShopItemProps extends CartItem {
     onDelete: (id: string) => void;

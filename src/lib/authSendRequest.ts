@@ -1,39 +1,58 @@
 "use server";
 
 import { render } from '@react-email/components';
-import { VerifyIdentityEmail } from "@/components/emails/email";
+import { EmailClient, KnownEmailSendStatus } from "@azure/communication-email";
+import VerifyCodeEmail from "@/components/emails/auth-code";
+import {AzureKeyCredential} from "@azure/core-auth";
 
-// Function to send a magic link email
-export async function sendMagicLink(params: { identifier: string; url: string }) {
-    const { identifier: to, url } = params; // Destructure email identifier and URL from params
-    const { host } = new URL(url); // Extract host from the URL
+// Function to send a magic link email using Azure Communication Services
+export async function sendMagicCode(params: { identifier: string; code: string }) {
+    const { identifier: to, code } = params;
 
-    console.log(`Sending magic link to ${to} with host ${host}`);
-    console.log(`Magic link URL: ${url}`);
+
+    console.log(`Sending magic link to ${to}`);
+    console.log(`Magic code: ${code}`);
+
+    // Retrieve connection string and sender address from environment variables
+    const endpoint = process.env.AZURE_COMMUNICATION_EMAIL_ENDPOINT;
+    const senderAddress = process.env.EMAIL_FROM; // Must be a verified MailFrom address in Azure
+
+    if (!endpoint) {
+        throw new Error("Missing AZURE_COMMUNICATION_EMAIL_ENDPOINT or AZURE_COMMUNICATION_EMAIL_KEY environment variables.");
+    }
+    if (!senderAddress) {
+        throw new Error("Missing EMAIL_FROM environment variable.");
+    }
+
+    // Create an instance of the EmailClient using your connection string
+    const emailClient = new EmailClient(endpoint);
+
+    // Construct the email message object
+    const message = {
+        senderAddress, // This should be your verified sender address from Azure
+        content: {
+            subject: `TheBakerz Verification Code`,
+            plainText: generatePlainText({code}),
+            html: await render(VerifyCodeEmail({verificationCode: code})),
+        },
+        recipients: {
+            to: [
+                {
+                    address: to,
+                    displayName: "TheBakerz"
+                }
+            ]
+        }
+    };
 
     try {
-        // Send the email using SendGrid's API
-        const res = await fetch("https://api.sendgrid.com/v3/mail/send", {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${process.env.AUTH_SENDGRID_SECRET}`, // Authorization using SendGrid secret
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                personalizations: [{ to: [{ email: to }] }], // Recipient email
-                from: { email: process.env.EMAIL_FROM }, // Sender email (from environment variable)
-                subject: `TheBakerz: Link to sign in`, // Subject of the email
-                content: [
-                    { type: "text/plain", value: generatePlainText({ url, host }) }, // Plain text version of the email
-                    { type: "text/html", value: await render(VerifyIdentityEmail({ url })) }, // HTML version rendered using React component
-                ],
-            }),
-        });
+        // Begin sending the email (returns a poller for the long-running operation)
+        const poller = await emailClient.beginSend(message);
+        // Optionally, wait until the operation completes
+        const result = await poller.pollUntilDone();
 
-        // Check if the request was successful
-        if (!res.ok) {
-            const errorMessage = await res.text();
-            throw new Error(`SendGrid error: ${errorMessage}`);
+        if (result.status !== KnownEmailSendStatus.Succeeded) {
+            throw new Error(`Email send failed with status: ${result.status}`);
         }
 
         console.log(`Magic link email sent successfully to ${to}`);
@@ -43,7 +62,7 @@ export async function sendMagicLink(params: { identifier: string; url: string })
     }
 }
 
-// Generates plain text body for email (fallback for clients that don't render HTML)
-function generatePlainText({ url, host }: { url: string; host: string }): string {
-    return `Sign in to ${host}\n${url}\n\n`; // Simple message with link and host information
+// Generates a plain text version of the email (fallback for clients that don’t support HTML)
+function generatePlainText({ code }: { code: string;}): string {
+    return `Your 6 digit code is ${code}`;
 }

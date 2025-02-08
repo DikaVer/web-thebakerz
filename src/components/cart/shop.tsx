@@ -6,8 +6,8 @@ import { CartItem } from "@/lib/definitions";
 import { useCart } from "@/components/providers/cart-provider";
 import { formatCurrency } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { ScrollShadow } from "@nextui-org/scroll-shadow";
-import { Avatar, AvatarIcon } from "@nextui-org/react";
+import { ScrollShadow } from "@heroui/scroll-shadow";
+import { Avatar, AvatarIcon } from "@heroui/react";
 
 interface ShopProps {
     avatar_url: string;

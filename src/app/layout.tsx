@@ -5,13 +5,19 @@ import type { Metadata } from "next";
 import {Toaster} from "@/components/ui/sonner";
 import {metadataDefault} from "@/components/metadata";
 import {Providers} from "@/app/providers";
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import CookieConsentComponent from "@/components/ui/cookie-consent";
+import type { Viewport } from 'next'
+
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 10,
+    userScalable: true,
+}
 
 
 export const metadata: Metadata = metadataDefault;
 
-
-// export const experimental_ppr = true;
 
 export default function RootLayout({
                                        children,
@@ -21,13 +27,16 @@ export default function RootLayout({
 
     return (
         <html lang="en">
-            <body className={lexendDeca.className}>
-                <Providers>
-                            {children}
-                            <Toaster/>
-                </Providers>
-                <SpeedInsights />
+
+        <body className={`${lexendDeca.className} max-w-full `}>
+
+            <Providers>
+
+                {children}
+                <CookieConsentComponent/>
+                <Toaster/>
+            </Providers>
             </body>
-            </html>
+        </html>
     );
 }

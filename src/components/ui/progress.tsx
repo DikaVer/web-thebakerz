@@ -1,12 +1,12 @@
-import {forwardRef} from "@nextui-org/system";
-import {useProgress} from "@nextui-org/progress";
-import {ProgressSlots, ProgressVariantProps, SlotsToClasses} from "@nextui-org/theme";
-import {HTMLNextUIProps} from "@nextui-org/react";
-import {ReactRef} from "@nextui-org/react-utils";
+import {forwardRef} from "@heroui/system";
+import {useProgress} from "@heroui/progress";
+import {ProgressSlots, ProgressVariantProps, SlotsToClasses} from "@heroui/theme";
+import {HTMLHeroUIProps} from "@heroui/react";
+import {ReactRef} from "@heroui/react-utils";
 //@ts-ignore
 import type {AriaProgressBarProps} from "@react-types/progress";
 
-interface Props extends HTMLNextUIProps<"div"> {
+interface Props extends HTMLHeroUIProps<"div"> {
   /**
    * Ref to the DOM node.
    */

@@ -1,17 +1,14 @@
 "use client";
 
 import {ComponentProps, useState} from "react";
-import type {ButtonProps} from "@nextui-org/react";
+import type {ButtonProps} from "@heroui/react";
 
 import React from "react";
 
 import {useControlledState} from "@react-stately/utils";
 
-//@ts-ignore
-import {Gradient} from "react-gradient";
-
 import {m, LazyMotion, domAnimation} from "framer-motion";
-import {cn} from "@nextui-org/react";
+import {cn} from "@heroui/react";
 import {IconArrow, IconMessage, IconOrder, IconStore, IconSupport} from "@/components/ui/icons";
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
@@ -110,9 +107,11 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
 
         const [isLoading, setLoading] = useState(false);
 
+
+
         const handleCreate = () => {
             setLoading(true);
-            router.push('/application');
+            router.push('/join-thebakerz');
             router.refresh();
         };
 
@@ -169,7 +168,7 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                                                 <m.div animate={status} className="relative">
                                                     <m.div
                                                         className={cn(
-                                                            "relative flex h-[80px] w-[80px] items-center justify-center rounded-full border-medium text-large font-semibold text-default-foreground",
+                                                            "relative flex h-[80px] w-[80px] items-center justify-center rounded-full transition from-text to-secondary border-medium text-large font-semibold text-default-foreground",
                                                             {
                                                                 "shadow-lg": status === "complete",
                                                             },
@@ -230,7 +229,7 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                                     {stepIdx < steps.length - 1 && !hideProgressBars && (
                                         <div
                                             aria-hidden="true"
-                                            className="pointer-events-none absolute translate-y-24 ml-2 left-0 w-16 flex-none items-center"
+                                            className={`pointer-events-none  absolute ml-2 left-0 ${status === "active" ? "w-28 translate-y-[116px] -translate-x-6" : "w-16 translate-y-24"} flex-none items-center`}
                                             style={{
                                                 // @ts-ignore
                                                 "--idx": stepIdx,
@@ -249,13 +248,13 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                                     )}
                                 </button>
                                 {status === "active" && (
-                                    <div className="flex w-full justify-end space-x-8">
+                                    <div className="flex w-full justify-end space-x-8 ">
                                         {stepIdx > 0 && (
                                             <Button
                                                 variant={"outline"}
                                                 startContent={<IconArrow className="w-4 h-4" />}
                                                 className="btn-prev"
-                                                onClick={() => setCurrentStep(stepIdx - 1)}
+                                                onPress={() => setCurrentStep(stepIdx - 1)}
                                             >
                                                 Previous
                                             </Button>
@@ -265,37 +264,26 @@ const VerticalStepsLanding = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                                                 variant={"default"}
                                                 endContent={<IconArrow className="w-4 h-4 rotate-180" />}
                                                 className="btn-next"
-                                                onClick={() => setCurrentStep(stepIdx + 1)}
+                                                onPress={() => setCurrentStep(stepIdx + 1)}
                                             >
                                                 Next
                                             </Button>
                                         ) : (
                                             <Button
-                                                className={`btn-work-with-bakerz -px-1 ${isLoading && "px-7"}`}
+                                                className={`btn-work-with-bakerz px-7 ${isLoading && "px-10"} gradient-background`}
                                                 isLoading={isLoading}
                                                 disabled={isLoading}
                                                 variant={"default"}
-                                                onClick={() => handleCreate()}
+                                                onPress={() => handleCreate()}
                                             >
                                                 {isLoading ? (
                                                     <>
                                                         Loading...
                                                     </>
                                                 ) : (
-                                                    <Gradient
-                                                        gradients={[
-                                                            ['#730C70', '#FAF4D1']
-                                                        ]}
-                                                        property="background"
-                                                        element="button"
-                                                        angle="90deg"
-                                                        transitionType="sequential"
-                                                        duration="3000"
-                                                        className={`py-10 px-4 rounded-lg transition-transform transform scale-105`}
-
-                                                    >
-                                                        Work with Bakerz
-                                                    </Gradient>
+                                                    <>
+                                                        Join TheBakerz
+                                                    </>
                                                 )}
                                             </Button>
                                         )}

@@ -1,6 +1,6 @@
-import {extendVariants, Button as Btn} from "@nextui-org/react";
-
-import { cva} from "class-variance-authority"
+import React, { forwardRef } from "react";
+import { Button as Btn } from "@heroui/react";
+import { cva } from "class-variance-authority";
 
 const variants = {
     default: "bg-primary text-primary-foreground hover:bg-primary/90",
@@ -10,7 +10,7 @@ const variants = {
         "border border-input bg-outline hover:bg-outline-foreground ",
     secondary:
         "bg-secondary text-secondary-foreground hover:bg-secondary-hover",
-    ghost: "bg-accent hover:bg-accent hover:text-accent-foreground border-0",
+    ghost: "bg-transparent border-0",
     link: "text-primary underline-offset-4 hover:underline",
     free: "bg-greenBakerz text-white rounded-full hover:scale-100 scale-95",
     busy: "bg-orangeBakerz text-white rounded-full hover:scale-100 scale-95",
@@ -18,8 +18,7 @@ const variants = {
     disabled: "bg-gray-400 text-white rounded-full cursor-not-allowed",
 }
 
-
-export const buttonVariants = cva(
+const buttonVariants = cva(
     "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
     {
         variants: {
@@ -36,11 +35,24 @@ export const buttonVariants = cva(
             size: "default",
         },
     }
-)
-
-export const Button = extendVariants(Btn, {
- variants: {
-        variant: variants,
-        }
-}
 );
+
+type CustomButtonProps = {
+    variant?: keyof typeof variants;
+    size?: "default" | "sm" | "lg" | "icon";
+    className?: string;
+} & React.ComponentProps<typeof Btn>;
+
+const Button = forwardRef<HTMLButtonElement, CustomButtonProps>(
+    ({ variant, size, className, ...props }, ref) => (
+        <Btn
+            ref={ref}
+            className={`${buttonVariants({ variant, size })} ${className}`}
+            {...props}
+        />
+    )
+);
+
+Button.displayName = "Button";
+
+export { buttonVariants, Button };

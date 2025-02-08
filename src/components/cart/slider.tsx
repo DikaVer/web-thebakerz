@@ -1,5 +1,5 @@
 import React from 'react';
-import {Slider} from "@nextui-org/slider";
+import {Slider} from "@heroui/slider";
 
 interface SliderProps {
     product_id: string;

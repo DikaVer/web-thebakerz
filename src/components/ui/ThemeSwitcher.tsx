@@ -1,8 +1,9 @@
 'use client';
 
 import {useTheme} from "next-themes";
-import {Switch} from "@nextui-org/switch";
-import {MoonIcon, SunIcon} from "@/components/ui/icons";
+import {Switch} from "@heroui/switch";
+
+import {Icon} from "@iconify/react";
 
 export const ThemeSwitcher = () => {
     const { theme, setTheme } = useTheme()
@@ -13,10 +14,10 @@ export const ThemeSwitcher = () => {
                 isSelected={theme !== 'dark'}
                 size="md"
                 color="primary"
-                startContent={<SunIcon />}
-                endContent={<MoonIcon />}
+                startContent={<Icon icon={"solar:sun-2-broken"}/>}
+                endContent={<Icon icon={"solar:moon-stars-broken"} />}
 
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                onValueChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
                 {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
             </Switch>

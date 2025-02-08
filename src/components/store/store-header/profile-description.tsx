@@ -1,11 +1,11 @@
 'use client';
 
 import 'react-image-crop/dist/ReactCrop.css';
-import {ScrollShadow} from "@nextui-org/scroll-shadow";
+import {ScrollShadow} from "@heroui/scroll-shadow";
 import React, {useEffect, useRef, useState} from "react";
 import {Button} from "@/components/ui/button";
-import {Card, CardBody, Image} from "@nextui-org/react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure} from "@nextui-org/react";
+import {Card, CardBody, Image} from "@heroui/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure} from "@heroui/react";
 import {
     IconArrow,
     IconChevronDown,
@@ -17,12 +17,11 @@ import {
 import {AddressDataStoreField} from "@/lib/definitions";
 import {backdropEffect, cityLatLngMap, timeMap} from "@/lib/local-variables";
 import {formatAddress} from "@/lib/utils";
-import {Avatar, AvatarIcon} from "@nextui-org/react";
+import {Avatar, AvatarIcon} from "@heroui/react";
 import {Label} from "@/components/ui/label";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import {Calendar} from "@/components/ui/calendar";
 import {ExternalLink} from "@/components/external-link";
-import {CardHeader} from "@nextui-org/card";
+
 import {pacifico} from "@/components/fonts";
 
 
@@ -289,8 +288,9 @@ const DeliveryLocationsTable: React.FC<{ deliveryOptions: Record<
                                 <span className="text-lg font-medium justify-end text-text">{city}</span>
 
                                 <Button
+                                    // @ts-ignore
                                     variant={"secondary"}
-                                    onClick={() => {
+                                    onPress={() => {
                                         setSelectedCity(city);
                                         setIsOpen(true);
                                     }}>

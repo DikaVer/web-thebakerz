@@ -1,21 +1,20 @@
 import 'server-only';
-import {sql} from "@vercel/postgres";
+import {connectionPool} from "@/db";
 import {AddressDataUserField, AddressUserData, UsersData} from "@/lib/definitions";
 
-export const config = {
-    runtime: 'edge', // 'nodejs' is the default
-};
+export const config = "edge";
 
 
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 10;
 export async function fetchUsersPages(query: string) {
     try {
-        const count = await sql`SELECT COUNT(*)
-    FROM users WHERE
-        users.name ILIKE ${`%${query}%`} OR
-        users.email ILIKE ${`%${query}%`}
-  `;
+        const count = await connectionPool.query(`
+          SELECT COUNT(*)
+          FROM users WHERE
+            users.name ILIKE '%${query}%' OR
+            users.email ILIKE '%${query}%';
+        `);
         return Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     } catch (error) {
         console.error('Database Error:', error);
@@ -31,19 +30,19 @@ export async function fetchFilteredUsers(
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
     try {
-        const users = await sql<UsersData>`
-      SELECT
-        users.id,
-        users.name, 
-        users.email,
-        users.image,
-        users.role
-      FROM users
-       WHERE
-        users.name ILIKE ${`%${query}%`} OR
-        users.email ILIKE ${`%${query}%`} 
-      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-    `;
+        const users = await connectionPool.query(`
+          SELECT
+            users.id,
+            users.name, 
+            users.email,
+            users.image,
+            users.role
+          FROM users
+          WHERE
+            users.name ILIKE '%${query}%' OR
+            users.email ILIKE '%${query}%'
+          LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}`) as { rows: UsersData[] };
+
 
         return users.rows;
     } catch (error) {
@@ -59,20 +58,21 @@ export async function fetchFilteredUsersDefault(
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
     try {
-        const users = await sql<UsersData>`
-      SELECT
-        users.id,
-        users.name, 
-        users.email,
-        users.image,
-        users.role
-      FROM users
-       WHERE
-        (users.name ILIKE ${`%${query}%`} OR
-        users.email ILIKE ${`%${query}%`}) AND
-        users.role = 'user'
-      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-    `;
+        const users = await connectionPool.query(`
+          SELECT
+            users.id,
+            users.name, 
+            users.email,
+            users.image,
+            users.role
+          FROM users
+          WHERE
+            (users.name ILIKE '%${query}%' OR
+            users.email ILIKE '%${query}%') AND
+            users.role = 'user'
+          LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset};
+        `);
+
 
         return users.rows;
     } catch (error) {
@@ -86,18 +86,17 @@ export async function fetchUserData(
 ) : Promise<UsersData> {
 
     try {
-        const users = await sql<UsersData>`
-      SELECT
-        users.id,
-        users.name, 
-        users.email,
-        users.image,
-        users.role,
-        users.date
-      FROM users
-       WHERE
-        users.id = ${`${query}`}
-    `;
+        const users = await connectionPool.query(`
+          SELECT
+            users.id,
+            users.name, 
+            users.email,
+            users.image,
+            users.role,
+            users.date
+          FROM users
+          WHERE
+            users.id = '${query}';`);
 
         return users.rows[0];
     } catch (error) {
@@ -111,12 +110,13 @@ export async function fetchUserLocation(
 ) : Promise<AddressDataUserField[]> {
 
     try {
-        const location = await sql<AddressDataUserField>`
-      SELECT
-        *
-      FROM addresses_users
-       WHERE
-        addresses_users.user_id = ${`${query}`}`;
+        const location = await connectionPool.query(`
+          SELECT
+            *
+          FROM addresses_users
+          WHERE
+            addresses_users.user_id = '${query}';
+        `);
 
         return location.rows;
     } catch (error) {

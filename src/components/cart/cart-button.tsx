@@ -6,7 +6,7 @@ import {IconCart} from "@/components/ui/icons";
 import {useEffect, useState} from "react";
 import CartComponent from "@/components/cart/cart-component";
 import {useCart} from "@/components/providers/cart-provider";
-import {Badge} from "@nextui-org/badge";
+import {Badge} from "@heroui/badge";
 
 
 export const CartButton = ({
@@ -32,7 +32,7 @@ export const CartButton = ({
             <Button className="flex p-2 items-center rounded-full"
                     size={"lg"}
                     variant={"ghost"}
-                    onClick={toggleCart}
+                    onPress={toggleCart}
             >
                     <Badge color="primary" content={count} isInvisible={count <= 0} shape="circle">
                         <IconCart className="w-7 h-6 pr-1 text-text"/>

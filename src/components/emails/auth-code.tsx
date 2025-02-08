@@ -17,7 +17,6 @@ interface VerifyIdentityEmailProps {
 
 export default function VerifyCodeEmail({ verificationCode }: VerifyIdentityEmailProps) {
     // Format the verification code as ###-###
-    const formattedCode = `443554`;
 
     return (
         <Html>
@@ -69,7 +68,7 @@ export default function VerifyCodeEmail({ verificationCode }: VerifyIdentityEmai
                             Use the 6-digit code below to verify your identity and sign in to your TheBakerz account. If you didn&apos;t request this, please ignore this email or contact support.
                         </Text>
                         <Text style={code} className="code">
-                            {formattedCode}
+                            {verificationCode}
                         </Text>
                         <Text style={copyInstruction} className="copy-instruction">
                             Please copy and paste this code into the verification field.
