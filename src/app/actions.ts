@@ -1,8 +1,6 @@
 "use server";
 
 
-
-import { redirect } from "next/navigation";
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {deleteSessionTokenCookie, getCurrentSession, invalidateSession} from "@/lib/actions/session";
 

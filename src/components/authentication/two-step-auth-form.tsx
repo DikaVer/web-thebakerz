@@ -335,6 +335,7 @@ export default function TwoStepAuthForm() {
                                                     isIconOnly
                                                     size="sm"
                                                     variant="ghost"
+                                                    isDisabled={isPendingOTP}
                                                     onPress={() => {
                                                         formOTP.reset();
                                                         setError(undefined);

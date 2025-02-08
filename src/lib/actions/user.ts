@@ -174,7 +174,7 @@ export async function getUserFromEmail(email: string): Promise<User | null> {
             id: row.id,
             email: row.email,
             username: row.username,
-            emailVerified: row.emailVerified !== null, // if a timestamp exists, the email is verified
+            emailVerified: row.email_verified !== null, // if a timestamp exists, the email is verified
             role: row.role,
         };
 

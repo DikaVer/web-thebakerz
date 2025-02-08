@@ -62,7 +62,7 @@ export async function createEmailVerificationRequest(
     INSERT INTO email_verification_request (id, user_id, code, email, expires_at)
     VALUES ($1, $2, $3, $4, $5)
     `,
-        [id, userId, code, email, expiresAt.getTime()]
+        [id, userId, code, email, expiresAt]
     );
 
     const request: EmailVerificationRequest = {
