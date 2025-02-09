@@ -125,9 +125,9 @@ const CropEasy: React.FC<CropEasyProps> = ({
                 </div>
             </ModalBody>
             <ModalFooter>
-                <Button color="danger" variant="light" onPress={() => setOpenCrop(false)}>
-                    Close
-                </Button>
+                {/*<Button color="danger" variant="light" onPress={() => setOpenCrop(false)}>*/}
+                {/*    Close*/}
+                {/*</Button>*/}
                 <Button
                     color="secondary"
                     onPress={cropImage}
