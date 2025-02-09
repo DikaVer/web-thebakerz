@@ -135,7 +135,9 @@ export default function ContactUsComponent() {
                             isLoading={isPending}
                             disabled={isPending}
                         >
-                            Submit ticket
+                            {
+                                isPending ? "Sending..." : "Submit ticket"
+                            }
                         </Button>
                     </form>
                 </Form>

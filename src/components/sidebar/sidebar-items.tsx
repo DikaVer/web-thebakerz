@@ -14,24 +14,24 @@ export const sectionItemsUser: SidebarItem[] = [
         key: "account",
         title: "Account",
         items: [
-            {
-                key: "orders",
-                href: "/orders",
-                title: "Orders",
-                icon: "solar:bill-list-broken",
-            },
-            {
-                key: "chat",
-                href: "/chat",
-                icon: "solar:chat-round-line-broken",
-                title: "Chat",
-            },
-            {
-                key: "favorites",
-                href: "/favorites",
-                icon: "solar:chat-square-like-broken",
-                title: "Favorites",
-            },
+            // {
+            //     key: "orders",
+            //     href: "/orders",
+            //     title: "Orders",
+            //     icon: "solar:bill-list-broken",
+            // },
+            // {
+            //     key: "chat",
+            //     href: "/chat",
+            //     icon: "solar:chat-round-line-broken",
+            //     title: "Chat",
+            // },
+            // {
+            //     key: "favorites",
+            //     href: "/favorites",
+            //     icon: "solar:chat-square-like-broken",
+            //     title: "Favorites",
+            // },
             {
                 key: "payments",
                 href: "/payments",
@@ -41,30 +41,30 @@ export const sectionItemsUser: SidebarItem[] = [
         ],
     },
     {
-        key: "overview",
-        title: "Overview",
+        key: "navigation",
+        title: "Navigation",
         items: [
             {
                 key: "",
                 href: "/",
                 icon: "solar:home-2-linear",
-                title: "Home",
+                title: "TheBakerz",
             },
-            {
-                key: "search",
-                href: "/search",
-                icon: "lucide:search",
-                title: "Search",
-                endContent: (
-                    <Chip size="md" className={`${pacifico.className}`} variant="flat">
-                        Coming soon!        </Chip>
-                ),
-            },
+            // {
+            //     key: "search",
+            //     href: "/search",
+            //     icon: "lucide:search",
+            //     title: "Search",
+            //     endContent: (
+            //         <Chip size="md" className={`${pacifico.className}`} variant="flat">
+            //             Coming soon!        </Chip>
+            //     ),
+            // },
             {
                 key: "about-us",
                 href: "/about-us",
                 icon: "solar:users-group-two-rounded-outline",
-                title: "About Us",
+                title: "About TheBakerz",
             },
             {
                 key: "#join-thebakerz",

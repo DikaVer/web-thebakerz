@@ -1,9 +1,5 @@
 import React, {SVGProps} from 'react';
 
-type IconSvgProps = SVGProps<SVGSVGElement> & {
-    size?: number;
-};
-
 
 const colors = {
     primary: '#730C6F', //'#730C6F'
@@ -13,7 +9,11 @@ const colors = {
     white: '#ffffff',
 };
 
-
+type IconSvgProps = SVGProps<SVGSVGElement> & {
+    size?: number;
+    primaryColor?: string;
+    secondaryColor?: string;
+};
 
 // @ts-ignore
 const MoonIcon = (props) => (
@@ -45,8 +45,9 @@ const SunIcon = (props) => (
         {...props}
     >
         <g fill="currentColor">
-            <path d="M19 12a7 7 0 11-7-7 7 7 0 017 7z" />
-            <path d="M12 22.96a.969.969 0 01-1-.96v-.08a1 1 0 012 0 1.038 1.038 0 01-1 1.04zm7.14-2.82a1.024 1.024 0 01-.71-.29l-.13-.13a1 1 0 011.41-1.41l.13.13a1 1 0 010 1.41.984.984 0 01-.7.29zm-14.28 0a1.024 1.024 0 01-.71-.29 1 1 0 010-1.41l.13-.13a1 1 0 011.41 1.41l-.13.13a1 1 0 01-.7.29zM22 13h-.08a1 1 0 010-2 1.038 1.038 0 011.04 1 .969.969 0 01-.96 1zM2.08 13H2a1 1 0 010-2 1.038 1.038 0 011.04 1 .969.969 0 01-.96 1zm16.93-7.01a1.024 1.024 0 01-.71-.29 1 1 0 010-1.41l.13-.13a1 1 0 011.41 1.41l-.13.13a.984.984 0 01-.7.29zm-14.02 0a1.024 1.024 0 01-.71-.29l-.13-.14a1 1 0 011.41-1.41l.13.13a1 1 0 010 1.41.97.97 0 01-.7.3zM12 3.04a.969.969 0 01-1-.96V2a1 1 0 012 0 1.038 1.038 0 01-1 1.04z" />
+            <path d="M19 12a7 7 0 11-7-7 7 7 0 017 7z"/>
+            <path
+                d="M12 22.96a.969.969 0 01-1-.96v-.08a1 1 0 012 0 1.038 1.038 0 01-1 1.04zm7.14-2.82a1.024 1.024 0 01-.71-.29l-.13-.13a1 1 0 011.41-1.41l.13.13a1 1 0 010 1.41.984.984 0 01-.7.29zm-14.28 0a1.024 1.024 0 01-.71-.29 1 1 0 010-1.41l.13-.13a1 1 0 011.41 1.41l-.13.13a1 1 0 01-.7.29zM22 13h-.08a1 1 0 010-2 1.038 1.038 0 011.04 1 .969.969 0 01-.96 1zM2.08 13H2a1 1 0 010-2 1.038 1.038 0 011.04 1 .969.969 0 01-.96 1zm16.93-7.01a1.024 1.024 0 01-.71-.29 1 1 0 010-1.41l.13-.13a1 1 0 011.41 1.41l-.13.13a.984.984 0 01-.7.29zm-14.02 0a1.024 1.024 0 01-.71-.29l-.13-.14a1 1 0 011.41-1.41l.13.13a1 1 0 010 1.41.97.97 0 01-.7.3zM12 3.04a.969.969 0 01-1-.96V2a1 1 0 012 0 1.038 1.038 0 01-1 1.04z"/>
         </g>
     </svg>
 );
@@ -56,10 +57,10 @@ interface IconProps extends React.ComponentProps<'svg'> {
 }
 
 const IconCart: React.FC<IconProps> = ({
-                                               className = '',
-                                               viewBox = "0 0 576 512",
-                                               ...props
-                                           }) => {
+                                           className = '',
+                                           viewBox = "0 0 576 512",
+                                           ...props
+                                       }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -113,7 +114,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
 };
 
-const Radio: React.FC<RadioProps> = ({ checked, onChange }) => {
+const Radio: React.FC<RadioProps> = ({checked, onChange}) => {
     return (
         <div style={styles.Container} onClick={onChange}>
             <div
@@ -122,17 +123,17 @@ const Radio: React.FC<RadioProps> = ({ checked, onChange }) => {
                     display: checked ? 'block' : 'none',
                 }}
             />
-            <input type="radio" style={styles.Input} checked={checked} onChange={onChange} />
+            <input type="radio" style={styles.Input} checked={checked} onChange={onChange}/>
         </div>
     );
 };
 
 
 const IconCalendar: React.FC<IconProps> = ({
-                                                       className = '',
-                                                       viewBox = "0 0 24 24",
-                                                       ...props
-                                                   }) => {
+                                               className = '',
+                                               viewBox = "0 0 24 24",
+                                               ...props
+                                           }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -147,20 +148,20 @@ const IconCalendar: React.FC<IconProps> = ({
             role="img"
             {...props}
         >
-            <path d="M8 2v4" />
-            <path d="M16 2v4" />
-            <rect width="18" height="18" x="3" y="4" rx="2" />
-            <path d="M3 10h18" />
+            <path d="M8 2v4"/>
+            <path d="M16 2v4"/>
+            <rect width="18" height="18" x="3" y="4" rx="2"/>
+            <path d="M3 10h18"/>
         </svg>
     );
 };
 
 
 const IconMenu: React.FC<IconProps> = ({
-                                               className = '',
-                                               viewBox = "0 0 448 512",
-                                               ...props
-                                           }) => {
+                                           className = '',
+                                           viewBox = "0 0 448 512",
+                                           ...props
+                                       }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -178,7 +179,7 @@ const IconMenu: React.FC<IconProps> = ({
 };
 
 
-const IconStar: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconStar: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -203,10 +204,10 @@ const IconStar: React.FC<IconProps> = ({ className = '', ...props }) => (
 
 
 const IconPlus: React.FC<IconProps> = ({
-                                               className = '',
-                                               viewBox = "0 0 24 24",
-                                               ...props
-                                           }) => {
+                                           className = '',
+                                           viewBox = "0 0 24 24",
+                                           ...props
+                                       }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -216,38 +217,18 @@ const IconPlus: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
         </svg>
     );
 };
 
-const IconLocation: React.FC<IconProps> = ({
-                                                       className = '',
-                                                       viewBox = "0 0 22 22",
-                                                       ...props
-                                                   }) => {
-    return (
-        <svg
-            viewBox={viewBox}
-            className={`fill-current text-current ${className}`}
-            aria-hidden="true"
-            focusable="false"
-            role="presentation"
-            {...props}
-        >
-            <path
-                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"
-            />
-        </svg>
-    );
-};
 
 const IconThreeDots: React.FC<IconProps> = ({
-                                                         className = '',
-                                                         viewBox = "0 0 24 24",
-                                                         ...props
-                                                     }) => {
+                                                className = '',
+                                                viewBox = "0 0 24 24",
+                                                ...props
+                                            }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -257,17 +238,18 @@ const IconThreeDots: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path
+                d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
         </svg>
     );
 };
 
 const IconChevronDown: React.FC<IconProps> = ({
-                                                             className = '',
-                                                             viewBox = "0 0 24 24",
-                                                             ...props
-                                                         }) => {
+                                                  className = '',
+                                                  viewBox = "0 0 24 24",
+                                                  ...props
+                                              }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -277,17 +259,17 @@ const IconChevronDown: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path d="M0 0h24v24H0V0z" fill="none" />
-            <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+            <path d="M0 0h24v24H0V0z" fill="none"/>
+            <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
         </svg>
     );
 };
 
 const IconBill: React.FC<IconProps> = ({
-                                               className = '',
-                                               viewBox = "0 0 24 24",
-                                               ...props
-                                           }) => {
+                                           className = '',
+                                           viewBox = "0 0 24 24",
+                                           ...props
+                                       }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -297,17 +279,18 @@ const IconBill: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M18 17H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2zM3 22l1.5-1.5L6 22l1.5-1.5L9 22l1.5-1.5L12 22l1.5-1.5L15 22l1.5-1.5L18 22l1.5-1.5L21 22V2l-1.5 1.5L18 2l-1.5 1.5L15 2l-1.5 1.5L12 2l-1.5 1.5L9 2 7.5 3.5 6 2 4.5 3.5 3 2v20z" />
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path
+                d="M18 17H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2zM3 22l1.5-1.5L6 22l1.5-1.5L9 22l1.5-1.5L12 22l1.5-1.5L15 22l1.5-1.5L18 22l1.5-1.5L21 22V2l-1.5 1.5L18 2l-1.5 1.5L15 2l-1.5 1.5L12 2l-1.5 1.5L9 2 7.5 3.5 6 2 4.5 3.5 3 2v20z"/>
         </svg>
     );
 };
 
 const IconSupport: React.FC<IconProps> = ({
-                                                     className = '',
-                                                     viewBox = "0 0 24 24",
-                                                     ...props
-                                                 }) => {
+                                              className = '',
+                                              viewBox = "0 0 24 24",
+                                              ...props
+                                          }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -317,11 +300,11 @@ const IconSupport: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path fill="none" d="M0 0h24v24H0z" />
+            <path fill="none" d="M0 0h24v24H0z"/>
             <path
                 d="M21 12.22C21 6.73 16.74 3 12 3c-4.69 0-9 3.65-9 9.28-.6.34-1 .98-1 1.72v2c0 1.1.9 2 2 2h1v-6.1c0-3.87 3.13-7 7-7s7 3.13 7 7V19h-8v2h8c1.1 0 2-.9 2-2v-1.22c.59-.31 1-.92 1-1.64v-2.3c0-.7-.41-1.31-1-1.62z"
             />
-            <path d="M9 12a1 1 0 1 0 0 2 1 1 0 1 0 0-2zM15 12a1 1 0 1 0 0 2 1 1 0 1 0 0-2z" />
+            <path d="M9 12a1 1 0 1 0 0 2 1 1 0 1 0 0-2zM15 12a1 1 0 1 0 0 2 1 1 0 1 0 0-2z"/>
             <path
                 d="M18 11.03A6.04 6.04 0 0 0 12.05 6c-3.03 0-6.29 2.51-6.03 6.45a8.075 8.075 0 0 0 4.86-5.89c1.31 2.63 4 4.44 7.12 4.47z"
             />
@@ -330,10 +313,10 @@ const IconSupport: React.FC<IconProps> = ({
 };
 
 const IconPayment: React.FC<IconProps> = ({
-                                                     className = '',
-                                                     viewBox = "0 0 24 24",
-                                                     ...props
-                                                 }) => {
+                                              className = '',
+                                              viewBox = "0 0 24 24",
+                                              ...props
+                                          }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -354,9 +337,9 @@ const IconPayment: React.FC<IconProps> = ({
 
 const IconAvatar: React.FC<IconProps> = ({
                                              className = '',
-                                                   viewBox = "0 0 24 24",
-                                                   ...props
-                                               }) => {
+                                             viewBox = "0 0 24 24",
+                                             ...props
+                                         }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -366,7 +349,7 @@ const IconAvatar: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M0 0h24v24H0z" fill="none"/>
             <path
                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88a9.947 9.947 0 0 1 12.28 0C16.43 19.18 14.03 20 12 20z"
             />
@@ -375,10 +358,10 @@ const IconAvatar: React.FC<IconProps> = ({
 };
 
 const IconTrash: React.FC<IconProps> = ({
-                                                 className = '',
-                                                 viewBox = "0 0 24 24",
-                                                 ...props
-                                             }) => {
+                                            className = '',
+                                            viewBox = "0 0 24 24",
+                                            ...props
+                                        }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -388,17 +371,17 @@ const IconTrash: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
         </svg>
     );
 };
 
 const IconMinus: React.FC<IconProps> = ({
-                                                 className = '',
-                                                 viewBox = "0 0 24 24",
-                                                 ...props
-                                             }) => {
+                                            className = '',
+                                            viewBox = "0 0 24 24",
+                                            ...props
+                                        }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -408,17 +391,17 @@ const IconMinus: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M19 13H5v-2h14v2z" />
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M19 13H5v-2h14v2z"/>
         </svg>
     );
 };
 
 const IconShare: React.FC<IconProps> = ({
-                                                 className = '',
-                                                 viewBox = "0 0 24 24",
-                                                 ...props
-                                             }) => {
+                                            className = '',
+                                            viewBox = "0 0 24 24",
+                                            ...props
+                                        }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -428,7 +411,7 @@ const IconShare: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path d="M0 0h24v24H0V0z" fill="none" />
+            <path d="M0 0h24v24H0V0z" fill="none"/>
             <path
                 d="m16 5-1.42 1.42-1.59-1.59V16h-1.98V4.83L9.42 6.42 8 5l4-4 4 4zm4 5v11c0 1.1-.9 2-2 2H6a2 2 0 0 1-2-2V10c0-1.11.89-2 2-2h3v2H6v11h12V10h-3V8h3a2 2 0 0 1 2 2z"
             />
@@ -438,10 +421,10 @@ const IconShare: React.FC<IconProps> = ({
 
 
 const IconCross: React.FC<IconProps> = ({
-                                                 className = '',
-                                                 viewBox = "0 0 24 24",
-                                                 ...props
-                                             }) => {
+                                            className = '',
+                                            viewBox = "0 0 24 24",
+                                            ...props
+                                        }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -451,20 +434,19 @@ const IconCross: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
         </svg>
     );
 };
 
 
-
-
 const IconEdit: React.FC<IconProps> = ({
-                                               className = '',
-                                               viewBox = "0 0 24 24",
-                                               ...props
-                                           }) => {
+                                           className = '',
+                                           viewBox = "0 0 24 24",
+                                           ...props
+                                       }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -474,7 +456,7 @@ const IconEdit: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M0 0h24v24H0z" fill="none"/>
             <path
                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
             />
@@ -483,10 +465,10 @@ const IconEdit: React.FC<IconProps> = ({
 };
 
 const IconClock: React.FC<IconProps> = ({
-                                                 className = '',
-                                                 viewBox = "0 0 24 24",
-                                                 ...props
-                                             }) => {
+                                            className = '',
+                                            viewBox = "0 0 24 24",
+                                            ...props
+                                        }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -496,20 +478,20 @@ const IconClock: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M0 0h24v24H0z" fill="none"/>
             <path
                 d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
             />
-            <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+            <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
         </svg>
     );
 };
 
 const IconArrow: React.FC<IconProps> = ({
-                                                 className = '',
-                                                 viewBox = "0 0 24 24",
-                                                 ...props
-                                             }) => {
+                                            className = '',
+                                            viewBox = "0 0 24 24",
+                                            ...props
+                                        }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -519,17 +501,17 @@ const IconArrow: React.FC<IconProps> = ({
             role="presentation"
             {...props}
         >
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path d="m9 19 1.41-1.41L5.83 13H22v-2H5.83l4.59-4.59L9 5l-7 7 7 7z" />
+            <path fill="none" d="M0 0h24v24H0z"/>
+            <path d="m9 19 1.41-1.41L5.83 13H22v-2H5.83l4.59-4.59L9 5l-7 7 7 7z"/>
         </svg>
     );
 };
 
 const IconStore: React.FC<IconProps> = ({
-                                                 className = '',
-                                                 viewBox = "0 0 576 512", // Updated to match the SVG's original viewBox
-                                                 ...props
-                                             }) => {
+                                            className = '',
+                                            viewBox = "0 0 576 512", // Updated to match the SVG's original viewBox
+                                            ...props
+                                        }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -547,10 +529,10 @@ const IconStore: React.FC<IconProps> = ({
 };
 
 const IconHome: React.FC<IconProps> = ({
-                                                 className = '',
-                                                 viewBox = "0 0 24 24",
-                                                 ...props
-                                             }) => {
+                                           className = '',
+                                           viewBox = "0 0 24 24",
+                                           ...props
+                                       }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -565,20 +547,21 @@ const IconHome: React.FC<IconProps> = ({
             role="img"
             {...props}
         >
-            <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7" />
-            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-            <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4" />
-            <path d="M2 7h20" />
-            <path d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7" />
+            <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/>
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+            <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/>
+            <path d="M2 7h20"/>
+            <path
+                d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"/>
         </svg>
     );
 };
 
 const IconOrder: React.FC<IconProps> = ({
-                                                 className = '',
-                                                 viewBox = "0 0 384 512", // Updated to match the SVG's original viewBox
-                                                 ...props
-                                             }) => {
+                                            className = '',
+                                            viewBox = "0 0 384 512", // Updated to match the SVG's original viewBox
+                                            ...props
+                                        }) => {
     return (
         <svg
             viewBox={viewBox}
@@ -623,8 +606,10 @@ function IconHeart({
                        viewBox = "0 0 24 24",
                        state = "full",
                        ...props
-                   }: React.ComponentProps<'svg'> & { color?: 'primary' | 'secondary' | 'black' | 'heart'
-                   state?: "full" | "empty"},
+                   }: React.ComponentProps<'svg'> & {
+                       color?: 'primary' | 'secondary' | 'black' | 'heart'
+                       state?: "full" | "empty"
+                   },
 ) {
     let styles = {
         color: colors[color],
@@ -683,11 +668,11 @@ const IconHeartFavourites: React.FC<IconHeartFavouritesProps> = ({
 };
 
 const IconSuccess: React.FC<IconProps> = ({
-                                                     className = '',
-                                                     color = 'primary',
-                                                     viewBox = "0 0 20 20",
-                                                     ...props
-                                                 }) => (
+                                              className = '',
+                                              color = 'primary',
+                                              viewBox = "0 0 20 20",
+                                              ...props
+                                          }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox={viewBox}
@@ -704,10 +689,10 @@ const IconSuccess: React.FC<IconProps> = ({
 );
 
 const IconTruck: React.FC<IconProps> = ({
-                                                 className = '',
-                                                 viewBox = "0 0 24 24",
-                                                 ...props
-                                             }) => {
+                                            className = '',
+                                            viewBox = "0 0 24 24",
+                                            ...props
+                                        }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -722,16 +707,16 @@ const IconTruck: React.FC<IconProps> = ({
             role="img"
             {...props}
         >
-            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
-            <path d="M15 18H9" />
-            <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
-            <circle cx="17" cy="18" r="2" />
-            <circle cx="7" cy="18" r="2" />
+            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
+            <path d="M15 18H9"/>
+            <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/>
+            <circle cx="17" cy="18" r="2"/>
+            <circle cx="7" cy="18" r="2"/>
         </svg>
     );
 };
 
-const IconEggOff: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconEggOff: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -745,14 +730,15 @@ const IconEggOff: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-egg-off ${className}`}
         {...props}
     >
-        <path d="M6.399 6.399C5.362 8.157 4.65 10.189 4.5 12c-.37 4.43 1.27 9.95 7.5 10 3.256-.026 5.259-1.547 6.375-3.625" />
-        <path d="M19.532 13.875A14.07 14.07 0 0 0 19.5 12c-.36-4.34-3.95-9.96-7.5-10-1.04.012-2.082.502-3.046 1.297" />
-        <line x1="2" y1="2" x2="22" y2="22" />
+        <path
+            d="M6.399 6.399C5.362 8.157 4.65 10.189 4.5 12c-.37 4.43 1.27 9.95 7.5 10 3.256-.026 5.259-1.547 6.375-3.625"/>
+        <path d="M19.532 13.875A14.07 14.07 0 0 0 19.5 12c-.36-4.34-3.95-9.96-7.5-10-1.04.012-2.082.502-3.046 1.297"/>
+        <line x1="2" y1="2" x2="22" y2="22"/>
     </svg>
 );
 
 
-const IconEgg: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconEgg: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -766,11 +752,12 @@ const IconEgg: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-egg ${className}`}
         {...props}
     >
-        <path d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z" />
+        <path
+            d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"/>
     </svg>
 );
 
-const IconMeet: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconMeet: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -784,14 +771,16 @@ const IconMeet: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-beef ${className}`}
         {...props}
     >
-        <circle cx="12.5" cy="8.5" r="2.5" />
-        <path d="M12.5 2a6.5 6.5 0 0 0-6.22 4.6c-1.1 3.13-.78 3.9-3.18 6.08A3 3 0 0 0 5 18c4 0 8.4-1.8 11.4-4.3A6.5 6.5 0 0 0 12.5 2Z" />
-        <path d="m18.5 6 2.19 4.5a6.48 6.48 0 0 1 .31 2 6.49 6.49 0 0 1-2.6 5.2C15.4 20.2 11 22 7 22a3 3 0 0 1-2.68-1.66L2.4 16.5" />
+        <circle cx="12.5" cy="8.5" r="2.5"/>
+        <path
+            d="M12.5 2a6.5 6.5 0 0 0-6.22 4.6c-1.1 3.13-.78 3.9-3.18 6.08A3 3 0 0 0 5 18c4 0 8.4-1.8 11.4-4.3A6.5 6.5 0 0 0 12.5 2Z"/>
+        <path
+            d="m18.5 6 2.19 4.5a6.48 6.48 0 0 1 .31 2 6.49 6.49 0 0 1-2.6 5.2C15.4 20.2 11 22 7 22a3 3 0 0 1-2.68-1.66L2.4 16.5"/>
     </svg>
 );
 
 
-const IconVegan: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconVegan: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -805,14 +794,14 @@ const IconVegan: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-vegan ${className}`}
         {...props}
     >
-        <path d="M16 8q6 0 6-6-6 0-6 6" />
-        <path d="M17.41 3.59a10 10 0 1 0 3 3" />
-        <path d="M2 2a26.6 26.6 0 0 1 10 20c.9-6.82 1.5-9.5 4-14" />
+        <path d="M16 8q6 0 6-6-6 0-6 6"/>
+        <path d="M17.41 3.59a10 10 0 1 0 3 3"/>
+        <path d="M2 2a26.6 26.6 0 0 1 10 20c.9-6.82 1.5-9.5 4-14"/>
     </svg>
 );
 
 
-const IconGluten: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconGluten: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -826,19 +815,19 @@ const IconGluten: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-wheat ${className}`}
         {...props}
     >
-        <path d="M2 22 16 8" />
-        <path d="M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z" />
-        <path d="M7.47 8.53 9 7l1.53 1.53a3.5 3.5 0 0 1 0 4.94L9 15l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z" />
-        <path d="M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z" />
-        <path d="M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z" />
-        <path d="M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z" />
-        <path d="M15.47 13.47 17 15l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z" />
-        <path d="M19.47 9.47 21 11l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L13 11l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z" />
+        <path d="M2 22 16 8"/>
+        <path d="M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/>
+        <path d="M7.47 8.53 9 7l1.53 1.53a3.5 3.5 0 0 1 0 4.94L9 15l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/>
+        <path d="M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/>
+        <path d="M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z"/>
+        <path d="M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/>
+        <path d="M15.47 13.47 17 15l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/>
+        <path d="M19.47 9.47 21 11l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L13 11l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/>
     </svg>
 );
 
 
-const IconGlutenFree: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconGlutenFree: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -852,20 +841,20 @@ const IconGlutenFree: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-wheat-off ${className}`}
         {...props}
     >
-        <path d="m2 22 10-10" />
-        <path d="m16 8-1.17 1.17" />
-        <path d="M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z" />
-        <path d="m8 8-.53.53a3.5 3.5 0 0 0 0 4.94L9 15l1.53-1.53c.55-.55.88-1.25.98-1.97" />
-        <path d="M10.91 5.26c.15-.26.34-.51.56-.73L13 3l1.53 1.53a3.5 3.5 0 0 1 .28 4.62" />
-        <path d="M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z" />
-        <path d="M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z" />
-        <path d="m16 16-.53.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.49 3.49 0 0 1 1.97-.98" />
-        <path d="M18.74 13.09c.26-.15.51-.34.73-.56L21 11l-1.53-1.53a3.5 3.5 0 0 0-4.62-.28" />
-        <line x1="2" x2="22" y1="2" y2="22" />
+        <path d="m2 22 10-10"/>
+        <path d="m16 8-1.17 1.17"/>
+        <path d="M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/>
+        <path d="m8 8-.53.53a3.5 3.5 0 0 0 0 4.94L9 15l1.53-1.53c.55-.55.88-1.25.98-1.97"/>
+        <path d="M10.91 5.26c.15-.26.34-.51.56-.73L13 3l1.53 1.53a3.5 3.5 0 0 1 .28 4.62"/>
+        <path d="M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z"/>
+        <path d="M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/>
+        <path d="m16 16-.53.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.49 3.49 0 0 1 1.97-.98"/>
+        <path d="M18.74 13.09c.26-.15.51-.34.73-.56L21 11l-1.53-1.53a3.5 3.5 0 0 0-4.62-.28"/>
+        <line x1="2" x2="22" y1="2" y2="22"/>
     </svg>
 );
 
-const IconNuts: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconNuts: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -879,14 +868,16 @@ const IconNuts: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-nut ${className}`}
         {...props}
     >
-        <path d="M12 4V2" />
-        <path d="M5 10v4a7.004 7.004 0 0 0 5.277 6.787c.412.104.802.292 1.102.592L12 22l.621-.621c.3-.3.69-.488 1.102-.592A7.003 7.003 0 0 0 19 14v-4" />
-        <path d="M12 4C8 4 4.5 6 4 8c-.243.97-.919 1.952-2 3 1.31-.082 1.972-.29 3-1 .54.92.982 1.356 2 2 1.452-.647 1.954-1.098 2.5-2 .595.995 1.151 1.427 2.5 2 1.31-.621 1.862-1.058 2.5-2 .629.977 1.162 1.423 2.5 2 1.209-.548 1.68-.967 2-2 1.032.916 1.683 1.157 3 1-1.297-1.036-1.758-2.03-2-3-.5-2-4-4-8-4Z" />
+        <path d="M12 4V2"/>
+        <path
+            d="M5 10v4a7.004 7.004 0 0 0 5.277 6.787c.412.104.802.292 1.102.592L12 22l.621-.621c.3-.3.69-.488 1.102-.592A7.003 7.003 0 0 0 19 14v-4"/>
+        <path
+            d="M12 4C8 4 4.5 6 4 8c-.243.97-.919 1.952-2 3 1.31-.082 1.972-.29 3-1 .54.92.982 1.356 2 2 1.452-.647 1.954-1.098 2.5-2 .595.995 1.151 1.427 2.5 2 1.31-.621 1.862-1.058 2.5-2 .629.977 1.162 1.423 2.5 2 1.209-.548 1.68-.967 2-2 1.032.916 1.683 1.157 3 1-1.297-1.036-1.758-2.03-2-3-.5-2-4-4-8-4Z"/>
     </svg>
 );
 
 
-const IconNutsFree: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconNutsFree: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -900,14 +891,15 @@ const IconNutsFree: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-nut-off ${className}`}
         {...props}
     >
-        <path d="M12 4V2" />
-        <path d="M5 10v4a7.004 7.004 0 0 0 5.277 6.787c.412.104.802.292 1.102.592L12 22l.621-.621c.3-.3.69-.488 1.102-.592a7.01 7.01 0 0 0 4.125-2.939" />
-        <path d="M19 10v3.343" />
-        <path d="M12 12c-1.349-.573-1.905-1.005-2.5-2-.546.902-1.048 1.353-2.5 2-1.018-.644-1.46-1.08-2-2-1.028.71-1.69.918-3 1 1.081-1.048 1.757-2.03 2-3 .194-.776.84-1.551 1.79-2.21m11.654 5.997c.887-.457 1.28-.891 1.556-1.787 1.032.916 1.683 1.157 3 1-1.297-1.036-1.758-2.03-2-3-.5-2-4-4-8-4-.74 0-1.461.068-2.15.192" />
-        <line x1="2" y1="2" x2="22" y2="22" />
+        <path d="M12 4V2"/>
+        <path
+            d="M5 10v4a7.004 7.004 0 0 0 5.277 6.787c.412.104.802.292 1.102.592L12 22l.621-.621c.3-.3.69-.488 1.102-.592a7.01 7.01 0 0 0 4.125-2.939"/>
+        <path d="M19 10v3.343"/>
+        <path
+            d="M12 12c-1.349-.573-1.905-1.005-2.5-2-.546.902-1.048 1.353-2.5 2-1.018-.644-1.46-1.08-2-2-1.028.71-1.69.918-3 1 1.081-1.048 1.757-2.03 2-3 .194-.776.84-1.551 1.79-2.21m11.654 5.997c.887-.457 1.28-.891 1.556-1.787 1.032.916 1.683 1.157 3 1-1.297-1.036-1.758-2.03-2-3-.5-2-4-4-8-4-.74 0-1.461.068-2.15.192"/>
+        <line x1="2" y1="2" x2="22" y2="22"/>
     </svg>
 );
-
 
 
 const IconCircleAlert: React.FC<IconProps> = ({className = '', ...props}) => (
@@ -945,17 +937,17 @@ const IconCopy: React.FC<IconProps> = ({className = '', ...props}) => (
         className={`lucide lucide-files ${className}`}
         {...props}
     >
-        <path d="M20 7h-3a2 2 0 0 1-2-2V2" />
-        <path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l4 4v10a2 2 0 0 1-2 2Z" />
-        <path d="M3 7.6v12.8A1.6 1.6 0 0 0 4.6 22h9.8" />
+        <path d="M20 7h-3a2 2 0 0 1-2-2V2"/>
+        <path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l4 4v10a2 2 0 0 1-2 2Z"/>
+        <path d="M3 7.6v12.8A1.6 1.6 0 0 0 4.6 22h9.8"/>
     </svg>
 );
 
 const IconChefHat: React.FC<IconProps> = ({
-                                                     className = '',
-                                                     viewBox = "0 0 24 24",
-                                                     ...props
-                                                 }) => {
+                                              className = '',
+                                              viewBox = "0 0 24 24",
+                                              ...props
+                                          }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -970,17 +962,18 @@ const IconChefHat: React.FC<IconProps> = ({
             role="img"
             {...props}
         >
-            <path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z" />
-            <path d="M6 17h12" />
+            <path
+                d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"/>
+            <path d="M6 17h12"/>
         </svg>
     );
 };
 
 const IconAboutUs: React.FC<IconProps> = ({
-                                                 className = '',
-                                                 viewBox = "0 0 24 24",
-                                                 ...props
-                                             }) => {
+                                              className = '',
+                                              viewBox = "0 0 24 24",
+                                              ...props
+                                          }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -995,26 +988,26 @@ const IconAboutUs: React.FC<IconProps> = ({
             role="img"
             {...props}
         >
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
         </svg>
     );
 };
 
 const IconNotification: React.FC<IconProps> = ({
 
-                                                                      height,
-                                                                      width,
-                                                                      className = '',
-                                                                      ...props
-                                                                  }) => {
+                                                   height,
+                                                   width,
+                                                   className = '',
+                                                   ...props
+                                               }) => {
     return (
         <svg
             fill="none"
-            height={ height || 24}
-            width={ width || 24}
+            height={height || 24}
+            width={width || 24}
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
             className={`stroke-current text-current ${className}`}
@@ -1030,7 +1023,7 @@ const IconNotification: React.FC<IconProps> = ({
     );
 };
 
-const IconNotebookPen: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconNotebookPen: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -1044,22 +1037,22 @@ const IconNotebookPen: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-notebook-pen ${className}`}
         {...props}
     >
-        <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" />
-        <path d="M2 6h4" />
-        <path d="M2 10h4" />
-        <path d="M2 14h4" />
-        <path d="M2 18h4" />
-        <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
+        <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"/>
+        <path d="M2 6h4"/>
+        <path d="M2 10h4"/>
+        <path d="M2 14h4"/>
+        <path d="M2 18h4"/>
+        <path
+            d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/>
     </svg>
 );
 
 
-
 const IconSearch: React.FC<IconProps> = ({
-                                                   className = '',
-                                                   viewBox = "0 0 24 24",
-                                                   ...props
-                                               }) => {
+                                             className = '',
+                                             viewBox = "0 0 24 24",
+                                             ...props
+                                         }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -1074,13 +1067,13 @@ const IconSearch: React.FC<IconProps> = ({
             role="img"
             {...props}
         >
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.3-4.3" />
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.3-4.3"/>
         </svg>
     );
 };
 
-const IconCirclePlus: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconCirclePlus: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -1094,9 +1087,9 @@ const IconCirclePlus: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-circle-plus ${className}`}
         {...props}
     >
-        <circle cx="12" cy="12" r="10" />
-        <path d="M8 12h8" />
-        <path d="M12 8v8" />
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M8 12h8"/>
+        <path d="M12 8v8"/>
     </svg>
 );
 
@@ -1109,7 +1102,7 @@ interface HeartIconProps extends React.SVGProps<SVGSVGElement> {
     label?: string;
 }
 
-const IconBadgeCheck: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconBadgeCheck: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -1123,8 +1116,9 @@ const IconBadgeCheck: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-badge-check ${className}`}
         {...props}
     >
-        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-        <path d="m9 12 2 2 4-4" />
+        <path
+            d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
+        <path d="m9 12 2 2 4-4"/>
     </svg>
 );
 
@@ -1157,7 +1151,7 @@ const HeartIcon: React.FC<HeartIconProps> = ({
     );
 };
 
-const IconSend: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconSend: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -1171,12 +1165,13 @@ const IconSend: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-send ${className}`}
         {...props}
     >
-        <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
-        <path d="m21.854 2.147-10.94 10.939" />
+        <path
+            d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/>
+        <path d="m21.854 2.147-10.94 10.939"/>
     </svg>
 );
 
-const IconHeartCrack: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconHeartCrack: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -1190,12 +1185,13 @@ const IconHeartCrack: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-heart-crack ${className}`}
         {...props}
     >
-        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-        <path d="m12 13-1-1 2-2-3-3 2-2" />
+        <path
+            d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+        <path d="m12 13-1-1 2-2-3-3 2-2"/>
     </svg>
 );
 
-const IconBadgeInfo: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconBadgeInfo: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -1209,13 +1205,14 @@ const IconBadgeInfo: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-badge-info ${className}`}
         {...props}
     >
-        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-        <line x1="12" y1="16" x2="12" y2="12" />
-        <line x1="12" y1="8" x2="12.01" y2="8" />
+        <path
+            d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
+        <line x1="12" y1="16" x2="12" y2="12"/>
+        <line x1="12" y1="8" x2="12.01" y2="8"/>
     </svg>
 );
 
-const IconBadge: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconBadge: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -1229,11 +1226,12 @@ const IconBadge: React.FC<IconProps> = ({ className = '', ...props }) => (
         className={`lucide lucide-badge ${className}`}
         {...props}
     >
-        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+        <path
+            d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
     </svg>
 );
 
-const IconMail: React.FC<IconProps> = ({ className = '', ...props }) => (
+const IconMail: React.FC<IconProps> = ({className = '', ...props}) => (
     <svg
         aria-hidden="true"
         fill="none"
@@ -1409,10 +1407,10 @@ interface IconLoadingProps extends React.SVGProps<SVGSVGElement> {
 }
 
 const IconLoadingCircle: React.FC<IconLoadingProps> = ({
-                                                     className = '',
-                                                     strokeWidth = 4.5,
-                                                     ...props
-                                                 }) => (
+                                                           className = '',
+                                                           strokeWidth = 4.5,
+                                                           ...props
+                                                       }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -1460,6 +1458,28 @@ const IconLoadingCircle: React.FC<IconLoadingProps> = ({
     </svg>
 );
 
+const IconLocation: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size = 400, ...props}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
+        <g fill="none" strokeWidth="1.5">
+            <path strokeLinecap="round" stroke={secondaryColor}
+                  d="M5.875 12.573C5.308 11.25 5 9.84 5 8.515C5 4.917 8.134 2 12 2s7 2.917 7 6.515c0 3.57-2.234 7.735-5.72 9.225a3.28 3.28 0 0 1-2.56 0c-1.113-.476-2.099-1.225-2.925-2.14"/>
+            <path d="M14 9a2 2 0 1 1-4 0a2 2 0 0 1 4 0Z" stroke={primaryColor}/>
+            <path strokeLinecap="round" stroke={primaryColor}
+                  d="M20.96 15.5c.666.602 1.04 1.282 1.04 2c0 .925-.62 1.785-1.684 2.5M3.04 15.5c-.666.602-1.04 1.282-1.04 2C2 19.985 6.477 22 12 22c1.653 0 3.212-.18 4.586-.5"/>
+        </g>
+    </svg>
+);
+
+const IconPhone: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size = 400, ...props}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
+        <g fill="none">
+            <path stroke={primaryColor} strokeLinecap="round" strokeWidth="1.5"
+                  d="M13.5 2s2.334.212 5.303 3.182c2.97 2.97 3.182 5.303 3.182 5.303m-7.778-4.949s.99.282 2.475 1.767s1.768 2.475 1.768 2.475"/>
+            <path fill={secondaryColor}
+                  d="m15.1 15.027l.545.517zm.456-.48l-.544-.516zm2.417-.335l-.374.65zm1.91 1.1l-.374.65zm.539 3.446l.543.517zm-1.42 1.496l-.545-.517zm-1.326.71l.074.745zm-9.86-4.489l.543-.516zm-4.064-9.55a.75.75 0 1 0-1.498.081zm5.439 1.88l.544.517zm.287-.302l.543.517zm.156-2.81l.613-.433zM8.374 3.91l-.613.433zm-3.656-.818a.75.75 0 0 0 1.087 1.033zm6.345 9.964l.544-.517zm-.399 6.756a.75.75 0 1 0 .798-1.27zm4.449.246a.75.75 0 0 0-.307 1.469zm.532-4.514l.455-.48l-1.088-1.033l-.455.48zm1.954-.682l1.91 1.1l.749-1.3l-1.911-1.1zm2.279 3.38l-1.42 1.495l1.087 1.034l1.42-1.496zM8.359 15.959c-3.876-4.081-4.526-7.523-4.607-9.033l-1.498.08c.1 1.85.884 5.634 5.018 9.986zm1.376-6.637l.286-.302l-1.087-1.033l-.287.302zm.512-4.062L8.986 3.477l-1.225.866l1.26 1.783zM9.19 8.805a38 38 0 0 0-.545-.515l-.002.002l-.003.003l-.05.058a1.6 1.6 0 0 0-.23.427c-.098.275-.15.639-.084 1.093c.13.892.715 2.091 2.242 3.7l1.088-1.034c-1.428-1.503-1.78-2.428-1.846-2.884c-.032-.22 0-.335.013-.372l.008-.019l-.028.037l-.018.02zm1.328 4.767c1.523 1.604 2.673 2.234 3.55 2.377c.451.073.816.014 1.092-.095a1.5 1.5 0 0 0 .422-.25l.035-.034l.014-.014l.007-.006l.003-.003l.001-.002s.002-.001-.542-.518c-.544-.516-.543-.517-.543-.518l.002-.001l.002-.003l.006-.005l.047-.042q.014-.008-.005.001c-.02.008-.11.04-.3.009c-.402-.066-1.27-.42-2.703-1.929zM8.986 3.477C7.972 2.043 5.944 1.8 4.718 3.092l1.087 1.033c.523-.55 1.444-.507 1.956.218zm9.471 16.26c-.279.294-.57.452-.854.48l.147 1.492c.747-.073 1.352-.472 1.795-.939zM10.021 9.02c.968-1.019 1.036-2.613.226-3.76l-1.225.866c.422.597.357 1.392-.088 1.86zm9.488 6.942c.821.473.982 1.635.369 2.28l1.087 1.033c1.305-1.374.925-3.673-.707-4.613zm-3.409-.898c.385-.406.986-.497 1.499-.202l.748-1.3c-1.099-.632-2.46-.45-3.335.47zm-4.638 3.478c-.983-.618-2.03-1.454-3.103-2.583l-1.087 1.033c1.154 1.215 2.297 2.132 3.392 2.82zm6.14 1.675a8.3 8.3 0 0 1-2.489-.159l-.307 1.469a9.8 9.8 0 0 0 2.944.182z"/>
+        </g>
+    </svg>
+);
 
 
 
@@ -1479,6 +1499,7 @@ export {
     IconBadgeCheck,
     IconStar,
     IconLocation,
+    IconPhone,
     IconThreeDots,
     IconChevronDown,
     IconPlus,

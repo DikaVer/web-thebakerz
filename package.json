@@ -66,6 +66,7 @@
     "input-otp": "^1.4.2",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
+    "lottie-web": "^5.12.2",
     "lucide-react": "^0.475.0",
     "mini-css-extract-plugin": "^2.9.2",
     "module_name": "^1.0.0",
@@ -79,6 +80,7 @@
     "react": "19.0.0",
     "react-day-picker": "9.5.1",
     "react-dom": "19.0.0",
+    "react-easy-crop": "^5.2.0",
     "react-hook-form": "^7.54.2",
     "react-image-crop": "^11.0.7",
     "react-infinite-logo-slider": "^1.1.4",
@@ -119,10 +121,6 @@
       "@types/react": "19.0.1",
       "@types/react-dom": "19.0.2"
     }
-
   },
   "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c"
-
-  }
-
 }

@@ -1,4 +1,5 @@
-import {Avatar, AvatarIcon, Button, cn, Image, Spacer, Tooltip} from "@heroui/react";
+import {AvatarIcon, Button, cn, Image, Spacer, Tooltip} from "@heroui/react";
+import {Avatar} from "@heroui/avatar"
 import {pacifico} from "@/components/fonts";
 import {ScrollShadow} from "@heroui/scroll-shadow";
 import Sidebar from "@/components/sidebar/sidebar";
@@ -14,6 +15,7 @@ import {
     sectionItemsGuestTheBakerz,
     sectionItemsUser
 } from "@/components/sidebar/sidebar-items";
+import {useTheme} from "next-themes";
 
 
 interface SidebarMenuProps {
@@ -39,6 +41,8 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
             onOpenChange();
         }
     }, [pathname]);
+
+    const { theme } = useTheme();
 
 
     return (
@@ -97,7 +101,7 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
                         "items-center": isCollapsed,
                     })}
                 >
-                    <div className={cn({hidden: isCollapsed})}>
+                    <div className={`${isCollapsed && 'hidden'} flex flex-row-reverse w-full`}>
                         <ThemeSwitcher/>
                     </div>
                     <Spacer y={3}/>
@@ -107,6 +111,7 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
                         <LoggedInMenu
                             name={session.name}
                             isCollapsed={isCollapsed}
+                            theme={theme === 'light'}
                         />
                         :
                         <GuestMenu
@@ -181,26 +186,38 @@ const getItemsByRole = (role : string) => {
 };
 
 interface LoggedInMenuProps {
-    name?: string | null;
+    name?: string;
     image?: string;
     isCollapsed: boolean;
+    theme: boolean;
 }
 
-const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ name, image, isCollapsed}) => (
+const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ theme, name, image, isCollapsed}) => (
     <>
         <Tooltip content="Account Settings" isDisabled={!isCollapsed} placement="right">
             <a
                 className="flex items-center gap-3 px-3 py-1.5 hover:bg-default/40 rounded-xl cursor-pointer"
                 href={"/settings"}
             >
+                {/*<Avatar*/}
+                {/*    icon={<AvatarIcon/>}*/}
+                {/*    isBordered*/}
+                {/*    size="sm"*/}
+                {/*    src={image}*/}
+                {/*    classNames={{*/}
+                {/*        base: "bg-gradient-to-br from-primary to-secondary",*/}
+                {/*        icon: "text-black/80",*/}
+                {/*    }}*/}
+                {/*/>*/}
                 <Avatar
-                    icon={<AvatarIcon/>}
                     isBordered
+                    showFallback={!!name}
                     size="sm"
+                    name={name}
                     src={image}
+                    color={'secondary'}
                     classNames={{
-                        base: "bg-gradient-to-br from-primary to-secondary",
-                        icon: "text-black/80",
+                        base: "bg-default text-text shadow-lg",
                     }}
                 />
                 <div className={cn("flex max-w-full flex-col", {hidden: isCollapsed})}>

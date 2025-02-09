@@ -25,11 +25,11 @@ export function Providers({children}: { children: React.ReactNode }) {
             <HeroUIProvider
                 navigate={router.push}
             >
+                <NextThemesProvider attribute="class" defaultTheme="light">
                 <CookieConsentProvider>
-                    <NextThemesProvider attribute="class" defaultTheme="light">
                         {children}
-                    </NextThemesProvider>
                 </CookieConsentProvider>
+                </NextThemesProvider>
             </HeroUIProvider>
     )
 }

@@ -141,7 +141,8 @@ export const nicknameSchema = z
         /^(?!.*\.\.)(?!.*\.\.\.)(?!.*\.\.\.\.)(?!.*\.\.\.\.\.)(?!.*\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)/,
         "Nickname cannot contain two or more consecutive periods"
     )
-    .toLowerCase();
+    .toLowerCase()
+    ;
 
 export const descriptionSchema = z.string()
     .min(50, { message: "Description must be bigger than 50 characters" })
@@ -327,3 +328,32 @@ export const CheckoutSchema = z.object({
         .email({ message: 'Invalid email address' }),
     // Additional fields like cart can be validated separately or integrated here
 });
+
+export const ProfileSchema = z
+    .object({
+        role: z.string(), // e.g., "bakerz" or "user"
+        name: z.string().nonempty("Name is required"),
+        description: z
+            .string()
+            .max(500, "Description must be at most 500 characters")
+            .optional(),
+        storeName: nicknameSchema.optional(),
+    })
+    .superRefine((data, ctx) => {
+        if (data.role === "bakerz") {
+            if (!data.description || data.description.trim() === "") {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "Description is required",
+                    path: ["description"],
+                });
+            }
+            if (!data.storeName || data.storeName.trim() === "") {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "Store name is required",
+                    path: ["storeName"],
+                });
+            }
+        }
+    });

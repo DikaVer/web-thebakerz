@@ -39,7 +39,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 type User = (typeof users)[0];
-const TeamManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>(() => {
+const OrderManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>(() => {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
   const [rolesFilter, setRolesFilter] = React.useState<Selection>("all");
@@ -235,6 +235,6 @@ const TeamManageTable = React.forwardRef<HTMLDivElement, TeamManageTableProps>((
   );
 });
 
-TeamManageTable.displayName = "TeamManageTable";
+OrderManageTable.displayName = "TeamManageTable";
 
-export default TeamManageTable;
+export default OrderManageTable;

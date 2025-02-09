@@ -218,7 +218,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                     }
                 );
             } else {
-                toast.success((
+                toast.message((
                         <div className={"flex flex-row gap-x-1 justify-between items-center"}>
                             <IconSuccess className={"w-10 h-10 text-primary"}/>
                             <p className={"text-base font-bold"}>

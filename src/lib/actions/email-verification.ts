@@ -2,7 +2,7 @@ import { generateRandomOTP} from "@/lib/utils";
 
 import { encodeBase32 } from "@oslojs/encoding";
 import {connectionPool} from "@/db";
-import {sendMagicCode} from "@/lib/authSendRequest";
+import {sendMagicCode} from "@/lib/emailSendRequest";
 import {ExpiringTokenBucket} from "@/lib/actions/rate-limits";
 
 export async function getUserEmailVerificationRequest(

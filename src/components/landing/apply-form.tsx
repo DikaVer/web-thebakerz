@@ -124,7 +124,7 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                 <h2
                     className={`text-3xl lg:text-5xl font-bold bg-gradient-text pb-4`}
                 >
-                    Start or grow your meal prep business
+                    Start & grow your bakery business
                 </h2>
                 <p
                     className={`text-lg lg:text-xl font-bold text-grayText`}
@@ -142,7 +142,15 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                         initial={{opacity: 0, x: -10}}
                                     >
                                         <Tooltip content="Go back" delay={3000}>
-                                            <Button isIconOnly size="sm" variant="flat" onPress={() => paginate(-1)}>
+                                            <Button
+                                                isIconOnly
+                                                size="sm"
+                                                variant="ghost"
+                                                onPress={
+                                                    () => paginate(-1)
+                                                }
+
+                                            >
                                                 <Icon
                                                     className="text-default-500"
                                                     icon="solar:alt-arrow-left-linear"
@@ -287,8 +295,11 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                     className="bg-gradient-primary w-fit"
                                                     type="submit"
                                                     endContent={<Icon icon={`solar:arrow-right-broken`} height={24}/>}
+                                                    isLoading={isPending}
                                             >
-                                                Submit
+                                                {
+                                                    isPending ? "Submitting..." : "Submit"
+                                                }
                                             </Button>
                                         </form>
                                     </Form>

@@ -13,13 +13,18 @@ export const ThemeSwitcher = () => {
             <Switch
                 isSelected={theme !== 'dark'}
                 size="md"
-                color="primary"
+                color="secondary"
+                classNames={{
+                    base: "",
+                    wrapper: "border",
+                    // thumb: "bg-gradient-item",
+                }}
                 startContent={<Icon icon={"solar:sun-2-broken"}/>}
                 endContent={<Icon icon={"solar:moon-stars-broken"} />}
 
                 onValueChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
-                {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+                {/*{theme === 'dark' ? 'Dark Mode' : 'Light Mode'}*/}
             </Switch>
         </div>
     )

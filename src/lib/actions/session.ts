@@ -7,7 +7,7 @@ import { sha256 } from "@oslojs/crypto/sha2";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
-import type { User } from "./user";
+import type {StoreData, User} from "./user";
 import {connectionPool} from "@/db";
 
 export async function validateSessionToken(
@@ -29,9 +29,21 @@ export async function validateSessionToken(
       users.email,
       users.name AS username,
       users.email_verified as emailVerified,
-      users.role
+      users.role,
+      stores.id AS store_id,
+      stores.nickname AS store_name,
+      stores.description AS store_description,
+      stores.phone As store_phone,
+      store_locations.route AS store_route,
+      store_locations.city AS store_city,
+      store_locations.zip_code AS store_zip_code,
+      store_locations.country AS store_country,
+      store_locations.latitude AS store_latitude,
+      store_locations.longitude AS store_longitude
     FROM sessions
     INNER JOIN users ON sessions.user_id = users.id
+    INNER JOIN stores ON sessions.user_id = stores.user_id
+    INNER JOIN store_locations ON store_id = store_locations.store_id
     WHERE sessions.session_token = $1
     `,
         [sessionId]
@@ -39,7 +51,7 @@ export async function validateSessionToken(
 
     // If no matching session is found, return null for both session and user.
     if (result.rows.length === 0) {
-        return { session: null, user: null };
+        return { session: null, user: null, store: null };
     }
 
     const row = result.rows[0];
@@ -61,13 +73,29 @@ export async function validateSessionToken(
         role: row.role
     };
 
+    // Build the store object.
+    const store: StoreData = {
+        id: row.store_id,
+        storeName: row.store_name,
+        description: row.store_description,
+        phone: row.store_phone,
+        location: {
+            route: row.store_route,
+            city: row.store_city,
+            zipCode: row.store_zip_code,
+            country: row.store_country,
+            latitude: row.store_latitude,
+            longitude: row.store_longitude
+        }
+    };
+
     // If the session has expired, delete it from the database and return null.
     if (Date.now() >= session.expiresAt.getTime()) {
         await connectionPool.query(
             `DELETE FROM sessions WHERE id = $1`,
             [session.id]
         );
-        return { session: null, user: null };
+        return { session: null, user: null, store: null };
     }
 
     // If the session is nearing expiry (within 15 days), extend it by 30 days from now.
@@ -79,7 +107,7 @@ export async function validateSessionToken(
         );
     }
 
-    return { session, user };
+    return { session, user, store };
 }
 
 // Wrap getCurrentSession with React's cache. Note that since cookies() is now async,
@@ -88,7 +116,7 @@ export const getCurrentSession = cache(async (): Promise<SessionValidationResult
     const cookieStore = await cookies();
     const token = cookieStore.get("session")?.value ?? null;
     if (token === null) {
-        return { session: null, user: null };
+        return { session: null, user: null, store: null };
     }
     return await validateSessionToken(token);
 });
@@ -191,5 +219,5 @@ export interface Session {
 }
 
 type SessionValidationResult =
-    | { session: Session; user: User }
-    | { session: null; user: null };
+    | { session: Session; user: User; store: StoreData }
+    | { session: null; user: null; store: null };

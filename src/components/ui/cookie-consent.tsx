@@ -126,7 +126,7 @@ export default function CookieConsentComponent() {
                     radius="lg"
                     style={{
                         border: "solid 2px transparent",
-                        backgroundImage: `linear-gradient(hsl(var(--nextui-background)), hsl(var(--nextui-background))), linear-gradient(83.87deg, #F54180, #9353D3)`,
+                        backgroundImage: `linear-gradient(hsl(var(--nextui-primary)), hsl(var(--nextui-background))), linear-gradient(83.87deg, #F54180, #9353D3)`,
                         backgroundOrigin: "border-box",
                         backgroundClip: "padding-box, border-box",
                     }}
@@ -143,9 +143,14 @@ export default function CookieConsentComponent() {
 
     const cookiesAlertContent = (
         <AnimatedWrapper>
+            <h1 className="text-large font-semibold">Before you continue to TheBakerz</h1>
             <p className="text-small font-normal text-default-700">
                 We use cookies on our website to give you the most relevant experience by remembering your
-                preferences and repeat visits. By clicking&nbsp;
+                preferences and repeat visits.
+
+            </p>
+            <p className="text-small font-normal text-default-700">
+                By clicking&nbsp;
                 <b className="font-semibold">&quot;Accept All&quot;</b>, you consent to the use of ALL the
                 cookies. However, you may visit&nbsp;
                 <span className="font-semibold">&quot;Cookie Settings&quot;</span> to provide a controlled
@@ -157,15 +162,10 @@ export default function CookieConsentComponent() {
             <div className="mt-4 space-y-2">
                 <Button
                     fullWidth
-                    className="px-4 font-medium"
+                    className={`bg-gradient-primary text-default-200 text-xl`}
                     radius="lg"
-                    style={{
-                        border: "solid 2px transparent",
-                        backgroundImage: `linear-gradient(hsl(var(--nextui-background)), hsl(var(--nextui-background))), linear-gradient(83.87deg, #F54180, #9353D3)`,
-                        backgroundOrigin: "border-box",
-                        backgroundClip: "padding-box, border-box",
-                    }}
-                    endContent={<Icon className="ml-2 inline-block h-6 w-6 text-text" icon="lucide:cookie" />}
+
+                    endContent={<Icon className="ml-2 inline-block h-6 w-6 text-default-200" icon="lucide:cookie"/>}
                     onPress={acceptAll}
                 >
                     Accept All
