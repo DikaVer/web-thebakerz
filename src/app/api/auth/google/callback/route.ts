@@ -8,15 +8,13 @@ import {globalGETRateLimit} from "@/lib/actions/requests";
 import {createSession, generateSessionToken, setSessionTokenCookie} from "@/lib/actions/session";
 import {createUserGoogle, getUserFromEmail, getUserFromGoogleId} from "@/lib/actions/user";
 
-export const dynamic = "force-dynamic";
-
 export async function GET(request: Request): Promise<Response> {
 	if (!await globalGETRateLimit()) {
 		return new Response("Too many requests", {
 			status: 429
 		});
 	}
-	const url = new URL(request.url || "");
+	const url = new URL(request.url);
 	const code = url.searchParams.get("code");
 	const state = url.searchParams.get("state");
 	const cookieStore = await cookies();
