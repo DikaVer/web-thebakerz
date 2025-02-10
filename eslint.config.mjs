@@ -1,7 +1,7 @@
 // eslint.config.js
 export default [
     {
-        files: ["**/*.{js,jsx,ts,tsx}"],
+        files: ["**/*.{js}"],
         languageOptions: {
             // Tell ESLint which ECMAScript version you’re using
             ecmaVersion: 2021,
