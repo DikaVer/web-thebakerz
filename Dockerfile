@@ -19,6 +19,19 @@ COPY --from=deps /app/node_modules ./node_modules
 # Copy the source code (including any environment defaults if needed)
 COPY . .
 
+ENV AUTH_SECRET="default" \
+    AZURE_COMMUNICATION_EMAIL_ENDPOINT="default" \
+    AZURE_STORAGE_CONNECTION_STRING="default" \
+    CONTAINER_NAME_AVATARS="default" \
+    DATABASE_HOST="default" \
+    DATABASE_NAME="default" \
+    DATABASE_PASSWORD="default" \
+    DATABASE_URL="default" \
+    DATABASE_USER="default" \
+    EMAIL_FROM="default" \
+    GOOGLE_CLIENT_ID="default" \
+    GOOGLE_CLIENT_SECRET="default" \
+    NEXT_PUBLIC_API_BASE_URL="default"
 
 # Optionally, if you need to copy an env file, do so:
 # COPY .env.production .env.production
