@@ -37,6 +37,20 @@ RUN mkdir -p .next && chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+
+ARG AUTH_SECRET_ARG=""
+ARG AZURE_COMMUNICATION_EMAIL_ENDPOINT_ARG=""
+ARG AZURE_STORAGE_CONNECTION_STRING_ARG=""
+ARG CONTAINER_NAME_AVATARS_ARG=""
+ARG DATABASE_HOST_ARG=""
+ARG DATABASE_NAME_ARG=""
+ARG DATABASE_PASSWORD_ARG=""
+ARG DATABASE_URL_ARG=""
+ARG DATABASE_USER_ARG=""
+ARG EMAIL_FROM_ARG=""
+ARG GOOGLE_CLIENT_ID_ARG=""
+ARG GOOGLE_CLIENT_SECRET_ARG=""
+ARG NEXT_PUBLIC_API_BASE_URL_ARG=""
 # Set default (empty) environment variables for runtime.
 # These are available when the container starts (but not used during build)
 ENV AUTH_SECRET="" \

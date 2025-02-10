@@ -16,7 +16,7 @@ export async function GET(request: Request): Promise<Response> {
 			status: 429
 		});
 	}
-	const url = new URL(request.url);
+	const url = new URL(request.url || "");
 	const code = url.searchParams.get("code");
 	const state = url.searchParams.get("state");
 	const cookieStore = await cookies();
