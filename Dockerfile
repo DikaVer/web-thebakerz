@@ -8,19 +8,8 @@ RUN corepack enable && corepack prepare pnpm@8.7.0 --activate
 # --- Define build arguments with default (dummy) values ---
 # These defaults are used during the build so that Next.js does not fail when it
 # attempts to parse environment variables that it expects to be valid URLs, etc.
-ARG AUTH_SECRET_ARG="default-auth-secret"
-ARG AZURE_COMMUNICATION_EMAIL_ENDPOINT_ARG="https://dummy.azurecommendpoint"
-ARG AZURE_STORAGE_CONNECTION_STRING_ARG="DefaultEndpointsProtocol=https;AccountName=dummy;AccountKey=dummy;EndpointSuffix=core.windows.net"
-ARG CONTAINER_NAME_AVATARS_ARG="dummy-container"
-ARG DATABASE_HOST_ARG="localhost"
-ARG DATABASE_NAME_ARG="dummy"
-ARG DATABASE_PASSWORD_ARG="dummy"
-ARG DATABASE_URL_ARG="http://localhost:5432/dummy"
-ARG DATABASE_USER_ARG="dummy"
-ARG EMAIL_FROM_ARG="dummy@example.com"
-ARG GOOGLE_CLIENT_ID_ARG="dummy-google-client-id"
-ARG GOOGLE_CLIENT_SECRET_ARG="dummy-google-client-secret"
-ARG NEXT_PUBLIC_API_BASE_URL_ARG="http://localhost:3000/api"
+
+ARG NEXT_PUBLIC_API_BASE_URL_ARG="https://web-thebakerz-dev-hhanh4h8h2e9fwhu.germanywestcentral-01.azurewebsites.net"
 
 # --- Dependencies Stage ---
 FROM base AS deps
@@ -38,19 +27,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Set environment variables for the build stage using the build args.
-ENV AUTH_SECRET=${AUTH_SECRET_ARG} \
-    AZURE_COMMUNICATION_EMAIL_ENDPOINT=${AZURE_COMMUNICATION_EMAIL_ENDPOINT_ARG} \
-    AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING_ARG} \
-    CONTAINER_NAME_AVATARS=${CONTAINER_NAME_AVATARS_ARG} \
-    DATABASE_HOST=${DATABASE_HOST_ARG} \
-    DATABASE_NAME=${DATABASE_NAME_ARG} \
-    DATABASE_PASSWORD=${DATABASE_PASSWORD_ARG} \
-    DATABASE_URL=${DATABASE_URL_ARG} \
-    DATABASE_USER=${DATABASE_USER_ARG} \
-    EMAIL_FROM=${EMAIL_FROM_ARG} \
-    GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID_ARG} \
-    GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET_ARG} \
-    NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL_ARG}
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL_ARG}
 
 # Run the Next.js build (this makes these env variables available during build)
 RUN pnpm run build
