@@ -3,26 +3,27 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
     // cacheHandler: require.resolve("./cache-handler.mjs"),
-    experimental: {
-        turbo: {
-            rules: {
-                '*.svg': {
-                    loaders: ['@svgr/webpack'],
-                    as: '*.js',
-                },
-                '*.webp': {
-                    loaders: ['@webpr/webpack'],
-                    as: '*.js',
-                },
-            },
-        },
-    },
+    // experimental: {
+    //     turbo: {
+    //         rules: {
+    //             '*.svg': {
+    //                 loaders: ['@svgr/webpack'],
+    //                 as: '*.js',
+    //             },
+    //             '*.webp': {
+    //                 loaders: ['@webpr/webpack'],
+    //                 as: '*.js',
+    //             },
+    //         },
+    //     },
+    // },
     bundlePagesRouterDependencies: true,
     eslint: {
         // Warning: This will allow production builds to successfully complete even if
         // your project has ESLint errors.
         ignoreDuringBuilds: false,
     },
+
     output: 'standalone',
     images: {
         remotePatterns: [
