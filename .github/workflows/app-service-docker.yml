@@ -30,6 +30,7 @@ jobs:
           npm install -g corepack@latest
           echo "After: corepack version => $(corepack --version)"
           corepack enable
+          corepack install -g pnpm@10.2.1
           pnpm --version
 
 
@@ -54,11 +55,7 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.REPO }}:${{ github.sha }}
           file: ./Dockerfile
-          build-args: |
-            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
-            GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
-            AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-            CONTAINER_NAME_AVATARS=${{ secrets.CONTAINER_NAME_AVATARS }}
+
             
 
   deploy:
