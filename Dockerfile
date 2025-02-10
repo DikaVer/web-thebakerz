@@ -19,7 +19,7 @@ ARG DATABASE_USER_ARG="dummy"
 ARG EMAIL_FROM_ARG="dummy@example.com"
 ARG GOOGLE_CLIENT_ID_ARG="dummy-google-client-id"
 ARG GOOGLE_CLIENT_SECRET_ARG="dummy-google-client-secret"
-ARG NEXT_PUBLIC_API_BASE_URL_ARG="https://web-thebakerz-dev-hhanh4h8h2e9fwhu.germanywestcentral-01.azurewebsites.net"
+ARG NEXT_PUBLIC_API_BASE_URL_ARG="https://localhost:3000"
 
 # --- Dependencies Stage ---
 FROM base AS deps
