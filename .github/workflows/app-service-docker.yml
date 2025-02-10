@@ -13,6 +13,19 @@ env:
   AZURE_WEBAPP_NAME: web-thebakerz
   # Determine the deployment type based on branch name
   TYPE: ${{ github.ref_name == 'prod' && 'prod' || github.ref_name == 'preview' && 'preview' || 'dev' }}
+  AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+  AZURE_COMMUNICATION_EMAIL_ENDPOINT: ${{ secrets.AZURE_COMMUNICATION_EMAIL_ENDPOINT }}
+  AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+  CONTAINER_NAME_AVATARS: ${{ secrets.CONTAINER_NAME_AVATARS }}
+  DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+  DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+  DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  DATABASE_USER: ${{ secrets.DATABASE_USER }}
+  EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
 
 jobs:
   build:
@@ -44,19 +57,19 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.REPO }}:${{ github.sha }}
           build-args: |
-            AUTH_SECRET=${{ secrets.AUTH_SECRET }}
-            AZURE_COMMUNICATION_EMAIL_ENDPOINT=${{ secrets.AZURE_COMMUNICATION_EMAIL_ENDPOINT }}
-            AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-            CONTAINER_NAME_AVATARS=${{ secrets.CONTAINER_NAME_AVATARS }}
-            DATABASE_HOST=${{ secrets.DATABASE_HOST }}
-            DATABASE_NAME=${{ secrets.DATABASE_NAME }}
-            DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
-            DATABASE_USER=${{ secrets.DATABASE_USER }}
-            EMAIL_FROM=${{ secrets.EMAIL_FROM }}
-            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
-            GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
-            NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
+            AUTH_SECRET=${{ env.AUTH_SECRET }}
+            AZURE_COMMUNICATION_EMAIL_ENDPOINT=${{ env.AZURE_COMMUNICATION_EMAIL_ENDPOINT }}
+            AZURE_STORAGE_CONNECTION_STRING=${{ env.AZURE_STORAGE_CONNECTION_STRING }}
+            CONTAINER_NAME_AVATARS=${{ env.CONTAINER_NAME_AVATARS }}
+            DATABASE_HOST=${{ env.DATABASE_HOST }}
+            DATABASE_NAME=${{ env.DATABASE_NAME }}
+            DATABASE_PASSWORD=${{ env.DATABASE_PASSWORD }}
+            DATABASE_URL=${{ env.DATABASE_URL }}
+            DATABASE_USER=${{ env.DATABASE_USER }}
+            EMAIL_FROM=${{ env.EMAIL_FROM }}
+            GOOGLE_CLIENT_ID=${{ env.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_SECRET=${{ env.GOOGLE_CLIENT_SECRET }}
+            NEXT_PUBLIC_API_BASE_URL=${{ env.NEXT_PUBLIC_API_BASE_URL }}
   
 
   deploy:
