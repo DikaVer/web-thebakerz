@@ -1,22 +1,26 @@
 // next.config.js
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 /** @type {import('next').NextConfig} */
 module.exports = {
+    plugins: [
+        new BundleAnalyzerPlugin()
+    ],
     // cacheHandler: require.resolve("./cache-handler.mjs"),
-    // experimental: {
-    //     turbo: {
-    //         rules: {
-    //             '*.svg': {
-    //                 loaders: ['@svgr/webpack'],
-    //                 as: '*.js',
-    //             },
-    //             '*.webp': {
-    //                 loaders: ['@webpr/webpack'],
-    //                 as: '*.js',
-    //             },
-    //         },
-    //     },
-    // },
+    experimental: {
+        turbo: {
+            rules: {
+                '*.svg': {
+                    loaders: ['@svgr/webpack'],
+                    as: '*.js',
+                },
+                '*.webp': {
+                    loaders: ['@webpr/webpack'],
+                    as: '*.js',
+                },
+            },
+        },
+    },
     bundlePagesRouterDependencies: true,
     eslint: {
         // Warning: This will allow production builds to successfully complete even if

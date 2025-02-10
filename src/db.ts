@@ -1,11 +1,14 @@
+import 'server-only';
+
 const { Pool } = require('pg');
 
+// Create and export the PostgreSQL connection pool
 export const connectionPool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    user: process.env.DATABASE_USER,
-    host: process.env.DATABASE_HOST,
+    connectionString: process.env.NEXT_PRIVATE_DATABASE_URL,
+    user: process.env.NEXT_PRIVATE_DATABASE_USER,
+    host: process.env.NEXT_PRIVATE_DATABASE_HOST,
     database: process.env.DATABASE_DATABASE,
-    password: process.env.DATABASE_PASSWORD,
+    password: process.env.NEXT_PRIVATE_DATABASE_PASSWORD,
     port: 5432,
     max: 20,
     idleTimeoutMillis: 30000,
@@ -15,11 +18,8 @@ export const connectionPool = new Pool({
 import { BlobServiceClient } from "@azure/storage-blob";
 
 export const blobClient = BlobServiceClient.fromConnectionString(
-    process.env.AZURE_STORAGE_CONNECTION_STRING as string
+    process.env.NEXT_PRIVATE_AZURE_STORAGE_CONNECTION_STRING as string
 );
 
-export const containerClientAvatar = blobClient.getContainerClient(
-    process.env.CONTAINER_NAME_AVATARS as string
-);
-
+export const containerClientAvatar = blobClient.getContainerClient("avatars");
 

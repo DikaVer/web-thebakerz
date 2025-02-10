@@ -16,14 +16,14 @@ export async function sendMagicCode(params: { identifier: string; code: string }
     console.log(`Magic code: ${code}`);
 
     // Retrieve connection string and sender address from environment variables
-    const endpoint = process.env.AZURE_COMMUNICATION_EMAIL_ENDPOINT;
-    const senderAddress = process.env.EMAIL_FROM; // Must be a verified MailFrom address in Azure
+    const endpoint = process.env.NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT;
+    const senderAddress = process.env.NEXT_PRIVATE_EMAIL_FROM; // Must be a verified MailFrom address in Azure
 
     if (!endpoint) {
-        throw new Error("Missing AZURE_COMMUNICATION_EMAIL_ENDPOINT or AZURE_COMMUNICATION_EMAIL_KEY environment variables.");
+        throw new Error("Missing NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT or AZURE_COMMUNICATION_EMAIL_KEY environment variables.");
     }
     if (!senderAddress) {
-        throw new Error("Missing EMAIL_FROM environment variable.");
+        throw new Error("Missing NEXT_PRIVATE_EMAIL_FROM environment variable.");
     }
 
     // Create an instance of the EmailClient using your connection string
@@ -69,14 +69,14 @@ export async function sendOnboardingRequest(params: { phone: string; fullName: s
 
 
     // Retrieve connection string and sender address from environment variables
-    const endpoint = process.env.AZURE_COMMUNICATION_EMAIL_ENDPOINT;
-    const senderAddress = process.env.EMAIL_FROM; // Must be a verified MailFrom address in Azure
+    const endpoint = process.env.NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT;
+    const senderAddress = process.env.NEXT_PRIVATE_EMAIL_FROM; // Must be a verified MailFrom address in Azure
 
     if (!endpoint) {
-        throw new Error("Missing AZURE_COMMUNICATION_EMAIL_ENDPOINT or AZURE_COMMUNICATION_EMAIL_KEY environment variables.");
+        throw new Error("Missing NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT or AZURE_COMMUNICATION_EMAIL_KEY environment variables.");
     }
     if (!senderAddress) {
-        throw new Error("Missing EMAIL_FROM environment variable.");
+        throw new Error("Missing NEXT_PRIVATE_EMAIL_FROM environment variable.");
     }
 
     // Create an instance of the EmailClient using your connection string
@@ -122,14 +122,14 @@ export async function sendContactUsForm(params: { email: string; subject: string
 
 
     // Retrieve connection string and sender address from environment variables
-    const endpoint = process.env.AZURE_COMMUNICATION_EMAIL_ENDPOINT;
-    const senderAddress = process.env.EMAIL_FROM; // Must be a verified MailFrom address in Azure
+    const endpoint = process.env.NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT;
+    const senderAddress = process.env.NEXT_PRIVATE_EMAIL_FROM; // Must be a verified MailFrom address in Azure
 
     if (!endpoint) {
-        throw new Error("Missing AZURE_COMMUNICATION_EMAIL_ENDPOINT or AZURE_COMMUNICATION_EMAIL_KEY environment variables.");
+        throw new Error("Missing NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT or AZURE_COMMUNICATION_EMAIL_KEY environment variables.");
     }
     if (!senderAddress) {
-        throw new Error("Missing EMAIL_FROM environment variable.");
+        throw new Error("Missing NEXT_PRIVATE_EMAIL_FROM environment variable.");
     }
 
     // Create an instance of the EmailClient using your connection string
