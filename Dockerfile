@@ -8,7 +8,8 @@ RUN corepack enable && corepack prepare pnpm@8.7.0 --activate
 # --- Define build arguments with default (dummy) values ---
 # These defaults are used during the build so that Next.js does not fail when it
 # attempts to parse environment variables that it expects to be valid URLs, etc.
-
+ARG GOOGLE_CLIENT_ID_ARG="dummy-google-client-id"
+ARG GOOGLE_CLIENT_SECRET_ARG="dummy-google-client-secret"
 ARG NEXT_PUBLIC_API_BASE_URL_ARG="https://web-thebakerz-dev-hhanh4h8h2e9fwhu.germanywestcentral-01.azurewebsites.net"
 
 # --- Dependencies Stage ---
@@ -27,7 +28,9 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Set environment variables for the build stage using the build args.
-ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL_ARG}
+ENV GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID_ARG} \
+    GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET_ARG} \
+    NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL_ARG}
 
 # Run the Next.js build (this makes these env variables available during build)
 RUN pnpm run build
