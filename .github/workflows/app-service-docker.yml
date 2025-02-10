@@ -42,7 +42,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ env.REPO }}:${{ github.sha }}
           build-args: |
             AUTH_SECRET=${{ secrets.AUTH_SECRET }}
             AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
