@@ -4,7 +4,7 @@
 import React, {ChangeEvent, useCallback, useState} from "react";
 import {toast} from "sonner";
 import {Input} from "@/components/ui/input";
-import {imageUploadSchema} from "@/lib/schemas";
+import {ImageSchema} from "@/lib/schemas";
 import {ControllerRenderProps, UseFormReturn} from "react-hook-form";
 import {FormError} from "@/components/authentication/form-error";
 import {StoreData} from "@/lib/definitions";
@@ -29,7 +29,7 @@ export function ImageUploader({ form, field, name, setError, data, setData }: Im
     const onChangePicture = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             const file = event.currentTarget.files && event.currentTarget.files[0]
-            const check = imageUploadSchema.safeParse(file)
+            const check = ImageSchema.safeParse(file)
             if (!check.success){
                 setError(check.error.errors[0].message)
                 setFile(null)
@@ -86,7 +86,7 @@ export function ImageUploader({ form, field, name, setError, data, setData }: Im
                     setDragActive(false)
 
                     const file = e.dataTransfer.files && e.dataTransfer.files[0]
-                    const check = imageUploadSchema.safeParse(file)
+                    const check = ImageSchema.safeParse(file)
                     if (!check.success){
                         setError(check.error.errors[0].message)
                         setFile(null)

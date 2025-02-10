@@ -4,6 +4,8 @@ import {HeroUIProvider} from "@heroui/react";
 import dynamic from 'next/dynamic'
 import {CookieConsentProvider} from "@/components/CookieConsentContext";
 import {useRouter} from "next/navigation";
+import {SessionProvider} from "@/components/providers/session-provider";
+import {Session, SessionValidationResult} from "@/lib/actions/session";
 const NextThemesProvider = dynamic(
     () => import('next-themes').then((e) => e.ThemeProvider),
     {
@@ -18,7 +20,10 @@ declare module "@react-types/shared" {
 }
 
 
-export function Providers({children}: { children: React.ReactNode }) {
+export function Providers({session, children}: {
+    session: SessionValidationResult,
+    children: React.ReactNode
+}) {
     const router = useRouter();
 
     return (
@@ -26,9 +31,11 @@ export function Providers({children}: { children: React.ReactNode }) {
                 navigate={router.push}
             >
                 <NextThemesProvider attribute="class" defaultTheme="light">
-                <CookieConsentProvider>
-                        {children}
-                </CookieConsentProvider>
+                    <SessionProvider sessionData={session}>
+                        <CookieConsentProvider>
+                                {children}
+                        </CookieConsentProvider>
+                    </SessionProvider>
                 </NextThemesProvider>
             </HeroUIProvider>
     )

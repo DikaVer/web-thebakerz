@@ -116,7 +116,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
         }
 
         if (formData.image && formData.image instanceof File) {
-            console.log(formData.image?.type);
+            // console.log(formData.image?.type);
             const response = await fetch(`/api/user/actions/updateAvatar`, {
                 method: 'POST',
                 headers: {

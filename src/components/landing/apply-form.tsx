@@ -72,7 +72,7 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
 
                   return state; // result should contain something like { successful: boolean, error?: string }
               }
-              console.log('state', state);
+              // console.log('state', state);
               onNext();
               return state;
           },

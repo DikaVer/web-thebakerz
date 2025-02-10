@@ -6,7 +6,7 @@ export default async function Page() {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <main className="z-10 grid container mx-auto py-6 gap-y-3">
+            <main className="z-10 grid container mx-auto py-6 gap-y-3 max-w-3xl">
                 <p className={"text-3xl font-bold"}>
                     Refund Policy - TheBakerz
                 </p>

@@ -7,6 +7,7 @@ import {metadataDefault} from "@/components/metadata";
 import {Providers} from "@/app/providers";
 import CookieConsentComponent from "@/components/ui/cookie-consent";
 import type { Viewport } from 'next'
+import {getCurrentSession} from "@/lib/actions/session";
 
 export const viewport: Viewport = {
     width: 'device-width',
@@ -19,19 +20,22 @@ export const viewport: Viewport = {
 export const metadata: Metadata = metadataDefault;
 
 
-export default function RootLayout({
+export default async function RootLayout({
                                        children,
                                    }: Readonly<{
     children: React.ReactNode;
 }>) {
+
+    const session = await getCurrentSession();
 
     return (
         <html lang="en">
 
         <body className={`${lexendDeca.className} max-w-full `}>
 
-            <Providers>
-
+            <Providers
+                session={session}
+            >
                 {children}
                 <CookieConsentComponent/>
                 <Toaster/>

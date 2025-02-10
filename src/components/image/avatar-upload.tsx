@@ -1,17 +1,18 @@
 // avatar-upload.tsx
 'use client';
 
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
+import { Modal, ModalContent, ModalHeader } from "@heroui/react";
 import React, { useState, useEffect } from "react";
-import { Icon } from "@iconify/react";
 import CropEasy from "@/components/image/crop/crop-easy";
+
+import showErrorMessage from "@/components/toast/toast-error";
+import {ImageSchema} from "@/lib/schemas";
 
 interface AvatarImageUploaderProps {
     isOpen: boolean;
     onClose: () => void;
     file: File | undefined;
     setFile: (files: File) => void;
-    setAvatarUrl: (url: string) => void;
 }
 
 export function AvatarImageUploader({
@@ -19,16 +20,26 @@ export function AvatarImageUploader({
                                         onClose,
                                         file,
                                         setFile,
-                                        setAvatarUrl
                                     }: AvatarImageUploaderProps) {
-    const [isCropping, setIsCropping] = useState(false);
     const [previewUrl, setPreviewUrl] = useState<string | undefined>();
 
     // Create a preview URL from the file
     useEffect(() => {
         if (file) {
+            const formData = new FormData();
+            formData.append("file", file, "avatar.webp");
+
+            const validateFile = ImageSchema.safeParse(formData.get("file"));
+            if (!validateFile.success) {
+                showErrorMessage({ error: validateFile.error.errors[0].message });
+                onClose();
+                return ;
+            }
+
             const url = URL.createObjectURL(file);
             setPreviewUrl(url);
+
+
             return () => URL.revokeObjectURL(url);
         }
     }, [file]);
@@ -50,7 +61,6 @@ export function AvatarImageUploader({
                             <CropEasy
                                 photoURL={previewUrl}
                                 setOpenCrop={onClose}
-                                setPhotoURL={setAvatarUrl}
                                 setFile={setFile}
                             />
                         </>

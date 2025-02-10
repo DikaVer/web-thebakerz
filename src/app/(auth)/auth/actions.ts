@@ -128,8 +128,8 @@ export async function verifyEmailAction(_prev: ActionResult, formData: z.infer<t
     }
 
 
-    const sessionToken = generateSessionToken();
-    const session = createSession(sessionToken, user.id);
+    const sessionToken =  generateSessionToken();
+    const session = await createSession(sessionToken, user.id);
     //@ts-ignore
     await setSessionTokenCookie(sessionToken, session.expiresAt);
 

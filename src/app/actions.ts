@@ -2,7 +2,6 @@
 
 
 
-
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {deleteSessionTokenCookie, getCurrentSession, invalidateSession} from "@/lib/actions/session";
 
@@ -20,6 +19,7 @@ export async function logoutAction(): Promise<ActionResult> {
     }
     await invalidateSession(session.id);
     await deleteSessionTokenCookie();
+
     return null;
 }
 

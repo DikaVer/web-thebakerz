@@ -96,6 +96,7 @@ body {
 @keyframes pulsate-bck-normal {0% { transform: scale(1); } 50% { transform: scale(0.9); } 100% { transform: scale(1);} }
 
 
+
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -171,6 +172,7 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
 
 
 

@@ -51,7 +51,7 @@ export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPendi
             description: productData?.description || "",
             price: productData?.price ? formatPrice(productData.price) : 0,
             category: productData?.category || "",
-            image: productData?.image_url || undefined
+            image: undefined
         }
     });
 

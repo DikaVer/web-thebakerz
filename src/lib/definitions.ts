@@ -1,21 +1,14 @@
-import {AdapterUser} from "next-auth/adapters";
 import {cityLatLngMap, timeMap} from "@/lib/local-variables";
 
 export interface Session {
-    user: {
-        id: string;
-        name: string;
-        email: string;
-        emailVerified: string;
-        image: string;
-        role: string;
-        userToken: string;
-    };
-    id: string;
-    userId: string;
-    expires: string;
-    sessionToken: string;
+    login: boolean;
+    role?: string;
+    name?: string;
+    email?: string;
+    picture?: string;
+    userId?: string;
 }
+
 
 export type ProductDataField = {
     id: string;

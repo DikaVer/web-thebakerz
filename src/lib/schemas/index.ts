@@ -103,16 +103,18 @@ export const LoginSchema = z.object({
     redirectTo: z.string()
 });
 
-export const imageUploadSchema = z.union([
-    z.instanceof(File).refine(
-        (file) => ["image/jpeg", "image/jpg", "image/png"].includes(file.type),
-        "Image must be a valid image format (jpeg, jpg, png)"
-    ).refine(
-        (file) => file.size <= 100000 * 1024 * 1024,
-        "File size too big (max 4.5MB)"
-    ),
-    z.string().url("Image must be a valid URL")
-]);
+// Define allowed MIME types and a maximum file size (e.g. 5 MB)
+const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+
+// Create a Zod schema to validate the "file" field
+export const ImageSchema = z.instanceof(File)
+    .refine((file) => allowedMimeTypes.includes(file.type), {
+        message: "Unsupported file type. Allowed types: JPEG, PNG, WebP.",
+    })
+    .refine((file) => file.size <= MAX_FILE_SIZE, {
+        message: "File is too large. Maximum allowed size is 5MB.",
+    });
 
 export const nameSchema = z
     .string()
@@ -232,8 +234,8 @@ export const storeEditSchema = z.object({
         }
     ),
     description: descriptionSchema.nullable().optional(),
-    image: imageUploadSchema.nullable().optional(),
-    background: imageUploadSchema.nullable().optional()
+    image: ImageSchema.nullable().optional(),
+    background: ImageSchema.nullable().optional()
 });
 
 export const productEditSchema = z.object({
@@ -262,7 +264,7 @@ export const productEditSchema = z.object({
             message: "Price is required",
         }
     ),
-    image: imageUploadSchema.nullable().optional().refine(
+    image: ImageSchema.nullable().optional().refine(
         (val) => val !== null && val !== undefined,
         {
             message: "Product Image is required",
@@ -270,39 +272,6 @@ export const productEditSchema = z.object({
     ),
 });
 
-export const productApiSchema = z.object({
-    category: z.enum(Object.keys(categories) as [string, ...string[]], {
-        errorMap: (issue, ctx) => {
-            return { message: "Category must be from the list" };
-        },
-    }),
-    name: nameSchema.nullable().optional().refine(
-        (val) => val !== null && val !== undefined,
-        {
-            message: "Product Name is required",
-        }
-    ),
-    description: descriptionSchema.nullable().optional().refine(
-        (val) => val !== null && val !== undefined,
-        {
-            message: "Description is required",
-        }
-    ),
-    price: z.number({
-        message: "Price is required",
-    }).min(0, { message: "Price must be a positive number" }).refine(
-        (val) => val !== null && val !== undefined,
-        {
-            message: "Price is required",
-        }
-    ),
-    file_url: z.string().refine(
-        (val) => val !== null && val !== undefined,
-        {
-            message: "Product Image is required",
-        }
-    ),
-});
 
 export const userEditSchema = z.object({
     name: nameSchema.nullable().optional().refine(
@@ -311,23 +280,10 @@ export const userEditSchema = z.object({
             message: "Name is required",
         }
     ),
-    image: imageUploadSchema.nullable().optional(),
+    image: ImageSchema.nullable().optional(),
 });
 
 
-export const CheckoutSchema = z.object({
-    deliveryMode: z.enum(['PICKUP', 'DELIVERY']),
-    deliveryAddress: AddressDataFieldSchema.nullable(),
-    selectedTime: z.object({
-        date: z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, "Invalid date format (DD/MM/YYYY)"),
-        time: z.enum(Object.keys(timeMap) as [string, ...string[]]),
-    }).nullable(),
-    email: z.string()
-        .trim()
-        .min(1, { message: 'Email is required' })
-        .email({ message: 'Invalid email address' }),
-    // Additional fields like cart can be validated separately or integrated here
-});
 
 export const ProfileSchema = z
     .object({

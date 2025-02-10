@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import {Badge,  Switch} from "@heroui/react";
 import {IconNotification} from "@/components/ui/icons";
 import {Button} from "@/components/ui/button";
-import {useCart} from "@/components/providers/cart-provider";
+import {useStore} from "@/components/providers/store-provider";
 import NotificationComponent from "@/components/notification/notification-component";
 
 export default function NotificationButton() {

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/icons";
 import { formatCurrency } from "@/lib/utils";
 import {ProductDataField, StoreData} from "@/lib/definitions";
-import {useCart} from "@/components/providers/cart-provider";
+import {useStore} from "@/components/providers/store-provider";
 import {useProductDialog} from "@/components/providers/product-provider";
 
 import confetti from 'canvas-confetti';
@@ -274,7 +274,7 @@ export function ProductDescriptionUser({
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [quantity, setQuantity] = useState<number>(editCartData ? editCartData.quantity : 1);
     const totalPrice = formatCurrency(productData.price * quantity);
-    const { addToCart, updateProductCart } = useCart();
+    const { addToCart, updateProductCart } = useStore();
 
     const [isGlutenFree, setIsGlutenFree] = useState<boolean>(false);
     const [isVegan, setIsVegan] = useState<boolean>(false);
@@ -784,32 +784,24 @@ interface ProductDescriptionBakerzProps {
     isDialogOpen: boolean;
     setDialogOpen: (open: boolean) => void;
     productData: ProductDataField;
-    isPending: boolean;
-    setPending: (isPending: boolean) => void;
-    setStoreData: (data: StoreData) => void;
+
 }
 
 export function ProductDescriptionBakerz({
                                              isDialogOpen,
                                              setDialogOpen,
                                              productData,
-                                             isPending,
-                                             setPending,
-                                             setStoreData,
                                          }: ProductDescriptionBakerzProps) {
     const [isHeartFilled, setIsHeartFilled] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const {editProductDialogBakerz} = useProductDialog();
 
     const handleEditProduct = () => {
         setIsLoading(true);
-        editProductDialogBakerz(productData, isPending, setPending, setStoreData);
         setDialogOpen(false);
         setIsLoading(false);
     };
 
     const onSubmit = async () => {
-        setPending(true);
         setIsLoading(true);
 
 
@@ -840,7 +832,6 @@ export function ProductDescriptionBakerz({
                 }
             );
             setIsLoading(false);
-            setPending(false);
             return;
         } else {
             toast.success((
@@ -866,7 +857,6 @@ export function ProductDescriptionBakerz({
 
         setIsLoading(false);
         setDialogOpen(false);
-        setPending(false);
     }
 
 

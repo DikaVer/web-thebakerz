@@ -106,7 +106,9 @@ export default function UserTable(
 
         switch (userKey) {
             case "userID":
-                return <CopyText>{user.id}</CopyText>;
+                return <>
+                    {user.id}
+                    </>;
             case "userInfo":
                 return (
                     <User

@@ -5,9 +5,11 @@ import {CartData, CartItem, ProductDataField} from '@/lib/definitions';
 import {toast} from "sonner";
 import {IconSuccess} from "@/components/ui/icons";
 import {createNanoid} from "@/lib/utils";
+import {StoreData} from "@/lib/actions/store/store";
 
 
-interface CartContextType {
+interface StoreContextType {
+    store: StoreData;
     cart: CartData;
     addToCart: (product: ProductDataField, quantity: number) => void;
     updateProductCart: (product: CartItem, quantity: number) => void;
@@ -16,26 +18,23 @@ interface CartContextType {
     getCartCount: (storeId: string) => number;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+const CartContext = createContext<StoreContextType | undefined>(undefined);
 
-export const useCart = (): CartContextType => {
+export const useStore = (): StoreContextType => {
     const context = useContext(CartContext);
     if (!context) {
-        throw new Error('useCart must be used within a CartProvider');
+        throw new Error('useStore must be used within a StoreProvider');
     }
     return context;
 };
 
-interface CartProviderProps {
-    storeData?: {
-        storeId: string,
-        nickname: string,
-        image: string
-    } | null;
+interface StoreProviderProps {
+    store: StoreData;
     children: ReactNode;
 }
 
-export const CartProvider: React.FC<CartProviderProps> = ({storeData, children }) => {
+export const StoreProvider: React.FC<StoreProviderProps> = ({store, children }) => {
+
 
     const [cart, setCart] = useState<CartData>({});
 
@@ -47,40 +46,40 @@ export const CartProvider: React.FC<CartProviderProps> = ({storeData, children }
     }, []);
 
     const addToCart = (product: ProductDataField, quantity: number) => {
-        if (storeData) {
-            setCart((prevCart) => {
-
-                const storeCart = prevCart[product.store_id]?.products || [];
-                let uniqueId: string;
-                do {
-                    uniqueId = createNanoid(12);
-                } while (storeCart.some(item => item.uniqueId === uniqueId));
-
-                const updatedStoreCart = {
-                    ...prevCart,
-                    [product.store_id]: {
-                        ...storeData,
-                        products: [
-                            ...storeCart,
-                            {...product, quantity, uniqueId}
-                        ]
-                    }
-                };
-                localStorage.setItem('cart', JSON.stringify(updatedStoreCart));
-                return updatedStoreCart;
-            });
-
-            toast.success(
-                <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                    <IconSuccess className={"w-10 h-10 text-primary"}/>
-
-                    <div className={"flex flex-col"}>
-                        <p className={"text-base font-bold"}>
-                            {product.name} added to the cart
-                        </p>
-                    </div>
-                </div>
-            );
+        if (store) {
+            // setCart((prevCart) => {
+            //
+            //     const storeCart = prevCart[product.store_id]?.products || [];
+            //     let uniqueId: string;
+            //     do {
+            //         uniqueId = createNanoid(12);
+            //     } while (storeCart.some(item => item.uniqueId === uniqueId));
+            //
+            //     const updatedStoreCart = {
+            //         ...prevCart,
+            //         [product.store_id]: {
+            //             ...storeData,
+            //             products: [
+            //                 ...storeCart,
+            //                 {...product, quantity, uniqueId}
+            //             ]
+            //         }
+            //     };
+            //     localStorage.setItem('cart', JSON.stringify(updatedStoreCart));
+            //     return updatedStoreCart;
+            // });
+            //
+            // toast.success(
+            //     <div className={"flex flex-row gap-x-1 justify-between items-center"}>
+            //         <IconSuccess className={"w-10 h-10 text-primary"}/>
+            //
+            //         <div className={"flex flex-col"}>
+            //             <p className={"text-base font-bold"}>
+            //                 {product.name} added to the cart
+            //             </p>
+            //         </div>
+            //     </div>
+            // );
         } else {
             toast.error("Something went wrong, please try again later");
         }
@@ -170,7 +169,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({storeData, children }
     };
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, updateProductCart, removeFromCart, clearCart, getCartCount }}>
+        <CartContext.Provider value={{ store, cart, addToCart, updateProductCart, removeFromCart, clearCart, getCartCount }}>
             {children}
         </CartContext.Provider>
     );

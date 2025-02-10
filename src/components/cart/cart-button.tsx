@@ -5,7 +5,7 @@ import * as React from "react";
 import {IconCart} from "@/components/ui/icons";
 import {useEffect, useState} from "react";
 import CartComponent from "@/components/cart/cart-component";
-import {useCart} from "@/components/providers/cart-provider";
+import {useStore} from "@/components/providers/store-provider";
 import {Badge} from "@heroui/badge";
 
 
@@ -17,7 +17,7 @@ export const CartButton = ({
 
     const [isCartOpen, setMenuOpen] = useState(false);
 
-    const { getCartCount, cart } = useCart();
+    const { getCartCount, cart } = useStore();
 
     // Toggles the visibility of the menu
     const toggleCart = () => {

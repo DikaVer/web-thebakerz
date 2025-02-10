@@ -51,7 +51,7 @@ export async function GET(request: Request): Promise<Response> {
 
 	const redirectTo = cookieStore.get("google_redirect")?.value || "/";
 
-	console.log("Redirecting to", cookieStore.get("google_redirect")?.value );
+	// console.log("Redirecting to", cookieStore.get("google_redirect")?.value );
 
 	const existingUser = await getUserFromGoogleId(googleId);
 	if (existingUser !== null) {

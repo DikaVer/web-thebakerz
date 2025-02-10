@@ -3,7 +3,7 @@ import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/
 import ShopItem from "@/components/cart/shop-item";
 import { Button } from '@/components/ui/button';
 import { CartItem } from "@/lib/definitions";
-import { useCart } from "@/components/providers/cart-provider";
+import { useStore } from "@/components/providers/store-provider";
 import { formatCurrency } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { ScrollShadow } from "@heroui/scroll-shadow";
@@ -31,7 +31,7 @@ const Shop: React.FC<ShopProps> = ({ storeId, avatar_url, shopName, value, produ
         router.prefetch(`/${shopName}/checkout?${query.toString()}`);
     }, [router, shopName]); // Added 'router' and 'shopName' as dependencies
 
-    const { removeFromCart, updateProductCart } = useCart();
+    const { removeFromCart, updateProductCart } = useStore();
 
     // Function to calculate the total sum
     const calculateTotal = useCallback((items: CartItem[] = productItems) => {

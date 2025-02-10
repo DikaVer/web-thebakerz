@@ -14,12 +14,14 @@ const ImageForm: React.FC<ImageFormProps> = ({ setFile, onUpload }) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files || undefined;
+
         setFile(file ? file[0] : undefined);
         // Reset the input so the same file can be selected again if needed
 
         if (fileRef.current) {
             fileRef.current.value = "";
         }
+        onUpload();
     };
 
     return (
@@ -39,7 +41,6 @@ const ImageForm: React.FC<ImageFormProps> = ({ setFile, onUpload }) => {
                 onPress={() => {
                     if (fileRef.current) {
                         fileRef.current.click();
-                        onUpload();
                     }
                 }}
             >

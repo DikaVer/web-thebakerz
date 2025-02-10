@@ -13,8 +13,10 @@ import {pacifico} from "@/components/fonts";
 import {Icon} from "@iconify/react";
 import {SigninButton} from "@/components/ui/signin-button";
 import {useMediaQuery} from "usehooks-ts";
+import {StoreData} from "@/lib/actions/store/store";
 
 interface LayoutProps {
+    store?: StoreData
     onOpenChange: () => void;
     isCollapsed: boolean;
     setIsCollapsed: (value: boolean) => void;
@@ -23,9 +25,11 @@ interface LayoutProps {
     props?: NavbarProps;
 }
 
-export default function NavbarComponent({isMobile, setIsCollapsed, onOpenChange, isCollapsed, onToggle, props = {}}: LayoutProps) {
+export default function NavbarComponent({store, isMobile, setIsCollapsed, onOpenChange, isCollapsed, onToggle, props = {}}: LayoutProps) {
 
     const isSmall = useMediaQuery("(max-width: 1024px)");
+
+
 
     return (
         <>
@@ -70,7 +74,7 @@ export default function NavbarComponent({isMobile, setIsCollapsed, onOpenChange,
                             className={`font-medium ${!isCollapsed && !isMobile && "hidden"} text-2xl ${pacifico.className}`}
                             href={"/"}
                         >
-                            TheBakerz
+                            {store?.storeName || "TheBakerz"}
                         </a>
                     </NavbarBrand>
 

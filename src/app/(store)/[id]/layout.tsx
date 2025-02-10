@@ -1,11 +1,11 @@
 import '@/styles/globals.css'
 import React from "react";
 import {Footer} from "@/components/footer";
-import {extractSession} from "@/lib/actions/session-actions";
-import {CartProvider} from "@/components/providers/cart-provider";
-import {fetchStoreId} from "@/lib/actions-server-only/store-actions";
+import {StoreProvider} from "@/components/providers/store-provider";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import LayoutComp from "@/components/layout-comp";
+import {getStoreDataByStoreNameOrId} from "@/lib/actions/store/store";
+import NotFound from "@/app/(store)/[id]/not-found";
 
 
 type Params = Promise<{ id: string  }>
@@ -25,26 +25,27 @@ export default async function Layout({
 
     const { id } = await params
 
+    const storeData = await getStoreDataByStoreNameOrId(id);
 
-    const [sessionRole, storeData] = await Promise.all([
-        extractSession(),
-        fetchStoreId(id)
-    ]);
+    if (!storeData) {
+        return NotFound();
+    }
+
 
     return (
         <>
-            <CartProvider
-                storeData={storeData}
+            <StoreProvider
+                store={storeData}
             >
                 <ProductDialogProvider>
                         <LayoutComp
-                            session={sessionRole}
+                            store={storeData}
                         >
                             {children}
                             <Footer/>
                         </LayoutComp>
                 </ProductDialogProvider>
-            </CartProvider>
+            </StoreProvider>
         </>
     );
 }

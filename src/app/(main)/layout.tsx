@@ -1,7 +1,6 @@
 import '@/styles/globals.css'
 import React from "react";
 import {Footer} from "@/components/footer";
-import {extractSession} from "@/lib/actions/session-actions";
 import type {Metadata} from "next";
 import {metadataDefault} from "@/components/metadata";
 import LayoutComp from "@/components/layout-comp";
@@ -15,13 +14,10 @@ export default async function Layout(
     children: React.ReactNode
 }) {
 
-    const session = await extractSession();
 
     return (
             <>
-                <LayoutComp
-                    session={session}
-                >
+                <LayoutComp>
                     <div className={'min-h-svh'}>
                         {children}
                     </div>

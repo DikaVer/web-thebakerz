@@ -5,6 +5,7 @@ import React, {startTransition} from "react";
 import {Button, cn, Tooltip} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {logoutAction} from "@/app/actions";
+import {useSession} from "@/components/providers/session-provider";
 
 interface SignOutButtonProps {
     isCollapsed: boolean;
@@ -12,12 +13,21 @@ interface SignOutButtonProps {
 export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
     const router = useRouter();
     const pathname = usePathname();
+    const { session, setSession } = useSession();
 
 
     const handleSignOut = async () => {
         startTransition(() => {
             sessionStorage.clear();
             localStorage.clear();
+            setSession((prevSession) => {
+                return {
+                    ...prevSession,
+                    session: null,
+                    user: null,
+                    store: null
+                };
+            });
             logoutAction()
             router.push(`/transit-exit?next=${pathname}`);
             router.refresh();

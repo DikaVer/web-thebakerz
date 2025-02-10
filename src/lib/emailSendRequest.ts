@@ -110,7 +110,7 @@ export async function sendOnboardingRequest(params: { phone: string; fullName: s
             throw new Error(`Email send failed with status: ${result.status}`);
         }
 
-        console.log(`Magic link email sent successfully to ${to}`);
+        // console.log(`Email sent successfully to ${to}`);
     } catch (error) {
         console.error(`Error sending magic link email: ${error}`);
         throw error; // Propagate error for higher-level handling
@@ -163,7 +163,7 @@ export async function sendContactUsForm(params: { email: string; subject: string
             throw new Error(`Email send failed with status: ${result.status}`);
         }
 
-        console.log(`Magic link email sent successfully to ${to}`);
+        // console.log(`Magic link email sent successfully to ${to}`);
     } catch (error) {
         console.error(`Error sending magic link email: ${error}`);
         throw error; // Propagate error for higher-level handling

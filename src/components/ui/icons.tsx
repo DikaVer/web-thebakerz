@@ -312,28 +312,6 @@ const IconSupport: React.FC<IconProps> = ({
     );
 };
 
-const IconPayment: React.FC<IconProps> = ({
-                                              className = '',
-                                              viewBox = "0 0 24 24",
-                                              ...props
-                                          }) => {
-    return (
-        <svg
-            viewBox={viewBox}
-            className={`fill-current text-current ${className}`}
-            aria-hidden="true"
-            focusable="false"
-            role="presentation"
-            {...props}
-        >
-            <path fill="none" d="M0 0h24v24H0z">
-            </path>
-            <path
-                d="M18 4H6C3.79 4 2 5.79 2 8v8c0 2.21 1.79 4 4 4h12c2.21 0 4-1.79 4-4V8c0-2.21-1.79-4-4-4zm-1.86 9.77c-.24.2-.57.28-.88.2L4.15 11.25C4.45 10.52 5.16 10 6 10h12c.67 0 1.26.34 1.63.84l-3.49 2.93zM6 6h12c1.1 0 2 .9 2 2v.55c-.59-.34-1.27-.55-2-.55H6c-.73 0-1.41.21-2 .55V8c0-1.1.9-2 2-2z">
-            </path>
-        </svg>
-    );
-};
 
 const IconAvatar: React.FC<IconProps> = ({
                                              className = '',
@@ -923,26 +901,6 @@ const IconCircleAlert: React.FC<IconProps> = ({className = '', ...props}) => (
 );
 
 
-const IconCopy: React.FC<IconProps> = ({className = '', ...props}) => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={`lucide lucide-files ${className}`}
-        {...props}
-    >
-        <path d="M20 7h-3a2 2 0 0 1-2-2V2"/>
-        <path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l4 4v10a2 2 0 0 1-2 2Z"/>
-        <path d="M3 7.6v12.8A1.6 1.6 0 0 0 4.6 22h9.8"/>
-    </svg>
-);
-
 const IconChefHat: React.FC<IconProps> = ({
                                               className = '',
                                               viewBox = "0 0 24 24",
@@ -1481,6 +1439,27 @@ const IconPhone: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size =
     </svg>
 );
 
+const IconCopy: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size = 400, ...props}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
+        <g fill="none" strokeLinecap="round" strokeWidth="1.5">
+            <path stroke={secondaryColor}
+                  d="M20.998 10c-.012-2.175-.108-3.353-.877-4.121C19.243 5 17.828 5 15 5h-3c-2.828 0-4.243 0-5.121.879C6 6.757 6 8.172 6 11v5c0 2.828 0 4.243.879 5.121C7.757 22 9.172 22 12 22h3c2.828 0 4.243 0 5.121-.879C21 20.243 21 18.828 21 16v-1"/>
+            <path stroke={primaryColor}
+                  d="M3 10v6a3 3 0 0 0 3 3M18 5a3 3 0 0 0-3-3h-4C7.229 2 5.343 2 4.172 3.172C3.518 3.825 3.229 4.7 3.102 6"/>
+        </g>
+    </svg>
+);
+
+const IconDots: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size = 400, ...props}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
+        <g fill="none" stroke={primaryColor} strokeWidth="0.7">
+            <path strokeLinecap="round" d="M5 14a2 2 0 1 0-2-2"/>
+            <circle cx="12" cy="12" r="2"/>
+            <path strokeLinecap="round" d="M21 12a2 2 0 1 1-2-2"/>
+        </g>
+    </svg>
+);
+
 
 
 export {
@@ -1501,11 +1480,11 @@ export {
     IconLocation,
     IconPhone,
     IconThreeDots,
+    IconDots,
     IconChevronDown,
     IconPlus,
     IconBill,
     IconSupport,
-    IconPayment,
     IconAvatar,
     IconTrash,
     IconMinus,

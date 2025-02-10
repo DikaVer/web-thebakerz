@@ -7,31 +7,41 @@ import {pacifico} from "@/components/fonts";
 /**
  * Please check the https://nextui.org/docs/guide/routing to have a seamless router integration
  */
+export const sectionItemsGuestTheBakerz: SidebarItem[] = [
+    {
+        key: "",
+        href: "/",
+        icon: "solar:home-2-linear",
+        title: "TheBakerz"
+    },
+    {
+        key: "about-us",
+        href: "/about-us",
+        icon: "solar:users-group-two-rounded-outline",
+        title: "About TheBakerz",
+    },
+    {
+        key: "#join-thebakerz",
+        href: "/#join-thebakerz",
+        title: "Join TheBakerz",
+        icon: "solar:chef-hat-heart-broken",
+    }
+];
 
+export const sectionItemsGuestStore: SidebarItem[] = [
+    {
+        key: "",
+        href: "/auth",
+        icon: "solar:login-3-broken",
+        title: "Sign in"
+    },
+];
 
-export const sectionItemsUser: SidebarItem[] = [
+export const sectionStoreItemsUser: SidebarItem[] = [
     {
         key: "account",
         title: "Account",
         items: [
-            // {
-            //     key: "orders",
-            //     href: "/orders",
-            //     title: "Orders",
-            //     icon: "solar:bill-list-broken",
-            // },
-            // {
-            //     key: "chat",
-            //     href: "/chat",
-            //     icon: "solar:chat-round-line-broken",
-            //     title: "Chat",
-            // },
-            // {
-            //     key: "favorites",
-            //     href: "/favorites",
-            //     icon: "solar:chat-square-like-broken",
-            //     title: "Favorites",
-            // },
             {
                 key: "payments",
                 href: "/payments",
@@ -39,7 +49,12 @@ export const sectionItemsUser: SidebarItem[] = [
                 title: "Payments",
             },
         ],
-    },
+    }
+];
+
+
+export const sectionItemsUser: SidebarItem[] = [
+    ...sectionStoreItemsUser,
     {
         key: "navigation",
         title: "Navigation",
@@ -50,16 +65,6 @@ export const sectionItemsUser: SidebarItem[] = [
                 icon: "solar:home-2-linear",
                 title: "TheBakerz",
             },
-            // {
-            //     key: "search",
-            //     href: "/search",
-            //     icon: "lucide:search",
-            //     title: "Search",
-            //     endContent: (
-            //         <Chip size="md" className={`${pacifico.className}`} variant="flat">
-            //             Coming soon!        </Chip>
-            //     ),
-            // },
             {
                 key: "about-us",
                 href: "/about-us",
@@ -76,7 +81,10 @@ export const sectionItemsUser: SidebarItem[] = [
     },
 ];
 
+
+
 export const sectionItemsBakerz: SidebarItem[] = [
+
 ];
 
 export const sectionItemsAdmin: SidebarItem[] = [
@@ -196,202 +204,3 @@ export const sectionItemsAdmin: SidebarItem[] = [
     },
 ];
 
-export const sectionItemsGuestTheBakerz: SidebarItem[] = [
-        {
-            key: "",
-            href: "/",
-            icon: "solar:home-2-linear",
-            title: "TheBakerz",
-        },
-        // {
-        //     key: "search",
-        //     href: "/search",
-        //     icon: "lucide:search",
-        //     title: "Search",
-        //     endContent: (
-        //         <Chip size="md" className={`${pacifico.className}`} variant="flat">
-        //             Coming soon!        </Chip>
-        //     ),
-        // },
-        {
-            key: "about-us",
-            href: "/about-us",
-            icon: "solar:users-group-two-rounded-outline",
-            title: "About TheBakerz",
-        },
-        {
-            key: "#join-thebakerz",
-            href: "/#join-thebakerz",
-            title: "Join TheBakerz",
-            icon: "solar:chef-hat-heart-broken",
-        }
-];
-
-
-export const brandItems: SidebarItem[] = [  {
-    key: "overview",
-    title: "Overview",
-    items: [
-        {
-            key: "home",
-            href: "#",
-            icon: "solar:home-2-linear",
-            title: "Home",
-        },
-        {
-            key: "projects",
-            href: "#",
-            icon: "solar:widget-2-outline",
-            title: "Projects",
-            endContent: (
-                <Icon
-                    className="text-primary-foreground/60"
-                    icon="solar:add-circle-line-duotone"
-                    width={24}
-                />
-            ),
-        },
-        {
-            key: "tasks",
-            href: "#",
-            icon: "solar:checklist-minimalistic-outline",
-            title: "Tasks",
-            endContent: (
-                <Icon
-                    className="text-primary-foreground/60"
-                    icon="solar:add-circle-line-duotone"
-                    width={24}
-                />
-            ),
-        },
-        {
-            key: "team",
-            href: "#",
-            icon: "solar:users-group-two-rounded-outline",
-            title: "Team",
-        },
-        {
-            key: "tracker",
-            href: "#",
-            icon: "solar:sort-by-time-linear",
-            title: "Tracker",
-            endContent: (
-                <Chip className="bg-primary-foreground font-medium text-primary" size="sm" variant="flat">
-                    New          </Chip>
-            ),
-        },
-    ],
-},
-    {
-        key: "your-teams",
-        title: "Your Teams",
-        items: [
-            {
-                key: "nextui",
-                href: "#",
-                title: "NextUI",
-            },
-            {
-                key: "tailwind-variants",
-                href: "#",
-                title: "Tailwind Variants",
-            },
-            {
-                key: "nextui-pro",
-                href: "#",
-                title: "NextUI Pro",
-            },
-        ],
-    },
-];
-
-
-export const sectionNestedItems: SidebarItem[] = [  {
-    key: "home",
-    href: "#",
-    icon: "solar:home-2-linear",
-    title: "Home",
-},
-    {
-        key: "projects",
-        href: "#",
-        icon: "solar:widget-2-outline",
-        title: "Projects",
-        endContent: (
-            <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
-        ),
-    },
-    {
-        key: "tasks",
-        href: "#",
-        icon: "solar:checklist-minimalistic-outline",
-        title: "Tasks",
-        endContent: (
-            <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
-        ),
-    },
-    {
-        key: "team",
-        href: "#",
-        icon: "solar:users-group-two-rounded-outline",
-        title: "Team",
-    },
-    {
-        key: "tracker",
-        href: "#",
-        icon: "solar:sort-by-time-linear",
-        title: "Tracker",
-        endContent: (
-            <Chip size="sm" variant="flat">
-                New      </Chip>
-        ),
-    },
-    {
-        key: "analytics",
-        href: "#",
-        icon: "solar:chart-outline",
-        title: "Analytics",
-    },
-    {
-        key: "perks",
-        href: "#",
-        icon: "solar:gift-linear",
-        title: "Perks",
-        endContent: (
-            <Chip size="sm" variant="flat">
-                3      </Chip>
-        ),
-    },
-    {
-        key: "cap_table",
-        title: "Cap Table",
-        icon: "solar:pie-chart-2-outline",
-        type: SidebarItemType.Nest,
-        items: [
-            {
-                key: "shareholders",
-                icon: "solar:users-group-rounded-linear",
-                href: "#",
-                title: "Shareholders",
-            },
-            {
-                key: "note_holders",
-                icon: "solar:notes-outline",
-                href: "#",
-                title: "Note Holders",
-            },
-            {
-                key: "transactions_log",
-                icon: "solar:clipboard-list-linear",
-                href: "#",
-                title: "Transactions Log",
-            },
-        ],
-    },
-    {
-        key: "expenses",
-        href: "#",
-        icon: "solar:bill-list-outline",
-        title: "Expenses",
-    },
-];

@@ -6,6 +6,11 @@ import Cropper from 'react-easy-crop';
 import {Button, ModalBody, ModalFooter, Slider} from '@heroui/react'; // heroui/nextui components
 import { Icon } from '@iconify/react';
 import getCroppedImg from "@/components/image/crop/utils/crop-image";
+import showErrorMessage from "@/components/toast/toast-error";
+import showSuccessMessage from "@/components/toast/toast-succes";
+import {useSession} from "@/components/providers/session-provider";
+import {SessionValidationResult} from "@/lib/actions/session";
+import {User} from "@/lib/actions/user";
 
 interface Area {
     x: number;
@@ -17,46 +22,104 @@ interface Area {
 interface CropEasyProps {
     photoURL: string | undefined;
     setOpenCrop: (open: boolean) => void;
-    setPhotoURL: (url: string) => void;
     setFile: (file: File) => void;
 }
 
 const CropEasy: React.FC<CropEasyProps> = ({
                                                photoURL,
                                                setOpenCrop,
-                                               setPhotoURL,
                                                setFile,
                                            }) => {
+
+    const {session, setSession} = useSession();
 
     const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
     const [zoom, setZoom] = useState<number>(1);
     const [rotation, setRotation] = useState<number>(0);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+    const [isPending, setIsPending] = useState<boolean>(false);
 
     const cropComplete = (croppedArea: Area, croppedAreaPixels: Area) => {
         setCroppedAreaPixels(croppedAreaPixels);
     };
 
     const cropImage = async () => {
-        if (!croppedAreaPixels) return;
+        if (!croppedAreaPixels)
+            return;
 
         try {
             const { file, url } = await getCroppedImg(photoURL, croppedAreaPixels, rotation);
             if (file) {
+                setIsPending(true);
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    const result = e.target?.result;
-                    if (typeof result === "string") {
-                        setPhotoURL(result);
-                    } else {
-                        setPhotoURL("");
-                    }
+                    const localPreview = e.target?.result;
+                    setSession((prevSession): SessionValidationResult => {
+                        if (!session) return prevSession;
+
+                        if (prevSession.user) {
+                            return {
+                                session: prevSession.session,
+                                user: {
+                                    ...prevSession.user,
+                                    picture: typeof localPreview === "string" ? localPreview : "",
+                                } as User,
+                                store: prevSession.store
+                            }
+                        }
+
+                        return prevSession;
+                    });
                 };
+
                 reader.readAsDataURL(file);
+
+                // Prepare form data for upload
+                const formData = new FormData();
+                formData.append("file", file, "avatar.webp");
+
+
+                const response = await fetch("/api/upload-image", {
+                    method: "POST",
+                    body: formData,
+                });
+
+
+
+
+                console.log(response);
+
+                // Check if the response is ok
+                if (!response.ok) {
+                    // if error was 500, show a generic error message
+                    if (response.status === 500) {
+                        console.error("Failed to upload image");
+                        showErrorMessage({error: "Failed to upload image"});
+                    } else {
+                        const { error: error } = await response.json();
+                        showErrorMessage({error: error});
+                    }
+                    setOpenCrop(false);
+                    setIsPending(false);
+                    return;
+                }
+
+                // Get the blob URL from the response
+                const { success: success } = await response.json();
+
+                // Show success message
+                showSuccessMessage({success: success});
+
+                setFile(file); // update file state as an array
+                setOpenCrop(false);
+            } else {
+                showErrorMessage({error: "Failed to upload image. Please try again."});
+                setOpenCrop(false);
             }
 
-            setFile(file); // update file state as an array
-            setOpenCrop(false);
+            setIsPending(false);
+
+
         } catch (error: any) {
             console.error(error);
         }
@@ -106,6 +169,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                                 step={0.1}
                                 maxValue={10}
                                 onChange={(value) => setZoom(value as number)}
+                                isDisabled={isPending}
                             />
                         </div>
                         <div>
@@ -119,6 +183,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                                 minValue={0}
                                 maxValue={1}
                                 onChange={(value) => setRotation(value as number * 360)}
+                                isDisabled={isPending}
                             />
                         </div>
                     </div>
@@ -133,9 +198,10 @@ const CropEasy: React.FC<CropEasyProps> = ({
                     onPress={cropImage}
                     className="text-black shadow"
                     type="submit"
-                    startContent={<Icon icon="solar:gallery-edit-broken" width={24} />}
+                    startContent={!isPending && <Icon icon="solar:gallery-edit-broken" width={24} />}
+                    isLoading={isPending}
                 >
-                    Update Avatar
+                    {isPending ? "Uploading..." : "Upload Avatar"}
                 </Button>
             </ModalFooter>
         </>

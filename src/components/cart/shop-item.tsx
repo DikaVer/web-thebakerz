@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {CartItem} from "@/lib/definitions";
 import {formatCurrency} from "@/lib/utils";
-import {useProductDialog} from "@/components/providers/product-provider";
 import {Image, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@heroui/react";
 import {Button} from "@/components/ui/button";
 import SliderStepper from "@/components/cart/slider";
@@ -34,7 +33,6 @@ const ShopItem: React.FC<ShopItemProps> = ({
     // Divide the price by 100
     const displayPrice = formatCurrency((price * quantity));
 
-    const { openProductDialogCart } = useProductDialog();
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -44,19 +42,7 @@ const ShopItem: React.FC<ShopItemProps> = ({
                 className={`flex flex-col rounded w-full  p-4 transition duration-500 ${!isHoveringStepper ? 'hover:bg-grayBg' : ''}  my-1`}
             >
                 <div className={`flex flex-row cursor-pointer`}
-                     onClick={!isHoveringStepper ? () => openProductDialogCart(
-                         {
-                             id: id,
-                             store_id: store_id,
-                             category: category,
-                             name: name,
-                             description: description,
-                             price: price,
-                             image_url: image_url,
-                             quantity: quantity,
-                             uniqueId: uniqueId,
-                         },
-                     ) : undefined}
+
                 >
                     <div className="mb-4">
                         <div className="h-24 w-24">
@@ -86,19 +72,7 @@ const ShopItem: React.FC<ShopItemProps> = ({
                             <Button
                                 variant={"outline"}
                                 className={'mb-3'}
-                                onClick={!isHoveringStepper ? () => openProductDialogCart(
-                                    {
-                                        id: id,
-                                        store_id: store_id,
-                                        category: category,
-                                        name: name,
-                                        description: description,
-                                        price: price,
-                                        image_url: image_url,
-                                        quantity: quantity,
-                                        uniqueId: uniqueId,
-                                    },
-                                ) : undefined}
+
                             >
                                 Overview
                             </Button>

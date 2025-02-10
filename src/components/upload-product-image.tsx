@@ -3,7 +3,7 @@
 import 'react-image-crop/dist/ReactCrop.css';
 import React, {ChangeEvent, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {Input} from "@/components/ui/input";
-import {imageUploadSchema} from "@/lib/schemas";
+import {ImageSchema} from "@/lib/schemas";
 import {ControllerRenderProps, UseFormReturn} from "react-hook-form";
 import {Button} from "@/components/ui/button";
 import {IconCross} from "@/components/ui/icons";
@@ -44,7 +44,7 @@ export function ProductImageUploader({ form, field, name, isDialogOpen, setDialo
     const onChangePicture = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             const file = event.currentTarget.files && event.currentTarget.files[0]
-            const check = imageUploadSchema.safeParse(file)
+            const check = ImageSchema.safeParse(file)
             if (!check.success){
                 setError("Image must be a valid image format (jpeg, jpg, png)")
                 setFile(null);
@@ -163,7 +163,7 @@ export function ProductImageUploader({ form, field, name, isDialogOpen, setDialo
                                     setDragActive(false);
 
                                     const file = e.dataTransfer.files && e.dataTransfer.files[0];
-                                    const check = imageUploadSchema.safeParse(file);
+                                    const check = ImageSchema.safeParse(file);
                                     if (!check.success) {
                                         setError("Image must be a valid image format (jpeg, jpg, png)")
                                         setFile(null);

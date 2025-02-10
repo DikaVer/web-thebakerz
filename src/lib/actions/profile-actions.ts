@@ -8,8 +8,7 @@ import {isStoreNicknameExist} from "@/lib/actions/user"; // see next section
 
 // This action is similar to your sendEmail function.
 export const updateProfile = async (
-    formData: z.infer<typeof ProfileSchema>,
-    role: string
+    formData: z.infer<typeof ProfileSchema>
 ) => {
 
     if (!await globalPOSTRateLimit()){
@@ -23,18 +22,20 @@ export const updateProfile = async (
         return { error: "Invalid fields!" };
     }
 
-    const {session, user, store} = await getCurrentSession();
+    const {user, store} = await getCurrentSession();
 
     if (!user) {
         return { error: "User not found!" };
     }
 
     // Update the user record (name and picture)
-    await updateUserProfile(formData.name, user.id);
+    if (formData.name !== user.username) {
+        await updateUserProfile(formData.name, user.id);
+    }
 
     // If the user is a baker, update the store details as well
-    if (role === "bakerz" && formData.storeName && formData.description) {
-        if(await isStoreNicknameExist(formData.storeName)){
+    if (store && formData.storeName && formData.description && (formData.storeName !== store.storeName || formData.description !== store?.description)) {
+        if(formData.storeName === store.storeName && await isStoreNicknameExist(formData.storeName)){
             return {
                 error: `Store name "${formData.storeName}" already exists`
             }

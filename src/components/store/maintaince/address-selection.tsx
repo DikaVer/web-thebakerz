@@ -317,8 +317,7 @@ const setupMarkerListener = (marker: google.maps.marker.AdvancedMarkerElement,
             const lng = Number(initialPosition.lng());
             const latDiff = Math.abs(newLat - lat);
             const lngDiff = Math.abs(newLng - lng);
-            console.log(latDiff);
-            console.log(lngDiff);
+             // console.log(lngDiff);
             if (latDiff > maxLatDifference || lngDiff > maxLngDifference) {
                 // If marker moved too far, set it back to the initial position or within the allowed range
                 setErrorMap("Marker cannot be moved too far from the initial position.");

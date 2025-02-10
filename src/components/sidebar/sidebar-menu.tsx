@@ -6,35 +6,35 @@ import Sidebar from "@/components/sidebar/sidebar";
 import {Icon} from "@iconify/react";
 import SidebarDrawer from "@/components/sidebar/sidebar-drawer";
 import React, {useEffect} from "react";
-import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {ThemeSwitcher} from "@/components/ui/ThemeSwitcher";
 import {SignOutButton} from "@/components/ui/signout-button";
 import {
     sectionItemsAdmin,
-    sectionItemsBakerz,
+    sectionItemsBakerz, sectionItemsGuestStore,
     sectionItemsGuestTheBakerz,
-    sectionItemsUser
+    sectionItemsUser, sectionStoreItemsUser
 } from "@/components/sidebar/sidebar-items";
 import {useTheme} from "next-themes";
+import {useSession} from "@/components/providers/session-provider";
+import {SessionValidationResult} from "@/lib/actions/session";
+import {StoreData} from "@/lib/actions/store/store";
 
 
 interface SidebarMenuProps {
+    store?: StoreData
     isOpen: boolean;
     onOpenChange: () => void;
     isCollapsed: boolean;
     isMobile: boolean;
-    session: {
-        login: boolean;  // Specifies if the user is logged in
-        role?: string;  // Role of the user (e.g., admin, user)
-        name?: string;  // Name of the user
-        email?: string;  // Email of the user
-    }
 }
 
-export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session}: SidebarMenuProps) {
+export default function SidebarMenu({store, isOpen, onOpenChange, isCollapsed}: SidebarMenuProps) {
     const pathname = usePathname();
     const router = useRouter();
     const currentPath = pathname.split("/")?.[1]
+
+    const { session } = useSession();
 
     useEffect(() => {
         if (isOpen) {
@@ -61,23 +61,45 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
                 )}
             >
                 <a
-                    className={cn("flex items-center gap-3 pl-2", {
+                    className={cn("flex items-center gap-3 pl-2 ", {
                         "justify-center gap-0 pl-0": isCollapsed,
                     })}
-                    href="/"
+                    href={store ? `/${store.storeName}` : "/"}
                 >
-                    <Image
-                        src={`/images/TheBakerzLogo.svg`}
-                        width={isCollapsed ? 48 : 64}
-                        height={64}
-                    />
+                    {store ? (
+                            <Avatar
+                                isBordered
+                                showFallback={!!store.picture}
+                                size={isCollapsed ? "md" : "lg"}
+                                name={store.ownerName}
+                                src={store.picture}
+                                color={'primary'}
+                                classNames={{
+                                    base: `bg-default text-text shadow-lg ${!isCollapsed  && "w-28"}`,
+                                }}
+
+                            />
+                        ) : (
+                            <Image
+                                src={`/images/TheBakerzLogo.svg`}
+                                alt="Logo"
+                                width={isCollapsed ? 48 : 64}
+                                height={64}
+                            />
+                        )
+                    }
                     <span
-                        className={cn(`w-full text-3xl  opacity-100 ${pacifico.className}`, {
-                            "w-0 opacity-0": isCollapsed,
-                        })}
+                        className={cn(
+                            "block w-[300px] text-3xl opacity-100 " +
+                            pacifico.className +
+                            " truncate",
+                            { "w-0 opacity-0": isCollapsed }
+                        )}
+
                     >
-                            TheBakerz
-                        </span>
+                        {store?.storeName || "TheBakerz"}
+                    </span>
+
                 </a>
 
                 <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
@@ -90,7 +112,7 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
                             base: "px-3 rounded-large data-[selected=true]:shadow ",
                             title: "group-data-[selected=true]:text-text",
                         }}
-                        items={getItemsByRole(session.role ?? "")}
+                        items={getItemsByRole(session, !!store)}
                     />
                 </ScrollShadow>
 
@@ -107,11 +129,12 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
                     <Spacer y={3}/>
                     <hr/>
                     <Spacer y={2}/>
-                    {session.login ?
+                    {session.user ?
                         <LoggedInMenu
-                            name={session.name}
+                            name={session.user.username}
                             isCollapsed={isCollapsed}
                             theme={theme === 'light'}
+                            picture={session.user.picture}
                         />
                         :
                         <GuestMenu
@@ -161,7 +184,7 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
                         </Button>
                     </Tooltip>
                     {
-                        session.login &&
+                        session.user &&
                         <SignOutButton
                             isCollapsed={isCollapsed}
                         />
@@ -172,12 +195,26 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
     );
 }
 
-const getItemsByRole = (role : string) => {
+const getItemsByRole = (session: SessionValidationResult, store: boolean) => {
+
+    if (!session.user) {
+        if (store) {
+            return sectionItemsGuestStore;
+        }
+        return sectionItemsGuestTheBakerz;
+    }
+
+    const role = session.user.role;
     switch (role) {
         case 'admin':
             return sectionItemsAdmin;
         case 'user':
-            return sectionItemsUser;
+            {
+                if (store) {
+                    return sectionStoreItemsUser;
+                }
+                return sectionItemsUser;
+            }
         case 'bakerz':
             return sectionItemsBakerz;
         default:
@@ -186,35 +223,26 @@ const getItemsByRole = (role : string) => {
 };
 
 interface LoggedInMenuProps {
-    name?: string;
-    image?: string;
+    name: string;
+    picture?: string;
     isCollapsed: boolean;
     theme: boolean;
 }
 
-const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ theme, name, image, isCollapsed}) => (
+const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ theme, name, picture, isCollapsed}) => (
     <>
         <Tooltip content="Account Settings" isDisabled={!isCollapsed} placement="right">
             <a
                 className="flex items-center gap-3 px-3 py-1.5 hover:bg-default/40 rounded-xl cursor-pointer"
                 href={"/settings"}
             >
-                {/*<Avatar*/}
-                {/*    icon={<AvatarIcon/>}*/}
-                {/*    isBordered*/}
-                {/*    size="sm"*/}
-                {/*    src={image}*/}
-                {/*    classNames={{*/}
-                {/*        base: "bg-gradient-to-br from-primary to-secondary",*/}
-                {/*        icon: "text-black/80",*/}
-                {/*    }}*/}
-                {/*/>*/}
                 <Avatar
+                    alt="Avatar"
                     isBordered
-                    showFallback={!!name}
+                    showFallback={!!picture}
                     size="sm"
                     name={name}
-                    src={image}
+                    src={picture}
                     color={'secondary'}
                     classNames={{
                         base: "bg-default text-text shadow-lg",

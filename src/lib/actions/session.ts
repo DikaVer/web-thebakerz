@@ -7,8 +7,9 @@ import { sha256 } from "@oslojs/crypto/sha2";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
-import type {StoreData, User} from "./user";
+import type {User} from "./user";
 import {connectionPool} from "@/db";
+import {StoreData} from "@/lib/actions/store/store";
 
 export async function validateSessionToken(
     token: string
@@ -29,21 +30,10 @@ export async function validateSessionToken(
       users.email,
       users.name AS username,
       users.email_verified as emailVerified,
-      users.role,
-      stores.id AS store_id,
-      stores.nickname AS store_name,
-      stores.description AS store_description,
-      stores.phone As store_phone,
-      store_locations.route AS store_route,
-      store_locations.city AS store_city,
-      store_locations.zip_code AS store_zip_code,
-      store_locations.country AS store_country,
-      store_locations.latitude AS store_latitude,
-      store_locations.longitude AS store_longitude
+      users.image as picture,
+      users.role
     FROM sessions
     INNER JOIN users ON sessions.user_id = users.id
-    INNER JOIN stores ON sessions.user_id = stores.user_id
-    INNER JOIN store_locations ON store_id = store_locations.store_id
     WHERE sessions.session_token = $1
     `,
         [sessionId]
@@ -51,7 +41,7 @@ export async function validateSessionToken(
 
     // If no matching session is found, return null for both session and user.
     if (result.rows.length === 0) {
-        return { session: null, user: null, store: null };
+        return {session: null, user: null, store: null};
     }
 
     const row = result.rows[0];
@@ -70,24 +60,51 @@ export async function validateSessionToken(
         email: row.email,
         username: row.username,
         emailVerified: Boolean(row.emailVerified !== null), // ensure proper casing
-        role: row.role
+        role: row.role,
+        picture: row.picture
     };
 
+    const storeResult = await connectionPool.query(
+        `
+    SELECT 
+      stores.id AS store_id,
+        stores.nickname AS store_name,
+        stores.description AS store_description,
+        stores.phone As store_phone,
+        store_locations.route AS store_route,
+        store_locations.city AS store_city,
+        store_locations.zip_code AS store_zip_code,
+        store_locations.country AS store_country,
+        store_locations.latitude AS store_latitude,
+        store_locations.longitude AS store_longitude
+    FROM stores
+    INNER JOIN store_locations ON store_locations.store_id = store_id
+    WHERE stores.user_id = $1
+    `,
+        [user.id]
+    );
+
+    const rowS = storeResult.rows[0];
+
+    let store: StoreData | null = null;
+
     // Build the store object.
-    const store: StoreData = {
-        id: row.store_id,
-        storeName: row.store_name,
-        description: row.store_description,
-        phone: row.store_phone,
-        location: {
-            route: row.store_route,
-            city: row.store_city,
-            zipCode: row.store_zip_code,
-            country: row.store_country,
-            latitude: row.store_latitude,
-            longitude: row.store_longitude
-        }
-    };
+    if (rowS){
+        store = {
+            id: rowS.store_id,
+            storeName: rowS.store_name,
+            description: rowS.store_description,
+            phone: rowS.store_phone,
+            location: {
+                route: rowS.store_route,
+                city: rowS.store_city,
+                zipCode: rowS.store_zip_code,
+                country: rowS.store_country,
+                latitude: rowS.store_latitude,
+                longitude: rowS.store_longitude
+            }
+        };
+    }
 
     // If the session has expired, delete it from the database and return null.
     if (Date.now() >= session.expiresAt.getTime()) {
@@ -106,6 +123,8 @@ export async function validateSessionToken(
             [session.expiresAt, session.id]
         );
     }
+
+
 
     return { session, user, store };
 }
@@ -218,6 +237,7 @@ export interface Session {
     userId: string;
 }
 
-type SessionValidationResult =
-    | { session: Session; user: User; store: StoreData }
+
+export type SessionValidationResult =
+    | { session: Session; user: User; store: StoreData | null }
     | { session: null; user: null; store: null };

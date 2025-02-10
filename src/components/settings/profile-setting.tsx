@@ -14,7 +14,7 @@ import { Icon } from "@iconify/react";
 
 // Import the ProfileSchema we created above
 import { ProfileSchema } from "@/lib/schemas";
-import {LocationData} from "@/lib/actions/user";
+import { User} from "@/lib/actions/user";
 import {Badge} from "@heroui/badge";
 import {useTheme} from "next-themes";
 import {IconLocation, IconPhone, IconSuccess} from "@/components/ui/icons";
@@ -22,44 +22,48 @@ import {toast} from "sonner";
 import {Alert} from "@heroui/alert";
 import {AvatarImageUploader} from "@/components/image/avatar-upload";
 import ImageForm from "@/components/image/image-form";
+import showErrorMessage from "@/components/toast/toast-error";
+import {useSession} from "@/components/providers/session-provider";
+import NotFound from "@/app/(error_layout)/not-found";
+import {SessionValidationResult} from "@/lib/actions/session";
+import {StoreData} from "@/lib/actions/store/store";
 
 
 interface ProfileSettingCardProps {
     className?: string;
 }
 
-const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps & {
-    picture: string;
-    name: string;
-    email: string;
-    location?: string;
-    storeName?: string;
-    description?: string;
-    store_loc?: LocationData;
-    phone?: string;
-    role: string;
-}>(
-    ({ className, email, name, phone, picture, description, location, storeName, role, ...props }, ref) => {
+
+
+const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
+    ({ className, ...props }, ref) => {
+
+        const { session, setSession } = useSession();
+
+        const { user, store } = session;
+
+        if (!user || !session ) {
+            return NotFound();
+        }
 
 
         const {theme} = useTheme();
-        const [nameState, setName] = useState(name);
-        const [storeNameState, setStoreName] = useState(storeName);
+
+
         const [avatarEdit, setAvatarEdit] = useState(false);
         const [file, setFile] = useState<File | undefined>();
-        const [avatarUrl, setAvatarUrl] = useState<string | undefined>();
 
         // Set up a character counter for the description field (max 500 characters)
-        const [charCount, setCharCount] = useState(description?.length || 0);
+        const [charCount, setCharCount] = useState(store?.description?.length || 0);
 
         // Initialize the form using the ProfileSchema with default values from props
         const form = useForm<z.infer<typeof ProfileSchema>>({
             resolver: zodResolver(ProfileSchema),
             defaultValues: {
-                role: role,
-                name: name,
-                description: description || undefined,
-                storeName: storeName || undefined,
+                role: user.role,
+                name: user.username,
+                description: store?.description || undefined,
+                storeName: store?.storeName || undefined,
             },
         });
 
@@ -67,7 +71,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps 
         const [state, submitAction, isPending] = useActionState(
             async (previousState: any, formData: z.infer<typeof ProfileSchema>) => {
                 // Pass along the user's email and role so the updateProfile action can write to the proper tables
-                const result = await updateProfile(formData, role);
+                const result = await updateProfile(formData);
 
                 if (result?.success) {
                     toast.message((
@@ -75,7 +79,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps 
                                 <Alert
                                     color="success"
                                     title={"Success Notification"}
-                                    description={`Your profile ${role === "bakerz" ? '& store have' : 'has'} been updated successfully.`}
+                                    description={`Your profile ${user.role === "bakerz" ? '& store have' : 'has'} been updated successfully.`}
                                     variant="faded"
 
                                 />
@@ -87,25 +91,31 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps 
                         }
                     );
 
-                    setName(formData.name);
-                    setStoreName(formData.storeName);
+
+                    setSession((prevSession): SessionValidationResult => {
+                        if (!session) return prevSession;
+
+                        if (prevSession.user) {
+                            return {
+                                session: prevSession.session,
+                                user: {
+                                            ...prevSession.user,
+                                            username: formData.name
+                                        } as User,
+                                store: prevSession.store ? {
+                                            ...prevSession.store,
+                                            storeName: formData.storeName,
+                                            description: formData.description
+                                        } as StoreData
+                                    : null
+                            }
+                        }
+
+                        return prevSession;
+                    });
+
                 } else if (result?.error) {
-                    toast.message((
-                            <div className="flex flex-col gap-4 w-full">
-                                <Alert
-                                    color="danger"
-                                    title={"Warning Notification"}
-                                    description={result.error}
-                                    variant="faded"
-
-                                />
-                            </div>
-                        ),
-                        {
-                            duration: 2000,
-                            className: `p-0 rounded-xl`
-                        }
-                    );
+                    showErrorMessage({error: result.error});
                 }
             },
             null
@@ -127,11 +137,10 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps 
                         isOpen={avatarEdit}
                         onClose={() => setAvatarEdit(false)}
                         setFile={setFile}
-                        setAvatarUrl={setAvatarUrl}
                     />
                     <p className="text-base font-medium text-default-700">Profile</p>
                     <p className="mt-1 text-sm font-normal text-default-400">
-                        This displays your public profile {role === "bakerz" && "& store"} on the site
+                        This displays your public profile {user.role === "bakerz" && "& store"} on the site
                     </p>
                     <Card className="mt-4 bg-default-100" shadow="none">
                         <CardBody>
@@ -151,19 +160,19 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps 
                                     shape="circle"
                                 >
                                     <Avatar
-                                        key={avatarUrl ? avatarUrl : picture} // changing key forces re-mount
-                                        src={avatarUrl ? avatarUrl : picture}
+                                        key={user.picture} // changing key forces re-mount
+                                        src={user.picture}
                                         className="h-16 w-16 text-xl"
-                                        name={name}
+                                        name={user.username}
                                         isBordered
                                         color="secondary"
                                         classNames={{ base: "bg-default text-text shadow-lg" }}
                                     />
                                 </Badge>
                                 <div>
-                                    <p className="text-sm font-medium text-default-500">{nameState}</p>
-                                    <p className="text-xs text-default-400">{role === "user" ? "Customer" : `TheBakerz - ${storeNameState}`}</p>
-                                    <p className="mt-1 text-xs text-default-400">{email}</p>
+                                    <p className="text-sm font-medium text-default-500">{user.username}</p>
+                                    <p className="text-xs text-default-400">{user.role === "user" ? "Customer" : `TheBakerz - ${store?.storeName}`}</p>
+                                    <p className="mt-1 text-xs text-default-400">{user.email}</p>
                                 </div>
                             </div>
                         </CardBody>
@@ -189,7 +198,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps 
                                                 {...field}
                                                 isRequired
                                                 className={'mt-2'}
-                                                placeholder={`${name}`}
+                                                placeholder={`${user?.username}`}
                                                 type="text"
                                                 validate={() => {
                                                     return fieldState.error?.message;
@@ -202,7 +211,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps 
                         </div>
                         <Spacer y={2} />
                         {/* Location */}
-                        {role === "bakerz" && (
+                        {user.role === "bakerz" && (
                             <>
                                 <div>
                                     <p className="text-base font-medium text-default-700">Store Name</p>
@@ -217,7 +226,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps 
                                                         {...field}
                                                         isRequired
                                                         className={'mt-2'}
-                                                        placeholder={`${storeNameState ? storeNameState : 'Type your store name'}`}
+                                                        placeholder={`${store?.storeName ? store?.storeName : 'Type your store name'}`}
                                                         type="text"
                                                         validate={() => {
                                                             return fieldState.error?.message;
@@ -245,7 +254,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps 
                                         isDisabled
                                         className={'mt-2 opacity-100'}
                                         labelPlacement="outside"
-                                        placeholder={location ? location : "Location Placeholder"}
+                                        placeholder={store?.location.route ? `${store.location.route}, ${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder"}
                                         startContent={
                                             <IconLocation size={24}
                                                           primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
@@ -258,7 +267,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps 
                                         isDisabled
                                         className={'mt-2 opacity-100'}
                                         labelPlacement="outside"
-                                        placeholder={`${phone ? phone : 'Phone Number Placeholder'}`}
+                                        placeholder={`${store?.phone ? store.phone : 'Phone Number Placeholder'}`}
                                         startContent={
                                             <IconPhone size={24}
                                                        primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
@@ -284,7 +293,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps 
                                                     <Textarea
                                                         {...field}
                                                         isRequired
-                                                        placeholder={`${description ? description : 'Tell us about your store... (max 500 characters)'}`}
+                                                        placeholder={`${store?.description ? store.description : 'Tell us about your store... (max 500 characters)'}`}
                                                         style={{resize: "none"}}
                                                         className="mt-2"
                                                         classNames={{
@@ -303,7 +312,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps 
                                             </FormItem>
                                         )}
                                     />
-                                    <p className="text-right text-grayText text-small px-2">{charCount}/2000</p>
+                                    <p className="text-right text-grayText text-small px-2">{charCount}/500</p>
 
                                 </div>
                             </>

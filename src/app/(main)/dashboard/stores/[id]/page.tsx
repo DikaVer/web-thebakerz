@@ -2,7 +2,6 @@
 import React, {Suspense} from "react";
 
 import StoreSkeleton from "@/components/skeletons";
-import StoreTransit from "@/components/store-transit";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import {getCurrentSession} from "@/lib/actions/session";
 
@@ -24,14 +23,7 @@ export default async function Page(props: StorePageProps) {
     return (
         <ProductDialogProvider>
                 <Suspense fallback={<StoreSkeleton/>}>
-                    <StoreTransit
-                        id={params.id}
-                        userId={undefined}
-                        // @ts-ignore
-                        role={sessions?.user?.role}
-                        isDashboard={true}
-                        tab={searchParams?.tab}
-                    />
+
                 </Suspense>
         </ProductDialogProvider>
     );

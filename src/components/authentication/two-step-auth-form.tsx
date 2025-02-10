@@ -19,6 +19,9 @@ import Link from "next/link";
 import {loginAction, resendEmailVerificationCodeAction, verifyEmailAction} from "@/app/(auth)/auth/actions";
 import {EmailSchema, OTPSchema} from "@/lib/schemas";
 import {FormError} from "@/components/authentication/form-error";
+import {toast} from "sonner";
+import {Alert} from "@heroui/alert";
+import showErrorMessage from "@/components/toast/toast-error";
 
 
 
@@ -28,7 +31,6 @@ export default function TwoStepAuthForm() {
     const next = nextParams.get('next') as string;
 
     const inputRef = useRef(null);
-    const [error, setError] = useState<string>();
 
     useEffect(() => {
         // @ts-ignore
@@ -79,8 +81,9 @@ export default function TwoStepAuthForm() {
                 setPage(1);
                 setDirection(1);
                 formOTP.setValue("email", formData.email);
+            } else {
+                showErrorMessage({error: state?.message})
             }
-            setError(state?.message);
         },
         null,
     );
@@ -92,9 +95,10 @@ export default function TwoStepAuthForm() {
             if (state === null) {
                 router.push(`${next ? next : "/"}`);
                 router.refresh();
+            } else {
+                showErrorMessage({error: state?.message})
             }
 
-            setError(state?.message);
         },
         null,
     );
@@ -153,19 +157,6 @@ export default function TwoStepAuthForm() {
 
     return (
         <div className={`grid gap-6 w-full justify-center`}>
-            {/* Header */}
-            {/*<div className="flex flex-col text-left gap-2 mb-4">*/}
-            {/*    {page === 0 && (*/}
-            {/*        <p className="text-lg lg:text-xl font-bold text-grayText">*/}
-            {/*            Enter your email to receive an OTP.*/}
-            {/*        </p>*/}
-            {/*    )}*/}
-            {/*    {page === 1 && (*/}
-            {/*        <p className="text-lg lg:text-xl font-bold text-grayText">*/}
-            {/*            Enter the OTP sent to <span className="font-semibold">{email}</span>*/}
-            {/*        </p>*/}
-            {/*    )}*/}
-            {/*</div>*/}
 
             <LazyMotion features={domAnimation}>
                 <AnimatePresence custom={direction} initial={false} mode="wait">
@@ -201,16 +192,13 @@ export default function TwoStepAuthForm() {
                                                         type="email"
                                                         disabled={isPendingEmail}
                                                         validate={() => {
-                                                            setError(undefined);
                                                             return fieldState.error?.message;
                                                         }}
                                                     />
                                                 </FormControl>
-                                                {/*<FormMessage>{fieldState.error?.message}</FormMessage>*/}
                                             </FormItem>
                                         )}
                                     />
-                                    <FormError message={error || undefined}/>
                                     <Button
                                         fullWidth
                                         type="submit"
@@ -234,21 +222,7 @@ export default function TwoStepAuthForm() {
                                             render={({field, fieldState}) => (
                                                 <FormItem>
                                                     <FormControl>
-                                                        {/*<Input*/}
-                                                        {/*    {...field}*/}
-                                                        {/*    isRequired*/}
-                                                        {/*    label="OTP"*/}
-                                                        {/*    placeholder="Enter OTP"*/}
-                                                        {/*    type="text"*/}
-                                                        {/*    validate={() => {*/}
-                                                        {/*        return fieldState.error?.message;*/}
-                                                        {/*    }}*/}
-                                                        {/*/>*/}
                                                         <div>
-                                                            {/*<p className="text-lg lg:text-xl  font-bold text-grayText">*/}
-                                                            {/*    Enter the OTP sent to <span*/}
-                                                            {/*    className="font-semibold">{email}</span>*/}
-                                                            {/*</p>*/}
                                                             <InputOtp
                                                                 {...field}
                                                                 isRequired
@@ -279,7 +253,6 @@ export default function TwoStepAuthForm() {
                                                                 placeholder="Enter OTP"
                                                                 validate={() => {
 
-                                                                    setError(undefined);
                                                                     return fieldState.error?.message;
                                                                 }}
                                                                 description={`Enter the 6 digit code sent to ${email}`}
@@ -288,45 +261,9 @@ export default function TwoStepAuthForm() {
                                                         </div>
 
                                                     </FormControl>
-                                                    {/*<FormMessage>{fieldState.error?.message}</FormMessage>*/}
                                                 </FormItem>
                                             )}
                                         />
-                      {/*                  <div className="text-center">*/}
-                      {/*<span className="text-sm text-grayText">*/}
-                      {/*  Didn’t receive the code?{" "}*/}
-                      {/*</span>*/}
-                      {/*                      <Tooltip*/}
-                      {/*                          content={*/}
-                      {/*                              resendCooldown > 0*/}
-                      {/*                                  ? `Resend available in ${resendCooldown} seconds`*/}
-                      {/*                                  : "Click to resend"*/}
-                      {/*                          }*/}
-                      {/*                          delay={300}*/}
-                      {/*                      >*/}
-                      {/*                          <Button*/}
-                      {/*                              type="button"*/}
-                      {/*                              variant="link"*/}
-                      {/*                              disabled={resendCooldown > 0 || isResending}*/}
-                      {/*                              isLoading={isResending}*/}
-                      {/*                              onPress={handleResend}*/}
-                      {/*                          >*/}
-                      {/*                              Resend*/}
-                      {/*                          </Button>*/}
-                      {/*                      </Tooltip>*/}
-                      {/*                  </div>*/}
-
-                                        {/*{resendMessage && (*/}
-                                        {/*    <p*/}
-                                        {/*        className={`mt-2 text-center text-sm ${*/}
-                                        {/*            resendMessage.includes("new code")*/}
-                                        {/*                ? "text-green-500"*/}
-                                        {/*                : "text-red-500"*/}
-                                        {/*        }`}*/}
-                                        {/*    >*/}
-                                        {/*        {resendMessage}*/}
-                                        {/*    </p>*/}
-                                        {/*)}*/}
                                         <div className="flex justify-between">
                                             {/* Back button to return to the email page */}
 
@@ -340,7 +277,6 @@ export default function TwoStepAuthForm() {
 
                                                     onPress={() => {
                                                         formOTP.reset();
-                                                        setError(undefined);
                                                         setPage(0);
                                                         setDirection(-1);
                                                     }}

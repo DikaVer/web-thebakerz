@@ -1,13 +1,16 @@
 import {Button, Tooltip} from "@heroui/react";
 import React, {forwardRef, memo, useMemo} from "react";
-import {Icon} from "@iconify/react";
 import {cn} from "@heroui/react";
+import showSuccessMessage from "@/components/toast/toast-succes";
 
 export interface CopyTextProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   textClassName?: string;
-  copyText?: string;
-  children: string;
+  copyText: string;
+  textNotify: string;
+  children: React.ReactNode;
+  startContent?: React.ReactNode;
+  endContent?: React.ReactNode;
 }
 
 export const CopyText = memo(
@@ -25,8 +28,10 @@ export const CopyText = memo(
 
     const handleClick = () => {
       onClearTimeout();
-      navigator.clipboard.writeText(children);
+      navigator.clipboard.writeText(copyText);
       setCopied(true);
+
+      showSuccessMessage({success: props.textNotify});
 
       setCopyTimeout(
         setTimeout(() => {
@@ -35,22 +40,20 @@ export const CopyText = memo(
       );
     };
 
-    const content = useMemo(() => (copied ? "Copied" : copyText), [copied, copyText]);
+    const content = useMemo(() => (copied ? "Copied" : "Copy"), [copied, copyText]);
 
     return (
-      <div ref={forwardedRef} className={cn("flex items-center gap-3 text-default-500", className)}>
-        <span className={textClassName}>{children}</span>
+      <div ref={forwardedRef} className={cn("flex items-center gap-3 ", className)}>
         <Tooltip className="text-foreground" content={content}>
-          <Button
-            isIconOnly
-            className="h-7 w-7 min-w-7 text-default-400"
-            size="sm"
-            variant="light"
-            onPress={handleClick}
-          >
-            {!copied && <Icon className="h-[14px] w-[14px]" icon="solar:copy-linear" />}
-            {copied && <Icon className="h-[14px] w-[14px]" icon="solar:check-read-linear" />}
-          </Button>
+            <Button
+                className={'mt-2 hover:bg-background justify-start '}
+                variant="light"
+                startContent={props.startContent}
+                endContent={props.endContent}
+                onPress={handleClick}
+            >
+                {children}
+            </Button>
         </Tooltip>
       </div>
     );
