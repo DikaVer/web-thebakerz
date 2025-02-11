@@ -5,13 +5,24 @@ import dynamic from 'next/dynamic'
 import {CookieConsentProvider} from "@/components/CookieConsentContext";
 import {useRouter} from "next/navigation";
 import {SessionProvider} from "@/components/providers/session-provider";
-import {Session, SessionValidationResult} from "@/lib/actions/session";
+import {SessionValidationResult} from "@/lib/actions/session";
 const NextThemesProvider = dynamic(
     () => import('next-themes').then((e) => e.ThemeProvider),
     {
         ssr: false,
     }
 )
+
+import {GregorianCalendar} from '@internationalized/date';
+
+function createCalendar(identifier: any) {
+    switch (identifier) {
+        case 'gregory':
+            return new GregorianCalendar();
+        default:
+            throw new Error(`Unsupported calendar ${identifier}`);
+    }
+}
 
 declare module "@react-types/shared" {
     interface RouterConfig {
@@ -28,7 +39,9 @@ export function Providers({session, children}: {
 
     return (
             <HeroUIProvider
+                locale="nl-NL"
                 navigate={router.push}
+                createCalendar={createCalendar}
             >
                 <NextThemesProvider attribute="class" defaultTheme="light">
                     <SessionProvider sessionData={session}>

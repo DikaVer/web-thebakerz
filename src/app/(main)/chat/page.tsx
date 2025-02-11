@@ -1,6 +1,9 @@
+'use client';
 import {UnderConstruction} from "@/app/(error_layout)/not-found";
+import React from "react";
+import {DatePicker} from "@heroui/date-picker";
 
-export default async function Page() {
+export default function Page() {
 
     return UnderConstruction();
 }

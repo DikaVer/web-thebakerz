@@ -12,6 +12,7 @@ export default function Page() {
     const router = useRouter();
 
     useEffect(() => {
+        // set up a  delay to simulate a real login
         router.push(next ? next : "/");
         router.refresh();
     }, [next, router]); // Added 'next' and 'router' as dependencies

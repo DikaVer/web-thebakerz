@@ -2,18 +2,15 @@
 
 import React, {useState} from "react";
 import {useStore} from "@/components/providers/store-provider";
-import {Avatar} from "@heroui/avatar";
 import {useIsMobile} from "@/lib/hooks/use-mobile";
 import {Button,  Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spacer} from "@heroui/react";
-import {IconCopy, IconDots, IconLocation, IconPhone, IconSupport} from "@/components/ui/icons";
+import {IconCopy, IconDots} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
-import {CopyText} from "@/components/table/copy-text";
 
 import {useSession} from "@/components/providers/session-provider";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import {DatePicker} from "@heroui/date-picker";
 import {formatDateTime} from "@/lib/utils";
-import {getLocalTimeZone, now, today} from "@internationalized/date";
 import {Icon} from "@iconify/react";
 import {useRouter} from "next/navigation";
 
@@ -40,14 +37,9 @@ export function StoreSubHeader() {
             <Spacer y={10}/>
             <div className={'flex flex-row w-full items-center max-w-[440px] md:max-w-[540px]'}>
                 <DatePicker
-                    CalendarTopContent={
-                    null
-                    }
                     hideTimeZone
                     showMonthAndYearPickers
-                    minValue={now(getLocalTimeZone())}
-                    //@ts-ignore
-                    defaultValue={now(getLocalTimeZone())}
+
                     label="Schedule Order"
                     variant="bordered"
                     className={'w-full'}

@@ -95,22 +95,26 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
             <div className="flex flex-row">
                 <TimeInput
                     isDisabled={!isEnabled}
+                    // @ts-ignore
                     defaultValue={startTime}
                     label="Start Time"
                     classNames={{ inputWrapper: 'rounded-r-none shadow-none' }}
                     isInvalid={isInvalid}
                     labelPlacement="inside"
                     errorMessage="Start time must be before end time"
+                    // @ts-ignore
                     onChange={handleStartChange}
                 />
                 <TimeInput
                     isDisabled={!isEnabled}
+                    // @ts-ignore
                     defaultValue={endTime}
                     isInvalid={isInvalid}
                     label="End Time"
                     classNames={{ inputWrapper: 'rounded-none shadow-none' }}
                     labelPlacement="inside"
                     errorMessage="End time must be after start time"
+                    // @ts-ignore
                     onChange={handleEndChange}
                 />
                 <Switch
@@ -166,7 +170,7 @@ export const WorkingHoursComp: React.FC = () => {
 
     const handleSave = async () => {
         setIsLoading(true);
-        console.log('Saving working hours:', workingHours);
+        // console.log('Saving working hours:', workingHours);
         try {
             const res = await fetch('/api/updateSchedule', {
                 method: 'POST',
@@ -175,7 +179,7 @@ export const WorkingHoursComp: React.FC = () => {
                     workHours: workingHours,
                 }),
             });
-            console.log(res);
+            // console.log(res);
             if (!res.ok) {
                 if (res.status === 500) {
                     showErrorMessage({ error: 'Something went wrong!' });

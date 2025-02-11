@@ -83,10 +83,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                     body: formData,
                 });
 
-
-
-
-                console.log(response);
+                // console.log(response);
 
                 // Check if the response is ok
                 if (!response.ok) {

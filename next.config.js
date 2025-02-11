@@ -1,5 +1,4 @@
-// next.config.js
-const optimizeLocales = require('@react-aria/optimize-locales-plugin');
+
 
 /** @type {import('next').NextConfig} */
 module.exports = {
@@ -57,13 +56,6 @@ module.exports = {
             crypto: false,
             tls: false,
         };
-
-
-        config.plugins.push(
-            optimizeLocales.webpack({
-                locales: ['en-UK']
-            })
-        );
 
 
         // Ensure no aliases or modifications are breaking module resolution

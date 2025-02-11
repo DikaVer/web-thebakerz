@@ -28,6 +28,7 @@ export const DayHoursComp: React.FC<DayHoursProps> = () => {
                     <p className="mt-1 text-sm font-normal text-default-400">Edit one day only</p>
                 </div>
                 <DatePicker
+                    // @ts-ignore
                     minValue={today(getLocalTimeZone())}
                     className="max-w-[150px]"
                     label="Stay duration"
