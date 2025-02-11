@@ -110,7 +110,9 @@ export async function validateSessionToken(
 
         await getScheduleById(store.id, store.id)
             .then((item) => {
-                schedule = item.schedule;
+                if(item?.schedule){
+                    schedule = item.schedule;
+                }
             })
             .catch((error) => console.error("Error reading item:", error));
 
