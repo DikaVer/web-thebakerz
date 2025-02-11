@@ -28,6 +28,8 @@ export default async function RootLayout({
 
     const session = await getCurrentSession();
 
+    console.log(session);
+
     return (
         <html lang="en">
 

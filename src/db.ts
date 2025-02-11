@@ -15,11 +15,24 @@ export const connectionPool = new Pool({
     connectionTimeoutMillis: 2000,
 });
 
+
 import { BlobServiceClient } from "@azure/storage-blob";
 
-export const blobClient = BlobServiceClient.fromConnectionString(
+const blobClient = BlobServiceClient.fromConnectionString(
     process.env.NEXT_PRIVATE_AZURE_STORAGE_CONNECTION_STRING as string
 );
 
 export const containerClientAvatar = blobClient.getContainerClient("avatars");
+
+
+import { CosmosClient } from "@azure/cosmos";
+
+const cosmosClient = new CosmosClient({
+    endpoint: process.env.NEXT_PRIVATE_COSMOS_DB_URI!,
+    key: process.env.NEXT_PRIVATE_COSMOS_DB_KEY!,
+});
+
+export const databaseSchedule = cosmosClient.database("StoreScheduleDB");
+export const containerWorkingHours = databaseSchedule.container("WorkingHours");
+
 

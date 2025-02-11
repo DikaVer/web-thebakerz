@@ -8,6 +8,8 @@ RUN corepack enable && corepack prepare pnpm@8.7.0 --activate
 # --- Define build arguments with default (dummy) values ---
 # These defaults are used during the build so that Next.js does not fail when it
 # attempts to parse environment variables that it expects to be valid URLs, etc.
+ARG NEXT_PRIVATE_COSMOS_DB_KEY_ARG="dummy-cosmos-db-key"
+ARG NEXT_PRIVATE_COSMOS_DB_URI_ARG="https://dummy-cosmos-db-uri"
 ARG NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT_ARG="https://dummy.azurecommendpoint"
 ARG NEXT_PRIVATE_AZURE_STORAGE_CONNECTION_STRING_ARG="DefaultEndpointsProtocol=https;AccountName=dummy;AccountKey=dummy;EndpointSuffix=core.windows.net"
 ARG CONTAINER_NAME_AVATARS_ARG="dummy-container"
@@ -37,7 +39,9 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Set environment variables for the build stage using the build args.
-ENV NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT=${NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT_ARG} \
+ENV NEXT_PRIVATE_COSMOS_DB_KEY=${NEXT_PRIVATE_COSMOS_DB_KEY_ARG} \
+    NEXT_PRIVATE_COSMOS_DB_URI=${NEXT_PRIVATE_COSMOS_DB_URI_ARG} \
+    NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT=${NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT_ARG} \
     NEXT_PRIVATE_AZURE_STORAGE_CONNECTION_STRING=${NEXT_PRIVATE_AZURE_STORAGE_CONNECTION_STRING_ARG} \
     NEXT_PRIVATE_DATABASE_HOST=${NEXT_PRIVATE_DATABASE_HOST_ARG} \
     NEXT_PRIVATE_DATABASE_NAME=${NEXT_PRIVATE_DATABASE_NAME_ARG} \

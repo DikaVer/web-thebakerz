@@ -39,14 +39,14 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
         // to get the owner's name and picture.
         const storeResult = await connectionPool.query(
             `SELECT s.id,
-                    s.nickname,
-                    s.description,
-                    s.phone,
-                    u.image AS picture,
-                    u.name AS "ownerName"
+            s.nickname,
+            s.description,
+            s.phone,
+            u.image AS picture,
+            u.name AS "ownerName"
              FROM stores s
              JOIN users u ON s.user_id = u.id
-             WHERE (s.nickname = $1 OR s.id = $1)
+             WHERE (LOWER(s.nickname) = LOWER($1) OR s.id = $1)
                AND s.deleted = false`,
             [id]
         );

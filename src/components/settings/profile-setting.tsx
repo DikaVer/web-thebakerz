@@ -1,13 +1,11 @@
 'use client';
 
-import React, {startTransition, useEffect, useState} from "react";
+import React, {startTransition, useState} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {Card, CardBody, Input, Textarea, Button, cn, Avatar, Spacer, Link} from "@heroui/react";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { FormError } from "@/components/authentication/form-error";
-import SuccessRedirect from "@/components/redirect-page";
 import { useActionState } from "react";
 import { updateProfile} from "@/lib/actions/profile-actions";
 import { Icon } from "@iconify/react";
@@ -17,7 +15,7 @@ import { ProfileSchema } from "@/lib/schemas";
 import { User} from "@/lib/actions/user";
 import {Badge} from "@heroui/badge";
 import {useTheme} from "next-themes";
-import {IconLocation, IconPhone, IconSuccess} from "@/components/ui/icons";
+import {IconLocation, IconPhone} from "@/components/ui/icons";
 import {toast} from "sonner";
 import {Alert} from "@heroui/alert";
 import {AvatarImageUploader} from "@/components/image/avatar-upload";
@@ -97,7 +95,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
 
                         if (prevSession.user) {
                             return {
-                                session: prevSession.session,
+                                ...prevSession,
                                 user: {
                                             ...prevSession.user,
                                             username: formData.name

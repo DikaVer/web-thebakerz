@@ -10,6 +10,7 @@ import { cache } from "react";
 import type {User} from "./user";
 import {connectionPool} from "@/db";
 import {StoreData} from "@/lib/actions/store/store";
+import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
 
 export async function validateSessionToken(
     token: string
@@ -41,7 +42,7 @@ export async function validateSessionToken(
 
     // If no matching session is found, return null for both session and user.
     if (result.rows.length === 0) {
-        return {session: null, user: null, store: null};
+        return {session: null, user: null, store: null, schedule: null};
     }
 
     const row = result.rows[0];
@@ -87,6 +88,7 @@ export async function validateSessionToken(
     const rowS = storeResult.rows[0];
 
     let store: StoreData | null = null;
+    let schedule: WorkHours | null = null;
 
     // Build the store object.
     if (rowS){
@@ -104,6 +106,14 @@ export async function validateSessionToken(
                 longitude: rowS.store_longitude
             }
         };
+
+
+        await getScheduleById(store.id, store.id)
+            .then((item) => {
+                schedule = item.schedule;
+            })
+            .catch((error) => console.error("Error reading item:", error));
+
     }
 
     // If the session has expired, delete it from the database and return null.
@@ -112,7 +122,7 @@ export async function validateSessionToken(
             `DELETE FROM sessions WHERE id = $1`,
             [session.id]
         );
-        return { session: null, user: null, store: null };
+        return { session: null, user: null, store: null, schedule: null };
     }
 
     // If the session is nearing expiry (within 15 days), extend it by 30 days from now.
@@ -126,7 +136,7 @@ export async function validateSessionToken(
 
 
 
-    return { session, user, store };
+    return { session, user, store, schedule };
 }
 
 // Wrap getCurrentSession with React's cache. Note that since cookies() is now async,
@@ -135,7 +145,7 @@ export const getCurrentSession = cache(async (): Promise<SessionValidationResult
     const cookieStore = await cookies();
     const token = cookieStore.get("session")?.value ?? null;
     if (token === null) {
-        return { session: null, user: null, store: null };
+        return { session: null, user: null, store: null, schedule: null };
     }
     return await validateSessionToken(token);
 });
@@ -239,5 +249,5 @@ export interface Session {
 
 
 export type SessionValidationResult =
-    | { session: Session; user: User; store: StoreData | null }
-    | { session: null; user: null; store: null };
+    | { session: Session; user: User; store: StoreData | null; schedule: WorkHours | null }
+    | { session: null; user: null; store: null; schedule: null };

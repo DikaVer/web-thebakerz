@@ -71,10 +71,10 @@ export default function NavbarComponent({store, isMobile, setIsCollapsed, onOpen
                     {/* Logo */}
                     <NavbarBrand className=" w-[40rem]  max-w-fit">
                         <a
-                            className={`font-medium ${!isCollapsed && !isMobile && "hidden"} text-2xl ${pacifico.className}`}
+                            className={`font-medium text-2xl ${pacifico.className}`}
                             href={"/"}
                         >
-                            {store?.storeName || "TheBakerz"}
+                            {store?.ownerName || "TheBakerz"}
                         </a>
                     </NavbarBrand>
 

@@ -1,11 +1,8 @@
 // next.config.js
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const optimizeLocales = require('@react-aria/optimize-locales-plugin');
 
 /** @type {import('next').NextConfig} */
 module.exports = {
-    plugins: [
-        new BundleAnalyzerPlugin()
-    ],
     // cacheHandler: require.resolve("./cache-handler.mjs"),
     experimental: {
         turbo: {
@@ -60,6 +57,14 @@ module.exports = {
             crypto: false,
             tls: false,
         };
+
+
+        config.plugins.push(
+            optimizeLocales.webpack({
+                locales: ['en-UK']
+            })
+        );
+
 
         // Ensure no aliases or modifications are breaking module resolution
         return config;

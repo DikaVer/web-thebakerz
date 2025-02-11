@@ -12,7 +12,7 @@ import {SignOutButton} from "@/components/ui/signout-button";
 import {
     sectionItemsAdmin,
     sectionItemsBakerz, sectionItemsGuestStore,
-    sectionItemsGuestTheBakerz,
+    sectionItemsGuestTheBakerz, sectionItemsTheBakerz,
     sectionItemsUser, sectionStoreItemsUser
 } from "@/components/sidebar/sidebar-items";
 import {useTheme} from "next-themes";
@@ -67,38 +67,29 @@ export default function SidebarMenu({store, isOpen, onOpenChange, isCollapsed}: 
                     href={store ? `/${store.storeName}` : "/"}
                 >
                     {store ? (
-                            <Avatar
-                                isBordered
-                                showFallback={!!store.picture}
-                                size={isCollapsed ? "md" : "lg"}
-                                name={store.ownerName}
-                                src={store.picture}
-                                color={'primary'}
-                                classNames={{
-                                    base: `bg-default text-text shadow-lg ${!isCollapsed  && "w-28"}`,
-                                }}
-
-                            />
-                        ) : (
+                        <></>
+                    ) : (
+                        <>
                             <Image
                                 src={`/images/TheBakerzLogo.svg`}
                                 alt="Logo"
                                 width={isCollapsed ? 48 : 64}
                                 height={64}
                             />
-                        )
-                    }
-                    <span
-                        className={cn(
-                            "block w-[300px] text-3xl opacity-100 " +
-                            pacifico.className +
-                            " truncate",
-                            { "w-0 opacity-0": isCollapsed }
-                        )}
+                            <span
+                                className={cn(
+                                    "block w-[300px] text-3xl opacity-100 " +
+                                    pacifico.className +
+                                    " truncate",
+                                    {"w-0 opacity-0": isCollapsed}
+                                )}
 
-                    >
-                        {store?.storeName || "TheBakerz"}
-                    </span>
+                            >
+                                {"TheBakerz"}
+                            </span>
+                        </>
+                    )
+                    }
 
                 </a>
 
@@ -174,7 +165,7 @@ export default function SidebarMenu({store, isOpen, onOpenChange, isCollapsed}: 
                         >
                             {isCollapsed ? (
                                 <Icon
-                                    className="text-text-grayText"
+                                    className="text-grayText"
                                     icon="solar:info-circle-line-duotone"
                                     width={24}
                                 />
@@ -216,7 +207,33 @@ const getItemsByRole = (session: SessionValidationResult, store: boolean) => {
                 return sectionItemsUser;
             }
         case 'bakerz':
-            return sectionItemsBakerz;
+            return [
+                {
+                    key: "account",
+                    title: "Account",
+                    items: [
+                        {
+                            key: "orders",
+                            href: `/${session.store?.storeName}/orders`,
+                            title: "Orders",
+                            icon: "solar:notification-unread-lines-broken",
+                        },
+                        {
+                            key: "store",
+                            href: `/${session.store?.storeName}`,
+                            icon: "solar:shop-broken",
+                            title: `${session.user.username}`,
+                        },
+                        {
+                            key: "payments",
+                            href: `/${session.store?.storeName}/payments`,
+                            icon: "solar:wallet-money-broken",
+                            title: "Payments",
+                        },
+                    ],
+                },
+                ...sectionItemsTheBakerz
+                ];
         default:
             return sectionItemsGuestTheBakerz;
     }
@@ -271,12 +288,13 @@ const GuestMenu: React.FC<GuestMenuProps> = ({isCollapsed}) => {
                 href={`/auth?next=${pathname}`}
             >
                 <Avatar
-                    icon={<AvatarIcon/>}
+                    icon={<AvatarIcon
+                    />}
                     isBordered
                     size="sm"
                     classNames={{
-                        base: "bg-gradient-to-br from-primary to-secondary",
-                        icon: "text-black/80",
+                        base: "",
+                        icon: "text-default-700",
                     }}
                 />
                 <div className={cn("flex max-w-full flex-col", {hidden: isCollapsed})}>

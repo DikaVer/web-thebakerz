@@ -17,7 +17,7 @@ interface LayoutCompProps {
 
 export default function LayoutComp({ children, store }: LayoutCompProps) {
     const { isOpen, onOpenChange } = useDisclosure();
-    const [isCollapsed, setIsCollapsed] = React.useState(false);
+    const [isCollapsed, setIsCollapsed] = React.useState(true);
     const isMobile = useMediaQuery("(max-width: 768px)");
 
     useEffect(() => {

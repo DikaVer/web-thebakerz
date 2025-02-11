@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from 'clsx'
 import { customAlphabet } from 'nanoid'
 import { twMerge } from 'tailwind-merge'
 import {AddressDataStoreField} from "@/lib/definitions";
+import {Day, Time} from "@/lib/actions/calendar-actions";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -10,6 +11,11 @@ export function cn(...inputs: ClassValue[]) {
 export function createNanoid(length: number) {
   const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', length)
   return nanoid();
+}
+
+//Calendar
+export const createISOString = (day: Day, time: Time): string => {
+    return `${day.year}-${String(day.month).padStart(2, '0')}-${String(day.day).padStart(2, '0')}T${String(time.hour).padStart(2, '0')}:${String(time.minute).padStart(2, '0')}:00`;
 }
 
 

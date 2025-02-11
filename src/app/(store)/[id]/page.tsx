@@ -2,6 +2,8 @@
 import React from "react";
 import {StoreHeader} from "@/components/store/store-header/store-header";
 import {FirstView} from "@/components/landing/first-view";
+import {StoreSubHeader} from "@/components/store/store-header/store-subheader";
+import {Spacer} from "@heroui/react";
 
 
 interface StorePageProps {
@@ -23,7 +25,7 @@ export default async function Page(props: StorePageProps) {
         <div className="flex flex-col min-h-screen relative z-10 items-center">
             <div className="flex flex-col container mx-auto items-center justify-center">
                 <StoreHeader/>
-
+                <StoreSubHeader/>
                 {/*<Suspense fallback={<StoreSkeleton/>}>*/}
                 {/*    <>*/}
                 {/*    </>*/}

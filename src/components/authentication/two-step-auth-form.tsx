@@ -93,7 +93,7 @@ export default function TwoStepAuthForm() {
             const state = await verifyEmailAction(previousState, formData);
 
             if (state === null) {
-                router.push(`${next ? next : "/"}`);
+                router.push(`/transit-login?next=${next ? next : "/"}`);
                 router.refresh();
             } else {
                 showErrorMessage({error: state?.message})

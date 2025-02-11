@@ -11,7 +11,6 @@ import {z} from "zod";
 import { userEditSchema} from "@/lib/schemas";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Button} from "@/components/ui/button";
-import {AvatarUploader} from "@/components/upload-avatar";
 import {Form, FormControl, FormField, FormItem} from "@/components/ui/form";
 import {NameChangeDialog} from "@/components/dashboard/user/name-change";
 import {
@@ -199,15 +198,7 @@ export default function UserViewDashboard({userDataProps}: { userDataProps: User
                                 <FormItem>
                                     <FormControl>
                                         <>
-                                            {isAvatarDialogOpen &&
-                                                <AvatarUploader
-                                                    form={form}
-                                                    field={field}
-                                                    name={"image"}
-                                                    isDialogOpen={isAvatarDialogOpen}
-                                                    setDialogOpen={setAvatarDialogOpen}
-                                                    setGlobalData={setDataAvatar}
-                                                />}
+
                                         </>
                                     </FormControl>
                                 </FormItem>

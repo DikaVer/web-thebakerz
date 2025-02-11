@@ -1,14 +1,13 @@
 import React, {useEffect, useMemo, useState} from "react";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
-import {ImageUploader} from "@/components/upload-image";
+
 import {FormError} from "@/components/authentication/form-error";
 import {Button} from "@/components/ui/button";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {storeEditSchema} from "@/lib/schemas";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {AvatarUploader} from "@/components/upload-avatar";
 import {StoreData} from "@/lib/definitions";
 import Image from "next/image";
 import {
@@ -370,17 +369,7 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                 </FormLabel>
                                 <FormControl>
                                     <>
-                                        {
-                                            isAvatarDialogOpen &&
-                                                <AvatarUploader
-                                                    form={form}
-                                                    field={field}
-                                                    name={"image"}
-                                                    isDialogOpen={isAvatarDialogOpen}
-                                                    setDialogOpen={setAvatarDialogOpen}
-                                                    setGlobalData={setDataAvatar}
-                                                />
-                                        }
+
                                         {
                                             dataAvatar.image &&
                                                 <Image
@@ -502,14 +491,8 @@ export default function StoreViewDashboard({ id, user_id, name, image, backgroun
                                     Background Image
                                 </FormLabel>
                                 <FormControl>
-                                    <ImageUploader
-                                        form={form}
-                                        field={field}
-                                        name={"background"}
-                                        setError={setError}
-                                        data={dataBackground}
-                                        setData={setDataBackground}
-                                    />
+                                    <>
+                                    </>
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>

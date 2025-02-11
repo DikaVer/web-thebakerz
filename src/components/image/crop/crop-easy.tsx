@@ -59,12 +59,11 @@ const CropEasy: React.FC<CropEasyProps> = ({
 
                         if (prevSession.user) {
                             return {
-                                session: prevSession.session,
+                                ...prevSession,
                                 user: {
                                     ...prevSession.user,
                                     picture: typeof localPreview === "string" ? localPreview : "",
                                 } as User,
-                                store: prevSession.store
                             }
                         }
 

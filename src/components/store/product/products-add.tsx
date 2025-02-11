@@ -27,7 +27,6 @@ import {ScrollArea} from "@/components/ui/scroll-area";
 import {toast} from "sonner";
 import {FormError} from "@/components/authentication/form-error";
 import {ProductDataField, StoreData} from "@/lib/definitions";
-import {ProductImageUploader} from "@/components/upload-product-image";
 import Image from "next/image";
 
 interface ProductsEditProps {
@@ -274,17 +273,7 @@ export default function ProductsAdd({ storeId, isDialogOpen, isPending, setPendi
                                                             className="block text-sm font-medium text-gray-700">
                                                             Image
                                                         </FormLabel>
-                                                        {
-                                                            isDialogImageOpen &&
-                                                            <ProductImageUploader
-                                                                form={form}
-                                                                field={field}
-                                                                name={"image"}
-                                                                isDialogOpen={isDialogImageOpen}
-                                                                setDialogOpen={setDialogImageOpen}
-                                                                setGlobalData={setDataBackground}
-                                                            />
-                                                        }
+                                                        <></>
                                                         <FormControl>
                                                             <>
                                                                 {dataBackground.image && (

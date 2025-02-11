@@ -52,9 +52,7 @@ export const sectionStoreItemsUser: SidebarItem[] = [
     }
 ];
 
-
-export const sectionItemsUser: SidebarItem[] = [
-    ...sectionStoreItemsUser,
+export const sectionItemsTheBakerz: SidebarItem[] = [
     {
         key: "navigation",
         title: "Navigation",
@@ -82,8 +80,62 @@ export const sectionItemsUser: SidebarItem[] = [
 ];
 
 
+export const sectionItemsUser: SidebarItem[] = [
+    ...sectionStoreItemsUser,
+    ...sectionItemsTheBakerz
+];
+
+
 
 export const sectionItemsBakerz: SidebarItem[] = [
+    {
+        key: "account",
+        title: "Account",
+        items: [
+            {
+                key: "orders",
+                href: "/orders",
+                title: "Orders",
+                icon: "solar:notification-unread-lines-broken",
+            },
+            {
+                key: "favorites",
+                href: "/favorites",
+                icon: "solar:shop-broken",
+                title: "Your Store",
+            },
+            {
+                key: "payments",
+                href: "/payments",
+                icon: "solar:wallet-money-broken",
+                title: "Payments",
+            },
+        ],
+    },
+    {
+        key: "navigation",
+        title: "Navigation",
+        items: [
+            {
+                key: "",
+                href: "/",
+                icon: "solar:home-2-linear",
+                title: "TheBakerz",
+            },
+            {
+                key: "about-us",
+                href: "/about-us",
+                icon: "solar:users-group-two-rounded-outline",
+                title: "About TheBakerz",
+            },
+            {
+                key: "#join-thebakerz",
+                href: "/#join-thebakerz",
+                title: "Join TheBakerz",
+                icon: "solar:chef-hat-heart-broken",
+            }
+        ],
+    },
 
 ];
 
