@@ -164,8 +164,11 @@ const RowSteps = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                   ref={ref}
                   aria-current={status === "active" ? "step" : undefined}
                   className={cn(
-                    "group flex w-full cursor-pointer flex-row items-center justify-center gap-x-3 rounded-large py-2.5",
+                    "group flex w-full cursor-pointer flex-col items-center justify-center gap-x-3 gap-y-2 rounded-large py-2.5 text-center",
                     stepClassName,
+                      {
+                        "mt-4": stepIdx > 0,
+                      }
                   )}
                   onClick={() => setCurrentStep(stepIdx)}
                   {...props}
@@ -213,10 +216,10 @@ const RowSteps = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                   <div className="max-w-full flex-1 text-start">
                     <div
                       className={cn(
-                        "text-small font-medium text-default-foreground transition-[color,opacity] duration-300 group-active:opacity-80 lg:text-medium",
+                        "text-small font-medium text-default-foreground transition-[color,opacity] duration-300 group-active:opacity-80 lg:text-medium text-center",
                         {
                           "text-default-500": status === "inactive",
-                        },
+                        }
                       )}
                     >
                       {step.title}

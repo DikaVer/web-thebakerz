@@ -67,12 +67,13 @@ const MultiStepSidebar = React.forwardRef<HTMLDivElement, MultiStepSidebarProps>
               <RowSteps
                 className={cn("pl-6 w-full ", stepperClasses)}
                 currentStep={currentPage}
+
                 steps={[
                   {
                     title: "Apply",
                   },
                   {
-                    title: "We Set Up Store",
+                    title: "Set Up Store",
                   },
                   {
                     title: "Start Selling",

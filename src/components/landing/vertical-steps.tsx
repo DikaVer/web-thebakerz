@@ -214,7 +214,7 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
                         </div>
                       </LazyMotion>
                     </div>
-                    <div className="flex-1 text-left">
+                    <div className="flex flex-col text-left">
                       <div>
                         <div
                           className={cn(
