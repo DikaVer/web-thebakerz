@@ -184,8 +184,8 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                         className={'grid gap-y-1'}
                     >
                         <div>
-                            <p className="text-base font-medium text-default-700">Name</p>
-                            <p className="mt-1 text-sm font-normal text-default-400">Edit your current name</p>
+                            <p className="text-base font-medium text-default-700">{store && '${store.storeName} '} Name</p>
+                            <p className="mt-1 text-sm font-normal text-default-400">Edit your current {store && '${store.storeName}'} Name</p>
                             <FormField
                                 control={form.control}
                                 name="name"
@@ -212,8 +212,8 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                         {user.role === "bakerz" && (
                             <>
                                 <div>
-                                    <p className="text-base font-medium text-default-700">Store Name</p>
-                                    <p className="mt-1 text-sm font-normal text-default-400">Edit your current store name</p>
+                                    <p className="text-base font-medium text-default-700">Store Link</p>
+                                    <p className="mt-1 text-sm font-normal text-default-400">How user can find you</p>
                                     <FormField
                                         control={form.control}
                                         name="storeName"
