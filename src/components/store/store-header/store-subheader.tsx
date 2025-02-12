@@ -1,200 +1,143 @@
 "use client";
 
-import React, {useState} from "react";
-import {useStore} from "@/components/providers/store-provider";
-import {useIsMobile} from "@/lib/hooks/use-mobile";
-import {Button,  Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spacer} from "@heroui/react";
-import {IconCopy, IconDots} from "@/components/ui/icons";
-import {useTheme} from "next-themes";
+import React, { useState } from "react";
+import { useStore } from "@/components/providers/store-provider";
+import { useIsMobile } from "@/lib/hooks/use-mobile";
+import {
+    Button, CalendarDate, Card, CardBody, Divider,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownTrigger,
+    Spacer
+} from "@heroui/react";
+import { useTheme } from "next-themes";
+import { useSession } from "@/components/providers/session-provider";
+import { DatePicker } from "@heroui/date-picker";
+import { Icon } from "@iconify/react";
+import {useRouter, useSearchParams} from "next/navigation";
+import {CalendarDateTime} from "@internationalized/date";
+import {WorkDay} from "@/lib/actions/calendar-actions";
+import {updateOrderTime} from "@/app/(store)/[id]/actions";
+import ThreeDotsDropdown from "@/components/store/store-header/subheader/three-dots";
+import {renderCalendarTopContent} from "@/components/store/store-header/subheader/working-hours";
 
-import {useSession} from "@/components/providers/session-provider";
-import showSuccessMessage from "@/components/toast/toast-succes";
-import {DatePicker} from "@heroui/date-picker";
-import {formatDateTime} from "@/lib/utils";
-import {Icon} from "@iconify/react";
-import {useRouter} from "next/navigation";
+
+// --- Function to parse a date to numeric date and time strings ---
+export function parseDateTime(
+    dateValue: CalendarDateTime | undefined
+): { date: string | null; time: string | null } {
+
+    if (!dateValue) {
+        return {
+            date: null,
+            time: null
+        };
+    }
+
+    return {
+        date: `${dateValue.year}-${dateValue.month}-${dateValue.day}`,
+        time: `${dateValue.hour}:${dateValue.minute}`
+    };
+}
+
+export function parseDateParams(
+    dateValue: string
+): CalendarDateTime | undefined {
+    console.log(dateValue);
+    const [date, time] = dateValue.split(" ");
+    const [year, month, day] = date.split("-").map(Number);
+    const [hour, minute] = time.split(":").map(Number);
+    console.log(year, month, day, hour, minute);
+
+    if (!year || !month || !day || !hour || !minute) {
+        return undefined;
+    }
+
+    return new CalendarDateTime(year, month, day, hour, minute);
+}
+
+interface StoreSubHeaderProps {
+    dateParam: string | null;
+    timeParam: string | null;
+}
 
 
-
-export function StoreSubHeader() {
-
-    const { session} = useSession();
-    const { user } = session
-    const isMobile  = useIsMobile();
-    const { store } = useStore();
-    const { theme } = useTheme();
-
-    const location = store?.location.route ? `${store.location.route}, ${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
-
-    const today = new Date();
-    const fromToday = formatDateTime(today);
-
+export function StoreSubHeader({ dateParam, timeParam }: StoreSubHeaderProps) {
+    const { session } = useSession();
     const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
+    const searchParams = useSearchParams();
+
+    // Get the current date using your internationalized-date library
+    const currentDate = parseDateParams(`${dateParam} ${timeParam}`);
+
+
+
+
+
+    // --- 2. onChange Handler for DatePicker: Save the date/time and update URL search params ---
+    const handleDateChange = (newDate: any) => {
+        const {date, time} = parseDateTime(newDate);
+        // Update the URL search parameters (make sure this runs on the client)
+        if (date && time) {
+            const newSearchParams = new URLSearchParams(searchParams.toString());
+            newSearchParams.set("date", date);
+            newSearchParams.set("time", time);
+            router.push(`?${newSearchParams.toString()}`);
+            updateOrderTime(date, time).then(() => {
+            });
+        }
+    };
+
 
     return (
-        <>
-            <Spacer y={10}/>
-            <div className={'flex flex-row w-full items-center max-w-[440px] md:max-w-[540px]'}>
-                <DatePicker
-                    hideTimeZone
-                    showMonthAndYearPickers
-
-                    label="Schedule Order"
-                    variant="bordered"
-                    className={'w-full'}
-                />
-                <Spacer x={2}/>
-                <div className={'flex flex-col items-start justify-start'}>
-                    <Dropdown
-                        className={'flex flex-row'}
-                        backdrop="blur">
-                        <DropdownTrigger>
-                            <Button
-                                isIconOnly
-                                size={'lg'}
-                                color={'default'}
-                                variant="light"
-                                isLoading={isLoading}
-
-                                className={' hover:bg-primary border-2 border-default-200 h-14 shadow-sm'}
-                            >
-                                {
-                                    !isLoading &&
-                                    <IconDots
-                                        size={44}
-                                        primaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                                    />
-                                }
-                            </Button>
-                            {/*<Button*/}
-                            {/*    className={'w-full'}*/}
-                            {/*>*/}
-                            {/*    */}
-                            {/*</Button>*/}
-                        </DropdownTrigger>
-                        <DropdownMenu aria-label="Static Actions" variant="faded">
-                            {user?.role === 'bakerz' ? (
-                                <>
-                                    <DropdownItem
-                                        key="link"
-                                        endContent={<IconCopy
-                                            size={24}
-                                            primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                            secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                                        />}
-                                        onPress={() => {
-                                            // Write text to clipboard take the original link of the page
-                                            navigator.clipboard.writeText(window.location.href);
-
-                                            showSuccessMessage({success: "Store Link Copied!"});
-                                        }}
-                                    >
-                                        Copy Store Link
-                                    </DropdownItem>
-                                    <DropdownItem
-                                        key="profile"
-                                        endContent={<Icon
-                                            className="text-default-500"
-                                            icon="solar:settings-broken"
-                                            width={24}
-                                        />}
-                                        onPress={() => {
-                                            setIsLoading(true);
-                                            router.push('/settings?tab=profile');
-                                            router.refresh();
-                                        }}
-                                    >
-                                        Edit Profile
-                                    </DropdownItem>
-                                    <DropdownItem
-                                        key="schedule"
-                                        endContent={<Icon
-                                            className="text-default-500"
-                                            icon="solar:calendar-broken"
-                                            width={24}
-                                        />}
-                                        onPress={() => {
-                                            setIsLoading(true);
-                                            router.push('/settings?tab=calendar');
-                                            router.refresh();
-                                        }}
-                                    >
-                                        Edit Schedule
-                                    </DropdownItem>
-                                    <DropdownItem
-                                        key="support"
-                                        endContent={<Icon
-                                            className="text-default-500"
-                                            icon="solar:info-circle-line-duotone"
-                                            width={24}
-                                        />}
-                                        onPress={() => {
-                                            setIsLoading(true);
-                                            router.push('/support');
-                                            router.refresh();
-                                        }}
-                                    >
-                                        Get Help
-                                    </DropdownItem>
-                                </>
-                            ) : (
-                                <>
-                                    <DropdownItem
-                                        key="link"
-                                        endContent={<IconCopy
-                                            size={24}
-                                            primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                            secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                                        />}
-                                        onPress={() => {
-                                            // Write text to clipboard take the original link of the page
-                                            navigator.clipboard.writeText(window.location.href);
-
-                                            showSuccessMessage({success: "Store Link Copied!"});
-                                        }}
-                                    >
-                                        Copy Store Link
-                                    </DropdownItem>
-                                    <DropdownItem
-                                        key="support"
-                                        endContent={<Icon
-                                            className="text-default-900"
-                                            icon="solar:info-circle-line-duotone"
-                                            width={24}
-                                        />}
-                                        onPress={() => {
-                                            setIsLoading(true);
-                                            router.push('/support');
-                                            router.refresh();
-                                        }}
-                                    >
-                                        Get Help
-                                    </DropdownItem>
-                                    <DropdownItem
-                                        key="report"
-
-                                        endContent={<Icon
-                                            className="text-default-500"
-                                            icon="solar:danger-broken"
-                                            width={24}
-                                        />}
-                                        onPress={() => {
-                                            setIsLoading(true);
-                                            router.push('/support/contact-us');
-                                            router.refresh();
-                                        }}
-                                    >
-                                        Report
-                                    </DropdownItem>
-
-                                </>
-                            )
-                            }
-                        </DropdownMenu>
-                    </Dropdown>
-                </div>
+        <div className="flex flex-col w-full items-center max-w-[440px] md:max-w-[540px]">
+            <Spacer y={4}/>
+            <div className={'flex flex-row w-full justify-end'}>
+                {renderCalendarTopContent()}
             </div>
-        </>
+            <Spacer y={4}/>
+            <div className="flex flex-row w-full items-end justify-end">
+                {session?.user?.role === "bakerz" ? (
+                    <Button
+                        className="w-[150px] h-14 justify-start bg-gradient-primary text-white font-medium"
+                        startContent={
+                            <Icon
+                                icon="solar:add-square-broken"
+                                width={24}
+                                className="text-white"
+                            />
+                        }
+                    >
+                        Add Item
+                    </Button>
+                ):(
+                        <DatePicker
+                            hideTimeZone
+                            showMonthAndYearPickers
+
+                            defaultValue={currentDate}
+                            granularity="minute"
+                            //@ts-ignore
+                            minValue={currentDate}
+                            label="Schedule Order"
+                            variant="bordered"
+                            className="w-full"
+                            selectorIcon={
+                                <Icon
+                                    icon="solar:calendar-broken"
+                                    width={24}
+                                    className="text-default-500"
+                                />
+                            }
+                            onChange={handleDateChange}
+                        />
+                    )}
+                <Spacer x={2} />
+
+                <ThreeDotsDropdown/>
+
+            </div>
+        </div>
     );
 }

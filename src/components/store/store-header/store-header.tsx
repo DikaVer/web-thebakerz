@@ -28,7 +28,7 @@ export function StoreHeader() {
 
     return (
         <div className={'flex flex-col w-full items-center'}>
-            <Spacer y={20}/>
+            <Spacer y={8}/>
             <div className={'flex flex-row items-center'}>
 
                 <>

@@ -4,6 +4,7 @@ import {StoreHeader} from "@/components/store/store-header/store-header";
 import {FirstView} from "@/components/landing/first-view";
 import {StoreSubHeader} from "@/components/store/store-header/store-subheader";
 import {Spacer} from "@heroui/react";
+import {getOrderTime} from "@/app/(store)/[id]/actions";
 
 
 interface StorePageProps {
@@ -21,11 +22,16 @@ export default async function Page(props: StorePageProps) {
 
     const id = params.id;
 
+    const {date, time} = await getOrderTime()
+
     return (
         <div className="flex flex-col min-h-screen relative z-10 items-center">
             <div className="flex flex-col container mx-auto items-center justify-center">
                 <StoreHeader/>
-                <StoreSubHeader/>
+                <StoreSubHeader
+                    dateParam={date}
+                    timeParam={time}
+                />
                 {/*<Suspense fallback={<StoreSkeleton/>}>*/}
                 {/*    <>*/}
                 {/*    </>*/}

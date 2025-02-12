@@ -92,7 +92,7 @@ const SignInRequest: React.FC<{
                     <Button variant="outline" onPress={onClose}>
                         Explore as Guest
                     </Button>
-                    <SigninButton className="text-large" variant="secondary" />
+                    <SigninButton className="text-large"/>
                 </ModalFooter>
             </ModalContent>
         </Modal>

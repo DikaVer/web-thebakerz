@@ -42,3 +42,4 @@ export async function getScheduleById(itemId: string, partitionKeyValue: string)
     const { resource: item } = await containerWorkingHours.item(itemId, partitionKeyValue).read();
     return item;
 }
+

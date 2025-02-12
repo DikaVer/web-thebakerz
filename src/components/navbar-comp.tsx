@@ -79,7 +79,7 @@ export default function NavbarComponent({store, isMobile, setIsCollapsed, onOpen
                     </NavbarBrand>
 
                     <NavbarItem className="mr-1 !flex">
-                        <SigninButton className={`text-large rounded-full`} variant={"secondary"}/>
+                        <SigninButton className={`text-large rounded-full`}/>
                     </NavbarItem>
                 </NavbarContent>
 

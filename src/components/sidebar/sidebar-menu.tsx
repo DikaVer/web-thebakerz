@@ -232,7 +232,7 @@ const getItemsByRole = (session: SessionValidationResult, store: boolean) => {
                         },
                     ],
                 },
-                ...sectionItemsTheBakerz
+                ...sectionItemsBakerz
                 ];
         default:
             return sectionItemsGuestTheBakerz;

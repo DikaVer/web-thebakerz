@@ -8,10 +8,9 @@ import {useEffect, useState} from "react";
 
 interface SigninButtonProps {
     className: string;
-    variant: "default" | "secondary";
 }
 
-export const SigninButton = ({ className, variant }: SigninButtonProps) => {
+export const SigninButton = ({ className}: SigninButtonProps) => {
     // Router and pathname for navigation
     const router = useRouter();
     const pathname = usePathname();
@@ -30,8 +29,8 @@ export const SigninButton = ({ className, variant }: SigninButtonProps) => {
         <Button
             isLoading={isLoading}
             disabled={isLoading}
-            className={`${className} ${pacifico.className} shadow-lg`}
-            color={variant === "default" ? "primary" : "secondary"}
+            variant={'bordered'}
+            className={`${className} ${pacifico.className} text-black bg-secondary border-1`}
             onPress={handleSignIn}
         >
             {isLoading ? "Loading" : "Sign in"}

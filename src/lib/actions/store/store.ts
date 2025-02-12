@@ -1,4 +1,5 @@
 import {connectionPool} from "@/db";
+import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
 
 export async function getStoreDataByUserId(userId: string): Promise<StoreData | null> {
     try {
@@ -59,6 +60,16 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
         // Get the store location by calling getLocationStore.
         const location = await getLocationStore(storeRow.id);
 
+        let schedule: WorkHours | undefined = undefined;
+
+        await getScheduleById(storeRow.id, storeRow.id)
+            .then((item) => {
+                if(item?.schedule){
+                    schedule = item.schedule;
+                }
+            })
+            .catch((error) => console.error("Error reading item:", error));
+
         const storeData: StoreData = {
             id: storeRow.id,
             storeName: storeRow.nickname,
@@ -67,6 +78,7 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             picture: storeRow.picture,
             ownerName: storeRow.ownerName,
             location,  // This is of type LocationData
+            schedule,
         };
 
         return storeData;
@@ -120,6 +132,7 @@ export interface StoreData {
     picture?: string;
     ownerName?: string;
     location: LocationData;
+    schedule?: WorkHours;
 }
 
 export interface LocationData {

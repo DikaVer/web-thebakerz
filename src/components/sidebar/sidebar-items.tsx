@@ -89,30 +89,6 @@ export const sectionItemsUser: SidebarItem[] = [
 
 export const sectionItemsBakerz: SidebarItem[] = [
     {
-        key: "account",
-        title: "Account",
-        items: [
-            {
-                key: "orders",
-                href: "/orders",
-                title: "Orders",
-                icon: "solar:notification-unread-lines-broken",
-            },
-            {
-                key: "favorites",
-                href: "/favorites",
-                icon: "solar:shop-broken",
-                title: "Your Store",
-            },
-            {
-                key: "payments",
-                href: "/payments",
-                icon: "solar:wallet-money-broken",
-                title: "Payments",
-            },
-        ],
-    },
-    {
         key: "navigation",
         title: "Navigation",
         items: [
@@ -127,12 +103,6 @@ export const sectionItemsBakerz: SidebarItem[] = [
                 href: "/about-us",
                 icon: "solar:users-group-two-rounded-outline",
                 title: "About TheBakerz",
-            },
-            {
-                key: "#join-thebakerz",
-                href: "/#join-thebakerz",
-                title: "Join TheBakerz",
-                icon: "solar:chef-hat-heart-broken",
             }
         ],
     },
