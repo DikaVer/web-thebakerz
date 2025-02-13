@@ -87,11 +87,11 @@ export const ProductListBase = <P,>({
             <span className="text-xl desktop:text-2xl font-bold">{category}</span>
             {/*<ul className={`grid gap-4 ${!isMobile && "grid-cols-2"} py-3`}>*/}
             <Spacer y={4} />
-                <Carousel options={OPTIONS} activeSlider>
+                <Carousel options={OPTIONS} activeSlider >
                     <SliderContainer>
 
                             {products.map((product) => (
-                                <Slider className='embla__slide'>
+                                <Slider className='embla__slide px-2'>
                                     <ProductBase
                                         productData={product}
                                     />

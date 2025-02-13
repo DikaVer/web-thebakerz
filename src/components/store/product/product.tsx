@@ -21,7 +21,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     return (
         <div
             id={productData.id}
-            className={`cursor-pointer max-w-sm mx-2 border-1 rounded-2xl`}
+            className={`cursor-pointer max-w-sm border-1 rounded-2xl`}
 
             // onClick={onClick}
         >
@@ -31,7 +31,6 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                 className={`border-none shadow-none `}
             >
                     <Image
-                        isZoomed
                         removeWrapper
                         alt={productData.name}
                         className="object-cover"
