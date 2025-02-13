@@ -14,7 +14,7 @@ import {
     createEmailVerificationRequest,
     deleteUserEmailVerificationRequest, EmailVerificationRequest, getUserEmailVerificationRequest,
     sendVerificationEmail, sendVerificationEmailBucket
-} from "@/lib/actions/email-verification";
+} from "@/lib/actions/auth/email-verification";
 
 
 const ipBucket = new RefillingTokenBucket<string>(20, 1);

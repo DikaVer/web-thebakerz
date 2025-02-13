@@ -11,8 +11,8 @@ import {Card, CardBody, Input, Textarea} from "@heroui/react";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem} from "@/components/ui/form";
 import { FormError } from "@/components/authentication/form-error";
-import { sendEmail } from "@/lib/actions/email-action";
 import SuccessRedirect from "@/components/redirect-page";
+import {sendEmail} from "@/lib/actions/auth/email-action";
 
 export default function ContactUsComponent() {
 

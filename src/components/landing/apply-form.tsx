@@ -13,7 +13,7 @@ import { Input, Checkbox, Link, Tooltip} from "@heroui/react";
 import { Button } from "@/components/ui/button";
 import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
 import { FormError } from "@/components/authentication/form-error";
-import {sendApplication, validatePhone} from "@/lib/actions/email-action";
+import {sendApplication, validatePhone} from "@/lib/actions/auth/email-action";
 import {AnimatePresence, domAnimation, LazyMotion, m} from "framer-motion";
 import {Icon} from "@iconify/react";
 import {IconMail} from "@/components/ui/icons";
@@ -133,35 +133,6 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                 </p>
             </div>
                     <LazyMotion features={domAnimation}>
-                        <m.div className="flex min-h-[40px] items-center gap-2 pb-8">
-                            <AnimatePresence initial={false} mode="popLayout">
-                                {page >= 1 && (
-                                    <m.div
-                                        animate={{opacity: 1, x: 0}}
-                                        exit={{opacity: 0, x: -10}}
-                                        initial={{opacity: 0, x: -10}}
-                                    >
-                                        <Tooltip content="Go back" delay={3000}>
-                                            <Button
-                                                isIconOnly
-                                                size="sm"
-                                                variant="ghost"
-                                                onPress={
-                                                    () => paginate(-1)
-                                                }
-
-                                            >
-                                                <Icon
-                                                    className="text-default-500"
-                                                    icon="solar:alt-arrow-left-linear"
-                                                    width={16}
-                                                />
-                                            </Button>
-                                        </Tooltip>
-                                    </m.div>
-                                )}
-                            </AnimatePresence>
-                        </m.div>
                         <AnimatePresence custom={direction} initial={false} mode="wait">
                             <m.div
                                 key={page}
@@ -231,13 +202,17 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                 )}
                                             />
                                             <FormError message={stateStarted?.error || undefined}/>
-                                            <Button fullWidth
-                                                    className="bg-gradient-primary w-fit"
-                                                    type="submit"
-                                                    endContent={<Icon icon={`solar:arrow-right-broken`} height={24}/>}
-                                            >
-                                                Get Started
-                                            </Button>
+                                            <div className={'w-full flex justify-end'}>
+
+                                                <Button fullWidth
+                                                        className="bg-gradient-primary w-fit"
+                                                        type="submit"
+                                                        endContent={<Icon icon={`solar:arrow-right-broken`}
+                                                                          height={24}/>}
+                                                >
+                                                    Get Started
+                                                </Button>
+                                            </div>
                                         </form>
                                     </Form>
                                 )}
@@ -291,16 +266,48 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                 )}
                                             />
                                             <FormError message={state?.error || undefined}/>
-                                            <Button fullWidth
-                                                    className="bg-gradient-primary w-fit"
-                                                    type="submit"
-                                                    endContent={<Icon icon={`solar:arrow-right-broken`} height={24}/>}
-                                                    isLoading={isPending}
-                                            >
-                                                {
-                                                    isPending ? "Submitting..." : "Submit"
-                                                }
-                                            </Button>
+                                            <div className={'flex w-full justify-between'}>
+                                                <m.div className="flex min-h-[40px] items-center gap-2 pb-8">
+                                                    <AnimatePresence initial={false} mode="popLayout">
+                                                        {page >= 1 && (
+                                                            <m.div
+                                                                animate={{opacity: 1, x: 0}}
+                                                                exit={{opacity: 0, x: -10}}
+                                                                initial={{opacity: 0, x: -10}}
+                                                            >
+                                                                <Tooltip content="Go back" delay={3000}>
+                                                                    <Button
+                                                                        isIconOnly
+                                                                        size="sm"
+                                                                        variant="ghost"
+                                                                        onPress={
+                                                                            () => paginate(-1)
+                                                                        }
+
+                                                                    >
+                                                                        <Icon
+                                                                            className="text-default-500"
+                                                                            icon="solar:alt-arrow-left-linear"
+                                                                            width={16}
+                                                                        />
+                                                                    </Button>
+                                                                </Tooltip>
+                                                            </m.div>
+                                                        )}
+                                                    </AnimatePresence>
+                                                </m.div>
+                                                <Button fullWidth
+                                                        className="bg-gradient-primary w-fit"
+                                                        type="submit"
+                                                        endContent={<Icon icon={`solar:arrow-right-broken`}
+                                                                          height={24}/>}
+                                                        isLoading={isPending}
+                                                >
+                                                    {
+                                                        isPending ? "Submitting..." : "Submit"
+                                                    }
+                                                </Button>
+                                            </div>
                                         </form>
                                     </Form>
                                 )}
@@ -310,7 +317,7 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
 
         </>
     );
-  },
+    },
 );
 
 ApplyForm.displayName = "ApplyForm";

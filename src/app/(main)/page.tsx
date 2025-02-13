@@ -20,7 +20,7 @@ import {useRouter} from "next/navigation";
 import {Icon} from "@iconify/react";
 import ScrollTriggered from "@/components/landing/scroll-triggered";
 import ApplyComponent from "@/components/landing/apply-component";
-import {useIsMobile} from "@/lib/hooks/use-mobile";
+import {useMediaQuery} from "usehooks-ts";
 
 export default function Page() {
     return (
@@ -133,7 +133,7 @@ const PricingSection = () => {
     return (
         <section
             id="pricing-section"
-            className="w-full px-4 sm:px-6 lg:px-8 py-12 rounded-lg max-w-2xl"
+            className="w-full sm:px-6 lg:px-8 py-12 rounded-lg max-w-2xl"
             aria-labelledby="pricing-section"
         >
             <Modal
@@ -230,7 +230,7 @@ const PricingSection = () => {
                     <hr/>
                     <div>
                         <p
-                            className={`text-small girl-md:text-lg italic text-grayText text-center my-3`}
+                            className={`text-small md:text-lg italic text-grayText text-center my-3`}
                         >
                             Exclusive offer: start for 3 months for free!
                         </p>
@@ -321,7 +321,7 @@ const PricingSection = () => {
 // Footer Component
 const Footer = () => {
     const [footerRef, footerInView] = useInView<HTMLDivElement>({threshold: 0});
-    const isMobile = useIsMobile();
+    const isMobile = useMediaQuery("(max-width: 768px)");
 
     return (
         <div

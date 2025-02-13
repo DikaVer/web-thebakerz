@@ -5,7 +5,8 @@ import {useDisclosure} from "@heroui/react";
 import {useMediaQuery} from "usehooks-ts";
 import SidebarMenu from "@/components/sidebar/sidebar-menu";
 import NavbarComponent from "@/components/navbar-comp";
-import {StoreData} from "@/lib/actions/store/store";
+import {StoreData} from "@/lib/actions/store";
+
 
 
 
@@ -44,9 +45,7 @@ export default function LayoutComp({ children, store }: LayoutCompProps) {
             <div className="w-full flex-1 flex-col">
                 <NavbarComponent
                     store={store}
-                    isCollapsed={isCollapsed}
                     setIsCollapsed={setIsCollapsed}
-                    isMobile={isMobile}
                     onOpenChange={onOpenChange}
                     onToggle={onToggle}
                 />

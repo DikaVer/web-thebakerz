@@ -18,7 +18,8 @@ import {
 import {useTheme} from "next-themes";
 import {useSession} from "@/components/providers/session-provider";
 import {SessionValidationResult} from "@/lib/actions/session";
-import {StoreData} from "@/lib/actions/store/store";
+import {StoreData} from "@/lib/actions/store";
+
 
 
 interface SidebarMenuProps {

@@ -1,39 +1,5 @@
 import {connectionPool} from "@/db";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
-
-export async function getStoreDataByUserId(userId: string): Promise<StoreData | null> {
-    try {
-        // Query the stores table for the store profile.
-        const storeResult = await connectionPool.query(
-            `SELECT id, nickname, description, phone
-       FROM stores
-       WHERE user_id = $1 AND deleted = false`,
-            [userId]
-        );
-
-        if (storeResult.rows.length === 0) {
-            return null;
-        }
-
-        const storeRow = storeResult.rows[0];
-        // Get the store location by calling getLocationStore.
-        const location = await getLocationStore(storeRow.id);
-
-        const storeData: StoreData = {
-            id: storeRow.id,
-            storeName: storeRow.nickname,
-            description: storeRow.description,
-            phone: storeRow.phone,
-            location,  // This is of type LocationData
-        };
-
-        return storeData;
-    } catch (error) {
-        console.error("Error fetching store data:", error);
-        throw new Error("Failed to fetch store data");
-    }
-}
-
 export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData | null> {
     try {
         // Query the stores table for the store profile, joining with the users table

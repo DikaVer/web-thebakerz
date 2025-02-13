@@ -4,9 +4,9 @@ import {Footer} from "@/components/footer";
 import {StoreProvider} from "@/components/providers/store-provider";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import LayoutComp from "@/components/layout-comp";
-import {getStoreDataByStoreNameOrId} from "@/lib/actions/store/store";
-import NotFound from "@/app/(store)/[id]/not-found";
 
+import NotFound from "@/app/(store)/[id]/not-found";
+import {getStoreDataByStoreNameOrId} from "@/lib/actions/store";
 
 type Params = Promise<{ id: string  }>
 

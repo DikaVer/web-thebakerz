@@ -1,26 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
-import { useStore } from "@/components/providers/store-provider";
-import { useIsMobile } from "@/lib/hooks/use-mobile";
+import React from "react";
 import {
-    Button, CalendarDate, Card, CardBody, Divider,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownTrigger,
+    Button,
     Spacer
 } from "@heroui/react";
-import { useTheme } from "next-themes";
 import { useSession } from "@/components/providers/session-provider";
 import { DatePicker } from "@heroui/date-picker";
 import { Icon } from "@iconify/react";
 import {useRouter, useSearchParams} from "next/navigation";
 import {CalendarDateTime} from "@internationalized/date";
-import {WorkDay} from "@/lib/actions/calendar-actions";
 import {updateOrderTime} from "@/app/(store)/[id]/actions";
 import ThreeDotsDropdown from "@/components/store/store-header/subheader/three-dots";
 import {renderCalendarTopContent} from "@/components/store/store-header/subheader/working-hours";
+import {useStore} from "@/components/providers/store-provider";
 
 
 // --- Function to parse a date to numeric date and time strings ---
@@ -63,10 +56,11 @@ interface StoreSubHeaderProps {
 }
 
 
-export function StoreSubHeader({ dateParam, timeParam }: StoreSubHeaderProps) {
+export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
     const { session } = useSession();
     const router = useRouter();
     const searchParams = useSearchParams();
+    const { store } = useStore();
 
     // Get the current date using your internationalized-date library
     const currentDate = parseDateParams(`${dateParam} ${timeParam}`);
@@ -98,7 +92,7 @@ export function StoreSubHeader({ dateParam, timeParam }: StoreSubHeaderProps) {
             </div>
             <Spacer y={4}/>
             <div className="flex flex-row w-full items-end justify-end">
-                {session?.user?.role === "bakerz" ? (
+                {(session?.user?.role === "bakerz" && session.store?.id === store.id) ? (
                     <Button
                         className="w-[150px] h-14 justify-start bg-gradient-primary text-white font-medium"
                         startContent={

@@ -24,7 +24,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import {useSession} from "@/components/providers/session-provider";
 import NotFound from "@/app/(error_layout)/not-found";
 import {SessionValidationResult} from "@/lib/actions/session";
-import {StoreData} from "@/lib/actions/store/store";
+import {StoreData} from "@/lib/actions/store";
 
 
 interface ProfileSettingCardProps {

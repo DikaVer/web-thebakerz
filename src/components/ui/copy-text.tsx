@@ -46,7 +46,7 @@ export const CopyText = memo(
       <div ref={forwardedRef} className={cn("flex items-center gap-3 ", className)}>
         <Tooltip className="text-foreground" content={content}>
             <Button
-                className={'mt-2 hover:bg-background justify-start '}
+                className={'mt-2 hover:bg-background justify-start px-0 mx-0'}
                 variant="light"
                 startContent={props.startContent}
                 endContent={props.endContent}

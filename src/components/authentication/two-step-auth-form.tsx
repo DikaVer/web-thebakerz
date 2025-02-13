@@ -5,22 +5,17 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem} from "@/components/ui/form";
 import { Input } from "@heroui/input";
 import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
-import {InputOtp, Tooltip} from "@heroui/react";
+import {Divider, InputOtp, Tooltip} from "@heroui/react";
 import { Icon } from "@iconify/react";
 import {useRouter, useSearchParams} from "next/navigation";
-import {Separator} from "@/components/ui/separator";
-import {loginWithProvider} from "@/lib/actions/auth-actions";
 import Image from "next/image";
 import {IconMail} from "@/components/ui/icons";
 import Link from "next/link";
 import {loginAction, resendEmailVerificationCodeAction, verifyEmailAction} from "@/app/(auth)/auth/actions";
 import {EmailSchema, OTPSchema} from "@/lib/schemas";
-import {FormError} from "@/components/authentication/form-error";
-import {toast} from "sonner";
-import {Alert} from "@heroui/alert";
 import showErrorMessage from "@/components/toast/toast-error";
 
 
@@ -303,9 +298,9 @@ export default function TwoStepAuthForm() {
                 page === 0 && (
                     <>
                         <div className="flex items-center gap-4">
-                            <Separator className="flex-1 bg-grayText"/>
+                            <Divider className="flex-1 bg-grayText"/>
                             <span className="text-grayText">or continue with</span>
-                            <Separator className="flex-1 bg-grayText"/>
+                            <Divider className="flex-1 bg-grayText"/>
                         </div>
                         <div className="flex flex-row w-full justify-between items-center -my-1">
                             <form

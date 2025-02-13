@@ -13,19 +13,17 @@ import {pacifico} from "@/components/fonts";
 import {Icon} from "@iconify/react";
 import {SigninButton} from "@/components/ui/signin-button";
 import {useMediaQuery} from "usehooks-ts";
-import {StoreData} from "@/lib/actions/store/store";
+import {StoreData} from "@/lib/actions/store";
 
 interface LayoutProps {
     store?: StoreData
     onOpenChange: () => void;
-    isCollapsed: boolean;
     setIsCollapsed: (value: boolean) => void;
-    isMobile: boolean;
     onToggle: () => void;
     props?: NavbarProps;
 }
 
-export default function NavbarComponent({store, isMobile, setIsCollapsed, onOpenChange, isCollapsed, onToggle, props = {}}: LayoutProps) {
+export default function NavbarComponent({store, setIsCollapsed, onOpenChange, onToggle, props = {}}: LayoutProps) {
 
     const isSmall = useMediaQuery("(max-width: 1024px)");
 
@@ -38,13 +36,13 @@ export default function NavbarComponent({store, isMobile, setIsCollapsed, onOpen
                 {...props}
                 classNames={{
                     base: `sticky py-4 backdrop-filter-none bg-transparent`,
-                    wrapper: "px-0 w-full justify-center bg-transparent",
+                    wrapper: "px-4 w-full justify-center bg-transparent",
                     item: "hidden md:flex",
                 }}
                 height="54px"
             >
             <NavbarContent
-                    className={`flex data-[justify=center]:justify-between w-full ${isMobile ? "max-w-[400px]" : "max-w-2xl"} gap-8 rounded-full border-small border-default-200/20 px-2 shadow-medium backdrop-blur-xl bg-grayBg/50`}
+                    className={`flex data-[justify=center]:justify-between w-full max-w-2xl gap-8 rounded-full border-small border-default-200/20 px-2 shadow-medium backdrop-blur-xl bg-grayBg/50`}
                     justify={"center"}
                 >
                     {/* Toggle */}

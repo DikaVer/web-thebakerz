@@ -1,5 +1,5 @@
 import { generateState, generateCodeVerifier } from "arctic";
-import { google} from "@/lib/actions/oauth";
+import { google} from "@/lib/actions/auth/oauth";
 import { cookies } from "next/headers";
 import { globalGETRateLimit} from "@/lib/actions/requests";
 

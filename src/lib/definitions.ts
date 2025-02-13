@@ -1,27 +1,7 @@
-import {cityLatLngMap, timeMap} from "@/lib/local-variables";
-
-export interface Session {
-    login: boolean;
-    role?: string;
-    name?: string;
-    email?: string;
-    picture?: string;
-    userId?: string;
-}
 
 
-export type ProductDataField = {
-    id: string;
-    store_id: string;
-    category: string;
-    name: string;
-    description: string;
-    price: number;
-    image_url: string;
-    rating?: string;
-};
 
-export interface CartItem extends ProductDataField {
+export interface CartItem  {
     quantity: number;
     uniqueId: string;
 }
@@ -44,8 +24,6 @@ export type CheckoutData = {
         time: string;
     } | null;
 }
-
-export type ProductData = Array<ProductDataField>;
 
 
 export type AddressUserData = {
@@ -79,54 +57,3 @@ export type AddressDataUserField = {
     zip_code: string;
     delivery_notes?: string;
 };
-
-export type UsersData = {
-    id: string;
-    name: string;
-    email: string;
-    image: string | null;
-    role: string;
-    date: string;
-};
-
-export type CartProductDataField = {
-    product_id: string;
-    store_id: string;
-    category_id: string;
-    name: string;
-    description: string;
-    price: number;
-    image_url: string;
-    avatar_url: string;
-}
-
-export interface StoreData {
-    id: string;
-    user_id: string;
-    name: string;
-    description: string | null;
-    location: AddressDataStoreField;
-    image: string | null;
-    background_url: string | null;
-    nickname: string;
-    products: Array<ProductDataField>;
-    deliveryOptions: Record<
-        keyof typeof cityLatLngMap,
-        {
-            range: number;
-        }
-    > | null;
-    availability: Record<
-        string,
-        {
-            from: keyof typeof timeMap;
-            to: keyof typeof timeMap;
-            availability: "Free" | "Busy";
-        }
-    > | null;
-}
-
-
-export interface ProductByCategory {
-    [key: string]: ProductDataField[];
-}

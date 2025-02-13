@@ -9,8 +9,8 @@ import { cache } from "react";
 
 import type {User} from "./user";
 import {connectionPool} from "@/db";
-import {StoreData} from "@/lib/actions/store/store";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
+import {StoreData} from "@/lib/actions/store";
 
 export async function validateSessionToken(
     token: string

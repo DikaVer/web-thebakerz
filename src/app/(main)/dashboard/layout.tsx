@@ -1,8 +1,7 @@
 import '@/styles/globals.css'
 import React from "react";
 import type { Metadata } from "next";
-import SideNav from "@/components/dashboard/sidenav";
-import {ScrollArea} from "@/components/ui/scroll-area";
+
 import NotFound from "@/app/(error_layout)/not-found";
 import {getCurrentSession} from "@/lib/actions/session";
 

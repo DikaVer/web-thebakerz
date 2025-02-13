@@ -1,8 +1,6 @@
 import { cookies } from "next/headers";
-import { google} from "@/lib/actions/oauth";
+import { google} from "@/lib/actions/auth/oauth";
 import { ObjectParser } from "@pilcrowjs/object-parser";
-
-
 import { decodeIdToken, type OAuth2Tokens } from "arctic";
 import {globalGETRateLimit} from "@/lib/actions/requests";
 import {createSession, generateSessionToken, setSessionTokenCookie} from "@/lib/actions/session";

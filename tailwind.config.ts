@@ -86,12 +86,8 @@ const config = {
 				sm: "calc(var(--radius) - 4px)",
 			},
 			screens: {
-				tm: "400px",
-				cm: "540px",
+
 				desktop: "768px",
-				"store-sm": "1000px",
-				"girl-md": "580px",
-				"store-image": "1350px",
 				"heart-display": "1370px",
 			},
 			keyframes: {
