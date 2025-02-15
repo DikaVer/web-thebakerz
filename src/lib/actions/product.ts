@@ -43,12 +43,11 @@ export const addProduct = async (
         description: formData.description,
         price: formData.price * 100,
         picture: formData.url,
+        updatedAt: new Date().toISOString()
     };
 
     try {
         if (productId) {
-            console.log("Updating product");
-            console.log(productData);
             await containerProducts.item(productData.id, productData.store_id).patch({
                 operations: [
                     {
@@ -79,6 +78,12 @@ export const addProduct = async (
                         // Update the image URL.
                         path: "/picture",
                         value: productData.picture,
+                    },
+                    {
+                        op: "set",
+                        // Update the product category.
+                        path: "/updatedAt",
+                        value: new Date().toISOString(),
                     }
                     // Add any additional field updates as needed.
                 ],

@@ -172,7 +172,7 @@ export const WorkingHoursComp: React.FC = () => {
         setIsLoading(true);
         // console.log('Saving working hours:', workingHours);
         try {
-            const res = await fetch('/api/updateSchedule', {
+            const res = await fetch('/api/update-schedule', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

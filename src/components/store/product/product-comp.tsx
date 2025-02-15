@@ -5,9 +5,6 @@ import { getProductsByStoreName, ProductData, ProductDataFull } from "@/lib/acti
 export const ProductComponentBase: React.FC<{ storeName: string }> = async ({ storeName }) => {
     const productsData: ProductDataFull = await getProductsByStoreName(storeName);
 
-
-    console.log(productsData);
-
     if (productsData === null || Object.keys(productsData).length === 0) {
         return (
             <div className="text-center">

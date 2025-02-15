@@ -10,7 +10,7 @@ import React, {
 
 import { ProductBase } from "@/components/store/product/product";
 import {ProductData, ProductDataFull} from "@/lib/actions/product";
-import { Input, Spacer, Tab, Tabs } from "@heroui/react";
+import {Divider, Input, Spacer, Tab, Tabs} from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { EmblaOptionsType } from "embla-carousel";
 import Carousel, {
@@ -185,6 +185,8 @@ export const ProductListBase = <P,>({
                     <SliderDotButton />
                 </div>
             </Carousel>
+            <Spacer y={8} />
+            <Divider/>
         </div>
     );
 

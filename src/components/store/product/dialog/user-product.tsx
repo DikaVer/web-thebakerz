@@ -17,6 +17,7 @@ import {useTheme} from "next-themes";
 import {CopyText} from "@/components/ui/copy-text";
 import {InputStepper} from "@/components/store/product/dialog/button-stepper";
 import {ItemCart} from "@/lib/actions/cart";
+import {ScrollShadow} from "@heroui/scroll-shadow";
 type ProductDialogProps = {
     productData: ProductData | undefined;
     onClose: () => void;
@@ -69,28 +70,34 @@ export default function UserProductDialog({productData, onClose, itemCart}: Prod
                                         <p className={`text-lg cm:text-xl font-light`}>{formatCurrency(productData.price)}</p>
                                     </CardFooter>
                                 </Card>
-                                <div className={'flex flex-col px-4 py-2 text-default-400 gap-4'}>
-                                    <p>{productData.description}</p>
-                                    <Textarea
-                                        label={'Notes'}
-                                        labelPlacement={'outside'}
-                                        placeholder={`Add notes to your order... (max 100 characters)`}
-                                        style={{resize: "none"}}
-                                        className="mt-2"
-                                        classNames={{
-                                            input: cn("min-h-[40px]"),
-                                        }}
-                                        value={note}
-                                        minRows={4}
-                                        maxRows={5}
-                                        onValueChange={(value) => {
-                                            setNote(value);
-                                            setCharCount(value.length);
-                                        }}
-                                        isInvalid={charCount > 100}
-                                    />
-                                    <p className="text-right text-grayText text-small px-2">{charCount}/100</p>
-                                </div>
+                                <ScrollShadow
+                                    className={'max-h-[300px]'}
+                                    size={100}
+                                >
+                                    <div className={'flex flex-col px-4 py-2 text-default-400 gap-4'}>
+                                        <p>{productData.description}</p>
+
+                                        <Textarea
+                                            label={'Notes'}
+                                            labelPlacement={'outside'}
+                                            placeholder={`Add notes to your order... (max 100 characters)`}
+                                            style={{resize: "none"}}
+                                            className="mt-2"
+                                            classNames={{
+                                                input: cn("min-h-[40px]"),
+                                            }}
+                                            value={note}
+                                            minRows={4}
+                                            maxRows={5}
+                                            onValueChange={(value) => {
+                                                setNote(value);
+                                                setCharCount(value.length);
+                                            }}
+                                            isInvalid={charCount > 100}
+                                        />
+                                        <p className="text-right text-grayText text-small px-2">{charCount}/100</p>
+                                    </div>
+                                </ScrollShadow>
                             </>
                         )}
                     </ModalBody>
