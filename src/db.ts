@@ -24,6 +24,8 @@ const blobClient = BlobServiceClient.fromConnectionString(
 
 export const containerClientAvatar = blobClient.getContainerClient("avatars");
 
+export const containerClientProduct = blobClient.getContainerClient("products");
+
 
 import { CosmosClient } from "@azure/cosmos";
 

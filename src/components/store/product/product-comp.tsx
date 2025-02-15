@@ -1,16 +1,9 @@
-import React, { useMemo } from "react";
-import {ProductListBase} from "@/components/store/product/product-list";
-import {useStore} from "@/components/providers/store-provider";
-import {getProductsByStoreName, ProductData} from "@/lib/actions/product";
-
-
-
-
+import React from "react";
+import { ProductListBase } from "@/components/store/product/product-list";
+import { getProductsByStoreName, ProductData, ProductDataFull } from "@/lib/actions/product";
 
 export const ProductComponentBase: React.FC<{ storeName: string }> = async ({ storeName }) => {
-
-
-    const productsData = await getProductsByStoreName(storeName);
+    const productsData: ProductDataFull | null = await getProductsByStoreName(storeName);
 
     if (!productsData) {
         return (
@@ -20,24 +13,22 @@ export const ProductComponentBase: React.FC<{ storeName: string }> = async ({ st
         );
     }
 
-    // Categorize products by their category
-    const productsByCategory: { [key: string]: ProductData[] } = productsData.reduce((acc, product) => {
+    // Convert the object to an array before categorizing
+    const productsArray: ProductData[] = Object.values(productsData);
+
+    // Categorize products by their category using a Record type
+    const productsByCategories: Record<string, ProductData[]> = productsArray.reduce((acc, product) => {
         if (!acc[product.category]) {
             acc[product.category] = [];
         }
         acc[product.category].push(product);
         return acc;
-    }, {} as { [key: string]: ProductData[] });
-
+    }, {} as Record<string, ProductData[]>);
 
     return (
         <ProductListBase
             productsData={productsData}
-            productsByCategories={productsByCategory}
+            productsByCategories={productsByCategories}
         />
     );
 };
-
-
-
-

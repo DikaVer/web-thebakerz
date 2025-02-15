@@ -21,7 +21,7 @@ export default function Page() {
 
     return (
         <div className="flex flex-col min-h-screen relative items-center container mx-auto justify-center">
-            <div className="w-full max-w-2xl justify-center flex-1 p-4">
+            <div className="w-full max-w-2xl justify-center flex-1 py-4">
                 {/* Title */}
                 <div className="flex items-center gap-x-3">
                     <h1 className="text-3xl font-bold leading-9 text-default-foreground">Settings</h1>

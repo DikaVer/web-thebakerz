@@ -22,13 +22,15 @@ interface Area {
 interface CropEasyProps {
     photoURL: string | undefined;
     setOpenCrop: (open: boolean) => void;
-    setFile: (file: File) => void;
+    container: string;
+    setImageURL?: (url: string) => void;
 }
 
 const CropEasy: React.FC<CropEasyProps> = ({
                                                photoURL,
                                                setOpenCrop,
-                                               setFile,
+    container,
+    setImageURL,
                                            }) => {
 
     const {session, setSession} = useSession();
@@ -54,28 +56,33 @@ const CropEasy: React.FC<CropEasyProps> = ({
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const localPreview = e.target?.result;
-                    setSession((prevSession): SessionValidationResult => {
-                        if (!session) return prevSession;
+                    if (container === "avatars" && session) {
+                        setSession((prevSession): SessionValidationResult => {
+                            if (!session) return prevSession;
 
-                        if (prevSession.user) {
-                            return {
-                                ...prevSession,
-                                user: {
-                                    ...prevSession.user,
-                                    picture: typeof localPreview === "string" ? localPreview : "",
-                                } as User,
+                            if (prevSession.user) {
+                                return {
+                                    ...prevSession,
+                                    user: {
+                                        ...prevSession.user,
+                                        picture: typeof localPreview === "string" ? localPreview : "",
+                                    } as User,
+                                }
                             }
-                        }
 
-                        return prevSession;
-                    });
+                            return prevSession;
+                        });
+                    } else {
+                        setImageURL && setImageURL(typeof localPreview === "string" ? localPreview : "");
+                    }
                 };
 
                 reader.readAsDataURL(file);
 
                 // Prepare form data for upload
                 const formData = new FormData();
-                formData.append("file", file, "avatar.webp");
+                formData.append("file", file, "image.webp");
+                formData.append("container", container);
 
 
                 const response = await fetch("/api/upload-image", {
@@ -106,7 +113,6 @@ const CropEasy: React.FC<CropEasyProps> = ({
                 // Show success message
                 showSuccessMessage({success: success});
 
-                setFile(file); // update file state as an array
                 setOpenCrop(false);
             } else {
                 showErrorMessage({error: "Failed to upload image. Please try again."});

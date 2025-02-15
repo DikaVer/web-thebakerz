@@ -8,6 +8,7 @@ export interface CopyTextProps extends React.HTMLAttributes<HTMLDivElement> {
   textClassName?: string;
   copyText: string;
   textNotify: string;
+  isIconOnly?: boolean;
   children: React.ReactNode;
   startContent?: React.ReactNode;
   endContent?: React.ReactNode;
@@ -46,7 +47,8 @@ export const CopyText = memo(
       <div ref={forwardedRef} className={cn("flex items-center gap-3 ", className)}>
         <Tooltip className="text-foreground" content={content}>
             <Button
-                className={'mt-2 hover:bg-background justify-start px-0 mx-0'}
+                isIconOnly={props.isIconOnly}
+                className={'hover:bg-background justify-start px-2 mx-0'}
                 variant="light"
                 startContent={props.startContent}
                 endContent={props.endContent}

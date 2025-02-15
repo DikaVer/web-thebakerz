@@ -1,19 +1,21 @@
 "use client";
 
-import React from "react";
+import React, {useState} from "react";
 import {
     Button,
     Spacer
 } from "@heroui/react";
 import { useSession } from "@/components/providers/session-provider";
-import { DatePicker } from "@heroui/date-picker";
 import { Icon } from "@iconify/react";
 import {useRouter, useSearchParams} from "next/navigation";
-import {CalendarDateTime} from "@internationalized/date";
-import {updateOrderTime} from "@/app/(store)/[id]/actions";
+import {CalendarDateTime, CalendarDate, now, today, ZonedDateTime} from "@internationalized/date";
+
 import ThreeDotsDropdown from "@/components/store/store-header/subheader/three-dots";
 import {renderCalendarTopContent} from "@/components/store/store-header/subheader/working-hours";
 import {useStore} from "@/components/providers/store-provider";
+import {SmartDatetimeInput} from "@/components/store/store-header/calendar/smart-calendar";
+import {updateOrderTime} from "@/app/(store)/[id]/actions";
+import {useProductDialog} from "@/components/providers/product-provider";
 
 
 // --- Function to parse a date to numeric date and time strings ---
@@ -37,11 +39,9 @@ export function parseDateTime(
 export function parseDateParams(
     dateValue: string
 ): CalendarDateTime | undefined {
-    console.log(dateValue);
     const [date, time] = dateValue.split(" ");
     const [year, month, day] = date.split("-").map(Number);
     const [hour, minute] = time.split(":").map(Number);
-    console.log(year, month, day, hour, minute);
 
     if (!year || !month || !day || !hour || !minute) {
         return undefined;
@@ -60,17 +60,13 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
     const { session } = useSession();
     const router = useRouter();
     const searchParams = useSearchParams();
-    const { store } = useStore();
-
-    // Get the current date using your internationalized-date library
-    const currentDate = parseDateParams(`${dateParam} ${timeParam}`);
-
-
-
+    const { store, sentinelRef } = useStore();
+    const { handleOpen } = useProductDialog();
+    const [selectedDate, setSelectedDate] = useState<CalendarDateTime | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
 
 
     // --- 2. onChange Handler for DatePicker: Save the date/time and update URL search params ---
-    const handleDateChange = (newDate: any) => {
+    const handleDateChange = (newDate: CalendarDateTime) => {
         const {date, time} = parseDateTime(newDate);
         // Update the URL search parameters (make sure this runs on the client)
         if (date && time) {
@@ -81,11 +77,13 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
             updateOrderTime(date, time).then(() => {
             });
         }
+        setSelectedDate(newDate);
     };
 
 
+
     return (
-        <div className="flex flex-col w-full items-center max-w-[440px] md:max-w-[540px]">
+        <div className="flex flex-col w-full justify-center items-center max-w-[440px] md:w-1/3">
             <Spacer y={4}/>
             <div className={'flex flex-row w-full justify-end'}>
                 {renderCalendarTopContent()}
@@ -102,36 +100,29 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                                 className="text-white"
                             />
                         }
+                        onPress={() => {
+                            handleOpen();
+                        }}
                     >
                         Add Item
                     </Button>
-                ):(
-                        <DatePicker
-                            hideTimeZone
-                            showMonthAndYearPickers
-
-                            defaultValue={currentDate}
-                            granularity="minute"
-                            //@ts-ignore
-                            minValue={currentDate}
-                            label="Schedule Order"
-                            variant="bordered"
-                            className="w-full"
-                            selectorIcon={
-                                <Icon
-                                    icon="solar:calendar-broken"
-                                    width={24}
-                                    className="text-default-500"
-                                />
-                            }
-                            onChange={handleDateChange}
+                ) : (
+                    <>
+                        <SmartDatetimeInput
+                            schedule={store.schedule}
+                            minValue={today("Europe/Amsterdam")}
+                            value={selectedDate}
+                            onValueChange={handleDateChange}
+                            placeholder='Enter a date and time'
                         />
-                    )}
-                <Spacer x={2} />
+                    </>
+                )}
+                <Spacer x={2}/>
 
                 <ThreeDotsDropdown/>
 
             </div>
+            <div ref={sentinelRef} className="h-1"></div>
         </div>
     );
 }

@@ -18,8 +18,8 @@ import {useTheme} from "next-themes";
 import {IconLocation, IconPhone} from "@/components/ui/icons";
 import {toast} from "sonner";
 import {Alert} from "@heroui/alert";
-import {AvatarImageUploader} from "@/components/image/avatar-upload";
-import ImageForm from "@/components/image/image-form";
+import {ImageUploader} from "@/components/image/image-upload";
+import AvatarImageForm from "@/components/image/image-form";
 import showErrorMessage from "@/components/toast/toast-error";
 import {useSession} from "@/components/providers/session-provider";
 import NotFound from "@/app/(error_layout)/not-found";
@@ -130,11 +130,13 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
             <div ref={ref} className={cn("p-2", className)} {...props}>
                 {/* Profile */}
                 <div>
-                    <AvatarImageUploader
+                    <ImageUploader
+                        title={"Profile Picture"}
+                        subtitle={"Upload a profile picture"}
                         file={file}
                         isOpen={avatarEdit}
                         onClose={() => setAvatarEdit(false)}
-                        setFile={setFile}
+                        container={"avatars"}
                     />
                     <p className="text-base font-medium text-default-700">Profile</p>
                     <p className="mt-1 text-sm font-normal text-default-400">
@@ -149,7 +151,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                         badge: "w-5 h-5",
                                     }}
                                     content={
-                                        <ImageForm
+                                        <AvatarImageForm
                                             setFile={setFile}
                                             onUpload={() => setAvatarEdit(true)}
                                         />

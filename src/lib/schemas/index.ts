@@ -86,22 +86,6 @@ export const ContactSchema = z.object({
     context: z.string().min(5, { message: "Context must be bigger than 5 characters" }).max(2000, { message: "Context must be less than 2000 characters" }),
 });
 
-export const LoginSchema = z.object({
-    email: z.string()
-        .trim()
-        .min(1,
-            {
-                message: 'Email required!'
-            })
-        .email({
-            message: 'Invalid email!'
-        })
-        .refine(
-            validator.isEmail,
-            { message: "Invalid email" }
-        ),
-    redirectTo: z.string()
-});
 
 // Define allowed MIME types and a maximum file size (e.g. 5 MB)
 const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
@@ -115,6 +99,7 @@ export const ImageSchema = z.instanceof(File)
     .refine((file) => file.size <= MAX_FILE_SIZE, {
         message: "File is too large. Maximum allowed size is 5MB.",
     });
+
 
 export const nameSchema = z
     .string()
@@ -150,101 +135,14 @@ export const descriptionSchema = z.string()
     .min(50, { message: "Description must be bigger than 50 characters" })
     .max(500, { message: "Description must be less than 500 characters" });
 
-export const availabilitySchema = z.record(
-    z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, "Invalid date format, expected DD/MM/YYYY"),
-    z.object({
-        from: z.enum(Object.keys(timeMap) as [string, ...string[]], {
-            errorMap: (issue, ctx) => {
-                return { message: "Incorrect time in availability" };
-            },
-        }),
-        to: z.enum(Object.keys(timeMap) as [string, ...string[]], {
-            errorMap: (issue, ctx) => {
-                return { message: "Incorrect time in availability" };
-            },
-        }),
-        availability: z.enum(["Free", "Busy"], {
-            errorMap: (issue, ctx) => {
-                return { message: "Availability must be Free or Busy" };
-            },
-        }),
-    })
-);
 
-export const deliveryOptionsSchema = z.record(
-    z.enum(Object.keys(cityLatLngMap) as [string, ...string[]], {
-        errorMap: (issue, ctx) => {
-            return { message: "Delivery Location must be a valid city" };
-        },
-    }),
-    z.object({
-        range: z.number()
-            .min(1, { message: "Range must be a valid number greater than or equal to 1" })
-            .max(10, { message: "Range must be a valid number less than or equal to 10" })
-    })
-);
-
-
-export const AddressDataFieldSchema = z.object({
-    route: z.string().min(1, { message: "Street Address Name is required" }),
-    street_number: z.string().optional(),
-    sub_premise: z.string().optional(),
-    premise: z.string().optional(),
-    country: z.string().min(1, { message: "Country is required" }),
-    zip_code: z.string().min(1, { message: "Zip Code is required" }),
-    city: z.string().min(1, { message: "City is required" }).optional().refine(
-        (val) => val !== null && val !== undefined,
-        {
-            message: "City is required" ,
-        }
-    ),
-    state: z.string().optional(),
-    latitude: z.number().min(-90, { message: "Latitude must be a valid number" }).max(90, { message: "Latitude must be a valid number" }),
-    longitude: z.number().min(-180, { message: "Longitude must be a valid number" }).max(180, { message: "Longitude must be a valid number" }),
-    delivery_notes: z.string().max(200, {message: "Maximum 200 characters in the description note"}).optional(),
-});
-
-
-export const storeCreateSchema = z.object({
-    nickname: nicknameSchema.nullable().optional().refine(
-        (val) => val !== null && val !== undefined,
-        {
-            message: "Nickname is required",
-        }
-    ),
-    locationData: AddressDataFieldSchema.nullable().optional().refine(
-        (val) => val !== null && val !== undefined,
-        {
-            message: "Address is required",
-        }
-    )
-});
-
-export const storeEditSchema = z.object({
-    nickname: nicknameSchema.nullable().optional().refine(
-        (val) => val !== null && val !== undefined,
-        {
-            message: "Nickname is required",
-        }
-    ),
-    name: nameSchema.nullable().optional().refine(
-        (val) => val !== null && val !== undefined,
-        {
-            message: "Store Name is required",
-        }
-    ),
-    description: descriptionSchema.nullable().optional(),
-    image: ImageSchema.nullable().optional(),
-    background: ImageSchema.nullable().optional()
-});
-
-export const productEditSchema = z.object({
+export const ProductSchema = z.object({
     category: z.enum(Object.keys(categories) as [string, ...string[]], {
         errorMap: (issue, ctx) => {
             return { message: "Category must be from the list" };
         },
     }),
-    name: nameSchema.nullable().optional().refine(
+    name: nameSchema.nullable().refine(
         (val) => val !== null && val !== undefined,
         {
             message: "Product Name is required",
@@ -264,24 +162,14 @@ export const productEditSchema = z.object({
             message: "Price is required",
         }
     ),
-    image: ImageSchema.nullable().optional().refine(
+    url: z.string().url({ message: "Invalid URL" }).optional().refine(
         (val) => val !== null && val !== undefined,
         {
-            message: "Product Image is required",
+            message: "Image is required",
         }
     ),
 });
 
-
-export const userEditSchema = z.object({
-    name: nameSchema.nullable().optional().refine(
-        (val) => val !== null && val !== undefined,
-        {
-            message: "Name is required",
-        }
-    ),
-    image: ImageSchema.nullable().optional(),
-});
 
 
 

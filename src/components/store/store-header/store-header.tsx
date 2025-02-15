@@ -17,8 +17,8 @@ export function StoreHeader() {
     const location = store?.location.route ? `${store.location.route}, ${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
 
     return (
-        <div className={'flex flex-row w-full items-center max-w-[440px] md:max-w-[540px]'}>
-            <>
+        <div className={'flex flex-row w-full items-center max-w-[440px] md:w-2/3'}>
+            <div className={'w-[140px]'}>
                 <Avatar
                     isBordered
                     showFallback={!!store.picture}
@@ -29,9 +29,8 @@ export function StoreHeader() {
                     classNames={{
                         base: `bg-default text-text shadow-lg`,
                     }}
-
                 />
-            </>
+            </div>
             <Spacer x={8}/>
             <div>
                 <CopyText
@@ -51,7 +50,7 @@ export function StoreHeader() {
                         {location}
                     </p>
                 </CopyText>
-                <Spacer y={2}/>
+                <Spacer y={4}/>
                 <CopyText
                     copyText={store?.phone ? store.phone : 'Phone Number Placeholder'}
                     className={"max-w-[300px] md:max-w-[400px] md:text-lg"}

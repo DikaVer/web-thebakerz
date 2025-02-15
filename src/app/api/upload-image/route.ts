@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { BlobServiceClient } from "@azure/storage-blob";
 import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
-import {connectionPool, containerClientAvatar} from "@/db";
+import {connectionPool, containerClientAvatar, containerClientProduct} from "@/db";
 import {globalGETRateLimit} from "@/lib/actions/requests";
 import {getCurrentSession} from "@/lib/actions/session";
 import {ImageSchema} from "@/lib/schemas";
@@ -25,8 +25,9 @@ export async function POST(request: Request) {
         // Parse the incoming form data
         const formData = await request.formData();
         const fileField = formData.get("file");
+        const containerName = formData.get("container");
 
-        if (!fileField || !(fileField instanceof File)) {
+        if (!fileField || !(fileField instanceof File) || !containerName) {
             return NextResponse.json(
                 { error: "File not provided" },
                 { status: 400 }
@@ -65,15 +66,26 @@ export async function POST(request: Request) {
             .toBuffer();
 
 
-
+        let containerClient;
         // Ensure the container exists (this call is idempotent)
-        await containerClientAvatar.createIfNotExists();
+        if (containerName === "avatars") {
+            await containerClientAvatar.createIfNotExists();
+            containerClient = containerClientAvatar;
+        } else if (containerName === "products") {
+            await containerClientProduct.createIfNotExists();
+            containerClient = containerClientProduct;
+        } else {
+            return NextResponse.json(
+                { error: "Invalid container name" },
+                { status: 400 }
+            );
+        }
 
         // Generate a unique file name (with .webp extension)
         const uniqueFileName = `${uuidv4()}.webp`;
 
         // Get a block blob client and upload the processed image
-        const blockBlobClient = containerClientAvatar.getBlockBlobClient(uniqueFileName);
+        const blockBlobClient = containerClient.getBlockBlobClient(uniqueFileName);
         await blockBlobClient.uploadData(processedBuffer, {
             blobHTTPHeaders: { blobContentType: "image/webp" },
         });
@@ -82,10 +94,12 @@ export async function POST(request: Request) {
         const blobUrl = blockBlobClient.url;
 
 
-        await connectionPool.query(
-          `UPDATE users SET image = $1 WHERE id = $2`,
-          [blobUrl, user?.id]
-        );
+        if (containerName === "avatars") {
+            await connectionPool.query(
+                `UPDATE users SET image = $1 WHERE id = $2`,
+                [blobUrl, user?.id]
+            );
+        }
 
         return NextResponse.json({ success: "Image updated successfully!", url: blobUrl }, { status: 200 });
     } catch (error) {

@@ -1,4 +1,4 @@
-// avatar-upload.tsx
+// image-upload.tsx
 'use client';
 
 import { Modal, ModalContent, ModalHeader } from "@heroui/react";
@@ -12,14 +12,19 @@ interface AvatarImageUploaderProps {
     isOpen: boolean;
     onClose: () => void;
     file: File | undefined;
-    setFile: (files: File) => void;
+    title: string;
+    subtitle: string;
+    container: string;
+    setImageURL?: (url: string) => void;
 }
 
-export function AvatarImageUploader({
+export function ImageUploader({
+    title, subtitle, container,
                                         isOpen,
                                         onClose,
                                         file,
-                                        setFile,
+    setImageURL,
+
                                     }: AvatarImageUploaderProps) {
     const [previewUrl, setPreviewUrl] = useState<string | undefined>();
 
@@ -27,7 +32,7 @@ export function AvatarImageUploader({
     useEffect(() => {
         if (file) {
             const formData = new FormData();
-            formData.append("file", file, "avatar.webp");
+            formData.append("file", file, "image.webp");
 
             const validateFile = ImageSchema.safeParse(formData.get("file"));
             if (!validateFile.success) {
@@ -48,20 +53,19 @@ export function AvatarImageUploader({
 
     return (
         <>
-            <Modal size="md" isOpen={isOpen} onOpenChange={onClose} backdrop="blur">
+            <Modal size="md" isOpen={isOpen} onOpenChange={onClose} backdrop="blur" placement={'center'}>
                 <ModalContent>
                     {(modalClose) => (
                         <>
                             <ModalHeader className="flex flex-col">
-                                <p className="text-base font-medium text-default-700">Avatar Settings</p>
-                                <p className="mt-1 text-sm font-normal text-default-400">
-                                    Upload or edit your current avatar
-                                </p>
+                                <p className="text-base font-medium text-default-700">{title}</p>
+                                <p className="mt-1 text-sm font-normal text-default-400">{subtitle}</p>
                             </ModalHeader>
                             <CropEasy
                                 photoURL={previewUrl}
                                 setOpenCrop={onClose}
-                                setFile={setFile}
+                                container={container}
+                                setImageURL={setImageURL}
                             />
                         </>
                     )}

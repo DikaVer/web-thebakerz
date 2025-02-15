@@ -3,9 +3,9 @@
 import React from "react";
 import {Card, Image} from "@heroui/react";
 import { formatCurrency } from "@/lib/utils";
-import {CardFooter, CardHeader} from "@heroui/card";
+import {CardFooter} from "@heroui/card";
 import {ProductData} from "@/lib/actions/product";
-import {useMediaQuery} from "usehooks-ts";
+import {useProductDialog} from "@/components/providers/product-provider";
 
 
 interface ProductBaseProps {
@@ -16,14 +16,16 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                                             productData,
                                                         }) => {
 
-    const isMobile = useMediaQuery("(max-width: 560px)");
+
+    const { handleOpen } = useProductDialog();
+
 
     return (
         <div
             id={productData.id}
             className={`cursor-pointer max-w-sm border-1 rounded-2xl`}
 
-            // onClick={onClick}
+            onClick={() => handleOpen(productData.id, undefined)}
         >
             <Card
                 isFooterBlurred

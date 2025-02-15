@@ -34,18 +34,18 @@ export default async function Layout({
 
     return (
         <>
-            <StoreProvider
-                store={storeData}
-            >
-                <ProductDialogProvider>
-                        <LayoutComp
-                            store={storeData}
-                        >
-                            {children}
-                            <Footer/>
-                        </LayoutComp>
-                </ProductDialogProvider>
-            </StoreProvider>
+            <ProductDialogProvider>
+                <StoreProvider
+                    store={storeData}
+                >
+                            <LayoutComp
+                                store={storeData}
+                            >
+                                {children}
+                                <Footer/>
+                            </LayoutComp>
+                </StoreProvider>
+            </ProductDialogProvider>
         </>
     );
 }

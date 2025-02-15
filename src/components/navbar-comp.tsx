@@ -14,6 +14,7 @@ import {Icon} from "@iconify/react";
 import {SigninButton} from "@/components/ui/signin-button";
 import {useMediaQuery} from "usehooks-ts";
 import {StoreData} from "@/lib/actions/store";
+import {useStore} from "@/components/providers/store-provider";
 
 interface LayoutProps {
     store?: StoreData
@@ -27,22 +28,24 @@ export default function NavbarComponent({store, setIsCollapsed, onOpenChange, on
 
     const isSmall = useMediaQuery("(max-width: 1024px)");
 
-
+    const { isSticky } = store ? useStore() : {isSticky: false};
 
     return (
         <>
-            <div className={`absolute h-[86px] bg-grayBg/40  backdrop-blur-2xl `}/>
+
             <Navbar
                 {...props}
                 classNames={{
-                    base: `sticky py-4 backdrop-filter-none bg-transparent`,
-                    wrapper: "px-4 w-full justify-center bg-transparent",
-                    item: "hidden md:flex",
+                    base: `sticky py-4 w-full backdrop-filter-none bg-transparent`,
+                    wrapper: "px-4 w-full justify-center bg-transparent max-w-[1400px]",
+                    item: "hidden md:flex ",
+
                 }}
+                className={'z-40'}
                 height="54px"
             >
             <NavbarContent
-                    className={`flex data-[justify=center]:justify-between w-full max-w-2xl gap-8 rounded-full border-small border-default-200/20 px-2 shadow-medium backdrop-blur-xl bg-grayBg/50`}
+                    className={`flex data-[justify=center]:justify-between w-full gap-8 rounded-full ${isSticky && "rounded-3xl rounded-b-none" } border-small border-default-200/20 px-2 shadow-medium backdrop-blur-xl`}
                     justify={"center"}
                 >
                     {/* Toggle */}
@@ -70,7 +73,7 @@ export default function NavbarComponent({store, setIsCollapsed, onOpenChange, on
                     <NavbarBrand className=" w-[40rem]  max-w-fit">
                         <a
                             className={`font-medium text-2xl ${pacifico.className}`}
-                            href={"/"}
+                            href={store?.ownerName ? `/${store?.storeName}` : "/"}
                         >
                             {store?.ownerName || "TheBakerz"}
                         </a>
