@@ -9,6 +9,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import {ImageSchema} from "@/lib/schemas";
 
 interface AvatarImageUploaderProps {
+    type: "square" | "circle";
     isOpen: boolean;
     onClose: () => void;
     file: File | undefined;
@@ -19,7 +20,7 @@ interface AvatarImageUploaderProps {
 }
 
 export function ImageUploader({
-    title, subtitle, container,
+    title, subtitle, container, type,
                                         isOpen,
                                         onClose,
                                         file,
@@ -62,6 +63,7 @@ export function ImageUploader({
                                 <p className="mt-1 text-sm font-normal text-default-400">{subtitle}</p>
                             </ModalHeader>
                             <CropEasy
+                                type={type}
                                 photoURL={previewUrl}
                                 setOpenCrop={onClose}
                                 container={container}

@@ -20,6 +20,7 @@ interface Area {
 }
 
 interface CropEasyProps {
+    type: "square" | "circle";
     photoURL: string | undefined;
     setOpenCrop: (open: boolean) => void;
     container: string;
@@ -27,6 +28,7 @@ interface CropEasyProps {
 }
 
 const CropEasy: React.FC<CropEasyProps> = ({
+    type,
                                                photoURL,
                                                setOpenCrop,
     container,
@@ -53,31 +55,6 @@ const CropEasy: React.FC<CropEasyProps> = ({
             const { file, url } = await getCroppedImg(photoURL, croppedAreaPixels, rotation);
             if (file) {
                 setIsPending(true);
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const localPreview = e.target?.result;
-                    if (container === "avatars" && session) {
-                        setSession((prevSession): SessionValidationResult => {
-                            if (!session) return prevSession;
-
-                            if (prevSession.user) {
-                                return {
-                                    ...prevSession,
-                                    user: {
-                                        ...prevSession.user,
-                                        picture: typeof localPreview === "string" ? localPreview : "",
-                                    } as User,
-                                }
-                            }
-
-                            return prevSession;
-                        });
-                    } else {
-                        setImageURL && setImageURL(typeof localPreview === "string" ? localPreview : "");
-                    }
-                };
-
-                reader.readAsDataURL(file);
 
                 // Prepare form data for upload
                 const formData = new FormData();
@@ -108,10 +85,30 @@ const CropEasy: React.FC<CropEasyProps> = ({
                 }
 
                 // Get the blob URL from the response
-                const { success: success } = await response.json();
+                const { success: success, url: url } = await response.json();
 
                 // Show success message
                 showSuccessMessage({success: success});
+
+                if (container === "avatars" && session) {
+                    setSession((prevSession): SessionValidationResult => {
+                        if (!session) return prevSession;
+
+                        if (prevSession.user) {
+                            return {
+                                ...prevSession,
+                                user: {
+                                    ...prevSession.user,
+                                    picture: url,
+                                } as User,
+                            }
+                        }
+
+                        return prevSession;
+                    });
+                } else {
+                    setImageURL && setImageURL(url);
+                }
 
                 setOpenCrop(false);
             } else {
@@ -148,7 +145,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                         rotation={rotation}
                         aspect={1}
                         classes={{
-                            cropAreaClassName: 'rounded-full',
+                            cropAreaClassName: `${type === "circle" && "rounded-full"}`,
                         }}
                         onZoomChange={setZoom}
                         onRotationChange={setRotation}
@@ -203,7 +200,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                     startContent={!isPending && <Icon icon="solar:gallery-edit-broken" width={24} />}
                     isLoading={isPending}
                 >
-                    {isPending ? "Uploading..." : "Upload Avatar"}
+                    {isPending ? "Uploading..." : "Upload Image"}
                 </Button>
             </ModalFooter>
         </>

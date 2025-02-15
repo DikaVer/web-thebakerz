@@ -1,7 +1,6 @@
 'use client';
 
 import React, {createContext, useContext, ReactNode, useState} from 'react';
-import {useDisclosure} from "@heroui/react";
 import ProductDialog from "@/components/store/product/dialog/product-dialog";
 import {ProductData, ProductDataFull} from "@/lib/actions/product";
 import {ItemCart} from "@/lib/actions/cart";
@@ -52,13 +51,13 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode }> = ({ child
         setProductsData(data);
     }
 
+
     return (
         <ProductDialogContext.Provider
             value={{
                 handleOpen,
                 getProductDataById,
-                setProductsDataLocal
-
+                setProductsDataLocal,
         }}
         >
             <ProductDialog productData={productData} isOpen={isOpen} onClose={onClose} itemCart={itemCart}/>

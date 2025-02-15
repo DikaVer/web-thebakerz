@@ -132,7 +132,6 @@ export const nicknameSchema = z
     ;
 
 export const descriptionSchema = z.string()
-    .min(50, { message: "Description must be bigger than 50 characters" })
     .max(500, { message: "Description must be less than 500 characters" });
 
 
@@ -148,12 +147,7 @@ export const ProductSchema = z.object({
             message: "Product Name is required",
         }
     ),
-    description: descriptionSchema.nullable().optional().refine(
-        (val) => val !== null && val !== undefined,
-        {
-            message: "Description is required",
-        }
-    ),
+    description: descriptionSchema.nullable().optional(),
     price: z.number({
         message: "Price is required",
     }).min(0, { message: "Price must be a positive number" }).refine(

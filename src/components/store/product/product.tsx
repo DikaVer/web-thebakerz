@@ -32,12 +32,14 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                 radius="lg"
                 className={`border-none shadow-none `}
             >
+                <div className={`w-[380px] aspect-square`}>
                     <Image
                         removeWrapper
                         alt={productData.name}
-                        className="object-cover"
+                        className="object-cover w-full"
                         src={productData.picture}
                     />
+                </div>
                 <CardFooter
                     className={`justify-between items-end bg-background/40 border-white/20 border-1  overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10`}>
                     <p className={`w-full text-xl cm:text-2xl truncate mr-6 font-medium`}>{productData.name}</p>

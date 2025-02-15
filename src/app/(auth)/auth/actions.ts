@@ -130,9 +130,8 @@ export async function verifyEmailAction(_prev: ActionResult, formData: z.infer<t
 
     const sessionToken =  generateSessionToken();
     const session = await createSession(sessionToken, user.id);
-    //@ts-ignore
-    await setSessionTokenCookie(sessionToken, session.expiresAt);
 
+    await setSessionTokenCookie(sessionToken, session.expiresAt);
     await deleteUserEmailVerificationRequest(user.id);
     await updateUserEmailAndSetEmailAsVerified(user.id, verificationRequest.email);
     await deleteEmailVerificationRequestCookie();

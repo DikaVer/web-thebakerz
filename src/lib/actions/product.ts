@@ -3,10 +3,15 @@ import * as z from "zod";
 import {ProductSchema} from "@/lib/schemas";
 import {getCurrentSession} from "@/lib/actions/session";
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
+import {v4 as uuidv4} from "uuid";
+import {containerClientProduct, containerProducts} from "@/db";
+import {getStoreIdByStoreName} from "@/lib/actions/store";
+
 
 // This action is similar to your sendEmail function.
 export const addProduct = async (
-    formData: z.infer<typeof ProductSchema>
+    formData: z.infer<typeof ProductSchema>,
+    productId?: string,
 ) => {
 
     if (!await globalPOSTRateLimit()){
@@ -26,121 +31,127 @@ export const addProduct = async (
         return { error: "User not found!" };
     }
 
+    // Determine which productId to use.
+    const prodId = productId || uuidv4();
 
-    return { success: "Products updated successfully!" };
+    // Build the product data object.
+    const productData = {
+        id: prodId,
+        store_id: store.id,
+        category: formData.category,
+        name: formData.name,
+        description: formData.description,
+        price: formData.price * 100,
+        picture: formData.url,
+    };
+
+    try {
+        if (productId) {
+            console.log("Updating product");
+            console.log(productData);
+            await containerProducts.item(productData.id, productData.store_id).patch({
+                operations: [
+                    {
+                        op: "set",
+                        // Update the product name.
+                        path: "/name",
+                        value: productData.name,
+                    },
+                    {
+                        op: "set",
+                        // Update the product price.
+                        path: "/price",
+                        value: productData.price,
+                    },
+                    {
+                        op: "set",
+                        path: "/description",
+                        value: productData.description ?? ""
+                    },
+                    {
+                        op: "set",
+                        // Update the product category.
+                        path: "/category",
+                        value: productData.category,
+                    },
+                    {
+                        op: "set",
+                        // Update the image URL.
+                        path: "/picture",
+                        value: productData.picture,
+                    }
+                    // Add any additional field updates as needed.
+                ],
+            });
+        } else {
+            await containerProducts.items.create(productData);
+        }
+
+        return { success: "Product updated successfully!", product: productData };
+    } catch (error: any) {
+        console.error("Error updating product:", error);
+        return { error: "Failed to update product." };
+
+    }
 };
 
-export async function getProductsByStoreName(storeId: string): Promise<ProductDataFull | null> {
+/**
+ * Deletes a product document from Cosmos DB.
+ *
+ * @param productId - The unique ID of the product to delete.
+ * @param storeId - The store's ID (used as the partition key).
+ * @returns A promise resolving to a success message or an error message.
+ */
+export const deleteProduct = async (
+    productId: string
+): Promise<{ success?: string; error?: string }> => {
     try {
-        return {
-            // 4 Bakery products
-            "prod_001": {
-                id: "prod_001",
-                store_id: "store_001",
-                category: "Bakery",
-                name: "Chocolate Croissant",
-                description: "A flaky croissant filled with rich chocolate.",
-                price: 399,
-                picture:
-                    "https://storage4thebakerz.blob.core.windows.net/avatars/de6360d8-dde3-429f-a35f-6cd2d39a0d22.webp",
-            },
-            "prod_002": {
-                id: "prod_002",
-                store_id: "store_001",
-                category: "Bakery",
-                name: "Blueberry Muffin",
-                description: "Moist muffin bursting with fresh blueberries.",
-                price: 299,
-                picture:
-                    "https://storage4thebakerz.blob.core.windows.net/avatars/de6360d8-dde3-429f-a35f-6cd2d39a0d22.webp",
-            },
-            "prod_003": {
-                id: "prod_003",
-                store_id: "store_001",
-                category: "Bakery",
-                name: "Banana Bread",
-                description: "Classic moist banana bread with a hint of cinnamon.",
-                price: 449,
-                picture:
-                    "https://storage4thebakerz.blob.core.windows.net/avatars/de6360d8-dde3-429f-a35f-6cd2d39a0d22.webp",
-            },
-            "prod_004": {
-                id: "prod_004",
-                store_id: "store_001",
-                category: "Bakery",
-                name: "Sourdough Loaf",
-                description: "Tangy, crusty sourdough bread baked fresh daily.",
-                price: 599,
-                picture:
-                    "https://storage4thebakerz.blob.core.windows.net/avatars/de6360d8-dde3-429f-a35f-6cd2d39a0d22.webp",
-            },
+        if (!await globalPOSTRateLimit()){
+            return {
+                error: "Too many requests"
+            }
+        }
 
-            // 3 Beverages products
-            "prod_005": {
-                id: "prod_005",
-                store_id: "store_001",
-                category: "Beverages",
-                name: "Fresh Orange Juice",
-                description: "Cold-pressed orange juice, rich in vitamin C.",
-                price: 349,
-                picture:
-                    "https://storage4thebakerz.blob.core.windows.net/avatars/de6360d8-dde3-429f-a35f-6cd2d39a0d22.webp",
-            },
-            "prod_006": {
-                id: "prod_006",
-                store_id: "store_001",
-                category: "Beverages",
-                name: "Iced Coffee",
-                description: "A refreshing iced coffee with a smooth flavor.",
-                price: 299,
-                picture:
-                    "https://storage4thebakerz.blob.core.windows.net/avatars/de6360d8-dde3-429f-a35f-6cd2d39a0d22.webp",
-            },
-            "prod_007": {
-                id: "prod_007",
-                store_id: "store_001",
-                category: "Beverages",
-                name: "Herbal Tea",
-                description: "Soothing herbal tea, perfect for a relaxing break.",
-                price: 249,
-                picture:
-                    "https://storage4thebakerz.blob.core.windows.net/avatars/de6360d8-dde3-429f-a35f-6cd2d39a0d22.webp",
-            },
+        const {user, store} = await getCurrentSession();
 
-            // 2 Snacks products
-            "prod_008": {
-                id: "prod_008",
-                store_id: "store_001",
-                category: "Snacks",
-                name: "Mixed Nuts",
-                description: "A healthy mix of almonds, cashews, and walnuts.",
-                price: 499,
-                picture:
-                    "https://storage4thebakerz.blob.core.windows.net/avatars/de6360d8-dde3-429f-a35f-6cd2d39a0d22.webp",
-            },
-            "prod_009": {
-                id: "prod_009",
-                store_id: "store_001",
-                category: "Snacks",
-                name: "Granola Bar",
-                description: "Crunchy granola bar with oats, honey, and dried fruits.",
-                price: 199,
-                picture:
-                    "https://storage4thebakerz.blob.core.windows.net/avatars/de6360d8-dde3-429f-a35f-6cd2d39a0d22.webp",
-            },
+        if (!user || !store) {
+            return { error: "User not found!" };
+        }
 
-            // 1 Desserts product
-            "prod_010": {
-                id: "prod_010",
-                store_id: "store_001",
-                category: "Desserts",
-                name: "Cheesecake",
-                description: "Creamy cheesecake with a buttery graham cracker crust.",
-                price: 699,
-                picture:
-                    "https://storage4thebakerz.blob.core.windows.net/avatars/de6360d8-dde3-429f-a35f-6cd2d39a0d22.webp",
-            },
-        };;
+        // Delete the product document using its id and the storeId as the partition key.
+        await containerProducts.item(productId, store.id).delete();
+        return { success: "Product deleted successfully!" };
+    } catch (error: any) {
+        console.error("Error deleting product:", error);
+        // Optionally, check for specific error codes (e.g., 404) to customize the message.
+        return { error: "Failed to delete product." };
+    }
+};
+
+export async function getProductsByStoreName(storeName: string): Promise<ProductDataFull> {
+    try {
+        const storeId = await getStoreIdByStoreName(storeName);
+
+        if (!storeId) {
+            return {};
+        }
+
+        const querySpec = {
+            query: "SELECT * FROM c WHERE c.store_id = @storeId",
+            parameters: [{ name: "@storeId", value: storeId }]
+        };
+
+        const { resources: products } = await containerProducts.items
+            .query(querySpec, { partitionKey: storeId })
+            .fetchAll();
+
+
+        const productDataFull: ProductDataFull = {};
+        products.forEach((product: ProductData) => {
+            productDataFull[product.id] = product;
+        });
+
+        return productDataFull;
     } catch (error) {
         console.error("Error fetching store products:", error);
         throw new Error("Failed to fetch store products");
@@ -153,7 +164,7 @@ export type ProductData = {
     store_id: string;
     category: string;
     name: string;
-    description: string;
+    description?: string | null;
     price: number;
     picture: string;
 };

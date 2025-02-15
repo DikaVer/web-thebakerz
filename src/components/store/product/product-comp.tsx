@@ -3,9 +3,12 @@ import { ProductListBase } from "@/components/store/product/product-list";
 import { getProductsByStoreName, ProductData, ProductDataFull } from "@/lib/actions/product";
 
 export const ProductComponentBase: React.FC<{ storeName: string }> = async ({ storeName }) => {
-    const productsData: ProductDataFull | null = await getProductsByStoreName(storeName);
+    const productsData: ProductDataFull = await getProductsByStoreName(storeName);
 
-    if (!productsData) {
+
+    console.log(productsData);
+
+    if (productsData === null || Object.keys(productsData).length === 0) {
         return (
             <div className="text-center">
                 <p className="text-2xl my-10">Store does not have any products yet.</p>

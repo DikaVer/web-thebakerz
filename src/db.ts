@@ -34,7 +34,9 @@ const cosmosClient = new CosmosClient({
     key: process.env.NEXT_PRIVATE_COSMOS_DB_KEY!,
 });
 
-export const databaseSchedule = cosmosClient.database("StoreScheduleDB");
-export const containerWorkingHours = databaseSchedule.container("WorkingHours");
+export const cosmosDB = cosmosClient.database("TheBakerzCosmosDB");
+export const containerWorkingHours = cosmosDB.container("WorkingHours");
+export const containerProducts = cosmosDB.container("Products");
+
 
 

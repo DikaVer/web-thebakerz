@@ -131,6 +131,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                 {/* Profile */}
                 <div>
                     <ImageUploader
+                        type={"circle"}
                         title={"Profile Picture"}
                         subtitle={"Upload a profile picture"}
                         file={file}

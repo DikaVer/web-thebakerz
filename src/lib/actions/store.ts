@@ -54,6 +54,22 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
     }
 }
 
+export async function getStoreIdByStoreName(storeName: string): Promise<string | null> {
+
+    const result = await connectionPool.query(
+        `SELECT id
+         FROM stores
+         WHERE LOWER(nickname) = LOWER($1)`,
+        [storeName]
+    );
+
+    if (result.rows.length === 0) {
+        return null;
+    }
+
+    return result.rows[0].id;
+}
+
 async function getLocationStore(storeId: string): Promise<LocationData> {
     try {
         const result = await connectionPool.query(
