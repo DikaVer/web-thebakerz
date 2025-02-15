@@ -3,10 +3,11 @@
 import React from "react";
 import {useStore} from "@/components/providers/store-provider";
 import {Avatar} from "@heroui/avatar";
-import { Spacer} from "@heroui/react";
+import {Popover, PopoverContent, PopoverTrigger, Spacer, Tooltip} from "@heroui/react";
 import {IconCopy, IconLocation, IconPhone} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
 import {CopyText} from "@/components/ui/copy-text";
+import showSuccessMessage from "@/components/toast/toast-succes";
 
 
 export function StoreHeader() {
@@ -16,20 +17,31 @@ export function StoreHeader() {
 
     const location = store?.location.route ? `${store.location.route}, ${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
 
+
     return (
         <div className={'flex flex-row w-full items-center max-w-[440px] md:w-2/3'}>
             <div className={'w-[140px]'}>
-                <Avatar
-                    isBordered
-                    showFallback={!!store.picture}
-                    className={`w-[140px] h-[140px] text-large ml-1`}
-                    name={store.ownerName}
-                    src={store.picture}
-                    color={'primary'}
-                    classNames={{
-                        base: `bg-default text-text shadow-lg`,
-                    }}
-                />
+                <Popover placement="right">
+                    <PopoverTrigger>
+                    <Avatar
+                        isBordered
+                        showFallback={!!store.picture}
+                        className={`w-[140px] h-[140px] text-large ml-1`}
+                        name={store.ownerName}
+                        src={store.picture}
+                        color={'primary'}
+                        classNames={{
+                            base: `bg-default text-text shadow-lg`,
+                        }}
+                    />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <div className="px-1 py-2">
+                            <div className="text-small font-bold">{store.storeName}</div>
+                            <div className="text-tiny">{store.description}</div>
+                        </div>
+                    </PopoverContent>
+                </Popover>
             </div>
             <Spacer x={8}/>
             <div>
