@@ -37,7 +37,7 @@ export function StoreHeader() {
                     </PopoverTrigger>
                     <PopoverContent>
                         <div className="px-1 py-2">
-                            <div className="text-small font-bold">{store.storeName}</div>
+                            <div className="text-small font-bold">{store.ownerName}</div>
                             <div className="text-tiny">{store.description}</div>
                         </div>
                     </PopoverContent>
