@@ -92,7 +92,7 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
             <div className="flex flex-row w-full items-end justify-end">
                 {(session?.user?.role === "bakerz" && session.store?.id === store.id) ? (
                     <Button
-                        className="w-[150px] h-14 justify-start bg-gradient-primary text-white font-medium"
+                        className="w-[150px] h-12 justify-start bg-gradient-primary text-white font-medium"
                         startContent={
                             <Icon
                                 icon="solar:add-square-broken"
@@ -113,7 +113,7 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                             minValue={today("Europe/Amsterdam")}
                             value={selectedDate}
                             onValueChange={handleDateChange}
-                            placeholder='Enter a date and time'
+                            placeholder='Order date and time'
                         />
                     </>
                 )}

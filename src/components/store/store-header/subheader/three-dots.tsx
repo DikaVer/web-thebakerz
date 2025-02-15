@@ -28,7 +28,7 @@ const ThreeDotsDropdown = () => {
                     color="default"
                     variant="light"
                     isLoading={isLoading}
-                    className="hover:bg-primary border-2 border-default-200 h-14 shadow-sm"
+                    className="hover:bg-primary h-12 border-2 border-default-200 shadow-sm"
                 >
                     {!isLoading && (
                         <IconDots

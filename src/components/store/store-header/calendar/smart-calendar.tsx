@@ -157,15 +157,15 @@ const DateTimeLocalInput = ({ className, ...props }: DateTimeLocalInputProps) =>
                 <Button
                     variant="bordered"
                     size="lg"
-                    endContent={<Icon icon="solar:calendar-broken" width={32} className="text-default-500" />}
-                    className={`h-14 ${className || ""} ${value ? "underline underline-offset-2 text-text font-medium text-default-500" : "text-default-500"}`}
+                    endContent={<Icon icon="solar:calendar-broken" width={24} className="text-default-500" />}
+                    className={`h-12 ${className || ""} ${value ? "underline underline-offset-2 text-text font-medium text-default-500" : "text-default-500"}`}
                 >
                     <span className="sr-only">calendar</span>
                     <p className="mt-2">{value ? formatDate(value) : props.placeholder}</p>
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0 bg-background">
-                <div className="flex gap-1">
+                <div className="flex flex-row gap-1">
                     {showCalendar && (
                         <Calendar
                             id="calendar"
@@ -179,7 +179,7 @@ const DateTimeLocalInput = ({ className, ...props }: DateTimeLocalInputProps) =>
                             initialFocus
                         />
                     )}
-                    {showTimePicker && <TimePicker />}
+                    {(showTimePicker && value) && <TimePicker />}
                 </div>
             </PopoverContent>
         </Popover>
@@ -216,7 +216,7 @@ const TimePicker = () => {
     const allowedRange = React.useMemo(() => {
         if (!value) return null;
         if (!schedule) {
-            return { startHour: 0, startMinute: 0, endHour: 24, endMinute: 0 };
+            return null;
         }
         const jsDate = new Date(value.year, value.month - 1, value.day);
         const weekday = jsDate.getDay();
