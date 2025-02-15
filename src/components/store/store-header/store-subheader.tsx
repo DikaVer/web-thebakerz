@@ -113,7 +113,7 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                             minValue={today("Europe/Amsterdam")}
                             value={selectedDate}
                             onValueChange={handleDateChange}
-                            placeholder='Order date and time'
+                            placeholder='Schedule Order Time'
                         />
                     </>
                 )}

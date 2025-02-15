@@ -144,7 +144,7 @@ const DateTimeLocalInput = ({ className, ...props }: DateTimeLocalInputProps) =>
                 value.minute
             );
         } else {
-            newDateTime = new CalendarDateTime(selectedDate.year, selectedDate.month, selectedDate.day, 0, 0);
+            newDateTime = new CalendarDateTime(selectedDate.year, selectedDate.month, selectedDate.day, 12, 0);
         }
 
         onValueChange(newDateTime);
@@ -161,7 +161,7 @@ const DateTimeLocalInput = ({ className, ...props }: DateTimeLocalInputProps) =>
                     className={`h-12 ${className || ""} ${value ? "underline underline-offset-2 text-text font-medium text-default-500" : "text-default-500"}`}
                 >
                     <span className="sr-only">calendar</span>
-                    <p className="mt-2">{value ? formatDate(value) : props.placeholder}</p>
+                    <p className="">{value ? formatDate(value) : props.placeholder}</p>
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0 bg-background">

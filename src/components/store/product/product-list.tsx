@@ -40,7 +40,11 @@ export const ProductListBase = <P,>({
     const [selectedTab, setSelectedTab] = useState("");
     const { setProductsDataLocal } = useProductDialog();
 
-    setProductsDataLocal(productsData);
+    useEffect(() => {
+        if (productsData) {
+            setProductsDataLocal(productsData);
+        }
+    }, [productsData, setProductsDataLocal]);
 
     useEffect(() => {
         const onScroll = () => {

@@ -76,7 +76,8 @@ export default function CookieConsentComponent() {
             <h1 className="text-large font-semibold">Your Privacy</h1>
             <p className="text-small font-normal text-default-700">
                 This site uses tracking technologies to improve your experience. You may choose to accept or
-                reject these technologies. Check our{" "}
+                reject these technologies. If you choose to &nbsp;<span className="font-semibold">&quot;Reject All&quot;</span>, we
+                will use cookies for only essential purposes. Check our{" "}
                 <Link href="/policies/privacy-policy" size="sm" underline="always">
                     Privacy
                 </Link>{" "}
@@ -123,13 +124,8 @@ export default function CookieConsentComponent() {
             <div className="flex justify-between gap-x-3">
                 <Button
                     fullWidth
+                    className={`bg-gradient-primary text-default-200 text-lg`}
                     radius="lg"
-                    style={{
-                        border: "solid 2px transparent",
-                        backgroundImage: `linear-gradient(hsl(var(--nextui-primary)), hsl(var(--nextui-background))), linear-gradient(83.87deg, #F54180, #9353D3)`,
-                        backgroundOrigin: "border-box",
-                        backgroundClip: "padding-box, border-box",
-                    }}
                     onPress={handleAcceptSelected}
                 >
                     Accept Selected
@@ -152,7 +148,8 @@ export default function CookieConsentComponent() {
             <p className="text-small font-normal text-default-700">
                 By clicking&nbsp;
                 <b className="font-semibold">&quot;Accept All&quot;</b>, you consent to the use of ALL the
-                cookies. However, you may visit&nbsp;
+                cookies. If you choose to &nbsp;<span className="font-semibold">&quot;Reject All&quot;</span>, we
+                will use cookies for only essential purposes. However, you may visit&nbsp;
                 <span className="font-semibold">&quot;Cookie Settings&quot;</span> to provide a controlled
                 consent. For more information, please read our{" "}
                 <Link href="/policies/privacy-policy" size="sm" underline="hover">
