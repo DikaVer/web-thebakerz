@@ -42,7 +42,7 @@ export const renderCalendarTopContent = () => {
             <DropdownTrigger>
                 <Button
                     variant="bordered"
-                    className={'text-default-600 bg-gradient-card w-full max-w-52 py-2'}
+                    className={'text-default-600 bg-gradient-card w-full max-w-52 '}
                     startContent={ <Icon icon={"solar:sort-by-time-linear"} width={24} className={"text-default-500"}/>}
                     endContent={<Icon icon={"hugeicons:arrow-down-01"} width={24} className={"text-default-500 rotate-180"}/>}
                 >
