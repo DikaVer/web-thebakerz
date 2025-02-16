@@ -54,7 +54,7 @@ const CartItemRow: React.FC<CartItemRowProps> = ({
             key={item.id}
             className="flex gap-4 p-4 border-b border-gray-200"
         >
-            <div className="w-20 h-20">
+            <div className="w-20 h-20 aspect-square">
                 <Image
                     removeWrapper
                     alt={productData.name}
@@ -64,7 +64,7 @@ const CartItemRow: React.FC<CartItemRowProps> = ({
             </div>
             <div className="flex w-full justify-between">
                 <div className="flex flex-col">
-                    <p className="font-medium">{productData.name}</p>
+                    <p className="font-medium truncate max-w-[130px]">{productData.name}</p>
                     <Spacer y={4} />
                     {item.note && (
                         <p className="text-sm text-gray-600">Note: {item.note}</p>
