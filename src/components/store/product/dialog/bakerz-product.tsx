@@ -36,6 +36,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import { Form, FormField, FormItem, FormControl} from "@/components/ui/form";
 import {useRouter} from "next/navigation";
 import showSuccessMessage from "@/components/toast/toast-succes";
+import {ScrollShadow} from "@heroui/scroll-shadow";
 
 type ProductDialogProps = {
     productData: ProductData | undefined;
@@ -185,21 +186,85 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                     </div>
                                 )}
                             </div>
-                            <div className="flex flex-col px-4">
-                                <div className="flex flex-row">
-                                    {/* Product Name Field */}
+                            <ScrollShadow className={"max-h-[300px]"} size={100}>
+                                <div className="flex flex-col px-4">
+                                    <div className="flex flex-row">
+                                        {/* Product Name Field */}
+                                        <FormField
+                                            control={form.control}
+                                            name="name"
+                                            render={({ field, fieldState }) => (
+                                                <FormItem className="w-2/3">
+                                                    <FormControl>
+                                                        <Input
+                                                            {...field}
+                                                            variant="underlined"
+                                                            placeholder="Item Name"
+                                                            classNames={{
+                                                                input: cn("text-xl sm:text-2xl truncate font-medium"),
+                                                            }}
+                                                            validate={() => {
+                                                                return fieldState.error?.message;
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </FormItem>
+                                            )}
+                                        />
+                                        {/* Price Field */}
+                                        <FormField
+                                            control={form.control}
+                                            name="price"
+                                            render={({ field, fieldState }) => (
+                                                <FormItem className="w-1/3">
+                                                    <FormControl>
+                                                        <Input
+                                                            {...field}
+                                                            type="number"
+                                                            placeholder="0.00"
+                                                            value={field.value !== undefined ? String(field.value) : ""}
+                                                            variant={'underlined'}
+                                                            classNames={{
+                                                                input: cn("text-lg cm:text-xl font-light"),
+                                                            }}
+                                                            startContent={
+                                                                <div className="pointer-events-none flex items-center">
+                                                                    <span className="text-default-400 text-3xl">€</span>
+                                                                </div>
+                                                            }
+                                                            onChange={(e) => {
+                                                                const num = parseFloat(e.target.value);
+                                                                field.onChange(isNaN(num) ? 0 : num);
+                                                            }}
+                                                            validate={() => {
+                                                                return fieldState.error?.message;
+                                                            }}
+                                                            onBlur={field.onBlur}
+                                                            ref={field.ref}
+                                                            className="text-lg cm:text-xl font-light"
+                                                        />
+                                                    </FormControl>
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                    <Spacer y={2} />
+                                    {/* Description Field */}
                                     <FormField
                                         control={form.control}
-                                        name="name"
+                                        name="description"
                                         render={({ field, fieldState }) => (
-                                            <FormItem className="w-2/3">
+                                            <FormItem>
                                                 <FormControl>
-                                                    <Input
+                                                    <Textarea
                                                         {...field}
+                                                        value={field.value ?? ""}
+                                                        placeholder="Add a description to your item..."
                                                         variant="underlined"
-                                                        placeholder="Item Name"
+                                                        style={{ resize: "none" }}
+                                                        className=" text-default-400"
                                                         classNames={{
-                                                            input: cn("text-xl sm:text-2xl truncate font-medium"),
+                                                            input: cn("min-h-[40px] text-base text-default-400"),
                                                         }}
                                                         validate={() => {
                                                             return fieldState.error?.message;
@@ -209,101 +274,40 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                             </FormItem>
                                         )}
                                     />
-                                    {/* Price Field */}
+                                    <Spacer y={2} />
+                                    {/* Category Field */}
                                     <FormField
                                         control={form.control}
-                                        name="price"
+                                        name="category"
                                         render={({ field, fieldState }) => (
-                                            <FormItem className="w-1/3">
+                                            <FormItem className={'flex w-full justify-end'}>
                                                 <FormControl>
-                                                    <Input
+                                                    <Select
                                                         {...field}
-                                                        type="number"
-                                                        placeholder="0.00"
-                                                        value={field.value !== undefined ? String(field.value) : ""}
-                                                        variant={'underlined'}
-                                                        classNames={{
-                                                            input: cn("text-lg cm:text-xl font-light"),
-                                                        }}
-                                                        startContent={
-                                                            <div className="pointer-events-none flex items-center">
-                                                                <span className="text-default-400 text-3xl">€</span>
-                                                            </div>
-                                                        }
-                                                        onChange={(e) => {
-                                                            const num = parseFloat(e.target.value);
-                                                            field.onChange(isNaN(num) ? 0 : num);
-                                                        }}
+                                                        placeholder="Select a category"
+                                                        variant="underlined"
+                                                        className="w-1/2"
                                                         validate={() => {
                                                             return fieldState.error?.message;
                                                         }}
-                                                        onBlur={field.onBlur}
-                                                        ref={field.ref}
-                                                        className="text-lg cm:text-xl font-light"
-                                                    />
+                                                        defaultSelectedKeys={[field.value]}
+
+                                                    >
+                                                        {Object.keys(categories).map((key) => (
+                                                            <SelectItem key={key} value={key}>
+                                                                {key}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </Select>
                                                 </FormControl>
                                             </FormItem>
                                         )}
                                     />
                                 </div>
-                                <Spacer y={2} />
-                                {/* Description Field */}
-                                <FormField
-                                    control={form.control}
-                                    name="description"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <Textarea
-                                                    {...field}
-                                                    value={field.value ?? ""}
-                                                    placeholder="Add a description to your item..."
-                                                    variant="underlined"
-                                                    style={{ resize: "none" }}
-                                                    className=" text-default-400"
-                                                    classNames={{
-                                                        input: cn("min-h-[40px] text-base text-default-400"),
-                                                    }}
-                                                    validate={() => {
-                                                        return fieldState.error?.message;
-                                                    }}
-                                                />
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-                                <Spacer y={2} />
-                                {/* Category Field */}
-                                <FormField
-                                    control={form.control}
-                                    name="category"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem className={'flex w-full justify-end'}>
-                                            <FormControl>
-                                                <Select
-                                                    {...field}
-                                                    placeholder="Select a category"
-                                                    variant="underlined"
-                                                    className="w-1/2"
-                                                    validate={() => {
-                                                        return fieldState.error?.message;
-                                                    }}
-                                                    defaultSelectedKeys={[field.value]}
-
-                                                >
-                                                    {Object.keys(categories).map((key) => (
-                                                        <SelectItem key={key} value={key}>
-                                                            {key}
-                                                        </SelectItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
+                            </ScrollShadow>
                         </>
                     </ModalBody>
+
                     <ModalFooter className="px-4 space-x-4">
                         {productData && (
                             <>

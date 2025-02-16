@@ -1,10 +1,8 @@
 'use server';
-import {globalPOSTRateLimit} from "@/lib/actions/requests";
+import { globalPOSTRateLimit } from "@/lib/actions/requests";
 import {getCartSessionCookie, getCartSessionCookieOrCreate, getCurrentSession} from "@/lib/actions/session";
-import {v4 as uuidv4} from "uuid";
-import {cookies} from "next/headers";
-import {containerCart} from "@/db";
-
+import { v4 as uuidv4 } from "uuid";
+import { containerCart } from "@/db";
 
 export interface CartData {
     [store_id: string]: CartItem;
@@ -27,15 +25,6 @@ export interface ItemCart {
 
 /**
  * Updates or adds a product to the cart in Cosmos DB.
- * The partition key is a synthetic key combining store_id, user_id, and the cart item id.
- *
- * @param productId - The product's ID.
- * @param storeId - The store's ID.
- * @param note
- * @param quantity
- * @param itemId
- *                   If not provided, a new cart item will be created.
- * @returns An object indicating success or error.
  */
 export const updateCart = async (
     productId: string,
@@ -45,64 +34,79 @@ export const updateCart = async (
     itemId?: string
 ): Promise<{ success?: string; error?: string; itemCart?: ItemCart }> => {
     try {
-
-        if (!await globalPOSTRateLimit()){
-            return {
-                error: "Too many requests"
-            }
+        if (!(await globalPOSTRateLimit())) {
+            return { error: "Too many requests" };
         }
-
-        // Get the current session (user id from session or cookie).
         const session = await getCurrentSession();
-
         let userId;
         if (!session || !session.user) {
             userId = await getCartSessionCookieOrCreate();
         } else {
             userId = session.user.id;
         }
+        if (!userId) return { error: "User not found!" };
 
-        if (!userId) {
-            return { error: "User not found!" };
-        }
-
-        // Determine the cart item id.
-        // If updating an existing cart item, use its id; otherwise generate a new one.
-
-        const cartKey = `${storeId}_${userId}`;
-
+        // If your container uses a composite partition key with /store_id and /user_id,
+        // use an array: [storeId, userId]
+        const partitionKeyValue = [storeId, userId];
         const now = new Date().toISOString();
         const newItemCart: ItemCart = {
             id: itemId || uuidv4(),
             store_id: storeId,
             product_id: productId,
-            note: note,
-            quantity: quantity,
+            note,
+            quantity,
             createdAt: now,
             expiredAt: now, // adjust expiration logic as needed
             user_id: userId,
         };
 
-        // Upsert (insert or update) the cart item document.
-        // Since the container is partitioned on /cartKey, passing that ensures proper placement.
-        if (itemId){
-            await containerCart.item(itemId, cartKey).patch({
+        if (itemId) {
+            await containerCart.item(itemId, partitionKeyValue).patch({
                 operations: [
                     { op: "set", path: "/note", value: newItemCart.note },
                     { op: "set", path: "/quantity", value: newItemCart.quantity },
-                    // add other operations as needed
                 ],
             });
         } else {
             await containerCart.items.create(newItemCart);
         }
-
         return { success: "Cart updated successfully!", itemCart: newItemCart };
     } catch (error: any) {
         console.error("Error updating cart:", error);
         return { error: "Failed to update cart." };
     }
 };
+
+/**
+ * Removes a product from the cart in Cosmos DB.
+ */
+export const removeCartItem = async (
+    storeId: string,
+    itemId: string
+): Promise<{ success?: string; error?: string }> => {
+    try {
+        if (!(await globalPOSTRateLimit())) {
+            return { error: "Too many requests" };
+        }
+        const session = await getCurrentSession();
+        let userId;
+        if (!session || !session.user) {
+            userId = await getCartSessionCookieOrCreate();
+        } else {
+            userId = session.user.id;
+        }
+        if (!userId) return { error: "User not found!" };
+
+        const partitionKeyValue = [storeId, userId];
+        await containerCart.item(itemId, partitionKeyValue).delete();
+        return { success: "Item removed successfully!" };
+    } catch (error: any) {
+        console.error("Error removing cart item:", error);
+        return { error: "Failed to remove cart item." };
+    }
+};
+
 
 /**
  * Retrieves the full cart for a given store and user.

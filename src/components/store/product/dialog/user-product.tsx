@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     Modal,
     ModalContent,
@@ -28,6 +28,7 @@ import { Alert } from "@heroui/alert";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import {useStore} from "@/components/providers/store-provider";
 import {useProductDialog} from "@/components/providers/product-provider";
+import {useRouter} from "next/navigation";
 
 type ProductDialogProps = {
     productData: ProductData;
@@ -47,23 +48,26 @@ export default function UserProductDialog({
     const totalPrice = formatCurrency((productData?.price || 1) * quantity);
     const [note, setNote] = useState(itemCart?.note || "");
     const [isLoading, setIsLoading] = useState(false);
-    const { addItem } = useProductDialog();
-
+    const { addItem, updateItem } = useProductDialog();
 
 
     // This function calls the updateCart server action.
     const handleUpdateCart = async () => {
         setIsLoading(true);
         try {
-            // Call our server action to update (or add) the cart item.
-            // We pass productData.id as product_id, productData.store_id as store_id, and the note and quantity.
-            const result = await updateCart(productData.id, productData.store_id, note, quantity,  itemCart?.id);
-            if (result.success) {
-                showSuccessMessage({ success: result.success });
-                result.itemCart && addItem(result.itemCart);
+            if (!itemCart){// Call our server action to update (or add) the cart item.
+                // We pass productData.id as product_id, productData.store_id as store_id, and the note and quantity.
+                const result = await updateCart(productData.id, productData.store_id, note, quantity);
+                if (result.success) {
+                    showSuccessMessage({success: result.success});
+                    result.itemCart && addItem(result.itemCart);
+                    onClose();
+                } else if (result.error) {
+                    showErrorMessage({error: result.error});
+                }
+            } else {
+                await updateItem({...itemCart, note, quantity});
                 onClose();
-            } else if (result.error) {
-                showErrorMessage({ error: result.error });
             }
         } catch (error: any) {
             showErrorMessage({ error: "Unexpected error" });
