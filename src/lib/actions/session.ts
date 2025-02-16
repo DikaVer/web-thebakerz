@@ -1,11 +1,8 @@
 import 'server-only';
-import {
-    encodeBase32LowerCaseNoPadding,
-    encodeHexLowerCase,
-} from "@oslojs/encoding";
-import { sha256 } from "@oslojs/crypto/sha2";
-import { cookies } from "next/headers";
-import { cache } from "react";
+import {encodeBase32LowerCaseNoPadding, encodeHexLowerCase,} from "@oslojs/encoding";
+import {sha256} from "@oslojs/crypto/sha2";
+import {cookies} from "next/headers";
+import {cache} from "react";
 
 import type {User} from "./user";
 import {connectionPool} from "@/db";
@@ -206,7 +203,7 @@ export async function deleteSessionTokenCookie(): Promise<void> {
     });
 }
 
-export async function getCartSessionCookie(): Promise<string> {
+export async function getCartSessionCookieOrCreate(): Promise<string> {
     const cookieStore = await cookies();
     let userId = cookieStore.get("cart-session")?.value ?? null;
     if (userId === null) {
@@ -220,6 +217,11 @@ export async function getCartSessionCookie(): Promise<string> {
         });
     }
     return userId;
+}
+
+export async function getCartSessionCookie(): Promise<string | null> {
+    const cookieStore = await cookies();
+    return cookieStore.get("cart-session")?.value ?? null;
 }
 
 export function generateSessionToken(): string {

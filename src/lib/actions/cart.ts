@@ -1,6 +1,6 @@
 'use server';
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
-import {getCartSessionCookie, getCurrentSession} from "@/lib/actions/session";
+import {getCartSessionCookie, getCartSessionCookieOrCreate, getCurrentSession} from "@/lib/actions/session";
 import {v4 as uuidv4} from "uuid";
 import {cookies} from "next/headers";
 import {containerCart} from "@/db";
@@ -57,7 +57,7 @@ export const updateCart = async (
 
         let userId;
         if (!session || !session.user) {
-            userId = await getCartSessionCookie();
+            userId = await getCartSessionCookieOrCreate();
         } else {
             userId = session.user.id;
         }
@@ -121,6 +121,8 @@ export const getCart = async (
     } else {
         userId = session.user.id;
     }
+
+    if (!userId) return {};
 
     const querySpec = {
         query: "SELECT * FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
