@@ -5,9 +5,9 @@ import { Minus, Plus } from 'lucide-react';
 import * as React from 'react';
 import { Button, Tooltip } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import debounce from 'lodash.debounce';
 import {IconLoadingCircle} from "@/components/ui/icons";
 import {useEffect} from "react";
+import {useDebouncedCallback} from "use-debounce";
 
 type Props = {
     isCart?: boolean;
@@ -42,20 +42,16 @@ export function InputStepper({
     // Loading state during debounce/waiting for the async action to finish.
 
     // Create a debounced version of the update function.
-    const debouncedUpdate = React.useMemo(
-        () =>
-            debounce(async (newVal: number) => {
-                setIsLoading && setIsLoading(true);
-                try {
-                    if (onChange) {
-                        await onChange(newVal);
-                    }
-                } finally {
-                    setIsLoading && setIsLoading(false);
-                }
-            }, 500),
-        [onChange]
-    );
+    const debouncedUpdate = useDebouncedCallback(async (newVal: number) => {
+        setIsLoading && setIsLoading(true);
+        try {
+            if (onChange) {
+                await onChange(newVal);
+            }
+        } finally {
+            setIsLoading && setIsLoading(false);
+        }
+    }, 500);
 
     useEffect(() => {
         setLocalValue(value);
