@@ -140,23 +140,40 @@ const CartButton: React.FC<{ ownerName?: string }> = ({ ownerName }) => {
                 <DrawerContent>
                     {(onClose) => (
                         <>
-                            <DrawerHeader className="flex flex-col">
-                                {!isMobile && <Spacer y={16} />}
-                                <p className="text-default-500 text-xs font-medium">
-                                    Your cart from
-                                </p>
-                                <p className="text-xl">{ownerName}</p>
-                                <Spacer y={4} />
-                                <Button className="w-full bg-gradient-primary text-2xl rounded-full text-white">
-                                    Continue
-                                </Button>
-                            </DrawerHeader>
-                            <DrawerBody>
-                                <ScrollShadow className="max-h-full">
-                                    <Divider />
-                                    {renderCartItems()}
-                                </ScrollShadow>
-                            </DrawerBody>
+                            {itemCount > 0 ?
+                                (
+                                    <>
+                                        <DrawerHeader className="flex flex-col">
+                                            {!isMobile && <Spacer y={16} />}
+                                            <p className="text-default-500 text-xs font-medium">
+                                                Your cart from
+                                            </p>
+                                            <p className="text-xl">{ownerName}</p>
+                                            <Spacer y={4} />
+                                            <Button className="w-full bg-gradient-primary text-2xl rounded-full text-white">
+                                                Continue
+                                            </Button>
+                                        </DrawerHeader>
+                                        <DrawerBody>
+                                            <ScrollShadow className="max-h-full">
+                                                <Divider />
+                                                {renderCartItems()}
+                                            </ScrollShadow>
+                                        </DrawerBody>
+                                    </>
+                                ) : (
+                                    <>
+                                        <DrawerHeader className="flex flex-col text-xs font-medium items-center">
+                                            {!isMobile && <Spacer y={16} />}
+                                            <p>
+                                                Your cart is empty
+                                            </p>
+                                            <p>Add items to get started</p>
+                                            <Spacer y={48} />
+                                        </DrawerHeader>
+                                    </>
+                                )
+                            }
                             {/* Optionally add a DrawerFooter */}
                         </>
                     )}
