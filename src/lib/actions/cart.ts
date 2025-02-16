@@ -121,8 +121,6 @@ export const getCart = async (
     } else {
         userId = session.user.id;
     }
-    // Compute the synthetic partition key.
-    const cartKey = `${storeId}_${userId}`;
 
     const querySpec = {
         query: "SELECT * FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",

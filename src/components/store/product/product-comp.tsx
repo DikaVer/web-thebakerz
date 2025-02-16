@@ -1,9 +1,9 @@
 import React from "react";
 import { ProductListBase } from "@/components/store/product/product-list";
-import { getProductsByStoreName, ProductData, ProductDataFull } from "@/lib/actions/product";
+import { getProductsByStoreId, ProductData, ProductDataFull } from "@/lib/actions/product";
 
-export const ProductComponentBase: React.FC<{ storeName: string }> = async ({ storeName }) => {
-    const productsData: ProductDataFull = await getProductsByStoreName(storeName);
+export const ProductComponentBase: React.FC<{ storeId: string }> = async ({ storeId }) => {
+    const productsData: ProductDataFull = await getProductsByStoreId(storeId);
 
     if (productsData === null || Object.keys(productsData).length === 0) {
         return (

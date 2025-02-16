@@ -133,9 +133,8 @@ export const deleteProduct = async (
     }
 };
 
-export async function getProductsByStoreName(storeName: string): Promise<ProductDataFull> {
+export async function getProductsByStoreId(storeId: string): Promise<ProductDataFull> {
     try {
-        const storeId = await getStoreIdByStoreName(storeName);
 
         if (!storeId) {
             return {};

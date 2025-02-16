@@ -5,9 +5,8 @@ import {StoreProvider} from "@/components/providers/store-provider";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import LayoutComp from "@/components/layout-comp";
 
-import NotFound from "@/app/(store)/[id]/not-found";
 import {getStoreDataByStoreNameOrId} from "@/lib/actions/store";
-import {getCart} from "@/lib/actions/cart";
+import NotFound from "@/app/(error_layout)/not-found";
 
 type Params = Promise<{ id: string  }>
 
@@ -26,32 +25,9 @@ export default async function Layout({
 
     const { id } = await params
 
-    const storeData = await getStoreDataByStoreNameOrId(id);
-
-    if (!storeData) {
-        return NotFound();
-    }
-
-    const cartData = await getCart(storeData.id);
-
-
     return (
-        <>
-            <ProductDialogProvider
-                cart={cartData}
-                storeId={storeData.id}
-            >
-                <StoreProvider
-                    store={storeData}
-                >
-                            <LayoutComp
-                                store={storeData}
-                            >
-                                {children}
-                                <Footer/>
-                            </LayoutComp>
-                </StoreProvider>
-            </ProductDialogProvider>
-        </>
+        <div className={'min-h-svh'}>
+            {children}
+        </div>
     );
 }
