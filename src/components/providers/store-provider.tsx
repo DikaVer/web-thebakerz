@@ -12,10 +12,10 @@ interface StoreContextType {
     isSticky: boolean;
 }
 
-const CartContext = createContext<StoreContextType | undefined>(undefined);
+const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
 export const useStore = (): StoreContextType => {
-    const context = useContext(CartContext);
+    const context = useContext(StoreContext);
     if (!context) {
         throw new Error('useStore must be used within a StoreProvider');
     }
@@ -34,7 +34,6 @@ export const StoreProvider: React.FC<StoreProviderProps> = ({store, children }) 
 
     const [isSticky, setIsSticky] = useState(false);
 
-    const [cart, setCart] = useState<StoreData>();
 
     // Set up an IntersectionObserver to watch the sentinel.
     useEffect(() => {
@@ -56,9 +55,12 @@ export const StoreProvider: React.FC<StoreProviderProps> = ({store, children }) 
     }, []);
 
 
+
+
+
     return (
-        <CartContext.Provider value={{ store, sentinelRef, isSticky }}>
+        <StoreContext.Provider value={{ store, sentinelRef, isSticky }}>
             {children}
-        </CartContext.Provider>
+        </StoreContext.Provider>
     );
 };

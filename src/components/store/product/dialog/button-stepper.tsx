@@ -3,9 +3,11 @@ import { cn } from '@/lib/utils';
 import NumberFlow from '@number-flow/react';
 import { Minus, Plus } from 'lucide-react';
 import * as React from 'react';
-import {Button} from "@heroui/react";
+import {Button, Tooltip} from "@heroui/react";
+import {Icon} from "@iconify/react";
 
 type Props = {
+    isCart?: boolean;
     value?: number;
     min?: number;
     max?: number;
@@ -13,6 +15,7 @@ type Props = {
 };
 
 export function InputStepper({
+    isCart,
                           value = 0,
                           min = -Infinity,
                           max = Infinity,
@@ -61,18 +64,24 @@ export function InputStepper({
 
     return (
         <div className='group flex items-stretch rounded-md justify-center text-2xl font-semibold w-fit mx-auto'>
-            <Button
-                isIconOnly
-                aria-hidden
-                variant={'bordered'}
-                radius={'full'}
-                tabIndex={-1}
-                className='flex items-center pl-[.5em] pr-[.325em]'
-                disabled={min != null && value <= min}
-                onPointerDown={handlePointerDown(-1)}
-            >
-                <Minus className='size-4' absoluteStrokeWidth strokeWidth={3.5} />
-            </Button>
+            <Tooltip content={(isCart && value === 1) ? "Delete Item" : "Remove Item"}>
+                <Button
+                    isIconOnly
+                    aria-hidden
+                    variant={'bordered'}
+                    radius={'full'}
+                    tabIndex={-1}
+                    className='flex items-center pl-[.5em] pr-[.325em]'
+                    disabled={min != null && value <= min}
+                    onPointerDown={handlePointerDown(-1)}
+                >
+                    {isCart && value === 1 ? (
+                        <Icon icon={'solar:trash-bin-trash-broken'} width={24}/>
+                    ) : (
+                        <Minus className='size-4' strokeWidth={3.5}/>
+                    )}
+                </Button>
+            </Tooltip>
             <div className="relative grid items-center justify-items-center text-center [grid-template-areas:'overlap'] *:[grid-area:overlap]">
                 <input
                     ref={inputRef}
@@ -102,18 +111,20 @@ export function InputStepper({
                     willChange
                 />
             </div>
-            <Button
-                isIconOnly
-                variant={'bordered'}
-                radius={'full'}
-                aria-hidden
-                tabIndex={-1}
-                className='flex items-center pl-[.325em] pr-[.5em]'
-                disabled={max != null && value >= max}
-                onPointerDown={handlePointerDown(1)}
-            >
-                <Plus className='size-4' absoluteStrokeWidth strokeWidth={3.5} />
-            </Button>
+            <Tooltip content={"Add Item"}>
+                <Button
+                    isIconOnly
+                    variant={'bordered'}
+                    radius={'full'}
+                    aria-hidden
+                    tabIndex={-1}
+                    className='flex items-center pl-[.325em] pr-[.5em]'
+                    disabled={max != null && value >= max}
+                    onPointerDown={handlePointerDown(1)}
+                >
+                    <Plus className='size-4' absoluteStrokeWidth strokeWidth={3.5} />
+                </Button>
+            </Tooltip>
         </div>
     );
 }

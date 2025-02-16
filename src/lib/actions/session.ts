@@ -11,6 +11,7 @@ import type {User} from "./user";
 import {connectionPool} from "@/db";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
 import {StoreData} from "@/lib/actions/store";
+import {v4 as uuidv4} from "uuid";
 
 export async function validateSessionToken(
     token: string
@@ -64,6 +65,8 @@ export async function validateSessionToken(
         role: row.role,
         picture: row.picture
     };
+
+
 
     const storeResult = await connectionPool.query(
         `
@@ -201,6 +204,22 @@ export async function deleteSessionTokenCookie(): Promise<void> {
         sameSite: "lax",
         maxAge: 0,
     });
+}
+
+export async function getCartSessionCookie(): Promise<string> {
+    const cookieStore = await cookies();
+    let userId = cookieStore.get("cart-session")?.value ?? null;
+    if (userId === null) {
+        userId = uuidv4();
+        cookieStore.set("cart-session", userId, {
+            path: '/', // makes the cookie available on the entire site
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 60 * 60 * 24 * 5, // 5 days
+        });
+    }
+    return userId;
 }
 
 export function generateSessionToken(): string {

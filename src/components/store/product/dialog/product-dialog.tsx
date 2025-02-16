@@ -35,7 +35,9 @@ export default function ProductDialog({productData, itemCart, isOpen, onClose }:
                                     (
                                         <BakerzProductDialog productData={productData} onClose={onClose} />
                                     ) : (
-                                        <UserProductDialog productData={productData} onClose={onClose} itemCart={itemCart} />
+                                        productData && (
+                                            <UserProductDialog productData={productData} onClose={onClose} itemCart={itemCart}/>
+                                        )
                                     )
                             }
                         </>

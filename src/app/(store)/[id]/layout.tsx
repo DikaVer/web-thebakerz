@@ -7,6 +7,7 @@ import LayoutComp from "@/components/layout-comp";
 
 import NotFound from "@/app/(store)/[id]/not-found";
 import {getStoreDataByStoreNameOrId} from "@/lib/actions/store";
+import {getCart} from "@/lib/actions/cart";
 
 type Params = Promise<{ id: string  }>
 
@@ -31,10 +32,15 @@ export default async function Layout({
         return NotFound();
     }
 
+    const cartData = await getCart(storeData.id);
+
 
     return (
         <>
-            <ProductDialogProvider>
+            <ProductDialogProvider
+                cart={cartData}
+                storeId={storeData.id}
+            >
                 <StoreProvider
                     store={storeData}
                 >

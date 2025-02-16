@@ -35,6 +35,7 @@ import { Alert } from "@heroui/alert";
 import showErrorMessage from "@/components/toast/toast-error";
 import { Form, FormField, FormItem, FormControl} from "@/components/ui/form";
 import {useRouter} from "next/navigation";
+import showSuccessMessage from "@/components/toast/toast-succes";
 
 type ProductDialogProps = {
     productData: ProductData | undefined;
@@ -93,6 +94,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                         className: "p-0 rounded-xl",
                     }
                 );
+                showSuccessMessage({ success: "Product added!" });
                 onClose();
                 router.refresh();
             } else if (result?.error) {

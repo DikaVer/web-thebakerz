@@ -92,7 +92,7 @@ export const addProduct = async (
             await containerProducts.items.create(productData);
         }
 
-        return { success: "Product updated successfully!", product: productData };
+        return { success: "Products updated successfully!", product: productData };
     } catch (error: any) {
         console.error("Error updating product:", error);
         return { error: "Failed to update product." };

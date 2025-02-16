@@ -15,6 +15,8 @@ import {SigninButton} from "@/components/ui/signin-button";
 import {useMediaQuery} from "usehooks-ts";
 import {StoreData} from "@/lib/actions/store";
 import {useStore} from "@/components/providers/store-provider";
+import {Badge} from "@heroui/badge";
+import CartButton from "@/components/cart/cart-button";
 
 interface LayoutProps {
     store?: StoreData
@@ -78,10 +80,17 @@ export default function NavbarComponent({store, setIsCollapsed, onOpenChange, on
                             {store?.ownerName || "TheBakerz"}
                         </a>
                     </NavbarBrand>
-
+                {store ? (
+                    <NavbarItem className="mr-1 !flex">
+                        <CartButton
+                            ownerName={store.ownerName}
+                        />
+                    </NavbarItem>
+                    ):(
                     <NavbarItem className="mr-1 !flex">
                         <SigninButton className={`text-large rounded-full`}/>
                     </NavbarItem>
+                )}
                 </NavbarContent>
 
             </Navbar>
