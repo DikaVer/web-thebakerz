@@ -51,7 +51,7 @@ export function InputStepper({
         } finally {
             setIsLoading && setIsLoading(false);
         }
-    }, 500);
+    }, 1000);
 
     useEffect(() => {
         setLocalValue(value);

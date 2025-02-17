@@ -10,7 +10,7 @@ import { Input } from "@heroui/input";
 import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
 import {Divider, InputOtp, Tooltip} from "@heroui/react";
 import { Icon } from "@iconify/react";
-import {useRouter, useSearchParams} from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import Image from "next/image";
 import {IconMail} from "@/components/ui/icons";
 import Link from "next/link";
@@ -20,7 +20,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 
 
 
-export default function TwoStepAuthForm() {
+export default function TwoStepAuthForm({ setIsLogin }: { setIsLogin?: (value: boolean) => void }) {
 
     const nextParams = useSearchParams();
     const next = nextParams.get('next') as string;
@@ -36,6 +36,7 @@ export default function TwoStepAuthForm() {
     const [resendCooldown, setResendCooldown] = useState(0);
     const [isResending, setIsResending] = useState(false);
     const [resendMessage, setResendMessage] = useState<string | null>(null);
+    const pathname = usePathname();
 
     // Start a countdown timer whenever resendCooldown > 0.
     useEffect(() => {
@@ -88,8 +89,12 @@ export default function TwoStepAuthForm() {
             const state = await verifyEmailAction(previousState, formData);
 
             if (state === null) {
-                router.push(`/transit-login?next=${next ? next : "/"}`);
-                router.refresh();
+                if (!setIsLogin) {
+                    router.push(`/transit-login?next=${next ? next : "/"}`);
+                    router.refresh();
+                } else {
+                    setIsLogin(true);
+                }
             } else {
                 showErrorMessage({error: state?.message})
             }
@@ -305,7 +310,7 @@ export default function TwoStepAuthForm() {
                         <div className="flex flex-row w-full justify-between items-center -my-1">
                             <form
                                 action={async () => {
-                                    router.push(`/api/auth/google?${next ? `next=${next}` : ""}`);
+                                    router.push(`/api/auth/google?${next ? `next=${next}` : pathname}`);
                                 }}
                                 className={"w-full"}
                             >

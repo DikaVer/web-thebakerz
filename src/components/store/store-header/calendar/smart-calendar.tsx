@@ -19,6 +19,7 @@ interface SmartDatetimeInputProps {
     minValue: CalendarDate | CalendarDateTime;
     showCalendar?: boolean;
     showTimePicker?: boolean;
+    isError?: boolean;
 }
 
 interface SmartDatetimeInputContextProps extends SmartDatetimeInputProps {
@@ -55,6 +56,7 @@ export const SmartDatetimeInput = React.forwardRef<
             minValue,
             showCalendar = true,
             showTimePicker = true,
+            isError = false,
         },
         ref
     ) => {
@@ -74,6 +76,7 @@ export const SmartDatetimeInput = React.forwardRef<
         return (
             <SmartDatetimeInputContext.Provider
                 value={{
+                    isError,
                     value,
                     onValueChange,
                     Time,
@@ -109,7 +112,7 @@ type DateTimeLocalInputProps = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 const DateTimeLocalInput = ({ className, ...props }: DateTimeLocalInputProps) => {
-    const { value, onValueChange, schedule, minValue, showCalendar, showTimePicker } =
+    const { value, onValueChange, schedule, minValue, showCalendar, showTimePicker, isError } =
         useSmartDateInput();
 
     // Disable dates if the corresponding weekday in the schedule is missing or disabled
@@ -155,6 +158,7 @@ const DateTimeLocalInput = ({ className, ...props }: DateTimeLocalInputProps) =>
         <Popover>
             <PopoverTrigger asChild>
                 <Button
+                    color={isError ? "danger" : "default"}
                     variant="bordered"
                     size="lg"
                     endContent={<Icon icon="solar:calendar-broken" width={24} className="text-default-500" />}

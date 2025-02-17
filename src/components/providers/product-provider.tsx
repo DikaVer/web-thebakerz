@@ -26,14 +26,15 @@ export const useProductDialog = () => {
 
 const ProductDialogContext = createContext<ProductDialogContextProps | undefined>(undefined);
 
-export const ProductDialogProvider: React.FC<{ children: ReactNode; cart: CartData; storeId: string }> = ({
+export const ProductDialogProvider: React.FC<{ children: ReactNode; cart: CartData; storeId: string; productsDataServer?: ProductDataFull }> = ({
                                                                                                               children,
                                                                                                               cart,
                                                                                                               storeId,
+                                                                                                                productsDataServer,
                                                                                                           }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [productData, setProductData] = useState<ProductData | undefined>();
-    const [productsData, setProductsData] = useState<ProductDataFull>();
+    const [productsData, setProductsData] = useState<ProductDataFull>(productsDataServer ? productsDataServer : {});
     const [itemCart, setItemCartId] = useState<ItemCart | undefined>();
     const [cartData, setCart] = useState<CartData>(cart);
 

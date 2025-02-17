@@ -16,6 +16,8 @@ import {useStore} from "@/components/providers/store-provider";
 import {SmartDatetimeInput} from "@/components/store/store-header/calendar/smart-calendar";
 import {updateOrderTime} from "@/app/(store)/[id]/actions";
 import {useProductDialog} from "@/components/providers/product-provider";
+import showErrorMessage from "@/components/toast/toast-error";
+import {FormError} from "@/components/authentication/form-error";
 
 
 // --- Function to parse a date to numeric date and time strings ---
@@ -53,20 +55,20 @@ export function parseDateParams(
 interface StoreSubHeaderProps {
     dateParam: string | null;
     timeParam: string | null;
+    handleNext: () => void;
 }
 
 
-export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
-    const { session } = useSession();
+export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeaderProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { store, sentinelRef } = useStore();
-    const { handleOpen } = useProductDialog();
-    const [selectedDate, setSelectedDate] = useState<CalendarDateTime | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
+    const [isError, setIsError] = useState(false);
 
+
+    const [selectedDate, setSelectedDate] = useState<CalendarDateTime | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
     useEffect(() => {
         const SearchParams = new URLSearchParams(searchParams.toString());
-        console.log("dateParam", dateParam);
         const calendar = parseDateParams(`${dateParam} ${timeParam}`)
         const {date, time} = parseDateTime(calendar);
         SearchParams.set("date", date?.toString() ?? "");
@@ -80,6 +82,7 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
         const {date, time} = parseDateTime(newDate);
         // Update the URL search parameters (make sure this runs on the client)
         if (date && time) {
+            setIsError(false);
             const newSearchParams = new URLSearchParams(searchParams.toString());
             newSearchParams.set("date", date);
             newSearchParams.set("time", time);
@@ -93,46 +96,39 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
 
 
     return (
-        <div className="flex flex-col w-full justify-center items-center max-w-[440px] md:w-1/3">
-            <Spacer y={4}/>
-            <div className={'flex flex-row w-full justify-end'}>
-                {renderCalendarTopContent()}
+        <div className={'flex flex-col w-full items-center justify-center pb-4'}>
+            <div className="flex flex-col w-full justify-center items-center max-w-[440px] ">
+                <div className={'flex flex-row w-full justify-center'}>
+                    {renderCalendarTopContent()}
+                </div>
+                <Spacer y={4}/>
+                <div className="flex flex-col w-full items-center justify-center">
+                    <SmartDatetimeInput
+                        isError={isError}
+                        schedule={store.schedule}
+                        minValue={today("Europe/Amsterdam")}
+                        value={selectedDate}
+                        onValueChange={handleDateChange}
+                        placeholder='Schedule Order Time'
+                    />
+                    {isError && <Spacer y={2}/>}
+                    <FormError message={isError ? "Please select a date and time to continue" : ""} />
+                </div>
+                <Spacer y={8}/>
             </div>
-            <Spacer y={4}/>
-            <div className="flex flex-row w-full items-end justify-end">
-                {(session?.user?.role === "bakerz" && session.store?.id === store.id) ? (
-                    <Button
-                        className="w-[150px] h-12 justify-start bg-gradient-primary text-white font-medium"
-                        startContent={
-                            <Icon
-                                icon="solar:add-square-broken"
-                                width={24}
-                                className="text-white"
-                            />
-                        }
-                        onPress={() => {
-                            handleOpen();
-                        }}
-                    >
-                        Add Item
-                    </Button>
-                ) : (
-                    <>
-                        <SmartDatetimeInput
-                            schedule={store.schedule}
-                            minValue={today("Europe/Amsterdam")}
-                            value={selectedDate}
-                            onValueChange={handleDateChange}
-                            placeholder='Schedule Order Time'
-                        />
-                    </>
-                )}
-                <Spacer x={2}/>
-
-                <ThreeDotsDropdown/>
-
-            </div>
-            <div ref={sentinelRef} className="h-1"></div>
+            <Button
+                className={'bg-gradient-primary text-white'}
+                endContent={<Icon icon={'solar:alt-arrow-right-linear'} width={24}/> }
+                onPress={() => {
+                    if(selectedDate) {
+                        handleNext();
+                    } else {
+                        setIsError(true);
+                    }
+                }}
+            >
+                Save Pick Up Details
+            </Button>
         </div>
     );
 }

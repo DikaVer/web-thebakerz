@@ -14,9 +14,10 @@ import {StoreData} from "@/lib/actions/store";
 interface LayoutCompProps {
     children: React.ReactNode;
     store?: StoreData;
+    isCheckout?: boolean;
 }
 
-export default function LayoutComp({ children, store }: LayoutCompProps) {
+export default function LayoutComp({ children, store, isCheckout }: LayoutCompProps) {
     const { isOpen, onOpenChange } = useDisclosure();
     const [isCollapsed, setIsCollapsed] = React.useState(true);
     const isMobile = useMediaQuery("(max-width: 768px)");
@@ -34,13 +35,15 @@ export default function LayoutComp({ children, store }: LayoutCompProps) {
     return (
         <div className="flex w-full">
             {/* Sidebar */}
-            <SidebarMenu
+            {!isCheckout &&
+                <SidebarMenu
                 store={store}
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
                 isCollapsed={isCollapsed}
                 isMobile={isMobile}
             />
+            }
 
             <div className="w-full flex-1 flex-col">
                 <NavbarComponent
@@ -48,6 +51,7 @@ export default function LayoutComp({ children, store }: LayoutCompProps) {
                     setIsCollapsed={setIsCollapsed}
                     onOpenChange={onOpenChange}
                     onToggle={onToggle}
+                    isCheckout={isCheckout}
                 />
                 <main className=" w-full overflow-visible">
                     {children}

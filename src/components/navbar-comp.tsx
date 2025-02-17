@@ -17,6 +17,8 @@ import {StoreData} from "@/lib/actions/store";
 import {useStore} from "@/components/providers/store-provider";
 import {Badge} from "@heroui/badge";
 import CartButton from "@/components/cart/cart-button";
+import {useRouter} from "next/navigation";
+import {Avatar} from "@heroui/avatar";
 
 interface LayoutProps {
     store?: StoreData
@@ -24,13 +26,16 @@ interface LayoutProps {
     setIsCollapsed: (value: boolean) => void;
     onToggle: () => void;
     props?: NavbarProps;
+    isCheckout?: boolean;
 }
 
-export default function NavbarComponent({store, setIsCollapsed, onOpenChange, onToggle, props = {}}: LayoutProps) {
+export default function NavbarComponent({store, setIsCollapsed, onOpenChange, onToggle, isCheckout, props = {}}: LayoutProps) {
 
     const isSmall = useMediaQuery("(max-width: 1024px)");
 
     const { isSticky } = store ? useStore() : {isSticky: false};
+
+    const router = useRouter();
 
     return (
         <>
@@ -51,48 +56,90 @@ export default function NavbarComponent({store, setIsCollapsed, onOpenChange, on
                     justify={"center"}
                 >
                     {/* Toggle */}
-                    <NavbarItem className="ml-1 !flex">
-                        <Button isIconOnly size="sm" variant="light" onPress={() => {
-                            if (isSmall) {
-                                setIsCollapsed(false);
-                                onOpenChange();
-                            } else {
-                                onToggle();
+
+                {isCheckout ? (
+                    <>
+                        <NavbarItem className="ml-1 !flex">
+                            <Button size="md"
+                                    variant="light"
+                                    className="text-default-500"
+                                    onPress={() => {
+                                        router.push(`/${store?.storeName}`)
+                                        router.refresh()
+                                    }}
+                                    startContent={
+                                    <Icon
+                                        className="text-default-500"
+                                        height={24}
+                                        icon="solar:alt-arrow-left-linear"
+                                        width={24}
+                                    />
                             }
-                        }}
-                        >
-                            <Icon
-                                className="text-default-500"
-                                height={24}
-                                icon="solar:sidebar-minimalistic-outline"
-                                width={24}
+                            >
+                                Back to {store?.ownerName || "TheBakerz"}
+                            </Button>
+                        </NavbarItem>
+                        <NavbarItem className="ml-1 !flex">
+                            <Avatar
+                                alt="Avatar"
+                                isBordered
+                                onClick={() => {
+                                    router.push(`/${store?.storeName}`)
+                                    router.refresh()
+                                }}
+                                showFallback={!!store?.picture}
+                                size="sm"
+                                name={store?.ownerName}
+                                src={store?.picture}
+                                color={'secondary'}
+                                classNames={{
+                                    base: "bg-default text-text shadow-lg cursor-pointer",
+                                }}
                             />
-                        </Button>
-                    </NavbarItem>
-
-
-                    {/* Logo */}
-                    <NavbarBrand className=" w-[40rem]  max-w-fit">
-                        <a
-                            className={`font-medium text-2xl ${pacifico.className}`}
-                            href={store?.ownerName ? `/${store?.storeName}` : "/"}
-                        >
-                            {store?.ownerName || "TheBakerz"}
-                        </a>
-                    </NavbarBrand>
-                {store ? (
-                    <NavbarItem className="mr-1 !flex">
-                        <CartButton
-                            ownerName={store.ownerName}
+                        </NavbarItem>
+                    </>
+                ):(
+                    <>
+                    <NavbarItem className="ml-1 !flex">
+                    <Button isIconOnly size="sm" variant="light" onPress={() => {
+                        if (isSmall) {
+                            setIsCollapsed(false);
+                            onOpenChange();
+                        } else {
+                            onToggle();
+                        }
+                    }}
+                    >
+                        <Icon
+                            className="text-default-500"
+                            height={24}
+                            icon="solar:sidebar-minimalistic-outline"
+                            width={24}
                         />
-                    </NavbarItem>
-                    ):(
-                    <NavbarItem className="mr-1 !flex">
-                        <SigninButton className={`text-large rounded-full`}/>
-                    </NavbarItem>
-                )}
-                </NavbarContent>
+                    </Button>
+                </NavbarItem>
 
+
+                {/* Logo */}
+                    <NavbarBrand className=" w-[40rem]  max-w-fit">
+                    <a
+                        className={`font-medium text-2xl ${pacifico.className}`}
+                        href={store?.ownerName ? `/${store?.storeName}` : "/"}
+                    >
+                        {store?.ownerName || "TheBakerz"}
+                    </a>
+                    </NavbarBrand>
+                    {store ? (
+                        <NavbarItem className="mr-1 !flex">
+                            <CartButton/>
+                        </NavbarItem>
+                    ):(
+                        <NavbarItem className="mr-1 !flex">
+                            <SigninButton className={`text-large rounded-full`}/>
+                        </NavbarItem>
+                    )}
+                    </>)}
+                </NavbarContent>
             </Navbar>
         </>
     );
