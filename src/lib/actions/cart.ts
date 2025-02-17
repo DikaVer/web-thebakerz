@@ -1,5 +1,5 @@
 'use server';
-import { globalPOSTRateLimit } from "@/lib/actions/requests";
+import {globalGETRateLimit, globalPOSTRateLimit} from "@/lib/actions/requests";
 import {getCartSessionCookie, getCartSessionCookieOrCreate, getCurrentSession} from "@/lib/actions/session";
 import { v4 as uuidv4 } from "uuid";
 import { containerCart } from "@/db";
@@ -106,6 +106,106 @@ export const removeCartItem = async (
         return { error: "Failed to remove cart item." };
     }
 };
+
+/**
+ * Replace guest cart items with the logged-in user's cart items.
+ * This function queries all documents for the guest (guestId) and, for each one,
+ * creates a new document with user_id set to userId, then deletes the guest document.
+ *
+ * @param storeId - The store's ID.
+ * @returns An object indicating success or error.
+ */
+export const replaceGuestCart = async (
+    storeId: string
+): Promise<{ success?: string; error?: string }> => {
+    try {
+        if (!(await globalGETRateLimit())) {
+            return { error: "Too many requests" };
+        }
+
+        const session = await getCurrentSession();
+
+        if (!session || !session.user) {
+            return { error: "Session is not recognized" };
+        }
+
+
+        const userId = session.user.id;
+        const guestId = await getCartSessionCookie();
+
+
+
+        // Assuming your container is partitioned with a composite key on /store_id and /user_id,
+        // you must supply the partition key as an array: [storeId, guestId]
+        const guestPartitionKey = [storeId, guestId];
+        const userPartitionKey = [storeId, userId];
+
+        // Query for all cart items for this guest.
+        const querySpec = {
+            query: "SELECT * FROM c WHERE c.store_id = @storeId AND c.user_id = @guestId",
+            parameters: [
+                { name: "@storeId", value: storeId },
+                { name: "@guestId", value: guestId },
+            ],
+        };
+
+
+        const { resources: guestItems } = await containerCart.items
+            .query(querySpec, { partitionKey: guestPartitionKey })
+            .fetchAll();
+
+
+        // Query for existing user cart items.
+        const userQuerySpec = {
+            query: "SELECT * FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
+            parameters: [
+                { name: "@storeId", value: storeId },
+                { name: "@userId", value: userId },
+            ],
+        };
+
+        const { resources: userItems } = await containerCart.items
+            .query(userQuerySpec, { partitionKey: userPartitionKey })
+            .fetchAll();
+
+        // Delete all existing user items concurrently.
+        if (userItems && userItems.length > 0) {
+            await Promise.all(
+                userItems.map((item) =>
+                    containerCart.item(item.id, userPartitionKey).delete()
+                )
+            );
+        }
+
+        // Process each guest cart item concurrently.
+        if (guestItems && guestItems.length > 0) {
+            await Promise.all(
+                guestItems.map(async (item) => {
+                    // Create a new item with the updated user id.
+                    const newItem: ItemCart = {
+                        ...item,
+                        // Retain the same id (or generate a new one if desired).
+                        id: item.id,
+                        user_id: userId,
+                    };
+
+                    // Insert the new document into the user partition.
+                    await containerCart.items.create(newItem);
+
+                    // Delete the original guest document.
+                    await containerCart.item(item.id, guestPartitionKey).delete();
+                })
+            );
+        }
+
+        return {
+            success: "Guest cart replaced successfully with user cart items!",
+        };
+    } catch (error: any) {
+        console.error("Error replacing guest cart:", error);
+        return { error: "Failed to replace guest cart." };
+    }
+}
 
 
 /**

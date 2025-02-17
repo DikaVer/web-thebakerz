@@ -8,6 +8,10 @@ import NotFound from "@/app/(error_layout)/not-found";
 import {ScheduleOrder} from "@/components/checkout/schedule/schedule-order";
 import {ScrollShadow} from "@heroui/scroll-shadow";
 import CartCheckout from "@/components/checkout/schedule/cart-checkout";
+import {replaceGuestCart} from "@/lib/actions/cart";
+import {useStore} from "@/components/providers/store-provider";
+import showErrorMessage from "@/components/toast/toast-error";
+import showSuccessMessage from "@/components/toast/toast-succes";
 
 export default function CheckoutSteps({ date, time }: { date: string | null; time: string | null }) {
     const defaultContent =
@@ -15,23 +19,30 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
 
     const { session }  = useSession();
 
-    const { user, store } = session;
 
-    if (store) {
+    if (session?.store) {
         return NotFound();
     }
 
+    const { store } = useStore();
+
     // Steps: "1", "2", "3", "4"
     const steps = ["1", "2", "3", "4"];
-    const [currentStep, setCurrentStep] = useState<number>(user ? 2 : 1);
+    const [currentStep, setCurrentStep] = useState<number>(session.user ? 2 : 1);
 
 
     // Only allow the current step to be expanded.
     const expandedKeys = [String(currentStep)];
     const disabledKeys = steps.filter((key) => key !== String(currentStep));
 
-    const handleLogin = (value: boolean) => {
-        handleNext();
+    const handleLogin = async (value: boolean) => {
+        const result = await replaceGuestCart(store.id);
+        if (result.success) {
+            handleNext();
+        } else {
+            showErrorMessage({error: "Failed to update cart."});
+        }
+        console.log('Login');
     }
 
     // Handler for advancing to the next step.
