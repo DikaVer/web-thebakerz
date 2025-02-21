@@ -310,7 +310,7 @@ export default function TwoStepAuthForm({ setIsLogin }: { setIsLogin?: (value: b
                         <div className="flex flex-row w-full justify-between items-center -my-1">
                             <form
                                 action={async () => {
-                                    router.push(`/api/auth/google?${next ? `next=${next}` : pathname}`);
+                                    router.push(`/api/auth/google?${next ? `next=${next}` : `next=${pathname}`}`);
                                 }}
                                 className={"w-full"}
                             >

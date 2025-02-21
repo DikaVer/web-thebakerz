@@ -95,7 +95,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                     <Spacer y={2} />
                     <Divider />
                     {renderCartItems(isLoading, setIsLoading)}
-                    <div className="p-4">
+                    <div className="py-4">
                         <div className="flex justify-between">
                             <span className="text-sm font-medium">Subtotal</span>
                             <span className="text-sm">{formatCurrency(subtotal)}</span>

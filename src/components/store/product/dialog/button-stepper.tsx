@@ -8,6 +8,7 @@ import { Icon } from "@iconify/react";
 import {IconLoadingCircle} from "@/components/ui/icons";
 import {useEffect} from "react";
 import {useDebouncedCallback} from "use-debounce";
+import showErrorMessage from "@/components/toast/toast-error";
 
 type Props = {
     isCart?: boolean;
@@ -49,6 +50,7 @@ export function InputStepper({
                 await onChange(newVal);
             }
         } finally {
+            setLocalValue(value);
             setIsLoading && setIsLoading(false);
         }
     }, 1000);

@@ -1,7 +1,7 @@
 'use client';
 
 // --- 1. CalendarTopContent: Render working hours (or Closed) for the selected day ---
-import {Button, Dropdown, DropdownMenu, DropdownTrigger} from "@heroui/react";
+import {Button, Card, CardBody, Dropdown, DropdownMenu, DropdownTrigger, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {WorkDay} from "@/lib/actions/calendar-actions";
 import {useStore} from "@/components/providers/store-provider";
@@ -91,5 +91,66 @@ export const renderCalendarTopContent = () => {
             </DropdownMenu>
         </Dropdown>
 
+    );
+};
+
+export const renderCalendarContent = () => {
+
+    const { store } = useStore();
+
+    if (!store?.schedule) {
+        return <div className="w-full max-w-52 text-default-500 text-center">No schedule available</div>;
+    }
+
+    return (
+        <>
+            <Card
+                className={'bg-gradient-card w-full max-w-52'}
+            >
+                <CardBody>
+                    <div
+                        className={'flex text-default-600'}
+                    >
+                        <Icon icon={"solar:sort-by-time-linear"} width={24} className={"text-default-500"}/>
+                        <Spacer x={2}/>
+                        <p>Working Hours</p>
+                    </div>
+                    <Spacer y={4}/>
+                    <div className="flex flex-wrap items-center justify-center max-w-52">
+                        {["monday", "friday", "tuesday", "thursday", "wednesday", "saturday", "sunday"].map((day, index) => {
+                            //@ts-ignore
+                            const workday = store.schedule[day];
+
+                            const shortDay = getShortWeekday(day);
+                            let displayText = `Closed`;
+                            if (workday && (workday as WorkDay).isEnabled) {
+                                const wd = workday as WorkDay;
+                                const startHour = pad(wd.start.hour);
+                                const startMinute = pad(wd.start.minute);
+                                const endHour = pad(wd.end.hour);
+                                const endMinute = pad(wd.end.minute);
+                                displayText = `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
+                            }
+
+                            const isSunday = day === "sunday";
+
+                            return (
+                                <div
+                                    key={day}
+                                    className={`${isSunday ? "ml-4 w-[30%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col`}
+                                >
+                                <span className="text-sm font-medium text-default-600">
+                                  {day.charAt(0).toUpperCase() + day.slice(1)}
+                                </span>
+                                    <p className="text-default-500 text-xs font-light">
+                                        {displayText}
+                                    </p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </CardBody>
+            </Card>
+        </>
     );
 };

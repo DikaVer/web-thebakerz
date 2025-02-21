@@ -4,6 +4,7 @@ import React, { createContext, useContext, ReactNode, useState } from 'react';
 import ProductDialog from "@/components/store/product/dialog/product-dialog";
 import { ProductData, ProductDataFull } from "@/lib/actions/product";
 import { CartData, ItemCart, updateCart, removeCartItem } from "@/lib/actions/cart";
+import showErrorMessage from "@/components/toast/toast-error";
 
 interface ProductDialogContextProps {
     handleOpen: (productId?: string, itemCart?: ItemCart) => void;
@@ -86,7 +87,7 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode; cart: CartDa
                 };
             });
         } else {
-            console.error("Error updating cart item", result.error);
+            showErrorMessage({ error: result.error ? result.error : "Error updating cart item" });
         }
     };
 

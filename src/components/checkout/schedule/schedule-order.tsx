@@ -11,13 +11,16 @@ import {useRouter, useSearchParams} from "next/navigation";
 import {CalendarDateTime, CalendarDate, now, today, ZonedDateTime} from "@internationalized/date";
 
 import ThreeDotsDropdown from "@/components/store/store-header/subheader/three-dots";
-import {renderCalendarTopContent} from "@/components/store/store-header/subheader/working-hours";
+import {renderCalendarContent, renderCalendarTopContent} from "@/components/store/store-header/subheader/working-hours";
 import {useStore} from "@/components/providers/store-provider";
 import {SmartDatetimeInput} from "@/components/store/store-header/calendar/smart-calendar";
 import {updateOrderTime} from "@/app/(store)/[id]/actions";
 import {useProductDialog} from "@/components/providers/product-provider";
 import showErrorMessage from "@/components/toast/toast-error";
 import {FormError} from "@/components/authentication/form-error";
+import {CopyText} from "@/components/ui/copy-text";
+import {IconCopy, IconLocation, IconPhone} from "@/components/ui/icons";
+import {useTheme} from "next-themes";
 
 
 // --- Function to parse a date to numeric date and time strings ---
@@ -62,8 +65,11 @@ interface StoreSubHeaderProps {
 export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeaderProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const { store, sentinelRef } = useStore();
+    const { store } = useStore();
     const [isError, setIsError] = useState(false);
+    const { theme } = useTheme();
+
+    const location = store?.location.route ? `${store.location.route}, ${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
 
 
     const [selectedDate, setSelectedDate] = useState<CalendarDateTime | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
@@ -96,39 +102,81 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
 
 
     return (
-        <div className={'flex flex-col w-full items-center justify-center pb-4'}>
-            <div className="flex flex-col w-full justify-center items-center max-w-[440px] ">
-                <div className={'flex flex-row w-full justify-center'}>
-                    {renderCalendarTopContent()}
+        <div>
+            <div className={'grid grid-cols-1 gap-y-6 md:gap-y-1 md:grid-cols-2 w-full items-start justify-between pb-4'}>
+                <div>
+                    {/*<p className={'mr-2 font-medium text-default-600'}>Store Pick Up Details:</p>*/}
+                    <Spacer y={2}/>
+                    <CopyText
+                        copyText={location}
+                        className={"md:max-w-[400px] text-medium md:text-large"}
+                        textNotify={"Location Copied!"}
+                        startContent={<IconLocation size={24}
+                                                    primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
+                                                    secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
+                        />}
+                        endContent={<IconCopy size={20}
+                                              primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
+                                              secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
+                        />}
+                    >
+                        <p className={"md:text-lg truncate md:max-w-[300px] text-grayText"}>
+                            {location}
+                        </p>
+                    </CopyText>
+                    <CopyText
+                        copyText={store?.phone ? store.phone : 'Phone Number Placeholder'}
+                        className={"md:max-w-[400px] md:text-lg"}
+                        textNotify={"Phone Number Copied!"}
+                        startContent={<IconPhone size={24}
+                                                 primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
+                                                 secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
+                        />}
+                        endContent={<IconCopy size={20}
+                                              primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
+                                              secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
+                        />}
+                    >
+                        <p className={"md:text-lg truncate md:max-w-[250px] text-grayText"}>
+                            {store?.phone ? store.phone : 'Phone Number Placeholder'}
+                        </p>
+                    </CopyText>
                 </div>
-                <Spacer y={4}/>
-                <div className="flex flex-col w-full items-center justify-center">
-                    <SmartDatetimeInput
-                        isError={isError}
-                        schedule={store.schedule}
-                        minValue={today("Europe/Amsterdam")}
-                        value={selectedDate}
-                        onValueChange={handleDateChange}
-                        placeholder='Schedule Order Time'
-                    />
-                    {isError && <Spacer y={2}/>}
-                    <FormError message={isError ? "Please select a date and time to continue" : ""} />
+                <div className={'flex flex-col justify-start md:justify-end'}>
+                    <div className={'flex flex-row w-full justify-start  md:justify-end'}>
+                        {renderCalendarContent()}
+                    </div>
+                    <Spacer y={4}/>
+                    <div className="flex flex-col w-full items-start md:items-end justify-center">
+                        <SmartDatetimeInput
+                            isError={isError}
+                            schedule={store.schedule}
+                            minValue={today("Europe/Amsterdam")}
+                            value={selectedDate}
+                            onValueChange={handleDateChange}
+                            placeholder='Schedule Order Time'
+                        />
+                        {isError && <Spacer y={2}/>}
+                        <FormError message={isError ? "Please select a date and time to continue" : ""}/>
+                    </div>
                 </div>
-                <Spacer y={8}/>
             </div>
-            <Button
-                className={'bg-gradient-primary text-white'}
-                endContent={<Icon icon={'solar:alt-arrow-right-linear'} width={24}/> }
-                onPress={() => {
-                    if(selectedDate) {
-                        handleNext();
-                    } else {
-                        setIsError(true);
-                    }
-                }}
-            >
-                Save Pick Up Details
-            </Button>
+            <Spacer y={4}/>
+            <div className={'flex flex-row w-full justify-end'}>
+                <Button
+                    className={'bg-gradient-primary text-white'}
+                    endContent={<Icon icon={'solar:alt-arrow-right-linear'} width={24}/>}
+                    onPress={() => {
+                        if (selectedDate) {
+                            handleNext();
+                        } else {
+                            setIsError(true);
+                        }
+                    }}
+                >
+                    Save Pick Up Details
+                </Button>
+            </div>
         </div>
     );
 }

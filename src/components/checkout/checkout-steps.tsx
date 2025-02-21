@@ -6,12 +6,17 @@ import React, {useState} from "react";
 import {useSession} from "@/components/providers/session-provider";
 import NotFound from "@/app/(error_layout)/not-found";
 import {ScheduleOrder} from "@/components/checkout/schedule/schedule-order";
-import {ScrollShadow} from "@heroui/scroll-shadow";
+import {CheckoutProvider} from '@stripe/react-stripe-js';
 import CartCheckout from "@/components/checkout/schedule/cart-checkout";
 import {replaceGuestCart} from "@/lib/actions/cart";
 import {useStore} from "@/components/providers/store-provider";
 import showErrorMessage from "@/components/toast/toast-error";
-import showSuccessMessage from "@/components/toast/toast-succes";
+import PaymentForm from "@/components/checkout/payment/payment-form";
+import {loadStripe} from '@stripe/stripe-js';
+import {CheckoutProviderStripe} from "@/components/checkout/payment/payment-provider";
+const stripePromise = loadStripe("pk_test_VOOyyYjgzqdm8I3SrBqmh9qY", {
+    betas: ['custom_checkout_beta_5'],
+});
 
 export default function CheckoutSteps({ date, time }: { date: string | null; time: string | null }) {
     const defaultContent =
@@ -59,66 +64,78 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
 
     return (
         <>
-            <Accordion variant="splitted"
-                       className={'w-full px-0 gap-4'}
-                       selectedKeys={[String(currentStep)]}
-                       defaultExpandedKeys={expandedKeys}
-                       disabledKeys={disabledKeys}
-            >
-                <AccordionItem
-                    key="1"
-                    aria-label="Sign in or sign up to place order"
-                    title="1. Sign in or sign up to place order"
-                    className={'shadow-none border-1'}
-                    indicator={1 < currentStep && <Icon icon={'solar:check-read-linear'} width={24}/>}
+
+                <Accordion variant="splitted"
+                           className={'w-full px-0 gap-4'}
+                           selectedKeys={[String(currentStep)]}
+                           defaultExpandedKeys={expandedKeys}
+                           disabledKeys={disabledKeys}
                 >
-                    <div className={'my-8'}>
-                        <TwoStepAuthForm
-                            setIsLogin={handleLogin}
+                    <AccordionItem
+                        key="1"
+                        aria-label="Sign in or sign up to place order"
+                        title="1. Sign in or sign up to place order"
+                        className={'shadow-none border-1'}
+                        indicator={1 < currentStep && <Icon icon={'solar:check-read-linear'} width={24}/>}
+                    >
+                        <div className={'my-8'}>
+                            <TwoStepAuthForm
+                                setIsLogin={handleLogin}
+                            />
+                            <Spacer y={4}/>
+                            <div className={'w-full px-2'}>
+                                <Button
+                                    fullWidth
+                                    variant={'ghost'}
+                                    onPress={handleNext}
+                                    className={'rounded-lg'}
+                                >
+                                    Continue as a Guest
+                                </Button>
+                            </div>
+                        </div>
+                    </AccordionItem>
+                    <AccordionItem
+                        key="2"
+                        className={'shadow-none border-1'}
+                        aria-label="Pick Up Details"
+                        title="2. Pick Up Details"
+                        indicator={2 < currentStep && <Icon icon={'solar:check-read-linear'} width={24}/>}
+                    >
+                        <ScheduleOrder
+                            dateParam={date}
+                            timeParam={time}
+                            handleNext={handleNext}
                         />
-                    </div>
-                </AccordionItem>
-                <AccordionItem
-                    key="2"
-                    className={'shadow-none border-1'}
-                    aria-label="Pick Up Details"
-                    title="2. Pick Up Details"
-                    indicator={2 < currentStep && <Icon icon={'solar:check-read-linear'} width={24}/>}
-                >
-                    <ScheduleOrder
-                        dateParam={date}
-                        timeParam={time}
-                        handleNext={handleNext}
-                    />
-                </AccordionItem>
+                    </AccordionItem>
 
-                <AccordionItem
-                    key="3"
-                    className={'shadow-none border-1'}
-                    aria-label="Cart Details"
-                    title="3. Cart Details"
-                    indicator={3 < currentStep && <Icon icon={'solar:check-read-linear'} width={24}/>}
-                >
-                    <CartCheckout
-                        handleNext={handleNext}
-                    />
-                </AccordionItem>
+                    <AccordionItem
+                        key="3"
+                        className={'shadow-none border-1'}
+                        aria-label="Cart Details"
+                        title="3. Cart Details"
+                        indicator={3 < currentStep && <Icon icon={'solar:check-read-linear'} width={24}/>}
+                    >
+                        <CartCheckout
+                            handleNext={handleNext}
+                        />
+                    </AccordionItem>
 
-                <AccordionItem key="4" className={'shadow-none border-1'} aria-label="Payment Details" title="4. Payment Details"
-                               indicator={<Icon icon={'solar:wallet-money-broken'}  width={24}/>}
-                               disableIndicatorAnimation
-                >
-                    {"Send user to Stripe -> Get Verification from stripe -> Place Order || Choose Payment Method -> Place Order"}
-                </AccordionItem>
+                    <AccordionItem key="4" className={'shadow-none border-1'} aria-label="Payment Details" title="4. Payment Details"
+                                   indicator={<Icon icon={'solar:wallet-money-broken'}  width={24}/>}
+                                   disableIndicatorAnimation
+                    >
+                        <CheckoutProviderStripe/>
+                    </AccordionItem>
 
-            </Accordion>
-            <Spacer y={8}/>
-            <Button
-                radius={'full'}
-                className={'w-full'}
-            >
-                Place Order
-            </Button>
+                </Accordion>
+                <Spacer y={8}/>
+                <Button
+                    radius={'full'}
+                    className={'w-full'}
+                >
+                    Place Order
+                </Button>
         </>
     );
 }
