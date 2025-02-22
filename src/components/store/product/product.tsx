@@ -2,10 +2,10 @@
 
 import React from "react";
 import {Card, Image} from "@heroui/react";
-import { formatCurrency } from "@/lib/utils";
 import {CardFooter} from "@heroui/card";
 import {ProductData} from "@/lib/actions/product";
 import {useProductDialog} from "@/components/providers/product-provider";
+import {formatCurrency} from "@/lib/utils";
 
 
 interface ProductBaseProps {
