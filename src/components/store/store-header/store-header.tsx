@@ -21,7 +21,12 @@ export function StoreHeader() {
     return (
         <div className={'flex flex-row w-full items-center max-w-[440px] md:w-2/3'}>
             <div className={'w-[140px]'}>
-                <Popover placement="right">
+                <Popover
+                    placement="right"
+                    classNames={{
+                        content: `max-w-sm`,
+                    }}
+                >
                     <PopoverTrigger>
                     <Avatar
                         isBordered

@@ -21,39 +21,12 @@ import {FormError} from "@/components/authentication/form-error";
 import {CopyText} from "@/components/ui/copy-text";
 import {IconCopy, IconLocation, IconPhone} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
+import {
+    parseDateParams,
+    parseDateTime,
+    setCalendarParams
+} from "@/components/store/store-header/calendar/calendar-params";
 
-
-// --- Function to parse a date to numeric date and time strings ---
-export function parseDateTime(
-    dateValue: CalendarDateTime | undefined
-): { date: string | null; time: string | null } {
-
-    if (!dateValue) {
-        return {
-            date: null,
-            time: null
-        };
-    }
-
-    return {
-        date: `${dateValue.year}-${dateValue.month}-${dateValue.day}`,
-        time: `${dateValue.hour}:${dateValue.minute}`
-    };
-}
-
-export function parseDateParams(
-    dateValue: string
-): CalendarDateTime | undefined {
-    const [date, time] = dateValue.split(" ");
-    const [year, month, day] = date.split("-").map(Number);
-    const [hour, minute] = time.split(":").map(Number);
-
-    if (year === undefined || month === undefined || day === undefined || hour === undefined || minute === undefined) {
-        return undefined;
-    }
-
-    return new CalendarDateTime(year, month, day, hour, minute);
-}
 
 interface StoreSubHeaderProps {
     dateParam: string | null;
@@ -71,32 +44,29 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
 
     const location = store?.location.route ? `${store.location.route}, ${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
 
+    const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
 
-    const [selectedDate, setSelectedDate] = useState<CalendarDateTime | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
     useEffect(() => {
-        const SearchParams = new URLSearchParams(searchParams.toString());
-        const calendar = parseDateParams(`${dateParam} ${timeParam}`)
-        const {date, time} = parseDateTime(calendar);
-        SearchParams.set("date", date?.toString() ?? "");
-        SearchParams.set("time", time?.toString() ?? "");
-        router.push(`?${SearchParams.toString()}`);
+        setCalendarParams(searchParams, router, dateParam, timeParam);
     }, []);
 
 
     // --- 2. onChange Handler for DatePicker: Save the date/time and update URL search params ---
-    const handleDateChange = (newDate: CalendarDateTime) => {
-        const {date, time} = parseDateTime(newDate);
-        // Update the URL search parameters (make sure this runs on the client)
-        if (date && time) {
-            setIsError(false);
-            const newSearchParams = new URLSearchParams(searchParams.toString());
-            newSearchParams.set("date", date);
-            newSearchParams.set("time", time);
-            router.push(`?${newSearchParams.toString()}`);
-            updateOrderTime(date, time).then(() => {
-            });
+    const handleDateChange = (newDate: CalendarDateTime | CalendarDate) => {
+        if (newDate instanceof CalendarDate) {
+            setSelectedDate(newDate);
+
+        } else {
+
+            const {date, time} = parseDateTime(newDate);
+            // Update the URL search parameters (make sure this runs on the client)
+            if (date && time) {
+                setIsError(false);
+                setCalendarParams(searchParams, router, date, time);
+                updateOrderTime(date, time);
+            }
+            setSelectedDate(newDate);
         }
-        setSelectedDate(newDate);
     };
 
 
@@ -147,7 +117,7 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
                         {renderCalendarContent()}
                     </div>
                     <Spacer y={4}/>
-                    <div className="flex flex-col w-full items-start md:items-end justify-center">
+                    <div className={`flex flex-wrap  w-full justify-start md:justify-end ${isError ? 'gap-y-4' : ''}`}>
                         <SmartDatetimeInput
                             isError={isError}
                             schedule={store.schedule}
@@ -156,7 +126,6 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
                             onValueChange={handleDateChange}
                             placeholder='Schedule Order Time'
                         />
-                        {isError && <Spacer y={2}/>}
                         <FormError message={isError ? "Please select a date and time to continue" : ""}/>
                     </div>
                 </div>
@@ -167,7 +136,7 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
                     className={'bg-gradient-primary text-white'}
                     endContent={<Icon icon={'solar:alt-arrow-right-linear'} width={24}/>}
                     onPress={() => {
-                        if (selectedDate) {
+                        if (selectedDate instanceof CalendarDateTime) {
                             handleNext();
                         } else {
                             setIsError(true);

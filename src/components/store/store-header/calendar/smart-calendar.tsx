@@ -12,8 +12,8 @@ import {WorkHours} from "@/lib/actions/calendar-actions";
 
 // Define props to include schedule and minValue
 interface SmartDatetimeInputProps {
-    value: CalendarDateTime | undefined;
-    onValueChange: (date: CalendarDateTime) => void;
+    value: CalendarDateTime | CalendarDate | undefined;
+    onValueChange: (date: CalendarDate | CalendarDateTime) => void;
     placeholder?: string;
     schedule: WorkHours | undefined;
     minValue: CalendarDate | CalendarDateTime;
@@ -29,8 +29,11 @@ interface SmartDatetimeInputContextProps extends SmartDatetimeInputProps {
 
 const SmartDatetimeInputContext = React.createContext<SmartDatetimeInputContextProps | null>(null);
 
-const formatDate = (date: CalendarDateTime) => {
-    return `${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute === 0 ? "00" : date.minute}`;
+const formatDate = (date: CalendarDate | CalendarDateTime) => {
+    if (date instanceof CalendarDateTime)
+        return `${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute === 0 ? "00" : date.minute}`;
+    else
+        return `${date.year}-${date.month}-${date.day}`;
 }
 
 const useSmartDateInput = () => {
@@ -54,8 +57,6 @@ export const SmartDatetimeInput = React.forwardRef<
             placeholder,
             schedule,
             minValue,
-            showCalendar = true,
-            showTimePicker = true,
             isError = false,
         },
         ref
@@ -66,12 +67,12 @@ export const SmartDatetimeInput = React.forwardRef<
             setTime(time);
         }, []);
 
-        const shouldShowBoth = showCalendar === showTimePicker;
 
         const minDate =
             "year" in minValue && "month" in minValue && "day" in minValue
                 ? new CalendarDate(minValue.year, minValue.month, minValue.day)
                 : minValue;
+
 
         return (
             <SmartDatetimeInputContext.Provider
@@ -83,8 +84,8 @@ export const SmartDatetimeInput = React.forwardRef<
                     onTimeChange,
                     schedule,
                     minValue: minDate,
-                    showCalendar: shouldShowBoth ? true : showCalendar,
-                    showTimePicker: shouldShowBoth ? true : showTimePicker,
+                    showTimePicker: true,
+                    showCalendar: true,
                 }}
             >
                 <DateTimeLocalInput placeholder={placeholder} className={className} />
@@ -137,17 +138,15 @@ const DateTimeLocalInput = ({ className, ...props }: DateTimeLocalInputProps) =>
         ) {
             return;
         }
-        let newDateTime: CalendarDateTime;
+        let newDateTime: CalendarDate;
         if (showTimePicker && value) {
-            newDateTime = new CalendarDateTime(
+            newDateTime = new CalendarDate(
                 selectedDate.year,
                 selectedDate.month,
-                selectedDate.day,
-                value.hour,
-                value.minute
+                selectedDate.day
             );
         } else {
-            newDateTime = new CalendarDateTime(selectedDate.year, selectedDate.month, selectedDate.day, 12, 0);
+            newDateTime = new CalendarDate(selectedDate.year, selectedDate.month, selectedDate.day);
         }
 
         onValueChange(newDateTime);
@@ -155,8 +154,10 @@ const DateTimeLocalInput = ({ className, ...props }: DateTimeLocalInputProps) =>
 
 
     return (
-        <Popover>
-            <PopoverTrigger asChild>
+        <Popover
+            placement={'top'}
+        >
+            <PopoverTrigger>
                 <Button
                     color={isError ? "danger" : "default"}
                     variant="bordered"
@@ -283,7 +284,11 @@ const TimePicker = () => {
                         if (!isWithinRange(slot.hour, slot.minutes)) return null;
                         // Use formatted candidate time.
                         const candidateTime = slot.label;
-                        const isSelected = value && value.hour === slot.hour && value.minute === slot.minutes;
+
+                        let isSelected = false;
+                        if(value instanceof CalendarDateTime) {
+                            isSelected = value && value.hour === slot.hour && value.minute === slot.minutes;
+                        }
 
                         return (
                             <li
