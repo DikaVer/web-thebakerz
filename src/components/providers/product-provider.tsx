@@ -126,7 +126,7 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode; cart: CartDa
                 addItem,
             }}
         >
-            <ProductDialog productData={productData} isOpen={isOpen} onClose={onClose} itemCart={itemCart} />
+            <ProductDialog storeId={storeId} productData={productData} isOpen={isOpen} onClose={onClose} itemCart={itemCart} />
             {children}
         </ProductDialogContext.Provider>
     );

@@ -76,7 +76,7 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
                         title="1. Sign in or sign up to place order"
                         className={'shadow-none border-1'}
                         disableIndicatorAnimation
-                        indicator={1 < currentStep ? <Icon icon={'solar:check-read-linear'} width={24}/> : <Icon icon={"solar:login-3-broken"} width={24}/>}
+                        indicator={1 < currentStep ? <Icon icon={'solar:check-read-linear'} width={24}/> : <Icon icon={"solar:login-3-broken"} className={'text-default-400'} width={24}/>}
                     >
                         <div className={'my-8'}>
                             <TwoStepAuthForm
@@ -91,7 +91,7 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
                         aria-label="Pick Up Details"
                         title="2. Pick Up Details"
                         disableIndicatorAnimation
-                        indicator={2 < currentStep ? <Icon icon={'solar:check-read-linear'} width={24}/> : <Icon icon={"solar:clock-circle-broken"} width={24}/>}
+                        indicator={2 < currentStep ? <Icon icon={'solar:check-read-linear'} width={24}/> : <Icon icon={"solar:clock-circle-broken"} className={'text-default-400'} width={24}/>}
                     >
                         <ScheduleOrder
                             dateParam={date}
@@ -106,7 +106,7 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
                         aria-label="Cart Details"
                         title="3. Cart Details"
                         disableIndicatorAnimation
-                        indicator={3 < currentStep ? <Icon icon={'solar:check-read-linear'} width={24}/> : <Icon icon={"solar:cart-large-minimalistic-broken"} width={24}/>}
+                        indicator={3 < currentStep ? <Icon icon={'solar:check-read-linear'} width={24}/> : <Icon icon={"solar:cart-large-minimalistic-broken"} className={'text-default-400'} width={24}/>}
                     >
                         <CartCheckout
                             handleNext={handleNext}
