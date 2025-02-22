@@ -73,7 +73,7 @@ export const renderCalendarTopContent = () => {
                             return (
                                 <div
                                     key={day}
-                                    className={`${isSunday ? "ml-4 w-[30%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col`}
+                                    className={`${isSunday ? "ml-4 w-[40%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col`}
                                 >
                                 <span className="text-sm font-medium text-default-600">
                                   {day.charAt(0).toUpperCase() + day.slice(1)}
@@ -137,11 +137,11 @@ export const renderCalendarContent = () => {
                             return (
                                 <div
                                     key={day}
-                                    className={`${isSunday ? "ml-4 w-[30%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col`}
+                                    className={`${isSunday ? "ml-4 w-[40%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col`}
                                 >
-                                <span className="text-sm font-medium text-default-600">
-                                  {day.charAt(0).toUpperCase() + day.slice(1)}
-                                </span>
+                                    <span className="text-sm font-medium text-default-600">
+                                      {day.charAt(0).toUpperCase() + day.slice(1)}
+                                    </span>
                                     <p className="text-default-500 text-xs font-light">
                                         {displayText}
                                     </p>
