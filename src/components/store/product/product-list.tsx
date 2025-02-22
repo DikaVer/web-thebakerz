@@ -13,14 +13,10 @@ import {ProductData, ProductDataFull} from "@/lib/actions/product";
 import {Divider, Input, Spacer, Tab, Tabs} from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { EmblaOptionsType } from "embla-carousel";
-import Carousel, {
-    Slider,
-    SliderContainer,
-    SliderDotButton,
-} from "@/components/store/product/carousel/carousel";
 import { useStore } from "@/components/providers/store-provider";
 import { useMediaQuery } from "usehooks-ts";
 import {useProductDialog} from "@/components/providers/product-provider";
+import {Carousel, CarouselContent, CarouselItem} from "@/components/ui/carousel";
 
 interface ProductListBaseProps<P> {
     productsData: ProductDataFull;
@@ -173,17 +169,21 @@ export const ProductListBase = <P,>({
             <Spacer y={8} />
             <span className="text-xl desktop:text-2xl font-bold">{category}</span>
             <Spacer y={4}/>
-            <Carousel options={OPTIONS} activeSlider>
-                <SliderContainer>
+            <Carousel
+                opts={{
+                    align: "start",
+                }}
+                className="w-full"
+            >
+                <CarouselContent>
                     {products.map((product) => (
-                        <Slider key={product.id} className="embla__slide px-2">
-                            <ProductBase productData={product} />
-                        </Slider>
+                        <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/3">
+                            <div className={'px-1'}>
+                                <ProductBase productData={product}/>
+                            </div>
+                        </CarouselItem>
                     ))}
-                </SliderContainer>
-                <div className="flex justify-center py-2">
-                    <SliderDotButton />
-                </div>
+                </CarouselContent>
             </Carousel>
             <Spacer y={8} />
             <Divider/>
