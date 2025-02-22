@@ -156,6 +156,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                 <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-y-1">
                     <ModalBody className={`px-0 ${productData?.picture ? '': 'pt-8'}`}>
                         <>
+                            <ScrollShadow className={"max-h-[80vh]"} size={100}>
                             <div>
                                 <input
                                     type="file"
@@ -186,7 +187,6 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                     </div>
                                 )}
                             </div>
-                            <ScrollShadow className={"max-h-[300px]"} size={100}>
                                 <div className="flex flex-col px-4">
                                     <div className="flex flex-row">
                                         {/* Product Name Field */}

@@ -99,6 +99,7 @@ export default function UserProductDialog({
             <ModalBody className={"p-0"}>
                 {productData && (
                     <>
+                        <ScrollShadow className={"max-h-[80vh]"} size={100}>
                         <Card
                             isFooterBlurred
                             radius="lg"
@@ -121,7 +122,6 @@ export default function UserProductDialog({
                                 </p>
                             </CardFooter>
                         </Card>
-                        <ScrollShadow className={"max-h-[300px]"} size={100}>
                             <div className={"flex flex-col px-4 py-2 text-default-400 gap-4"}>
                                 <p>{productData.description}</p>
                                 <Textarea
