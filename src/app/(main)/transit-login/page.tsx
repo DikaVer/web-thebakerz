@@ -13,8 +13,8 @@ export default function Page() {
 
     useEffect(() => {
         // set up a  delay to simulate a real login
-        router.push(next ? next : "/");
         router.refresh();
+        router.push(next ? next : "/");
     }, [next, router]); // Added 'next' and 'router' as dependencies
 
     return (

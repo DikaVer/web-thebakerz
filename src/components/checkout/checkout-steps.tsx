@@ -47,7 +47,6 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
         } else {
             showErrorMessage({error: "Failed to update cart."});
         }
-        console.log('Login');
     }
 
     // Handler for advancing to the next step.
@@ -81,18 +80,8 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
                         <div className={'my-8'}>
                             <TwoStepAuthForm
                                 setIsLogin={handleLogin}
+                                handleNext={handleNext}
                             />
-                            <Spacer y={8}/>
-                            <div className={'w-full px-2'}>
-                                <Button
-                                    fullWidth
-                                    variant={'ghost'}
-                                    onPress={handleNext}
-                                    className={'rounded-lg'}
-                                >
-                                    Continue as a Guest
-                                </Button>
-                            </div>
                         </div>
                     </AccordionItem>
                     <AccordionItem

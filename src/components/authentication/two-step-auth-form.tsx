@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem} from "@/components/ui/form";
 import { Input } from "@heroui/input";
 import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
-import {Divider, InputOtp, Tooltip} from "@heroui/react";
+import {Divider, InputOtp, Spacer, Tooltip} from "@heroui/react";
 import { Icon } from "@iconify/react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import Image from "next/image";
@@ -17,13 +17,17 @@ import Link from "next/link";
 import {loginAction, resendEmailVerificationCodeAction, verifyEmailAction} from "@/app/(auth)/auth/actions";
 import {EmailSchema, OTPSchema} from "@/lib/schemas";
 import showErrorMessage from "@/components/toast/toast-error";
+import {useSession} from "@/components/providers/session-provider";
+import {getCurrentSession} from "@/lib/actions/session";
+import type {SessionValidationResult} from "@/lib/actions/session";
 
 
 
-export default function TwoStepAuthForm({ setIsLogin }: { setIsLogin?: (value: boolean) => void }) {
+export default function TwoStepAuthForm({ setIsLogin, handleNext }: { setIsLogin?: (value: boolean) => void, handleNext?: () => void }) {
 
     const nextParams = useSearchParams();
     const next = nextParams.get('next') as string;
+    const { setSession } = useSession();
 
     const inputRef = useRef(null);
 
@@ -88,14 +92,17 @@ export default function TwoStepAuthForm({ setIsLogin }: { setIsLogin?: (value: b
         async (previousState: any, formData: z.infer<typeof OTPSchema>) => {
             const state = await verifyEmailAction(previousState, formData);
 
-            if (state === null) {
+            if ((state as SessionValidationResult) !== undefined) {
                 if (!setIsLogin) {
-                    router.push(`/transit-login?next=${next ? next : "/"}`);
                     router.refresh();
+                    router.push(`/transit-login?next=${next ? next : "/"}`);
                 } else {
+                    router.refresh();
                     setIsLogin(true);
                 }
+                setSession(() => state as SessionValidationResult);
             } else {
+                //@ts-ignore
                 showErrorMessage({error: state?.message})
             }
 
@@ -385,6 +392,20 @@ export default function TwoStepAuthForm({ setIsLogin }: { setIsLogin?: (value: b
                             </Link>
                             .
                         </p>
+                        {handleNext && (
+                            <>
+                                <Spacer y={1}/>
+                                <Button
+                                    variant={"outline"}
+                                    className={"w-full py-5"}
+                                    disabled={isPendingEmail}
+                                    isLoading={isPendingEmail}
+                                    onPress={handleNext}
+                                >
+                                    {!isPendingEmail && "Continue as a Guest"}
+                                </Button>
+                            </>
+                        )}
                     </>
                 )
             }

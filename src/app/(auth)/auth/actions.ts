@@ -1,7 +1,13 @@
 "use server";
 
 import {ExpiringTokenBucket, RefillingTokenBucket} from "@/lib/actions/rate-limits";
-import {createSession, generateSessionToken, getCurrentSession, setSessionTokenCookie} from "@/lib/actions/session";
+import {
+    createSession,
+    generateSessionToken,
+    getCurrentSession,
+    SessionValidationResult,
+    setSessionTokenCookie
+} from "@/lib/actions/session";
 import { headers } from "next/headers";
 import { globalPOSTRateLimit} from "@/lib/actions/requests";
 
@@ -65,7 +71,7 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
 
 const bucket = new ExpiringTokenBucket<string>(5, 60 * 30);
 
-export async function verifyEmailAction(_prev: ActionResult, formData: z.infer<typeof OTPSchema>): Promise<ActionResult> {
+export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<typeof OTPSchema>): Promise<ActionLogin> {
     const validation = OTPSchema.safeParse(formData);
     if (!validation.success) {
         return {
@@ -136,7 +142,7 @@ export async function verifyEmailAction(_prev: ActionResult, formData: z.infer<t
     await updateUserEmailAndSetEmailAsVerified(user.id, verificationRequest.email);
     await deleteEmailVerificationRequestCookie();
 
-    return null;
+    return await getCurrentSession();
 }
 
 export async function resendEmailVerificationCodeAction(email: string): Promise<ActionResult> {
@@ -221,4 +227,6 @@ export async function getUserEmailVerificationRequestFromRequest(userId: string)
 }
 
 
-export type ActionResult = { message: string } | null;
+export type ActionResult = { message: string } | null ;
+
+export type ActionLogin = { message: string } | SessionValidationResult;
