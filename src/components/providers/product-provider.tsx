@@ -13,8 +13,8 @@ interface ProductDialogContextProps {
     cart: CartData;
     itemCount: number;
     addItem: (cart: ItemCart) => void;
-    updateItem: (cart: ItemCart) => Promise<void>;
-    removeItem: (cart: ItemCart) => Promise<void>;
+    updateItem: (cart: ItemCart) => Promise<boolean>;
+    removeItem: (cart: ItemCart) => Promise<boolean>;
 }
 
 export const useProductDialog = () => {
@@ -86,8 +86,10 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode; cart: CartDa
                     },
                 };
             });
+            return true;
         } else {
             showErrorMessage({ error: result.error ? result.error : "Error updating cart item" });
+            return false;
         }
     };
 
@@ -103,8 +105,11 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode; cart: CartDa
                 }
                 return newCart;
             });
+            return true;
         } else {
             console.error("Error removing cart item", result.error);
+            showErrorMessage({ error: result.error ? result.error : "Error removing cart item" });
+            return false;
         }
     };
 

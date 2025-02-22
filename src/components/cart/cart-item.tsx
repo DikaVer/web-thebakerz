@@ -8,8 +8,8 @@ import {InputStepper} from "@/components/store/product/dialog/button-stepper";
 type CartItemRowProps = {
     item: ItemCart;
     productData: ProductData;
-    updateItem: (item: ItemCart) => Promise<void>;
-    removeItem: (item: ItemCart) => Promise<void>;
+    updateItem: (item: ItemCart) => Promise<boolean>;
+    removeItem: (item: ItemCart) => Promise<boolean>;
     isLoading: boolean;
     setIsLoading: (value: boolean) => void
     handleOpen: (productId?: string, itemCart?: ItemCart) => void;
@@ -26,11 +26,13 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                                                  }) => {
 
     const handleQuantityChange = async (value: number) => {
+        let updatedValue;
         if (value === 0) {
-            await removeItem(item);
+            updatedValue = await removeItem(item);
         } else {
-            await updateItem({ ...item, quantity: value });
+            updatedValue = await updateItem({ ...item, quantity: value });
         }
+        return updatedValue;
     };
 
     if (item.quantity === 0) return null;

@@ -19,7 +19,7 @@ type Props = {
      * onChange is expected to be an async function that updates the value,
      * for example, updating the cart on the server.
      */
-    onChange?: (value: number) => Promise<void> | void;
+    onChange?: (value: number) => Promise<boolean> | void;
     isLoading?: boolean;
     setIsLoading?: (value: boolean) => void;
 };
@@ -47,17 +47,15 @@ export function InputStepper({
         setIsLoading && setIsLoading(true);
         try {
             if (onChange) {
-                await onChange(newVal);
+                const updateValue = await onChange(newVal);
+                if (!updateValue) {
+                    setLocalValue(value);
+                }
             }
         } finally {
-            setLocalValue(value);
             setIsLoading && setIsLoading(false);
         }
     }, 1000);
-
-    useEffect(() => {
-        setLocalValue(value);
-    }, [value]);
 
     // When the value changes via button press, update the local state immediately,
     // set loading to true, and call the debounced update.
