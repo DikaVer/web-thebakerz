@@ -16,7 +16,14 @@ import { EmblaOptionsType } from "embla-carousel";
 import { useStore } from "@/components/providers/store-provider";
 import { useMediaQuery } from "usehooks-ts";
 import {useProductDialog} from "@/components/providers/product-provider";
-import {Carousel, CarouselContent, CarouselItem} from "@/components/ui/carousel";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+    SliderDotButton
+} from "@/components/ui/carousel";
 
 interface ProductListBaseProps<P> {
     productsData: ProductDataFull;
@@ -177,13 +184,19 @@ export const ProductListBase = <P,>({
             >
                 <CarouselContent>
                     {products.map((product) => (
-                        <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/3">
-                            <div className={'px-1'}>
+                        <CarouselItem key={product.id} className="sm:basis-1/2 lg:basis-1/3">
+                            <div className={'flex px-1 justify-center items-center'}>
                                 <ProductBase productData={product}/>
                             </div>
                         </CarouselItem>
                     ))}
                 </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+                <Spacer y={4} />
+                <div className={'flex justify-center'}>
+                    <SliderDotButton/>
+                </div>
             </Carousel>
             <Spacer y={8} />
             <Divider/>

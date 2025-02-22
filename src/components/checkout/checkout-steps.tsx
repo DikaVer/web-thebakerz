@@ -82,7 +82,7 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
                             <TwoStepAuthForm
                                 setIsLogin={handleLogin}
                             />
-                            <Spacer y={4}/>
+                            <Spacer y={8}/>
                             <div className={'w-full px-2'}>
                                 <Button
                                     fullWidth

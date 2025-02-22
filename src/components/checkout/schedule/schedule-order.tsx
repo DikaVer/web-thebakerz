@@ -120,7 +120,7 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
                                               secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
                         />}
                     >
-                        <p className={"md:text-lg truncate md:max-w-[300px] text-grayText"}>
+                        <p className={"md:text-lg max-w-[230px]  truncate md:max-w-[230px] text-grayText"}>
                             {location}
                         </p>
                     </CopyText>
