@@ -185,7 +185,7 @@ export const ProductListBase = <P,>({
                 <CarouselContent>
                     {products.map((product) => (
                         <CarouselItem key={product.id} className="sm:basis-1/2 lg:basis-1/3">
-                            <div className={'flex px-1 justify-center items-center w-full'}>
+                            <div className={'flex  justify-center items-center w-full'}>
                                 <ProductBase productData={product}/>
                             </div>
                         </CarouselItem>
