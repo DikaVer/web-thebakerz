@@ -32,7 +32,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                 radius="lg"
                 className={`border-none shadow-none `}
             >
-                <div className={`w-[380px] aspect-square`}>
+                <div className={`w-full  aspect-square`}>
                     <Image
                         removeWrapper
                         alt={productData.name}
