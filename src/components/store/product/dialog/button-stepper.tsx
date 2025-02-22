@@ -57,6 +57,10 @@ export function InputStepper({
         }
     }, 1000);
 
+    useEffect(() => {
+        setLocalValue(value);
+    }, [value]);
+
     // When the value changes via button press, update the local state immediately,
     // set loading to true, and call the debounced update.
     const handleChange = (newVal: number) => {
