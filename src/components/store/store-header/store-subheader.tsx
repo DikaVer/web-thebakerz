@@ -26,8 +26,10 @@ import {IconCopy, IconLocation, IconPhone} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
 import dynamic from "next/dynamic";
 
-const LocationMap = dynamic(() => import("@/components/store/store-header/subheader/location-map"), { ssr: false });
-
+const LocationMap = dynamic(
+    () => import("@/components/store/store-header/subheader/location-map"),
+    { ssr: false }
+);
 
 interface StoreSubHeaderProps {
     dateParam: string | null;
@@ -51,6 +53,7 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
     useEffect(() => {
         setCalendarParams(searchParams, router, dateParam, timeParam);
     }, []);
+
 
 
     // --- 2. onChange Handler for DatePicker: Save the date/time and update URL search params ---

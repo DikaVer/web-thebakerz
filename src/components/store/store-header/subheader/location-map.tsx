@@ -39,29 +39,59 @@ const getCirclePolygon = (center: number[], radius: number, steps: number = 64) 
 const LocationMap: React.FC<LocationMapProps> = ({
                                                      latitude,
                                                      longitude,
-                                                     zoom = 15,
+                                                        zoom = 15,
                                                      width = 412,
                                                      height = 160,
                                                      className,
                                                  }) => {
     const mapRef = useRef<HTMLDivElement>(null);
     const subscriptionKey = process.env.NEXT_PUBLIC_AZURE_MAPS_KEY;
+    const loadMapDependencies = async () => {
+        try {
+            await Promise.all([
+                //@ts-ignore
+                import('azure-maps-control/dist/atlas.min.css'),
+                import('azure-maps-control')
+            ]);
+        } catch (error) {
+            console.error('Map dependency loading failed:', error);
+            throw error;
+        }
+    };
+
+// In component
+    useEffect(() => {
+        loadMapDependencies().then(() => {
+            // Initialize map
+        });
+    }, []);
+
+    // Apply MS map
+    useEffect(() => {
+        // Create a link element
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css';
+        link.type = 'text/css';
+        document.head.appendChild(link);
+    }, []);
 
     useEffect(() => {
         if (!mapRef.current) return;
 
         // Initialize the map
         const map = new atlas.Map(mapRef.current, {
-            center: [longitude, latitude],
+            autoResize: true,
             zoom: zoom,
+            center: [longitude, latitude],
             authOptions: {
                 authType: atlas.AuthenticationType.subscriptionKey,
                 subscriptionKey: subscriptionKey || "YOUR_AZURE_MAPS_SUBSCRIPTION_KEY",
             },
             showFeedbackLink: false,
             showLogo: false,
-            style: "grayscale_light",
             // Disable user interactions (drag, zoom, etc.)
+            style: "grayscale_light",
             interactive: false,
         });
 
@@ -103,6 +133,7 @@ const LocationMap: React.FC<LocationMapProps> = ({
                 fillColor: "rgba(115,12,112,0.3)",
                 strokeColor: "#730c70",
                 strokeWidth: 2,
+                filter: ['any', ['==', ['geometry-type'], 'Polygon']]
             }));
 
             // Add the custom pin marker at the specified location.
@@ -118,13 +149,6 @@ const LocationMap: React.FC<LocationMapProps> = ({
 
     return (
         <>
-            <Head>
-                <link
-                    href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css"
-                    rel="stylesheet"
-                />
-                <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
-            </Head>
             <div
                 ref={mapRef}
                 className={className}
