@@ -3,6 +3,7 @@
 
 import React, { useEffect, useRef } from "react";
 import * as atlas from "azure-maps-control";
+import Head from "next/head";
 
 interface LocationMapProps {
     latitude: number;
@@ -55,7 +56,7 @@ const LocationMap: React.FC<LocationMapProps> = ({
             zoom: zoom,
             authOptions: {
                 authType: atlas.AuthenticationType.subscriptionKey,
-                subscriptionKey: subscriptionKey!,
+                subscriptionKey: subscriptionKey || "YOUR_AZURE_MAPS_SUBSCRIPTION_KEY",
             },
             showFeedbackLink: false,
             showLogo: false,
@@ -116,11 +117,20 @@ const LocationMap: React.FC<LocationMapProps> = ({
     }, [latitude, longitude, zoom, subscriptionKey]);
 
     return (
-        <div
-            ref={mapRef}
-            className={className}
-            style={{ width: `${width}px`, height: `${height}px` }}
-        />
+        <>
+            <Head>
+                <link
+                    href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css"
+                    rel="stylesheet"
+                />
+                <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
+            </Head>
+            <div
+                ref={mapRef}
+                className={className}
+                style={{ width: `${width}px`, height: `${height}px` }}
+            />
+        </>
     );
 };
 

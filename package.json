@@ -64,6 +64,7 @@
     "@types/validator": "^13.12.2",
     "@vercel/blob": "^0.27.1",
     "@vercel/kv": "^3.0.0",
+    "a": "^3.0.1",
     "arctic": "^3.2.4",
     "azure-maps-control": "^3.6.0",
     "canvas-confetti": "^1.9.3",
