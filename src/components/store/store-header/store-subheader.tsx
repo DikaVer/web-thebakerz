@@ -96,7 +96,7 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                     <div className={'flex flex-row justify-between gap-x-4'}>
                         <ButtonGroup
                             size={'sm'}
-                            radius={'full'}
+                            radius={'lg'}
                             className={'text-grayText'}
                         >
                             <Button

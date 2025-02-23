@@ -83,7 +83,7 @@ export const renderWorkingHoursTooltip = ({store} : {store: StoreData}) => {
                 <Button
                     size={"sm"}
                     variant="bordered"
-                    radius={'full'}
+                    radius={'lg'}
                     className={'text-default-600 bg-gradient-card w-full'}
                     startContent={ <Icon icon={"solar:sort-by-time-linear"} width={24} className={"text-default-500"}/>}
                 >
