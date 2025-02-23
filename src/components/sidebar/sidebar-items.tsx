@@ -32,7 +32,7 @@ export const sectionItemsGuestStore: SidebarItem[] = [
     {
         key: "",
         href: "/auth",
-        icon: "solar:login-3-broken",
+        icon: "line-md:login",
         title: "Sign in"
     },
 ];
