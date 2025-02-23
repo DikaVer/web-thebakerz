@@ -7,6 +7,12 @@
   <component name="DBNavigator.Project.DatabaseAssistantManager">
     <assistants />
   </component>
+  <component name="DBNavigator.Project.DatabaseBrowserManager">
+    <autoscroll-to-editor value="false" />
+    <autoscroll-from-editor value="true" />
+    <show-object-properties value="true" />
+    <loaded-nodes />
+  </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="e0ddc995-60f4-46e2-a305-e4a41045359e">
       <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[Update users set role='admin' where name = 'dika1596';]]></console>
@@ -20,6 +26,9 @@
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
+  </component>
+  <component name="DBNavigator.Project.ParserDiagnosticsManager">
+    <diagnostics-history />
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>

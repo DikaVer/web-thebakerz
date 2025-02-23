@@ -40,6 +40,8 @@ export default async function Page(props: StorePageProps) {
 
     const {date, time} = await getOrderTime()
 
+    // console.log('storeData', storeData)
+
     return (
         <ProductDialogProvider
             cart={cartData}
@@ -54,7 +56,7 @@ export default async function Page(props: StorePageProps) {
                     <div className="flex flex-col min-h-screen relative z-10 items-center">
                         <div className="flex flex-col container mx-auto items-center justify-center">
                             <Spacer y={8}/>
-                            <div className={'flex flex-col md:flex-row w-full items-center md:justify-between'}>
+                            <div className={'flex flex-col gap-y-8 md:flex-row w-full md:justify-between'}>
                                 <StoreHeader/>
                                 <StoreSubHeader
                                     dateParam={date}

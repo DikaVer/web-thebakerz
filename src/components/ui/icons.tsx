@@ -1440,15 +1440,44 @@ const IconPhone: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size =
 );
 
 const IconCopy: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size = 400, ...props}) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
-        <g fill="none" strokeLinecap="round" strokeWidth="1.5">
-            <path stroke={secondaryColor}
-                  d="M20.998 10c-.012-2.175-.108-3.353-.877-4.121C19.243 5 17.828 5 15 5h-3c-2.828 0-4.243 0-5.121.879C6 6.757 6 8.172 6 11v5c0 2.828 0 4.243.879 5.121C7.757 22 9.172 22 12 22h3c2.828 0 4.243 0 5.121-.879C21 20.243 21 18.828 21 16v-1"/>
-            <path stroke={primaryColor}
-                  d="M3 10v6a3 3 0 0 0 3 3M18 5a3 3 0 0 0-3-3h-4C7.229 2 5.343 2 4.172 3.172C3.518 3.825 3.229 4.7 3.102 6"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5">
+            <path strokeDasharray="16" stroke={secondaryColor} strokeDashoffset="16" d="M12 3h7v8">
+                <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="16;0" />
+            </path>
+            <path strokeDasharray="12" stroke={secondaryColor} strokeDashoffset="12" strokeWidth="1" d="M14.5 3.5v3h-5v-3">
+                <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.9s" dur="0.2s" values="12;0" />
+            </path>
+            <path strokeDasharray="48" stroke={secondaryColor} strokeDashoffset="48" d="M19 17v4h-14v-18h7">
+                <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.2s" dur="0.6s" values="48;0" />
+            </path>
+            <path strokeDasharray="10" stroke={primaryColor} strokeDashoffset="10" d="M21 14h-8.5">
+                <animate fill="freeze" attributeName="stroke-dashoffset" begin="1.1s" dur="0.2s" values="10;0" />
+            </path>
+            <path strokeDasharray="6" stroke={primaryColor} strokeDashoffset="6" d="M12 14l3 3M12 14l3 -3">
+                <animate fill="freeze" attributeName="stroke-dashoffset" begin="1.3s" dur="0.2s" values="6;0" />
+            </path>
         </g>
     </svg>
 );
+
+const IconLocationAnimated: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size = 400, ...props}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
+        <g fill={primaryColor}>
+            <circle cx="12" cy="8.143" r="2.5" fill-opacity="0">
+                <animate fill="freeze" attributeName="fill-opacity" begin="0.6s" dur="0.15s" values="0;1" />
+            </circle>
+            <path d="M12 18c0 0 0 0 0 0c0 0 0 0 0 0l0 0c0 0 0 0 0 0c0 0 0 0 0 0c0 0 0 0 0 0l0 0c0 0 0 0 0 0c0 0 0 0 0 0Z">
+                <animate fill="freeze" attributeName="d" begin="0.75s" dur="0.2s" values="M12 18c0 0 0 0 0 0c0 0 0 0 0 0l0 0c0 0 0 0 0 0c0 0 0 0 0 0c0 0 0 0 0 0l0 0c0 0 0 0 0 0c0 0 0 0 0 0Z;M12 21C15.3 21 18 19.9 18 18.5C18 17.8 17.3 17.2 16.2 16.7L16.8 15.8C18.8 16.6 20 17.7 20 19C20 21.2 16.4 23 12 23C7.6 23 4 21.2 4 19C4 17.7 5.2 16.6 7.1 15.8L7.7 16.7C6.7 17.2 6 17.8 6 18.5C6 19.9 8.7 21 12 21z" />
+            </path>
+        </g>
+        <path fill="none" stroke={secondaryColor} strokeDasharray="40" strokeDashoffset="40" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.7" d="M12 18c0 0 -5.14 -6 -5.14 -9.86c0 -2.84 2.3 -5.14 5.14 -5.14c2.84 0 5.14 2.3 5.14 5.14c0 3.86 -5.14 9.86 -5.14 9.86Z">
+            <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="40;0" />
+        </path>
+    </svg>
+);
+
+
 
 const IconDots: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size = 400, ...props}) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
@@ -1463,6 +1492,7 @@ const IconDots: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size = 
 
 
 export {
+    IconLocationAnimated,
     IconLoadingCircle,
     EyeFilledIcon,
     EditLinearIcon,

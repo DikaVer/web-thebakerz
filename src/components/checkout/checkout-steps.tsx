@@ -67,6 +67,7 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
                 <Accordion variant="splitted"
                            className={'w-full px-0 gap-4'}
                            selectedKeys={[String(currentStep)]}
+                           // defaultValue={[String(currentStep)]}
                            defaultExpandedKeys={expandedKeys}
                            disabledKeys={disabledKeys}
                 >

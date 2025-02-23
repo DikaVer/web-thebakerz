@@ -8,6 +8,8 @@ import {Providers} from "@/app/providers";
 import CookieConsentComponent from "@/components/ui/cookie-consent";
 import type { Viewport } from 'next'
 import {getCurrentSession} from "@/lib/actions/session";
+import "azure-maps-control/dist/atlas.min.css";
+
 
 export const viewport: Viewport = {
     width: 'device-width',

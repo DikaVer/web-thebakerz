@@ -3,31 +3,51 @@
 import React from "react";
 import {useStore} from "@/components/providers/store-provider";
 import {Avatar} from "@heroui/avatar";
-import {Popover, PopoverContent, PopoverTrigger, Spacer, Tooltip} from "@heroui/react";
+import {Link, Popover, PopoverContent, PopoverTrigger, Spacer, Tooltip} from "@heroui/react";
 import {IconCopy, IconLocation, IconPhone} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
 import {CopyText} from "@/components/ui/copy-text";
 import showSuccessMessage from "@/components/toast/toast-succes";
+import {pacifico} from "@/components/fonts";
+import {Icon, IconProps} from "@iconify/react";
 
+type SocialIconProps = Omit<IconProps, "icon">;
+
+const storeHeader = {
+    social: [
+        {
+            name: "LinkedIn",
+            href: "https://www.linkedin.com/company/thebakerz",
+            icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:linkedin" strokeWidth={1.5} width={24}/>,
+        },
+        {
+            name: "Instagram",
+            href: "https://www.instagram.com/thebakerz.official",
+            icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:instagram" strokeWidth={1.5} width={24}/>,
+        },
+        {
+            name: "Twitter",
+            href: "https://x.com/the_bakerz",
+            icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:twitter-x" strokeWidth={1.5} width={24}/>,
+        },
+        {
+            name: "Phone",
+            href: "tel:+31645422552",
+            icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
+        },
+    ],
+};
 
 export function StoreHeader() {
 
     const { store } = useStore();
-    const { theme } = useTheme();
 
-    const location = store?.location.route ? `${store.location.route}, ${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
-
+    const text = `🍰 Cake&Desserts is a charming boutique bakery nestled in the heart of Maastricht, Netherlands.
+    \n🎂 Blending traditional European baking techniques with modern flavor twists, we create unforgettable experiences.`;
 
     return (
-        <div className={'flex flex-row w-full items-center max-w-[440px] md:w-2/3'}>
+        <div className={'flex flex-row gap-x-8 w-full'}>
             <div className={'w-[140px]'}>
-                <Popover
-                    placement="right"
-                    classNames={{
-                        content: `max-w-sm`,
-                    }}
-                >
-                    <PopoverTrigger>
                     <Avatar
                         isBordered
                         showFallback={!!store.picture}
@@ -39,52 +59,18 @@ export function StoreHeader() {
                             base: `bg-default text-text shadow-lg`,
                         }}
                     />
-                    </PopoverTrigger>
-                    <PopoverContent>
-                        <div className="px-1 py-2">
-                            <div className="text-small font-bold">{store.ownerName}</div>
-                            <div className="text-tiny">{store.description}</div>
-                        </div>
-                    </PopoverContent>
-                </Popover>
+                <div className="flex space-y-4 py-2 justify-between items-end">
+                    {storeHeader.social.map((item) => (
+                        <Link key={item.name} isExternal className="text-default-400 h-6" href={item.href}>
+                            <span className="sr-only">{item.name}</span>
+                            <item.icon aria-hidden="true" className="w-6" />
+                        </Link>
+                    ))}
+                </div>
             </div>
-            <Spacer x={8}/>
-            <div>
-                <CopyText
-                    copyText={location}
-                    className={"max-w-[300px] md:max-w-[400px] text-medium md:text-large"}
-                    textNotify={"Location Copied!"}
-                    startContent={<IconLocation size={24}
-                                                primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                                secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                    />}
-                    endContent={<IconCopy size={20}
-                                          primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
-                                          secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
-                    />}
-                >
-                    <p className={"md:text-lg truncate max-w-[120px] md:max-w-[300px] text-grayText"}>
-                        {location}
-                    </p>
-                </CopyText>
-                <Spacer y={4}/>
-                <CopyText
-                    copyText={store?.phone ? store.phone : 'Phone Number Placeholder'}
-                    className={"max-w-[300px] md:max-w-[400px] md:text-lg"}
-                    textNotify={"Phone Number Copied!"}
-                    startContent={<IconPhone size={24}
-                                             primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                             secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                    />}
-                    endContent={<IconCopy size={20}
-                                          primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
-                                          secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
-                    />}
-                >
-                    <p className={"md:text-lg truncate max-w-[120px] md:max-w-[250px] text-grayText"}>
-                        {store?.phone ? store.phone : 'Phone Number Placeholder'}
-                    </p>
-                </CopyText>
+            <div className="flex flex-col py-2 max-w-[300px] gap-y-4">
+                <p className={`text-large ${pacifico.className}`}>{store.ownerName}</p>
+                <p className="text-tiny whitespace-pre-wrap font-medium text-grayText line-clamp-8 h-full">{text}</p>
             </div>
         </div>
     );

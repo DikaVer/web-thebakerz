@@ -21,6 +21,7 @@ ARG NEXT_PRIVATE_EMAIL_FROM_ARG="dummy@example.com"
 ARG NEXT_PRIVATE_GOOGLE_CLIENT_ID_ARG="dummy-google-client-id"
 ARG NEXT_PRIVATE_GOOGLE_CLIENT_SECRET_ARG="dummy-google-client-secret"
 ARG NEXT_PUBLIC_API_BASE_URL_ARG="https://web-thebakerz-dev-hhanh4h8h2e9fwhu.germanywestcentral-01.azurewebsites.net"
+ARG NEXT_PUBLIC_AZURE_MAPS_KEY="dummy-azure-maps-key"
 
 # --- Dependencies Stage ---
 FROM base AS deps
@@ -50,7 +51,8 @@ ENV NEXT_PRIVATE_COSMOS_DB_KEY=${NEXT_PRIVATE_COSMOS_DB_KEY_ARG} \
     NEXT_PRIVATE_EMAIL_FROM=${NEXT_PRIVATE_EMAIL_FROM_ARG} \
     NEXT_PRIVATE_GOOGLE_CLIENT_ID=${NEXT_PRIVATE_GOOGLE_CLIENT_ID_ARG} \
     NEXT_PRIVATE_GOOGLE_CLIENT_SECRET=${NEXT_PRIVATE_GOOGLE_CLIENT_SECRET_ARG} \
-    NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL_ARG}
+    NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL_ARG} \
+    NEXT_PUBLIC_AZURE_MAPS_KEY=${NEXT_PUBLIC_AZURE_MAPS_KEY}
 
 # Run the Next.js build (this makes these env variables available during build)
 RUN pnpm run build

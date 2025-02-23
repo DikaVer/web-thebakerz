@@ -2,11 +2,11 @@
 
 import React, {useEffect, useState} from "react";
 import {
-    Button,
+    Button, ButtonGroup, Card, CardBody, Link,
     Spacer
 } from "@heroui/react";
 import { useSession } from "@/components/providers/session-provider";
-import { Icon } from "@iconify/react";
+import {Icon, type IconProps} from "@iconify/react";
 import {useRouter, useSearchParams} from "next/navigation";
 import {CalendarDateTime, CalendarDate, now, today, ZonedDateTime} from "@internationalized/date";
 
@@ -21,12 +21,19 @@ import {
     parseDateTime,
     setCalendarParams
 } from "@/components/store/store-header/calendar/calendar-params";
+import {CopyText} from "@/components/ui/copy-text";
+import {IconCopy, IconLocation, IconPhone} from "@/components/ui/icons";
+import {useTheme} from "next-themes";
+import dynamic from "next/dynamic";
+
+const LocationMap = dynamic(() => import("@/components/store/store-header/subheader/location-map"), { ssr: false });
 
 
 interface StoreSubHeaderProps {
     dateParam: string | null;
     timeParam: string | null;
 }
+
 
 
 export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
@@ -36,6 +43,10 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
     const { store, sentinelRef } = useStore();
     const { handleOpen } = useProductDialog();
     const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
+    const { theme } = useTheme();
+    const [latitude, longitude] = [50.853356, 5.669382];
+
+    const location = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
 
     useEffect(() => {
         setCalendarParams(searchParams, router, dateParam, timeParam);
@@ -60,45 +71,75 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
 
 
     return (
-        <div className="flex flex-col w-full justify-center items-center max-w-[440px] md:w-1/3">
-            <Spacer y={4}/>
-            <div className={'flex flex-row w-full justify-end'}>
-                {renderCalendarTopContent()}
-            </div>
-            <Spacer y={4}/>
-            <div className="flex flex-row w-full items-end justify-end">
-                {(session?.user?.role === "bakerz" && session.store?.id === store.id) ? (
-                    <Button
-                        className="w-[150px] h-12 justify-start bg-gradient-primary text-white font-medium"
-                        startContent={
-                            <Icon
-                                icon="solar:add-square-broken"
-                                width={24}
-                                className="text-white"
-                            />
-                        }
-                        onPress={() => {
-                            handleOpen();
-                        }}
+        <div className="flex flex-col w-full max-w-[440px]">
+            <Card
+                className={'w-full shadow-none border-1'}
+            >
+                <CardBody>
+                    <Link
+                        href={`https://www.google.com/maps?q=${latitude},${longitude}`}
+                        className={'flex flex-row gap-x-4 items-center'}
                     >
-                        Add Item
-                    </Button>
-                ) : (
-                    <>
-                        <SmartDatetimeInput
-                            schedule={store.schedule}
-                            minValue={today("Europe/Amsterdam")}
-                            value={selectedDate}
-                            onValueChange={handleDateChange}
-                            placeholder='Schedule Order Time'
+                        <IconLocation size={24}
+                                      primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
+                                      secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
                         />
-                    </>
-                )}
-                <Spacer x={2}/>
+                        <p className={"md:text-lg truncate w-[85%] text-grayText"}>
+                            {location}
+                        </p>
+                    </Link>
+                    <Spacer y={3}/>
+                    <div className={'h-40 w-full rounded-2xl border-1 overflow-hidden'}>
+                        <LocationMap latitude={latitude} longitude={longitude}  />
+                    </div>
+                    <Spacer y={3}/>
+                    <div className={'flex flex-row justify-between gap-x-4'}>
+                        <ButtonGroup
+                            size={'sm'}
+                            radius={'full'}
+                            className={'text-grayText'}
+                        >
+                            <Button
+                                startContent={<Icon icon={'solar:walking-round-linear'} width={24}/>}
+                                variant="bordered"
+                                className={'bg-gradient-card'}
+                            >
+                                Pick Up
+                            </Button>
+                            <Button
+                                isDisabled
+                                startContent={<Icon icon={'bxs:car'} width={24}/>}
+                                variant="bordered"
+                            >
+                                Delivery
+                            </Button>
+                        </ButtonGroup>
+                        {renderCalendarTopContent()}
+                    </div>
+                </CardBody>
+            </Card>
+            {(session?.user?.role === "bakerz" && session.store?.id === store.id) && (
+                    <div className={'flex flex-row  justify-end gap-x-4 mt-6'}>
+                        <Button
+                            className="w-[150px] h-12 justify-start bg-gradient-primary text-white font-medium"
+                            startContent={
+                                <Icon
+                                    icon="solar:add-square-broken"
+                                    width={24}
+                                    className="text-white"
+                                />
+                            }
+                            onPress={() => {
+                                handleOpen();
+                            }}
+                        >
+                            Add Item
+                        </Button>
+                        <ThreeDotsDropdown/>
+                    </div>
+                )
+            }
 
-                <ThreeDotsDropdown/>
-
-            </div>
             <div ref={sentinelRef} className="h-1"></div>
         </div>
     );

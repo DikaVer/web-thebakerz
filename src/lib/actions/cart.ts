@@ -19,7 +19,6 @@ export interface ItemCart {
     note: string;
     quantity: number;
     createdAt: string;
-    expiredAt: string;
     user_id: string;
 }
 
@@ -57,7 +56,6 @@ export const updateCart = async (
             note,
             quantity,
             createdAt: now,
-            expiredAt: now, // adjust expiration logic as needed
             user_id: userId,
         };
 
