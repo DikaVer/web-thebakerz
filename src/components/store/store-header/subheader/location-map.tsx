@@ -46,25 +46,6 @@ const LocationMap: React.FC<LocationMapProps> = ({
                                                  }) => {
     const mapRef = useRef<HTMLDivElement>(null);
     const subscriptionKey = process.env.NEXT_PUBLIC_AZURE_MAPS_KEY;
-    const loadMapDependencies = async () => {
-        try {
-            await Promise.all([
-                //@ts-ignore
-                import('azure-maps-control/dist/atlas.min.css'),
-                import('azure-maps-control')
-            ]);
-        } catch (error) {
-            console.error('Map dependency loading failed:', error);
-            throw error;
-        }
-    };
-
-// In component
-    useEffect(() => {
-        loadMapDependencies().then(() => {
-            // Initialize map
-        });
-    }, []);
 
     // Apply MS map
     useEffect(() => {

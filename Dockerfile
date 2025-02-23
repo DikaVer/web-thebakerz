@@ -21,7 +21,7 @@ ARG NEXT_PRIVATE_EMAIL_FROM_ARG="dummy@example.com"
 ARG NEXT_PRIVATE_GOOGLE_CLIENT_ID_ARG="dummy-google-client-id"
 ARG NEXT_PRIVATE_GOOGLE_CLIENT_SECRET_ARG="dummy-google-client-secret"
 ARG NEXT_PUBLIC_API_BASE_URL_ARG="https://web-thebakerz-dev-hhanh4h8h2e9fwhu.germanywestcentral-01.azurewebsites.net"
-ARG NEXT_PUBLIC_AZURE_MAPS_KEY="dummy-azure-maps-key"
+ARG NEXT_PUBLIC_AZURE_MAPS_KEY="7bzv2NVJ68C9d1wabxtxLOeTC7mPcV4fZFoYcfBHZqVkXfQodKdAJQQJ99BBAC5RqLJpEl2BAAAgAZMP49OS"
 
 # --- Dependencies Stage ---
 FROM base AS deps
