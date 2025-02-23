@@ -87,7 +87,7 @@ export const renderWorkingHoursTooltip = ({store} : {store: StoreData}) => {
                     className={'text-default-600 bg-gradient-card w-full'}
                     startContent={ <Icon icon={"solar:sort-by-time-linear"} width={24} className={"text-default-500"}/>}
                 >
-                    Working Hours
+                    View Schedule
                 </Button>
         </Tooltip>
     );
@@ -108,7 +108,9 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
                     className={'text-default-600 bg-gradient-card w-full'}
                     startContent={ <Icon icon={"solar:sort-by-time-linear"} width={24} className={"text-default-500"}/>}
                 >
-                    Working Hours
+                    <p className={'w-[90%] truncate'}>
+                        Working Hours
+                    </p>
                 </Button>
             </DropdownTrigger>
             <DropdownMenu
