@@ -69,8 +69,8 @@ export function StoreHeader() {
                 </div>
             </div>
             <div className="flex flex-col py-2 max-w-[300px] gap-y-4">
-                <p className={`text-large ${pacifico.className}`}>{store.ownerName}</p>
-                <p className="text-tiny whitespace-pre-wrap font-medium text-grayText line-clamp-8 h-full">{text}</p>
+                {/*<p className={`text-large ${pacifico.className}`}>{store.ownerName}</p>*/}
+                <p className="text-tiny whitespace-pre-wrap font-medium text-grayText h-full">{text}</p>
             </div>
         </div>
     );
