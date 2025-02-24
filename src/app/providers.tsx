@@ -12,17 +12,7 @@ const NextThemesProvider = dynamic(
     }
 )
 
-import {GregorianCalendar} from '@internationalized/date';
 import {CookieConsentProvider} from "@/components/providers/cookie-provider";
-
-function createCalendar(identifier: any) {
-    switch (identifier) {
-        case 'gregory':
-            return new GregorianCalendar();
-        default:
-            throw new Error(`Unsupported calendar ${identifier}`);
-    }
-}
 
 declare module "@react-types/shared" {
     interface RouterConfig {
@@ -41,8 +31,6 @@ export function Providers({session, children}: {
             <HeroUIProvider
                 locale="nl-NL"
                 navigate={router.push}
-                //@ts-ignore
-                createCalendar={createCalendar}
             >
 
                 <NextThemesProvider attribute="class" defaultTheme="light">

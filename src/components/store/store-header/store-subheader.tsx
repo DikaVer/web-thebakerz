@@ -115,6 +115,8 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                                         description: "Pick Up Option is selected",
                                         //@ts-ignore
                                         color: "success",
+                                        shouldShowTimeoutProgess: true,
+                                        timeout: 1000,
                                     })}
                             >
                                 Pick Up
