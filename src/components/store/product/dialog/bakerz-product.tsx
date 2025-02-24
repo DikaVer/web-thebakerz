@@ -33,6 +33,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import { Form, FormField, FormItem, FormControl} from "@/components/ui/form";
 import {useRouter} from "next/navigation";
 import showSuccessMessage from "@/components/toast/toast-succes";
+import {TagsInput} from "@/components/ui/tags-input";
 
 type ProductDialogProps = {
     productData: ProductData | undefined;
@@ -69,6 +70,8 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
             price: productData?.price ? productData.price / 100 : undefined,
             description: productData?.description,
             url: productData?.picture,
+            ingredients: productData?.ingredients || [],
+            allergies: productData?.allergies || [],
         },
     });
 
@@ -124,7 +127,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                     <CopyText
                         onClose={onClose}
                         isIconOnly={true}
-                        copyText={"https://www.thebakerz.com/" + productData?.store_id + "?product=" + productData?.id}
+                        copyText={process.env.NEXT_PUBLIC_API_BASE_URL + "/" + productData?.store_id + "?product=" + productData?.id}
                         textNotify={"Product Link Copied!"}
                     >
                         <IconCopy
@@ -280,6 +283,44 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                         ))}
                                                     </Select>
                                                 </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    {/* Ingredients and Allergies Fields */}
+                                    <FormField
+                                        control={form.control}
+                                        name="ingredients"
+                                        render={({ field, fieldState }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <TagsInput
+                                                        tags={field.value || []}
+                                                        setTags={(newTags) => field.onChange(newTags)}
+                                                        placeholder="Add ingredients... (Press Enter to add)"
+                                                    />
+                                                </FormControl>
+                                                {fieldState.error && (
+                                                    <p className="text-danger-400 text-sm">{fieldState.error.message}</p>
+                                                )}
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="allergies"
+                                        render={({ field, fieldState }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <TagsInput
+                                                        tags={field.value || []}
+                                                        setTags={(newTags) => field.onChange(newTags)}
+                                                        type={'warning'}
+                                                        placeholder="Add allergies... (Press Enter to add)"
+                                                    />
+                                                </FormControl>
+                                                {fieldState.error && (
+                                                    <p className="text-danger-400 text-sm">{fieldState.error.message}</p>
+                                                )}
                                             </FormItem>
                                         )}
                                     />

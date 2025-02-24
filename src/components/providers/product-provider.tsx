@@ -9,6 +9,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 interface ProductDialogContextProps {
     handleOpen: (productId?: string, itemCart?: ItemCart) => void;
     getProductDataById: (productId: string) => ProductData | undefined;
+    handleOpenWithProduct: (product: ProductData, itemCart?: ItemCart) => void;
     setProductsDataLocal: (data: ProductDataFull) => void;
     cart: CartData;
     itemCount: number;
@@ -49,9 +50,25 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode; cart: CartDa
     };
 
     const handleOpen = (productId?: string, itemCart?: ItemCart) => {
-        setProductData(getProductDataById(productId ? productId : ''));
-        setItemCartId(itemCart);
-        setIsOpen(true);
+        const product = getProductDataById(productId ? productId : '');
+        if (product) {
+            setProductData(getProductDataById(productId ? productId : ''));
+            setItemCartId(itemCart);
+            setIsOpen(true);
+        } else {
+            showErrorMessage({ error: 'Product not found' });
+        }
+
+    };
+
+    const handleOpenWithProduct = (product: ProductData, itemCart?: ItemCart) => {
+        if (product) {
+            setProductData(product);
+            setItemCartId(itemCart);
+            setIsOpen(true);
+        } else {
+            showErrorMessage({ error: 'Product not found' });
+        }
     };
 
     const getProductDataById = (productId: string) => {
@@ -116,6 +133,7 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode; cart: CartDa
     return (
         <ProductDialogContext.Provider
             value={{
+                handleOpenWithProduct,
                 handleOpen,
                 getProductDataById,
                 setProductsDataLocal,

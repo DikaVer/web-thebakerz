@@ -23,6 +23,7 @@ import { updateCart } from "@/lib/actions/cart";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import {useProductDialog} from "@/components/providers/product-provider";
+import CustomAlert from "@/components/ui/custom-alerts";
 
 type ProductDialogProps = {
     productData: ProductData;
@@ -77,7 +78,7 @@ export default function UserProductDialog({
                     onClose={onClose}
                     isIconOnly={true}
                     copyText={
-                        "https://www.thebakerz.com/" +
+                        process.env.NEXT_PUBLIC_API_BASE_URL + "/" +
                         productData?.store_id +
                         "?product=" +
                         productData?.id
@@ -119,6 +120,18 @@ export default function UserProductDialog({
                         </Card>
                             <div className={"flex flex-col px-2 py-2 text-default-400 gap-4"}>
                                 <p>{productData.description}</p>
+                                {/* Ingredients Alert: Default variant */}
+                                {productData.ingredients && productData.ingredients.length > 0 && (
+                                    <CustomAlert color="default" title="Ingredients">
+                                        <p className={'text-small text-default-600'}>{productData.ingredients.join(", ")}</p>
+                                    </CustomAlert>
+                                )}
+                                {/* Allergies Alert: Warning variant */}
+                                {productData.allergies && productData.allergies.length > 0 && (
+                                    <CustomAlert color="warning" title="Allergies">
+                                        <p className={'text-small'}>{productData.allergies.join(", ")}</p>
+                                    </CustomAlert>
+                                )}
                                 <Textarea
                                     label={"Notes"}
                                     labelPlacement={"outside"}

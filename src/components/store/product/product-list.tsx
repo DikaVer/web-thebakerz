@@ -10,6 +10,7 @@ import {CategoryProducts} from "@/components/store/product/components/category-p
 import {useScrollObserver} from "@/components/store/product/hooks/useScrollObserver";
 import {useFilteredProducts} from "@/components/store/product/hooks/useFilteredProducts";
 import {ProductSearch} from "@/components/store/product/components/product-search";
+import {useSearchParams} from "next/navigation";
 
 interface ProductListBaseProps {
     productsData: ProductDataFull;
@@ -26,8 +27,11 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const isSmall = useMediaQuery('(max-width: 768px)');
     const [isVisible, setVisible] = useState(false);
     const [selectedTab, setSelectedTab] = useState('');
-    const { setProductsDataLocal } = useProductDialog();
+    const { setProductsDataLocal, handleOpenWithProduct } = useProductDialog();
     const categoryRefs = useRef<Record<string, HTMLDivElement | null>>({});
+    const searchParams = useSearchParams();
+    const initialProductHandled = useRef(false);
+
 
     // Update local product data
     useEffect(() => {
@@ -35,6 +39,15 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             setProductsDataLocal(productsData);
         }
     }, [productsData, setProductsDataLocal]);
+
+    // Handle initial product dialog
+    useEffect(() => {
+        const productId = searchParams.get('product');
+        if (!initialProductHandled.current && productId && productsData) {
+            handleOpenWithProduct(productsData[productId]);
+            initialProductHandled.current = true;
+        }
+    }, []);
 
     // Handle scroll event
     useEffect(() => {

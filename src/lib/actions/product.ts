@@ -13,11 +13,8 @@ export const addProduct = async (
     formData: z.infer<typeof ProductSchema>,
     productId?: string,
 ) => {
-
-    if (!await globalPOSTRateLimit()){
-        return {
-            error: "Too many requests"
-        }
+    if (!(await globalPOSTRateLimit())) {
+        return { error: "Too many requests" };
     }
     // Validate the form data
     const validation = ProductSchema.safeParse(formData);
@@ -25,8 +22,7 @@ export const addProduct = async (
         return { error: "Invalid fields!" };
     }
 
-    const {user, store} = await getCurrentSession();
-
+    const { user, store } = await getCurrentSession();
     if (!user || !store) {
         return { error: "User not found!" };
     }
@@ -43,49 +39,24 @@ export const addProduct = async (
         description: formData.description,
         price: formData.price * 100,
         picture: formData.url,
-        updatedAt: new Date().toISOString()
+        ingredients: formData.ingredients || [],
+        allergies: formData.allergies || [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
     };
 
     try {
         if (productId) {
             await containerProducts.item(productData.id, productData.store_id).patch({
                 operations: [
-                    {
-                        op: "set",
-                        // Update the product name.
-                        path: "/name",
-                        value: productData.name,
-                    },
-                    {
-                        op: "set",
-                        // Update the product price.
-                        path: "/price",
-                        value: productData.price,
-                    },
-                    {
-                        op: "set",
-                        path: "/description",
-                        value: productData.description ?? ""
-                    },
-                    {
-                        op: "set",
-                        // Update the product category.
-                        path: "/category",
-                        value: productData.category,
-                    },
-                    {
-                        op: "set",
-                        // Update the image URL.
-                        path: "/picture",
-                        value: productData.picture,
-                    },
-                    {
-                        op: "set",
-                        // Update the product category.
-                        path: "/updatedAt",
-                        value: new Date().toISOString(),
-                    }
-                    // Add any additional field updates as needed.
+                    { op: "set", path: "/name", value: productData.name },
+                    { op: "set", path: "/price", value: productData.price },
+                    { op: "set", path: "/description", value: productData.description ?? "" },
+                    { op: "set", path: "/category", value: productData.category },
+                    { op: "set", path: "/picture", value: productData.picture },
+                    { op: "set", path: "/ingredients", value: productData.ingredients },
+                    { op: "set", path: "/allergies", value: productData.allergies },
+                    { op: "set", path: "/updatedAt", value: new Date().toISOString() },
                 ],
             });
         } else {
@@ -96,7 +67,6 @@ export const addProduct = async (
     } catch (error: any) {
         console.error("Error updating product:", error);
         return { error: "Failed to update product." };
-
     }
 };
 
@@ -171,6 +141,8 @@ export type ProductData = {
     description?: string | null;
     price: number;
     picture: string;
+    ingredients?: string[];
+    allergies?: string[];
 };
 
 export type ProductDataFull = {

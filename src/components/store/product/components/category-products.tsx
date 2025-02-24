@@ -25,8 +25,8 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
                                                                   }) => (
     <div ref={(el) => setCategoryRef(category, el)}>
         <Spacer y={8} />
-        {/*<span className="text-xl desktop:text-2xl font-bold">{category}</span>*/}
-        {/*<Spacer y={4} />*/}
+        <span className="text-xl desktop:text-2xl font-bold">{category}</span>
+        <Spacer y={4} />
         {/*<Carousel opts={{ align: "start" }} className="w-full">*/}
         {/*    <CarouselContent>*/}
         <div className="grid grid-cols-3 lg:grid-cols-4 justify-center items-center w-full">

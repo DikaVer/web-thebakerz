@@ -74,8 +74,6 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
         }
     };
 
-
-
     return (
         <div className="flex flex-col w-full max-w-[440px]">
             <Card

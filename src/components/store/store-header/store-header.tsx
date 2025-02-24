@@ -2,7 +2,7 @@
 
 import React from "react";
 import {useStore} from "@/components/providers/store-provider";
-import {Link, Avatar} from "@heroui/react";
+import {Link, Avatar, Spacer} from "@heroui/react";
 import {Icon, IconProps} from "@iconify/react";
 
 type SocialIconProps = Omit<IconProps, "icon">;
@@ -34,7 +34,7 @@ export function StoreHeader() {
                             base: `bg-default text-text shadow-lg`,
                         }}
                     />
-                <div className="flex space-y-4 space-x-4 py-2 items-end">
+                <div className="flex space-y-4 space-x-4 py-2 items-end justify-start">
                     {store?.instagram_url && (
                         <Link key={"Instagram"} isExternal className="text-default-500 h-6" href={store.instagram_url}>
                             <span className="sr-only">{store.instagram_url}</span>
@@ -49,18 +49,24 @@ export function StoreHeader() {
                     )}
 
                 </div>
+                {store?.phone &&
+                    <>
+                        <Spacer y={2}/>
+                        <div className={'flex w-full justify-end'}>
+                            <Link key={"Phone"} isExternal className="text-default-500 gap-x-2 items-start"
+                                  href={phone.href}>
+                                <phone.icon aria-hidden="true"/>
+                                {store.phone}
+                                <span className="sr-only">{phone.name}</span>
+                            </Link>
+                        </div>
+                    </>
+                }
             </div>
             <div className="flex flex-col py-2 max-w-[300px] gap-y-4">
                 {/*<p className={`text-large ${pacifico.className}`}>{store.ownerName}</p>*/}
                 {store?.description &&
                     <p className="text-tiny whitespace-pre-wrap font-medium text-grayText">{store.description}</p>
-                }
-                {store?.phone &&
-                    <Link key={"Phone"} isExternal className="text-default-500 gap-x-2 items-start" href={phone.href}>
-                        <phone.icon aria-hidden="true"/>
-                        {store.phone}
-                        <span className="sr-only">{phone.name}</span>
-                    </Link>
                 }
             </div>
         </div>

@@ -7,6 +7,7 @@ import {Providers} from "@/app/providers";
 import CookieConsentComponent from "@/components/ui/cookie-consent";
 import type { Viewport } from 'next'
 import {getCurrentSession} from "@/lib/actions/session";
+import {cookies} from "next/headers";
 
 
 
@@ -29,10 +30,11 @@ export default async function RootLayout({
 
     const session = await getCurrentSession();
 
-    // console.log(session);
+    const cookieStore = await cookies();
+    const lang = cookieStore.get('NEXT_LOCALE')?.value || 'en'
 
     return (
-        <html lang="en">
+        <html lang={lang}>
 
         <body className={`${lexendDeca.className} max-w-full `}>
 

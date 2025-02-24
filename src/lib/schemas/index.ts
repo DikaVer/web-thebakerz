@@ -137,32 +137,31 @@ export const descriptionSchema = z.string()
 
 export const ProductSchema = z.object({
     category: z.enum(Object.keys(categories) as [string, ...string[]], {
-        errorMap: (issue, ctx) => {
-            return { message: "Category must be from the list" };
-        },
+        errorMap: () => ({ message: "Category must be from the list" }),
     }),
     name: nameSchema.nullable().refine(
         (val) => val !== null && val !== undefined,
-        {
-            message: "Product Name is required",
-        }
+        { message: "Product Name is required" }
     ),
     description: descriptionSchema.nullable().optional(),
     price: z.number({
         message: "Price is required",
-    }).min(0, { message: "Price must be a positive number" }).refine(
-        (val) => val !== null && val !== undefined,
-        {
+    })
+        .min(0, { message: "Price must be a positive number" })
+        .refine((val) => val !== null && val !== undefined, {
             message: "Price is required",
-        }
-    ),
-    url: z.string().url({ message: "Invalid URL" }).optional().refine(
-        (val) => val !== null && val !== undefined,
-        {
+        }),
+    url: z
+        .string()
+        .url({ message: "Invalid URL" })
+        .optional()
+        .refine((val) => val !== null && val !== undefined, {
             message: "Image is required",
-        }
-    ),
+        }),
+    ingredients: z.array(z.string()).optional(),
+    allergies: z.array(z.string()).optional(),
 });
+
 
 
 
