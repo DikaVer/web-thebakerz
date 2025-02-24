@@ -50,15 +50,9 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode; cart: CartDa
     };
 
     const handleOpen = (productId?: string, itemCart?: ItemCart) => {
-        const product = getProductDataById(productId ? productId : '');
-        if (product) {
-            setProductData(getProductDataById(productId ? productId : ''));
-            setItemCartId(itemCart);
-            setIsOpen(true);
-        } else {
-            showErrorMessage({ error: 'Product not found' });
-        }
-
+        setProductData(getProductDataById(productId ? productId : ''));
+        setItemCartId(itemCart);
+        setIsOpen(true);
     };
 
     const handleOpenWithProduct = (product: ProductData, itemCart?: ItemCart) => {
