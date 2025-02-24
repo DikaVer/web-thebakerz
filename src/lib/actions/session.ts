@@ -72,6 +72,8 @@ export async function validateSessionToken(
         stores.nickname AS store_name,
         stores.description AS store_description,
         stores.phone As store_phone,
+        stores.facebook_url AS store_facebook_url,  
+        stores.instagram_url AS store_instagram_url,
         store_locations.route AS store_route,
         store_locations.city AS store_city,
         store_locations.zip_code AS store_zip_code,
@@ -97,6 +99,8 @@ export async function validateSessionToken(
             storeName: rowS.store_name,
             description: rowS.store_description,
             phone: rowS.store_phone,
+            facebook_url: rowS.store_facebook_url,
+            instagram_url: rowS.store_instagram_url,
             location: {
                 route: rowS.store_route,
                 city: rowS.store_city,

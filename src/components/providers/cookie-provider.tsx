@@ -1,4 +1,4 @@
-// context/CookieConsentContext.tsx
+// context/CookieProvider.tsx
 import React, { createContext, ReactNode } from 'react';
 import useCookieConsent from "@/lib/hooks/useCookieConsent";
 
@@ -18,7 +18,7 @@ interface CookieConsentContextProps {
     }) => void;
 }
 
-export const CookieConsentContext = createContext<CookieConsentContextProps>({
+export const CookieProvider = createContext<CookieConsentContextProps>({
     consent: null,
     preferences: { necessary: true, analytics: false, marketing: false },
     acceptAll: () => {},
@@ -30,10 +30,10 @@ export const CookieConsentProvider: React.FC<{ children: ReactNode }> = ({ child
     const { consent, preferences, acceptAll, rejectAll, savePreferences } = useCookieConsent();
 
     return (
-        <CookieConsentContext.Provider
+        <CookieProvider.Provider
             value={{ consent, preferences, acceptAll, rejectAll, savePreferences }}
         >
             {children}
-        </CookieConsentContext.Provider>
+        </CookieProvider.Provider>
     );
 };

@@ -3,15 +3,14 @@
 import React, {useState} from "react";
 import Image from "next/image";
 import {
-    HeartIcon, IconBadge, IconBadgeCheck, IconBadgeInfo,
-    IconHeart, IconStar,
+    IconBadge, IconBadgeCheck, IconBadgeInfo, IconClose,
+    IconHeart,
 } from "@/components/ui/icons";
 import { FirstView } from "@/components/landing/first-view";
 import {pacifico} from "@/components/fonts";
 import {useInView} from "@/lib/hooks/useInView";
 import {backdropEffect} from "@/lib/local-variables";
 import { Card, CardBody, Modal, ModalBody, ModalContent, ModalHeader} from "@heroui/react";
-import VerticalStepsLanding from "@/components/ui/vertical-steps-landing";
 import {CardFooter} from "@heroui/card";
 import {Chip} from "@heroui/chip";
 
@@ -21,6 +20,7 @@ import {Icon} from "@iconify/react";
 import ScrollTriggered from "@/components/landing/scroll-triggered";
 import ApplyComponent from "@/components/landing/apply-component";
 import {useMediaQuery} from "usehooks-ts";
+import {useTheme} from "next-themes";
 
 export default function Page() {
     return (
@@ -41,54 +41,6 @@ export default function Page() {
 
     );
 }
-
-// WhyChooseSection Component
-const WhyChooseSection = () => {
-    const [whyChooseRef, whyChooseInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
-    const [whyChooseMilestoneRef, whyChooseMilestoneInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
-
-    return (
-        <section
-            id="why-choose"
-            className="w-full px-4 sm:px-6 lg:px-8 py-12 rounded-lg max-w-2xl"
-            aria-labelledby="why-choose-section"
-        >
-            <h2
-                ref={whyChooseRef}
-                id="why-choose-heading"
-                className={`text-3xl sm:text-4xl font-extrabold text-center 
-                            opacity-0 transform translate-y-10 
-                            ${whyChooseInView ? 'animate-fadeInUp' : ''}`}
-            >
-                Why Choose TheBakerz?
-            </h2>
-            <div className={` opacity-0 ${whyChooseMilestoneInView ? 'animate-fadeInUp' : ''}`}
-                 ref={whyChooseMilestoneRef}>
-                <VerticalStepsLanding
-                    defaultStep={0}
-                    steps={[
-                        {
-                            title: "Online Store",
-                            description: "We create your own online store to showcase your delicious creations and accept orders seamlessly.",
-                        },
-                        {
-                            title: "Order Management",
-                            description: "Easily track and manage all your orders in one place, reducing the risk of errors and missed orders.",
-                        },
-                        {
-                            title: "All Chats in One Place",
-                            description: "Connect customer chats from Instagram, Facebook, and WhatsApp to orders in one place for easy communication.",
-                        },
-                        {
-                            title: "Flexible Support",
-                            description: "Our dedicated team is here to help during our available hours, ensuring your queries are addressed promptly.",
-                        },
-                    ]}
-                />
-            </div>
-        </section>
-    );
-};
 
 const WhyChooseSectionAnimated = () => {
     const [whyChooseRef, whyChooseInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
@@ -117,6 +69,7 @@ const PricingSection = () => {
     const router = useRouter();
     const [isLoading, setLoading] = useState(false);
     const [isOpen, setOpen] = useState(false);
+    const { theme } = useTheme();
 
     const [pricingOut, PricingInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
 
@@ -144,6 +97,16 @@ const PricingSection = () => {
                 shadow={"lg"}
                 placement={"center"}
                 className={"bg-background"}
+                classNames={{
+                    closeButton: 'p-1'
+                }}
+                closeButton={
+                    <div className={'absolute w-full right-0'}>
+                        <IconClose size={32} primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
+                                   secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
+                        />
+                    </div>
+                }
             >
                 <ModalContent
                 >

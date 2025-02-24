@@ -53,7 +53,7 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
                 <Button
                     size={"sm"}
                     variant="bordered"
-                    radius={'full'}
+                    radius={'md'}
                     className={'text-default-600 bg-gradient-card'}
                 >
                     <Tooltip

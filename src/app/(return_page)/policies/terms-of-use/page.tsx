@@ -1,7 +1,7 @@
 import React from "react";
 import rehypeSanitize from "rehype-sanitize";
 import ReactMarkdown from "react-markdown";
-import {privacyEnglishBakerz} from "@/app/(main)/policies/privacy-policy/content";
+import {termsEnglishBakerz} from "@/app/(return_page)/policies/terms-of-use/content";
 
 export default async function Page() {
 
@@ -14,7 +14,7 @@ export default async function Page() {
                     rehypePlugins={[rehypeSanitize]}
                     className="prose text-grayText prose-headings:text-text prose-strong:text-grayText prose-a:text-grayText max-w-5xl"
                 >
-                    {privacyEnglishBakerz.content}
+                    {termsEnglishBakerz.content}
                 </ReactMarkdown>
             </main>
         </div>

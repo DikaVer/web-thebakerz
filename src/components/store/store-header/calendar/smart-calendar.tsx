@@ -175,11 +175,13 @@ const DateTimeLocalInput = ({ className, ...props }: DateTimeLocalInputProps) =>
                         <Calendar
                             id="calendar"
                             className={cn("peer flex justify-end", className)}
+                            //@ts-ignore
                             value={value}
                             //@ts-ignore
                             minValue={minValue}
                             //@ts-ignore
                             isDateUnavailable={isDateUnavailable}
+                            //@ts-ignore
                             onChange={(selectedDate) => handleCalendarChange(selectedDate)}
                             initialFocus
                         />

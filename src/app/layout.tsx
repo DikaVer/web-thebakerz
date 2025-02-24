@@ -2,13 +2,12 @@ import { lexendDeca } from "@/components/fonts";
 import '@/styles/globals.css'
 import React from "react";
 import type { Metadata } from "next";
-import {Toaster} from "@/components/ui/sonner";
 import {metadataDefault} from "@/components/metadata";
 import {Providers} from "@/app/providers";
 import CookieConsentComponent from "@/components/ui/cookie-consent";
 import type { Viewport } from 'next'
 import {getCurrentSession} from "@/lib/actions/session";
-// import "azure-maps-control/dist/atlas.min.css";
+
 
 
 export const viewport: Viewport = {
@@ -42,7 +41,6 @@ export default async function RootLayout({
             >
                 {children}
                 <CookieConsentComponent/>
-                <Toaster/>
             </Providers>
             </body>
         </html>

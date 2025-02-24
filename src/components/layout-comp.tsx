@@ -4,8 +4,9 @@ import React, {useEffect} from "react";
 import {useDisclosure} from "@heroui/react";
 import {useMediaQuery} from "usehooks-ts";
 import SidebarMenu from "@/components/sidebar/sidebar-menu";
-import NavbarComponent from "@/components/navbar-comp";
 import {StoreData} from "@/lib/actions/store";
+import NavbarComponent from "@/components/navbar/navbar-comp";
+import {motion, useScroll} from "motion/react";
 
 
 
@@ -14,10 +15,10 @@ import {StoreData} from "@/lib/actions/store";
 interface LayoutCompProps {
     children: React.ReactNode;
     store?: StoreData;
-    isCheckout?: boolean;
+    hideSideBar?: boolean;
 }
 
-export default function LayoutComp({ children, store, isCheckout }: LayoutCompProps) {
+export default function LayoutComp({ children, store, hideSideBar }: LayoutCompProps) {
     const { isOpen, onOpenChange } = useDisclosure();
     const [isCollapsed, setIsCollapsed] = React.useState(true);
     const isMobile = useMediaQuery("(max-width: 768px)");
@@ -31,11 +32,27 @@ export default function LayoutComp({ children, store, isCheckout }: LayoutCompPr
     const onToggle = React.useCallback(() => {
         setIsCollapsed((prev) => !prev);
     }, []);
+    const { scrollYProgress } = useScroll()
 
     return (
         <div className="flex w-full">
+            <motion.div
+                id="scroll-indicator"
+                style={{
+                    scaleX: scrollYProgress,
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: "10px",
+                    originX: 0,
+                    background: "linear-gradient(90deg, #d016ca, #730c70)",
+                    zIndex: 9999,
+                }}
+            />
+
             {/* Sidebar */}
-            {!isCheckout &&
+            {!hideSideBar &&
                 <SidebarMenu
                 store={store}
                 isOpen={isOpen}
@@ -51,7 +68,7 @@ export default function LayoutComp({ children, store, isCheckout }: LayoutCompPr
                     setIsCollapsed={setIsCollapsed}
                     onOpenChange={onOpenChange}
                     onToggle={onToggle}
-                    isCheckout={isCheckout}
+                    hideSideBar={hideSideBar}
                 />
                 <main className=" w-full overflow-visible">
                     {children}

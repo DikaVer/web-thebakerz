@@ -2,10 +2,10 @@
 
 import {HeroUIProvider} from "@heroui/react";
 import dynamic from 'next/dynamic'
-import {CookieConsentProvider} from "@/components/CookieConsentContext";
 import {useRouter} from "next/navigation";
 import {SessionProvider} from "@/components/providers/session-provider";
 import {SessionValidationResult} from "@/lib/actions/session";
+import {addToast, ToastProvider} from "@heroui/toast";
 const NextThemesProvider = dynamic(
     () => import('next-themes').then((e) => e.ThemeProvider),
     {
@@ -14,6 +14,7 @@ const NextThemesProvider = dynamic(
 )
 
 import {GregorianCalendar} from '@internationalized/date';
+import {CookieConsentProvider} from "@/components/providers/cookie-provider";
 
 function createCalendar(identifier: any) {
     switch (identifier) {
@@ -41,10 +42,13 @@ export function Providers({session, children}: {
             <HeroUIProvider
                 locale="nl-NL"
                 navigate={router.push}
+                //@ts-ignore
                 createCalendar={createCalendar}
             >
+
                 <NextThemesProvider attribute="class" defaultTheme="light">
                     <SessionProvider sessionData={session}>
+                        <ToastProvider />
                         <CookieConsentProvider>
                                 {children}
                         </CookieConsentProvider>

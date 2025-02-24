@@ -112,7 +112,8 @@ const footerNavigation = {
     ],
 };
 
-export function Footer() {
+export function FooterSimple() {
+
     const renderList = React.useCallback(
         ({title, items}: {title: string; items: {name: string; href: string}[]}) => (
             <div>
@@ -131,14 +132,14 @@ export function Footer() {
         [],
     );
 
+
     return (
         <footer className="flex w-full flex-col bg-gradient-card rounded-xl drop-shadow">
             <div className=" px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
-                <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+                <div className="flex flex-col sm:flex-row gap-y-6 xsmall:flex-row items-start justify-between">
                     <div className="space-y-8 md:pr-8">
                         <a
                             className="flex items-end justify-start"
-                            href="/"
                         >
                             <Image
                                 src={`/images/TheBakerzLogo.svg`}
@@ -148,30 +149,14 @@ export function Footer() {
                             <span className={`text-3xl ml-2 ${pacifico.className}`}>TheBakerz</span>
                         </a>
                         <p className="text-small text-grayText">
-                            © {new Date().getFullYear()} TheBakerz. All rights reserved.
+                            © {new Date().getFullYear()} Powered by TheBakerz. All rights reserved.
                         </p>
-                        <div className="flex space-x-6">
-                            {footerNavigation.social.map((item) => (
-                                <Link key={item.name} isExternal className="text-default-400 h-6" href={item.href}>
-                                    <span className="sr-only">{item.name}</span>
-                                    <item.icon aria-hidden="true" className="w-6" />
-                                </Link>
-                            ))}
-                        </div>
                     </div>
-                    <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-                        <div className="md:grid md:grid-cols-2 md:gap-8">
-                            <div>{renderList({title: "Navigation", items: footerNavigation.overview})}</div>
-                            <div className="mt-10 md:mt-0">
-                                {renderList({title: "Support", items: footerNavigation.supportOptions})}
-                            </div>
-                        </div>
-                        <div className="md:grid md:grid-cols-2 md:gap-8">
+                    <div className="grid grid-cols-2 gap-8 ">
+                        {renderList({title: "Support", items: footerNavigation.supportOptions})}
                             {/*<div>{renderList({title: "Services", items: footerNavigation.services})}</div>*/}
-                            <div className="mt-10 md:mt-0">
-                                {renderList({title: "Legal", items: footerNavigation.legal})}
-                            </div>
-                        </div>
+                        {renderList({title: "Legal", items: footerNavigation.legal})}
+
                     </div>
                 </div>
             </div>

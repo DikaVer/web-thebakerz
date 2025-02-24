@@ -32,7 +32,7 @@ export const useScrollObserver = ({
                 }
             },
             {
-                threshold: 1,
+                threshold: isSmall ? 0.8 : 0.35,
                 rootMargin: `-${headerOffset}px 0px 0px 0px`,
             }
         );

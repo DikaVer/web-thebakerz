@@ -7,7 +7,7 @@ import {Icon} from "@iconify/react";
 import SidebarDrawer from "@/components/sidebar/sidebar-drawer";
 import React, {useEffect} from "react";
 import {usePathname, useRouter} from "next/navigation";
-import {ThemeSwitcher} from "@/components/ui/ThemeSwitcher";
+import {ThemeSwitcher} from "@/components/ui/theme-switcher";
 import {SignOutButton} from "@/components/ui/signout-button";
 import {
     sectionItemsAdmin,

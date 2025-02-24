@@ -7,6 +7,8 @@ import CropEasy from "@/components/image/crop/crop-easy";
 
 import showErrorMessage from "@/components/toast/toast-error";
 import {ImageSchema} from "@/lib/schemas";
+import {useTheme} from "next-themes";
+import {IconClose} from "@/components/ui/icons";
 
 interface AvatarImageUploaderProps {
     type: "square" | "circle";
@@ -28,6 +30,7 @@ export function ImageUploader({
 
                                     }: AvatarImageUploaderProps) {
     const [previewUrl, setPreviewUrl] = useState<string | undefined>();
+    const { theme } = useTheme();
 
     // Create a preview URL from the file
     useEffect(() => {
@@ -54,7 +57,23 @@ export function ImageUploader({
 
     return (
         <>
-            <Modal size="md" isOpen={isOpen} onOpenChange={onClose} backdrop="blur" placement={'center'}>
+            <Modal
+                size="md"
+                isOpen={isOpen}
+                onOpenChange={onClose}
+                backdrop="blur"
+                placement={'center'}
+                classNames={{
+                    closeButton: 'p-1'
+                }}
+                closeButton={
+                    <div className={'absolute w-full right-0'}>
+                        <IconClose size={32} primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
+                                   secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
+                        />
+                    </div>
+                }
+            >
                 <ModalContent>
                     {(modalClose) => (
                         <>

@@ -1,8 +1,6 @@
 'use client';
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import {
-    Modal,
-    ModalContent,
     ModalHeader,
     ModalBody,
     ModalFooter,
@@ -21,14 +19,10 @@ import { CopyText } from "@/components/ui/copy-text";
 import { InputStepper } from "@/components/store/product/dialog/button-stepper";
 import { ItemCart } from "@/lib/actions/cart";
 import { ScrollShadow } from "@heroui/scroll-shadow";
-import { updateCart } from "@/lib/actions/cart"; // our server action
-import { toast } from "sonner";
+import { updateCart } from "@/lib/actions/cart";
 import showErrorMessage from "@/components/toast/toast-error";
-import { Alert } from "@heroui/alert";
 import showSuccessMessage from "@/components/toast/toast-succes";
-import {useStore} from "@/components/providers/store-provider";
 import {useProductDialog} from "@/components/providers/product-provider";
-import {useRouter} from "next/navigation";
 
 type ProductDialogProps = {
     productData: ProductData;
@@ -80,6 +74,7 @@ export default function UserProductDialog({
         <>
             <ModalHeader className="flex flex-col gap-1 p-1">
                 <CopyText
+                    onClose={onClose}
                     isIconOnly={true}
                     copyText={
                         "https://www.thebakerz.com/" +
@@ -90,9 +85,9 @@ export default function UserProductDialog({
                     textNotify={"Product Link Copied!"}
                 >
                     <IconCopy
-                        size={24}
-                        primaryColor={`${theme === "light" ? "#730c70" : "#a3a3a3"}`}
-                        secondaryColor={`${theme === "light" ? "#5d5d5b" : "#faf4d1"}`}
+                        size={28}
+                        primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
+                        secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
                     />
                 </CopyText>
             </ModalHeader>
@@ -112,7 +107,7 @@ export default function UserProductDialog({
                                 src={productData.picture}
                             />
                             <CardFooter
-                                className={`justify-between items-end bg-background/40 border-white/20 border-1  overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10`}
+                                className={`text-black justify-between items-end bg-white/40 border-white/20 border-1  overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10`}
                             >
                                 <p className={`w-full text-xl sm:text-2xl truncate mr-6 font-medium`}>
                                     {productData.name}
@@ -122,7 +117,7 @@ export default function UserProductDialog({
                                 </p>
                             </CardFooter>
                         </Card>
-                            <div className={"flex flex-col px-4 py-2 text-default-400 gap-4"}>
+                            <div className={"flex flex-col px-2 py-2 text-default-400 gap-4"}>
                                 <p>{productData.description}</p>
                                 <Textarea
                                     label={"Notes"}

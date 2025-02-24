@@ -25,23 +25,28 @@ export async function updateUserProfile(
 export async function updateStoreProfile(
     storeName: string,
     description: string,
-    id: string
+    id: string,
+    facebook_url?: string,
+    instagram_url?: string,
 ): Promise<any> {
     try {
         const result = await connectionPool.query(
             `UPDATE stores
-       SET nickname = $1, description = $2
-       WHERE user_id = $3
-       RETURNING id`,
-            [storeName, description, id]
+             SET nickname = $1,
+                 description = $2,
+                 facebook_url = $3,
+                 instagram_url = $4
+             WHERE user_id = $5
+                 RETURNING id`,
+            [storeName, description, facebook_url, instagram_url, id]
         );
         if (result.rows.length === 0) {
             throw new Error("Store not found");
         }
-
         return result.rows[0];
     } catch (error) {
         console.error("Database Error:", error);
         throw new Error("Failed to update store.");
     }
 }
+

@@ -1,5 +1,5 @@
-import {Alert} from "@heroui/alert";
-import {toast} from "sonner";
+
+import {addToast} from "@heroui/toast";
 
 
 interface ToastMessageProps {
@@ -7,22 +7,13 @@ interface ToastMessageProps {
 }
 
 const showErrorMessage = ({ error }: ToastMessageProps) => {
-    toast.message(
-        (
-            <div className="flex flex-col gap-4 w-full">
-                <Alert
-                    color="danger"
-                    title="Warning Notification"
-                    description={error}
-                    variant="faded"
-                />
-            </div>
-        ),
-        {
-            duration: 2000,
-            className: 'p-0 rounded-xl',
-        }
-    );
+    addToast({
+        description: error,
+        timeout: 2000,
+        shouldShowTimeoutProgess: true,
+        //@ts-ignore
+        color: "danger"
+    });
 };
 
 export default showErrorMessage;

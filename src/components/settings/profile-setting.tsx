@@ -16,8 +16,6 @@ import { User} from "@/lib/actions/user";
 import {Badge} from "@heroui/badge";
 import {useTheme} from "next-themes";
 import {IconLocation, IconPhone} from "@/components/ui/icons";
-import {toast} from "sonner";
-import {Alert} from "@heroui/alert";
 import {ImageUploader} from "@/components/image/image-upload";
 import AvatarImageForm from "@/components/image/image-form";
 import showErrorMessage from "@/components/toast/toast-error";
@@ -25,6 +23,7 @@ import {useSession} from "@/components/providers/session-provider";
 import NotFound from "@/app/(error_layout)/not-found";
 import {SessionValidationResult} from "@/lib/actions/session";
 import {StoreData} from "@/lib/actions/store";
+import {addToast} from "@heroui/toast";
 
 
 interface ProfileSettingCardProps {
@@ -62,6 +61,8 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                 name: user.username,
                 description: store?.description || undefined,
                 storeName: store?.storeName || undefined,
+                facebook_url: store?.facebook_url || undefined,
+                instagram_url: store?.instagram_url || undefined,
             },
         });
 
@@ -72,22 +73,13 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                 const result = await updateProfile(formData);
 
                 if (result?.success) {
-                    toast.message((
-                            <div className="flex flex-col gap-4 w-full">
-                                <Alert
-                                    color="success"
-                                    title={"Success Notification"}
-                                    description={`Your profile ${user.role === "bakerz" ? '& store have' : 'has'} been updated successfully.`}
-                                    variant="faded"
-
-                                />
-                            </div>
-                        ),
-                        {
-                            duration: 2000,
-                            className: `p-0 rounded-xl`
-                        }
-                    );
+                    addToast({
+                        title: "Profile Updated",
+                        description: `Your profile ${user.role === "bakerz" ? '& store have' : 'has'} been updated successfully.`,
+                        color: "success",
+                        shouldShowTimeoutProgess: true,
+                        timeout: 2000,
+                    })
 
 
                     setSession((prevSession): SessionValidationResult => {
@@ -103,7 +95,10 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                 store: prevSession.store ? {
                                             ...prevSession.store,
                                             storeName: formData.storeName,
-                                            description: formData.description
+                                            description: formData.description,
+                                            facebook_url: formData.facebook_url,
+                                            instagram_url: formData.instagram_url
+
                                         } as StoreData
                                     : null
                             }
@@ -211,10 +206,10 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                             />
                         </div>
                         <Spacer y={2} />
-                        {/* Location */}
                         {user.role === "bakerz" && (
                             <>
                                 <div>
+                                    {/* Store link */}
                                     <p className="text-base font-medium text-default-700">Store Link</p>
                                     <p className="mt-1 text-sm font-normal text-default-400">How user can find you</p>
                                     <FormField
@@ -227,7 +222,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                         {...field}
                                                         isRequired
                                                         className={'mt-2'}
-                                                        placeholder={`${store?.storeName ? store?.storeName : 'Type your store name'}`}
+                                                        placeholder='Type your store name'
                                                         type="text"
                                                         validate={() => {
                                                             return fieldState.error?.message;
@@ -239,6 +234,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                     />
                                 </div>
                                 <Spacer y={2}/>
+                                {/* Location & Phone Number */}
                                 <div>
                                     <p className="text-base font-medium text-default-700">Location & Phone Number</p>
                                     <p className="mt-1 text-sm font-normal text-default-400">You can edit location and phone number
@@ -278,8 +274,57 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
 
                                     />
                                 </div>
-                                <Spacer y={4}/>
-                                {/* Biography */}
+                                <Spacer y={2}/>
+
+                                {/* Facebook URL */}
+                                <div>
+                                    <p className="text-base font-medium text-default-700">Facebook URL</p>
+                                    <p className="mt-1 text-sm font-normal text-default-400">Enter your Facebook page URL</p>
+                                    <FormField
+                                        control={form.control}
+                                        name="facebook_url"
+                                        render={({ field, fieldState }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        className="mt-2"
+                                                        placeholder="https://www.facebook.com/thebakerz.official"
+                                                        type="text"
+                                                        validate={() => fieldState.error?.message}
+                                                    />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
+                                <Spacer y={2} />
+
+                                {/* Instagram URL */}
+                                <div>
+                                    <p className="text-base font-medium text-default-700">Instagram URL</p>
+                                    <p className="mt-1 text-sm font-normal text-default-400">Enter your Instagram profile URL</p>
+                                    <FormField
+                                        control={form.control}
+                                        name="instagram_url"
+                                        render={({ field, fieldState }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        className="mt-2"
+                                                        placeholder="https://www.instagram.com/thebakerz.official"
+                                                        type="text"
+                                                        validate={() => fieldState.error?.message}
+                                                    />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <Spacer y={2} />
+                                {/* Description */}
                                 <div>
                                     <p className="text-base font-medium text-default-700">Description</p>
                                     <p className="mt-1 text-sm font-normal text-default-400">
@@ -294,7 +339,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                     <Textarea
                                                         {...field}
                                                         isRequired
-                                                        placeholder={`${store?.description ? store.description : 'Tell us about your store... (max 500 characters)'}`}
+                                                        placeholder='Tell us about your store... (max 500 characters)'
                                                         style={{resize: "none"}}
                                                         className="mt-2"
                                                         classNames={{

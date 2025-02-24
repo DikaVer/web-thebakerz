@@ -25,6 +25,7 @@ import {CopyText} from "@/components/ui/copy-text";
 import {IconCopy, IconLocation, IconPhone} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
 import dynamic from "next/dynamic";
+import {addToast} from "@heroui/toast";
 
 const LocationMap = dynamic(
     () => import("@/components/store/store-header/subheader/location-map"),
@@ -92,30 +93,37 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                         </p>
                     </Link>
                     <Spacer y={3}/>
-                    <div className={'h-40 w-full rounded-2xl border-1 overflow-hidden'}>
+                    <div className={'h-40 w-full rounded-medium border-1 overflow-hidden'}>
                         <LocationMap latitude={latitude} longitude={longitude}  />
                     </div>
                     <Spacer y={3}/>
                     <div className={'flex flex-row justify-between gap-x-4'}>
                         <ButtonGroup
                             size={'sm'}
-                            radius={'lg'}
+                            radius={'md'}
                             className={'text-grayText'}
                         >
                             <Button
                                 startContent={<Icon icon={'solar:walking-round-linear'} width={24}/>}
                                 variant="bordered"
                                 className={'bg-gradient-card'}
+                                onPress={() =>
+                                    addToast({
+                                        // title: "Pick Up",
+                                        description: "Pick Up Option is selected",
+                                        //@ts-ignore
+                                        color: "success",
+                                    })}
                             >
                                 Pick Up
                             </Button>
-                            <Button
-                                isDisabled
-                                startContent={<Icon icon={'bxs:car'} width={24}/>}
-                                variant="bordered"
-                            >
-                                Delivery
-                            </Button>
+                            {/*<Button*/}
+                            {/*    isDisabled*/}
+                            {/*    startContent={<Icon icon={'bxs:car'} width={24}/>}*/}
+                            {/*    variant="bordered"*/}
+                            {/*>*/}
+                            {/*    Delivery*/}
+                            {/*</Button>*/}
                         </ButtonGroup>
                         {renderCalendarTopContent()}
                     </div>

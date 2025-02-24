@@ -39,7 +39,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     // Handle scroll event
     useEffect(() => {
         const onScroll = () => {
-            setVisible(window.scrollY < scroll || !isSmall || !isSticky);
+            setVisible(window.scrollY + 1 < scroll || !isSmall || !isSticky);
             setScroll(window.scrollY);
         };
         window.addEventListener('scroll', onScroll);

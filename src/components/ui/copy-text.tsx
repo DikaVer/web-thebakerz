@@ -9,6 +9,7 @@ export interface CopyTextProps extends React.HTMLAttributes<HTMLDivElement> {
   copyText: string;
   textNotify: string;
   isIconOnly?: boolean;
+  onClose?: () => void;
   children: React.ReactNode;
   startContent?: React.ReactNode;
   endContent?: React.ReactNode;
@@ -31,6 +32,7 @@ export const CopyText = memo(
       onClearTimeout();
       navigator.clipboard.writeText(copyText);
       setCopied(true);
+      props.onClose &&  props.onClose();
 
       showSuccessMessage({success: props.textNotify});
 
@@ -48,8 +50,8 @@ export const CopyText = memo(
         <Tooltip className="text-foreground" content={content}>
             <Button
                 isIconOnly={props.isIconOnly}
-                className={'hover:bg-background justify-start px-2 mx-0'}
                 variant="light"
+                radius="full"
                 startContent={props.startContent}
                 endContent={props.endContent}
                 onPress={handleClick}

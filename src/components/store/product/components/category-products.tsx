@@ -25,25 +25,27 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
                                                                   }) => (
     <div ref={(el) => setCategoryRef(category, el)}>
         <Spacer y={8} />
-        <span className="text-xl desktop:text-2xl font-bold">{category}</span>
-        <Spacer y={4} />
-        <Carousel opts={{ align: "start" }} className="w-full">
-            <CarouselContent>
-                {products.map((product) => (
-                    <CarouselItem key={product.id} className="sm:basis-1/2 lg:basis-1/3">
-                        <div className="flex justify-center items-center w-full">
-                            <ProductBase productData={product} />
-                        </div>
-                    </CarouselItem>
-                ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-            <Spacer y={4} />
-            <div className="flex justify-center">
-                <SliderDotButton />
-            </div>
-        </Carousel>
+        {/*<span className="text-xl desktop:text-2xl font-bold">{category}</span>*/}
+        {/*<Spacer y={4} />*/}
+        {/*<Carousel opts={{ align: "start" }} className="w-full">*/}
+        {/*    <CarouselContent>*/}
+        <div className="grid grid-cols-3 justify-center items-center w-full">
+            {products.map((product) => (
+                // <CarouselItem key={product.id} className="sm:basis-1/2 lg:basis-1/3">
+                <div key={product.id} className={'m-0.5'}>
+                    <ProductBase productData={product}/>
+                </div>
+                // </CarouselItem>
+            ))}
+        </div>
+        {/*    </CarouselContent>*/}
+        {/*    <CarouselPrevious />*/}
+        {/*    <CarouselNext />*/}
+        {/*    <Spacer y={4} />*/}
+        {/*    <div className="flex justify-center">*/}
+        {/*        <SliderDotButton />*/}
+        {/*    </div>*/}
+        {/*</Carousel>*/}
         <Spacer y={8} />
         <Divider />
     </div>

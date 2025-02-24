@@ -62,21 +62,24 @@ const CartButton: React.FC = () => {
 
     return (
         <>
-            <Button isIconOnly variant="light" onPress={handleOpenDrawer}>
-                <Badge
-                    color="primary"
-                    content={itemCount > 99 ? "99+" : itemCount}
-                    isInvisible={itemCount === 0}
-                    shape="circle"
-                >
-                    <Icon
-                        icon={"solar:cart-large-minimalistic-broken"}
-                        height={24}
-                        width={24}
-                        className="text-default-500"
-                    />
-                </Badge>
-            </Button>
+            <Badge
+                color="secondary"
+                content={itemCount > 99 ? "99+" : itemCount}
+                isInvisible={itemCount === 0}
+                classNames={{
+                    badge: "border-text",
+                }}
+                shape="circle"
+            >
+                <Button isIconOnly radius={'full'} color={'primary'} className={'bg-gradient-primary'} onPress={handleOpenDrawer}>
+                        <Icon
+                            icon={"solar:cart-large-2-bold"}
+                            height={24}
+                            width={24}
+                            className="text-white"
+                        />
+                </Button>
+            </Badge>
             <Drawer
                 isOpen={isOpen}
                 placement={isMobile ? "bottom" : "right"}

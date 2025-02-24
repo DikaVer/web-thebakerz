@@ -49,7 +49,7 @@ export default async function Layout({
                 store={storeData}
             >
                 <LayoutComp
-                    isCheckout={true}
+                    hideSideBar={true}
                     store={storeData}
                 >
                     <div className={'min-h-svh'}>

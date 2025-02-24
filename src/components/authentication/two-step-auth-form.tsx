@@ -83,6 +83,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext }: { setIsLogin
                 formOTP.setValue("email", formData.email);
             } else {
                 showErrorMessage({error: state?.message})
+
             }
         },
         null,
@@ -254,6 +255,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext }: { setIsLogin
                                                                         "data-[active=true]:ring-offset-background",
                                                                         "data-[active=true]:ring-foreground",
                                                                     ],
+                                                                    description: "text-default-600 font-medium",
                                                                 }}
                                                                 validationBehavior="native"
                                                                 radius="none"

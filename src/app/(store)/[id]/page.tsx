@@ -11,9 +11,8 @@ import NotFound from "@/app/(error_layout)/not-found";
 import {getCart} from "@/lib/actions/cart";
 import {StoreProvider} from "@/components/providers/store-provider";
 import LayoutComp from "@/components/layout-comp";
-import {Footer} from "@/components/footer";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
-
+import {FooterSimple} from "@/components/footer-simple";
 
 interface StorePageProps {
     params: Promise<{
@@ -72,7 +71,7 @@ export default async function Page(props: StorePageProps) {
                         </div>
                         <Spacer y={16}/>
                     </div>
-                    <Footer/>
+                    <FooterSimple/>
                 </LayoutComp>
             </StoreProvider>
         </ProductDialogProvider>

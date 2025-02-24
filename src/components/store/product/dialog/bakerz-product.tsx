@@ -8,7 +8,6 @@ import {
     ModalFooter,
     Button,
     Image,
-    Card,
     Textarea,
     cn,
     Input,
@@ -17,9 +16,7 @@ import {
     Spacer,
 } from "@heroui/react";
 import {addProduct, deleteProduct, ProductData} from "@/lib/actions/product";
-import { CardFooter } from "@heroui/card";
-import { formatCurrency } from "@/lib/utils";
-import { IconCopy } from "@/components/ui/icons";
+import {IconClose, IconCopy} from "@/components/ui/icons";
 import { useTheme } from "next-themes";
 import { CopyText } from "@/components/ui/copy-text";
 import { ItemCart } from "@/lib/actions/cart";
@@ -30,7 +27,6 @@ import * as z from "zod";
 import { ProductSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { categories } from "@/lib/local-variables";
-import { toast } from "sonner";
 import { Alert } from "@heroui/alert";
 import showErrorMessage from "@/components/toast/toast-error";
 import { Form, FormField, FormItem, FormControl} from "@/components/ui/form";
@@ -81,20 +77,6 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
         async (previousState: any, formData: z.infer<typeof ProductSchema>) => {
             const result = await addProduct(formData, productData?.id);
             if (result?.success) {
-                toast.message(
-                    <div className="flex flex-col gap-4 w-full">
-                        <Alert
-                            color="success"
-                            title={"Success Notification"}
-                            description={result.success}
-                            variant="faded"
-                        />
-                    </div>,
-                    {
-                        duration: 2000,
-                        className: "p-0 rounded-xl",
-                    }
-                );
                 showSuccessMessage({ success: "Product added!" });
                 onClose();
                 router.refresh();
@@ -140,21 +122,22 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
             <ModalHeader className="flex flex-col gap-1 p-1">
                 {productData && (
                     <CopyText
+                        onClose={onClose}
                         isIconOnly={true}
                         copyText={"https://www.thebakerz.com/" + productData?.store_id + "?product=" + productData?.id}
                         textNotify={"Product Link Copied!"}
                     >
                         <IconCopy
-                            size={24}
-                            primaryColor={theme === "light" ? "#730c70" : "#a3a3a3"}
-                            secondaryColor={theme === "light" ? "#5d5d5b" : "#faf4d1"}
+                            size={28}
+                            primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
+                            secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
                         />
                     </CopyText>
                 )}
             </ModalHeader>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-y-1">
-                    <ModalBody className={`px-0 ${productData?.picture ? '': 'pt-8'}`}>
+                    <ModalBody className={`px-0 ${productData?.picture ? '': 'pt-10'}`}>
                         <>
                             <ScrollShadow className={"max-h-[70vh]"} size={20}>
                             <div>
@@ -166,7 +149,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                 />
                                 {picture ? (
                                     <div
-                                        className="flex flex-col justify-center items-center w-full h-full aspect-square rounded-none border-1 cursor-pointer"
+                                        className="flex flex-col justify-center items-center w-full h-full aspect-square rounded-none cursor-pointer"
                                         onClick={() => fileRef.current?.click()}
                                     >
                                         <Image
@@ -178,7 +161,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                     </div>
                                 ) : (
                                     <div
-                                        className="flex flex-col justify-center items-center w-full h-full aspect-square rounded-none border-1 cursor-pointer"
+                                        className="flex flex-col justify-center items-center w-full h-full aspect-square rounded-none border-b-1 border-t-1 cursor-pointer"
                                         onClick={() => fileRef.current?.click()}
                                     >
                                         <Icon icon="solar:gallery-add-bold-duotone" className="text-default-500 w-full"
@@ -187,7 +170,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                     </div>
                                 )}
                             </div>
-                                <div className="flex flex-col px-4">
+                                <div className="flex flex-col px-2">
                                     <div className="flex flex-row">
                                         {/* Product Name Field */}
                                         <FormField
@@ -294,7 +277,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
 
                                                     >
                                                         {Object.keys(categories).map((key) => (
-                                                            <SelectItem key={key} value={key}>
+                                                            <SelectItem key={key}>
                                                                 {key}
                                                             </SelectItem>
                                                         ))}
@@ -311,7 +294,21 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                     <ModalFooter className="px-4 space-x-4">
                         {productData && (
                             <>
-                                <Modal isOpen={isOpenDelete} size="sm" onClose={onClose}>
+                                <Modal
+                                    isOpen={isOpenDelete}
+                                    size="sm"
+                                    onClose={onClose}
+                                    classNames={{
+                                        closeButton: 'p-1'
+                                    }}
+                                    closeButton={
+                                        <div className={'absolute w-full right-0'}>
+                                            <IconClose size={32} primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
+                                                       secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
+                                            />
+                                        </div>
+                                    }
+                                >
                                     <ModalContent>
                                         {(onClose) => (
                                             <>

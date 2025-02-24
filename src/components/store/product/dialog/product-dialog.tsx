@@ -10,6 +10,7 @@ import {useSession} from "@/components/providers/session-provider";
 import {ItemCart} from "@/lib/actions/cart";
 import UserProductDialog from "@/components/store/product/dialog/user-product";
 import BakerzProductDialog from "@/components/store/product/dialog/bakerz-product";
+import {IconClose} from "@/components/ui/icons";
 type ProductDialogProps = {
     storeId: string;
     productData: ProductData | undefined;
@@ -27,7 +28,23 @@ export default function ProductDialog({storeId, productData, itemCart, isOpen, o
 
     return (
         <>
-            <Modal isOpen={isOpen} size={'md'} onClose={onClose} backdrop={'blur'} placement={'center'}>
+            <Modal
+                isOpen={isOpen}
+                size={'md'}
+                onClose={onClose}
+                backdrop={'blur'}
+                placement={'center'}
+                classNames={{
+                    closeButton: 'p-1'
+                }}
+                closeButton={
+                <div className={'absolute w-full right-0'}>
+                    <IconClose size={32} primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
+                               secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
+                    />
+                </div>
+                }
+            >
                 <ModalContent>
                     {(onClose) => (
                         <>

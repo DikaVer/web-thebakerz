@@ -166,7 +166,6 @@ export const ProductSchema = z.object({
 
 
 
-
 export const ProfileSchema = z
     .object({
         role: z.string(), // e.g., "bakerz" or "user"
@@ -176,6 +175,30 @@ export const ProfileSchema = z
             .max(2000, "Description must be at most 2000 characters")
             .optional(),
         storeName: nicknameSchema.optional(),
+        facebook_url: z
+            .string()
+            .optional()
+            .refine((val) => {
+                if (!val) return true;
+                try {
+                    const url = new URL(val);
+                    return url.hostname.endsWith("facebook.com");
+                } catch {
+                    return false;
+                }
+            }, "Invalid Facebook URL"),
+        instagram_url: z
+            .string()
+            .optional()
+            .refine((val) => {
+                if (!val) return true;
+                try {
+                    const url = new URL(val);
+                    return url.hostname.endsWith("instagram.com");
+                } catch {
+                    return false;
+                }
+            }, "Invalid Instagram URL"),
     })
     .superRefine((data, ctx) => {
         if (data.role === "bakerz") {
@@ -195,3 +218,4 @@ export const ProfileSchema = z
             }
         }
     });
+

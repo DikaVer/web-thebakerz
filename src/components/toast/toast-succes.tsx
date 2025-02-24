@@ -1,6 +1,6 @@
-import {Alert} from "@heroui/alert";
-import {toast} from "sonner";
+
 import React from "react";
+import {addToast} from "@heroui/toast";
 
 
 interface ToastMessageProps {
@@ -8,22 +8,13 @@ interface ToastMessageProps {
 }
 
 const showSuccessMessage = ({ success }: ToastMessageProps) => {
-    toast.message((
-            <div className="flex flex-col gap-4 w-full">
-                <Alert
-                    color="success"
-                    title={"Success Notification"}
-                    description={success}
-                    variant="faded"
-
-                />
-            </div>
-        ),
-        {
-            duration: 2000,
-            className: `p-0 rounded-xl`
-        }
-    );
+    addToast({
+        description: success,
+        timeout: 2000,
+        shouldShowTimeoutProgess: true,
+        //@ts-ignore
+        color: "success"
+    });
 };
 
 export default showSuccessMessage;
