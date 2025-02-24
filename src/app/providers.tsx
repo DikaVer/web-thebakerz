@@ -1,11 +1,10 @@
 'use client'
 
-import {HeroUIProvider} from "@heroui/react";
+import {HeroUIProvider, ToastProvider} from "@heroui/react";
 import dynamic from 'next/dynamic'
 import {useRouter} from "next/navigation";
 import {SessionProvider} from "@/components/providers/session-provider";
 import {SessionValidationResult} from "@/lib/actions/session";
-import {addToast, ToastProvider} from "@heroui/toast";
 const NextThemesProvider = dynamic(
     () => import('next-themes').then((e) => e.ThemeProvider),
     {

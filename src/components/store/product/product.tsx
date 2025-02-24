@@ -1,8 +1,7 @@
 'use client';
 
 import React from "react";
-import {Card, Image} from "@heroui/react";
-import {CardFooter} from "@heroui/card";
+import {Card, Image, CardFooter} from "@heroui/react";
 import {ProductData} from "@/lib/actions/product";
 import {useProductDialog} from "@/components/providers/product-provider";
 import {formatCurrency} from "@/lib/utils";

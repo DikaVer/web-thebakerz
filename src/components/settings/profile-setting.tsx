@@ -4,7 +4,7 @@ import React, {startTransition, useState} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import {Card, CardBody, Input, Textarea, Button, cn, Avatar, Spacer, Link} from "@heroui/react";
+import {Card, CardBody, Input, Textarea, Button, cn, Avatar, Spacer, Link, Badge, addToast} from "@heroui/react";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useActionState } from "react";
 import { updateProfile} from "@/lib/actions/profile-actions";
@@ -13,7 +13,6 @@ import { Icon } from "@iconify/react";
 // Import the ProfileSchema we created above
 import { ProfileSchema } from "@/lib/schemas";
 import { User} from "@/lib/actions/user";
-import {Badge} from "@heroui/badge";
 import {useTheme} from "next-themes";
 import {IconLocation, IconPhone} from "@/components/ui/icons";
 import {ImageUploader} from "@/components/image/image-upload";
@@ -23,7 +22,6 @@ import {useSession} from "@/components/providers/session-provider";
 import NotFound from "@/app/(error_layout)/not-found";
 import {SessionValidationResult} from "@/lib/actions/session";
 import {StoreData} from "@/lib/actions/store";
-import {addToast} from "@heroui/toast";
 
 
 interface ProfileSettingCardProps {

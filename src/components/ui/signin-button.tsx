@@ -1,6 +1,6 @@
 "use client";
 
-import {Button} from '@heroui/button'
+import {Button} from '@heroui/react'
 import * as React from "react";
 import {usePathname, useRouter} from "next/navigation";
 import {pacifico} from "@/components/fonts";

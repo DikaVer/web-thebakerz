@@ -1,7 +1,5 @@
-import {AvatarIcon, Button, cn, Image, Spacer, Tooltip} from "@heroui/react";
-import {Avatar} from "@heroui/avatar"
+import {AvatarIcon, Button, cn, Image, Spacer, Tooltip, Avatar, ScrollShadow} from "@heroui/react";
 import {pacifico} from "@/components/fonts";
-import {ScrollShadow} from "@heroui/scroll-shadow";
 import Sidebar from "@/components/sidebar/sidebar";
 import {Icon} from "@iconify/react";
 import SidebarDrawer from "@/components/sidebar/sidebar-drawer";

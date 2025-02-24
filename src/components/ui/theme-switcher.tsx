@@ -1,7 +1,7 @@
 'use client';
 
 import {useTheme} from "next-themes";
-import {Switch} from "@heroui/switch";
+import {Switch} from "@heroui/react";
 
 import {Icon} from "@iconify/react";
 

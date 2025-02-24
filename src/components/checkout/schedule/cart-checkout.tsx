@@ -9,7 +9,6 @@ import {
 } from "@heroui/react";
 import { useMediaQuery } from "usehooks-ts";
 import { useProductDialog } from "@/components/providers/product-provider";
-import { ScrollShadow } from "@heroui/scroll-shadow";
 import { formatCurrency } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useStore } from "@/components/providers/store-provider";

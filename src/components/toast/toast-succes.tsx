@@ -1,6 +1,6 @@
 
 import React from "react";
-import {addToast} from "@heroui/toast";
+import {addToast} from "@heroui/react";
 
 
 interface ToastMessageProps {

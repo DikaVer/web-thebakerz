@@ -3,16 +3,26 @@
 import React, {useState} from "react";
 import Image from "next/image";
 import {
-    IconBadge, IconBadgeCheck, IconBadgeInfo, IconClose,
+    IconBadge,
+    IconBadgeCheck,
+    IconBadgeInfo,
+    IconClose,
     IconHeart,
 } from "@/components/ui/icons";
 import { FirstView } from "@/components/landing/first-view";
 import {pacifico} from "@/components/fonts";
 import {useInView} from "@/lib/hooks/useInView";
 import {backdropEffect} from "@/lib/local-variables";
-import { Card, CardBody, Modal, ModalBody, ModalContent, ModalHeader} from "@heroui/react";
-import {CardFooter} from "@heroui/card";
-import {Chip} from "@heroui/chip";
+import {
+    Card,
+    CardBody,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalHeader,
+    CardFooter,
+    Chip
+} from "@heroui/react";
 
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";

@@ -6,9 +6,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem} from "@/components/ui/form";
-import { Input } from "@heroui/input";
 import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
-import {Divider, InputOtp, Spacer, Tooltip} from "@heroui/react";
+import {Divider, InputOtp, Spacer, Tooltip, Input } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import Image from "next/image";
@@ -18,7 +17,6 @@ import {loginAction, resendEmailVerificationCodeAction, verifyEmailAction} from 
 import {EmailSchema, OTPSchema} from "@/lib/schemas";
 import showErrorMessage from "@/components/toast/toast-error";
 import {useSession} from "@/components/providers/session-provider";
-import {getCurrentSession} from "@/lib/actions/session";
 import type {SessionValidationResult} from "@/lib/actions/session";
 
 

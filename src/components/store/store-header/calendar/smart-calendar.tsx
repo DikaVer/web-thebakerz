@@ -5,8 +5,7 @@ import React from 'react';
 import { CalendarDate, CalendarDateTime, today } from "@internationalized/date";
 import { cn } from '@/lib/utils';
 import { buttonVariants } from "@/components/ui/button";
-import { Calendar, Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
-import { ScrollShadow } from "@heroui/scroll-shadow";
+import { Calendar, Button, Popover, PopoverContent, PopoverTrigger, ScrollShadow  } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import {WorkHours} from "@/lib/actions/calendar-actions";
 

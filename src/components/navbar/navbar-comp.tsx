@@ -9,6 +9,7 @@ import {
     NavbarItem,
     Button,
     Image,
+    Avatar
 } from "@heroui/react";
 import { pacifico } from "@/components/fonts";
 import { Icon } from "@iconify/react";
@@ -18,9 +19,7 @@ import { StoreData } from "@/lib/actions/store";
 import { useStore } from "@/components/providers/store-provider";
 import CartButton from "@/components/cart/cart-button";
 import { useRouter } from "next/navigation";
-import { Avatar } from "@heroui/avatar";
 import { useSession } from "@/components/providers/session-provider";
-import {motion, useScroll} from "motion/react";
 
 interface LayoutProps {
     store?: StoreData;

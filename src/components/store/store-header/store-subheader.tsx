@@ -2,18 +2,22 @@
 
 import React, {useEffect, useState} from "react";
 import {
-    Button, ButtonGroup, Card, CardBody, Link,
-    Spacer
+    Button,
+    ButtonGroup,
+    Card,
+    CardBody,
+    Link,
+    Spacer,
+    addToast
 } from "@heroui/react";
 import { useSession } from "@/components/providers/session-provider";
-import {Icon, type IconProps} from "@iconify/react";
+import {Icon} from "@iconify/react";
 import {useRouter, useSearchParams} from "next/navigation";
-import {CalendarDateTime, CalendarDate, now, today, ZonedDateTime} from "@internationalized/date";
+import {CalendarDateTime, CalendarDate, } from "@internationalized/date";
 
 import ThreeDotsDropdown from "@/components/store/store-header/subheader/three-dots";
 import {renderCalendarTopContent} from "@/components/store/store-header/subheader/working-hours";
 import {useStore} from "@/components/providers/store-provider";
-import {SmartDatetimeInput} from "@/components/store/store-header/calendar/smart-calendar";
 import {updateOrderTime} from "@/app/(store)/[id]/actions";
 import {useProductDialog} from "@/components/providers/product-provider";
 import {
@@ -21,11 +25,9 @@ import {
     parseDateTime,
     setCalendarParams
 } from "@/components/store/store-header/calendar/calendar-params";
-import {CopyText} from "@/components/ui/copy-text";
-import {IconCopy, IconLocation, IconPhone} from "@/components/ui/icons";
+import {IconLocation} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
 import dynamic from "next/dynamic";
-import {addToast} from "@heroui/toast";
 
 const LocationMap = dynamic(
     () => import("@/components/store/store-header/subheader/location-map"),

@@ -2,10 +2,9 @@
 
 "use client";
 
-import React, { useState, useEffect } from "react";
-import {Spacer, TimeInput, Switch, CalendarDate, Button} from "@heroui/react";
-import {getLocalTimeZone, Time, today} from "@internationalized/date";
-import {DatePicker} from "@heroui/date-picker";
+import React, { useState} from "react";
+import {Spacer, TimeInput, Switch, Button, DatePicker} from "@heroui/react";
+import {getLocalTimeZone, today} from "@internationalized/date";
 import {Icon} from "@iconify/react";
 
 interface DayHoursProps {
@@ -38,9 +37,9 @@ export const DayHoursComp: React.FC<DayHoursProps> = () => {
                     }}
                     selectorIcon={<Icon icon={"solar:calendar-broken"}/>}
                     // Your DateRangePicker handler here...
-                    onChange={(date: CalendarDate | null) => {
-
-                    }}
+                    // onChange={(date: CalendarDate | null) => {
+                    //
+                    // }}
                 />
             </div>
             <Spacer y={4}/>

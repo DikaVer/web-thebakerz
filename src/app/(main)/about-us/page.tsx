@@ -2,7 +2,6 @@ import {pacifico} from "@/components/fonts";
 import Image from 'next/image';
 import React from "react";
 import {FollowUs} from "@/components/about-us/follow-us";
-import {FooterImage} from "@/components/about-us/footer-image";
 
 export default async function Page() {
 

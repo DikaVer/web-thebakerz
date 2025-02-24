@@ -9,16 +9,16 @@ import {
     Card,
     Textarea,
     cn,
+    CardFooter,
+    ScrollShadow
 } from "@heroui/react";
 import { ProductData } from "@/lib/actions/product";
-import { CardFooter } from "@heroui/card";
 import { formatCurrency } from "@/lib/utils";
 import { IconCopy } from "@/components/ui/icons";
 import { useTheme } from "next-themes";
 import { CopyText } from "@/components/ui/copy-text";
 import { InputStepper } from "@/components/store/product/dialog/button-stepper";
 import { ItemCart } from "@/lib/actions/cart";
-import { ScrollShadow } from "@heroui/scroll-shadow";
 import { updateCart } from "@/lib/actions/cart";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";

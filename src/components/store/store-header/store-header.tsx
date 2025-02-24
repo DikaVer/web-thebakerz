@@ -2,8 +2,7 @@
 
 import React from "react";
 import {useStore} from "@/components/providers/store-provider";
-import {Avatar} from "@heroui/avatar";
-import {Link} from "@heroui/react";
+import {Link, Avatar} from "@heroui/react";
 import {Icon, IconProps} from "@iconify/react";
 
 type SocialIconProps = Omit<IconProps, "icon">;

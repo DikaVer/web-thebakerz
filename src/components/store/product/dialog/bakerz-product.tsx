@@ -13,7 +13,9 @@ import {
     Input,
     Select,
     SelectItem,
-    Spacer, NumberInput,
+    Spacer,
+    NumberInput,
+    ScrollShadow
 } from "@heroui/react";
 import {addProduct, deleteProduct, ProductData} from "@/lib/actions/product";
 import {IconClose, IconCopy} from "@/components/ui/icons";
@@ -27,12 +29,10 @@ import * as z from "zod";
 import { ProductSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { categories } from "@/lib/local-variables";
-import { Alert } from "@heroui/alert";
 import showErrorMessage from "@/components/toast/toast-error";
 import { Form, FormField, FormItem, FormControl} from "@/components/ui/form";
 import {useRouter} from "next/navigation";
 import showSuccessMessage from "@/components/toast/toast-succes";
-import {ScrollShadow} from "@heroui/scroll-shadow";
 
 type ProductDialogProps = {
     productData: ProductData | undefined;
@@ -218,9 +218,9 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                             validate={() => {
                                                                 return fieldState.error?.message;
                                                             }}
-                                                            onValueChange={(value) => {
-                                                                field.onChange(value);
-                                                            }}
+                                                            // onValueChange={(value) => {
+                                                            //     field.onChange(value);
+                                                            // }}
                                                             className="text-lg cm:text-xl font-light"
                                                         />
                                                     </FormControl>
