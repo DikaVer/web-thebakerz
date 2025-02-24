@@ -44,7 +44,7 @@ export default function LayoutComp({ children, store, hideSideBar }: LayoutCompP
                     top: 0,
                     left: 0,
                     right: 0,
-                    height: "10px",
+                    height: "5px",
                     originX: 0,
                     background: "linear-gradient(90deg, #d016ca, #730c70)",
                     zIndex: 9999,

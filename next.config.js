@@ -57,7 +57,6 @@ module.exports = {
             tls: false,
         };
 
-        config.resolve.symlinks = false;
         // Ensure no aliases or modifications are breaking module resolution
         return config;
     },
