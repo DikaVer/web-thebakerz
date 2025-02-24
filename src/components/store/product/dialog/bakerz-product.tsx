@@ -13,7 +13,7 @@ import {
     Input,
     Select,
     SelectItem,
-    Spacer,
+    Spacer, NumberInput,
 } from "@heroui/react";
 import {addProduct, deleteProduct, ProductData} from "@/lib/actions/product";
 import {IconClose, IconCopy} from "@/components/ui/icons";
@@ -201,29 +201,26 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                             render={({ field, fieldState }) => (
                                                 <FormItem className="w-1/3">
                                                     <FormControl>
-                                                        <Input
+                                                        <NumberInput
                                                             {...field}
-                                                            type="number"
+                                                            isRequired
                                                             placeholder="0.00"
-                                                            value={field.value !== undefined ? String(field.value) : ""}
                                                             variant={'underlined'}
                                                             classNames={{
                                                                 input: cn("text-lg cm:text-xl font-light"),
+                                                                inputWrapper: cn("h-8"),
                                                             }}
                                                             startContent={
                                                                 <div className="pointer-events-none flex items-center">
                                                                     <span className="text-default-400 text-3xl">€</span>
                                                                 </div>
                                                             }
-                                                            onChange={(e) => {
-                                                                const num = parseFloat(e.target.value);
-                                                                field.onChange(isNaN(num) ? 0 : num);
-                                                            }}
                                                             validate={() => {
                                                                 return fieldState.error?.message;
                                                             }}
-                                                            onBlur={field.onBlur}
-                                                            ref={field.ref}
+                                                            onValueChange={(value) => {
+                                                                field.onChange(value);
+                                                            }}
                                                             className="text-lg cm:text-xl font-light"
                                                         />
                                                     </FormControl>

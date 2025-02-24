@@ -207,14 +207,15 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                 </NavbarItem>
             ) : (
                 <NavbarItem className="mr-1 !flex">
-                    <Image
+                    {!session?.user ? (
+                        <SigninButton className="text-large rounded-full" />
+                    ) : (
+                        <Image
                         src="/images/TheBakerzLogo.svg"
                         alt="Logo"
                         width={32}
                         radius="full"
-                    />
-                    {!session.user && (
-                        <SigninButton className="text-large rounded-full" />
+                         />
                     )}
                 </NavbarItem>
             )}
