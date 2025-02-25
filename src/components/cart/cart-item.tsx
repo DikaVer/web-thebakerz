@@ -72,7 +72,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                                         mainWrapper: 'p-0 py-1 min-h-0',
                                     }}
                                 >
-                                    <p className={'text-small'}>{productData.allergies.join(", ")}</p>
+                                    <p className={'text-xs'}>{productData.allergies.join(", ")}</p>
                                 </CustomAlert>
                             )}
                         </div>
