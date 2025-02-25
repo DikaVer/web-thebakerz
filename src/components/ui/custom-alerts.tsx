@@ -2,10 +2,11 @@ import React, { ReactNode, useMemo } from 'react';
 import { Alert, AlertProps, cn } from '@heroui/react';
 
 export interface CustomAlertProps extends Omit<AlertProps, 'color' | 'variant' | 'title'> {
-    title: string;
+    title?: string;
     children: ReactNode;
     variant?: "faded" | "solid" | "flat" | "bordered" | undefined;
     color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+    hideIcon?: boolean;
     className?: string;
     classNames?: {
         base?: string;
@@ -17,7 +18,7 @@ export interface CustomAlertProps extends Omit<AlertProps, 'color' | 'variant' |
 
 const CustomAlert = React.forwardRef<HTMLDivElement, CustomAlertProps>(
     (
-        { title, children, variant = 'faded', color = 'secondary', className, classNames = {}, ...props },
+        { title, children, variant = 'faded', color = 'secondary', hideIcon = false, className, classNames = {}, ...props },
         ref
     ) => {
         const computedColorClass = useMemo(() => {
@@ -42,6 +43,7 @@ const CustomAlert = React.forwardRef<HTMLDivElement, CustomAlertProps>(
         return (
             <Alert
                 ref={ref}
+                hideIcon={hideIcon}
                 classNames={{
                     ...classNames,
                     base: cn(

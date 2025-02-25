@@ -4,6 +4,7 @@ import React from "react";
 import {Divider, Image, Spacer} from "@heroui/react";
 import {formatCurrency} from "@/lib/utils";
 import {InputStepper} from "@/components/store/product/dialog/button-stepper";
+import CustomAlert from "@/components/ui/custom-alerts";
 
 type CartItemRowProps = {
     item: ItemCart;
@@ -40,33 +41,48 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
     return (
         <>
             <div
-                className="flex gap-4 p-4  rounded-xl hover:bg-default-100 cursor-pointer border-gray-200"
+                className="flex flex-col gap-2 p-4  rounded-xl hover:bg-default-100 cursor-pointer border-gray-200"
                 key={item.id}
 
                 onClick={() => handleOpen(productData.id, item)}
             >
-                <div className="w-20 h-20 aspect-square">
-                    <Image
-                        removeWrapper
-                        alt={productData.name}
-                        src={productData.picture}
-                        className="object-cover w-full h-full"
-                    />
-                </div>
-                <div className="flex w-full justify-between">
-                    <div className="flex flex-col">
-                        <p className="font-medium truncate max-w-[90px]">{productData.name}</p>
-                        {item.note ? (<>
-                            <p className="text-sm text-gray-600">{item.note && "Note*"}</p>
-                            <Spacer y={4}/>
-                        </>) : (
-                            <Spacer y={8}/>
-                        )}
-                        <p className="text-sm text-gray-600">
-                            {formatCurrency(productData.price * item.quantity)}
-                        </p>
+                <div className={'flex'}>
+                    <div className="w-20 h-20 aspect-square">
+                        <Image
+                            removeWrapper
+                            alt={productData.name}
+                            src={productData.picture}
+                            className="object-cover w-full h-full"
+                        />
                     </div>
-                    <div className="flex items-center justify-end" onClick={(e) => e.stopPropagation()}>
+                    <Spacer x={4}/>
+                    <div className="flex justify-between w-[70%]">
+                        <div className="flex flex-col w-full">
+                            <p className="font-medium truncate">{productData.name}</p>
+                            {item.note && (<>
+                                <p className="text-xs text-default-400 font-medium break-words">Note: {item.note}</p>
+                                <Spacer x={4}/>
+                            </>)}
+                            {productData.allergies && productData.allergies.length > 0 && (
+                                <CustomAlert
+                                    color="warning"
+                                    hideIcon={true}
+                                    classNames={{
+                                        base: 'p-0',
+                                        mainWrapper: 'p-0 py-1 min-h-0',
+                                    }}
+                                >
+                                    <p className={'text-small'}>{productData.allergies.join(", ")}</p>
+                                </CustomAlert>
+                            )}
+                        </div>
+                    </div>
+                </div>
+                <div className="flex items-end justify-between" onClick={(e) => e.stopPropagation()}>
+                    <p className="text-sm text-gray-600">
+                        {formatCurrency(productData.price * item.quantity)}
+                    </p>
+                    <div>
                         <InputStepper
                             isCart
                             min={0}
