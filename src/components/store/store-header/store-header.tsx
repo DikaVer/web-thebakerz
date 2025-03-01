@@ -1,9 +1,12 @@
 "use client";
 
-import React from "react";
+import React, {useEffect} from "react";
 import {useStore} from "@/components/providers/store-provider";
 import {Link, Avatar, Spacer} from "@heroui/react";
 import {Icon, IconProps} from "@iconify/react";
+import Clarity from "@microsoft/clarity";
+import {randomUUID} from "node:crypto";
+import clarity from "@microsoft/clarity";
 
 type SocialIconProps = Omit<IconProps, "icon">;
 

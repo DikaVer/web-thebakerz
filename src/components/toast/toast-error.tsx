@@ -10,7 +10,7 @@ const showErrorMessage = ({ error }: ToastMessageProps) => {
     addToast({
         description: error,
         timeout: 2000,
-        shouldShowTimeoutProgess: true,
+        shouldShowTimeoutProgress: true,
         //@ts-ignore
         color: "danger"
     });

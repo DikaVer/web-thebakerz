@@ -176,26 +176,31 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                 render={({field, fieldState}) => (
                                                     <FormItem>
                                                         <FormControl>
-                                                            {/*//@ts-ignore */}
-                                                            <Checkbox
-                                                                {...field}
-                                                                isSelected={field.value}
-                                                                className="m-0 text-left mb-2"
-                                                                color="primary"
-                                                                name="terms"
-                                                                size="md"
-                                                            >
+                                                            <div className={'flex items-center justify-center'}>
+                                                                {/*//@ts-ignore */}
+                                                                <Checkbox
+                                                                    {...field}
+                                                                    isSelected={field.value}
+                                                                    className="m-0 text-left mb-2"
+                                                                    color="primary"
+                                                                    name="terms"
+                                                                    size="md"
+                                                                    />
 
-                                                                I read and agree with the
-                                                                <Link className="mx-1 text-grayText underline" href="/policies/terms-of-use" size="md">
-                                                                    Terms
-                                                                </Link>
-                                                                <span>and</span>
-                                                                <Link className="ml-1 text-grayText underline" href="/policies/privacy-policy" size="md">
-                                                                    Privacy Policy
-                                                                </Link>
-                                                                .
-                                                            </Checkbox>
+                                                                    <p className={'mb-2'}>
+                                                                        I read and agree with the
+                                                                        <Link className="mx-1 text-grayText underline"
+                                                                              href="/policies/terms-of-use" size="md">
+                                                                            Terms
+                                                                        </Link>
+                                                                        <span>and</span>
+                                                                        <Link className="ml-1 text-grayText underline"
+                                                                              href="/policies/privacy-policy" size="md">
+                                                                            Privacy Policy
+                                                                        </Link>
+                                                                        .
+                                                                    </p>
+                                                            </div>
                                                         </FormControl>
                                                         <FormMessage/>
                                                     </FormItem>

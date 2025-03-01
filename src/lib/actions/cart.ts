@@ -3,6 +3,7 @@ import {globalGETRateLimit, globalPOSTRateLimit} from "@/lib/actions/requests";
 import {getCartSessionCookie, getCartSessionCookieOrCreate, getCurrentSession} from "@/lib/actions/session";
 import { v4 as uuidv4 } from "uuid";
 import { containerCart } from "@/db";
+import {revalidateTag} from "next/cache";
 
 export interface CartData {
     [store_id: string]: CartItem;
@@ -45,6 +46,7 @@ export const updateCart = async (
         }
         if (!userId) return { error: "User not found!" };
 
+
         // If your container uses a composite partition key with /store_id and /user_id,
         // use an array: [storeId, userId]
         const partitionKeyValue = [storeId, userId];
@@ -69,6 +71,7 @@ export const updateCart = async (
         } else {
             await containerCart.items.create(newItemCart);
         }
+        revalidateTag('cart');
         return { success: "Cart updated successfully!", itemCart: newItemCart };
     } catch (error: any) {
         console.error("Error updating cart:", error);
@@ -98,6 +101,7 @@ export const removeCartItem = async (
 
         const partitionKeyValue = [storeId, userId];
         await containerCart.item(itemId, partitionKeyValue).delete();
+        revalidateTag('cart');
         return { success: "Item removed successfully!" };
     } catch (error: any) {
         console.error("Error removing cart item:", error);
@@ -195,6 +199,7 @@ export const replaceGuestCart = async (
                 })
             );
         }
+        revalidateTag('cart');
 
         return {
             success: "Guest cart replaced successfully with user cart items!",
@@ -209,22 +214,14 @@ export const replaceGuestCart = async (
 /**
  * Retrieves the full cart for a given store and user.
  *
+ * @param userId
  * @param storeId - The store's ID.
  * @returns A Promise that resolves to a CartData object.
  */
 export const getCart = async (
+    userId: string,
     storeId: string
 ): Promise<CartData> => {
-
-    const session = await getCurrentSession();
-    let userId;
-    if (!session || !session.user) {
-        userId = await getCartSessionCookie();
-    } else {
-        userId = session.user.id;
-    }
-
-    if (!userId) return {};
 
     const querySpec = {
         query: "SELECT * FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
@@ -247,3 +244,32 @@ export const getCart = async (
     // Return the CartData object, keyed by store_id.
     return { [storeId]: cartItems };
 };
+
+export const getCurrentCart = async (
+    storeId: string
+): Promise<CartData> => {
+
+    const session = await getCurrentSession();
+    let userId;
+    if (!session || !session.user) {
+        userId = await getCartSessionCookie();
+    } else {
+        userId = session.user.id;
+    }
+
+
+    if (!userId) return {};
+
+    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/cart`, {
+        headers: {
+            'Store-Id': storeId,
+            'User-Id': userId
+        },
+        next: {
+            tags: ['cart'],
+            revalidate: 300
+        }
+    }).then(res => res.json());
+
+};
+

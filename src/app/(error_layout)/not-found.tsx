@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 import {IconHeartCrack} from "@/components/ui/icons";
 
-export default async function NotFound() {
+export default function NotFound() {
     return (
         <>
             <div className="flex flex-col mb-20 min-h-screen">
@@ -32,7 +32,7 @@ export default async function NotFound() {
     );
 }
 
-export async function ComingSoon() {
+export function ComingSoon() {
     return (
         <>
             <div className={`flex flex-col gap-y-10 my-10 items-center justify-center min-h-screen`}>
@@ -59,7 +59,7 @@ export async function ComingSoon() {
     );
 }
 
-export async function UnderConstruction(
+export function UnderConstruction(
     title: string = "Go back to TheBakerz",
     link: string = "/"
 ) {

@@ -1,7 +1,8 @@
+const createNextIntlPlugin = require('next-intl/plugin');
 
-
+const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
     // cacheHandler: require.resolve("./cache-handler.mjs"),
     experimental: {
         turbo: {
@@ -61,4 +62,6 @@ module.exports = {
         return config;
     },
 };
+
+module.exports = withNextIntl(nextConfig);
 

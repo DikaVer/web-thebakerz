@@ -4,8 +4,9 @@ import {ProductSchema} from "@/lib/schemas";
 import {getCurrentSession} from "@/lib/actions/session";
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {v4 as uuidv4} from "uuid";
-import {containerClientProduct, containerProducts} from "@/db";
-import {getStoreIdByStoreName} from "@/lib/actions/store";
+import {containerProducts} from "@/db";
+import {revalidateTag} from "next/cache";
+
 
 
 // This action is similar to your sendEmail function.
@@ -63,6 +64,7 @@ export const addProduct = async (
             await containerProducts.items.create(productData);
         }
 
+        revalidateTag('products');
         return { success: "Products updated successfully!", product: productData };
     } catch (error: any) {
         console.error("Error updating product:", error);
@@ -95,6 +97,8 @@ export const deleteProduct = async (
 
         // Delete the product document using its id and the storeId as the partition key.
         await containerProducts.item(productId, store.id).delete();
+
+        revalidateTag('products');
         return { success: "Product deleted successfully!" };
     } catch (error: any) {
         console.error("Error deleting product:", error);
@@ -126,6 +130,29 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
         });
 
         return productDataFull;
+    } catch (error) {
+        console.error("Error fetching store products:", error);
+        throw new Error("Failed to fetch store products");
+    }
+}
+
+export async function getCurrentProducts(storeId: string): Promise<ProductDataFull> {
+    try {
+
+        if (!storeId) {
+            return {};
+        }
+
+        return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/products`, {
+            headers: {
+                'Store-Id': storeId,
+            },
+            next: {
+                tags: ['products'],
+                revalidate: 300
+            }
+        }).then(res => res.json());
+
     } catch (error) {
         console.error("Error fetching store products:", error);
         throw new Error("Failed to fetch store products");

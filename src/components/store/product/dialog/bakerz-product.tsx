@@ -1,5 +1,5 @@
 'use client';
-import React, { startTransition, useActionState, useRef, useState } from "react";
+import React, {startTransition, useActionState, useEffect, useRef, useState} from "react";
 import {
     Modal,
     ModalContent,
@@ -221,9 +221,11 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                             validate={() => {
                                                                 return fieldState.error?.message;
                                                             }}
-                                                            // onValueChange={(value) => {
-                                                            //     field.onChange(value);
-                                                            // }}
+
+                                                            onChange={(value) => {
+                                                                //@ts-ignore
+                                                                field.onChange(parseFloat(value.target.value));
+                                                            }}
                                                             className="text-lg cm:text-xl font-light"
                                                         />
                                                     </FormControl>

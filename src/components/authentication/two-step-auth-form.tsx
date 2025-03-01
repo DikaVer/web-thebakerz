@@ -99,6 +99,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext }: { setIsLogin
                     router.refresh();
                     setIsLogin(true);
                 }
+                console.log(state);
                 setSession(() => state as SessionValidationResult);
             } else {
                 //@ts-ignore

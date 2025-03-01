@@ -12,7 +12,6 @@ const NextThemesProvider = dynamic(
     }
 )
 
-import {CookieConsentProvider} from "@/components/providers/cookie-provider";
 
 declare module "@react-types/shared" {
     interface RouterConfig {
@@ -36,9 +35,7 @@ export function Providers({session, children}: {
                 <NextThemesProvider attribute="class" defaultTheme="light">
                     <SessionProvider sessionData={session}>
                         <ToastProvider />
-                        <CookieConsentProvider>
-                                {children}
-                        </CookieConsentProvider>
+                        {children}
                     </SessionProvider>
                 </NextThemesProvider>
             </HeroUIProvider>

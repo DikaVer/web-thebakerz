@@ -2,33 +2,24 @@
 
 import React, {useEffect, useState} from "react";
 import {Button, cn, Link, ResizablePanel, Spacer} from "@heroui/react";
-import useCookieConsent from "@/lib/hooks/useCookieConsent";
 import {LazyMotion, domAnimation, AnimatePresence, m} from "framer-motion";
 import {Icon} from "@iconify/react";
+import { useTransition } from "react";
 import SwitchCell from "@/components/ui/switch-cell";
-
-const variants = {
-    visible: {opacity: 1},
-    hidden: {opacity: 0},
-};
-
+import {useRouter} from "next/navigation";
+import {acceptAll, CookiePreferences, rejectAll, savePreferences} from "@/lib/cookie";
 export default function CookieConsentComponent() {
 
 
-    const { consent, preferences, acceptAll, rejectAll, savePreferences } = useCookieConsent();
-    const [localPreferences, setLocalPreferences] = useState(preferences);
+    const [isPending, startTransition] = useTransition();
+    const [localPreferences, setLocalPreferences] = useState<CookiePreferences>({
+        necessary: true,
+        analytics: true,
+        marketing: true,
+    });
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [currentVariant, setCurrentVariant] = useState("visible");
-
-    useEffect(() => {
-        setLocalPreferences(preferences);
-    }, [preferences]);
-
-    // Show banner only if consent is not given
-    if (consent) {
-        return null;
-    }
-
+    const router = useRouter();
 
 
 
@@ -41,8 +32,24 @@ export default function CookieConsentComponent() {
     };
 
     const handleAcceptSelected = () => {
-        savePreferences(localPreferences);
-        setIsSettingsOpen(false);
+        startTransition(async () => {
+            await savePreferences(localPreferences);
+            // Optionally, trigger a refresh or revalidate your state here.
+        });
+    };
+
+
+    const handleAcceptAll = () => {
+        startTransition(async () => {
+            await acceptAll();
+            // Optionally, trigger a refresh or revalidate your state here.
+        });
+    };
+
+    const handleRejectAll = () => {
+        startTransition(async () => {
+            await rejectAll();
+        });
     };
 
 
@@ -64,7 +71,6 @@ export default function CookieConsentComponent() {
                     duration: 0.5,
                 },
             }}
-            variants={variants}
             {...props}
         >
             {children}
@@ -86,7 +92,7 @@ export default function CookieConsentComponent() {
             <Spacer y={4} />
             <div className="flex flex-col gap-y-2">
                 <SwitchCell
-                    defaultSelected={localPreferences.necessary}
+                    defaultSelected={true}
                     classNames={{
                         base: "dark:bg-content1",
                         label: "text-small",
@@ -98,7 +104,7 @@ export default function CookieConsentComponent() {
                     isDisabled
                 />
                 <SwitchCell
-                    defaultSelected={localPreferences.marketing}
+                    defaultSelected={true}
                     classNames={{
                         base: "dark:bg-content1",
                         label: "text-small",
@@ -109,7 +115,7 @@ export default function CookieConsentComponent() {
                     onChange={handleCheckboxChange}
                 />
                 <SwitchCell
-                    defaultSelected={localPreferences.analytics}
+                    defaultSelected={true}
                     classNames={{
                         base: "dark:bg-content1",
                         label: "text-small",
@@ -130,7 +136,7 @@ export default function CookieConsentComponent() {
                 >
                     Accept Selected
                 </Button>
-                <Button fullWidth variant="bordered" onPress={rejectAll}>
+                <Button fullWidth variant="bordered" onPress={handleRejectAll}>
                     Reject All
                 </Button>
             </div>
@@ -172,7 +178,7 @@ export default function CookieConsentComponent() {
                     className="border-default-200 font-medium text-default-foreground"
                     radius="lg"
                     variant="bordered"
-                    onPress={rejectAll}
+                    onPress={handleRejectAll}
                 >
                     Reject All
                 </Button>
@@ -192,7 +198,8 @@ export default function CookieConsentComponent() {
 
     return (
         <div className="pointer-events-none fixed inset-x-0 bottom-0 px-6 pb-6 z-50">
-            <ResizablePanel>
+            <ResizablePanel
+            >
                 <AnimatePresence initial={false} mode="wait">
                     <LazyMotion features={domAnimation}>
                         {isSettingsOpen ? cookieSettingsContent : cookiesAlertContent}

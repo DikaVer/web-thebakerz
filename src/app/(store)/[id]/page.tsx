@@ -1,4 +1,3 @@
-"use server";
 import React, {Suspense} from "react";
 import {StoreHeader} from "@/components/store/store-header/store-header";
 import {StoreSubHeader} from "@/components/store/store-header/store-subheader";
@@ -6,9 +5,9 @@ import {getOrderTime} from "@/app/(store)/[id]/actions";
 import StoreSkeleton from "@/components/skeletons";
 import {ProductComponentBase} from "@/components/store/product/product-comp";
 import {Spacer} from "@heroui/react";
-import {getStoreDataByStoreNameOrId} from "@/lib/actions/store";
+import {getCurrentStore, getStoreDataByStoreNameOrId} from "@/lib/actions/store";
 import NotFound from "@/app/(error_layout)/not-found";
-import {getCart} from "@/lib/actions/cart";
+import {getCart, getCurrentCart} from "@/lib/actions/cart";
 import {StoreProvider} from "@/components/providers/store-provider";
 import LayoutComp from "@/components/layout-comp";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
@@ -23,19 +22,20 @@ interface StorePageProps {
     }>;
 }
 
+
 export default async function Page(props: StorePageProps) {
     const searchParams = await props.searchParams;
     const params = await props.params;
 
     const { id } = await params
 
-    const storeData = await getStoreDataByStoreNameOrId(id);
+    const storeData = await getCurrentStore(id);
 
     if (!storeData) {
         return NotFound();
     }
 
-    const cartData = await getCart(storeData.id);
+    const cartData = await getCurrentCart(storeData.id);
 
     const {date, time} = await getOrderTime()
 

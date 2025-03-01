@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import validator from "validator";
-import {categories, cityLatLngMap, timeMap} from "@/lib/local-variables";
+import {categories} from "@/lib/local-variables";
 
 
 export const PhoneSchema = z.string().refine(validator.isMobilePhone, { message: "Invalid phone number" });

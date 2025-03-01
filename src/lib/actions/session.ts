@@ -2,7 +2,6 @@ import 'server-only';
 import {encodeBase32LowerCaseNoPadding, encodeHexLowerCase,} from "@oslojs/encoding";
 import {sha256} from "@oslojs/crypto/sha2";
 import {cookies} from "next/headers";
-import {cache} from "react";
 
 import type {User} from "./user";
 import {connectionPool} from "@/db";
@@ -147,14 +146,27 @@ export async function validateSessionToken(
 
 // Wrap getCurrentSession with React's cache. Note that since cookies() is now async,
 // we mark the callback as async and return a Promise.
-export const getCurrentSession = cache(async (): Promise<SessionValidationResult> => {
+export const getCurrentSession = async (): Promise<SessionValidationResult> => {
     const cookieStore = await cookies();
     const token = cookieStore.get("session")?.value ?? null;
+
     if (token === null) {
         return { session: null, user: null, store: null, schedule: null };
     }
-    return await validateSessionToken(token);
-});
+
+    // Call the validate-session API with the bearer token and a revalidation tag.
+    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/validate-session`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        next: {
+            tags: ['session'],
+            revalidate: 300
+        }
+    }).then(res => res.json());
+};
+
+
 
 export async function invalidateSession(sessionId: string): Promise<void> {
     try {

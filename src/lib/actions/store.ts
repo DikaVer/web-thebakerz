@@ -1,5 +1,6 @@
 import {connectionPool} from "@/db";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
+
 export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData | null> {
     try {
         // Query the stores table for the store profile, joining with the users table
@@ -58,21 +59,15 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
     }
 }
 
-export async function getStoreIdByStoreName(storeName: string): Promise<string | null> {
+export const getCurrentStore = async (id: string): Promise<StoreData> => {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store`, {
+        headers: {
+            'Store-Id': id,
+        },
+        next: {tags: ['store']}
+    }).then(res => res.json());
+};
 
-    const result = await connectionPool.query(
-        `SELECT id
-         FROM stores
-         WHERE LOWER(nickname) = LOWER($1)`,
-        [storeName]
-    );
-
-    if (result.rows.length === 0) {
-        return null;
-    }
-
-    return result.rows[0].id;
-}
 
 async function getLocationStore(storeId: string): Promise<LocationData> {
     try {

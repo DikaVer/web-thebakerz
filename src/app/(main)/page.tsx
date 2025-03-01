@@ -12,7 +12,6 @@ import {
 import { FirstView } from "@/components/landing/first-view";
 import {pacifico} from "@/components/fonts";
 import {useInView} from "@/lib/hooks/useInView";
-import {backdropEffect} from "@/lib/local-variables";
 import {
     Card,
     CardBody,
@@ -100,7 +99,7 @@ const PricingSection = () => {
             aria-labelledby="pricing-section"
         >
             <Modal
-                backdrop={backdropEffect}
+                backdrop={"blur"}
                 isOpen={isOpen}
                 onClose={() => setOpen(false)}
                 size={'xl'}

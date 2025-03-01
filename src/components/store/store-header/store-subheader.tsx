@@ -28,6 +28,7 @@ import {
 import {IconLocation} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
 import dynamic from "next/dynamic";
+import clarity from "@microsoft/clarity";
 
 const LocationMap = dynamic(
     () => import("@/components/store/store-header/subheader/location-map"),
@@ -56,8 +57,6 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
     useEffect(() => {
         setCalendarParams(searchParams, router, dateParam, timeParam);
     }, []);
-
-
 
     // --- 2. onChange Handler for DatePicker: Save the date/time and update URL search params ---
     const handleDateChange = (newDate: CalendarDateTime | CalendarDate) => {
@@ -113,7 +112,7 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                                         description: "Pick Up Option is selected",
                                         //@ts-ignore
                                         color: "success",
-                                        shouldShowTimeoutProgess: true,
+                                        shouldShowTimeoutProgress: true,
                                         timeout: 1000,
                                     })}
                             >

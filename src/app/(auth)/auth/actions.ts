@@ -141,6 +141,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
     await deleteUserEmailVerificationRequest(user.id);
     await updateUserEmailAndSetEmailAsVerified(user.id, verificationRequest.email);
     await deleteEmailVerificationRequestCookie();
+    revalidateTag('session');
 
     return await getCurrentSession();
 }
@@ -182,6 +183,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
 }
 
 import { cookies } from "next/headers";
+import {revalidateTag} from "next/cache";
 
 
 export async function setEmailVerificationRequestCookie(request: EmailVerificationRequest): Promise<void> {

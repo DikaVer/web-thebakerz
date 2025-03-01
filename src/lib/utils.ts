@@ -1,7 +1,6 @@
 import { clsx, type ClassValue } from 'clsx'
 import { customAlphabet } from 'nanoid'
 import { twMerge } from 'tailwind-merge'
-import {AddressDataStoreField} from "@/lib/definitions";
 import {Day, Time} from "@/lib/actions/calendar-actions";
 
 export function cn(...inputs: ClassValue[]) {
@@ -19,15 +18,6 @@ export const createISOString = (day: Day, time: Time): string => {
 }
 
 
-export function formatAddress(address: AddressDataStoreField): string {
-    return [
-        address.route,
-        address.street_number,
-        address.premise,
-        address.sub_premise,
-        address.city
-    ].filter(Boolean).join(' ').trim().replace(/\s+/g, ', ');
-}
 
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-GB', {

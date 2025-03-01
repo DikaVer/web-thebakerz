@@ -7,8 +7,14 @@ import {Providers} from "@/app/providers";
 import CookieConsentComponent from "@/components/ui/cookie-consent";
 import type { Viewport } from 'next'
 import {getCurrentSession} from "@/lib/actions/session";
-import {cookies} from "next/headers";
-
+import {getLanguageCookie} from "@/lib/actions/language";
+import {NextIntlClientProvider} from 'next-intl';
+import {getLocale, getMessages} from 'next-intl/server';
+import LanguageModal from "@/components/language-modal";
+import {isCookieConsentFromServer} from "@/lib/cookie";
+import ClarityScript from "@/components/clarity-script";
+import Clarity from "@microsoft/clarity";
+import {randomUUID} from "node:crypto";
 
 
 export const viewport: Viewport = {
@@ -21,6 +27,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = metadataDefault;
 
+export const revalidate = 300;
+
 
 export default async function RootLayout({
                                        children,
@@ -30,20 +38,26 @@ export default async function RootLayout({
 
     const session = await getCurrentSession();
 
-    const cookieStore = await cookies();
-    const lang = cookieStore.get('NEXT_LOCALE')?.value || 'en'
+    const lang = await getLanguageCookie();
+    const locale = await getLocale();
+
+    const messages = await getMessages({locale: lang || locale});
+
+    const cookieConsent = await isCookieConsentFromServer();
 
     return (
-        <html lang={lang}>
-
-        <body className={`${lexendDeca.className} max-w-full `}>
-
-            <Providers
-                session={session}
-            >
-                {children}
-                <CookieConsentComponent/>
-            </Providers>
+        <html lang={lang || locale}>
+            <body className={`${lexendDeca.className} max-w-full `}>
+                <NextIntlClientProvider messages={messages}>
+                    <Providers
+                        session={session}
+                    >
+                        <ClarityScript />
+                        {children}
+                        {!lang && <LanguageModal/>}
+                        {!cookieConsent && <CookieConsentComponent/>}
+                    </Providers>
+                </NextIntlClientProvider>
             </body>
         </html>
     );

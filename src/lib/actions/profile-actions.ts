@@ -5,6 +5,7 @@ import { updateUserProfile, updateStoreProfile } from "./profile-db";
 import { getCurrentSession } from "@/lib/actions/session";
 import { globalPOSTRateLimit } from "@/lib/actions/requests";
 import { isStoreNicknameExist } from "@/lib/actions/user";
+import {revalidateTag} from "next/cache";
 
 export const updateProfile = async (
     formData: z.infer<typeof ProfileSchema>
@@ -29,6 +30,7 @@ export const updateProfile = async (
     // Update the user record (name and picture)
     if (formData.name !== user.username) {
         await updateUserProfile(formData.name, user.id);
+        revalidateTag('session');
     }
 
     // If the user is a baker, update the store details (including social links)
@@ -53,6 +55,7 @@ export const updateProfile = async (
             formData.facebook_url,
             formData.instagram_url,
         );
+        revalidateTag('store');
     }
 
     return { success: "Profile updated successfully!" };

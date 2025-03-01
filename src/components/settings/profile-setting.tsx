@@ -75,7 +75,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                         title: "Profile Updated",
                         description: `Your profile ${user.role === "bakerz" ? '& store have' : 'has'} been updated successfully.`,
                         color: "success",
-                        shouldShowTimeoutProgess: true,
+                        shouldShowTimeoutProgress: true,
                         timeout: 2000,
                     })
 

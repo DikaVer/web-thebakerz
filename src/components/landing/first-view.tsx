@@ -6,6 +6,7 @@ import { pacifico } from "@/components/fonts";
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useInView } from "@/lib/hooks/useInView";
 import { Image } from "@heroui/react";
+import {useTranslations} from 'next-intl';
 
 import { Button } from "@/components/ui/button";
 
@@ -19,6 +20,9 @@ export function FirstView() {
         router.refresh();
         setLoading(false);
     };
+
+    const t = useTranslations('HomePage')
+
 
     const [aboutusRef, aboutusInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
 
@@ -57,6 +61,7 @@ export function FirstView() {
                     <div className="text-center">
                         <h1 ref={headingRef} className={`${pacifico.className} flex flex-col bg-gradient-text py-8 text-balance text-5xl font-semibold tracking-tight  sm:text-7xl opacity-0 mb-12 
                         ${headingInView ? 'animate-fadeInUpDelay2' : ''}`}>
+                            {t('title')}
                             <p>Bake more.</p>
                             <p>Manage less.</p>
                         </h1>
