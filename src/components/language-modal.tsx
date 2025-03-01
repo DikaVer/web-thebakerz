@@ -35,15 +35,19 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
             isDismissable={false}
             isKeyboardDismissDisabled={true}
             hideCloseButton
+            backdrop={'blur'}
+            placement={'center'}
             size={'xs'}
         >
             <ModalContent>
                 <ModalHeader>Select Language</ModalHeader>
-                <ModalBody>
+                <ModalBody
+                    className={'mb-4'}
+                >
                     <Button
                         variant={'light'}
                         size={'lg'}
-                        className={'justify-start'}
+                        className={'justify-start px-0'}
                         type={'button'}
                         startContent={<Icon icon="circle-flags:lang-en" width={32}/>}
                         onPress={(e) => {
@@ -55,7 +59,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                     <Button
                         variant={'light'}
                         size={'lg'}
-                        className={'justify-start'}
+                        className={'justify-start px-0'}
                         startContent={<Icon icon="circle-flags:lang-nl" width={32}/>}
                         onPress={(e) => {
                             handleSubmit('nl')
@@ -66,7 +70,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                     <Button
                         variant={'light'}
                         size={'lg'}
-                        className={'justify-start'}
+                        className={'justify-start px-0'}
                         startContent={<Icon icon="circle-flags:lang-de" width={32}/>}
                         onPress={(e) => {
                             handleSubmit('de')
@@ -77,7 +81,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                     <Button
                         variant={'light'}
                         size={'lg'}
-                        className={'justify-start'}
+                        className={'justify-start px-0'}
                         startContent={<Icon icon="circle-flags:lang-fr" width={32}/>}
                         onPress={(e) => {
                             handleSubmit('fr')
