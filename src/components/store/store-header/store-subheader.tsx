@@ -115,8 +115,8 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                         >
                             <Button
                                 startContent={<Icon icon={'solar:walking-round-linear'} width={24}/>}
-                                variant={selectedDate && "bordered"}
-                                className={`${selectedDate ? 'text-default-600' : 'text-white bg-gradient-primary'}`}
+                                variant={selectedDate instanceof CalendarDateTime ? "bordered" : 'solid'}
+                                className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600' : 'text-white bg-gradient-primary'}`}
                                 onPress={() =>
                                     addToast({
                                         // title: "Pick Up",
@@ -127,7 +127,7 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                                         timeout: 1000,
                                     })}
                             >
-                                {(selectedDate) ? `Pick Up at ${formatDate(selectedDate)}` : "Select Pick Up Time"}
+                                {(selectedDate instanceof CalendarDateTime) ? `Pick Up at ${formatDate(selectedDate)}` : "Select Pick Up Time"}
                             </Button>
                         </SmartDatetimeInput>
                         {/*<Button*/}

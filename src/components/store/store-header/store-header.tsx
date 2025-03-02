@@ -102,7 +102,7 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
                             size="lg"
                             color="default"
                             variant="light"
-                            className="hover:bg-primary h-4"
+                            className="h-4"
                             onPress={onOpen}
                         >
                             <Icon icon={"solar:menu-dots-bold"} width={36}/>
