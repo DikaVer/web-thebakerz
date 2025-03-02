@@ -14,7 +14,7 @@ export const ProductSearch: React.FC<ProductSearchProps> = ({ searchTerm, onSear
             className="w-full"
             classNames={{
                 mainWrapper: "rounded-xl border-0 shadow-small",
-                inputWrapper: "bg-background",
+                inputWrapper: "bg-content1",
             }}
             placeholder="Search by product name or category..."
             value={searchTerm}
