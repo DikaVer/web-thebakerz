@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/carousel';
 import { ProductBase } from '@/components/store/product/product';
 import { ProductData } from '@/lib/actions/product';
+import GradientText from "@/components/ui/gradient-text";
 
 interface CategoryProductsProps {
     category: string;
@@ -25,7 +26,16 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
                                                                   }) => (
     <div ref={(el) => setCategoryRef(category, el)}>
         <Spacer y={8} />
-        <span className="text-xl desktop:text-2xl font-bold">{category}</span>
+        <div className={'flex flex-row items-start justify-start w-full'}>
+            <GradientText
+                colors={["#a2119d", "#730C6F", "#a2119d", "#730C6F", "#a2119d"]}
+                animationSpeed={10}
+                showBorder={false}
+                className="text-xl desktop:text-2xl font-bold items-start"
+            >
+                {category}
+            </GradientText>
+        </div>
         <Spacer y={4} />
         {/*<Carousel opts={{ align: "start" }} className="w-full">*/}
         {/*    <CarouselContent>*/}
