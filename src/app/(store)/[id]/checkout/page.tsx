@@ -31,7 +31,6 @@ export default async function Page(props: StorePageProps) {
                     time={time}
                 />
             </div>
-            <Footer/>
         </div>
     );
 }
