@@ -185,9 +185,8 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                     }}
                 >
                     <Icon
-                        className="text-default-500"
-                        height={24}
-                        icon="solar:sidebar-minimalistic-outline"
+                        className="text-default-600"
+                        icon="line-md:close-to-menu-transition"
                         width={24}
                     />
                 </Button>

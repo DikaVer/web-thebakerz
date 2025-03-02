@@ -1,29 +1,26 @@
 'use client';
-import {Accordion, AccordionItem, Button, Divider, Spacer} from "@heroui/react";
-import {Icon} from "@iconify/react";
+import { Accordion, AccordionItem, Button, Divider, Spacer } from "@heroui/react";
+import { Icon } from "@iconify/react";
 import TwoStepAuthForm from "@/components/authentication/two-step-auth-form";
-import React, {useState} from "react";
-import {useSession} from "@/components/providers/session-provider";
+import React, { useState } from "react";
+import { useSession } from "@/components/providers/session-provider";
 import NotFound from "@/app/(error_layout)/not-found";
-import {ScheduleOrder} from "@/components/checkout/schedule/schedule-order";
-import {CheckoutProvider} from '@stripe/react-stripe-js';
+import { ScheduleOrder } from "@/components/checkout/schedule/schedule-order";
+import { CheckoutProvider } from '@stripe/react-stripe-js';
 import CartCheckout from "@/components/checkout/schedule/cart-checkout";
-import {replaceGuestCart} from "@/lib/actions/cart";
-import {useStore} from "@/components/providers/store-provider";
+import { replaceGuestCart } from "@/lib/actions/cart";
+import { useStore } from "@/components/providers/store-provider";
 import showErrorMessage from "@/components/toast/toast-error";
 import PaymentForm from "@/components/checkout/payment/payment-form";
-import {loadStripe} from '@stripe/stripe-js';
-import {CheckoutProviderStripe} from "@/components/checkout/payment/payment-provider";
+import { loadStripe } from '@stripe/stripe-js';
+import { CheckoutProviderStripe } from "@/components/checkout/payment/payment-provider";
+
 const stripePromise = loadStripe("pk_test_VOOyyYjgzqdm8I3SrBqmh9qY", {
     betas: ['custom_checkout_beta_5'],
 });
 
 export default function CheckoutSteps({ date, time }: { date: string | null; time: string | null }) {
-    const defaultContent =
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-
-    const { session }  = useSession();
-
+    const { session } = useSession();
 
     if (session?.store) {
         return NotFound();
@@ -31,106 +28,140 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
 
     const { store } = useStore();
 
-    // Steps: "1", "2", "3", "4"
+    // Define steps as strings "1", "2", "3", "4"
     const steps = ["1", "2", "3", "4"];
-    const [currentStep, setCurrentStep] = useState<number>(session.user ? 2 : 1);
+    // Start at step 2 if user is logged in, otherwise start at step 1.
+    const [currentStep, setCurrentStep] = useState<number>(session?.user ? 2 : 1);
 
+    // Allow all steps less than or equal to the current step to be accessible.
+    // Only steps with a higher number than the current step remain disabled.
+    const disabledKeys = steps.filter((key) => Number(key) > currentStep);
 
-    // Only allow the current step to be expanded.
-    const expandedKeys = [String(currentStep)];
-    const disabledKeys = steps.filter((key) => key !== String(currentStep));
+    const [ selectedKey, setSelectedKey ] = useState<string>(currentStep.toString());
 
     const handleLogin = async (value: boolean) => {
         const result = await replaceGuestCart(store.id);
         if (result.success) {
-            handleNext();
+            handleNext(2);
         } else {
-            showErrorMessage({error: "Failed to update cart."});
-        }
-    }
-
-    // Handler for advancing to the next step.
-    const handleNext = () => {
-        if (currentStep < steps.length) {
-            setCurrentStep((prev) => prev + 1);
+            showErrorMessage({ error: "Failed to update cart." });
         }
     };
 
-    // Optionally, you might want a function to close the drawer when finished.
+    // Advances to the next step if not at the end.
+    const handleNext = (key: number) => {
+        if (currentStep < steps.length) {
+            const nextStep = key > currentStep ? key : currentStep;
+            setCurrentStep(nextStep);
+            setSelectedKey(nextStep.toString());
+        }
+    };
+
+    // Handler to place the order (add your order logic here).
     const handlePlaceOrder = () => {
         // Place order logic here...
     };
 
     return (
         <>
-
-                <Accordion variant="splitted"
-                           className={'w-full px-0 gap-4'}
-                           selectedKeys={[String(currentStep)]}
-                           // defaultValue={[String(currentStep)]}
-                           defaultExpandedKeys={expandedKeys}
-                           disabledKeys={disabledKeys}
+            <Accordion
+                variant="splitted"
+                className={'w-full px-0 gap-4'}
+                selectionMode={'single'}
+                selectedKeys={selectedKey}
+                // expandedKeys={[currentStep.toString()]}
+                disabledKeys={disabledKeys}
+            >
+                <AccordionItem
+                    key="1"
+                    aria-label="Sign in or sign up to place order"
+                    title="1. Sign in or sign up to place order"
+                    className={'shadow-none border-1'}
+                    disableIndicatorAnimation
+                    isDisabled={!!session?.user}
+                    indicator={
+                        1 < currentStep
+                            ? <Icon icon={'solar:check-read-linear'} width={24} />
+                            : <Icon icon={"solar:login-3-broken"} className={'text-default-400'} width={24} />
+                    }
+                    onPress={() => {
+                        !session?.user && setSelectedKey("1")
+                        if (currentStep > 3) {
+                            setCurrentStep(3);
+                        }
+                    }}
                 >
-                    <AccordionItem
-                        key="1"
-                        aria-label="Sign in or sign up to place order"
-                        title="1. Sign in or sign up to place order"
-                        className={'shadow-none border-1'}
-                        disableIndicatorAnimation
-                        indicator={1 < currentStep ? <Icon icon={'solar:check-read-linear'} width={24}/> : <Icon icon={"solar:login-3-broken"} className={'text-default-400'} width={24}/>}
-                    >
-                        <div className={'my-8'}>
-                            <TwoStepAuthForm
-                                setIsLogin={handleLogin}
-                                handleNext={handleNext}
-                            />
-                        </div>
-                    </AccordionItem>
-                    <AccordionItem
-                        key="2"
-                        className={'shadow-none border-1'}
-                        aria-label="Pick Up Details"
-                        title="2. Pick Up Details"
-                        disableIndicatorAnimation
-                        indicator={2 < currentStep ? <Icon icon={'solar:check-read-linear'} width={24}/> : <Icon icon={"solar:clock-circle-broken"} className={'text-default-400'} width={24}/>}
-                    >
-                        <ScheduleOrder
-                            dateParam={date}
-                            timeParam={time}
-                            handleNext={handleNext}
+                    <div className={'my-8'}>
+                        <TwoStepAuthForm
+                            setIsLogin={handleLogin}
+                            handleNext={() => handleNext(2)}
                         />
-                    </AccordionItem>
-
-                    <AccordionItem
-                        key="3"
-                        className={'shadow-none border-1'}
-                        aria-label="Cart Details"
-                        title="3. Cart Details"
-                        disableIndicatorAnimation
-                        indicator={3 < currentStep ? <Icon icon={'solar:check-read-linear'} width={24}/> : <Icon icon={"solar:cart-large-minimalistic-broken"} className={'text-default-400'} width={24}/>}
-                    >
-                        <CartCheckout
-                            handleNext={handleNext}
-                        />
-                    </AccordionItem>
-
-                    <AccordionItem key="4" className={'shadow-none border-1'} aria-label="Payment Details" title="4. Payment Details"
-                                   indicator={<Icon icon={'solar:wallet-money-broken'}  width={24}/>}
-                                   disableIndicatorAnimation
-                    >
-                        <CheckoutProviderStripe/>
-                    </AccordionItem>
-
-                </Accordion>
-                <Spacer y={8}/>
-                <Button
-                    isDisabled
-                    radius={'full'}
-                    variant={'ghost'}
-                    className={'w-full'}
+                    </div>
+                </AccordionItem>
+                <AccordionItem
+                    key="2"
+                    className={'shadow-none border-1'}
+                    aria-label="Pick Up Details"
+                    title="2. Pick Up Details"
+                    disableIndicatorAnimation
+                    indicator={
+                        2 < currentStep
+                            ? <Icon icon={'solar:check-read-linear'} width={24} />
+                            : <Icon icon={"solar:clock-circle-broken"} className={'text-default-400'} width={24} />
+                    }
+                    onPress={() => {
+                        setSelectedKey("2")
+                        if (currentStep > 3) {
+                            setCurrentStep(3);
+                        }
+                    }}
                 >
-                    Place Order
-                </Button>
+                    <ScheduleOrder
+                        dateParam={date}
+                        timeParam={time}
+                        handleNext={() => handleNext(3)}
+                    />
+                </AccordionItem>
+                <AccordionItem
+                    key="3"
+                    className={'shadow-none border-1'}
+                    aria-label="Cart Details"
+                    title="3. Cart Details"
+                    disableIndicatorAnimation
+                    indicator={
+                        3 < currentStep
+                            ? <Icon icon={'solar:check-read-linear'} width={24} />
+                            : <Icon icon={"solar:cart-large-minimalistic-broken"} className={'text-default-400'} width={24} />
+                    }
+                    onPress={() => {
+                        setSelectedKey("3")
+                        if (currentStep > 3) {
+                            setCurrentStep(3);
+                        }
+                    }}
+                >
+                    <CartCheckout handleNext={() => handleNext(4)}/>
+                </AccordionItem>
+                <AccordionItem
+                    key="4"
+                    className={'shadow-none border-1'}
+                    aria-label="Payment Details"
+                    title="4. Payment Details"
+                    indicator={<Icon icon={'solar:wallet-money-broken'} width={24} />}
+                    disableIndicatorAnimation
+                >
+                    <CheckoutProviderStripe />
+                </AccordionItem>
+            </Accordion>
+            <Spacer y={8} />
+            <Button
+                isDisabled
+                radius={'full'}
+                variant={'ghost'}
+                className={'w-full'}
+            >
+                Place Order
+            </Button>
         </>
     );
 }

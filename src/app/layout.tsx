@@ -13,8 +13,6 @@ import {getLocale, getMessages} from 'next-intl/server';
 import LanguageModal from "@/components/language-modal";
 import {isCookieConsentFromServer} from "@/lib/cookie";
 import ClarityScript from "@/components/clarity-script";
-import Clarity from "@microsoft/clarity";
-import {randomUUID} from "node:crypto";
 
 
 export const viewport: Viewport = {

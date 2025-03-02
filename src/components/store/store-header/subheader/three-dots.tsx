@@ -10,7 +10,7 @@ import {useRouter} from "next/navigation";
 import {useStore} from "@/components/providers/store-provider";
 
 
-const ThreeDotsDropdown = () => {
+const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const { theme } = useTheme();
@@ -22,14 +22,15 @@ const ThreeDotsDropdown = () => {
     return (
         <Dropdown className="flex flex-row" backdrop="blur">
             <DropdownTrigger>
-                <Button
-                    isIconOnly
-                    size="lg"
-                    color="default"
-                    variant="light"
-                    isLoading={isLoading}
-                    className="hover:bg-primary h-12 border-2 border-default-200 shadow-sm"
-                >
+                { children ||
+                    <Button
+                        isIconOnly
+                        size="lg"
+                        color="default"
+                        variant="light"
+                        isLoading={isLoading}
+                        className="hover:bg-primary h-12 border-2 border-default-200 shadow-sm"
+                    >
                     {!isLoading && (
                         <IconDots
                             size={44}
@@ -38,7 +39,9 @@ const ThreeDotsDropdown = () => {
                             }
                         />
                     )}
-                </Button>
+                    </Button>
+                }
+
             </DropdownTrigger>
             <DropdownMenu aria-label="Static Actions" variant="faded">
                 {session?.user?.role === "bakerz" ? (

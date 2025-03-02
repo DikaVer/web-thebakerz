@@ -71,6 +71,9 @@ import {Divider, Image, Link} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {pacifico} from "@/components/fonts";
 import {useStore} from "@/components/providers/store-provider";
+import {renderCalendarContent} from "@/components/store/store-header/subheader/working-hours";
+import {IconLocation} from "@/components/ui/icons";
+import {useTheme} from "next-themes";
 
 
 type SocialIconProps = Omit<IconProps, "icon">;
@@ -113,7 +116,15 @@ const footerNavigation = {
     ],
 };
 
-export function FooterSimple() {
+export function FooterStore() {
+
+    const { store } = useStore();
+    const { theme } = useTheme();
+
+    const [latitude, longitude] = [50.853356, 5.669382];
+
+    const location = store?.location.route ? `${store.location.route}` : "Address Placeholder";
+    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
 
     const renderList = React.useCallback(
         ({title, items}: {title: string; items: {name: string; href: string}[]}) => (
@@ -133,15 +144,58 @@ export function FooterSimple() {
         [],
     );
 
+    const phone = {
+        name: "Phone",
+        href: `tel:${store?.phone}`,
+        icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={20} className={'text-default-600'}/>,
+    };
+
     return (
         <footer className="flex w-full flex-col bg-gradient-card rounded-xl drop-shadow">
-            <div className="py-16 container mx-auto">
+            <div className="py-8 md:py-16 container mx-auto">
                 <div className="flex flex-col gap-y-6 items-start justify-between">
-                    <div>
-                        <div className={`grid gap-8 grid-cols-2`}>
+                    <div className="flex flex-col gap-y-6 gap-x-20 w-full md:flex-row md:items-start">
+                        <div className={'grid gap-y-6 md:my-0 w-full md:w-[60%]'}>
+                            <p className={'font-medium text-default-600'}>Contact Us</p>
+                            <Link
+                                href={`https://www.google.com/maps?q=${latitude},${longitude}`}
+                                className={'flex flex-row justify-between'}
+                            >
+                                <div className={'flex gap-x-2 items-center'}>
+                                    <IconLocation size={20}
+                                                  primaryColor={`${theme === 'light' ? '#5d5d5b' : '#d4d4d8'}`}
+                                                  secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#d4d4d8'}`}
+                                                  strokeWidth={2}
+                                    />
+                                    <div className={'flex flex-col gap-y-0'}>
+                                        <p className={"text-sm  text-default-500"}>
+                                            {location}
+                                        </p>
+                                        <p className={"text-xs font-light text-default-500"}>
+                                            {subLocation}
+                                        </p>
+                                    </div>
+                                </div>
+                            </Link>
+                            <Link key={"Phone"} isExternal className="text-default-500 justify-between"
+                                  href={phone.href}>
+                                <div className={'flex gap-x-2'}>
+                                    <phone.icon aria-hidden="true"/>
+                                    <p className={'text-sm'}>
+                                        {store.phone}
+                                    </p>
+                                    <span className="sr-only">{phone.name}</span>
+                                </div>
+                            </Link>
+                        </div>
+                        <div className={'grid justify-start gap-y-6 my-6 md:my-0 w-full md:w-[55%]'}>
+                            <p className={'font-medium text-default-600'}>Working Hours</p>
+                            {renderCalendarContent()}
+                        </div>
+                        <div className={`grid gap-8 grid-cols-2 md:grid-cols-1 w-full md:w-[45%]`}>
                             {/*<div>{renderList({title: "Services", items: footerNavigation.services})}</div>*/}
-                            {renderList({title: "Support", items: footerNavigation.supportOptions})}
                             {renderList({title: "Legal", items: footerNavigation.legal})}
+                            {renderList({title: "Support", items: footerNavigation.supportOptions})}
                         </div>
                     </div>
                     <Divider/>
@@ -150,7 +204,7 @@ export function FooterSimple() {
                             © {new Date().getFullYear()} TheBakerz. All rights reserved.
                         </p>
                         <a
-                            className="flex items-end justify-end w-[80%]"
+                            className="flex items-end justify-end w-[80%] md:w-fit"
                             href="/"
                         >
                             <Image

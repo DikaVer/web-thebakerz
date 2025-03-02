@@ -187,14 +187,14 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                                     size="md"
                                                                     />
 
-                                                                    <p className={'mb-2'}>
+                                                                    <p className={'mb-2 text-start'}>
                                                                         I read and agree with the
                                                                         <Link className="mx-1 text-grayText underline"
                                                                               href="/policies/terms-of-use" size="md">
                                                                             Terms
                                                                         </Link>
-                                                                        <span>and</span>
-                                                                        <Link className="ml-1 text-grayText underline"
+                                                                        <span>and </span>
+                                                                        <Link className="text-grayText underline"
                                                                               href="/policies/privacy-policy" size="md">
                                                                             Privacy Policy
                                                                         </Link>

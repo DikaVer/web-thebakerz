@@ -11,16 +11,13 @@ import {acceptAll, CookiePreferences, rejectAll, savePreferences} from "@/lib/co
 export default function CookieConsentComponent() {
 
 
-    const [isPending, startTransition] = useTransition();
     const [localPreferences, setLocalPreferences] = useState<CookiePreferences>({
         necessary: true,
         analytics: true,
         marketing: true,
     });
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const [currentVariant, setCurrentVariant] = useState("visible");
     const router = useRouter();
-
 
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,25 +28,20 @@ export default function CookieConsentComponent() {
         }));
     };
 
-    const handleAcceptSelected = () => {
-        startTransition(async () => {
-            await savePreferences(localPreferences);
-            // Optionally, trigger a refresh or revalidate your state here.
-        });
+    const handleAcceptSelected = async () => {
+        await savePreferences(localPreferences);
+        router.refresh();
     };
 
 
-    const handleAcceptAll = () => {
-        startTransition(async () => {
-            await acceptAll();
-            // Optionally, trigger a refresh or revalidate your state here.
-        });
+    const handleAcceptAll = async () => {
+        await acceptAll();
+        router.refresh();
     };
 
-    const handleRejectAll = () => {
-        startTransition(async () => {
-            await rejectAll();
-        });
+    const handleRejectAll = async () => {
+        await rejectAll();
+        router.refresh();
     };
 
 
@@ -130,7 +122,7 @@ export default function CookieConsentComponent() {
             <div className="flex justify-between gap-x-3">
                 <Button
                     fullWidth
-                    className={`bg-gradient-primary text-default-200 text-lg`}
+                    className={`bg-gradient-primary text-default-200 text-md`}
                     radius="lg"
                     onPress={handleAcceptSelected}
                 >

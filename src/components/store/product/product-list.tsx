@@ -95,7 +95,6 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
 
     return (
         <div className="flex w-full flex-col">
-            <Spacer y={8} />
             <div
                 className={`flex flex-col-reverse md:flex-row transition-all justify-between items-center w-full ${
                     isSticky &&
@@ -119,6 +118,11 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
                     setCategoryRef={setCategoryRef}
                 />
             ))}
+            {Object.keys(filteredProductsByCategories).length === 0 && (
+                <div className="flex justify-center w-full">
+                    <span className="text-default-400 text-lg">No products found</span>
+                </div>
+            )}
         </div>
     );
 };

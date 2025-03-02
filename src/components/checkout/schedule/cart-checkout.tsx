@@ -103,7 +103,9 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             <span className="text-sm font-medium">Service Fee (5%)</span>
                             <span className="text-sm">{formatCurrency(serviceFee)}</span>
                         </div>
+                        <Spacer y={2} />
                         <Divider className="my-2" />
+                        <Spacer y={4} />
                         <div className="flex justify-between">
                             <span className="text-base font-bold">Total</span>
                             <span className="text-base font-bold">{formatCurrency(total)}</span>

@@ -102,7 +102,7 @@ export default function SidebarMenu({store, isOpen, onOpenChange, isCollapsed}: 
                             base: "px-3 rounded-large data-[selected=true]:shadow ",
                             title: "group-data-[selected=true]:text-text",
                         }}
-                        items={getItemsByRole(session, !!store)}
+                        items={getItemsByRole(session, store)}
                     />
                 </ScrollShadow>
 
@@ -185,11 +185,16 @@ export default function SidebarMenu({store, isOpen, onOpenChange, isCollapsed}: 
     );
 }
 
-const getItemsByRole = (session: SessionValidationResult, store: boolean) => {
+const getItemsByRole = (session: SessionValidationResult, store?: StoreData) => {
 
     if (!session.user) {
         if (store) {
-            return sectionItemsGuestStore;
+            return [{
+                key: "",
+                href: `/auth?next=${store.storeName}`,
+                icon: "line-md:login",
+                title: "Sign in"
+            }];
         }
         return sectionItemsGuestTheBakerz;
     }

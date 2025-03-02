@@ -24,6 +24,9 @@ import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import {useProductDialog} from "@/components/providers/product-provider";
 import CustomAlert from "@/components/ui/custom-alerts";
+import {Icon} from "@iconify/react";
+import {useMediaQuery} from "usehooks-ts";
+import {AllergenIcon} from "@/components/store/product/components/allergy-icons";
 
 type ProductDialogProps = {
     productData: ProductData;
@@ -44,6 +47,8 @@ export default function UserProductDialog({
     const [note, setNote] = useState(itemCart?.note || "");
     const [isLoading, setIsLoading] = useState(false);
     const { addItem, updateItem } = useProductDialog();
+    const isSmall = useMediaQuery("(max-width: 1000px)");
+    
 
 
     // This function calls the updateCart server action.
@@ -73,7 +78,11 @@ export default function UserProductDialog({
 
     return (
         <>
-            <ModalHeader className="flex flex-col gap-1 p-1">
+            <ModalHeader className={'px-4 justify-between'}>
+
+                <Button isIconOnly variant={'light'} radius={'full'} onPress={onClose}>
+                    <Icon icon="iconamoon:close-bold" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
+                </Button>
                 <CopyText
                     onClose={onClose}
                     isIconOnly={true}
@@ -85,58 +94,98 @@ export default function UserProductDialog({
                     }
                     textNotify={"Product Link Copied!"}
                 >
-                    <IconCopy
-                        size={28}
-                        primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
-                        secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
-                    />
+                    <Icon icon="mi:share" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
                 </CopyText>
             </ModalHeader>
             <ModalBody className={"p-0"}>
                 {productData && (
-                    <>
-                        <ScrollShadow className={"max-h-[70vh]"} size={100}>
-                        <Card
-                            isFooterBlurred
-                            radius="lg"
-                            className={`border-none shadow-none rounded-none`}
-                        >
-                            <Image
-                                removeWrapper
-                                alt={productData.name}
-                                className="object-cover"
-                                src={productData.picture}
-                            />
-                            <CardFooter
-                                className={`text-black justify-between items-end bg-white/40 border-white/20 border-1  overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10`}
+                    <ScrollShadow className={"flex max-h-[80vh] w-full"} size={40}>
+                        <div className={'w-full'}>
+                            <Card
+                                isFooterBlurred
+                                radius="lg"
+                                className={`border-none shadow-none rounded-none`}
                             >
-                                <p className={`w-full text-xl sm:text-2xl truncate mr-6 font-medium`}>
-                                    {productData.name}
-                                </p>
-                                <p className={`text-lg cm:text-xl font-light`}>
-                                    {formatCurrency(productData.price)}
-                                </p>
-                            </CardFooter>
-                        </Card>
-                            <div className={"flex flex-col px-2 py-2 text-default-400 gap-4"}>
-                                <p>{productData.description}</p>
-                                {/* Ingredients Alert: Default variant */}
-                                {productData.ingredients && productData.ingredients.length > 0 && (
-                                    <CustomAlert color="default" title="Ingredients">
-                                        <p className={'text-small text-default-600'}>{productData.ingredients.join(", ")}</p>
-                                    </CustomAlert>
-                                )}
-                                {/* Allergies Alert: Warning variant */}
-                                {productData.allergies && productData.allergies.length > 0 && (
-                                    <CustomAlert color="warning" title="Allergies">
-                                        <p className={'text-small'}>{productData.allergies.join(", ")}</p>
-                                    </CustomAlert>
-                                )}
+                                <Image
+                                    removeWrapper
+                                    alt={productData.name}
+                                    radius={'none'}
+                                    className="object-cover"
+                                    src={productData.picture}
+                                />
+                                <CardFooter
+                                    className={`text-black justify-between items-end bg-white/40 border-white/20 border-1  overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10`}
+                                >
+                                    <p className={`w-full text-xl sm:text-2xl truncate mr-6 font-medium`}>
+                                        {productData.name}
+                                    </p>
+                                    <p className={`text-lg cm:text-xl font-light`}>
+                                        {formatCurrency(productData.price)}
+                                    </p>
+                                </CardFooter>
+                            </Card>
+
+                            {/*{isSmall && (*/}
+                                <div className={"flex flex-col px-4 py-2 text-default-400 gap-4"}>
+                                    <p className={'font-light text-sm'}>{productData.description}</p>
+                                    {/* Ingredients Alert: Default variant */}
+                                    {productData.ingredients && productData.ingredients.length > 0 && (
+                                        <CustomAlert
+                                            color="default"
+                                            title="Ingredients"
+                                            hideIcon
+                                            classNames={{
+                                                title: "text-text font-medium"
+                                            }}
+                                        >
+                                            <div className="flex flex-wrap gap-2 mt-4">
+                                                {productData.ingredients.map((ingredient, index) => {
+                                                    return (
+                                                        <div
+                                                        key={ingredient}
+                                                        className={`flex items-center gap-2 px-2 py-1  text-sm rounded-full text-text bg-default-200`}
+                                                        >
+                                                            <AllergenIcon allergen={ingredient} />
+                                                            <span>
+                                                                {ingredient}
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </CustomAlert>
+                                    )}
+                                    {/* Allergies Alert: Warning variant */}
+                                    {productData.allergies && productData.allergies.length > 0 && (
+                                        <CustomAlert color="warning" title="Allergies" hideIcon>
+                                            <div className="flex flex-wrap gap-2 mt-4">
+
+                                                {productData.allergies.map((allergies, index) => {
+                                                    return (
+                                                        <div
+                                                            key={allergies}
+                                                            className={`flex items-center gap-1 px-2 py-1 text-sm rounded-full text-warning-800 bg-warning-200`}
+                                                        >
+                                                            <AllergenIcon allergen={allergies} />
+                                                            <span>
+                                                                {allergies}
+                                                            </span>
+
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </CustomAlert>
+                                    )}
+                                </div>
+                            {/*)}*/}
+
+                            <div className={'px-4'}>
                                 <Textarea
                                     label={"Notes"}
                                     labelPlacement={"outside"}
                                     placeholder={`Add notes to your order... (max 100 characters)`}
-                                    style={{ resize: "none" }}
+                                    style={{resize: "none"}}
                                     className="mt-2"
                                     classNames={{
                                         input: cn("min-h-[40px]"),
@@ -154,8 +203,25 @@ export default function UserProductDialog({
                                     {charCount}/100
                                 </p>
                             </div>
-                        </ScrollShadow>
-                    </>
+                        </div>
+                        {/*{!isSmall && (*/}
+                        {/*    <div className={"flex flex-col px-4 py-2 text-default-400 gap-4"}>*/}
+                        {/*        <p className={'font-light'}>{productData.description}</p>*/}
+                        {/*        /!* Ingredients Alert: Default variant *!/*/}
+                        {/*        {productData.ingredients && productData.ingredients.length > 0 && (*/}
+                        {/*            <CustomAlert color="default" title="Ingredients" hideIcon>*/}
+                        {/*                <p className={'text-small text-default-600'}>{productData.ingredients.join(", ")}</p>*/}
+                        {/*            </CustomAlert>*/}
+                        {/*        )}*/}
+                        {/*        /!* Allergies Alert: Warning variant *!/*/}
+                        {/*        {productData.allergies && productData.allergies.length > 0 && (*/}
+                        {/*            <CustomAlert color="warning" title="Allergies" hideIcon>*/}
+                        {/*                <p className={'text-small'}>{productData.allergies.join(", ")}</p>*/}
+                        {/*            </CustomAlert>*/}
+                        {/*        )}*/}
+                        {/*    </div>*/}
+                        {/*)}*/}
+                    </ScrollShadow>
                 )}
             </ModalBody>
             <ModalFooter className={"px-4 space-x-4"}>

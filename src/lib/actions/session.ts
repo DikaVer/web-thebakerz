@@ -6,7 +6,7 @@ import {cookies} from "next/headers";
 import type {User} from "./user";
 import {connectionPool} from "@/db";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
-import {StoreData} from "@/lib/actions/store";
+import {getStoreByUserId, StoreData} from "@/lib/actions/store";
 import {v4 as uuidv4} from "uuid";
 
 export async function validateSessionToken(
@@ -64,62 +64,7 @@ export async function validateSessionToken(
 
 
 
-    const storeResult = await connectionPool.query(
-        `
-    SELECT 
-      stores.id AS store_id,
-        stores.nickname AS store_name,
-        stores.description AS store_description,
-        stores.phone As store_phone,
-        stores.facebook_url AS store_facebook_url,  
-        stores.instagram_url AS store_instagram_url,
-        store_locations.route AS store_route,
-        store_locations.city AS store_city,
-        store_locations.zip_code AS store_zip_code,
-        store_locations.country AS store_country,
-        store_locations.latitude AS store_latitude,
-        store_locations.longitude AS store_longitude
-    FROM stores
-    INNER JOIN store_locations ON store_locations.store_id = store_id
-    WHERE stores.user_id = $1
-    `,
-        [user.id]
-    );
-
-    const rowS = storeResult.rows[0];
-
-    let store: StoreData | null = null;
-    let schedule: WorkHours | null = null;
-
-    // Build the store object.
-    if (rowS){
-        store = {
-            id: rowS.store_id,
-            storeName: rowS.store_name,
-            description: rowS.store_description,
-            phone: rowS.store_phone,
-            facebook_url: rowS.store_facebook_url,
-            instagram_url: rowS.store_instagram_url,
-            location: {
-                route: rowS.store_route,
-                city: rowS.store_city,
-                zipCode: rowS.store_zip_code,
-                country: rowS.store_country,
-                latitude: rowS.store_latitude,
-                longitude: rowS.store_longitude
-            }
-        };
-
-
-        await getScheduleById(store.id, store.id)
-            .then((item) => {
-                if(item?.schedule){
-                    schedule = item.schedule;
-                }
-            })
-            .catch((error) => console.error("Error reading item:", error));
-
-    }
+    const {store, schedule} = await getStoreByUserId(user.id);
 
     // If the session has expired, delete it from the database and return null.
     if (Date.now() >= session.expiresAt.getTime()) {

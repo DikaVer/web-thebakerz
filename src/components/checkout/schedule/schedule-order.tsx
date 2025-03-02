@@ -2,30 +2,24 @@
 
 import React, {useEffect, useState} from "react";
 import {
-    Button,
+    Accordion, AccordionItem,
+    Alert,
+    Button, Divider, Link,
     Spacer
 } from "@heroui/react";
-import { useSession } from "@/components/providers/session-provider";
-import { Icon } from "@iconify/react";
+
+import {Icon, IconProps} from "@iconify/react";
 import {useRouter, useSearchParams} from "next/navigation";
 import {CalendarDateTime, CalendarDate, now, today, ZonedDateTime} from "@internationalized/date";
 
-import ThreeDotsDropdown from "@/components/store/store-header/subheader/three-dots";
-import {renderCalendarContent, renderCalendarTopContent} from "@/components/store/store-header/subheader/working-hours";
 import {useStore} from "@/components/providers/store-provider";
-import {SmartDatetimeInput} from "@/components/store/store-header/calendar/smart-calendar";
-import {updateOrderTime} from "@/app/(store)/[id]/actions";
-import {useProductDialog} from "@/components/providers/product-provider";
-import showErrorMessage from "@/components/toast/toast-error";
-import {FormError} from "@/components/authentication/form-error";
-import {CopyText} from "@/components/ui/copy-text";
-import {IconCopy, IconLocation, IconPhone} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
 import {
     parseDateParams,
-    parseDateTime,
-    setCalendarParams
+
 } from "@/components/store/store-header/calendar/calendar-params";
+import {StoreSubHeader} from "@/components/store/store-header/store-subheader";
+import {renderCalendarContent} from "@/components/store/store-header/subheader/working-hours";
 
 
 interface StoreSubHeaderProps {
@@ -34,112 +28,99 @@ interface StoreSubHeaderProps {
     handleNext: () => void;
 }
 
+type SocialIconProps = Omit<IconProps, "icon">;
 
 export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeaderProps) {
-    const router = useRouter();
     const searchParams = useSearchParams();
     const { store } = useStore();
-    const [isError, setIsError] = useState(false);
-    const { theme } = useTheme();
-
-    const location = store?.location.route ? `${store.location.route}, ${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
 
     const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
 
-    useEffect(() => {
-        setCalendarParams(searchParams, router, dateParam, timeParam);
-    }, []);
-
-
-    // --- 2. onChange Handler for DatePicker: Save the date/time and update URL search params ---
-    const handleDateChange = (newDate: CalendarDateTime | CalendarDate) => {
-        if (newDate instanceof CalendarDate) {
-            setSelectedDate(newDate);
-
-        } else {
-
-            const {date, time} = parseDateTime(newDate);
-            // Update the URL search parameters (make sure this runs on the client)
-            if (date && time) {
-                setIsError(false);
-                setCalendarParams(searchParams, router, date, time);
-                updateOrderTime(date, time);
-            }
-            setSelectedDate(newDate);
-        }
+    const phone = {
+        name: "Phone",
+        href: `tel:${store?.phone}`,
+        icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
     };
 
 
 
+    useEffect(() => {
+        const dateParam = searchParams.get("date");
+        const timeParam = searchParams.get("time");
+        setSelectedDate(parseDateParams(`${dateParam} ${timeParam}`));
+        // Add your handling logic here.
+    }, [searchParams]);
+
+
+
     return (
-        <div>
-            <div className={'grid grid-cols-1 gap-y-6 md:gap-y-1 md:grid-cols-2 w-full items-start justify-between pb-4'}>
-                <div>
-                    {/*<p className={'mr-2 font-medium text-default-600'}>Store Pick Up Details:</p>*/}
-                    <Spacer y={2}/>
-                    <CopyText
-                        copyText={location}
-                        className={"md:max-w-[400px] text-medium md:text-large"}
-                        textNotify={"Location Copied!"}
-                        startContent={<IconLocation size={24}
-                                                    primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                                    secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                        />}
-                        endContent={<IconCopy size={20}
-                                              primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
-                                              secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
-                        />}
+        <div className={'w-full flex flex-col items-center'}>
+            <div className={'flex flex-col gap-y-4 w-full max-w-[440px]'}>
+                <Alert
+                    key={"Pick Up Only Alert"}
+                    className={'bg-default-100'}
+                    classNames={{
+                        title: 'text-md'
+                    }}
+                    title={`Shop offers only pickup orders`}
+                    variant={"solid"}
+                />
+
+                <Divider/>
+
+                <Accordion
+                    selectedKeys={["Working Hours"]}
+                    variant="light"
+                    className={'px-0'}
+                >
+                    <AccordionItem
+                        key="Working Hours"
+                        aria-label="Working Hours"
+                        title="Opening Hours"
+                        className={'px-0 cursor-default'}
+                        classNames={{
+                            title: 'text-text',
+                            trigger: 'py-0 cursor-default',
+                        }}
+                        startContent={<Icon icon={'solar:clock-circle-outline'} className={'text-text'} width={24}/> }
+                        indicator={<></>}
                     >
-                        <p className={"md:text-lg max-w-[230px]  truncate md:max-w-[230px] text-grayText"}>
-                            {location}
-                        </p>
-                    </CopyText>
-                    <CopyText
-                        copyText={store?.phone ? store.phone : 'Phone Number Placeholder'}
-                        className={"md:max-w-[400px] md:text-lg"}
-                        textNotify={"Phone Number Copied!"}
-                        startContent={<IconPhone size={24}
-                                                 primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                                 secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                        />}
-                        endContent={<IconCopy size={20}
-                                              primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
-                                              secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
-                        />}
-                    >
-                        <p className={"md:text-lg truncate md:max-w-[250px] text-grayText"}>
-                            {store?.phone ? store.phone : 'Phone Number Placeholder'}
-                        </p>
-                    </CopyText>
-                </div>
-                <div className={'flex flex-col justify-start md:justify-end'}>
-                    <div className={'flex flex-row w-full justify-start  md:justify-end'}>
-                        {renderCalendarContent()}
-                    </div>
-                    <Spacer y={4}/>
-                    <div className={`flex flex-wrap  w-full justify-start md:justify-end ${isError ? 'gap-y-4' : ''}`}>
-                        <SmartDatetimeInput
-                            isError={isError}
-                            schedule={store.schedule}
-                            minValue={today("Europe/Amsterdam")}
-                            value={selectedDate}
-                            onValueChange={handleDateChange}
-                            placeholder='Schedule Order Time'
-                        />
-                        <FormError message={isError ? "Please select a date and time to continue" : ""}/>
-                    </div>
-                </div>
+                        <>
+                            <Spacer y={2}/>
+                            {renderCalendarContent()}
+                        </>
+                    </AccordionItem>
+                </Accordion>
+                {store?.phone &&
+                    <>
+                        <Divider/>
+                        <Link key={"Phone"} isExternal className="text-default-500 justify-between"
+                              href={phone.href}>
+                            <div className={'flex gap-x-4'}>
+                                <phone.icon aria-hidden="true"/>
+                                <p className={'text-text text-md'}>
+                                    {store.phone}
+                                </p>
+                                <span className="sr-only">{phone.name}</span>
+                            </div>
+                            <Icon icon={'mi:arrow-right-up'} width={24}/>
+                        </Link>
+                    </>
+                }
+                <Divider/>
+            </div>
+            <div className={'flex flex-row w-full justify-center'}>
+                <StoreSubHeader dateParam={dateParam} timeParam={timeParam}/>
             </div>
             <Spacer y={4}/>
-            <div className={'flex flex-row w-full justify-end'}>
+            <div className={'flex flex-row w-full justify-center'}>
                 <Button
-                    className={'bg-gradient-primary text-white'}
+                    isDisabled={!(selectedDate instanceof CalendarDateTime)}
+                    className={'bg-gradient-primary text-white w-full max-w-[440px]'}
                     endContent={<Icon icon={'solar:alt-arrow-right-linear'} width={24}/>}
                     onPress={() => {
                         if (selectedDate instanceof CalendarDateTime) {
                             handleNext();
-                        } else {
-                            setIsError(true);
                         }
                     }}
                 >

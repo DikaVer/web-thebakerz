@@ -13,7 +13,8 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             u.image AS picture,
             u.name AS "ownerName",
             s.facebook_url,
-            s.instagram_url
+            s.instagram_url,
+            s.slug
              FROM stores s
              JOIN users u ON s.user_id = u.id
              WHERE (LOWER(s.nickname) = LOWER($1) OR s.id = $1)
@@ -48,6 +49,7 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             ownerName: storeRow.ownerName,
             instagram_url: storeRow.instagram_url,
             facebook_url: storeRow.facebook_url,
+            slug: storeRow.slug,
             location,  // This is of type LocationData
             schedule,
         };
@@ -67,6 +69,68 @@ export const getCurrentStore = async (id: string): Promise<StoreData> => {
         next: {tags: ['store']}
     }).then(res => res.json());
 };
+
+export const getStoreByUserId = async (userId: string): Promise<{store: StoreData | null, schedule: WorkHours | null}> => {
+    const storeResult = await connectionPool.query(
+        `
+    SELECT 
+      stores.id AS store_id,
+        stores.nickname AS store_name,
+        stores.description AS store_description,
+        stores.phone As store_phone,
+        stores.facebook_url AS store_facebook_url,  
+        stores.instagram_url AS store_instagram_url,
+        stores.slug AS slug,
+        store_locations.route AS store_route,
+        store_locations.city AS store_city,
+        store_locations.zip_code AS store_zip_code,
+        store_locations.country AS store_country,
+        store_locations.latitude AS store_latitude,
+        store_locations.longitude AS store_longitude
+    FROM stores
+    INNER JOIN store_locations ON store_locations.store_id = store_id
+    WHERE stores.user_id = $1
+    `,
+        [userId]
+    );
+
+    const rowS = storeResult.rows[0];
+
+    let store: StoreData | null = null;
+    let schedule: WorkHours | null = null;
+
+    // Build the store object.
+    if (rowS){
+        store = {
+            id: rowS.store_id,
+            storeName: rowS.store_name,
+            description: rowS.store_description,
+            phone: rowS.store_phone,
+            facebook_url: rowS.store_facebook_url,
+            instagram_url: rowS.store_instagram_url,
+            slug: rowS.slug,
+            location: {
+                route: rowS.store_route,
+                city: rowS.store_city,
+                zipCode: rowS.store_zip_code,
+                country: rowS.store_country,
+                latitude: rowS.store_latitude,
+                longitude: rowS.store_longitude
+            }
+        };
+
+
+        await getScheduleById(store.id, store.id)
+            .then((item) => {
+                if(item?.schedule){
+                    schedule = item.schedule;
+                }
+            })
+            .catch((error) => console.error("Error reading item:", error));
+    }
+
+    return {store, schedule};
+}
 
 
 async function getLocationStore(storeId: string): Promise<LocationData> {
@@ -114,6 +178,7 @@ export interface StoreData {
     facebook_url?: string;
     picture?: string;
     ownerName?: string;
+    slug?: string;
     location: LocationData;
     schedule?: WorkHours;
 }

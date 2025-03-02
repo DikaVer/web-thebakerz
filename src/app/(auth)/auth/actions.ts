@@ -33,7 +33,7 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
     }
     // TODO: Assumes X-Forwarded-For is always included.
     const reqHeaders = await headers();
-    const clientIP = reqHeaders.get("X-Forwarded-For");
+    const clientIP = reqHeaders.get("x-forwarded-for");
     if (clientIP !== null && !ipBucket.check(clientIP, 1)) {
         return {
             message: "Too many requests"
@@ -69,9 +69,14 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
     return null;
 }
 
-const bucket = new ExpiringTokenBucket<string>(5, 60 * 30);
 
 export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<typeof OTPSchema>): Promise<ActionLogin> {
+    if (!await globalPOSTRateLimit()) {
+        return {
+            message: "Too many requests"
+        };
+    }
+
     const validation = OTPSchema.safeParse(formData);
     if (!validation.success) {
         return {
@@ -89,15 +94,9 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
 
     const code = formData.otp;
 
-    if (!await globalPOSTRateLimit()) {
-        return {
-            message: "Too many requests"
-        };
-    }
-
 
     const reqHeaders = await headers();
-    const clientIP = reqHeaders.get("X-Forwarded-For");
+    const clientIP = reqHeaders.get("x-forwarded-for");
     if (clientIP !== null && !ipBucket.check(clientIP, 1)) {
         return {
             message: "Too many requests"
@@ -141,6 +140,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
     await deleteUserEmailVerificationRequest(user.id);
     await updateUserEmailAndSetEmailAsVerified(user.id, verificationRequest.email);
     await deleteEmailVerificationRequestCookie();
+    await acceptTOS(user.email, TOS_VERSION, clientIP || "Not Available", "explicit", "login");
     revalidateTag('session');
 
     return await getCurrentSession();
@@ -184,6 +184,8 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
 
 import { cookies } from "next/headers";
 import {revalidateTag} from "next/cache";
+import {acceptTOS} from "@/lib/term-of-service";
+import {TOS_VERSION} from "@/lib/local-variables";
 
 
 export async function setEmailVerificationRequestCookie(request: EmailVerificationRequest): Promise<void> {

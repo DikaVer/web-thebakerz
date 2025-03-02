@@ -157,54 +157,40 @@ export const renderCalendarContent = () => {
     }
 
     return (
-        <>
-            <Card
-                className={'bg-gradient-card w-full max-w-52'}
-            >
-                <CardBody>
-                    <div
-                        className={'flex text-default-600'}
-                    >
-                        <Icon icon={"solar:sort-by-time-linear"} width={24} className={"text-default-500"}/>
-                        <Spacer x={2}/>
-                        <p>Working Hours</p>
-                    </div>
-                    <Spacer y={4}/>
-                    <div className="flex flex-wrap items-center justify-center max-w-52">
-                        {["monday", "friday", "tuesday", "thursday", "wednesday", "saturday", "sunday"].map((day, index) => {
-                            //@ts-ignore
-                            const workday = store.schedule[day];
+        <div className={'flex w-full justify-center'}>
+            <div className="flex flex-wrap items-center justify-center max-w-52">
+                {["monday", "friday", "tuesday", "thursday", "wednesday", "saturday", "sunday"].map((day, index) => {
+                    //@ts-ignore
+                    const workday = store.schedule[day];
 
-                            const shortDay = getShortWeekday(day);
-                            let displayText = `Closed`;
-                            if (workday && (workday as WorkDay).isEnabled) {
-                                const wd = workday as WorkDay;
-                                const startHour = pad(wd.start.hour);
-                                const startMinute = pad(wd.start.minute);
-                                const endHour = pad(wd.end.hour);
-                                const endMinute = pad(wd.end.minute);
-                                displayText = `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
-                            }
+                    const shortDay = getShortWeekday(day);
+                    let displayText = `Closed`;
+                    if (workday && (workday as WorkDay).isEnabled) {
+                        const wd = workday as WorkDay;
+                        const startHour = pad(wd.start.hour);
+                        const startMinute = pad(wd.start.minute);
+                        const endHour = pad(wd.end.hour);
+                        const endMinute = pad(wd.end.minute);
+                        displayText = `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
+                    }
 
-                            const isSunday = day === "sunday";
+                    const isSunday = day === "sunday";
 
-                            return (
-                                <div
-                                    key={day}
-                                    className={`${isSunday ? "ml-4 w-[40%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col`}
-                                >
-                                    <span className="text-sm font-medium text-default-600">
-                                      {day.charAt(0).toUpperCase() + day.slice(1)}
-                                    </span>
-                                    <p className="text-default-500 text-xs font-light">
-                                        {displayText}
-                                    </p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </CardBody>
-            </Card>
-        </>
+                    return (
+                        <div
+                            key={day}
+                            className={`${isSunday ? "ml-4 w-[40%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col`}
+                        >
+                            <span className="text-sm font-medium text-default-600">
+                              {day.charAt(0).toUpperCase() + day.slice(1)}
+                            </span>
+                            <p className="text-default-500 text-xs font-light">
+                                {displayText}
+                            </p>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
     );
 };

@@ -206,6 +206,8 @@ export const cityLatLngMap: Readonly<{ [key: string]: { lat: number, lng: number
     '’s-Hertogenbosch': {'lat': 51.6833, 'lng': 5.3}
 };
 
+export const TOS_VERSION = '1.0';
+
 export const categories: Readonly<{ [key: string]: { description: string } }> = {
     'Cakes': { description: 'Variety of cakes including sponge, layered, and specialty cakes.' },
     'Macarons': { description: 'French almond meringue cookies with filling.' },

@@ -7,7 +7,7 @@ export const globalBucket = new RefillingTokenBucket<string>(10, 1);
 export async function globalGETRateLimit(): Promise<boolean> {
     // Await the headers() call.
     const reqHeaders = await headers();
-    const clientIP = reqHeaders.get("X-Forwarded-For");
+    const clientIP = reqHeaders.get("x-forwarded-for");
     if (clientIP === null) {
         return true;
     }
@@ -16,7 +16,7 @@ export async function globalGETRateLimit(): Promise<boolean> {
 
 export async function globalPOSTRateLimit(): Promise<boolean> {
     const reqHeaders = await headers();
-    const clientIP = reqHeaders.get("X-Forwarded-For");
+    const clientIP = reqHeaders.get("x-forwarded-for");
     if (clientIP === null) {
         return true;
     }

@@ -1,7 +1,7 @@
 "use client";
 
 import {usePathname, useRouter} from "next/navigation";
-import React, {startTransition} from "react";
+import React, {startTransition, useState} from "react";
 import {Button, cn, Tooltip} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {logoutAction} from "@/app/actions";
@@ -14,10 +14,11 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
     const router = useRouter();
     const pathname = usePathname();
     const { session, setSession } = useSession();
+    const [ isLoading, setIsLoading ] = useState(false);
 
 
-    const handleSignOut = async () => {
-        startTransition(() => {
+    const handleSignOut = () => {
+        startTransition(async () => {
             sessionStorage.clear();
             localStorage.clear();
             setSession((prevSession) => {
@@ -29,9 +30,9 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
                     schedule: null,
                 };
             });
-            logoutAction()
-            router.push(`/transit-exit?next=${pathname}`);
+            await logoutAction();
             router.refresh();
+            router.push(`/transit-exit?next=${pathname}`);
         });
     };
 
@@ -53,8 +54,9 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
                 }
                 onPress={handleSignOut}
                 variant="light"
+                isLoading={isLoading}
             >
-                {isCollapsed ? (
+                {!isLoading && isCollapsed ? (
                     <Icon
                         className="rotate-180 text-grayText"
                         icon="solar:minus-circle-line-duotone"

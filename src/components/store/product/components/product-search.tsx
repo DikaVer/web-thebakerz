@@ -13,7 +13,7 @@ export const ProductSearch: React.FC<ProductSearchProps> = ({ searchTerm, onSear
         <Input
             className="w-full"
             classNames={{
-                mainWrapper: "rounded-xl border-1",
+                mainWrapper: "rounded-xl border-0 shadow-small",
                 inputWrapper: "bg-background",
             }}
             placeholder="Search by product name or category..."

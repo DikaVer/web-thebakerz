@@ -28,11 +28,11 @@ interface SmartDatetimeInputContextProps extends SmartDatetimeInputProps {
 
 const SmartDatetimeInputContext = React.createContext<SmartDatetimeInputContextProps | null>(null);
 
-const formatDate = (date: CalendarDate | CalendarDateTime) => {
+export const formatDate = (date: CalendarDate | CalendarDateTime) => {
     if (date instanceof CalendarDateTime)
-        return `${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute === 0 ? "00" : date.minute}`;
+        return `${date.hour}:${date.minute === 0 ? "00" : date.minute} ${date.day}-${date.month}-${date.year}`;
     else
-        return `${date.year}-${date.month}-${date.day}`;
+        return `${date.day}-${date.month}-${date.year}`;
 }
 
 const useSmartDateInput = () => {
@@ -57,6 +57,7 @@ export const SmartDatetimeInput = React.forwardRef<
             schedule,
             minValue,
             isError = false,
+            children
         },
         ref
     ) => {
@@ -87,7 +88,12 @@ export const SmartDatetimeInput = React.forwardRef<
                     showCalendar: true,
                 }}
             >
-                <DateTimeLocalInput placeholder={placeholder} className={className} />
+                <DateTimeLocalInput
+                    placeholder={placeholder}
+                    className={className}
+                >
+                    {children}
+                </DateTimeLocalInput>
             </SmartDatetimeInputContext.Provider>
         );
     }
@@ -109,9 +115,10 @@ const weekdayMapping = [
 // --- Date/Time Input Component ---
 type DateTimeLocalInputProps = {
     placeholder?: string;
+    children?: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-const DateTimeLocalInput = ({ className, ...props }: DateTimeLocalInputProps) => {
+const DateTimeLocalInput = ({ children, className, ...props }: DateTimeLocalInputProps) => {
     const { value, onValueChange, schedule, minValue, showCalendar, showTimePicker, isError } =
         useSmartDateInput();
 
@@ -157,16 +164,7 @@ const DateTimeLocalInput = ({ className, ...props }: DateTimeLocalInputProps) =>
             placement={'top'}
         >
             <PopoverTrigger>
-                <Button
-                    color={isError ? "danger" : "default"}
-                    variant="bordered"
-                    size="lg"
-                    endContent={<Icon icon="solar:calendar-broken" width={24} className="text-default-500" />}
-                    className={`h-12 ${className || ""} ${value ? "underline underline-offset-2 text-text font-medium text-default-500" : "text-default-500"}`}
-                >
-                    <span className="sr-only">calendar</span>
-                    <p className="">{value ? formatDate(value) : props.placeholder}</p>
-                </Button>
+                {children}
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0 bg-background">
                 <div className="flex flex-row gap-1">

@@ -100,6 +100,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
     const handleDelete = async () => {
         if(productData) {
             await deleteProduct(productData.id)
+            showSuccessMessage({ success: "Product deleted!" });
             router.refresh();
             onClose();
             setIsOpenDelete(false);
@@ -122,7 +123,11 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                     form.setValue("url", url);
                 }}
             />
-            <ModalHeader className="flex flex-col gap-1 p-1">
+            <ModalHeader className={'px-4 justify-between'}>
+
+                <Button isIconOnly variant={'light'} radius={'full'} onPress={onClose}>
+                    <Icon icon="iconamoon:close-bold" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
+                </Button>
                 {productData && (
                     <CopyText
                         onClose={onClose}
@@ -130,17 +135,13 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                         copyText={process.env.NEXT_PUBLIC_API_BASE_URL + "/" + productData?.store_id + "?product=" + productData?.id}
                         textNotify={"Product Link Copied!"}
                     >
-                        <IconCopy
-                            size={28}
-                            primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
-                            secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
-                        />
+                        <Icon icon="mi:share" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
                     </CopyText>
                 )}
             </ModalHeader>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-y-1">
-                    <ModalBody className={`px-0 ${productData?.picture ? '': 'pt-10'}`}>
+                    <ModalBody className={`px-0 ${productData?.picture ? '': 'pt-0'}`}>
                         <>
                             <ScrollShadow className={"max-h-[70vh]"} size={20}>
                             <div>
@@ -173,7 +174,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                     </div>
                                 )}
                             </div>
-                                <div className="flex flex-col px-2">
+                                <div className="flex flex-col px-4 my-4">
                                     <div className="flex flex-row">
                                         {/* Product Name Field */}
                                         <FormField

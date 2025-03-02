@@ -13,7 +13,7 @@ import {
 import { useSession } from "@/components/providers/session-provider";
 import {Icon} from "@iconify/react";
 import {useRouter, useSearchParams} from "next/navigation";
-import {CalendarDateTime, CalendarDate, } from "@internationalized/date";
+import {CalendarDateTime, CalendarDate, today,} from "@internationalized/date";
 
 import ThreeDotsDropdown from "@/components/store/store-header/subheader/three-dots";
 import {renderCalendarTopContent} from "@/components/store/store-header/subheader/working-hours";
@@ -29,6 +29,7 @@ import {IconLocation} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
 import dynamic from "next/dynamic";
 import clarity from "@microsoft/clarity";
+import {formatDate, SmartDatetimeInput} from "@/components/store/store-header/calendar/smart-calendar";
 
 const LocationMap = dynamic(
     () => import("@/components/store/store-header/subheader/location-map"),
@@ -43,16 +44,16 @@ interface StoreSubHeaderProps {
 
 
 export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
-    const { session } = useSession();
     const router = useRouter();
     const searchParams = useSearchParams();
-    const { store, sentinelRef } = useStore();
+    const { store } = useStore();
     const { handleOpen } = useProductDialog();
     const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
     const { theme } = useTheme();
     const [latitude, longitude] = [50.853356, 5.669382];
 
-    const location = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
+    const location = store?.location.route ? `${store.location.route}` : "Address Placeholder";
+    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
 
     useEffect(() => {
         setCalendarParams(searchParams, router, dateParam, timeParam);
@@ -75,37 +76,47 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
 
     return (
         <div className="flex flex-col w-full max-w-[440px]">
-            <Card
-                className={'w-full shadow-none border-1'}
-            >
-                <CardBody>
-                    <Link
-                        href={`https://www.google.com/maps?q=${latitude},${longitude}`}
-                        className={'flex flex-row gap-x-4 items-center'}
-                    >
-                        <IconLocation size={24}
-                                      primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                      secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                        />
-                        <p className={"md:text-lg truncate w-[85%] text-grayText"}>
+                <Spacer y={4}/>
+                <Link
+                    href={`https://www.google.com/maps?q=${latitude},${longitude}`}
+                    className={'flex flex-row gap-x-4 items-center'}
+                >
+                    <IconLocation size={24}
+                                  primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
+                                  secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
+                    />
+                    <div className={'flex flex-col gap-y-0'}>
+                        <p className={"text-sm  text-text"}>
                             {location}
                         </p>
-                    </Link>
-                    <Spacer y={3}/>
-                    <div className={'h-40 w-full rounded-medium border-1 overflow-hidden'}>
-                        <LocationMap latitude={latitude} longitude={longitude}  />
+                        <p className={"text-xs  text-default-600"}>
+                            {subLocation}
+                        </p>
                     </div>
-                    <Spacer y={3}/>
-                    <div className={'flex flex-row justify-between gap-x-4'}>
-                        <ButtonGroup
-                            size={'sm'}
-                            radius={'md'}
-                            className={'text-grayText'}
+                </Link>
+                <Spacer y={4}/>
+                <div className={'h-40 w-full rounded-medium border-1 overflow-hidden'}>
+                    <LocationMap latitude={latitude} longitude={longitude}  />
+                </div>
+                <Spacer y={4}/>
+                <div className={'flex flex-row justify-between gap-x-4'}>
+                    <ButtonGroup
+                        fullWidth
+                        size={'sm'}
+                        radius={'md'}
+                        className={'text-grayText'}
+                    >
+                        <SmartDatetimeInput
+                            schedule={store.schedule}
+                            minValue={today("Europe/Amsterdam")}
+                            value={selectedDate}
+                            onValueChange={handleDateChange}
+                            placeholder='Schedule Order Time'
                         >
                             <Button
                                 startContent={<Icon icon={'solar:walking-round-linear'} width={24}/>}
-                                variant="bordered"
-                                className={'bg-gradient-card'}
+                                variant={selectedDate && "bordered"}
+                                className={`${selectedDate ? 'text-default-600' : 'text-white bg-gradient-primary'}`}
                                 onPress={() =>
                                     addToast({
                                         // title: "Pick Up",
@@ -116,43 +127,18 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                                         timeout: 1000,
                                     })}
                             >
-                                Pick Up
+                                {(selectedDate) ? `Pick Up at ${formatDate(selectedDate)}` : "Order for Pick Up"}
                             </Button>
-                            {/*<Button*/}
-                            {/*    isDisabled*/}
-                            {/*    startContent={<Icon icon={'bxs:car'} width={24}/>}*/}
-                            {/*    variant="bordered"*/}
-                            {/*>*/}
-                            {/*    Delivery*/}
-                            {/*</Button>*/}
-                        </ButtonGroup>
-                        {renderCalendarTopContent()}
-                    </div>
-                </CardBody>
-            </Card>
-            {(session?.user?.role === "bakerz" && session.store?.id === store.id) && (
-                    <div className={'flex flex-row  justify-end gap-x-4 mt-6'}>
-                        <Button
-                            className="w-[150px] h-12 justify-start bg-gradient-primary text-white font-medium"
-                            startContent={
-                                <Icon
-                                    icon="solar:add-square-broken"
-                                    width={24}
-                                    className="text-white"
-                                />
-                            }
-                            onPress={() => {
-                                handleOpen();
-                            }}
-                        >
-                            Add Item
-                        </Button>
-                        <ThreeDotsDropdown/>
-                    </div>
-                )
-            }
-
-            <div ref={sentinelRef} className="h-1"></div>
+                        </SmartDatetimeInput>
+                        {/*<Button*/}
+                        {/*    isDisabled*/}
+                        {/*    startContent={<Icon icon={'bxs:car'} width={24}/>}*/}
+                        {/*    variant="bordered"*/}
+                        {/*>*/}
+                        {/*    Delivery*/}
+                        {/*</Button>*/}
+                    </ButtonGroup>
+                </div>
         </div>
     );
 }

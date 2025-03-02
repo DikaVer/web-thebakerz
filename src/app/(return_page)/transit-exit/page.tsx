@@ -12,8 +12,9 @@ export default function Page() {
     const router = useRouter();
 
     useEffect(() => {
-        router.push(next ? next : "/");
         router.refresh();
+
+        router.push(next ? next : "/");
     }, [next, router]); // Added 'next' and 'router' as dependencies
 
     return (

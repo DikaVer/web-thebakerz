@@ -60,10 +60,6 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                         <div className="flex flex-col w-full">
                             <p className="font-medium truncate">{productData.name}</p>
                             {item.note && (<>
-                                <p className="text-xs text-default-400 font-medium break-words">Note: {item.note}</p>
-                                <Spacer x={4}/>
-                            </>)}
-                            {productData.allergies && productData.allergies.length > 0 && (
                                 <CustomAlert
                                     color="warning"
                                     hideIcon={true}
@@ -72,8 +68,12 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                                         mainWrapper: 'p-0 py-1 min-h-0',
                                     }}
                                 >
-                                    <p className={'text-xs'}>{productData.allergies.join(", ")}</p>
+                                    <p className="text-xs">Note: {item.note}</p>
                                 </CustomAlert>
+                                <Spacer x={4}/>
+                            </>)}
+                            {productData.ingredients && productData.ingredients.length > 0 && (
+                                <p className="text-xs text-default-400 font-medium break-words">{productData.ingredients.join(", ")}</p>
                             )}
                         </div>
                     </div>

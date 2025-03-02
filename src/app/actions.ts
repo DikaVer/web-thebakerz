@@ -4,6 +4,7 @@
 
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {deleteSessionTokenCookie, getCurrentSession, invalidateSession} from "@/lib/actions/session";
+import {revalidateTag} from "next/cache";
 
 export async function logoutAction(): Promise<ActionResult> {
     if (!await globalPOSTRateLimit()) {
@@ -19,6 +20,7 @@ export async function logoutAction(): Promise<ActionResult> {
     }
     await invalidateSession(session.id);
     await deleteSessionTokenCookie();
+    revalidateTag('session');
 
     return null;
 }
