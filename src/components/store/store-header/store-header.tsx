@@ -105,14 +105,7 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
                             className="hover:bg-primary h-4"
                             onPress={onOpen}
                         >
-
-                            <IconDots
-                                size={44}
-                                primaryColor={
-                                    theme === "light" ? "#5d5d5b" : "#faf4d1"
-                                }
-                            />
-
+                            <Icon icon={"solar:menu-dots-bold"} width={36}/>
                         </Button>
                         <StoreDescription isOpen={isOpen} onOpenChange={onOpenChange}/>
                     </div>
