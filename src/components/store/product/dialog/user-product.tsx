@@ -99,7 +99,7 @@ export default function UserProductDialog({
             </ModalHeader>
             <ModalBody className={"p-0"}>
                 {productData && (
-                    <ScrollShadow className={"flex max-h-[80vh] w-full"} size={40}>
+                    <ScrollShadow className={"flex max-h-[70vh] w-full"} size={40}>
                         <div className={'w-full'}>
                             <Card
                                 isFooterBlurred
