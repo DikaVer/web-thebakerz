@@ -35,7 +35,15 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
 
     return (
         <div>
-            <div className={'flex flex-row w-full justify-between'}>
+            <div
+                className={'flex flex-row w-full justify-between'}
+                onClick={(e) => {
+                    e.preventDefault();
+                    if (session?.user?.role !== "bakerz" && isSmall) {
+                        onOpen();
+                    }
+                }}
+            >
                 <div className="flex flex-row gap-x-4 justify-center">
                     <div className={'w-[80px]'}>
                         <Avatar

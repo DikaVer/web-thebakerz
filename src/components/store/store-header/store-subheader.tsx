@@ -127,7 +127,7 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                                         timeout: 1000,
                                     })}
                             >
-                                {(selectedDate) ? `Pick Up at ${formatDate(selectedDate)}` : "Order for Pick Up"}
+                                {(selectedDate) ? `Pick Up at ${formatDate(selectedDate)}` : "Select Pick Up Time"}
                             </Button>
                         </SmartDatetimeInput>
                         {/*<Button*/}
