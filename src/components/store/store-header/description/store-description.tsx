@@ -32,6 +32,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
             onOpenChange={onOpenChange}
             placement={'center'}
             hideCloseButton
+            backdrop={'blur'}
         >
             <ModalContent>
                 {(onClose) => (
