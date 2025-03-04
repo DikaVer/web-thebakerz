@@ -21,9 +21,14 @@ import { Icon } from "@iconify/react";
 import { useProductDialog } from "@/components/providers/product-provider";
 import {AnimatePresence, motion, Reorder } from "framer-motion";
 import { ItemCategory } from "../ui/drag-item";
+import {updateProductsOrder} from "@/lib/actions/order-products";
+import showErrorMessage from "@/components/toast/toast-error";
+import showSuccessMessage from "@/components/toast/toast-succes";
 
-const ProductManager: React.FC<{ productsData: ProductDataFull }> = ({ productsData }) => {
+const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: Record<string, string[]>}> = ({ productsData, productsOrder }) => {
     const { handleOpen, setProductsDataLocal } = useProductDialog();
+    const [isLoading, setIsLoading] = useState(false);
+    const  categoriesKeys = Object.keys(productsOrder);
 
     useEffect(() => {
         if (productsData) {
@@ -42,6 +47,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull }> = ({ productsD
     // Convert the object to an array before categorizing
     const productsArray: ProductData[] = Object.values(productsData || {});
 
+
     // Categorize products by their category
     const productsByCategories: Record<string, ProductData[]> = productsArray.reduce((acc, product) => {
         if (!acc[product.category]) {
@@ -51,18 +57,19 @@ const ProductManager: React.FC<{ productsData: ProductDataFull }> = ({ productsD
         return acc;
     }, {} as Record<string, ProductData[]>);
 
-    // Sort the category keys based on the defined order.
-    const sortedCategoryKeys = sortItems<string>(
+
+    const categories = sortItems(
         Object.keys(productsByCategories),
-        ["Eclairs", "Macarons"],
+        categoriesKeys,
         (category) => category,
         (a, b) => a.localeCompare(b)
-    );
+    )
+
 
 
     // Sort each category's products (fallback to alphabetical)
-    sortedCategoryKeys.forEach((category) => {
-        const orderForCategory: string[] = [];
+    categoriesKeys.forEach((category) => {
+        const orderForCategory: string[] = productsOrder[category] || [];
         productsByCategories[category] = sortItems<ProductData>(
             productsByCategories[category],
             orderForCategory,
@@ -72,7 +79,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull }> = ({ productsD
     });
 
     // State for product orders and tabs
-    const [tabs, setTabs] = useState<string[]>(sortedCategoryKeys);
+    const [tabs, setTabs] = useState<string[]>(categories);
     const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
 
@@ -84,7 +91,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull }> = ({ productsD
         }, {} as ProductDataFull) || {};
     }, [productsByCategories, selectedTab]);
 
-    const [orderPayload, setOrderPayload] = useState<Record<string, string[]>>({});
+    const [orderPayload, setOrderPayload] = useState<Record<string, string[]>>(productsOrder);
 
     const updateOrder = (category: string, order: string[]) => {
         setOrderPayload(prev => ({...prev, [category]: order}));
@@ -92,10 +99,27 @@ const ProductManager: React.FC<{ productsData: ProductDataFull }> = ({ productsD
 
     // Function to save the current order (unchanged here)
     const handleSaveOrder = async () => {
-        console.log(orderPayload)
+        setIsLoading(true);
+        const tabOrder = [...tabs];
+        const finalOrderPayload = tabOrder.reduce((acc, tab) => {
+            acc[tab] = orderPayload[tab] || [];
+            return acc;
+        }, {} as Record<string, string[]>);
 
-        console.log(tabs);
-        // Save via fetch...
+        try {
+            const res = await updateProductsOrder(finalOrderPayload);
+
+            if (res.error) {
+                showErrorMessage({error: res.error});
+            } else if (res.success) {
+                showSuccessMessage({success: res.success});
+            }
+        } catch (error) {
+            console.error('Failed to update order:', error);
+        }
+
+
+        setIsLoading(false);
     };
 
     return (
@@ -156,12 +180,13 @@ const ProductManager: React.FC<{ productsData: ProductDataFull }> = ({ productsD
                     </Reorder.Group>
                 </CardHeader>
                 <CardBody className={'flex'}>
-                    <div
-                        className="rounded-lg rounded-b-none bg-default-100 cursor-pointer grid grid-cols-6 p-2 gap-x-4 text-sm font-light"
-                    >
-                        <span>Image</span>
-                        <span className={'flex col-span-3'}>Name</span>
-                        <span>Price</span>
+                    <div className={'p-2 rounded-lg rounded-b-none bg-default-100 grid grid-cols-6 text-xs md:text-sm font-medium'}>
+                        <div
+                            className=" col-span-5  grid grid-cols-5 gap-x-4"
+                        >
+                            <span>Image</span>
+                            <span className={'flex col-span-4'}>Name & Price</span>
+                        </div>
                         <span>Drag</span>
                     </div>
                     {/* Use a key prop so that the ProductTable re-mounts when the selectedTab changes */}
@@ -185,12 +210,13 @@ const ProductManager: React.FC<{ productsData: ProductDataFull }> = ({ productsD
                 </CardBody>
                 <CardFooter>
                     <Button
+                        isLoading={isLoading}
                         fullWidth
                         startContent={<Icon icon={"solar:reorder-linear"} width={24} />}
                         onPress={handleSaveOrder}
                         color={'secondary'}
                     >
-                        Update Product Order in every Category
+                        {!isLoading ? `Update Product & Category Order` : "Updating Order..."}
                     </Button>
                 </CardFooter>
             </Card>

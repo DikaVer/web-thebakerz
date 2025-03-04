@@ -8,7 +8,7 @@ import {useSession} from "@/components/providers/session-provider";
 import {useStore} from "@/components/providers/store-provider";
 import NotFound from "@/app/(error_layout)/not-found";
 
-export const ProductCard: React.FC<{productsData: ProductDataFull}> = ({ productsData }) => {
+export const ProductCard: React.FC<{productsData: ProductDataFull; productsOrder: Record<string, string[]>}> = ({ productsData, productsOrder }) => {
 
     const {session} = useSession();
     const { store } = useStore();
@@ -40,6 +40,7 @@ export const ProductCard: React.FC<{productsData: ProductDataFull}> = ({ product
         >
             <Tab key="products" title="Products">
                 <ProductManager
+                    productsOrder={productsOrder}
                     productsData={productsData}
                 />
             </Tab>

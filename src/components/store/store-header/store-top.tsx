@@ -24,7 +24,7 @@ interface StoreTopProps {
 export function StoreTop({dateParam, timeParam}: StoreTopProps) {
 
     const { session} = useSession();
-    const { store } = useStore();
+    const { store, sentinelRef} = useStore();
     const { handleOpen } = useProductDialog();
     const isSmall = useMediaQuery("(max-width: 960px)");
 
@@ -69,6 +69,7 @@ export function StoreTop({dateParam, timeParam}: StoreTopProps) {
                 </div>
             )
             }
+            <div ref={sentinelRef} className="h-1"></div>
         </div>
     );
 }

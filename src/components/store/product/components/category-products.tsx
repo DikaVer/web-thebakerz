@@ -42,7 +42,7 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center items-center w-full">
 
                     {products.map((product) => (
-                            <div key={product.id} className={'m-0.5'}>
+                            <div key={product.constId} className={'m-0.5'}>
                                 <ProductBase productData={product} />
                             </div>
                     ))}

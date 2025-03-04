@@ -15,11 +15,13 @@ import {useSearchParams} from "next/navigation";
 interface ProductListBaseProps {
     productsData: ProductDataFull;
     productsByCategories: { [key: string]: ProductData[] };
+    categories: string[];
 }
 
 export const ProductListBase: React.FC<ProductListBaseProps> = ({
-                                                                    productsData,
-                                                                    productsByCategories,
+    productsData,
+    productsByCategories,
+    categories
                                                                 }) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const { isSticky } = useStore();
@@ -60,7 +62,12 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
         return () => window.removeEventListener('scroll', onScroll);
     }, [scroll, isSmall, isSticky]);
 
-    const filteredProductsByCategories = useFilteredProducts(productsByCategories, searchTerm);
+    const filteredProductsByCategories = useFilteredProducts(
+        productsByCategories,
+        categories,
+        searchTerm
+    );
+
 
     // Use custom scroll observer to update selected category on scroll
     useScrollObserver({ categoryRefs, isSmall, selectedTab, setSelectedTab });

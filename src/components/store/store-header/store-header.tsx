@@ -24,7 +24,7 @@ interface StoreHeaderProps {
 
 export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
 
-    const { store, sentinelRef } = useStore();
+    const { store} = useStore();
     const { session } = useSession();
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
@@ -113,7 +113,6 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
             <Spacer y={4}/>
             <Divider/>
             <StoreSubHeader dateParam={dateParam} timeParam={timeParam}/>
-            <div ref={sentinelRef} className="h-1"></div>
         </div>
     );
 }

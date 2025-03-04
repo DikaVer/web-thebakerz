@@ -2,8 +2,9 @@
 import React, {Suspense} from "react";
 import {ProductCard} from "@/components/settings/products/product-card";
 import ProductTableSkeleton from "@/components/skeleton/product-table";
-import {getProductsByStoreId} from "@/lib/actions/product";
+import {getCurrentProducts, getProductsByStoreId} from "@/lib/actions/product";
 import {getCurrentSession} from "@/lib/actions/session";
+import {getCurrentProductsOrder, getProductsOrder} from "@/lib/actions/order-products";
 
 interface StorePageProps {
     params: Promise<{
@@ -23,7 +24,9 @@ export default async function Page(props: StorePageProps) {
 
     const session = await getCurrentSession();
 
-    const productsData = await getProductsByStoreId(session?.store?.id ? session?.store?.id : id);
+    const productsData = await getCurrentProducts(session?.store?.id ? session?.store?.id : id);
+
+    const productsOrder = await getCurrentProductsOrder(session?.store?.id ? session?.store?.id : id);
 
 
     return (
@@ -40,6 +43,7 @@ export default async function Page(props: StorePageProps) {
                 <Suspense fallback={<ProductTableSkeleton />}>
                     <ProductCard
                         productsData={productsData}
+                        productsOrder={productsOrder}
                     />
                 </Suspense>
             </div>

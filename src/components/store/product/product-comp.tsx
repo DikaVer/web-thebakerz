@@ -1,9 +1,13 @@
 import React from "react";
 import { ProductListBase } from "@/components/store/product/product-list";
 import {getCurrentProducts, ProductData, ProductDataFull} from "@/lib/actions/product";
+import {getCurrentProductsOrder} from "@/lib/actions/order-products";
+import {sortItems} from "@/lib/helper/sort-items-with-order";
 
 export const ProductComponentBase: React.FC<{ storeId: string }> = async ({ storeId }) => {
     const productsData: ProductDataFull = await getCurrentProducts(storeId);
+
+    const productsOrder = await getCurrentProductsOrder(storeId);
 
     if (productsData === null || Object.keys(productsData).length === 0) {
         return (
@@ -25,8 +29,26 @@ export const ProductComponentBase: React.FC<{ storeId: string }> = async ({ stor
         return acc;
     }, {} as Record<string, ProductData[]>);
 
+    Object.keys(productsOrder).forEach((category) => {
+        const orderForCategory: string[] = productsOrder[category] || [];
+        productsByCategories[category] = sortItems<ProductData>(
+            productsByCategories[category],
+            orderForCategory,
+            (product) => product.constId,
+            (a, b) => a.name.localeCompare(b.name)
+        );
+    });
+
+    const categories = sortItems(
+        Object.keys(productsByCategories),
+        Object.keys(productsOrder),
+        (category) => category,
+        (a, b) => a.localeCompare(b)
+    )
+
     return (
         <ProductListBase
+            categories={categories}
             productsData={productsData}
             productsByCategories={productsByCategories}
         />

@@ -17,6 +17,7 @@ export const ItemCategory = ({ children, item }: { children: React.ReactNode; it
     return (
         <Reorder.Item
             value={item}
+            style={{touchAction: "none"}}
             dragListener={false}
             dragControls={dragControls}
             className='flex items-center w-fit'
@@ -42,7 +43,7 @@ export const ItemProduct = ({ children, item, className }: { children: React.Rea
     return (
         <Reorder.Item
             value={item}
-            style={{ boxShadow, y }}
+            style={{ boxShadow, y, touchAction: "none"  }}
             dragListener={false}
             dragControls={dragControls}
             className={className}
@@ -61,7 +62,7 @@ export const Item = ({ children, item }: { children: React.ReactNode; item: any 
     return (
         <Reorder.Item
             value={item}
-            style={{ boxShadow, y }}
+            style={{ boxShadow, y, touchAction: "none" }}
             dragListener={false}
             dragControls={dragControls}
             className='flex justify-between items-center w-full p-3 text-primary-foreground bg-primary border rounded-md'
@@ -80,6 +81,7 @@ export function ReorderIcon({ dragControls }: Props) {
         <motion.div
             whileTap={{ scale: 0.85 }}
             onPointerDown={(e) => {
+
                 e.preventDefault();
                 dragControls.start(e);
             }}

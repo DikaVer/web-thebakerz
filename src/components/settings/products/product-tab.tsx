@@ -47,7 +47,7 @@ export const ProductTable: React.FC<ProductTabsProps> = ({ category, productsDat
                 >
                         <button
                             onPointerDown={()=>{handleOpenWithProduct(product)}}
-                            className="grid grid-cols-5 col-span-5 cursor-pointer"
+                            className="grid grid-cols-5 col-span-5 cursor-pointer gap-x-4 "
                         >
                             <div className={'col-span-1'}>
                                 <Image
@@ -56,11 +56,13 @@ export const ProductTable: React.FC<ProductTabsProps> = ({ category, productsDat
                                     width={80}
                                 />
                             </div>
-                            <span className={'text-start col-span-3'}>
-                                {product.name}
-                            </span>
-                            <div className={'col-span-1 flex justify-start'}>
-                                {formatCurrency(product.price)}
+                            <div className={'flex flex-col justify-between text-start col-span-4'}>
+                                <span>
+                                    {product.name}
+                                </span>
+                                <span className={'text-small text-default-500 font-medium'}>
+                                    {formatCurrency(product.price)}
+                                </span>
                             </div>
                         </button>
                 </ItemProduct>
