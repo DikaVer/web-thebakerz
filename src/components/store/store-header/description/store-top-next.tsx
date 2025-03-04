@@ -24,9 +24,9 @@ const StoreTopNext: React.FC = () => {
             >
                 <Alert
                     key={"Pick Up Only Alert"}
-                    className={'bg-default-100 items-center my-2'}
+                    className={'bg-default-100 items-center my-2 '}
                     classNames={{
-                        title: 'text-md'
+                        title: 'text-medium '
                     }}
                     title={`Shop offers only pickup orders`}
                     variant={"solid"}
@@ -44,7 +44,7 @@ const StoreTopNext: React.FC = () => {
                     key="Working Hours"
                     aria-label="Working Hours"
                     title="Opening Hours"
-                    className={'px-0 cursor-default'}
+                    className={'px-0'}
                     classNames={{
                         title: 'text-default-500',
                         trigger: 'py-0 cursor-default',
@@ -60,7 +60,7 @@ const StoreTopNext: React.FC = () => {
             </Accordion>
             {store?.phone &&
                 <>
-                    <Divider/>
+                    <Divider />
                     <Link key={"Phone"} isExternal className="text-default-500 justify-between"
                           href={phone.href}>
                         <div className={'flex gap-x-4'}>

@@ -39,12 +39,6 @@ const config = {
 				ring: "hsl(var(--ring))",
 				background: "hsl(var(--background))",
 				foreground: "hsl(var(--foreground))",
-				greenBakerz: "hsl(var(--green-bakerz))",
-				redBakerz: "hsl(var(--red-bakerz))",
-				orangeBakerz: "hsl(var(--orange-bakerz))",
-				grayBg: "hsl(var(--gray-bg))",
-				grayText: "hsl(var(--gray-text))",
-				grayBgComp: "hsl(var(--gray-bg-component))",
 				outlineComp: "hsl(var(--outline-component))",
 				primary: {
 					DEFAULT: "hsl(var(--primary))",
