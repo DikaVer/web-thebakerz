@@ -21,11 +21,12 @@ export const DayHoursComp: React.FC<DayHoursProps> = () => {
 
     return (
         <div>
-            <div className={'w-full flex flex-row justify-between items-end'}>
+            <div className={'w-full flex flex-col justify-between'}>
                 <div>
-                    <p className="text-base font-medium text-default-700">One Day</p>
-                    <p className="mt-1 text-sm font-normal text-default-400">Edit one day only</p>
+                    <p className="text-base font-medium text-default-700">Special Working Hours</p>
+                    <p className="mt-1 text-sm font-normal text-default-400">Select Days with differe</p>
                 </div>
+                <Spacer y={4}/>
                 <DatePicker
                     // @ts-ignore
                     minValue={today(getLocalTimeZone())}

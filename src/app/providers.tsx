@@ -44,6 +44,7 @@ export function Providers({session, children}: {
             <HeroUIProvider
                 locale="nl-NL"
                 navigate={router.push}
+
             >
 
                 <NextThemesProvider attribute="class" defaultTheme="light">
