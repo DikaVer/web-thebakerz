@@ -158,12 +158,15 @@ const DateTimeLocalInput = ({ children, className, ...props }: DateTimeLocalInpu
         onValueChange(newDateTime);
     };
 
+    const [isPopoverOpen, setPopoverOpen] = React.useState(false);
 
     return (
         <Popover
+            isOpen={isPopoverOpen}
+            onOpenChange={setPopoverOpen}
             placement={'top'}
         >
-            <PopoverTrigger>
+            <PopoverTrigger onClick={() => setPopoverOpen(true)}>
                 {children}
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0 bg-background">
@@ -183,7 +186,9 @@ const DateTimeLocalInput = ({ children, className, ...props }: DateTimeLocalInpu
                             initialFocus
                         />
                     )}
-                    {(showTimePicker && value) && <TimePicker />}
+                    {(showTimePicker && value) && <TimePicker
+                        onClose={() => setPopoverOpen(false)}
+                    />}
                 </div>
             </PopoverContent>
         </Popover>
@@ -208,7 +213,7 @@ const useTimeSlots = (timestamp: number = 15) => {
     }, [timestamp]);
 };
 
-const TimePicker = () => {
+const TimePicker = ({onClose}: {onClose: () => void}) => {
     const { value, onValueChange, onTimeChange, schedule } = useSmartDateInput();
     const [activeIndex, setActiveIndex] = React.useState(-1);
     const timestamp = 15; // 15-minute intervals
@@ -270,6 +275,7 @@ const TimePicker = () => {
         (hour: number, minutes: number, index: number) => {
             formatSelectedTime(hour, minutes);
             setActiveIndex(index);
+            onClose();
         },
         [formatSelectedTime]
     );

@@ -12,7 +12,7 @@ import {revalidateTag} from "next/cache";
 // This action is similar to your sendEmail function.
 export const addProduct = async (
     formData: z.infer<typeof ProductSchema>,
-    productId?: string,
+    productId?: string
 ) => {
     if (!(await globalPOSTRateLimit())) {
         return { error: "Too many requests" };
@@ -28,12 +28,15 @@ export const addProduct = async (
         return { error: "User not found!" };
     }
 
-    // Determine which productId to use.
-    const prodId = productId || uuidv4();
+    // Fetch the old product data if updating
+    let oldProductData = null;
+    if (productId) {
+        const oldProduct = await containerProducts.item(productId, store.id).read();
+        oldProductData = oldProduct.resource;
+    }
 
-    // Build the product data object.
     const productData = {
-        id: prodId,
+        id: uuidv4(),
         store_id: store.id,
         category: formData.category,
         name: formData.name,
@@ -42,30 +45,40 @@ export const addProduct = async (
         picture: formData.url,
         ingredients: formData.ingredients || [],
         allergies: formData.allergies || [],
-        createdAt: new Date().toISOString(),
+        createdAt: oldProductData ? oldProductData.createdAt : new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        historySnapshots: oldProductData
+            ? [...(oldProductData.historySnapshots || []), {
+                id: oldProductData.id, date: new Date().toISOString(),
+            }]
+            : [],
+        archive: false,
+        constId: oldProductData ? oldProductData.constId : uuidv4(),
     };
 
     try {
         if (productId) {
-            await containerProducts.item(productData.id, productData.store_id).patch({
+
+            // Update the product's archive status to true.
+            await containerProducts.item(productId, store.id).patch({
                 operations: [
-                    { op: "set", path: "/name", value: productData.name },
-                    { op: "set", path: "/price", value: productData.price },
-                    { op: "set", path: "/description", value: productData.description ?? "" },
-                    { op: "set", path: "/category", value: productData.category },
-                    { op: "set", path: "/picture", value: productData.picture },
-                    { op: "set", path: "/ingredients", value: productData.ingredients },
-                    { op: "set", path: "/allergies", value: productData.allergies },
-                    { op: "set", path: "/updatedAt", value: new Date().toISOString() },
+                    { op: "set", path: "/archive", value: true },
+                    { op: "set", path: "/archivedAt", value: new Date().toISOString()}
                 ],
             });
-        } else {
+
+
             await containerProducts.items.create(productData);
+            revalidateTag('products');
+            return { success: "Products updated!", product: productData };
+
+        } else {
+
+            await containerProducts.items.create(productData);
+            revalidateTag('products');
+            return { success: "Products added!", product: productData };
         }
 
-        revalidateTag('products');
-        return { success: "Products updated successfully!", product: productData };
     } catch (error: any) {
         console.error("Error updating product:", error);
         return { error: "Failed to update product." };
@@ -95,8 +108,14 @@ export const deleteProduct = async (
             return { error: "User not found!" };
         }
 
-        // Delete the product document using its id and the storeId as the partition key.
-        await containerProducts.item(productId, store.id).delete();
+
+        // Update the product's archive status to true.
+        await containerProducts.item(productId, store.id).patch({
+            operations: [
+                { op: "set", path: "/archive", value: true },
+                { op: "set", path: "/archivedAt", value: new Date().toISOString()}
+            ],
+        });
 
         revalidateTag('products');
         return { success: "Product deleted successfully!" };
@@ -115,7 +134,7 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
         }
 
         const querySpec = {
-            query: "SELECT * FROM c WHERE c.store_id = @storeId",
+            query: "SELECT c.id, c.store_id, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.constId FROM c WHERE c.store_id = @storeId AND c.archive = false",
             parameters: [{ name: "@storeId", value: storeId }]
         };
 
@@ -170,6 +189,7 @@ export type ProductData = {
     picture: string;
     ingredients?: string[];
     allergies?: string[];
+    constId: string;
 };
 
 export type ProductDataFull = {

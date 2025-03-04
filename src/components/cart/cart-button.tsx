@@ -18,17 +18,21 @@ import { useProductDialog } from "@/components/providers/product-provider";
 import {useRouter} from "next/navigation";
 import {useStore} from "@/components/providers/store-provider";
 import {CartItemRow} from "@/components/cart/cart-item";
+import {useCart} from "@/components/providers/cart-provider";
 
 
 const CartButton: React.FC = () => {
     const {
-        itemCount,
-        cart,
         getProductDataById,
-        updateItem,
-        removeItem,
         handleOpen
     } = useProductDialog();
+
+    const {
+        itemCount,
+        cart,
+        updateItem,
+        removeItem,
+    } = useCart();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const isMobile = useMediaQuery("(max-width: 768px)");
     const [isLoading, setIsLoading] = useState(false);

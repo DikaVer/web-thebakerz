@@ -229,6 +229,12 @@ const getItemsByRole = (session: SessionValidationResult, store?: StoreData) => 
                             title: `${session.user.username}`,
                         },
                         {
+                            key: "products",
+                            href: `/${session.store?.storeName}/products`,
+                            icon: "solar:bag-5-broken",
+                            title: "Products",
+                        },
+                        {
                             key: "payments",
                             href: `/${session.store?.storeName}/payments`,
                             icon: "solar:wallet-money-broken",

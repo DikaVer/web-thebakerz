@@ -1,11 +1,14 @@
 'use client';
-import React from "react";
+import React, {Suspense} from "react";
 import { Tab, Tabs } from "@heroui/react";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useSession } from "@/components/providers/session-provider";
 import ProfileSetting from "@/components/settings/profile-setting";
 import NotFound from "@/app/(error_layout)/not-found";
-import CalendarSetting from "@/components/settings/calendar-settings";
+import WorkingHoursManager from "@/components/settings/calendar-settings";
+import ProductTableSkeleton from "@/components/skeleton/product-table";
+import ProductManager from "@/components/settings/products-settings";
+import {ProductDialogProvider} from "@/components/providers/product-provider";
 
 export default function Page() {
     const { session } = useSession();
@@ -46,9 +49,12 @@ export default function Page() {
                         <ProfileSetting />
                     </Tab>
                     {session.store && (
-                        <Tab key="calendar" title="Work Hours">
-                            <CalendarSetting />
-                        </Tab>
+                        <>
+                            <Tab key="calendar" title="Work Hours">
+                                <WorkingHoursManager/>
+                            </Tab>
+                        </>
+
                     )}
                 </Tabs>
             </div>

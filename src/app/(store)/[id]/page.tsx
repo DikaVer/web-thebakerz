@@ -11,6 +11,7 @@ import LayoutComp from "@/components/layout-comp";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import {StoreTop} from "@/components/store/store-header/store-top";
 import { FooterStore } from "@/components/footer-store";
+import {CartProvider} from "@/components/providers/cart-provider";
 
 interface StorePageProps {
     params: Promise<{
@@ -39,32 +40,36 @@ export default async function Page(props: StorePageProps) {
     const {date, time} = await getOrderTime()
 
     return (
-        <ProductDialogProvider
+        <CartProvider
             cart={cartData}
             storeId={storeData.id}
         >
-            <StoreProvider
-                store={storeData}
+            <ProductDialogProvider
+                storeId={storeData.id}
             >
-                <LayoutComp
+                <StoreProvider
                     store={storeData}
                 >
-                    <div className="flex flex-col min-h-screen relative z-10 items-center">
-                        <div className="flex flex-col container mx-auto items-center justify-center">
-                            <Spacer y={8}/>
-                                <StoreTop dateParam={date} timeParam={time}/>
-                            <Spacer y={8}/>
-                            <Suspense fallback={<StoreSkeleton/>}>
-                                <ProductComponentBase
-                                    storeId={storeData.id}
-                                />
-                            </Suspense>
+                    <LayoutComp
+                        store={storeData}
+                    >
+                        <div className="flex flex-col min-h-screen relative z-10 items-center">
+                            <div className="flex flex-col container mx-auto items-center justify-center">
+                                <Spacer y={8}/>
+                                    <StoreTop dateParam={date} timeParam={time}/>
+                                <Spacer y={8}/>
+                                <Suspense fallback={<StoreSkeleton/>}>
+                                    <ProductComponentBase
+                                        storeId={storeData.id}
+                                    />
+                                </Suspense>
+                            </div>
+                            <Spacer y={16}/>
                         </div>
-                        <Spacer y={16}/>
-                    </div>
-                    <FooterStore/>
-                </LayoutComp>
-            </StoreProvider>
-        </ProductDialogProvider>
+                        <FooterStore/>
+                    </LayoutComp>
+                </StoreProvider>
+            </ProductDialogProvider>
+        </CartProvider>
     );
 }

@@ -5,12 +5,10 @@ import {
     ModalContent,
 } from "@heroui/react";
 import {ProductData} from "@/lib/actions/product";
-import {useTheme} from "next-themes";
 import {useSession} from "@/components/providers/session-provider";
 import {ItemCart} from "@/lib/actions/cart";
 import UserProductDialog from "@/components/store/product/dialog/user-product";
 import BakerzProductDialog from "@/components/store/product/dialog/bakerz-product";
-import {IconClose} from "@/components/ui/icons";
 import {useMediaQuery} from "usehooks-ts";
 type ProductDialogProps = {
     storeId: string;
@@ -22,7 +20,6 @@ type ProductDialogProps = {
 
 export default function ProductDialog({storeId, productData, itemCart, isOpen, onClose }: ProductDialogProps) {
 
-    const { theme } = useTheme();
 
     const { session } = useSession();
     const isSmall = useMediaQuery("(max-width: 800px)");

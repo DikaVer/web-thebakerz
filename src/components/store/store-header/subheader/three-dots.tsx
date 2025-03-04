@@ -60,7 +60,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                                 />
                             }
                             onPress={() => {
-                                navigator.clipboard.writeText('https://thebakerz.com/' + store?.storeName);
+                                navigator.clipboard.writeText(process.env.NEXT_PUBLIC_API_BASE_URL + '/' + store?.storeName);
                                 showSuccessMessage({ success: "Store Link Copied!" });
                             }}
                         >

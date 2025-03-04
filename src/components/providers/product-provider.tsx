@@ -11,11 +11,6 @@ interface ProductDialogContextProps {
     getProductDataById: (productId: string) => ProductData | undefined;
     handleOpenWithProduct: (product: ProductData, itemCart?: ItemCart) => void;
     setProductsDataLocal: (data: ProductDataFull) => void;
-    cart: CartData;
-    itemCount: number;
-    addItem: (cart: ItemCart) => void;
-    updateItem: (cart: ItemCart) => Promise<boolean>;
-    removeItem: (cart: ItemCart) => Promise<boolean>;
 }
 
 export const useProductDialog = () => {
@@ -28,20 +23,12 @@ export const useProductDialog = () => {
 
 const ProductDialogContext = createContext<ProductDialogContextProps | undefined>(undefined);
 
-export const ProductDialogProvider: React.FC<{ children: ReactNode; cart: CartData; storeId: string; productsDataServer?: ProductDataFull }> = ({
-                                                                                                              children,
-                                                                                                              cart,
-                                                                                                              storeId,
-                                                                                                                productsDataServer,
-                                                                                                          }) => {
+export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDataServer?: ProductDataFull; storeId: string }> = ({children, productsDataServer, storeId}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [productData, setProductData] = useState<ProductData | undefined>();
     const [productsData, setProductsData] = useState<ProductDataFull>(productsDataServer ? productsDataServer : {});
     const [itemCart, setItemCartId] = useState<ItemCart | undefined>();
-    const [cartData, setCart] = useState<CartData>(cart);
 
-    const initialItemCount = cartData[storeId] ? Object.keys(cartData[storeId]).length : 0;
-    const [itemCount, setItemCount] = useState<number>(initialItemCount);
 
     const onClose = () => {
         setIsOpen(false);
@@ -73,56 +60,7 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode; cart: CartDa
         setProductsData(data);
     };
 
-    const addItem = (cart: ItemCart) => {
-        setItemCount((prevCount) => prevCount + 1);
-        setCart((prevCart) => ({
-            ...prevCart,
-            [cart.store_id]: {
-                ...prevCart[cart.store_id],
-                [cart.id]: cart,
-            },
-        }));
-    };
 
-    // Async update: calls server action updateCart and updates local state
-    const updateItem = async (cart: ItemCart) => {
-        const result = await updateCart(cart.product_id, cart.store_id, cart.note, cart.quantity, cart.id);
-        if (result.success && result.itemCart) {
-            setCart((prevCart) => {
-                return {
-                    ...prevCart,
-                    [cart.store_id]: {
-                        ...prevCart[cart.store_id],
-                        [cart.id]: cart,
-                    },
-                };
-            });
-            return true;
-        } else {
-            showErrorMessage({ error: result.error ? result.error : "Error updating cart item" });
-            return false;
-        }
-    };
-
-    // Async remove: calls server action removeCartItem and updates local state
-    const removeItem = async (cart: ItemCart) => {
-        const result = await removeCartItem(storeId, cart.id);
-        if (result.success) {
-            setItemCount((prevCount) => prevCount - 1);
-            setCart((prevCart) => {
-                const newCart = { ...prevCart };
-                if (newCart[cart.store_id]) {
-                    delete newCart[cart.store_id][cart.id];
-                }
-                return newCart;
-            });
-            return true;
-        } else {
-            console.error("Error removing cart item", result.error);
-            showErrorMessage({ error: result.error ? result.error : "Error removing cart item" });
-            return false;
-        }
-    };
 
     return (
         <ProductDialogContext.Provider
@@ -131,11 +69,6 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode; cart: CartDa
                 handleOpen,
                 getProductDataById,
                 setProductsDataLocal,
-                cart: cartData,
-                itemCount,
-                removeItem,
-                updateItem,
-                addItem,
             }}
         >
             <ProductDialog storeId={storeId} productData={productData} isOpen={isOpen} onClose={onClose} itemCart={itemCart} />

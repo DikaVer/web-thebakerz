@@ -27,6 +27,7 @@ import CustomAlert from "@/components/ui/custom-alerts";
 import {Icon} from "@iconify/react";
 import {useMediaQuery} from "usehooks-ts";
 import {AllergenIcon} from "@/components/store/product/components/allergy-icons";
+import {useCart} from "@/components/providers/cart-provider";
 
 type ProductDialogProps = {
     productData: ProductData;
@@ -46,7 +47,11 @@ export default function UserProductDialog({
     const totalPrice = formatCurrency((productData?.price || 1) * quantity);
     const [note, setNote] = useState(itemCart?.note || "");
     const [isLoading, setIsLoading] = useState(false);
-    const { addItem, updateItem } = useProductDialog();
+
+    const {
+        addItem,
+        updateItem,
+    } = useCart();
     const isSmall = useMediaQuery("(max-width: 1000px)");
     
 

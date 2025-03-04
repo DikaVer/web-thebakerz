@@ -38,7 +38,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
         if (productsData) {
             setProductsDataLocal(productsData);
         }
-    }, [productsData, setProductsDataLocal]);
+    }, [productsData]);
 
     // Handle initial product dialog
     useEffect(() => {

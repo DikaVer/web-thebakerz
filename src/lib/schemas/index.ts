@@ -174,6 +174,10 @@ export const ProfileSchema = z
             .max(2000, "Description must be at most 2000 characters")
             .optional(),
         storeName: nicknameSchema.optional(),
+        storeSlug: z
+            .string()
+            .max(100, "Description must be at most 100 characters")
+            .optional(),
         facebook_url: z
             .string()
             .optional()
@@ -213,6 +217,13 @@ export const ProfileSchema = z
                     code: z.ZodIssueCode.custom,
                     message: "Store name is required",
                     path: ["storeName"],
+                });
+            }
+            if (!data.storeSlug || data.storeSlug.trim() === "") {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "Store Slug is required",
+                    path: ["storeSlug"],
                 });
             }
         }

@@ -80,9 +80,9 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
         async (previousState: any, formData: z.infer<typeof ProductSchema>) => {
             const result = await addProduct(formData, productData?.id);
             if (result?.success) {
-                showSuccessMessage({ success: "Product added!" });
-                onClose();
+                showSuccessMessage({ success: result.success });
                 router.refresh();
+                onClose();
             } else if (result?.error) {
                 showErrorMessage({ error: result.error });
             }

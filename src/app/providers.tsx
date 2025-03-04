@@ -1,5 +1,19 @@
 'use client'
 
+import {
+    QueryClient,
+    QueryClientProvider,
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            //@ts-ignore
+            suspense: true,
+        },
+    },
+})
+
 import {HeroUIProvider, ToastProvider} from "@heroui/react";
 import dynamic from 'next/dynamic'
 import {useRouter} from "next/navigation";
@@ -33,10 +47,12 @@ export function Providers({session, children}: {
             >
 
                 <NextThemesProvider attribute="class" defaultTheme="light">
-                    <SessionProvider sessionData={session}>
-                        <ToastProvider />
-                        {children}
-                    </SessionProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <SessionProvider sessionData={session}>
+                            <ToastProvider />
+                            {children}
+                        </SessionProvider>
+                    </QueryClientProvider>
                 </NextThemesProvider>
             </HeroUIProvider>
     )

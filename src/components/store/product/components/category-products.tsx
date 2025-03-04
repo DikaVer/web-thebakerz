@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, {useState} from 'react';
 import { Spacer, Divider } from '@heroui/react';
 import {
     Carousel,
@@ -23,40 +23,32 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
                                                                       category,
                                                                       products,
                                                                       setCategoryRef,
-                                                                  }) => (
-    <div ref={(el) => setCategoryRef(category, el)}>
-        <Spacer y={8} />
-        <div className={'flex flex-row items-start justify-start w-full'}>
-            <GradientText
-                colors={["#a2119d", "#730C6F", "#a2119d", "#730C6F", "#a2119d"]}
-                animationSpeed={10}
-                showBorder={false}
-                className="text-xl desktop:text-2xl font-bold items-start"
-            >
-                {category}
-            </GradientText>
+                                                                  }) => {
+
+    return (
+        <div ref={(el) => setCategoryRef(category, el)}>
+            <Spacer y={8}/>
+            <div className={'flex flex-row items-start justify-start w-full'}>
+                <GradientText
+                    colors={["#a2119d", "#730C6F", "#a2119d", "#730C6F", "#a2119d"]}
+                    animationSpeed={10}
+                    showBorder={false}
+                    className="text-xl desktop:text-2xl font-bold items-start"
+                >
+                    {category}
+                </GradientText>
+            </div>
+            <Spacer y={4}/>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center items-center w-full">
+
+                    {products.map((product) => (
+                            <div key={product.id} className={'m-0.5'}>
+                                <ProductBase productData={product} />
+                            </div>
+                    ))}
+            </div>
+            <Spacer y={8}/>
+            <Divider/>
         </div>
-        <Spacer y={4} />
-        {/*<Carousel opts={{ align: "start" }} className="w-full">*/}
-        {/*    <CarouselContent>*/}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center items-center w-full">
-            {products.map((product) => (
-                // <CarouselItem key={product.id} className="sm:basis-1/2 lg:basis-1/3">
-                <div key={product.id} className={'m-0.5'}>
-                    <ProductBase productData={product}/>
-                </div>
-                // </CarouselItem>
-            ))}
-        </div>
-        {/*    </CarouselContent>*/}
-        {/*    <CarouselPrevious />*/}
-        {/*    <CarouselNext />*/}
-        {/*    <Spacer y={4} />*/}
-        {/*    <div className="flex justify-center">*/}
-        {/*        <SliderDotButton />*/}
-        {/*    </div>*/}
-        {/*</Carousel>*/}
-        <Spacer y={8} />
-        <Divider />
-    </div>
-);
+    )
+};

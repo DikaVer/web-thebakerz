@@ -59,6 +59,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                 name: user.username,
                 description: store?.description || undefined,
                 storeName: store?.storeName || undefined,
+                storeSlug: store?.slug || undefined,
                 facebook_url: store?.facebook_url || undefined,
                 instagram_url: store?.instagram_url || undefined,
             },
@@ -95,7 +96,8 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                             storeName: formData.storeName,
                                             description: formData.description,
                                             facebook_url: formData.facebook_url,
-                                            instagram_url: formData.instagram_url
+                                            instagram_url: formData.instagram_url,
+                                            slug: formData.storeSlug
 
                                         } as StoreData
                                     : null
@@ -119,8 +121,9 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
             });
         };
 
+
         return (
-            <div ref={ref} className={cn("p-2", className)} {...props}>
+            <div ref={ref} className={cn( className)} {...props}>
                 {/* Profile */}
                 <div>
                     <ImageUploader
@@ -232,6 +235,32 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                     />
                                 </div>
                                 <Spacer y={2}/>
+                                <div>
+                                    {/* Store Slug */}
+                                    <p className="text-base font-medium text-default-700">Store Slug</p>
+                                    <p className="mt-1 text-sm font-normal text-default-400">How user can recognize you</p>
+                                    <FormField
+                                        control={form.control}
+                                        name="storeSlug"
+                                        render={({field, fieldState}) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        isRequired
+                                                        className={'mt-2'}
+                                                        placeholder='Type your store slug'
+                                                        type="text"
+                                                        validate={() => {
+                                                            return fieldState.error?.message;
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <Spacer y={2}/>
                                 {/* Location & Phone Number */}
                                 <div>
                                     <p className="text-base font-medium text-default-700">Location & Phone Number</p>
@@ -245,6 +274,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                             Contact Us
                                         </Link>
                                     </p>
+                                    <Spacer y={2}/>
                                     <Input
                                         isDisabled
                                         className={'mt-2 opacity-100'}

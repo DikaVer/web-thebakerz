@@ -6,18 +6,12 @@ import React, { useState } from "react";
 import { useSession } from "@/components/providers/session-provider";
 import NotFound from "@/app/(error_layout)/not-found";
 import { ScheduleOrder } from "@/components/checkout/schedule/schedule-order";
-import { CheckoutProvider } from '@stripe/react-stripe-js';
 import CartCheckout from "@/components/checkout/schedule/cart-checkout";
 import { replaceGuestCart } from "@/lib/actions/cart";
 import { useStore } from "@/components/providers/store-provider";
 import showErrorMessage from "@/components/toast/toast-error";
-import PaymentForm from "@/components/checkout/payment/payment-form";
-import { loadStripe } from '@stripe/stripe-js';
-import { CheckoutProviderStripe } from "@/components/checkout/payment/payment-provider";
+import Checkout from "@/components/checkout/payment/checkout";
 
-const stripePromise = loadStripe("pk_test_VOOyyYjgzqdm8I3SrBqmh9qY", {
-    betas: ['custom_checkout_beta_5'],
-});
 
 export default function CheckoutSteps({ date, time }: { date: string | null; time: string | null }) {
     const { session } = useSession();
@@ -142,26 +136,18 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
                 >
                     <CartCheckout handleNext={() => handleNext(4)}/>
                 </AccordionItem>
-                <AccordionItem
-                    key="4"
-                    className={'shadow-none border-1'}
-                    aria-label="Payment Details"
-                    title="4. Payment Details"
-                    indicator={<Icon icon={'solar:wallet-money-broken'} width={24} />}
-                    disableIndicatorAnimation
-                >
-                    <CheckoutProviderStripe />
-                </AccordionItem>
+                {/*<AccordionItem*/}
+                {/*    key="4"*/}
+                {/*    className={'shadow-none border-1'}*/}
+                {/*    aria-label="Payment Details"*/}
+                {/*    title="4. Payment Details"*/}
+                {/*    indicator={<Icon icon={'solar:wallet-money-broken'} width={24} />}*/}
+                {/*    disableIndicatorAnimation*/}
+                {/*>*/}
+                {/*    <Checkout/>*/}
+                {/*</AccordionItem>*/}
             </Accordion>
-            <Spacer y={8} />
-            <Button
-                isDisabled
-                radius={'full'}
-                variant={'ghost'}
-                className={'w-full'}
-            >
-                Place Order
-            </Button>
+
         </>
     );
 }

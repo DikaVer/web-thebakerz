@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
-import {Button, Input} from "@heroui/react";
+import {Button, cn, Input} from "@heroui/react";
 import {AllergenIcon} from "@/components/store/product/components/allergy-icons";
 
 interface TagsInputProps {
@@ -97,7 +97,10 @@ export const TagsInput: React.FC<TagsInputProps> = ({
                     ) : (
                         <div
                             onClick={() => handleRemoveTag(tag)}
-                            className={`flex items-center gap-1 px-2 pl-2 py-1 text-sm font-medium rounded-full bg-${type}-300 cursor-pointer hover:bg-${type}-500`}
+                            className={cn("flex items-center gap-1 px-2 pl-2 py-1 text-sm font-medium rounded-full cursor-pointer", {
+                                "bg-default-300 hover:bg-default-400": type === "default",
+                                "bg-warning-300 hover:bg-warning-400": type === "warning"
+                            })}
                         >
                             <AllergenIcon allergen={tag} />
                             <span>{tag}</span>

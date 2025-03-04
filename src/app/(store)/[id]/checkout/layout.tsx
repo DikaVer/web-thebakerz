@@ -11,6 +11,7 @@ import StoreSkeleton from "@/components/skeletons";
 import {getCart, getCurrentCart} from "@/lib/actions/cart";
 import {getOrderTime} from "@/app/(store)/[id]/actions";
 import {getCurrentProducts, getProductsByStoreId, ProductDataFull} from "@/lib/actions/product";
+import {CartProvider} from "@/components/providers/cart-provider";
 
 type Params = Promise<{ id: string  }>
 
@@ -40,25 +41,29 @@ export default async function Layout({
     const productsData: ProductDataFull = await getCurrentProducts(storeData.id);
 
     return (
-        <ProductDialogProvider
-            productsDataServer={productsData}
+        <CartProvider
             cart={cartData}
             storeId={storeData.id}
         >
-            <StoreProvider
-                store={storeData}
+            <ProductDialogProvider
+                productsDataServer={productsData}
+                storeId={storeData.id}
             >
-                <LayoutComp
-                    hideSideBar={true}
+                <StoreProvider
                     store={storeData}
                 >
-                    <div className={'min-h-svh'}>
-                        <Suspense fallback={<StoreSkeleton/>}>
-                            {children}
-                        </Suspense>
-                    </div>
-                </LayoutComp>
-            </StoreProvider>
-        </ProductDialogProvider>
+                    <LayoutComp
+                        hideSideBar={true}
+                        store={storeData}
+                    >
+                        <div className={'min-h-svh'}>
+                            <Suspense fallback={<StoreSkeleton/>}>
+                                {children}
+                            </Suspense>
+                        </div>
+                    </LayoutComp>
+                </StoreProvider>
+            </ProductDialogProvider>
+        </CartProvider>
     );
 }

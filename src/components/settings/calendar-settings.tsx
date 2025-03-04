@@ -1,15 +1,11 @@
 'use client';
 
 import React from "react";
-import {Divider, Spacer} from "@heroui/react";
+import {Spacer} from "@heroui/react";
 import {WorkingHoursComp} from "@/components/settings/calendar/schedule-picker";
-import { DayHoursComp} from "@/components/settings/calendar/day-picker";
 
 
 const WorkingHoursManager = () => {
-
-
-
 
     return (
         <div>
@@ -18,7 +14,7 @@ const WorkingHoursManager = () => {
                 Set your working hours for each day of the week
             </p>
             <Spacer y={4}/>
-                <WorkingHoursComp/>
+                <WorkingHoursComp />
             <Spacer y={16}/>
             {/*<Divider/>*/}
             {/*<Spacer y={16}/>*/}

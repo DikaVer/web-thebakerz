@@ -13,17 +13,21 @@ import { formatCurrency } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useStore } from "@/components/providers/store-provider";
 import {CartItemRow} from "@/components/cart/cart-item";
+import {useCart} from "@/components/providers/cart-provider";
 
 
 const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     const {
-        itemCount,
-        cart,
         getProductDataById,
-        updateItem,
-        removeItem,
         handleOpen,
     } = useProductDialog();
+
+    const {
+        itemCount,
+        cart,
+        updateItem,
+        removeItem,
+    } = useCart();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const isMobile = useMediaQuery("(max-width: 768px)");
     const [isLoading, setIsLoading] = useState(false);
@@ -116,6 +120,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                         className="w-full bg-gradient-primary text-2xl rounded-full text-white"
                         onPress={() => {
                             setIsLoading(true);
+                            router.push(`/pay`);
                             handleNext();
                         }}
                     >

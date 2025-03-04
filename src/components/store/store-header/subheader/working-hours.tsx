@@ -159,7 +159,7 @@ export const renderCalendarContent = () => {
     return (
         <div className={'flex w-full justify-center'}>
             <div className="flex flex-wrap items-center justify-center max-w-52">
-                {["monday", "friday", "tuesday", "thursday", "wednesday", "saturday", "sunday"].map((day, index) => {
+                {["monday", "thursday", "tuesday", "friday", "wednesday", "saturday", "sunday"].map((day, index) => {
                     //@ts-ignore
                     const workday = store.schedule[day];
 
@@ -179,7 +179,7 @@ export const renderCalendarContent = () => {
                     return (
                         <div
                             key={day}
-                            className={`${isSunday ? "ml-4 w-[40%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col`}
+                            className={`${isSunday ? "ml-4 w-[40%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col mb-1`}
                         >
                             <span className="text-sm font-medium text-default-600">
                               {day.charAt(0).toUpperCase() + day.slice(1)}

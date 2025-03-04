@@ -54,6 +54,7 @@ export const updateProfile = async (
             user.id,
             formData.facebook_url,
             formData.instagram_url,
+            formData.storeSlug
         );
         revalidateTag('store');
     }

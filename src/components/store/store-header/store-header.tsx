@@ -26,17 +26,16 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
 
     const { store, sentinelRef } = useStore();
     const { session } = useSession();
-    const { theme } = useTheme();
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
 
-    const isSmall = useMediaQuery("(max-width: 768px)");
+    const isSmall = useMediaQuery("(max-width: 960px)");
 
 
     return (
         <div>
             <div
-                className={'flex flex-row w-full justify-between'}
+                className={`flex flex-row w-full justify-between`}
             >
                 <div className="flex flex-row gap-x-4 justify-center"
                      onClick={(e) => {

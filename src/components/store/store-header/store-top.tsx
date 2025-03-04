@@ -26,13 +26,13 @@ export function StoreTop({dateParam, timeParam}: StoreTopProps) {
     const { session} = useSession();
     const { store } = useStore();
     const { handleOpen } = useProductDialog();
-    const isSmall = useMediaQuery("(max-width: 768px)");
+    const isSmall = useMediaQuery("(max-width: 960px)");
 
     return (
         <div className={'w-full flex flex-col'}>
             <Card
                 shadow={'sm'}
-                className={'max-w-[950px] w-full'}
+                className={`w-full ${isSmall ? 'max-w-[474px]' : 'max-w-[950px]'}`}
             >
                 <CardBody
                     className={'p-4'}

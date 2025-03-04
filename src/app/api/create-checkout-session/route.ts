@@ -1,11 +1,10 @@
-
-import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
-const stripe = new Stripe('sk_test_Gx4mWEgHtCMr4DYMUIqfIrsz', {
-    apiVersion: '2025-01-27.acacia; custom_checkout_beta=v1' as any,
-});
+import {stripe} from "@/stripe";
+
 
 export async function POST(req: Request) {
+
+    const { items, storeStripeId, storeId } = await req.json();
 
     try {
         const session = await stripe.checkout.sessions.create({
@@ -24,9 +23,8 @@ export async function POST(req: Request) {
             mode: 'payment',
             ui_mode: 'custom',
             // The URL of your payment completion page
-            return_url: 'http://localhost:3000/dikaver_whites/checkout'
+            return_url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/${storeId}/checkout`
         });
-
 
 
         return NextResponse.json({clientSecret: session.client_secret}, { status: 200 });

@@ -10,10 +10,9 @@ import {
 
 import {Icon, IconProps} from "@iconify/react";
 import {useRouter, useSearchParams} from "next/navigation";
-import {CalendarDateTime, CalendarDate, now, today, ZonedDateTime} from "@internationalized/date";
+import {CalendarDateTime, CalendarDate} from "@internationalized/date";
 
 import {useStore} from "@/components/providers/store-provider";
-import {useTheme} from "next-themes";
 import {
     parseDateParams,
 
@@ -65,7 +64,6 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
                     title={`Shop offers only pickup orders`}
                     variant={"solid"}
                 />
-
                 <Divider/>
 
                 <Accordion
@@ -77,12 +75,12 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
                         key="Working Hours"
                         aria-label="Working Hours"
                         title="Opening Hours"
-                        className={'px-0 cursor-default'}
+                        className={'px-0 cursor-default text-default-500'}
                         classNames={{
-                            title: 'text-text',
+                            title: 'text-default-500',
                             trigger: 'py-0 cursor-default',
                         }}
-                        startContent={<Icon icon={'solar:clock-circle-outline'} className={'text-text'} width={24}/> }
+                        startContent={<Icon icon={'solar:clock-circle-outline'} className={'text-default-500'} width={24}/> }
                         indicator={<></>}
                     >
                         <>
@@ -98,7 +96,7 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
                               href={phone.href}>
                             <div className={'flex gap-x-4'}>
                                 <phone.icon aria-hidden="true"/>
-                                <p className={'text-text text-md'}>
+                                <p className={' text-md'}>
                                     {store.phone}
                                 </p>
                                 <span className="sr-only">{phone.name}</span>
@@ -115,8 +113,9 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
             <Spacer y={4}/>
             <div className={'flex flex-row w-full justify-center'}>
                 <Button
+                    variant={'bordered'}
                     isDisabled={!(selectedDate instanceof CalendarDateTime)}
-                    className={'bg-gradient-primary text-white w-full max-w-[440px]'}
+                    className={`${!(selectedDate instanceof CalendarDateTime) ? "" : "bg-gradient-primary text-white border-none"}  w-full max-w-[440px]`}
                     endContent={<Icon icon={'solar:alt-arrow-right-linear'} width={24}/>}
                     onPress={() => {
                         if (selectedDate instanceof CalendarDateTime) {

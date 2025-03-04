@@ -88,7 +88,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
         store_locations.latitude AS store_latitude,
         store_locations.longitude AS store_longitude
     FROM stores
-    INNER JOIN store_locations ON store_locations.store_id = store_id
+             INNER JOIN store_locations ON store_locations.store_id = stores.id
     WHERE stores.user_id = $1
     `,
         [userId]
@@ -118,6 +118,8 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 longitude: rowS.store_longitude
             }
         };
+
+        console.log(store)
 
 
         await getScheduleById(store.id, store.id)
