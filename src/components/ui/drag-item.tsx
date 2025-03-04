@@ -35,11 +35,14 @@ export const ItemCategory = ({ children, item }: { children: React.ReactNode; it
 };
 
 export const ItemProduct = ({ children, item, className }: { children: React.ReactNode; item: any; className?: string; }) => {
+    const y = useMotionValue(0);
+    const boxShadow = useRaisedShadow(y);
     const dragControls = useDragControls();
 
     return (
         <Reorder.Item
             value={item}
+            style={{ boxShadow, y }}
             dragListener={false}
             dragControls={dragControls}
             className={className}
