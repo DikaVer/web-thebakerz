@@ -216,7 +216,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                         onPress={handleSaveOrder}
                         color={'secondary'}
                     >
-                        {!isLoading ? `Update Product & Category Order` : "Updating Order..."}
+                        {!isLoading ? `Update Product & Category Orders` : "Updating Orders..."}
                     </Button>
                 </CardFooter>
             </Card>
