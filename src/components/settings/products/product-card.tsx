@@ -44,9 +44,6 @@ export const ProductCard: React.FC<{productsData: ProductDataFull; productsOrder
                     productsData={productsData}
                 />
             </Tab>
-            <Tab key="categories" title="Categories">
-                <></>
-            </Tab>
         </Tabs>
     );
 }
