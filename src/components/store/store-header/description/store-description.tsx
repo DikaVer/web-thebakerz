@@ -192,9 +192,9 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                         </div>
                                         <Icon icon={'mi:arrow-right-up'} width={24}/>
                                     </Link>
+                                    <Divider/>
                                 </>
                             }
-                            <Divider/>
                         </ModalBody>
                         <ModalFooter>
                             <Button color="primary" radius={'full'} onPress={onClose}>

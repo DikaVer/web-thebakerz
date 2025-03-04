@@ -15,11 +15,8 @@ import {Icon} from "@iconify/react";
 import {useRouter, useSearchParams} from "next/navigation";
 import {CalendarDateTime, CalendarDate, today,} from "@internationalized/date";
 
-import ThreeDotsDropdown from "@/components/store/store-header/subheader/three-dots";
-import {renderCalendarTopContent} from "@/components/store/store-header/subheader/working-hours";
 import {useStore} from "@/components/providers/store-provider";
 import {updateOrderTime} from "@/app/(store)/[id]/actions";
-import {useProductDialog} from "@/components/providers/product-provider";
 import {
     parseDateParams,
     parseDateTime,
@@ -97,53 +94,49 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                 <div className={'h-40 w-full rounded-medium border-1 overflow-hidden'}>
                     <LocationMap latitude={latitude} longitude={longitude}  />
                 </div>
-
-                <div className={'flex flex-row justify-between gap-x-4'}>
-
-                        {session?.user?.role !== "bakerz" && (
-                            <>
-                                <Spacer y={4}/>
-                                <ButtonGroup
-                                    fullWidth
-                                    size={'sm'}
-                                    radius={'md'}
-                                    className={'text-grayText'}
+                {(session?.user?.role !== "bakerz" || session.store?.id !== store.id) && (
+                    <>
+                        <Spacer y={4}/>
+                        <ButtonGroup
+                            fullWidth
+                            size={'sm'}
+                            radius={'md'}
+                            className={'text-grayText'}
+                        >
+                            <SmartDatetimeInput
+                                schedule={store.schedule}
+                                minValue={today("Europe/Amsterdam")}
+                                value={selectedDate}
+                                onValueChange={handleDateChange}
+                                placeholder='Schedule Order Time'
+                            >
+                                <Button
+                                    startContent={<Icon icon={'solar:walking-round-linear'} width={24}/>}
+                                    variant={selectedDate instanceof CalendarDateTime ? "bordered" : 'solid'}
+                                    className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600' : 'text-white bg-gradient-primary'} text-sm`}
+                                    onPress={() =>
+                                        addToast({
+                                            // title: "Pick Up",
+                                            description: "Pick Up Option is selected",
+                                            //@ts-ignore
+                                            color: "success",
+                                            shouldShowTimeoutProgress: true,
+                                            timeout: 1000,
+                                        })}
                                 >
-                                    <SmartDatetimeInput
-                                        schedule={store.schedule}
-                                        minValue={today("Europe/Amsterdam")}
-                                        value={selectedDate}
-                                        onValueChange={handleDateChange}
-                                        placeholder='Schedule Order Time'
-                                    >
-                                        <Button
-                                            startContent={<Icon icon={'solar:walking-round-linear'} width={24}/>}
-                                            variant={selectedDate instanceof CalendarDateTime ? "bordered" : 'solid'}
-                                            className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600' : 'text-white bg-gradient-primary'} text-sm`}
-                                            onPress={() =>
-                                                addToast({
-                                                    // title: "Pick Up",
-                                                    description: "Pick Up Option is selected",
-                                                    //@ts-ignore
-                                                    color: "success",
-                                                    shouldShowTimeoutProgress: true,
-                                                    timeout: 1000,
-                                                })}
-                                        >
-                                            {(selectedDate instanceof CalendarDateTime) ? `Pick Up at ${formatDate(selectedDate)}` : "Select Pick Up Time"}
-                                        </Button>
-                                    </SmartDatetimeInput>
-                                    {/*<Button*/}
-                                    {/*    isDisabled*/}
-                                    {/*    startContent={<Icon icon={'bxs:car'} width={24}/>}*/}
-                                    {/*    variant="bordered"*/}
-                                    {/*>*/}
-                                    {/*    Delivery*/}
-                                    {/*</Button>*/}
-                                </ButtonGroup>
-                            </>
-                        )}
-                </div>
+                                    {(selectedDate instanceof CalendarDateTime) ? `Pick Up at ${formatDate(selectedDate)}` : "Select Pick Up Time"}
+                                </Button>
+                            </SmartDatetimeInput>
+                            {/*<Button*/}
+                            {/*    isDisabled*/}
+                            {/*    startContent={<Icon icon={'bxs:car'} width={24}/>}*/}
+                            {/*    variant="bordered"*/}
+                            {/*>*/}
+                            {/*    Delivery*/}
+                            {/*</Button>*/}
+                        </ButtonGroup>
+                    </>
+                )}
         </div>
     );
 }
