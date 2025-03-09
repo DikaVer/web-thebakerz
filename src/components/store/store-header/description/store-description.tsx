@@ -7,6 +7,7 @@ import {useStore} from "@/components/providers/store-provider";
 import {IconLocation} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
 import {renderCalendarContent} from "@/components/store/store-header/subheader/working-hours";
+import {useTranslations} from "next-intl";
 
 type SocialIconProps = Omit<IconProps, "icon">;
 
@@ -19,6 +20,8 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
 
     const location = store?.location.route ? `${store.location.route}` : "Address Placeholder";
     const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
+
+    const t = useTranslations ("Shop");
 
     const phone = {
         name: "Phone",
@@ -88,8 +91,8 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                     description: 'text-white dark:text-default-500',
                                     title: 'text-md'
                                 }}
-                                title={`Shop offers only pickup orders`}
-                                description={`Working hours and pickup address are presented below. You can select pickup time and day during checkout.`}
+                                title={t("Alert")}
+                                description={t("Alert Hover")}
                                 variant={"solid"}
                             />
 
@@ -140,7 +143,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                     <AccordionItem
                                         key="Working Hours"
                                         aria-label="Working Hours"
-                                        title="Opening Hours"
+                                        title={t("Opening Hours")}
                                         className={'px-0'}
                                         classNames={{
                                             title: 'text-text',

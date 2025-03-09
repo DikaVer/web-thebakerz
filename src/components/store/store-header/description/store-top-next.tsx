@@ -4,12 +4,15 @@ import {Link, Divider, Spacer, Alert, AccordionItem, Accordion, Tooltip} from "@
 import {Icon, IconProps} from '@iconify/react';
 import {useStore} from "@/components/providers/store-provider";
 import {renderCalendarContent} from "@/components/store/store-header/subheader/working-hours";
+import {useTranslations} from "next-intl";
 
 type SocialIconProps = Omit<IconProps, "icon">;
 
 const StoreTopNext: React.FC = () => {
 
     const { store } = useStore();
+
+    const t = useTranslations('Shop')
 
     const phone = {
         name: "Phone",
@@ -20,7 +23,7 @@ const StoreTopNext: React.FC = () => {
     return (
         <div className={'flex flex-col gap-y-4 w-full'}>
             <Tooltip
-                content={<p className={'max-w-sm'}>Working hours and pickup address are presented below. You can select pickup time and day during checkout.</p>}
+                content={<p className={'max-w-sm'}>{t("Alert Hover")}</p>}
             >
                 <Alert
                     key={"Pick Up Only Alert"}
@@ -28,7 +31,7 @@ const StoreTopNext: React.FC = () => {
                     classNames={{
                         title: 'text-medium '
                     }}
-                    title={`Shop offers only pickup orders`}
+                    title={t("Alert")}
                     variant={"solid"}
                 />
             </Tooltip>
@@ -43,7 +46,7 @@ const StoreTopNext: React.FC = () => {
                 <AccordionItem
                     key="Working Hours"
                     aria-label="Working Hours"
-                    title="Opening Hours"
+                    title={t("Opening Hours")}
                     className={'px-0'}
                     classNames={{
                         title: 'text-default-500',

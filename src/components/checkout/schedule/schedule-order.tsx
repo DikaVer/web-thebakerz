@@ -19,6 +19,7 @@ import {
 } from "@/components/store/store-header/calendar/calendar-params";
 import {StoreSubHeader} from "@/components/store/store-header/store-subheader";
 import {renderCalendarContent} from "@/components/store/store-header/subheader/working-hours";
+import {useTranslations} from "next-intl";
 
 
 interface StoreSubHeaderProps {
@@ -32,9 +33,9 @@ type SocialIconProps = Omit<IconProps, "icon">;
 export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeaderProps) {
     const searchParams = useSearchParams();
     const { store } = useStore();
-
     const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
 
+    const t = useTranslations ("Schedule Order");
     const phone = {
         name: "Phone",
         href: `tel:${store?.phone}`,
@@ -61,7 +62,7 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
                     classNames={{
                         title: 'text-md'
                     }}
-                    title={`Shop offers only pickup orders`}
+                    title={t("Alert")}
                     variant={"solid"}
                 />
                 <Divider/>
@@ -74,7 +75,7 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
                     <AccordionItem
                         key="Working Hours"
                         aria-label="Working Hours"
-                        title="Opening Hours"
+                        title={t("Opening Hours")}
                         className={'px-0 cursor-default text-default-500'}
                         classNames={{
                             title: 'text-default-500',

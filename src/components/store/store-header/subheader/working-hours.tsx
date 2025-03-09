@@ -7,6 +7,7 @@ import {WorkDay} from "@/lib/actions/calendar-actions";
 import {useStore} from "@/components/providers/store-provider";
 import {useMediaQuery} from "usehooks-ts";
 import {StoreData} from "@/lib/actions/store";
+import {useTranslations} from "next-intl";
 
 // --- Helper to get a short weekday name ---
 function getShortWeekday(weekday: string): string {
@@ -43,6 +44,7 @@ export const renderCalendarTopContent = () => {
 
 
 export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
+   const t = useTranslations ("Working Hours");
     return (
         <Dropdown
             placement={"top"}
@@ -83,7 +85,7 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
                                             className={`${isSunday ? "ml-4 w-[40%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col`}
                                         >
                                         <span className="text-sm font-medium text-default-600">
-                                          {day.charAt(0).toUpperCase() + day.slice(1)}
+                                         {t(day)}
                                         </span>
                                             <p className="text-default-500 text-xs font-light">
                                                 {displayText}
@@ -131,7 +133,7 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
                                     className={`${isSunday ? "ml-4 w-[40%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col`}
                                 >
                                 <span className="text-sm font-medium text-default-600">
-                                  {day.charAt(0).toUpperCase() + day.slice(1)}
+                                  {t(day)}
                                 </span>
                                     <p className="text-default-500 text-xs font-light">
                                         {displayText}
@@ -151,7 +153,7 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
 export const renderCalendarContent = () => {
 
     const { store } = useStore();
-
+    const t = useTranslations ("Working Hours");
     if (!store?.schedule) {
         return <div className="w-full max-w-52 text-default-500 text-center">No schedule available</div>;
     }
@@ -182,7 +184,7 @@ export const renderCalendarContent = () => {
                             className={`${isSunday ? "ml-4 w-[40%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col mb-1`}
                         >
                             <span className="text-sm font-medium text-default-600">
-                              {day.charAt(0).toUpperCase() + day.slice(1)}
+                              {t(day)}
                             </span>
                             <p className="text-default-500 text-xs font-light">
                                 {displayText}

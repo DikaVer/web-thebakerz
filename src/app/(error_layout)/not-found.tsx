@@ -3,6 +3,7 @@ import {pacifico} from "@/components/fonts";
 import Image from "next/image";
 import React from "react";
 import {IconHeartCrack} from "@/components/ui/icons";
+import {TranslateOnServer} from "@/lib/helper/client-trans";
 
 export default function NotFound() {
     return (
@@ -24,7 +25,7 @@ export default function NotFound() {
                         The link you followed may be broken, or the page may have been removed.
                     </p>
                     <ExternalLink href="/">
-                        Go back to TheBakerz
+                        <TranslateOnServer key={'Not Found'} value={"Go back to TheBakerz"}/>
                     </ExternalLink>
                 </div>
             </div>

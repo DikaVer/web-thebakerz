@@ -1,5 +1,10 @@
 {
     "HomePage": {
         "title": "Welkom bij TheBakerz!"
+    },
+
+    "Shop": {
+        "Alert": "Shop biedt alleen afhaalbestellingen"
     }
+
 }
