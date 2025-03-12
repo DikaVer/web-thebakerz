@@ -163,6 +163,7 @@ const footerImg = {
 const footerContainer = {
     textAlign: "center" as const,
     marginTop: "30px",
+    marginBottom: "30px",
 };
 
 const footerText = {

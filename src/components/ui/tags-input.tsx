@@ -196,7 +196,10 @@ export const TagsAutoInput: React.FC<TagsInputProps> = ({
                 className={`flex-grow py-1 text-sm border-none outline-none rounded-md`}
                 placeholder={placeholder}
             >
-                {(item) => <AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>}
+                {(item) => {
+                    const IconComponent = iconAllergyMap[item.label];
+                    return (<AutocompleteItem startContent={<IconComponent size={24}/> }  key={item.key}>{item.label}</AutocompleteItem>);
+                }}
             </Autocomplete>
         </div>
     );
