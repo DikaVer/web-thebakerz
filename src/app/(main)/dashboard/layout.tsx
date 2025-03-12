@@ -30,8 +30,8 @@ export default async function RootLayout({
     }
 
     return (
-        <>
+        <div className={'container mx-auto min-h-svh'}>
             {children}
-        </>
+        </div>
     );
 }

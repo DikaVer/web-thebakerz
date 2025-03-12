@@ -1,6 +1,6 @@
 'use server';
 import * as z from "zod";
-import { ProfileSchema } from "@/lib/schemas";
+import { ProfileSettingsSchema } from "@/lib/schemas";
 import { updateUserProfile, updateStoreProfile } from "./profile-db";
 import { getCurrentSession } from "@/lib/actions/session";
 import { globalPOSTRateLimit } from "@/lib/actions/requests";
@@ -8,7 +8,7 @@ import { isStoreNicknameExist } from "@/lib/actions/user";
 import {revalidateTag} from "next/cache";
 
 export const updateProfile = async (
-    formData: z.infer<typeof ProfileSchema>
+    formData: z.infer<typeof ProfileSettingsSchema>
 ) => {
     if (!(await globalPOSTRateLimit())) {
         return {
@@ -17,7 +17,7 @@ export const updateProfile = async (
     }
 
     // Validate the form data
-    const validation = ProfileSchema.safeParse(formData);
+    const validation = ProfileSettingsSchema.safeParse(formData);
     if (!validation.success) {
         return { error: "Invalid fields!" };
     }

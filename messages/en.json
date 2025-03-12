@@ -98,6 +98,9 @@
         "Answer 9": "",
         "Question 10": "",
         "Answer 10": ""
+    },
+    "UsersDashboard": {
+        "Search User": "Search users by email..."
     }
 }
 

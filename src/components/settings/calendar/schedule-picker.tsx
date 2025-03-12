@@ -12,6 +12,7 @@ import {IconLoadingCircle} from "@/components/ui/icons";
 
 interface DayWorkingHoursProps {
     day: string;
+    isLoading: boolean;
     // Callback to update the working hours in the parent
     setWorkingHours: (
         day: string,
@@ -25,6 +26,7 @@ interface DayWorkingHoursProps {
 
 const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
                                                              day,
+    isLoading,
                                                              setWorkingHours,
                                                              initialEnabled = false,
                                                              // Default start/end times (you can adjust these defaults)
@@ -94,7 +96,7 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
             <Spacer y={2} />
             <div className="flex flex-row">
                 <TimeInput
-                    isDisabled={!isEnabled}
+                    isDisabled={!isEnabled || isLoading}
                     // @ts-ignore
                     defaultValue={startTime}
                     label="Start Time"
@@ -106,7 +108,7 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
                     onChange={handleStartChange}
                 />
                 <TimeInput
-                    isDisabled={!isEnabled}
+                    isDisabled={!isEnabled || isLoading}
                     // @ts-ignore
                     defaultValue={endTime}
                     isInvalid={isInvalid}
@@ -119,7 +121,7 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
                 />
                 <Switch
                     classNames={{ wrapper: 'bg-danger-600' }}
-                    isSelected={isEnabled}
+                    isSelected={isEnabled || isLoading}
                     onValueChange={(newState) => {
                         setIsEnabled(newState);
                         setWorkingHours(day, { isEnabled: newState, startTime, endTime });
@@ -211,6 +213,7 @@ export const WorkingHoursComp: React.FC = () => {
                     <div key={day}>
                         <DayWorkingHours
                             day={day}
+                            isLoading={isLoading}
                             // @ts-ignore
                             initialEnabled={workingHours[day]?.isEnabled ?? false}
                             initialStartTime={

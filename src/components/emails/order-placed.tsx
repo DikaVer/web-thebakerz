@@ -144,7 +144,7 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
                         </Row>
 
                         {/* Contact Us */}
-                        <Row style={detailRow}>
+                        <Row>
                             <Column
                                 style={iconColumn}
                             >

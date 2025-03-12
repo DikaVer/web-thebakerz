@@ -11,7 +11,7 @@ import { updateProfile} from "@/lib/actions/profile-actions";
 import { Icon } from "@iconify/react";
 
 // Import the ProfileSchema we created above
-import { ProfileSchema } from "@/lib/schemas";
+import { ProfileSettingsSchema } from "@/lib/schemas";
 import { User} from "@/lib/actions/user";
 import {useTheme} from "next-themes";
 import {IconLocation, IconPhone} from "@/components/ui/icons";
@@ -52,8 +52,8 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
         const [charCount, setCharCount] = useState(store?.description?.length || 0);
 
         // Initialize the form using the ProfileSchema with default values from props
-        const form = useForm<z.infer<typeof ProfileSchema>>({
-            resolver: zodResolver(ProfileSchema),
+        const form = useForm<z.infer<typeof ProfileSettingsSchema>>({
+            resolver: zodResolver(ProfileSettingsSchema),
             defaultValues: {
                 role: user.role,
                 name: user.username,
@@ -67,7 +67,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
 
         // useActionState similar to your ContactUs example – it will call our updateProfile action.
         const [state, submitAction, isPending] = useActionState(
-            async (previousState: any, formData: z.infer<typeof ProfileSchema>) => {
+            async (previousState: any, formData: z.infer<typeof ProfileSettingsSchema>) => {
                 // Pass along the user's email and role so the updateProfile action can write to the proper tables
                 const result = await updateProfile(formData);
 
@@ -115,7 +115,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
         );
 
         // Handle the form submission with startTransition
-        const handleSubmit = (formData: z.infer<typeof ProfileSchema>) => {
+        const handleSubmit = (formData: z.infer<typeof ProfileSettingsSchema>) => {
             startTransition(() => {
                 submitAction(formData);
             });
@@ -193,6 +193,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                         <FormControl>
                                             <Input
                                                 {...field}
+                                                isDisabled={isPending}
                                                 isRequired
                                                 className={'mt-2'}
                                                 placeholder={`${user?.username}`}
@@ -221,6 +222,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                 <FormControl>
                                                     <Input
                                                         {...field}
+                                                        isDisabled={isPending}
                                                         isRequired
                                                         className={'mt-2'}
                                                         placeholder='Type your store name'
@@ -247,6 +249,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                 <FormControl>
                                                     <Input
                                                         {...field}
+                                                        isDisabled={isPending}
                                                         isRequired
                                                         className={'mt-2'}
                                                         placeholder='Type your store slug'
@@ -316,6 +319,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                 <FormControl>
                                                     <Input
                                                         {...field}
+                                                        isDisabled={isPending}
                                                         className="mt-2"
                                                         placeholder="https://www.facebook.com/thebakerz.official"
                                                         type="text"
@@ -341,6 +345,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                 <FormControl>
                                                     <Input
                                                         {...field}
+                                                        isDisabled={isPending}
                                                         className="mt-2"
                                                         placeholder="https://www.instagram.com/thebakerz.official"
                                                         type="text"
@@ -366,6 +371,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                 <FormControl>
                                                     <Textarea
                                                         {...field}
+                                                        isDisabled={isPending}
                                                         isRequired
                                                         placeholder='Tell us about your store... (max 500 characters)'
                                                         style={{resize: "none"}}
@@ -397,6 +403,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                 className="mt-4 text-black shadow"
                                 color={'secondary'}
                                 type={'submit'}
+                                isDisabled={isPending}
                                 isLoading={isPending}
                             >
                                 {

@@ -115,30 +115,6 @@ export const sectionItemsAdmin: SidebarItem[] = [
         title: "Account",
         items: [
             {
-                key: "orders",
-                href: "/orders",
-                title: "Orders",
-                icon: "solar:bill-list-broken",
-            },
-            {
-                key: "chat",
-                href: "/chat",
-                icon: "solar:chat-round-line-broken",
-                title: "Chat",
-            },
-            {
-                key: "favorites",
-                href: "/favorites",
-                icon: "solar:chat-square-like-broken",
-                title: "Favorites",
-            },
-            {
-                key: "payments",
-                href: "/payments",
-                icon: "solar:wallet-money-broken",
-                title: "Payments",
-            },
-            {
                 key: "dashboard-navigation",
                 icon: "solar:widget-2-outline",
                 title: "Dashboard",
@@ -151,14 +127,8 @@ export const sectionItemsAdmin: SidebarItem[] = [
                         title: "Overview",
                     },
                     {
-                        key: "dashboard/applications",
-                        icon: "solar:chef-hat-broken",
-                        href: "/dashboard/applications",
-                        title: "Applications",
-                    },
-                    {
                         key: "dashboard/orders",
-                        icon: "solar:bill-list-broken",
+                        icon: "solar:notification-unread-lines-broken",
                         href: "/dashboard/orders",
                         title: "Orders",
                     },
@@ -169,22 +139,10 @@ export const sectionItemsAdmin: SidebarItem[] = [
                         title: "Users",
                     },
                     {
-                        key: "dashboard/stores",
+                        key: "dashboard/stripe",
                         icon: "solar:shop-2-broken",
-                        href: "/dashboard/stores",
-                        title: "Stores",
-                    },
-                    {
-                        key: "dashboard/settings",
-                        icon: "solar:settings-broken",
-                        href: "/dashboard/settings",
-                        title: "Settings",
-                    },
-                    {
-                        key: "dashboard/session",
-                        icon: "solar:accessibility-broken",
-                        href: "/dashboard/session",
-                        title: "Session",
+                        href: "/dashboard/stripe",
+                        title: "Stripe",
                     },
                 ],
             },
@@ -201,26 +159,10 @@ export const sectionItemsAdmin: SidebarItem[] = [
                 title: "TheBakerz",
             },
             {
-                key: "search",
-                href: "/search",
-                icon: "lucide:search",
-                title: "Search",
-                endContent: (
-                    <Chip size="md" className={`${pacifico.className}`} variant="flat">
-                        Coming soon!        </Chip>
-                ),
-            },
-            {
                 key: "about-us",
                 href: "/about-us",
                 icon: "solar:users-group-two-rounded-outline",
                 title: "About TheBakerz",
-            },
-            {
-                key: "#join-thebakerz",
-                href: "/#join-thebakerz",
-                title: "Join TheBakerz",
-                icon: "solar:chef-hat-heart-broken",
             }
         ],
     },

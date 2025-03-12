@@ -189,7 +189,7 @@ export const CustomerOrderSchema = z.object({
 
 
 
-export const ProfileSchema = z
+export const ProfileSettingsSchema = z
     .object({
         role: z.string(), // e.g., "bakerz" or "user"
         name: z.string().nonempty("Name is required"),

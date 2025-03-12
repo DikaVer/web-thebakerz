@@ -98,7 +98,7 @@ export default function NewOrderEmail({orderId, storeName, pickUpTime, location,
 
                     <Section style={detailsContainer}>
                         {/* Pick Up Time */}
-                        <Row style={detailRow}>
+                        <Row>
                             <Column
                                 style={iconColumn}
                             >
