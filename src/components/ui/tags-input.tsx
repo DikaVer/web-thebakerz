@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
-import {Button, cn, Input} from "@heroui/react";
-import {AllergenIcon} from "@/components/store/product/components/allergy-icons";
+import {Autocomplete, AutocompleteItem, Button, cn, Input} from "@heroui/react";
+import {AllergenIcon, iconAllergyMap} from "@/components/store/product/components/allergy-icons";
 
 interface TagsInputProps {
     tags: string[];
@@ -120,6 +120,84 @@ export const TagsInput: React.FC<TagsInputProps> = ({
                 }`}
                 placeholder={placeholder}
             />
+        </div>
+    );
+};
+
+export const TagsAutoInput: React.FC<TagsInputProps> = ({
+                                                        tags,
+                                                        setTags,
+                                                        editTag = false,
+                                                        placeholder = 'Add tag...',
+                                                        type = 'default',
+                                                    }) => {
+    const [input, setInput] = useState('');
+    const editInputRef = useRef<HTMLInputElement>(null);
+
+    const handleAddTag = (key: string | number | null) => {
+        // Check if key is a non-empty string
+        if (key && typeof key === 'string' && key.trim() !== '') {
+            if (!tags.includes(key)) {
+                setTags([...tags, key]);
+            }
+            setInput('');
+        }
+    };
+
+    const handleRemoveTag = (tag: string) => {
+        setTags(tags.filter((t) => t !== tag));
+    };
+
+
+    useEffect(() => {
+        // Resize the input width based on text content
+        if (editInputRef.current) {
+            editInputRef.current.style.width = `${input.length + 1}ch`;
+        }
+    }, [input]);
+
+    return (
+        <div className='flex flex-wrap items-center gap-2 py-2 rounded-md'>
+            {tags.map((tag, index) => (
+                <div key={tag} className='relative'>
+                    <div
+                        onClick={() => handleRemoveTag(tag)}
+                        className={cn("flex items-center gap-1 px-2 pl-2 py-1 text-sm font-medium rounded-full cursor-pointer", {
+                            "bg-default-300 hover:bg-default-400": type === "default",
+                            "bg-warning-300 hover:bg-warning-400": type === "warning"
+                        })}
+                    >
+                        <AllergenIcon allergen={tag} />
+                        <span>{tag}</span>
+                        <span>&times;</span>
+                    </div>
+                </div>
+            ))}
+            <Autocomplete
+                defaultItems={Object.keys(iconAllergyMap).map((key) => ({
+                    key,
+                    label: key,
+                }))}
+                type='text'
+                variant={'underlined'}
+                inputValue={input}
+                onInputChange={setInput}
+                onSelectionChange={(key) => {
+                    handleAddTag(key);
+
+                }}
+                onKeyDown={(e)=>{
+                    if ((e.key === 'Enter' || e.key === ',') ) {
+                        e.preventDefault();
+
+                        setInput('');
+                    }
+                }}
+                className={`flex-grow py-1 text-sm border-none outline-none rounded-md`}
+                placeholder={placeholder}
+            >
+                {(item) => <AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>}
+            </Autocomplete>
         </div>
     );
 };

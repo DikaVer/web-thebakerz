@@ -12,9 +12,11 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             s.phone,
             u.image AS picture,
             u.name AS "ownerName",
+            u.email AS email,
             s.facebook_url,
             s.instagram_url,
-            s.slug
+            s.slug,
+            s.stripe_id
              FROM stores s
              JOIN users u ON s.user_id = u.id
              WHERE (LOWER(s.nickname) = LOWER($1) OR s.id = $1)
@@ -45,11 +47,13 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             storeName: storeRow.nickname,
             description: storeRow.description,
             phone: storeRow.phone,
+            email: storeRow.email,
             picture: storeRow.picture,
             ownerName: storeRow.ownerName,
             instagram_url: storeRow.instagram_url,
             facebook_url: storeRow.facebook_url,
             slug: storeRow.slug,
+            stripe_id: storeRow.stripe_id,
             location,  // This is of type LocationData
             schedule,
         };
@@ -175,12 +179,14 @@ export interface StoreData {
     id: string;
     storeName?: string;
     description?: string;
+    email?: string;
     phone?: string;
     instagram_url?: string;
     facebook_url?: string;
     picture?: string;
     ownerName?: string;
     slug?: string;
+    stripe_id?: string;
     location: LocationData;
     schedule?: WorkHours;
 }

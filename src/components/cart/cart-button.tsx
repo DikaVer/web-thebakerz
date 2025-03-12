@@ -88,7 +88,9 @@ const CartButton: React.FC = () => {
                 isOpen={isOpen}
                 placement={isMobile ? "bottom" : "right"}
                 onOpenChange={onOpenChange}
+                isDismissable={!isLoading}
                 backdrop="blur"
+                hideCloseButton={isLoading}
             >
                 <DrawerContent>
                     {(onClose) => (

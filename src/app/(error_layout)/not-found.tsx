@@ -1,10 +1,11 @@
+'use server';
 import { ExternalLink } from '@/components/external-link'
 import {pacifico} from "@/components/fonts";
 import Image from "next/image";
 import React from "react";
 import {IconHeartCrack} from "@/components/ui/icons";
 
-export default function NotFound() {
+export default async function NotFound() {
     return (
         <>
             <div className="flex flex-col mb-20 min-h-screen">
@@ -24,6 +25,7 @@ export default function NotFound() {
                         The link you followed may be broken, or the page may have been removed.
                     </p>
                     <ExternalLink href="/">
+                        {/*<TranslateOnServer key={'Not Found'} value={"Go back to TheBakerz"}/>*/}
                         Go back to TheBakerz
                     </ExternalLink>
                 </div>
@@ -32,7 +34,7 @@ export default function NotFound() {
     );
 }
 
-export function ComingSoon() {
+export async function ComingSoon() {
     return (
         <>
             <div className={`flex flex-col gap-y-10 my-10 items-center justify-center min-h-screen`}>
@@ -59,7 +61,7 @@ export function ComingSoon() {
     );
 }
 
-export function UnderConstruction(
+export async function UnderConstruction(
     title: string = "Go back to TheBakerz",
     link: string = "/"
 ) {

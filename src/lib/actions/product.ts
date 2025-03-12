@@ -41,7 +41,7 @@ export const addProduct = async (
         category: formData.category,
         name: formData.name,
         description: formData.description,
-        price: formData.price * 100,
+        price: formData.price,
         picture: formData.url,
         ingredients: formData.ingredients || [],
         allergies: formData.allergies || [],

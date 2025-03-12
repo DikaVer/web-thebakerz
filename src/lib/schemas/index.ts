@@ -150,7 +150,8 @@ export const ProductSchema = z.object({
         .min(0, { message: "Price must be a positive number" })
         .refine((val) => val !== null && val !== undefined, {
             message: "Price is required",
-        }),
+        })
+        .transform((val) => parseFloat(val.toFixed(2)) * 100),
     url: z
         .string()
         .url({ message: "Invalid URL" })
@@ -161,6 +162,29 @@ export const ProductSchema = z.object({
     ingredients: z.array(z.string()).optional(),
     allergies: z.array(z.string()).optional(),
 });
+
+
+export const CustomerOrderSchema = z.object({
+    email: z.string()
+        .trim()
+        .email({
+            message: 'Invalid email!'
+        })
+        .refine(
+            (val) => (val === undefined) || validator.isEmail,
+            { message: "Invalid email" }
+        )
+        .optional(),
+    phoneNumber: z.string()
+        .refine((val) => (val === undefined) || validator.isMobilePhone , { message: "Invalid phone number" })
+        .optional(),
+}).refine(
+    data => data.email !== undefined || data.phoneNumber !== undefined,
+    {
+        message: "At least one contact method (email or phone number) is required",
+        path: ["email"], // this shows the error on the email field
+    }
+);
 
 
 

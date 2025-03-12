@@ -8,6 +8,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Calendar, Button, Popover, PopoverContent, PopoverTrigger, ScrollShadow  } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import {WorkHours} from "@/lib/actions/calendar-actions";
+import showSuccessMessage from "@/components/toast/toast-succes";
 
 // Define props to include schedule and minValue
 interface SmartDatetimeInputProps {
@@ -187,7 +188,12 @@ const DateTimeLocalInput = ({ children, className, ...props }: DateTimeLocalInpu
                         />
                     )}
                     {(showTimePicker && value) && <TimePicker
-                        onClose={() => setPopoverOpen(false)}
+                        onClose={
+                        () => {
+                            showSuccessMessage({success: "Time selected successfully"});
+                            setPopoverOpen(false)
+                        }
+                    }
                     />}
                 </div>
             </PopoverContent>

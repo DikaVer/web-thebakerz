@@ -7,9 +7,9 @@ import { CartData, ItemCart, updateCart, removeCartItem } from "@/lib/actions/ca
 import showErrorMessage from "@/components/toast/toast-error";
 
 interface ProductDialogContextProps {
-    handleOpen: (productId?: string, itemCart?: ItemCart) => void;
+    handleOpen: (productId?: string, itemCart?: ItemCart, isBakerzOrder?: boolean) => void;
     getProductDataById: (productId: string) => ProductData | undefined;
-    handleOpenWithProduct: (product: ProductData, itemCart?: ItemCart) => void;
+    handleOpenWithProduct: (product: ProductData, itemCart?: ItemCart, isBakerzOrder?: boolean) => void;
     setProductsDataLocal: (data: ProductDataFull) => void;
 }
 
@@ -28,6 +28,7 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
     const [productData, setProductData] = useState<ProductData | undefined>();
     const [productsData, setProductsData] = useState<ProductDataFull>(productsDataServer ? productsDataServer : {});
     const [itemCart, setItemCartId] = useState<ItemCart | undefined>();
+    const [isBakerzOrder, setIsBakerzOrder] = useState<boolean>(false);
 
 
     const onClose = () => {
@@ -36,16 +37,18 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
         setProductData(undefined);
     };
 
-    const handleOpen = (productId?: string, itemCart?: ItemCart) => {
+    const handleOpen = (productId?: string, itemCart?: ItemCart, isBakerzOrder?: boolean) => {
         setProductData(getProductDataById(productId ? productId : ''));
         setItemCartId(itemCart);
+        setIsBakerzOrder(isBakerzOrder ? isBakerzOrder : false);
         setIsOpen(true);
     };
 
-    const handleOpenWithProduct = (product: ProductData, itemCart?: ItemCart) => {
+    const handleOpenWithProduct = (product: ProductData, itemCart?: ItemCart, isBakerzOrder?: boolean) => {
         if (product) {
             setProductData(product);
             setItemCartId(itemCart);
+            setIsBakerzOrder(isBakerzOrder ? isBakerzOrder : false);
             setIsOpen(true);
         } else {
             showErrorMessage({ error: 'Product not found' });
@@ -71,7 +74,7 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
                 setProductsDataLocal,
             }}
         >
-            <ProductDialog storeId={storeId} productData={productData} isOpen={isOpen} onClose={onClose} itemCart={itemCart} />
+            <ProductDialog storeId={storeId} productData={productData} isOpen={isOpen} onClose={onClose} itemCart={itemCart} bakerzOrder={isBakerzOrder}/>
             {children}
         </ProductDialogContext.Provider>
     );

@@ -28,6 +28,7 @@ interface LayoutProps {
     onToggle: () => void;
     props?: NavbarProps;
     hideSideBar?: boolean;
+    pay?: boolean;
 }
 
 
@@ -37,6 +38,7 @@ export default function NavbarComponent({
                                             onOpenChange,
                                             onToggle,
                                             hideSideBar,
+                                            pay = false,
                                             props = {},
                                         }: LayoutProps) {
     const isSmall = useMediaQuery("(max-width: 1024px)");
@@ -46,7 +48,8 @@ export default function NavbarComponent({
 
     // Extract navigation logic to avoid repetition
     const navigateToStore = React.useCallback(() => {
-        router.push(`/${store?.storeName}`);
+        const navigation = pay ? `/${store?.storeName}/checkout` : `/${store?.storeName}`;
+        router.push(navigation);
         router.refresh();
     }, [router, store]);
 
@@ -200,9 +203,20 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                 </a>
             </NavbarBrand>
             {store ? (
-                <NavbarItem className="mr-1 !flex">
-                    <CartButton />
-                </NavbarItem>
+                session?.store ? (
+                    <a href={process.env.NEXT_PUBLIC_API_BASE_URL}>
+                        <Image
+                            src="/images/TheBakerzLogo.svg"
+                            alt="Logo"
+                            width={32}
+                            radius="full"
+                        />
+                    </a>
+                ) : (
+                    <NavbarItem className="mr-1 !flex">
+                        <CartButton />
+                    </NavbarItem>
+                )
             ) : (
                 <NavbarItem className="mr-1 !flex">
                     {!session?.user ? (

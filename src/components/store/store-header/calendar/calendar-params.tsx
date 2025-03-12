@@ -33,11 +33,11 @@ export function parseDateParams(
     return new CalendarDateTime(year, month, day, hour, minute);
 }
 
-export const setCalendarParams = (searchParams: URLSearchParams,  router: any, dateParam: string | null, timeParam: string | null) => {
-    const SearchParams = new URLSearchParams(searchParams.toString());
+export const setCalendarParams = (searchParams: URLSearchParams,  router: any, dateParam: string | null, timeParam: string | null, pathname: string) => {
+    const SearchParams = new URLSearchParams(searchParams);
     const calendar = parseDateParams(`${dateParam} ${timeParam}`);
     const {date, time} = parseDateTime(calendar);
     SearchParams.set("date", date?.toString() ?? "");
     SearchParams.set("time", time?.toString() ?? "");
-    router.push(`?${SearchParams.toString()}`);
+    router.replace(`${pathname}?${SearchParams.toString()}`);
 };

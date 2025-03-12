@@ -16,9 +16,10 @@ type ProductDialogProps = {
     itemCart?: ItemCart;
     isOpen: boolean;
     onClose: () => void;
+    bakerzOrder?: boolean;
 }
 
-export default function ProductDialog({storeId, productData, itemCart, isOpen, onClose }: ProductDialogProps) {
+export default function ProductDialog({storeId, productData, itemCart, isOpen, onClose, bakerzOrder = false }: ProductDialogProps) {
 
 
     const { session } = useSession();
@@ -38,7 +39,7 @@ export default function ProductDialog({storeId, productData, itemCart, isOpen, o
                     {(onClose) => (
                         <>
                             {
-                                session.user?.role === 'bakerz' && session.store?.id === storeId ?
+                                session.user?.role === 'bakerz' && session.store?.id === storeId && !bakerzOrder ?
                                     (
                                         <BakerzProductDialog productData={productData} onClose={onClose} />
                                     ) : (

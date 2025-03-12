@@ -124,7 +124,7 @@ export function InputStepper({
                     isIconOnly
                     variant="bordered"
                     radius="full"
-                    disabled={localValue <= min || isLoading}
+                    isDisabled={localValue <= min || isLoading}
                     onPress={handleMinus}
                     className="flex items-center pl-[.5em] pr-[.325em]"
                 >
@@ -184,7 +184,7 @@ export function InputStepper({
                     isIconOnly
                     variant="bordered"
                     radius="full"
-                    disabled={localValue >= max || isLoading}
+                    isDisabled={localValue >= max || isLoading}
                     onPress={handlePlus}
                     className="flex items-center pl-[.325em] pr-[.5em]"
                 >

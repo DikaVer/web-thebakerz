@@ -129,7 +129,7 @@ const PricingSection = () => {
                                     <IconBadge className={`w-8 h-8 text-text`}/>
                                     <div className={'w-full flex flex-col'}>
                                         <p>
-                                            €29.99/month subscription
+                                            €9.99/month subscription
                                         </p>
                                     </div>
                                 </div>
@@ -183,7 +183,7 @@ const PricingSection = () => {
                 </CardFooter>
                 <CardBody className={``}>
                     <div className={`flex flex-row`}>
-                        <span className={`text-6xl ${pacifico.className}`}>€29</span>
+                        <span className={`text-6xl ${pacifico.className}`}>€9</span>
                         <div className={'flex flex-col mt-3'}>
                             <span className={`text-xl font-light -mb-2`}>99</span>
                             <span className={`text-xl font-light`}>/mo</span>

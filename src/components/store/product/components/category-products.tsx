@@ -33,7 +33,7 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
                     colors={["#a2119d", "#730C6F", "#a2119d", "#730C6F", "#a2119d"]}
                     animationSpeed={10}
                     showBorder={false}
-                    className="text-xl desktop:text-2xl font-bold items-start"
+                    className="text-xl desktop:text-2xl cursor-default font-bold items-start"
                 >
                     {category}
                 </GradientText>

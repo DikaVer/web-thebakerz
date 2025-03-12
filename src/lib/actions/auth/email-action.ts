@@ -4,6 +4,23 @@ import * as z from "zod";
 
 import {ApplySchema, ContactSchema, GetStartedSchema,} from "@/lib/schemas";
 import {sendContactUsForm, sendOnboardingRequest} from "@/lib/emailSendRequest";
+
+// Function to handle authActions using form data
+export const sendPaymentSupport = async ({error, description}: {error: string; description: string}) => {
+
+
+    await sendContactUsForm({
+        email: "Urgent Payment Support",
+        subject: error + " - Urgent Payment Support",
+        description: description,
+    })
+
+    return {
+        success: "Email sent successfully!"
+    }
+
+};
+
 // Function to handle authActions using form data
 export const sendEmail = async (formData: z.infer<typeof ContactSchema>) => {
 

@@ -17,74 +17,62 @@ interface VerifyIdentityEmailProps {
 
 export default function VerifyCodeEmail({ verificationCode }: VerifyIdentityEmailProps) {
     // Format the verification code as ###-###
+    const formattedCode = `${verificationCode.slice(0, 3)}-${verificationCode.slice(3)}`
 
     return (
         <Html>
             <Head>
                 <style>
                     {`
-                        /* Import Lexend Deca font */
-                        @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
-                        /* Responsive Styles */
-                        @media only screen and (max-width: 600px) {
-                            .container {
-                                padding: 15px !important;
-                            }
-                            .description, .greeting, .note, .footerText, .copy-instruction {
-                                font-size: 14px !important;
-                            }
-                            .code {
-                                font-size: 22px !important;
-                                padding: 12px !important;
-                            }
-                            .copy-button {
-                                width: 100% !important;
-                                padding: 12px !important;
-                                font-size: 14px !important;
-                            }
-                        }
-                    `}
+            /* Import Lexend Deca font */
+            @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700;800;900&display=swap');
+            /* Responsive Styles */
+            @media only screen and (max-width: 600px) {
+              .container {
+                padding: 15px !important;
+              }
+              .description, .greeting, .note, .footerText, .copy-instruction {
+                font-size: 14px !important;
+              }
+              .code {
+                font-size: 22px !important;
+                padding: 12px !important;
+              }
+              .copy-button {
+                width: 100% !important;
+                padding: 12px !important;
+                font-size: 14px !important;
+              }
+            }
+          `}
                 </style>
             </Head>
             <Body style={main}>
                 <Container style={container} className="container">
-                    {/* Brand Logo as Image */}
+                    {/* Brand Logo */}
                     <Img
-                        src="https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/emails/Logo-NGDMW9ZQoUrHdT0FxmnD6vMbxs1hrY"
-                        width="150px"
+                        src="https://storage4thebakerz.blob.core.windows.net/email-messages/TheBakerz_name.png"
+                        width="180px"
                         height="auto"
                         alt="TheBakerz Logo"
                         style={logoImg}
                     />
-
                     <Hr style={separator} />
-
                     <Container style={actionContainer}>
-                        <Text style={greeting}>
-                            Hello there!
-                        </Text>
+                        {/*<Text style={greeting}>Hello there!</Text>*/}
                         <Text style={description}>
-                            Use the 6-digit code below to verify your identity and sign in to your TheBakerz account. If you didn&apos;t request this, please ignore this email or contact support.
+                            Use the 6-digit code below to verify your identity and sign in to your TheBakerz account. If you didn't request this, please ignore this email or contact support.
                         </Text>
                         <Text style={code} className="code">
-                            {verificationCode}
+                            {formattedCode}
                         </Text>
                         <Text style={copyInstruction} className="copy-instruction">
-                            Please copy and paste this code into the verification field.
+                            If the button doesn’t work, please copy the code manually.
                         </Text>
                         <Text style={note}>
                             This code will expire in 10 minutes.
                         </Text>
                     </Container>
-
-                    <Img
-                        src={`https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/emails/Brazuca-fNZSckC7ubnXtJDCydSW7e1kdKIkOm`}
-                        width="100%"
-                        height="auto"
-                        alt="Footer Picture"
-                        style={footerImg}
-                    />
                 </Container>
                 <Container style={footerContainer}>
                     <Text style={footerText}>
@@ -101,19 +89,14 @@ export default function VerifyCodeEmail({ verificationCode }: VerifyIdentityEmai
 
 const main = {
     backgroundColor: "#f4f4f6",
-    color: "#000",
     fontFamily: "'Lexend Deca', sans-serif",
-    padding: "20px",
 };
 
 const container = {
     backgroundColor: "#ffffff",
-    border: "1px solid #eee",
-    borderRadius: "8px",
     margin: "0 auto",
     padding: "20px",
     maxWidth: "500px",
-    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
 };
 
 const logoImg = {

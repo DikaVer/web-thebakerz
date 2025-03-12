@@ -10,6 +10,10 @@ import { TOS_VERSION } from "@/lib/local-variables";
 import { globalPOSTRateLimit } from "@/lib/actions/requests";
 import { headers } from "next/headers";
 import { RefillingTokenBucket } from "@/lib/actions/rate-limits";
+import OrderPlacedEmail, {OrderPlacedEmailProps} from "@/components/emails/order-placed";
+import NewOrderEmail from "@/components/emails/new-order-bakerz";
+import {OrderData} from "@/lib/actions/order";
+import {getCurrentStore} from "@/lib/actions/store";
 
 const ipBucket = new RefillingTokenBucket<string>(20, 1);
 
@@ -47,6 +51,8 @@ async function sendEmailMessage(emailClient: EmailClient, message: any): Promise
 export async function sendMagicCode(params: { identifier: string; code: string }) {
     const { identifier: to, code } = params;
 
+    const formattedCode = `${code.slice(0, 3)}-${code.slice(3)}`;
+
     console.log(`Sending magic link to ${to}`);
     console.log(`Magic code: ${code}`);
 
@@ -55,8 +61,8 @@ export async function sendMagicCode(params: { identifier: string; code: string }
     const message = {
         senderAddress,
         content: {
-            subject: `TheBakerz Verification Code`,
-            plainText: generatePlainTextCode({ code }),
+            subject: `Your TheBakerz Verification Code: ${formattedCode}`,
+            plainText: generatePlainTextCode({ code: formattedCode }),
             html: await render(VerifyCodeEmail({ verificationCode: code })),
         },
         recipients: {
@@ -72,6 +78,90 @@ export async function sendMagicCode(params: { identifier: string; code: string }
     try {
         await sendEmailMessage(emailClient, message);
         console.log(`Magic link email sent successfully to ${to}`);
+    } catch (error) {
+        console.error(`Error sending magic link email: ${error}`);
+        throw error;
+    }
+}
+
+/**
+ * Sends a order placed email.
+ */
+export async function sendOrderPlaced(params: { identifier: string; orderData: OrderData }) {
+    const { identifier: to, orderData } = params;
+
+    const storeData = await getCurrentStore(orderData.store_id);
+    if (!storeData) {
+        throw new Error("Store not found");
+    }
+
+    const { emailClient, senderAddress } = await getEmailClient();
+
+    const messageCustomer = {
+        senderAddress,
+        content: {
+            subject: `Your #${orderData.order_id} is placed!`,
+            html: await render(OrderPlacedEmail({
+                orderId: orderData.order_id,
+                storeName: storeData.ownerName ? storeData.ownerName : "Anonymous Store",
+                pickUpTime: orderData.scheduled_time.date + " " + orderData.scheduled_time.time,
+                storePhone: storeData.phone ? storeData.phone : "No phone number",
+                location: {
+                    address: storeData.location.route + ", " + storeData.location.city + ", " + storeData.location.country,
+                    latitude: storeData.location.latitude,
+                    longitude: storeData.location.longitude,
+                },
+                products: orderData.productsData,
+                subtotal_amount: orderData.amount,
+                total_amount: orderData.amount,
+                vat: orderData.amount_tax,
+            })),
+        },
+        recipients: {
+            to: [
+                {
+                    address: to,
+                    displayName: storeData.ownerName,
+                },
+            ],
+        },
+    };
+
+    const messageBakerz = {
+        senderAddress,
+        content: {
+            subject: `You have a new order #${orderData.order_id} 🎉`,
+            html: await render(NewOrderEmail({
+                orderId: orderData.order_id,
+                storeName: storeData.ownerName ? storeData.ownerName : "Anonymous Store",
+                pickUpTime: orderData.scheduled_time.date + " " + orderData.scheduled_time.time,
+                storePhone: storeData.phone ? storeData.phone : "No phone number",
+                location: {
+                    address: storeData.location.route + ", " + storeData.location.city + ", " + storeData.location.country,
+                    latitude: storeData.location.latitude,
+                    longitude: storeData.location.longitude,
+                },
+                products: orderData.productsData,
+                subtotal_amount: orderData.amount,
+                total_amount: orderData.amount,
+                vat: orderData.amount_tax,
+            })),
+        },
+        recipients: {
+            to: [
+                {
+                    address: storeData.email,
+                    displayName: "TheBakerz",
+                },
+            ],
+        },
+    };
+
+    try {
+        await sendEmailMessage(emailClient, messageBakerz);
+        await sendEmailMessage(emailClient, messageCustomer);
+        console.log(`Email email sent successfully to ${to}`);
+        console.log(`Email email sent successfully to ${storeData.email}`);
     } catch (error) {
         console.error(`Error sending magic link email: ${error}`);
         throw error;

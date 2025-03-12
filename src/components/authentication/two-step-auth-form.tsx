@@ -98,7 +98,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext }: { setIsLogin
                     router.refresh();
                     setIsLogin(true);
                 }
-                console.log(state);
+                // console.log(state);
                 setSession(() => state as SessionValidationResult);
             } else {
                 //@ts-ignore
@@ -210,6 +210,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext }: { setIsLogin
                                         type="submit"
                                         endContent={<Icon icon="solar:arrow-right-broken" height={24}/>}
                                         isLoading={isPendingEmail}
+                                        className={'bg-gradient-primary'}
                                     >
                                         Continue with Email
                                     </Button>

@@ -100,19 +100,14 @@ export default function OnboardingRequest({ phone, email, fullName }: Onboarding
 
 const main = {
     backgroundColor: "#f4f4f6",
-    color: "#000",
     fontFamily: "'Lexend Deca', sans-serif",
-    padding: "20px",
 };
 
 const container = {
     backgroundColor: "#ffffff",
-    border: "1px solid #eee",
-    borderRadius: "8px",
     margin: "0 auto",
     padding: "20px",
     maxWidth: "500px",
-    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
 };
 
 const logoImg = {

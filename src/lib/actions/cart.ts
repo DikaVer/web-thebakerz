@@ -210,6 +210,53 @@ export const replaceGuestCart = async (
     }
 }
 
+/**
+ * Removes all items in a user's cart for a specific store and returns the cart data before removal.
+ *
+ * @param userId - The user's ID.
+ * @param storeId - The store's ID.
+ * @returns A Promise that resolves to the removed CartData object.
+ */
+export const removeCartByUserIdAndStoreId = async (
+    userId: string,
+    storeId: string
+): Promise<{ cartData?: CartData; success?: string; error?: string }> => {
+    try {
+        if (!(await globalPOSTRateLimit())) {
+            return { error: "Too many requests" };
+        }
+
+        if (!userId || !storeId) {
+            return { error: "User ID and Store ID are required" };
+        }
+
+        // Get current cart before deletion
+        const cartData = await getCart(userId, storeId);
+
+        // Define the partition key value
+        const partitionKeyValue = [storeId, userId];
+
+        // Check if there are items in the cart and delete them sequentially
+        if (cartData[storeId]) {
+            const cartItems = Object.values(cartData[storeId]);
+            if (cartItems.length > 0) {
+                for (const item of cartItems) {
+                    await containerCart.item(item.id, partitionKeyValue).delete();
+                }
+            }
+        }
+
+        revalidateTag('cart');
+
+        return {
+            success: "Cart removed successfully!"
+        };
+    } catch (error: any) {
+        console.error("Error removing cart:", error);
+        return { error: "Failed to remove cart." };
+    }
+};
+
 
 /**
  * Retrieves the full cart for a given store and user.

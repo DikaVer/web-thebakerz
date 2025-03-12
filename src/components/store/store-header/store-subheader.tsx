@@ -12,7 +12,7 @@ import {
 } from "@heroui/react";
 import { useSession } from "@/components/providers/session-provider";
 import {Icon} from "@iconify/react";
-import {useRouter, useSearchParams} from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {CalendarDateTime, CalendarDate, today,} from "@internationalized/date";
 
 import {useStore} from "@/components/providers/store-provider";
@@ -42,6 +42,7 @@ interface StoreSubHeaderProps {
 export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const pathname = usePathname();
     const { store } = useStore();
     const { session } = useSession();
     const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
@@ -52,7 +53,7 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
     const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
 
     useEffect(() => {
-        setCalendarParams(searchParams, router, dateParam, timeParam);
+        setCalendarParams(searchParams, router, dateParam, timeParam, pathname);
     }, []);
 
     // --- 2. onChange Handler for DatePicker: Save the date/time and update URL search params ---
@@ -63,7 +64,7 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
             const {date, time} = parseDateTime(newDate);
             // Update the URL search parameters (make sure this runs on the client)
             if (date && time) {
-                setCalendarParams(searchParams, router, date, time);
+                setCalendarParams(searchParams, router, date, time, pathname);
                 updateOrderTime(date, time);
             }
             setSelectedDate(newDate);
@@ -105,7 +106,7 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
                         >
                             <SmartDatetimeInput
                                 schedule={store.schedule}
-                                minValue={today("Europe/Amsterdam")}
+                                minValue={today("Europe/Amsterdam").add({ days: 1 })}
                                 value={selectedDate}
                                 onValueChange={handleDateChange}
                                 placeholder='Schedule Order Time'
