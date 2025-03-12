@@ -8,9 +8,8 @@ import LayoutComp from "@/components/layout-comp";
 import {getStoreDataByStoreNameOrId} from "@/lib/actions/store";
 import NotFound from "@/app/(error_layout)/not-found";
 import StoreSkeleton from "@/components/skeletons";
-import {getCart, getCurrentCart} from "@/lib/actions/cart";
-import {getOrderTime} from "@/app/(store)/[id]/actions";
-import {getCurrentProducts, getProductsByStoreId, ProductDataFull} from "@/lib/actions/product";
+import {getCurrentCart} from "@/lib/actions/cart";
+import {getCurrentProducts, ProductDataFull} from "@/lib/actions/product";
 import {CartProvider} from "@/components/providers/cart-provider";
 
 type Params = Promise<{ id: string  }>

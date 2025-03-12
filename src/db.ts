@@ -39,6 +39,7 @@ export const containerWorkingHours = cosmosDB.container("WorkingHours");
 export const containerProducts = cosmosDB.container("Products");
 export const containerProductsOrder = cosmosDB.container("ProductsOrder");
 export const containerCart = cosmosDB.container("Carts");
+export const containerOrders = cosmosDB.container("Orders");
 
 
 

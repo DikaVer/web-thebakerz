@@ -1,10 +1,16 @@
 import {connectionPool} from "@/db";
+import {ActionResult} from "@/app/(auth)/auth/actions";
+import {createSession, generateSessionToken, setSessionTokenCookie} from "@/lib/actions/session";
+import {acceptTOS} from "@/lib/term-of-service";
+import {TOS_VERSION} from "@/lib/local-variables";
+import {revalidateTag} from "next/cache";
 
 export async function createUser(email: string): Promise<User> {
     try {
         const emailSplit = email.split("@")
         const username = emailSplit[0]
-
+        console.log('username', username)
+        console.log('email', email)
         const result = await connectionPool.query(
             `INSERT INTO users (email, name) VALUES ($1, $2) RETURNING id`,
             [email, username]
@@ -207,6 +213,31 @@ export async function isStoreNicknameExist(nickname: string): Promise<Boolean> {
         console.error('Database Error:', error);
         throw new Error('Failed to get user by email.');
     }
+}
+
+export async function creatAccountAction(email: string, bearer: string): Promise<User | null> {
+    if (!email) {
+        return null;
+    }
+    if (!bearer) {
+        return null;
+    }
+    if (bearer !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
+        return null;
+    }
+
+    let user: User | null = await getUserFromEmail(email as string);
+    if (user === null) {
+        user = await createUser(email as string);
+    }
+
+    // const sessionToken =  generateSessionToken();
+    // const session = await createSession(sessionToken, user.id);
+    //
+    // await setSessionTokenCookie(sessionToken, session.expiresAt);
+    await acceptTOS(user.email, TOS_VERSION, "payment", "explicit", "payment");
+    revalidateTag('session');
+    return user;
 }
 
 

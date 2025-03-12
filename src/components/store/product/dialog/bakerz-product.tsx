@@ -33,7 +33,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import { Form, FormField, FormItem, FormControl} from "@/components/ui/form";
 import {useRouter} from "next/navigation";
 import showSuccessMessage from "@/components/toast/toast-succes";
-import {TagsInput} from "@/components/ui/tags-input";
+import {TagsAutoInput, TagsInput} from "@/components/ui/tags-input";
 
 type ProductDialogProps = {
     productData: ProductData | undefined;
@@ -153,8 +153,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                 />
                                 {picture ? (
                                     <div
-                                        className="flex flex-col justify-center items-center w-full h-full aspect-square rounded-none cursor-pointer"
-                                        onClick={() => fileRef.current?.click()}
+                                        className="flex flex-col justify-center items-center w-full h-full aspect-square rounded-none"
                                     >
                                         <Image
                                             removeWrapper
@@ -314,7 +313,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                         render={({ field, fieldState }) => (
                                             <FormItem>
                                                 <FormControl>
-                                                    <TagsInput
+                                                    <TagsAutoInput
                                                         tags={field.value || []}
                                                         setTags={(newTags) => field.onChange(newTags)}
                                                         type={'warning'}

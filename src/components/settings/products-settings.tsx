@@ -124,6 +124,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
 
     return (
         <div>
+            <Spacer y={8} />
             <div className={'flex justify-between'}>
                 <div>
                     <p className="text-base font-medium text-default-700">Product Manager</p>
@@ -187,7 +188,9 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                             <span>Image</span>
                             <span className={'flex col-span-4'}>Name & Price</span>
                         </div>
-                        <span>Drag</span>
+                        <span
+                            className={'text-center'}
+                        >Drag</span>
                     </div>
                     {/* Use a key prop so that the ProductTable re-mounts when the selectedTab changes */}
                     <AnimatePresence mode="wait">

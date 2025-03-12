@@ -10,7 +10,7 @@ import {
 
 
 
-const iconMap: Record<string, LucideIcon> = {
+export const iconAllergyMap: Record<string, LucideIcon> = {
     egg: Egg,
     gluten: Wheat,
     milk: Milk,
@@ -28,7 +28,7 @@ export const AllergenIcon: React.FC<AllergenIconProps> = ({ allergen, size = 20 
     const key = allergen.toLowerCase()
 
     // If unknown, fallback to an AlertTriangle icon
-    const IconComponent = iconMap[key]
+    const IconComponent = iconAllergyMap[key]
 
     if (!IconComponent) {
         return null

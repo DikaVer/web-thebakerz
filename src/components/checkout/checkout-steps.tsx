@@ -134,7 +134,10 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
                         }
                     }}
                 >
-                    <CartCheckout handleNext={() => handleNext(4)}/>
+                    <CartCheckout handleNext={() => {
+                        handleNext(4)
+                        setCurrentStep(0);
+                    }}/>
                 </AccordionItem>
                 {/*<AccordionItem*/}
                 {/*    key="4"*/}

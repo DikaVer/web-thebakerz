@@ -120,7 +120,8 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                         className="w-full bg-gradient-primary text-2xl rounded-full text-white"
                         onPress={() => {
                             setIsLoading(true);
-                            router.push(`/pay`);
+                            router.push(`/${store.storeName}/pay`);
+                            router.refresh();
                             handleNext();
                         }}
                     >

@@ -13,7 +13,8 @@ type CartItemRowProps = {
     removeItem: (item: ItemCart) => Promise<boolean>;
     isLoading: boolean;
     setIsLoading: (value: boolean) => void
-    handleOpen: (productId?: string, itemCart?: ItemCart) => void;
+    handleOpen: (productId?: string, itemCart?: ItemCart, isBakerzOrder?:boolean) => void;
+    isBakerzOrder?: boolean;
 };
 
 export const CartItemRow: React.FC<CartItemRowProps> = ({
@@ -23,7 +24,8 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                                                      removeItem,
                                                      isLoading,
                                                      setIsLoading,
-                                                     handleOpen
+                                                     handleOpen,
+                                                            isBakerzOrder = false,
                                                  }) => {
 
     const handleQuantityChange = async (value: number) => {
@@ -41,10 +43,13 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
     return (
         <>
             <div
-                className="flex flex-col gap-2 p-4  rounded-xl hover:bg-default-100 cursor-pointer border-gray-200"
+                className={`flex flex-col gap-2 p-4 w-full  ${!isLoading && 'hover:bg-default-100 cursor-pointer'} border-gray-200`}
                 key={item.id}
-
-                onClick={() => handleOpen(productData.id, item)}
+                onClick={() => {
+                    if(!isLoading) {
+                        handleOpen(productData.id, item, isBakerzOrder)
+                    }
+                }}
             >
                 <div className={'flex'}>
                     <div className="w-20 h-20 aspect-square">
@@ -58,7 +63,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                     <Spacer x={4}/>
                     <div className="flex justify-between w-[70%]">
                         <div className="flex flex-col w-full">
-                            <p className="font-medium truncate">{productData.name}</p>
+                            <p className="font-medium truncate text-start">{productData.name}</p>
                             {item.note && (<>
                                 <CustomAlert
                                     color="warning"
