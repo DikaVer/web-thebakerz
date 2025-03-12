@@ -72,10 +72,7 @@ export async function GET(req: NextRequest) {
                 return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_cart&session_id=${sessionId}`, req.url));
             }
 
-
             await removeCartByUserIdAndStoreId(cartId, storeId);
-
-            console.log(cartItems);
 
             // Create order in your system
             // 1. Create an order record in PostgreSQL

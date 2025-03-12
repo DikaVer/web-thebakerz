@@ -39,5 +39,8 @@ export const setCalendarParams = (searchParams: URLSearchParams,  router: any, d
     const {date, time} = parseDateTime(calendar);
     SearchParams.set("date", date?.toString() ?? "");
     SearchParams.set("time", time?.toString() ?? "");
-    router.replace(`${pathname}?${SearchParams.toString()}`);
+    router.replace(`${pathname}?${SearchParams.toString()}`, undefined, {
+        shallow: true,
+        scroll: false
+    });
 };
