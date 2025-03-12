@@ -90,7 +90,8 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext }: { setIsLogin
         async (previousState: any, formData: z.infer<typeof OTPSchema>) => {
             const state = await verifyEmailAction(previousState, formData);
 
-            if ((state as SessionValidationResult) !== undefined) {
+
+            if (state.session) {
                 if (!setIsLogin) {
                     router.refresh();
                     router.push(`/transit-login?next=${next ? next : "/"}`);
@@ -99,10 +100,11 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext }: { setIsLogin
                     setIsLogin(true);
                 }
                 // console.log(state);
-                setSession(() => state as SessionValidationResult);
+                setSession(() => state.session as SessionValidationResult);
+            } else if (state.message) {
+                showErrorMessage({error: state.message})
             } else {
-                //@ts-ignore
-                showErrorMessage({error: state?.message})
+                showErrorMessage({error: "An unexpected error occurred."})
             }
 
         },

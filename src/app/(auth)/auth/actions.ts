@@ -144,7 +144,9 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
     await acceptTOS(user.email, TOS_VERSION, clientIP || "Not Available", "explicit", "login");
     revalidateTag('session');
 
-    return await getCurrentSession();
+    return {
+        session: await getCurrentSession()
+    };
 }
 
 export async function resendEmailVerificationCodeAction(email: string): Promise<ActionResult> {
@@ -234,4 +236,4 @@ export async function getUserEmailVerificationRequestFromRequest(userId: string)
 
 export type ActionResult = { message: string } | null ;
 
-export type ActionLogin = { message: string } | SessionValidationResult;
+export type ActionLogin = { session?: SessionValidationResult, message?: string};
