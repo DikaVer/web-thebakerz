@@ -15,12 +15,6 @@ import {
 import * as React from "react";
 import {formatCurrency} from "@/lib/utils";
 import {OrderProduct} from "@/lib/actions/order";
-// SVG Icons
-const PHONE_ICON = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IS0tIFVwbG9hZGVkIHRvOiBTVkcgUmVwbywgd3d3LnN2Z3JlcG8uY29tLCBHZW5lcmF0b3I6IFNWRyBSZXBvIE1peGVyIFRvb2xzIC0tPg0KPHN2ZyB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCjxwYXRoIGQ9Ik0zIDUuNUMzIDE0LjA2MDQgOS45Mzk1OSAyMSAxOC41IDIxQzE4Ljg4NjIgMjEgMTkuMjY5MSAyMC45ODU5IDE5LjY0ODMgMjAuOTU4MUMyMC4wODM0IDIwLjkyNjIgMjAuMzAwOSAyMC45MTAzIDIwLjQ5OSAyMC43OTYzQzIwLjY2MyAyMC43MDE5IDIwLjgxODUgMjAuNTM0NSAyMC45MDA3IDIwLjM2NEMyMSAyMC4xNTgyIDIxIDE5LjkxODEgMjEgMTkuNDM4VjE2LjYyMDdDMjEgMTYuMjE2OSAyMSAxNi4wMTUgMjAuOTMzNSAxNS44NDJDMjAuODc0OSAxNS42ODkxIDIwLjc3OTUgMTUuNTUzIDIwLjY1NTkgMTUuNDQ1NkMyMC41MTYgMTUuMzI0IDIwLjMyNjIgMTUuMjU1IDE5Ljk0NjggMTUuMTE3TDE2Ljc0IDEzLjk1MDlDMTYuMjk4NSAxMy43OTA0IDE2LjA3NzcgMTMuNzEwMSAxNS44NjgzIDEzLjcyMzdDMTUuNjgzNiAxMy43MzU3IDE1LjUwNTkgMTMuNzk4OCAxNS4zNTQ5IDEzLjkwNThDMTUuMTgzNyAxNC4wMjcxIDE1LjA2MjkgMTQuMjI4NSAxNC44MjEyIDE0LjYzMTRMMTQgMTZDMTEuMzUwMSAxNC43OTk5IDkuMjAxOSAxMi42NDg5IDggMTBMOS4zNjg2MyA5LjE3ODgyQzkuNzcxNDUgOC45MzcxMyA5Ljk3Mjg2IDguODE2MjggMTAuMDk0MiA4LjY0NTA2QzEwLjIwMTIgOC40OTQwOCAxMC4yNjQzIDguMzE2MzcgMTAuMjc2MyA4LjEzMTdDMTAuMjg5OSA3LjkyMjI3IDEwLjIwOTYgNy43MDE1MyAxMC4wNDkxIDcuMjYwMDVMOC44ODI5OSA0LjA1MzIxQzguNzQ1IDMuNjczNzYgOC42NzYwMSAzLjQ4NDAzIDguNTU0NDIgMy4zNDQxQzguNDQ3MDEgMy4yMjA0OSA4LjMxMDg5IDMuMTI1MTUgOC4xNTgwMiAzLjA2NjQ1QzcuOTg0OTYgMyA3Ljc4MzA4IDMgNy4zNzkzMiAzSDQuNTYyMDFDNC4wODE4OCAzIDMuODQxODEgMyAzLjYzNTk4IDMuMDk5MjVDMy40NjU1IDMuMTgxNDYgMy4yOTgxNCAzLjMzNzAxIDMuMjAzNyAzLjUwMTAzQzMuMDg5NjggMy42OTkwNyAzLjA3Mzc1IDMuOTE2NjIgMy4wNDE4OSA0LjM1MTczQzMuMDE0MTMgNC43MzA4NiAzIDUuMTEzNzggMyA1LjVaIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+DQo8L3N2Zz4=";
-
-const LOCATION_ICON = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IS0tIFVwbG9hZGVkIHRvOiBTVkcgUmVwbywgd3d3LnN2Z3JlcG8uY29tLCBHZW5lcmF0b3I6IFNWRyBSZXBvIE1peGVyIFRvb2xzIC0tPg0KPHN2ZyB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCjxwYXRoIGQ9Ik0xMiAyMUMxNS41IDE3LjQgMTkgMTQuMTc2NCAxOSAxMC4yQzE5IDYuMjIzNTUgMTUuODY2IDMgMTIgM0M4LjEzNDAxIDMgNSA2LjIyMzU1IDUgMTAuMkM1IDE0LjE3NjQgOC41IDE3LjQgMTIgMjFaIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+DQo8cGF0aCBkPSJNMTIgMTJDMTMuMTA0NiAxMiAxNCAxMS4xMDQ2IDE0IDEwQzE0IDguODk1NDMgMTMuMTA0NiA4IDEyIDhDMTAuODk1NCA4IDEwIDguODk1NDMgMTAgMTBDMTAgMTEuMTA0NiAxMC44OTU0IDEyIDEyIDEyWiIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPg0KPC9zdmc+";
-
-const CALENDAR_ICON = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IS0tIFVwbG9hZGVkIHRvOiBTVkcgUmVwbywgd3d3LnN2Z3JlcG8uY29tLCBHZW5lcmF0b3I6IFNWRyBSZXBvIE1peGVyIFRvb2xzIC0tPg0KPHN2ZyB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCjxwYXRoIGQ9Ik0yMCAxMFY3QzIwIDUuODk1NDMgMTkuMTA0NiA1IDE4IDVINkM0Ljg5NTQzIDUgNCA1Ljg5NTQzIDQgN1YxME0yMCAxMFYxOUMyMCAyMC4xMDQ2IDE5LjEwNDYgMjEgMTggMjFINkM0Ljg5NTQzIDIxIDQgMjAuMTA0NiA0IDE5VjEwTTIwIDEwSDRNOCAzVjdNMTYgM1Y3IiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+DQo8cmVjdCB4PSI2IiB5PSIxMiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgcng9IjAuNSIgZmlsbD0iIzAwMDAwMCIvPg0KPHJlY3QgeD0iMTAuNSIgeT0iMTIiIHdpZHRoPSIzIiBoZWlnaHQ9IjMiIHJ4PSIwLjUiIGZpbGw9IiMwMDAwMDAiLz4NCjxyZWN0IHg9IjE1IiB5PSIxMiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgcng9IjAuNSIgZmlsbD0iIzAwMDAwMCIvPg0KPC9zdmc+";
 
 export interface OrderPlacedEmailProps {
     orderId: string;
@@ -115,14 +109,8 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
                     <Section style={detailsContainer}>
                         {/* Pick Up Time */}
                         <Row style={detailRow}>
-                            <Column style={iconColumn}>
-                                <Img
-                                    src={CALENDAR_ICON}
-                                    width="24"
-                                    height="24"
-                                    alt="Calendar"
-                                    style={detailIcon}
-                                />
+                            <Column>
+                                🕒
                             </Column>
                             <Column style={textColumn}>
                                 <Text style={detailHeading}>Pick Up Time</Text>
@@ -137,14 +125,8 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
 
                         {/* Pick Up Address */}
                         <Row style={detailRow}>
-                            <Column style={iconColumn}>
-                                <Img
-                                    src={LOCATION_ICON}
-                                    width="24"
-                                    height="24"
-                                    alt="Location"
-                                    style={detailIcon}
-                                />
+                            <Column>
+                                📍
                             </Column>
                             <Column style={textColumn}>
                                 <Text style={detailHeading}>Pick Up Address</Text>
@@ -159,14 +141,8 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
 
                         {/* Contact Us */}
                         <Row style={detailRow}>
-                            <Column style={iconColumn}>
-                                <Img
-                                    src={PHONE_ICON}
-                                    width="24"
-                                    height="24"
-                                    alt="Phone"
-                                    style={detailIcon}
-                                />
+                            <Column>
+                                📞
                             </Column>
                             <Column style={textColumn}>
                                 <Text style={detailHeading}>Contact Us</Text>
