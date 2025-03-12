@@ -9,8 +9,6 @@ export async function createUser(email: string): Promise<User> {
     try {
         const emailSplit = email.split("@")
         const username = emailSplit[0]
-        console.log('username', username)
-        console.log('email', email)
         const result = await connectionPool.query(
             `INSERT INTO users (email, name) VALUES ($1, $2) RETURNING id`,
             [email, username]

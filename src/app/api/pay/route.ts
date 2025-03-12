@@ -14,11 +14,12 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
     }
 
+
     const { searchParams } = new URL(req.url);
     const sessionId = searchParams.get('session_id');
 
     if (!sessionId) {
-        return NextResponse.redirect(new URL('/', req.url));
+        return NextResponse.redirect(process.env.NEXT_PUBLIC_API_BASE_URL + '/', { status: 308 });
     }
 
     const storeIdParam = searchParams.get('store_id');
@@ -27,11 +28,15 @@ export async function GET(req: NextRequest) {
         return NextResponse.redirect(new URL('/', req.url));
     }
 
+    const storeStripeAccountIdParam = searchParams.get('store_stripe_account_id');
+
+    if (!storeStripeAccountIdParam) {
+        return NextResponse.redirect(new URL('/', req.url));
+    }
+
     try {
         // Retrieve the session to check its status
-        const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, { stripeAccount: 'acct_1R08EX4aNmXJ3PYr' });
-
-        console.log(checkoutSession.line_items?.data);
+        const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, { stripeAccount: storeStripeAccountIdParam });
 
         // Verify payment status
         if (checkoutSession.payment_status === 'paid') {
@@ -39,12 +44,12 @@ export async function GET(req: NextRequest) {
             // Get current user
             const email = checkoutSession.customer_email ? checkoutSession.customer_email : checkoutSession.customer_details?.email;
             if (!email) {
-                return NextResponse.redirect(new URL(`${storeIdParam}/order/failed?error=missing_user&session_id=${sessionId}`, req.url));
+                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_user&session_id=${sessionId}`, req.url));
             }
 
             const storeId = checkoutSession.metadata?.storeId;
             if (!storeId) {
-                return NextResponse.redirect(new URL(`${storeIdParam}/order/failed?error=missing_store_id&session_id=${sessionId}`, req.url));
+                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_store_id&session_id=${sessionId}`, req.url));
             }
 
             // Get current session

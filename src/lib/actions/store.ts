@@ -123,9 +123,6 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
             }
         };
 
-        console.log(store)
-
-
         await getScheduleById(store.id, store.id)
             .then((item) => {
                 if(item?.schedule){

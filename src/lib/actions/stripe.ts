@@ -137,7 +137,7 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
             mode: 'payment',
             currency: 'eur',
             payment_method_types: ['card', 'ideal', 'paypal', 'revolut_pay', 'bancontact'],
-            return_url: `${origin}/api/pay?session_id={CHECKOUT_SESSION_ID}&store_id=${storeId}`,
+            return_url: `${origin}/api/pay?session_id={CHECKOUT_SESSION_ID}&store_id=${storeId}&store_stripe_account_id=${storeStipeAccountId}`,
             automatic_tax: {
                 enabled: false,
             },
