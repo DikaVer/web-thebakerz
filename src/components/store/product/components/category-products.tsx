@@ -40,12 +40,11 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
             </div>
             <Spacer y={4}/>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center items-center w-full">
-
-                    {products.map((product) => (
-                            <div key={product.constId} className={'m-0.5'}>
-                                <ProductBase productData={product} />
-                            </div>
-                    ))}
+                {products.map((product) => (
+                        <div key={product.constId} className={'m-0.5'}>
+                            <ProductBase productData={product} />
+                        </div>
+                ))}
             </div>
             <Spacer y={8}/>
             <Divider/>

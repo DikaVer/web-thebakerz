@@ -47,8 +47,6 @@ export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: S
     const { session } = useSession();
     const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
     const { theme } = useTheme();
-    const [latitude, longitude] = [50.853356, 5.669382];
-
     const location = store?.location.route ? `${store.location.route}` : "Address Placeholder";
     const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
 
@@ -69,11 +67,13 @@ export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: S
         }
     };
 
+    console.log(store.location);
+
     return (
         <div className="flex flex-col w-full max-w-[440px]">
                 <Spacer y={4}/>
                 <Link
-                    href={`https://www.google.com/maps?q=${latitude},${longitude}`}
+                    href={`https://www.google.com/maps?q=${store.location.latitude},${store.location.longitude}`}
                     className={'flex flex-row gap-x-4 items-center'}
                 >
                     <IconLocation size={24}
@@ -91,7 +91,9 @@ export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: S
                 </Link>
                 <Spacer y={4}/>
                 <div className={'h-40 w-full rounded-medium border-1 overflow-hidden'}>
-                    <LocationMap latitude={latitude} longitude={longitude}  />
+                    {store.location.latitude && store.location.longitude &&
+                        <LocationMap latitude={Number(store.location.latitude)} longitude={Number(store.location.longitude)} />
+                    }
                 </div>
                 {(session?.user?.role !== "bakerz" || session.store?.id !== store.id) && (
                     <>
