@@ -18,6 +18,7 @@ export default function CookieConsentComponent() {
     });
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,19 +31,19 @@ export default function CookieConsentComponent() {
 
     const handleAcceptSelected = async () => {
         await savePreferences(localPreferences);
-        router.refresh();
+        setIsLoading(true);
     };
 
 
-    const handleAcceptAll = async () => {
-        await acceptAll();
-        router.refresh();
-    };
 
     const handleRejectAll = async () => {
         await rejectAll();
-        router.refresh();
+       setIsLoading(false);
     };
+
+    if (isLoading) {
+        return null;
+    }
 
 
 
@@ -124,11 +125,16 @@ export default function CookieConsentComponent() {
                     fullWidth
                     className={`bg-gradient-primary text-default-200 text-md`}
                     radius="lg"
+                    isLoading={isLoading}
+                    isDisabled={isLoading}
                     onPress={handleAcceptSelected}
                 >
                     Accept Selected
                 </Button>
-                <Button fullWidth variant="bordered" onPress={handleRejectAll}>
+                <Button fullWidth variant="bordered"
+                        isLoading={isLoading}
+                        isDisabled={isLoading}
+                        onPress={handleRejectAll}>
                     Reject All
                 </Button>
             </div>
@@ -161,6 +167,8 @@ export default function CookieConsentComponent() {
                     radius="lg"
 
                     endContent={<Icon className="ml-2 inline-block h-6 w-6 text-default-200" icon="lucide:cookie"/>}
+                    isLoading={isLoading}
+                    isDisabled={isLoading}
                     onPress={acceptAll}
                 >
                     Accept All
@@ -170,6 +178,8 @@ export default function CookieConsentComponent() {
                     className="border-default-200 font-medium text-default-foreground"
                     radius="lg"
                     variant="bordered"
+                    isLoading={isLoading}
+                    isDisabled={isLoading}
                     onPress={handleRejectAll}
                 >
                     Reject All
@@ -179,6 +189,8 @@ export default function CookieConsentComponent() {
                     className="font-medium text-default-foreground"
                     radius="lg"
                     variant="light"
+                    isLoading={isLoading}
+                    isDisabled={isLoading}
                     onPress={() => setIsSettingsOpen(true)}
                 >
                     Cookie Settings

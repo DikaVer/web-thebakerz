@@ -14,7 +14,7 @@ import {CalendarDateTime, CalendarDate, today} from "@internationalized/date";
 
 import {useStore} from "@/components/providers/store-provider";
 import {
-    parseDateParams, parseDateTime, setCalendarParams,
+    parseDateParams, parseDateTime,
 
 } from "@/components/store/store-header/calendar/calendar-params";
 import {formatDate, SmartDatetimeInput} from "@/components/store/store-header/calendar/smart-calendar";
@@ -43,8 +43,6 @@ type ClientSecretResponse = string | { error: string }
 
 export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSubHeaderProps) {
     const searchParams = useSearchParams();
-    const router = useRouter();
-    const pathname = usePathname();
     const { store } = useStore();
     const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
     const [clientSecret, setClientSecret] = useState<string | null | undefined>(null);
@@ -85,9 +83,6 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
 
 
 
-    useEffect(() => {
-        setCalendarParams(searchParams, router, dateParam, timeParam, pathname);
-    }, []);
 
     // --- 2. onChange Handler for DatePicker: Save the date/time and update URL search params ---
     const handleDateChange = async (newDate: CalendarDateTime | CalendarDate) => {
@@ -97,7 +92,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
             const {date, time} = parseDateTime(newDate);
             // Update the URL search parameters (make sure this runs on the client)
             if (date && time) {
-                setCalendarParams(searchParams, router, date, time, pathname);
+                setSelectedDate(parseDateParams(`${date} ${time}`))
                 await updateOrderTime(date, time);
             }
             setSelectedDate(newDate);

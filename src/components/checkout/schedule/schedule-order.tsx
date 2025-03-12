@@ -31,7 +31,6 @@ interface StoreSubHeaderProps {
 type SocialIconProps = Omit<IconProps, "icon">;
 
 export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeaderProps) {
-    const searchParams = useSearchParams();
     const { store } = useStore();
     const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
 
@@ -43,13 +42,6 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
     };
 
 
-
-    useEffect(() => {
-        const dateParam = searchParams.get("date");
-        const timeParam = searchParams.get("time");
-        setSelectedDate(parseDateParams(`${dateParam} ${timeParam}`));
-        // Add your handling logic here.
-    }, [searchParams]);
 
 
 
@@ -109,7 +101,7 @@ export function ScheduleOrder({ dateParam, timeParam, handleNext}: StoreSubHeade
                 <Divider/>
             </div>
             <div className={'flex flex-row w-full justify-center'}>
-                <StoreSubHeader dateParam={dateParam} timeParam={timeParam}/>
+                <StoreSubHeader dateParam={dateParam} timeParam={timeParam} setSelectedDateGlobal={setSelectedDate}/>
             </div>
             <Spacer y={4}/>
             <div className={'flex flex-row w-full justify-center'}>

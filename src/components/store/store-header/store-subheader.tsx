@@ -19,8 +19,7 @@ import {useStore} from "@/components/providers/store-provider";
 import {updateOrderTime} from "@/app/(store)/[id]/actions";
 import {
     parseDateParams,
-    parseDateTime,
-    setCalendarParams
+    parseDateTime
 } from "@/components/store/store-header/calendar/calendar-params";
 import {IconLocation} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
@@ -35,11 +34,12 @@ const LocationMap = dynamic(
 interface StoreSubHeaderProps {
     dateParam: string | null;
     timeParam: string | null;
+    setSelectedDateGlobal?: (date: CalendarDateTime | CalendarDate | undefined) => void;
 }
 
 
 
-export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
+export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: StoreSubHeaderProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
@@ -52,10 +52,6 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
     const location = store?.location.route ? `${store.location.route}` : "Address Placeholder";
     const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
 
-    useEffect(() => {
-        setCalendarParams(searchParams, router, dateParam, timeParam, pathname);
-    }, []);
-
     // --- 2. onChange Handler for DatePicker: Save the date/time and update URL search params ---
     const handleDateChange = (newDate: CalendarDateTime | CalendarDate) => {
         if (newDate instanceof CalendarDate) {
@@ -64,7 +60,9 @@ export function StoreSubHeader({ dateParam, timeParam}: StoreSubHeaderProps) {
             const {date, time} = parseDateTime(newDate);
             // Update the URL search parameters (make sure this runs on the client)
             if (date && time) {
-                setCalendarParams(searchParams, router, date, time, pathname);
+                const parsedDate = parseDateParams(`${date} ${time}`);
+                setSelectedDate(parsedDate);
+                setSelectedDateGlobal && setSelectedDateGlobal(parsedDate);
                 updateOrderTime(date, time);
             }
             setSelectedDate(newDate);

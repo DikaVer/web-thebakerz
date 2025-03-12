@@ -40,7 +40,6 @@ export const setCalendarParams = (searchParams: URLSearchParams,  router: any, d
     SearchParams.set("date", date?.toString() ?? "");
     SearchParams.set("time", time?.toString() ?? "");
     router.push(`${pathname}?${SearchParams.toString()}`, undefined, {
-        shallow: true,
-        scroll: false
+        shallow: true
     });
 };
