@@ -109,7 +109,9 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
                     <Section style={detailsContainer}>
                         {/* Pick Up Time */}
                         <Row style={detailRow}>
-                            <Column>
+                            <Column
+                                style={iconColumn}
+                            >
                                 🕒
                             </Column>
                             <Column style={textColumn}>
@@ -125,7 +127,9 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
 
                         {/* Pick Up Address */}
                         <Row style={detailRow}>
-                            <Column>
+                            <Column
+                                style={iconColumn}
+                            >
                                 📍
                             </Column>
                             <Column style={textColumn}>
@@ -141,7 +145,9 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
 
                         {/* Contact Us */}
                         <Row style={detailRow}>
-                            <Column>
+                            <Column
+                                style={iconColumn}
+                            >
                                 📞
                             </Column>
                             <Column style={textColumn}>
