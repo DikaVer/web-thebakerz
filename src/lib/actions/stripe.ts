@@ -105,6 +105,7 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
             qty: cartItem.quantity,
             price: product.price,
             variants: cartItem.note ? [cartItem.note] : [],
+            const_id: product.constId,
         });
     }
 

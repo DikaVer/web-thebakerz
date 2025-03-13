@@ -4,6 +4,10 @@ import {getCurrentStore} from "@/lib/actions/store";
 import NotFound from "@/app/(error_layout)/not-found";
 import LayoutComp from "@/components/layout-comp";
 import {StoreProvider} from "@/components/providers/store-provider";
+import {pacifico} from "@/components/fonts";
+import Image from "next/image";
+import {ExternalLink} from "@/components/external-link";
+import React from "react";
 
 interface StorePageProps {
     params: Promise<{
@@ -28,21 +32,29 @@ export default async function Page(props: StorePageProps) {
         return NotFound();
     }
 
-    return <div>
-        <StoreProvider
-            store={storeData}
-        >
-            <LayoutComp
-                pay={true}
-                hideSideBar={true}
-                store={storeData}
-            >
-                <div className={'flex min-h-svh w-full justify-center items-center flex-col gap-y-2'}>
-                    <h1>Order Confirmation</h1>
-                    <p>We received your order. Thank you for shopping with us.</p>
-                    <p>Please check your email for further details regarding your order.</p>
+    return    (
+        <div className="flex flex-col mb-20 min-h-screen">
+            <div className="z-10 flex flex-col justify-center items-center container mx-auto text-center ">
+                <p className={`text-3xl my-10 ${pacifico.className}`}>Your Order is placed!</p>
+                <div className="w-2/3 h-2/3 ml-14 mb-2">
+                    <Image
+                        src="/images/VerifyEmail.svg"
+                        alt="Verify Email Image"
+                        width={200} // Adjust based on desired size
+                        height={200} // Adjust based on desired size
+                        className="w-full h-full"
+                        priority
+                    />
                 </div>
-            </LayoutComp>
-        </StoreProvider>
-    </div>;
+                <p>
+                    Check your email for the information about your order.
+                </p>
+                <ExternalLink href={`/${id}`}>
+                    {/*<TranslateOnServer key={'Not Found'} value={"Go back to TheBakerz"}/>*/}
+                    Go back to Store
+                </ExternalLink>
+            </div>
+        </div>
+    );
+
 }

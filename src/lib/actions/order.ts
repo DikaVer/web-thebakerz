@@ -41,6 +41,7 @@ export type OrderProduct = Array<{
     variants: string[];
     qty: number;
     price: number;
+    const_id: string;
 }>;
 
 export const createOrder = async (
@@ -121,6 +122,7 @@ export const createOrder = async (
             qty: cartItem.quantity,
             price: product.price,
             variants: cartItem.note ? [cartItem.note] : [],
+            const_id: product.constId
         });
     }
 

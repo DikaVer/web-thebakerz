@@ -101,6 +101,40 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             Edit Schedule
                         </DropdownItem>
                         <DropdownItem
+                            key="products"
+                            endContent={
+                                <Icon
+                                    className="text-default-500"
+                                    icon="solar:bag-5-broken"
+                                    width={24}
+                                />
+                            }
+                            onPress={() => {
+                                setIsLoading(true);
+                                router.push("/" + session?.store?.storeName + "/products");
+                                router.refresh();
+                            }}
+                        >
+                            Edit Products
+                        </DropdownItem>
+                        <DropdownItem
+                            key="order"
+                            endContent={
+                                <Icon
+                                    className="text-default-500"
+                                    icon="solar:document-add-linear"
+                                    width={24}
+                                />
+                            }
+                            onPress={() => {
+                                setIsLoading(true);
+                                router.push("/" + session?.store?.storeName + "/orders/add");
+                                router.refresh();
+                            }}
+                        >
+                            Add Order
+                        </DropdownItem>
+                        <DropdownItem
                             key="support"
                             endContent={
                                 <Icon

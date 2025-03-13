@@ -75,7 +75,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                     timeout: 2000,
                 })
                 handleNext();
-                router.push(`/${store.ownerName}/orders/${result.orderId}?email=${formData.email}`);
+                router.push(`/${store.storeName}/orders/${result.orderId}?email=${formData.email}`);
             } else if (result?.error) {
                 showErrorMessage({error: result.error});
             } else {

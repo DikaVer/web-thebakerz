@@ -30,6 +30,7 @@ export const ProductItems: React.FC<ProductItemsProps> = ({ category, productsDa
 
             return (
                 <button
+                    key={consId}
                     className={'border-b border-default-200 hover:bg-default-100 grid grid-cols-6 p-2 py-4 gap-x-4 w-full'}
                     onPointerDown={() => {
                         handleOpenWithProduct(product, undefined, true);
@@ -56,13 +57,7 @@ export const ProductItems: React.FC<ProductItemsProps> = ({ category, productsDa
                         </div>
                     </div>
                     <div className={'flex justify-center items-center'}>
-                        <Button
-                            isIconOnly
-                            radius={'full'}
-                            variant={'light'}
-                        >
-                            <Icon icon={'solar:add-circle-linear'} width={24} />
-                        </Button>
+                        <Icon icon={'solar:add-circle-linear'} width={24} />
                     </div>
                 </button>
             );

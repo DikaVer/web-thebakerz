@@ -19,7 +19,6 @@ interface OnboardingEmailProps {
 
 export default function ContactUsForm({ subject, email, content}: OnboardingEmailProps) {
     // Format the verification code as ###-###
-
     return (
         <Html>
             <Head>
@@ -76,22 +75,6 @@ export default function ContactUsForm({ subject, email, content}: OnboardingEmai
                             Email: <span style={{ fontWeight: 'bold' }}>{email}</span>
                         </Text>
                     </Container>
-
-                    <Img
-                        src={`https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/emails/Brazuca-fNZSckC7ubnXtJDCydSW7e1kdKIkOm`}
-                        width="100%"
-                        height="auto"
-                        alt="Footer Picture"
-                        style={footerImg}
-                    />
-                </Container>
-                <Container style={footerContainer}>
-                    <Text style={footerText}>
-                        Need help? Get in touch with
-                    </Text>
-                    <Link href="mailto:support@thebakerz.com" style={footerLink}>
-                        support@thebakerz.com
-                    </Link>
                 </Container>
             </Body>
         </Html>

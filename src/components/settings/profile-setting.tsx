@@ -168,7 +168,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                 </Badge>
                                 <div>
                                     <p className="text-sm font-medium text-default-500">{user.username}</p>
-                                    <p className="text-xs text-default-400">{user.role === "user" ? "Customer" : `TheBakerz - ${store?.storeName}`}</p>
+                                    <p className="text-xs text-default-400">{user.role === "user" ? "Customer" : `TheBakerz Nickname - ${store?.storeName}`}</p>
                                     <p className="mt-1 text-xs text-default-400">{user.email}</p>
                                 </div>
                             </div>

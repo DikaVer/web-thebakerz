@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
 
     try {
         // Retrieve the session to check its status
-        const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, { stripeAccount: 'acct_1R08EX4aNmXJ3PYr' });
+        const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, { stripeAccount: storeStripeAccountIdParam });
 
         // Verify payment status
         if (checkoutSession.payment_status === 'paid') {
@@ -47,12 +47,12 @@ export async function GET(req: NextRequest) {
             // Get current user
             const email = checkoutSession.customer_email ? checkoutSession.customer_email : checkoutSession.customer_details?.email;
             if (!email) {
-                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_user&session_id=${sessionId}`, origin));
+                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_user&session_id=${sessionId}`, origin), { status: 308 });
             }
 
             const storeId = checkoutSession.metadata?.storeId;
             if (!storeId) {
-                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_store_id&session_id=${sessionId}`, origin));
+                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_store_id&session_id=${sessionId}`, origin), { status: 308 });
             }
 
             // Get current session
@@ -62,22 +62,22 @@ export async function GET(req: NextRequest) {
             }
 
             if (!userSession) {
-                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_user&session_id=${sessionId}`, origin));
+                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_user&session_id=${sessionId}`, origin), { status: 308 });
             }
 
             const cartId = checkoutSession.metadata?.userId;
             if (!cartId) {
-                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_cart_id&session_id=${sessionId}`, origin));
+                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_cart_id&session_id=${sessionId}`, origin), { status: 308 });
             }
 
             const dateParams = checkoutSession.metadata?.orderDate;
             const timeParams = checkoutSession.metadata?.orderTime;
             if (!dateParams || !timeParams) {
-                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_order_time&session_id=${sessionId}`, origin));
+                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_order_time&session_id=${sessionId}`, origin), { status: 308 });
             }
             const cartItems: OrderProduct = JSON.parse(checkoutSession.metadata?.cartItems || '');
             if (!cartItems || cartItems.length === 0) {
-                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_cart&session_id=${sessionId}`, origin));
+                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_cart&session_id=${sessionId}`, origin), { status: 308 });
             }
 
             const cosmosId = uuidv4();
@@ -115,7 +115,7 @@ export async function GET(req: NextRequest) {
 
 
             if (result.rows.length === 0) {
-                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=order_failed&session_id=${sessionId}`, origin));
+                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=order_failed&session_id=${sessionId}`, origin), { status: 308 });
             }
 
             // 2. Create an order record in Azure Cosmos DB
@@ -152,15 +152,15 @@ export async function GET(req: NextRequest) {
 
 
             // Redirect to success page
-            return NextResponse.redirect(new URL(`/${storeIdParam}/order/success`, origin));
+            return NextResponse.redirect(new URL(`/${storeIdParam}/order/success`, origin), { status: 308 });
         } else {
             // Payment wasn't successful
-            return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=payment_failed&session_id=${sessionId}`, origin));
+            return NextResponse.redirect(new URL(`/${storeIdParam}/pay`, origin), { status: 308 });
         }
     } catch (error) {
 
         console.error('Error processing payment:', error);
-        return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=processing_error&session_id=${sessionId}`, origin));
+        return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=processing_error&session_id=${sessionId}`, origin), { status: 308 });
 
     }
 }

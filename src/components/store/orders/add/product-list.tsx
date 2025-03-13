@@ -104,6 +104,7 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
                 <CardHeader className={'pb-0 space-x-4'}>
                     {tabs.map((category) => (
                             <motion.button
+                                key={category}
                                 layout="position"
                                 onPointerDown={() => {
                                     setSelectedTab(category);

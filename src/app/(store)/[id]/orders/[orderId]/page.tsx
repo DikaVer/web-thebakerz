@@ -2,6 +2,7 @@ import React from "react";
 import NotFound from "@/app/(error_layout)/not-found";
 import {getCurrentOrder} from "@/lib/actions/order";
 import {getCurrentStore} from "@/lib/actions/store";
+import {OrderOverview} from "@/components/store/orders/overview/order-overview";
 
 interface StorePageProps {
     params: Promise<{
@@ -33,11 +34,15 @@ export default async function Page(props: StorePageProps) {
 
     const orderData = await getCurrentOrder(storeData.id, orderId, email);
 
-    console.log("storeData", orderData);
+    if (!orderData) {
+        return NotFound();
+    }
 
     return (
         <div className="flex flex-col min-h-screen relative z-10 items-center">
+            <OrderOverview
 
+            />
         </div>
     );
 }

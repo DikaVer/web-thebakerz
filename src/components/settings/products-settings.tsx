@@ -157,6 +157,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                         {tabs.map((category) => (
                             <ItemCategory item={category} key={category}>
                                 <motion.button
+                                    key={category}
                                     layout="position"
                                     onPointerDown={() => {
                                         setSelectedTab(category);

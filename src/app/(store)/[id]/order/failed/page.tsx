@@ -40,7 +40,7 @@ export default async function Page(props: StorePageProps) {
                 hideSideBar={true}
                 store={storeData}
             >
-                <div className={'flex min-h-svh w-full justify-center items-center flex-col gap-y-2'}
+                <div className={'flex min-h-svh w-full justify-center items-center flex-col gap-y-2 text-center'}
                 >
                     <p>
                         Sorry, something went wrong with your order. Please send the support request and wait for the response.

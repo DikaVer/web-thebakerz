@@ -76,14 +76,6 @@ export default function OnboardingRequest({ phone, email, fullName }: Onboarding
                             Email: <span style={{ fontWeight: 'bold' }}>{email}</span>
                         </Text>
                     </Container>
-
-                    <Img
-                        src={`https://2luntz9vzwxujpdd.public.blob.vercel-storage.com/emails/Brazuca-fNZSckC7ubnXtJDCydSW7e1kdKIkOm`}
-                        width="100%"
-                        height="auto"
-                        alt="Footer Picture"
-                        style={footerImg}
-                    />
                 </Container>
                 <Container style={footerContainer}>
                     <Text style={footerText}>
