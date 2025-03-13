@@ -88,13 +88,20 @@ export const ContactSchema = z.object({
 
 
 // Define allowed MIME types and a maximum file size (e.g. 5 MB)
-const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
+const allowedMimeTypes = [
+    "image/jpeg",       // JPEG images
+    "image/pjpeg",      // Progressive JPEG images
+    "image/png",        // PNG images
+    "image/webp",       // WebP images
+    "image/svg+xml",    // SVG images
+    "image/heic"        // HEIC images
+];
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
 // Create a Zod schema to validate the "file" field
 export const ImageSchema = z.instanceof(File)
     .refine((file) => allowedMimeTypes.includes(file.type), {
-        message: "Unsupported file type. Allowed types: JPEG, PNG, WebP.",
+        message: "Unsupported file type. Allowed types: JPEG, PNG, WebP, SVG, HEIC.",
     })
     .refine((file) => file.size <= MAX_FILE_SIZE, {
         message: "File is too large. Maximum allowed size is 5MB.",
