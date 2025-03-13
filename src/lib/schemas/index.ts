@@ -159,6 +159,7 @@ export const ProductSchema = z.object({
         .refine((val) => val !== null && val !== undefined, {
             message: "Image is required",
         }),
+    file_picture: ImageSchema.optional(),
     ingredients: z.array(z.string()).optional(),
     allergies: z.array(z.string()).optional(),
 });
@@ -170,11 +171,11 @@ export const CustomerOrderSchema = z.object({
         .email({
             message: 'Invalid email!'
         })
+        .nonempty('Email required!')
         .refine(
             (val) => (val === undefined) || validator.isEmail,
             { message: "Invalid email" }
-        )
-        .optional(),
+        ),
     phoneNumber: z.string()
         .refine((val) => (val === undefined) || validator.isMobilePhone , { message: "Invalid phone number" })
         .optional(),

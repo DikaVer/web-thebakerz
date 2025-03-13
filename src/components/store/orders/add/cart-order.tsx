@@ -46,7 +46,7 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         const productData = getProductDataById(item.product_id);
         return productData ? sum + productData.price * item.quantity : sum;
     }, 0);
-    const serviceFee = subtotal * 0.05; // 5% service fee
+    const vat = subtotal * 21/121; // 21% VAT fee
     const total = subtotal;
 
     const renderCartItems = (isLoading: boolean, setIsLoading: (value: boolean) => void) => {
@@ -80,6 +80,10 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                         <div className="flex justify-between">
                             <span className="text-sm font-medium">Subtotal</span>
                             <span className="text-sm">{formatCurrency(subtotal)}</span>
+                        </div>
+                        <div className="flex justify-between mt-2">
+                            <span className="text-sm font-medium">VAT (21% inclusive)</span>
+                            <span className="text-sm">{formatCurrency(vat)}</span>
                         </div>
                         <Spacer y={2} />
                         <Divider className="my-2" />

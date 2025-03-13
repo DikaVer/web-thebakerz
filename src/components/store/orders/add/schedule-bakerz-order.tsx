@@ -50,6 +50,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
     const [isCreating, setIsCreating] = useState(false);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { theme } = useTheme();
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof CustomerOrderSchema>>({
         resolver: zodResolver(CustomerOrderSchema),
@@ -65,7 +66,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
             setIsLoading(true);
             const result = await createOrder(formData);
 
-            if (result?.success) {
+            if (result?.orderId) {
                 addToast({
                     title: "Order Created",
                     description: `Your Customer Order has been created successfully.`,
@@ -73,10 +74,14 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                     shouldShowTimeoutProgress: true,
                     timeout: 2000,
                 })
-
+                handleNext();
+                router.push(`/${store.ownerName}/orders/${result.orderId}?email=${formData.email}`);
             } else if (result?.error) {
                 showErrorMessage({error: result.error});
+            } else {
+                showErrorMessage({error: "Failed to create order"});
             }
+            setIsLoading(false);
         },
         null
     );
@@ -152,7 +157,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                 >
                     <Button
                         startContent={<Icon icon={'solar:walking-round-linear'} width={24}/>}
-                        isLoading={isLoading}
+                        isLoading={isLoading || isPending}
                         variant={selectedDate instanceof CalendarDateTime ? "bordered" : 'solid'}
                         className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600' : 'text-white bg-gradient-primary'} text-sm`}
                         onPress={() =>
@@ -257,7 +262,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                         >
                             <div>
                                 <p className="text-base font-medium text-default-700">Customer Details</p>
-                                <p className="mt-1 text-sm font-normal text-default-400">Enter one of two customer details: e-mail address or phone number</p>
+                                <p className="mt-1 text-sm font-normal text-default-400">Enter customer e-mail address.</p>
                                 <FormField
                                     control={form.control}
                                     name="email"
@@ -267,7 +272,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                                 <Input
                                                     {...field}
                                                     className={'mt-2'}
-                                                    isDisabled={isLoading}
+                                                    isDisabled={isLoading || isPending}
                                                     startContent={
                                                         <IconMail className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                                                     }
@@ -282,31 +287,31 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                     )}
                                 />
 
-                                <Spacer y={2}/>
+                                {/*<Spacer y={2}/>*/}
 
-                                <FormField
-                                    control={form.control}
-                                    name="phoneNumber"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    className={'mt-2'}
-                                                    isDisabled={isLoading}
-                                                    startContent={
-                                                    <Icon icon={"solar:phone-calling-bold"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" width={24}/>
-                                                    }
-                                                    placeholder={`Enter customer phone number`}
-                                                    type="text"
-                                                    validate={() => {
-                                                        return fieldState.error?.message;
-                                                    }}
-                                                />
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
+                                {/*<FormField*/}
+                                {/*    control={form.control}*/}
+                                {/*    name="phoneNumber"*/}
+                                {/*    render={({ field, fieldState }) => (*/}
+                                {/*        <FormItem>*/}
+                                {/*            <FormControl>*/}
+                                {/*                <Input*/}
+                                {/*                    {...field}*/}
+                                {/*                    className={'mt-2'}*/}
+                                {/*                    isDisabled={isLoading}*/}
+                                {/*                    startContent={*/}
+                                {/*                    <Icon icon={"solar:phone-calling-bold"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" width={24}/>*/}
+                                {/*                    }*/}
+                                {/*                    placeholder={`Enter customer phone number`}*/}
+                                {/*                    type="text"*/}
+                                {/*                    validate={() => {*/}
+                                {/*                        return fieldState.error?.message;*/}
+                                {/*                    }}*/}
+                                {/*                />*/}
+                                {/*            </FormControl>*/}
+                                {/*        </FormItem>*/}
+                                {/*    )}*/}
+                                {/*/>*/}
                             </div>
                             <div className="flex justify-end w-full mt-4">
                                 <Button

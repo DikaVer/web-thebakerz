@@ -20,6 +20,22 @@ export async function GET(request: Request) {
         );
     }
 
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader) {
+        return NextResponse.json(
+            { error: 'Missing or invalid Authorization header' },
+            { status: 401 }
+        );
+    }
+
+    const token = authHeader.replace('Bearer ', '').trim();
+    if (token !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
+        return NextResponse.json(
+            { error: 'Not Authorize Access' },
+            { status: 401 }
+        );
+    }
+
 
     try {
         // Call your validation logic with the extracted token

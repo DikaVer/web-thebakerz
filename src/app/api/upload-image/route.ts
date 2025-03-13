@@ -45,14 +45,30 @@ export async function POST(request: Request) {
 
 
 
-        const {session, user} = await getCurrentSession();
+        const authHeader = request.headers.get('Authorization');
+        let userId;
 
-        if (!session) {
-            return NextResponse.json({
-                error: "Not authenticated"
-            }, {
-                status: 401
-            });
+        if (authHeader) {
+            const token = authHeader.replace('Bearer ', '').trim();
+            if (token !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
+                return NextResponse.json(
+                    {error: 'Not Authorize Access'},
+                    {status: 401}
+                );
+            }
+        } else {
+
+            const { user } = await getCurrentSession();
+
+            if (!user) {
+                return NextResponse.json({
+                    error: "Not authenticated"
+                }, {
+                    status: 401
+                });
+            }
+
+            userId = user.id;
         }
 
         // Convert the file (a web File object) into a Node.js Buffer
@@ -97,7 +113,7 @@ export async function POST(request: Request) {
         if (containerName === "avatars") {
             await connectionPool.query(
                 `UPDATE users SET image = $1 WHERE id = $2`,
-                [blobUrl, user?.id]
+                [blobUrl, userId]
             );
         }
 

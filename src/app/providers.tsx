@@ -50,7 +50,15 @@ export function Providers({session, children}: {
                 <NextThemesProvider attribute="class" defaultTheme="light">
                     <QueryClientProvider client={queryClient}>
                         <SessionProvider sessionData={session}>
-                            <ToastProvider />
+                            <div className={'relative z-60'}>
+                                <ToastProvider
+                                    toastProps={{
+                                        classNames: {
+                                            base: 'z-60',
+                                        }
+                                    }}
+                                />
+                            </div>
                             {children}
                         </SessionProvider>
                     </QueryClientProvider>

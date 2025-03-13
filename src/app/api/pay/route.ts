@@ -7,6 +7,7 @@ import {removeCartByUserIdAndStoreId} from "@/lib/actions/cart";
 import {connectionPool, containerOrders} from "@/db";
 import {OrderData, OrderProduct} from "@/lib/actions/order";
 import {sendOrderPlaced} from "@/lib/emailSendRequest";
+import {revalidateTag} from "next/cache";
 
 export async function GET(req: NextRequest) {
     // Rate limiting check
@@ -78,8 +79,6 @@ export async function GET(req: NextRequest) {
                 return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_cart&session_id=${sessionId}`, origin));
             }
 
-            await removeCartByUserIdAndStoreId(cartId, storeId);
-
             // Create order in your system
             // 1. Create an order record in PostgreSQL
             const result = await connectionPool.query(
@@ -127,6 +126,8 @@ export async function GET(req: NextRequest) {
                     date: dateParams,
                     time: timeParams
                 },
+                order_status: 'new',
+                completed:false,
                 productsData: cartItems,
                 amount_tax: checkoutSession.total_details?.amount_tax ? checkoutSession.total_details.amount_tax : 0,
 
@@ -134,12 +135,15 @@ export async function GET(req: NextRequest) {
 
             await containerOrders.items.create(orderData);
 
+            await removeCartByUserIdAndStoreId(cartId, storeId);
+
             // 3. Send confirmation email
             sendOrderPlaced({
                 orderData: orderData,
                 identifier: email,
             })
 
+            revalidateTag('orders');
 
 
             // Redirect to success page

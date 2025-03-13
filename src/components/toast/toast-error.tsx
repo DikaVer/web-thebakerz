@@ -11,7 +11,6 @@ const showErrorMessage = ({ error }: ToastMessageProps) => {
         description: error,
         timeout: 2000,
         shouldShowTimeoutProgress: true,
-        //@ts-ignore
         color: "danger"
     });
 };

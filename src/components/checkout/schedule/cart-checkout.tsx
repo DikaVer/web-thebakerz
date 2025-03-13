@@ -46,7 +46,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         const productData = getProductDataById(item.product_id);
         return productData ? sum + productData.price * item.quantity : sum;
     }, 0);
-    const vat = subtotal * 21/121; // 5% service fee
+    const vat = subtotal * 21/121; // 21% VAT fee
     const total = subtotal;
 
     const renderCartItems = (isLoading: boolean, setIsLoading: (value: boolean) => void) => {

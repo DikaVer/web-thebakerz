@@ -15,7 +15,7 @@ import {
     SelectItem,
     Spacer,
     NumberInput,
-    ScrollShadow
+    ScrollShadow, Alert
 } from "@heroui/react";
 import {addProduct, deleteProduct, ProductData} from "@/lib/actions/product";
 import {IconClose, IconCopy} from "@/components/ui/icons";
@@ -70,6 +70,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
             price: productData?.price ? productData.price / 100 : undefined,
             description: productData?.description,
             url: productData?.picture,
+            file_picture: undefined,
             ingredients: productData?.ingredients || [],
             allergies: productData?.allergies || [],
         },
@@ -118,9 +119,10 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                 subtitle={"Upload an image for your item"}
                 container={"products"}
                 // When a new image URL is returned, update both the local state and the form field.
-                setImageURL={(url: string) => {
+                setImageURL={(file:File, url: string) => {
                     setPicture(url);
-                    form.setValue("url", url);
+                    form.setValue('url', url)
+                    form.setValue('file_picture', file);
                 }}
             />
             <ModalHeader className={'px-4 justify-between'}>
@@ -144,35 +146,66 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                     <ModalBody className={`px-0 ${productData?.picture ? '': 'pt-0'}`}>
                         <>
                             <ScrollShadow className={"max-h-[70vh]"} size={20}>
-                            <div>
-                                <input
-                                    type="file"
-                                    className="hidden"
-                                    ref={fileRef}
-                                    onChange={handleChange}
+                                <FormField
+                                    control={form.control}
+                                    name="url"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <div>
+                                                    <input
+                                                        type="file"
+                                                        className="hidden"
+                                                        ref={fileRef}
+                                                        onChange={handleChange}
+                                                    />
+                                                    {picture ? (
+                                                        <div
+                                                            className="flex flex-col justify-center items-center w-full h-full aspect-square rounded-none"
+                                                            onClick={() => fileRef.current?.click()}
+                                                        >
+                                                            <Image
+                                                                removeWrapper
+                                                                alt={productData?.name || "Item Image"}
+                                                                className="object-cover w-full rounded-none"
+                                                                src={picture}
+                                                            />
+                                                        </div>
+                                                    ) : (
+                                                        <div
+                                                            className="flex flex-col justify-center items-center w-full h-full aspect-square rounded-none border-b-1 border-t-1 cursor-pointer"
+                                                            onClick={() => fileRef.current?.click()}
+                                                        >
+                                                            <Icon icon="solar:gallery-add-bold-duotone" className="text-default-500 w-full"
+                                                                  width={64}/>
+                                                            <p className="text-default-500">Upload Item Image</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </FormControl>
+                                            {fieldState.error?.message &&
+                                                <Alert
+                                                    color={'danger'}
+                                                    title={fieldState.error?.message}
+                                                />
+                                            }
+                                        </FormItem>
+                                    )}
                                 />
-                                {picture ? (
-                                    <div
-                                        className="flex flex-col justify-center items-center w-full h-full aspect-square rounded-none"
-                                    >
-                                        <Image
-                                            removeWrapper
-                                            alt={productData?.name || "Item Image"}
-                                            className="object-cover w-full rounded-none"
-                                            src={picture}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div
-                                        className="flex flex-col justify-center items-center w-full h-full aspect-square rounded-none border-b-1 border-t-1 cursor-pointer"
-                                        onClick={() => fileRef.current?.click()}
-                                    >
-                                        <Icon icon="solar:gallery-add-bold-duotone" className="text-default-500 w-full"
-                                              width={64}/>
-                                        <p className="text-default-500">Upload Item Image</p>
-                                    </div>
-                                )}
-                            </div>
+                                <FormField
+                                    control={form.control}
+                                    name="file_picture"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            {fieldState.error?.message &&
+                                                <Alert
+                                                    color={'danger'}
+                                                    title={fieldState.error?.message}
+                                                />
+                                            }
+                                        </FormItem>
+                                    )}
+                                />
                                 <div className="flex flex-col px-4 my-4">
                                     <div className="flex flex-row">
                                         {/* Product Name Field */}

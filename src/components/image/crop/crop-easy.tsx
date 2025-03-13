@@ -24,7 +24,7 @@ interface CropEasyProps {
     photoURL: string | undefined;
     setOpenCrop: (open: boolean) => void;
     container: string;
-    setImageURL?: (url: string) => void;
+    setImageURL?: (file:File, url: string) => void;
 }
 
 const CropEasy: React.FC<CropEasyProps> = ({
@@ -56,41 +56,42 @@ const CropEasy: React.FC<CropEasyProps> = ({
             if (file) {
                 setIsPending(true);
 
-                // Prepare form data for upload
-                const formData = new FormData();
-                formData.append("file", file, "image.webp");
-                formData.append("container", container);
-
-
-                const response = await fetch("/api/upload-image", {
-                    method: "POST",
-                    body: formData,
-                });
-
-                // console.log(response);
-
-                // Check if the response is ok
-                if (!response.ok) {
-                    // if error was 500, show a generic error message
-                    if (response.status === 500) {
-                        console.error("Failed to upload image");
-                        showErrorMessage({error: "Failed to upload image"});
-                    } else {
-                        const { error: error } = await response.json();
-                        showErrorMessage({error: error});
-                    }
-                    setOpenCrop(false);
-                    setIsPending(false);
-                    return;
-                }
-
-                // Get the blob URL from the response
-                const { success: success, url: url } = await response.json();
-
-                // Show success message
-                showSuccessMessage({success: success});
-
                 if (container === "avatars" && session) {
+
+                    // Prepare form data for upload
+                    const formData = new FormData();
+                    formData.append("file", file, "image.webp");
+                    formData.append("container", container);
+
+
+                    const response = await fetch("/api/upload-image", {
+                        method: "POST",
+                        body: formData,
+                    });
+
+                    // console.log(response);
+
+                    // Check if the response is ok
+                    if (!response.ok) {
+                        // if error was 500, show a generic error message
+                        if (response.status === 500) {
+                            console.error("Failed to upload image");
+                            showErrorMessage({error: "Failed to upload image"});
+                        } else {
+                            const { error: error } = await response.json();
+                            showErrorMessage({error: error});
+                        }
+                        setOpenCrop(false);
+                        setIsPending(false);
+                        return;
+                    }
+
+                    // Get the blob URL from the response
+                    const { success: success, url: url } = await response.json();
+
+                    // Show success message
+                    showSuccessMessage({success: success});
+
                     setSession((prevSession): SessionValidationResult => {
                         if (!session) return prevSession;
 
@@ -107,7 +108,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                         return prevSession;
                     });
                 } else {
-                    setImageURL && setImageURL(url);
+                    setImageURL && setImageURL(file, url);
                 }
 
                 setOpenCrop(false);

@@ -318,6 +318,10 @@ body {
     background-color: hsl(var(--orange-bakerz), 0.8);
   }
 
+  .z-60 {
+    z-index: 60;
+  }
+
 }
 /* Reduced Motion for Accessibility */
 @media (prefers-reduced-motion: reduce) {

@@ -310,7 +310,8 @@ export const getCurrentCart = async (
     return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/cart`, {
         headers: {
             'Store-Id': storeId,
-            'User-Id': userId
+            'User-Id': userId,
+            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
         },
         next: {
             tags: ['cart'],

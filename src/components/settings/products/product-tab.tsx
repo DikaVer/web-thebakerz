@@ -19,7 +19,7 @@ export interface ProductTabsProps {
 }
 export const ProductTable: React.FC<ProductTabsProps> = ({ category, productsData, updateOrder}) => {
 
-    const { handleOpenWithProduct } = useProductDialog();
+    const { handleOpen } = useProductDialog();
 
 
     const [products, setProducts] = useState<string[]>(Object.keys(productsData));
@@ -46,7 +46,7 @@ export const ProductTable: React.FC<ProductTabsProps> = ({ category, productsDat
                     className='border-b border-default-200 hover:bg-default-100 grid grid-cols-6 p-2 py-4 gap-x-4"'
                 >
                         <button
-                            onPointerDown={()=>{handleOpenWithProduct(product)}}
+                            onClick={()=>{handleOpen(product.id)}}
                             className="grid grid-cols-5 col-span-5 cursor-pointer gap-x-4 "
                         >
                             <div className={'col-span-1'}>

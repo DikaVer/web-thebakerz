@@ -35,6 +35,45 @@ export const addProduct = async (
         oldProductData = oldProduct.resource;
     }
 
+    const image_file = formData.file_picture;
+    let image_url;
+
+    if (image_file){
+        // Prepare form data for upload
+        const formData = new FormData();
+        formData.append("file", image_file, "image.webp");
+        formData.append("container", "products");
+
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload-image`, {
+            method: "POST",
+            body: formData,
+            headers: {
+                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+            },
+        });
+
+        console.log(response);
+
+        // Check if the response is ok
+        if (!response.ok) {
+            console.error("Failed to upload image");
+            return {
+                error: "Failed to upload image"
+            }
+        }
+
+        // Get the blob URL from the response
+        const { url: url } = await response.json();
+
+        image_url = url;
+        if (!image_url){
+            return {
+                error: "Failed to upload image"
+            }
+        }
+    }
+
     const productData = {
         id: uuidv4(),
         store_id: store.id,
@@ -42,7 +81,7 @@ export const addProduct = async (
         name: formData.name,
         description: formData.description,
         price: formData.price,
-        picture: formData.url,
+        picture: image_url,
         ingredients: formData.ingredients || [],
         allergies: formData.allergies || [],
         createdAt: oldProductData ? oldProductData.createdAt : new Date().toISOString(),
@@ -165,6 +204,7 @@ export async function getCurrentProducts(storeId: string): Promise<ProductDataFu
         return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/products`, {
             headers: {
                 'Store-Id': storeId,
+                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
             },
             next: {
                 tags: ['products'],

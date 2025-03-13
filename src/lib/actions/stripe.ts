@@ -49,8 +49,10 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
     //Check if data is tommorow
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    const orderDate = new Date(date)
-    if(orderDate < tomorrow) {
+    const orderDateObj = new Date(date);
+    const orderDateStr = orderDateObj.toISOString().split('T')[0];
+    const tomorrowStr = tomorrow.toISOString().split('T')[0];
+    if (orderDateStr === tomorrowStr) {
         return {error: 'Order time is incorrect'};
     }
 

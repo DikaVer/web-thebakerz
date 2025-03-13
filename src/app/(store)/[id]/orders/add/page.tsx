@@ -19,6 +19,7 @@ import ProductTableSkeleton from "@/components/skeleton/product-table";
 import {ProductCard} from "@/components/settings/products/product-card";
 import ProductList from "@/components/store/orders/add/product-list";
 import CheckoutOrder from "@/components/store/orders/add/checkout-order";
+import CartOrderComp from "@/components/store/orders/add/cart-order-comp";
 
 interface StorePageProps {
     params: Promise<{
@@ -34,7 +35,7 @@ export default async function Page(props: StorePageProps) {
     const searchParams = await props.searchParams;
     const params = await props.params;
 
-    const { id } = await params
+    const { id } = params
 
     const session = await getCurrentSession();
 
@@ -54,11 +55,10 @@ export default async function Page(props: StorePageProps) {
                 </h2>
                 {/* Tabs */}
                 <Suspense fallback={<ProductTableSkeleton />}>
-                    <ProductList
-                        productsData={productsData}
+                    <CartOrderComp
                         productsOrder={productsOrder}
-                    />
-                    <CheckoutOrder date={null} time={null}/>
+                        productsData={productsData}
+                        />
                 </Suspense>
             </div>
         </div>

@@ -67,8 +67,6 @@ export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: S
         }
     };
 
-    console.log(store.location);
-
     return (
         <div className="flex flex-col w-full max-w-[440px]">
                 <Spacer y={4}/>

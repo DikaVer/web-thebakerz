@@ -43,7 +43,7 @@ export const ItemProduct = ({ children, item, className }: { children: React.Rea
     return (
         <Reorder.Item
             value={item}
-            style={{ boxShadow, y, touchAction: "none"  }}
+            style={{ boxShadow, y}}
             dragListener={false}
             dragControls={dragControls}
             className={className}
@@ -80,6 +80,7 @@ export function ReorderIcon({ dragControls }: Props) {
     return (
         <motion.div
             whileTap={{ scale: 0.85 }}
+            style={{touchAction: "none"}}
             onPointerDown={(e) => {
 
                 e.preventDefault();

@@ -1,33 +1,26 @@
 'use client';
 
 import React, { useEffect, useState, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getCurrentProducts, ProductData, ProductDataFull } from "@/lib/actions/product";
-import { useSession } from "@/components/providers/session-provider";
-import NotFound from "@/app/not-found";
+import { ProductData, ProductDataFull } from "@/lib/actions/product";
 import {
-    Button,
     Card,
     CardBody,
-    CardFooter,
     CardHeader,
     Spacer,
-    Tab,
-    Tabs
 } from "@heroui/react";
-import { ProductTable } from "@/components/settings/products/product-tab";
 import { sortItems } from "@/lib/helper/sort-items-with-order";
-import { Icon } from "@iconify/react";
 import { useProductDialog } from "@/components/providers/product-provider";
-import {AnimatePresence, motion, Reorder } from "framer-motion";
-import {updateProductsOrder} from "@/lib/actions/order-products";
-import showErrorMessage from "@/components/toast/toast-error";
-import showSuccessMessage from "@/components/toast/toast-succes";
+import {AnimatePresence, motion} from "framer-motion";
 import {ProductItems} from "@/components/store/orders/add/product-item";
 
-const ProductList: React.FC<{ productsData: ProductDataFull; productsOrder: Record<string, string[]>}> = ({ productsData, productsOrder }) => {
-    const { handleOpen, setProductsDataLocal } = useProductDialog();
-    const [isLoading, setIsLoading] = useState(false);
+interface ProductListProps {
+    productsData: ProductDataFull;
+    productsOrder: Record<string, string[]>;
+    currentStep: number;
+}
+
+const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, productsOrder }) => {
+    const { setProductsDataLocal } = useProductDialog();
     const  categoriesKeys = Object.keys(productsOrder);
 
     useEffect(() => {
@@ -91,39 +84,11 @@ const ProductList: React.FC<{ productsData: ProductDataFull; productsOrder: Reco
         }, {} as ProductDataFull) || {};
     }, [productsByCategories, selectedTab]);
 
-    const [orderPayload, setOrderPayload] = useState<Record<string, string[]>>(productsOrder);
-
-    const updateOrder = (category: string, order: string[]) => {
-        setOrderPayload(prev => ({...prev, [category]: order}));
-    };
-
-    // Function to save the current order (unchanged here)
-    const handleSaveOrder = async () => {
-        setIsLoading(true);
-        const tabOrder = [...tabs];
-        const finalOrderPayload = tabOrder.reduce((acc, tab) => {
-            acc[tab] = orderPayload[tab] || [];
-            return acc;
-        }, {} as Record<string, string[]>);
-
-        try {
-            const res = await updateProductsOrder(finalOrderPayload);
-
-            if (res.error) {
-                showErrorMessage({error: res.error});
-            } else if (res.success) {
-                showSuccessMessage({success: res.success});
-            }
-        } catch (error) {
-            console.error('Failed to update order:', error);
-        }
 
 
-        setIsLoading(false);
-    };
 
     return (
-        <div>
+        <div className={`${currentStep === 0 || currentStep > 1 && 'hidden'}`}>
             <Spacer y={8} />
             <div className={'flex justify-between'}>
                 <div>

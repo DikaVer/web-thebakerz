@@ -1,13 +1,20 @@
 import { NextResponse } from 'next/server';
-import {getProductsByStoreId} from "@/lib/actions/product";
 
 // This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(request: Request) {
     // Retrieve the Authorization header
-    const id = request.headers.get('Store-Id');
-    if (!id) {
+    const storeId = request.headers.get('Store-Id');
+    if (!storeId) {
         return NextResponse.json(
             { error: 'Missing or invalid Store-Id header' },
+            { status: 401 }
+        );
+    }
+
+    const orderId = request.headers.get('Order-Id');
+    if (!orderId) {
+        return NextResponse.json(
+            { error: 'Missing or invalid User-Id header' },
             { status: 401 }
         );
     }
@@ -30,9 +37,9 @@ export async function GET(request: Request) {
 
 
     try {
-        // Call your validation logic with the extracted token
-        const productsData = await getProductsByStoreId(id);
-        return NextResponse.json(productsData, { status: 200 });
+
+
+        return NextResponse.json({ status: 200 });
     } catch (error) {
         console.error('Error validating session:', error);
         return NextResponse.json(

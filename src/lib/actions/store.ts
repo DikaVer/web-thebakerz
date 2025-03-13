@@ -69,6 +69,7 @@ export const getCurrentStore = async (id: string): Promise<StoreData> => {
     return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store`, {
         headers: {
             'Store-Id': id,
+            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
         },
         next: {tags: ['store']}
     }).then(res => res.json());

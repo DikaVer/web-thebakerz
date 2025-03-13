@@ -66,6 +66,7 @@ export async function getCurrentProductsOrder(storeId: string): Promise<Record<s
         return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/products-order`, {
             headers: {
                 'Store-Id': storeId,
+                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
             },
             next: {
                 tags: ['productsOrder'],

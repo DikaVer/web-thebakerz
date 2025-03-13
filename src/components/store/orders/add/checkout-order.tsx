@@ -1,29 +1,21 @@
 'use client';
-import { Accordion, AccordionItem, Button, Divider, Spacer } from "@heroui/react";
+import { Accordion, AccordionItem} from "@heroui/react";
 import { Icon } from "@iconify/react";
-import TwoStepAuthForm from "@/components/authentication/two-step-auth-form";
 import React, { useState } from "react";
-import { useSession } from "@/components/providers/session-provider";
-import NotFound from "@/app/(error_layout)/not-found";
-import { ScheduleOrder } from "@/components/checkout/schedule/schedule-order";
-import CartCheckout from "@/components/checkout/schedule/cart-checkout";
-import { replaceGuestCart } from "@/lib/actions/cart";
-import { useStore } from "@/components/providers/store-provider";
-import showErrorMessage from "@/components/toast/toast-error";
-import Checkout from "@/components/checkout/payment/checkout";
 import CartOrder from "@/components/store/orders/add/cart-order";
 import {ScheduleBakerzOrder} from "@/components/store/orders/add/schedule-bakerz-order";
+interface CheckoutOrderProps {
+    date: string | null;
+    time: string | null;
+    currentStep: number;
+    setCurrentStep: (value: number) => void;
+}
 
-
-export default function CheckoutOrder({ date, time }: { date: string | null; time: string | null }) {
-    const { session } = useSession();
-
-    const { store } = useStore();
+export default function CheckoutOrder({ date, time, currentStep, setCurrentStep }: CheckoutOrderProps) {
 
     // Define steps as strings "1", "2", "3", "4"
     const steps = ["1", "2", "3", "4"];
     // Start at step 2 if user is logged in, otherwise start at step 1.
-    const [currentStep, setCurrentStep] = useState<number>(1);
 
     // Allow all steps less than or equal to the current step to be accessible.
     // Only steps with a higher number than the current step remain disabled.
@@ -91,8 +83,9 @@ export default function CheckoutOrder({ date, time }: { date: string | null; tim
                     <ScheduleBakerzOrder
                         dateParam={date}
                         timeParam={time}
-                        handleNext={() => handleNext(3)}
-
+                        handleNext={() => {
+                            setCurrentStep(0);
+                        }}
                     />
                 </AccordionItem>
             </Accordion>

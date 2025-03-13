@@ -40,7 +40,7 @@ export default async function Layout({
     const session  = await getCurrentSession();
 
     if (!session?.store || session.store.id !== storeData.id) {
-        !session?.user && redirect('/auth?next=' + window.location.pathname);
+        !session?.user && redirect('/auth');
         return NotFound();
     }
 

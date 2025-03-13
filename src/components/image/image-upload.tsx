@@ -18,7 +18,7 @@ interface AvatarImageUploaderProps {
     title: string;
     subtitle: string;
     container: string;
-    setImageURL?: (url: string) => void;
+    setImageURL?: (file: File, url: string) => void;
 }
 
 export function ImageUploader({
