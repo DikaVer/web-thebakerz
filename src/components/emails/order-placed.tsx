@@ -166,16 +166,23 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
                     <Section style={orderSection}>
                         <Text style={sectionTitle}>Order Details</Text>
                         <Text style={orderIdText}>Order ID: #{orderId}</Text>
-
                         {/* Products Table */}
                         <table style={table}>
+                            {/*<thead>*/}
+                            {/*<tr>*/}
+                            {/*    <th style={tableHeader} colSpan={2}>Product</th>*/}
+                            {/*    <th style={tableHeader}>Qty</th>*/}
+                            {/*    <th style={tableHeader}>Price</th>*/}
+                            {/*</tr>*/}
+                            {/*</thead>*/}
                             <thead>
                             <tr>
-                                <th style={tableHeader} colSpan={2}>Product</th>
-                                <th style={tableHeader}>Qty</th>
-                                <th style={tableHeader}>Price</th>
+                                <th style={productHeaderCell} colSpan={2}>Product</th>
+                                <th style={qtyHeaderCell}>Qty</th>
+                                <th style={priceHeaderCell}>Price</th>
                             </tr>
                             </thead>
+
                             <tbody>
                             {products.map((product, index) => (
                                 <React.Fragment key={index}>
@@ -347,10 +354,29 @@ const tableHeader = {
     color: "#666",
     fontSize: "14px",
 };
+// new code from David
+const productHeaderCell = {
+    ...tableHeader,
+    width: "60%",
+};
+
+const qtyHeaderCell = {
+    ...tableHeader,
+    width: "15%",
+    textAlign: "center" as const,
+};
+
+const priceHeaderCell = {
+    ...tableHeader,
+    width: "25%",
+    textAlign: "right" as const,
+};
+////end of the new code from David
 
 const productCell = {
     padding: "12px",
     verticalAlign: "top" as const,
+    width: "60%", // David added
 };
 
 const linkStyle = {
@@ -377,12 +403,14 @@ const quantityCell = {
     padding: "12px",
     textAlign: "center" as const,
     color: "#666",
+    width: "15%", // Davod added this to match header
 };
 
 const priceCell = {
     padding: "12px",
     textAlign: "right" as const,
     color: "#666",
+    width: "25%", // David added this to match header
 };
 
 const rowDivider = {
