@@ -8,6 +8,7 @@ import {connectionPool, containerOrders} from "@/db";
 import {OrderData, OrderProduct} from "@/lib/actions/order";
 import {sendOrderPlaced} from "@/lib/emailSendRequest";
 import {revalidateTag} from "next/cache";
+import {v4 as uuidv4} from "uuid";
 
 export async function GET(req: NextRequest) {
     // Rate limiting check
@@ -79,23 +80,26 @@ export async function GET(req: NextRequest) {
                 return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_cart&session_id=${sessionId}`, origin));
             }
 
+            const cosmosId = uuidv4();
+
             // Create order in your system
             // 1. Create an order record in PostgreSQL
             const result = await connectionPool.query(
                 `
                     INSERT INTO payment_orders
-                    (store_id, store_order_id, email_customer, amount, product_ids, status, stripe_id)
+                    (store_id, store_order_id, email_customer, amount, product_ids, status, stripe_id, cosmos_id)
                     VALUES
                         (
                             $1,
-                            (SELECT COALESCE(COUNT(*) + 1, 1) FROM payment_orders WHERE store_id = $7),
+                            (SELECT COALESCE(COUNT(*) + 1, 1) FROM payment_orders WHERE store_id = $8),
                             $2,
                             $3,
                             $4::text[],
                             $5,
-                            $6
+                            $6,
+                            $7
                         )
-                        RETURNING id, store_order_id
+                        RETURNING order_date, store_order_id
                 `,
                 [
                     storeId,
@@ -104,6 +108,7 @@ export async function GET(req: NextRequest) {
                     cartItems?.map(item => item.id || 'Error'), // Pass as native array for text[] column
                     checkoutSession.payment_status,
                     sessionId,
+                    cosmosId,
                     storeId  // Added storeId again as parameter $7 for the subquery
                 ]
             );
@@ -115,7 +120,7 @@ export async function GET(req: NextRequest) {
 
             // 2. Create an order record in Azure Cosmos DB
             const orderData: OrderData = {
-                id: result.rows[0].id.toString(),
+                id: cosmosId,
                 order_id: result.rows[0].store_order_id,
                 store_id: storeId,
                 email_customer: email,

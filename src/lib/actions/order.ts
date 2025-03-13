@@ -14,6 +14,7 @@ import {sendOrderPlaced} from "@/lib/emailSendRequest";
 import {revalidateTag} from "next/cache";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
 import {StoreData} from "@/lib/actions/store";
+import {v4 as uuidv4} from "uuid";
 
 // Order data interface
 export interface OrderData {
@@ -125,22 +126,24 @@ export const createOrder = async (
 
     try {
 
+        const cosmosId = uuidv4();
 
         // 1. Create an order record in PostgreSQL
         const result = await connectionPool.query(
             `
                     INSERT INTO payment_orders
-                    (store_id, store_order_id, email_customer, amount, product_ids, status)
+                    (store_id, store_order_id, email_customer, amount, product_ids, status, cosmos_id)
                     VALUES
                         (
                             $1,
-                            (SELECT COALESCE(COUNT(*) + 1, 1) FROM payment_orders WHERE store_id = $6),
+                            (SELECT COALESCE(COUNT(*) + 1, 1) FROM payment_orders WHERE store_id = $7),
                             $2,
                             $3,
                             $4::text[],
-                            $5
+                            $5,
+                            $6
                         )
-                        RETURNING id, store_order_id
+                        RETURNING order_date, store_order_id
                 `,
             [
                 store.id,
@@ -148,6 +151,7 @@ export const createOrder = async (
                 subtotal,
                 cartItems?.map(item => item.id || 'Error'), // Pass as native array for text[] column
                 "manual",
+                cosmosId,
                 store.id  // Added storeId again as parameter $7 for the subquery
             ]
         );
@@ -157,11 +161,9 @@ export const createOrder = async (
             return {error: 'Failed to create order'};
         }
 
-        const orderId = result.rows[0].id.toString();
-
         // 2. Create an order record in Azure Cosmos DB
         const orderData: OrderData = {
-            id: orderId,
+            id: cosmosId,
             order_id: result.rows[0].store_order_id,
             store_id: store.id,
             email_customer: formData.email,
@@ -192,7 +194,7 @@ export const createOrder = async (
 
 
         return {
-            orderId: orderId
+            orderId: cosmosId
         }
     } catch (error) {
         console.error('Error creating checkout session:', error);
