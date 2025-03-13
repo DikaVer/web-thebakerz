@@ -419,7 +419,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                             type="submit"
                             isLoading={isPending}
                         >
-                            {isPending ? "Loading..." : productData ? "Update" : "Add"} Item
+                            {isPending ? "Loading..." : productData ? "Update Item" : "Add Item"}
                         </Button>
                     </ModalFooter>
                 </form>

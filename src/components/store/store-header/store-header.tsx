@@ -94,7 +94,7 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
                                 }
                         </div>
                 </div>
-                { ((session?.user?.role !== "bakerz" || session.store?.id !== store.id) && isSmall) &&
+                { isSmall &&
                     <div className={'flex h-full justify-end'}>
                         <Button
                             isIconOnly

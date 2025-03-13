@@ -29,7 +29,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                         color="default"
                         variant="light"
                         isLoading={isLoading}
-                        className="hover:bg-primary h-12 border-2 border-default-200 shadow-sm"
+                        className="h-12 border-2  shadow-sm"
                     >
                     {!isLoading && (
                         <IconDots
