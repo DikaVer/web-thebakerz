@@ -61,7 +61,7 @@ export async function sendMagicCode(params: { identifier: string; code: string }
     const message = {
         senderAddress,
         content: {
-            subject: `Your TheBakerz Verification Code: ${formattedCode}`,
+            subject: `Verification Code: ${formattedCode}`,
             plainText: generatePlainTextCode({ code: formattedCode }),
             html: await render(VerifyCodeEmail({ verificationCode: code })),
         },
@@ -282,5 +282,5 @@ function generatePlainTextContactusForm({
  * Generates a plain text version for the magic code email.
  */
 function generatePlainTextCode({ code }: { code: string }): string {
-    return `Your 6 digit code is ${code}`;
+    return `Your verification code is: ${code}`;
 }

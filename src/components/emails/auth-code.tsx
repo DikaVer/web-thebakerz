@@ -61,13 +61,11 @@ export default function VerifyCodeEmail({ verificationCode }: VerifyIdentityEmai
                     <Container style={actionContainer}>
                         {/*<Text style={greeting}>Hello there!</Text>*/}
                         <Text style={description}>
+                            <p>Your verification code is: <strong>{formattedCode}</strong></p>
                             Use the 6-digit code below to verify your identity and sign in to your TheBakerz account. If you didn't request this, please ignore this email or contact support.
                         </Text>
                         <Text style={code} className="code">
                             {formattedCode}
-                        </Text>
-                        <Text style={copyInstruction} className="copy-instruction">
-                            If the button doesn’t work, please copy the code manually.
                         </Text>
                         <Text style={note}>
                             This code will expire in 10 minutes.
@@ -116,12 +114,6 @@ const actionContainer = {
     padding: "20px",
 };
 
-const greeting = {
-    fontSize: "20px",
-    marginBottom: "10px",
-    color: "#333333",
-};
-
 const description = {
     fontSize: "16px",
     marginBottom: "20px",
@@ -142,28 +134,13 @@ const code = {
     fontFamily: "'Courier New', Courier, monospace",
 };
 
-const copyInstruction = {
-    fontSize: "16px",
-    color: "#555555",
-    marginBottom: "20px",
-};
-
 const note = {
     fontSize: "14px",
     color: "#888888",
 };
 
-const footerImg = {
-    width: "100%",
-    height: "auto",
-    marginTop: "20px",
-    borderRadius: "8px",
-};
-
 const footerContainer = {
     textAlign: "center" as const,
-    marginTop: "30px",
-    marginBottom: "30px",
 };
 
 const footerText = {
