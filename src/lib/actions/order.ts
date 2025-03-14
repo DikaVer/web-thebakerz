@@ -217,6 +217,33 @@ export const createOrder = async (
     }
 };
 
+export async function updateOrderStatus(storeId: string, orderId: string, email: string, status: string): Promise<boolean> {
+
+
+    const { store } = await getCurrentSession();
+
+    if (!store || store.id !== storeId) {
+        return false;
+    }
+
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/order/updateStatus`, {
+        method: 'POST',
+        headers: {
+            'Store-Id': storeId,
+            'Order-Id': orderId,
+            'Email': email,
+            'Status': status,
+            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+        }
+    });
+
+    return response.ok;
+
+
+}
+
+
 export async function getOrder(storeId: string, orderId: string, email: string): Promise<OrderData | null> {
     try {
 
@@ -246,7 +273,7 @@ export const getCurrentOrder = async (storeId: string, orderId: string, email: s
         },
         next: {
             tags: ['orders'],
-            revalidate: 0
+            revalidate: 300
         }
     }).then(res => res.json());
 };

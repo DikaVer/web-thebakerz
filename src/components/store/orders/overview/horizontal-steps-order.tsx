@@ -3,12 +3,12 @@
 import type {ComponentProps} from "react";
 import {
     Button,
-    ButtonProps,
+    ButtonProps, Chip,
     Input, Modal,
     ModalBody,
     ModalContent,
     ModalFooter,
-    ModalHeader,
+    ModalHeader, Spacer,
     useDisclosure
 } from "@heroui/react";
 
@@ -20,6 +20,11 @@ import {useMediaQuery} from "usehooks-ts";
 import {IconClose} from "@/components/ui/icons";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import { useTheme } from "next-themes";
+import showErrorMessage from "@/components/toast/toast-error";
+import GradientText from "@/components/ui/gradient-text";
+import {OrderData, updateOrderStatus} from "@/lib/actions/order";
+import {OrderStatusChip} from "@/components/ui/status-chip";
+import {Icon} from "@iconify/react";
 
 export type HorizontalStepProps = {
     title?: React.ReactNode;
@@ -68,6 +73,8 @@ export interface HorizontalStepsProps extends React.HTMLAttributes<HTMLButtonEle
      * Callback function when the step index changes.
      */
     onStepChange?: (stepIndex: number) => void;
+
+    orderData: OrderData;
 }
 
 function CheckIcon(props: ComponentProps<"svg">) {
@@ -93,6 +100,7 @@ function CheckIcon(props: ComponentProps<"svg">) {
 const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalStepsProps>(
     (
         {
+            orderData,
             color = "primary",
             steps = [],
             defaultStep = 0,
@@ -164,68 +172,151 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
 
         const { isOpen, onOpen, onOpenChange } = useDisclosure();
         const { theme } = useTheme();
+        const [ candidateIdx, setCandidateIdx ] = React.useState<number | undefined>();
+        const [isLoading, setIsLoading] = React.useState<boolean>(false);
         const handleChangeState = (stepIdx: number) => {
             if(stepIdx <= currentStep){
+                showErrorMessage({error: 'You cannot go back to previous steps.'});
                 return
             }
-            setCurrentStep(stepIdx);
+            setCandidateIdx(stepIdx);
+            onOpen();
+        }
+
+        const handleChangeStatus = async (stepIdx: number) => {
+            setIsLoading(true);
+            if(stepIdx <= currentStep){
+                showErrorMessage({error: 'You cannot go back to previous steps.'});
+                onOpenChange();
+                return
+            }
+
+            const isUpdated = await updateOrderStatus(orderData.store_id, orderData.id, orderData.email_customer, (() => {
+                switch (stepIdx) {
+                    case 1:
+                        return "started";
+                    case 2:
+                        return "ready";
+                    case 3:
+                        return "completed";
+                    default:
+                        return "new";
+                }
+            })());
+
+            if (!isUpdated) {
+                showErrorMessage({error: 'Failed to update order status.'});
+
+            } else {
+                showSuccessMessage({success: 'Order status updated successfully.'});
+                setCurrentStep(stepIdx);
+            }
+            onOpenChange();
+            setIsLoading(false);
         }
 
         const isSmall = useMediaQuery("(max-width: 550px)");
 
         return (
             <>
-                {/*<Modal*/}
-                {/*    isOpen={isOpen}*/}
-                {/*    size="sm"*/}
-                {/*    onOpenChange={onOpenChange}*/}
-                {/*    classNames={{*/}
-                {/*        closeButton: 'p-1'*/}
-                {/*    }}*/}
-                {/*    closeButton={*/}
-                {/*        <div className={'absolute w-full right-0'}>*/}
-                {/*            <IconClose size={32} primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}*/}
-                {/*                       secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}*/}
-                {/*            />*/}
-                {/*        </div>*/}
-                {/*    }*/}
-                {/*>*/}
-                {/*    <ModalContent>*/}
-                {/*        {(onClose) => (*/}
-                {/*            <>*/}
-                {/*                <ModalHeader className="flex flex-col gap-1">*/}
-                {/*                    Order*/}
-
-                {/*                </ModalHeader>*/}
-                {/*                <ModalBody>*/}
-                {/*                    <p>*/}
-                {/*                        Copy the link below and send it to the client to complete the order.*/}
-                {/*                    </p>*/}
-                {/*                    <Input*/}
-                {/*                        label="Order Link"*/}
-                {/*                        classNames={{*/}
-                {/*                            input: 'truncate',*/}
-                {/*                        }}*/}
-                {/*                        value={process.env.NEXT_PUBLIC_API_BASE_URL + "/" + store.storeName + "/pay/" + clientSecret}*/}
-                {/*                        // isDisabled={true}*/}
-                {/*                    />*/}
-                {/*                </ModalBody>*/}
-                {/*                <ModalFooter>*/}
-                {/*                    <Button variant="light" onPress={onClose}>*/}
-                {/*                        Close*/}
-                {/*                    </Button>*/}
-                {/*                    <Button color="primary" variant="light" onPress={() => {*/}
-                {/*                        onClose();*/}
-                {/*                        navigator.clipboard.writeText(process.env.NEXT_PUBLIC_API_BASE_URL + "/" + store.storeName + "/pay/" + clientSecret);*/}
-                {/*                        showSuccessMessage({success: "Order Link Copied, Send it to Client!"});*/}
-                {/*                    }}>*/}
-                {/*                        Copy Link*/}
-                {/*                    </Button>*/}
-                {/*                </ModalFooter>*/}
-                {/*            </>*/}
-                {/*        )}*/}
-                {/*    </ModalContent>*/}
-                {/*</Modal>*/}
+                <Modal
+                    isOpen={isOpen}
+                    size="sm"
+                    onOpenChange={onOpenChange}
+                    backdrop="blur"
+                    classNames={{
+                        closeButton: 'p-1'
+                    }}
+                    isDismissable={!isLoading}
+                    hideCloseButton={isLoading}
+                    closeButton={
+                        <div className={'absolute w-full right-0'}>
+                            <IconClose size={32} primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
+                                       secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
+                            />
+                        </div>
+                    }
+                >
+                    <ModalContent>
+                        {(onClose) => (
+                            <>
+                                <ModalHeader className="flex flex-col gap-1">
+                                    <div className={'flex'}>
+                                        <p className={'text-xl'}>
+                                            Order
+                                        </p>
+                                        <Spacer x={1}/>
+                                        <GradientText>
+                                            #{orderData.order_id}
+                                        </GradientText>
+                                    </div>
+                                </ModalHeader>
+                                <ModalBody>
+                                    <p className={'font-medium'}>
+                                        This action cannot be undone.
+                                    </p>
+                                    <p>
+                                        Change Status Action:
+                                    </p>
+                                    <div className={'flex items-center gap-x-2'}>
+                                        <OrderStatusChip
+                                            status={
+                                                (() => {
+                                                    switch (currentStep) {
+                                                        case 1:
+                                                            return "started";
+                                                        case 2:
+                                                            return "ready";
+                                                        case 3:
+                                                            return "completed";
+                                                        default:
+                                                            return "new";
+                                                    }
+                                                })()
+                                            }
+                                        />
+                                        <Icon icon={'solar:arrow-right-linear'} width={24}/>
+                                        <OrderStatusChip
+                                            status={
+                                                (() => {
+                                                    switch (candidateIdx) {
+                                                        case 1:
+                                                            return "started";
+                                                        case 2:
+                                                            return "ready";
+                                                        case 3:
+                                                            return "completed";
+                                                        default:
+                                                            return "new";
+                                                    }
+                                                })()
+                                            }
+                                        />
+                                    </div>
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button
+                                        isDisabled={isLoading}
+                                        isLoading={isLoading}
+                                        variant="light"
+                                        onPress={onClose}
+                                    >
+                                        {!isLoading && 'Cancel'}
+                                    </Button>
+                                    <Button
+                                        isDisabled={isLoading}
+                                        isLoading={isLoading}
+                                        color="primary"
+                                        variant="light"
+                                        onPress={() => handleChangeStatus(candidateIdx || 0)}
+                                    >
+                                        {!isLoading && 'Change'}
+                                    </Button>
+                                </ModalFooter>
+                            </>
+                        )}
+                    </ModalContent>
+                </Modal>
 
                 <nav aria-label="Progress" className="max-w-fit overflow-x-auto">
                     <ol className={cn("flex flex-row flex-nowrap", colors, className)}>
@@ -270,34 +361,38 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                                                 borderColor: "var(--inactive-border-color)",
                                                                 color: "var(--inactive-color)",
                                                             }),
-                                                            active: (custom: number) => {
-                                                                switch (stepIdx) {
-                                                                    case 1:
-                                                                        return {
-                                                                            backgroundColor: "transparent",
-                                                                            borderColor: "orange",
-                                                                            color: "orange",
-                                                                        };
-                                                                    case 2:
-                                                                        return {
-                                                                            backgroundColor: "transparent",
-                                                                            borderColor: "green",
-                                                                            color: "green",
-                                                                        };
-                                                                    case 3:
-                                                                        return {
-                                                                            backgroundColor: "transparent",
-                                                                            borderColor: "black",
-                                                                            color: "black",
-                                                                        };
-                                                                    default:
-                                                                        return {
-                                                                            backgroundColor: "transparent",
-                                                                            borderColor: "black",
-                                                                            color: "black",
-                                                                        };
-                                                                }
-                                                            },
+                                                            active: (custom: number) => ({
+                                                                backgroundColor: "transparent",
+                                                                borderColor: "var(--active-border-color)",
+                                                                color: "var(--active-color)",
+
+                                                                // switch (stepIdx) {
+                                                                //     case 1:
+                                                                //         return {
+                                                                //             backgroundColor: "transparent",
+                                                                //             borderColor: "orange",
+                                                                //             color: "orange",
+                                                                //         };
+                                                                //     case 2:
+                                                                //         return {
+                                                                //             backgroundColor: "transparent",
+                                                                //             borderColor: "green",
+                                                                //             color: "green",
+                                                                //         };
+                                                                //     case 3:
+                                                                //         return {
+                                                                //             backgroundColor: "transparent",
+                                                                //             borderColor: "black",
+                                                                //             color: "black",
+                                                                //         };
+                                                                //     default:
+                                                                //         return {
+                                                                //             backgroundColor: "transparent",
+                                                                //             borderColor: "black",
+                                                                //             color: "black",
+                                                                //         };
+                                                                // }
+                                                            }),
                                                             complete: (custom: number) => ({
                                                                 backgroundColor: "var(--complete-background-color)",
                                                                 borderColor: "var(--complete-border-color)",

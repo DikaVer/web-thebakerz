@@ -182,6 +182,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                     <>
                         <Modal
                             isOpen={isOpen}
+                            backdrop="blur"
                             size="sm"
                             onOpenChange={onOpenChange}
                             classNames={{

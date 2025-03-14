@@ -62,6 +62,7 @@ export const OrderStatus: React.FC<OrderStatusProps> = ({storeData, orderData}) 
                     className={'flex justify-center items-center'}
                 >
                     <HorizontalStepsOrder
+                        orderData={orderData}
                         defaultStep={status(orderData.order_status)}
                         steps={[
                             {

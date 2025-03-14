@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import {getOrder} from "@/lib/actions/order";
+import {getCurrentSession} from "@/lib/actions/session";
+
 
 // This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(request: Request) {

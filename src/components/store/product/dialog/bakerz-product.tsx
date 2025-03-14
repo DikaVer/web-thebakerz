@@ -383,6 +383,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                         {productData && (
                             <>
                                 <Modal
+                                    backdrop="blur"
                                     isOpen={isOpenDelete}
                                     size="sm"
                                     onClose={onClose}
