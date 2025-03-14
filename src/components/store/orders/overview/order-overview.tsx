@@ -18,7 +18,7 @@ interface OrderOverviewProps {
     orderData: OrderData;
 }
 
-export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderData}) => {
+export const  OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderData}) => {
     const { store } = useStore();
     const router = useRouter();
 
@@ -27,7 +27,7 @@ export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderDat
             <Button
                 size="md"
                 variant="light"
-                className="text-default-500 max-w-fit px-0"
+                className="text-default-500 max-w-fit px-0 pr-2"
                 onPress={() => {
                     router.push(`/${store.storeName}/orders?date=${orderData.scheduled_time.date}`);
                     router.refresh();

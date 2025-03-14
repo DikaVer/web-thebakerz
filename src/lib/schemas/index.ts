@@ -183,6 +183,11 @@ export const CustomerOrderSchema = z.object({
             (val) => (val === undefined) || validator.isEmail,
             { message: "Invalid email" }
         ),
+    name: z.string()
+        .trim()
+        .nonempty('Name required!')
+        .min(2, { message: 'Name must be at least 2 characters' })
+        .max(100, { message: 'Name must be less than 100 characters' }),
     phoneNumber: z.string()
         .refine((val) => (val === undefined) || validator.isMobilePhone , { message: "Invalid phone number" })
         .optional(),

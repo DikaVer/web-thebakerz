@@ -36,7 +36,7 @@ export default async function Page(props: StorePageProps) {
         <div className="flex flex-col mb-20 min-h-screen">
             <div className="z-10 flex flex-col justify-center items-center container mx-auto text-center ">
                 <p className={`text-3xl my-10 ${pacifico.className}`}>Your Order is placed!</p>
-                <div className="w-2/3 h-2/3 ml-14 mb-2">
+                <div className="w-[300px] h-2/3 ml-14 mb-2">
                     <Image
                         src="/images/VerifyEmail.svg"
                         alt="Verify Email Image"

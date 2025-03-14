@@ -22,6 +22,9 @@ export interface OrderData {
     order_id: string;
     store_id: string;
     email_customer: string;
+    email_verified: boolean;
+    name_customer: string;
+    phone_number?: string;
     createdAt: Date;
     amount: number;
     status: "paid" | "manual" ;
@@ -176,6 +179,9 @@ export const createOrder = async (
             order_id: result.rows[0].store_order_id,
             store_id: store.id,
             email_customer: formData.email,
+            email_verified: false,
+            name_customer: formData.name,
+            phone_number: formData.phoneNumber,
             createdAt: result.rows[0].order_date,
             amount: subtotal,
             status: "manual",

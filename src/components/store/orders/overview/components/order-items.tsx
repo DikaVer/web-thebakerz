@@ -49,6 +49,7 @@ export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) =>
                             style={{ width: "100%" }}
                         >
                             <ItemList
+                                orderId={orderData.id}
                                 orderProducts={orderData.productsData}
                             />
                         </motion.div>

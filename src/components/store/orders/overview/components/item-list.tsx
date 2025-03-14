@@ -2,21 +2,20 @@
 import React, {useMemo, useState} from "react";
 import {OrderProduct, OrderProducts} from "@/lib/actions/order";
 import {ItemProduct} from "@/components/ui/drag-item";
-import {Alert, Image, Spacer} from "@heroui/react";
+import {Spacer} from "@heroui/react";
 import {formatCurrency} from "@/lib/utils";
 import {Reorder} from "framer-motion";
 import CustomAlert from "@/components/ui/custom-alerts";
 import {AllergenIcon} from "@/components/store/product/components/allergy-icons";
-import {v4 as uuidv4} from "uuid";
 import {useMediaQuery} from "usehooks-ts";
 
 
-
 interface ItemRowProps {
+    orderId: string;
     orderProducts: OrderProducts;
 }
 
-export const ItemList: React.FC<ItemRowProps> = ({orderProducts}) => {
+export const ItemList: React.FC<ItemRowProps> = ({orderId, orderProducts}) => {
 
     if (!orderProducts) {
         return <p>Something went wrong, please contact support!</p>
@@ -24,15 +23,47 @@ export const ItemList: React.FC<ItemRowProps> = ({orderProducts}) => {
 
     // Create a dictionary (object) with uniqueId as the key and order data as the value
     const orderDictionary = useMemo<{ [key: string]: OrderProduct }>(() => {
-        return orderProducts.reduce((dict, item) => {
-            const uniqueId = uuidv4();
-            dict[uniqueId] = item;
+        return orderProducts.reduce((dict, item, index) => {
+            // Use product ID or create a stable compound key
+            dict[index] = item;
             return dict;
         }, {} as { [key: string]: OrderProduct });
     }, [orderProducts]);
 
 
-    const [products, setProducts] = useState<string[]>(Object.keys(orderDictionary));
+    const [products, setProducts] = useState<string[]>(() => {
+        // Get orderId (assuming it's available in orderProducts[0])
+
+        if (!orderId) return Object.keys(orderDictionary);
+
+        // Try to get saved order from localStorage
+        const savedOrder = localStorage.getItem(`order_products_${orderId}`);
+        if (savedOrder) {
+            try {
+                const parsedOrder = JSON.parse(savedOrder);
+                // Verify all keys still exist in the current dictionary
+                const validKeys = parsedOrder.filter((key: string) => orderDictionary[key]);
+                if (validKeys.length === Object.keys(orderDictionary).length) {
+                    return validKeys;
+                }
+            } catch (e) {
+                console.error("Error parsing saved order:", e);
+            }
+        }
+
+        // Fallback to default order
+        return Object.keys(orderDictionary);
+    });
+
+
+    // Update local storage when order changes
+    const saveOrderToLocalStorage = (newOrder: string[]) => {
+        if (orderId) {
+            localStorage.setItem(`order_products_${orderId}`, JSON.stringify(newOrder));
+        }
+        setProducts(newOrder);
+    };
+
     const isSmall = useMediaQuery("(max-width: 640px)");
 
     return (
@@ -40,7 +71,7 @@ export const ItemList: React.FC<ItemRowProps> = ({orderProducts}) => {
             axis="y"
             values={products}
             onReorder={(reordered) => {
-                setProducts(reordered);
+                saveOrderToLocalStorage(reordered);
             }}
             className='w-full'
         >

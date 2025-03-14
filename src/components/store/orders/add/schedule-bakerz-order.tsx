@@ -55,6 +55,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
     const form = useForm<z.infer<typeof CustomerOrderSchema>>({
         resolver: zodResolver(CustomerOrderSchema),
         defaultValues: {
+            name: undefined,
             email: undefined,
             phoneNumber: undefined,
         },
@@ -76,6 +77,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                 })
                 handleNext();
                 router.push(`/${store.storeName}/orders/${result.orderId}?email=${formData.email}`);
+                router.refresh();
             } else if (result?.error) {
                 showErrorMessage({error: result.error});
             } else {
@@ -262,6 +264,33 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                         >
                             <div>
                                 <p className="text-base font-medium text-default-700">Customer Details</p>
+
+                                <p className="mt-1 text-sm font-normal text-default-400">Enter customer name.</p>
+                                <FormField
+                                    control={form.control}
+                                    name="name"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    className={'mt-2'}
+                                                    isDisabled={isLoading || isPending}
+                                                    startContent={
+                                                        <Icon icon={'stash:user-avatar'} className={'text-default-500'} width={24}/>
+                                                    }
+                                                    placeholder={`Enter customer name`}
+                                                    type="text"
+                                                    validate={() => {
+                                                        return fieldState.error?.message;
+                                                    }}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                                <Spacer y={2}/>
+
                                 <p className="mt-1 text-sm font-normal text-default-400">Enter customer e-mail address.</p>
                                 <FormField
                                     control={form.control}
@@ -287,31 +316,32 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                     )}
                                 />
 
-                                {/*<Spacer y={2}/>*/}
+                                <Spacer y={2}/>
 
-                                {/*<FormField*/}
-                                {/*    control={form.control}*/}
-                                {/*    name="phoneNumber"*/}
-                                {/*    render={({ field, fieldState }) => (*/}
-                                {/*        <FormItem>*/}
-                                {/*            <FormControl>*/}
-                                {/*                <Input*/}
-                                {/*                    {...field}*/}
-                                {/*                    className={'mt-2'}*/}
-                                {/*                    isDisabled={isLoading}*/}
-                                {/*                    startContent={*/}
-                                {/*                    <Icon icon={"solar:phone-calling-bold"} className="text-2xl text-default-400 pointer-events-none flex-shrink-0" width={24}/>*/}
-                                {/*                    }*/}
-                                {/*                    placeholder={`Enter customer phone number`}*/}
-                                {/*                    type="text"*/}
-                                {/*                    validate={() => {*/}
-                                {/*                        return fieldState.error?.message;*/}
-                                {/*                    }}*/}
-                                {/*                />*/}
-                                {/*            </FormControl>*/}
-                                {/*        </FormItem>*/}
-                                {/*    )}*/}
-                                {/*/>*/}
+                                <p className="mt-1 text-sm font-normal text-default-400">Enter customer phone number. (Optional)</p>
+                                <FormField
+                                    control={form.control}
+                                    name="phoneNumber"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    className={'mt-2'}
+                                                    isDisabled={isLoading}
+                                                    startContent={
+                                                        <Icon icon={"solar:phone-calling-bold"} className="text-default-400 pointer-events-none flex-shrink-0" width={24}/>
+                                                    }
+                                                    placeholder={`Enter customer phone number`}
+                                                    type="text"
+                                                    validate={() => {
+                                                        return fieldState.error?.message;
+                                                    }}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
                             <div className="flex justify-end w-full mt-4">
                                 <Button

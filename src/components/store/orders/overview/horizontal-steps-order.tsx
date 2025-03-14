@@ -1,13 +1,25 @@
 "use client";
 
 import type {ComponentProps} from "react";
-import type {ButtonProps} from "@heroui/react";
+import {
+    Button,
+    ButtonProps,
+    Input, Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    useDisclosure
+} from "@heroui/react";
 
 import React from "react";
 import {useControlledState} from "@react-stately/utils";
 import {m, LazyMotion, domAnimation} from "framer-motion";
 import {cn} from "@heroui/react";
 import {useMediaQuery} from "usehooks-ts";
+import {IconClose} from "@/components/ui/icons";
+import showSuccessMessage from "@/components/toast/toast-succes";
+import { useTheme } from "next-themes";
 
 export type HorizontalStepProps = {
     title?: React.ReactNode;
@@ -150,147 +162,212 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
             return colorsVars;
         }, [color]);
 
+        const { isOpen, onOpen, onOpenChange } = useDisclosure();
+        const { theme } = useTheme();
+        const handleChangeState = (stepIdx: number) => {
+            if(stepIdx <= currentStep){
+                return
+            }
+            setCurrentStep(stepIdx);
+        }
+
         const isSmall = useMediaQuery("(max-width: 550px)");
 
         return (
-            <nav aria-label="Progress" className="max-w-fit overflow-x-auto">
-                <ol className={cn("flex flex-row flex-nowrap", colors, className)}>
-                    {steps?.map((step, stepIdx) => {
-                        let status =
-                            currentStep === stepIdx ? "active" : currentStep < stepIdx ? "inactive" : "complete";
+            <>
+                {/*<Modal*/}
+                {/*    isOpen={isOpen}*/}
+                {/*    size="sm"*/}
+                {/*    onOpenChange={onOpenChange}*/}
+                {/*    classNames={{*/}
+                {/*        closeButton: 'p-1'*/}
+                {/*    }}*/}
+                {/*    closeButton={*/}
+                {/*        <div className={'absolute w-full right-0'}>*/}
+                {/*            <IconClose size={32} primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}*/}
+                {/*                       secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}*/}
+                {/*            />*/}
+                {/*        </div>*/}
+                {/*    }*/}
+                {/*>*/}
+                {/*    <ModalContent>*/}
+                {/*        {(onClose) => (*/}
+                {/*            <>*/}
+                {/*                <ModalHeader className="flex flex-col gap-1">*/}
+                {/*                    Order*/}
 
-                        status = stepIdx === 0 ? "complete" : status;
+                {/*                </ModalHeader>*/}
+                {/*                <ModalBody>*/}
+                {/*                    <p>*/}
+                {/*                        Copy the link below and send it to the client to complete the order.*/}
+                {/*                    </p>*/}
+                {/*                    <Input*/}
+                {/*                        label="Order Link"*/}
+                {/*                        classNames={{*/}
+                {/*                            input: 'truncate',*/}
+                {/*                        }}*/}
+                {/*                        value={process.env.NEXT_PUBLIC_API_BASE_URL + "/" + store.storeName + "/pay/" + clientSecret}*/}
+                {/*                        // isDisabled={true}*/}
+                {/*                    />*/}
+                {/*                </ModalBody>*/}
+                {/*                <ModalFooter>*/}
+                {/*                    <Button variant="light" onPress={onClose}>*/}
+                {/*                        Close*/}
+                {/*                    </Button>*/}
+                {/*                    <Button color="primary" variant="light" onPress={() => {*/}
+                {/*                        onClose();*/}
+                {/*                        navigator.clipboard.writeText(process.env.NEXT_PUBLIC_API_BASE_URL + "/" + store.storeName + "/pay/" + clientSecret);*/}
+                {/*                        showSuccessMessage({success: "Order Link Copied, Send it to Client!"});*/}
+                {/*                    }}>*/}
+                {/*                        Copy Link*/}
+                {/*                    </Button>*/}
+                {/*                </ModalFooter>*/}
+                {/*            </>*/}
+                {/*        )}*/}
+                {/*    </ModalContent>*/}
+                {/*</Modal>*/}
 
-                        status = currentStep === 3 ? "complete" : status;
+                <nav aria-label="Progress" className="max-w-fit overflow-x-auto">
+                    <ol className={cn("flex flex-row flex-nowrap", colors, className)}>
+                        {steps?.map((step, stepIdx) => {
+                            let status =
+                                currentStep === stepIdx ? "active" : currentStep < stepIdx ? "inactive" : "complete";
 
-                        return (
-                            <li key={stepIdx} className="relative flex items-start">
-                                <button
-                                    key={stepIdx}
-                                    ref={ref}
-                                    aria-current={status === "active" ? "step" : undefined}
-                                    className={cn(
-                                        "group flex w-full cursor-pointer flex-col items-center justify-center gap-y-2 rounded-large py-2.5 px-0",
-                                        isSmall ? "mx-1" : "mx-6",
-                                        stepClassName,
-                                    )}
-                                    onClick={() => setCurrentStep(stepIdx)}
-                                    {...props}
-                                >
-                                    <div className="h-full relative flex items-center">
-                                        <LazyMotion features={domAnimation}>
-                                            <m.div animate={status} className="relative">
-                                                <m.div
+                            status = stepIdx === 0 ? "complete" : status;
+
+                            status = currentStep === 3 ? "complete" : status;
+
+                            return (
+                                <li key={stepIdx} className="relative flex items-start">
+                                    <button
+                                        key={stepIdx}
+                                        ref={ref}
+                                        aria-current={status === "active" ? "step" : undefined}
+                                        className={cn(
+                                            "group flex w-full flex-col items-center justify-center gap-y-2 rounded-large py-2.5 px-0",
+                                            isSmall ? "mx-1" : "mx-6",
+                                            stepIdx <= currentStep ? "cursor-default" : "cursor-pointer",
+                                            stepClassName,
+                                        )}
+                                        onClick={() => handleChangeState(stepIdx)}
+                                        {...props}
+                                    >
+                                        <div className="h-full relative flex items-center">
+                                            <LazyMotion features={domAnimation}>
+                                                <m.div animate={status} className="relative">
+                                                    <m.div
+                                                        className={cn(
+                                                            "relative flex h-[34px] w-[34px] items-center justify-center rounded-full border-medium text-large font-semibold text-default-foreground",
+                                                            {
+                                                                "shadow-lg": status === "complete",
+                                                            },
+                                                        )}
+                                                        initial={false}
+                                                        transition={{duration: 0.25}}
+                                                        variants={{
+                                                            inactive: (custom: number) => ({
+                                                                backgroundColor: "transparent",
+                                                                borderColor: "var(--inactive-border-color)",
+                                                                color: "var(--inactive-color)",
+                                                            }),
+                                                            active: (custom: number) => {
+                                                                switch (stepIdx) {
+                                                                    case 1:
+                                                                        return {
+                                                                            backgroundColor: "transparent",
+                                                                            borderColor: "orange",
+                                                                            color: "orange",
+                                                                        };
+                                                                    case 2:
+                                                                        return {
+                                                                            backgroundColor: "transparent",
+                                                                            borderColor: "green",
+                                                                            color: "green",
+                                                                        };
+                                                                    case 3:
+                                                                        return {
+                                                                            backgroundColor: "transparent",
+                                                                            borderColor: "black",
+                                                                            color: "black",
+                                                                        };
+                                                                    default:
+                                                                        return {
+                                                                            backgroundColor: "transparent",
+                                                                            borderColor: "black",
+                                                                            color: "black",
+                                                                        };
+                                                                }
+                                                            },
+                                                            complete: (custom: number) => ({
+                                                                backgroundColor: "var(--complete-background-color)",
+                                                                borderColor: "var(--complete-border-color)",
+                                                            }),
+                                                        }}
+                                                    >
+                                                        <div className="flex items-center justify-center">
+                                                            {status === "complete" ? (
+                                                                <CheckIcon
+                                                                    className="h-6 w-6 text-[var(--active-fg-color)]"/>
+                                                            ) : (
+                                                                <span>{stepIdx + 1}</span>
+                                                            )}
+                                                        </div>
+                                                    </m.div>
+                                                </m.div>
+                                            </LazyMotion>
+                                            {stepIdx < steps.length - 1 && !hideProgressBars && (
+                                                <div
+                                                    aria-hidden="true"
                                                     className={cn(
-                                                        "relative flex h-[34px] w-[34px] items-center justify-center rounded-full border-medium text-large font-semibold text-default-foreground",
-                                                        {
-                                                            "shadow-lg": status === "complete",
-                                                        },
+                                                        "pointer-events-none absolute left-6 top-1/2 flex -translate-y-1/2 translate-x-1/2 items-center ",
+                                                        isSmall ? "w-8" : "w-14",
                                                     )}
-                                                    initial={false}
-                                                    transition={{duration: 0.25}}
-                                                    variants={{
-                                                        inactive: (custom: number) => ({
-                                                            backgroundColor: "transparent",
-                                                            borderColor: "var(--inactive-border-color)",
-                                                            color: "var(--inactive-color)",
-                                                        }),
-                                                        active: (custom: number) => {
-                                                            switch (stepIdx) {
-                                                                case 1:
-                                                                    return {
-                                                                        backgroundColor: "transparent",
-                                                                        borderColor: "orange",
-                                                                        color: "orange",
-                                                                    };
-                                                                case 2:
-                                                                    return {
-                                                                        backgroundColor: "transparent",
-                                                                        borderColor: "green",
-                                                                        color: "green",
-                                                                    };
-                                                                case 3:
-                                                                    return {
-                                                                        backgroundColor: "transparent",
-                                                                        borderColor: "black",
-                                                                        color: "black",
-                                                                    };
-                                                                default:
-                                                                    return {
-                                                                        backgroundColor: "transparent",
-                                                                        borderColor: "black",
-                                                                        color: "black",
-                                                                    };
-                                                            }
-                                                        },
-                                                        complete: (custom: number) => ({
-                                                            backgroundColor: "var(--complete-background-color)",
-                                                            borderColor: "var(--complete-border-color)",
-                                                        }),
+                                                    style={{
+                                                        // @ts-ignore
+                                                        "--idx": stepIdx,
                                                     }}
                                                 >
-                                                    <div className="flex items-center justify-center">
-                                                        {status === "complete" ? (
-                                                            <CheckIcon className="h-6 w-6 text-[var(--active-fg-color)]" />
-                                                        ) : (
-                                                            <span>{stepIdx + 1}</span>
+                                                    <div
+                                                        className={cn(
+                                                            "relative h-0.5 w-full bg-default-200 transition-colors duration-300",
+                                                            "after:absolute after:block after:h-full after:w-0 after:bg-[var(--active-border-color)] after:transition-[width] after:duration-300 after:content-['']",
+                                                            {
+                                                                "after:w-full": stepIdx < currentStep,
+                                                            },
                                                         )}
-                                                    </div>
-                                                </m.div>
-                                            </m.div>
-                                        </LazyMotion>
-                                        {stepIdx < steps.length - 1 && !hideProgressBars && (
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className=" flex-1 px-2 text-center">
                                             <div
-                                                aria-hidden="true"
                                                 className={cn(
-                                                    "pointer-events-none absolute left-6 top-1/2 flex -translate-y-1/2 translate-x-1/2 items-center ",
-                                                    isSmall ? "w-8" : "w-14",
+                                                    " text-small font-medium text-default-foreground transition-[color,opacity] duration-300 group-active:opacity-80",
+                                                    {
+                                                        "text-default-500": status === "inactive",
+                                                    },
                                                 )}
-                                                style={{
-                                                    // @ts-ignore
-                                                    "--idx": stepIdx,
-                                                }}
                                             >
-                                                <div
-                                                    className={cn(
-                                                        "relative h-0.5 w-full bg-default-200 transition-colors duration-300",
-                                                        "after:absolute after:block after:h-full after:w-0 after:bg-[var(--active-border-color)] after:transition-[width] after:duration-300 after:content-['']",
-                                                        {
-                                                            "after:w-full": stepIdx < currentStep,
-                                                        },
-                                                    )}
-                                                />
+                                                {step.title}
                                             </div>
-                                        )}
-                                    </div>
-                                    <div className=" flex-1 px-2 text-center">
-                                        <div
-                                            className={cn(
-                                                " text-small font-medium text-default-foreground transition-[color,opacity] duration-300 group-active:opacity-80",
-                                                {
-                                                    "text-default-500": status === "inactive",
-                                                },
-                                            )}
-                                        >
-                                            {step.title}
+                                            <div
+                                                className={cn(
+                                                    " text-tiny text-default-600 transition-[color,opacity] duration-300 group-active:opacity-70 lg:text-small",
+                                                    {
+                                                        "text-default-500": status === "inactive",
+                                                    },
+                                                )}
+                                            >
+                                                {step.description}
+                                            </div>
                                         </div>
-                                        <div
-                                            className={cn(
-                                                " text-tiny text-default-600 transition-[color,opacity] duration-300 group-active:opacity-70 lg:text-small",
-                                                {
-                                                    "text-default-500": status === "inactive",
-                                                },
-                                            )}
-                                        >
-                                            {step.description}
-                                        </div>
-                                    </div>
-                                </button>
-                            </li>
-                        );
-                    })}
-                </ol>
-            </nav>
+                                    </button>
+                                </li>
+                            );
+                        })}
+                    </ol>
+                </nav>
+            </>
         );
     },
 );

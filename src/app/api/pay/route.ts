@@ -40,6 +40,7 @@ export async function GET(req: NextRequest) {
     try {
         // Retrieve the session to check its status
         const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, { stripeAccount: storeStripeAccountIdParam });
+        console.log(checkoutSession);
 
         // Verify payment status
         if (checkoutSession.payment_status === 'paid') {
@@ -57,8 +58,18 @@ export async function GET(req: NextRequest) {
 
             // Get current session
             let { user: userSession } = await getCurrentSession();
+            let emailUser;
+            let emailVerified;
+            let username;
             if (!userSession) {
                 userSession = await creatAccountAction(email, process.env.NEXT_PRIVATE_SECRET_BEARER!);
+                emailUser = email;
+                emailVerified = false;
+                username = checkoutSession.customer_details?.name || 'Customer X';
+            } else {
+                emailUser = userSession.email;
+                emailVerified = userSession.emailVerified
+                username = userSession.username
             }
 
             if (!userSession) {
@@ -87,28 +98,30 @@ export async function GET(req: NextRequest) {
             const result = await connectionPool.query(
                 `
                     INSERT INTO payment_orders
-                    (store_id, store_order_id, email_customer, amount, product_ids, status, stripe_id, cosmos_id)
+                    (store_id, store_order_id, email_customer, amount, product_ids, status, stripe_id, cosmos_id, email_verified)
                     VALUES
                         (
                             $1,
-                            (SELECT COALESCE(COUNT(*) + 1, 1) FROM payment_orders WHERE store_id = $8),
+                            (SELECT COALESCE(COUNT(*) + 1, 1) FROM payment_orders WHERE store_id = $9),
                             $2,
                             $3,
                             $4::text[],
                             $5,
                             $6,
-                            $7
+                            $7,
+                            $8
                         )
                         RETURNING order_date, store_order_id
                 `,
                 [
                     storeId,
-                    email,
+                    emailUser,
                     checkoutSession.amount_total,
                     cartItems?.map(item => item.id || 'Error'), // Pass as native array for text[] column
                     checkoutSession.payment_status,
                     sessionId,
                     cosmosId,
+                    emailVerified,
                     storeId  // Added storeId again as parameter $7 for the subquery
                 ]
             );
@@ -123,7 +136,10 @@ export async function GET(req: NextRequest) {
                 id: cosmosId,
                 order_id: result.rows[0].store_order_id,
                 store_id: storeId,
-                email_customer: email,
+                email_customer: emailUser,
+                email_verified: emailVerified,
+                name_customer: username,
+                phone_number: checkoutSession.customer_details?.name ? checkoutSession.customer_details.name : undefined,
                 createdAt: result.rows[0].order_date,
                 amount: checkoutSession.amount_total ? checkoutSession.amount_total : 0,
                 status: checkoutSession.payment_status,
