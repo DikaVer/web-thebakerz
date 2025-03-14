@@ -297,7 +297,6 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                 <ModalFooter>
                                     <Button
                                         isDisabled={isLoading}
-                                        isLoading={isLoading}
                                         variant="light"
                                         onPress={onClose}
                                     >

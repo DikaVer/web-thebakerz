@@ -155,7 +155,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                     render={({ field, fieldState }) => (
                                         <FormItem>
                                             <FormControl>
-                                                <div className={'flex w-full justify-center items-center md:mx-2'}>
+                                                <div className={'flex w-full justify-center cursor-pointer items-center md:mx-2'}>
                                                     <input
                                                         type="file"
                                                         className="hidden"
@@ -168,7 +168,9 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
 
                                                             )
                                                         }
-                                                            onClick={() => fileRef.current?.click()}
+                                                            onClick={() => {
+                                                                if(!isPending) fileRef.current?.click()
+                                                            }}
                                                         >
                                                             {/* Background blur that extends beyond the image */}
                                                             <Image
@@ -183,10 +185,12 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                         </div>
                                                     ) : (
                                                         <div
-                                                        className={cn("flex flex-col justify-center items-center w-full md:w-[258px] max-w-[400px] aspect-square md:shadow-small cursor-pointer",
-                                                            isSmall ? "border-b-1 border-t-1 rounded-none" : "border-1 rounded-xl"
-                                                        )}
-                                                            onClick={() => fileRef.current?.click()}
+                                                            className={cn("flex flex-col justify-center items-center w-full md:w-[258px] max-w-[400px] aspect-square md:shadow-small cursor-pointer",
+                                                                isSmall ? "border-b-1 border-t-1 rounded-none" : "border-1 rounded-xl"
+                                                            )}
+                                                            onClick={() => {
+                                                                if(!isPending) fileRef.current?.click()
+                                                            }}
                                                         >
                                                             <Icon icon="solar:gallery-add-bold-duotone" className="text-default-500 w-full" width={64} />
                                                             <p className="text-default-500">Upload Item Image</p>
@@ -232,6 +236,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                     <FormControl>
                                                         <Input
                                                             {...field}
+                                                            isDisabled={isPending}
                                                             variant="underlined"
                                                             placeholder="Item Name"
                                                             classNames={{
@@ -255,6 +260,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                         <NumberInput
                                                             {...field}
                                                             isRequired
+                                                            isDisabled={isPending}
                                                             placeholder="0.00"
                                                             variant={'underlined'}
                                                             classNames={{
@@ -291,6 +297,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                 <FormControl>
                                                     <Textarea
                                                         {...field}
+                                                        isDisabled={isPending}
                                                         value={field.value ?? ""}
                                                         placeholder="Add a description to your item..."
                                                         variant="underlined"
@@ -317,6 +324,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                 <FormControl>
                                                     <Select
                                                         {...field}
+                                                        isDisabled={isPending}
                                                         placeholder="Select a category"
                                                         variant="underlined"
                                                         className="w-1/2"
@@ -344,6 +352,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                             <FormItem>
                                                 <FormControl>
                                                     <TagsInput
+                                                        isLoading={isPending}
                                                         tags={field.value || []}
                                                         setTags={(newTags) => field.onChange(newTags)}
                                                         placeholder="Add ingredients... (Press Enter to add)"
@@ -362,6 +371,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                             <FormItem>
                                                 <FormControl>
                                                     <TagsAutoInput
+                                                        isLoading={isPending}
                                                         tags={field.value || []}
                                                         setTags={(newTags) => field.onChange(newTags)}
                                                         type={'warning'}
@@ -422,6 +432,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                 <Button
                                     variant="bordered"
                                     className="w-1/3"
+                                    isDisabled={isPending}
                                     onPress={() => setIsOpenDelete(true)}
                                     type="button"
                                 >

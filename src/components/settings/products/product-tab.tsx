@@ -41,10 +41,10 @@ export const ProductTable: React.FC<ProductTabsProps> = ({ category, productsDat
 
                 return (
                     <ItemProduct
-                    key={consId}
-                    item={consId}
-                    className='border-b border-default-200 hover:bg-default-100 grid grid-cols-6 p-2 py-4 gap-x-4"'
-                >
+                        key={consId}
+                        item={consId}
+                        className='border-b border-default-200 hover:bg-default-100 grid grid-cols-6 p-2 py-4 gap-x-4"'
+                    >
                         <button
                             onClick={()=>{handleOpen(product.id)}}
                             className="grid grid-cols-5 col-span-5 cursor-pointer gap-x-4 "

@@ -1,19 +1,13 @@
 "use client";
-import React from "react";
+import React, { useState, ChangeEvent } from "react";
 import {useRouter} from "next/navigation";
 import {StoreData} from "@/lib/actions/store";
 import {OrderData} from "@/lib/actions/order";
-import GradientText from "@/components/ui/gradient-text";
-import {Card, CardBody, CardFooter, CardHeader, Divider, Spacer} from "@heroui/react";
+import {Card, CardBody, CardFooter, CardHeader, Divider, Input, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
-import {ProductTabs} from "@/components/store/product/components/product-tabs";
-import {ProductSearch} from "@/components/store/product/components/product-search";
-import {CategoryProducts} from "@/components/store/product/components/category-products";
 import {AnimatePresence, motion} from "framer-motion";
-import {ProductTable} from "@/components/settings/products/product-tab";
 import {ItemList} from "@/components/store/orders/overview/components/item-list";
 import {formatCurrency} from "@/lib/utils";
-
 
 interface OrderItemsProps {
     storeData: StoreData;
@@ -21,8 +15,18 @@ interface OrderItemsProps {
 }
 
 export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) => {
-
     const router = useRouter();
+    const [searchTerm, setSearchTerm] = useState<string>("");
+
+    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
+    };
+
+    // Filter products based on search term
+    const filteredProducts = searchTerm.trim() !== ""
+        ? orderData.productsData.filter(product =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        : orderData.productsData;
 
     return (
         <div className={'flex flex-col w-full max-w-2xl'}>
@@ -31,10 +35,26 @@ export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) =>
                     className={'flex flex-col items-start'}
                 >
                     <Spacer y={2}/>
-                    <div className={'flex justify-center items-center'}>
-                        <Icon icon={"solar:cart-broken"} width={24} height={24}/>
-                        <Spacer x={2}/>
-                        <p>Order Items</p>
+                    <div className={'flex justify-between items-center w-full'}>
+                        <div className={'flex justify-center items-center'}>
+                            <Icon icon={"solar:cart-broken"} width={24} height={24}/>
+                            <Spacer x={2}/>
+                            <p>Order Items</p>
+                        </div>
+                        <Input
+                            className="w-1/3"
+                            classNames={{
+                                mainWrapper: "rounded-xl border-1",
+                                inputWrapper: "bg-content1",
+                            }}
+                            placeholder="Search items"
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                            type="text"
+                            startContent={
+                                <Icon icon="solar:magnifer-broken" width={24} className="text-default-400"/>
+                            }
+                        />
                     </div>
                     <Spacer y={4}/>
                     <Divider />
@@ -49,14 +69,15 @@ export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) =>
                             style={{ width: "100%" }}
                         >
                             <ItemList
+                                searchTerm={searchTerm}
                                 orderId={orderData.id}
-                                orderProducts={orderData.productsData}
+                                orderProducts={filteredProducts}
                             />
                         </motion.div>
                     </AnimatePresence>
                 </CardBody>
                 <CardFooter
-                    className={'grid grid-cols-5 col-span-5 cursor-pointer gap-x-4 '}
+                    className={'grid grid-cols-5 col-span-5 gap-x-4 '}
                 >
                     <div className={'flex flex-col justify-between text-start col-span-4'}>
                         <div className="flex justify-between">

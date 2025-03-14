@@ -35,10 +35,24 @@ export const ItemCategory = ({ children, item }: { children: React.ReactNode; it
     );
 };
 
-export const ItemProduct = ({ children, item, className }: { children: React.ReactNode; item: any; className?: string; }) => {
+export const ItemProduct = ({ children, item, className, isDisabled = false }: { children: React.ReactNode; item: any; className?: string; isDisabled?: boolean }) => {
     const y = useMotionValue(0);
     const boxShadow = useRaisedShadow(y);
     const dragControls = useDragControls();
+
+    if (isDisabled) {
+        return (
+            <Reorder.Item
+                value={item}
+                style={{ boxShadow, y}}
+                dragListener={false}
+                dragControls={dragControls}
+                className={className}
+            >
+                {children}
+            </Reorder.Item>
+        );
+    }
 
     return (
         <Reorder.Item

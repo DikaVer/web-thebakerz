@@ -81,7 +81,7 @@ export const addProduct = async (
         name: formData.name,
         description: formData.description,
         price: formData.price,
-        picture: image_url,
+        picture: image_url ? image_url : formData.url,
         ingredients: formData.ingredients || [],
         allergies: formData.allergies || [],
         createdAt: oldProductData ? oldProductData.createdAt : new Date().toISOString(),

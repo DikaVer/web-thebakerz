@@ -12,10 +12,11 @@ import {useMediaQuery} from "usehooks-ts";
 
 interface ItemRowProps {
     orderId: string;
+    searchTerm: string;
     orderProducts: OrderProducts;
 }
 
-export const ItemList: React.FC<ItemRowProps> = ({orderId, orderProducts}) => {
+export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProducts}) => {
 
     if (!orderProducts) {
         return <p>Something went wrong, please contact support!</p>
@@ -82,24 +83,32 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, orderProducts}) => {
                 }
                 return (
                     <ItemProduct
+                        isDisabled={searchTerm !== ""}
                         key={uniqueId}
                         item={uniqueId}
-                        className='border-b border-default-200  grid grid-cols-6 py-4 gap-x-4"'
+                        className='border-b border-default-200  grid grid-cols-6 py-8 gap-x-4"'
                     >
                         <div
                             className="grid grid-cols-5 col-span-5 gap-x-4 items-center"
                         >
-                            <div className={'flex flex-col justify-between text-start col-span-4'}>
-                                <span>
-                                    {item.name}
-                                </span>
+                            <div className={'flex flex-col justify-between text-start col-span-4 gap-y-2'}>
+                                <CustomAlert
+                                    color="primary"
+                                    hideIcon={true}
+                                    classNames={{
+                                        base: 'p-0 pl-2 bg-primary-100 rounded-r-full',
+                                        mainWrapper: 'p-0 py-1 min-h-0',
+                                    }}
+                                >
+                                    <p className="text-small text-primary-800">{item.name}</p>
+                                </CustomAlert>
+
                                 {isSmall &&
                                     <span className={'text-small text-default-500 font-medium '}>
                                     {formatCurrency(item.price)} X {item.qty}
                                 </span>
                                 }
-                                <Spacer y={2}/>
-                                <div className={"flex flex-col py-2 text-default-400 gap-4"}>
+                                <div className={"flex flex-col text-default-400 gap-2"}>
                                     {item.variants[0] && (<>
                                         <CustomAlert
                                             color="blue"
@@ -123,15 +132,15 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, orderProducts}) => {
                                                 base: 'p-0 pl-2'
                                             }}
                                         >
-                                            <div className="flex flex-wrap gap-2 mt-2">
+                                            <div className="flex flex-wrap gap-2 mt-1">
                                                 {item.ingredients.map((ingredient, index) => {
                                                     return (
                                                         <div
                                                             key={ingredient}
                                                             className={`flex items-center gap-2 px-2 py-1 text-sm rounded-full text-text bg-default-200`}
                                                         >
-                                                            <AllergenIcon allergen={ingredient} />
-                                                            <span>
+                                                            <AllergenIcon allergen={ingredient} size={18}/>
+                                                            <span className={'font-medium text-small'}>
                                                                 {ingredient}
                                                             </span>
                                                         </div>
@@ -148,10 +157,10 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, orderProducts}) => {
                                             hideIcon
                                             classNames={{
                                                 title: "text-text font-medium",
-                                                base: 'p-0 pl-2'
+                                                base: 'p-0 pl-2 '
                                             }}
                                         >
-                                            <div className="flex flex-wrap gap-2 mt-4">
+                                            <div className="flex flex-wrap gap-2 mt-1">
 
                                                 {item.allergies.map((allergies, index) => {
                                                     return (
@@ -159,8 +168,8 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, orderProducts}) => {
                                                             key={allergies}
                                                             className={`flex items-center gap-1 px-2 py-1 text-sm rounded-full text-warning-800 bg-warning-200`}
                                                         >
-                                                            <AllergenIcon allergen={allergies} />
-                                                            <span>
+                                                            <AllergenIcon allergen={allergies} size={18}/>
+                                                            <span className={'font-medium text-small'}>
                                                                 {allergies}
                                                             </span>
 

@@ -9,9 +9,11 @@ interface TagsInputProps {
     editTag?: boolean;
     placeholder?: string;
     type?: 'default' | 'warning';
+    isLoading?: boolean;
 }
 
 export const TagsInput: React.FC<TagsInputProps> = ({
+    isLoading,
                                                         tags,
                                                         setTags,
                                                         editTag = false,
@@ -82,6 +84,7 @@ export const TagsInput: React.FC<TagsInputProps> = ({
                 <div key={tag} className='relative'>
                     {editTag && editingIndex === index ? (
                         <Input
+                            isDisabled={isLoading}
                             ref={editInputRef}
                             variant={'underlined'}
                             type='text'
@@ -95,23 +98,28 @@ export const TagsInput: React.FC<TagsInputProps> = ({
                             autoFocus
                         />
                     ) : (
-                        <div
-                            onClick={() => handleRemoveTag(tag)}
+                        <button
+                            disabled={isLoading}
+                            onClick={() => {
+                                handleRemoveTag(tag)
+                            }}
                             className={cn("flex items-center gap-1 px-2 pl-2 py-1 text-sm font-medium rounded-full cursor-pointer", {
                                 "bg-default-300 hover:bg-default-400": type === "default",
-                                "bg-warning-300 hover:bg-warning-400": type === "warning"
+                                "bg-warning-300 hover:bg-warning-400": type === "warning",
+                                "opacity-50": isLoading
                             })}
                         >
                             <AllergenIcon allergen={tag} />
                             <span>{tag}</span>
                             <span>&times;</span>
-                        </div>
+                        </button>
                     )}
                 </div>
             ))}
             <Input
                 type='text'
                 variant={'underlined'}
+                isDisabled={isLoading}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleAddTag}
@@ -125,6 +133,7 @@ export const TagsInput: React.FC<TagsInputProps> = ({
 };
 
 export const TagsAutoInput: React.FC<TagsInputProps> = ({
+    isLoading,
                                                         tags,
                                                         setTags,
                                                         editTag = false,
@@ -160,17 +169,21 @@ export const TagsAutoInput: React.FC<TagsInputProps> = ({
         <div className='flex flex-wrap items-center gap-2 py-2 rounded-md'>
             {tags.map((tag, index) => (
                 <div key={tag} className='relative'>
-                    <div
-                        onClick={() => handleRemoveTag(tag)}
+                    <button
+                        disabled={isLoading}
+                        onClick={() => {
+                            handleRemoveTag(tag)
+                        }}
                         className={cn("flex items-center gap-1 px-2 pl-2 py-1 text-sm font-medium rounded-full cursor-pointer", {
                             "bg-default-300 hover:bg-default-400": type === "default",
-                            "bg-warning-300 hover:bg-warning-400": type === "warning"
+                            "bg-warning-300 hover:bg-warning-400": type === "warning",
+                            "opacity-50": isLoading
                         })}
                     >
                         <AllergenIcon allergen={tag} />
                         <span>{tag}</span>
                         <span>&times;</span>
-                    </div>
+                    </button>
                 </div>
             ))}
             <Autocomplete
@@ -178,6 +191,7 @@ export const TagsAutoInput: React.FC<TagsInputProps> = ({
                     key,
                     label: key,
                 }))}
+                isDisabled={isLoading}
                 type='text'
                 variant={'underlined'}
                 inputValue={input}
