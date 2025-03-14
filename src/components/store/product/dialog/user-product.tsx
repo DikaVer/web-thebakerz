@@ -104,7 +104,7 @@ export default function UserProductDialog({
             </ModalHeader>
             <ModalBody className={"p-0 justify-center items-center"}>
                 {productData && (
-                    <ScrollShadow className={" md:flex  max-h-[83svh] w-full gap-x-4"} size={0}>
+                    <ScrollShadow className={" md:flex  max-h-[80svh] w-full gap-x-4"} size={0}>
                         <div className={'md:w-[258px] w-full max-w-[400px]'}>
                             <Card
                                 isFooterBlurred
