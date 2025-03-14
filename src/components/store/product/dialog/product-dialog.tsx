@@ -31,6 +31,7 @@ export default function ProductDialog({storeId, productData, itemCart, isOpen, o
                 isOpen={isOpen}
                 size={isSmall ? 'full' : '2xl'}
                 onClose={onClose}
+                className={'h-svh max-h-svh min-h-svh'}
                 backdrop={'blur'}
                 placement={isSmall ? 'bottom' : 'center'}
                 hideCloseButton

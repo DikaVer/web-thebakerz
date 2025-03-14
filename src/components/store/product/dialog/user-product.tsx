@@ -102,9 +102,9 @@ export default function UserProductDialog({
                     <Icon icon="mi:share" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
                 </CopyText>
             </ModalHeader>
-            <ModalBody className={"p-0"}>
+            <ModalBody className={"p-0 justify-center items-center"}>
                 {productData && (
-                    <ScrollShadow className={" md:flex max-h-[83vh] w-full gap-x-4"} size={0}>
+                    <ScrollShadow className={" md:flex  max-h-[83svh] w-full gap-x-4"} size={0}>
                         <div className={'md:w-[258px] w-full max-w-[400px]'}>
                             <Card
                                 isFooterBlurred
