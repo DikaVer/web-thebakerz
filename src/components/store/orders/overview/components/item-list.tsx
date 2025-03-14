@@ -8,6 +8,7 @@ import {Reorder} from "framer-motion";
 import CustomAlert from "@/components/ui/custom-alerts";
 import {AllergenIcon} from "@/components/store/product/components/allergy-icons";
 import {useMediaQuery} from "usehooks-ts";
+import {useTheme} from "next-themes";
 
 
 interface ItemRowProps {
@@ -21,6 +22,8 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProd
     if (!orderProducts) {
         return <p>Something went wrong, please contact support!</p>
     }
+
+    const { theme } = useTheme();
 
     // Create a dictionary (object) with uniqueId as the key and order data as the value
     const orderDictionary = useMemo<{ [key: string]: OrderProduct }>(() => {
@@ -93,14 +96,14 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProd
                         >
                             <div className={'flex flex-col justify-between text-start col-span-4 gap-y-2'}>
                                 <CustomAlert
-                                    color="primary"
+                                    color={theme === 'dark' ? 'secondary' : 'primary'}
                                     hideIcon={true}
                                     classNames={{
-                                        base: 'p-0 pl-2 bg-primary-100 rounded-r-full',
+                                        base: 'p-0 pl-2 bg-primary-100 dark:bg-primary-100 rounded-r-full',
                                         mainWrapper: 'p-0 py-1 min-h-0',
                                     }}
                                 >
-                                    <p className="text-small text-primary-800">{item.name}</p>
+                                    <p className="text-primary-800 dark:text-secondary font-medium">{item.name}</p>
                                 </CustomAlert>
 
                                 {isSmall &&
