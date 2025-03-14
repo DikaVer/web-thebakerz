@@ -6,7 +6,7 @@ import * as React from 'react';
 import { Button, Tooltip } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import {IconLoadingCircle} from "@/components/ui/icons";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 import {useDebouncedCallback} from "use-debounce";
 import showErrorMessage from "@/components/toast/toast-error";
 
@@ -30,8 +30,8 @@ export function InputStepper({
                                  min = -Infinity,
                                  max = Infinity,
                                  onChange,
-                                    isLoading = false,
-                                    setIsLoading,
+                                 isLoading = false,
+                                 setIsLoading,
                              }: Props) {
     const defaultValue = React.useRef(value);
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -40,7 +40,10 @@ export function InputStepper({
     const [showCaret, setShowCaret] = React.useState(true);
     // Local state to display the value immediately.
     const [localValue, setLocalValue] = React.useState<number>(value);
-    // Loading state during debounce/waiting for the async action to finish.
+
+    // Refs for handling long press
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     // Create a debounced version of the update function.
     const debouncedUpdate = useDebouncedCallback(async (newVal: number) => {
@@ -60,6 +63,14 @@ export function InputStepper({
     useEffect(() => {
         setLocalValue(value);
     }, [value]);
+
+    // Cleanup timers on unmount
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+            if (intervalRef.current) clearInterval(intervalRef.current);
+        };
+    }, []);
 
     // When the value changes via button press, update the local state immediately,
     // set loading to true, and call the debounced update.
@@ -103,16 +114,77 @@ export function InputStepper({
             onChange?.(newVal);
         };
 
+    // Long press handlers
+    // Replace the startIncrementing function
+    const startIncrementing = () => {
+        if (isLoading || localValue >= max) return;
+
+        // Clear any existing timers
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+
+        // Set timeout for initial delay
+        timeoutRef.current = setTimeout(() => {
+            // Start interval for continuous incrementing
+            intervalRef.current = setInterval(() => {
+                setLocalValue((prevValue) => {
+                    if (prevValue < max) {
+                        const newVal = Math.min(prevValue + 1, max);
+                        // Call onChange directly instead of through handleChange
+                        setIsLoading ? debouncedUpdate(newVal) : onChange && onChange(newVal);
+                        return newVal;
+                    }
+                    stopIncrementing();
+                    return prevValue;
+                });
+            }, 150);
+        }, 500);
+    };
+
+// Replace the startDecrementing function
+    const startDecrementing = () => {
+        if (isLoading || localValue <= min) return;
+
+        // Clear any existing timers
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+
+        // Set timeout for initial delay
+        timeoutRef.current = setTimeout(() => {
+            // Start interval for continuous decrementing
+            intervalRef.current = setInterval(() => {
+                setLocalValue((prevValue) => {
+                    if (prevValue > min) {
+                        const newVal = Math.max(prevValue - 1, min);
+                        // Call onChange directly instead of through handleChange
+                        setIsLoading ? debouncedUpdate(newVal) : onChange && onChange(newVal);
+                        return newVal;
+                    }
+                    stopDecrementing();
+                    return prevValue;
+                });
+            }, 150);
+        }, 500);
+    };
+
+    const stopIncrementing = () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+
+    const stopDecrementing = () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+
     // Handlers for minus and plus buttons.
     const handleMinus = () => {
         const newVal = Math.max(localValue - 1, min);
-        handlePointerDown(-1)
         handleChange(newVal);
     };
 
     const handlePlus = () => {
         const newVal = Math.min(localValue + 1, max);
-        handlePointerDown(1)
         handleChange(newVal);
     };
 
@@ -126,6 +198,9 @@ export function InputStepper({
                     radius="full"
                     isDisabled={localValue <= min || isLoading}
                     onPress={handleMinus}
+                    onPointerDown={startDecrementing}
+                    onPointerUp={stopDecrementing}
+                    onPointerLeave={stopDecrementing}
                     className="flex items-center pl-[.5em] pr-[.325em]"
                 >
                     {isCart && localValue <= 1 ? (
@@ -186,6 +261,9 @@ export function InputStepper({
                     radius="full"
                     isDisabled={localValue >= max || isLoading}
                     onPress={handlePlus}
+                    onPointerDown={startIncrementing}
+                    onPointerUp={stopIncrementing}
+                    onPointerLeave={stopIncrementing}
                     className="flex items-center pl-[.325em] pr-[.5em]"
                 >
                     <Plus className="size-4" absoluteStrokeWidth strokeWidth={3.5}/>
