@@ -17,6 +17,7 @@ import {
     NumberInput,
     ScrollShadow, Alert
 } from "@heroui/react";
+import ImageNext from "next/image";
 import {addProduct, deleteProduct, ProductData} from "@/lib/actions/product";
 import {IconClose, IconCopy} from "@/components/ui/icons";
 import { useTheme } from "next-themes";
@@ -34,6 +35,7 @@ import { Form, FormField, FormItem, FormControl} from "@/components/ui/form";
 import {useRouter} from "next/navigation";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import {TagsAutoInput, TagsInput} from "@/components/ui/tags-input";
+import {useMediaQuery} from "usehooks-ts";
 
 type ProductDialogProps = {
     productData: ProductData | undefined;
@@ -49,6 +51,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
     const [file, setFile] = useState<File | undefined>();
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const router = useRouter();
+    const isSmall = useMediaQuery("(max-width: 460px)");
 
     const fileRef = useRef<HTMLInputElement>(null);
 
@@ -145,14 +148,14 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                 <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-y-1">
                     <ModalBody className={`px-0 ${productData?.picture ? '': 'pt-0'}`}>
                         <>
-                            <ScrollShadow className={"max-h-[70vh]"} size={20}>
+                            <ScrollShadow className={"md:flex max-h-[83vh] w-full space-x-0 overscroll-contain"} size={0}>
                                 <FormField
                                     control={form.control}
                                     name="url"
                                     render={({ field, fieldState }) => (
                                         <FormItem>
                                             <FormControl>
-                                                <div>
+                                                <div className={'flex w-full justify-center items-center md:mx-2'}>
                                                     <input
                                                         type="file"
                                                         className="hidden"
@@ -161,34 +164,44 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                     />
                                                     {picture ? (
                                                         <div
-                                                            className="flex flex-col justify-center items-center w-full h-full aspect-square rounded-none"
+                                                            className={cn("relative flex flex-col justify-center items-center md:w-[258px] w-full max-w-[400px] aspect-square rounded-none",
+
+                                                            )
+                                                        }
                                                             onClick={() => fileRef.current?.click()}
                                                         >
+                                                            {/* Background blur that extends beyond the image */}
                                                             <Image
                                                                 removeWrapper
                                                                 alt={productData?.name || "Item Image"}
-                                                                className="object-cover w-full rounded-none"
+                                                                className={cn("object-cover w-full ",
+                                                                    isSmall ? "rounded-none border-none" : "rounded-xl"
+                                                                )}
                                                                 src={picture}
                                                             />
+
                                                         </div>
                                                     ) : (
                                                         <div
-                                                            className="flex flex-col justify-center items-center w-full h-full aspect-square rounded-none border-b-1 border-t-1 cursor-pointer"
+                                                        className={cn("flex flex-col justify-center items-center w-full md:w-[258px] max-w-[400px] aspect-square md:shadow-small cursor-pointer",
+                                                            isSmall ? "border-b-1 border-t-1 rounded-none" : "border-1 rounded-xl"
+                                                        )}
                                                             onClick={() => fileRef.current?.click()}
                                                         >
-                                                            <Icon icon="solar:gallery-add-bold-duotone" className="text-default-500 w-full"
-                                                                  width={64}/>
+                                                            <Icon icon="solar:gallery-add-bold-duotone" className="text-default-500 w-full" width={64} />
                                                             <p className="text-default-500">Upload Item Image</p>
                                                         </div>
                                                     )}
                                                 </div>
                                             </FormControl>
-                                            {fieldState.error?.message &&
-                                                <Alert
-                                                    color={'danger'}
-                                                    title={fieldState.error?.message}
-                                                />
-                                            }
+                                            <div className={'px-4 md:pl-4'}>
+                                                {fieldState.error?.message &&
+                                                    <Alert
+                                                        color={'danger'}
+                                                        title={fieldState.error?.message}
+                                                    />
+                                                }
+                                            </div>
                                         </FormItem>
                                     )}
                                 />
@@ -197,12 +210,14 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                     name="file_picture"
                                     render={({ field, fieldState }) => (
                                         <FormItem>
-                                            {fieldState.error?.message &&
-                                                <Alert
-                                                    color={'danger'}
-                                                    title={fieldState.error?.message}
-                                                />
-                                            }
+                                            <div className={'pl-4'}>
+                                                {fieldState.error?.message &&
+                                                    <Alert
+                                                        color={'danger'}
+                                                        title={fieldState.error?.message}
+                                                    />
+                                                }
+                                            </div>
                                         </FormItem>
                                     )}
                                 />
