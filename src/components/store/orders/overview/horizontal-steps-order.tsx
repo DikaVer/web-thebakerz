@@ -25,6 +25,7 @@ import GradientText from "@/components/ui/gradient-text";
 import {OrderData, updateOrderStatus} from "@/lib/actions/order";
 import {OrderStatusChip} from "@/components/ui/status-chip";
 import {Icon} from "@iconify/react";
+import {useRouter} from "next/navigation";
 
 export type HorizontalStepProps = {
     title?: React.ReactNode;
@@ -172,6 +173,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
 
         const { isOpen, onOpen, onOpenChange } = useDisclosure();
         const { theme } = useTheme();
+        const router = useRouter();
         const [ candidateIdx, setCandidateIdx ] = React.useState<number | undefined>();
         const [isLoading, setIsLoading] = React.useState<boolean>(false);
         const handleChangeState = (stepIdx: number) => {
@@ -209,6 +211,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
 
             } else {
                 showSuccessMessage({success: 'Order status updated successfully.'});
+                router.refresh();
                 setCurrentStep(stepIdx);
             }
             onOpenChange();

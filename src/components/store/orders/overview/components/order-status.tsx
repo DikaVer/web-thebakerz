@@ -8,6 +8,7 @@ import {Icon} from "@iconify/react";
 import {formatDisplayDate, formatDisplayTime} from "@/lib/utils";
 import {useLocale} from "next-intl";
 import HorizontalStepsOrder from "@/components/store/orders/overview/horizontal-steps-order";
+import {OrderStatusChip} from "@/components/ui/status-chip";
 
 
 interface OrderStatusProps {
@@ -54,6 +55,11 @@ export const OrderStatus: React.FC<OrderStatusProps> = ({storeData, orderData}) 
                         <Icon icon={"solar:info-circle-linear"} width={24} height={24}/>
                         <Spacer x={2}/>
                         <p>Order Status</p>
+                        <Spacer x={2}/>
+                        <OrderStatusChip
+                            size={'sm'}
+                            status={orderData.order_status}
+                        />
                     </div>
                     <Spacer y={4}/>
                     <Divider />
