@@ -13,8 +13,8 @@ import {
 } from "@react-email/components";
 
 import * as React from "react";
-import {formatCurrency} from "@/lib/utils";
-import {OrderProduct} from "@/lib/actions/order";
+import {formatCurrency, formatDisplayDateTime} from "@/lib/utils";
+import {OrderProducts} from "@/lib/actions/order";
 
 export interface OrderPlacedEmailProps {
     orderId: string;
@@ -26,7 +26,7 @@ export interface OrderPlacedEmailProps {
         longitude: number;
         latitude: number;
     }
-    products: OrderProduct;
+    products: OrderProducts;
     subtotal_amount: number;
     total_amount: number;
     vat: number;
@@ -54,16 +54,6 @@ function padZero(num: number): string {
     return num < 10 ? `0${num}` : `${num}`;
 }
 
-function formatDisplayDate(dateString: string): string {
-    const date = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = {
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    };
-    return date.toLocaleString('en-US', options);
-}
 
 export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUpTime, location, products, subtotal_amount, total_amount, vat}: OrderPlacedEmailProps) {
     return (
@@ -120,7 +110,7 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
                                     href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(storeName + " Order Pickup")}&dates=${formatDateForCalendar(pickUpTime)}&location=${encodeURIComponent(location.address)}&details=${encodeURIComponent(`Your order #${orderId} is ready for pickup. Location: ${location.longitude},${location.latitude}`)}`}
                                     style={linkStyle}
                                 >
-                                    {formatDisplayDate(pickUpTime)}
+                                    {formatDisplayDateTime(pickUpTime, 'en-NL')}
                                 </Link>
                             </Column>
                         </Row>

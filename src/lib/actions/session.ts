@@ -106,7 +106,7 @@ export const getCurrentSession = async (): Promise<SessionValidationResult> => {
         },
         next: {
             tags: ['session'],
-            revalidate: 0
+            revalidate: 300
         }
     }).then(res => res.json());
 };

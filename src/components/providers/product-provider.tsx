@@ -44,6 +44,7 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
         setIsOpen(true);
     };
 
+
     const handleOpenWithProduct = (product: ProductData, itemCart?: ItemCart, isBakerzOrder?: boolean) => {
         if (product) {
             setProductData(product);

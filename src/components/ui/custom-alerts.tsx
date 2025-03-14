@@ -5,7 +5,7 @@ export interface CustomAlertProps extends Omit<AlertProps, 'color' | 'variant' |
     title?: string;
     children: ReactNode;
     variant?: "faded" | "solid" | "flat" | "bordered" | undefined;
-    color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+    color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'blue';
     hideIcon?: boolean;
     className?: string;
     classNames?: {
@@ -35,6 +35,8 @@ const CustomAlert = React.forwardRef<HTMLDivElement, CustomAlertProps>(
                     return 'before:bg-warning';
                 case 'danger':
                     return 'before:bg-danger';
+                case 'blue':
+                    return 'before:bg-blue-500';
                 default:
                     return 'before:bg-default-200';
             }
@@ -60,6 +62,7 @@ const CustomAlert = React.forwardRef<HTMLDivElement, CustomAlertProps>(
                     iconWrapper: cn(`dark:bg-transparent text-${color}-400`, classNames.iconWrapper),
                     title: cn(`text-${color}-400 font-medium`, classNames.title),
                 }}
+                //@ts-ignore
                 color={color}
                 title={title}
                 variant={variant}

@@ -1,23 +1,9 @@
 import { clsx, type ClassValue } from 'clsx'
-import { customAlphabet } from 'nanoid'
 import { twMerge } from 'tailwind-merge'
-import {Day, Time} from "@/lib/actions/calendar-actions";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
-
-export function createNanoid(length: number) {
-  const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', length)
-  return nanoid();
-}
-
-//Calendar
-export const createISOString = (day: Day, time: Time): string => {
-    return `${day.year}-${String(day.month).padStart(2, '0')}-${String(day.day).padStart(2, '0')}T${String(time.hour).padStart(2, '0')}:${String(time.minute).padStart(2, '0')}:00`;
-}
-
-
 
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-GB', {
@@ -26,43 +12,36 @@ export const formatCurrency = (amount: number) => {
   });
 };
 
-export const formatCurrencyNormal = (amount: number) => {
-    return (amount).toLocaleString('en-GB', {
-        style: 'currency',
-        currency: 'EUR',
-    });
-};
+export function formatDisplayDateTime(dateString: string, local: string): string {
 
-export const formatPrice = (amount: number) => {
-    return (amount / 100)
-};
-
-export function formatDataDate(input: string | number | Date): string {
-    const date = new Date(input)
-    return date.toLocaleDateString('en-US', {
-        month: '2-digit',
-        day: '2-digit',
-        year: 'numeric',
-    })
-}
-
-
-export function formatDate(input: string | number | Date): string {
-  const date = new Date(input)
-  return date.toLocaleDateString('en-GB', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric',
-  })
-}
-
-export function formatDateTime(input: string | number | Date): string {
-    const date = new Date(input)
-    return date.toLocaleString('en-US', {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+        month: 'long',
+        day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-    })
+        minute: '2-digit'
+    };
+    return date.toLocaleString(local, options);
+}
+
+export function formatDisplayDate(dateString: string | Date, local: string): string {
+
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+        month: 'long',
+        day: 'numeric'
+    };
+    return date.toLocaleString(local, options);
+}
+
+export function formatDisplayTime(dateString: string | Date, local: string): string {
+
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+        hour: '2-digit',
+        minute: '2-digit'
+    };
+    return date.toLocaleString(local, options);
 }
 
 

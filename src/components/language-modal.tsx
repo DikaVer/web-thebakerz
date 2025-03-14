@@ -51,7 +51,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                         type={'button'}
                         startContent={<Icon icon="circle-flags:lang-en" width={32}/>}
                         onPress={(e) => {
-                            handleSubmit('en')
+                            handleSubmit('en-NL')
                         }}
                     >
                         English

@@ -89,7 +89,6 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
 
     return (
         <div className={`${currentStep === 0 || currentStep > 1 && 'hidden'}`}>
-            <Spacer y={8} />
             <div className={'flex justify-between'}>
                 <div>
                     <p className="text-base font-medium text-default-700">Customer Cart</p>

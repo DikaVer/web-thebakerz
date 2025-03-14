@@ -14,7 +14,7 @@ import {
 
 import * as React from "react";
 import {formatCurrency} from "@/lib/utils";
-import {OrderProduct} from "@/lib/actions/order";
+import {OrderProducts} from "@/lib/actions/order";
 interface OrderPlacedEmailProps {
     orderId: string;
     storeName: string;
@@ -25,7 +25,7 @@ interface OrderPlacedEmailProps {
         longitude: number;
         latitude: number;
     }
-    products: OrderProduct;
+    products: OrderProducts;
     subtotal_amount: number;
     total_amount: number;
     vat: number;

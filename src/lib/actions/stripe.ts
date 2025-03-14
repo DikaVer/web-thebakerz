@@ -106,6 +106,8 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
             price: product.price,
             variants: cartItem.note ? [cartItem.note] : [],
             const_id: product.constId,
+            ingredients: product.ingredients,
+            allergies: product.allergies
         });
     }
 

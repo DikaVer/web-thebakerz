@@ -71,7 +71,10 @@ export const getCurrentStore = async (id: string): Promise<StoreData> => {
             'Store-Id': id,
             'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
         },
-        next: {tags: ['store']}
+        next: {
+            tags: ['store'],
+            revalidate: 300
+        }
     }).then(res => res.json());
 };
 

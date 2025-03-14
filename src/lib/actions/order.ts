@@ -31,18 +31,23 @@ export interface OrderData {
     };
     order_status: "new" | "started" | "ready" | "completed" | "cancelled";
     completed: boolean;
-    productsData: OrderProduct;
+    productsData: OrderProducts;
     amount_tax: number;
+    cancelledAt?: Date;
 }
 
-export type OrderProduct = Array<{
+export type OrderProducts = Array<OrderProduct>;
+
+export type OrderProduct = {
     id: string;
     name: string;
     variants: string[];
     qty: number;
     price: number;
     const_id: string;
-}>;
+    ingredients: string[] | undefined;
+    allergies: string[] | undefined;
+}
 
 export const createOrder = async (
     formData: z.infer<typeof CustomerOrderSchema>
@@ -122,7 +127,9 @@ export const createOrder = async (
             qty: cartItem.quantity,
             price: product.price,
             variants: cartItem.note ? [cartItem.note] : [],
-            const_id: product.constId
+            const_id: product.constId,
+            ingredients: product.ingredients,
+            allergies: product.allergies
         });
     }
 
@@ -231,6 +238,9 @@ export const getCurrentOrder = async (storeId: string, orderId: string, email: s
             'Email': email,
             'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
         },
-        next: {tags: ['orders']}
+        next: {
+            tags: ['orders'],
+            revalidate: 0
+        }
     }).then(res => res.json());
 };

@@ -34,19 +34,19 @@ declare module "@react-types/shared" {
 }
 
 
-export function Providers({session, children}: {
+export function Providers({session, children, locale}: {
     session: SessionValidationResult,
+    locale: string,
     children: React.ReactNode
 }) {
     const router = useRouter();
 
     return (
             <HeroUIProvider
-                locale="nl-NL"
+                locale={locale}
                 navigate={router.push}
 
             >
-
                 <NextThemesProvider attribute="class" defaultTheme="light">
                     <QueryClientProvider client={queryClient}>
                         <SessionProvider sessionData={session}>

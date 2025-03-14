@@ -5,7 +5,7 @@ import { globalPOSTRateLimit } from "@/lib/actions/requests";
 import {creatAccountAction} from "@/lib/actions/user";
 import {removeCartByUserIdAndStoreId} from "@/lib/actions/cart";
 import {connectionPool, containerOrders} from "@/db";
-import {OrderData, OrderProduct} from "@/lib/actions/order";
+import {OrderData, OrderProducts} from "@/lib/actions/order";
 import {sendOrderPlaced} from "@/lib/emailSendRequest";
 import {revalidateTag} from "next/cache";
 import {v4 as uuidv4} from "uuid";
@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
             if (!dateParams || !timeParams) {
                 return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_order_time&session_id=${sessionId}`, origin), { status: 308 });
             }
-            const cartItems: OrderProduct = JSON.parse(checkoutSession.metadata?.cartItems || '');
+            const cartItems: OrderProducts = JSON.parse(checkoutSession.metadata?.cartItems || '');
             if (!cartItems || cartItems.length === 0) {
                 return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_cart&session_id=${sessionId}`, origin), { status: 308 });
             }

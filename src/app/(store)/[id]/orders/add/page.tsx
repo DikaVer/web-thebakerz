@@ -45,6 +45,7 @@ export default async function Page(props: StorePageProps) {
 
     return (
         <div className="flex flex-col min-h-screen relative items-center container mx-auto justify-center">
+
             <div className="w-full max-w-2xl justify-center flex-1 py-4">
                 {/* Title */}
                 <div className="flex items-center gap-x-3">

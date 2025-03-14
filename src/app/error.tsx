@@ -25,8 +25,8 @@ export default function Error({ error, reset } : { error: Error, reset: () => vo
                         priority
                     />
                 </div>
-                <p>Send this information to our support:</p>
-                <p>{error.message}</p>
+                <p>Seems we've mixed up the recipe here! Try again to find the sweet spot you're looking for.</p>
+                <strong>{error.message}</strong>
                 <Button
                     size="md"
                     variant="light"

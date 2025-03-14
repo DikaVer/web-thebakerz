@@ -49,7 +49,7 @@ export async function GET(request: Request) {
 
         const orderData = await getOrder(storeId, orderId, email);
 
-        return NextResponse.json({orderData, status: 200 });
+        return NextResponse.json(orderData, {status: 200 });
     } catch (error) {
         console.error('Error validating session:', error);
         return NextResponse.json(

@@ -48,6 +48,7 @@ export default async function RootLayout({
             <body className={`${lexendDeca.className} max-w-full `}>
                 <NextIntlClientProvider messages={messages}>
                     <Providers
+                        locale={lang || locale}
                         session={session}
                     >
                         <ClarityScript />
