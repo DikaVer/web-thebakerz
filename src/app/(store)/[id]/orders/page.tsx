@@ -12,13 +12,14 @@ import {ProductDialogProvider} from "@/components/providers/product-provider";
 import {StoreTop} from "@/components/store/store-header/store-top";
 import { FooterStore } from "@/components/footer-store";
 import {CartProvider} from "@/components/providers/cart-provider";
+import {OrderDashboard} from "@/components/store/orders/dashboard/order-dashboard";
 
 interface StorePageProps {
     params: Promise<{
         id: string
     }>,
     searchParams?: Promise<{
-        tab?: string;
+        date?: string;
     }>;
 }
 
@@ -28,11 +29,15 @@ export default async function Page(props: StorePageProps) {
     const params = await props.params;
 
     const { id } = await params
+    const { date } = searchParams || { date: undefined };
 
 
     return (
-        <div className="flex flex-col min-h-screen relative z-10 items-center">
-
+        <div className="flex flex-col min-h-dvh relative z-10 items-center">
+            <OrderDashboard
+                date={date}
+            />
         </div>
     );
 }
+

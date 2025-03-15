@@ -25,4 +25,12 @@ export async function logoutAction(): Promise<ActionResult> {
     return null;
 }
 
+
+
+import { revalidatePath } from 'next/cache';
+
+export async function revalidateAndNavigate(path: string) {
+    revalidatePath(path);
+}
+
 export type ActionResult = { message: string } | null;

@@ -5,9 +5,8 @@ import {Button, Spacer} from "@heroui/react";
 import {useRouter} from "next/navigation";
 import {StoreData} from "@/lib/actions/store";
 import {OrderData} from "@/lib/actions/order";
-import GradientText from "@/components/ui/gradient-text";
 import {OrderTopContent} from "@/components/store/orders/overview/components/top-content";
-import {OrderStatus} from "@/components/store/orders/overview/components/order-status";
+import {OrderStatusCard} from "@/components/store/orders/overview/components/order-status-card";
 import {OrderCustomerDetails} from "@/components/store/orders/overview/components/customer-details";
 import {OrderItems} from "@/components/store/orders/overview/components/order-items";
 import {useStore} from "@/components/providers/store-provider";
@@ -22,6 +21,7 @@ export const  OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderDa
     const { store } = useStore();
     const router = useRouter();
 
+
     return (
         <div className={'flex flex-col w-full max-w-2xl container'}>
             <Button
@@ -30,7 +30,6 @@ export const  OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderDa
                 className="text-default-500 max-w-fit px-0 pr-2"
                 onPress={() => {
                     router.push(`/${store.storeName}/orders?date=${orderData.scheduled_time.date}`);
-                    router.refresh();
                 }}
                 startContent={
                     <Icon
@@ -45,12 +44,11 @@ export const  OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderDa
             </Button>
             <Spacer y={4}/>
             <OrderTopContent
-                storeData={storeData}
-                orderData={orderData}
+                scheduleTime={orderData.scheduled_time}
+                storeOrderId={orderData.store_order_id}
             />
             <Spacer y={8}/>
-            <OrderStatus
-                storeData={storeData}
+            <OrderStatusCard
                 orderData={orderData}
             />
             <Spacer y={8}/>
@@ -60,7 +58,7 @@ export const  OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderDa
             />
             <Spacer y={8}/>
             <OrderCustomerDetails
-                orderData={orderData}
+                customer={orderData.customer}
             />
             <Spacer y={8}/>
         </div>

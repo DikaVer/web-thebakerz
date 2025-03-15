@@ -1,17 +1,17 @@
 "use client";
 import React from "react";
 import {useRouter} from "next/navigation";
-import {OrderData} from "@/lib/actions/order";
+import {Customer, OrderData} from "@/lib/actions/order";
 import {Avatar, Card, CardBody, CardFooter, CardHeader, Divider, Spacer} from "@heroui/react";
 import {IconMail} from "@/components/ui/icons";
 import {Icon} from "@iconify/react";
 
 
 interface OrderCustomerDetailsProps {
-    orderData: OrderData;
+    customer: Customer;
 }
 
-export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({orderData}) => {
+export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({customer}) => {
 
     const router = useRouter();
 
@@ -36,24 +36,24 @@ export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({order
                     <div className={'flex justify-center items-center'}>
                         <Icon icon={'stash:user-avatar'} className={'text-default-500'} width={24}/>
                         <Spacer x={2}/>
-                        <p className={'text-default-500'}>{orderData.name_customer}</p>
+                        <p className={'text-default-500'}>{customer.name_customer}</p>
                     </div>
                     <Spacer y={4}/>
                     <div className={'flex justify-center items-center'}>
                         <IconMail className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                         <Spacer x={2}/>
-                        <a href={`mailto:${orderData.email_customer}`} className={'text-default-500 hover:underline'}>
-                            {orderData.email_customer}
+                        <a href={`mailto:${customer.email_customer}`} className={'text-default-500 hover:underline'}>
+                            {customer.email_customer}
                         </a>
                     </div>
-                    {orderData.phone_number &&
+                    {customer.phone_number &&
                             <>
                                 <Spacer y={4}/>
                                 <div className={'flex justify-center items-center'}>
                                     <Icon icon={"solar:phone-calling-bold"} className="text-default-400 pointer-events-none flex-shrink-0" width={24}/>
                                     <Spacer x={2}/>
-                                    <a href={`tel:${orderData.phone_number}`} className={'text-default-500 hover:underline'}>
-                                        {orderData.phone_number}
+                                    <a href={`tel:${customer.phone_number}`} className={'text-default-500 hover:underline'}>
+                                        {customer.phone_number}
                                     </a>
                                 </div>
                             </>

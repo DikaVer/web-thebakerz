@@ -23,7 +23,7 @@ export const BakerzNotes: React.FC<OrderOverviewProps> = ({storeData, orderData}
                 Order
             </p>
             <GradientText>
-                #{orderData.order_id}
+                #{orderData.store_order_id}
             </GradientText>
         </div>
     );

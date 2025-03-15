@@ -193,7 +193,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                 return
             }
 
-            const isUpdated = await updateOrderStatus(orderData.store_id, orderData.id, orderData.email_customer, (() => {
+            const isUpdated = await updateOrderStatus(orderData.store_id, orderData.id, orderData.customer.email_customer, (() => {
                 switch (stepIdx) {
                     case 1:
                         return "started";
@@ -250,7 +250,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                         </p>
                                         <Spacer x={1}/>
                                         <GradientText>
-                                            #{orderData.order_id}
+                                            #{orderData.store_order_id}
                                         </GradientText>
                                     </div>
                                 </ModalHeader>

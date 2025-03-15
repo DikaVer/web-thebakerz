@@ -2,23 +2,24 @@
 import React from "react";
 import {Icon} from "@iconify/react";
 import {Button, Spacer} from "@heroui/react";
-import {StoreData} from "@/lib/actions/store";
-import {OrderData} from "@/lib/actions/order";
 import GradientText from "@/components/ui/gradient-text";
 import {formatDisplayDateTime} from "@/lib/utils";
 import {useLocale} from "next-intl";
 
 
 interface OrderTopContentProps {
-    storeData: StoreData;
-    orderData: OrderData;
+    scheduleTime: {
+        date: string;
+        time: string;
+    };
+    storeOrderId: string;
 }
 
-export const OrderTopContent: React.FC<OrderTopContentProps> = ({storeData, orderData}) => {
+export const OrderTopContent: React.FC<OrderTopContentProps> = ({scheduleTime, storeOrderId}) => {
 
     const locale = useLocale();
 
-    const pickUpTime = `${orderData.scheduled_time.date} ${orderData.scheduled_time.time}`;
+    const pickUpTime = `${scheduleTime.date} ${scheduleTime.time}`;
 
     return (
         <section id={'Order Top Content'} className={'flex justify-between'}>
@@ -30,7 +31,7 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({storeData, orde
                     </p>
                     <Spacer x={1}/>
                     <GradientText>
-                        #{orderData.order_id}
+                        #{storeOrderId}
                     </GradientText>
                 </div>
                 <p className={'text-sm font-light text-default-600'}>{formatDisplayDateTime(pickUpTime, locale)}</p>

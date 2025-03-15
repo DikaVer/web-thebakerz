@@ -40,7 +40,6 @@ export async function GET(req: NextRequest) {
     try {
         // Retrieve the session to check its status
         const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, { stripeAccount: storeStripeAccountIdParam });
-        console.log(checkoutSession);
 
         // Verify payment status
         if (checkoutSession.payment_status === 'paid') {
@@ -134,12 +133,15 @@ export async function GET(req: NextRequest) {
             // 2. Create an order record in Azure Cosmos DB
             const orderData: OrderData = {
                 id: cosmosId,
-                order_id: result.rows[0].store_order_id,
+                store_order_id: result.rows[0].store_order_id,
                 store_id: storeId,
+                customer_email: emailUser,
+                customer: {
                 email_customer: emailUser,
-                email_verified: emailVerified,
-                name_customer: username,
-                phone_number: checkoutSession.customer_details?.name ? checkoutSession.customer_details.name : undefined,
+                    email_verified: emailVerified,
+                    name_customer: username,
+                    phone_number: checkoutSession.customer_details?.name ? checkoutSession.customer_details.name : undefined,
+                },
                 createdAt: result.rows[0].order_date,
                 amount: checkoutSession.amount_total ? checkoutSession.amount_total : 0,
                 status: checkoutSession.payment_status,

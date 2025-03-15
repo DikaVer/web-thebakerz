@@ -100,9 +100,9 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
     const messageCustomer = {
         senderAddress,
         content: {
-            subject: `Your #${orderData.order_id} is placed!`,
+            subject: `Your #${orderData.store_order_id} is placed!`,
             html: await render(OrderPlacedEmail({
-                orderId: orderData.order_id,
+                orderId: orderData.store_order_id,
                 storeName: storeData.ownerName ? storeData.ownerName : "Anonymous Store",
                 pickUpTime: orderData.scheduled_time.date + " " + orderData.scheduled_time.time,
                 storePhone: storeData.phone ? storeData.phone : "No phone number",
@@ -130,9 +130,9 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
     const messageBakerz = {
         senderAddress,
         content: {
-            subject: `You have a new order #${orderData.order_id} 🎉`,
+            subject: `You have a new order #${orderData.store_order_id} 🎉`,
             html: await render(NewOrderEmail({
-                orderId: orderData.order_id,
+                orderId: orderData.store_order_id,
                 storeName: storeData.ownerName ? storeData.ownerName : "Anonymous Store",
                 pickUpTime: orderData.scheduled_time.date + " " + orderData.scheduled_time.time,
                 storePhone: storeData.phone ? storeData.phone : "No phone number",

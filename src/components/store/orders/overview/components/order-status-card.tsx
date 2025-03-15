@@ -2,7 +2,7 @@
 import React from "react";
 import {useRouter} from "next/navigation";
 import {StoreData} from "@/lib/actions/store";
-import {OrderData} from "@/lib/actions/order";
+import {OrderData, OrderStatus} from "@/lib/actions/order";
 import {Card, CardBody, CardHeader, Divider, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {formatDisplayDate, formatDisplayTime} from "@/lib/utils";
@@ -12,13 +12,12 @@ import {OrderStatusChip} from "@/components/ui/status-chip";
 
 
 interface OrderStatusProps {
-    storeData: StoreData;
     orderData: OrderData;
 }
 
-export const OrderStatus: React.FC<OrderStatusProps> = ({storeData, orderData}) => {
 
-    const router = useRouter();
+export const OrderStatusCard: React.FC<OrderStatusProps> = ({orderData}) => {
+
     const locale = useLocale();
 
     const status =  (order_status: string) => {
@@ -30,6 +29,8 @@ export const OrderStatus: React.FC<OrderStatusProps> = ({storeData, orderData}) 
             case "ready":
                 return 2;
             case "completed":
+                return 3;
+            case "cancelled":
                 return 3;
             default:
                 return 4;

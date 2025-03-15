@@ -19,12 +19,10 @@ import {v4 as uuidv4} from "uuid";
 // Order data interface
 export interface OrderData {
     id: string;
-    order_id: string;
+    store_order_id: string;
     store_id: string;
-    email_customer: string;
-    email_verified: boolean;
-    name_customer: string;
-    phone_number?: string;
+    customer_email: string;
+    customer: Customer;
     createdAt: Date;
     amount: number;
     status: "paid" | "manual" ;
@@ -32,14 +30,24 @@ export interface OrderData {
         date: string;
         time: string;
     };
-    order_status: "new" | "started" | "ready" | "completed" | "cancelled";
+    order_status: OrderStatus;
     completed: boolean;
     productsData: OrderProducts;
     amount_tax: number;
     cancelledAt?: Date;
+    refundedAt?: Date;
 }
 
+export type OrderStatus = "new" | "started" | "ready" | "completed" | "cancelled" | 'refunded';
+
 export type OrderProducts = Array<OrderProduct>;
+
+export type Customer = {
+    email_customer: string;
+    email_verified: boolean;
+    name_customer: string;
+    phone_number?: string;
+}
 
 export type OrderProduct = {
     id: string;
@@ -176,12 +184,15 @@ export const createOrder = async (
         // 2. Create an order record in Azure Cosmos DB
         const orderData: OrderData = {
             id: cosmosId,
-            order_id: result.rows[0].store_order_id,
+            store_order_id: result.rows[0].store_order_id,
             store_id: store.id,
-            email_customer: formData.email,
-            email_verified: false,
-            name_customer: formData.name,
-            phone_number: formData.phoneNumber,
+            customer_email: formData.email,
+            customer: {
+                email_customer: formData.email,
+                email_verified: false,
+                name_customer: formData.name,
+                phone_number: formData.phoneNumber,
+            },
             createdAt: result.rows[0].order_date,
             amount: subtotal,
             status: "manual",
@@ -217,45 +228,65 @@ export const createOrder = async (
     }
 };
 
+export async function getOrdersByDateRange(storeId: string, fromDate: string, toDate: string): Promise<OrderData[]> {
+    try {
+        const {store} = await getCurrentSession();
+        if (!store || store.id !== storeId) {return [];}
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/orders/range`, {
+            headers: {
+                'Store-Id': store.id,
+                'From-Date': fromDate,
+                'To-Date': toDate,
+                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+            },
+            next: {
+                tags: ['orders'],
+                revalidate: 300
+            }
+        });
+
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch orders: ${response.status}`);
+        }
+
+        return response.json();
+    } catch (error) {
+        console.error("Error fetching orders by date range:", error);
+        return [];
+    }
+}
+
+
 export async function updateOrderStatus(storeId: string, orderId: string, email: string, status: string): Promise<boolean> {
-
-
-    const { store } = await getCurrentSession();
-
-    if (!store || store.id !== storeId) {
+    try {
+        const {store} = await getCurrentSession();
+        if (!store || store.id !== storeId) {return false;}
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/order/updateStatus`, {
+            method: 'POST',
+            headers: {
+                'Store-Id': storeId,
+                'Order-Id': orderId,
+                'Email': email,
+                'Status': status,
+                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+            }
+        });
+        return response.ok;
+    } catch (error) {
+        console.error("Error fetching orders by date range:", error);
         return false;
     }
+};
 
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/order/updateStatus`, {
-        method: 'POST',
-        headers: {
-            'Store-Id': storeId,
-            'Order-Id': orderId,
-            'Email': email,
-            'Status': status,
-            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-        }
-    });
-
-    return response.ok;
-
-
-}
 
 
 export async function getOrder(storeId: string, orderId: string, email: string): Promise<OrderData | null> {
     try {
-
-
-        if (!storeId || !orderId || !email) {
-            return null;
-        }
-
+        if (!storeId || !orderId || !email) {return null;}
         const partitionKeyValue = [storeId, email];
-
         const { resource: order } = await containerOrders.item(orderId, partitionKeyValue).read();
-
         return order ? order : null;
     } catch (error) {
         console.error("Error fetching store data:", error);

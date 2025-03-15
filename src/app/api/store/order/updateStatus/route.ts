@@ -110,7 +110,7 @@ export async function POST(request: Request) {
             );
         }
 
-        if (orderData.id !== orderId || orderData.store_id !== storeId || orderData.email_customer !== email) {
+        if (orderData.id !== orderId || orderData.store_id !== storeId || orderData.customer_email !== email) {
             return NextResponse.json(
                 { error: 'Invalid Data' },
                 { status: 401 }

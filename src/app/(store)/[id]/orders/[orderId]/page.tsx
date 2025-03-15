@@ -38,7 +38,6 @@ export default async function Page(props: StorePageProps) {
         return NotFound();
     }
 
-
     return (
         <div className="flex flex-col min-h-screen relative z-10 items-center">
             <OrderOverview
