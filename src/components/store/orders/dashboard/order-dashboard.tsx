@@ -182,11 +182,11 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
 
             let dotCSS = '';
             if (dots.length === 1) {
-                const color = dots[0] === 'new' ? '#F31260' : dots[0] === 'started' ? '#F9C97C' : '#3B82F6';
+                const color = dots[0] === 'new' ? '#F31260' : dots[0] === 'started' ? '#f7b750' : '#3B82F6';
                 dotCSS = `background: radial-gradient(circle at 50% 50%, ${color} 4px, transparent 0);`;
             } else if (dots.length === 2) {
-                const color1 = dots[0] === 'new' ? '#F31260' : dots[0] === 'started' ? '#F9C97C' : '#3B82F6';
-                const color2 = dots[1] === 'new' ? '#F31260' : dots[1] === 'started' ? '#F9C97C' : '#3B82F6';
+                const color1 = dots[0] === 'new' ? '#F31260' : dots[0] === 'started' ? '#f7b750' : '#3B82F6';
+                const color2 = dots[1] === 'new' ? '#F31260' : dots[1] === 'started' ? '#f7b750' : '#3B82F6';
                 dotCSS = `
                     background-image:
                         radial-gradient(circle at calc(50% - 6px) 50%, ${color1} 4px, transparent 0),
