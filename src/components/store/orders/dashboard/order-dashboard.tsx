@@ -1,4 +1,3 @@
-// src/components/store/orders/dashboard/order-dashboard.tsx
 "use client";
 import type {RangeValue} from "@react-types/shared";
 
@@ -152,9 +151,20 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
 
     // Add CSS for status dots
     useEffect(() => {
+        if (typeof window === 'undefined') return; // Guard for SSR
+
         const style = document.createElement('style');
+        style.id = 'calendar-status-dots'; // Add an ID to prevent duplicates
+
+        // Remove any existing style with the same ID
+        const existingStyle = document.getElementById('calendar-status-dots');
+        if (existingStyle) {
+            document.head.removeChild(existingStyle);
+        }
+
+        // Generate CSS for the dots based on orderStatusByDate
         style.textContent = `
-        .calendar-cell [role="button"][aria-label*=","]:after {
+        .calendar-cell [role="button"]:after {
             content: '';
             position: absolute;
             bottom: 4px;
@@ -165,14 +175,16 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
             justify-content: center;
             gap: 4px;
         }
-
+        
         ${Object.entries(orderStatusByDate).map(([date, statuses]) => {
+            // Convert the date string to a format we can use for matching
             const dateObj = new Date(date);
             const month = dateObj.toLocaleString('en-US', { month: 'long' });
             const day = dateObj.getDate();
             const year = dateObj.getFullYear();
             const formattedDate = `${month} ${day}, ${year}`;
 
+            // Generate the CSS for each date that has status dots
             const dots = [];
             if (statuses.new) dots.push('new');
             if (statuses.started) dots.push('started');
@@ -182,11 +194,11 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
 
             let dotCSS = '';
             if (dots.length === 1) {
-                const color = dots[0] === 'new' ? '#F31260' : dots[0] === 'started' ? '#f7b750' : '#3B82F6';
+                const color = dots[0] === 'new' ? '#F31260' : dots[0] === 'started' ? '#F9C97C' : '#3B82F6';
                 dotCSS = `background: radial-gradient(circle at 50% 50%, ${color} 4px, transparent 0);`;
             } else if (dots.length === 2) {
-                const color1 = dots[0] === 'new' ? '#F31260' : dots[0] === 'started' ? '#f7b750' : '#3B82F6';
-                const color2 = dots[1] === 'new' ? '#F31260' : dots[1] === 'started' ? '#f7b750' : '#3B82F6';
+                const color1 = dots[0] === 'new' ? '#F31260' : dots[0] === 'started' ? '#F9C97C' : '#3B82F6';
+                const color2 = dots[1] === 'new' ? '#F31260' : dots[1] === 'started' ? '#F9C97C' : '#3B82F6';
                 dotCSS = `
                     background-image:
                         radial-gradient(circle at calc(50% - 6px) 50%, ${color1} 4px, transparent 0),
@@ -203,26 +215,29 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
                 `;
             }
 
+            // Using attribute contains selector for more reliable matching across browsers and environments
             return `.calendar-cell [role="button"][aria-label*="${formattedDate}"]:after {
-                content: '';
-                position: absolute;
-                bottom: 4px;
-                left: 0;
-                right: 0;
-                height: 8px;
-                display: flex;
-                justify-content: center;
-                gap: 4px;
-                ${dotCSS}
-            }`;
+                    content: '' !important;
+                    position: absolute !important;
+                    bottom: 4px !important;
+                    left: 0 !important;
+                    right: 0 !important;
+                    height: 8px !important;
+                    display: flex !important;
+                    justify-content: center !important;
+                    ${dotCSS}
+                }`;
         }).join('\n')}
-        `;
+    `;
+
+        // Create and append style element
         document.head.appendChild(style);
 
         return () => {
-            document.head.removeChild(style);
+            const styleToRemove = document.getElementById('calendar-status-dots');
+            if (styleToRemove) document.head.removeChild(styleToRemove);
         };
-    }, [orderStatusByDate])
+    }, [orderStatusByDate]);
 
     return (
         <div ref={containerRef} className={'flex flex-col md:flex-row w-full max-w-[100vh] container gap-y-8 md:gap-x-8 lg:gap-x-8'}>
