@@ -5,6 +5,8 @@ import { decodeIdToken, type OAuth2Tokens } from "arctic";
 import {globalGETRateLimit} from "@/lib/actions/requests";
 import {createSession, generateSessionToken, setSessionTokenCookie} from "@/lib/actions/session";
 import {createUserGoogle, getUserFromEmail, getUserFromGoogleId} from "@/lib/actions/user";
+import {replace} from "lodash";
+import {replaceGuestCart} from "@/lib/actions/cart";
 
 export async function GET(request: Request): Promise<Response> {
 	if (!await globalGETRateLimit()) {
@@ -48,6 +50,7 @@ export async function GET(request: Request): Promise<Response> {
 	const email = claimsParser.getString("email");
 
 	const redirectTo = cookieStore.get("google_redirect")?.value || "/";
+	const storeId = cookieStore.get("google_store_id")?.value || null;
 
 	// console.log("Redirecting to", cookieStore.get("google_redirect")?.value );
 
@@ -72,9 +75,11 @@ export async function GET(request: Request): Promise<Response> {
 		user = await createUserGoogle(googleId, email, name, picture);
 	}
 
+
 	const sessionToken = generateSessionToken();
 	const session = await createSession(sessionToken, user.id);
 	await setSessionTokenCookie(sessionToken, session.expiresAt);
+	storeId && await replaceGuestCart(storeId);
 	return new Response(null, {
 		status: 302,
 		headers: {

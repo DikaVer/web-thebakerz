@@ -16,6 +16,7 @@ import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
 import {StoreData} from "@/lib/actions/store";
 import {v4 as uuidv4} from "uuid";
 import {calculateTax} from "@/lib/utils";
+import Stripe from "stripe";
 
 // Order data interface
 export interface OrderData {
@@ -59,6 +60,7 @@ export type Customer = {
     email_verified: boolean;
     name_customer: string;
     phone_number?: string;
+    address: Stripe.Address | null;
 }
 
 export type OrderProduct = {
@@ -204,6 +206,7 @@ export const createOrder = async (
                 email_verified: false,
                 name_customer: formData.name,
                 phone_number: formData.phoneNumber,
+                address: null
             },
             createdAt: result.rows[0].order_date,
             amount: subtotal,

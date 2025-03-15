@@ -18,6 +18,7 @@ export async function GET(request: Request): Promise<Response> {
 
 
 	const next = searchParams.get("next");
+	const store_id = searchParams.get("store_id");
 	const cookieStore = await cookies();
 
 	cookieStore.set("google_oauth_state", state, {
@@ -37,6 +38,15 @@ export async function GET(request: Request): Promise<Response> {
 
 	if (next) {
 		cookieStore.set("google_redirect", next, {
+			path: "/",
+			httpOnly: true,
+			secure: process.env.NODE_ENV === "production",
+			maxAge: 60 * 10, // same lifetime as the others
+			sameSite: "lax",
+		});
+	}
+	if (store_id){
+		cookieStore.set("google_store_id",store_id, {
 			path: "/",
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",

@@ -151,6 +151,8 @@ export async function GET(req: NextRequest) {
                     email_verified: emailVerified,
                     name_customer: username,
                     phone_number: checkoutSession.customer_details?.phone ? checkoutSession.customer_details.phone : undefined,
+                    address: checkoutSession.customer_details?.address ? checkoutSession.customer_details?.address : null,
+
                 },
                 createdAt: result.rows[0].order_date,
                 amount: checkoutSession.amount_total ? checkoutSession.amount_total : 0,

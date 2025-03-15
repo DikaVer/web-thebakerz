@@ -21,7 +21,7 @@ import type {SessionValidationResult} from "@/lib/actions/session";
 
 
 
-export default function TwoStepAuthForm({ setIsLogin, handleNext }: { setIsLogin?: (value: boolean) => void, handleNext?: () => void }) {
+export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { setIsLogin?: (value: boolean) => void, handleNext?: () => void, storeId?: string }) {
 
     const nextParams = useSearchParams();
     const next = nextParams.get('next') as string;
@@ -320,7 +320,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext }: { setIsLogin
                         <div className="flex flex-row w-full justify-between items-center -my-1">
                             <form
                                 action={async () => {
-                                    router.push(`/api/auth/google?${next ? `next=${next}` : `next=${pathname}`}`);
+                                    router.push(`/api/auth/google?${next ? `next=${next}` : `next=${pathname}`}&store_id=${storeId}`);
                                 }}
                                 className={"w-full"}
                             >

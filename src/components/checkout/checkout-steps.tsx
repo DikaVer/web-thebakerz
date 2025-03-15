@@ -87,6 +87,7 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
                 >
                     <div className={'my-8'}>
                         <TwoStepAuthForm
+                            storeId={store.id}
                             setIsLogin={handleLogin}
                             handleNext={() => handleNext(2)}
                         />
