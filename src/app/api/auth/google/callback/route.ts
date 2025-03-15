@@ -59,6 +59,7 @@ export async function GET(request: Request): Promise<Response> {
 		const sessionToken = generateSessionToken();
 		const session = await createSession(sessionToken, existingUser.id);
 		await setSessionTokenCookie(sessionToken, session.expiresAt);
+		storeId && await replaceGuestCart(storeId);
 		return new Response(null, {
 			status: 302,
 			headers: {
