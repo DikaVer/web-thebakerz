@@ -87,7 +87,7 @@ export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) =>
                     </div>
                     <div className={'flex flex-col justify-between text-start col-span-4'}>
                         <div className="flex justify-between mt-2">
-                            <span className="text-sm font-medium">VAT (21% inclusive)</span>
+                            <span className="text-sm font-medium">VAT (9% inclusive)</span>
                             <span className="text-sm">{formatCurrency(orderData.amount_tax)}</span>
                         </div>
                     </div>

@@ -1,24 +1,9 @@
 import React, {Suspense} from "react";
-import {getOrderTime, updateOrderTime} from "@/app/(store)/[id]/actions";
-import StoreSkeleton from "@/components/skeletons";
-import {ProductComponentBase} from "@/components/store/product/product-comp";
-import {Spacer} from "@heroui/react";
-import {getCurrentStore} from "@/lib/actions/store";
-import NotFound from "@/app/(error_layout)/not-found";
-import {getCurrentCart, updateCart} from "@/lib/actions/cart";
-import {StoreProvider} from "@/components/providers/store-provider";
-import LayoutComp from "@/components/layout-comp";
-import {ProductDialogProvider} from "@/components/providers/product-provider";
-import {StoreTop} from "@/components/store/store-header/store-top";
-import { FooterStore } from "@/components/footer-store";
-import {CartProvider} from "@/components/providers/cart-provider";
+
 import {getCurrentSession} from "@/lib/actions/session";
 import {getCurrentProducts} from "@/lib/actions/product";
 import {getCurrentProductsOrder} from "@/lib/actions/order-products";
-import ProductTableSkeleton from "@/components/skeleton/product-table";
-import {ProductCard} from "@/components/settings/products/product-card";
-import ProductList from "@/components/store/orders/add/product-list";
-import CheckoutOrder from "@/components/store/orders/add/checkout-order";
+
 import CartOrderComp from "@/components/store/orders/add/cart-order-comp";
 
 interface StorePageProps {
@@ -55,7 +40,7 @@ export default async function Page(props: StorePageProps) {
                     Create a cart and add to your order list.
                 </h2>
                 {/* Tabs */}
-                <Suspense fallback={<ProductTableSkeleton />}>
+                <Suspense fallback={undefined}>
                     <CartOrderComp
                         productsOrder={productsOrder}
                         productsData={productsData}

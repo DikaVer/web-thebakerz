@@ -1,7 +1,6 @@
 
 import React, {Suspense} from "react";
 import {ProductCard} from "@/components/settings/products/product-card";
-import ProductTableSkeleton from "@/components/skeleton/product-table";
 import {getCurrentProducts, getProductsByStoreId} from "@/lib/actions/product";
 import {getCurrentSession} from "@/lib/actions/session";
 import {getCurrentProductsOrder, getProductsOrder} from "@/lib/actions/order-products";
@@ -40,7 +39,7 @@ export default async function Page(props: StorePageProps) {
                     Customize your products and categories.
                 </h2>
                 {/* Tabs */}
-                <Suspense fallback={<ProductTableSkeleton />}>
+                <Suspense fallback={undefined}>
                     <ProductCard
                         productsData={productsData}
                         productsOrder={productsOrder}

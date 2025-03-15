@@ -7,6 +7,9 @@ import { headers } from 'next/headers';
 import { getCart } from "@/lib/actions/cart";
 import { getProductsByStoreId } from "@/lib/actions/product";
 import {getOrderTime} from "@/app/(store)/[id]/actions";
+import {OrderRaw} from "@/lib/actions/order";
+import {v4 as uuidv4} from "uuid";
+import {containerOrdersUnpaid} from "@/db";
 
 export async function fetchClientSecret(storeId: string, storeStipeAccountId: string) {
     // Rate limiting check
@@ -46,17 +49,6 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         return { error: 'Order time is not set' };
     }
 
-    //Check if data is tommorow
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const orderDateObj = new Date(date);
-    const orderDateStr = orderDateObj.toISOString().split('T')[0];
-    const tomorrowStr = tomorrow.toISOString().split('T')[0];
-    if (orderDateStr === tomorrowStr) {
-        return {error: 'Order time is incorrect'};
-    }
-
-
     // Get products data to fetch prices
     const productsData = await getProductsByStoreId(storeId);
 
@@ -64,7 +56,7 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         display_name: 'VAT',
         description: 'Value Added Tax',
         jurisdiction: 'NL',
-        percentage: 21.0,
+        percentage: 9.0,
         inclusive: true,
     }, { stripeAccount: storeStipeAccountId });
 
@@ -89,7 +81,7 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
                 currency: 'eur',
                 product_data: {
                     name: product.name,
-                    description: product.description || '',
+                    description: product.description || undefined,
                     images: product.picture ? [product.picture] : [],
                     // tax_code: 'txcd_10000000', // Tangible Goods
                 },
@@ -111,33 +103,19 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         });
     }
 
-    // Calculate service fee (5%)
-    const serviceFee = Math.round(subtotal * 0.05);
-
-    // Add service fee as a separate line item
-    // if (serviceFee > 0) {
-    //     lineItems.push({
-    //         price_data: {
-    //             currency: 'usd',
-    //             product_data: {
-    //                 name: 'Service Fee',
-    //                 description: '5% service fee',
-    //                 tax_code: 'txcd_10000000',
-    //             },
-    //             unit_amount: serviceFee,
-    //         },
-    //         quantity: 1,
-    //     });
-    // }
-
     try {
+
+        const cosmosId = uuidv4();
 
         // Create Checkout Session
         const session = await stripe.checkout.sessions.create({
             ui_mode: 'embedded',
             submit_type: 'pay',
             customer_email: (user && !store) ? user.email : undefined,
-            billing_address_collection: 'auto',
+            billing_address_collection: subtotal >= 10000 ? 'required' : 'auto', //Change to total, when it is needed
+            tax_id_collection: {
+                enabled: subtotal >= 10000,
+            },
             line_items: lineItems,
             mode: 'payment',
             currency: 'eur',
@@ -149,12 +127,22 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
             metadata: {
                 userId: userId,
                 storeId: storeId,
-                orderDate: date,
-                orderTime: time,
-                cartItems: JSON.stringify(cartItems),
+                cosmosId: cosmosId
             }
         }, { stripeAccount: storeStipeAccountId });
 
+        const orderRaw: OrderRaw = {
+            id: cosmosId,
+            store_id: storeId,
+            scheduled_time: {
+                date: date,
+                time: time
+            },
+            customer_email: (user && !store) ? user.email : undefined,
+            productsData: cartItems,
+        }
+
+        await containerOrdersUnpaid.items.create(orderRaw);
 
         return session.client_secret;
     } catch (error) {

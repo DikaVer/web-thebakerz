@@ -5,6 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export const calculateTax = (amount: number, taxRate: number = 9) => {
+    const divider = 100 + taxRate;
+    return amount * taxRate / divider;
+}
+
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-GB', {
     style: 'currency',

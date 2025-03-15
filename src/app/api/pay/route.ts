@@ -4,7 +4,7 @@ import { getCurrentSession } from "@/lib/actions/session";
 import { globalPOSTRateLimit } from "@/lib/actions/requests";
 import {creatAccountAction} from "@/lib/actions/user";
 import {removeCartByUserIdAndStoreId} from "@/lib/actions/cart";
-import {connectionPool, containerOrders} from "@/db";
+import {connectionPool, containerOrders, containerOrdersUnpaid} from "@/db";
 import {OrderData, OrderProducts} from "@/lib/actions/order";
 import {sendOrderPlaced} from "@/lib/emailSendRequest";
 import {revalidateTag} from "next/cache";
@@ -55,6 +55,11 @@ export async function GET(req: NextRequest) {
                 return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_store_id&session_id=${sessionId}`, origin), { status: 308 });
             }
 
+            const cosmosId = checkoutSession.metadata?.cosmosId;
+            if (!cosmosId ) {
+                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_cosmos_id&session_id=${sessionId}`, origin), { status: 308 });
+            }
+
             // Get current session
             let { user: userSession } = await getCurrentSession();
             let emailUser;
@@ -80,17 +85,22 @@ export async function GET(req: NextRequest) {
                 return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_cart_id&session_id=${sessionId}`, origin), { status: 308 });
             }
 
-            const dateParams = checkoutSession.metadata?.orderDate;
-            const timeParams = checkoutSession.metadata?.orderTime;
+            const { resource: orderRaw } = await containerOrdersUnpaid.item(cosmosId, storeId).read();
+            // Check if it is not empty
+            if (!orderRaw || !orderRaw.id) {
+                return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=order_not_found&session_id=${sessionId}`, origin), { status: 308 });
+            }
+
+            const dateParams = orderRaw.scheduled_time?.date;
+            const timeParams = orderRaw.scheduled_time?.time;
             if (!dateParams || !timeParams) {
                 return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_order_time&session_id=${sessionId}`, origin), { status: 308 });
             }
-            const cartItems: OrderProducts = JSON.parse(checkoutSession.metadata?.cartItems || '');
+            const cartItems: OrderProducts = orderRaw.productsData;
             if (!cartItems || cartItems.length === 0) {
                 return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=missing_cart&session_id=${sessionId}`, origin), { status: 308 });
             }
 
-            const cosmosId = uuidv4();
 
             // Create order in your system
             // 1. Create an order record in PostgreSQL
@@ -140,7 +150,7 @@ export async function GET(req: NextRequest) {
                 email_customer: emailUser,
                     email_verified: emailVerified,
                     name_customer: username,
-                    phone_number: checkoutSession.customer_details?.name ? checkoutSession.customer_details.name : undefined,
+                    phone_number: checkoutSession.customer_details?.phone ? checkoutSession.customer_details.phone : undefined,
                 },
                 createdAt: result.rows[0].order_date,
                 amount: checkoutSession.amount_total ? checkoutSession.amount_total : 0,

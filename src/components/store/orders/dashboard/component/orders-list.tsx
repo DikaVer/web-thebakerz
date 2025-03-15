@@ -5,7 +5,7 @@ import {Button, Card, Chip, cn, ScrollShadow, Spacer, Select, SelectItem} from "
 import { OrderData} from "@/lib/actions/order";
 import { Icon } from "@iconify/react";
 import { useLocale } from "next-intl";
-import {formatDisplayDate, formatDisplayTime} from "@/lib/utils";
+import {formatCurrency, formatDisplayDate, formatDisplayTime} from "@/lib/utils";
 import { useStore } from "@/components/providers/store-provider";
 import { useRouter } from "next/navigation";
 import {OrderStatusChip, getStatusDisplayName} from "@/components/ui/status-chip";
@@ -15,10 +15,11 @@ interface OrdersListProps {
     fromDate: Date;
     toDate: Date;
     orderDataList: OrderData[];
+    setIsLoadingTime?: (isLoading: boolean) => void;
     isLoadingTime?: boolean;
 }
 
-export const OrdersList: React.FC<OrdersListProps> = ({ orderDataList, fromDate, toDate, isLoadingTime = false }) => {
+export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderDataList, fromDate, toDate, isLoadingTime = false }) => {
     const locale = useLocale();
     const [isLoading, setIsLoading] = React.useState(false);
     const { store } = useStore();
@@ -96,12 +97,6 @@ export const OrdersList: React.FC<OrdersListProps> = ({ orderDataList, fromDate,
     const itemVariants = {
         hidden: { opacity: 0, y: 20 },
         show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-    };
-
-    // Format the amount to display properly (divided by 100 if needed)
-    const formatAmount = (amount: number) => {
-        // If amount is likely in cents (>1000), divide by 100
-        return amount > 1000 ? (amount / 100).toFixed(2) : amount.toFixed(2);
     };
 
     return (
@@ -195,6 +190,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ orderDataList, fromDate,
                                         key={order.id}
                                         variants={itemVariants}
                                         onClick={() => {
+                                            setIsLoadingTime && setIsLoadingTime(true);
                                             router.push("/" + store?.storeName + "/orders/" + order.id + "?email=" + order.customer.email_customer);
                                             router.refresh()
                                         }}
@@ -207,57 +203,62 @@ export const OrdersList: React.FC<OrdersListProps> = ({ orderDataList, fromDate,
                                                 order.order_status === 'refunded' && 'shadow-none border-1 opacity-50'
                                             )}
                                         >
-                                            <div className="flex justify-between items-start">
-                                                <div className="flex flex-col">
-                                                    <div className="flex font-medium justify-center gap-x-4">
-                                                        <p>
-                                                            Order #{order.store_order_id}
-                                                        </p>
-                                                        <Chip
-                                                            size="sm"
-                                                            variant="flat"
-                                                            className={'dark:text-white'}
-                                                            color={order.status === 'paid' ? "primary" : "default"}
-                                                        >
-                                                            {order.status}
-                                                        </Chip>
+                                            <>
+                                                <div className="flex justify-between items-start">
+                                                    <div className="flex flex-col items-start">
+                                                        <div className="flex font-medium justify-center gap-x-4">
+                                                            <p>
+                                                                Order #{order.store_order_id}
+                                                            </p>
+                                                            <Chip
+                                                                size="sm"
+                                                                variant="flat"
+                                                                className={'dark:text-white'}
+                                                                color={order.status === 'paid' ? "primary" : "default"}
+                                                            >
+                                                                {order.status}
+                                                            </Chip>
+                                                        </div>
+                                                        <div
+                                                            className="text-sm text-default-600">{order.customer.name_customer}</div>
+                                                        <div
+                                                            className="text-sm text-default-600">{order.customer.email_customer}</div>
                                                     </div>
-                                                    <div className="text-sm text-default-600">{order.customer.name_customer}</div>
-                                                    <div className="text-sm text-default-600">{order.customer.email_customer}</div>
+                                                    <OrderStatusChip
+                                                        status={order.order_status}
+                                                    />
                                                 </div>
-                                                <OrderStatusChip
-                                                    status={order.order_status}
-                                                />
-                                            </div>
 
-                                            <Spacer y={2} />
+                                                <Spacer y={2}/>
 
-                                            <div className="flex justify-between items-center">
-                                                <div className="flex flex-col">
-                                                    <div className="text-sm text-default-500">
-                                                        {formatDisplayDate(new Date(order.scheduled_time.date), locale)} • {formatDisplayTime(new Date( order.scheduled_time.date + " " + order.scheduled_time.time), locale)}
-                                                    </div>
-                                                    <div className="font-medium">
-                                                        €{formatAmount(order.amount)}
+                                                <div className="flex justify-between items-center">
+                                                    <div className="flex flex-col">
+                                                        <div className="text-sm text-default-500">
+                                                            {formatDisplayDate(order.scheduled_time.date, locale)} • {formatDisplayTime(order.scheduled_time.date + " " + order.scheduled_time.time, locale)}
+                                                        </div>
+
                                                     </div>
                                                 </div>
-                                                <div className="flex gap-2">
-                                                    <Icon icon={'solar:arrow-right-up-linear'} width={24} />
-                                                </div>
-                                            </div>
 
-                                            {order.productsData && order.productsData.length > 0 && (
-                                                <>
-                                                    <Spacer y={2} />
-                                                    <div className="flex flex-col text-xs text-default-700">
-                                                        {order.productsData.map((product) => (
-                                                            <span key={`${order.id}-${product.id}-${Math.random()}`}>
+                                                <div className={'flex justify-between items-end'}>
+                                                    {order.productsData && order.productsData.length > 0 && (
+                                                        <>
+                                                            <div className="flex flex-col text-xs text-default-700">
+                                                                <Spacer y={2}/>
+                                                                {order.productsData.map((product) => (
+                                                                    <span
+                                                                        key={`${order.id}-${product.id}-${Math.random()}`}>
                                                                 {product.qty} × {product.name}
                                                             </span>
-                                                        ))}
+                                                                ))}
+                                                            </div>
+                                                        </>
+                                                    )}
+                                                    <div className="font-medium">
+                                                        {formatCurrency(order.amount)}
                                                     </div>
-                                                </>
-                                            )}
+                                                </div>
+                                            </>
                                         </Card>
                                     </motion.div>
                                 ))}

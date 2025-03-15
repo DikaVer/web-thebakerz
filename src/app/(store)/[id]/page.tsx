@@ -12,6 +12,7 @@ import {ProductDialogProvider} from "@/components/providers/product-provider";
 import {StoreTop} from "@/components/store/store-header/store-top";
 import { FooterStore } from "@/components/footer-store";
 import {CartProvider} from "@/components/providers/cart-provider";
+import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 
 interface StorePageProps {
     params: Promise<{
@@ -58,10 +59,8 @@ export default async function Page(props: StorePageProps) {
                                 <Spacer y={8}/>
                                     <StoreTop dateParam={date} timeParam={time}/>
                                 <Spacer y={8}/>
-                                <Suspense fallback={<StoreSkeleton/>}>
-                                    <ProductComponentBase
-                                        storeId={storeData.id}
-                                    />
+                                <Suspense fallback={<ProductListSkeleton />}>
+                                    <ProductComponentBase storeId={storeData.id} />
                                 </Suspense>
                             </div>
                             <Spacer y={16}/>

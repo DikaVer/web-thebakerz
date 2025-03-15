@@ -312,6 +312,7 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
                 <Spacer y={8} />
             </motion.div>
             <OrdersList
+                setIsLoadingTime={setIsLoading}
                 isLoadingTime={isLoading}
                 fromDate={dateRange?.start?.toDate(getLocalTimeZone()) || new Date()}
                 toDate={dateRange?.end?.toDate(getLocalTimeZone()) || new Date()}

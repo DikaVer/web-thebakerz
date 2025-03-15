@@ -19,6 +19,7 @@ import {Icon} from "@iconify/react";
 import {OrderData} from "@/lib/actions/order";
 import {motion} from "framer-motion";
 import {getStatusColor, getStatusDisplayName} from "@/components/ui/status-chip";
+import {formatCurrency} from "@/lib/utils";
 
 type ChartData = {
     name: string;
@@ -294,7 +295,7 @@ const CircleChartCard = React.forwardRef<
                                                             <div className="flex justify-between text-xs text-default-700">
                                                                 <span>Amount:</span>
                                                                 <span
-                                                                    className="font-mono font-medium">€{data.value.toFixed(2)}</span>
+                                                                    className="font-mono font-medium">{formatCurrency(data.amount)}</span>
                                                             </div>
                                                         </div>
                                                     </div>

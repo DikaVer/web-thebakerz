@@ -199,7 +199,7 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
                                 <Column><Text style={totalValue}>{formatCurrency(subtotal_amount)}</Text></Column>
                             </Row>
                             <Row style={totalRow}>
-                                <Column><Text style={totalLabel}>VAT(21% inclusive)</Text></Column>
+                                <Column><Text style={totalLabel}>VAT(9% inclusive)</Text></Column>
                                 <Column><Text style={totalValue}>{formatCurrency(vat)}</Text></Column>
                             </Row>
                             <Row style={totalTotalRow}>

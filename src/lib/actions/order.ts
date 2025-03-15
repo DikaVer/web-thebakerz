@@ -15,6 +15,7 @@ import {revalidateTag} from "next/cache";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
 import {StoreData} from "@/lib/actions/store";
 import {v4 as uuidv4} from "uuid";
+import {calculateTax} from "@/lib/utils";
 
 // Order data interface
 export interface OrderData {
@@ -36,6 +37,17 @@ export interface OrderData {
     amount_tax: number;
     cancelledAt?: Date;
     refundedAt?: Date;
+}
+
+export interface OrderRaw {
+    id: string;
+    store_id: string;
+    customer_email?: string;
+    scheduled_time: {
+        date: string;
+        time: string;
+    };
+    productsData: OrderProducts;
 }
 
 export type OrderStatus = "new" | "started" | "ready" | "completed" | "cancelled" | 'refunded';
@@ -103,15 +115,15 @@ export const createOrder = async (
         return { error: 'Order time is not set' };
     }
 
-    //Check if data is tommorow
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const orderDateObj = new Date(date);
-    const orderDateStr = orderDateObj.toISOString().split('T')[0];
-    const tomorrowStr = tomorrow.toISOString().split('T')[0];
-    if (orderDateStr === tomorrowStr) {
-        return {error: 'Order time is incorrect'};
-    }
+    // //Check if data is tommorow
+    // const tomorrow = new Date();
+    // tomorrow.setDate(tomorrow.getDate() + 1);
+    // const orderDateObj = new Date(date);
+    // const orderDateStr = orderDateObj.toISOString().split('T')[0];
+    // const tomorrowStr = tomorrow.toISOString().split('T')[0];
+    // if (orderDateStr === tomorrowStr) {
+    //     return {error: 'Order time is incorrect'};
+    // }
 
 
     // Get products data to fetch prices
@@ -203,7 +215,7 @@ export const createOrder = async (
             order_status: 'new',
             completed: false,
             productsData: cartItems,
-            amount_tax: subtotal * 21/121,
+            amount_tax: calculateTax(subtotal),
 
         }
 

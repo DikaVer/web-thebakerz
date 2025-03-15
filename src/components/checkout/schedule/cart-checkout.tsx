@@ -9,7 +9,7 @@ import {
 } from "@heroui/react";
 import { useMediaQuery } from "usehooks-ts";
 import { useProductDialog } from "@/components/providers/product-provider";
-import { formatCurrency } from "@/lib/utils";
+import {calculateTax, formatCurrency} from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useStore } from "@/components/providers/store-provider";
 import {CartItemRow} from "@/components/cart/cart-item";
@@ -46,7 +46,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         const productData = getProductDataById(item.product_id);
         return productData ? sum + productData.price * item.quantity : sum;
     }, 0);
-    const vat = subtotal * 21/121; // 21% VAT fee
+    const vat = calculateTax(subtotal) // 9% VAT fee
     const total = subtotal;
 
     const renderCartItems = (isLoading: boolean, setIsLoading: (value: boolean) => void) => {
@@ -104,7 +104,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             <span className="text-sm">{formatCurrency(subtotal)}</span>
                         </div>
                         <div className="flex justify-between mt-2">
-                            <span className="text-sm font-medium">VAT (21% inclusive)</span>
+                            <span className="text-sm font-medium">VAT (9% inclusive)</span>
                             <span className="text-sm">{formatCurrency(vat)}</span>
                         </div>
                         <Spacer y={2} />

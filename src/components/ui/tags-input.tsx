@@ -82,38 +82,21 @@ export const TagsInput: React.FC<TagsInputProps> = ({
         <div className='flex flex-wrap items-center gap-2 py-2 rounded-md'>
             {tags.map((tag, index) => (
                 <div key={tag} className='relative'>
-                    {editTag && editingIndex === index ? (
-                        <Input
-                            isDisabled={isLoading}
-                            ref={editInputRef}
-                            variant={'underlined'}
-                            type='text'
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            onKeyDown={handleAddTag}
-                            onBlur={handleBlur}
-                            className='px-2 py-1 text-sm border   rounded outline-none'
-                            placeholder='Edit tag...'
-                            style={{ width: `${input.length + 1 * 1.2}px` }}
-                            autoFocus
-                        />
-                    ) : (
-                        <button
-                            disabled={isLoading}
-                            onClick={() => {
-                                handleRemoveTag(tag)
-                            }}
-                            className={cn("flex items-center gap-1 px-2 pl-2 py-1 text-sm font-medium rounded-full cursor-pointer", {
-                                "bg-default-300 hover:bg-default-400": type === "default",
-                                "bg-warning-300 hover:bg-warning-400": type === "warning",
-                                "opacity-50": isLoading
-                            })}
-                        >
-                            <AllergenIcon allergen={tag} />
-                            <span>{tag}</span>
-                            <span>&times;</span>
-                        </button>
-                    )}
+                    <button
+                        disabled={isLoading}
+                        onClick={() => {
+                            handleRemoveTag(tag)
+                        }}
+                        className={cn("flex items-center gap-1 px-2 pl-2 py-1 text-sm font-medium rounded-full cursor-pointer", {
+                            "bg-default-300 hover:bg-default-400": type === "default",
+                            "bg-warning-300 hover:bg-warning-400": type === "warning",
+                            "opacity-50": isLoading
+                        })}
+                    >
+                        <AllergenIcon allergen={tag} />
+                        <span>{tag}</span>
+                        <span>&times;</span>
+                    </button>
                 </div>
             ))}
             <Input

@@ -3,7 +3,7 @@
 import React, {startTransition, useActionState, useEffect, useState} from "react";
 import {
     addToast,
-    Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader,
+    Button, cn, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader,
     Spacer,
     useDisclosure
 } from "@heroui/react";
@@ -231,36 +231,45 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                         </Modal>
                     </>
                 )}
-                {!isCreating ? (
-                    <>
-                        <Button
-                            variant={'bordered'}
-                            isDisabled={!(selectedDate instanceof CalendarDateTime)}
-                            className={`w-1/3`}
-                            isLoading={isLoading}
-                            onPress={() => setIsCreating(true)}
-                        >
-                            Create Order
-                        </Button>
-                        <Button
-                            isLoading={isLoading}
-                            variant={'bordered'}
-                            isDisabled={!(selectedDate instanceof CalendarDateTime)}
-                            className={`${!(selectedDate instanceof CalendarDateTime) ? "" : "bg-gradient-primary text-white border-none"}  w-2/3`}
-                            endContent={<Icon icon={'solar:alt-arrow-right-linear'} width={24}/>}
-                            onPress={async () => {
-                                await getClientSecret();
-                                onOpen();
-                            }}
-                        >
-                            Send Order Ticket
-                        </Button>
-                    </>
+                {(!isCreating) ? (
+                    (selectedDate instanceof CalendarDateTime) && (
+                        <section id={'create order - buttons'}>
+                            <p className={cn("text-center my-2 text-default-500",
+
+                            )}>
+                                Has customer paid?
+                            </p>
+                            <div className={'flex w-full gap-x-8'}>
+                                <Button
+                                    variant={'bordered'}
+                                    // isDisabled={!(selectedDate instanceof CalendarDateTime)}
+                                    className={`w-1/3`}
+                                    isLoading={isLoading}
+                                    onPress={() => setIsCreating(true)}
+                                >
+                                    Yes
+                                </Button>
+                                <Button
+                                    isLoading={isLoading}
+                                    variant={'bordered'}
+                                    // isDisabled={!(selectedDate instanceof CalendarDateTime)}
+                                    className={`${!(selectedDate instanceof CalendarDateTime) ? "" : "bg-gradient-primary text-white border-none"}  w-2/3`}
+                                    // endContent={<Icon icon={'solar:alt-arrow-right-linear'} width={24}/>}
+                                    onPress={async () => {
+                                        await getClientSecret();
+                                        onOpen();
+                                    }}
+                                >
+                                    No
+                                </Button>
+                            </div>
+                        </section>
+                    )
                 ) : (
                     <>
-                    <Form {...form}>
-                        <form
-                            onSubmit={form.handleSubmit(handleSubmit)}
+                        <Form {...form}>
+                            <form
+                                onSubmit={form.handleSubmit(handleSubmit)}
                             className={'grid gap-y-1 w-full'}
                         >
                             <div>
