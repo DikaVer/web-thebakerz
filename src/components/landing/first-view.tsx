@@ -65,7 +65,7 @@ export function FirstView() {
                         </h1>
                         <p ref={subheadingRef}
                            className={`text-pretty flex flex-col text-lg font-medium text-grayText sm:text-xl/8  opacity-0 ${subheadingInView ? 'animate-fadeInUpDelay3' : ''}`}>
-                            <span>TheBakerz - all orders, customer messages and recipes in one place</span>
+                            <span>{t('subtitle')}</span>
                         </p>
                         <div ref={buttonRef}
                              className={`mt-10 flex items-center justify-center gap-x-6 opacity-0 ${buttonInView ? 'animate-fadeInUpDelay4' : ''}`}>
@@ -85,14 +85,14 @@ export function FirstView() {
                                         ) : (
                                             <div className="px-6 flex flex-col"
                                             >
-                                                Get started
+                                                {t('get started')}
                                             </div>
                                         )}
                                     </>
                                 </Button>
                             </div>
                             <a href="#why-choose" className="text-sm/6 font-semibold text-text">
-                                Learn more <span aria-hidden="true">&rarr;</span>
+                                {t('learn more')} <span aria-hidden="true">&rarr;</span>
                             </a>
                         </div>
                     </div>

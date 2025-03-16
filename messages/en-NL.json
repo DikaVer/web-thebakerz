@@ -2,6 +2,8 @@
     "HomePage": {
         "title": "Bake more. \nStress less.",
         "subtitle": "TheBakerz - all orders, customer messages and recipes in one place",
+        "learn more": "Learn more",
+        "get started": "Get started",
         "apply": "Fill out a quick form, and we’ll get in touch to explain everything and set up your account.",
         "we set up your store": "Share your products and prices, and we’ll handle the setup for you.",
         "Start selling": "Test your store, make adjustments, and start taking real orders!",
@@ -100,9 +102,33 @@
         "Failed to upload image": "Failed to upload image. Please try again."
     },
     "TheBakerz": {
+        "features": {
+            "online_store": {
+                "key": "online-store",
+                "title": "Online Store",
+                "description": "We create your own online store to showcase your delicious creations and accept orders seamlessly."
+            },
+            "order_management": {
+                "key": "order-management",
+                "title": "Order Management",
+                "description": "Easily track and manage all your orders in one place, reducing the risk of errors and missed orders."
+            },
+            "all_chats": {
+                "key": "all-chats-in-one-place",
+                "title": "All Chats in One Place",
+                "description": "Connect customer chats from Instagram, Facebook, and WhatsApp to orders in one place for easy communication."
+            },
+            "support": {
+                "key": "flexible-support",
+                "title": "Flexible Support",
+                "description": "Our dedicated team is here to help during our available hours, ensuring your queries are addressed promptly."
+            }
+        },
+        "Auth_Description": "Sign in to order delicious treats",
         "A new code was sent to your email": "A new code was sent to your email",
         "Add": "Add",
         "Add Allergies Placeholder": "Add allergies... (Press Enter to add)",
+        "Add Ingredients Placeholder": "Add allergies... (Press Enter to add)",
         "Add Description Placeholder": "Add a description for this item...",
         "Add Item": "Add Item",
         "Add Items To Start": "Add items to get started",
@@ -233,7 +259,6 @@
         "Updating Cart": "Updating cart...",
         "Upload Image Subtitle": "Upload Item Image",
         "Upload Item Image": "Upload Item Image",
-
         "VAT Inclusive": "VAT (9% inclusive)",
         "Verify": "Verify",
         "Working Hours": "Working Hours",
@@ -329,7 +354,8 @@
         "NameAndPrice": "Name & Price",
         "Drag": "Drag",
         "UpdateProductOrder": "Update Product & Category Orders",
-        "UpdatingOrders": "Updating Orders..."
+        "UpdatingOrders": "Updating Orders...",
+        "Products": "Products"
     },
     "Schedule": {
         "StartTime": "Start Time",
@@ -379,8 +405,13 @@
         "ProfileStoreUpdated": "Your profile and store details have been updated",
         "ProfileHasUpdated": "Your profile has been updated",
         "Updating": "Updating...",
-        "Update Profile": "Update Profile"
+        "Update Profile": "Update Profile",
+        "SettingsTitle": "Settings",
+        "SettingsDescription": "Customize your settings and profile.",
+        "ProfileAndStoreTab": " & Store View",
+        "WorkingHoursTab": "Work Hours"
     },
+
     "ApplyComponent": {
         "Congratulations": "Congratulations!",
         "ApplicationSuccess": "Thank you for your application. Please wait for a phone call from us."
@@ -427,7 +458,10 @@
         "contextPlaceholder": "Help me with...",
         "buttonSending": "Sending...",
         "buttonSubmit": "Submit ticket",
-        "successMessage": "Your ticket was submitted successfully. We will redirect you to main page automatically in:"
+        "successMessage": "Your ticket was submitted successfully. We will redirect you to main page automatically in:",
+        "Support": "Support",
+        "Contact Us": "Contact Us",
+        "Contact Us Description": "We are here to assist you during our business hours. Please feel free to contact us for any questions or issues you may have."
     },
     "OrderStatus": {
         "new": "New",
@@ -442,6 +476,16 @@
         "back": "Back",
         "backTo": "to",
         "brandName": "TheBakerz"
+    },
+    "Calendar": {
+        "Today": "Today",
+        "This Week": "This Week",
+        "This Month": "This Month"
+    },
+    "BarChartDashboard": {
+        "Title": "Orders by Status",
+        "Not Found": "No orders found for this period",
+        "Print": "Print"
     }
 }
 

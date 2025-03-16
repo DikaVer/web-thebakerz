@@ -10,6 +10,7 @@ import { useStore } from "@/components/providers/store-provider"
 import { Button, ButtonGroup, Card } from "@heroui/react"
 import { Icon } from "@iconify/react/dist/iconify.js"
 import { useMemo, useRef, useState, useTransition } from "react"
+import { useTranslations } from "next-intl"
 
 // Interface for storing order status information by date
 interface OrderStatusByDate {
@@ -51,6 +52,7 @@ function CalendarDashboard({
     const [isPending, startTransition] = useTransition();
     const [orderStatusByDate, setOrderStatusByDate] = useState<OrderStatusByDate>({});
     const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
+    const t = useTranslations("Calendar");
 
     // States for range selection with hover preview
     const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
@@ -310,9 +312,9 @@ function CalendarDashboard({
                     size="sm"
                     variant="bordered"
                 >
-                    <Button onPress={handleTodayClick}>Today</Button>
-                    <Button onPress={handleThisWeekClick}>This Week</Button>
-                    <Button onPress={handleThisMonthClick}>This Month</Button>
+                    <Button onPress={handleTodayClick}>{t("Today")}</Button>
+                    <Button onPress={handleThisWeekClick}>{t("This Week")}</Button>
+                    <Button onPress={handleThisMonthClick}>{t("This Month")}</Button>
                 </ButtonGroup>
             </div>
 

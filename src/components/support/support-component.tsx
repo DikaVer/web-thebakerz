@@ -1,4 +1,3 @@
-// TypeScript
 "use client";
 
 import React from "react";
@@ -14,17 +13,19 @@ import { faqsBakerz, faqsCustomer } from "./faqs";
 const SupportComponent: React.FC = () => {
     const router = useRouter();
     const t = useTranslations("SupportComponent");
+    const tBaker = useTranslations("FAQ Baker");
+    const tCustomer = useTranslations("FAQ Customer");
 
     return (
         <section className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-32 md:px-6 lg:px-8 lg:py-40">
             <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-8">
                 <h2 className="w-full max-w-3xl bg-gradient-text to-foreground-600 bg-clip-text px-2 text-center text-3xl font-bold leading-7 md:text-5xl">
-          <span className="inline-block md:hidden">
-            {t("faqsTitleShort")}
-          </span>
+                    <span className="inline-block md:hidden">
+                        {t("faqsTitleShort")}
+                    </span>
                     <span className="hidden md:inline-block">
-            {t("faqsTitleLong")}
-          </span>
+                        {t("faqsTitleLong")}
+                    </span>
                 </h2>
                 <div>
                     <Button
@@ -60,13 +61,13 @@ const SupportComponent: React.FC = () => {
                         <AccordionItem
                             key={index}
                             indicator={<Icon className="text-text" icon="lucide:plus" width={24} />}
-                            title={faq.title}
+                            title={tBaker(faq.questionKey)}
                         >
                             <ReactMarkdown
                                 rehypePlugins={[rehypeSanitize]}
                                 className="prose text-grayText prose-strong:text-text prose-a:text-grayText"
                             >
-                                {faq.content}
+                                {tBaker(faq.answerKey)}
                             </ReactMarkdown>
                         </AccordionItem>
                     ))}
@@ -90,13 +91,13 @@ const SupportComponent: React.FC = () => {
                         <AccordionItem
                             key={index}
                             indicator={<Icon className="text-text" icon="lucide:plus" width={24} />}
-                            title={faq.title}
+                            title={tCustomer(faq.questionKey)}
                         >
                             <ReactMarkdown
                                 rehypePlugins={[rehypeSanitize]}
                                 className="prose text-grayText prose-strong:text-text prose-a:text-grayText"
                             >
-                                {faq.content}
+                                {tCustomer(faq.answerKey)}
                             </ReactMarkdown>
                         </AccordionItem>
                     ))}

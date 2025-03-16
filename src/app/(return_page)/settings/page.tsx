@@ -5,8 +5,10 @@ import {useSearchParams, redirect} from 'next/navigation';
 import { useSession } from "@/components/providers/session-provider";
 import ProfileSetting from "@/components/settings/profile-setting";
 import WorkingHoursManager from "@/components/settings/calendar-settings";
+import { useTranslations } from "next-intl";
 
 export default function Page() {
+    const t = useTranslations("Settings");
     const { session } = useSession();
     const searchParams = useSearchParams();
 
@@ -23,14 +25,13 @@ export default function Page() {
             <div className="w-full max-w-2xl justify-center flex-1 py-4">
                 {/* Title */}
                 <div className="flex items-center gap-x-3">
-                    <h1 className="text-3xl font-bold leading-9 text-default-foreground">Settings</h1>
+                    <h1 className="text-3xl font-bold leading-9 text-default-foreground">{t("SettingsTitle")}</h1>
                 </div>
                 <h2 className="mt-2 text-small text-default-500">
-                    Customize your settings and profile.
+                    {t("SettingsDescription")}
                 </h2>
                 {/* Tabs */}
                 <Tabs
-
                     defaultSelectedKey={selectedTab}
                     // onValueChange will update the URL query parameter to reflect the selected tab.
                     //@ts-ignore
@@ -41,16 +42,15 @@ export default function Page() {
                         panel: "w-full p-0 pt-4",
                     }}
                 >
-                    <Tab key="profile" title={`Profile ${session.store ? ' & Store View' : ""}`}>
+                    <Tab key="profile" title={`${t("Profile")} ${session.store ? t("ProfileAndStoreTab") : ""}`}>
                         <ProfileSetting />
                     </Tab>
                     {session.store && (
                         <>
-                            <Tab key="calendar" title="Work Hours">
+                            <Tab key="calendar" title={t("WorkingHoursTab")}>
                                 <WorkingHoursManager/>
                             </Tab>
                         </>
-
                     )}
                 </Tabs>
             </div>

@@ -65,6 +65,7 @@ const getBgColorFromClass = (classStr: string): string => {
 
 
 export const OrdersBarChart: React.FC<OrdersBarChartProps> = ({orderDataList, isLoading = false}) => {
+    const barT = useTranslations("BarChartDashboard");
     // Process order data to get stats by status
     const { chartData, categories, totalAmount, totalOrders } = useMemo(() => {
         // Count and sum orders by status
@@ -109,7 +110,7 @@ export const OrdersBarChart: React.FC<OrdersBarChartProps> = ({orderDataList, is
     }, [orderDataList]);
 
     const chartConfig: CircleChartProps = {
-        title: "Orders by Status",
+        title: barT("Title"),
         total: totalAmount,
         unit: "EUR",
         categories,
@@ -142,6 +143,7 @@ const CircleChartCard = React.forwardRef<
     // State for selected statuses, initialize with all categories
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([...categories]);
     const t = useTranslations("OrderStatus");
+    const barT = useTranslations("BarChartDashboard");
 
     // Filter chart data based on selected statuses
     const filteredChartData = useMemo(() => {
@@ -246,7 +248,7 @@ const CircleChartCard = React.forwardRef<
                                         <Icon icon={'solar:printer-minimalistic-bold'} width={24} height={24}/>
                                     </div>
                                 } key="view-details">
-                                    Print Report
+                                    {barT("Print")}
                                 </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
@@ -258,7 +260,7 @@ const CircleChartCard = React.forwardRef<
                 <div className="p-8 flex flex-col items-center justify-center">
                     <Icon icon="solar:clipboard-list-broken" width={48} className="text-default-500" />
                     <Spacer y={2} />
-                    <p className="text-default-500">No orders found for this period</p>
+                    <p className="text-default-500">{barT("Not Found")}</p>
                 </div>
             ) : (
                 <div className="flex h-full flex-wrap items-center justify-center gap-x-2 lg:flex-nowrap">

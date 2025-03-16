@@ -55,93 +55,95 @@ export default function ContactUsComponent() {
     }
 
     return (
-        <Card className={'w-full max-w-xl bg-gradient-card'}>
-            <CardBody className={'w-full max-w-xl'}>
-                <Form {...form}>
-                    <form
-                        onSubmit={form.handleSubmit(handleSubmit)}
-                        className={'grid gap-y-4'}
-                    >
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            isRequired
-                                            label={t("emailLabel")}
-                                            placeholder={t("emailPlaceholder")}
-                                            type="email"
-                                            validate={() => {
-                                                return fieldState.error?.message;
-                                            }}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="subject"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            isRequired
-                                            label={t("subjectLabel")}
-                                            placeholder={t("subjectPlaceholder")}
-                                            type="text"
-                                            validate={() => {
-                                                return fieldState.error?.message;
-                                            }}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="context"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Textarea
-                                            {...field}
-                                            isRequired
-                                            label={t("contextLabel")}
-                                            placeholder={t("contextPlaceholder")}
-                                            style={{ resize: "none" }}
-                                            minRows={4}
-                                            maxRows={5}
-                                            onValueChange={(value) => {
-                                                setCharCount(value.length);
-                                            }}
-                                            validate={() => {
-                                                return fieldState.error?.message;
-                                            }}
-                                        />
-                                    </FormControl>
-                                    <p className="text-right text-grayText text-small px-2">
-                                        {charCount}/2000
-                                    </p>
-                                </FormItem>
-                            )}
-                        />
-                        <FormError message={state?.error || undefined} />
-                        <Button
-                            type="submit"
-                            className={'w-full rounded-xl bg-gradient-primary'}
-                            isLoading={isPending}
-                            disabled={isPending}
+        <>
+            <Card className={'w-full max-w-xl bg-gradient-card'}>
+                <CardBody className={'w-full max-w-xl'}>
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(handleSubmit)}
+                            className={'grid gap-y-4'}
                         >
-                            {isPending ? t("buttonSending") : t("buttonSubmit")}
-                        </Button>
-                    </form>
-                </Form>
-            </CardBody>
-        </Card>
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({field, fieldState}) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                isRequired
+                                                label={t("emailLabel")}
+                                                placeholder={t("emailPlaceholder")}
+                                                type="email"
+                                                validate={() => {
+                                                    return fieldState.error?.message;
+                                                }}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="subject"
+                                render={({field, fieldState}) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                isRequired
+                                                label={t("subjectLabel")}
+                                                placeholder={t("subjectPlaceholder")}
+                                                type="text"
+                                                validate={() => {
+                                                    return fieldState.error?.message;
+                                                }}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="context"
+                                render={({field, fieldState}) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Textarea
+                                                {...field}
+                                                isRequired
+                                                label={t("contextLabel")}
+                                                placeholder={t("contextPlaceholder")}
+                                                style={{resize: "none"}}
+                                                minRows={4}
+                                                maxRows={5}
+                                                onValueChange={(value) => {
+                                                    setCharCount(value.length);
+                                                }}
+                                                validate={() => {
+                                                    return fieldState.error?.message;
+                                                }}
+                                            />
+                                        </FormControl>
+                                        <p className="text-right text-grayText text-small px-2">
+                                            {charCount}/2000
+                                        </p>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormError message={state?.error || undefined}/>
+                            <Button
+                                type="submit"
+                                className={'w-full rounded-xl bg-gradient-primary'}
+                                isLoading={isPending}
+                                disabled={isPending}
+                            >
+                                {isPending ? t("buttonSending") : t("buttonSubmit")}
+                            </Button>
+                        </form>
+                    </Form>
+                </CardBody>
+            </Card>
+        </>
     );
 }

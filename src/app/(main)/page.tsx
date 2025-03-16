@@ -22,7 +22,6 @@ import {
     CardFooter,
     Chip
 } from "@heroui/react";
-
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 import {Icon} from "@iconify/react";
@@ -30,6 +29,7 @@ import ScrollTriggered from "@/components/landing/scroll-triggered";
 import ApplyComponent from "@/components/landing/apply-component";
 import {useMediaQuery} from "usehooks-ts";
 import {useTheme} from "next-themes";
+import {useTranslations} from "next-intl";
 
 export default function Page() {
     return (
@@ -53,6 +53,7 @@ export default function Page() {
 
 const WhyChooseSectionAnimated = () => {
     const [whyChooseRef, whyChooseInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
+    const t = useTranslations("TheBakerz");
 
     return (
         <section
@@ -64,10 +65,10 @@ const WhyChooseSectionAnimated = () => {
                 ref={whyChooseRef}
                 id="why-choose-heading"
                 className={`text-3xl sm:text-4xl font-extrabold text-center bg-gradient-text
-                            opacity-0 transform 
+                            opacity-0 transform
                             ${whyChooseInView ? 'animate-fadeInUp' : ''}`}
             >
-                Why Choose TheBakerz?
+                {t('Why Choose TheBakerz?')}
             </h2>
             <ScrollTriggered />
         </section>
@@ -79,12 +80,10 @@ const PricingSection = () => {
     const [isLoading, setLoading] = useState(false);
     const [isOpen, setOpen] = useState(false);
     const { theme } = useTheme();
+    const t = useTranslations("TheBakerz");
 
     const [pricingOut, PricingInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
 
-
-
-    // Redirects the user to the sign-in page, appending the current path for post-authActions redirection
     const handleCreate = () => {
         setLoading(true);
         router.push('#join-thebakerz');
@@ -117,19 +116,18 @@ const PricingSection = () => {
                     </div>
                 }
             >
-                <ModalContent
-                >
+                <ModalContent>
                     {(onClose) => (
                         <>
                             <ModalHeader>
-                                Transparent pricing
+                                {t('Transparent pricing')}
                             </ModalHeader>
                             <ModalBody>
                                 <div className={'w-full flex flex-row space-x-3 items-center'}>
                                     <IconBadge className={`w-8 h-8 text-text`}/>
                                     <div className={'w-full flex flex-col'}>
                                         <p>
-                                            €9.99/month subscription
+                                            {t('Monthly Subscription')}
                                         </p>
                                     </div>
                                 </div>
@@ -137,12 +135,12 @@ const PricingSection = () => {
                                     <IconBadge className={`w-8 h-8 text-text`}/>
                                     <div className={'w-full flex flex-col'}>
                                         <p>
-                                            Payment and service fee 4.9%
+                                            {t('Payment Fee')}
                                         </p>
                                         <p
                                             className={`text-tiny cm:text-small text-grayText`}
                                         >
-                                            4.9% of sales to host website, operational and payment services
+                                            {t('Payment Fee Info')}
                                         </p>
                                     </div>
                                 </div>
@@ -150,12 +148,12 @@ const PricingSection = () => {
                                     <IconBadge className={`w-8 h-8 text-text`}/>
                                     <div className={'w-full flex flex-col'}>
                                         <p>
-                                            100% Tips
+                                            {t('Tips')}
                                         </p>
                                         <p
                                             className={`text-tiny cm:text-small text-grayText`}
                                         >
-                                            Keep the cherry on top with you
+                                            {t('Tips Info')}
                                         </p>
                                     </div>
                                 </div>
@@ -177,7 +175,7 @@ const PricingSection = () => {
                         className={`text-lg cm:text-xl text-text`}
                     >
                         <span className={'font-semibold'}>
-                            FREE TRIAL
+                            {t('FREE TRIAL')}
                         </span>
                     </Chip>
                 </CardFooter>
@@ -196,7 +194,7 @@ const PricingSection = () => {
                             className={`w-48 px-3 h-8 gap-1 text-sm justify-start`}
                             onPress={() => setOpen(true)}
                         >
-                            Transparent pricing
+                            {t('Transparent pricing')}
                         </Button>
                     </div>
                     <hr/>
@@ -204,13 +202,12 @@ const PricingSection = () => {
                         <p
                             className={`text-small md:text-lg italic text-grayText text-center my-3`}
                         >
-                            Exclusive offer: start for 3 months for free!
+                            {t('Exclusive Offer')}
                         </p>
                     </div>
                     <Button
                         isLoading={isLoading}
                         disabled={isLoading}
-
                         className={`py-6 -px-1 ${isLoading ? "px-6" : "-px-1"} text-2xl bg-gradient-primary rounded-lg shadow-xl`}
                         //@ts-ignore
                         variant={"default"}
@@ -218,13 +215,12 @@ const PricingSection = () => {
                     >
                         {isLoading ? (
                             <>
-                                Loading...
+                                {t('Loading')}
                             </>
                         ) : (
-
-                                <div className={`flex flex-col text-xl desktop:text-2xl`}>
-                                    Get started with TheBakerz
-                                </div>
+                            <div className={`flex flex-col text-xl desktop:text-2xl`}>
+                                {t('Get Started')}
+                            </div>
                         )}
                     </Button>
 
@@ -233,12 +229,12 @@ const PricingSection = () => {
                             <IconBadgeCheck className={`w-10 h-10 text-success`}/>
                             <div className={'w-full flex flex-col'}>
                                 <p>
-                                    You own webshop
+                                    {t('You own webshop')}
                                 </p>
                                 <p
                                     className={`text-tiny cm:text-small text-grayText`}
                                 >
-                                    Professional online store to showcase and sell your baked creations
+                                    {t('Professional online store to showcase and sell your baked creations')}
                                 </p>
                             </div>
                         </div>
@@ -246,12 +242,12 @@ const PricingSection = () => {
                             <IconBadgeCheck className={`w-10 h-10 text-success`}/>
                             <div className={'w-full flex flex-col'}>
                                 <p>
-                                    All Messages in One Place
+                                    {t('All Messages in One Place')}
                                 </p>
                                 <p
                                     className={`text-tiny cm:text-small text-grayText`}
                                 >
-                                    Connect your WhatsApp, Instagram, and Facebook messages in a single view
+                                    {t('Connect your WhatsApp, Instagram, and Facebook messages in a single view')}
                                 </p>
                             </div>
                         </div>
@@ -259,12 +255,12 @@ const PricingSection = () => {
                             <IconBadgeCheck className={`w-10 h-10 text-success`}/>
                             <div className={'w-full flex flex-col'}>
                                 <p>
-                                    Recipe & Order Control
+                                    {t('Recipe & Order Control')}
                                 </p>
                                 <p
                                     className={`text-tiny cm:text-small text-grayText`}
                                 >
-                                    Easy-to-use system to manage your recipes and track all orders
+                                    {t('Easy-to-use system to manage your recipes and track all orders')}
                                 </p>
                             </div>
                         </div>
@@ -272,34 +268,32 @@ const PricingSection = () => {
                             <IconBadgeCheck className={`w-10 h-10 text-success`}/>
                             <div className={'w-full flex flex-col'}>
                                 <p>
-                                    Smart Calendar
+                                    {t('Smart Calendar')}
                                 </p>
                                 <p
                                     className={`text-tiny cm:text-small text-grayText`}
                                 >
-                                    Plan your production and keep track of daily tasks
+                                    {t('Plan your production and keep track of daily tasks')}
                                 </p>
                             </div>
                         </div>
                     </div>
                 </CardBody>
-
             </Card>
         </section>
     );
 };
 
-
-// Footer Component
 const Footer = () => {
     const [footerRef, footerInView] = useInView<HTMLDivElement>({threshold: 0});
     const isMobile = useMediaQuery("(max-width: 768px)");
+    const t = useTranslations("TheBakerz");
 
     return (
         <div
             ref={footerRef}
             className={`relative lg:px-16 bg-secondary w-full flex justify-between items-center rounded-lg mt-12
-            opacity-0 transform translate-y-10 
+            opacity-0 transform translate-y-10
             ${footerInView ? 'animate-fadeInUp' : ''}
             `}
         >
@@ -311,8 +305,8 @@ const Footer = () => {
             </div>
             <div
                 ref={footerRef}
-                className={` hidden md:flex relative ${isMobile ? "w-16 mb-20" : "w-36 mb-36"} 
-                opacity-0 transform translate-y-10 
+                className={` hidden md:flex relative ${isMobile ? "w-16 mb-20" : "w-36 mb-36"}
+                opacity-0 transform translate-y-10
                 ${footerInView ? 'animate-fadeInUp' : ''}
                 `}
             >
@@ -330,11 +324,13 @@ const Footer = () => {
                     />
                 </div>
             </div>
-            <span className={`text-[3vh] py-12 text-primary text-center ${pacifico.className}`}>We want you to succeed</span>
+            <span className={`text-[3vh] py-12 text-primary text-center ${pacifico.className}`}>
+                {t('We want you to succeed')}
+            </span>
             <div
                 ref={footerRef}
-                className={`hidden md:flex relative ${isMobile ? "w-16 mb-20" : "w-36 mb-36"} 
-                opacity-0 transform translate-y-10 
+                className={`hidden md:flex relative ${isMobile ? "w-16 mb-20" : "w-36 mb-36"}
+                opacity-0 transform translate-y-10
                 ${footerInView ? 'animate-fadeInUp' : ''}
                 `}
             >

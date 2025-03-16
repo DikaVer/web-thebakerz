@@ -1,7 +1,8 @@
 import ContactUsComponent from "@/components/support/contact-us-component";
+import { getTranslations } from "next-intl/server";
 
 export default async function Page() {
-
+    const t = await getTranslations("ContactUsComponent");
 
     return (
         <div className={'flex flex-col w-full justify-center items-center'}>
@@ -11,17 +12,17 @@ export default async function Page() {
                 <h2
                     className={`font-medium`}
                 >
-                    Support
+                    {t("Support")}
                 </h2>
                 <h1
                     className={`text-3xl font-medium tracking-tight lg:text-5xl`}
                 >
-                    Contact Us
+                    {t("Contact Us")}
                 </h1>
                 <h2
                     className={`mt-2 text-medium text-default-500 lg:mt-4 lg:text-large`}
                 >
-                    We are here to assist you during our business hours. Please feel free to contact us for any questions or issues you may have.
+                    {t("Contact Us Description")}
                 </h2>
             </div>
             <ContactUsComponent/>

@@ -4,11 +4,13 @@ import React from "react";
 import ProductManager from "@/components/settings/products-settings";
 import {useSearchParams} from "next/navigation";
 import {ProductDataFull} from "@/lib/actions/product";
+import {useTranslations} from "next-intl";
 
 export const ProductCard: React.FC<{productsData: ProductDataFull; productsOrder: Record<string, string[]>}> = ({ productsData, productsOrder }) => {
 
 
 
+    const t = useTranslations("ProductSettings");
     const searchParams = useSearchParams();
 
     // Read the "tab" query parameter; default to "profile" if not provided.
@@ -28,7 +30,7 @@ export const ProductCard: React.FC<{productsData: ProductDataFull; productsOrder
                 panel: "w-full p-0 pt-4",
             }}
         >
-            <Tab key="products" title="Products">
+            <Tab key="products" title={t("ProductManager")}>
                 <ProductManager
                     productsOrder={productsOrder}
                     productsData={productsData}

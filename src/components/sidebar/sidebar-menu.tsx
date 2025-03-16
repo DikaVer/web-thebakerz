@@ -146,68 +146,88 @@ export default function SidebarMenu({ store, isOpen, onOpenChange, isCollapsed }
 }
 
 const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreData) => {
+    // Helper function to apply translations to items
+    const applyTranslations = (items: any[]): any[] => {
+        return items.map(item => {
+            const translatedItem = { ...item };
+
+            if (translatedItem.titleKey) {
+                translatedItem.title = t(translatedItem.titleKey);
+                delete translatedItem.titleKey; // Remove the key after translation
+            }
+
+            if (translatedItem.items) {
+                translatedItem.items = applyTranslations(translatedItem.items);
+            }
+
+            return translatedItem;
+        });
+    };
+
+    let sidebarItems;
+
     if (!session.user) {
         if (store) {
-            return [
+            return applyTranslations([
                 {
                     key: "",
                     href: `/auth?next=${store.storeName}`,
                     icon: "line-md:login",
-                    title: t("Sign in")
+                    titleKey: "SignIn"
                 }
-            ];
+            ]);
         }
-        return sectionItemsGuestTheBakerz;
+        sidebarItems = sectionItemsGuestTheBakerz;
+    } else {
+        const role = session.user.role;
+        switch (role) {
+            case "admin":
+                sidebarItems = sectionItemsAdmin;
+                break;
+            case "user":
+                sidebarItems = store ? sectionStoreItemsUser : sectionItemsUser;
+                break;
+            case "bakerz":
+                sidebarItems = [
+                    {
+                        key: "account",
+                        titleKey: "Account",
+                        items: [
+                            {
+                                key: "orders",
+                                href: `/${session.store?.storeName}/orders`,
+                                titleKey: "Orders",
+                                icon: "solar:notification-unread-lines-broken"
+                            },
+                            {
+                                key: "store",
+                                href: `/${session.store?.storeName}`,
+                                icon: "solar:shop-broken",
+                                title: session.user.username // Keep this as is (dynamic username)
+                            },
+                            {
+                                key: "products",
+                                href: `/${session.store?.storeName}/products`,
+                                icon: "solar:bag-5-broken",
+                                titleKey: "Products"
+                            },
+                            {
+                                key: "payments",
+                                href: `/${session.store?.storeName}/payments`,
+                                icon: "solar:wallet-money-broken",
+                                titleKey: "Payments"
+                            }
+                        ]
+                    },
+                    ...sectionItemsBakerz
+                ];
+                break;
+            default:
+                sidebarItems = sectionItemsGuestTheBakerz;
+        }
     }
 
-    const role = session.user.role;
-    switch (role) {
-        case "admin":
-            return sectionItemsAdmin;
-        case "user":
-        {
-            if (store) {
-                return sectionStoreItemsUser;
-            }
-            return sectionItemsUser;
-        }
-        case "bakerz":
-            return [
-                {
-                    key: "account",
-                    title: t("Account"),
-                    items: [
-                        {
-                            key: "orders",
-                            href: `/${session.store?.storeName}/orders`,
-                            title: t("Orders"),
-                            icon: "solar:notification-unread-lines-broken"
-                        },
-                        {
-                            key: "store",
-                            href: `/${session.store?.storeName}`,
-                            icon: "solar:shop-broken",
-                            title: session.user.username
-                        },
-                        {
-                            key: "products",
-                            href: `/${session.store?.storeName}/products`,
-                            icon: "solar:bag-5-broken",
-                            title: t("Products")
-                        },
-                        {
-                            key: "payments",
-                            href: `/${session.store?.storeName}/payments`,
-                            icon: "solar:wallet-money-broken",
-                            title: t("Payments")
-                        }
-                    ]
-                },
-                ...sectionItemsBakerz
-            ];
-        default:
-            return sectionItemsGuestTheBakerz;
-    }
+    return applyTranslations(sidebarItems);
 };
 
 interface LoggedInMenuProps {
