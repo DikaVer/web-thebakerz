@@ -70,17 +70,17 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                     >
                         Dutch
                     </Button>
-                    <Button
-                        variant={'light'}
-                        size={'lg'}
-                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
-                        startContent={<Icon icon="circle-flags:lang-de" width={32}/>}
-                        onPress={(e) => {
-                            handleSubmit('de')
-                        }}
-                    >
-                        German
-                    </Button>
+                    {/*<Button*/}
+                    {/*    variant={'light'}*/}
+                    {/*    size={'lg'}*/}
+                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
+                    {/*    startContent={<Icon icon="circle-flags:lang-de" width={32}/>}*/}
+                    {/*    onPress={(e) => {*/}
+                    {/*        handleSubmit('de')*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    German*/}
+                    {/*</Button>*/}
                     <Button
                         variant={'light'}
                         size={'lg'}
@@ -92,50 +92,50 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                     >
                         French
                     </Button>
-                    <Button
-                        variant={'light'}
-                        size={'lg'}
-                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
-                        startContent={<Icon icon="circle-flags:lang-es" width={32}/>}
-                        onPress={(e) => {
-                            handleSubmit('es')
-                        }}
-                    >
-                        España
-                    </Button>
-                    <Button
-                        variant={'light'}
-                        size={'lg'}
-                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
-                        startContent={<Icon icon="circle-flags:lang-uk" width={32}/>}
-                        onPress={(e) => {
-                            handleSubmit('uk')
-                        }}
-                    >
-                        Українській
-                    </Button>
-                    <Button
-                        variant={'light'}
-                        size={'lg'}
-                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
-                        startContent={<Icon icon="circle-flags:lang-ru" width={32}/>}
-                        onPress={(e) => {
-                            handleSubmit('ru')
-                        }}
-                    >
-                        Русский
-                    </Button>
-                    <Button
-                        variant={'light'}
-                        size={'lg'}
-                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
-                        startContent={<Icon icon="circle-flags:lang-ro" width={32}/>}
-                        onPress={(e) => {
-                            handleSubmit('ro')
-                        }}
-                    >
-                        Romanian
-                    </Button>
+                    {/*<Button*/}
+                    {/*    variant={'light'}*/}
+                    {/*    size={'lg'}*/}
+                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
+                    {/*    startContent={<Icon icon="circle-flags:lang-es" width={32}/>}*/}
+                    {/*    onPress={(e) => {*/}
+                    {/*        handleSubmit('es')*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    España*/}
+                    {/*</Button>*/}
+                    {/*<Button*/}
+                    {/*    variant={'light'}*/}
+                    {/*    size={'lg'}*/}
+                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
+                    {/*    startContent={<Icon icon="circle-flags:lang-uk" width={32}/>}*/}
+                    {/*    onPress={(e) => {*/}
+                    {/*        handleSubmit('uk')*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    Українській*/}
+                    {/*</Button>*/}
+                    {/*<Button*/}
+                    {/*    variant={'light'}*/}
+                    {/*    size={'lg'}*/}
+                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
+                    {/*    startContent={<Icon icon="circle-flags:lang-ru" width={32}/>}*/}
+                    {/*    onPress={(e) => {*/}
+                    {/*        handleSubmit('ru')*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    Русский*/}
+                    {/*</Button>*/}
+                    {/*<Button*/}
+                    {/*    variant={'light'}*/}
+                    {/*    size={'lg'}*/}
+                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
+                    {/*    startContent={<Icon icon="circle-flags:lang-ro" width={32}/>}*/}
+                    {/*    onPress={(e) => {*/}
+                    {/*        handleSubmit('ro')*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    Romanian*/}
+                    {/*</Button>*/}
                 </ModalBody>
             </ModalContent>
         </Modal>

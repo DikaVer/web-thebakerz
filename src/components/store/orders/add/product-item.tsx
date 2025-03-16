@@ -29,7 +29,7 @@ export const ProductItems: React.FC<ProductItemsProps> = ({ category, productsDa
                 <button
                     key={consId}
                     className={'border-b border-default-200 hover:bg-default-100 grid grid-cols-6 p-2 py-4 gap-x-4 w-full'}
-                    onPointerDown={() => {
+                    onClick={() => {
                         handleOpenWithProduct(product, undefined, true);
                     }}
                     aria-label={t("Add Product", {product: product.name})}
