@@ -279,7 +279,7 @@ function CalendarDashboard({
 
                 {/* Status indicators */}
                 {indicators.length > 0 && (
-                    <div className="absolute bottom-1 left-0 right-0 flex justify-center gap-1.5 h-1.5">
+                    <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 h-1.5">
                         {indicators.map((status) => (
                             <div
                                 key={`${dateKey}-${status}`}
