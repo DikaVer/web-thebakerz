@@ -2,6 +2,7 @@
 import {CalendarDate, CalendarDateTime, getLocalTimeZone} from '@internationalized/date';
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import {format} from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -119,6 +120,10 @@ export function formatDisplayTime(dateInput: string | Date | CalendarDateTime, l
     return "Invalid time";
   }
 }
+
+export const formatApiDate = (date: Date) => {
+  return format(date, 'yyyy-M-dd');
+};
 
 // Format scheduled_time object directly
 export function formatScheduledDate(scheduled: { date: string, time: string }, locale: string): string {
