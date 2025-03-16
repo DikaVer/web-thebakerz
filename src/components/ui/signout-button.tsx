@@ -6,6 +6,7 @@ import {Button, cn, Tooltip} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {logoutAction} from "@/app/actions";
 import {useSession} from "@/components/providers/session-provider";
+import {useTranslations} from "next-intl";
 
 interface SignOutButtonProps {
     isCollapsed: boolean;
@@ -15,7 +16,7 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
     const pathname = usePathname();
     const { session, setSession } = useSession();
     const [ isLoading, setIsLoading ] = useState(false);
-
+    const t = useTranslations("TheBakerz");
 
     const handleSignOut = () => {
         startTransition(async () => {
@@ -37,7 +38,7 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
     };
 
     return (
-        <Tooltip content="Log Out" isDisabled={!isCollapsed} placement="right">
+        <Tooltip content={t("LogOut")} isDisabled={!isCollapsed} placement="right">
             <Button
                 className={cn("justify-start text-grayText data-[hover=true]:text-foreground data-[hover=true]:bg-default/40", {
                     "justify-center": isCollapsed,
@@ -63,7 +64,7 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
                         width={24}
                     />
                 ) : (
-                    "Sign Out"
+                    t("SignOut")
                 )}
             </Button>
         </Tooltip>

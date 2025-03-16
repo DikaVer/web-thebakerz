@@ -10,6 +10,7 @@ import {OrderStatusCard} from "@/components/store/orders/overview/components/ord
 import {OrderCustomerDetails} from "@/components/store/orders/overview/components/customer-details";
 import {OrderItems} from "@/components/store/orders/overview/components/order-items";
 import {useStore} from "@/components/providers/store-provider";
+import {useTranslations} from "next-intl";
 
 
 interface OrderOverviewProps {
@@ -17,10 +18,10 @@ interface OrderOverviewProps {
     orderData: OrderData;
 }
 
-export const  OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderData}) => {
+export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderData}) => {
     const { store } = useStore();
     const router = useRouter();
-
+    const t = useTranslations("TheBakerz");
 
     return (
         <div className={'flex flex-col w-full max-w-2xl container'}>
@@ -40,7 +41,7 @@ export const  OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderDa
                     />
                 }
             >
-                Back to Order Dashboard
+                {t("Back to Order Dashboard")}
             </Button>
             <Spacer y={4}/>
             <OrderTopContent

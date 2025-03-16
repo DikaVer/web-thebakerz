@@ -20,6 +20,7 @@ import { useStore } from "@/components/providers/store-provider";
 import CartButton from "@/components/cart/cart-button";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/components/providers/session-provider";
+import {useTranslations} from "next-intl";
 
 interface LayoutProps {
     store?: StoreData;
@@ -41,6 +42,7 @@ export default function NavbarComponent({
                                             pay = false,
                                             props = {},
                                         }: LayoutProps) {
+    const t = useTranslations("Navbar");
     const isSmall = useMediaQuery("(max-width: 1024px)");
     const { isSticky } = store ? useStore() : { isSticky: false };
     const { session } = useSession();
@@ -73,7 +75,7 @@ export default function NavbarComponent({
                     justify="center"
                 >
                     {hideSideBar ? (
-                        <CheckoutNavbar store={store} navigateToStore={navigateToStore}/>
+                        <CheckoutNavbar store={store} navigateToStore={navigateToStore} t={t}/>
                     ) : (
                         <DefaultNavbar
                             isSmall={isSmall}
@@ -83,6 +85,7 @@ export default function NavbarComponent({
                             store={store}
                             session={session}
                             navigateToStore={navigateToStore}
+                            t={t}
                         />
                     )}
                 </NavbarContent>
@@ -91,14 +94,18 @@ export default function NavbarComponent({
     );
 }
 
-interface CheckoutNavbarProps {
+interface NavbarTranslationProps {
+    t: (key: string) => string;
+}
+
+interface CheckoutNavbarProps extends NavbarTranslationProps {
     store?: StoreData;
     navigateToStore: () => void;
 }
 
 const CheckoutNavbar: React.FC<CheckoutNavbarProps> = ({
                                                            store,
-                                                           navigateToStore,
+                                                           navigateToStore, t
                                                        }) => {
 
     const router = useRouter();
@@ -120,7 +127,7 @@ const CheckoutNavbar: React.FC<CheckoutNavbarProps> = ({
                         />
                     }
                 >
-                    Back {store?.ownerName && `to ${store?.ownerName}`}
+                    {t("back")} {store?.ownerName && `${t("backTo")} ${store.ownerName}`}
                 </Button>
             </NavbarItem>
             <NavbarItem className="ml-1 !flex">
@@ -151,7 +158,7 @@ const CheckoutNavbar: React.FC<CheckoutNavbarProps> = ({
     );
 };
 
-interface DefaultNavbarProps {
+interface DefaultNavbarProps extends NavbarTranslationProps {
     isSmall: boolean;
     setIsCollapsed: (value: boolean) => void;
     onOpenChange: () => void;
@@ -169,6 +176,7 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                                                          store,
                                                          session,
                                                          navigateToStore,
+    t
                                                      }) => {
 
     return (
@@ -199,7 +207,7 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                     className={`font-medium text-2xl ${pacifico.className}`}
                     href={store?.ownerName ? `/${store?.storeName}` : "/"}
                 >
-                    {store?.ownerName || "TheBakerz"}
+                    {store?.ownerName || t("brandName")}
                 </a>
             </NavbarBrand>
             {store ? (

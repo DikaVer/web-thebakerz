@@ -28,6 +28,7 @@ import {Icon} from "@iconify/react";
 import {useMediaQuery} from "usehooks-ts";
 import {AllergenIcon} from "@/components/store/product/components/allergy-icons";
 import {useCart} from "@/components/providers/cart-provider";
+import {useTranslations} from "next-intl";
 
 type ProductDialogProps = {
     productData: ProductData;
@@ -41,6 +42,7 @@ export default function UserProductDialog({
                                               itemCart,
                                           }: ProductDialogProps) {
     const { theme } = useTheme();
+    const t = useTranslations("TheBakerz");
 
     const [charCount, setCharCount] = useState(itemCart?.note.length || 0);
     const [quantity, setQuantity] = useState(itemCart?.quantity || 1);
@@ -53,7 +55,7 @@ export default function UserProductDialog({
         updateItem,
     } = useCart();
     const isSmall = useMediaQuery("(max-width: 416px)");
-    
+
 
 
     // This function calls the updateCart server action.
@@ -64,18 +66,18 @@ export default function UserProductDialog({
                 // We pass productData.id as product_id, productData.store_id as store_id, and the note and quantity.
                 const result = await updateCart(productData.id, productData.store_id, note, quantity);
                 if (result.success) {
-                    showSuccessMessage({success: result.success});
+                    showSuccessMessage({success: t("Cart updated successfully")});
                     result.itemCart && addItem(result.itemCart);
                     onClose();
                 } else if (result.error) {
-                    showErrorMessage({error: result.error});
+                    showErrorMessage({ error: t("Too many requests") });
                 }
             } else {
                 await updateItem({...itemCart, note, quantity});
                 onClose();
             }
         } catch (error: any) {
-            showErrorMessage({ error: "Unexpected error" });
+            showErrorMessage({ error: t("Unexpected Error") });
         } finally {
             setIsLoading(false);
         }
@@ -97,7 +99,7 @@ export default function UserProductDialog({
                         "?product=" +
                         productData?.id
                     }
-                    textNotify={"Product Link Copied!"}
+                    textNotify={t("Product Link Copied")}
                 >
                     <Icon icon="mi:share" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
                 </CopyText>
@@ -138,79 +140,79 @@ export default function UserProductDialog({
                         </div>
 
                         {/*{isSmall && (*/}
-                            <div className={"flex flex-col px-4 py-2 w-full text-default-400 gap-4"}>
-                                <p className={'font-light text-sm'}>{productData.description}</p>
-                                {/* Ingredients Alert: Default variant */}
-                                {productData.ingredients && productData.ingredients.length > 0 && (
-                                    <CustomAlert
-                                        color="default"
-                                        title="Ingredients"
-                                        hideIcon
-                                        classNames={{
-                                            title: "text-text font-medium"
-                                        }}
-                                    >
-                                        <div className="flex flex-wrap gap-2 mt-4">
-                                            {productData.ingredients.map((ingredient, index) => {
-                                                return (
-                                                    <div
+                        <div className={"flex flex-col px-4 py-2 w-full text-default-400 gap-4"}>
+                            <p className={'font-light text-sm'}>{productData.description}</p>
+                            {/* Ingredients Alert: Default variant */}
+                            {productData.ingredients && productData.ingredients.length > 0 && (
+                                <CustomAlert
+                                    color="default"
+                                    title={t("Ingredients")}
+                                    hideIcon
+                                    classNames={{
+                                        title: "text-text font-medium"
+                                    }}
+                                >
+                                    <div className="flex flex-wrap gap-2 mt-4">
+                                        {productData.ingredients.map((ingredient, index) => {
+                                            return (
+                                                <div
                                                     key={ingredient}
                                                     className={`flex items-center gap-2 px-2 py-1  text-sm rounded-full text-text bg-default-200`}
-                                                    >
-                                                        <AllergenIcon allergen={ingredient} />
-                                                        <span>
+                                                >
+                                                    <AllergenIcon allergen={ingredient} />
+                                                    <span>
                                                             {ingredient}
                                                         </span>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </CustomAlert>
-                                )}
-                                {/* Allergies Alert: Warning variant */}
-                                {productData.allergies && productData.allergies.length > 0 && (
-                                    <CustomAlert color="warning" title="Allergies" hideIcon>
-                                        <div className="flex flex-wrap gap-2 mt-4">
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </CustomAlert>
+                            )}
+                            {/* Allergies Alert: Warning variant */}
+                            {productData.allergies && productData.allergies.length > 0 && (
+                                <CustomAlert color="warning" title={t("Allergies")} hideIcon>
+                                    <div className="flex flex-wrap gap-2 mt-4">
 
-                                            {productData.allergies.map((allergies, index) => {
-                                                return (
-                                                    <div
-                                                        key={allergies}
-                                                        className={`flex items-center gap-1 px-2 py-1 text-sm rounded-full text-warning-800 bg-warning-200`}
-                                                    >
-                                                        <AllergenIcon allergen={allergies} />
-                                                        <span>
+                                        {productData.allergies.map((allergies, index) => {
+                                            return (
+                                                <div
+                                                    key={allergies}
+                                                    className={`flex items-center gap-1 px-2 py-1 text-sm rounded-full text-warning-800 bg-warning-200`}
+                                                >
+                                                    <AllergenIcon allergen={allergies} />
+                                                    <span>
                                                             {allergies}
                                                         </span>
 
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </CustomAlert>
-                                )}
-                                <Textarea
-                                    label={"Notes"}
-                                    labelPlacement={"outside"}
-                                    placeholder={`Add notes to your order... (max 100 characters)`}
-                                    style={{resize: "none"}}
-                                    className="mt-2"
-                                    classNames={{
-                                        input: cn("min-h-[40px] "),
-                                    }}
-                                    value={note}
-                                    minRows={4}
-                                    maxRows={5}
-                                    onValueChange={(value) => {
-                                        setNote(value);
-                                        setCharCount(value.length);
-                                    }}
-                                    isInvalid={charCount > 100}
-                                />
-                                <p className="text-right text-grayText text-small px-2">
-                                    {charCount}/100
-                                </p>
-                            </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </CustomAlert>
+                            )}
+                            <Textarea
+                                label={t("Notes")}
+                                labelPlacement={"outside"}
+                                placeholder={t("Add Notes Placeholder")}
+                                style={{resize: "none"}}
+                                className="mt-2"
+                                classNames={{
+                                    input: cn("min-h-[40px] "),
+                                }}
+                                value={note}
+                                minRows={4}
+                                maxRows={5}
+                                onValueChange={(value) => {
+                                    setNote(value);
+                                    setCharCount(value.length);
+                                }}
+                                isInvalid={charCount > 100}
+                            />
+                            <p className="text-right text-grayText text-small px-2">
+                                {charCount}/100
+                            </p>
+                        </div>
                     </ScrollShadow>
                 )}
             </ModalBody>
@@ -227,7 +229,7 @@ export default function UserProductDialog({
                     onPress={handleUpdateCart}
                     isLoading={isLoading}
                 >
-                    { !isLoading ? (`${itemCart ? "Update" : "Add"} ${quantity} to order • ${totalPrice}`) : "Updating cart..."}
+                    { !isLoading ? (`${itemCart ? t("Update") : t("Add")} ${quantity} ${t("to order")} • ${totalPrice}`) : t("Updating Cart") }
                 </Button>
             </ModalFooter>
         </>

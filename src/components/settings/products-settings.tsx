@@ -24,11 +24,13 @@ import { ItemCategory } from "../ui/drag-item";
 import {updateProductsOrder} from "@/lib/actions/order-products";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
+import { useTranslations } from "next-intl";
 
 const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: Record<string, string[]>}> = ({ productsData, productsOrder }) => {
+    const t = useTranslations("ProductSettings");
     const { handleOpen, setProductsDataLocal } = useProductDialog();
     const [isLoading, setIsLoading] = useState(false);
-    const  categoriesKeys = Object.keys(productsOrder);
+    const categoriesKeys = Object.keys(productsOrder);
 
     useEffect(() => {
         if (productsData) {
@@ -39,7 +41,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
     if (productsData === null || Object.keys(productsData || {}).length === 0) {
         return (
             <div className="text-center">
-                <p className="text-2xl my-10">Store does not have any products yet.</p>
+                <p className="text-2xl my-10">{t("NoProductsYet")}</p>
             </div>
         );
     }
@@ -127,9 +129,9 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
             <Spacer y={8} />
             <div className={'flex justify-between'}>
                 <div>
-                    <p className="text-base font-medium text-default-700">Product Manager</p>
+                    <p className="text-base font-medium text-default-700">{t("ProductManager")}</p>
                     <p className="mt-1 text-sm font-normal text-default-400">
-                        Add & Manage your products
+                        {t("ManageProductsDescription")}
                     </p>
                 </div>
                 <Button
@@ -141,7 +143,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                         handleOpen();
                     }}
                 >
-                    Add Item
+                    {t("AddItem")}
                 </Button>
             </div>
             <Spacer y={4} />
@@ -186,12 +188,12 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                         <div
                             className=" col-span-5  grid grid-cols-5 gap-x-4"
                         >
-                            <span>Image</span>
-                            <span className={'flex col-span-4'}>Name & Price</span>
+                            <span>{t("Image")}</span>
+                            <span className={'flex col-span-4'}>{t("NameAndPrice")}</span>
                         </div>
                         <span
                             className={'text-center'}
-                        >Drag</span>
+                        >{t("Drag")}</span>
                     </div>
                     {/* Use a key prop so that the ProductTable re-mounts when the selectedTab changes */}
                     <AnimatePresence mode="wait">
@@ -220,7 +222,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                         onPress={handleSaveOrder}
                         color={'secondary'}
                     >
-                        {!isLoading ? `Update Product & Category Orders` : "Updating Orders..."}
+                        {!isLoading ? t("UpdateProductOrder") : t("UpdatingOrders")}
                     </Button>
                 </CardFooter>
             </Card>

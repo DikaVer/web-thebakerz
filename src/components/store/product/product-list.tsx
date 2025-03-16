@@ -11,6 +11,7 @@ import {useScrollObserver} from "@/components/store/product/hooks/useScrollObser
 import {useFilteredProducts} from "@/components/store/product/hooks/useFilteredProducts";
 import {ProductSearch} from "@/components/store/product/components/product-search";
 import {useSearchParams} from "next/navigation";
+import {useTranslations} from "next-intl";
 
 interface ProductListBaseProps {
     productsData: ProductDataFull;
@@ -19,9 +20,9 @@ interface ProductListBaseProps {
 }
 
 export const ProductListBase: React.FC<ProductListBaseProps> = ({
-    productsData,
-    productsByCategories,
-    categories
+                                                                    productsData,
+                                                                    productsByCategories,
+                                                                    categories
                                                                 }) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const { isSticky } = useStore();
@@ -33,7 +34,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const categoryRefs = useRef<Record<string, HTMLDivElement | null>>({});
     const searchParams = useSearchParams();
     const initialProductHandled = useRef(false);
-
+    const t = useTranslations('TheBakerz');
 
     // Update local product data
     useEffect(() => {
@@ -128,7 +129,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             ))}
             {Object.keys(filteredProductsByCategories).length === 0 && (
                 <div className="flex justify-center w-full">
-                    <span className="text-default-400 text-lg">No products found</span>
+                    <span className="text-default-400 text-lg">{t("No Products Found")}</span>
                 </div>
             )}
         </div>

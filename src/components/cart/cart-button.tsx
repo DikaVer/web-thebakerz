@@ -1,6 +1,6 @@
 "use client";
 import { Icon } from "@iconify/react";
-import React, { useState} from "react";
+import React, { useState } from "react";
 import {
     Button,
     Divider,
@@ -15,11 +15,11 @@ import {
 } from "@heroui/react";
 import { useMediaQuery } from "usehooks-ts";
 import { useProductDialog } from "@/components/providers/product-provider";
-import {useRouter} from "next/navigation";
-import {useStore} from "@/components/providers/store-provider";
-import {CartItemRow} from "@/components/cart/cart-item";
-import {useCart} from "@/components/providers/cart-provider";
-
+import { useRouter } from "next/navigation";
+import { useStore } from "@/components/providers/store-provider";
+import { CartItemRow } from "@/components/cart/cart-item";
+import { useCart } from "@/components/providers/cart-provider";
+import { useTranslations } from "next-intl";
 
 const CartButton: React.FC = () => {
     const {
@@ -38,6 +38,7 @@ const CartButton: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { store } = useStore();
     const router = useRouter();
+    const t = useTranslations("TheBakerz");
 
     const handleOpenDrawer = () => onOpen();
 
@@ -76,12 +77,12 @@ const CartButton: React.FC = () => {
                 shape="circle"
             >
                 <Button isIconOnly radius={'full'} color={'primary'} className={'bg-gradient-primary'} onPress={handleOpenDrawer}>
-                        <Icon
-                            icon={"solar:cart-large-2-bold"}
-                            height={24}
-                            width={24}
-                            className="text-white"
-                        />
+                    <Icon
+                        icon={"solar:cart-large-2-bold"}
+                        height={24}
+                        width={24}
+                        className="text-white"
+                    />
                 </Button>
             </Badge>
             <Drawer
@@ -100,7 +101,7 @@ const CartButton: React.FC = () => {
                                     <DrawerHeader className="flex flex-col">
                                         {!isMobile && <Spacer y={16} />}
                                         <p className="text-default-500 text-xs font-medium">
-                                            Your cart from
+                                            {t("Your cart from")}
                                         </p>
                                         <p className="text-xl">{store.ownerName}</p>
                                         <Spacer y={4} />
@@ -113,7 +114,7 @@ const CartButton: React.FC = () => {
                                                 router.refresh();
                                             }}
                                         >
-                                            Continue
+                                            {t("Continue")}
                                         </Button>
                                     </DrawerHeader>
                                     <DrawerBody>
@@ -126,8 +127,8 @@ const CartButton: React.FC = () => {
                             ) : (
                                 <DrawerHeader className="flex flex-col text-xs font-medium items-center">
                                     {!isMobile && <Spacer y={16} />}
-                                    <p>Your cart is empty</p>
-                                    <p>Add items to get started</p>
+                                    <p>{t("Cart Empty")}</p>
+                                    <p>{t("Add Items To Start")}</p>
                                     <Spacer y={48} />
                                 </DrawerHeader>
                             )}

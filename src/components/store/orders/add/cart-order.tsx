@@ -14,9 +14,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useStore } from "@/components/providers/store-provider";
 import {CartItemRow} from "@/components/cart/cart-item";
 import {useCart} from "@/components/providers/cart-provider";
+import {useTranslations} from "next-intl";
 
 
 const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
+    const t = useTranslations("TheBakerz");
+
     const {
         getProductDataById,
         handleOpen,
@@ -70,18 +73,18 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                     {renderCartItems(isLoading, setIsLoading)}
                     <div className="py-4">
                         <div className="flex justify-between">
-                            <span className="text-sm font-medium">Subtotal</span>
+                            <span className="text-sm font-medium">{t("Subtotal")}</span>
                             <span className="text-sm">{formatCurrency(subtotal)}</span>
                         </div>
                         <div className="flex justify-between mt-2">
-                            <span className="text-sm font-medium">VAT (9% inclusive)</span>
+                            <span className="text-sm font-medium">{t("VAT Inclusive")}</span>
                             <span className="text-sm">{formatCurrency(vat)}</span>
                         </div>
                         <Spacer y={2} />
                         <Divider className="my-2" />
                         <Spacer y={4} />
                         <div className="flex justify-between">
-                            <span className="text-base font-bold">Total</span>
+                            <span className="text-base font-bold">{t("Total")}</span>
                             <span className="text-base font-bold">{formatCurrency(total)}</span>
                         </div>
                     </div>
@@ -93,13 +96,13 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             handleNext();
                         }}
                     >
-                        Save Cart Details
+                        {t("Save Cart Details")}
                     </Button>
                 </>
             ) : (
                 <div className="flex flex-col text-xs font-medium items-center my-2">
-                    <p>Your cart is empty</p>
-                    <p>Add items to get started</p>
+                    <p>{t("Cart Empty")}</p>
+                    <p>{t("Add Items To Start")}</p>
                     <Spacer y={4} />
                 </div>
             )}

@@ -8,8 +8,10 @@ import { useTransition } from "react";
 import SwitchCell from "@/components/ui/switch-cell";
 import {useRouter} from "next/navigation";
 import {acceptAll, CookiePreferences, rejectAll, savePreferences} from "@/lib/cookie";
-export default function CookieConsentComponent() {
+import { useTranslations } from "next-intl";
 
+export default function CookieConsentComponent() {
+    const t = useTranslations("TheBakerz");
 
     const [localPreferences, setLocalPreferences] = useState<CookiePreferences>({
         necessary: true,
@@ -19,7 +21,6 @@ export default function CookieConsentComponent() {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
-
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = e.target;
@@ -34,18 +35,14 @@ export default function CookieConsentComponent() {
         setIsLoading(true);
     };
 
-
-
     const handleRejectAll = async () => {
         await rejectAll();
-       setIsLoading(false);
+        setIsLoading(false);
     };
 
     if (isLoading) {
         return null;
     }
-
-
 
     const AnimatedWrapper = ({
                                  children,
@@ -72,15 +69,13 @@ export default function CookieConsentComponent() {
 
     const cookieSettingsContent = (
         <div className={`pointer-events-auto ml-auto max-w-sm rounded-large border border-divider bg-background/15 p-6 shadow-small backdrop-blur`}>
-            <h1 className="text-large font-semibold">Your Privacy</h1>
+            <h1 className="text-large font-semibold">{t("YourPrivacy")}</h1>
             <p className="text-small font-normal text-default-700">
-                This site uses tracking technologies to improve your experience. You may choose to accept or
-                reject these technologies. If you choose to &nbsp;<span className="font-semibold">&quot;Reject All&quot;</span>, we
-                will use cookies for only essential purposes. Check our{" "}
+                {t("PrivacyDescription")}{" "}
                 <Link href="/policies/privacy-policy" size="sm" underline="always">
-                    Privacy
+                    {t("Privacy")}
                 </Link>{" "}
-                for more information.
+                {t("ForMoreInfo")}
             </p>
             <Spacer y={4} />
             <div className="flex flex-col gap-y-2">
@@ -90,8 +85,8 @@ export default function CookieConsentComponent() {
                         base: "dark:bg-content1",
                         label: "text-small",
                     }}
-                    description="Essential for the site to function"
-                    label="Essential"
+                    description={t("EssentialDescription")}
+                    label={t("Essential")}
                     name="necessary"
                     onChange={handleCheckboxChange}
                     isDisabled
@@ -102,8 +97,8 @@ export default function CookieConsentComponent() {
                         base: "dark:bg-content1",
                         label: "text-small",
                     }}
-                    description="To show you relevant content"
-                    label="Marketing"
+                    description={t("MarketingDescription")}
+                    label={t("Marketing")}
                     name="marketing"
                     onChange={handleCheckboxChange}
                 />
@@ -113,8 +108,8 @@ export default function CookieConsentComponent() {
                         base: "dark:bg-content1",
                         label: "text-small",
                     }}
-                    description="To understand how you use the site"
-                    label="Analytics"
+                    description={t("AnalyticsDescription")}
+                    label={t("Analytics")}
                     name="analytics"
                     onChange={handleCheckboxChange}
                 />
@@ -129,13 +124,13 @@ export default function CookieConsentComponent() {
                     isDisabled={isLoading}
                     onPress={handleAcceptSelected}
                 >
-                    Accept Selected
+                    {t("AcceptSelected")}
                 </Button>
                 <Button fullWidth variant="bordered"
                         isLoading={isLoading}
                         isDisabled={isLoading}
                         onPress={handleRejectAll}>
-                    Reject All
+                    {t("RejectAll")}
                 </Button>
             </div>
         </div>
@@ -143,21 +138,14 @@ export default function CookieConsentComponent() {
 
     const cookiesAlertContent = (
         <AnimatedWrapper>
-            <h1 className="text-large font-semibold">Before you continue to TheBakerz</h1>
+            <h1 className="text-large font-semibold">{t("ContinueToTheBakerz")}</h1>
             <p className="text-small font-normal text-default-700">
-                We use cookies on our website to give you the most relevant experience by remembering your
-                preferences and repeat visits.
-
+                {t("CookiesExplanation")}
             </p>
             <p className="text-small font-normal text-default-700">
-                By clicking&nbsp;
-                <b className="font-semibold">&quot;Accept All&quot;</b>, you consent to the use of ALL the
-                cookies. If you choose to &nbsp;<span className="font-semibold">&quot;Reject All&quot;</span>, we
-                will use cookies for only essential purposes. However, you may visit&nbsp;
-                <span className="font-semibold">&quot;Cookie Settings&quot;</span> to provide a controlled
-                consent. For more information, please read our{" "}
+                {t("CookiesConsentText")}{" "}
                 <Link href="/policies/privacy-policy" size="sm" underline="hover">
-                    Cookie Policy.
+                    {t("CookiePolicy")}
                 </Link>
             </p>
             <div className="mt-4 space-y-2">
@@ -165,13 +153,12 @@ export default function CookieConsentComponent() {
                     fullWidth
                     className={`bg-gradient-primary text-default-200 text-xl`}
                     radius="lg"
-
                     endContent={<Icon className="ml-2 inline-block h-6 w-6 text-default-200" icon="lucide:cookie"/>}
                     isLoading={isLoading}
                     isDisabled={isLoading}
                     onPress={acceptAll}
                 >
-                    Accept All
+                    {t("AcceptAll")}
                 </Button>
                 <Button
                     fullWidth
@@ -182,7 +169,7 @@ export default function CookieConsentComponent() {
                     isDisabled={isLoading}
                     onPress={handleRejectAll}
                 >
-                    Reject All
+                    {t("RejectAll")}
                 </Button>
                 <Button
                     fullWidth
@@ -193,17 +180,15 @@ export default function CookieConsentComponent() {
                     isDisabled={isLoading}
                     onPress={() => setIsSettingsOpen(true)}
                 >
-                    Cookie Settings
+                    {t("CookieSettings")}
                 </Button>
             </div>
         </AnimatedWrapper>
     );
 
-
     return (
         <div className="pointer-events-none fixed inset-x-0 bottom-0 px-6 pb-6 z-50">
-            <ResizablePanel
-            >
+            <ResizablePanel>
                 <AnimatePresence initial={false} mode="wait">
                     <LazyMotion features={domAnimation}>
                         {isSettingsOpen ? cookieSettingsContent : cookiesAlertContent}

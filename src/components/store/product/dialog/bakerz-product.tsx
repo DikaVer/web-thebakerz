@@ -1,4 +1,5 @@
 'use client';
+'use client';
 import React, {startTransition, useActionState, useEffect, useRef, useState} from "react";
 import {
     Modal,
@@ -36,6 +37,7 @@ import {useRouter} from "next/navigation";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import {TagsAutoInput, TagsInput} from "@/components/ui/tags-input";
 import {useMediaQuery} from "usehooks-ts";
+import {useTranslations} from "next-intl";
 
 type ProductDialogProps = {
     productData: ProductData | undefined;
@@ -45,6 +47,7 @@ type ProductDialogProps = {
 
 export default function BakerzProductDialog({ productData, onClose }: ProductDialogProps) {
     const { theme } = useTheme();
+    const t = useTranslations("TheBakerz");
 
     const [picture, setPicture] = useState<string | undefined>(productData?.picture);
     const [pictureEdit, setPictureEdit] = useState(false);
@@ -104,7 +107,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
     const handleDelete = async () => {
         if(productData) {
             await deleteProduct(productData.id)
-            showSuccessMessage({ success: "Product deleted!" });
+            showSuccessMessage({ success: t("Product Deleted") });
             router.refresh();
             onClose();
             setIsOpenDelete(false);
@@ -118,8 +121,8 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                 file={file}
                 isOpen={pictureEdit}
                 onClose={() => setPictureEdit(false)}
-                title={"Item Image"}
-                subtitle={"Upload an image for your item"}
+                title={t("Item Image")}
+                subtitle={t("Upload Image Subtitle")}
                 container={"products"}
                 // When a new image URL is returned, update both the local state and the form field.
                 setImageURL={(file:File, url: string) => {
@@ -138,7 +141,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                         onClose={onClose}
                         isIconOnly={true}
                         copyText={process.env.NEXT_PUBLIC_API_BASE_URL + "/" + productData?.store_id + "?product=" + productData?.id}
-                        textNotify={"Product Link Copied!"}
+                        textNotify={t("Product Link Copied")}
                     >
                         <Icon icon="mi:share" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
                     </CopyText>
@@ -167,7 +170,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                             className={cn("relative flex flex-col justify-center items-center md:w-[258px] w-full max-w-[400px] aspect-square rounded-none",
 
                                                             )
-                                                        }
+                                                            }
                                                             onClick={() => {
                                                                 if(!isPending) fileRef.current?.click()
                                                             }}
@@ -175,7 +178,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                             {/* Background blur that extends beyond the image */}
                                                             <Image
                                                                 removeWrapper
-                                                                alt={productData?.name || "Item Image"}
+                                                                alt={productData?.name || t("Item Image")}
                                                                 className={cn("object-cover w-full ",
                                                                     isSmall ? "rounded-none border-none" : "rounded-xl"
                                                                 )}
@@ -193,7 +196,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                             }}
                                                         >
                                                             <Icon icon="solar:gallery-add-bold-duotone" className="text-default-500 w-full" width={64} />
-                                                            <p className="text-default-500">Upload Item Image</p>
+                                                            <p className="text-default-500">{t("Upload Item Image")}</p>
                                                         </div>
                                                     )}
                                                 </div>
@@ -238,7 +241,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                             {...field}
                                                             isDisabled={isPending}
                                                             variant="underlined"
-                                                            placeholder="Item Name"
+                                                            placeholder={t("Item Name")}
                                                             classNames={{
                                                                 input: cn("text-xl sm:text-2xl truncate font-medium"),
                                                             }}
@@ -299,7 +302,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                         {...field}
                                                         isDisabled={isPending}
                                                         value={field.value ?? ""}
-                                                        placeholder="Add a description to your item..."
+                                                        placeholder={t("Add Description Placeholder")}
                                                         variant="underlined"
                                                         style={{ resize: "none" }}
                                                         className=" text-default-400"
@@ -325,7 +328,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                     <Select
                                                         {...field}
                                                         isDisabled={isPending}
-                                                        placeholder="Select a category"
+                                                        placeholder={t("Select Category")}
                                                         variant="underlined"
                                                         className="w-1/2"
                                                         validate={() => {
@@ -355,7 +358,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                         isLoading={isPending}
                                                         tags={field.value || []}
                                                         setTags={(newTags) => field.onChange(newTags)}
-                                                        placeholder="Add ingredients... (Press Enter to add)"
+                                                        placeholder={t("Add Ingredients Placeholder")}
                                                     />
                                                 </FormControl>
                                                 {fieldState.error && (
@@ -375,7 +378,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                                         tags={field.value || []}
                                                         setTags={(newTags) => field.onChange(newTags)}
                                                         type={'warning'}
-                                                        placeholder="Add allergies... (Press Enter to add)"
+                                                        placeholder={t("Add Allergies Placeholder")}
                                                     />
                                                 </FormControl>
                                                 {fieldState.error && (
@@ -411,18 +414,18 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                                     <ModalContent>
                                         {(onClose) => (
                                             <>
-                                                <ModalHeader className="flex flex-col gap-1">Are you sure?</ModalHeader>
+                                                <ModalHeader className="flex flex-col gap-1">{t("Delete Confirmation")}</ModalHeader>
                                                 <ModalBody>
                                                     <p>
-                                                        After removing, item will be permanently deleted and cannot be recovered.
+                                                        {t("Delete Product Warning")}
                                                     </p>
                                                 </ModalBody>
                                                 <ModalFooter>
                                                     <Button color="primary" onPress={() => setIsOpenDelete(false)}>
-                                                        Close
+                                                        {t("Close")}
                                                     </Button>
                                                     <Button color="danger" variant="light" onPress={handleDelete}>
-                                                        Confirm
+                                                        {t("Confirm")}
                                                     </Button>
                                                 </ModalFooter>
                                             </>
@@ -446,7 +449,7 @@ export default function BakerzProductDialog({ productData, onClose }: ProductDia
                             type="submit"
                             isLoading={isPending}
                         >
-                            {isPending ? "Loading..." : productData ? "Update Item" : "Add Item"}
+                            {isPending ? t("Loading") : productData ? t("Update Item") : t("Add Item")}
                         </Button>
                     </ModalFooter>
                 </form>

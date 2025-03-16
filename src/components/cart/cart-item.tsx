@@ -1,10 +1,11 @@
-import {ItemCart} from "@/lib/actions/cart";
-import {ProductData} from "@/lib/actions/product";
 import React from "react";
-import {Divider, Image, Spacer} from "@heroui/react";
-import {formatCurrency} from "@/lib/utils";
-import {InputStepper} from "@/components/store/product/dialog/button-stepper";
+import { ItemCart } from "@/lib/actions/cart";
+import { ProductData } from "@/lib/actions/product";
+import { Divider, Image, Spacer } from "@heroui/react";
+import { formatCurrency } from "@/lib/utils";
+import { InputStepper } from "@/components/store/product/dialog/button-stepper";
 import CustomAlert from "@/components/ui/custom-alerts";
+import { useTranslations } from "next-intl";
 
 type CartItemRowProps = {
     item: ItemCart;
@@ -12,21 +13,22 @@ type CartItemRowProps = {
     updateItem: (item: ItemCart) => Promise<boolean>;
     removeItem: (item: ItemCart) => Promise<boolean>;
     isLoading: boolean;
-    setIsLoading: (value: boolean) => void
-    handleOpen: (productId?: string, itemCart?: ItemCart, isBakerzOrder?:boolean) => void;
+    setIsLoading: (value: boolean) => void;
+    handleOpen: (productId?: string, itemCart?: ItemCart, isBakerzOrder?: boolean) => void;
     isBakerzOrder?: boolean;
 };
 
 export const CartItemRow: React.FC<CartItemRowProps> = ({
-                                                     item,
-                                                     productData,
-                                                     updateItem,
-                                                     removeItem,
-                                                     isLoading,
-                                                     setIsLoading,
-                                                     handleOpen,
+                                                            item,
+                                                            productData,
+                                                            updateItem,
+                                                            removeItem,
+                                                            isLoading,
+                                                            setIsLoading,
+                                                            handleOpen,
                                                             isBakerzOrder = false,
-                                                 }) => {
+                                                        }) => {
+    const t = useTranslations("TheBakerz");
 
     const handleQuantityChange = async (value: number) => {
         let updatedValue;
@@ -46,8 +48,8 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                 className={`flex flex-col gap-2 p-4 w-full  ${!isLoading && 'hover:bg-default-100 cursor-pointer'} border-gray-200`}
                 key={item.id}
                 onClick={() => {
-                    if(!isLoading) {
-                        handleOpen(productData.id, item, isBakerzOrder)
+                    if (!isLoading) {
+                        handleOpen(productData.id, item, isBakerzOrder);
                     }
                 }}
             >
@@ -60,25 +62,29 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                             className="object-cover w-full h-full"
                         />
                     </div>
-                    <Spacer x={4}/>
+                    <Spacer x={4} />
                     <div className="flex justify-between w-[70%]">
                         <div className="flex flex-col w-full">
                             <p className="font-medium truncate text-start">{productData.name}</p>
-                            {item.note && (<>
-                                <CustomAlert
-                                    color="warning"
-                                    hideIcon={true}
-                                    classNames={{
-                                        base: 'p-0',
-                                        mainWrapper: 'p-0 py-1 min-h-0',
-                                    }}
-                                >
-                                    <p className="text-xs">Note: {item.note}</p>
-                                </CustomAlert>
-                                <Spacer x={4}/>
-                            </>)}
+                            {item.note && (
+                                <>
+                                    <CustomAlert
+                                        color="warning"
+                                        hideIcon={true}
+                                        classNames={{
+                                            base: 'p-0',
+                                            mainWrapper: 'p-0 py-1 min-h-0',
+                                        }}
+                                    >
+                                        <p className="text-xs">{`${t("Note")}: ${item.note}`}</p>
+                                    </CustomAlert>
+                                    <Spacer x={4} />
+                                </>
+                            )}
                             {productData.ingredients && productData.ingredients.length > 0 && (
-                                <p className="text-xs text-default-400 font-medium break-words">{productData.ingredients.join(", ")}</p>
+                                <p className="text-xs text-default-400 font-medium break-words">
+                                    {productData.ingredients.join(", ")}
+                                </p>
                             )}
                         </div>
                     </div>
@@ -100,7 +106,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                     </div>
                 </div>
             </div>
-            <Divider/>
+            <Divider />
         </>
     );
 };

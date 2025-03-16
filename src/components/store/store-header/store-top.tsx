@@ -11,10 +11,9 @@ import {useProductDialog} from "@/components/providers/product-provider";
 import {useStore} from "@/components/providers/store-provider";
 import {useMediaQuery} from "usehooks-ts";
 import StoreTopNext from "@/components/store/store-header/description/store-top-next";
-
+import {useTranslations} from "next-intl";
 
 type SocialIconProps = Omit<IconProps, "icon">;
-
 
 interface StoreTopProps {
     dateParam: string | null;
@@ -22,11 +21,11 @@ interface StoreTopProps {
 }
 
 export function StoreTop({dateParam, timeParam}: StoreTopProps) {
-
     const { session} = useSession();
     const { store, sentinelRef} = useStore();
     const { handleOpen } = useProductDialog();
     const isSmall = useMediaQuery("(max-width: 960px)");
+    const t = useTranslations("TheBakerz");
 
     return (
         <div className={'w-full flex flex-col'}>
@@ -63,12 +62,11 @@ export function StoreTop({dateParam, timeParam}: StoreTopProps) {
                             handleOpen();
                         }}
                     >
-                        Add Item
+                        {t("Add Item")}
                     </Button>
                     <ThreeDotsDropdown/>
                 </div>
-            )
-            }
+            )}
             <div ref={sentinelRef} className="h-1"></div>
         </div>
     );

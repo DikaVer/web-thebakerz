@@ -3,16 +3,18 @@ import { ProductListBase } from "@/components/store/product/product-list";
 import {getCurrentProducts, ProductData, ProductDataFull} from "@/lib/actions/product";
 import {getCurrentProductsOrder} from "@/lib/actions/order-products";
 import {sortItems} from "@/lib/helper/sort-items-with-order";
+import {getTranslations} from "next-intl/server";
 
 export const ProductComponentBase: React.FC<{ storeId: string }> = async ({ storeId }) => {
     const productsData: ProductDataFull = await getCurrentProducts(storeId);
+    const t = await getTranslations("TheBakerz");
 
     const productsOrder = await getCurrentProductsOrder(storeId);
 
     if (productsData === null || Object.keys(productsData).length === 0) {
         return (
             <div className="text-center">
-                <p className="text-2xl my-10">Store does not have any products yet.</p>
+                <p className="text-2xl my-10">{t("No Products Available")}</p>
             </div>
         );
     }

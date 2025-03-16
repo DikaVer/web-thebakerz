@@ -29,22 +29,21 @@ function pad(num: number): string {
 }
 
 export const renderCalendarTopContent = () => {
-
     const { store } = useStore();
-
     const isSmall = useMediaQuery("(max-width: 767px)");
+    const t = useTranslations("TheBakerz");
 
     if (!store?.schedule) {
-        return <div className="w-full mx-2 max-w-52 text-default-500 text-center">No schedule available</div>;
+        return <div className="w-full mx-2 max-w-52 text-default-500 text-center">{t("No Schedule Available")}</div>;
     }
 
-    return renderWorkingHoursDropdown({ store }) ;
-
+    return renderWorkingHoursDropdown({ store });
 };
 
-
 export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
-   const t = useTranslations ("Working Hours");
+    const t = useTranslations("Working Hours");
+    const tBakerz = useTranslations("TheBakerz");
+
     return (
         <Dropdown
             placement={"top"}
@@ -67,7 +66,7 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
                                     const workday = store.schedule[day];
 
                                     const shortDay = getShortWeekday(day);
-                                    let displayText = `Closed`;
+                                    let displayText = tBakerz("Closed");
                                     if (workday && (workday as WorkDay).isEnabled) {
                                         const wd = workday as WorkDay;
                                         const startHour = pad(wd.start.hour);
@@ -100,7 +99,7 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
                             <Icon icon={"solar:sort-by-time-linear"} width={24}
                                   className={"text-default-500"}/>
                             <p className={'w-[90%] truncate'}>
-                                Working Hours
+                                {tBakerz("Working Hours")}
                             </p>
                         </div>
                     </Tooltip>
@@ -115,7 +114,7 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
                             const workday = store.schedule[day];
 
                             const shortDay = getShortWeekday(day);
-                            let displayText = `Closed`;
+                            let displayText = tBakerz("Closed");
                             if (workday && (workday as WorkDay).isEnabled) {
                                 const wd = workday as WorkDay;
                                 const startHour = pad(wd.start.hour);
@@ -151,11 +150,12 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
 }
 
 export const renderCalendarContent = () => {
-
     const { store } = useStore();
-    const t = useTranslations ("Working Hours");
+    const t = useTranslations("Working Hours");
+    const tBakerz = useTranslations("TheBakerz");
+
     if (!store?.schedule) {
-        return <div className="w-full max-w-52 text-default-500 text-center">No schedule available</div>;
+        return <div className="w-full max-w-52 text-default-500 text-center">{tBakerz("No Schedule Available")}</div>;
     }
 
     return (
@@ -166,7 +166,7 @@ export const renderCalendarContent = () => {
                     const workday = store.schedule[day];
 
                     const shortDay = getShortWeekday(day);
-                    let displayText = `Closed`;
+                    let displayText = tBakerz("Closed");
                     if (workday && (workday as WorkDay).isEnabled) {
                         const wd = workday as WorkDay;
                         const startHour = pad(wd.start.hour);

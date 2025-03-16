@@ -8,6 +8,7 @@ import {Button, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {useRouter} from "next/navigation";
 import {useStore} from "@/components/providers/store-provider";
+import {useTranslations} from "next-intl";
 
 
 interface CartOrderCompProps {
@@ -19,6 +20,8 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
     const [currentStep, setCurrentStep] = useState(1);
     const router = useRouter();
     const { store } = useStore();
+    const t = useTranslations("TheBakerz");
+
     return (
         <>
             <Spacer y={4}/>
@@ -39,7 +42,7 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
                     />
                 }
             >
-                Back to Order Dashboard
+                {t("Back to Order Dashboard")}
             </Button>
             <Spacer y={4}/>
             <ProductList

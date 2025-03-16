@@ -10,6 +10,8 @@ import {ItemCart} from "@/lib/actions/cart";
 import UserProductDialog from "@/components/store/product/dialog/user-product";
 import BakerzProductDialog from "@/components/store/product/dialog/bakerz-product";
 import {useMediaQuery} from "usehooks-ts";
+import {useTranslations} from "next-intl";
+
 type ProductDialogProps = {
     storeId: string;
     productData: ProductData | undefined;
@@ -20,10 +22,9 @@ type ProductDialogProps = {
 }
 
 export default function ProductDialog({storeId, productData, itemCart, isOpen, onClose, bakerzOrder = false }: ProductDialogProps) {
-
-
     const { session } = useSession();
     const isSmall = useMediaQuery("(max-width: 800px)");
+    const t = useTranslations("TheBakerz");
 
     return (
         <>
@@ -57,4 +58,3 @@ export default function ProductDialog({storeId, productData, itemCart, isOpen, o
         </>
     );
 }
-

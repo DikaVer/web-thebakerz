@@ -12,6 +12,7 @@ import { sortItems } from "@/lib/helper/sort-items-with-order";
 import { useProductDialog } from "@/components/providers/product-provider";
 import {AnimatePresence, motion} from "framer-motion";
 import {ProductItems} from "@/components/store/orders/add/product-item";
+import {useTranslations} from "next-intl";
 
 interface ProductListProps {
     productsData: ProductDataFull;
@@ -21,7 +22,8 @@ interface ProductListProps {
 
 const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, productsOrder }) => {
     const { setProductsDataLocal } = useProductDialog();
-    const  categoriesKeys = Object.keys(productsOrder);
+    const categoriesKeys = Object.keys(productsOrder);
+    const t = useTranslations("TheBakerz");
 
     useEffect(() => {
         if (productsData) {
@@ -32,7 +34,7 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
     if (productsData === null || Object.keys(productsData || {}).length === 0) {
         return (
             <div className="text-center">
-                <p className="text-2xl my-10">Store does not have any products yet.</p>
+                <p className="text-2xl my-10">{t("No Products Available")}</p>
             </div>
         );
     }
@@ -91,9 +93,9 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
         <div className={`${(currentStep === 0 || currentStep > 1) && 'hidden'}`}>
             <div className={'flex justify-between'}>
                 <div>
-                    <p className="text-base font-medium text-default-700">Customer Cart</p>
+                    <p className="text-base font-medium text-default-700">{t("Customer Cart")}</p>
                     <p className="mt-1 text-sm font-normal text-default-400">
-                        Add & Manage customer cart
+                        {t("Add Manage Cart")}
                     </p>
                 </div>
             </div>
@@ -102,27 +104,27 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
             <Card className="w-full" shadow={'sm'}>
                 <CardHeader className={'pb-0 space-x-4'}>
                     {tabs.map((category) => (
-                            <motion.button
-                                key={category}
-                                layout="position"
-                                onPointerDown={() => {
-                                    setSelectedTab(category);
+                        <motion.button
+                            key={category}
+                            layout="position"
+                            onPointerDown={() => {
+                                setSelectedTab(category);
+                            }}
+                            className={`text-sm relative ${selectedTab === category ? 'text-text font-medium' : 'text-default-500'}`}
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            {`${category}`}
+                            <motion.div
+                                className="absolute bottom-0 left-0 right-0 h-[2px] bg-text"
+                                initial={false}
+                                animate={{
+                                    opacity: selectedTab === category ? 1 : 0,
+                                    scaleX: selectedTab === category ? 1 : 0
                                 }}
-                                className={`text-sm relative ${selectedTab === category ? 'text-text font-medium' : 'text-default-500'}`}
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                {`${category}`}
-                                <motion.div
-                                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-text"
-                                    initial={false}
-                                    animate={{
-                                        opacity: selectedTab === category ? 1 : 0,
-                                        scaleX: selectedTab === category ? 1 : 0
-                                    }}
-                                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                                />
-                            </motion.button>
+                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                            />
+                        </motion.button>
                     ))}
                 </CardHeader>
                 <CardBody className={'flex'}>
@@ -130,12 +132,12 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
                         <div
                             className=" col-span-5  grid grid-cols-5 gap-x-4"
                         >
-                            <span>Image</span>
-                            <span className={'flex col-span-4'}>Name & Price</span>
+                            <span>{t("Image")}</span>
+                            <span className={'flex col-span-4'}>{t("Name Price")}</span>
                         </div>
                         <span
                             className={'text-center'}
-                        >Add</span>
+                        >{t("Add")}</span>
                     </div>
                     {/* Use a key prop so that the ProductTable re-mounts when the selectedTab changes */}
                     <AnimatePresence mode="wait">

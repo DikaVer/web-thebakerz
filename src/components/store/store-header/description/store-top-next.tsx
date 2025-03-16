@@ -9,13 +9,12 @@ import {useTranslations} from "next-intl";
 type SocialIconProps = Omit<IconProps, "icon">;
 
 const StoreTopNext: React.FC = () => {
-
     const { store } = useStore();
-
-    const t = useTranslations('Shop')
+    const t = useTranslations('Shop');
+    const tBakerz = useTranslations('TheBakerz');
 
     const phone = {
-        name: "Phone",
+        name: tBakerz("Phone"),
         href: `tel:${store?.phone}`,
         icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
     };

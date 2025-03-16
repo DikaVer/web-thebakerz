@@ -8,7 +8,7 @@ import showSuccessMessage from "@/components/toast/toast-succes";
 import showErrorMessage from "@/components/toast/toast-error";
 import {useSession} from "@/components/providers/session-provider";
 import {IconLoadingCircle} from "@/components/ui/icons";
-
+import {useTranslations} from "next-intl";
 
 interface DayWorkingHoursProps {
     day: string;
@@ -26,13 +26,16 @@ interface DayWorkingHoursProps {
 
 const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
                                                              day,
-    isLoading,
+                                                             isLoading,
                                                              setWorkingHours,
                                                              initialEnabled = false,
                                                              // Default start/end times (you can adjust these defaults)
                                                              initialStartTime = new Time(9, 0),
                                                              initialEndTime = new Time(17, 0),
                                                          }) => {
+    const t = useTranslations("Schedule");
+    const whT = useTranslations("Working Hours");
+
     const [isEnabled, setIsEnabled] = useState(initialEnabled);
     const [startTime, setStartTime] = useState(initialStartTime);
     const [endTime, setEndTime] = useState(initialEndTime);
@@ -92,18 +95,18 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
 
     return (
         <div className="mb-4">
-            <p className="mt-1 text-xs font-normal text-default-400 capitalize">{day}</p>
+            <p className="mt-1 text-xs font-normal text-default-400 capitalize">{whT(day)}</p>
             <Spacer y={2} />
             <div className="flex flex-row">
                 <TimeInput
                     isDisabled={!isEnabled || isLoading}
                     // @ts-ignore
                     defaultValue={startTime}
-                    label="Start Time"
+                    label={t("StartTime")}
                     classNames={{ inputWrapper: 'rounded-r-none shadow-none' }}
                     isInvalid={isInvalid}
                     labelPlacement="inside"
-                    errorMessage="Start time must be before end time"
+                    errorMessage={t("StartTimeError")}
                     // @ts-ignore
                     onChange={handleStartChange}
                 />
@@ -112,10 +115,10 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
                     // @ts-ignore
                     defaultValue={endTime}
                     isInvalid={isInvalid}
-                    label="End Time"
+                    label={t("EndTime")}
                     classNames={{ inputWrapper: 'rounded-none shadow-none' }}
                     labelPlacement="inside"
-                    errorMessage="End time must be after start time"
+                    errorMessage={t("EndTimeError")}
                     // @ts-ignore
                     onChange={handleEndChange}
                 />
@@ -138,10 +141,8 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
 
 const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
-
-
 export const WorkingHoursComp: React.FC = () => {
-
+    const t = useTranslations("Schedule");
     const {session} = useSession();
 
     if (!session) {
@@ -172,7 +173,6 @@ export const WorkingHoursComp: React.FC = () => {
 
     const handleSave = async () => {
         setIsLoading(true);
-        // console.log('Saving working hours:', workingHours);
         try {
             const res = await fetch('/api/update-schedule', {
                 method: 'POST',
@@ -181,21 +181,20 @@ export const WorkingHoursComp: React.FC = () => {
                     workHours: workingHours,
                 }),
             });
-            // console.log(res);
             if (!res.ok) {
                 if (res.status === 500) {
-                    showErrorMessage({ error: 'Something went wrong!' });
+                    showErrorMessage({ error: t("ErrorSomethingWentWrong") });
                 } else if (res.status === 429) {
-                    showErrorMessage({ error: 'Too many requests!' });
+                    showErrorMessage({ error: t("ErrorTooManyRequests") });
                 } else {
-                    showErrorMessage({ error: 'Invalid time fields!' });
+                    showErrorMessage({ error: t("ErrorInvalidTimeFields") });
                 }
             } else {
-                showSuccessMessage({success: 'Schedule saved successfully'});
+                showSuccessMessage({success: t("ScheduleSavedSuccess")});
             }
         } catch (error) {
             console.error('Error saving schedule:', error);
-            showErrorMessage({ error: 'Failed to save schedule' });
+            showErrorMessage({ error: t("ErrorFailedToSaveSchedule") });
         }
         setIsLoading(false);
     };
@@ -243,9 +242,7 @@ export const WorkingHoursComp: React.FC = () => {
                     onPress={handleSave}
                     isLoading={isLoading}
                 >
-                    {
-                        isLoading ? 'Saving...' : 'Save Working Hours'
-                    }
+                    {isLoading ? t("Saving") : t("SaveWorkingHours")}
                 </Button>
             </div>
         </div>

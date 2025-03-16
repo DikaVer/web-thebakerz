@@ -18,8 +18,9 @@ import {
 import {Icon} from "@iconify/react";
 import {OrderData} from "@/lib/actions/order";
 import {motion} from "framer-motion";
-import {getStatusColor, getStatusDisplayName} from "@/components/ui/status-chip";
+import {getStatusColor} from "@/components/ui/status-chip";
 import {formatCurrency} from "@/lib/utils";
+import {useTranslations} from "next-intl";
 
 type ChartData = {
     name: string;
@@ -140,6 +141,7 @@ const CircleChartCard = React.forwardRef<
 >(({className, title, total, unit, categories, color, chartData, isLoading = false, orderCount = 0, ...props}, ref) => {
     // State for selected statuses, initialize with all categories
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([...categories]);
+    const t = useTranslations("OrderStatus");
 
     // Filter chart data based on selected statuses
     const filteredChartData = useMemo(() => {
@@ -219,7 +221,7 @@ const CircleChartCard = React.forwardRef<
                             defaultSelectedKeys={categories}
                         >
                             {categories.map((cat) => (
-                                <SelectItem key={cat}>{getStatusDisplayName(cat)}</SelectItem>
+                                <SelectItem key={cat}>{t(cat.toLowerCase() || "unknown")}</SelectItem>
                             ))}
                         </Select>
                         <Dropdown
@@ -277,7 +279,7 @@ const CircleChartCard = React.forwardRef<
                                                     <div className={'flex justify-between items-center'}>
                                                         <span
                                                             className="font-medium text-foreground mb-1">
-                                                            {getStatusDisplayName(data.name)} Orders
+                                                            {t(data.name.toLowerCase() || "unknown")} Orders
                                                         </span>
                                                         <div
                                                             className={cn("h-2 w-2 flex-none rounded-full",
@@ -374,7 +376,7 @@ const CircleChartCard = React.forwardRef<
                                             getStatusColor(item.name)
                                         )}
                                     />
-                                    <span>{getStatusDisplayName(item.name)}</span>
+                                    <span>{t(item.name.toLowerCase() || "unknown")}</span>
                                 </div>
                             </div>
                         ))}

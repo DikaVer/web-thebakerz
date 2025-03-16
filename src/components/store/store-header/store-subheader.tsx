@@ -25,6 +25,7 @@ import {IconLocation} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
 import dynamic from "next/dynamic";
 import {formatDate, SmartDatetimeInput} from "@/components/store/store-header/calendar/smart-calendar";
+import {useTranslations} from "next-intl";
 
 const LocationMap = dynamic(
     () => import("@/components/store/store-header/subheader/location-map"),
@@ -47,8 +48,10 @@ export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: S
     const { session } = useSession();
     const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
     const { theme } = useTheme();
-    const location = store?.location.route ? `${store.location.route}` : "Address Placeholder";
-    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
+    const t = useTranslations("TheBakerz");
+
+    const location = store?.location.route ? `${store.location.route}` : t("Address Placeholder");
+    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : t("Location Placeholder");
 
     // --- 2. onChange Handler for DatePicker: Save the date/time and update URL search params ---
     const handleDateChange = (newDate: CalendarDateTime | CalendarDate) => {
@@ -69,73 +72,72 @@ export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: S
 
     return (
         <div className="flex flex-col w-full max-w-[440px]">
-                <Spacer y={4}/>
-                <Link
-                    href={`https://www.google.com/maps?q=${store.location.latitude},${store.location.longitude}`}
-                    className={'flex flex-row gap-x-4 items-center'}
-                >
-                    <IconLocation size={24}
-                                  primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                  secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                    />
-                    <div className={'flex flex-col gap-y-0'}>
-                        <p className={"text-sm  text-text"}>
-                            {location}
-                        </p>
-                        <p className={"text-xs  text-default-600"}>
-                            {subLocation}
-                        </p>
-                    </div>
-                </Link>
-                <Spacer y={4}/>
-                <div className={'h-40 w-full rounded-medium border-1 overflow-hidden'}>
-                    {store.location.latitude && store.location.longitude &&
-                        <LocationMap latitude={Number(store.location.latitude)} longitude={Number(store.location.longitude)} />
-                    }
+            <Spacer y={4}/>
+            <Link
+                href={`https://www.google.com/maps?q=${store.location.latitude},${store.location.longitude}`}
+                className={'flex flex-row gap-x-4 items-center'}
+            >
+                <IconLocation size={24}
+                              primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
+                              secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
+                />
+                <div className={'flex flex-col gap-y-0'}>
+                    <p className={"text-sm  text-text"}>
+                        {location}
+                    </p>
+                    <p className={"text-xs  text-default-600"}>
+                        {subLocation}
+                    </p>
                 </div>
-                {(session?.user?.role !== "bakerz" || session.store?.id !== store.id) && (
-                    <>
-                        <Spacer y={4}/>
-                        <ButtonGroup
-                            fullWidth
-                            size={'sm'}
-                            radius={'md'}
-                            className={'text-grayText'}
+            </Link>
+            <Spacer y={4}/>
+            <div className={'h-40 w-full rounded-medium border-1 overflow-hidden'}>
+                {store.location.latitude && store.location.longitude &&
+                    <LocationMap latitude={Number(store.location.latitude)} longitude={Number(store.location.longitude)} />
+                }
+            </div>
+            {(session?.user?.role !== "bakerz" || session.store?.id !== store.id) && (
+                <>
+                    <Spacer y={4}/>
+                    <ButtonGroup
+                        fullWidth
+                        size={'sm'}
+                        radius={'md'}
+                        className={'text-grayText'}
+                    >
+                        <SmartDatetimeInput
+                            schedule={store.schedule}
+                            minValue={today("Europe/Amsterdam").add({ days: 1 })}
+                            value={selectedDate}
+                            onValueChange={handleDateChange}
+                            placeholder={t("Schedule Order Time")}
                         >
-                            <SmartDatetimeInput
-                                schedule={store.schedule}
-                                minValue={today("Europe/Amsterdam").add({ days: 1 })}
-                                value={selectedDate}
-                                onValueChange={handleDateChange}
-                                placeholder='Schedule Order Time'
+                            <Button
+                                startContent={<Icon icon={'solar:walking-round-linear'} width={24}/>}
+                                variant={selectedDate instanceof CalendarDateTime ? "bordered" : 'solid'}
+                                className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600' : 'text-white bg-gradient-primary'} text-sm`}
+                                onPress={() =>
+                                    addToast({
+                                        description: t("Pick Up Option Selected"),
+                                        //@ts-ignore
+                                        color: "success",
+                                        shouldShowTimeoutProgress: true,
+                                        timeout: 1000,
+                                    })}
                             >
-                                <Button
-                                    startContent={<Icon icon={'solar:walking-round-linear'} width={24}/>}
-                                    variant={selectedDate instanceof CalendarDateTime ? "bordered" : 'solid'}
-                                    className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600' : 'text-white bg-gradient-primary'} text-sm`}
-                                    onPress={() =>
-                                        addToast({
-                                            // title: "Pick Up",
-                                            description: "Pick Up Option is selected",
-                                            //@ts-ignore
-                                            color: "success",
-                                            shouldShowTimeoutProgress: true,
-                                            timeout: 1000,
-                                        })}
-                                >
-                                    {(selectedDate instanceof CalendarDateTime) ? `Pick Up at ${formatDate(selectedDate)}` : "Select Pick Up Time"}
-                                </Button>
-                            </SmartDatetimeInput>
-                            {/*<Button*/}
-                            {/*    isDisabled*/}
-                            {/*    startContent={<Icon icon={'bxs:car'} width={24}/>}*/}
-                            {/*    variant="bordered"*/}
-                            {/*>*/}
-                            {/*    Delivery*/}
-                            {/*</Button>*/}
-                        </ButtonGroup>
-                    </>
-                )}
+                                {(selectedDate instanceof CalendarDateTime) ? `${t("Pick Up at")} ${formatDate(selectedDate)}` : t("Select Pick Up Time")}
+                            </Button>
+                        </SmartDatetimeInput>
+                        {/*<Button*/}
+                        {/*    isDisabled*/}
+                        {/*    startContent={<Icon icon={'bxs:car'} width={24}/>}*/}
+                        {/*    variant="bordered"*/}
+                        {/*>*/}
+                        {/*    Delivery*/}
+                        {/*</Button>*/}
+                    </ButtonGroup>
+                </>
+            )}
         </div>
     );
 }

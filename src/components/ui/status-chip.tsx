@@ -1,6 +1,7 @@
+// TypeScript
 import { Chip, ChipProps } from "@heroui/react";
-import {OrderStatus} from "@/lib/actions/order";
-
+import { OrderStatus } from "@/lib/actions/order";
+import { useTranslations } from "next-intl";
 
 export const getStatusColor = (status: string): string => {
     switch (status?.toLowerCase() || "") {
@@ -14,33 +15,19 @@ export const getStatusColor = (status: string): string => {
     }
 };
 
-export const getStatusDisplayName = (status: string): string => {
-    switch (status?.toLowerCase() || "") {
-        case "new": return "New";
-        case "started": return "Cooking";
-        case "ready": return "Ready";
-        case "completed": return "Picked Up";
-        case "cancelled": return "Cancelled";
-        case "refunded": return "Refunded";
-        default: return "Unknown";
-    }
-};
-
 export const OrderStatusChip = ({
                                     status,
-
                                     ...chipProps
                                 }: {
     status: OrderStatus;
 } & Omit<ChipProps, "color" | "children">) => {
-
-
+    const t = useTranslations("OrderStatus");
     return (
         <Chip
             {...chipProps}
             className={getStatusColor(status)}
         >
-            {getStatusDisplayName(status)}
+            {t(status?.toLowerCase() || "unknown")}
         </Chip>
     );
 };

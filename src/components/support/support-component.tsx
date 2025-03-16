@@ -1,3 +1,4 @@
+// TypeScript
 "use client";
 
 import React from "react";
@@ -5,26 +6,31 @@ import { Accordion, AccordionItem, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
-import {faqsBakerz, faqsCustomer} from "./faqs";
-import {useRouter} from "next/navigation";
+import { faqsBakerz, faqsCustomer } from "./faqs";
 
 const SupportComponent: React.FC = () => {
-
     const router = useRouter();
+    const t = useTranslations("SupportComponent");
 
     return (
         <section className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-32 md:px-6 lg:px-8 lg:py-40">
             <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-8">
-                <h2 className="w-full max-w-3xl bg-gradient-text to-foreground-600 bg-clip-text px-2 text-center text-3xl font-bold leading-7   md:text-5xl">
-                    <span className="inline-block md:hidden">TheBakerz&apos;s FAQs</span>
-                    <span className="hidden md:inline-block">TheBakerz&apos;s Frequently Asked Questions</span>
+                <h2 className="w-full max-w-3xl bg-gradient-text to-foreground-600 bg-clip-text px-2 text-center text-3xl font-bold leading-7 md:text-5xl">
+          <span className="inline-block md:hidden">
+            {t("faqsTitleShort")}
+          </span>
+                    <span className="hidden md:inline-block">
+            {t("faqsTitleLong")}
+          </span>
                 </h2>
                 <div>
                     <Button
                         disableAnimation
                         className="bg-gradient-item font-medium text-background"
-                        endContent={<Icon icon="lucide:chevron-right" width={24}/>}
+                        endContent={<Icon icon="lucide:chevron-right" width={24} />}
                         size="lg"
                         variant="shadow"
                         onPress={() => {
@@ -32,11 +38,11 @@ const SupportComponent: React.FC = () => {
                             router.refresh();
                         }}
                     >
-                        Contact Us
+                        {t("contactUs")}
                     </Button>
                 </div>
                 <h2 className="w-full max-w-3xl bg-gradient-to-br from-text to-foreground-600 bg-clip-text px-2 text-center text-2xl font-bold leading-7 tracking-tight text-transparent md:text-4xl">
-                    <span>Baker</span>
+                    <span>{t("sectionBaker")}</span>
                 </h2>
                 <Accordion
                     fullWidth
@@ -53,7 +59,7 @@ const SupportComponent: React.FC = () => {
                     {faqsBakerz.map((faq, index) => (
                         <AccordionItem
                             key={index}
-                            indicator={<Icon className="text-text" icon="lucide:plus" width={24}/>}
+                            indicator={<Icon className="text-text" icon="lucide:plus" width={24} />}
                             title={faq.title}
                         >
                             <ReactMarkdown
@@ -66,7 +72,7 @@ const SupportComponent: React.FC = () => {
                     ))}
                 </Accordion>
                 <h2 className="w-full max-w-3xl bg-gradient-to-br from-text to-foreground-600 bg-clip-text px-2 text-center text-2xl font-bold leading-7 tracking-tight text-transparent md:text-4xl">
-                    <span>Customer</span>
+                    <span>{t("sectionCustomer")}</span>
                 </h2>
                 <Accordion
                     fullWidth
@@ -83,7 +89,7 @@ const SupportComponent: React.FC = () => {
                     {faqsCustomer.map((faq, index) => (
                         <AccordionItem
                             key={index}
-                            indicator={<Icon className="text-text" icon="lucide:plus" width={24}/>}
+                            indicator={<Icon className="text-text" icon="lucide:plus" width={24} />}
                             title={faq.title}
                         >
                             <ReactMarkdown
@@ -101,4 +107,3 @@ const SupportComponent: React.FC = () => {
 };
 
 export default SupportComponent;
-

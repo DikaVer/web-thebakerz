@@ -18,13 +18,14 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
 
     const [latitude, longitude] = [50.853356, 5.669382];
 
-    const location = store?.location.route ? `${store.location.route}` : "Address Placeholder";
-    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "Location Placeholder";
+    const location = store?.location.route ? `${store.location.route}` : "";
+    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "";
 
-    const t = useTranslations ("Shop");
+    const t = useTranslations("TheBakerz");
+    const shopT = useTranslations("Shop");
 
     const phone = {
-        name: "Phone",
+        name: t("Phone"),
         href: `tel:${store?.phone}`,
         icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
     };
@@ -61,7 +62,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                             {store?.instagram_url && (
                                                 <Link key={"Instagram"} isExternal className="text-blue-500 h-6"
                                                       href={store.instagram_url}>
-                                                    <span className="sr-only">{store.instagram_url}</span>
+                                                    <span className="sr-only">{t("Instagram")}</span>
                                                     <Icon icon="line-md:instagram" strokeWidth={1.5} width={24}
                                                           aria-hidden="true"
                                                           className="w-6"/>
@@ -70,7 +71,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                             {store?.facebook_url && (
                                                 <Link key={"Facebook"} isExternal className="text-blue-500 h-6"
                                                       href={store.facebook_url}>
-                                                    <span className="sr-only">{store.facebook_url}</span>
+                                                    <span className="sr-only">{t("Facebook")}</span>
                                                     <Icon icon="line-md:facebook" strokeWidth={1.5} width={24}
                                                           aria-hidden="true"
                                                           className="w-6"/>
@@ -91,95 +92,95 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                     description: 'text-white dark:text-default-500',
                                     title: 'text-md'
                                 }}
-                                title={t("Alert")}
-                                description={t("Alert Hover")}
+                                title={shopT("Alert")}
+                                description={shopT("Alert Hover")}
                                 variant={"solid"}
                             />
 
                             <Divider/>
 
-                                <Accordion
-                                    motionProps={{
-                                        variants: {
-                                            enter: {
-                                                y: 0,
-                                                opacity: 1,
-                                                height: "auto",
-                                                overflowY: "unset",
-                                                transition: {
-                                                    height: {
-                                                        type: "spring",
-                                                        stiffness: 500,
-                                                        damping: 30,
-                                                        duration: 1,
-                                                    },
-                                                    opacity: {
-                                                        easings: "ease",
-                                                        duration: 1,
-                                                    },
+                            <Accordion
+                                motionProps={{
+                                    variants: {
+                                        enter: {
+                                            y: 0,
+                                            opacity: 1,
+                                            height: "auto",
+                                            overflowY: "unset",
+                                            transition: {
+                                                height: {
+                                                    type: "spring",
+                                                    stiffness: 500,
+                                                    damping: 30,
+                                                    duration: 1,
                                                 },
-                                            },
-                                            exit: {
-                                                y: -10,
-                                                opacity: 0,
-                                                height: 0,
-                                                overflowY: "hidden",
-                                                transition: {
-                                                    height: {
-                                                        easings: "ease",
-                                                        duration: 0.25,
-                                                    },
-                                                    opacity: {
-                                                        easings: "ease",
-                                                        duration: 0.3,
-                                                    },
+                                                opacity: {
+                                                    easings: "ease",
+                                                    duration: 1,
                                                 },
                                             },
                                         },
-                                    }}
-                                    variant="light"
+                                        exit: {
+                                            y: -10,
+                                            opacity: 0,
+                                            height: 0,
+                                            overflowY: "hidden",
+                                            transition: {
+                                                height: {
+                                                    easings: "ease",
+                                                    duration: 0.25,
+                                                },
+                                                opacity: {
+                                                    easings: "ease",
+                                                    duration: 0.3,
+                                                },
+                                            },
+                                        },
+                                    },
+                                }}
+                                variant="light"
+                                className={'px-0'}
+                            >
+                                <AccordionItem
+                                    key="Working Hours"
+                                    aria-label={shopT("Opening Hours")}
+                                    title={shopT("Opening Hours")}
                                     className={'px-0'}
+                                    classNames={{
+                                        title: 'text-text',
+                                        trigger: 'py-0',
+                                    }}
+                                    startContent={<Icon icon={'solar:clock-circle-outline'} className={'text-text'} width={24}/> }
+                                    indicator={<Icon icon={'material-symbols:chevron-left-rounded'} className={'text-default-500'} width={24}/> }
                                 >
-                                    <AccordionItem
-                                        key="Working Hours"
-                                        aria-label="Working Hours"
-                                        title={t("Opening Hours")}
-                                        className={'px-0'}
-                                        classNames={{
-                                            title: 'text-text',
-                                            trigger: 'py-0',
-                                        }}
-                                        startContent={<Icon icon={'solar:clock-circle-outline'} className={'text-text'} width={24}/> }
-                                        indicator={<Icon icon={'material-symbols:chevron-left-rounded'} className={'text-default-500'} width={24}/> }
-                                    >
-                                        <>
-                                            <Spacer y={2}/>
-                                            {renderCalendarContent()}
-                                        </>
-                                    </AccordionItem>
-                                </Accordion>
+                                    <>
+                                        <Spacer y={2}/>
+                                        {renderCalendarContent()}
+                                    </>
+                                </AccordionItem>
+                            </Accordion>
 
                             <Divider/>
-                                <Link
-                                    href={`https://www.google.com/maps?q=${latitude},${longitude}`}
-                                    className={'flex flex-row justify-between'}
-                                >
-                                    <div className={'flex gap-x-4 items-center'}>
-                                        <IconLocation size={24}
-                                                      primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                                      secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                                        />
-                                        <div className={'flex flex-col gap-y-0'}>
-                                            <p className={"text-sm  text-text"}>
-                                                {location}
-                                            </p>
-                                            <p className={"text-xs  text-default-600"}>
-                                                {subLocation}
-                                            </p>
-                                        </div>
+                            <Link
+                                href={`https://www.google.com/maps?q=${latitude},${longitude}`}
+                                className={'flex flex-row justify-between'}
+                            >
+                                <div className={'flex gap-x-4 items-center'}>
+                                    <IconLocation size={24}
+                                                  primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
+                                                  secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
+                                    />
+                                    <div className={'flex flex-col gap-y-0'}>
+                                        <p className={"text-sm  text-text"}>
+                                            {location || t("Address Placeholder")}
+                                        </p>
+                                        <p className={"text-xs  text-default-600"}>
+                                            {subLocation || t("Location Placeholder")}
+                                        </p>
                                     </div>
-                                    <Icon icon={'mi:arrow-right-up'} width={24} className={'text-default-500'}/>
-                                </Link>
+                                </div>
+                                <Icon icon={'mi:arrow-right-up'} width={24} className={'text-default-500'}/>
+                            </Link>
                             <Divider/>
 
                             {store?.phone &&
@@ -201,7 +202,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                         </ModalBody>
                         <ModalFooter>
                             <Button color="primary" radius={'full'} onPress={onClose}>
-                                Close
+                                {t("Close")}
                             </Button>
                         </ModalFooter>
                     </>

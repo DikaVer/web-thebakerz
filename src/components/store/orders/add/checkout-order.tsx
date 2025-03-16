@@ -4,6 +4,8 @@ import { Icon } from "@iconify/react";
 import React, { useState } from "react";
 import CartOrder from "@/components/store/orders/add/cart-order";
 import {ScheduleBakerzOrder} from "@/components/store/orders/add/schedule-bakerz-order";
+import {useTranslations} from "next-intl";
+
 interface CheckoutOrderProps {
     date: string | null;
     time: string | null;
@@ -12,6 +14,7 @@ interface CheckoutOrderProps {
 }
 
 export default function CheckoutOrder({ date, time, currentStep, setCurrentStep }: CheckoutOrderProps) {
+    const t = useTranslations("TheBakerz");
 
     // Define steps as strings "1", "2", "3", "4"
     const steps = ["1", "2", "3", "4"];
@@ -50,8 +53,8 @@ export default function CheckoutOrder({ date, time, currentStep, setCurrentStep 
                 <AccordionItem
                     key="1"
                     className={'shadow-none border-1'}
-                    aria-label="Cart Details"
-                    title="1. Cart Details"
+                    aria-label={t("Cart Details")}
+                    title={t("Cart Details Step")}
                     disableIndicatorAnimation
                     indicator={
                         1 < currentStep
@@ -68,8 +71,8 @@ export default function CheckoutOrder({ date, time, currentStep, setCurrentStep 
                 <AccordionItem
                     key="2"
                     className={'shadow-none border-1'}
-                    aria-label="Pick Up Details"
-                    title="2. Pick Up Details"
+                    aria-label={t("Pick Up Details")}
+                    title={t("Pick Up Details Step")}
                     disableIndicatorAnimation
                     indicator={
                         2 < currentStep
@@ -89,7 +92,6 @@ export default function CheckoutOrder({ date, time, currentStep, setCurrentStep 
                     />
                 </AccordionItem>
             </Accordion>
-
         </>
     );
 }

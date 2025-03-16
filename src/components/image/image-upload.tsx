@@ -1,16 +1,15 @@
-// image-upload.tsx
 'use client';
 
 import { Modal, ModalContent, ModalHeader } from "@heroui/react";
 import React, { useState, useEffect } from "react";
 import CropEasy from "@/components/image/crop/crop-easy";
-
 import showErrorMessage from "@/components/toast/toast-error";
-import {ImageSchema} from "@/lib/schemas";
-import {useTheme} from "next-themes";
-import {IconClose} from "@/components/ui/icons";
+import { ImageSchema } from "@/lib/schemas";
+import { useTheme } from "next-themes";
+import { IconClose } from "@/components/ui/icons";
+import { useTranslations } from "next-intl";
 
-interface AvatarImageUploaderProps {
+export interface AvatarImageUploaderProps {
     type: "square" | "circle";
     isOpen: boolean;
     onClose: () => void;
@@ -22,15 +21,18 @@ interface AvatarImageUploaderProps {
 }
 
 export function ImageUploader({
-    title, subtitle, container, type,
-                                        isOpen,
-                                        onClose,
-                                        file,
-    setImageURL,
-
-                                    }: AvatarImageUploaderProps) {
+                                  title,
+                                  subtitle,
+                                  container,
+                                  type,
+                                  isOpen,
+                                  onClose,
+                                  file,
+                                  setImageURL,
+                              }: AvatarImageUploaderProps) {
     const [previewUrl, setPreviewUrl] = useState<string | undefined>();
     const { theme } = useTheme();
+    const t = useTranslations("TheBakerz");
 
     // Create a preview URL from the file
     useEffect(() => {
@@ -42,18 +44,15 @@ export function ImageUploader({
             if (!validateFile.success) {
                 showErrorMessage({ error: validateFile.error.errors[0].message });
                 onClose();
-                return ;
+                return;
             }
 
             const url = URL.createObjectURL(file);
             setPreviewUrl(url);
 
-
             return () => URL.revokeObjectURL(url);
         }
-    }, [file]);
-
-
+    }, [file, onClose]);
 
     return (
         <>
@@ -62,15 +61,18 @@ export function ImageUploader({
                 isOpen={isOpen}
                 onOpenChange={onClose}
                 backdrop="blur"
-                placement={'center'}
+                placement="center"
                 classNames={{
-                    closeButton: 'p-1'
+                    closeButton: "p-1"
                 }}
                 closeButton={
-                    <div className={'absolute w-full right-0'}>
-                        <IconClose size={32} primaryColor={`${theme === 'light' ? '#730c70' : '#faf4d1'}`}
-                                   secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#a3a3a3'}`}
+                    <div className="absolute w-full right-0">
+                        <IconClose
+                            size={32}
+                            primaryColor={theme === "light" ? "#730c70" : "#faf4d1"}
+                            secondaryColor={theme === "light" ? "#5d5d5b" : "#a3a3a3"}
                         />
+                        <span className="sr-only">{t("Close")}</span>
                     </div>
                 }
             >
@@ -78,8 +80,8 @@ export function ImageUploader({
                     {(modalClose) => (
                         <>
                             <ModalHeader className="flex flex-col">
-                                <p className="text-base font-medium text-default-700">{title}</p>
-                                <p className="mt-1 text-sm font-normal text-default-400">{subtitle}</p>
+                                <p className="text-base font-medium text-default-700">{t(title)}</p>
+                                <p className="mt-1 text-sm font-normal text-default-400">{t(subtitle)}</p>
                             </ModalHeader>
                             <CropEasy
                                 type={type}

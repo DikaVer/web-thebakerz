@@ -5,6 +5,7 @@ import * as React from "react";
 import {usePathname, useRouter} from "next/navigation";
 import {pacifico} from "@/components/fonts";
 import {useEffect, useState} from "react";
+import {useTranslations} from "next-intl";
 
 interface SigninButtonProps {
     className: string;
@@ -15,8 +16,7 @@ export const SigninButton = ({ className}: SigninButtonProps) => {
     const router = useRouter();
     const pathname = usePathname();
     const [isLoading, setLoading] = useState(false);
-
-
+    const t = useTranslations("TheBakerz");
 
     // Redirects the user to the sign-in page, appending the current path for post-authActions redirection
     const handleSignIn = () => {
@@ -33,7 +33,7 @@ export const SigninButton = ({ className}: SigninButtonProps) => {
             className={`${className} ${pacifico.className} text-black bg-secondary border-1`}
             onPress={handleSignIn}
         >
-            {isLoading ? "Loading" : "Sign in"}
+            {isLoading ? t("Loading") : t("SignIn")}
         </Button>
     );
 }

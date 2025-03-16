@@ -15,22 +15,19 @@ import {useSession} from "@/components/providers/session-provider";
 import {IconDots} from "@/components/ui/icons";
 import { useTheme } from "next-themes";
 import StoreDescription from "@/components/store/store-header/description/store-description";
+import {useTranslations} from "next-intl";
 
 interface StoreHeaderProps {
     dateParam: string | null;
     timeParam: string | null;
 }
 
-
 export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
-
-    const { store} = useStore();
+    const { store } = useStore();
     const { session } = useSession();
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
-
-
     const isSmall = useMediaQuery("(max-width: 960px)");
-
+    const t = useTranslations("TheBakerz");
 
     return (
         <div>
@@ -58,41 +55,41 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
                             }}
                         />
                     </div>
-                        <div className={'flex  flex-col justify-center'}>
-                            {store?.ownerName &&
-                                <div className={'flex gap-x-4'}>
-                                    <p className={`text-xl whitespace-pre-wrap font-medium text-text ${pacifico.className}`}>
-                                        {store.ownerName}
-                                    </p>
+                    <div className={'flex  flex-col justify-center'}>
+                        {store?.ownerName &&
+                            <div className={'flex gap-x-4'}>
+                                <p className={`text-xl whitespace-pre-wrap font-medium text-text ${pacifico.className}`}>
+                                    {store.ownerName}
+                                </p>
 
-                                    {!isSmall && (
-                                        <>
-                                            {store?.instagram_url && (
-                                                <Link key={"Instagram"} isExternal className="text-blue-500 h-6"
-                                                      href={store.instagram_url}>
-                                                    <span className="sr-only">{store.instagram_url}</span>
-                                                    <Icon icon="line-md:instagram" strokeWidth={1.5} width={24}
-                                                          aria-hidden="true"
-                                                          className="w-6"/>
-                                                </Link>
-                                            )}
-                                            {store?.facebook_url && (
-                                                <Link key={"Facebook"} isExternal className="text-blue-500 h-6"
-                                                      href={store.facebook_url}>
-                                                    <span className="sr-only">{store.facebook_url}</span>
-                                                    <Icon icon="line-md:facebook" strokeWidth={1.5} width={24}
-                                                          aria-hidden="true"
-                                                          className="w-6"/>
-                                                </Link>
-                                            )}
-                                        </>
-                                    )}
-                                </div>
-                                }
-                                {store?.slug &&
-                                    <p className={`text-xs md:text-sm whitespace-pre-wrap font-light text-default-600`}>{store.slug}</p>
-                                }
-                        </div>
+                                {!isSmall && (
+                                    <>
+                                        {store?.instagram_url && (
+                                            <Link key={"Instagram"} isExternal className="text-blue-500 h-6"
+                                                  href={store.instagram_url}>
+                                                <span className="sr-only">{t("Instagram")}</span>
+                                                <Icon icon="line-md:instagram" strokeWidth={1.5} width={24}
+                                                      aria-hidden="true"
+                                                      className="w-6"/>
+                                            </Link>
+                                        )}
+                                        {store?.facebook_url && (
+                                            <Link key={"Facebook"} isExternal className="text-blue-500 h-6"
+                                                  href={store.facebook_url}>
+                                                <span className="sr-only">{t("Facebook")}</span>
+                                                <Icon icon="line-md:facebook" strokeWidth={1.5} width={24}
+                                                      aria-hidden="true"
+                                                      className="w-6"/>
+                                            </Link>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                        }
+                        {store?.slug &&
+                            <p className={`text-xs md:text-sm whitespace-pre-wrap font-light text-default-600`}>{store.slug}</p>
+                        }
+                    </div>
                 </div>
                 { isSmall &&
                     <div className={'flex h-full justify-end'}>

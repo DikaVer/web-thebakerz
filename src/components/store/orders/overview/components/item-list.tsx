@@ -9,6 +9,7 @@ import CustomAlert from "@/components/ui/custom-alerts";
 import {AllergenIcon} from "@/components/store/product/components/allergy-icons";
 import {useMediaQuery} from "usehooks-ts";
 import {useTheme} from "next-themes";
+import {useTranslations} from "next-intl";
 
 
 interface ItemRowProps {
@@ -18,9 +19,10 @@ interface ItemRowProps {
 }
 
 export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProducts}) => {
+    const t = useTranslations("TheBakerz");
 
     if (!orderProducts) {
-        return <p>Something went wrong, please contact support!</p>
+        return <p>{t("Something Went Wrong")}</p>
     }
 
     const { theme } = useTheme();
@@ -128,7 +130,7 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProd
                                     {item.ingredients && item.ingredients.length > 0 && (
                                         <CustomAlert
                                             color="default"
-                                            title="Ingredients"
+                                            title={t("Ingredients")}
                                             hideIcon
                                             classNames={{
                                                 title: "text-text font-medium",
@@ -156,7 +158,7 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProd
                                     {item.allergies && item.allergies.length > 0 && (
                                         <CustomAlert
                                             color="warning"
-                                            title="Allergies"
+                                            title={t("Allergies")}
                                             hideIcon
                                             classNames={{
                                                 title: "text-text font-medium",

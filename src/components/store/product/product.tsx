@@ -6,7 +6,7 @@ import {ProductData} from "@/lib/actions/product";
 import {useProductDialog} from "@/components/providers/product-provider";
 import {formatCurrency} from "@/lib/utils";
 import {useMediaQuery} from "usehooks-ts";
-
+import {useTranslations} from "next-intl";
 
 interface ProductBaseProps {
     productData: ProductData;
@@ -16,15 +16,14 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                                             productData,
                                                         }) => {
 
-
     const { handleOpen } = useProductDialog();
     const isSmall = useMediaQuery("(max-width: 658px)");
+    const t = useTranslations("TheBakerz");
 
     return (
         <div
             id={productData.id}
             className={`cursor-pointer max-w-sm border-1 rounded-2xl overflow-hidden`}
-
             onClick={() => handleOpen(productData.id, undefined)}
         >
             <Card
@@ -32,7 +31,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                 radius="lg"
                 className={`border-none shadow-none items-end`}
             >
-                <div className={`w-full  aspect-square`}>
+                <div className={`w-full aspect-square`}>
                     <Image
                         removeWrapper
                         alt={productData.name}

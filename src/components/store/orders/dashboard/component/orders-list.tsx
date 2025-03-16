@@ -4,7 +4,7 @@ import React, { useMemo, useEffect } from "react";
 import {Button, Card, Chip, cn, ScrollShadow, Spacer, Select, SelectItem} from "@heroui/react";
 import { OrderData} from "@/lib/actions/order";
 import { Icon } from "@iconify/react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
     formatCurrency,
     formatDisplayDate,
@@ -14,7 +14,7 @@ import {
 } from "@/lib/utils";
 import { useStore } from "@/components/providers/store-provider";
 import { useRouter } from "next/navigation";
-import {OrderStatusChip, getStatusDisplayName} from "@/components/ui/status-chip";
+import {OrderStatusChip} from "@/components/ui/status-chip";
 import { motion } from "framer-motion";
 
 interface OrdersListProps {
@@ -27,6 +27,8 @@ interface OrdersListProps {
 
 export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderDataList, fromDate, toDate, isLoadingTime = false }) => {
     const locale = useLocale();
+    const t = useTranslations("TheBakerz");
+    const statusT = useTranslations("OrderStatus");
     const [isLoading, setIsLoading] = React.useState(false);
     const { store } = useStore();
     const router = useRouter();
@@ -109,7 +111,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
         <div className="flex flex-col w-full md:w-1/2">
             <section id="Orders Top List" className="flex w-full items-center justify-between mb-4 px-1">
                 <div className="flex flex-col">
-                    <p className="text-xl">Orders</p>
+                    <p className="text-xl">{t("Orders")}</p>
                     <div className="flex items-center text-sm font-light text-default-600">
                         {formatDisplayDate(fromDate, locale)} - {formatDisplayDate(toDate, locale)}
                     </div>
@@ -128,13 +130,13 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                         variant="faded"
                         color="default"
                     >
-                        {!isLoading && "Add Order"}
+                        {!isLoading && t("Add Order")}
                     </Button>
                     {statusCategories.length > 0 && (
                         <Select
                             variant="faded"
                             color="default"
-                            aria-label="Order status filter"
+                            aria-label={t("Order Status Filter")}
                             disableSelectorIconRotation
                             classNames={{
                                 base: "w-fit",
@@ -152,7 +154,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                     title: "text-tiny",
                                 },
                             }}
-                            placeholder="No"
+                            placeholder={t("No")}
                             selectionMode="multiple"
                             size="sm"
                             selectorIcon={
@@ -165,7 +167,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                             defaultSelectedKeys={statusCategories}
                         >
                             {statusCategories.map((cat) => (
-                                <SelectItem key={cat}>{getStatusDisplayName(cat)}</SelectItem>
+                                <SelectItem key={cat}>{statusT(cat.toLowerCase() || "unknown")}</SelectItem>
                             ))}
                         </Select>
                     )}
@@ -214,7 +216,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                                     <div className="flex flex-col items-start">
                                                         <div className="flex font-medium justify-center gap-x-4">
                                                             <p>
-                                                                Order #{order.store_order_id}
+                                                                {t("Order")} #{order.store_order_id}
                                                             </p>
                                                             <Chip
                                                                 size="sm"
@@ -274,7 +276,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                         <div className="p-8 flex flex-col items-center justify-center">
                             <Icon icon="solar:clipboard-list-broken" width={48} className="text-default-500" />
                             <Spacer y={2} />
-                            <p className="text-default-500">No orders found for this period</p>
+                            <p className="text-default-500">{t("No Orders Found")}</p>
                         </div>
                     )
                 )}

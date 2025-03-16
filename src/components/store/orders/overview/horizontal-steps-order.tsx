@@ -26,6 +26,7 @@ import {OrderData, updateOrderStatus} from "@/lib/actions/order";
 import {OrderStatusChip} from "@/components/ui/status-chip";
 import {Icon} from "@iconify/react";
 import {useRouter} from "next/navigation";
+import {useTranslations} from "next-intl";
 
 export type HorizontalStepProps = {
     title?: React.ReactNode;
@@ -120,6 +121,8 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
             onStepChange,
         );
 
+        const t = useTranslations("TheBakerz");
+
         const colors = React.useMemo(() => {
             let userColor;
             let fgColor;
@@ -207,10 +210,10 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
             })());
 
             if (!isUpdated) {
-                showErrorMessage({error: 'Failed to update order status.'});
+                showErrorMessage({error: t("Failed to update status")});
 
             } else {
-                showSuccessMessage({success: 'Order status updated successfully.'});
+                showSuccessMessage({success: t("Status updated successfully")});
                 router.refresh();
                 setCurrentStep(stepIdx);
             }
@@ -247,7 +250,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                 <ModalHeader className="flex flex-col gap-1">
                                     <div className={'flex'}>
                                         <p className={'text-xl'}>
-                                            Order
+                                            {t("Order")}
                                         </p>
                                         <Spacer x={1}/>
                                         <GradientText>
@@ -257,7 +260,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                 </ModalHeader>
                                 <ModalBody>
                                     <p>
-                                        Change Status Action:
+                                        {t("Change Status Action")}
                                     </p>
                                     <div className={'flex items-center gap-x-2'}>
                                         <OrderStatusChip
@@ -295,7 +298,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                         />
                                     </div>
                                     <p className={'font-medium'}>
-                                        Select one of the following options
+                                        {t("Select one option")}
                                     </p>
                                 </ModalBody>
                                 <ModalFooter>
@@ -304,7 +307,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                         variant="light"
                                         onPress={() => handleChangeStatus(candidateIdx || 0)}
                                     >
-                                        {!isLoading && 'Change & Send Email'}
+                                        {!isLoading && t("Change Send Email")}
                                     </Button>
                                     <Button
                                         isDisabled={isLoading}
@@ -313,7 +316,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                         variant="light"
                                         onPress={() => handleChangeStatus(candidateIdx || 0)}
                                     >
-                                        {!isLoading && 'Change Status'}
+                                        {!isLoading && t("Change Status")}
                                     </Button>
                                 </ModalFooter>
                             </>
@@ -321,7 +324,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                     </ModalContent>
                 </Modal>
 
-                <nav aria-label="Progress" className="max-w-fit overflow-x-auto">
+                <nav aria-label={t("Progress")} className="max-w-fit overflow-x-auto">
                     <ol className={cn("flex flex-row flex-nowrap", colors, className)}>
                         {steps?.map((step, stepIdx) => {
                             let status =
@@ -368,33 +371,6 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                                                 backgroundColor: "transparent",
                                                                 borderColor: "var(--active-border-color)",
                                                                 color: "var(--active-color)",
-
-                                                                // switch (stepIdx) {
-                                                                //     case 1:
-                                                                //         return {
-                                                                //             backgroundColor: "transparent",
-                                                                //             borderColor: "orange",
-                                                                //             color: "orange",
-                                                                //         };
-                                                                //     case 2:
-                                                                //         return {
-                                                                //             backgroundColor: "transparent",
-                                                                //             borderColor: "green",
-                                                                //             color: "green",
-                                                                //         };
-                                                                //     case 3:
-                                                                //         return {
-                                                                //             backgroundColor: "transparent",
-                                                                //             borderColor: "black",
-                                                                //             color: "black",
-                                                                //         };
-                                                                //     default:
-                                                                //         return {
-                                                                //             backgroundColor: "transparent",
-                                                                //             borderColor: "black",
-                                                                //             color: "black",
-                                                                //         };
-                                                                // }
                                                             }),
                                                             complete: (custom: number) => ({
                                                                 backgroundColor: "var(--complete-background-color)",

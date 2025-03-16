@@ -8,6 +8,7 @@ import {Icon} from "@iconify/react";
 import {AnimatePresence, motion} from "framer-motion";
 import {ItemList} from "@/components/store/orders/overview/components/item-list";
 import {formatCurrency} from "@/lib/utils";
+import {useTranslations} from "next-intl";
 
 interface OrderItemsProps {
     storeData: StoreData;
@@ -17,6 +18,7 @@ interface OrderItemsProps {
 export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) => {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState<string>("");
+    const t = useTranslations("TheBakerz");
 
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
@@ -39,7 +41,7 @@ export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) =>
                         <div className={'flex justify-center items-center'}>
                             <Icon icon={"solar:cart-broken"} width={24} height={24}/>
                             <Spacer x={2}/>
-                            <p>Order Items</p>
+                            <p>{t("Order Items")}</p>
                         </div>
                         <Input
                             className="w-1/3"
@@ -47,7 +49,7 @@ export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) =>
                                 mainWrapper: "rounded-xl border-1",
                                 inputWrapper: "bg-content1",
                             }}
-                            placeholder="Search items"
+                            placeholder={t("Search Items")}
                             value={searchTerm}
                             onChange={handleSearchChange}
                             type="text"
@@ -81,19 +83,19 @@ export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) =>
                 >
                     <div className={'flex flex-col justify-between text-start col-span-4'}>
                         <div className="flex justify-between">
-                            <span className="text-sm font-medium">Subtotal</span>
+                            <span className="text-sm font-medium">{t("Subtotal")}</span>
                             <span className="text-sm">{formatCurrency(orderData.amount)}</span>
                         </div>
                     </div>
                     <div className={'flex flex-col justify-between text-start col-span-4'}>
                         <div className="flex justify-between mt-2">
-                            <span className="text-sm font-medium">VAT (9% inclusive)</span>
+                            <span className="text-sm font-medium">{t("VAT Inclusive")}</span>
                             <span className="text-sm">{formatCurrency(orderData.amount_tax)}</span>
                         </div>
                     </div>
                     <div className={'flex flex-col justify-between text-start col-span-4'}>
                         <div className="flex justify-between mt-4">
-                            <span className="text-base font-bold">Total</span>
+                            <span className="text-base font-bold">{t("Total")}</span>
                             <span className="text-base font-bold">{formatCurrency(orderData.amount)}</span>
                         </div>
                     </div>

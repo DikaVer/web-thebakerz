@@ -4,7 +4,7 @@ import {Icon} from "@iconify/react";
 import {Button, Spacer} from "@heroui/react";
 import GradientText from "@/components/ui/gradient-text";
 import {formatDisplayDateTime, formatScheduledDateTime, formatScheduledTime} from "@/lib/utils";
-import {useLocale} from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 
 
 interface OrderTopContentProps {
@@ -16,17 +16,15 @@ interface OrderTopContentProps {
 }
 
 export const OrderTopContent: React.FC<OrderTopContentProps> = ({scheduleTime, storeOrderId}) => {
-
     const locale = useLocale();
-
+    const t = useTranslations("TheBakerz");
 
     return (
         <section id={'Order Top Content'} className={'flex justify-between'}>
             <div className={'flex flex-col w-full max-w-2xl'}>
-
                 <div className={'flex'}>
                     <p>
-                        Order
+                        {t("Order")}
                     </p>
                     <Spacer x={1}/>
                     <GradientText>
@@ -38,14 +36,13 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({scheduleTime, s
             <Button
                 startContent={
                     <div className={'w-[24px]'}>
-                    <Icon icon={'solar:printer-minimalistic-bold'} width={24} height={24}/>
+                        <Icon icon={'solar:printer-minimalistic-bold'} width={24} height={24}/>
                     </div>
                 }
                 color="primary"
                 className={'bg-gradient-primary px-8'}
-
             >
-                Print Invoice
+                {t("Print Invoice")}
             </Button>
         </section>
     );

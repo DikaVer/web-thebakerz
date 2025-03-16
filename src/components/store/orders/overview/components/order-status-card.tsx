@@ -6,7 +6,7 @@ import {OrderData, OrderStatus} from "@/lib/actions/order";
 import {Card, CardBody, CardHeader, Divider, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {formatDisplayDate, formatDisplayTime, formatScheduledDate, formatScheduledTime} from "@/lib/utils";
-import {useLocale} from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 import HorizontalStepsOrder from "@/components/store/orders/overview/horizontal-steps-order";
 import {OrderStatusChip} from "@/components/ui/status-chip";
 
@@ -17,10 +17,10 @@ interface OrderStatusProps {
 
 
 export const OrderStatusCard: React.FC<OrderStatusProps> = ({orderData}) => {
-
     const locale = useLocale();
+    const t = useTranslations("TheBakerz");
 
-    const status =  (order_status: string) => {
+    const status = (order_status: string) => {
         switch (order_status) {
             case "new":
                 return 0;
@@ -37,7 +37,7 @@ export const OrderStatusCard: React.FC<OrderStatusProps> = ({orderData}) => {
         }
     }
 
-    const completed = orderData.order_status !== "cancelled" ? "Picked Up" : "Cancelled";
+    const completed = orderData.order_status !== "cancelled" ? t("Picked Up") : t("Cancelled");
     const completedTime = orderData.order_status !== "cancelled" ? (
         <>
             <div>{formatScheduledDate(orderData.scheduled_time, locale)}</div>
@@ -55,7 +55,7 @@ export const OrderStatusCard: React.FC<OrderStatusProps> = ({orderData}) => {
                     <div className={'flex justify-center items-center'}>
                         <Icon icon={"solar:info-circle-linear"} width={24} height={24}/>
                         <Spacer x={2}/>
-                        <p>Order Status</p>
+                        <p>{t("Order Status")}</p>
                         <Spacer x={2}/>
                         <OrderStatusChip
                             size={'sm'}
@@ -73,14 +73,14 @@ export const OrderStatusCard: React.FC<OrderStatusProps> = ({orderData}) => {
                         defaultStep={status(orderData.order_status)}
                         steps={[
                             {
-                                title: "Placed",
+                                title: t("Placed"),
                                 description: formatDisplayDate(orderData.createdAt, locale),
                             },
                             {
-                                title: "Cooking",
+                                title: t("Cooking"),
                             },
                             {
-                                title: "Ready",
+                                title: t("Ready"),
                             },
                             {
                                 title: completed,

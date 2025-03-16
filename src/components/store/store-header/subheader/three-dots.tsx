@@ -8,16 +8,15 @@ import {useTheme} from "next-themes";
 import {useSession} from "@/components/providers/session-provider";
 import {useRouter} from "next/navigation";
 import {useStore} from "@/components/providers/store-provider";
-
+import {useTranslations} from "next-intl";
 
 const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
-
     const [isLoading, setIsLoading] = useState(false);
     const { theme } = useTheme();
     const { session } = useSession();
     const router = useRouter();
     const { store } = useStore();
-
+    const t = useTranslations("TheBakerz");
 
     return (
         <Dropdown className="flex flex-row" backdrop="blur">
@@ -31,14 +30,14 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                         isLoading={isLoading}
                         className="h-12 border-2  shadow-sm"
                     >
-                    {!isLoading && (
-                        <IconDots
-                            size={44}
-                            primaryColor={
-                                theme === "light" ? "#5d5d5b" : "#faf4d1"
-                            }
-                        />
-                    )}
+                        {!isLoading && (
+                            <IconDots
+                                size={44}
+                                primaryColor={
+                                    theme === "light" ? "#5d5d5b" : "#faf4d1"
+                                }
+                            />
+                        )}
                     </Button>
                 }
 
@@ -61,10 +60,10 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             }
                             onPress={() => {
                                 navigator.clipboard.writeText(process.env.NEXT_PUBLIC_API_BASE_URL + '/' + store?.storeName);
-                                showSuccessMessage({ success: "Store Link Copied!" });
+                                showSuccessMessage({ success: t("Store Link Copied") });
                             }}
                         >
-                            Copy Store Link
+                            {t("Copy Store Link")}
                         </DropdownItem>
                         <DropdownItem
                             key="profile"
@@ -81,7 +80,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                                 router.refresh();
                             }}
                         >
-                            Edit Profile
+                            {t("Edit Profile")}
                         </DropdownItem>
                         <DropdownItem
                             key="schedule"
@@ -98,7 +97,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                                 router.refresh();
                             }}
                         >
-                            Edit Schedule
+                            {t("Edit Schedule")}
                         </DropdownItem>
                         <DropdownItem
                             key="products"
@@ -115,7 +114,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                                 router.refresh();
                             }}
                         >
-                            Edit Products
+                            {t("Edit Products")}
                         </DropdownItem>
                         <DropdownItem
                             key="order"
@@ -132,7 +131,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                                 router.refresh();
                             }}
                         >
-                            Add Order
+                            {t("Add Order")}
                         </DropdownItem>
                         <DropdownItem
                             key="support"
@@ -149,7 +148,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                                 router.refresh();
                             }}
                         >
-                            Get Help
+                            {t("Get Help")}
                         </DropdownItem>
                     </>
                 ) : (
@@ -169,10 +168,10 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             }
                             onPress={() => {
                                 navigator.clipboard.writeText('https://thebakerz.com/' + store?.storeName);
-                                showSuccessMessage({ success: "Store Link Copied!" });
+                                showSuccessMessage({ success: t("Store Link Copied") });
                             }}
                         >
-                            Copy Store Link
+                            {t("Copy Store Link")}
                         </DropdownItem>
                         <DropdownItem
                             key="support"
@@ -189,7 +188,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                                 router.refresh();
                             }}
                         >
-                            Get Help
+                            {t("Get Help")}
                         </DropdownItem>
                         <DropdownItem
                             key="report"
@@ -206,7 +205,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                                 router.refresh();
                             }}
                         >
-                            Report
+                            {t("Report")}
                         </DropdownItem>
                     </>
                 )}

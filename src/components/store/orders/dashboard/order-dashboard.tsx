@@ -13,6 +13,7 @@ import {endOfMonth, endOfWeek, getLocalTimeZone, today, CalendarDate, startOfMon
 import {getOrdersByDateRange, OrderData} from "@/lib/actions/order";
 import {CalendarDashboard} from "@/components/ui/calendar-dashboard";
 import { formatApiDate } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface OrderDashboardProps {
     date?: string;
@@ -32,6 +33,7 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
     const [isPending, startTransition] = useTransition();
     const [isLoading, setIsLoading] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
+    const t = useTranslations("TheBakerz");
 
     const [orderDataList, setOrderDataList] = useState<OrderData[]>([]);
 

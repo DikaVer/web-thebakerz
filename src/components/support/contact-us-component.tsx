@@ -1,22 +1,23 @@
+// TypeScript
 'use client';
 
-import React, { startTransition} from 'react';
-
+import React, { startTransition } from 'react';
 import { useActionState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { ContactSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {Card, CardBody, Input, Textarea} from "@heroui/react";
+import { Card, CardBody, Input, Textarea } from "@heroui/react";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { FormError } from "@/components/authentication/form-error";
 import SuccessRedirect from "@/components/redirect-page";
-import {sendEmail} from "@/lib/actions/auth/email-action";
+import { sendEmail } from "@/lib/actions/auth/email-action";
+import { useTranslations } from "next-intl";
 
 export default function ContactUsComponent() {
-
     const [charCount, setCharCount] = React.useState(0);
+    const t = useTranslations("ContactUsComponent");
 
     const form = useForm<z.infer<typeof ContactSchema>>({
         resolver: zodResolver(ContactSchema),
@@ -31,8 +32,7 @@ export default function ContactUsComponent() {
         async (previousState: any, formData: z.infer<typeof ContactSchema>) => {
             const state = await sendEmail(formData);
             if (state) {
-
-                return state; // result should contain something like { successful: boolean, error?: string }
+                return state;
             }
             return state;
         },
@@ -49,7 +49,7 @@ export default function ContactUsComponent() {
         return (
             <SuccessRedirect
                 redirectPage="/"
-                text="Your ticket was submitted successfully. We will redirect you to main page automatically in:"
+                text={t("successMessage")}
             />
         );
     }
@@ -65,14 +65,14 @@ export default function ContactUsComponent() {
                         <FormField
                             control={form.control}
                             name="email"
-                            render={({ field, fieldState}) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormControl>
                                         <Input
                                             {...field}
                                             isRequired
-                                            label="Email"
-                                            placeholder="Enter your email"
+                                            label={t("emailLabel")}
+                                            placeholder={t("emailPlaceholder")}
                                             type="email"
                                             validate={() => {
                                                 return fieldState.error?.message;
@@ -91,8 +91,8 @@ export default function ContactUsComponent() {
                                         <Input
                                             {...field}
                                             isRequired
-                                            label="Subject"
-                                            placeholder="Enter your subject"
+                                            label={t("subjectLabel")}
+                                            placeholder={t("subjectPlaceholder")}
                                             type="text"
                                             validate={() => {
                                                 return fieldState.error?.message;
@@ -111,9 +111,9 @@ export default function ContactUsComponent() {
                                         <Textarea
                                             {...field}
                                             isRequired
-                                            label="What problem are you facing?"
-                                            placeholder="Help me with..."
-                                            style={{resize: "none"}}
+                                            label={t("contextLabel")}
+                                            placeholder={t("contextPlaceholder")}
+                                            style={{ resize: "none" }}
                                             minRows={4}
                                             maxRows={5}
                                             onValueChange={(value) => {
@@ -124,7 +124,9 @@ export default function ContactUsComponent() {
                                             }}
                                         />
                                     </FormControl>
-                                    <p className="text-right text-grayText text-small px-2">{charCount}/2000</p>
+                                    <p className="text-right text-grayText text-small px-2">
+                                        {charCount}/2000
+                                    </p>
                                 </FormItem>
                             )}
                         />
@@ -135,9 +137,7 @@ export default function ContactUsComponent() {
                             isLoading={isPending}
                             disabled={isPending}
                         >
-                            {
-                                isPending ? "Sending..." : "Submit ticket"
-                            }
+                            {isPending ? t("buttonSending") : t("buttonSubmit")}
                         </Button>
                     </form>
                 </Form>

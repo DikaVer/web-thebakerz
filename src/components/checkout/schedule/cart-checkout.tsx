@@ -1,5 +1,4 @@
 "use client";
-import { Icon } from "@iconify/react";
 import React, { useState } from "react";
 import {
     Button,
@@ -9,12 +8,13 @@ import {
 } from "@heroui/react";
 import { useMediaQuery } from "usehooks-ts";
 import { useProductDialog } from "@/components/providers/product-provider";
-import {calculateTax, formatCurrency} from "@/lib/utils";
+import { calculateTax, formatCurrency } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useStore } from "@/components/providers/store-provider";
-import {CartItemRow} from "@/components/cart/cart-item";
-import {useCart} from "@/components/providers/cart-provider";
-
+import { CartItemRow } from "@/components/cart/cart-item";
+import { useCart } from "@/components/providers/cart-provider";
+import { useTranslations } from "next-intl";
+import {Icon} from "@iconify/react";
 
 const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     const {
@@ -22,12 +22,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         handleOpen,
     } = useProductDialog();
 
-    const {
-        itemCount,
-        cart,
-        updateItem,
-        removeItem,
-    } = useCart();
+    const { itemCount, cart, updateItem, removeItem } = useCart();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const isMobile = useMediaQuery("(max-width: 768px)");
     const [isLoading, setIsLoading] = useState(false);
@@ -35,6 +30,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const queryString = searchParams ? `?${searchParams.toString()}` : "";
+    const t = useTranslations("TheBakerz");
 
     const handleOpenDrawer = () => onOpen();
 
@@ -46,7 +42,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         const productData = getProductDataById(item.product_id);
         return productData ? sum + productData.price * item.quantity : sum;
     }, 0);
-    const vat = calculateTax(subtotal) // 9% VAT fee
+    const vat = calculateTax(subtotal); // 9% VAT fee
     const total = subtotal;
 
     const renderCartItems = (isLoading: boolean, setIsLoading: (value: boolean) => void) => {
@@ -72,7 +68,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         <>
             {itemCount !== 0 ? (
                 <>
-                    <div className={'flex w-full justify-end'}>
+                    <div className="flex w-full justify-end">
                         <Button
                             isLoading={isLoading}
                             variant="bordered"
@@ -92,7 +88,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                                 setIsLoading(true);
                             }}
                         >
-                            Add Item
+                            {t("Add Item")}
                         </Button>
                     </div>
                     <Spacer y={2} />
@@ -100,18 +96,18 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                     {renderCartItems(isLoading, setIsLoading)}
                     <div className="py-4">
                         <div className="flex justify-between">
-                            <span className="text-sm font-medium">Subtotal</span>
+                            <span className="text-sm font-medium">{t("Subtotal")}</span>
                             <span className="text-sm">{formatCurrency(subtotal)}</span>
                         </div>
                         <div className="flex justify-between mt-2">
-                            <span className="text-sm font-medium">VAT (9% inclusive)</span>
+                            <span className="text-sm font-medium">{t("VAT Inclusive")}</span>
                             <span className="text-sm">{formatCurrency(vat)}</span>
                         </div>
                         <Spacer y={2} />
                         <Divider className="my-2" />
                         <Spacer y={4} />
                         <div className="flex justify-between">
-                            <span className="text-base font-bold">Total</span>
+                            <span className="text-base font-bold">{t("Total")}</span>
                             <span className="text-base font-bold">{formatCurrency(total)}</span>
                         </div>
                     </div>
@@ -125,13 +121,13 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             handleNext();
                         }}
                     >
-                        Pay
+                        {t("Pay")}
                     </Button>
                 </>
             ) : (
                 <div className="flex flex-col text-xs font-medium items-center my-2">
-                    <p>Your cart is empty</p>
-                    <p>Add items to get started</p>
+                    <p>{t("Cart Empty")}</p>
+                    <p>{t("Add Items To Start")}</p>
                     <Spacer y={4} />
                     <Button
                         isLoading={isLoading}
@@ -152,7 +148,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             setIsLoading(true);
                         }}
                     >
-                        Add Item
+                        {t("Add Item")}
                     </Button>
                 </div>
             )}
