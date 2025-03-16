@@ -177,21 +177,21 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
         const [ candidateIdx, setCandidateIdx ] = React.useState<number | undefined>();
         const [isLoading, setIsLoading] = React.useState<boolean>(false);
         const handleChangeState = (stepIdx: number) => {
-            if(stepIdx <= currentStep){
-                showErrorMessage({error: 'You cannot go back to previous steps.'});
-                return
-            }
+            // if(stepIdx <= currentStep){
+            //     showErrorMessage({error: 'You cannot go back to previous steps.'});
+            //     return
+            // }
             setCandidateIdx(stepIdx);
             onOpen();
         }
 
         const handleChangeStatus = async (stepIdx: number) => {
             setIsLoading(true);
-            if(stepIdx <= currentStep){
-                showErrorMessage({error: 'You cannot go back to previous steps.'});
-                onOpenChange();
-                return
-            }
+            // if(stepIdx <= currentStep){
+            //     showErrorMessage({error: 'You cannot go back to previous steps.'});
+            //     onOpenChange();
+            //     return
+            // }
 
             const isUpdated = await updateOrderStatus(orderData.store_id, orderData.id, orderData.customer.email_customer, (() => {
                 switch (stepIdx) {
@@ -227,6 +227,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                     size="sm"
                     onOpenChange={onOpenChange}
                     backdrop="blur"
+                    placement={'center'}
                     classNames={{
                         closeButton: 'p-1'
                     }}
@@ -255,9 +256,6 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                     </div>
                                 </ModalHeader>
                                 <ModalBody>
-                                    <p className={'font-medium'}>
-                                        This action cannot be undone.
-                                    </p>
                                     <p>
                                         Change Status Action:
                                     </p>
@@ -296,14 +294,17 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                             }
                                         />
                                     </div>
+                                    <p className={'font-medium'}>
+                                        Select one of the following options
+                                    </p>
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button
                                         isDisabled={isLoading}
                                         variant="light"
-                                        onPress={onClose}
+                                        onPress={() => handleChangeStatus(candidateIdx || 0)}
                                     >
-                                        {!isLoading && 'Cancel'}
+                                        {!isLoading && 'Change & Send Email'}
                                     </Button>
                                     <Button
                                         isDisabled={isLoading}
@@ -312,7 +313,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                         variant="light"
                                         onPress={() => handleChangeStatus(candidateIdx || 0)}
                                     >
-                                        {!isLoading && 'Change'}
+                                        {!isLoading && 'Change Status'}
                                     </Button>
                                 </ModalFooter>
                             </>

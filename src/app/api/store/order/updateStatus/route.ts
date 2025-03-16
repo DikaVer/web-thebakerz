@@ -118,17 +118,23 @@ export async function POST(request: Request) {
         }
 
         const newStatus = status.toLowerCase();
-        const currentIndex = validStatusOrder.indexOf(orderData.order_status);
+        // const currentIndex = validStatusOrder.indexOf(orderData.order_status);
         const newIndex = validStatusOrder.indexOf(newStatus);
 
-        console.log(currentIndex, newIndex);
-
-        if (newIndex <= currentIndex) {
+        if (newIndex === -1) {
             return NextResponse.json(
                 { error: 'Invalid Status' },
                 { status: 400 }
             );
         }
+        // console.log(currentIndex, newIndex);
+        //
+        // if (newIndex <= currentIndex) {
+        //     return NextResponse.json(
+        //         { error: 'Invalid Status' },
+        //         { status: 400 }
+        //     );
+        // }
 
         if (newStatus === "completed") {
             await updateOrderInPostgreSQL(storeId, orderId, email);
