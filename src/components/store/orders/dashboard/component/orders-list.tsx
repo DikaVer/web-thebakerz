@@ -5,7 +5,13 @@ import {Button, Card, Chip, cn, ScrollShadow, Spacer, Select, SelectItem} from "
 import { OrderData} from "@/lib/actions/order";
 import { Icon } from "@iconify/react";
 import { useLocale } from "next-intl";
-import {formatCurrency, formatDisplayDate, formatDisplayTime} from "@/lib/utils";
+import {
+    formatCurrency,
+    formatDisplayDate,
+    formatDisplayTime, formatScheduledDate,
+    formatScheduledDateTime,
+    formatScheduledTime
+} from "@/lib/utils";
 import { useStore } from "@/components/providers/store-provider";
 import { useRouter } from "next/navigation";
 import {OrderStatusChip, getStatusDisplayName} from "@/components/ui/status-chip";
@@ -234,7 +240,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                                 <div className="flex justify-between items-center">
                                                     <div className="flex flex-col">
                                                         <div className="text-sm text-default-500">
-                                                            {formatDisplayDate(order.scheduled_time.date, locale)} • {formatDisplayTime(order.scheduled_time.date + " " + order.scheduled_time.time, locale)}
+                                                            {formatScheduledDate(order.scheduled_time, locale)} • {formatScheduledTime(order.scheduled_time, locale)}
                                                         </div>
 
                                                     </div>

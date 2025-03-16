@@ -5,7 +5,7 @@ import {StoreData} from "@/lib/actions/store";
 import {OrderData, OrderStatus} from "@/lib/actions/order";
 import {Card, CardBody, CardHeader, Divider, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
-import {formatDisplayDate, formatDisplayTime} from "@/lib/utils";
+import {formatDisplayDate, formatDisplayTime, formatScheduledDate, formatScheduledTime} from "@/lib/utils";
 import {useLocale} from "next-intl";
 import HorizontalStepsOrder from "@/components/store/orders/overview/horizontal-steps-order";
 import {OrderStatusChip} from "@/components/ui/status-chip";
@@ -40,8 +40,8 @@ export const OrderStatusCard: React.FC<OrderStatusProps> = ({orderData}) => {
     const completed = orderData.order_status !== "cancelled" ? "Picked Up" : "Cancelled";
     const completedTime = orderData.order_status !== "cancelled" ? (
         <>
-            <div>{formatDisplayDate(orderData.scheduled_time.date, locale)}</div>
-            <div>at {formatDisplayTime(orderData.scheduled_time.date + " " + orderData.scheduled_time.time, locale)}</div>
+            <div>{formatScheduledDate(orderData.scheduled_time, locale)}</div>
+            <div>at {formatScheduledTime(orderData.scheduled_time, locale)}</div>
         </>
     ) : orderData.cancelledAt && formatDisplayDate(orderData.cancelledAt, locale);
 

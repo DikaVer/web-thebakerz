@@ -3,7 +3,7 @@ import React from "react";
 import {Icon} from "@iconify/react";
 import {Button, Spacer} from "@heroui/react";
 import GradientText from "@/components/ui/gradient-text";
-import {formatDisplayDateTime} from "@/lib/utils";
+import {formatDisplayDateTime, formatScheduledDateTime, formatScheduledTime} from "@/lib/utils";
 import {useLocale} from "next-intl";
 
 
@@ -19,7 +19,6 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({scheduleTime, s
 
     const locale = useLocale();
 
-    const pickUpTime = `${scheduleTime.date} ${scheduleTime.time}`;
 
     return (
         <section id={'Order Top Content'} className={'flex justify-between'}>
@@ -34,7 +33,7 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({scheduleTime, s
                         #{storeOrderId}
                     </GradientText>
                 </div>
-                <p className={'text-sm font-light text-default-600'}>{formatDisplayDateTime(pickUpTime, locale)}</p>
+                <p className={'text-sm font-light text-default-600'}>{formatScheduledDateTime(scheduleTime, locale)}</p>
             </div>
             <Button
                 startContent={
