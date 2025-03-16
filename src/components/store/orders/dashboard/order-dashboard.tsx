@@ -2,18 +2,16 @@
 import type {RangeValue} from "@react-types/shared";
 
 import React, {useEffect, useRef, useState, useTransition} from "react";
-import {RangeCalendar, Button, ButtonGroup, cn, Spacer} from "@heroui/react";
-import {useLocale} from "@react-aria/i18n";
-import {useMediaQuery} from "usehooks-ts";
+import {Spacer} from "@heroui/react";
 import {OrdersList} from "@/components/store/orders/dashboard/component/orders-list";
 import {OrdersBarChart} from "@/components/store/orders/dashboard/component/orders-bar-chart";
 import {motion} from "framer-motion";
 import {useStore} from "@/components/providers/store-provider";
-import {endOfMonth, endOfWeek, getLocalTimeZone, today, CalendarDate, startOfMonth} from "@internationalized/date";
+import {getLocalTimeZone, today, CalendarDate} from "@internationalized/date";
 import {getOrdersByDateRange, OrderData} from "@/lib/actions/order";
-import {CalendarDashboard} from "@/components/ui/calendar-dashboard";
 import { formatApiDate } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import {CalendarDashboard} from "@/components/store/orders/dashboard/component/calendar-dashboard";
 
 interface OrderDashboardProps {
     date?: string;

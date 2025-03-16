@@ -267,12 +267,13 @@ function CalendarDashboard({
                 <button
                     {...(dayRender.isButton ? dayRender.buttonProps : {})}
                     className={cn(
-                        "relative w-full h-full  flex items-center justify-center",
+                        "relative w-full h-full flex items-center justify-center",
                         elementProps.className,
-
                     )}
                     disabled={dayRender.isButton ? dayRender.buttonProps.disabled : undefined}
                     style={elementProps.style}
+                    onClick={() => handleDayClick(date)} // Ensure click works
+                    onTouchStart={() => handleDayClick(date)} // Add touch support
                 >
                     {date.getDate()}
                 </button>
@@ -328,6 +329,7 @@ function CalendarDashboard({
                     onDayClick={handleDayClick}
                     onDayMouseEnter={handleDayMouseEnter}
                     onDayMouseLeave={handleMouseLeave}
+                    onDayTouchStart={handleDayClick} // Add touch support for mobile devices
                     modifiers={modifiers}
                     modifiersClassNames={modifiersClassNames}
                     showOutsideDays={showOutsideDays}
