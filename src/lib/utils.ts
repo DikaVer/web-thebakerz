@@ -1,26 +1,16 @@
+
+import {CalendarDate, CalendarDateTime, getLocalTimeZone} from '@internationalized/date';
 import { clsx, type ClassValue } from 'clsx'
-import { customAlphabet } from 'nanoid'
 import { twMerge } from 'tailwind-merge'
-import {AddressDataStoreField} from "@/lib/definitions";
+import {format} from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function createNanoid(length: number) {
-  const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', length)
-  return nanoid();
-}
-
-
-export function formatAddress(address: AddressDataStoreField): string {
-    return [
-        address.route,
-        address.street_number,
-        address.premise,
-        address.sub_premise,
-        address.city
-    ].filter(Boolean).join(' ').trim().replace(/\s+/g, ', ');
+export const calculateTax = (amount: number, taxRate: number = 9) => {
+    const divider = 100 + taxRate;
+    return amount * taxRate / divider;
 }
 
 export const formatCurrency = (amount: number) => {
@@ -30,43 +20,125 @@ export const formatCurrency = (amount: number) => {
   });
 };
 
-export const formatCurrencyNormal = (amount: number) => {
-    return (amount).toLocaleString('en-GB', {
-        style: 'currency',
-        currency: 'EUR',
+// Convert a string date to CalendarDate
+export function toCalendarDate(dateString: string): CalendarDate {
+  try {
+    // Try ISO format (YYYY-MM-DD)
+    if (dateString.includes('-')) {
+      const [year, month, day] = dateString.split('-').map(Number);
+      return new CalendarDate(year, month, day);
+    }
+
+    // Fallback to native Date parsing
+    const date = new Date(dateString);
+    return new CalendarDate(
+        date.getFullYear(),
+        date.getMonth() + 1,
+        date.getDate()
+    );
+  } catch (e) {
+    console.error("Error parsing date:", e);
+    return new CalendarDate(1970, 1, 1); // Fallback
+  }
+}
+
+// Convert scheduled_time object to CalendarDateTime
+export function scheduledToCalendarDateTime(scheduled: { date: string, time: string }): CalendarDateTime {
+  try {
+    const [year, month, day] = scheduled.date.split('-').map(Number);
+    const [hour, minute] = scheduled.time.split(':').map(Number);
+    return new CalendarDateTime(year, month, day, hour, minute);
+  } catch (e) {
+    console.error("Error parsing scheduled time:", e);
+    return new CalendarDateTime(1970, 1, 1, 0, 0);
+  }
+}
+
+
+export function formatDisplayDateTime(dateInput: string | Date | CalendarDate | CalendarDateTime, locale: string): string {
+  try {
+    let date: Date;
+
+    if (dateInput instanceof CalendarDate) {
+      date = dateInput.toDate(getLocalTimeZone());
+    } else if (dateInput instanceof CalendarDateTime) {
+      date = dateInput.toDate(getLocalTimeZone());
+    } else {
+      date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+    }
+
+    return date.toLocaleString(locale, {
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
     });
-};
-
-export const formatPrice = (amount: number) => {
-    return (amount / 100)
-};
-
-export function formatDataDate(input: string | number | Date): string {
-    const date = new Date(input)
-    return date.toLocaleDateString('en-US', {
-        month: '2-digit',
-        day: '2-digit',
-        year: 'numeric',
-    })
+  } catch (e) {
+    console.error("Error formatting datetime:", e);
+    return "Invalid date";
+  }
 }
 
+export function formatDisplayDate(dateInput: string | Date | CalendarDate | CalendarDateTime, locale: string): string {
+  try {
+    let date: Date;
 
-export function formatDate(input: string | number | Date): string {
-  const date = new Date(input)
-  return date.toLocaleDateString('en-GB', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric',
-  })
+    if (dateInput instanceof CalendarDate) {
+      date = dateInput.toDate(getLocalTimeZone());
+    } else if (dateInput instanceof CalendarDateTime) {
+      date = dateInput.toDate(getLocalTimeZone());
+    } else {
+      date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+    }
+
+    return date.toLocaleString(locale, {
+      month: 'long',
+      day: 'numeric'
+    });
+  } catch (e) {
+    console.error("Error formatting date:", e);
+    return "Invalid date";
+  }
 }
 
-export function formatDateTime(input: string | number | Date): string {
-    const date = new Date(input)
-    return date.toLocaleString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-    })
+export function formatDisplayTime(dateInput: string | Date | CalendarDateTime, locale: string): string {
+  try {
+    let date: Date;
+
+    if (dateInput instanceof CalendarDateTime) {
+      date = dateInput.toDate(getLocalTimeZone());
+    } else {
+      date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+    }
+
+    return date.toLocaleString(locale, {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  } catch (e) {
+    console.error("Error formatting time:", e);
+    return "Invalid time";
+  }
+}
+
+export const formatApiDate = (date: Date) => {
+  return format(date, 'yyyy-M-dd');
+};
+
+// Format scheduled_time object directly
+export function formatScheduledDate(scheduled: { date: string, time: string }, locale: string): string {
+  const dateTime = scheduledToCalendarDateTime(scheduled);
+  return formatDisplayDate(dateTime, locale);
+}
+
+export function formatScheduledDateTime(scheduled: { date: string, time: string }, locale: string): string {
+  const dateTime = scheduledToCalendarDateTime(scheduled);
+  return formatDisplayDateTime(dateTime, locale);
+}
+
+export function formatScheduledTime(scheduled: { date: string, time: string }, locale: string): string {
+  const dateTime = scheduledToCalendarDateTime(scheduled);
+  return formatDisplayTime(dateTime, locale);
 }
 
 

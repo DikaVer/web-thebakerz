@@ -1,8 +1,11 @@
+'use server';
 import { ExternalLink } from '@/components/external-link'
 import {pacifico} from "@/components/fonts";
 import Image from "next/image";
 import React from "react";
 import {IconHeartCrack} from "@/components/ui/icons";
+import {StoreProvider} from "@/components/providers/store-provider";
+import LayoutComp from "@/components/layout-comp";
 
 export default async function NotFound() {
     return (
@@ -24,6 +27,7 @@ export default async function NotFound() {
                         The link you followed may be broken, or the page may have been removed.
                     </p>
                     <ExternalLink href="/">
+                        {/*<TranslateOnServer key={'Not Found'} value={"Go back to TheBakerz"}/>*/}
                         Go back to TheBakerz
                     </ExternalLink>
                 </div>

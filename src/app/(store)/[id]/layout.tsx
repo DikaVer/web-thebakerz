@@ -1,12 +1,5 @@
 import '@/styles/globals.css'
 import React from "react";
-import {Footer} from "@/components/footer";
-import {extractSession} from "@/lib/actions/session-actions";
-import {CartProvider} from "@/components/providers/cart-provider";
-import {fetchStoreId} from "@/lib/actions-server-only/store-actions";
-import {ProductDialogProvider} from "@/components/providers/product-provider";
-import LayoutComp from "@/components/layout-comp";
-
 
 type Params = Promise<{ id: string  }>
 
@@ -25,26 +18,9 @@ export default async function Layout({
 
     const { id } = await params
 
-
-    const [sessionRole, storeData] = await Promise.all([
-        extractSession(),
-        fetchStoreId(id)
-    ]);
-
     return (
-        <>
-            <CartProvider
-                storeData={storeData}
-            >
-                <ProductDialogProvider>
-                        <LayoutComp
-                            session={sessionRole}
-                        >
-                            {children}
-                            <Footer/>
-                        </LayoutComp>
-                </ProductDialogProvider>
-            </CartProvider>
-        </>
+        <div className={'min-h-svh'}>
+            {children}
+        </div>
     );
 }

@@ -1,15 +1,31 @@
 'use client'
 
-import {HeroUIProvider} from "@heroui/react";
+import {
+    QueryClient,
+    QueryClientProvider,
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            //@ts-ignore
+            suspense: true,
+        },
+    },
+})
+
+import {HeroUIProvider, ToastProvider} from "@heroui/react";
 import dynamic from 'next/dynamic'
-import {CookieConsentProvider} from "@/components/CookieConsentContext";
 import {useRouter} from "next/navigation";
+import {SessionProvider} from "@/components/providers/session-provider";
+import {SessionValidationResult} from "@/lib/actions/session";
 const NextThemesProvider = dynamic(
     () => import('next-themes').then((e) => e.ThemeProvider),
     {
         ssr: false,
     }
 )
+
 
 declare module "@react-types/shared" {
     interface RouterConfig {
@@ -18,18 +34,35 @@ declare module "@react-types/shared" {
 }
 
 
-export function Providers({children}: { children: React.ReactNode }) {
+export function Providers({session, children, locale}: {
+    session: SessionValidationResult,
+    locale: string,
+    children: React.ReactNode
+}) {
     const router = useRouter();
 
     return (
             <HeroUIProvider
+                locale={locale}
                 navigate={router.push}
+
             >
-                <CookieConsentProvider>
-                    <NextThemesProvider attribute="class" defaultTheme="light">
-                        {children}
-                    </NextThemesProvider>
-                </CookieConsentProvider>
+                <NextThemesProvider attribute="class" defaultTheme="light">
+                    <QueryClientProvider client={queryClient}>
+                        <SessionProvider sessionData={session}>
+                            <div className={'relative z-60'}>
+                                <ToastProvider
+                                    toastProps={{
+                                        classNames: {
+                                            base: 'z-60',
+                                        }
+                                    }}
+                                />
+                            </div>
+                            {children}
+                        </SessionProvider>
+                    </QueryClientProvider>
+                </NextThemesProvider>
             </HeroUIProvider>
     )
 }

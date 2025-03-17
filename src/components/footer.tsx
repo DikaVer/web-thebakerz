@@ -1,119 +1,51 @@
-// import * as React from "react";
-//
-// export function Footer() {
-//   return (
-//       <footer className=" border-t bg-grayBg rounded-xl">
-//           <div className="mx-4 desktop:mx-10 flex flex-col">
-//               <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-24">
-//                   <a
-//                       className={"text-2xl font-bold text-ui-fg-subtle hover:text-ui-fg-base"}
-//                       href={"/"}
-//                   >
-//                       TheBakerz
-//                   </a>
-//                   <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
-//                       <div className="flex flex-col gap-y-2">
-//                           <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
-//                               <li>
-//                                   <a
-//                                       href="/join-thebakerz"
-//                                       className="hover:text-ui-fg-base"
-//                                   >
-//                                       Work with Bakerz
-//                                   </a>
-//                               </li>
-//                               <li>
-//                                   <a
-//                                       href="/support"
-//                                       className="hover:text-ui-fg-base"
-//                                   >
-//                                       Get Help
-//                                   </a>
-//                               </li>
-//                           </ul>
-//                       </div>
-//                       <div className="flex flex-col gap-y-2">
-//                           <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
-//                               <li>
-//                                   <a
-//                                       href="/policies/privacy-policy"
-//                                   >
-//                                       Privacy Policy
-//                                   </a>
-//                               </li>
-//                               <li>
-//                                   <a
-//                                       href="/policies/terms-of-use"
-//                                   >
-//                                       Terms of Use
-//                                   </a>
-//                               </li>
-//                           </ul>
-//                       </div>
-//                   </div>
-//               </div>
-//               <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-//                   <p className="font-normal font-sans txt-medium txt-compact-small">
-//                       © {new Date().getFullYear()} TheBakerz. All rights reserved.
-//                   </p>
-//               </div>
-//           </div>
-//       </footer>
-//   )
-// }
-
 "use client";
 
 import type {IconProps} from "@iconify/react";
 
-import React, {useState} from "react";
-import {Button, Image, Input, Link, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@heroui/react";
+import React from "react";
+import {Image, Link} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {pacifico} from "@/components/fonts";
-import {backdropEffect} from "@/lib/local-variables";
-import confetti from "canvas-confetti";
+import {useTranslations} from "next-intl";
 
 type SocialIconProps = Omit<IconProps, "icon">;
 
-const footerNavigation = {
-    overview: [
-        {name: "TheBakerz", href: "/"},
-        {name: "About TheBakerz", href: "/about-us"},
-        {name: "Join TheBakerz", href: "/#join-thebakerz"},
-        // {name: "Market Research", href: "#"},
-    ],
-    supportOptions: [
-        {name: "Get Help", href: "/support"},
-        // {name: "User Guides", href: "#"},
-        // {name: "Tutorials", href: "#"},
-        // {name: "Service Status", href: "#"},
-    ],
-    legal: [
-        {name: "Privacy Policy", href: "/policies/privacy-policy"},
-        {name: "Terms of use", href: "/policies/terms-of-use"},
-        {name: "Refund Policy", href: "/policies/refund-policy"},
-        // {name: "User Agreement", href: "#"},
-    ],
-    social: [
-        {
-            name: "LinkedIn",
-            href: "https://www.linkedin.com/company/thebakerz",
-            icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:linkedin" />,
-        },
-        {
-            name: "Instagram",
-            href: "https://www.instagram.com/thebakerz.official",
-            icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:instagram" />,
-        },
-        {
-            name: "Twitter",
-            href: "https://x.com/the_bakerz",
-            icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:twitter" />,
-        }
-    ],
-};
+const Footer = () => {
+    const t = useTranslations("TheBakerz");
 
-export function Footer() {
+    const footerNavigation = {
+        overview: [
+            {name: t("BrandName"), href: "/"},
+            {name: t("AboutTheBakerz"), href: "/about-us"},
+            {name: t("JoinTheBakerz"), href: "/#join-thebakerz"},
+        ],
+        supportOptions: [
+            {name: t("GetHelp"), href: "/support"},
+        ],
+        legal: [
+            {name: t("PrivacyPolicy"), href: "/policies/privacy-policy"},
+            {name: t("TermsOfUse"), href: "/policies/terms-of-use"},
+            {name: t("RefundPolicy"), href: "/policies/refund-policy"},
+        ],
+        social: [
+            {
+                name: t("LinkedIn"),
+                href: "https://www.linkedin.com/company/thebakerz",
+                icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:linkedin" />,
+            },
+            {
+                name: t("Instagram"),
+                href: "https://www.instagram.com/thebakerz.official",
+                icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:instagram" />,
+            },
+            {
+                name: t("Twitter"),
+                href: "https://x.com/the_bakerz",
+                icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:twitter" />,
+            }
+        ],
+    };
+
     const renderList = React.useCallback(
         ({title, items}: {title: string; items: {name: string; href: string}[]}) => (
             <div>
@@ -146,10 +78,10 @@ export function Footer() {
                                 width={42}
                                 height={42}
                             />
-                            <span className={`text-3xl ml-2 ${pacifico.className}`}>TheBakerz</span>
+                            <span className={`text-3xl ml-2 ${pacifico.className}`}>{t("BrandName")}</span>
                         </a>
                         <p className="text-small text-grayText">
-                            © {new Date().getFullYear()} TheBakerz. All rights reserved.
+                            © {new Date().getFullYear()} {t("Copyright")}
                         </p>
                         <div className="flex space-x-6">
                             {footerNavigation.social.map((item) => (
@@ -162,15 +94,14 @@ export function Footer() {
                     </div>
                     <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
                         <div className="md:grid md:grid-cols-2 md:gap-8">
-                            <div>{renderList({title: "Navigation", items: footerNavigation.overview})}</div>
+                            <div>{renderList({title: t("Navigation"), items: footerNavigation.overview})}</div>
                             <div className="mt-10 md:mt-0">
-                                {renderList({title: "Support", items: footerNavigation.supportOptions})}
+                                {renderList({title: t("Support"), items: footerNavigation.supportOptions})}
                             </div>
                         </div>
                         <div className="md:grid md:grid-cols-2 md:gap-8">
-                            {/*<div>{renderList({title: "Services", items: footerNavigation.services})}</div>*/}
                             <div className="mt-10 md:mt-0">
-                                {renderList({title: "Legal", items: footerNavigation.legal})}
+                                {renderList({title: t("Legal"), items: footerNavigation.legal})}
                             </div>
                         </div>
                     </div>
@@ -179,3 +110,5 @@ export function Footer() {
         </footer>
     );
 }
+
+export { Footer };

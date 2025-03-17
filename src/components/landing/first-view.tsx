@@ -6,6 +6,7 @@ import { pacifico } from "@/components/fonts";
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useInView } from "@/lib/hooks/useInView";
 import { Image } from "@heroui/react";
+import {useTranslations} from 'next-intl';
 
 import { Button } from "@/components/ui/button";
 
@@ -19,6 +20,9 @@ export function FirstView() {
         router.refresh();
         setLoading(false);
     };
+
+    const t = useTranslations('HomePage')
+
 
     const [aboutusRef, aboutusInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
 
@@ -57,12 +61,11 @@ export function FirstView() {
                     <div className="text-center">
                         <h1 ref={headingRef} className={`${pacifico.className} flex flex-col bg-gradient-text py-8 text-balance text-5xl font-semibold tracking-tight  sm:text-7xl opacity-0 mb-12 
                         ${headingInView ? 'animate-fadeInUpDelay2' : ''}`}>
-                            <p>Bake more.</p>
-                            <p>Manage less.</p>
+                            {t('title')}
                         </h1>
                         <p ref={subheadingRef}
                            className={`text-pretty flex flex-col text-lg font-medium text-grayText sm:text-xl/8  opacity-0 ${subheadingInView ? 'animate-fadeInUpDelay3' : ''}`}>
-                            <span>TheBakerz - all orders, customer messages and recipes in one place</span>
+                            <span>{t('subtitle')}</span>
                         </p>
                         <div ref={buttonRef}
                              className={`mt-10 flex items-center justify-center gap-x-6 opacity-0 ${buttonInView ? 'animate-fadeInUpDelay4' : ''}`}>
@@ -82,14 +85,14 @@ export function FirstView() {
                                         ) : (
                                             <div className="px-6 flex flex-col"
                                             >
-                                                Get started
+                                                {t('get started')}
                                             </div>
                                         )}
                                     </>
                                 </Button>
                             </div>
                             <a href="#why-choose" className="text-sm/6 font-semibold text-text">
-                                Learn more <span aria-hidden="true">&rarr;</span>
+                                {t('learn more')} <span aria-hidden="true">&rarr;</span>
                             </a>
                         </div>
                     </div>
@@ -104,18 +107,18 @@ export function FirstView() {
                         />
                     </div>
                 </div>
-                {/*<div*/}
-                {/*    aria-hidden="true"*/}
-                {/*    className="absolute inset-x-0 top-[calc(60%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(65%-30rem)]"*/}
-                {/*>*/}
-                {/*    <div*/}
-                {/*        style={{*/}
-                {/*            clipPath:*/}
-                {/*                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',*/}
-                {/*        }}*/}
-                {/*        className="relative left-[calc(50%rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-11rem)] sm:w-[73rem]"*/}
-                {/*    />*/}
-                {/*</div>*/}
+                <div
+                    aria-hidden="true"
+                    className="absolute inset-x-0 top-[calc(60%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(65%-30rem)]"
+                >
+                    <div
+                        style={{
+                            clipPath:
+                                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+                        }}
+                        className="relative left-[calc(50%rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-11rem)] sm:w-[73rem]"
+                    />
+                </div>
                 <div
                     aria-hidden="true"
                     className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"

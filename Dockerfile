@@ -1,70 +1,92 @@
-# syntax=docker.io/docker/dockerfile:1
+# Use an argument for the Node version (default: 20-alpine)
+ARG NODE_VERSION=20-alpine
+FROM node:${NODE_VERSION} AS base
 
-FROM node:20-alpine AS base
+# Enable Corepack and prepare pnpm (using a supported version, e.g. 8.7.0)
+RUN corepack enable && corepack prepare pnpm@8.7.0 --activate
 
-# Install dependencies only when needed
+# --- Define build arguments with default (dummy) values ---
+# These defaults are used during the build so that Next.js does not fail when it
+# attempts to parse environment variables that it expects to be valid URLs, etc.
+ARG NEXT_PRIVATE_COSMOS_DB_KEY_ARG="dummy-cosmos-db-key"
+ARG NEXT_PRIVATE_COSMOS_DB_URI_ARG="https://dummy-cosmos-db-uri"
+ARG NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT_ARG="https://dummy.azurecommendpoint"
+ARG NEXT_PRIVATE_AZURE_STORAGE_CONNECTION_STRING_ARG="DefaultEndpointsProtocol=https;AccountName=dummy;AccountKey=dummy;EndpointSuffix=core.windows.net"
+ARG NEXT_PRIVATE_DATABASE_HOST_ARG="localhost"
+ARG NEXT_PRIVATE_DATABASE_NAME_ARG="dummy"
+ARG NEXT_PRIVATE_DATABASE_PASSWORD_ARG="dummy"
+ARG NEXT_PRIVATE_DATABASE_URL_ARG="http://localhost:5432/dummy"
+ARG NEXT_PRIVATE_DATABASE_USER_ARG="dummy"
+ARG NEXT_PRIVATE_EMAIL_FROM_ARG="dummy@example.com"
+ARG NEXT_PRIVATE_GOOGLE_CLIENT_ID_ARG="dummy-google-client-id"
+ARG NEXT_PRIVATE_GOOGLE_CLIENT_SECRET_ARG="dummy-google-client-secret"
+ARG NEXT_PUBLIC_API_BASE_URL_ARG="http://localhost:3000"
+ARG NEXT_PUBLIC_AZURE_MAPS_KEY_ARG="7bzv2NVJ68C9d1wabxtxLOeTC7mPcV4fZFoYcfBHZqVkXfQodKdAJQQJ99BBAC5RqLJpEl2BAAAgAZMP49OS"
+ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_ARG="pk_test_51QstCP4fjZXKNzErULgaAhn6KPl504SZ6WiR6XQIS4puiYRIYGbrbLbxSxqw3i4mIlscMGrJot0Hm63w5cVeQ9bg00befjhUUt"
+ARG NEXT_PRIVATE_STRIPE_SECRET_KEY_ARG="dummy"
+ARG NEXT_PRIVATE_BLOB_AVATAR_CONTAINER_ARG="dummy"
+ARG NEXT_PRIVATE_BLOB_PRODUCTS_CONTAINER_ARG="dummy"
+ARG NEXT_PRIVATE_COSMOS_DB_NAME_ARG="dummy"
+
+# --- Dependencies Stage ---
 FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
+# Copy only package files first to leverage Docker cache
+COPY package.json pnpm-lock.yaml .npmrc* ./
+RUN pnpm i --frozen-lockfile
 
-
-RUN npm i -g corepack@latest
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
-
-
-# Rebuild the source code only when needed
+# --- Build Stage ---
 FROM base AS builder
 WORKDIR /app
+# Copy dependencies and then the rest of your source code
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN npm i -g corepack@latest
+# Set environment variables for the build stage using the build args.
+ENV NEXT_PRIVATE_COSMOS_DB_KEY=${NEXT_PRIVATE_COSMOS_DB_KEY_ARG} \
+    NEXT_PRIVATE_COSMOS_DB_URI=${NEXT_PRIVATE_COSMOS_DB_URI_ARG} \
+    NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT=${NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT_ARG} \
+    NEXT_PRIVATE_AZURE_STORAGE_CONNECTION_STRING=${NEXT_PRIVATE_AZURE_STORAGE_CONNECTION_STRING_ARG} \
+    NEXT_PRIVATE_DATABASE_HOST=${NEXT_PRIVATE_DATABASE_HOST_ARG} \
+    NEXT_PRIVATE_DATABASE_NAME=${NEXT_PRIVATE_DATABASE_NAME_ARG} \
+    NEXT_PRIVATE_DATABASE_PASSWORD=${NEXT_PRIVATE_DATABASE_PASSWORD_ARG} \
+    NEXT_PRIVATE_DATABASE_URL=${NEXT_PRIVATE_DATABASE_URL_ARG} \
+    NEXT_PRIVATE_DATABASE_USER=${NEXT_PRIVATE_DATABASE_USER_ARG} \
+    NEXT_PRIVATE_EMAIL_FROM=${NEXT_PRIVATE_EMAIL_FROM_ARG} \
+    NEXT_PRIVATE_GOOGLE_CLIENT_ID=${NEXT_PRIVATE_GOOGLE_CLIENT_ID_ARG} \
+    NEXT_PRIVATE_GOOGLE_CLIENT_SECRET=${NEXT_PRIVATE_GOOGLE_CLIENT_SECRET_ARG} \
+    NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL_ARG} \
+    NEXT_PUBLIC_AZURE_MAPS_KEY=${NEXT_PUBLIC_AZURE_MAPS_KEY_ARG} \
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_ARG} \
+    NEXT_PRIVATE_STRIPE_SECRET_KEY=${NEXT_PRIVATE_STRIPE_SECRET_KEY_ARG} \
+    NEXT_PRIVATE_BLOB_AVATAR_CONTAINER=${NEXT_PRIVATE_BLOB_AVATAR_CONTAINER_ARG} \
+    NEXT_PRIVATE_BLOB_PRODUCTS_CONTAINER=${NEXT_PRIVATE_BLOB_PRODUCTS_CONTAINER_ARG} \
+    NEXT_PRIVATE_COSMOS_DB_NAME=${NEXT_PRIVATE_COSMOS_DB_NAME_ARG}
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED=1
+# Run the Next.js build (this makes these env variables available during build)
+RUN pnpm run build
 
-RUN \
-  if [ -f yarn.lock ]; then yarn run build; \
-  elif [ -f package-lock.json ]; then npm run build; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
-
-# Production image, copy all the files and run next
+# --- Production (Runner) Stage ---
 FROM base AS runner
 WORKDIR /app
-
 ENV NODE_ENV=production
-# Uncomment the following line in case you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+# Create a non-root user for better security
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
 
+# Copy public assets and build outputs (standalone output and static assets)
 COPY --from=builder /app/public ./public
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
+RUN mkdir -p .next && chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-USER nextjs
-
+# Expose the port and set additional runtime environment variables
 EXPOSE 3000
-
 ENV PORT=3000
-
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/next-config-js/output
 ENV HOSTNAME="0.0.0.0"
+
+# Switch to the non-root user and start the server
+USER nextjs
 CMD ["node", "server.js"]

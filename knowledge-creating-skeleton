@@ -1,0 +1,50 @@
+# Creating Effective Skeleton Screens in React
+
+Skeleton screens are loading placeholders that mimic the layout of content before it fully loads. They create a better user experience by reducing perceived loading times.
+
+## Key Principles for Effective Skeletons
+
+1. **Match the actual UI structure**: Skeletons should closely mimic the final rendered component's layout and proportions.
+
+2. **Use the same spacing and dimensions**: Maintain consistent spacing and sizing between skeleton elements and their final counterparts.
+
+3. **Simplify complex elements**: Represent complex UI elements with simpler shapes while maintaining their general dimensions.
+
+4. **Add subtle animation**: A subtle pulse or shimmer effect can indicate that content is loading rather than frozen.
+
+5. **Consider component hierarchy**: If components have parent-child relationships, create skeletons that reflect this structure.
+
+## Implementation in React
+
+### Libraries
+
+- **react-loading-skeleton**: Simple, customizable skeleton components
+- **react-content-loader**: SVG-based loading skeletons with customizable animations
+- **@heroui/react-skeleton**: If using HeroUI, use its built-in skeleton components
+
+### Best Practices
+
+1. **Extract reusable skeleton components**: Create dedicated skeleton components for common UI patterns.
+
+2. **Use conditional rendering**: Show skeletons only when data is loading.
+
+3. **Match the number of skeleton items**: Display approximately the same number of skeleton items as you expect to show.
+
+4. **Consider responsive design**: Adjust skeleton layouts for different screen sizes just as you would with regular components.
+
+5. **Apply appropriate colors**: Use colors that match your theme and have sufficient contrast without being too distracting.
+
+6. **Organize by layout sections**: Structure skeletons to match logical UI sections (header, content, footer).
+
+7. **Include interaction states**: If your UI has hover or focus states, consider how those will appear in skeleton form.
+
+## Skeleton Elements for Common UI Components
+
+### Headers and Navigation
+```tsx
+// Navigation tabs skeleton
+<div className="flex space-x-4">
+  <Skeleton height={40} width={80} />
+  <Skeleton height={40} width={100} />
+  <Skeleton height={40} width={90} />
+</div>

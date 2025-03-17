@@ -1,7 +1,13 @@
 "use server";
 
 import {ExpiringTokenBucket, RefillingTokenBucket} from "@/lib/actions/rate-limits";
-import {createSession, generateSessionToken, getCurrentSession, setSessionTokenCookie} from "@/lib/actions/session";
+import {
+    createSession,
+    generateSessionToken,
+    getCurrentSession,
+    SessionValidationResult,
+    setSessionTokenCookie
+} from "@/lib/actions/session";
 import { headers } from "next/headers";
 import { globalPOSTRateLimit} from "@/lib/actions/requests";
 
@@ -14,7 +20,7 @@ import {
     createEmailVerificationRequest,
     deleteUserEmailVerificationRequest, EmailVerificationRequest, getUserEmailVerificationRequest,
     sendVerificationEmail, sendVerificationEmailBucket
-} from "@/lib/actions/email-verification";
+} from "@/lib/actions/auth/email-verification";
 
 
 const ipBucket = new RefillingTokenBucket<string>(20, 1);
@@ -27,7 +33,7 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
     }
     // TODO: Assumes X-Forwarded-For is always included.
     const reqHeaders = await headers();
-    const clientIP = reqHeaders.get("X-Forwarded-For");
+    const clientIP = reqHeaders.get("x-forwarded-for");
     if (clientIP !== null && !ipBucket.check(clientIP, 1)) {
         return {
             message: "Too many requests"
@@ -63,9 +69,15 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
     return null;
 }
 
-const bucket = new ExpiringTokenBucket<string>(5, 60 * 30);
 
-export async function verifyEmailAction(_prev: ActionResult, formData: z.infer<typeof OTPSchema>): Promise<ActionResult> {
+
+export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<typeof OTPSchema>): Promise<ActionLogin> {
+    if (!await globalPOSTRateLimit()) {
+        return {
+            message: "Too many requests"
+        };
+    }
+
     const validation = OTPSchema.safeParse(formData);
     if (!validation.success) {
         return {
@@ -83,15 +95,9 @@ export async function verifyEmailAction(_prev: ActionResult, formData: z.infer<t
 
     const code = formData.otp;
 
-    if (!await globalPOSTRateLimit()) {
-        return {
-            message: "Too many requests"
-        };
-    }
-
 
     const reqHeaders = await headers();
-    const clientIP = reqHeaders.get("X-Forwarded-For");
+    const clientIP = reqHeaders.get("x-forwarded-for");
     if (clientIP !== null && !ipBucket.check(clientIP, 1)) {
         return {
             message: "Too many requests"
@@ -128,16 +134,19 @@ export async function verifyEmailAction(_prev: ActionResult, formData: z.infer<t
     }
 
 
-    const sessionToken = generateSessionToken();
-    const session = createSession(sessionToken, user.id);
-    //@ts-ignore
-    await setSessionTokenCookie(sessionToken, session.expiresAt);
+    const sessionToken =  generateSessionToken();
+    const session = await createSession(sessionToken, user.id);
 
+    await setSessionTokenCookie(sessionToken, session.expiresAt);
     await deleteUserEmailVerificationRequest(user.id);
     await updateUserEmailAndSetEmailAsVerified(user.id, verificationRequest.email);
     await deleteEmailVerificationRequestCookie();
+    await acceptTOS(user.email, TOS_VERSION, clientIP || "Not Available", "explicit", "login");
+    revalidateTag('session');
 
-    return null;
+    return {
+        session: await getCurrentSession()
+    };
 }
 
 export async function resendEmailVerificationCodeAction(email: string): Promise<ActionResult> {
@@ -177,6 +186,9 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
 }
 
 import { cookies } from "next/headers";
+import {revalidateTag} from "next/cache";
+import {acceptTOS} from "@/lib/term-of-service";
+import {TOS_VERSION} from "@/lib/local-variables";
 
 
 export async function setEmailVerificationRequestCookie(request: EmailVerificationRequest): Promise<void> {
@@ -222,4 +234,6 @@ export async function getUserEmailVerificationRequestFromRequest(userId: string)
 }
 
 
-export type ActionResult = { message: string } | null;
+export type ActionResult = { message: string } | null ;
+
+export type ActionLogin = { session?: SessionValidationResult, message?: string};

@@ -7,154 +7,138 @@ import {pacifico} from "@/components/fonts";
 /**
  * Please check the https://nextui.org/docs/guide/routing to have a seamless router integration
  */
-
-
-export const sectionItemsUser: SidebarItem[] = [
+export const sectionItemsGuestTheBakerz: SidebarItem[] = [
     {
-        key: "account",
-        title: "Account",
-        items: [
-            {
-                key: "orders",
-                href: "/orders",
-                title: "Orders",
-                icon: "solar:bill-list-broken",
-            },
-            {
-                key: "chat",
-                href: "/chat",
-                icon: "solar:chat-round-line-broken",
-                title: "Chat",
-            },
-            {
-                key: "favorites",
-                href: "/favorites",
-                icon: "solar:chat-square-like-broken",
-                title: "Favorites",
-            },
-            {
-                key: "payments",
-                href: "/payments",
-                icon: "solar:wallet-money-broken",
-                title: "Payments",
-            },
-        ],
+        key: "",
+        href: "/",
+        icon: "solar:home-2-linear",
+        titleKey: "App Name" // Changed to key
     },
     {
-        key: "overview",
-        title: "Overview",
+        key: "about-us",
+        href: "/about-us",
+        icon: "solar:users-group-two-rounded-outline",
+        titleKey: "AboutTheBakerz", // Changed to key
+    },
+    {
+        key: "#join-thebakerz",
+        href: "/#join-thebakerz",
+        titleKey: "JoinTheBakerz", // Changed to key
+        icon: "solar:chef-hat-heart-broken",
+    }
+];
+
+export const sectionItemsGuestStore: SidebarItem[] = [
+    {
+        key: "",
+        href: "/auth",
+        icon: "line-md:login",
+        titleKey: "SignIn" // Changed to key
+    },
+];
+
+export const sectionStoreItemsUser: SidebarItem[] = [
+    {
+        key: "account",
+        titleKey: "Account", // Changed to key
+        items: [
+            // {
+            //     key: "payments",
+            //     href: "/payments",
+            //     icon: "solar:wallet-money-broken",
+            //     titleKey: "Payments", // Changed to key
+            // },
+        ],
+    }
+];
+
+export const sectionItemsTheBakerz: SidebarItem[] = [
+    {
+        key: "navigation",
+        titleKey: "Navigation", // Changed to key
         items: [
             {
                 key: "",
                 href: "/",
                 icon: "solar:home-2-linear",
-                title: "Home",
-            },
-            {
-                key: "search",
-                href: "/search",
-                icon: "lucide:search",
-                title: "Search",
-                endContent: (
-                    <Chip size="md" className={`${pacifico.className}`} variant="flat">
-                        Coming soon!        </Chip>
-                ),
+                titleKey: "App Name", // Changed to key
             },
             {
                 key: "about-us",
                 href: "/about-us",
                 icon: "solar:users-group-two-rounded-outline",
-                title: "About Us",
+                titleKey: "AboutTheBakerz", // Changed to key
             },
             {
                 key: "#join-thebakerz",
                 href: "/#join-thebakerz",
-                title: "Join TheBakerz",
+                titleKey: "JoinTheBakerz", // Changed to key
                 icon: "solar:chef-hat-heart-broken",
             }
         ],
     },
 ];
 
+export const sectionItemsUser: SidebarItem[] = [
+    ...sectionStoreItemsUser,
+    ...sectionItemsTheBakerz
+];
+
 export const sectionItemsBakerz: SidebarItem[] = [
+    {
+        key: "navigation",
+        titleKey: "Navigation", // Changed to key
+        items: [
+            {
+                key: "",
+                href: "/",
+                icon: "solar:home-2-linear",
+                titleKey: "App Name", // Changed to key
+            },
+            {
+                key: "about-us",
+                href: "/about-us",
+                icon: "solar:users-group-two-rounded-outline",
+                titleKey: "AboutTheBakerz", // Changed to key
+            }
+        ],
+    },
 ];
 
 export const sectionItemsAdmin: SidebarItem[] = [
     {
         key: "account",
-        title: "Account",
+        titleKey: "Account", // Changed to key
         items: [
-            {
-                key: "orders",
-                href: "/orders",
-                title: "Orders",
-                icon: "solar:bill-list-broken",
-            },
-            {
-                key: "chat",
-                href: "/chat",
-                icon: "solar:chat-round-line-broken",
-                title: "Chat",
-            },
-            {
-                key: "favorites",
-                href: "/favorites",
-                icon: "solar:chat-square-like-broken",
-                title: "Favorites",
-            },
-            {
-                key: "payments",
-                href: "/payments",
-                icon: "solar:wallet-money-broken",
-                title: "Payments",
-            },
             {
                 key: "dashboard-navigation",
                 icon: "solar:widget-2-outline",
-                title: "Dashboard",
+                titleKey: "Dashboard", // Changed to key
                 type: SidebarItemType.Nest,
                 items: [
                     {
                         key: "dashboard",
                         icon: "solar:bomb-emoji-broken",
                         href: "/dashboard",
-                        title: "Overview",
-                    },
-                    {
-                        key: "dashboard/applications",
-                        icon: "solar:chef-hat-broken",
-                        href: "/dashboard/applications",
-                        title: "Applications",
+                        titleKey: "Overview", // Changed to key
                     },
                     {
                         key: "dashboard/orders",
-                        icon: "solar:bill-list-broken",
+                        icon: "solar:notification-unread-lines-broken",
                         href: "/dashboard/orders",
-                        title: "Orders",
+                        titleKey: "Orders", // Changed to key
                     },
                     {
                         key: "dashboard/users",
                         icon: "solar:user-hand-up-broken",
                         href: "/dashboard/users",
-                        title: "Users",
+                        titleKey: "Users", // Changed to key
                     },
                     {
-                        key: "dashboard/stores",
+                        key: "dashboard/stripe",
                         icon: "solar:shop-2-broken",
-                        href: "/dashboard/stores",
-                        title: "Stores",
-                    },
-                    {
-                        key: "dashboard/settings",
-                        icon: "solar:settings-broken",
-                        href: "/dashboard/settings",
-                        title: "Settings",
-                    },
-                    {
-                        key: "dashboard/session",
-                        icon: "solar:accessibility-broken",
-                        href: "/dashboard/session",
-                        title: "Session",
+                        href: "/dashboard/stripe",
+                        titleKey: "Stripe", // Changed to key
                     },
                 ],
             },
@@ -162,236 +146,20 @@ export const sectionItemsAdmin: SidebarItem[] = [
     },
     {
         key: "navigation",
-        title: "Navigation",
+        titleKey: "Navigation", // Changed to key
         items: [
             {
                 key: "",
                 href: "/",
                 icon: "solar:home-2-linear",
-                title: "TheBakerz",
-            },
-            {
-                key: "search",
-                href: "/search",
-                icon: "lucide:search",
-                title: "Search",
-                endContent: (
-                    <Chip size="md" className={`${pacifico.className}`} variant="flat">
-                        Coming soon!        </Chip>
-                ),
+                titleKey: "App Name", // Changed to key
             },
             {
                 key: "about-us",
                 href: "/about-us",
                 icon: "solar:users-group-two-rounded-outline",
-                title: "About TheBakerz",
-            },
-            {
-                key: "#join-thebakerz",
-                href: "/#join-thebakerz",
-                title: "Join TheBakerz",
-                icon: "solar:chef-hat-heart-broken",
+                titleKey: "AboutTheBakerz", // Changed to key
             }
         ],
-    },
-];
-
-export const sectionItemsGuestTheBakerz: SidebarItem[] = [
-        {
-            key: "",
-            href: "/",
-            icon: "solar:home-2-linear",
-            title: "TheBakerz",
-        },
-        // {
-        //     key: "search",
-        //     href: "/search",
-        //     icon: "lucide:search",
-        //     title: "Search",
-        //     endContent: (
-        //         <Chip size="md" className={`${pacifico.className}`} variant="flat">
-        //             Coming soon!        </Chip>
-        //     ),
-        // },
-        {
-            key: "about-us",
-            href: "/about-us",
-            icon: "solar:users-group-two-rounded-outline",
-            title: "About TheBakerz",
-        },
-        {
-            key: "#join-thebakerz",
-            href: "/#join-thebakerz",
-            title: "Join TheBakerz",
-            icon: "solar:chef-hat-heart-broken",
-        }
-];
-
-
-export const brandItems: SidebarItem[] = [  {
-    key: "overview",
-    title: "Overview",
-    items: [
-        {
-            key: "home",
-            href: "#",
-            icon: "solar:home-2-linear",
-            title: "Home",
-        },
-        {
-            key: "projects",
-            href: "#",
-            icon: "solar:widget-2-outline",
-            title: "Projects",
-            endContent: (
-                <Icon
-                    className="text-primary-foreground/60"
-                    icon="solar:add-circle-line-duotone"
-                    width={24}
-                />
-            ),
-        },
-        {
-            key: "tasks",
-            href: "#",
-            icon: "solar:checklist-minimalistic-outline",
-            title: "Tasks",
-            endContent: (
-                <Icon
-                    className="text-primary-foreground/60"
-                    icon="solar:add-circle-line-duotone"
-                    width={24}
-                />
-            ),
-        },
-        {
-            key: "team",
-            href: "#",
-            icon: "solar:users-group-two-rounded-outline",
-            title: "Team",
-        },
-        {
-            key: "tracker",
-            href: "#",
-            icon: "solar:sort-by-time-linear",
-            title: "Tracker",
-            endContent: (
-                <Chip className="bg-primary-foreground font-medium text-primary" size="sm" variant="flat">
-                    New          </Chip>
-            ),
-        },
-    ],
-},
-    {
-        key: "your-teams",
-        title: "Your Teams",
-        items: [
-            {
-                key: "nextui",
-                href: "#",
-                title: "NextUI",
-            },
-            {
-                key: "tailwind-variants",
-                href: "#",
-                title: "Tailwind Variants",
-            },
-            {
-                key: "nextui-pro",
-                href: "#",
-                title: "NextUI Pro",
-            },
-        ],
-    },
-];
-
-
-export const sectionNestedItems: SidebarItem[] = [  {
-    key: "home",
-    href: "#",
-    icon: "solar:home-2-linear",
-    title: "Home",
-},
-    {
-        key: "projects",
-        href: "#",
-        icon: "solar:widget-2-outline",
-        title: "Projects",
-        endContent: (
-            <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
-        ),
-    },
-    {
-        key: "tasks",
-        href: "#",
-        icon: "solar:checklist-minimalistic-outline",
-        title: "Tasks",
-        endContent: (
-            <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
-        ),
-    },
-    {
-        key: "team",
-        href: "#",
-        icon: "solar:users-group-two-rounded-outline",
-        title: "Team",
-    },
-    {
-        key: "tracker",
-        href: "#",
-        icon: "solar:sort-by-time-linear",
-        title: "Tracker",
-        endContent: (
-            <Chip size="sm" variant="flat">
-                New      </Chip>
-        ),
-    },
-    {
-        key: "analytics",
-        href: "#",
-        icon: "solar:chart-outline",
-        title: "Analytics",
-    },
-    {
-        key: "perks",
-        href: "#",
-        icon: "solar:gift-linear",
-        title: "Perks",
-        endContent: (
-            <Chip size="sm" variant="flat">
-                3      </Chip>
-        ),
-    },
-    {
-        key: "cap_table",
-        title: "Cap Table",
-        icon: "solar:pie-chart-2-outline",
-        type: SidebarItemType.Nest,
-        items: [
-            {
-                key: "shareholders",
-                icon: "solar:users-group-rounded-linear",
-                href: "#",
-                title: "Shareholders",
-            },
-            {
-                key: "note_holders",
-                icon: "solar:notes-outline",
-                href: "#",
-                title: "Note Holders",
-            },
-            {
-                key: "transactions_log",
-                icon: "solar:clipboard-list-linear",
-                href: "#",
-                title: "Transactions Log",
-            },
-        ],
-    },
-    {
-        key: "expenses",
-        href: "#",
-        icon: "solar:bill-list-outline",
-        title: "Expenses",
     },
 ];

@@ -2,9 +2,10 @@ import {pacifico} from "@/components/fonts";
 import Image from 'next/image';
 import React from "react";
 import {FollowUs} from "@/components/about-us/follow-us";
-import {FooterImage} from "@/components/about-us/footer-image";
+import {useTranslations} from "next-intl"; // Add this import
 
-export default async function Page() {
+export default function Page() {
+    const t = useTranslations("About Us"); // Initialize translations
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -17,17 +18,12 @@ export default async function Page() {
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
                                 <h2 className={`text-left text-4xl lg:text-6xl font-bold mb-10 ${pacifico.className}`}>
-                                    Nice to meet you
+                                    {t("Greeting title")}
                                 </h2>
 
                                 <div className="mb-6 text-md lg:text-lg font-light ">
                                     <p className={'text-left'}>
-                                        We’re David and Dumitru, and TheBakerz means a lot to us. After seeing our
-                                        friends and family who bake struggle with late-night orders, juggling too many
-                                        apps, and feeling like they never had time for the craft they love, we knew
-                                        something had to change.
-                                        <br/><br/>
-                                        So we stepped in to help.
+                                        {t("greeting")}
                                     </p>
                                 </div>
 
@@ -67,16 +63,12 @@ export default async function Page() {
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
                                 <h2 className="text-3xl lg:text-5xl font-bold mb-4">
-                                    Bake More, Manage Less
+                                    {t("Slogan title")}
                                 </h2>
 
                                 <div className="mb-6 text-md lg:text-lg font-light">
                                     <p>
-                                        TheBakerz puts everything bakers need in one place. Instead of bouncing between
-                                        spreadsheets, emails, and messages, you can handle all your orders, schedules,
-                                        and customer details from a single, organized spot. Less hassle, fewer
-                                        headaches,
-                                        and more energy for doing what you do best—baking.
+                                        {t("slogan")}
                                     </p>
                                 </div>
 
@@ -91,15 +83,12 @@ export default async function Page() {
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
                                 <h2 className="text-3xl lg:text-5xl font-bold mb-4">
-                                    Why We Do This
+                                    {t("why title")}
                                 </h2>
 
                                 <div className="mb-6 text-md lg:text-lg font-light">
                                     <p>
-                                        For us, TheBakerz isn’t just another idea—it’s a direct response to what
-                                        our friends and family bakers told us they need. We’re here to make it easier,
-                                        so you can focus on what you love most. Follow us on social and let’s shape
-                                        a better future together.
+                                        {t("why")}
                                     </p>
                                 </div>
                             </div>
@@ -109,7 +98,7 @@ export default async function Page() {
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
                                 <h2 className={`text-4xl lg:text-6xl font-bold text-center mb-6 ${pacifico.className}`}>
-                                    Follow Us
+                                    {t("follow")}
                                 </h2>
                                 <div className="flex space-x-6">
                                     <FollowUs/>
@@ -118,9 +107,7 @@ export default async function Page() {
                         </div>
                     </div>
                 </section>
-
             </main>
         </div>
     );
 }
-
