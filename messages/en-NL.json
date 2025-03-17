@@ -124,6 +124,8 @@
                 "description": "Our dedicated team is here to help during our available hours, ensuring your queries are addressed promptly."
             }
         },
+        "CustomerFee": "Service Fee",
+        "Minimum Amount": "Minimum order amount is €10",
         "Auth_Description": "Sign in to order delicious treats",
         "A new code was sent to your email": "A new code was sent to your email",
         "Add": "Add",
@@ -259,7 +261,7 @@
         "Updating Cart": "Updating cart...",
         "Upload Image Subtitle": "Upload Item Image",
         "Upload Item Image": "Upload Item Image",
-        "VAT Inclusive": "VAT (9% inclusive)",
+        "VAT Exclusive": "VAT (9% exclusive)",
         "Verify": "Verify",
         "Working Hours": "Working Hours",
         "Yes": "Yes",
@@ -486,6 +488,19 @@
         "Title": "Orders by Status",
         "Not Found": "No orders found for this period",
         "Print": "Print"
+    },
+    "MinTimeOrder": {
+        "title": "Minimum Time to Order",
+        "description": "Select how much advance notice you need before fulfilling an order",
+        "selectLabel": "Minimum pre-order time",
+        "selectPlaceholder": "Select a time",
+        "successMessage": "Minimum order time updated successfully",
+        "errorMessage": "Failed to update minimum order time",
+        "minutes": "minutes",
+        "hour": "hour",
+        "hours": "hours",
+        "day": "day",
+        "days": "days"
     }
 }
 

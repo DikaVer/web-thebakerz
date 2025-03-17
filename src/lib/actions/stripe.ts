@@ -10,6 +10,11 @@ import {getOrderTime} from "@/app/(store)/[id]/actions";
 import {OrderRaw} from "@/lib/actions/order";
 import {v4 as uuidv4} from "uuid";
 import {containerOrdersUnpaid} from "@/db";
+import {calculateTax} from "@/lib/utils";
+
+function roundToTwoDecimals(num: number): number {
+    return Math.round(num);
+}
 
 export async function fetchClientSecret(storeId: string, storeStipeAccountId: string) {
     // Rate limiting check
@@ -49,6 +54,15 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         return { error: 'Order time is not set' };
     }
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    const orderDateObj = new Date(date);
+    orderDateObj.setHours(0, 0, 0, 0); // Reset time to start of day
+
+    if (orderDateObj < today) {
+        return {error: 'Cannot place orders for past dates'};
+    }
+
     // Get products data to fetch prices
     const productsData = await getProductsByStoreId(storeId);
 
@@ -57,13 +71,13 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         description: 'Value Added Tax',
         jurisdiction: 'NL',
         percentage: 9.0,
-        inclusive: true,
+        inclusive: false,
     }, { stripeAccount: storeStipeAccountId });
 
     // Create line items from cart
     const lineItems = [];
     const cartItems = [];
-    let subtotal = 0;
+    let total = 0;
 
     for (const itemId in cartData[storeId]) {
         const cartItem = cartData[storeId][itemId];
@@ -74,7 +88,8 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         }
 
         const unitAmount = product.price; // Assuming price is stored in cents
-        subtotal += unitAmount * cartItem.quantity;
+        total += unitAmount * cartItem.quantity;
+        const subtotal = roundToTwoDecimals(unitAmount - roundToTwoDecimals(calculateTax(unitAmount)));
 
         lineItems.push({
             price_data: {
@@ -85,8 +100,7 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
                     images: product.picture ? [product.picture] : [],
                     // tax_code: 'txcd_10000000', // Tangible Goods
                 },
-                unit_amount: unitAmount,
-                // tax_behavior: 'inclusive', // Indicates that tax is included in the unit amount
+                unit_amount: subtotal,
             },
             quantity: cartItem.quantity,
             tax_rates: [taxRate.id],
@@ -103,6 +117,23 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         });
     }
 
+    const customerFee = {
+        price_data: {
+            currency: 'eur',
+            product_data: {
+                name: 'Service Fee', // Customize fee name as needed
+            },
+            unit_amount: 50, // Fee amount in cents (500 = €5.00)
+        },
+        quantity: 1,
+    };
+    lineItems.push(customerFee)
+    total += customerFee.price_data.unit_amount;
+
+    if (total < 1000) {
+        return { error: 'Minimum order amount is €10' };
+    }
+
     try {
 
         const cosmosId = uuidv4();
@@ -112,9 +143,9 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
             ui_mode: 'embedded',
             submit_type: 'pay',
             customer_email: (user && !store) ? user.email : undefined,
-            billing_address_collection: subtotal >= 10000 ? 'required' : 'auto', //Change to total, when it is needed
+            billing_address_collection: total >= 10000 ? 'required' : 'auto', //Change to total, when it is needed
             tax_id_collection: {
-                enabled: subtotal >= 10000,
+                enabled: total >= 10000,
             },
             line_items: lineItems,
             mode: 'payment',

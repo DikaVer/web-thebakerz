@@ -10,7 +10,7 @@ import {
 
 import {Icon} from "@iconify/react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {CalendarDateTime, CalendarDate, today} from "@internationalized/date";
+import {CalendarDateTime, CalendarDate, today, now} from "@internationalized/date";
 
 import {useStore} from "@/components/providers/store-provider";
 import {
@@ -154,7 +154,9 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
             <div className={'flex flex-col gap-y-4 w-full max-w-[440px]'}>
                 <SmartDatetimeInput
                     schedule={store.schedule}
-                    minValue={today("Europe/Amsterdam").add({ days: 1 })}
+                    minValue={(() => {
+                        return now("Europe/Amsterdam"); // Default to 2 days if not set
+                    })()}
                     value={selectedDate}
                     onValueChange={handleDateChange}
                     placeholder={t("Schedule Order Time")}

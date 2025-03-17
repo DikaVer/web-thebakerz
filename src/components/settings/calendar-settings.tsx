@@ -5,6 +5,7 @@ import {Divider, Spacer} from "@heroui/react";
 import {WorkingHoursComp} from "@/components/settings/calendar/schedule-picker";
 import {DayHoursComp} from "@/components/settings/calendar/day-picker";
 import {useTranslations} from "next-intl";
+import {MinTimeOrder} from "@/components/settings/calendar/min-time-order";
 
 
 const WorkingHoursManager = () => {
@@ -12,10 +13,14 @@ const WorkingHoursManager = () => {
 
     return (
         <div>
+            <Spacer y={4}/>
+            <MinTimeOrder />
+            <Spacer y={8}/>
             <p className="text-base font-medium text-default-700">{t("WorkingSchedule")}</p>
             <p className="mt-1 text-sm font-normal text-default-400">
                 {t("WorkingScheduleDescription")}
             </p>
+
             <Spacer y={4}/>
             <WorkingHoursComp />
             <Spacer y={16}/>

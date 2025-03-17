@@ -2,6 +2,8 @@
     "HomePage": {
         "title": "Patissez plus. \nStressez moins.",
         "subtitle": "TheBakerz - toutes les commandes, messages clients et recettes en un seul endroit.",
+        "learn more": "Learn more",
+        "get started": "Get started",
         "apply": "Remplissez un formulaire rapide et nous vous contacterons pour tout vous expliquer et créer votre compte.",
         "we set up your store": "Partagez vos prix et produits, et nous nous occuperons de la mise en place pour vous.",
         "Start selling": "Testez votre magasin, faites des ajustements et commencez à prendre de vraies commandes !",
@@ -135,7 +137,7 @@
         "Add Manage Cart": "Ajouter et gérer le panier client",
         "Add Notes Placeholder": "Ajoutez une note à votre commande... (max 100 caractères)",
         "Add Order": "Ajouter une commande",
-        "Add Product": "Ajouter {produit}",
+        "Add Product": "Ajouter {product}",
         "Address Placeholder": "Espace réservé à l'adresse",
         "Agreement text": "En cliquant sur Continuer, vous acceptez nos",
         "Alert": "La boutique propose uniquement des commandes à retirer en magasin",
@@ -250,12 +252,14 @@
         "Updating Cart": "Mise à jour du panier...",
         "Upload Image Subtitle": "Télécharger l'image de l'article",
         "Upload Item Image": "Télécharger l'image de l'article",
-        "VAT Inclusive": "TVA (9% incluse)",
+        "VAT Exclusive": "TVA (9% decluse)",
         "Verify": "Vérifier",
         "Working Hours": "Horaires de travail",
         "Yes": "Oui",
         "Your cart from": "Votre panier de",
         "and": "et",
+        "CustomerFee": "Service Fee",
+        "Minimum Amount": "Minimum order amount is €10",
         "cartDetails": "Détails du panier",
         "cartDetailsStep": "3. Détails du panier",
         "failedToUpdateCart": "Échec de la mise à jour du panier.",
@@ -476,5 +480,18 @@
         "Title": "Commandes par statut",
         "Not Found": "Aucune commande trouvée pour cette période",
         "Print": "Imprimer"
+    },
+    "MinTimeOrder": {
+        "title": "Minimum Time to Order",
+        "description": "Select how much advance notice you need before fulfilling an order",
+        "selectLabel": "Minimum pre-order time",
+        "selectPlaceholder": "Select a time",
+        "successMessage": "Minimum order time updated successfully",
+        "errorMessage": "Failed to update minimum order time",
+        "minutes": "minutes",
+        "hour": "hour",
+        "hours": "hours",
+        "day": "day",
+        "days": "days"
     }
 }

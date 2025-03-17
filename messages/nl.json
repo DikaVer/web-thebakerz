@@ -124,6 +124,8 @@
                 "description": "Ons toegewijde team staat voor u klaar tijdens onze openingstijden en zorgt ervoor dat uw vragen snel worden beantwoord."
             }
         },
+        "CustomerFee": "Service Fee",
+        "Minimum Amount": "Minimum order amount is €10",
         "Auth_Description": "Meld u aan om heerlijke lekkernijen te bestellen",
         "A new code was sent to your email": "Er is een nieuwe code naar uw e-mailadres verzonden",
         "Add": "Toevoegen",
@@ -250,7 +252,7 @@
         "Updating Cart": "Winkelwagen bijwerken...",
         "Upload Image Subtitle": "Itemafbeelding uploaden",
         "Upload Item Image": "Itemafbeelding uploaden",
-        "VAT Inclusive": "BTW (inclusief 9%)",
+        "VAT Exclusive": "BTW (inclusief 9%)",
         "Verify": "Verifiëren",
         "Working Hours": "Werkuren",
         "Yes": "Ja",
@@ -476,5 +478,18 @@
         "Title": "Bestellingen op status",
         "Not Found": "Geen bestellingen gevonden voor deze periode",
         "Print": "Afdrukken"
+    },
+    "MinTimeOrder": {
+        "title": "Minimum Time to Order",
+        "description": "Select how much advance notice you need before fulfilling an order",
+        "selectLabel": "Minimum pre-order time",
+        "selectPlaceholder": "Select a time",
+        "successMessage": "Minimum order time updated successfully",
+        "errorMessage": "Failed to update minimum order time",
+        "minutes": "minutes",
+        "hour": "hour",
+        "hours": "hours",
+        "day": "day",
+        "days": "days"
     }
 }

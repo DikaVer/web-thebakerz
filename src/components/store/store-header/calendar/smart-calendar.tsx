@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import { CalendarDate, CalendarDateTime, today } from "@internationalized/date";
+import {CalendarDate, CalendarDateTime, today, ZonedDateTime} from "@internationalized/date";
 import { cn } from '@/lib/utils';
 import { buttonVariants } from "@/components/ui/button";
 import { Calendar, Button, Popover, PopoverContent, PopoverTrigger, ScrollShadow  } from "@heroui/react";
@@ -16,7 +16,7 @@ interface SmartDatetimeInputProps {
     onValueChange: (date: CalendarDate | CalendarDateTime) => void;
     placeholder?: string;
     schedule: WorkHours | undefined;
-    minValue: CalendarDate | CalendarDateTime;
+    minValue: ZonedDateTime |  CalendarDate | CalendarDateTime;
     showCalendar?: boolean;
     showTimePicker?: boolean;
     isError?: boolean;
@@ -69,10 +69,7 @@ export const SmartDatetimeInput = React.forwardRef<
         }, []);
 
 
-        const minDate =
-            "year" in minValue && "month" in minValue && "day" in minValue
-                ? new CalendarDate(minValue.year, minValue.month, minValue.day)
-                : minValue;
+        const minDate = minValue;
 
 
         return (
@@ -220,7 +217,7 @@ const useTimeSlots = (timestamp: number = 15) => {
 };
 
 const TimePicker = ({onClose}: {onClose: () => void}) => {
-    const { value, onValueChange, onTimeChange, schedule } = useSmartDateInput();
+    const { value, onValueChange, onTimeChange, schedule, minValue } = useSmartDateInput();
     const [activeIndex, setActiveIndex] = React.useState(-1);
     const timestamp = 15; // 15-minute intervals
 
@@ -251,10 +248,33 @@ const TimePicker = ({onClose}: {onClose: () => void}) => {
     // Helper to check if a slot is within allowed range.
     const isWithinRange = (hour: number, minute: number) => {
         if (!allowedRange) return true;
+
+        // Check if the slot is within working hours
         const slotTime = hour * 60 + minute;
         const startTime = allowedRange.startHour * 60 + allowedRange.startMinute;
         const endTime = allowedRange.endHour * 60 + allowedRange.endMinute;
-        return slotTime >= startTime && slotTime <= endTime;
+        const withinWorkHours = slotTime >= startTime && slotTime <= endTime;
+
+        // Check if the slot is after or equal to minValue (only when the selected date is the same as minValue)
+        let afterOrEqualMinTime = true;
+        if (value && minValue) {
+            const isSameDate =
+                value.year === minValue.year &&
+                value.month === minValue.month &&
+                value.day === minValue.day;
+
+            if (isSameDate) {
+                if (minValue instanceof CalendarDateTime || minValue instanceof ZonedDateTime) {
+                    const minTime = minValue.hour * 60 + minValue.minute;
+                    afterOrEqualMinTime = slotTime >= minTime;
+                } else {
+                    // If minValue is just a date with no time, default to start of day
+                    afterOrEqualMinTime = true;
+                }
+            }
+        }
+
+        return withinWorkHours && afterOrEqualMinTime;
     };
 
 

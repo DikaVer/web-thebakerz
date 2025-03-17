@@ -15,6 +15,7 @@ import { CartItemRow } from "@/components/cart/cart-item";
 import { useCart } from "@/components/providers/cart-provider";
 import { useTranslations } from "next-intl";
 import {Icon} from "@iconify/react";
+import showErrorMessage from "@/components/toast/toast-error";
 
 const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     const {
@@ -38,12 +39,15 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     const itemsArray = Object.values(cart).flatMap(
         (storeCart) => Object.values(storeCart)
     );
-    const subtotal = itemsArray.reduce((sum, item) => {
+
+    let total = itemsArray.reduce((sum, item) => {
         const productData = getProductDataById(item.product_id);
         return productData ? sum + productData.price * item.quantity : sum;
     }, 0);
-    const vat = calculateTax(subtotal); // 9% VAT fee
-    const total = subtotal;
+    const vat = calculateTax(total) // 9% VAT fee
+    const subtotal = total - vat;
+    const customerFee = 50;
+    total = total + customerFee;
 
     const renderCartItems = (isLoading: boolean, setIsLoading: (value: boolean) => void) => {
         return itemsArray.map((item) => {
@@ -100,8 +104,12 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             <span className="text-sm">{formatCurrency(subtotal)}</span>
                         </div>
                         <div className="flex justify-between mt-2">
-                            <span className="text-sm font-medium">{t("VAT Inclusive")}</span>
+                            <span className="text-sm font-medium">{t("VAT Exclusive")}</span>
                             <span className="text-sm">{formatCurrency(vat)}</span>
+                        </div>
+                        <div className="flex justify-between mt-2">
+                            <span className="text-sm font-medium">{t("CustomerFee")}</span>
+                            <span className="text-sm">{formatCurrency(customerFee)}</span>
                         </div>
                         <Spacer y={2} />
                         <Divider className="my-2" />
@@ -115,10 +123,15 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                         isLoading={isLoading}
                         className="w-full bg-gradient-primary text-2xl rounded-full text-white"
                         onPress={() => {
-                            setIsLoading(true);
-                            router.push(`/${store.storeName}/pay`);
-                            router.refresh();
-                            handleNext();
+                            console.log(total)
+                            if (total >= 1000) {
+                                setIsLoading(true);
+                                router.push(`/${store.storeName}/pay`);
+                                router.refresh();
+                                handleNext();
+                            } else {
+                                showErrorMessage({error: t("Minimum Amount")});
+                            }
                         }}
                     >
                         {t("Pay")}

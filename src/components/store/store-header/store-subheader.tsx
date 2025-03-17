@@ -13,7 +13,7 @@ import {
 import { useSession } from "@/components/providers/session-provider";
 import {Icon} from "@iconify/react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {CalendarDateTime, CalendarDate, today,} from "@internationalized/date";
+import {CalendarDateTime, CalendarDate, today, now,} from "@internationalized/date";
 
 import {useStore} from "@/components/providers/store-provider";
 import {updateOrderTime} from "@/app/(store)/[id]/actions";
@@ -107,7 +107,9 @@ export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: S
                     >
                         <SmartDatetimeInput
                             schedule={store.schedule}
-                            minValue={today("Europe/Amsterdam").add({ days: 1 })}
+                            minValue={(() => {
+                                return now("Europe/Amsterdam").add({ minutes: store.minTimeOrder || 2880 }); // Default to 2 days if not set
+                            })()}
                             value={selectedDate}
                             onValueChange={handleDateChange}
                             placeholder={t("Schedule Order Time")}

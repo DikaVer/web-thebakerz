@@ -32,7 +32,7 @@ export const ProductItems: React.FC<ProductItemsProps> = ({ category, productsDa
                     onClick={() => {
                         handleOpenWithProduct(product, undefined, true);
                     }}
-                    aria-label={t("Add Product", {product: product.name})}
+                    aria-label={"add-product"}
                 >
                     <div
                         className="grid grid-cols-5 col-span-5 cursor-pointer gap-x-4"

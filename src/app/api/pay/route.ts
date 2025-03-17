@@ -164,6 +164,7 @@ export async function GET(req: NextRequest) {
                 order_status: 'new',
                 completed:false,
                 productsData: cartItems,
+                sub_amount: checkoutSession.amount_subtotal ? checkoutSession.amount_subtotal : 0,
                 amount_tax: checkoutSession.total_details?.amount_tax ? checkoutSession.total_details.amount_tax : 0,
 
             }

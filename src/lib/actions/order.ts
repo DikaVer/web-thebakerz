@@ -27,6 +27,7 @@ export interface OrderData {
     customer: Customer;
     createdAt: Date;
     amount: number;
+    sub_amount: number;
     status: "paid" | "manual" ;
     scheduled_time: {
         date: string;
@@ -118,14 +119,15 @@ export const createOrder = async (
     }
 
     // //Check if data is tommorow
-    // const tomorrow = new Date();
-    // tomorrow.setDate(tomorrow.getDate() + 1);
-    // const orderDateObj = new Date(date);
-    // const orderDateStr = orderDateObj.toISOString().split('T')[0];
-    // const tomorrowStr = tomorrow.toISOString().split('T')[0];
-    // if (orderDateStr === tomorrowStr) {
-    //     return {error: 'Order time is incorrect'};
-    // }
+    // Check if order date is not in the past
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    const orderDateObj = new Date(date);
+    orderDateObj.setHours(0, 0, 0, 0); // Reset time to start of day
+
+    if (orderDateObj < today) {
+        return {error: 'Cannot place orders for past dates'};
+    }
 
 
     // Get products data to fetch prices
@@ -195,6 +197,9 @@ export const createOrder = async (
             return {error: 'Failed to create order'};
         }
 
+        const tax = calculateTax(subtotal);
+        const sub_amount = subtotal - tax;
+
         // 2. Create an order record in Azure Cosmos DB
         const orderData: OrderData = {
             id: cosmosId,
@@ -218,7 +223,8 @@ export const createOrder = async (
             order_status: 'new',
             completed: false,
             productsData: cartItems,
-            amount_tax: calculateTax(subtotal),
+            amount_tax: tax,
+            sub_amount: sub_amount
 
         }
 

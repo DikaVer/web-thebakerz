@@ -1,5 +1,8 @@
+'use server';
 import {connectionPool} from "@/db";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
+import {getCurrentSession} from "@/lib/actions/session";
+import {revalidateTag} from "next/cache";
 
 export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData | null> {
     try {
@@ -16,7 +19,8 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             s.facebook_url,
             s.instagram_url,
             s.slug,
-            s.stripe_id
+            s.stripe_id,
+            s.min_time_order
              FROM stores s
              JOIN users u ON s.user_id = u.id
              WHERE (LOWER(s.nickname) = LOWER($1) OR s.id = $1)
@@ -54,6 +58,7 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             facebook_url: storeRow.facebook_url,
             slug: storeRow.slug,
             stripe_id: storeRow.stripe_id,
+            minTimeOrder: storeRow.min_time_order,
             location,  // This is of type LocationData
             schedule,
         };
@@ -62,6 +67,28 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
     } catch (error) {
         console.error("Error fetching store data:", error);
         throw new Error("Failed to fetch store data");
+    }
+}
+
+export async function updateMinOrderTime(minutes: number): Promise<boolean> {
+    try {
+
+        const {store} = await getCurrentSession();
+        if (!store) {
+            throw new Error("Store not found");
+        }
+
+        await connectionPool.query(
+            `UPDATE stores SET min_time_order = $1 WHERE id = $2`,
+            [minutes, store.id]
+        );
+
+        revalidateTag('session');
+        revalidateTag('store');
+        return true;
+    } catch (error) {
+        console.error("Error updating minimum order time:", error);
+        throw new Error("Failed to update minimum order time");
     }
 }
 
@@ -89,6 +116,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
         stores.facebook_url AS store_facebook_url,  
         stores.instagram_url AS store_instagram_url,
         stores.slug AS slug,
+        stores.min_time_order AS min_time_order,
         store_locations.route AS store_route,
         store_locations.city AS store_city,
         store_locations.zip_code AS store_zip_code,
@@ -107,6 +135,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
     let store: StoreData | null = null;
     let schedule: WorkHours | null = null;
 
+
     // Build the store object.
     if (rowS){
         store = {
@@ -117,6 +146,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
             facebook_url: rowS.store_facebook_url,
             instagram_url: rowS.store_instagram_url,
             slug: rowS.slug,
+            minTimeOrder: rowS.min_time_order,
             location: {
                 route: rowS.store_route,
                 city: rowS.store_city,
@@ -188,6 +218,7 @@ export interface StoreData {
     ownerName?: string;
     slug?: string;
     stripe_id?: string;
+    minTimeOrder: number;
     location: LocationData;
     schedule?: WorkHours;
 }
