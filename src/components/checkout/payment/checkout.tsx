@@ -25,7 +25,7 @@ export default function Checkout({ id, storeId, clientSecretParam, storeStripeAc
     const [error, setError] = useState<string | null>(null)
     const router = useRouter()
 
-    const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!, { stripeAccount: storeStripeAccountId })
+    const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
     useEffect(() => {
         const getClientSecret = async () => {

@@ -73,7 +73,7 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         jurisdiction: 'NL',
         percentage: 9.0,
         inclusive: false,
-    }, { stripeAccount: storeStipeAccountId });
+    });
 
     // Create line items from cart
     const lineItems = [];
@@ -158,12 +158,17 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
             automatic_tax: {
                 enabled: false,
             },
+            payment_intent_data: {
+              transfer_data: {
+                  destination: storeStipeAccountId,
+              }
+            },
             metadata: {
                 userId: userId,
                 storeId: storeId,
                 cosmosId: cosmosId
             }
-        }, { stripeAccount: storeStipeAccountId });
+        });
 
         const orderRaw: OrderRaw = {
             id: cosmosId,

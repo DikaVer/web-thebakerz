@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
 
     try {
         // Retrieve the session to check its status
-        const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, { stripeAccount: storeStripeAccountIdParam });
+        const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId);
 
         // Verify payment status
         if (checkoutSession.payment_status === 'paid') {
