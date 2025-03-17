@@ -114,17 +114,19 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                     {/*>*/}
                     {/*    Українській*/}
                     {/*</Button>*/}
-                    {/*<Button*/}
-                    {/*    variant={'light'}*/}
-                    {/*    size={'lg'}*/}
-                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
-                    {/*    startContent={<Icon icon="circle-flags:lang-ru" width={32}/>}*/}
-                    {/*    onPress={(e) => {*/}
-                    {/*        handleSubmit('ru')*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    Русский*/}
-                    {/*</Button>*/}
+                    {process.env.NEXT_PUBLIC_RUSSIAN_LANGUAGE &&
+                            <Button
+                            variant={'light'}
+                            size={'lg'}
+                            className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
+                            startContent={<Icon icon="circle-flags:lang-ru" width={32}/>}
+                            onPress={(e) => {
+                                handleSubmit('ru')
+                            }}
+                        >
+                            Русский
+                        </Button>
+                    }
                     {/*<Button*/}
                     {/*    variant={'light'}*/}
                     {/*    size={'lg'}*/}
