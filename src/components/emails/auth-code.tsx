@@ -17,7 +17,8 @@ interface VerifyIdentityEmailProps {
 
 export default function VerifyCodeEmail({ verificationCode }: VerifyIdentityEmailProps) {
     // Format the verification code as ###-###
-    const formattedCode = `${verificationCode.slice(0, 3)}-${verificationCode.slice(3)}`
+    // const formattedCode = `${verificationCode.slice(0, 3)}-${verificationCode.slice(3)}`
+    const formattedCode = verificationCode;
 
     return (
         <Html>
