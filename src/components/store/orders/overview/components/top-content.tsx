@@ -33,17 +33,17 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({scheduleTime, s
                 </div>
                 <p className={'text-sm font-light text-default-600'}>{formatScheduledDateTime(scheduleTime, locale)}</p>
             </div>
-            <Button
-                startContent={
-                    <div className={'w-[24px]'}>
-                        <Icon icon={'solar:printer-minimalistic-bold'} width={24} height={24}/>
-                    </div>
-                }
-                color="primary"
-                className={'bg-gradient-primary px-8'}
-            >
-                {t("Print Invoice")}
-            </Button>
+            {/*<Button*/}
+            {/*    startContent={*/}
+            {/*        <div className={'w-[24px]'}>*/}
+            {/*            <Icon icon={'solar:printer-minimalistic-bold'} width={24} height={24}/>*/}
+            {/*        </div>*/}
+            {/*    }*/}
+            {/*    color="primary"*/}
+            {/*    className={'bg-gradient-primary px-8'}*/}
+            {/*>*/}
+            {/*    {t("Print Invoice")}*/}
+            {/*</Button>*/}
         </section>
     );
 };

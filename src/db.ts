@@ -22,9 +22,9 @@ const blobClient = BlobServiceClient.fromConnectionString(
     process.env.NEXT_PRIVATE_AZURE_STORAGE_CONNECTION_STRING as string
 );
 
-export const containerClientAvatar = blobClient.getContainerClient("avatars");
+export const containerClientAvatar = blobClient.getContainerClient(process.env.NEXT_PRIVATE_BLOB_AVATAR_CONTAINER!);
 
-export const containerClientProduct = blobClient.getContainerClient("products");
+export const containerClientProduct = blobClient.getContainerClient(process.env.NEXT_PRIVATE_BLOB_PRODUCTS_CONTAINER!);
 
 
 import { CosmosClient } from "@azure/cosmos";
@@ -34,7 +34,7 @@ const cosmosClient = new CosmosClient({
     key: process.env.NEXT_PRIVATE_COSMOS_DB_KEY!,
 });
 
-export const cosmosDB = cosmosClient.database("TheBakerzCosmosDB");
+export const cosmosDB = cosmosClient.database(process.env.NEXT_PRIVATE_COSMOS_DB_NAME!);
 export const containerWorkingHours = cosmosDB.container("WorkingHours");
 export const containerProducts = cosmosDB.container("Products");
 export const containerProductsOrder = cosmosDB.container("ProductsOrder");

@@ -62,6 +62,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
             phoneNumber: undefined,
         },
     });
+    const storeUrl = store?.storeName ? store?.storeName : store?.id;
 
     const [state, submitAction, isPending] = useActionState(
         async (previousState: any, formData: z.infer<typeof CustomerOrderSchema>) => {
@@ -78,7 +79,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                     timeout: 2000,
                 })
                 handleNext();
-                router.push(`/${store.storeName}/orders/${result.orderId}?email=${formData.email}`);
+                router.push(`/${storeUrl}/orders/${result.orderId}?email=${formData.email}`);
                 router.refresh();
             } else if (result?.error) {
                 showErrorMessage({error: result.error});
@@ -211,7 +212,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                                 classNames={{
                                                     input: 'truncate',
                                                 }}
-                                                value={process.env.NEXT_PUBLIC_API_BASE_URL + "/" + store.storeName + "/pay/" + clientSecret}
+                                                value={process.env.NEXT_PUBLIC_API_BASE_URL + "/" + storeUrl + "/pay/" + clientSecret}
                                             />
                                         </ModalBody>
                                         <ModalFooter>
@@ -220,7 +221,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                             </Button>
                                             <Button color="primary" variant="light" onPress={() => {
                                                 onClose();
-                                                navigator.clipboard.writeText(process.env.NEXT_PUBLIC_API_BASE_URL + "/" + store.storeName + "/pay/" + clientSecret);
+                                                navigator.clipboard.writeText(process.env.NEXT_PUBLIC_API_BASE_URL + "/" + storeUrl + "/pay/" + clientSecret);
                                                 showSuccessMessage({success: t("Order Link Copied Client")});
                                             }}>
                                                 {t("Copy Link")}

@@ -39,6 +39,7 @@ const CartButton: React.FC = () => {
     const { store } = useStore();
     const router = useRouter();
     const t = useTranslations("TheBakerz");
+    const storeUrl = store?.storeName ? store?.storeName : store?.id;
 
     const handleOpenDrawer = () => onOpen();
 
@@ -110,7 +111,7 @@ const CartButton: React.FC = () => {
                                             className="w-full bg-gradient-primary text-2xl rounded-full text-white"
                                             onPress={() => {
                                                 setIsLoading(true);
-                                                router.push(`${store.storeName}/checkout`);
+                                                router.push(`${storeUrl}/checkout`);
                                                 router.refresh();
                                             }}
                                         >

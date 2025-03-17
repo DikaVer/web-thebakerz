@@ -1,6 +1,5 @@
 import '@/styles/globals.css'
 import React, {Suspense} from "react";
-import {Footer} from "@/components/footer";
 import {StoreProvider} from "@/components/providers/store-provider";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import LayoutComp from "@/components/layout-comp";

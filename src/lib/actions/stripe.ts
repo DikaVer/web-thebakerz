@@ -11,6 +11,7 @@ import {OrderRaw} from "@/lib/actions/order";
 import {v4 as uuidv4} from "uuid";
 import {containerOrdersUnpaid} from "@/db";
 import {calculateTax} from "@/lib/utils";
+import {CUSTOMER_SERVICE_FEE} from "@/lib/local-variables";
 
 function roundToTwoDecimals(num: number): number {
     return Math.round(num);
@@ -117,18 +118,20 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         });
     }
 
-    const customerFee = {
-        price_data: {
-            currency: 'eur',
-            product_data: {
-                name: 'Service Fee', // Customize fee name as needed
+    if (CUSTOMER_SERVICE_FEE !== 0) {
+        const customerFee = {
+            price_data: {
+                currency: 'eur',
+                product_data: {
+                    name: 'Service Fee', // Customize fee name as needed
+                },
+                unit_amount: CUSTOMER_SERVICE_FEE, // Fee amount in cents (500 = €5.00)
             },
-            unit_amount: 50, // Fee amount in cents (500 = €5.00)
-        },
-        quantity: 1,
-    };
-    lineItems.push(customerFee)
-    total += customerFee.price_data.unit_amount;
+            quantity: 1,
+        };
+        lineItems.push(customerFee)
+        total += customerFee.price_data.unit_amount;
+    }
 
     if (total < 1000) {
         return { error: 'Minimum order amount is €10' };
@@ -165,6 +168,7 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         const orderRaw: OrderRaw = {
             id: cosmosId,
             store_id: storeId,
+            createdAt: new Date(),
             scheduled_time: {
                 date: date,
                 time: time

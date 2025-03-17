@@ -47,10 +47,11 @@ export default function NavbarComponent({
     const { isSticky } = store ? useStore() : { isSticky: false };
     const { session } = useSession();
     const router = useRouter();
+    const storeUrl = store?.storeName ? store?.storeName : store?.id;
 
     // Extract navigation logic to avoid repetition
     const navigateToStore = React.useCallback(() => {
-        const navigation = pay ? `/${store?.storeName}/checkout` : `/${store?.storeName}`;
+        const navigation = pay ? `/${storeUrl}/checkout` : `/${storeUrl}`;
         router.push(navigation);
         router.refresh();
     }, [router, store]);

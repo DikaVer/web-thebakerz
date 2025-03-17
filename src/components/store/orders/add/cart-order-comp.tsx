@@ -21,6 +21,7 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
     const router = useRouter();
     const { store } = useStore();
     const t = useTranslations("TheBakerz");
+    const storeUrl = store?.storeName ? store?.storeName : store?.id;
 
     return (
         <>
@@ -30,7 +31,7 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
                 variant="light"
                 className="text-default-500 max-w-fit px-0 pr-1"
                 onPress={() => {
-                    router.push(`/${store.storeName}/orders`);
+                    router.push(`/${storeUrl}/orders`);
                     router.refresh();
                 }}
                 startContent={

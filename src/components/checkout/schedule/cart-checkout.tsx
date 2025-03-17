@@ -6,7 +6,6 @@ import {
     Spacer,
     useDisclosure,
 } from "@heroui/react";
-import { useMediaQuery } from "usehooks-ts";
 import { useProductDialog } from "@/components/providers/product-provider";
 import { calculateTax, formatCurrency } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -16,6 +15,7 @@ import { useCart } from "@/components/providers/cart-provider";
 import { useTranslations } from "next-intl";
 import {Icon} from "@iconify/react";
 import showErrorMessage from "@/components/toast/toast-error";
+import {CUSTOMER_SERVICE_FEE} from "@/lib/local-variables";
 
 const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     const {
@@ -24,16 +24,13 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     } = useProductDialog();
 
     const { itemCount, cart, updateItem, removeItem } = useCart();
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const isMobile = useMediaQuery("(max-width: 768px)");
+    const { onOpen} = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
     const { store } = useStore();
     const router = useRouter();
     const searchParams = useSearchParams();
     const queryString = searchParams ? `?${searchParams.toString()}` : "";
     const t = useTranslations("TheBakerz");
-
-    const handleOpenDrawer = () => onOpen();
 
     // Compute totals
     const itemsArray = Object.values(cart).flatMap(
@@ -46,8 +43,8 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     }, 0);
     const vat = calculateTax(total) // 9% VAT fee
     const subtotal = total - vat;
-    const customerFee = 50;
-    total = total + customerFee;
+    total += CUSTOMER_SERVICE_FEE;
+    const storeUrl = store?.storeName ? store?.storeName : store?.id;
 
     const renderCartItems = (isLoading: boolean, setIsLoading: (value: boolean) => void) => {
         return itemsArray.map((item) => {
@@ -87,7 +84,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                                 )
                             }
                             onPress={() => {
-                                router.push(`/${store.storeName}${queryString}`);
+                                router.push(`/${storeUrl}${queryString}`);
                                 router.refresh();
                                 setIsLoading(true);
                             }}
@@ -107,10 +104,12 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             <span className="text-sm font-medium">{t("VAT Exclusive")}</span>
                             <span className="text-sm">{formatCurrency(vat)}</span>
                         </div>
-                        <div className="flex justify-between mt-2">
-                            <span className="text-sm font-medium">{t("CustomerFee")}</span>
-                            <span className="text-sm">{formatCurrency(customerFee)}</span>
-                        </div>
+                        {CUSTOMER_SERVICE_FEE !== 0 &&
+                            <div className="flex justify-between mt-2">
+                                <span className="text-sm font-medium">{t("CustomerFee")}</span>
+                                <span className="text-sm">{formatCurrency(CUSTOMER_SERVICE_FEE)}</span>
+                            </div>
+                        }
                         <Spacer y={2} />
                         <Divider className="my-2" />
                         <Spacer y={4} />
@@ -126,7 +125,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             console.log(total)
                             if (total >= 1000) {
                                 setIsLoading(true);
-                                router.push(`/${store.storeName}/pay`);
+                                router.push(`/${storeUrl}/pay`);
                                 router.refresh();
                                 handleNext();
                             } else {
@@ -156,7 +155,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             )
                         }
                         onPress={() => {
-                            router.push(`/${store.storeName}${queryString}`);
+                            router.push(`/${storeUrl}${queryString}`);
                             router.refresh();
                             setIsLoading(true);
                         }}

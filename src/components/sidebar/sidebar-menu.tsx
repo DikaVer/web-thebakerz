@@ -46,6 +46,9 @@ export default function SidebarMenu({ store, isOpen, onOpenChange, isCollapsed }
     }, [pathname]);
 
     const { theme } = useTheme();
+    const storeUrl = session.store?.storeName ? session.store?.storeName : session.store?.id;
+
+
 
     return (
         <SidebarDrawer
@@ -62,7 +65,7 @@ export default function SidebarMenu({ store, isOpen, onOpenChange, isCollapsed }
             >
                 <a
                     className={cn("flex items-center gap-3 pl-2", { "justify-center gap-0 pl-0": isCollapsed })}
-                    href={store ? `/${store.storeName}` : "/"}
+                    href={store ? `/${storeUrl}` : "/"}
                 >
                     {store ? (
                         <></>
@@ -168,10 +171,11 @@ const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreD
 
     if (!session.user) {
         if (store) {
+            const storeUrl = store?.storeName ? store?.storeName : store?.id;
             return applyTranslations([
                 {
                     key: "",
-                    href: `/auth?next=${store.storeName}`,
+                    href: `/auth?next=${storeUrl}`,
                     icon: "line-md:login",
                     titleKey: "SignIn"
                 }
@@ -180,6 +184,7 @@ const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreD
         sidebarItems = sectionItemsGuestTheBakerz;
     } else {
         const role = session.user.role;
+        const storeUrl = session.store?.storeName ? session.store?.storeName : session.store?.id;
         switch (role) {
             case "admin":
                 sidebarItems = sectionItemsAdmin;
@@ -195,28 +200,28 @@ const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreD
                         items: [
                             {
                                 key: "orders",
-                                href: `/${session.store?.storeName}/orders`,
+                                href: `/${storeUrl}/orders`,
                                 titleKey: "Orders",
                                 icon: "solar:notification-unread-lines-broken"
                             },
                             {
                                 key: "store",
-                                href: `/${session.store?.storeName}`,
+                                href: `/${storeUrl}`,
                                 icon: "solar:shop-broken",
                                 title: session.user.username // Keep this as is (dynamic username)
                             },
                             {
                                 key: "products",
-                                href: `/${session.store?.storeName}/products`,
+                                href: `/${storeUrl}/products`,
                                 icon: "solar:bag-5-broken",
                                 titleKey: "Products"
                             },
-                            {
-                                key: "payments",
-                                href: `/${session.store?.storeName}/payments`,
-                                icon: "solar:wallet-money-broken",
-                                titleKey: "Payments"
-                            }
+                            // {
+                            //     key: "payments",
+                            //     href: `/${storeUrl}/payments`,
+                            //     icon: "solar:wallet-money-broken",
+                            //     titleKey: "Payments"
+                            // }
                         ]
                     },
                     ...sectionItemsBakerz

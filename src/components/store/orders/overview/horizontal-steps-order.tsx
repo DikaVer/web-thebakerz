@@ -302,13 +302,13 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                     </p>
                                 </ModalBody>
                                 <ModalFooter>
-                                    <Button
-                                        isDisabled={isLoading}
-                                        variant="light"
-                                        onPress={() => handleChangeStatus(candidateIdx || 0)}
-                                    >
-                                        {!isLoading && t("Change Send Email")}
-                                    </Button>
+                                    {/*<Button*/}
+                                    {/*    isDisabled={isLoading}*/}
+                                    {/*    variant="light"*/}
+                                    {/*    onPress={() => handleChangeStatus(candidateIdx || 0)}*/}
+                                    {/*>*/}
+                                    {/*    {!isLoading && t("Change Send Email")}*/}
+                                    {/*</Button>*/}
                                     <Button
                                         isDisabled={isLoading}
                                         isLoading={isLoading}

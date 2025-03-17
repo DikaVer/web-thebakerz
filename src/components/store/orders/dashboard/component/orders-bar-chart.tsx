@@ -226,32 +226,32 @@ const CircleChartCard = React.forwardRef<
                                 <SelectItem key={cat}>{t(cat.toLowerCase() || "unknown")}</SelectItem>
                             ))}
                         </Select>
-                        <Dropdown
-                            classNames={{
-                                content: "min-w-[120px]",
-                            }}
-                            placement="bottom-end"
-                        >
-                            <DropdownTrigger>
-                                <Button isIconOnly radius="full" size="sm" variant="light">
-                                    <Icon height={16} icon="solar:menu-dots-bold" width={16} />
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                                itemClasses={{
-                                    title: "text-tiny",
-                                }}
-                                variant="flat"
-                            >
-                                <DropdownItem startContent={
-                                    <div className={'w-[24px]'}>
-                                        <Icon icon={'solar:printer-minimalistic-bold'} width={24} height={24}/>
-                                    </div>
-                                } key="view-details">
-                                    {barT("Print")}
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
+                        {/*<Dropdown*/}
+                        {/*    classNames={{*/}
+                        {/*        content: "min-w-[120px]",*/}
+                        {/*    }}*/}
+                        {/*    placement="bottom-end"*/}
+                        {/*>*/}
+                        {/*    <DropdownTrigger>*/}
+                        {/*        <Button isIconOnly radius="full" size="sm" variant="light">*/}
+                        {/*            <Icon height={16} icon="solar:menu-dots-bold" width={16} />*/}
+                        {/*        </Button>*/}
+                        {/*    </DropdownTrigger>*/}
+                        {/*    <DropdownMenu*/}
+                        {/*        itemClasses={{*/}
+                        {/*            title: "text-tiny",*/}
+                        {/*        }}*/}
+                        {/*        variant="flat"*/}
+                        {/*    >*/}
+                        {/*        <DropdownItem startContent={*/}
+                        {/*            <div className={'w-[24px]'}>*/}
+                        {/*                <Icon icon={'solar:printer-minimalistic-bold'} width={24} height={24}/>*/}
+                        {/*            </div>*/}
+                        {/*        } key="view-details">*/}
+                        {/*            {barT("Print")}*/}
+                        {/*        </DropdownItem>*/}
+                        {/*    </DropdownMenu>*/}
+                        {/*</Dropdown>*/}
                     </div>
                 </div>
             </div>

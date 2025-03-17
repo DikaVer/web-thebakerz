@@ -2,18 +2,13 @@
 import * as z from "zod";
 import {CustomerOrderSchema} from "@/lib/schemas";
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
-import {headers} from "next/headers";
 import {getCartSessionCookieOrCreate, getCurrentSession} from "@/lib/actions/session";
 import {getCart, removeCartByUserIdAndStoreId} from "@/lib/actions/cart";
 import {getOrderTime} from "@/app/(store)/[id]/actions";
-import {getProductsByStoreId, ProductData, ProductDataFull} from "@/lib/actions/product";
-import {stripe} from "@/stripe";
-import {connectionPool, containerOrders, containerProducts} from "@/db";
-import {NextResponse} from "next/server";
+import {getProductsByStoreId} from "@/lib/actions/product";
+import {connectionPool, containerOrders} from "@/db";
 import {sendOrderPlaced} from "@/lib/emailSendRequest";
 import {revalidateTag} from "next/cache";
-import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
-import {StoreData} from "@/lib/actions/store";
 import {v4 as uuidv4} from "uuid";
 import {calculateTax} from "@/lib/utils";
 import Stripe from "stripe";
@@ -44,6 +39,7 @@ export interface OrderData {
 export interface OrderRaw {
     id: string;
     store_id: string;
+    createdAt: Date;
     customer_email?: string;
     scheduled_time: {
         date: string;

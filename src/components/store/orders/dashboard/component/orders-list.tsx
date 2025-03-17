@@ -107,6 +107,8 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
         show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
     };
 
+    const storeUrl = store?.storeName ? store?.storeName : store?.id;
+
     return (
         <div className="flex flex-col w-full md:w-1/2">
             <section id="Orders Top List" className="flex w-full items-center justify-between mb-4 px-1">
@@ -124,7 +126,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                         }
                         onPress={() => {
                             setIsLoading(true);
-                            router.push("/" + store?.storeName + "/orders/add");
+                            router.push("/" + storeUrl + "/orders/add");
                             router.refresh();
                         }}
                         variant="faded"
@@ -199,7 +201,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                         variants={itemVariants}
                                         onClick={() => {
                                             setIsLoadingTime && setIsLoadingTime(true);
-                                            router.push("/" + store?.storeName + "/orders/" + order.id + "?email=" + order.customer.email_customer);
+                                            router.push("/" + storeUrl + "/orders/" + order.id + "?email=" + order.customer.email_customer);
                                             router.refresh()
                                         }}
                                     >

@@ -15,6 +15,7 @@ import { useStore } from "@/components/providers/store-provider";
 import {CartItemRow} from "@/components/cart/cart-item";
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
+import {CUSTOMER_SERVICE_FEE} from "@/lib/local-variables";
 
 
 const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
@@ -43,8 +44,7 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     }, 0);
     const vat = calculateTax(total) // 9% VAT fee
     const subtotal = total - vat;
-    const customerFee = 50;
-    total += customerFee;
+    total += CUSTOMER_SERVICE_FEE;
 
     const renderCartItems = (isLoading: boolean, setIsLoading: (value: boolean) => void) => {
         return itemsArray.map((item) => {
@@ -82,10 +82,12 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             <span className="text-sm font-medium">{t("VAT Exclusive")}</span>
                             <span className="text-sm">{formatCurrency(vat)}</span>
                         </div>
-                        <div className="flex justify-between mt-2">
-                            <span className="text-sm font-medium">{t("CustomerFee")}</span>
-                            <span className="text-sm">{formatCurrency(customerFee)}</span>
-                        </div>
+                        {CUSTOMER_SERVICE_FEE !== 0 &&
+                            <div className="flex justify-between mt-2">
+                                <span className="text-sm font-medium">{t("CustomerFee")}</span>
+                                <span className="text-sm">{formatCurrency(CUSTOMER_SERVICE_FEE)}</span>
+                            </div>
+                        }
                         <Spacer y={2} />
                         <Divider className="my-2" />
                         <Spacer y={4} />

@@ -22,7 +22,7 @@ export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderDat
     const { store } = useStore();
     const router = useRouter();
     const t = useTranslations("TheBakerz");
-
+    const storeUrl = store?.storeName ? store?.storeName : store?.id;
     return (
         <div className={'flex flex-col w-full max-w-2xl container'}>
             <Button
@@ -30,7 +30,7 @@ export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderDat
                 variant="light"
                 className="text-default-500 max-w-fit px-0 pr-2"
                 onPress={() => {
-                    router.push(`/${store.storeName}/orders?date=${orderData.scheduled_time.date}`);
+                    router.push(`/${storeUrl}/orders?date=${orderData.scheduled_time.date}`);
                 }}
                 startContent={
                     <Icon
