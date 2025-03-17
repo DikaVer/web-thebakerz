@@ -42,12 +42,12 @@ export const sectionStoreItemsUser: SidebarItem[] = [
         key: "account",
         titleKey: "Account", // Changed to key
         items: [
-            // {
-            //     key: "payments",
-            //     href: "/payments",
-            //     icon: "solar:wallet-money-broken",
-            //     titleKey: "Payments", // Changed to key
-            // },
+            {
+                key: "orders",
+                href: "/orders",
+                icon: "solar:notification-unread-lines-broken",
+                titleKey: "Orders", // Changed to key
+            },
         ],
     }
 ];

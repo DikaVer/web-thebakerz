@@ -51,7 +51,8 @@ async function sendEmailMessage(emailClient: EmailClient, message: any): Promise
 export async function sendMagicCode(params: { identifier: string; code: string }) {
     const { identifier: to, code } = params;
 
-    const formattedCode = `${code.slice(0, 3)}-${code.slice(3)}`;
+    // const formattedCode = `${code.slice(0, 3)}-${code.slice(3)}`;
+    const formattedCode = code;
 
     console.log(`Sending magic link to ${to}`);
     console.log(`Magic code: ${code}`);
