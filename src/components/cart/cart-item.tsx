@@ -1,0 +1,112 @@
+import React from "react";
+import { ItemCart } from "@/lib/actions/cart";
+import { ProductData } from "@/lib/actions/product";
+import { Divider, Image, Spacer } from "@heroui/react";
+import { formatCurrency } from "@/lib/utils";
+import { InputStepper } from "@/components/store/product/dialog/button-stepper";
+import CustomAlert from "@/components/ui/custom-alerts";
+import { useTranslations } from "next-intl";
+
+type CartItemRowProps = {
+    item: ItemCart;
+    productData: ProductData;
+    updateItem: (item: ItemCart) => Promise<boolean>;
+    removeItem: (item: ItemCart) => Promise<boolean>;
+    isLoading: boolean;
+    setIsLoading: (value: boolean) => void;
+    handleOpen: (productId?: string, itemCart?: ItemCart, isBakerzOrder?: boolean) => void;
+    isBakerzOrder?: boolean;
+};
+
+export const CartItemRow: React.FC<CartItemRowProps> = ({
+                                                            item,
+                                                            productData,
+                                                            updateItem,
+                                                            removeItem,
+                                                            isLoading,
+                                                            setIsLoading,
+                                                            handleOpen,
+                                                            isBakerzOrder = false,
+                                                        }) => {
+    const t = useTranslations("TheBakerz");
+
+    const handleQuantityChange = async (value: number) => {
+        let updatedValue;
+        if (value === 0) {
+            updatedValue = await removeItem(item);
+        } else {
+            updatedValue = await updateItem({ ...item, quantity: value });
+        }
+        return updatedValue;
+    };
+
+    if (item.quantity === 0) return null;
+
+    return (
+        <>
+            <div
+                className={`flex flex-col gap-2 p-4 w-full  ${!isLoading && 'hover:bg-default-100 cursor-pointer'} border-gray-200`}
+                key={item.id}
+                onClick={() => {
+                    if (!isLoading) {
+                        handleOpen(productData.id, item, isBakerzOrder);
+                    }
+                }}
+            >
+                <div className={'flex'}>
+                    <div className="w-20 h-20 aspect-square">
+                        <Image
+                            removeWrapper
+                            alt={productData.name}
+                            src={productData.picture}
+                            className="object-cover w-full h-full"
+                        />
+                    </div>
+                    <Spacer x={4} />
+                    <div className="flex justify-between w-[70%]">
+                        <div className="flex flex-col w-full">
+                            <p className="font-medium truncate text-start">{productData.name}</p>
+                            {item.note && (
+                                <>
+                                    <CustomAlert
+                                        color="warning"
+                                        hideIcon={true}
+                                        classNames={{
+                                            base: 'p-0',
+                                            mainWrapper: 'p-0 py-1 min-h-0',
+                                        }}
+                                    >
+                                        <p className="text-xs">{`${t("Note")}: ${item.note}`}</p>
+                                    </CustomAlert>
+                                    <Spacer x={4} />
+                                </>
+                            )}
+                            {productData.ingredients && productData.ingredients.length > 0 && (
+                                <p className="text-xs text-default-400 font-medium break-words">
+                                    {productData.ingredients.join(", ")}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+                <div className="flex items-end justify-between" onClick={(e) => e.stopPropagation()}>
+                    <p className="text-sm text-gray-600">
+                        {formatCurrency(productData.price * item.quantity)}
+                    </p>
+                    <div>
+                        <InputStepper
+                            isCart
+                            min={0}
+                            max={999}
+                            value={item.quantity}
+                            onChange={handleQuantityChange}
+                            isLoading={isLoading}
+                            setIsLoading={setIsLoading}
+                        />
+                    </div>
+                </div>
+            </div>
+            <Divider />
+        </>
+    );
+};

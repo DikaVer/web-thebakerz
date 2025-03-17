@@ -1,10 +1,12 @@
 "use client";
 
 import {usePathname, useRouter} from "next/navigation";
-import React, {startTransition} from "react";
+import React, {startTransition, useState} from "react";
 import {Button, cn, Tooltip} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {logoutAction} from "@/app/actions";
+import {useSession} from "@/components/providers/session-provider";
+import {useTranslations} from "next-intl";
 
 interface SignOutButtonProps {
     isCollapsed: boolean;
@@ -12,20 +14,31 @@ interface SignOutButtonProps {
 export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
     const router = useRouter();
     const pathname = usePathname();
+    const { session, setSession } = useSession();
+    const [ isLoading, setIsLoading ] = useState(false);
+    const t = useTranslations("TheBakerz");
 
-
-    const handleSignOut = async () => {
-        startTransition(() => {
+    const handleSignOut = () => {
+        startTransition(async () => {
             sessionStorage.clear();
             localStorage.clear();
-            logoutAction()
-            router.push(`/transit-exit?next=${pathname}`);
+            setSession((prevSession) => {
+                return {
+                    ...prevSession,
+                    session: null,
+                    user: null,
+                    store: null,
+                    schedule: null,
+                };
+            });
+            await logoutAction();
             router.refresh();
+            router.push(`/transit-exit?next=${pathname}`);
         });
     };
 
     return (
-        <Tooltip content="Log Out" isDisabled={!isCollapsed} placement="right">
+        <Tooltip content={t("LogOut")} isDisabled={!isCollapsed} placement="right">
             <Button
                 className={cn("justify-start text-grayText data-[hover=true]:text-foreground data-[hover=true]:bg-default/40", {
                     "justify-center": isCollapsed,
@@ -42,15 +55,16 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
                 }
                 onPress={handleSignOut}
                 variant="light"
+                isLoading={isLoading}
             >
-                {isCollapsed ? (
+                {!isLoading && isCollapsed ? (
                     <Icon
                         className="rotate-180 text-grayText"
                         icon="solar:minus-circle-line-duotone"
                         width={24}
                     />
                 ) : (
-                    "Sign Out"
+                    t("SignOut")
                 )}
             </Button>
         </Tooltip>

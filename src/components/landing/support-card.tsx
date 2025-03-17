@@ -1,19 +1,22 @@
+// TypeScript
 "use client";
 
 import React from "react";
-import {Button} from "@heroui/react";
-import {Icon} from "@iconify/react";
-import {cn} from "@heroui/react";
-import {useRouter} from "next/navigation";
+import { Button } from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { cn } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export type SupportCardProps = React.HTMLAttributes<HTMLDivElement>;
 
 const SupportCard = React.forwardRef<HTMLDivElement, SupportCardProps>(
     ({ className, ...props }, ref) => {
         const router = useRouter();
+        const t = useTranslations("TheBakerz");
 
         const handleClick = () => {
-            router.push('/support/contact-us');
+            router.push("/support/contact-us");
         };
 
         return (
@@ -22,11 +25,11 @@ const SupportCard = React.forwardRef<HTMLDivElement, SupportCardProps>(
                 ref={ref}
                 className={cn(
                     "align-center my-2 flex shrink-0 items-center justify-center gap-3 self-stretch rounded-large bg-content1 px-3 py-3 shadow-small",
-                    className,
+                    className
                 )}
             >
                 <div className="line-clamp-2 text-left text-tiny font-medium text-default-700">
-                    We’re here to answer your questions.
+                    {t("Support Card Message")}
                 </div>
                 <Button
                     isIconOnly
@@ -43,7 +46,7 @@ const SupportCard = React.forwardRef<HTMLDivElement, SupportCardProps>(
                 </Button>
             </div>
         );
-    },
+    }
 );
 
 SupportCard.displayName = "SupportCard";

@@ -1,7 +1,8 @@
-// next.config.js
+const createNextIntlPlugin = require('next-intl/plugin');
 
+const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
     // cacheHandler: require.resolve("./cache-handler.mjs"),
     experimental: {
         turbo: {
@@ -23,6 +24,7 @@ module.exports = {
         // your project has ESLint errors.
         ignoreDuringBuilds: false,
     },
+
     output: 'standalone',
     images: {
         remotePatterns: [
@@ -60,4 +62,6 @@ module.exports = {
         return config;
     },
 };
+
+module.exports = withNextIntl(nextConfig);
 

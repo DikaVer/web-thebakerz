@@ -1,5 +1,5 @@
 import { generateState, generateCodeVerifier } from "arctic";
-import { google} from "@/lib/actions/oauth";
+import { google} from "@/lib/actions/auth/oauth";
 import { cookies } from "next/headers";
 import { globalGETRateLimit} from "@/lib/actions/requests";
 
@@ -18,6 +18,7 @@ export async function GET(request: Request): Promise<Response> {
 
 
 	const next = searchParams.get("next");
+	const store_id = searchParams.get("store_id");
 	const cookieStore = await cookies();
 
 	cookieStore.set("google_oauth_state", state, {
@@ -44,6 +45,15 @@ export async function GET(request: Request): Promise<Response> {
 			sameSite: "lax",
 		});
 	}
+	if (store_id){
+		cookieStore.set("google_store_id",store_id, {
+			path: "/",
+			httpOnly: true,
+			secure: process.env.NODE_ENV === "production",
+			maxAge: 60 * 10, // same lifetime as the others
+			sameSite: "lax",
+		});
+	}
 
 	return new Response(null, {
 		status: 302,
@@ -52,3 +62,6 @@ export async function GET(request: Request): Promise<Response> {
 		}
 	});
 }
+
+
+

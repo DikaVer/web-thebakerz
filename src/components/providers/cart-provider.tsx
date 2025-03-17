@@ -1,24 +1,20 @@
 'use client';
 
-import React, {createContext, useContext, useState, ReactNode, useEffect} from 'react';
-import {CartData, CartItem, ProductDataField} from '@/lib/definitions';
-import {toast} from "sonner";
-import {IconSuccess} from "@/components/ui/icons";
-import {createNanoid} from "@/lib/utils";
+import React, { createContext, useContext, ReactNode, useState } from 'react';
+import ProductDialog from "@/components/store/product/dialog/product-dialog";
+import { ProductData, ProductDataFull } from "@/lib/actions/product";
+import { CartData, ItemCart, updateCart, removeCartItem } from "@/lib/actions/cart";
+import showErrorMessage from "@/components/toast/toast-error";
 
-
-interface CartContextType {
+interface CartContextProps {
     cart: CartData;
-    addToCart: (product: ProductDataField, quantity: number) => void;
-    updateProductCart: (product: CartItem, quantity: number) => void;
-    removeFromCart: (storeId: string, productId: string) => void;
-    clearCart: () => void;
-    getCartCount: (storeId: string) => number;
+    itemCount: number;
+    addItem: (cart: ItemCart) => void;
+    updateItem: (cart: ItemCart) => Promise<boolean>;
+    removeItem: (cart: ItemCart) => Promise<boolean>;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
-
-export const useCart = (): CartContextType => {
+export const useCart = () => {
     const context = useContext(CartContext);
     if (!context) {
         throw new Error('useCart must be used within a CartProvider');
@@ -26,151 +22,81 @@ export const useCart = (): CartContextType => {
     return context;
 };
 
-interface CartProviderProps {
-    storeData?: {
-        storeId: string,
-        nickname: string,
-        image: string
-    } | null;
-    children: ReactNode;
-}
+const CartContext = createContext<CartContextProps | undefined>(undefined);
 
-export const CartProvider: React.FC<CartProviderProps> = ({storeData, children }) => {
+export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; storeId: string;}> = ({
+                                                                                                children,
+                                                                                                cart,
+                                                                                                storeId
+                                                                                            }) => {
 
-    const [cart, setCart] = useState<CartData>({});
+    const [cartData, setCart] = useState<CartData>(cart);
 
-    useEffect(() => {
-        const storedCart = localStorage.getItem('cart');
-        if (storedCart) {
-            setCart(JSON.parse(storedCart));
-        }
-    }, []);
+    const initialItemCount = cartData[storeId] ? Object.keys(cartData[storeId]).length : 0;
+    const [itemCount, setItemCount] = useState<number>(initialItemCount);
 
-    const addToCart = (product: ProductDataField, quantity: number) => {
-        if (storeData) {
+
+    const addItem = (cart: ItemCart) => {
+        setItemCount((prevCount) => prevCount + 1);
+        setCart((prevCart) => ({
+            ...prevCart,
+            [cart.store_id]: {
+                ...prevCart[cart.store_id],
+                [cart.id]: cart,
+            },
+        }));
+    };
+
+    // Async update: calls server action updateCart and updates local state
+    const updateItem = async (cart: ItemCart) => {
+        const result = await updateCart(cart.product_id, cart.store_id, cart.note, cart.quantity, cart.id);
+        if (result.success && result.itemCart) {
             setCart((prevCart) => {
-
-                const storeCart = prevCart[product.store_id]?.products || [];
-                let uniqueId: string;
-                do {
-                    uniqueId = createNanoid(12);
-                } while (storeCart.some(item => item.uniqueId === uniqueId));
-
-                const updatedStoreCart = {
+                return {
                     ...prevCart,
-                    [product.store_id]: {
-                        ...storeData,
-                        products: [
-                            ...storeCart,
-                            {...product, quantity, uniqueId}
-                        ]
-                    }
+                    [cart.store_id]: {
+                        ...prevCart[cart.store_id],
+                        [cart.id]: cart,
+                    },
                 };
-                localStorage.setItem('cart', JSON.stringify(updatedStoreCart));
-                return updatedStoreCart;
             });
-
-            toast.success(
-                <div className={"flex flex-row gap-x-1 justify-between items-center"}>
-                    <IconSuccess className={"w-10 h-10 text-primary"}/>
-
-                    <div className={"flex flex-col"}>
-                        <p className={"text-base font-bold"}>
-                            {product.name} added to the cart
-                        </p>
-                    </div>
-                </div>
-            );
+            return true;
         } else {
-            toast.error("Something went wrong, please try again later");
+            showErrorMessage({ error: result.error ? result.error : "Error updating cart item" });
+            return false;
         }
     };
 
-    const updateProductCart = (product: CartItem, quantity: number) => {
-        setCart((prevCart) => {
-            const storeCart = prevCart[product.store_id]?.products || [];
-            const existingProductIndex = storeCart.findIndex(item => item.uniqueId === product.uniqueId);
-            if (existingProductIndex !== -1) {
-                // Update quantity if product already exists
-                const updatedStoreCart = [...storeCart];
-                updatedStoreCart[existingProductIndex].quantity = quantity;
-                const updatedCart = {
-                    ...prevCart,
-                    [product.store_id]: {
-                        ...prevCart[product.store_id],
-                        products: updatedStoreCart
-                    }
-                };
-                localStorage.setItem('cart', JSON.stringify(updatedCart));
-                return updatedCart;
-
-
-            } else {
-                // Add new product to cart
-                let uniqueId: string;
-                do {
-                    uniqueId = createNanoid(12);
-                } while (storeCart.some(item => item.uniqueId === uniqueId));
-
-                const updatedStoreCart = {
-                    ...prevCart,
-                    [product.store_id]: {
-                        ...prevCart[product.store_id],
-                        products: [
-                            ...storeCart,
-                            {...product, quantity, uniqueId}
-                        ]
-                    }
-                };
-                localStorage.setItem('cart', JSON.stringify(updatedStoreCart));
-
-                return updatedStoreCart
-            }
-        });
-
-    };
-
-    const removeFromCart = (storeId: string, productId: string) => {
-        // setCart((prevCart) => {
-        //     const storeCart = prevCart[storeId] || [];
-        //     const updatedStoreCart = storeCart.filter(item => item.id !== productId);
-        //     if (updatedStoreCart.length === 0) {
-        //         const { [storeId]: _, ...rest } = prevCart;
-        //         return rest;
-        //     }
-        //     return { ...prevCart, [storeId]: updatedStoreCart };
-        // });
-        setCart((prevCart) => {
-            const storeCart = prevCart[storeId]?.products || [];
-            const updatedStoreCart = storeCart.filter(item => item.uniqueId !== productId);
-            const updatedCart = {
-                ...prevCart,
-                [storeId]: {
-                    ...prevCart[storeId],
-                    products: updatedStoreCart
+    // Async remove: calls server action removeCartItem and updates local state
+    const removeItem = async (cart: ItemCart) => {
+        const result = await removeCartItem(storeId, cart.id);
+        if (result.success) {
+            setItemCount((prevCount) => prevCount - 1);
+            setCart((prevCart) => {
+                const newCart = { ...prevCart };
+                if (newCart[cart.store_id]) {
+                    delete newCart[cart.store_id][cart.id];
                 }
-            };
-            if (updatedStoreCart.length === 0) {
-                const { [storeId]: _, ...rest } = prevCart;
-                localStorage.setItem('cart', JSON.stringify(rest));
-                return rest;
-            }
-            localStorage.setItem('cart', JSON.stringify(updatedCart));
-            return updatedCart;
-        });
-    };
-
-    const clearCart = () => {
-        setCart({});
-    };
-
-    const getCartCount = (storeId: string) => {
-        const storeCart = cart[storeId]?.products || [];
-        return Math.min(storeCart.reduce((sum, item) => sum + item.quantity, 0), 99);
+                return newCart;
+            });
+            return true;
+        } else {
+            console.error("Error removing cart item", result.error);
+            showErrorMessage({ error: result.error ? result.error : "Error removing cart item" });
+            return false;
+        }
     };
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, updateProductCart, removeFromCart, clearCart, getCartCount }}>
+        <CartContext.Provider
+            value={{
+                cart: cartData,
+                itemCount,
+                removeItem,
+                updateItem,
+                addItem,
+            }}
+        >
             {children}
         </CartContext.Provider>
     );

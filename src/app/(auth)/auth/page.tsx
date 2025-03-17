@@ -5,6 +5,7 @@ import React from "react";
 import TwoStepAuthForm from "@/components/authentication/two-step-auth-form";
 import {globalGETRateLimit} from "@/lib/actions/requests";
 import {getCurrentSession} from "@/lib/actions/session";
+import {getTranslations} from "next-intl/server";
 
 export const metadata: Metadata = {
     title: "Authentication",
@@ -23,6 +24,8 @@ export default async function Page() {
     if (session !== null) {
         return redirect("/");
     }
+
+    const t = await getTranslations("TheBakerz");
 
     return (
         <main className="relative flex flex-col isolate min-h-screen items-center justify-center">
@@ -59,7 +62,7 @@ export default async function Page() {
                 <div className="mx-auto flex flex-col justify-center space-y-6 w-[350px]">
                     <div className={"container flex flex-col items-center w-full gap-1"}>
                         <p className={`flex text-7xl ${pacifico.className}`}>TheBakerz</p>
-                        <p className={"flex text-grayText"}>Sign in to order delicious treats</p>
+                        <p className={"flex text-grayText"}>{t("Auth_Description")}</p>
                     </div>
                     <TwoStepAuthForm/>
                 </div>

@@ -1,23 +1,22 @@
 "use client";
 
-import {Button} from '@heroui/button'
+import {Button} from '@heroui/react'
 import * as React from "react";
 import {usePathname, useRouter} from "next/navigation";
 import {pacifico} from "@/components/fonts";
 import {useEffect, useState} from "react";
+import {useTranslations} from "next-intl";
 
 interface SigninButtonProps {
     className: string;
-    variant: "default" | "secondary";
 }
 
-export const SigninButton = ({ className, variant }: SigninButtonProps) => {
+export const SigninButton = ({ className}: SigninButtonProps) => {
     // Router and pathname for navigation
     const router = useRouter();
     const pathname = usePathname();
     const [isLoading, setLoading] = useState(false);
-
-
+    const t = useTranslations("TheBakerz");
 
     // Redirects the user to the sign-in page, appending the current path for post-authActions redirection
     const handleSignIn = () => {
@@ -30,11 +29,11 @@ export const SigninButton = ({ className, variant }: SigninButtonProps) => {
         <Button
             isLoading={isLoading}
             disabled={isLoading}
-            className={`${className} ${pacifico.className} shadow-lg`}
-            color={variant === "default" ? "primary" : "secondary"}
+            variant={'bordered'}
+            className={`${className} ${pacifico.className} text-black bg-secondary border-1`}
             onPress={handleSignIn}
         >
-            {isLoading ? "Loading" : "Sign in"}
+            {isLoading ? t("Loading") : t("SignIn")}
         </Button>
     );
 }

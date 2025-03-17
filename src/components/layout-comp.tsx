@@ -4,19 +4,24 @@ import React, {useEffect} from "react";
 import {useDisclosure} from "@heroui/react";
 import {useMediaQuery} from "usehooks-ts";
 import SidebarMenu from "@/components/sidebar/sidebar-menu";
-import NavbarComponent from "@/components/navbar-comp";
+import {StoreData} from "@/lib/actions/store";
+import NavbarComponent from "@/components/navbar/navbar-comp";
+import {motion, useScroll} from "motion/react";
 
 
-interface Session {
-    login: boolean;  // Specifies if the user is logged in
-    role?: string;  // Role of the user (e.g., admin, user)
-    name?: string;  // Name of the user
-    email?: string;  // Email of the user
+
+
+
+interface LayoutCompProps {
+    children: React.ReactNode;
+    store?: StoreData;
+    hideSideBar?: boolean;
+    pay?: boolean;
 }
 
-export default function LayoutComp({ children, session }: { children: React.ReactNode, session: Session }) {
+export default function LayoutComp({ children, store, hideSideBar, pay }: LayoutCompProps) {
     const { isOpen, onOpenChange } = useDisclosure();
-    const [isCollapsed, setIsCollapsed] = React.useState(false);
+    const [isCollapsed, setIsCollapsed] = React.useState(true);
     const isMobile = useMediaQuery("(max-width: 768px)");
 
     useEffect(() => {
@@ -28,25 +33,44 @@ export default function LayoutComp({ children, session }: { children: React.Reac
     const onToggle = React.useCallback(() => {
         setIsCollapsed((prev) => !prev);
     }, []);
+    const { scrollYProgress } = useScroll()
 
     return (
         <div className="flex w-full">
+            <motion.div
+                id="scroll-indicator"
+                style={{
+                    scaleX: scrollYProgress,
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: "5px",
+                    originX: 0,
+                    background: "linear-gradient(90deg, #d016ca, #730c70)",
+                    zIndex: 9999,
+                }}
+            />
+
             {/* Sidebar */}
-            <SidebarMenu
+            {!hideSideBar &&
+                <SidebarMenu
+                store={store}
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
                 isCollapsed={isCollapsed}
                 isMobile={isMobile}
-                session={session}
             />
+            }
 
             <div className="w-full flex-1 flex-col">
                 <NavbarComponent
-                    isCollapsed={isCollapsed}
+                    store={store}
                     setIsCollapsed={setIsCollapsed}
-                    isMobile={isMobile}
                     onOpenChange={onOpenChange}
                     onToggle={onToggle}
+                    hideSideBar={hideSideBar}
+                    pay={pay}
                 />
                 <main className=" w-full overflow-visible">
                     {children}

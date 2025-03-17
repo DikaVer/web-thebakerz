@@ -1,14 +1,13 @@
 import 'server-only';
-import {
-    encodeBase32LowerCaseNoPadding,
-    encodeHexLowerCase,
-} from "@oslojs/encoding";
-import { sha256 } from "@oslojs/crypto/sha2";
-import { cookies } from "next/headers";
-import { cache } from "react";
+import {encodeBase32LowerCaseNoPadding, encodeHexLowerCase,} from "@oslojs/encoding";
+import {sha256} from "@oslojs/crypto/sha2";
+import {cookies} from "next/headers";
 
-import type { User } from "./user";
+import type {User} from "./user";
 import {connectionPool} from "@/db";
+import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
+import {getStoreByUserId, StoreData} from "@/lib/actions/store";
+import {v4 as uuidv4} from "uuid";
 
 export async function validateSessionToken(
     token: string
@@ -29,6 +28,7 @@ export async function validateSessionToken(
       users.email,
       users.name AS username,
       users.email_verified as emailVerified,
+      users.image as picture,
       users.role
     FROM sessions
     INNER JOIN users ON sessions.user_id = users.id
@@ -39,7 +39,7 @@ export async function validateSessionToken(
 
     // If no matching session is found, return null for both session and user.
     if (result.rows.length === 0) {
-        return { session: null, user: null };
+        return {session: null, user: null, store: null, schedule: null};
     }
 
     const row = result.rows[0];
@@ -58,8 +58,13 @@ export async function validateSessionToken(
         email: row.email,
         username: row.username,
         emailVerified: Boolean(row.emailVerified !== null), // ensure proper casing
-        role: row.role
+        role: row.role,
+        picture: row.picture
     };
+
+
+
+    const {store, schedule} = await getStoreByUserId(user.id);
 
     // If the session has expired, delete it from the database and return null.
     if (Date.now() >= session.expiresAt.getTime()) {
@@ -67,7 +72,7 @@ export async function validateSessionToken(
             `DELETE FROM sessions WHERE id = $1`,
             [session.id]
         );
-        return { session: null, user: null };
+        return { session: null, user: null, store: null, schedule: null };
     }
 
     // If the session is nearing expiry (within 15 days), extend it by 30 days from now.
@@ -75,23 +80,38 @@ export async function validateSessionToken(
         session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
         await connectionPool.query(
             `UPDATE sessions SET expires_at = $1 WHERE id = $2`,
-            [session.expiresAt.getTime(), session.id]
+            [session.expiresAt, session.id]
         );
     }
 
-    return { session, user };
+
+
+    return { session, user, store, schedule };
 }
 
 // Wrap getCurrentSession with React's cache. Note that since cookies() is now async,
 // we mark the callback as async and return a Promise.
-export const getCurrentSession = cache(async (): Promise<SessionValidationResult> => {
+export const getCurrentSession = async (): Promise<SessionValidationResult> => {
     const cookieStore = await cookies();
     const token = cookieStore.get("session")?.value ?? null;
+
     if (token === null) {
-        return { session: null, user: null };
+        return { session: null, user: null, store: null, schedule: null };
     }
-    return await validateSessionToken(token);
-});
+
+    // Call the validate-session API with the bearer token and a revalidation tag.
+    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/validate-session`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        next: {
+            tags: ['session'],
+            revalidate: 300
+        }
+    }).then(res => res.json());
+};
+
+
 
 export async function invalidateSession(sessionId: string): Promise<void> {
     try {
@@ -144,6 +164,27 @@ export async function deleteSessionTokenCookie(): Promise<void> {
     });
 }
 
+export async function getCartSessionCookieOrCreate(): Promise<string> {
+    const cookieStore = await cookies();
+    let userId = cookieStore.get("cart-session")?.value ?? null;
+    if (userId === null) {
+        userId = uuidv4();
+        cookieStore.set("cart-session", userId, {
+            path: '/', // makes the cookie available on the entire site
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 60 * 60 * 24 * 5, // 5 days
+        });
+    }
+    return userId;
+}
+
+export async function getCartSessionCookie(): Promise<string | null> {
+    const cookieStore = await cookies();
+    return cookieStore.get("cart-session")?.value ?? null;
+}
+
 export function generateSessionToken(): string {
     const tokenBytes = new Uint8Array(20);
     crypto.getRandomValues(tokenBytes);
@@ -190,6 +231,7 @@ export interface Session {
     userId: string;
 }
 
-type SessionValidationResult =
-    | { session: Session; user: User }
-    | { session: null; user: null };
+
+export type SessionValidationResult =
+    | { session: Session; user: User; store: StoreData | null; schedule: WorkHours | null }
+    | { session: null; user: null; store: null; schedule: null };

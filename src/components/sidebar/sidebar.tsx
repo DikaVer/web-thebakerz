@@ -15,18 +15,21 @@ import {cn} from "@heroui/react";
 export enum SidebarItemType {
   Nest = "nest",
 }
-
-export type SidebarItem = {
-  key: string;
-  title: string;
-  icon?: string;
-  href?: string;
-  type?: SidebarItemType.Nest;
-  startContent?: React.ReactNode;
-  endContent?: React.ReactNode;
-  items?: SidebarItem[];
-  className?: string;
-};
+// Add this to sidebar.tsx
+export interface SidebarItem {
+    key: string;
+    title?: string;
+    titleKey?: string; // Add this field
+    href?: string;
+    startContent?: React.ReactNode;
+    endContent?: React.ReactNode;
+    icon?: string;
+    iconComponent?: React.ReactNode;
+    iconClassName?: string;
+    disabled?: boolean;
+    type?: SidebarItemType;
+    items?: SidebarItem[];
+}
 
 export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
   items: SidebarItem[];

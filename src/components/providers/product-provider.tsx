@@ -1,128 +1,17 @@
 'use client';
 
-import React, { createContext, useState, useContext, ReactNode } from 'react';
-import {CartItem, ProductDataField, StoreData} from '@/lib/definitions';
-import {ProductDescriptionBakerz, ProductDescriptionUser} from '@/components/store/product/product-description';
-import ProductsAdd from "@/components/store/product/products-add";
+import React, { createContext, useContext, ReactNode, useState } from 'react';
+import ProductDialog from "@/components/store/product/dialog/product-dialog";
+import { ProductData, ProductDataFull } from "@/lib/actions/product";
+import { CartData, ItemCart, updateCart, removeCartItem } from "@/lib/actions/cart";
+import showErrorMessage from "@/components/toast/toast-error";
 
 interface ProductDialogContextProps {
-    openProductDialogCart: (product: CartItem) => void;
-    openProductDialogStore: (product: ProductDataField) => void;
-    closeProductDialog: () => void;
-    openProductDialogBakerz: (product: ProductDataField, isPending: boolean, setPending: (isPending: boolean) => void, setStoreData: (data: StoreData) => void) => void;
-    editProductDialogBakerz: (product: ProductDataField, isPending: boolean, setPending: (isPending: boolean) => void, setStoreData: (data: StoreData) => void) => void;
+    handleOpen: (productId?: string, itemCart?: ItemCart, isBakerzOrder?: boolean) => void;
+    getProductDataById: (productId: string) => ProductData | undefined;
+    handleOpenWithProduct: (product: ProductData, itemCart?: ItemCart, isBakerzOrder?: boolean) => void;
+    setProductsDataLocal: (data: ProductDataFull) => void;
 }
-
-const ProductDialogContext = createContext<ProductDialogContextProps | undefined>(undefined);
-
-export const ProductDialogProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [isDialogUserOpen, setDialogUserOpen] = useState(false);
-    const [isDialogBakerzOpen, setDialogBakerzOpen] = useState(false);
-    const [isDialogBakerzEditOpen, setDialogBakerzEditOpen] = useState(false);
-    const [isPending, setIsPending] = useState<boolean | undefined>(undefined);
-    const [setPending, setSetPending] = useState<((isPending: boolean) => void) | undefined>(undefined);
-    const [setStoreData, setSetStoreData] = useState<((data: StoreData) => void) | undefined>(undefined);
-    const [productData, setProductData] = useState<ProductDataField | undefined>();
-    const [editCartData, setEditCartData] = useState<{
-        quantity: number;
-        uniqueId: string;
-    } | undefined>();
-
-    const openProductDialogStore = (product: ProductDataField) => {
-        closeProductDialog();
-        setProductData(product);
-        setDialogUserOpen(true);
-    };
-
-    const openProductDialogCart = (product: CartItem) => {
-        closeProductDialog();
-        setProductData(product);
-        setEditCartData({
-            quantity: product.quantity,
-            uniqueId: product.uniqueId,
-        });
-        setDialogUserOpen(true);
-    };
-
-    const closeProductDialog = () => {
-        setIsPending(undefined);
-        setSetPending(undefined);
-        setSetStoreData(undefined);
-        setDialogUserOpen(false);
-        setDialogBakerzOpen(false);
-        setProductData(undefined);
-        setEditCartData(undefined);
-    };
-
-    const openProductDialogBakerz = (
-        product: ProductDataField,
-        isPending: boolean,
-        setPending: (isPending: boolean) => void,
-        setStoreData: (data: StoreData) => void
-    ) => {
-        closeProductDialog();
-        setProductData(product);
-        setIsPending(isPending);
-        setSetPending(() => setPending);
-        setSetStoreData(() => setStoreData);
-
-        setDialogBakerzOpen(true);
-    }
-
-
-
-    const editProductDialogBakerz = (
-        product: ProductDataField,
-        isPending: boolean,
-        setPending: (isPending: boolean) => void,
-        setStoreData: (data: StoreData) => void
-                                     ) => {
-        closeProductDialog();
-        setProductData(product);
-        setIsPending(isPending);
-        setSetPending(() => setPending);
-        setSetStoreData(() => setStoreData);
-
-        setDialogBakerzEditOpen(true);
-
-    }
-
-    return (
-        <ProductDialogContext.Provider value={{ openProductDialogStore, closeProductDialog, openProductDialogCart, openProductDialogBakerz, editProductDialogBakerz }}>
-            {children}
-            {isDialogUserOpen && productData && (
-                <ProductDescriptionUser
-                    isDialogOpen={isDialogUserOpen}
-                    setDialogOpen={setDialogUserOpen}
-                    productData={productData}
-                    editCartData={editCartData}
-                />
-            )}
-            {isDialogBakerzOpen && productData && isPending !== undefined && setPending && setStoreData && (
-                <ProductDescriptionBakerz
-                    isDialogOpen={isDialogBakerzOpen}
-                    setDialogOpen={setDialogBakerzOpen}
-                    productData={productData}
-                    isPending={isPending}
-                    setStoreData={setStoreData}
-                    setPending={setPending}
-                />
-            )}
-            {isDialogBakerzEditOpen && productData && isPending !== undefined && setPending && setStoreData && (
-                <ProductsAdd
-                    storeId={productData.store_id}
-                    isPending={isPending}
-                    setStoreData={setStoreData}
-                    setPending={setPending}
-                    isDialogOpen={isDialogBakerzEditOpen}
-                    setDialogOpen={setDialogBakerzEditOpen}
-                    productData={productData}
-                    action="update"
-                />
-            )}
-        </ProductDialogContext.Provider>
-    );
-};
 
 export const useProductDialog = () => {
     const context = useContext(ProductDialogContext);
@@ -130,4 +19,64 @@ export const useProductDialog = () => {
         throw new Error('useProductDialog must be used within a ProductDialogProvider');
     }
     return context;
+};
+
+const ProductDialogContext = createContext<ProductDialogContextProps | undefined>(undefined);
+
+export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDataServer?: ProductDataFull; storeId: string }> = ({children, productsDataServer, storeId}) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [productData, setProductData] = useState<ProductData | undefined>();
+    const [productsData, setProductsData] = useState<ProductDataFull>(productsDataServer ? productsDataServer : {});
+    const [itemCart, setItemCartId] = useState<ItemCart | undefined>();
+    const [isBakerzOrder, setIsBakerzOrder] = useState<boolean>(false);
+
+
+    const onClose = () => {
+        setIsOpen(false);
+        setItemCartId(undefined);
+        setProductData(undefined);
+    };
+
+    const handleOpen = (productId?: string, itemCart?: ItemCart, isBakerzOrder?: boolean) => {
+        setProductData(getProductDataById(productId ? productId : ''));
+        setItemCartId(itemCart);
+        setIsBakerzOrder(isBakerzOrder ? isBakerzOrder : false);
+        setIsOpen(true);
+    };
+
+
+    const handleOpenWithProduct = (product: ProductData, itemCart?: ItemCart, isBakerzOrder?: boolean) => {
+        if (product) {
+            setProductData(product);
+            setItemCartId(itemCart);
+            setIsBakerzOrder(isBakerzOrder ? isBakerzOrder : false);
+            setIsOpen(true);
+        } else {
+            showErrorMessage({ error: 'Product not found' });
+        }
+    };
+
+    const getProductDataById = (productId: string) => {
+        return productsData ? productsData[productId] : undefined;
+    };
+
+    const setProductsDataLocal = (data: ProductDataFull) => {
+        setProductsData(data);
+    };
+
+
+
+    return (
+        <ProductDialogContext.Provider
+            value={{
+                handleOpenWithProduct,
+                handleOpen,
+                getProductDataById,
+                setProductsDataLocal,
+            }}
+        >
+            <ProductDialog storeId={storeId} productData={productData} isOpen={isOpen} onClose={onClose} itemCart={itemCart} bakerzOrder={isBakerzOrder}/>
+            {children}
+        </ProductDialogContext.Provider>
+    );
 };

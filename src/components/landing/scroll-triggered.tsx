@@ -3,6 +3,7 @@
 import React, {CSSProperties, ReactElement, ReactNode} from "react";
 import { motion, type Variants } from "motion/react";
 import {Icon} from "@iconify/react";
+import {useTranslations} from "next-intl";
 
 interface CardProps {
     icon: ReactElement;
@@ -69,14 +70,14 @@ const card: React.CSSProperties = {
 }
 
 const food: [string, ReactElement, string, string][] = [
-    ["online-store", <Icon icon={`solar:shop-2-broken`}/>, "Online Store", "We create your own online store to showcase your delicious creations and accept orders seamlessly."],
-    ["order-managment", <Icon icon={`solar:calculator-minimalistic-broken`}/>, "Order Management", "Easily track and manage all your orders in one place, reducing the risk of errors and missed orders."],
-    ["all-chats-in-one-place", <Icon icon={`solar:chat-round-dots-broken`}/>, "All Chats in One Place", "Connect customer chats from Instagram, Facebook, and WhatsApp to orders in one place for easy communication."],
-    ["flexible-support",<Icon icon={`solar:help-broken`}/>, "Flexible Support", "Our dedicated team is here to help during our available hours, ensuring your queries are addressed promptly."],
+    ["features.online_store.key", <Icon icon={`solar:shop-2-broken`}/>, "features.online_store.title", "features.online_store.description"],
+    ["features.order_management.key", <Icon icon={`solar:calculator-minimalistic-broken`}/>, "features.order_management.title", "features.order_management.description"],
+    ["features.all_chats.key", <Icon icon={`solar:chat-round-dots-broken`}/>, "features.all_chats.title", "features.all_chats.description"],
+    ["features.support.key", <Icon icon={`solar:help-broken`}/>, "features.support.title", "features.support.description"],
 ];
 
 function Card({ icon, title, description }: CardProps) {
-
+    const t = useTranslations("TheBakerz");
     return (
         <motion.div
             style={cardContainer}
@@ -91,8 +92,8 @@ function Card({ icon, title, description }: CardProps) {
                      className={`h-full py-10 gap-y-6 px-6`}
                 >
                     <div style={{fontSize: 64}}>{icon}</div>
-                    <h2 className={`bg-gradient-text text-3xl lg:text-2xl text-center mb-4`}>{title}</h2>
-                    <p className={`text-lg text-grayText`}>{description}</p>
+                    <h2 className={`bg-gradient-text text-3xl lg:text-2xl text-center mb-4`}>{t(title)}</h2>
+                    <p className={`text-lg text-grayText`}>{t(description)}</p>
                 </div>
             </motion.div>
         </motion.div>

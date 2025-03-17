@@ -205,7 +205,7 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
                           >
                             <div className="flex items-center justify-center">
                               {status === "complete" ? (
-                                <CheckIcon className="h-6 w-6 text-[var(--active-fg-color)]" />
+                                <CheckIcon className="h-6 w-6 text-white dark:text-default-400" />
                               ) : (
                                 <span>{stepIdx + 1}</span>
                               )}
@@ -214,7 +214,7 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
                         </div>
                       </LazyMotion>
                     </div>
-                    <div className="flex-1 text-left">
+                    <div className="flex flex-col text-left">
                       <div>
                         <div
                           className={cn(

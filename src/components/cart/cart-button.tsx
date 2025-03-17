@@ -1,48 +1,144 @@
 "use client";
+import { Icon } from "@iconify/react";
+import React, { useState } from "react";
+import {
+    Button,
+    Divider,
+    Drawer,
+    DrawerBody,
+    DrawerContent,
+    DrawerHeader,
+    Spacer,
+    useDisclosure,
+    Badge,
+    ScrollShadow
+} from "@heroui/react";
+import { useMediaQuery } from "usehooks-ts";
+import { useProductDialog } from "@/components/providers/product-provider";
+import { useRouter } from "next/navigation";
+import { useStore } from "@/components/providers/store-provider";
+import { CartItemRow } from "@/components/cart/cart-item";
+import { useCart } from "@/components/providers/cart-provider";
+import { useTranslations } from "next-intl";
 
-import {Button} from "@/components/ui/button";
-import * as React from "react";
-import {IconCart} from "@/components/ui/icons";
-import {useEffect, useState} from "react";
-import CartComponent from "@/components/cart/cart-component";
-import {useCart} from "@/components/providers/cart-provider";
-import {Badge} from "@heroui/badge";
+const CartButton: React.FC = () => {
+    const {
+        getProductDataById,
+        handleOpen
+    } = useProductDialog();
 
+    const {
+        itemCount,
+        cart,
+        updateItem,
+        removeItem,
+    } = useCart();
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const isMobile = useMediaQuery("(max-width: 768px)");
+    const [isLoading, setIsLoading] = useState(false);
+    const { store } = useStore();
+    const router = useRouter();
+    const t = useTranslations("TheBakerz");
+    const storeUrl = store?.storeName ? store?.storeName : store?.id;
 
-export const CartButton = ({
-        storeId
-                           } : {
-        storeId?: string;
-}) => {
+    const handleOpenDrawer = () => onOpen();
 
-    const [isCartOpen, setMenuOpen] = useState(false);
+    const renderCartItems = (isLoading: boolean, setIsLoading: (value: boolean) => void) => {
+        const itemsArray = Object.values(cart).flatMap(
+            (storeCart) => Object.values(storeCart)
+        );
 
-    const { getCartCount, cart } = useCart();
-
-    // Toggles the visibility of the menu
-    const toggleCart = () => {
-        setMenuOpen((prevState) => !prevState);
+        return itemsArray.map((item) => {
+            const productData = getProductDataById(item.product_id);
+            if (!productData) return null;
+            return (
+                <CartItemRow
+                    key={item.id}
+                    item={item}
+                    productData={productData}
+                    updateItem={updateItem}
+                    removeItem={removeItem}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
+                    handleOpen={handleOpen}
+                />
+            );
+        });
     };
-
-    const count = storeId ? getCartCount(storeId) : 0;
-
 
     return (
         <>
-            <Button className="flex p-2 items-center rounded-full"
-                    size={"lg"}
-                    variant={"ghost"}
-                    onPress={toggleCart}
+            <Badge
+                color="secondary"
+                content={itemCount > 99 ? "99+" : itemCount}
+                isInvisible={itemCount === 0}
+                classNames={{
+                    badge: "border-text",
+                }}
+                shape="circle"
             >
-                    <Badge color="primary" content={count} isInvisible={count <= 0} shape="circle">
-                        <IconCart className="w-7 h-6 pr-1 text-text"/>
-                    </Badge>
-            </Button>
-            <CartComponent
-                isOpen={isCartOpen}
-                cart={cart}
-                onClose={() => toggleCart()}
-            />
+                <Button isIconOnly radius={'full'} color={'primary'} className={'bg-gradient-primary'} onPress={handleOpenDrawer}>
+                    <Icon
+                        icon={"solar:cart-large-2-bold"}
+                        height={24}
+                        width={24}
+                        className="text-white"
+                    />
+                </Button>
+            </Badge>
+            <Drawer
+                isOpen={isOpen}
+                placement={isMobile ? "bottom" : "right"}
+                onOpenChange={onOpenChange}
+                isDismissable={!isLoading}
+                backdrop="blur"
+                hideCloseButton={isLoading}
+            >
+                <DrawerContent>
+                    {(onClose) => (
+                        <>
+                            {itemCount > 0 ? (
+                                <>
+                                    <DrawerHeader className="flex flex-col">
+                                        {!isMobile && <Spacer y={16} />}
+                                        <p className="text-default-500 text-xs font-medium">
+                                            {t("Your cart from")}
+                                        </p>
+                                        <p className="text-xl">{store.ownerName}</p>
+                                        <Spacer y={4} />
+                                        <Button
+                                            isLoading={isLoading}
+                                            className="w-full bg-gradient-primary text-2xl rounded-full text-white"
+                                            onPress={() => {
+                                                setIsLoading(true);
+                                                router.push(`${storeUrl}/checkout`);
+                                                router.refresh();
+                                            }}
+                                        >
+                                            {t("Continue")}
+                                        </Button>
+                                    </DrawerHeader>
+                                    <DrawerBody>
+                                        <ScrollShadow className="max-h-full">
+                                            <Divider />
+                                            {renderCartItems(isLoading, setIsLoading)}
+                                        </ScrollShadow>
+                                    </DrawerBody>
+                                </>
+                            ) : (
+                                <DrawerHeader className="flex flex-col text-xs font-medium items-center">
+                                    {!isMobile && <Spacer y={16} />}
+                                    <p>{t("Cart Empty")}</p>
+                                    <p>{t("Add Items To Start")}</p>
+                                    <Spacer y={48} />
+                                </DrawerHeader>
+                            )}
+                        </>
+                    )}
+                </DrawerContent>
+            </Drawer>
         </>
     );
-}
+};
+
+export default CartButton;

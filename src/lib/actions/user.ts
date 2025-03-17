@@ -1,10 +1,14 @@
 import {connectionPool} from "@/db";
+import {ActionResult} from "@/app/(auth)/auth/actions";
+import {createSession, generateSessionToken, setSessionTokenCookie} from "@/lib/actions/session";
+import {acceptTOS} from "@/lib/term-of-service";
+import {TOS_VERSION} from "@/lib/local-variables";
+import {revalidateTag} from "next/cache";
 
 export async function createUser(email: string): Promise<User> {
     try {
         const emailSplit = email.split("@")
         const username = emailSplit[0]
-
         const result = await connectionPool.query(
             `INSERT INTO users (email, name) VALUES ($1, $2) RETURNING id`,
             [email, username]
@@ -136,7 +140,7 @@ export async function setUserAsEmailVerifiedIfEmailMatches(
         const result = await connectionPool.query(
             `
       UPDATE users
-      SET "emailVerified" = NOW()
+      SET email_verified = NOW()
       WHERE id = $1 AND email = $2
       `,
             [userId, email]
@@ -174,7 +178,7 @@ export async function getUserFromEmail(email: string): Promise<User | null> {
             id: row.id,
             email: row.email,
             username: row.username,
-            emailVerified: row.emailVerified !== null, // if a timestamp exists, the email is verified
+            emailVerified: row.email_verified !== null, // if a timestamp exists, the email is verified
             role: row.role,
         };
 
@@ -184,6 +188,56 @@ export async function getUserFromEmail(email: string): Promise<User | null> {
         throw new Error('Failed to get user by email.');
     }
 }
+
+export async function isStoreNicknameExist(nickname: string): Promise<Boolean> {
+    try {
+        const result = await connectionPool.query(
+            `
+      SELECT 
+        id
+      FROM stores
+      WHERE nickname = $1
+      `,
+            [nickname]
+        );
+
+        if (result.rows.length === 0) {
+            return false;
+        } else {
+            return true;
+        }
+
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to get user by email.');
+    }
+}
+
+export async function creatAccountAction(email: string, bearer: string): Promise<User | null> {
+    if (!email) {
+        return null;
+    }
+    if (!bearer) {
+        return null;
+    }
+    if (bearer !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
+        return null;
+    }
+
+    let user: User | null = await getUserFromEmail(email as string);
+    if (user === null) {
+        user = await createUser(email as string);
+    }
+
+    // const sessionToken =  generateSessionToken();
+    // const session = await createSession(sessionToken, user.id);
+    //
+    // await setSessionTokenCookie(sessionToken, session.expiresAt);
+    await acceptTOS(user.email, TOS_VERSION, "payment", "explicit", "payment");
+    revalidateTag('session');
+    return user;
+}
+
 
 export interface User {
     id: string;

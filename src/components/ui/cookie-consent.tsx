@@ -2,35 +2,25 @@
 
 import React, {useEffect, useState} from "react";
 import {Button, cn, Link, ResizablePanel, Spacer} from "@heroui/react";
-import useCookieConsent from "@/lib/hooks/useCookieConsent";
 import {LazyMotion, domAnimation, AnimatePresence, m} from "framer-motion";
-import SwitchCell from "@/components/settings/switch-cell";
 import {Icon} from "@iconify/react";
-
-const variants = {
-    visible: {opacity: 1},
-    hidden: {opacity: 0},
-};
+import { useTransition } from "react";
+import SwitchCell from "@/components/ui/switch-cell";
+import {useRouter} from "next/navigation";
+import {acceptAll, CookiePreferences, rejectAll, savePreferences} from "@/lib/cookie";
+import { useTranslations } from "next-intl";
 
 export default function CookieConsentComponent() {
+    const t = useTranslations("TheBakerz");
 
-
-    const { consent, preferences, acceptAll, rejectAll, savePreferences } = useCookieConsent();
-    const [localPreferences, setLocalPreferences] = useState(preferences);
+    const [localPreferences, setLocalPreferences] = useState<CookiePreferences>({
+        necessary: true,
+        analytics: true,
+        marketing: true,
+    });
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const [currentVariant, setCurrentVariant] = useState("visible");
-
-    useEffect(() => {
-        setLocalPreferences(preferences);
-    }, [preferences]);
-
-    // Show banner only if consent is not given
-    if (consent) {
-        return null;
-    }
-
-
-
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = e.target;
@@ -40,12 +30,19 @@ export default function CookieConsentComponent() {
         }));
     };
 
-    const handleAcceptSelected = () => {
-        savePreferences(localPreferences);
-        setIsSettingsOpen(false);
+    const handleAcceptSelected = async () => {
+        await savePreferences(localPreferences);
+        setIsLoading(true);
     };
 
+    const handleRejectAll = async () => {
+        await rejectAll();
+        setIsLoading(false);
+    };
 
+    if (isLoading) {
+        return null;
+    }
 
     const AnimatedWrapper = ({
                                  children,
@@ -64,7 +61,6 @@ export default function CookieConsentComponent() {
                     duration: 0.5,
                 },
             }}
-            variants={variants}
             {...props}
         >
             {children}
@@ -73,48 +69,47 @@ export default function CookieConsentComponent() {
 
     const cookieSettingsContent = (
         <div className={`pointer-events-auto ml-auto max-w-sm rounded-large border border-divider bg-background/15 p-6 shadow-small backdrop-blur`}>
-            <h1 className="text-large font-semibold">Your Privacy</h1>
+            <h1 className="text-large font-semibold">{t("YourPrivacy")}</h1>
             <p className="text-small font-normal text-default-700">
-                This site uses tracking technologies to improve your experience. You may choose to accept or
-                reject these technologies. Check our{" "}
+                {t("PrivacyDescription")}{" "}
                 <Link href="/policies/privacy-policy" size="sm" underline="always">
-                    Privacy
+                    {t("Privacy")}
                 </Link>{" "}
-                for more information.
+                {t("ForMoreInfo")}
             </p>
             <Spacer y={4} />
             <div className="flex flex-col gap-y-2">
                 <SwitchCell
-                    defaultSelected={localPreferences.necessary}
+                    defaultSelected={true}
                     classNames={{
                         base: "dark:bg-content1",
                         label: "text-small",
                     }}
-                    description="Essential for the site to function"
-                    label="Essential"
+                    description={t("EssentialDescription")}
+                    label={t("Essential")}
                     name="necessary"
                     onChange={handleCheckboxChange}
                     isDisabled
                 />
                 <SwitchCell
-                    defaultSelected={localPreferences.marketing}
+                    defaultSelected={true}
                     classNames={{
                         base: "dark:bg-content1",
                         label: "text-small",
                     }}
-                    description="To show you relevant content"
-                    label="Marketing"
+                    description={t("MarketingDescription")}
+                    label={t("Marketing")}
                     name="marketing"
                     onChange={handleCheckboxChange}
                 />
                 <SwitchCell
-                    defaultSelected={localPreferences.analytics}
+                    defaultSelected={true}
                     classNames={{
                         base: "dark:bg-content1",
                         label: "text-small",
                     }}
-                    description="To understand how you use the site"
-                    label="Analytics"
+                    description={t("AnalyticsDescription")}
+                    label={t("Analytics")}
                     name="analytics"
                     onChange={handleCheckboxChange}
                 />
@@ -123,19 +118,19 @@ export default function CookieConsentComponent() {
             <div className="flex justify-between gap-x-3">
                 <Button
                     fullWidth
+                    className={`bg-gradient-primary text-default-200 text-md`}
                     radius="lg"
-                    style={{
-                        border: "solid 2px transparent",
-                        backgroundImage: `linear-gradient(hsl(var(--nextui-background)), hsl(var(--nextui-background))), linear-gradient(83.87deg, #F54180, #9353D3)`,
-                        backgroundOrigin: "border-box",
-                        backgroundClip: "padding-box, border-box",
-                    }}
+                    isLoading={isLoading}
+                    isDisabled={isLoading}
                     onPress={handleAcceptSelected}
                 >
-                    Accept Selected
+                    {t("AcceptSelected")}
                 </Button>
-                <Button fullWidth variant="bordered" onPress={rejectAll}>
-                    Reject All
+                <Button fullWidth variant="bordered"
+                        isLoading={isLoading}
+                        isDisabled={isLoading}
+                        onPress={handleRejectAll}>
+                    {t("RejectAll")}
                 </Button>
             </div>
         </div>
@@ -143,55 +138,53 @@ export default function CookieConsentComponent() {
 
     const cookiesAlertContent = (
         <AnimatedWrapper>
+            <h1 className="text-large font-semibold">{t("ContinueToTheBakerz")}</h1>
             <p className="text-small font-normal text-default-700">
-                We use cookies on our website to give you the most relevant experience by remembering your
-                preferences and repeat visits. By clicking&nbsp;
-                <b className="font-semibold">&quot;Accept All&quot;</b>, you consent to the use of ALL the
-                cookies. However, you may visit&nbsp;
-                <span className="font-semibold">&quot;Cookie Settings&quot;</span> to provide a controlled
-                consent. For more information, please read our{" "}
+                {t("CookiesExplanation")}
+            </p>
+            <p className="text-small font-normal text-default-700">
+                {t("CookiesConsentText")}{" "}
                 <Link href="/policies/privacy-policy" size="sm" underline="hover">
-                    Cookie Policy.
+                    {t("CookiePolicy")}
                 </Link>
             </p>
             <div className="mt-4 space-y-2">
                 <Button
                     fullWidth
-                    className="px-4 font-medium"
+                    className={`bg-gradient-primary text-default-200 text-xl`}
                     radius="lg"
-                    style={{
-                        border: "solid 2px transparent",
-                        backgroundImage: `linear-gradient(hsl(var(--nextui-background)), hsl(var(--nextui-background))), linear-gradient(83.87deg, #F54180, #9353D3)`,
-                        backgroundOrigin: "border-box",
-                        backgroundClip: "padding-box, border-box",
-                    }}
-                    endContent={<Icon className="ml-2 inline-block h-6 w-6 text-text" icon="lucide:cookie" />}
+                    endContent={<Icon className="ml-2 inline-block h-6 w-6 text-default-200" icon="lucide:cookie"/>}
+                    isLoading={isLoading}
+                    isDisabled={isLoading}
                     onPress={acceptAll}
                 >
-                    Accept All
+                    {t("AcceptAll")}
                 </Button>
                 <Button
                     fullWidth
                     className="border-default-200 font-medium text-default-foreground"
                     radius="lg"
                     variant="bordered"
-                    onPress={rejectAll}
+                    isLoading={isLoading}
+                    isDisabled={isLoading}
+                    onPress={handleRejectAll}
                 >
-                    Reject All
+                    {t("RejectAll")}
                 </Button>
                 <Button
                     fullWidth
                     className="font-medium text-default-foreground"
                     radius="lg"
                     variant="light"
+                    isLoading={isLoading}
+                    isDisabled={isLoading}
                     onPress={() => setIsSettingsOpen(true)}
                 >
-                    Cookie Settings
+                    {t("CookieSettings")}
                 </Button>
             </div>
         </AnimatedWrapper>
     );
-
 
     return (
         <div className="pointer-events-none fixed inset-x-0 bottom-0 px-6 pb-6 z-50">

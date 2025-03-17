@@ -1,38 +1,43 @@
-import {Avatar, AvatarIcon, Button, cn, Image, Spacer, Tooltip} from "@heroui/react";
-import {pacifico} from "@/components/fonts";
-import {ScrollShadow} from "@heroui/scroll-shadow";
+// TypeScript
+import { AvatarIcon, Button, cn, Image, Spacer, Tooltip, Avatar, ScrollShadow } from "@heroui/react";
+import { pacifico } from "@/components/fonts";
 import Sidebar from "@/components/sidebar/sidebar";
-import {Icon} from "@iconify/react";
+import { Icon } from "@iconify/react";
 import SidebarDrawer from "@/components/sidebar/sidebar-drawer";
-import React, {useEffect} from "react";
-import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {ThemeSwitcher} from "@/components/ui/ThemeSwitcher";
-import {SignOutButton} from "@/components/ui/signout-button";
+import React, { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { ThemeSwitcher } from "@/components/ui/theme-switcher";
+import { SignOutButton } from "@/components/ui/signout-button";
 import {
     sectionItemsAdmin,
     sectionItemsBakerz,
+    sectionItemsGuestStore,
     sectionItemsGuestTheBakerz,
-    sectionItemsUser
+    sectionItemsTheBakerz,
+    sectionItemsUser,
+    sectionStoreItemsUser
 } from "@/components/sidebar/sidebar-items";
-
+import { useTheme } from "next-themes";
+import { useSession } from "@/components/providers/session-provider";
+import { SessionValidationResult } from "@/lib/actions/session";
+import { StoreData } from "@/lib/actions/store";
+import { useTranslations } from "next-intl";
 
 interface SidebarMenuProps {
+    store?: StoreData;
     isOpen: boolean;
     onOpenChange: () => void;
     isCollapsed: boolean;
     isMobile: boolean;
-    session: {
-        login: boolean;  // Specifies if the user is logged in
-        role?: string;  // Role of the user (e.g., admin, user)
-        name?: string;  // Name of the user
-        email?: string;  // Email of the user
-    }
 }
 
-export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session}: SidebarMenuProps) {
+
+export default function SidebarMenu({ store, isOpen, onOpenChange, isCollapsed }: SidebarMenuProps) {
+    const t = useTranslations("TheBakerz");
     const pathname = usePathname();
     const router = useRouter();
-    const currentPath = pathname.split("/")?.[1]
+    const currentPath = pathname.split("/")?.[1];
+    const { session } = useSession();
 
     useEffect(() => {
         if (isOpen) {
@@ -40,10 +45,14 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
         }
     }, [pathname]);
 
+    const { theme } = useTheme();
+    const storeUrl = session.store?.storeName ? session.store?.storeName : session.store?.id;
+
+
 
     return (
         <SidebarDrawer
-            className={cn("min-w-[240px] rounded-lg", {"min-w-[64px]": isCollapsed})}
+            className={cn("min-w-[240px] rounded-lg", { "min-w-[64px]": isCollapsed })}
             hideCloseButton={true}
             isOpen={isOpen}
             onOpenChange={onOpenChange}
@@ -51,29 +60,28 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
             <div
                 className={cn(
                     `fixed will-change flex h-full w-60 rounded-r-lg flex-col px-2 py-6 transition-width border-r bg-background`,
-                    {
-                        "w-[64px] items-center px-[6px] py-6": isCollapsed,
-                    },
+                    { "w-[64px] items-center px-[6px] py-6": isCollapsed }
                 )}
             >
                 <a
-                    className={cn("flex items-center gap-3 pl-2", {
-                        "justify-center gap-0 pl-0": isCollapsed,
-                    })}
-                    href="/"
+                    className={cn("flex items-center gap-3 pl-2", { "justify-center gap-0 pl-0": isCollapsed })}
+                    href={store ? `/${storeUrl}` : "/"}
                 >
-                    <Image
-                        src={`/images/TheBakerzLogo.svg`}
-                        width={isCollapsed ? 48 : 64}
-                        height={64}
-                    />
-                    <span
-                        className={cn(`w-full text-3xl  opacity-100 ${pacifico.className}`, {
-                            "w-0 opacity-0": isCollapsed,
-                        })}
-                    >
-                            TheBakerz
-                        </span>
+                    {store ? (
+                        <></>
+                    ) : (
+                        <>
+                            <Image src={`/images/TheBakerzLogo.svg`} alt="Logo" width={isCollapsed ? 48 : 64} height={64} />
+                            <span
+                                className={cn(
+                                    "block w-[300px] text-3xl opacity-100 " + pacifico.className + " truncate",
+                                    { "w-0 opacity-0": isCollapsed }
+                                )}
+                            >
+                {t("App Name")}
+              </span>
+                        </>
+                    )}
                 </a>
 
                 <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
@@ -83,160 +91,205 @@ export default function SidebarMenu({ isOpen, onOpenChange, isCollapsed, session
                         iconClassName="group-data-[selected=true]:text-text"
                         isCompact={isCollapsed}
                         itemClasses={{
-                            base: "px-3 rounded-large data-[selected=true]:shadow ",
-                            title: "group-data-[selected=true]:text-text",
+                            base: "px-3 rounded-large data-[selected=true]:shadow",
+                            title: "group-data-[selected=true]:text-text"
                         }}
-                        items={getItemsByRole(session.role ?? "")}
+                        items={getItemsByRole(session, t, store)}
                     />
                 </ScrollShadow>
 
-                <Spacer y={8}/>
+                <Spacer y={8} />
 
-                <div
-                    className={cn("mt-auto flex flex-col", {
-                        "items-center": isCollapsed,
-                    })}
-                >
-                    <div className={cn({hidden: isCollapsed})}>
-                        <ThemeSwitcher/>
+                <div className={cn("mt-auto flex flex-col", { "items-center": isCollapsed })}>
+                    <div className={`${isCollapsed && "hidden"} flex flex-row-reverse w-full`}>
+                        <ThemeSwitcher />
                     </div>
-                    <Spacer y={3}/>
-                    <hr/>
-                    <Spacer y={2}/>
-                    {session.login ?
-                        <LoggedInMenu
-                            name={session.name}
-                            isCollapsed={isCollapsed}
-                        />
-                        :
-                        <GuestMenu
-                            isCollapsed={isCollapsed}
-                        />
-                    }
-
-                    <Spacer y={2}/>
-                    <hr/>
-                    <Spacer y={3}/>
-                    <Tooltip
-                        content="Support" isDisabled={!isCollapsed}
-                        placement="right">
+                    <Spacer y={3} />
+                    <hr />
+                    <Spacer y={2} />
+                    {session.user ? (
+                        <LoggedInMenu name={session.user.username} isCollapsed={isCollapsed} theme={theme === "light"} picture={session.user.picture} />
+                    ) : (
+                        <GuestMenu isCollapsed={isCollapsed} />
+                    )}
+                    <Spacer y={2} />
+                    <hr />
+                    <Spacer y={3} />
+                    <Tooltip content={t("Support")} isDisabled={!isCollapsed} placement="right">
                         <Button
                             fullWidth
                             className={cn(
                                 "justify-start truncate text-grayText data-[hover=true]:text-foreground data-[hover=true]:bg-default/40",
-                                {
-                                    "justify-center": isCollapsed,
-                                },
+                                { "justify-center": isCollapsed }
                             )}
                             isIconOnly={isCollapsed}
                             startContent={
                                 isCollapsed ? null : (
-                                    <Icon
-                                        className="flex-none text-grayText"
-                                        icon="solar:info-circle-line-duotone"
-                                        width={24}
-                                    />
+                                    <Icon className="flex-none text-grayText" icon="solar:info-circle-line-duotone" width={24} />
                                 )
                             }
                             variant="light"
                             onPress={() => {
-                                router.push(`/support`)
-                                router.refresh()
+                                router.push(`/support`);
+                                router.refresh();
                             }}
                         >
                             {isCollapsed ? (
-                                <Icon
-                                    className="text-text-grayText"
-                                    icon="solar:info-circle-line-duotone"
-                                    width={24}
-                                />
+                                <Icon className="text-grayText" icon="solar:info-circle-line-duotone" width={24} />
                             ) : (
-                                "Get Help"
+                                t("Get Help")
                             )}
                         </Button>
                     </Tooltip>
-                    {
-                        session.login &&
-                        <SignOutButton
-                            isCollapsed={isCollapsed}
-                        />
-                    }
+                    {session.user && <SignOutButton isCollapsed={isCollapsed} />}
                 </div>
             </div>
         </SidebarDrawer>
     );
 }
 
-const getItemsByRole = (role : string) => {
-    switch (role) {
-        case 'admin':
-            return sectionItemsAdmin;
-        case 'user':
-            return sectionItemsUser;
-        case 'bakerz':
-            return sectionItemsBakerz;
-        default:
-            return sectionItemsGuestTheBakerz;
+const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreData) => {
+    // Helper function to apply translations to items
+    const applyTranslations = (items: any[]): any[] => {
+        return items.map(item => {
+            const translatedItem = { ...item };
+
+            if (translatedItem.titleKey) {
+                translatedItem.title = t(translatedItem.titleKey);
+                delete translatedItem.titleKey; // Remove the key after translation
+            }
+
+            if (translatedItem.items) {
+                translatedItem.items = applyTranslations(translatedItem.items);
+            }
+
+            return translatedItem;
+        });
+    };
+
+    let sidebarItems;
+
+    if (!session.user) {
+        if (store) {
+            const storeUrl = store?.storeName ? store?.storeName : store?.id;
+            return applyTranslations([
+                {
+                    key: "",
+                    href: `/auth?next=${storeUrl}`,
+                    icon: "line-md:login",
+                    titleKey: "SignIn"
+                }
+            ]);
+        }
+        sidebarItems = sectionItemsGuestTheBakerz;
+    } else {
+        const role = session.user.role;
+        const storeUrl = session.store?.storeName ? session.store?.storeName : session.store?.id;
+        switch (role) {
+            case "admin":
+                sidebarItems = sectionItemsAdmin;
+                break;
+            case "user":
+                sidebarItems = store ? sectionStoreItemsUser : sectionItemsUser;
+                break;
+            case "bakerz":
+                sidebarItems = [
+                    {
+                        key: "account",
+                        titleKey: "Account",
+                        items: [
+                            {
+                                key: "orders",
+                                href: `/${storeUrl}/orders`,
+                                titleKey: "Orders",
+                                icon: "solar:notification-unread-lines-broken"
+                            },
+                            {
+                                key: "store",
+                                href: `/${storeUrl}`,
+                                icon: "solar:shop-broken",
+                                title: session.user.username // Keep this as is (dynamic username)
+                            },
+                            {
+                                key: "products",
+                                href: `/${storeUrl}/products`,
+                                icon: "solar:bag-5-broken",
+                                titleKey: "Products"
+                            },
+                            // {
+                            //     key: "payments",
+                            //     href: `/${storeUrl}/payments`,
+                            //     icon: "solar:wallet-money-broken",
+                            //     titleKey: "Payments"
+                            // }
+                        ]
+                    },
+                    ...sectionItemsBakerz
+                ];
+                break;
+            default:
+                sidebarItems = sectionItemsGuestTheBakerz;
+        }
     }
+
+    return applyTranslations(sidebarItems);
 };
 
 interface LoggedInMenuProps {
-    name?: string | null;
-    image?: string;
+    name: string;
+    picture?: string;
     isCollapsed: boolean;
+    theme: boolean;
 }
 
-const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ name, image, isCollapsed}) => (
-    <>
-        <Tooltip content="Account Settings" isDisabled={!isCollapsed} placement="right">
-            <a
-                className="flex items-center gap-3 px-3 py-1.5 hover:bg-default/40 rounded-xl cursor-pointer"
-                href={"/settings"}
-            >
+const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ theme, name, picture, isCollapsed }) => {
+    const t = useTranslations("TheBakerz");
+    return (
+        <Tooltip content={t("Account Settings")} isDisabled={!isCollapsed} placement="right">
+            <a className="flex items-center gap-3 px-3 py-1.5 hover:bg-default/40 rounded-xl cursor-pointer" href={"/settings"}>
                 <Avatar
-                    icon={<AvatarIcon/>}
+                    alt="Avatar"
                     isBordered
+                    showFallback={!!picture}
                     size="sm"
-                    src={image}
+                    name={name}
+                    src={picture}
+                    color={"secondary"}
                     classNames={{
-                        base: "bg-gradient-to-br from-primary to-secondary",
-                        icon: "text-black/80",
+                        base: "bg-default text-text shadow-lg"
                     }}
                 />
-                <div className={cn("flex max-w-full flex-col", {hidden: isCollapsed})}>
+                <div className={cn("flex max-w-full flex-col", { hidden: isCollapsed })}>
                     <p className="text-small font-medium text-foreground truncate max-w-40">{name}</p>
-                    <p className="text-tiny font-medium text-grayText">Account Settings</p>
+                    <p className="text-tiny font-medium text-grayText">{t("Account Settings")}</p>
                 </div>
             </a>
         </Tooltip>
-    </>
-);
-
+    );
+};
 
 interface GuestMenuProps {
     isCollapsed: boolean;
 }
 
-const GuestMenu: React.FC<GuestMenuProps> = ({isCollapsed}) => {
+const GuestMenu: React.FC<GuestMenuProps> = ({ isCollapsed }) => {
+    const t = useTranslations("TheBakerz");
     const pathname = usePathname();
     return (
-        <Tooltip content="Account Settings" isDisabled={!isCollapsed} placement="right">
-            <a
-                className="flex items-center gap-3 px-3 py-1.5 hover:bg-default/40 rounded-xl cursor-pointer"
-                href={`/auth?next=${pathname}`}
-            >
+        <Tooltip content={t("Account Settings")} isDisabled={!isCollapsed} placement="right">
+            <a className="flex items-center gap-3 px-3 py-1.5 hover:bg-default/40 rounded-xl cursor-pointer" href={`/auth?next=${pathname}`}>
                 <Avatar
-                    icon={<AvatarIcon/>}
+                    icon={<AvatarIcon />}
                     isBordered
                     size="sm"
                     classNames={{
-                        base: "bg-gradient-to-br from-primary to-secondary",
-                        icon: "text-black/80",
+                        base: "",
+                        icon: "text-default-700"
                     }}
                 />
-                <div className={cn("flex max-w-full flex-col", {hidden: isCollapsed})}>
-                    <p className="text-small font-medium text-foreground">Welcomed Guest</p>
-                    <p className="text-tiny font-medium text-grayText">Sign in</p>
+                <div className={cn("flex max-w-full flex-col", { hidden: isCollapsed })}>
+                    <p className="text-small font-medium text-foreground">{t("Welcomed Guest")}</p>
+                    <p className="text-tiny font-medium text-grayText">{t("Sign in")}</p>
                 </div>
             </a>
         </Tooltip>
