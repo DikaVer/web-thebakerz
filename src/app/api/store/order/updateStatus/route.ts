@@ -20,7 +20,7 @@ async function updateOrderInCosmos(storeId: string, orderId: string, email: stri
             ]
         });
 
-        console.log(`Updated order ${orderId} status to ${newStatus} in Cosmos DB`);
+        // console.log(`Updated order ${orderId} status to ${newStatus} in Cosmos DB`);
     } catch (error) {
         console.error('Error updating order in Cosmos DB:', error);
         throw new Error('Failed to update order in Cosmos DB');
@@ -41,7 +41,7 @@ async function updateOrderInPostgreSQL(storeId: string, orderId: string, email: 
             throw new Error('Order not found or update failed');
         }
 
-        console.log(`Updated order ${orderId} status to in PostgreSQL`);
+        // console.log(`Updated order ${orderId} status to in PostgreSQL`);
     } catch (error) {
         console.error('Error updating order in PostgreSQL:', error);
         throw new Error('Failed to update order in PostgreSQL');

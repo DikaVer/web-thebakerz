@@ -79,6 +79,29 @@ export function formatDisplayDateTime(dateInput: string | Date | CalendarDate | 
   }
 }
 
+export function formatDisplayYearDate(dateInput: string | Date | CalendarDate | CalendarDateTime, locale: string): string {
+  try {
+    let date: Date;
+
+    if (dateInput instanceof CalendarDate) {
+      date = dateInput.toDate(getLocalTimeZone());
+    } else if (dateInput instanceof CalendarDateTime) {
+      date = dateInput.toDate(getLocalTimeZone());
+    } else {
+      date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+    }
+
+    return date.toLocaleString(locale, {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  } catch (e) {
+    console.error("Error formatting date:", e);
+    return "Invalid date";
+  }
+}
+
 export function formatDisplayDate(dateInput: string | Date | CalendarDate | CalendarDateTime, locale: string): string {
   try {
     let date: Date;

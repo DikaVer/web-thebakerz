@@ -16,7 +16,8 @@ import {
     Link,
     Badge,
     addToast,
-    NumberInput
+    NumberInput,
+    Switch
 } from "@heroui/react";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useActionState } from "react";
@@ -52,6 +53,15 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                 latitude: undefined,
                 longitude: undefined,
                 zip_code: "",
+                // Business information fields
+                businessName: "",
+                vat: "",
+                kvk: "",
+                bankAccount: "",
+                businessRoute: "",
+                businessCity: "",
+                businessZipCode: "",
+                businessCountry: "",
             },
         });
 
@@ -180,6 +190,7 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                             <Input
                                                 {...field}
                                                 isDisabled={isPending}
+                                                isRequired
                                                 className="mt-2"
                                                 placeholder="Phone Number"
                                                 type="text"
@@ -202,6 +213,7 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                             <Input
                                                 {...field}
                                                 isDisabled={isPending}
+                                                isRequired
                                                 label={'Route'}
                                                 className="mt-2"
                                                 placeholder="Route"
@@ -224,6 +236,7 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                             <Input
                                                 {...field}
                                                 isDisabled={isPending}
+                                                isRequired
                                                 label={'Country'}
                                                 className="mt-2"
                                                 placeholder="Country"
@@ -246,6 +259,7 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                         <FormControl>
                                             <Input
                                                 {...field}
+                                                isRequired
                                                 isDisabled={isPending}
                                                 label={'City'}
                                                 className="mt-2"
@@ -270,6 +284,7 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                             <NumberInput
                                                 {...field}
                                                 isDisabled={isPending}
+                                                isRequired
                                                 label={'Latitude'}
                                                 className="mt-2"
                                                 placeholder="Latitude"
@@ -295,6 +310,7 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                             <NumberInput
                                                 {...field}
                                                 isDisabled={isPending}
+                                                isRequired
                                                 label={'Longitude'}
                                                 className="mt-2"
                                                 placeholder="Longitude"
@@ -320,6 +336,7 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                             <Input
                                                 {...field}
                                                 isDisabled={isPending}
+                                                isRequired
                                                 label={'Zip Code'}
                                                 className="mt-2"
                                                 placeholder="Zip Code"
@@ -330,6 +347,209 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                     </FormItem>
                                 )}
                             />
+                        </div>
+                        {/* Business Information Section */}
+                        <div>
+                            <p className="text-base font-medium text-default-700 mt-6">Business Information</p>
+                            <p className="mt-1 text-sm font-normal text-default-400">Enter business details for invoicing</p>
+
+                            {/* KOR switch field */}
+                            <FormField
+                                control={form.control}
+                                name="kor"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <label className="inline-flex items-center mt-4">
+                                                <Switch
+                                                    defaultSelected={field.value}
+                                                    onChange={(e) => field.onChange(e.target.checked)}
+                                                />
+                                                <span className="ml-2 text-sm font-medium">KOR</span>
+                                            </label>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Business Name Field */}
+                            <FormField
+                                control={form.control}
+                                name="businessName"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                isDisabled={isPending}
+                                                isRequired
+                                                label="Business Name"
+                                                className="mt-2"
+                                                placeholder="Legal Business Name"
+                                                type="text"
+                                                validate={() => fieldState.error?.message}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* VAT Number Field */}
+                            <FormField
+                                control={form.control}
+                                name="vat"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                isDisabled={isPending}
+                                                isRequired
+                                                label="VAT Number"
+                                                className="mt-2"
+                                                placeholder="VAT Registration Number"
+                                                type="text"
+                                                validate={() => fieldState.error?.message}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* KVK Number Field */}
+                            <FormField
+                                control={form.control}
+                                name="kvk"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                isDisabled={isPending}
+                                                isRequired
+                                                label="KVK Number"
+                                                className="mt-2"
+                                                placeholder="Chamber of Commerce Number"
+                                                type="text"
+                                                validate={() => fieldState.error?.message}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* Bank Account Field */}
+                            <FormField
+                                control={form.control}
+                                name="bankAccount"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                isDisabled={isPending}
+                                                isRequired
+                                                label="Bank Account"
+                                                className="mt-2"
+                                                placeholder="IBAN or Bank Account Number"
+                                                type="text"
+                                                validate={() => fieldState.error?.message}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <p className="text-base font-medium text-default-700 mt-4">Business Address</p>
+
+                            {/* Business Route Field */}
+                            <FormField
+                                control={form.control}
+                                name="businessRoute"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                isDisabled={isPending}
+                                                isRequired
+                                                label="Address"
+                                                className="mt-2"
+                                                placeholder="Street Address"
+                                                type="text"
+                                                validate={() => fieldState.error?.message}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* Business City Field */}
+                            <FormField
+                                control={form.control}
+                                name="businessCity"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                isDisabled={isPending}
+                                                isRequired
+                                                label="City"
+                                                className="mt-2"
+                                                placeholder="City"
+                                                type="text"
+                                                validate={() => fieldState.error?.message}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <div className="flex gap-x-4">
+                                {/* Business Zip Code Field */}
+                                <FormField
+                                    control={form.control}
+                                    name="businessZipCode"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="flex-1">
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    isDisabled={isPending}
+                                                    isRequired
+                                                    label="Postal Code"
+                                                    className="mt-2"
+                                                    placeholder="Postal/Zip Code"
+                                                    type="text"
+                                                    validate={() => fieldState.error?.message}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+
+                                {/* Business Country Field */}
+                                <FormField
+                                    control={form.control}
+                                    name="businessCountry"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="flex-1">
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    isDisabled={isPending}
+                                                    isRequired
+                                                    label="Country"
+                                                    className="mt-2"
+                                                    placeholder="Country"
+                                                    type="text"
+                                                    validate={() => fieldState.error?.message}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                         </div>
                         {/* Onboard Button can be added here */}
                         <div className="flex flex-row-reverse w-full">
@@ -351,6 +571,6 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
     }
 );
 
-OnboardPage.displayName = "ProfileSetting";
+OnboardPage.displayName = "OnboardPage";
 
 export default OnboardPage;

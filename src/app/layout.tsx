@@ -2,7 +2,7 @@ import { lexendDeca } from "@/components/fonts";
 import '@/styles/globals.css'
 import React from "react";
 import type { Metadata } from "next";
-import {metadataDefault} from "@/components/metadata";
+import {getLocalizedMetadata, metadataDefault} from "@/components/metadata";
 import {Providers} from "@/app/providers";
 import CookieConsentComponent from "@/components/ui/cookie-consent";
 import type { Viewport } from 'next'
@@ -23,7 +23,10 @@ export const viewport: Viewport = {
 }
 
 
-export const metadata: Metadata = metadataDefault;
+export async function generateMetadata() {
+    const locale = await getLocale();
+    return getLocalizedMetadata(locale);
+}
 
 export const revalidate = 300;
 

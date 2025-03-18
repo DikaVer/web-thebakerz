@@ -19,12 +19,16 @@ export const onboardBakerz = async (
     }
 
     try {
+        // Start a transaction to ensure data consistency
+        await connectionPool.query('BEGIN');
+
+        // 1. Insert store record
         const result = await connectionPool.query(
             `
-              INSERT INTO stores (user_id, phone)
-              VALUES ($1, $2)
-              RETURNING id
-              `,
+                INSERT INTO stores (user_id, phone)
+                VALUES ($1, $2)
+                    RETURNING id
+            `,
             [userId, formData.phoneNumber],
         );
 
@@ -32,23 +36,44 @@ export const onboardBakerz = async (
             throw new Error("Unexpected error with stores.");
         }
 
+        const storeId = result.rows[0].id;
+
+        // 2. Insert store location
         await connectionPool.query(
             `
               INSERT INTO store_locations (store_id, route, country, city, latitude, longitude, zip_code)
               VALUES ($1, $2, $3, $4, $5, $6, $7)
               `,
-            [result.rows[0].id, formData.route, formData.country, formData.city, formData.latitude, formData.longitude, formData.zip_code],
+            [storeId, formData.route, formData.country, formData.city, formData.latitude, formData.longitude, formData.zip_code],
         );
 
+        // 3. Insert business address
+        const businessAddressResult = await connectionPool.query(
+            `
+              INSERT INTO business_address (route, city, country, zip_code)
+              VALUES ($1, $2, $3, $4)
+              RETURNING id
+              `,
+            [formData.businessRoute, formData.businessCity, formData.businessCountry, formData.businessZipCode],
+        );
 
+        if (businessAddressResult.rows.length === 0) {
+            throw new Error("Failed to insert business address.");
+        }
+
+        const businessAddressId = businessAddressResult.rows[0].id;
+
+        // 4. Insert business store information
         await connectionPool.query(
             `
-              UPDATE users
-              SET role = 'bakerz'
-              WHERE id = $1
-              `,
-            [userId],
+                INSERT INTO business_store (store_id, name, vat, kvk, bank_account, business_address_id, kor)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)
+            `,
+            [storeId, formData.businessName, formData.vat, formData.kvk, formData.bankAccount, businessAddressId, formData.kor],
         );
+
+        // Commit the transaction
+        await connectionPool.query('COMMIT');
 
         revalidateTag('session')
         revalidateTag('store')
@@ -56,6 +81,8 @@ export const onboardBakerz = async (
             success: "Successfully Onboarded Bakerz."
         }
     } catch (error: any) {
+        // Rollback the transaction in case of error
+        await connectionPool.query('ROLLBACK');
         console.error("Error Onboard Bakerz:", error);
         return { error: "Failed to Onboard Bakerz." };
     }

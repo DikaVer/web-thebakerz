@@ -22,3 +22,12 @@ export async function globalPOSTRateLimit(): Promise<boolean> {
     }
     return globalBucket.consume(clientIP, 3);
 }
+
+export async function globalLargeRateLimit(): Promise<boolean> {
+    const reqHeaders = await headers();
+    const clientIP = reqHeaders.get("x-forwarded-for");
+    if (clientIP === null) {
+        return true;
+    }
+    return globalBucket.consume(clientIP, 10);
+}

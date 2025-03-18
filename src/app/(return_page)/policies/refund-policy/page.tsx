@@ -1,4 +1,12 @@
 import React from "react";
+import { metadataDefault } from "@/components/metadata";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    ...metadataDefault,
+    title: "Refund Policy",
+    description: "Learn about our refund and cancellation policy for bakery purchases. Understand your rights and our procedures for handling refund requests."
+};
 
 export default async function Page() {
 

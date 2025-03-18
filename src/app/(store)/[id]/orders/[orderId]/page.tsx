@@ -14,6 +14,30 @@ interface StorePageProps {
     }>
 }
 
+export async function generateMetadata({ params }: {
+    params: Promise<{ id: string, orderId: string }>
+}) {
+    const { id } = await params;
+
+    const storeData = await getCurrentStore(id);
+
+    if (!storeData) {
+        return {
+            title: "Order Not Found",
+            description: "The requested order could not be found."
+        };
+    }
+
+    return {
+        title: `Order Details | ${storeData.ownerName}`,
+        description: `View order details for your purchase at ${storeData.ownerName}`,
+        robots: {
+            index: false,
+            follow: false
+        }
+    };
+}
+
 
 export default async function Page(props: StorePageProps) {
     const searchParams = await props.searchParams;

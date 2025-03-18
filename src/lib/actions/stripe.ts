@@ -11,7 +11,8 @@ import {OrderRaw} from "@/lib/actions/order";
 import {v4 as uuidv4} from "uuid";
 import {containerOrdersUnpaid} from "@/db";
 import {calculateTax} from "@/lib/utils";
-import {CUSTOMER_SERVICE_FEE} from "@/lib/local-variables";
+import {getBusinessStoreData, getStoreByUserId} from "@/lib/actions/store";
+import {calculateTotals} from "@/lib/price/tax";
 
 function roundToTwoDecimals(num: number): number {
     return Math.round(num);
@@ -67,6 +68,12 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
     // Get products data to fetch prices
     const productsData = await getProductsByStoreId(storeId);
 
+    const storeBusinessData = await getBusinessStoreData(storeId);
+    if (!storeBusinessData) {
+        return { error: 'Store not found' };
+    }
+    const applyVat = !storeBusinessData.kor;
+
     const taxRate = await stripe.taxRates.create({
         display_name: 'VAT',
         description: 'Value Added Tax',
@@ -90,8 +97,8 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
 
         const unitAmount = product.price; // Assuming price is stored in cents
         total += unitAmount * cartItem.quantity;
-        const subtotal = roundToTwoDecimals(unitAmount - roundToTwoDecimals(calculateTax(unitAmount)));
 
+        const { subtotal } = calculateTotals(unitAmount, applyVat);
         lineItems.push({
             price_data: {
                 currency: 'eur',
@@ -104,7 +111,7 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
                 unit_amount: subtotal,
             },
             quantity: cartItem.quantity,
-            tax_rates: [taxRate.id],
+            tax_rates: applyVat ? [taxRate.id] : undefined,
         });
         cartItems.push({
             id: product.id,
@@ -118,20 +125,22 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         });
     }
 
-    if (CUSTOMER_SERVICE_FEE !== 0) {
-        const customerFee = {
-            price_data: {
-                currency: 'eur',
-                product_data: {
-                    name: 'Service Fee', // Customize fee name as needed
-                },
-                unit_amount: CUSTOMER_SERVICE_FEE, // Fee amount in cents (500 = €5.00)
-            },
-            quantity: 1,
-        };
-        lineItems.push(customerFee)
-        total += customerFee.price_data.unit_amount;
-    }
+    // const { platform_fee } = calculateTotals(total, applyVat);
+    //
+    // if ( platform_fee > 0) {
+    //     const customerFee = {
+    //         price_data: {
+    //             currency: 'eur',
+    //             product_data: {
+    //                 name: 'Service Fee', // Customize fee name as needed
+    //             },
+    //             unit_amount:  platform_fee, // Fee amount in cents (500 = €5.00)
+    //         },
+    //         quantity: 1,
+    //     };
+    //     lineItems.push(customerFee)
+    //     total = Math.round(total + platform_fee);
+    // }
 
     if (total < 1000) {
         return { error: 'Minimum order amount is €10' };

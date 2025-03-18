@@ -198,10 +198,12 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
                                 <Column><Text style={totalLabel}>Subtotal</Text></Column>
                                 <Column><Text style={totalValue}>{formatCurrency(subtotal_amount)}</Text></Column>
                             </Row>
-                            <Row style={totalRow}>
-                                <Column><Text style={totalLabel}>VAT(9%)</Text></Column>
-                                <Column><Text style={totalValue}>{formatCurrency(vat)}</Text></Column>
-                            </Row>
+                            {vat > 0 &&
+                                <Row style={totalRow}>
+                                    <Column><Text style={totalLabel}>VAT(9%)</Text></Column>
+                                    <Column><Text style={totalValue}>{formatCurrency(vat)}</Text></Column>
+                                </Row>
+                            }
                             <Row style={totalTotalRow}>
                                 <Column><Text style={totalTotalLabel}>Total</Text></Column>
                                 <Column><Text style={totalTotalValue}>{formatCurrency(total_amount)}</Text></Column>
