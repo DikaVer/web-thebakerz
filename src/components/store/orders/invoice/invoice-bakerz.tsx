@@ -15,11 +15,15 @@ interface InvoiceProps {
  */
 export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
 
+    // Compute totals
+    const totalNet = order.sub_amount
+    const totalTax = order.tax_amount
+    const grandTotal = order.amount
 
     // Build line items
     const lineItems = order.productsData.map((p) => {
         const amount = p.price * p.qty; // net = price * quantity
-        const { subtotal, vat, total } = calculateTotals(amount, !store.kor);
+        const { subtotal, vat, total } = calculateTotals(amount, totalTax > 0);
         return {
             id: p.id,
             name: p.name,
@@ -31,10 +35,6 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
         };
     });
 
-    // Compute totals
-    const totalNet = lineItems.reduce((acc, item) => acc + item.subtotal, 0);
-    const totalTax = lineItems.reduce((acc, item) => acc + item.vat, 0);
-    const grandTotal = totalNet + totalTax;
 
     return (
         <div style={styles.invoiceContainer}>
@@ -58,7 +58,7 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
 
                 {/* Customer info */}
                 <div>
-                    <div style={{ fontSize: 24}}><strong>Invoice</strong> # {order.seq_id}</div>
+                    <div style={{ fontSize: 24}}><strong>Invoice</strong> # {order.store_id}-${order.store_order_id}</div>
                     <div style={{ marginTop: "8px", marginBottom: "8px" }}><strong>PAID</strong></div>
 
                     {/*<div style={{ marginTop: "8px" }}><strong>PAID BY:</strong> {order.customer.payment_method ? order.customer.payment_method[0] : 'Card'}</div>*/}

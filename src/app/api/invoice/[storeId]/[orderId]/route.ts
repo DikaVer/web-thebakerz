@@ -43,8 +43,12 @@ export async function POST(
 
         const order: OrderData = await getCurrentOrder(storeId, orderId, customer_email);
 
+        if (!order) {
+            return NextResponse.json({ error: "Order is Not Found" }, { status: 404 });
+        }
+
         const htmlContent = await renderPdf(storeData, order);
-        const pdfBuffer = await generatePdf(htmlContent, orderId, true);
+        const pdfBuffer = await generatePdf(htmlContent);
 
         return new Response(pdfBuffer, {
             status: 200,

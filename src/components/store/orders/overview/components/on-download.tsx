@@ -3,7 +3,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import {addToast} from "@heroui/react";
 
 
-export const onDownloadInvoice = async (storeId: string, orderId: string, customer_email: string) => {
+export const onDownloadInvoice = async (storeId: string, orderId: string, storeOrderId:string, customer_email: string) => {
     try {
         const res = await fetch(`/api/invoice/${storeId}/${orderId}`, {
             method: 'POST',
@@ -20,7 +20,7 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, custom
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
-            link.download = `document-${orderId}.pdf`;
+            link.download = `${storeId}-${storeOrderId}.pdf`;
             document.body.appendChild(link);
             link.click();
             link.remove();
