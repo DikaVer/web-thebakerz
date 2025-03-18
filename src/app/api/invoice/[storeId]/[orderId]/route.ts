@@ -1,46 +1,52 @@
 import { NextRequest, NextResponse } from "next/server";
 import PdfPrinter from "pdfmake";
 import { getCurrentOrder, OrderData } from "@/lib/actions/order";
-import { getCurrentStore, StoreData } from "@/lib/actions/store";
+import { getCurrentStore} from "@/lib/actions/store";
 import { getCurrentSession } from "@/lib/actions/session";
 import {generatePdf} from "@/lib/pdf/generateInvoicePdf";
 import {renderPdf} from "@/lib/pdf/renderPdf";
+import {globalLargeRateLimit} from "@/lib/actions/requests";
 
 export async function POST(
     req: NextRequest,
-    { params }: { params: { orderId: string; storeId: string } }
-) {
+    { params }: { params: Promise<{ orderId: string; storeId: string }> }
+): Promise<Response> {
+    if (!await globalLargeRateLimit()) {
+        return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
+
     try {
+
         // 1. Fetch Order & Store
-        const orderId = params.orderId;
-        const storeId = params.storeId;
+        const { orderId, storeId } = await params;
         const { customer_email } = await req.json();
 
         const { user, store } = await getCurrentSession();
 
         if (!store && user) {
             if (customer_email !== user.email) {
-                return new NextResponse("Restricted Access", { status: 404 });
+                return NextResponse.json({ error: "Restricted Access" }, { status: 404 });
             }
         } else if (store && user) {
             if (store.id !== storeId) {
-                return new NextResponse("Restricted Access", { status: 404 });
+                return NextResponse.json({ error: "Restricted Access" }, { status: 404 });
             }
         }
 
         if (!user) {
-            return new NextResponse("Not Authenticated", { status: 404 });
+            return NextResponse.json({ error: "Not Authenticated" }, { status: 404 });
         }
 
 
         const storeData = await getCurrentStore(storeId);
         if (!storeData) {
-            return new NextResponse("Store is Not Found", { status: 404 });
+            if (!storeData) {
+                return NextResponse.json({ error: "Store is Not Found" }, { status: 404 });
+            }
         }
 
 
         const order: OrderData = await getCurrentOrder(storeId, orderId, customer_email);
-        console.log(storeData)
 
         const htmlContent = await renderPdf(storeData, order);
         const pdfBuffer = await generatePdf(htmlContent, orderId, true);

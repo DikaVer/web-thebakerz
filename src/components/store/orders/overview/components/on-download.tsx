@@ -47,11 +47,11 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, custom
             });
         }
     } catch (error) {
-        console.error(error);
+        console.log(error);
         addToast({
             title:"Something went wrong",
             //@ts-ignore
-            description: error.response?.data || error.message,
+            description: error.response.request.statusText,
             timeout: 1000,
             shouldShowTimeoutProgress: true,
             color: "danger"
