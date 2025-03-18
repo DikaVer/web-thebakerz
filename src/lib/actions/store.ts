@@ -46,6 +46,8 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             })
             .catch((error) => console.error("Error reading item:", error));
 
+        console.log("storeRow", storeRow);
+
         const storeData: StoreData = {
             id: storeRow.id,
             storeName: storeRow.nickname,
@@ -221,6 +223,11 @@ export interface StoreData {
     minTimeOrder: number;
     location: LocationData;
     schedule?: WorkHours;
+
+    // --- Additional fields for invoicing
+    vatNumber?: string;     // e.g. "NL123456789B01"
+    kvkNumber?: string;     // Chamber of Commerce number, if in NL
+    bankAccount?: string;   // Optional bank account or IBAN
 }
 
 export interface LocationData {

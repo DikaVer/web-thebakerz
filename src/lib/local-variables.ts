@@ -214,6 +214,11 @@ export const categories: Readonly<{ [key: string]: { description: string } }> = 
     'Cakes': { description: 'Variety of cakes including sponge, layered, and specialty cakes.' },
     'Macarons': { description: 'French almond meringue cookies with filling.' },
     'Eclairs': { description: 'Choux pastry filled with cream and topped with icing.' },
+    'Tarts': { description: 'Pastry shell filled with sweet or savory ingredients.' },
+    'Bread': { description: 'Freshly baked bread varieties including sourdough, baguettes, and rolls.' },
+    'Cupcakes': { description: 'Individual portion cakes with decorative frosting.' },
+    'Pastries': { description: 'Flaky, buttery baked goods including croissants and danish.' },
+    'Donuts': { description: 'Ring-shaped fried dough with various glazes and fillings.' }
 };
 
 

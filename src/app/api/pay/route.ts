@@ -120,7 +120,7 @@ export async function GET(req: NextRequest) {
                             $7,
                             $8
                         )
-                        RETURNING order_date, store_order_id
+                        RETURNING id, order_date, store_order_id
                 `,
                 [
                     storeId,
@@ -143,6 +143,7 @@ export async function GET(req: NextRequest) {
             // 2. Create an order record in Azure Cosmos DB
             const orderData: OrderData = {
                 id: cosmosId,
+                seq_id: result.rows[0].id,
                 store_order_id: result.rows[0].store_order_id,
                 store_id: storeId,
                 customer_email: emailUser,
@@ -152,7 +153,9 @@ export async function GET(req: NextRequest) {
                     name_customer: username,
                     phone_number: checkoutSession.customer_details?.phone ? checkoutSession.customer_details.phone : undefined,
                     address: checkoutSession.customer_details?.address ? checkoutSession.customer_details?.address : null,
-
+                    payment_method: checkoutSession.payment_method_types ? checkoutSession.payment_method_types : undefined,
+                    payment_name: checkoutSession.customer_details?.name ? checkoutSession.customer_details.name : undefined,
+                    tax_id: checkoutSession.customer_details?.tax_ids ? checkoutSession.customer_details.tax_ids[0].value : undefined,
                 },
                 createdAt: result.rows[0].order_date,
                 amount: checkoutSession.amount_total ? checkoutSession.amount_total : 0,

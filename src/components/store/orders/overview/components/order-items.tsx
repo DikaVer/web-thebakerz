@@ -98,7 +98,7 @@ export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) =>
                     <div className={'flex flex-col justify-between text-start col-span-4'}>
                         <div className="flex justify-between mt-4">
                             <span className="text-base font-bold">{t("Total")}</span>
-                            <span className="text-base font-bold">{formatCurrency(orderData.amount - customerFees)}</span>
+                            <span className="text-base font-bold">{formatCurrency(Math.round(orderData.amount - customerFees))}</span>
                         </div>
                     </div>
                 </CardFooter>
