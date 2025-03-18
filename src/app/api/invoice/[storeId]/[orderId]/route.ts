@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import PdfPrinter from "pdfmake";
 import { getCurrentOrder, OrderData } from "@/lib/actions/order";
-import { getCurrentStore} from "@/lib/actions/store";
+import {getBusinessStoreData, getCurrentStore} from "@/lib/actions/store";
 import { getCurrentSession } from "@/lib/actions/session";
-import {generatePdf} from "@/lib/pdf/generateInvoicePdf";
-import {renderPdf} from "@/lib/pdf/renderPdf";
-import {globalLargeRateLimit} from "@/lib/actions/requests";
+import { generatePdf } from "@/lib/pdf/generateInvoicePdf";
+import { renderPdf } from "@/lib/pdf/renderPdf";
+import { globalLargeRateLimit } from "@/lib/actions/requests";
 
 export async function POST(
     req: NextRequest,
@@ -16,7 +15,6 @@ export async function POST(
     }
 
     try {
-
         // 1. Fetch Order & Store
         const { orderId, storeId } = await params;
         const { customer_email } = await req.json();
@@ -37,14 +35,11 @@ export async function POST(
             return NextResponse.json({ error: "Not Authenticated" }, { status: 404 });
         }
 
-
-        const storeData = await getCurrentStore(storeId);
+        const storeData = await getBusinessStoreData(storeId);
+        // Fixed duplicate condition
         if (!storeData) {
-            if (!storeData) {
-                return NextResponse.json({ error: "Store is Not Found" }, { status: 404 });
-            }
+            return NextResponse.json({ error: "Store is Not Found" }, { status: 404 });
         }
-
 
         const order: OrderData = await getCurrentOrder(storeId, orderId, customer_email);
 
@@ -55,7 +50,7 @@ export async function POST(
             status: 200,
             headers: {
                 "Content-Type": "application/pdf",
-                "Content-Disposition": `attachment; filename=document-${orderId}.pdf`,
+                "Content-Disposition": `attachment; filename=${order.store_id}-${order.store_order_id}.pdf`,
             },
         });
     } catch (error) {

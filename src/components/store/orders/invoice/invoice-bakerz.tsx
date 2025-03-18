@@ -1,10 +1,11 @@
 import { OrderData } from "@/lib/actions/order";
-import { StoreData } from "@/lib/actions/store";
+import {StoreBusinessData} from "@/lib/actions/store";
 import React from "react";
-import {calculateTax, formatCurrency, formatDisplayDate, formatDisplayYearDate} from "@/lib/utils";
+import {calculateTax, formatCurrency, formatDisplayYearDate} from "@/lib/utils";
+import {calculateTotals} from "@/lib/price/tax";
 
 interface InvoiceProps {
-    store: StoreData;
+    store: StoreBusinessData;
     order: OrderData;
 }
 
@@ -17,25 +18,22 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
 
     // Build line items
     const lineItems = order.productsData.map((p) => {
-        const total = p.price * p.qty; // net = price * quantity
-        const taxAmount = calculateTax(total);
-
-        const taxAmountRounded = Math.round(taxAmount);
-        const net = Math.round(total - taxAmount);
+        const amount = p.price * p.qty; // net = price * quantity
+        const { subtotal, vat, total } = calculateTotals(amount, !store.kor);
         return {
             id: p.id,
             name: p.name,
             qty: p.qty,
             taxRate: 9,
-            net,
-            taxAmountRounded,
-            total,
+            subtotal: subtotal,
+            vat: vat,
+            total: total,
         };
     });
 
     // Compute totals
-    const totalNet = lineItems.reduce((acc, item) => acc + item.net, 0);
-    const totalTax = lineItems.reduce((acc, item) => acc + item.taxAmountRounded, 0);
+    const totalNet = lineItems.reduce((acc, item) => acc + item.subtotal, 0);
+    const totalTax = lineItems.reduce((acc, item) => acc + item.vat, 0);
     const grandTotal = totalNet + totalTax;
 
     return (
@@ -47,8 +45,8 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                     <svg width="100" max-width="300" height="86" viewBox="0 0 86 86" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <linearGradient id="myGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#6a0e6c" />
-                                <stop offset="100%" stop-color="#A2119D" />
+                                <stop offset="0%" stopColor="#6a0e6c" />
+                                <stop offset="100%" stopColor="#A2119D" />
                             </linearGradient>
                         </defs>
                         <path
@@ -71,10 +69,10 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
             <div style={styles.subheader}>
                 {/* Store info */}
                 <div style={{...styles.headerLeft, borderTop: "2px solid #000"}}>
-                    <div style={{ fontWeight: "bold" }}>{store.ownerName}</div>
-                    <div style={{ fontSize: "12px" }}>{store.location.route}, {store.location.city}, {store.location.zipCode}</div>
+                    <div style={{ fontWeight: "bold" }}>{store.name}</div>
+                    <div style={{ fontSize: "12px" }}>{store.location.route}, {store.location.city}, {store.location.zip_code}</div>
                     <div style={{ fontSize: "12px" }}>{store.location.country}</div>
-                    <div style={{ fontSize: "12px" }}>VAT ID: {store.vatNumber}</div>
+                    <div style={{ fontSize: "12px" }}>VAT ID: {store.vat}</div>
                 </div>
 
                 {/* Customer info */}
@@ -98,7 +96,7 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                 <tr>
                     <th style={{...styles.th, width: "50%", textAlign: "left"}}>Items</th>
                     <th style={{...styles.th, textAlign: "right"}}>Quantity</th>
-                    <th style={{...styles.th, textAlign: "right"}}>Tax</th>
+                    <th style={{...styles.th, textAlign: "right"}}>{totalTax > 0 && 'Tax'}</th>
                     <th style={{...styles.th, textAlign: "right"}}>Price</th>
                     <th style={{...styles.th, textAlign: "right"}}>Total</th>
                 </tr>
@@ -108,8 +106,8 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                     <tr style={{...styles.td, fontSize: "14px"}} key={item.id}>
                         <td style={{...styles.td, textAlign: "left"}}>{item.name}</td>
                         <td style={{...styles.td, textAlign: "right"}}>{item.qty}</td>
-                        <td style={{...styles.td, textAlign: "right"}}>9%</td>
-                        <td style={{...styles.td, textAlign: "right"}}>{formatCurrency(item.net)}</td>
+                        <td style={{...styles.td, textAlign: "right"}}>{totalTax > 0 && "9%"}</td>
+                        <td style={{...styles.td, textAlign: "right"}}>{formatCurrency(item.subtotal)}</td>
                         <td style={{...styles.td, textAlign: "right"}}>{formatCurrency(item.total)}</td>
                     </tr>
                 ))}
@@ -126,12 +124,20 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                     <td style={{...styles.td, borderBottom: "none", textAlign: "right", fontSize: "12px"}}>{formatCurrency(totalNet)}</td>
                 </tr>
                 {/* Tax */}
-                <tr>
-                    <td style={{...styles.td, textAlign: "left", borderBottom: "none", marginBottom: "8px"}}></td>
-                    <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
-                    <td colSpan={2} style={{...styles.td, borderBottom: "none",  textAlign: "left", fontSize: "12px"}}><strong>Tax 9%:</strong></td>
-                    <td style={{...styles.td, textAlign: "right", borderBottom: "none", fontSize: "12px"}}>{formatCurrency(totalTax)}</td>
-                </tr>
+                {totalTax > 0 &&
+                    <tr>
+                        <td style={{...styles.td, textAlign: "left", borderBottom: "none", marginBottom: "8px"}}></td>
+                        <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
+                        <td colSpan={2} style={{...styles.td, borderBottom: "none", textAlign: "left", fontSize: "12px"}}>
+                            <strong>Tax 9%:</strong></td>
+                        <td style={{
+                            ...styles.td,
+                            textAlign: "right",
+                            borderBottom: "none",
+                            fontSize: "12px"
+                        }}>{formatCurrency(totalTax)}</td>
+                    </tr>
+                }
                 {/* Divider */}
                 <tr>
                     <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
@@ -184,7 +190,7 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                     <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
                     <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
                     <td colSpan={2} style={{...styles.td, borderBottom: "none",  textAlign: "left", fontSize: "12px"}}></td>
-                    <td style={{...styles.td, textAlign: "right", borderBottom: "none", fontSize: "12px"}}>{store.ownerName}</td>
+                    <td style={{...styles.td, textAlign: "right", borderBottom: "none", fontSize: "12px"}}>{store.name}</td>
                 </tr>
                 </tfoot>
             </table>
@@ -194,7 +200,7 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                 <hr style={{borderBottom: "1px solid #000"}}/>
                 <div style={{textAlign: "center", fontSize: "10px"}}>
                     {/* Example text matching screenshot style */}
-                    {store.ownerName}, {store.location.route}, {store.location.city}, {store.location.zipCode}, {store.location.country}, add other information...
+                    {store.name}, {store.location.route}, {store.location.city}, {store.location.zip_code}, {store.location.country}, VAT ID: {store.vat}, KVK: {store.kvk}
                 </div>
             </div>
         </div>

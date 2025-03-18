@@ -4,7 +4,7 @@ import {StoreProvider} from "@/components/providers/store-provider";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import LayoutComp from "@/components/layout-comp";
 
-import {getStoreDataByStoreNameOrId} from "@/lib/actions/store";
+import {getCurrentStore, getStoreDataByStoreNameOrId} from "@/lib/actions/store";
 import NotFound from "@/app/(error_layout)/not-found";
 import StoreSkeleton from "@/components/skeletons";
 import {getCurrentCart} from "@/lib/actions/cart";
@@ -13,9 +13,29 @@ import {CartProvider} from "@/components/providers/cart-provider";
 
 type Params = Promise<{ id: string  }>
 
-export async function generateMetadata({ params }: { // @ts-ignore
-    params: Params }) {
-    const { id } = await params
+
+export async function generateMetadata({ params }: {
+    params: Promise<{ id: string }>
+}) {
+    const { id } = await params;
+
+    const storeData = await getCurrentStore(id);
+
+    if (!storeData) {
+        return {
+            title: "Checkout",
+            description: "Complete your purchase"
+        };
+    }
+
+    return {
+        title: `Checkout | ${storeData.ownerName}`,
+        description: `Complete your purchase at ${storeData.ownerName}`,
+        robots: {
+            index: false,
+            follow: false
+        }
+    };
 }
 
 export default async function Layout({

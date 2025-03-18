@@ -2,10 +2,43 @@ import {pacifico} from "@/components/fonts";
 import Image from 'next/image';
 import React from "react";
 import {FollowUs} from "@/components/about-us/follow-us";
-import {useTranslations} from "next-intl"; // Add this import
+import type {Metadata} from "next";
+import {getLocalizedMetadata, metadataDefault} from "@/components/metadata";
+import {getLocale, getTranslations} from "next-intl/server"; // Add this import
 
-export default function Page() {
-    const t = useTranslations("About Us"); // Initialize translations
+export async function generateMetadata(): Promise<Metadata> {
+    const locale = await getLocale();
+
+    return {
+        ...getLocalizedMetadata(locale),
+        title: "About Us | TheBakerz - The Team Behind Your Bakery Success",
+        description: "Meet the passionate team behind TheBakerz - dedicated to helping artisanal bakers grow their businesses with innovative tools and personalized support.",
+        openGraph: {
+            ...metadataDefault.openGraph,
+            title: "About Us | TheBakerz - The Team Behind Your Bakery Success",
+            description: "Meet the passionate team behind TheBakerz - dedicated to helping artisanal bakers grow their businesses with innovative tools and personalized support.",
+            url: 'https://www.thebakerz.com/about-us/',
+        },
+        twitter: {
+            ...metadataDefault.twitter,
+            title: "About Us | TheBakerz - The Team Behind Your Bakery Success",
+            description: "Meet the passionate team behind TheBakerz - dedicated to helping artisanal bakers grow their businesses with innovative tools and personalized support.",
+        },
+        keywords: "TheBakerz team, bakery platform developers, artisanal bakery support, bakery tech innovators, baker community, bakery business experts, bakery management team",
+        alternates: {
+            ...metadataDefault.alternates,
+            canonical: 'https://www.thebakerz.com/about-us/',
+            languages: {
+                'nl-NL': 'https://www.thebakerz.com/about-us/',
+                'en-NL': 'https://www.thebakerz.com/about-us/',
+            }
+        }
+    };
+}
+
+
+export default async function Page() {
+    const t = await getTranslations("About Us"); // Initialize translations
 
     return (
         <div className="flex flex-col min-h-screen">

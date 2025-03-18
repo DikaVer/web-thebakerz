@@ -22,10 +22,6 @@
         "Alert Hover": "Opening hours and pickup address are presented below. You can select pickup time and day during checkout",
         "Opening Hours": "Opening Hours"
     },
-    "Not Found": {
-        "Alert": "Shop offers only pickup orders",
-        "Go back to TheBakerz": "Go back to TheBakerz"
-    },
     "Product Search": {
         "Search": "Search by product name or category..."
     },
@@ -501,6 +497,26 @@
         "hours": "hours",
         "day": "day",
         "days": "days"
+    },
+    "Not Found": {
+        "Alert": "Shop offers only pickup orders",
+        "Under Construction": "Under Construction!",
+        "Broken Link": "The link you followed may be broken, or the page may have been removed.",
+        "Go back to TheBakerz": "Go back to TheBakerz",
+        "Subtitle": "We are doing our best to deliver it soon!",
+        "Sorry": "Sorry, this page is not available yet."
+    },
+    "Error": {
+        "Something went wrong": "Something went wrong!",
+        "Message": "Seems we've mixed up the recipe here! Try again to find the sweet spot you're looking for.",
+        "Go Back": "Go Back"
+    },
+    "OrderProcess": {
+        "Support Ticket": "We received your support ticket. We will contact you soon!",
+        "Error": "Sorry, something went wrong with your order. Please send the support request and wait for the response.",
+        "Order Placed": "Your Order is placed!",
+        "Check Email": "Check your email for the information about your order.",
+        "Return To Store": "Go back to Store"
     }
 }
 

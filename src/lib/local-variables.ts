@@ -1,4 +1,3 @@
-export const CUSTOMER_SERVICE_FEE = 0; // Fee amount in cents (500 = €5.00)
 
 export const cityLatLngMap: Readonly<{ [key: string]: { lat: number, lng: number } }> = {
     'Aalsmeer': {'lat': 52.2667, 'lng': 4.75},
@@ -211,14 +210,23 @@ export const cityLatLngMap: Readonly<{ [key: string]: { lat: number, lng: number
 export const TOS_VERSION = '1.0';
 
 export const categories: Readonly<{ [key: string]: { description: string } }> = {
-    'Cakes': { description: 'Variety of cakes including sponge, layered, and specialty cakes.' },
-    'Macarons': { description: 'French almond meringue cookies with filling.' },
-    'Eclairs': { description: 'Choux pastry filled with cream and topped with icing.' },
-    'Tarts': { description: 'Pastry shell filled with sweet or savory ingredients.' },
+    'Birthday Cakes': { description: 'Special decorated cakes for birthday celebrations.' },
     'Bread': { description: 'Freshly baked bread varieties including sourdough, baguettes, and rolls.' },
+    'Cakes': { description: 'Variety of cakes including sponge, layered, and specialty cakes.' },
+    'Choux Pastries': { description: 'Light pastry dough used for profiteroles, éclairs, and cream puffs.' },
+    'Chocolate': { description: 'Chocolate-based treats including truffles, bars, and bonbons.' },
+    'Cookies and Biscuits': { description: 'Various sweet and savory cookies and biscuits.' },
     'Cupcakes': { description: 'Individual portion cakes with decorative frosting.' },
+    'Donuts': { description: 'Ring-shaped fried dough with various glazes and fillings.' },
+    'Eclairs': { description: 'Choux pastry filled with cream and topped with icing.' },
+    'Gluten-free': { description: 'Baked goods made without gluten-containing ingredients.' },
+    'Macarons': { description: 'French almond meringue cookies with filling.' },
     'Pastries': { description: 'Flaky, buttery baked goods including croissants and danish.' },
-    'Donuts': { description: 'Ring-shaped fried dough with various glazes and fillings.' }
+    'Pies': { description: 'Traditional fruit or savory fillings in a pastry crust.' },
+    'Tarts': { description: 'Pastry shell filled with sweet or savory ingredients.' },
+    'Vegan': { description: 'Plant-based baked goods made without animal products.' },
+    'Vlaai': { description: 'Dutch fruit tart with a sweet filling and pastry crust.' },
+    'Wedding Cakes': { description: 'Elegant multi-tiered cakes for wedding celebrations.' }
 };
 
 

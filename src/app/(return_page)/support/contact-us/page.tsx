@@ -1,5 +1,21 @@
 import ContactUsComponent from "@/components/support/contact-us-component";
-import { getTranslations } from "next-intl/server";
+import {getLocale, getTranslations} from "next-intl/server";
+import {Metadata} from "next";
+import {getLocalizedMetadata} from "@/components/metadata";
+
+export async function generateMetadata(): Promise<Metadata> {
+    const locale = await getLocale();
+
+    return {
+        ...getLocalizedMetadata(locale),
+        title: 'Support',
+        description: 'Get help and support for your account, orders, and more. Our support team is here to assist you.',
+        openGraph: {
+            title: 'Support',
+            description: 'Get help and support for your account, orders, and more. Our support team is here to assist you.'
+        },
+    };
+}
 
 export default async function Page() {
     const t = await getTranslations("ContactUsComponent");

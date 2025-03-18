@@ -8,6 +8,7 @@ import {pacifico} from "@/components/fonts";
 import Image from "next/image";
 import {ExternalLink} from "@/components/external-link";
 import React from "react";
+import {getTranslations} from "next-intl/server";
 
 interface StorePageProps {
     params: Promise<{
@@ -16,6 +17,30 @@ interface StorePageProps {
     searchParams?: Promise<{
         tab?: string;
     }>;
+}
+
+export async function generateMetadata({ params }: {
+    params: Promise<{ id: string }>
+}) {
+    const { id } = await params;
+
+    const storeData = await getCurrentStore(id);
+
+    if (!storeData) {
+        return {
+            title: "Order Success",
+            description: "Your order has been placed successfully"
+        };
+    }
+
+    return {
+        title: `Order Success | ${storeData.ownerName}`,
+        description: `Your order at ${storeData.ownerName} has been placed successfully`,
+        robots: {
+            index: false,
+            follow: false
+        }
+    };
 }
 
 
@@ -32,26 +57,27 @@ export default async function Page(props: StorePageProps) {
         return NotFound();
     }
 
-    return    (
+    const t = await getTranslations("OrderProcess")
+
+    return (
         <div className="flex flex-col mb-20 min-h-screen">
             <div className="z-10 flex flex-col justify-center items-center container mx-auto text-center ">
-                <p className={`text-3xl my-10 ${pacifico.className}`}>Your Order is placed!</p>
+                <p className={`text-3xl my-10 ${pacifico.className}`}>{t("Order Placed")}</p>
                 <div className="w-[300px] h-2/3 ml-14 mb-2">
                     <Image
                         src="/images/VerifyEmail.svg"
                         alt="Verify Email Image"
-                        width={200} // Adjust based on desired size
-                        height={200} // Adjust based on desired size
+                        width={200}
+                        height={200}
                         className="w-full h-full"
                         priority
                     />
                 </div>
                 <p>
-                    Check your email for the information about your order.
+                    {t("Check Email")}
                 </p>
                 <ExternalLink href={`/${id}`}>
-                    {/*<TranslateOnServer key={'Not Found'} value={"Go back to TheBakerz"}/>*/}
-                    Go back to Store
+                    {t("Return To Store")}
                 </ExternalLink>
             </div>
         </div>

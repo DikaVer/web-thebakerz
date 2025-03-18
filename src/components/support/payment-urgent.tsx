@@ -5,12 +5,14 @@ import React, {useState} from 'react';
 import { Button } from "@/components/ui/button";
 import {sendPaymentSupport} from "@/lib/actions/auth/email-action";
 import showSuccessMessage from "@/components/toast/toast-succes";
+import {useTranslations} from "next-intl";
 
 
 export default function PaymentSupportButton({error, description}: {error: string; description: string}) {
 
     const [isPending, setIsPending] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const t = useTranslations("OrderProcess");
 
 
     return !isSuccess ? (
@@ -37,6 +39,6 @@ export default function PaymentSupportButton({error, description}: {error: strin
                 }
             </Button>
     ):(
-        <p>We received your support ticket. We will contact you soon!</p>
+        <p>{t("Support Ticket")}</p>
     );
 }

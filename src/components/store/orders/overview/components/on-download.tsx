@@ -5,23 +5,18 @@ import {addToast} from "@heroui/react";
 
 export const onDownloadInvoice = async (storeId: string, orderId: string, customer_email: string) => {
     try {
-        const res = await axios.post(
-            `/api/invoice/${storeId}/${orderId}`,
-            { customer_email },
-            { responseType: "arraybuffer" }, // Ensures binary data is received for the PDF
-        )
+        const res = await fetch(`/api/invoice/${storeId}/${orderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ customer_email }),
+        });
 
 
         if (res.status === 200) {
-            // addToast({
-            //     title:"PDF generated successfully",
-            //     description: "Starting download...",
-            //     timeout: 1000,
-            //     shouldShowTimeoutProgress: true,
-            //     color: "success"
-            // });
-
-            const blob = new Blob([res.data], { type: "application/pdf" });
+            // Get the blob directly from response
+            const blob = await res.blob();
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
@@ -31,7 +26,7 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, custom
             link.remove();
 
             addToast({
-                title:"Download started",
+                title: "Download started",
                 description: "Your PDF is downloading.",
                 timeout: 1000,
                 shouldShowTimeoutProgress: true,
@@ -47,11 +42,10 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, custom
             });
         }
     } catch (error) {
-        console.log(error);
+        console.error(error);
         addToast({
             title:"Something went wrong",
-            //@ts-ignore
-            description: error.response.request.statusText,
+            description: error instanceof Error ? error.message : "Unknown error occurred",
             timeout: 1000,
             shouldShowTimeoutProgress: true,
             color: "danger"

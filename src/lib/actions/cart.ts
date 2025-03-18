@@ -37,6 +37,13 @@ export const updateCart = async (
         if (!(await globalPOSTRateLimit())) {
             return { error: "Too many requests" };
         }
+
+        // check note length
+        if (note.length > 100) {
+            return { error: "Note is too long!" };
+        }
+
+
         const session = await getCurrentSession();
         let userId;
         if (!session || !session.user) {

@@ -13,19 +13,15 @@
         "terms and conditions": "J'ai lu et j'accepte les conditions d'utilisation et la politique de confidentialité."
     },
     "Shop": {
-            "Alert": "Collecte en boutique uniquement",
-            "Alert Hover": "Les heures d'ouverture et l'adresse de collection sont indiquées ci-dessous. Vous pouvez choisir l'heure et le jour de l'enlèvement au moment du paiement.",
-            "Opening Hours": "Heures d'ouverture"
+        "Alert": "Collecte en boutique uniquement",
+        "Alert Hover": "Les heures d'ouverture et l'adresse de collection sont indiquées ci-dessous. Vous pouvez choisir l'heure et le jour de l'enlèvement au moment du paiement.",
+        "Opening Hours": "Heures d'ouverture"
     },
     "Schedule Order": {
         "Alert": "Collecte en boutique uniquement",
         "Alert Hover": "Les heures d'ouverture et l'adresse de collection sont indiquées ci-dessous. Vous pouvez choisir l'heure et le jour de l'enlèvement au moment du paiement.",
         "Opening Hours": "Heures d'ouverture",
         "select pick up time":"Sélectionner l'heure d'enlèvement"
-    },
-    "Not Found": {
-        "Alert": "Collecte en boutique uniquement",
-        "Go back to TheBakerz": "Retourner à TheBakerz"
     },
     "Product Search": {
         "Search": "Recherche par nom de produit ou catégorie..."
@@ -61,7 +57,7 @@
         "Question 5": "Comment fonctionnent les commandes et les livraisons?",
         "Answer 5": "Vous décidez de ce qui convient le mieux à votre boulangerie-patisserie. Vous pouvez proposer la livraison ou permettre aux clients de retirer leurs commandes dans vos locaux. Définissez vos propres zones de livraison et heures d'enlèvement en fonction de votre emploi du temps.",
         "Question 6": "Quel est le coût de l'utilisation de TheBakerz?",
-        "Answer 6": "Le prix est de 29,99 euros par mois pour l'hébergement et une commission de 5 % par vente pour couvrir le traitement des paiements. Les trois premiers mois sont gratuits, vous pouvez donc l'essayer sans risque.",
+        "Answer 6": "Le prix est de 9,99 euros par mois pour l'hébergement et une commission de 5 % par vente pour couvrir le traitement des paiements. Les trois premiers mois sont gratuits, vous pouvez donc l'essayer sans risque.",
         "Question 7": "Comment fonctionnent les paiements?",
         "Answer 7": "Les clients paient d'avance grâce à notre système de paiement sécurisé. Nous transférons vos gains, moins la commission, sur votre compte bancaire chaque semaine. Les paiements arrivent généralement dans un délai de 1 à 2 jours ouvrables après le lundi.",
         "Question 8": "Est-il facile à utiliser si je ne suis pas à l'aise avec la technologie?",
@@ -482,16 +478,36 @@
         "Print": "Imprimer"
     },
     "MinTimeOrder": {
-        "title": "Minimum Time to Order",
-        "description": "Select how much advance notice you need before fulfilling an order",
-        "selectLabel": "Minimum pre-order time",
-        "selectPlaceholder": "Select a time",
-        "successMessage": "Minimum order time updated successfully",
-        "errorMessage": "Failed to update minimum order time",
+        "title": "Délai minimum pour commander",
+        "description": "Selectionnez combien de temps à l'avance vous devez être avant de completer une commande",
+        "selectLabel": "Délai minimum de pre-commande",
+        "selectPlaceholder": "Selectionnez une période",
+        "successMessage": "Le délai minimum de commande a été mis à jour avec succès",
+        "errorMessage": "La mise à jour du délai minimum de commande n'a pas fonctionné",
         "minutes": "minutes",
-        "hour": "hour",
-        "hours": "hours",
-        "day": "day",
-        "days": "days"
+        "hour": "heure",
+        "hours": "heures",
+        "day": "jour",
+        "days": "jours"
+    },
+    "Not Found": {
+        "Alert": "Collecte en boutique uniquement",
+        "Go back to TheBakerz": "Retourner à TheBakerz",
+        "Under Construction": "Under Construction!",
+        "Broken Link": "The link you followed may be broken, or the page may have been removed.",
+        "Subtitle": "We are doing our best to deliver it soon!",
+        "Sorry": "Sorry, this page is not available yet."
+    },
+    "Error": {
+        "Something went wrong": "Something went wrong!",
+        "Message": "Seems we've mixed up the recipe here! Try again to find the sweet spot you're looking for.",
+        "Go Back": "Go Back"
+    },
+    "OrderProcess": {
+        "Support Ticket": "We received your support ticket. We will contact you soon!",
+        "Error": "Sorry, something went wrong with your order. Please send the support request and wait for the response.",
+        "Order Placed": "Your Order is placed!",
+        "Check Email": "Check your email for the information about your order.",
+        "Return To Store": "Go back to Store"
     }
 }

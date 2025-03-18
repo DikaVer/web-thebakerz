@@ -10,19 +10,21 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
         // to get the owner's name and picture.
         const storeResult = await connectionPool.query(
             `SELECT s.id,
-            s.nickname,
-            s.description,
-            s.phone,
-            u.image AS picture,
-            u.name AS "ownerName",
-            u.email AS email,
-            s.facebook_url,
-            s.instagram_url,
-            s.slug,
-            s.stripe_id,
-            s.min_time_order
+                    s.nickname,
+                    s.description,
+                    s.phone,
+                    u.image AS picture,
+                    u.name AS "ownerName",
+                    u.email AS email,
+                    s.facebook_url,
+                    s.instagram_url,
+                    s.slug,
+                    s.stripe_id,
+                    s.min_time_order,
+                    COALESCE(bs.kor, false) AS kor
              FROM stores s
-             JOIN users u ON s.user_id = u.id
+                      JOIN users u ON s.user_id = u.id
+                      LEFT JOIN business_store bs ON bs.store_id = s.id
              WHERE (LOWER(s.nickname) = LOWER($1) OR s.id = $1)
                AND s.deleted = false`,
             [id]
@@ -46,10 +48,10 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             })
             .catch((error) => console.error("Error reading item:", error));
 
-        console.log("storeRow", storeRow);
 
-        const storeData: StoreData = {
+        return {
             id: storeRow.id,
+            kor: storeRow.kor,
             storeName: storeRow.nickname,
             description: storeRow.description,
             phone: storeRow.phone,
@@ -64,8 +66,6 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             location,  // This is of type LocationData
             schedule,
         };
-
-        return storeData;
     } catch (error) {
         console.error("Error fetching store data:", error);
         throw new Error("Failed to fetch store data");
@@ -110,25 +110,27 @@ export const getCurrentStore = async (id: string): Promise<StoreData> => {
 export const getStoreByUserId = async (userId: string): Promise<{store: StoreData | null, schedule: WorkHours | null}> => {
     const storeResult = await connectionPool.query(
         `
-    SELECT 
-      stores.id AS store_id,
-        stores.nickname AS store_name,
-        stores.description AS store_description,
-        stores.phone As store_phone,
-        stores.facebook_url AS store_facebook_url,  
-        stores.instagram_url AS store_instagram_url,
-        stores.slug AS slug,
-        stores.min_time_order AS min_time_order,
-        store_locations.route AS store_route,
-        store_locations.city AS store_city,
-        store_locations.zip_code AS store_zip_code,
-        store_locations.country AS store_country,
-        store_locations.latitude AS store_latitude,
-        store_locations.longitude AS store_longitude
-    FROM stores
-             INNER JOIN store_locations ON store_locations.store_id = stores.id
-    WHERE stores.user_id = $1
-    `,
+            SELECT
+                stores.id AS store_id,
+                stores.nickname AS store_name,
+                stores.description AS store_description,
+                stores.phone AS store_phone,
+                stores.facebook_url AS store_facebook_url,
+                stores.instagram_url AS store_instagram_url,
+                stores.slug AS slug,
+                stores.min_time_order AS min_time_order,
+                store_locations.route AS store_route,
+                store_locations.city AS store_city,
+                store_locations.zip_code AS store_zip_code,
+                store_locations.country AS store_country,
+                store_locations.latitude AS store_latitude,
+                store_locations.longitude AS store_longitude,
+                COALESCE(bs.kor, false) AS kor
+            FROM stores
+                     INNER JOIN store_locations ON store_locations.store_id = stores.id
+                     LEFT JOIN business_store bs ON bs.store_id = stores.id
+            WHERE stores.user_id = $1
+        `,
         [userId]
     );
 
@@ -142,6 +144,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
     if (rowS){
         store = {
             id: rowS.store_id,
+            kor: false,
             storeName: rowS.store_name,
             description: rowS.store_description,
             phone: rowS.store_phone,
@@ -169,6 +172,54 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
     }
 
     return {store, schedule};
+}
+
+export async function getBusinessStoreData(id: string): Promise<StoreBusinessData | null> {
+    try {
+        // Query the business_store table joined with business_address.
+        const result = await connectionPool.query(
+            `SELECT 
+                bs.id,
+                bs.store_id,
+                bs.name,
+                bs.vat,
+                bs.kor,
+                bs.kvk,
+                bs.bank_account,
+                ba.route,
+                ba.city,
+                ba.zip_code,
+                ba.country
+             FROM business_store bs
+             JOIN business_address ba ON bs.business_address_id = ba.id
+             WHERE bs.store_id = $1`,
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+            return null;
+        }
+
+        const row = result.rows[0];
+        return {
+            id: row.id.toString(),
+            kor: row.kor,
+            store_id: row.store_id,
+            name: row.name,
+            vat: row.vat,
+            kvk: row.kvk,
+            bank_account: row.bank_account,
+            location: {
+                route: row.route,
+                city: row.city,
+                zip_code: row.zip_code,
+                country: row.country,
+            },
+        };
+    } catch (error) {
+        console.error("Error fetching business store data:", error);
+        throw new Error("Failed to fetch business store data");
+    }
 }
 
 
@@ -208,8 +259,28 @@ async function getLocationStore(storeId: string): Promise<LocationData> {
     }
 }
 
+
+export interface StoreBusinessData {
+    id: string;
+    store_id: string;
+    kor: boolean;
+    name: string;
+    vat: string;
+    kvk: string;
+    bank_account: string;
+    location: LocationBusiness;
+}
+
+export interface LocationBusiness {
+    route: string;
+    city: string;
+    zip_code: string;
+    country: string;
+}
+
 export interface StoreData {
     id: string;
+    kor: boolean;
     storeName?: string;
     description?: string;
     email?: string;

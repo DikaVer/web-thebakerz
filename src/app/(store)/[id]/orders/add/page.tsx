@@ -5,6 +5,7 @@ import {getCurrentProducts} from "@/lib/actions/product";
 import {getCurrentProductsOrder} from "@/lib/actions/order-products";
 
 import CartOrderComp from "@/components/store/orders/add/cart-order-comp";
+import {getCurrentStore} from "@/lib/actions/store";
 
 interface StorePageProps {
     params: Promise<{
@@ -13,6 +14,30 @@ interface StorePageProps {
     searchParams?: Promise<{
         tab?: string;
     }>;
+}
+
+export async function generateMetadata({ params }: {
+    params: Promise<{ id: string }>
+}) {
+    const { id } = await params;
+
+    const storeData = await getCurrentStore(id);
+
+    if (!storeData) {
+        return {
+            title: "Add Order",
+            description: "Create a new order"
+        };
+    }
+
+    return {
+        title: `Add Order | ${storeData.ownerName}`,
+        description: `Create a new order at ${storeData.ownerName}`,
+        robots: {
+            index: false,
+            follow: false
+        }
+    };
 }
 
 

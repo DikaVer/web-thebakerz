@@ -22,10 +22,6 @@
         "Alert Hover": "Часы работы и адрес выдачи указаны ниже. Вы можете выбрать время и день выдачи во время оформления заказа",
         "Opening Hours": "Часы работы"
     },
-    "Not Found": {
-        "Alert": "Магазин предлагает только самовывоз заказов.",
-        "Go back to TheBakerz": "Вернуться назад на TheBakerz"
-    },
     "Product Search": {
         "Search": "Поиск по названию продукта или категории..."
     },
@@ -491,5 +487,25 @@
         "hours": "часы",
         "day": "день",
         "days": "дней"
+    },
+    "Not Found": {
+        "Alert": "Shop offers only pickup orders",
+        "Under Construction": "Under Construction!",
+        "Broken Link": "The link you followed may be broken, or the page may have been removed.",
+        "Go back to TheBakerz": "Go back to TheBakerz",
+        "Subtitle": "We are doing our best to deliver it soon!",
+        "Sorry": "Sorry, this page is not available yet."
+    },
+    "Error": {
+        "Something went wrong": "Something went wrong!",
+        "Message": "Seems we've mixed up the recipe here! Try again to find the sweet spot you're looking for.",
+        "Go Back": "Go Back"
+    },
+    "OrderProcess": {
+        "Support Ticket": "We received your support ticket. We will contact you soon!",
+        "Error": "Sorry, something went wrong with your order. Please send the support request and wait for the response.",
+        "Order Placed": "Your Order is placed!",
+        "Check Email": "Check your email for the information about your order.",
+        "Return To Store": "Go back to Store"
     }
 }
