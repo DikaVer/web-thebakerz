@@ -72,36 +72,36 @@ const SupportComponent: React.FC = () => {
                         </AccordionItem>
                     ))}
                 </Accordion>
-                <h2 className="w-full max-w-3xl bg-gradient-to-br from-text to-foreground-600 bg-clip-text px-2 text-center text-2xl font-bold leading-7 tracking-tight text-transparent md:text-4xl">
-                    <span>{t("sectionCustomer")}</span>
-                </h2>
-                <Accordion
-                    fullWidth
-                    keepContentMounted
-                    itemClasses={{
-                        base: "px-0 md:px-2 lg:px-6",
-                        title: "font-medium text-text",
-                        trigger: "py-6 flex-row-reverse",
-                        content: "pt-0 pb-6 text-base text-grayText",
-                        indicator: "rotate-0 data-[open=true]:-rotate-45",
-                    }}
-                    selectionMode="single"
-                >
-                    {faqsCustomer.map((faq, index) => (
-                        <AccordionItem
-                            key={index}
-                            indicator={<Icon className="text-text" icon="lucide:plus" width={24} />}
-                            title={tCustomer(faq.questionKey)}
-                        >
-                            <ReactMarkdown
-                                rehypePlugins={[rehypeSanitize]}
-                                className="prose text-grayText prose-strong:text-text prose-a:text-grayText"
-                            >
-                                {tCustomer(faq.answerKey)}
-                            </ReactMarkdown>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
+                {/*<h2 className="w-full max-w-3xl bg-gradient-to-br from-text to-foreground-600 bg-clip-text px-2 text-center text-2xl font-bold leading-7 tracking-tight text-transparent md:text-4xl">*/}
+                {/*    <span>{t("sectionCustomer")}</span>*/}
+                {/*</h2>*/}
+                {/*<Accordion*/}
+                {/*    fullWidth*/}
+                {/*    keepContentMounted*/}
+                {/*    itemClasses={{*/}
+                {/*        base: "px-0 md:px-2 lg:px-6",*/}
+                {/*        title: "font-medium text-text",*/}
+                {/*        trigger: "py-6 flex-row-reverse",*/}
+                {/*        content: "pt-0 pb-6 text-base text-grayText",*/}
+                {/*        indicator: "rotate-0 data-[open=true]:-rotate-45",*/}
+                {/*    }}*/}
+                {/*    selectionMode="single"*/}
+                {/*>*/}
+                {/*    {faqsCustomer.map((faq, index) => (*/}
+                {/*        <AccordionItem*/}
+                {/*            key={index}*/}
+                {/*            indicator={<Icon className="text-text" icon="lucide:plus" width={24} />}*/}
+                {/*            title={tCustomer(faq.questionKey)}*/}
+                {/*        >*/}
+                {/*            <ReactMarkdown*/}
+                {/*                rehypePlugins={[rehypeSanitize]}*/}
+                {/*                className="prose text-grayText prose-strong:text-text prose-a:text-grayText"*/}
+                {/*            >*/}
+                {/*                {tCustomer(faq.answerKey)}*/}
+                {/*            </ReactMarkdown>*/}
+                {/*        </AccordionItem>*/}
+                {/*    ))}*/}
+                {/*</Accordion>*/}
             </div>
         </section>
     );

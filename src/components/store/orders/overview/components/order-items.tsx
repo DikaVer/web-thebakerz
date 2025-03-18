@@ -30,8 +30,6 @@ export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) =>
             product.name.toLowerCase().includes(searchTerm.toLowerCase()))
         : orderData.productsData;
 
-    const customerFees = 50;
-
     return (
         <div className={'flex flex-col w-full max-w-2xl'}>
             <Card>
@@ -89,16 +87,18 @@ export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) =>
                             <span className="text-sm">{formatCurrency(orderData.sub_amount)}</span>
                         </div>
                     </div>
-                    <div className={'flex flex-col justify-between text-start col-span-4'}>
-                        <div className="flex justify-between mt-2">
-                            <span className="text-sm font-medium">{t("VAT Exclusive")}</span>
-                            <span className="text-sm">{formatCurrency(orderData.amount_tax)}</span>
+                    {orderData.tax_amount > 0 &&
+                        <div className={'flex flex-col justify-between text-start col-span-4'}>
+                            <div className="flex justify-between mt-2">
+                                <span className="text-sm font-medium">{t("VAT Exclusive")}</span>
+                                <span className="text-sm">{formatCurrency(orderData.tax_amount)}</span>
+                            </div>
                         </div>
-                    </div>
+                    }
                     <div className={'flex flex-col justify-between text-start col-span-4'}>
                         <div className="flex justify-between mt-4">
                             <span className="text-base font-bold">{t("Total")}</span>
-                            <span className="text-base font-bold">{formatCurrency(orderData.amount - customerFees)}</span>
+                            <span className="text-base font-bold">{formatCurrency(orderData.amount)}</span>
                         </div>
                     </div>
                 </CardFooter>

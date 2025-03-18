@@ -115,7 +115,7 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
                 products: orderData.productsData,
                 subtotal_amount: orderData.sub_amount,
                 total_amount: orderData.amount,
-                vat: orderData.amount_tax,
+                vat: orderData.tax_amount,
             })),
         },
         recipients: {
@@ -145,7 +145,7 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
                 products: orderData.productsData,
                 subtotal_amount: orderData.sub_amount,
                 total_amount: orderData.amount,
-                vat: orderData.amount_tax,
+                vat: orderData.tax_amount,
             })),
         },
         recipients: {

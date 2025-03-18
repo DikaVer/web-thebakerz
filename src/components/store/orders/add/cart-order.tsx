@@ -15,7 +15,7 @@ import { useStore } from "@/components/providers/store-provider";
 import {CartItemRow} from "@/components/cart/cart-item";
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
-import {CUSTOMER_SERVICE_FEE} from "@/lib/local-variables";
+import {calculatePlatformFee, calculateTotals} from "@/lib/price/tax";
 
 
 const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
@@ -25,6 +25,8 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         getProductDataById,
         handleOpen,
     } = useProductDialog();
+
+    const { store } = useStore();
 
     const {
         itemCount,
@@ -38,13 +40,14 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     const itemsArray = Object.values(cart).flatMap(
         (storeCart) => Object.values(storeCart)
     );
-    let total = itemsArray.reduce((sum, item) => {
+    const amount = itemsArray.reduce((sum, item) => {
         const productData = getProductDataById(item.product_id);
         return productData ? sum + productData.price * item.quantity : sum;
     }, 0);
-    const vat = calculateTax(total) // 9% VAT fee
-    const subtotal = total - vat;
-    total += CUSTOMER_SERVICE_FEE;
+
+    const { vat, subtotal, total} = calculateTotals(amount, store.kor);
+
+    const { platform_fee } = calculatePlatformFee(total);
 
     const renderCartItems = (isLoading: boolean, setIsLoading: (value: boolean) => void) => {
         return itemsArray.map((item) => {
@@ -78,14 +81,10 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             <span className="text-sm font-medium">{t("Subtotal")}</span>
                             <span className="text-sm">{formatCurrency(subtotal)}</span>
                         </div>
-                        <div className="flex justify-between mt-2">
-                            <span className="text-sm font-medium">{t("VAT Exclusive")}</span>
-                            <span className="text-sm">{formatCurrency(vat)}</span>
-                        </div>
-                        {CUSTOMER_SERVICE_FEE !== 0 &&
+                        {vat > 0 &&
                             <div className="flex justify-between mt-2">
-                                <span className="text-sm font-medium">{t("CustomerFee")}</span>
-                                <span className="text-sm">{formatCurrency(CUSTOMER_SERVICE_FEE)}</span>
+                                <span className="text-sm font-medium">{t("VAT Exclusive")}</span>
+                                <span className="text-sm">{formatCurrency(vat)}</span>
                             </div>
                         }
                         <Spacer y={2} />

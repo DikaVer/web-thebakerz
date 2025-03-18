@@ -9,71 +9,59 @@ import {revalidateTag} from "next/cache";
 
 
 
-// This action is similar to your sendEmail function.
+/**
+ * Adds a new product or updates an existing one in the database.
+ *
+ * Validates the form data, handles image upload, and creates or updates the product record.
+ *
+ * @param {z.infer<typeof ProductSchema>} formData - The product information.
+ * @param {string} [productId] - The product ID to update. If omitted, a new product is added.
+ * @returns {Promise<{ success?: string; error?: string; product?: object }>} The operation result.
+ */
 export const addProduct = async (
     formData: z.infer<typeof ProductSchema>,
     productId?: string
 ) => {
-    if (!(await globalPOSTRateLimit())) {
-        return { error: "Too many requests" };
-    }
-    // Validate the form data
+    if (!(await globalPOSTRateLimit())) return { error: "Too many requests" };
+
     const validation = ProductSchema.safeParse(formData);
-    if (!validation.success) {
-        return { error: "Invalid fields!" };
-    }
+    if (!validation.success) return { error: "Invalid fields!" };
 
     const { user, store } = await getCurrentSession();
-    if (!user || !store) {
-        return { error: "User not found!" };
-    }
+    if (!user || !store) return { error: "User not found!" };
 
-    // Fetch the old product data if updating
     let oldProductData = null;
     if (productId) {
-        const oldProduct = await containerProducts.item(productId, store.id).read();
-        oldProductData = oldProduct.resource;
+        const { resource } = await containerProducts.item(productId, store.id).read();
+        oldProductData = resource;
     }
 
-    const image_file = formData.file_picture;
     let image_url;
+    if (formData.file_picture) {
+        const fd = new FormData();
+        fd.append("file", formData.file_picture, "image.webp");
+        fd.append("container", "products");
 
-    if (image_file){
-        // Prepare form data for upload
-        const formData = new FormData();
-        formData.append("file", image_file, "image.webp");
-        formData.append("container", "products");
-
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload-image`, {
-            method: "POST",
-            body: formData,
-            headers: {
-                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-            },
-        });
-
-        console.log(response);
-
-        // Check if the response is ok
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload-image`,
+            {
+                method: "POST",
+                body: fd,
+                headers: {
+                    "Authorization": `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+                },
+            }
+        );
         if (!response.ok) {
             console.error("Failed to upload image");
-            return {
-                error: "Failed to upload image"
-            }
+            return { error: "Failed to upload image" };
         }
-
-        // Get the blob URL from the response
-        const { url: url } = await response.json();
-
+        const { url } = await response.json();
+        if (!url) return { error: "Failed to upload image" };
         image_url = url;
-        if (!image_url){
-            return {
-                error: "Failed to upload image"
-            }
-        }
     }
 
+    const now = new Date().toISOString();
     const productData = {
         id: uuidv4(),
         store_id: store.id,
@@ -81,15 +69,13 @@ export const addProduct = async (
         name: formData.name,
         description: formData.description,
         price: formData.price,
-        picture: image_url ? image_url : formData.url,
+        picture: image_url || formData.url,
         ingredients: formData.ingredients || [],
         allergies: formData.allergies || [],
-        createdAt: oldProductData ? oldProductData.createdAt : new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: oldProductData ? oldProductData.createdAt : now,
+        updatedAt: now,
         historySnapshots: oldProductData
-            ? [...(oldProductData.historySnapshots || []), {
-                id: oldProductData.id, date: new Date().toISOString(),
-            }]
+            ? [...(oldProductData.historySnapshots || []), { id: oldProductData.id, date: now }]
             : [],
         archive: false,
         constId: oldProductData ? oldProductData.constId : uuidv4(),
@@ -97,27 +83,20 @@ export const addProduct = async (
 
     try {
         if (productId) {
-
-            // Update the product's archive status to true.
             await containerProducts.item(productId, store.id).patch({
                 operations: [
                     { op: "set", path: "/archive", value: true },
-                    { op: "set", path: "/archivedAt", value: new Date().toISOString()}
+                    { op: "set", path: "/archivedAt", value: now },
                 ],
             });
-
-
             await containerProducts.items.create(productData);
-            revalidateTag('products');
-            return { success: "Products updated!", product: productData };
-
+            revalidateTag("products");
+            return { success: "Product updated!", product: productData };
         } else {
-
             await containerProducts.items.create(productData);
-            revalidateTag('products');
-            return { success: "Products added!", product: productData };
+            revalidateTag("products");
+            return { success: "Product added!", product: productData };
         }
-
     } catch (error: any) {
         console.error("Error updating product:", error);
         return { error: "Failed to update product." };

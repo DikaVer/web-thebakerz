@@ -2,6 +2,14 @@ import React from "react";
 import rehypeSanitize from "rehype-sanitize";
 import ReactMarkdown from "react-markdown";
 import {privacyEnglishBakerz} from "@/app/(return_page)/policies/privacy-policy/content";
+import {metadataDefault} from "@/components/metadata";
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+    ...metadataDefault,
+    title: "Privacy Policy",
+    description: "Read our privacy policy to understand how we collect, use, and protect your personal information at TheBakerz."
+};
 
 
 export default async function Page() {

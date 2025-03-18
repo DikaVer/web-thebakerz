@@ -11,12 +11,32 @@ import {getCurrentSession} from "@/lib/actions/session";
 import {FooterStore} from "@/components/footer-store";
 import {getCurrentCart} from "@/lib/actions/cart";
 import {redirect} from "next/navigation";
+import {metadataDefault} from "@/components/metadata";
 
 type Params = Promise<{ id: string  }>
 
-export async function generateMetadata({ params }: { // @ts-ignore
-    params: Params }) {
-    const { id } = await params
+export async function generateMetadata({ params }: {
+    params: Promise<{ id: string }>
+}) {
+    const { id } = await params;
+
+    const storeData = await getCurrentStore(id);
+
+    if (!storeData) {
+        return {
+            title: "Store Not Found",
+            description: "The requested store could not be found."
+        };
+    }
+
+    return {
+        title: `Orders Management | ${storeData.ownerName}`,
+        description: `Manage orders for ${storeData.ownerName}`,
+        robots: {
+            index: false,
+            follow: false
+        }
+    };
 }
 
 export default async function Layout({

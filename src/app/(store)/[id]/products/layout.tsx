@@ -12,9 +12,19 @@ import {redirect} from "next/navigation";
 
 type Params = Promise<{ id: string  }>
 
-export async function generateMetadata({ params }: { // @ts-ignore
-    params: Params }) {
-    const { id } = await params
+export async function generateMetadata({ params }: {
+    params: Params
+}) {
+    const { id } = await params;
+
+    return {
+        title: `Products Management | ${id}`,
+        description: `Manage products for ${id}`,
+        robots: {
+            index: false,
+            follow: false
+        }
+    };
 }
 
 export default async function Layout({

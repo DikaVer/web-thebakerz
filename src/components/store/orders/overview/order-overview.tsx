@@ -45,8 +45,7 @@ export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderDat
             </Button>
             <Spacer y={4}/>
             <OrderTopContent
-                scheduleTime={orderData.scheduled_time}
-                storeOrderId={orderData.store_order_id}
+                orderData={orderData}
             />
             <Spacer y={8}/>
             <OrderStatusCard

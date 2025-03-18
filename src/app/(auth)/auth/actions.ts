@@ -1,6 +1,6 @@
 "use server";
 
-import {ExpiringTokenBucket, RefillingTokenBucket} from "@/lib/actions/rate-limits";
+import {RefillingTokenBucket} from "@/lib/actions/rate-limits";
 import {
     createSession,
     generateSessionToken,
@@ -8,60 +8,77 @@ import {
     SessionValidationResult,
     setSessionTokenCookie
 } from "@/lib/actions/session";
-import { headers } from "next/headers";
-import { globalPOSTRateLimit} from "@/lib/actions/requests";
-
+import {headers, cookies} from "next/headers";
+import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {createUser, getUserFromEmail, updateUserEmailAndSetEmailAsVerified, User} from "@/lib/actions/user";
-
-
 import {z} from "zod";
 import {EmailSchema, OTPSchema} from "@/lib/schemas";
 import {
     createEmailVerificationRequest,
-    deleteUserEmailVerificationRequest, EmailVerificationRequest, getUserEmailVerificationRequest,
-    sendVerificationEmail, sendVerificationEmailBucket
+    deleteUserEmailVerificationRequest,
+    EmailVerificationRequest,
+    getUserEmailVerificationRequest,
+    sendVerificationEmail,
+    sendVerificationEmailBucket
 } from "@/lib/actions/auth/email-verification";
+import {revalidateTag} from "next/cache";
+import {acceptTOS} from "@/lib/term-of-service";
+import {TOS_VERSION} from "@/lib/local-variables";
 
+/**
+ * Type definition for the standard action result
+ * Either contains an error message or null for success
+ */
+export type ActionResult = { message: string } | null;
 
+/**
+ * Type definition for the login action result
+ * Contains optional session validation result and message
+ */
+export type ActionLogin = { session?: SessionValidationResult, message?: string};
+
+/**
+ * Token bucket for rate limiting by IP address
+ * Allows 20 tokens with 1 token refilled per second
+ */
 const ipBucket = new RefillingTokenBucket<string>(20, 1);
 
+/**
+ * Handles user login by email
+ */
 export async function loginAction(_prev: ActionResult, formData: z.infer<typeof EmailSchema>): Promise<ActionResult> {
+    // Check global rate limit
     if (!await globalPOSTRateLimit()) {
-        return {
-            message: "Too many requests"
-        };
+        return { message: "Too many requests" };
     }
-    // TODO: Assumes X-Forwarded-For is always included.
+
+    // Check IP-based rate limit
     const reqHeaders = await headers();
     const clientIP = reqHeaders.get("x-forwarded-for");
     if (clientIP !== null && !ipBucket.check(clientIP, 1)) {
-        return {
-            message: "Too many requests"
-        };
+        return { message: "Too many requests" };
     }
 
-    // TODO: Implement zod schema validation
-    const email = formData.email;
-
+    // Validate email
     const validation = EmailSchema.safeParse(formData);
     if (!validation.success) {
-        return {
-            message: "Invalid or missing field"
-        };
+        return { message: "Invalid or missing field" };
     }
 
-
+    // Consume rate limit token
     if (clientIP !== null && !ipBucket.consume(clientIP, 1)) {
-        return {
-            message: "Too many requests"
-        };
+        return { message: "Too many requests" };
     }
 
-    let user: User | null = await getUserFromEmail(email as string);
+    const email = formData.email;
+
+    // Get or create user
+    let user: User | null = await getUserFromEmail(email);
     if (user === null) {
-        user = await createUser(email as string);
+        user = await createUser(email);
     }
 
+    // Create and send verification email
     const emailVerificationRequest = await createEmailVerificationRequest(user.id, user.email);
     await sendVerificationEmail(emailVerificationRequest.email, emailVerificationRequest.code);
     await setEmailVerificationRequestCookie(emailVerificationRequest);
@@ -69,74 +86,64 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
     return null;
 }
 
-
-
+/**
+ * Verifies the email using the OTP code provided
+ */
 export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<typeof OTPSchema>): Promise<ActionLogin> {
+    // Check global rate limit
     if (!await globalPOSTRateLimit()) {
-        return {
-            message: "Too many requests"
-        };
+        return { message: "Too many requests" };
     }
 
+    // Validate OTP input
     const validation = OTPSchema.safeParse(formData);
     if (!validation.success) {
-        return {
-            message: "Invalid or missing fields"
-        };
+        return { message: "Invalid or missing fields" };
     }
 
     const email = formData.email;
     const user = await getUserFromEmail(email);
     if (user === null) {
-        return {
-            message: "Account does not exist"
-        };
+        return { message: "Account does not exist" };
     }
 
     const code = formData.otp;
 
-
+    // Check IP-based rate limit
     const reqHeaders = await headers();
     const clientIP = reqHeaders.get("x-forwarded-for");
     if (clientIP !== null && !ipBucket.check(clientIP, 1)) {
-        return {
-            message: "Too many requests"
-        };
+        return { message: "Too many requests" };
     }
 
-    let verificationRequest = await getUserEmailVerificationRequestFromRequest(user?.id);
-
-
+    // Get verification request
+    let verificationRequest = await getUserEmailVerificationRequestFromRequest(user.id);
     if (verificationRequest === null) {
-        return {
-            message: "Not authenticated"
-        };
+        return { message: "Not authenticated" };
     }
 
-
+    // Consume rate limit token
     if (clientIP !== null && !ipBucket.consume(clientIP, 1)) {
-        return {
-            message: "Too many requests"
-        };
+        return { message: "Too many requests" };
     }
 
+    // Handle expired verification code
     if (Date.now() >= verificationRequest.expiresAt.getTime()) {
         verificationRequest = await createEmailVerificationRequest(verificationRequest.userId, verificationRequest.email);
         await sendVerificationEmail(verificationRequest.email, verificationRequest.code);
-        return {
-            message: "The verification code was expired. We sent another code to your email."
-        };
+        return { message: "The verification code was expired. We sent another code to your email." };
     }
+
+    // Check code validity
     if (verificationRequest.code !== code) {
-        return {
-            message: "Incorrect code."
-        };
+        return { message: "Incorrect code." };
     }
 
-
-    const sessionToken =  generateSessionToken();
+    // Create session on successful verification
+    const sessionToken = generateSessionToken();
     const session = await createSession(sessionToken, user.id);
 
+    // Update user and clean up
     await setSessionTokenCookie(sessionToken, session.expiresAt);
     await deleteUserEmailVerificationRequest(user.id);
     await updateUserEmailAndSetEmailAsVerified(user.id, verificationRequest.email);
@@ -149,50 +156,45 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
     };
 }
 
+/**
+ * Resends the email verification code to the user
+ */
 export async function resendEmailVerificationCodeAction(email: string): Promise<ActionResult> {
-
     const user = await getUserFromEmail(email);
-
     if (user === null) {
-        return {
-            message: "Problem with account"
-        };
+        return { message: "Problem with account" };
     }
 
+    // Check rate limit for sending emails
     if (!sendVerificationEmailBucket.check(user.id, 1)) {
-        return {
-            message: "Too many requests"
-        };
+        return { message: "Too many requests" };
     }
+
     let verificationRequest = await getUserEmailVerificationRequestFromRequest(user.id);
+
+    // Create or update verification request
     if (verificationRequest === null) {
         if (!sendVerificationEmailBucket.consume(user.id, 1)) {
-            return {
-                message: "Too many requests"
-            };
+            return { message: "Too many requests" };
         }
         verificationRequest = await createEmailVerificationRequest(user.id, user.email);
     } else {
         if (!sendVerificationEmailBucket.consume(user.id, 1)) {
-            return {
-                message: "Too many requests"
-            };
+            return { message: "Too many requests" };
         }
         verificationRequest = await createEmailVerificationRequest(user.id, verificationRequest.email);
     }
+
+    // Send email and set cookie
     await sendVerificationEmail(verificationRequest.email, verificationRequest.code);
     await setEmailVerificationRequestCookie(verificationRequest);
     return null;
 }
 
-import { cookies } from "next/headers";
-import {revalidateTag} from "next/cache";
-import {acceptTOS} from "@/lib/term-of-service";
-import {TOS_VERSION} from "@/lib/local-variables";
-
-
+/**
+ * Sets a cookie containing the email verification request ID
+ */
 export async function setEmailVerificationRequestCookie(request: EmailVerificationRequest): Promise<void> {
-    // This function must be called from a Server Action or Route Handler.
     const cookieStore = await cookies();
     cookieStore.set("email_verification", request.id, {
         httpOnly: true,
@@ -203,6 +205,9 @@ export async function setEmailVerificationRequestCookie(request: EmailVerificati
     });
 }
 
+/**
+ * Deletes the email verification request cookie
+ */
 export async function deleteEmailVerificationRequestCookie(): Promise<void> {
     const cookieStore = await cookies();
     cookieStore.set("email_verification", "", {
@@ -214,26 +219,21 @@ export async function deleteEmailVerificationRequestCookie(): Promise<void> {
     });
 }
 
+/**
+ * Retrieves the email verification request from the cookie
+ */
 export async function getUserEmailVerificationRequestFromRequest(userId: string): Promise<EmailVerificationRequest | null> {
-
-
     const cookieStore = await cookies();
     const id = cookieStore.get("email_verification")?.value ?? null;
-
 
     if (id === null) {
         return null;
     }
 
     const request = await getUserEmailVerificationRequest(userId, id);
-
     if (request === null) {
         await deleteEmailVerificationRequestCookie();
     }
+
     return request;
 }
-
-
-export type ActionResult = { message: string } | null ;
-
-export type ActionLogin = { session?: SessionValidationResult, message?: string};

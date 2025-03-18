@@ -95,4 +95,38 @@ export const OnboardSchema = z.object({
         .string()
         .nonempty('Zip Code is required!')
         .transform(val => val?.trim() || ""),
+    // Business information fields
+    businessName: z
+        .string()
+        .min(1, { message: "Business name is required" })
+        .transform(val => val.trim()),
+    vat: z
+        .string()
+        .min(1, { message: "VAT number is required" })
+        .transform(val => val.trim()),
+    kvk: z
+        .string()
+        .min(1, { message: "KVK number is required" })
+        .transform(val => val.trim()),
+    bankAccount: z
+        .string()
+        .min(1, { message: "Bank account is required" })
+        .transform(val => val.trim()),
+    businessRoute: z
+        .string()
+        .nonempty('Business address route is required!')
+        .transform(val => val?.trim() || ""),
+    businessCity: z
+        .string()
+        .nonempty('Business city is required!')
+        .transform(val => val?.trim() || ""),
+    businessZipCode: z
+        .string()
+        .nonempty('Business zip code is required!')
+        .transform(val => val?.trim() || ""),
+    businessCountry: z
+        .string()
+        .nonempty('Business country is required!')
+        .transform(val => val?.trim() || ""),
+    kor: z.boolean().default(false)
 });
