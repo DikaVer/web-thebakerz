@@ -8,6 +8,15 @@ interface InvoiceProps {
     store: StoreBusinessData;
     order: OrderData;
 }
+export const InvoiceBakerzDump: React.FC = () => {
+
+    return (
+        <div style={styles.invoiceContainer}>
+            Hello
+        </div>
+    );
+};
+
 
 /**
  * A component to render an invoice with the layout
@@ -21,7 +30,7 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
     const grandTotal = order.amount
 
     // Build line items
-    const lineItems = order.productsData.map((p) => {
+    const lineItems = (order.productsData ?? []).map((p) => {
         const amount = p.price * p.qty; // net = price * quantity
         const { subtotal, vat, total } = calculateTotals(amount, totalTax > 0);
         return {

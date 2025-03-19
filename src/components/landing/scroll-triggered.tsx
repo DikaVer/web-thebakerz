@@ -4,6 +4,8 @@ import React, {CSSProperties, ReactElement, ReactNode} from "react";
 import { motion, type Variants } from "motion/react";
 import {Icon} from "@iconify/react";
 import {useTranslations} from "next-intl";
+import { Badge } from "@heroui/react";
+import {pacifico} from "@/components/fonts";
 
 interface CardProps {
     icon: ReactElement;
@@ -59,7 +61,7 @@ const splash: React.CSSProperties = {
 
 const card: React.CSSProperties = {
     width: 300,
-    height: 440,
+    height: 450,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -72,7 +74,7 @@ const card: React.CSSProperties = {
 const food: [string, ReactElement, string, string][] = [
     ["features.online_store.key", <Icon icon={`solar:shop-2-broken`}/>, "features.online_store.title", "features.online_store.description"],
     ["features.order_management.key", <Icon icon={`solar:calculator-minimalistic-broken`}/>, "features.order_management.title", "features.order_management.description"],
-    ["features.all_chats.key", <Icon icon={`solar:chat-round-dots-broken`}/>, "features.all_chats.title", "features.all_chats.description"],
+    ["features.all_chats.key", <Badge color="primary" content={<p className={pacifico.className + " p-1"}>Coming Soon</p>} size="sm"><Icon icon={`solar:chat-round-dots-broken`}/></Badge>, "features.all_chats.title", "features.all_chats.description"],
     ["features.support.key", <Icon icon={`solar:help-broken`}/>, "features.support.title", "features.support.description"],
 ];
 

@@ -47,7 +47,7 @@ export default async function RootLayout({
     const cookieConsent = await isCookieConsentFromServer();
 
     return (
-        <html lang={lang || locale}>
+        <html lang={lang || locale} translate={'no'} >
             <body className={`${lexendDeca.className} max-w-full `}>
                 <NextIntlClientProvider messages={messages}>
                     <Providers

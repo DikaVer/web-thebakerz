@@ -1,5 +1,4 @@
-import axios from "axios";
-import showErrorMessage from "@/components/toast/toast-error";
+
 import {addToast} from "@heroui/react";
 
 
@@ -20,7 +19,7 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, storeO
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
-            link.download = `${storeId}-${storeOrderId}.pdf`;
+            link.download = `Invoice-${storeId}-${storeOrderId}.pdf`;
             document.body.appendChild(link);
             link.click();
             link.remove();

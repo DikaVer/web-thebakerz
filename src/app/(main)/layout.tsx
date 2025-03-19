@@ -5,7 +5,6 @@ import type {Metadata} from "next";
 import {metadataDefault} from "@/components/metadata";
 import LayoutComp from "@/components/layout-comp";
 
-export const metadata: Metadata = metadataDefault;
 
 export default async function Layout(
     {

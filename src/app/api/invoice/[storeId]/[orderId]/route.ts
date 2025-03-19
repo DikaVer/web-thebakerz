@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentOrder, OrderData } from "@/lib/actions/order";
-import {getBusinessStoreData, getCurrentStore} from "@/lib/actions/store";
-import { getCurrentSession } from "@/lib/actions/session";
 import { generatePdf } from "@/lib/pdf/generateInvoicePdf";
-import { renderPdf } from "@/lib/pdf/renderPdf";
+import {renderDumpPdf, renderPdf} from "@/lib/pdf/renderPdf";
 import { globalLargeRateLimit } from "@/lib/actions/requests";
+import {getCurrentOrder, OrderData } from "@/lib/actions/order";
+import {getBusinessStoreData} from "@/lib/actions/store";
+import {getCurrentSession} from "@/lib/actions/session";
+
+export const revalidate = 60 * 60 * 24 * 7; // 1 week
 
 export async function POST(
     req: NextRequest,
@@ -54,7 +56,7 @@ export async function POST(
             status: 200,
             headers: {
                 "Content-Type": "application/pdf",
-                "Content-Disposition": `attachment; filename=${order.store_id}-${order.store_order_id}.pdf`,
+                "Content-Disposition": `attachment; filename=${45}-${5}.pdf`,
             },
         });
     } catch (error) {
