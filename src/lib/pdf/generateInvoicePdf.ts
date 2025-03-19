@@ -1,34 +1,31 @@
-import puppeteer from "puppeteer";
-import path from "path";
+const { chromium } = require('playwright');
 
-export const generatePdf = async (htmlContent: any, orderId: string, isDownload: boolean) => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
+export const generatePdf = async (htmlContent:any) => {
+    let browser;
+    try {
+        const browser = await chromium.launch({
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
+        const context = await browser.newContext();
+        const page = await context.newPage();
 
-    const styledHtmlContent = `
-        <style>
-            body {
-                background-color: #525659; /* Replace with your desired background color */
-                margin: 0; /* Ensure no margin */
-                padding: 0; /* Ensure no padding */
-                width: 100%;
-                height: 100%;
-            }
-        </style>
-        ${htmlContent}
-    `;
+        // Set the page content and wait until the network is idle
+        await page.setContent(htmlContent, { waitUntil: 'networkidle' });
 
-    await page.setContent(styledHtmlContent, { waitUntil: "networkidle0" });
+        // Generate the PDF and save it to 'output.pdf'
+        const pdfBuffer = await page.pdf({
+            format: 'A4',
+            printBackground: true
+        });
 
-// Saves the PDF in the public folder for later use.: if its not for download
-    if (!isDownload) {
-        const outputPath = path.join(process.cwd(), `public/documents/document-${orderId}.pdf`);
-        await page.pdf({ path: outputPath, format: "A4", printBackground: true });
-        await browser.close();
-        return;
+        return pdfBuffer;
+    } catch (error) {
+        console.error("Error generating PDF:", error);
+        throw error;
+    } finally {
+        // if (browser) {
+        //     browser.close();
+        // }
     }
-
-    const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
-    await browser.close();
-    return pdfBuffer;
 };

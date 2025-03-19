@@ -11,17 +11,17 @@ export async function generateMetadata(): Promise<Metadata> {
 
     return {
         ...getLocalizedMetadata(locale),
-        title: "About Us | TheBakerz - The Team Behind Your Bakery Success",
+        title: "About Us | The Team Behind Your Bakery Success",
         description: "Meet the passionate team behind TheBakerz - dedicated to helping artisanal bakers grow their businesses with innovative tools and personalized support.",
         openGraph: {
             ...metadataDefault.openGraph,
-            title: "About Us | TheBakerz - The Team Behind Your Bakery Success",
+            title: "About Us | The Team Behind Your Bakery Success",
             description: "Meet the passionate team behind TheBakerz - dedicated to helping artisanal bakers grow their businesses with innovative tools and personalized support.",
             url: 'https://www.thebakerz.com/about-us/',
         },
         twitter: {
             ...metadataDefault.twitter,
-            title: "About Us | TheBakerz - The Team Behind Your Bakery Success",
+            title: "About Us | The Team Behind Your Bakery Success",
             description: "Meet the passionate team behind TheBakerz - dedicated to helping artisanal bakers grow their businesses with innovative tools and personalized support.",
         },
         keywords: "TheBakerz team, bakery platform developers, artisanal bakery support, bakery tech innovators, baker community, bakery business experts, bakery management team",

@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentOrder, OrderData } from "@/lib/actions/order";
-import {getBusinessStoreData, getCurrentStore} from "@/lib/actions/store";
-import { getCurrentSession } from "@/lib/actions/session";
 import { generatePdf } from "@/lib/pdf/generateInvoicePdf";
-import { renderPdf } from "@/lib/pdf/renderPdf";
+import {renderDumpPdf, renderPdf} from "@/lib/pdf/renderPdf";
 import { globalLargeRateLimit } from "@/lib/actions/requests";
+import {getCurrentOrder, OrderData } from "@/lib/actions/order";
+import {getBusinessStoreData} from "@/lib/actions/store";
+import {getCurrentSession} from "@/lib/actions/session";
+
 
 export async function POST(
     req: NextRequest,
@@ -43,14 +44,18 @@ export async function POST(
 
         const order: OrderData = await getCurrentOrder(storeId, orderId, customer_email);
 
+        if (!order) {
+            return NextResponse.json({ error: "Order is Not Found" }, { status: 404 });
+        }
+
         const htmlContent = await renderPdf(storeData, order);
-        const pdfBuffer = await generatePdf(htmlContent, orderId, true);
+        const pdfBuffer = await generatePdf(htmlContent);
 
         return new Response(pdfBuffer, {
             status: 200,
             headers: {
                 "Content-Type": "application/pdf",
-                "Content-Disposition": `attachment; filename=${order.store_id}-${order.store_order_id}.pdf`,
+                "Content-Disposition": `attachment; filename=${45}-${5}.pdf`,
             },
         });
     } catch (error) {
