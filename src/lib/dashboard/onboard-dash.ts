@@ -4,6 +4,7 @@ import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {OnboardSchema} from "@/lib/dashboard/schemas";
 import {connectionPool} from "@/db";
 import {revalidateTag} from "next/cache";
+import {getCurrentSession} from "@/lib/actions/session";
 
 export const onboardBakerz = async (
     formData: z.infer<typeof OnboardSchema>,
@@ -16,6 +17,14 @@ export const onboardBakerz = async (
     const validation = OnboardSchema.safeParse(formData);
     if (!validation.success) {
         return { error: "Invalid fields!" };
+    }
+
+    const session = await getCurrentSession();
+    if (!session) {
+        return { error: "User not logged in." };
+    }
+    if (session.user?.role !== "admin") {
+        return { error: "Permission Denied." };
     }
 
     try {
@@ -70,6 +79,13 @@ export const onboardBakerz = async (
                 VALUES ($1, $2, $3, $4, $5, $6, $7)
             `,
             [storeId, formData.businessName, formData.vat, formData.kvk, formData.bankAccount, businessAddressId, formData.kor],
+        );
+
+        await connectionPool.query(
+            `
+                UPDATE users SET role = 'bakerz' WHERE id = $1
+            `,
+            [userId],
         );
 
         // Commit the transaction
