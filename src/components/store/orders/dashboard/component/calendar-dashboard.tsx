@@ -12,7 +12,18 @@ import { Icon } from "@iconify/react/dist/iconify.js"
 import { useMemo, useRef, useState, useTransition } from "react"
 import { useTranslations } from "next-intl"
 
-// Interface for storing order status information by date
+/**
+ * Interface for storing order status information by date.
+ * Maps a date string to booleans indicating if orders with specific
+ * statuses exist for that date.
+ */
+
+
+/**
+ * @module CalendarDashboard
+ * A specialized calendar component that displays order status indicators
+ * and allows date range selection for order filtering.
+ */
 interface OrderStatusByDate {
     [date: string]: {
         new: boolean;
@@ -21,6 +32,17 @@ interface OrderStatusByDate {
     };
 }
 
+/**
+ * Props for the CalendarDashboard component.
+ * Extends DayPicker component props with additional functionality
+ * for range selection and order status display.
+ *
+ * @typedef CalendarDashboardProps
+ * @property {Function} [onDateRangeChange] - Callback when date range changes
+ * @property {boolean} [isLoading] - Whether the calendar is in loading state
+ * @property {Object} [selected] - Currently selected date range
+ * @property {Object} [statusIndicators] - Configuration for status indicators displayed on dates
+ */
 type CalendarDashboardProps = Omit<React.ComponentProps<typeof DayPicker>, 'mode'> & {
     onDateRangeChange?: (range: { from: Date; to: Date } | undefined) => void;
     isLoading?: boolean;
@@ -33,6 +55,20 @@ type CalendarDashboardProps = Omit<React.ComponentProps<typeof DayPicker>, 'mode
     };
 }
 
+/**
+ * CalendarDashboard component displays a calendar with date range selection and order status indicators.
+ * It allows selecting date ranges and shows different order statuses on each day using colored indicators.
+ *
+ * @param {Object} props - Component props
+ * @param {string} [props.className] - Additional CSS classes
+ * @param {Object} [props.classNames] - Custom class names for calendar elements
+ * @param {boolean} [props.showOutsideDays=true] - Whether to show days outside the current month
+ * @param {Function} [props.onDateRangeChange] - Callback when date range changes
+ * @param {boolean} [props.isLoading=false] - Whether the calendar is in loading state
+ * @param {Object} [props.selected] - Currently selected date range
+ * @param {Object} [props.statusIndicators] - Configuration for status indicators
+ * @returns {JSX.Element} The calendar dashboard component
+ */
 function CalendarDashboard({
                                className,
                                classNames,
@@ -71,7 +107,10 @@ function CalendarDashboard({
         }
     }, [selected]);
 
-    // Fetch orders whenever the month changes
+    /**
+     * Fetches orders for the current month and processes them to update
+     * the order status indicators on the calendar.
+     */
     React.useEffect(() => {
         if (!store?.id) return;
 
@@ -97,7 +136,12 @@ function CalendarDashboard({
         });
     }, [currentMonth, store?.id]);
 
-    // Process orders data to create status map
+    /**
+     * Processes order data to create a map of statuses by date.
+     * This is used to display status indicators on the calendar.
+     *
+     * @param {OrderData[]} orders - The array of orders to process
+     */
     const processOrderData = (orders: OrderData[]) => {
         if (!orders.length) {
             setOrderStatusByDate({});
@@ -122,12 +166,21 @@ function CalendarDashboard({
         setOrderStatusByDate(statusMap);
     };
 
-    // Handle month change
+    /**
+     * Handles month change in the calendar view.
+     *
+     * @param {Date} month - The new month selected
+     */
     const handleMonthChange = (month: Date) => {
         setCurrentMonth(month);
     };
 
-    // Handle day click for two-step selection
+    /**
+     * Handles day click for implementing two-step date range selection.
+     * First click selects the start date, second click completes the range.
+     *
+     * @param {Date} day - The clicked day
+     */
     const handleDayClick = (day: Date) => {
         if (!selectedDay) {
             // First click - select start date
@@ -150,7 +203,7 @@ function CalendarDashboard({
 
     // Handle hover effect after first selection
     const handleDayMouseEnter = (day: Date) => {
-        if (selectedDay) {
+        if (selectedDay && (!hoveredDay || !isSameDay(day, hoveredDay))) {
             setHoveredDay(day);
         }
     };
@@ -160,7 +213,12 @@ function CalendarDashboard({
         setHoveredDay(undefined);
     };
 
-    // Create a unified range object for display
+    /**
+     * Creates a unified range object for display based on current selection state.
+     * Handles different stages of the selection process including hover preview.
+     *
+     * @returns {Object} The display range to be used by the calendar
+     */
     const displayRange = useMemo(() => {
         // If we have a full selection, use it
         if (range.from && range.to && !selectedDay) {
@@ -182,9 +240,11 @@ function CalendarDashboard({
         }
 
         return range;
-    }, [range, selectedDay, hoveredDay]);
+    }, [range.from, range.to, selectedDay, hoveredDay]);
 
-    // Button handlers for preset date ranges
+    /**
+     * Handles click on "Today" button to select just today.
+     */
     const handleTodayClick = () => {
         const today = new Date();
         setRange({ from: today, to: today });
@@ -192,6 +252,9 @@ function CalendarDashboard({
         onDateRangeChange?.({ from: today, to: today });
     };
 
+    /**
+     * Handles click on "This Week" button to select from today to end of current week.
+     */
     const handleThisWeekClick = () => {
         const today = new Date();
         const endWeek = endOfWeek(today);
@@ -200,6 +263,9 @@ function CalendarDashboard({
         onDateRangeChange?.({ from: today, to: endWeek });
     };
 
+    /**
+     * Handles click on "This Month" button to select from today to end of current month.
+     */
     const handleThisMonthClick = () => {
         const today = new Date();
         const endMonth = endOfMonth(today);
@@ -209,33 +275,12 @@ function CalendarDashboard({
     };
 
 
-    // Define custom modifiers for hover effects
-    const modifiers = useMemo<DayModifiers>(() => {
-        const result: DayModifiers = {};
-
-        if (selectedDay && hoveredDay) {
-            result.hover_start = selectedDay;
-            result.hover_end = hoveredDay;
-            result.hover_middle = (day: Date) => {
-                if (!selectedDay || !hoveredDay) return false;
-
-                const start = isBefore(selectedDay, hoveredDay) ? selectedDay : hoveredDay;
-                const end = isBefore(selectedDay, hoveredDay) ? hoveredDay : selectedDay;
-
-                return isAfter(day, start) && isBefore(day, end);
-            };
-        }
-
-        return result;
-    }, [selectedDay, hoveredDay]);
-
-    // Custom modifiers class names
-    const modifiersClassNames = {
-        hover_start: "bg-primary-300",
-        hover_end: "bg-primary-300",
-        hover_middle: "bg-transparent"
-    };
-
+    /**
+     * Custom Day component that renders each day in the calendar with status indicators.
+     *
+     * @param {DayProps} props - The day component props from react-day-picker
+     * @returns {JSX.Element} The custom day component with status indicators
+     */
     const CustomDay = (props: DayProps) => {
         const { date, displayMonth } = props;
 
@@ -272,10 +317,16 @@ function CalendarDashboard({
                         "relative w-full h-full flex items-center justify-center",
                         elementProps.className,
                     )}
-                    disabled={dayRender.isButton ? dayRender.buttonProps.disabled : undefined}
+                    disabled={isLoading}
                     style={elementProps.style}
-                    onClick={() => handleDayClick(date)} // Ensure click works
-                    onTouchStart={() => handleDayClick(date)} // Add touch support
+                    onClick={(e) => {
+                        e.preventDefault()
+                        handleDayClick(date)
+                    }} // Ensure click works
+                    onTouchEnd={(e) => {
+                        e.preventDefault();
+                        handleDayClick(date);
+                    }} // Better touch support
                 >
                     {date.getDate()}
                 </button>
@@ -330,10 +381,7 @@ function CalendarDashboard({
                     selected={displayRange}
                     onDayClick={handleDayClick}
                     onDayMouseEnter={handleDayMouseEnter}
-                    onDayMouseLeave={handleMouseLeave}
-                    onDayTouchStart={handleDayClick} // Add touch support for mobile devices
-                    modifiers={modifiers}
-                    modifiersClassNames={modifiersClassNames}
+                    // onDayMouseLeave={handleMouseLeave}
                     showOutsideDays={showOutsideDays}
                     onMonthChange={handleMonthChange}
                     disabled={isLoading}
@@ -346,7 +394,7 @@ function CalendarDashboard({
                     components={{
                         IconLeft: ({ ...props }) => <Icon icon={'solar:alt-arrow-left-linear'} width={16} {...props} />,
                         IconRight: ({ ...props }) => <Icon icon={'solar:alt-arrow-right-linear'} width={16} {...props} />,
-                        Day: CustomDay  // Add the custom day component
+                        Day: CustomDay
                     }}
                     classNames={{
                         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
