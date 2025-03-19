@@ -6,7 +6,6 @@ import {getCurrentOrder, OrderData } from "@/lib/actions/order";
 import {getBusinessStoreData} from "@/lib/actions/store";
 import {getCurrentSession} from "@/lib/actions/session";
 
-export const revalidate = 60 * 60 * 24 * 7; // 1 week
 
 export async function POST(
     req: NextRequest,

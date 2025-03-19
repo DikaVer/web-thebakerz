@@ -10,6 +10,9 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, storeO
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ customer_email }),
+            next: {
+                revalidate: 60 * 60 * 24,
+            }
         });
 
 
@@ -32,9 +35,10 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, storeO
                 color: "success"
             });
         } else {
+            const resJson = await res.json();
             addToast({
                 title:"Error",
-                description: "Failed to generate PDF.",
+                description: resJson?.error || "Failed to download PDF",
                 timeout: 1000,
                 shouldShowTimeoutProgress: true,
                 color: "danger"
