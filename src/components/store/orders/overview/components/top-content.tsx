@@ -58,12 +58,13 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) =
                 className="bg-gradient-primary px-8"
                 onPress={async () => {
                     setIsLoading(true);
-                    await onDownloadInvoice(orderData.store_id, orderData.id, orderData.customer_email);
+                    await onDownloadInvoice(orderData.store_id, orderData.id, orderData.store_order_id, orderData.customer_email);
                     setIsLoading(false);
                 }}
                 >
                     {t("Print Invoice")}
                 </Button>
+
             }
         </section>
     );

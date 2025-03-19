@@ -1,13 +1,18 @@
-# Use an argument for the Node version (default: 20-alpine)
+# Dockerfile for building and running a Next\.js application using multi\-stage builds
+
+# Use an argument for the Node version (default: 20\-alpine)
 ARG NODE_VERSION=20-alpine
+
+# Base image stage using the specified Node version
 FROM node:${NODE_VERSION} AS base
 
-# Enable Corepack and prepare pnpm (using a supported version, e.g. 8.7.0)
+# --- Setup Corepack and pnpm ---
+# Enable Corepack and prepare pnpm (using a supported version, e\.g\. 8\.7\.0)
 RUN corepack enable && corepack prepare pnpm@8.7.0 --activate
 
-# --- Define build arguments with default (dummy) values ---
-# These defaults are used during the build so that Next.js does not fail when it
-# attempts to parse environment variables that it expects to be valid URLs, etc.
+# --- Build Arguments ---
+# Define build arguments with default \(dummy\) values
+# These are used during the build to satisfy Next\.js environment variable parsing
 ARG NEXT_PRIVATE_COSMOS_DB_KEY_ARG="dummy-cosmos-db-key"
 ARG NEXT_PRIVATE_COSMOS_DB_URI_ARG="https://dummy-cosmos-db-uri"
 ARG NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT_ARG="https://dummy.azurecommendpoint"
@@ -29,21 +34,23 @@ ARG NEXT_PRIVATE_BLOB_PRODUCTS_CONTAINER_ARG="dummy"
 ARG NEXT_PRIVATE_COSMOS_DB_NAME_ARG="dummy"
 
 # --- Dependencies Stage ---
+# Install system dependencies and Node modules
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-# Copy only package files first to leverage Docker cache
+# Copy package files first to leverage Docker cache
 COPY package.json pnpm-lock.yaml .npmrc* ./
+# Install dependencies with a frozen lockfile
 RUN pnpm i --frozen-lockfile
 
 # --- Build Stage ---
+# Build the application
 FROM base AS builder
 WORKDIR /app
-# Copy dependencies and then the rest of your source code
+# Copy previously installed dependencies and source code
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-# Set environment variables for the build stage using the build args.
+# Set environment variables for the build stage using the build arguments
 ENV NEXT_PRIVATE_COSMOS_DB_KEY=${NEXT_PRIVATE_COSMOS_DB_KEY_ARG} \
     NEXT_PRIVATE_COSMOS_DB_URI=${NEXT_PRIVATE_COSMOS_DB_URI_ARG} \
     NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT=${NEXT_PRIVATE_AZURE_COMMUNICATION_EMAIL_ENDPOINT_ARG} \
@@ -63,30 +70,31 @@ ENV NEXT_PRIVATE_COSMOS_DB_KEY=${NEXT_PRIVATE_COSMOS_DB_KEY_ARG} \
     NEXT_PRIVATE_BLOB_AVATAR_CONTAINER=${NEXT_PRIVATE_BLOB_AVATAR_CONTAINER_ARG} \
     NEXT_PRIVATE_BLOB_PRODUCTS_CONTAINER=${NEXT_PRIVATE_BLOB_PRODUCTS_CONTAINER_ARG} \
     NEXT_PRIVATE_COSMOS_DB_NAME=${NEXT_PRIVATE_COSMOS_DB_NAME_ARG}
-
-# Run the Next.js build (this makes these env variables available during build)
+# Run the Next\.js build to generate production assets
 RUN pnpm run build
 
-# --- Production (Runner) Stage ---
-FROM base AS runner
+# --- Production \(Runner\) Stage ---
+# Set up the production environment
+FROM mcr.microsoft.com/playwright:focal AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Create a non-root user for better security
+# Create a non\-root user for better security
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-# Copy public assets and build outputs (standalone output and static assets)
+# Copy public assets and build outputs \(standalone output and static assets\)
 COPY --from=builder /app/public ./public
 RUN mkdir -p .next && chown nextjs:nodejs .next
+
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Expose the port and set additional runtime environment variables
+# Expose the port and set environment variables for runtime configuration
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Switch to the non-root user and start the server
+# Switch to the non\-root user and start the server
 USER nextjs
 CMD ["node", "server.js"]

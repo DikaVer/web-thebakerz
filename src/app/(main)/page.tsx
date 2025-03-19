@@ -144,19 +144,19 @@ const PricingSection = () => {
                                         </p>
                                     </div>
                                 </div>
-                                <div className={'w-full flex flex-row space-x-3 items-center mb-4'}>
-                                    <IconBadge className={`w-8 h-8 text-text`}/>
-                                    <div className={'w-full flex flex-col'}>
-                                        <p>
-                                            {t('Tips')}
-                                        </p>
-                                        <p
-                                            className={`text-tiny cm:text-small text-grayText`}
-                                        >
-                                            {t('Tips Info')}
-                                        </p>
-                                    </div>
-                                </div>
+                                {/*<div className={'w-full flex flex-row space-x-3 items-center mb-4'}>*/}
+                                {/*    <IconBadge className={`w-8 h-8 text-text`}/>*/}
+                                {/*    <div className={'w-full flex flex-col'}>*/}
+                                {/*        <p>*/}
+                                {/*            {t('Tips')}*/}
+                                {/*        </p>*/}
+                                {/*        <p*/}
+                                {/*            className={`text-tiny cm:text-small text-grayText`}*/}
+                                {/*        >*/}
+                                {/*            {t('Tips Info')}*/}
+                                {/*        </p>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                             </ModalBody>
                         </>
                     )}

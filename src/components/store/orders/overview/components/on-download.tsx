@@ -1,9 +1,8 @@
-import axios from "axios";
-import showErrorMessage from "@/components/toast/toast-error";
+
 import {addToast} from "@heroui/react";
 
 
-export const onDownloadInvoice = async (storeId: string, orderId: string, customer_email: string) => {
+export const onDownloadInvoice = async (storeId: string, orderId: string, storeOrderId:string, customer_email: string) => {
     try {
         const res = await fetch(`/api/invoice/${storeId}/${orderId}`, {
             method: 'POST',
@@ -11,6 +10,9 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, custom
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ customer_email }),
+            next: {
+                revalidate: 60 * 60 * 24,
+            }
         });
 
 
@@ -20,7 +22,7 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, custom
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
-            link.download = `document-${orderId}.pdf`;
+            link.download = `Invoice-${storeId}-${storeOrderId}.pdf`;
             document.body.appendChild(link);
             link.click();
             link.remove();
@@ -33,9 +35,10 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, custom
                 color: "success"
             });
         } else {
+            const resJson = await res.json();
             addToast({
                 title:"Error",
-                description: "Failed to generate PDF.",
+                description: resJson?.error || "Failed to download PDF",
                 timeout: 1000,
                 shouldShowTimeoutProgress: true,
                 color: "danger"
