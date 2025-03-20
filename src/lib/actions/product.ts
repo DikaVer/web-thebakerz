@@ -36,6 +36,45 @@ export const addProduct = async (
         oldProductData = resource;
     }
 
+    // 2. Prepare updatedAdditionalImages with a copy of existing ones.
+    let updatedAdditionalImages = [...formData.additionalImages];
+
+    // 3. If new additional pictures are provided, upload and replace/append.
+    if (formData.file_additional_pictures && formData.file_additional_pictures.length > 0) {
+        for (let i = 0; i < formData.file_additional_pictures.length; i++) {
+            const fileToUpload = formData.file_additional_pictures[i];
+
+            if (!fileToUpload) {continue;}
+            // Upload the file as done for `file_picture`:
+            const fd = new FormData();
+            fd.append("file", fileToUpload, "image.webp");
+            fd.append("container", "products");
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload-image`,
+                {
+                    method: "POST",
+                    body: fd,
+                    headers: {
+                      "Authorization": `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+                    },
+                }
+            );
+            if (!response.ok) {
+              return { error: "Failed to upload image" };
+            }
+            const { url: newUrl } = await response.json();
+            if (!newUrl) return { error: "Failed to upload image" };
+
+            // Replace if an old URL exists at the same index, otherwise append.
+            if (updatedAdditionalImages[i]) {
+              updatedAdditionalImages[i] = newUrl;
+            } else {
+              updatedAdditionalImages.push(newUrl);
+            }
+      }
+    }
+    console.log(updatedAdditionalImages);
+
     let image_url;
     if (formData.file_picture) {
         const fd = new FormData();
@@ -79,6 +118,7 @@ export const addProduct = async (
             : [],
         archive: false,
         constId: oldProductData ? oldProductData.constId : uuidv4(),
+        additionalImages: updatedAdditionalImages,
     };
 
     try {
@@ -152,7 +192,7 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
         }
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.constId FROM c WHERE c.store_id = @storeId AND c.archive = false",
+            query: "SELECT c.id, c.store_id, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.constId, c.additionalImages FROM c WHERE c.store_id = @storeId AND c.archive = false",
             parameters: [{ name: "@storeId", value: storeId }]
         };
 
@@ -209,6 +249,7 @@ export type ProductData = {
     ingredients?: string[];
     allergies?: string[];
     constId: string;
+    additionalImages: string[];
 };
 
 export type ProductDataFull = {

@@ -49,6 +49,14 @@ export default function UserProductDialog({
     const totalPrice = formatCurrency((productData?.price || 1) * quantity);
     const [note, setNote] = useState(itemCart?.note || "");
     const [isLoading, setIsLoading] = useState(false);
+    // Add state to track the current main image
+    const [mainImage, setMainImage] = useState(productData.picture);
+
+    // Function to handle image swapping
+    const handleImageSwap = (additionalImage: string) => {
+        // Set the clicked additional image as the main image
+        setMainImage(additionalImage);
+    };
 
     const {
         addItem,
@@ -107,36 +115,78 @@ export default function UserProductDialog({
             <ModalBody className={"p-0 justify-center items-center"}>
                 {productData && (
                     <ScrollShadow className={" md:flex  max-h-[80svh] w-full gap-x-4"} size={0}>
-                        <div className={'md:w-[258px] w-full max-w-[400px]'}>
-                            <Card
-                                isFooterBlurred
-                                className={`flex w-fit justify-start items-start shadow-none rounded-none md:ml-4`}
-                            >
-                                <div
-                                    className={cn("relative flex flex-col justify-center items-center md:w-[258px] w-full max-w-[400px] aspect-square rounded-none",
-                                    )}
+                        <div>
+                            <div className={'md:w-[258px] w-full max-w-[400px]'}>
+                                <Card
+                                    isFooterBlurred
+                                    className={`flex w-fit justify-start items-start shadow-none rounded-none md:ml-4`}
                                 >
-                                    <Image
-                                        removeWrapper
-                                        alt={productData.name}
-                                        radius={'none'}
-                                        className={cn("w-full",
-                                            isSmall ? "rounded-none border-none" : "rounded-xl"
+                                    <div
+                                        className={cn("relative flex flex-col justify-center items-center md:w-[258px] w-full max-w-[400px] aspect-square rounded-none",
                                         )}
-                                        src={productData.picture}
-                                    />
-                                    <CardFooter
-                                        className={`text-black justify-between items-end bg-white/40 border-white/20 border-1  overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10`}
                                     >
-                                        <p className={`w-full text-xl truncate mr-6 font-medium`}>
-                                            {productData.name}
-                                        </p>
-                                        <p className={`text-lg cm:text-xl font-light`}>
-                                            {formatCurrency(productData.price)}
-                                        </p>
-                                    </CardFooter>
-                                </div>
-                            </Card>
+                                        {/* Display the current main image instead of productData.picture */}
+                                        <Image
+                                            removeWrapper
+                                            alt={productData.name}
+                                            radius={'none'}
+                                            className={cn("w-full",
+                                                isSmall ? "rounded-none border-none" : "rounded-xl"
+                                            )}
+                                            src={mainImage}
+                                        />
+                                        <CardFooter
+                                            className={`text-black justify-between items-end bg-white/40 border-white/20 border-1  overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10`}
+                                        >
+                                            <p className={`w-full text-xl truncate mr-6 font-medium`}>
+                                                {productData.name}
+                                            </p>
+                                            <p className={`text-lg cm:text-xl font-light`}>
+                                                {formatCurrency(productData.price)}
+                                            </p>
+                                        </CardFooter>
+                                    </div>
+                                </Card>
+                            </div>
+                            <div className="flex flex-row gap-2 mt-2 justify-start w-full px-4">
+                                {/* Show the main product image in thumbnails if it's not the current main image */}
+                                {mainImage !== productData.picture && (
+                                    <div
+                                        className={cn(
+                                            "relative flex justify-center items-center w-20 h-20 cursor-pointer border-1",
+                                            "rounded-lg"
+                                        )}
+                                        onClick={() => setMainImage(productData.picture)}
+                                    >
+                                        <Image
+                                            removeWrapper
+                                            alt="Main product image"
+                                            className={cn("object-cover w-full h-full", "rounded-lg")}
+                                            src={productData.picture}
+                                        />
+                                    </div>
+                                )}
+                                {/* Map through additional images */}
+                                {productData.additionalImages &&
+                                    productData.additionalImages.map((img, index) => (mainImage !== img && (
+                                            <div
+                                                key={index}
+                                                className={cn(
+                                                    "relative flex justify-center items-center w-20 h-20 cursor-pointer border-1",
+                                                    "rounded-lg"
+                                                )}
+                                                onClick={() => handleImageSwap(img)}
+                                            >
+                                                <Image
+                                                    removeWrapper
+                                                    alt={`Additional image ${index + 1}`}
+                                                    className={cn("object-cover w-full h-full", "rounded-lg")}
+                                                    src={img}
+                                                />
+                                            </div>
+                                        )
+                                    ))}
+                            </div>
                         </div>
 
                         {/*{isSmall && (*/}
