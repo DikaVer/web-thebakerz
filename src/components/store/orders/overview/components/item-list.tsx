@@ -20,6 +20,7 @@ interface ItemRowProps {
 
 export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProducts}) => {
     const t = useTranslations("TheBakerz");
+    const allergy = useTranslations("Allergies");
 
     if (!orderProducts) {
         return <p>{t("Something Went Wrong")}</p>
@@ -175,7 +176,7 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProd
                                                         >
                                                             <AllergenIcon allergen={allergies} size={18}/>
                                                             <span className={'font-medium text-small'}>
-                                                                {allergies}
+                                                                {allergy(allergies)}
                                                             </span>
 
                                                         </div>

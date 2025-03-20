@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {Autocomplete, AutocompleteItem, Button, cn, Input} from "@heroui/react";
 import {AllergenIcon, iconAllergyMap} from "@/components/store/product/components/allergy-icons";
+import {useTranslations} from "next-intl";
 
 interface TagsInputProps {
     tags: string[];
@@ -125,7 +126,7 @@ export const TagsAutoInput: React.FC<TagsInputProps> = ({
                                                     }) => {
     const [input, setInput] = useState('');
     const editInputRef = useRef<HTMLInputElement>(null);
-
+    const allergy = useTranslations("Allergies");
     const handleAddTag = (key: string | number | null) => {
         // Check if key is a non-empty string
         if (key && typeof key === 'string' && key.trim() !== '') {
@@ -164,7 +165,7 @@ export const TagsAutoInput: React.FC<TagsInputProps> = ({
                         })}
                     >
                         <AllergenIcon allergen={tag} />
-                        <span>{tag}</span>
+                        <span>{allergy(tag)}</span>
                         <span>&times;</span>
                     </button>
                 </div>

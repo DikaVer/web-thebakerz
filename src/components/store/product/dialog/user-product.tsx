@@ -43,6 +43,7 @@ export default function UserProductDialog({
                                           }: ProductDialogProps) {
     const { theme } = useTheme();
     const t = useTranslations("TheBakerz");
+    const allergy = useTranslations("Allergies");
 
     const [charCount, setCharCount] = useState(itemCart?.note.length || 0);
     const [quantity, setQuantity] = useState(itemCart?.quantity || 1);
@@ -51,6 +52,7 @@ export default function UserProductDialog({
     const [isLoading, setIsLoading] = useState(false);
     // Add state to track the current main image
     const [mainImage, setMainImage] = useState(productData.picture);
+
 
     // Function to handle image swapping
     const handleImageSwap = (additionalImage: string) => {
@@ -233,7 +235,7 @@ export default function UserProductDialog({
                                                 >
                                                     <AllergenIcon allergen={allergies} />
                                                     <span>
-                                                            {allergies}
+                                                            {allergy(allergies)}
                                                         </span>
 
                                                 </div>
