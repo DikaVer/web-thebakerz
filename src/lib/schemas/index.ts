@@ -169,8 +169,8 @@ export const ProductSchema = z.object({
     file_picture: ImageSchema.optional(),
     ingredients: z.array(z.string()).optional(),
     allergies: z.array(z.string()).optional(),
-    additionalImages: z.array(z.string()).max(3).optional(),
-    file_additional_pictures: z.array(ImageSchema.optional()).max(3).optional(),
+    additionalImages: z.array(z.string()).max(2).optional(),
+    file_additional_pictures: z.array(ImageSchema.optional()).max(2).optional(),
 });
 
 

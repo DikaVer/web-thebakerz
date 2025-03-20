@@ -104,7 +104,7 @@ export function ImageUploadSection({
                             />
                         </div>
                     ))}
-                    {additionalImages.length < 3 && (
+                    {additionalImages.length < 2 && (
                         <div
                             className={cn("flex justify-center items-center w-20 h-20 cursor-pointer border-1", "rounded-lg")}
                             onClick={() => onAdditionalClick()}
