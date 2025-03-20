@@ -10,8 +10,7 @@ import {getOrderTime} from "@/app/(store)/[id]/actions";
 import {OrderRaw} from "@/lib/actions/order";
 import {v4 as uuidv4} from "uuid";
 import {containerOrdersUnpaid} from "@/db";
-import {calculateTax} from "@/lib/utils";
-import {getBusinessStoreData, getStoreByUserId} from "@/lib/actions/store";
+import {getBusinessStoreData} from "@/lib/actions/store";
 import {calculateTotals} from "@/lib/price/tax";
 
 function roundToTwoDecimals(num: number): number {
@@ -24,8 +23,8 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         return { error: 'Too many requests' };
     }
 
-    const headersList = await headers();
-    const origin = headersList.get('origin') || process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    const origin = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 
     if (!storeId) {
