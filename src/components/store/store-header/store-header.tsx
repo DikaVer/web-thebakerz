@@ -2,7 +2,7 @@
 
 import React, {useEffect} from "react";
 import {useStore} from "@/components/providers/store-provider";
-import {Link, Avatar, Spacer, Divider, Button, useDisclosure} from "@heroui/react";
+import {Link, Avatar, Spacer, Divider, Button, useDisclosure, cn} from "@heroui/react";
 import {Icon, IconProps} from "@iconify/react";
 import Clarity from "@microsoft/clarity";
 import {randomUUID} from "node:crypto";
@@ -16,6 +16,7 @@ import {IconDots} from "@/components/ui/icons";
 import { useTheme } from "next-themes";
 import StoreDescription from "@/components/store/store-header/description/store-description";
 import {useTranslations} from "next-intl";
+import {useRouter} from "next/navigation";
 
 interface StoreHeaderProps {
     dateParam: string | null;
@@ -28,17 +29,23 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const isSmall = useMediaQuery("(max-width: 960px)");
     const t = useTranslations("TheBakerz");
+    const router = useRouter();
 
     return (
         <div>
             <div
                 className={`flex flex-row w-full justify-between`}
             >
-                <div className="flex flex-row gap-x-4 justify-center"
+                <div className={cn("flex flex-row gap-x-4 justify-center",
+                    session?.user?.role === "bakerz" && "cursor-pointer"
+                )}
                      onClick={(e) => {
                          e.preventDefault();
                          if (session?.user?.role !== "bakerz" && isSmall) {
                              onOpen();
+                         } else if (session?.user?.role === "bakerz") {
+                             router.push("/settings");
+                             router.refresh();
                          }
                      }}
                 >

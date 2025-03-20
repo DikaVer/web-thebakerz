@@ -75,20 +75,29 @@ export async function POST(request: Request) {
         const arrayBuffer = await fileField.arrayBuffer();
         const fileBuffer = Buffer.from(arrayBuffer);
 
-        // Compress and convert the image using Sharp:
-        // Resize to 800px width (without enlarging smaller images) and convert to WebP with quality 80.
-        const processedBuffer = await sharp(fileBuffer)
-            .toFormat("webp", { quality: 50 })
+
+        // Process the image with Sharp, handling EXIF orientation
+        const processedBuffer = await sharp(fileBuffer, {
+            // Ensure we can handle large images
+            limitInputPixels: 50000000 // Set a reasonable pixel limit
+        })
+            .rotate() // Auto-rotate based on EXIF orientation
+            .withMetadata() // Keep EXIF data
+            .resize({
+                width: 1200,
+                height: 1200,
+                fit: 'inside',
+                withoutEnlargement: true
+            })
+            .toFormat("webp", { quality: 80})
             .toBuffer();
 
 
         let containerClient;
         // Ensure the container exists (this call is idempotent)
         if (containerName === "avatars") {
-            await containerClientAvatar.createIfNotExists();
             containerClient = containerClientAvatar;
         } else if (containerName === "products") {
-            await containerClientProduct.createIfNotExists();
             containerClient = containerClientProduct;
         } else {
             return NextResponse.json(

@@ -94,14 +94,14 @@ const allowedMimeTypes = [
     "image/png",        // PNG images
     "image/webp",       // WebP images
     "image/svg+xml",    // SVG images
-    "image/heic"        // HEIC images
+    "image/heic",        // HEIC images
 ];
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
 // Create a Zod schema to validate the "file" field
 export const ImageSchema = z.instanceof(File)
     .refine((file) => allowedMimeTypes.includes(file.type), {
-        message: "Unsupported file type. Allowed types: JPEG, PNG, WebP, SVG, HEIC.",
+        message: "Unsupported file type. Allowed types: JPEG, PNG, WebP, SVG",
     })
     .refine((file) => file.size <= MAX_FILE_SIZE, {
         message: "File is too large. Maximum allowed size is 5MB.",
@@ -112,10 +112,10 @@ export const nameSchema = z
     .string()
     .min(4, "Minimum of 4 characters for name")
     .max(120, "Maximum of 120 characters for name")
-    // Allows letters, numbers, periods, underscores, hyphens, and at most 2 spaces, not starting with space
+    // Allows letters, numbers, periods, underscores, hyphens, brackets, and at most 2 spaces, not starting with space
     .regex(
-        /^[a-zA-Z0-9._\-&]+( [a-zA-Z0-9._\-&]*){0,2}$/,
-        "Name can only contain letters, numbers, periods, underscores, hyphens, with a maximum of two spaces and cannot start with a space"
+        /^[a-zA-Z0-9._\-&\[\]()'"]+( [a-zA-Z0-9._\-&\[\]()'"]*){0,2}$/,
+        "Name can only contain letters, numbers, periods, underscores, hyphens, brackets, with a maximum of two spaces and cannot start with a space"
     )
     .regex(
         /^(?!.*\.\.)(?!.*\.\.\.)(?!.*\.\.\.\.)(?!.*\.\.\.\.\.)(?!.*\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)/,
@@ -169,6 +169,8 @@ export const ProductSchema = z.object({
     file_picture: ImageSchema.optional(),
     ingredients: z.array(z.string()).optional(),
     allergies: z.array(z.string()).optional(),
+    additionalImages: z.array(z.string()).max(2).optional(),
+    file_additional_pictures: z.array(ImageSchema.optional()).max(2).optional(),
 });
 
 

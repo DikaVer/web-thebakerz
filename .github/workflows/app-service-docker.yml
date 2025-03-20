@@ -43,6 +43,8 @@ jobs:
         with:
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.REPO }}:${{ github.sha }}
+          build-args: |
+            NEXT_PUBLIC_API_BASE_URL_ARG=${{ vars.NEXT_PUBLIC_API_BASE_URL }}
   
 
   deploy:
