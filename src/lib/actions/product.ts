@@ -37,7 +37,7 @@ export const addProduct = async (
     }
 
     // 2. Prepare updatedAdditionalImages with a copy of existing ones.
-    let updatedAdditionalImages = [...formData.additionalImages];
+    let updatedAdditionalImages = formData.additionalImages || [];
 
     // 3. If new additional pictures are provided, upload and replace/append.
     if (formData.file_additional_pictures && formData.file_additional_pictures.length > 0) {
