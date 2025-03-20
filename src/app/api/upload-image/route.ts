@@ -89,17 +89,15 @@ export async function POST(request: Request) {
                 fit: 'inside',
                 withoutEnlargement: true
             })
-            .toFormat("webp", { quality: 80 })
+            .toFormat("webp", { quality: 80})
             .toBuffer();
 
 
         let containerClient;
         // Ensure the container exists (this call is idempotent)
         if (containerName === "avatars") {
-            await containerClientAvatar.createIfNotExists();
             containerClient = containerClientAvatar;
         } else if (containerName === "products") {
-            await containerClientProduct.createIfNotExists();
             containerClient = containerClientProduct;
         } else {
             return NextResponse.json(

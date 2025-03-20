@@ -24,6 +24,7 @@ export const addProduct = async (
 ) => {
     if (!(await globalPOSTRateLimit())) return { error: "Too many requests" };
 
+
     const validation = ProductSchema.safeParse(formData);
     if (!validation.success) return { error: "Invalid fields!" };
 

@@ -13,6 +13,7 @@ export interface CopyTextProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   startContent?: React.ReactNode;
   endContent?: React.ReactNode;
+  isDisabled?: boolean;
 }
 
 export const CopyText = memo(
@@ -52,6 +53,7 @@ export const CopyText = memo(
                 isIconOnly={props.isIconOnly}
                 variant="light"
                 radius="full"
+                isDisabled={props.isDisabled}
                 startContent={props.startContent}
                 endContent={props.endContent}
                 onPress={handleClick}

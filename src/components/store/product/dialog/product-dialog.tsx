@@ -1,5 +1,5 @@
 'use client';
-import React from "react";
+import React, {useState} from "react";
 import {
     Modal,
     ModalContent,
@@ -25,6 +25,7 @@ export default function ProductDialog({storeId, productData, itemCart, isOpen, o
     const { session } = useSession();
     const isSmall = useMediaQuery("(max-width: 800px)");
     const t = useTranslations("TheBakerz");
+    const [isDismissable, setIsDismissable] = useState(true);
 
     return (
         <>
@@ -32,6 +33,7 @@ export default function ProductDialog({storeId, productData, itemCart, isOpen, o
                 isOpen={isOpen}
                 size={isSmall ? 'full' : '2xl'}
                 onClose={onClose}
+                isDismissable={isDismissable}
                 radius={'lg'}
                 className={'h-fit max-h-fit min-h-fit !rounded-t-xl'}
                 backdrop={'blur'}
@@ -44,7 +46,11 @@ export default function ProductDialog({storeId, productData, itemCart, isOpen, o
                             {
                                 session.user?.role === 'bakerz' && session.store?.id === storeId && !bakerzOrder ?
                                     (
-                                        <BakerzProductDialog productData={productData} onClose={onClose} />
+                                        <BakerzProductDialog
+                                            productData={productData}
+                                            onClose={onClose}
+                                            setIsDismissable={setIsDismissable}
+                                        />
                                     ) : (
                                         productData && (
                                             <UserProductDialog productData={productData} onClose={onClose} itemCart={itemCart}/>
