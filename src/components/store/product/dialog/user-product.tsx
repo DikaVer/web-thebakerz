@@ -149,43 +149,44 @@ export default function UserProductDialog({
                                 </Card>
                             </div>
                             <div className="flex flex-row gap-2 mt-2 justify-start w-full px-4">
-                                {/* Show the main product image in thumbnails if it's not the current main image */}
-                                {mainImage !== productData.picture && (
-                                    <div
-                                        className={cn(
-                                            "relative flex justify-center items-center w-20 h-20 cursor-pointer border-1",
-                                            "rounded-lg"
-                                        )}
-                                        onClick={() => setMainImage(productData.picture)}
-                                    >
-                                        <Image
-                                            removeWrapper
-                                            alt="Main product image"
-                                            className={cn("object-cover w-full h-full", "rounded-lg")}
-                                            src={productData.picture}
-                                        />
-                                    </div>
-                                )}
                                 {/* Map through additional images */}
                                 {productData.additionalImages &&
-                                    productData.additionalImages.map((img, index) => (mainImage !== img && (
+                                    (
+                                        <>
                                             <div
-                                                key={index}
                                                 className={cn(
                                                     "relative flex justify-center items-center w-20 h-20 cursor-pointer border-1",
                                                     "rounded-lg"
                                                 )}
-                                                onClick={() => handleImageSwap(img)}
+                                                onClick={() => setMainImage(productData.picture)}
                                             >
                                                 <Image
                                                     removeWrapper
-                                                    alt={`Additional image ${index + 1}`}
+                                                    alt="Main product image"
                                                     className={cn("object-cover w-full h-full", "rounded-lg")}
-                                                    src={img}
+                                                    src={productData.picture}
                                                 />
                                             </div>
-                                        )
-                                    ))}
+                                            {productData.additionalImages.map((img, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className={cn(
+                                                            "relative flex justify-center items-center w-20 h-20 cursor-pointer border-1",
+                                                            "rounded-lg"
+                                                        )}
+                                                        onClick={() => handleImageSwap(img)}
+                                                    >
+                                                        <Image
+                                                            removeWrapper
+                                                            alt={`Additional image ${index + 1}`}
+                                                            className={cn("object-cover w-full h-full", "rounded-lg")}
+                                                            src={img}
+                                                        />
+                                                    </div>
+                                                )
+                                            )}
+                                        </>
+                                )}
                             </div>
                         </div>
 
