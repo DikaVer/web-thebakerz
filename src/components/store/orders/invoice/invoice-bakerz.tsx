@@ -67,7 +67,7 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
 
                 {/* Customer info */}
                 <div>
-                    <div style={{ fontSize: 24}}><strong>Invoice</strong> # {order.store_id}-${order.store_order_id}</div>
+                    <div style={{ fontSize: 24}}><strong>Invoice</strong> # {order.store_id}-{order.store_order_id}</div>
                     <div style={{ marginTop: "8px", marginBottom: "8px" }}><strong>PAID</strong></div>
 
                     {/*<div style={{ marginTop: "8px" }}><strong>PAID BY:</strong> {order.customer.payment_method ? order.customer.payment_method[0] : 'Card'}</div>*/}
