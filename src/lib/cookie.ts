@@ -1,5 +1,6 @@
 "use server";
 import { cookies } from 'next/headers';
+import clarity from "@microsoft/clarity";
 
 export interface CookiePreferences {
     necessary: boolean;
@@ -14,6 +15,12 @@ export async function isCookieConsentFromServer() {
     const consent = cookie.get(COOKIE_CONSENT_KEY)?.value ?? null;
     const preferences = cookie.get(COOKIE_PREFERENCES_KEY)?.value ?? null;
     return !!(consent && preferences);
+}
+
+export async function getCookiePreferences(): Promise<CookiePreferences | null> {
+    const cookie = await cookies();
+    const preferences = cookie.get(COOKIE_PREFERENCES_KEY)?.value ?? null;
+    return preferences ? JSON.parse(preferences) : null;
 }
 
 
@@ -93,6 +100,21 @@ export async function savePreferences(newPreferences: CookiePreferences) {
             sameSite: 'lax',
             maxAge: 60 * 60 * 24 * 1, // 1 days
         });
+        cookie.set(
+            COOKIE_PREFERENCES_KEY,
+            JSON.stringify({
+                necessary: true,
+                analytics: analytics,
+                marketing: marketing,
+            }),
+            {
+                path: '/', // makes the cookie available on the entire site
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax',
+                maxAge: 60 * 60 * 24 * 1, // 1 days
+            }
+        );
     } else {
         cookie.set(COOKIE_CONSENT_KEY, "rejected", {
             path: '/', // makes the cookie available on the entire site
@@ -101,5 +123,20 @@ export async function savePreferences(newPreferences: CookiePreferences) {
             sameSite: 'lax',
             maxAge: 60 * 60 * 24 * 1, // 1 days
         });
+        cookie.set(
+            COOKIE_PREFERENCES_KEY,
+            JSON.stringify({
+                necessary: true,
+                analytics: analytics,
+                marketing: marketing,
+            }),
+            {
+                path: '/', // makes the cookie available on the entire site
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax',
+                maxAge: 60 * 60 * 24 * 1, // 1 days
+            }
+        );
     }
 }

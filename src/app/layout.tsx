@@ -11,7 +11,7 @@ import {getLanguageCookie} from "@/lib/actions/language";
 import {NextIntlClientProvider} from 'next-intl';
 import {getLocale, getMessages} from 'next-intl/server';
 import LanguageModal from "@/components/language-modal";
-import {isCookieConsentFromServer} from "@/lib/cookie";
+import {getCookiePreferences, isCookieConsentFromServer} from "@/lib/cookie";
 import ClarityScript from "@/components/clarity-script";
 
 
@@ -45,6 +45,7 @@ export default async function RootLayout({
     const messages = await getMessages({locale: lang || locale});
 
     const cookieConsent = await isCookieConsentFromServer();
+    const preferences = await getCookiePreferences();
 
     return (
         <html lang={lang || locale} translate={'no'} >
@@ -54,7 +55,10 @@ export default async function RootLayout({
                         locale={lang || locale}
                         session={session}
                     >
-                        <ClarityScript />
+                        <ClarityScript
+                            id={session.user?.id}
+                            preferences={preferences}
+                        />
                         {children}
                         {!lang && <LanguageModal/>}
                         {!cookieConsent && <CookieConsentComponent/>}
