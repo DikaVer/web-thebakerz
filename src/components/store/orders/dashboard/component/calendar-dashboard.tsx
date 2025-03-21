@@ -366,41 +366,41 @@ function CalendarDashboard({
                             handleDayClick(date);
                         }} // Better touch support
                     >
-                        {/*<Badge*/}
-                        {/*    content={dateStatus?.started_count || undefined}*/}
-                        {/*    size={isSmall ? 'sm' : 'md'}*/}
-                        {/*    className={cn('translate-x-1 translate-y-5 border-text',*/}
-                        {/*        !dateStatus?.started_count && 'hidden')}*/}
+                        <Badge
+                            content={dateStatus?.started_count || undefined}
+                            size={isSmall ? 'sm' : 'md'}
+                            className={cn('translate-x-1 translate-y-5 border-text',
+                                !dateStatus?.started_count && 'hidden')}
 
-                        {/*    color={'warning'}*/}
-                        {/*>*/}
-                        {/*    <Badge*/}
-                        {/*        content={dateStatus?.new_count || undefined}*/}
-                        {/*        size={isSmall ? 'sm' : 'md'}*/}
-                        {/*        className={cn('translate-x-1 -translate-y-4 border-text',*/}
-                        {/*            !dateStatus?.new_count && 'hidden')}*/}
-                        {/*        color={'danger'}*/}
-                        {/*    >*/}
+                            color={'warning'}
+                        >
+                            <Badge
+                                content={dateStatus?.new_count || undefined}
+                                size={isSmall ? 'sm' : 'md'}
+                                className={cn('translate-x-1 -translate-y-4 border-text',
+                                    !dateStatus?.new_count && 'hidden')}
+                                color={'danger'}
+                            >
                                 {date.getDate()}
-                        {/*    </Badge>*/}
-                        {/*</Badge>*/}
+                            </Badge>
+                        </Badge>
                     </button>
 
                  {/*Status indicators */}
-                {indicators.length > 0 && (
-                    <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 h-1.5">
-                        {indicators.map((status) => (
-                            <div
-                                key={`${dateKey}-${status}`}
-                                className="w-2.5 h-2.5 rounded-full"
-                                style={{
-                                    backgroundColor: statusIndicators[status as keyof typeof statusIndicators]?.color
-                                }}
-                                title={statusIndicators[status as keyof typeof statusIndicators]?.label}
-                            />
-                        ))}
-                    </div>
-                )}
+                {/*{indicators.length > 0 && (*/}
+                {/*    <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 h-1.5">*/}
+                {/*        {indicators.map((status) => (*/}
+                {/*            <div*/}
+                {/*                key={`${dateKey}-${status}`}*/}
+                {/*                className="w-2.5 h-2.5 rounded-full"*/}
+                {/*                style={{*/}
+                {/*                    backgroundColor: statusIndicators[status as keyof typeof statusIndicators]?.color*/}
+                {/*                }}*/}
+                {/*                title={statusIndicators[status as keyof typeof statusIndicators]?.label}*/}
+                {/*            />*/}
+                {/*        ))}*/}
+                {/*    </div>*/}
+                {/*)}*/}
             </>
         );
     };
