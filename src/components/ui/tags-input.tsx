@@ -213,7 +213,6 @@ export const TagsSelectInput: React.FC<TagsInputProps> = ({
                                                               placeholder = 'Select allergies...',
                                                               type = 'default',
                                                           }) => {
-    const [isSelectOpen, setIsSelectOpen] = useState(false);
     const allergy = useTranslations("Allergies");
 
     // Convert current tags to a Set of keys for the Select's selectedKeys
@@ -262,27 +261,22 @@ export const TagsSelectInput: React.FC<TagsInputProps> = ({
             {/* Add button and Select */}
 
             <Select
-                isOpen={isSelectOpen}
-                onOpenChange={setIsSelectOpen}
                 selectionMode="multiple"
                 color={'warning'}
                 selectedKeys={selectedKeys}
                 onSelectionChange={handleSelectionChange}
                 placeholder={placeholder}
                 selectorIcon={
-                <>
-                    {allergy("Add Allergy")}
-                    <Icon icon="material-symbols:add-rounded" width={16} />
-                </>
+                    <div>
+                        {allergy("Add Allergy")}
+                        <Icon icon="material-symbols:add-rounded" width={16} />
+                    </div>
                 }
                 classNames={{
                     innerWrapper: 'hidden',
+                    selectorIcon: 'w-fit flex end-0 gap-1 items-center static text-warning-600 font-medium',
                     trigger: 'rounded-full w-fit text-sm min-h-8 h-8 gap-1',
                     popoverContent: 'min-w-[200px]',
-                }}
-                popoverProps={{
-                    isOpen: isSelectOpen,
-                    onOpenChange: setIsSelectOpen,
                 }}
                 isDisabled={isLoading}
             >

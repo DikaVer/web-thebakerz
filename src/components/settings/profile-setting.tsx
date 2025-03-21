@@ -251,7 +251,6 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                     <Input
                                                         {...field}
                                                         isDisabled={isPending}
-                                                        isRequired
                                                         className={'mt-2'}
                                                         placeholder={t("TypeYourStoreSlug")}
                                                         type="text"
