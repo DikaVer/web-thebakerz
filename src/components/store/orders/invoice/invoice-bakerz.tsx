@@ -187,7 +187,7 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                     <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
                     <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
                     <td colSpan={2} style={{...styles.td, borderBottom: "none",  textAlign: "left", fontSize: "12px"}}>Paid using</td>
-                    <td style={{...styles.td, textAlign: "right", borderBottom: "none", fontSize: "12px"}}>{order.customer.payment_method ? order.customer.payment_method[0] : 'Card'}</td>
+                    <td style={{...styles.td, textAlign: "right", borderBottom: "none", fontSize: "12px"}}>{order.customer.payment_method ? order.customer.payment_method[0] : 'Cash'}</td>
                 </tr>
                 <tr>
                     <td ></td>

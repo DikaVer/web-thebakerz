@@ -46,8 +46,7 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) =
                     {formatScheduledDateTime(orderData.scheduled_time, locale)}
                 </p>
             </div>
-            {orderData.status === "paid" &&
-                <Button
+            <Button
                 startContent={
                     <div className="w-[24px]">
                         <Icon icon="solar:printer-minimalistic-bold" width={24} height={24}/>
@@ -61,11 +60,9 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) =
                     await onDownloadInvoice(orderData.store_id, orderData.id, orderData.store_order_id, orderData.customer_email);
                     setIsLoading(false);
                 }}
-                >
-                    {t("Print Invoice")}
-                </Button>
-
-            }
+            >
+                {t("Print Invoice")}
+            </Button>
         </section>
     );
 };

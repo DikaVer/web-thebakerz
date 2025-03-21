@@ -257,7 +257,7 @@ function CalendarDashboard({
      */
     const handleThisWeekClick = () => {
         const today = new Date();
-        const endWeek = endOfWeek(today);
+        const endWeek = endOfWeek(today, { weekStartsOn: 1 });
         setRange({ from: today, to: endWeek });
         setSelectedDay(undefined);
         onDateRangeChange?.({ from: today, to: endWeek });

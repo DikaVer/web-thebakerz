@@ -126,7 +126,7 @@
         "A new code was sent to your email": "Er is een nieuwe code naar uw e-mailadres verzonden",
         "Add": "Toevoegen",
         "Add Allergies Placeholder": "Allergieën toevoegen... (Druk op Enter om toe te voegen)",
-        "Add Ingredients Placeholder": "Allergieën toevoegen... (Druk op Enter om toe te voegen)",
+        "Add Ingredients Placeholder": "Allergieën ingredients... (Druk op Enter om toe te voegen)",
         "Add Description Placeholder": "Voeg een beschrijving voor dit item toe...",
         "Add Item": "Item toevoegen",
         "Add Items To Start": "Voeg items toe om te beginnen",
@@ -509,6 +509,7 @@
         "Return To Store": "Go back to Store"
     },
     "Allergies": {
+        "Add Allergy": "Add Allergy",
         "egg": "egg",
         "milk": "milk",
         "gluten": "gluten",
@@ -526,7 +527,7 @@
         "orange": "orange",
         "banana": "banana",
         "fish": "fish",
-        "matsutake": "matsutake",
+        "matsuke": "matsuke",
         "chicken": "chicken",
         "potato": "potato",
         "pork": "pork",
@@ -536,7 +537,7 @@
         "celery": "celery",
         "beef": "beef",
         "shrimp": "shrimp",
-        "sulfites": "sulfites",
+        "sulfur": "sulfites",
         "abalone": "abalone"
     }
 }

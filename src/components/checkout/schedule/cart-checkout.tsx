@@ -110,12 +110,12 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                                 <span className="text-sm">{formatCurrency(vat)}</span>
                             </div>
                         }
-                        {platform_fee > 0 &&
-                            <div className="flex justify-between mt-2">
-                                <span className="text-sm font-medium">{t("CustomerFee")}</span>
-                                <span className="text-sm">{formatCurrency(platform_fee)}</span>
-                            </div>
-                        }
+                        {/*{platform_fee > 0 &&*/}
+                        {/*    <div className="flex justify-between mt-2">*/}
+                        {/*        <span className="text-sm font-medium">{t("CustomerFee")}</span>*/}
+                        {/*        <span className="text-sm">{formatCurrency(platform_fee)}</span>*/}
+                        {/*    </div>*/}
+                        {/*}*/}
                         <Spacer y={2} />
                         <Divider className="my-2" />
                         <Spacer y={4} />

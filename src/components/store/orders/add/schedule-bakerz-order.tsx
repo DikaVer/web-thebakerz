@@ -32,6 +32,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import {createOrder} from "@/lib/actions/order";
 import {useTranslations} from "next-intl";
+import {useCart} from "@/components/providers/cart-provider";
 
 
 interface StoreSubHeaderProps {
@@ -52,6 +53,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
     const [isCreating, setIsCreating] = useState(false);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { theme } = useTheme();
+    const { removeAllItems } = useCart();
     const router = useRouter();
 
     const form = useForm<z.infer<typeof CustomerOrderSchema>>({
@@ -78,6 +80,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                     shouldShowTimeoutProgress: true,
                     timeout: 2000,
                 })
+                removeAllItems();
                 handleNext();
                 router.push(`/${storeUrl}/orders/${result.orderId}?email=${formData.email}`);
                 router.refresh();

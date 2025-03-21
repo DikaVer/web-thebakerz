@@ -126,7 +126,7 @@
         "A new code was sent to your email": "A new code was sent to your email",
         "Add": "Add",
         "Add Allergies Placeholder": "Add allergies... (Press Enter to add)",
-        "Add Ingredients Placeholder": "Add allergies... (Press Enter to add)",
+        "Add Ingredients Placeholder": "Add ingredients... (Press Enter to add)",
         "Add Description Placeholder": "Add a description for this item...",
         "Add Item": "Add Item",
         "Add Items To Start": "Add items to get started",
@@ -519,6 +519,7 @@
         "Return To Store": "Go back to Store"
     },
     "Allergies": {
+        "Add Allergy": "Add Allergy",
         "egg": "egg",
         "milk": "milk",
         "gluten": "gluten",
@@ -536,7 +537,7 @@
         "orange": "orange",
         "banana": "banana",
         "fish": "fish",
-        "matsutake": "matsutake",
+        "matsuke": "matsuke",
         "chicken": "chicken",
         "potato": "potato",
         "pork": "pork",
@@ -546,7 +547,7 @@
         "celery": "celery",
         "beef": "beef",
         "shrimp": "shrimp",
-        "sulfites": "sulfites",
+        "sulfur": "sulfites",
         "abalone": "abalone"
     }
 }

@@ -176,6 +176,7 @@ import { stripe } from "@/stripe";
                 identifier: email,
             });
 
+            revalidateTag('cart');
             revalidateTag('orders');
 
             // Redirect to success page

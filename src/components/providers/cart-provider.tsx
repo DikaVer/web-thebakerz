@@ -12,6 +12,7 @@ interface CartContextProps {
     addItem: (cart: ItemCart) => void;
     updateItem: (cart: ItemCart) => Promise<boolean>;
     removeItem: (cart: ItemCart) => Promise<boolean>;
+    removeAllItems: () => void;
 }
 
 export const useCart = () => {
@@ -87,6 +88,12 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
         }
     };
 
+    //Remove all items from cart
+    const removeAllItems = async () => {
+        setItemCount(0);
+        setCart({});
+    };
+
     return (
         <CartContext.Provider
             value={{
@@ -95,6 +102,7 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
                 removeItem,
                 updateItem,
                 addItem,
+                removeAllItems
             }}
         >
             {children}

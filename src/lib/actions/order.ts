@@ -227,9 +227,11 @@ export const createOrder = async (
           await containerOrders.items.create(orderData);
 
         // Clear cart, send confirmation email, and invalidate cache
-          await removeCartByUserIdAndStoreId(userId, store.id);
+        await removeCartByUserIdAndStoreId(userId, store.id);
         sendOrderPlaced({ orderData, identifier: formData.email });
-        revalidateTag("orders");
+
+        revalidateTag('cart');
+        revalidateTag('orders');
 
         // Commit transaction
         await connectionPool.query("COMMIT");

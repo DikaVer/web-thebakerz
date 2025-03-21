@@ -35,7 +35,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import showSuccessMessage from "@/components/toast/toast-succes";
-import { TagsAutoInput, TagsInput } from "@/components/ui/tags-input";
+import {TagsAutoInput, TagsInput, TagsSelectInput} from "@/components/ui/tags-input";
 import { useMediaQuery } from "usehooks-ts";
 import { useTranslations } from "next-intl";
 import { useActionState } from "react";
@@ -435,7 +435,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                     render={({ field, fieldState }) => (
                                         <FormItem>
                                             <FormControl>
-                                                <TagsAutoInput
+                                                <TagsSelectInput
                                                     isLoading={isPending}
                                                     tags={field.value || []}
                                                     setTags={(newTags) => field.onChange(newTags)}

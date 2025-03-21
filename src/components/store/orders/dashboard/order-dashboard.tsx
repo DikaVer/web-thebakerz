@@ -70,7 +70,7 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
     }, [isPending]);
 
     return (
-        <div ref={containerRef} className={'flex flex-col md:flex-row w-full max-w-[100vh] container gap-y-8 md:gap-x-8 lg:gap-x-8'}>
+        <div ref={containerRef} className={'flex flex-col md:flex-row w-full max-w-[1400px] container gap-y-8 md:gap-x-8 lg:gap-x-8'}>
             <motion.div
                 initial={{ opacity: 0, scale: 1.1, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}

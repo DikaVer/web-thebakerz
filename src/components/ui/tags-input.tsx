@@ -1,8 +1,9 @@
 'use client';
-import React, { useState, useRef, useEffect } from 'react';
-import {Autocomplete, AutocompleteItem, Button, cn, Input} from "@heroui/react";
+import React, {useState, useRef, useEffect, useMemo} from 'react';
+import {Autocomplete, AutocompleteItem, Button, cn, Input, Select, SelectItem} from "@heroui/react";
 import {AllergenIcon, iconAllergyMap} from "@/components/store/product/components/allergy-icons";
 import {useTranslations} from "next-intl";
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 interface TagsInputProps {
     tags: string[];
@@ -177,6 +178,7 @@ export const TagsAutoInput: React.FC<TagsInputProps> = ({
                 }))}
                 isDisabled={isLoading}
                 type='text'
+
                 variant={'underlined'}
                 inputValue={input}
                 onInputChange={setInput}
@@ -199,6 +201,103 @@ export const TagsAutoInput: React.FC<TagsInputProps> = ({
                     return (<AutocompleteItem startContent={<IconComponent size={24}/> }  key={item.key}>{item.label}</AutocompleteItem>);
                 }}
             </Autocomplete>
+        </div>
+    );
+};
+
+
+export const TagsSelectInput: React.FC<TagsInputProps> = ({
+                                                              isLoading,
+                                                              tags,
+                                                              setTags,
+                                                              placeholder = 'Select allergies...',
+                                                              type = 'default',
+                                                          }) => {
+    const [isSelectOpen, setIsSelectOpen] = useState(false);
+    const allergy = useTranslations("Allergies");
+
+    // Convert current tags to a Set of keys for the Select's selectedKeys
+    const selectedKeys = useMemo(() => {
+        return new Set(tags);
+    }, [tags]);
+
+    const handleSelectionChange = (keys: "all" | Set<React.Key>) => {
+        if (keys === "all") {
+            // Handle "all" selection if needed
+            setTags(Object.keys(iconAllergyMap));
+        } else {
+            // Convert Set to array of strings
+            setTags(Array.from(keys).map(key => String(key)));
+        }
+    };
+
+    // Handle remove tag
+    const handleRemoveTag = (tag: string) => {
+        setTags(tags.filter((t) => t !== tag));
+    };
+
+    return (
+        <div className='flex flex-wrap items-center gap-2 py-2 rounded-md'>
+            {/* Render existing tags */}
+            {tags.map((tag) => (
+                <div key={tag} className='relative'>
+                    <button
+                        disabled={isLoading}
+                        onClick={() => {
+                            handleRemoveTag(tag)
+                        }}
+                        className={cn("flex items-center gap-1 px-2 pl-2 py-1 text-sm font-medium rounded-full cursor-pointer", {
+                            "bg-default-300 hover:bg-default-400": type === "default",
+                            "bg-warning-300 hover:bg-warning-400": type === "warning",
+                            "opacity-50": isLoading
+                        })}
+                    >
+                        <AllergenIcon allergen={tag} />
+                        <span>{allergy(tag)}</span>
+                        <span>&times;</span>
+                    </button>
+                </div>
+            ))}
+
+            {/* Add button and Select */}
+
+            <Select
+                isOpen={isSelectOpen}
+                onOpenChange={setIsSelectOpen}
+                selectionMode="multiple"
+                color={'warning'}
+                selectedKeys={selectedKeys}
+                onSelectionChange={handleSelectionChange}
+                placeholder={placeholder}
+                selectorIcon={
+                <>
+                    {allergy("Add Allergy")}
+                    <Icon icon="material-symbols:add-rounded" width={16} />
+                </>
+                }
+                classNames={{
+                    innerWrapper: 'hidden',
+                    trigger: 'rounded-full w-fit text-sm min-h-8 h-8 gap-1',
+                    popoverContent: 'min-w-[200px]',
+                }}
+                popoverProps={{
+                    isOpen: isSelectOpen,
+                    onOpenChange: setIsSelectOpen,
+                }}
+                isDisabled={isLoading}
+            >
+                {Object.keys(iconAllergyMap).map((key) => {
+                    const IconComponent = iconAllergyMap[key];
+                    return (
+                        <SelectItem
+                            key={key}
+                            startContent={<IconComponent size={24} />}
+                        >
+                            {allergy(key)}
+                        </SelectItem>
+                    );
+                })}
+            </Select>
         </div>
     );
 };
