@@ -128,63 +128,63 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProd
                                         </CustomAlert>
                                     </>)}
                                     {/* Ingredients Alert: Default variant */}
-                                    {item.ingredients && item.ingredients.length > 0 && (
-                                        <CustomAlert
-                                            color="default"
-                                            title={t("Ingredients")}
-                                            hideIcon
-                                            classNames={{
-                                                title: "text-text font-medium",
-                                                base: 'p-0 pl-2'
-                                            }}
-                                        >
-                                            <div className="flex flex-wrap gap-2 mt-1">
-                                                {item.ingredients.map((ingredient, index) => {
-                                                    return (
-                                                        <div
-                                                            key={ingredient}
-                                                            className={`flex items-center gap-2 px-2 py-1 text-sm rounded-full text-text bg-default-200`}
-                                                        >
-                                                            <AllergenIcon allergen={ingredient} size={18}/>
-                                                            <span className={'font-medium text-small'}>
-                                                                {ingredient}
-                                                            </span>
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        </CustomAlert>
-                                    )}
+                                    {/*{item.ingredients && item.ingredients.length > 0 && (*/}
+                                    {/*    <CustomAlert*/}
+                                    {/*        color="default"*/}
+                                    {/*        title={t("Ingredients")}*/}
+                                    {/*        hideIcon*/}
+                                    {/*        classNames={{*/}
+                                    {/*            title: "text-text font-medium",*/}
+                                    {/*            base: 'p-0 pl-2'*/}
+                                    {/*        }}*/}
+                                    {/*    >*/}
+                                    {/*        <div className="flex flex-wrap gap-2 mt-1">*/}
+                                    {/*            {item.ingredients.map((ingredient, index) => {*/}
+                                    {/*                return (*/}
+                                    {/*                    <div*/}
+                                    {/*                        key={ingredient}*/}
+                                    {/*                        className={`flex items-center gap-2 px-2 py-1 text-sm rounded-full text-text bg-default-200`}*/}
+                                    {/*                    >*/}
+                                    {/*                        <AllergenIcon allergen={ingredient} size={18}/>*/}
+                                    {/*                        <span className={'font-medium text-small'}>*/}
+                                    {/*                            {ingredient}*/}
+                                    {/*                        </span>*/}
+                                    {/*                    </div>*/}
+                                    {/*                );*/}
+                                    {/*            })}*/}
+                                    {/*        </div>*/}
+                                    {/*    </CustomAlert>*/}
+                                    {/*)}*/}
                                     {/* Allergies Alert: Warning variant */}
-                                    {item.allergies && item.allergies.length > 0 && (
-                                        <CustomAlert
-                                            color="warning"
-                                            title={t("Allergies")}
-                                            hideIcon
-                                            classNames={{
-                                                title: "text-text font-medium",
-                                                base: 'p-0 pl-2 '
-                                            }}
-                                        >
-                                            <div className="flex flex-wrap gap-2 mt-1">
+                                    {/*{item.allergies && item.allergies.length > 0 && (*/}
+                                    {/*    <CustomAlert*/}
+                                    {/*        color="warning"*/}
+                                    {/*        title={t("Allergies")}*/}
+                                    {/*        hideIcon*/}
+                                    {/*        classNames={{*/}
+                                    {/*            title: "text-text font-medium",*/}
+                                    {/*            base: 'p-0 pl-2 '*/}
+                                    {/*        }}*/}
+                                    {/*    >*/}
+                                    {/*        <div className="flex flex-wrap gap-2 mt-1">*/}
 
-                                                {item.allergies.map((allergies, index) => {
-                                                    return (
-                                                        <div
-                                                            key={allergies}
-                                                            className={`flex items-center gap-1 px-2 py-1 text-sm rounded-full text-warning-800 bg-warning-200`}
-                                                        >
-                                                            <AllergenIcon allergen={allergies} size={18}/>
-                                                            <span className={'font-medium text-small'}>
-                                                                {allergy(allergies)}
-                                                            </span>
+                                    {/*            {item.allergies.map((allergies, index) => {*/}
+                                    {/*                return (*/}
+                                    {/*                    <div*/}
+                                    {/*                        key={allergies}*/}
+                                    {/*                        className={`flex items-center gap-1 px-2 py-1 text-sm rounded-full text-warning-800 bg-warning-200`}*/}
+                                    {/*                    >*/}
+                                    {/*                        <AllergenIcon allergen={allergies} size={18}/>*/}
+                                    {/*                        <span className={'font-medium text-small'}>*/}
+                                    {/*                            {allergy(allergies)}*/}
+                                    {/*                        </span>*/}
 
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        </CustomAlert>
-                                    )}
+                                    {/*                    </div>*/}
+                                    {/*                );*/}
+                                    {/*            })}*/}
+                                    {/*        </div>*/}
+                                    {/*    </CustomAlert>*/}
+                                    {/*)}*/}
                                 </div>
                             </div>
                             {!isSmall &&

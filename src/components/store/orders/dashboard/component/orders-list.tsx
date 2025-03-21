@@ -23,18 +23,17 @@ interface OrdersListProps {
     orderDataList: OrderData[];
     setIsLoadingTime?: (isLoading: boolean) => void;
     isLoadingTime?: boolean;
+    selectedStatuses: string[];
+    setSelectedStatuses: (statuses: string[]) => void;
 }
 
-export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderDataList, fromDate, toDate, isLoadingTime = false }) => {
+export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderDataList, fromDate, toDate, isLoadingTime = false, selectedStatuses, setSelectedStatuses }) => {
     const locale = useLocale();
     const t = useTranslations("TheBakerz");
     const statusT = useTranslations("OrderStatus");
     const [isLoading, setIsLoading] = React.useState(false);
     const { store } = useStore();
     const router = useRouter();
-
-    // Add state for status filtering
-    const [selectedStatuses, setSelectedStatuses] = React.useState<string[]>([]);
 
     // Compute status categories whenever orderDataList changes
     const statusCategories = useMemo(() => {
@@ -201,8 +200,19 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                         variants={itemVariants}
                                         onClick={() => {
                                             setIsLoadingTime && setIsLoadingTime(true);
-                                            router.push("/" + storeUrl + "/orders/" + order.id + "?email=" + order.customer.email_customer);
-                                            router.refresh()
+
+                                            // Format dates as YYYY-MM-DD
+                                            const formattedFromDate = new Date(fromDate.getTime() - (fromDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+                                            const formattedToDate = new Date(toDate.getTime() - (toDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+
+                                            router.push(
+                                                "/" + storeUrl +
+                                                "/orders/" + order.id +
+                                                "?email=" + order.customer.email_customer +
+                                                "&from=" + formattedFromDate +
+                                                "&to=" + formattedToDate
+                                            );
+                                            router.refresh();
                                         }}
                                     >
                                         <Card

@@ -15,18 +15,12 @@ import {CalendarDashboard} from "@/components/store/orders/dashboard/component/c
 
 interface OrderDashboardProps {
     date?: string;
+    from?: string;
+    to?: string;
 }
 
-// Interface for storing order status information by date
-interface OrderStatusByDate {
-    [date: string]: {
-        new: boolean;
-        started: boolean;
-        ready: boolean;
-    };
-}
 
-export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
+export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) => {
     const { store } = useStore();
     const [isPending, startTransition] = useTransition();
     const [isLoading, setIsLoading] = useState(false);
@@ -38,11 +32,18 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
 
     let now = today(getLocalTimeZone());
 
-    const [year, month, day] = date ? date.split("-").map(Number) : [undefined, undefined, undefined];
+
+    const [year, month, day] = (!from && !to && date) ? date.split("-").map(Number) : [undefined, undefined, undefined];
 
     let [dateRange, setDateRange] = React.useState<RangeValue<CalendarDate> | null>({
-        start: year && month && day ? new CalendarDate(year, month, day) : now,
-        end: year && month && day ? new CalendarDate(year, month, day) : now,
+        start: from ? (() => {
+            const [y, m, d] = from.split("-").map(Number);
+            return new CalendarDate(y, m, d);
+        })() : (year && month && day ? new CalendarDate(year, month, day) : now),
+        end: to ? (() => {
+            const [y, m, d] = to.split("-").map(Number);
+            return new CalendarDate(y, m, d);
+        })() : (year && month && day ? new CalendarDate(year, month, day) : now),
     });
 
 
@@ -68,6 +69,17 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
     useEffect(() => {
         setIsLoading(isPending);
     }, [isPending]);
+
+    const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+
+    // Add this after fetching order data
+    useEffect(() => {
+        if (orderDataList && orderDataList.length > 0) {
+            // Initialize with all available statuses
+            const statuses = [...new Set(orderDataList.map(order => order.order_status))];
+            setSelectedStatuses(statuses);
+        }
+    }, [orderDataList]);
 
     return (
         <div ref={containerRef} className={'flex flex-col md:flex-row w-full max-w-[1400px] container gap-y-8 md:gap-x-8 lg:gap-x-8'}>
@@ -108,6 +120,7 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
                 <OrdersBarChart
                     isLoading={isLoading}
                     orderDataList={orderDataList || []}
+                    selectedStatuses={selectedStatuses}
                 />
                 <Spacer y={8} />
             </motion.div>
@@ -117,6 +130,8 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date}) => {
                 fromDate={dateRange?.start?.toDate(getLocalTimeZone()) || new Date()}
                 toDate={dateRange?.end?.toDate(getLocalTimeZone()) || new Date()}
                 orderDataList={orderDataList || []}
+                selectedStatuses={selectedStatuses}
+                setSelectedStatuses={setSelectedStatuses}
             />
             <Spacer y={8} />
         </div>

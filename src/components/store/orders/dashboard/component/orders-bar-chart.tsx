@@ -41,6 +41,7 @@ type CircleChartProps = {
 interface OrdersBarChartProps {
     orderDataList: OrderData[];
     isLoading: boolean;
+    selectedStatuses: string[];
 }
 
 // Add this helper function to extract the color:
@@ -64,7 +65,7 @@ const getBgColorFromClass = (classStr: string): string => {
 };
 
 
-export const OrdersBarChart: React.FC<OrdersBarChartProps> = ({orderDataList, isLoading = false}) => {
+export const OrdersBarChart: React.FC<OrdersBarChartProps> = ({orderDataList, isLoading = false, selectedStatuses}) => {
     const barT = useTranslations("BarChartDashboard");
     // Process order data to get stats by status
     const { chartData, categories, totalAmount, totalOrders } = useMemo(() => {
@@ -124,6 +125,7 @@ export const OrdersBarChart: React.FC<OrdersBarChartProps> = ({orderDataList, is
                 key={1}
                 isLoading={isLoading}
                 orderCount={totalOrders}
+                selectedStatuses={selectedStatuses}
                 {...chartConfig}
             />
         </dl>
@@ -136,16 +138,32 @@ const formatTotal = (total: number) => {
     return euros >= 1000 ? `${(euros / 1000).toFixed(1)}K` : euros.toFixed(2);
 };
 
+
 const CircleChartCard = React.forwardRef<
     HTMLDivElement,
-    Omit<CardProps, "children"> & CircleChartProps & { isLoading?: boolean, orderCount?: number }
->(({className, title, total, unit, categories, color, chartData, isLoading = false, orderCount = 0, ...props}, ref) => {
+    Omit<CardProps, "children"> & CircleChartProps & {
+    isLoading?: boolean,
+    orderCount?: number,
+    selectedStatuses: string[]
+}
+>(({
+       className,
+       title,
+       total,
+       unit,
+       categories,
+       color,
+       chartData,
+       isLoading = false,
+       orderCount = 0,
+       selectedStatuses,
+       ...props
+   }, ref) => {
     // State for selected statuses, initialize with all categories
-    const [selectedStatuses, setSelectedStatuses] = useState<string[]>([...categories]);
     const t = useTranslations("OrderStatus");
     const barT = useTranslations("BarChartDashboard");
 
-    // Filter chart data based on selected statuses
+    // Use the passed selectedStatuses to filter chart data
     const filteredChartData = useMemo(() => {
         if (selectedStatuses.length === 0) return chartData;
         return chartData.filter(item => selectedStatuses.includes(item.name));
@@ -160,15 +178,6 @@ const CircleChartCard = React.forwardRef<
         return filteredChartData.reduce((sum, item) => sum + item.count, 0);
     }, [filteredChartData]);
 
-    // Handle status selection change
-    const handleStatusChange = (keys: any) => {
-        // HeroUI's Select component returns a Set for multiple selection mode
-        if (keys instanceof Set) {
-            setSelectedStatuses(Array.from(keys) as string[]);
-        } else {
-            setSelectedStatuses(Array.isArray(keys) ? keys : [keys]);
-        }
-    };
 
     if (isLoading) {
         return (
@@ -200,32 +209,32 @@ const CircleChartCard = React.forwardRef<
                         <h3 className="text-small font-medium text-default-500">{title}</h3>
                     </dt>
                     <div className="flex items-center justify-end gap-x-2">
-                        <Select
-                            aria-label="Order status filter"
-                            classNames={{
-                                trigger: "min-w-[100px] max-w-[150px] min-h-7 h-7",
-                                value: "text-tiny !text-default-500 truncate w-[100%]",
-                                selectorIcon: "text-default-500",
-                                popoverContent: "min-w-[120px]",
-                                base: "max-w-full",
-                                mainWrapper: "max-w-full",
-                            }}
-                            listboxProps={{
-                                itemClasses: {
-                                    title: "text-tiny",
-                                },
-                            }}
-                            placeholder="All"
-                            selectionMode="multiple"
-                            size="sm"
-                            selectedKeys={selectedStatuses}
-                            onSelectionChange={handleStatusChange}
-                            defaultSelectedKeys={categories}
-                        >
-                            {categories.map((cat) => (
-                                <SelectItem key={cat}>{t(cat.toLowerCase() || "unknown")}</SelectItem>
-                            ))}
-                        </Select>
+                        {/*<Select*/}
+                        {/*    aria-label="Order status filter"*/}
+                        {/*    classNames={{*/}
+                        {/*        trigger: "min-w-[100px] max-w-[150px] min-h-7 h-7",*/}
+                        {/*        value: "text-tiny !text-default-500 truncate w-[100%]",*/}
+                        {/*        selectorIcon: "text-default-500",*/}
+                        {/*        popoverContent: "min-w-[120px]",*/}
+                        {/*        base: "max-w-full",*/}
+                        {/*        mainWrapper: "max-w-full",*/}
+                        {/*    }}*/}
+                        {/*    listboxProps={{*/}
+                        {/*        itemClasses: {*/}
+                        {/*            title: "text-tiny",*/}
+                        {/*        },*/}
+                        {/*    }}*/}
+                        {/*    placeholder="All"*/}
+                        {/*    selectionMode="multiple"*/}
+                        {/*    size="sm"*/}
+                        {/*    selectedKeys={selectedStatuses}*/}
+                        {/*    onSelectionChange={handleStatusChange}*/}
+                        {/*    defaultSelectedKeys={categories}*/}
+                        {/*>*/}
+                        {/*    {categories.map((cat) => (*/}
+                        {/*        <SelectItem key={cat}>{t(cat.toLowerCase() || "unknown")}</SelectItem>*/}
+                        {/*    ))}*/}
+                        {/*</Select>*/}
                         {/*<Dropdown*/}
                         {/*    classNames={{*/}
                         {/*        content: "min-w-[120px]",*/}

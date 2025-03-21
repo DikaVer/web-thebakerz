@@ -16,9 +16,11 @@ import {useTranslations} from "next-intl";
 interface OrderOverviewProps {
     storeData: StoreData;
     orderData: OrderData;
+    from?: string;
+    to?: string;
 }
 
-export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderData}) => {
+export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderData, from, to}) => {
     const { store } = useStore();
     const router = useRouter();
     const t = useTranslations("TheBakerz");
@@ -30,7 +32,10 @@ export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderDat
                 variant="light"
                 className="text-default-500 max-w-fit px-0 pr-2"
                 onPress={() => {
-                    router.push(`/${storeUrl}/orders?date=${orderData.scheduled_time.date}`);
+                    const dateParams = `date=${orderData.scheduled_time.date}`;
+                    const fromToParams = from && to ? `&from=${from}&to=${to}` : '';
+                    router.push(`/${storeUrl}/orders?${dateParams}${fromToParams}`);
+                    router.refresh()
                 }}
                 startContent={
                     <Icon

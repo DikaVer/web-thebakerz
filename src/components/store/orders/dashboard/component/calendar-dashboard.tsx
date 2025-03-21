@@ -7,10 +7,12 @@ import { addDays, endOfMonth, endOfWeek, format, isSameMonth, startOfMonth, isBe
 import { cn, formatApiDate } from "@/lib/utils"
 import { getOrdersByDateRange, OrderData } from "@/lib/actions/order"
 import { useStore } from "@/components/providers/store-provider"
-import { Button, ButtonGroup, Card } from "@heroui/react"
+import {Badge, Button, ButtonGroup, Card} from "@heroui/react"
 import { Icon } from "@iconify/react/dist/iconify.js"
 import { useMemo, useRef, useState, useTransition } from "react"
 import { useTranslations } from "next-intl"
+import {useMediaQuery} from "usehooks-ts";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 /**
  * Interface for storing order status information by date.
@@ -29,6 +31,9 @@ interface OrderStatusByDate {
         new: boolean;
         started: boolean;
         ready: boolean;
+        new_count: number;
+        started_count: number;
+        ready_count: number;
     };
 }
 
@@ -100,6 +105,19 @@ function CalendarDashboard({
         }
     );
 
+    // Inside the component:
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+
+    // Helper function to update search params
+    const updateSearchParams = (from: Date, to: Date) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('from', formatApiDate(from));
+        params.set('to', formatApiDate(to));
+        router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    };
+
     // Update range when selected prop changes
     React.useEffect(() => {
         if (selected) {
@@ -154,13 +172,29 @@ function CalendarDashboard({
             const orderDate = order.scheduled_time.date;
 
             if (!statusMap[orderDate]) {
-                statusMap[orderDate] = { new: false, started: false, ready: false };
+                statusMap[orderDate] = {
+                    new: false,
+                    started: false,
+                    ready: false,
+                    new_count: 0,
+                    started_count: 0,
+                    ready_count: 0
+                };
             }
 
             // Set the corresponding status flag
-            if (order.order_status === 'new') statusMap[orderDate].new = true;
-            else if (order.order_status === 'started') statusMap[orderDate].started = true;
-            else if (order.order_status === 'ready') statusMap[orderDate].ready = true;
+            if (order.order_status === 'new') {
+                statusMap[orderDate].new = true;
+                statusMap[orderDate].new_count++;
+            }
+            else if (order.order_status === 'started') {
+                statusMap[orderDate].started = true;
+                statusMap[orderDate].started_count++;
+            }
+            else if (order.order_status === 'ready') {
+                statusMap[orderDate].ready = false;
+                statusMap[orderDate].ready_count++;
+            }
         });
 
         setOrderStatusByDate(statusMap);
@@ -198,6 +232,9 @@ function CalendarDashboard({
             setRange(newRange);
             setSelectedDay(undefined); // Reset for next selection
             onDateRangeChange?.(newRange);
+
+            // Update URL search params
+            updateSearchParams(newRange.from, newRange.to);
         }
     };
 
@@ -283,6 +320,7 @@ function CalendarDashboard({
      */
     const CustomDay = (props: DayProps) => {
         const { date, displayMonth } = props;
+        const isSmall = useMediaQuery("(max-width: 1146px)");
 
         // Get active modifiers for the day
         const activeModifiers = useActiveModifiers(date, displayMonth);
@@ -311,33 +349,50 @@ function CalendarDashboard({
 
         return (
             <>
-                <button
-                    {...(dayRender.isButton ? dayRender.buttonProps : {})}
-                    className={cn(
-                        "relative w-full h-full flex items-center justify-center",
-                        elementProps.className,
-                    )}
-                    disabled={isLoading}
-                    style={elementProps.style}
-                    onClick={(e) => {
-                        e.preventDefault()
-                        handleDayClick(date)
-                    }} // Ensure click works
-                    onTouchEnd={(e) => {
-                        e.preventDefault();
-                        handleDayClick(date);
-                    }} // Better touch support
-                >
-                    {date.getDate()}
-                </button>
+                    <button
+                        {...(dayRender.isButton ? dayRender.buttonProps : {})}
+                        className={cn(
+                            "relative w-full h-full flex items-center justify-center",
+                            elementProps.className,
+                        )}
+                        disabled={isLoading}
+                        style={elementProps.style}
+                        onClick={(e) => {
+                            e.preventDefault()
+                            handleDayClick(date)
+                        }} // Ensure click works
+                        onTouchEnd={(e) => {
+                            e.preventDefault();
+                            handleDayClick(date);
+                        }} // Better touch support
+                    >
+                        {/*<Badge*/}
+                        {/*    content={dateStatus?.started_count || undefined}*/}
+                        {/*    size={isSmall ? 'sm' : 'md'}*/}
+                        {/*    className={cn('translate-x-1 translate-y-5 border-text',*/}
+                        {/*        !dateStatus?.started_count && 'hidden')}*/}
 
-                {/* Status indicators */}
+                        {/*    color={'warning'}*/}
+                        {/*>*/}
+                        {/*    <Badge*/}
+                        {/*        content={dateStatus?.new_count || undefined}*/}
+                        {/*        size={isSmall ? 'sm' : 'md'}*/}
+                        {/*        className={cn('translate-x-1 -translate-y-4 border-text',*/}
+                        {/*            !dateStatus?.new_count && 'hidden')}*/}
+                        {/*        color={'danger'}*/}
+                        {/*    >*/}
+                                {date.getDate()}
+                        {/*    </Badge>*/}
+                        {/*</Badge>*/}
+                    </button>
+
+                 {/*Status indicators */}
                 {indicators.length > 0 && (
                     <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 h-1.5">
                         {indicators.map((status) => (
                             <div
                                 key={`${dateKey}-${status}`}
-                                className="w-1.5 h-1.5 rounded-full"
+                                className="w-2.5 h-2.5 rounded-full"
                                 style={{
                                     backgroundColor: statusIndicators[status as keyof typeof statusIndicators]?.color
                                 }}

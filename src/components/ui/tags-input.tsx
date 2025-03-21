@@ -266,6 +266,7 @@ export const TagsSelectInput: React.FC<TagsInputProps> = ({
                 selectedKeys={selectedKeys}
                 onSelectionChange={handleSelectionChange}
                 placeholder={placeholder}
+                disableSelectorIconRotation
                 selectorIcon={
                     <div>
                         {allergy("Add Allergy")}

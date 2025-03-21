@@ -20,6 +20,8 @@ interface StorePageProps {
     }>,
     searchParams?: Promise<{
         date?: string;
+        from?: string;
+        to?: string;
     }>;
 }
 
@@ -29,13 +31,15 @@ export default async function Page(props: StorePageProps) {
     const params = await props.params;
 
     const { id } = await params
-    const { date } = searchParams || { date: undefined };
+    const { date, from, to } = searchParams || { date: undefined, from: undefined, to: undefined };
 
 
     return (
         <div className="flex flex-col min-h-dvh relative z-10 items-center">
             <OrderDashboard
                 date={date}
+                from={from}
+                to={to}
             />
         </div>
     );

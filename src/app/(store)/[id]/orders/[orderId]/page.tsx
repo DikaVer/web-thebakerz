@@ -11,6 +11,8 @@ interface StorePageProps {
     }>
     searchParams: Promise<{
         email?: string;
+        from?: string;
+        to?: string;
     }>
 }
 
@@ -44,7 +46,7 @@ export default async function Page(props: StorePageProps) {
     const params = await props.params;
 
     const { id, orderId } = params;
-    const { email } = searchParams;
+    const { email, to, from } = searchParams;
 
     if (!email || !id || !orderId) {
         return NotFound();
@@ -67,6 +69,8 @@ export default async function Page(props: StorePageProps) {
             <OrderOverview
                 storeData={storeData}
                 orderData={orderData}
+                from={from}
+                to={to}
             />
         </div>
     );
