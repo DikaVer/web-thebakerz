@@ -2,7 +2,7 @@
 
 import React, { useMemo, useEffect } from "react";
 import {Button, Card, Chip, cn, ScrollShadow, Spacer, Select, SelectItem} from "@heroui/react";
-import { OrderData} from "@/lib/actions/order";
+import {OrderData, OrderStatus} from "@/lib/actions/order";
 import { Icon } from "@iconify/react";
 import { useLocale, useTranslations } from "next-intl";
 import {
@@ -16,6 +16,8 @@ import { useStore } from "@/components/providers/store-provider";
 import { useRouter } from "next/navigation";
 import {OrderStatusChip} from "@/components/ui/status-chip";
 import { motion } from "framer-motion";
+import {StatusSelect} from "@/components/store/orders/dashboard/component/status-select";
+import {OrderStatusByDate} from "@/components/store/orders/dashboard/order-dashboard";
 
 interface OrdersListProps {
     fromDate: Date;
@@ -25,9 +27,10 @@ interface OrdersListProps {
     isLoadingTime?: boolean;
     selectedStatuses: string[];
     setSelectedStatuses: (statuses: string[]) => void;
+    orderStatusByDate: OrderStatusByDate;
 }
 
-export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderDataList, fromDate, toDate, isLoadingTime = false, selectedStatuses, setSelectedStatuses }) => {
+export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderDataList, fromDate, toDate, isLoadingTime = false, selectedStatuses, setSelectedStatuses, orderStatusByDate }) => {
     const locale = useLocale();
     const t = useTranslations("TheBakerz");
     const statusT = useTranslations("OrderStatus");
@@ -244,8 +247,20 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                                         <div
                                                             className="text-sm text-default-600">{order.customer.email_customer}</div>
                                                     </div>
-                                                    <OrderStatusChip
-                                                        status={order.order_status}
+                                                    <StatusSelect
+                                                        order={order}
+                                                        currentStatus={order.order_status}
+                                                        onStatusChange={(oldStatus: OrderStatus, newStatus: OrderStatus) => {
+                                                            // Optional: If you need to refresh the list after status change
+                                                            // setIsLoadingTime && setIsLoadingTime(true);
+                                                            // router.refresh();
+                                                            const statusCounts = orderStatusByDate[order.scheduled_time.date];
+
+                                                            if (oldStatus === 'new') statusCounts.new_count--;
+                                                            if (oldStatus === 'started') statusCounts.started_count--;
+                                                            if (newStatus === 'new') statusCounts.new_count++;
+                                                            if (newStatus === 'started') statusCounts.started_count++;
+                                                        }}
                                                     />
                                                 </div>
 

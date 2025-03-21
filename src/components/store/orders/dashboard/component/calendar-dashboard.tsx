@@ -13,6 +13,7 @@ import { useMemo, useRef, useState, useTransition } from "react"
 import { useTranslations } from "next-intl"
 import {useMediaQuery} from "usehooks-ts";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import {OrderStatusByDate} from "@/components/store/orders/dashboard/order-dashboard";
 
 /**
  * Interface for storing order status information by date.
@@ -20,22 +21,6 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
  * statuses exist for that date.
  */
 
-
-/**
- * @module CalendarDashboard
- * A specialized calendar component that displays order status indicators
- * and allows date range selection for order filtering.
- */
-interface OrderStatusByDate {
-    [date: string]: {
-        new: boolean;
-        started: boolean;
-        ready: boolean;
-        new_count: number;
-        started_count: number;
-        ready_count: number;
-    };
-}
 
 /**
  * Props for the CalendarDashboard component.
@@ -58,6 +43,8 @@ type CalendarDashboardProps = Omit<React.ComponentProps<typeof DayPicker>, 'mode
         started?: { color: string; label?: string };
         ready?: { color: string; label?: string };
     };
+    orderStatusByDate: OrderStatusByDate;
+    setOrderStatusByDate: (status: OrderStatusByDate) => void;
 }
 
 /**
@@ -81,6 +68,8 @@ function CalendarDashboard({
                                onDateRangeChange,
                                isLoading = false,
                                selected,
+                               orderStatusByDate,
+                               setOrderStatusByDate,
                                statusIndicators = {
                                    new: { color: "#F31260", label: "new" },
                                    started: { color: "#F9C97C", label: "started" },
@@ -91,7 +80,6 @@ function CalendarDashboard({
     const { store } = useStore();
     const containerRef = useRef<HTMLDivElement>(null);
     const [isPending, startTransition] = useTransition();
-    const [orderStatusByDate, setOrderStatusByDate] = useState<OrderStatusByDate>({});
     const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
     const t = useTranslations("Calendar");
 
@@ -370,7 +358,7 @@ function CalendarDashboard({
                             content={dateStatus?.started_count || undefined}
                             size={isSmall ? 'sm' : 'md'}
                             className={cn('translate-x-1 translate-y-5 border-text',
-                                !dateStatus?.started_count && 'hidden')}
+                                (dateStatus?.started_count <= 0 || !dateStatus?.started_count) && 'hidden')}
 
                             color={'warning'}
                         >
@@ -378,7 +366,7 @@ function CalendarDashboard({
                                 content={dateStatus?.new_count || undefined}
                                 size={isSmall ? 'sm' : 'md'}
                                 className={cn('translate-x-1 -translate-y-4 border-text',
-                                    !dateStatus?.new_count && 'hidden')}
+                                    (dateStatus?.new_count <= 0 || !dateStatus?.new_count) && 'hidden')}
                                 color={'danger'}
                             >
                                 {date.getDate()}

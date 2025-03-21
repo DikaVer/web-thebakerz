@@ -157,8 +157,9 @@ export default function UserProductDialog({
                                         <>
                                             <div
                                                 className={cn(
-                                                    "relative flex justify-center items-center w-20 h-20 cursor-pointer border-1",
-                                                    "rounded-lg"
+                                                    "relative flex justify-center items-center w-20 h-20 opacity-50 cursor-pointer border-1",
+                                                    "rounded-lg",
+                                                    mainImage === productData.picture && 'opacity-100'
                                                 )}
                                                 onClick={() => setMainImage(productData.picture)}
                                             >
@@ -173,15 +174,16 @@ export default function UserProductDialog({
                                                     <div
                                                         key={index}
                                                         className={cn(
-                                                            "relative flex justify-center items-center w-20 h-20 cursor-pointer border-1",
-                                                            "rounded-lg"
+                                                            "relative flex justify-center items-center w-20 h-20 opacity-50 cursor-pointer border-1",
+                                                            "rounded-lg",
+                                                            mainImage === img && 'opacity-100'
                                                         )}
                                                         onClick={() => handleImageSwap(img)}
                                                     >
                                                         <Image
                                                             removeWrapper
                                                             alt={`Additional image ${index + 1}`}
-                                                            className={cn("object-cover w-full h-full", "rounded-lg")}
+                                                            className={cn("object-cover w-full h-full ", "rounded-lg")}
                                                             src={img}
                                                         />
                                                     </div>

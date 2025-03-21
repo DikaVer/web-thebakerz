@@ -19,6 +19,22 @@ interface OrderDashboardProps {
     to?: string;
 }
 
+/**
+ * @module CalendarDashboard
+ * A specialized calendar component that displays order status indicators
+ * and allows date range selection for order filtering.
+ */
+export interface OrderStatusByDate {
+    [date: string]: {
+        new: boolean;
+        started: boolean;
+        ready: boolean;
+        new_count: number;
+        started_count: number;
+        ready_count: number;
+    };
+}
+
 
 export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) => {
     const { store } = useStore();
@@ -26,6 +42,7 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) 
     const [isLoading, setIsLoading] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const t = useTranslations("TheBakerz");
+    const [orderStatusByDate, setOrderStatusByDate] = useState<OrderStatusByDate>({});
 
     const [orderDataList, setOrderDataList] = useState<OrderData[]>([]);
 
@@ -115,6 +132,8 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) 
                         }
                     }}
                     isLoading={isLoading}
+                    orderStatusByDate={orderStatusByDate}
+                    setOrderStatusByDate={setOrderStatusByDate}
                 />
                 <Spacer y={8} />
                 <OrdersBarChart
@@ -132,6 +151,7 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) 
                 orderDataList={orderDataList || []}
                 selectedStatuses={selectedStatuses}
                 setSelectedStatuses={setSelectedStatuses}
+                orderStatusByDate={orderStatusByDate}
             />
             <Spacer y={8} />
         </div>
