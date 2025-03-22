@@ -371,8 +371,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                     <Textarea
                                                         {...field}
                                                         isDisabled={isPending}
-                                                        isRequired
-                                                        placeholder='Tell us about your store... (max 500 characters)'
+                                                        placeholder='Tell us about your store... (max 200 characters)'
                                                         style={{resize: "none"}}
                                                         className="mt-2"
                                                         classNames={{
@@ -391,7 +390,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                             </FormItem>
                                         )}
                                     />
-                                    <p className="text-right text-grayText text-small px-2">{charCount}/500</p>
+                                    <p className="text-right text-grayText text-small px-2">{charCount}/200</p>
 
                                 </div>
                             </>

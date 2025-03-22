@@ -228,7 +228,7 @@ export const ProfileSettingsSchema = z
         name: z.string().nonempty("Name is required"),
         description: z
             .string()
-            .max(2000, "Description must be at most 2000 characters")
+            .max(200, "Description must be at most 200 characters")
             .optional(),
         storeName: nicknameSchema.optional(),
         storeSlug: z
@@ -262,13 +262,13 @@ export const ProfileSettingsSchema = z
     })
     .superRefine((data, ctx) => {
         if (data.role === "bakerz") {
-            if (!data.description || data.description.trim() === "") {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: "Description is required",
-                    path: ["description"],
-                });
-            }
+            // if (!data.description || data.description.trim() === "") {
+            //     ctx.addIssue({
+            //         code: z.ZodIssueCode.custom,
+            //         message: "Description is required",
+            //         path: ["description"],
+            //     });
+            // }
             if (!data.storeName || data.storeName.trim() === "") {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
@@ -276,13 +276,13 @@ export const ProfileSettingsSchema = z
                     path: ["storeName"],
                 });
             }
-            if (!data.storeSlug || data.storeSlug.trim() === "") {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: "Store Slug is required",
-                    path: ["storeSlug"],
-                });
-            }
+            // if (!data.storeSlug || data.storeSlug.trim() === "") {
+            //     ctx.addIssue({
+            //         code: z.ZodIssueCode.custom,
+            //         message: "Store Slug is required",
+            //         path: ["storeSlug"],
+            //     });
+            // }
         }
     });
 
