@@ -36,8 +36,7 @@ export const updateProfile = async (
     // If the user is a baker, update the store details (including social links)
     if (
         store &&
-        formData.storeName &&
-        formData.description
+        formData.storeName
     ) {
         if (
             formData.storeName !== store.storeName &&
@@ -49,14 +48,15 @@ export const updateProfile = async (
         }
 
         await updateStoreProfile(
+            user.id,
             formData.storeName,
             formData.description,
-            user.id,
             formData.facebook_url,
             formData.instagram_url,
             formData.storeSlug
         );
         revalidateTag('store');
+        revalidateTag('session');
     }
 
     return { success: "Profile updated successfully!" };

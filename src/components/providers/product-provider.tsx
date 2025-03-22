@@ -11,6 +11,8 @@ interface ProductDialogContextProps {
     getProductDataById: (productId: string) => ProductData | undefined;
     handleOpenWithProduct: (product: ProductData, itemCart?: ItemCart, isBakerzOrder?: boolean) => void;
     setProductsDataLocal: (data: ProductDataFull) => void;
+    isUpdating: boolean;
+    setIsUpdating: (isUpdating: boolean) => void;
 }
 
 export const useProductDialog = () => {
@@ -29,6 +31,7 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
     const [productsData, setProductsData] = useState<ProductDataFull>(productsDataServer ? productsDataServer : {});
     const [itemCart, setItemCartId] = useState<ItemCart | undefined>();
     const [isBakerzOrder, setIsBakerzOrder] = useState<boolean>(false);
+    const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
 
     const onClose = () => {
@@ -73,9 +76,11 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
                 handleOpen,
                 getProductDataById,
                 setProductsDataLocal,
+                isUpdating,
+                setIsUpdating
             }}
         >
-            <ProductDialog storeId={storeId} productData={productData} isOpen={isOpen} onClose={onClose} itemCart={itemCart} bakerzOrder={isBakerzOrder}/>
+            <ProductDialog storeId={storeId} productData={productData} isOpen={isOpen} onClose={onClose} itemCart={itemCart} bakerzOrder={isBakerzOrder} setIsUpdating={setIsUpdating}/>
             {children}
         </ProductDialogContext.Provider>
     );

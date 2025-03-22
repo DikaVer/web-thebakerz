@@ -142,6 +142,23 @@ export const descriptionSchema = z.string()
     .max(500, { message: "Description must be less than 500 characters" });
 
 
+// Schema for individual option items within a variant
+export const VariantOptionSchema = z.object({
+    label: z.string().min(4, { message: "Minimum 4 characters" }),
+    price: z.number().min(0, { message: "Price must be a positive number" })
+        .transform(val => parseFloat(val.toFixed(2)) * 100), // Convert to cents
+});
+
+// Schema for an entire variant group
+export const VariantSchema = z.object({
+    label: z.string().min(1, { message: "Minimum 4 characters" }),
+    isSingle: z.boolean().default(true),
+    required: z.boolean().default(false),
+    maxSelections: z.number().min(0).optional(),
+    options: z.array(VariantOptionSchema).min(1, { message: "At least one option is required" }),
+});
+
+
 export const ProductSchema = z.object({
     category: z.enum(Object.keys(categories) as [string, ...string[]], {
         errorMap: () => ({ message: "Category must be from the list" }),
@@ -171,6 +188,7 @@ export const ProductSchema = z.object({
     allergies: z.array(z.string()).optional(),
     additionalImages: z.array(z.string()).max(2).optional(),
     file_additional_pictures: z.array(ImageSchema.optional()).max(2).optional(),
+    variants: z.array(VariantSchema).optional(),
 });
 
 

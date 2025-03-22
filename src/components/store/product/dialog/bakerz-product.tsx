@@ -20,7 +20,6 @@ import {
     PressEvent,
 } from "@heroui/react";
 import { addProduct, deleteProduct, ProductData } from "@/lib/actions/product";
-import { IconClose } from "@/components/ui/icons";
 import { useTheme } from "next-themes";
 import { CopyText } from "@/components/ui/copy-text";
 import { ItemCart } from "@/lib/actions/cart";
@@ -35,29 +34,28 @@ import showErrorMessage from "@/components/toast/toast-error";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import showSuccessMessage from "@/components/toast/toast-succes";
-import {TagsAutoInput, TagsInput, TagsSelectInput} from "@/components/ui/tags-input";
+import {TagsInput, TagsSelectInput} from "@/components/ui/tags-input";
 import { useMediaQuery } from "usehooks-ts";
 import { useTranslations } from "next-intl";
 import { useActionState } from "react";
-import {ImageUploadSection} from "@/components/store/product/dialog/image-upload-section";
-import {DeleteConfirmationModal} from "@/components/store/product/dialog/delete-confirmation";
+import {VariantsFormField} from "@/components/store/product/components/variants-form-field";
+import {DeleteConfirmationModal} from "@/components/store/product/components/delete-confirmation";
+import {ImageUploadSection} from "@/components/store/product/components/image-upload-section";
 
-// Extend ProductSchema to include additional images
-const ExtendedProductSchema = ProductSchema.extend({
-    additionalImages: z.array(z.string()).max(3).optional(),
-});
 
 type ProductDialogProps = {
     productData: ProductData | undefined;
     onClose: () => void;
     itemCart?: ItemCart;
     setIsDismissable: (isDismissable: boolean) => void;
+    setIsUpdating: (isUpdating: boolean) => void;
 };
 
 
 
-export default function BakerzProductDialog({ productData, onClose, setIsDismissable }: ProductDialogProps) {
+export default function BakerzProductDialog({ productData, onClose, setIsDismissable, setIsUpdating }: ProductDialogProps) {
     const { theme } = useTheme();
+    console.log(productData);
     const t = useTranslations("TheBakerz");
     const router = useRouter();
     const isSmall = useMediaQuery("(max-width: 460px)");
@@ -73,9 +71,11 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
     const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(null);
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
+    // console.log(productData);
+
     // Form setup with zod validation
-    const form = useForm<z.infer<typeof ExtendedProductSchema>>({
-        resolver: zodResolver(ExtendedProductSchema),
+    const form = useForm<z.infer<typeof ProductSchema>>({
+        resolver: zodResolver(ProductSchema),
         defaultValues: {
             category: productData?.category,
             name: productData?.name,
@@ -87,17 +87,25 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
             allergies: productData?.allergies || [],
             additionalImages: productData?.additionalImages || [],
             file_additional_pictures: undefined,
+            variants: (productData?.variants || []).map(variant => ({
+                ...variant,
+                options: variant.options.map(option => ({
+                    ...option,
+                    price: option.price ? option.price / 100 : 0
+                }))
+            })),
         },
     });
 
-    useEffect(() => {
-        console.log(form.getValues());
-    }, [form]);
+    // useEffect(() => {
+    //     console.log(form.getValues());
+    // }, [form]);
 
     const [state, submitAction, isPending] = useActionState(
-        async (prevState: any, formData: z.infer<typeof ExtendedProductSchema>) => {
+        async (prevState: any, formData: z.infer<typeof ProductSchema>) => {
             const result = await addProduct(formData, productData?.id);
             if (result?.success) {
+                setIsUpdating(true);
                 showSuccessMessage({ success: result.success });
                 router.refresh();
                 onClose();
@@ -116,7 +124,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
         setPictureEdit(true);
     };
 
-    const handleSubmit = (formData: z.infer<typeof ExtendedProductSchema>) => {
+    const handleSubmit = (formData: z.infer<typeof ProductSchema>) => {
         startTransition(() => submitAction(formData));
     };
 
@@ -125,6 +133,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
             setIsDismissable(false);
             setIsLoadingDelete(true);
             await deleteProduct(productData.id);
+            setIsUpdating(true);
             showSuccessMessage({ success: t("Product Deleted") });
             router.refresh();
             onClose();
@@ -447,6 +456,33 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                         </FormItem>
                                     )}
                                 />
+
+                                <Spacer y={4} />
+                                <h3 className="text-lg font-medium mb-2">{t("Item Options")}</h3>
+                                <VariantsFormField
+                                    form={form}
+                                    isPending={isPending}
+                                />
+
+                                {/*<FormField*/}
+                                {/*    control={form.control}*/}
+                                {/*    name="name"*/}
+                                {/*    render={({ field, fieldState }) => (*/}
+                                {/*        <FormItem className="w-2/3">*/}
+                                {/*            <FormControl>*/}
+                                {/*                <Input*/}
+                                {/*                    {...field}*/}
+                                {/*                    isDisabled={isPending}*/}
+                                {/*                    variant="underlined"*/}
+                                {/*                    placeholder={t("Item Name")}*/}
+                                {/*                    classNames={{ input: "text-xl sm:text-2xl truncate font-medium" }}*/}
+                                {/*                    validate={() => fieldState.error?.message}*/}
+                                {/*                />*/}
+                                {/*            </FormControl>*/}
+                                {/*        </FormItem>*/}
+                                {/*    )}*/}
+                                {/*/>*/}
+
                             </div>
                         </ScrollShadow>
                     </ModalBody>
@@ -477,7 +513,10 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                             color="primary"
                             type="submit"
                             isLoading={isPending}
-                            onPress={() => setIsDismissable(false)}
+                            onPress={() => {
+                                console.log(ProductSchema.safeParse(form.getValues()));
+                                setIsDismissable(false)
+                            }}
                         >
                             {isPending ? t("Loading") : productData ? t("Update Item") : t("Add Item")}
                         </Button>

@@ -1,11 +1,12 @@
 import React from "react";
-import { ItemCart } from "@/lib/actions/cart";
+import { ItemCart, Variant } from "@/lib/actions/cart";
 import { ProductData } from "@/lib/actions/product";
-import { Divider, Image, Spacer } from "@heroui/react";
+import {cn, Divider, Image, Spacer } from "@heroui/react";
 import { formatCurrency } from "@/lib/utils";
 import { InputStepper } from "@/components/store/product/dialog/button-stepper";
 import CustomAlert from "@/components/ui/custom-alerts";
 import { useTranslations } from "next-intl";
+import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
 
 type CartItemRowProps = {
     item: ItemCart;
@@ -16,6 +17,34 @@ type CartItemRowProps = {
     setIsLoading: (value: boolean) => void;
     handleOpen: (productId?: string, itemCart?: ItemCart, isBakerzOrder?: boolean) => void;
     isBakerzOrder?: boolean;
+};
+
+// Format variants into readable strings
+export const formatVariants = (variants: Variant[], color?: "primary" | "warning", classNames?: {
+    text?: string;
+}) => {
+    if (!variants|| variants.length === 0) return null;
+
+    return variants.map((variant, index) => {
+        const options = variant.selectedItems.map(item => {
+            const priceText = item.price > 0 ? ` (+${formatCurrency(item.price)})` : '';
+            return `${item.label}${priceText}`;
+        }).join(", ");
+
+        return (
+            <CustomAlert
+                key={`${variant.label}-${index}`}
+                color={color || "primary"}
+                hideIcon={true}
+                classNames={{
+                    base: 'p-0 mb-1',
+                    mainWrapper: 'p-0 py-1 min-h-0',
+                }}
+            >
+                <p className={cn("text-xs", classNames?.text)}><span className="font-medium">{variant.label}:</span> {options}</p>
+            </CustomAlert>
+        );
+    });
 };
 
 export const CartItemRow: React.FC<CartItemRowProps> = ({
@@ -42,6 +71,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
 
     if (item.quantity === 0) return null;
 
+
     return (
         <>
             <div
@@ -66,6 +96,15 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                     <div className="flex justify-between w-[70%]">
                         <div className="flex flex-col w-full">
                             <p className="font-medium truncate text-start">{productData.name}</p>
+
+                            {/* Display variants */}
+                            {item.variants && item.variants.length > 0 && (
+                                <div className="mt-1 mb-1">
+                                    {formatVariants(item.variants)}
+                                </div>
+                            )}
+
+                            {/* Display note */}
                             {item.note && (
                                 <>
                                     <CustomAlert
@@ -81,6 +120,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                                     <Spacer x={4} />
                                 </>
                             )}
+
                             {productData.ingredients && productData.ingredients.length > 0 && (
                                 <p className="text-xs text-default-400 font-medium break-words">
                                     {productData.ingredients.join(", ")}
@@ -91,7 +131,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                 </div>
                 <div className="flex items-end justify-between" onClick={(e) => e.stopPropagation()}>
                     <p className="text-sm text-gray-600">
-                        {formatCurrency(productData.price * item.quantity)}
+                        {formatCurrency(calculateItemTotalPrice(item.variants, productData.price, item.quantity))}
                     </p>
                     <div>
                         <InputStepper

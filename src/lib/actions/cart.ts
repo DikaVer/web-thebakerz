@@ -2,8 +2,9 @@
 import {globalGETRateLimit, globalPOSTRateLimit} from "@/lib/actions/requests";
 import {getCartSessionCookie, getCartSessionCookieOrCreate, getCurrentSession} from "@/lib/actions/session";
 import { v4 as uuidv4 } from "uuid";
-import { containerCart } from "@/db";
+import {containerCart, containerProducts} from "@/db";
 import {revalidateTag} from "next/cache";
+import {ProductData} from "@/lib/actions/product";
 
 export interface CartData {
     [store_id: string]: CartItem;
@@ -13,11 +14,28 @@ export interface CartItem {
     [item_id: string]: ItemCart;
 }
 
+// export interface Variants {
+//     label: string;
+//     isSingle: boolean;
+//     required: boolean;
+//
+// }[]
+
+export interface Variant {
+    label: string;
+    selectedItems: {
+        label: string;
+        price: number;
+    }[];
+}
+
+
 export interface ItemCart {
     id: string;
     store_id: string;
     product_id: string;
-    note: string;
+    note?: string;
+    variants?: Variant[];
     quantity: number;
     createdAt: string;
     user_id: string;
@@ -29,8 +47,9 @@ export interface ItemCart {
 export const updateCart = async (
     productId: string,
     storeId: string,
-    note: string,
     quantity: number,
+    note?: string,
+    variants?: Variant[],
     itemId?: string
 ): Promise<{ success?: string; error?: string; itemCart?: ItemCart }> => {
     try {
@@ -39,10 +58,20 @@ export const updateCart = async (
         }
 
         // check note length
-        if (note.length > 100) {
+        if (note && note.length > 100) {
             return { error: "Note is too long!" };
         }
 
+        // Get the product data to validate variants
+        const { resource: productData } = await containerProducts.item(productId, storeId).read<ProductData>();
+
+        // Validate variants against product configuration
+        if (productData?.variants && productData.variants.length > 0) {
+            const variantsError = validateVariants(variants || [], productData.variants);
+            if (variantsError) {
+                return { error: variantsError };
+            }
+        }
 
         const session = await getCurrentSession();
         let userId;
@@ -64,6 +93,7 @@ export const updateCart = async (
             product_id: productId,
             note,
             quantity,
+            variants,
             createdAt: now,
             user_id: userId,
         };
@@ -73,11 +103,14 @@ export const updateCart = async (
                 operations: [
                     { op: "set", path: "/note", value: newItemCart.note },
                     { op: "set", path: "/quantity", value: newItemCart.quantity },
+                    { op: "set", path: "/variants", value: newItemCart.variants }
                 ],
             });
         } else {
             await containerCart.items.create(newItemCart);
         }
+
+        // console.log(newItemCart);
         revalidateTag('cart');
         return { success: "Cart updated successfully!", itemCart: newItemCart };
     } catch (error: any) {
@@ -85,6 +118,62 @@ export const updateCart = async (
         return { error: "Failed to update cart." };
     }
 };
+
+
+// Helper function to validate variants against product configuration
+function validateVariants(
+    submittedVariants: Variant[],
+    productVariants: ProductData["variants"]
+): string | null {
+    // Create a map of submitted variants for easier lookup
+    const submittedVariantsMap = new Map<string, Variant>();
+    submittedVariants.forEach(variant => {
+        submittedVariantsMap.set(variant.label, variant);
+    });
+
+
+    // Check each product variant configuration
+    for (const productVariant of productVariants || []) {
+        const submittedVariant = submittedVariantsMap.get(productVariant.label);
+
+        // Check if required variant is missing
+        if (productVariant.required && (!submittedVariant || submittedVariant.selectedItems.length === 0)) {
+            return `${productVariant.label} is required`;
+        }
+
+        // If variant was submitted, validate it
+        if (submittedVariant) {
+            const selectedCount = submittedVariant.selectedItems.length;
+
+            // Validate single selection has exactly one item
+            if (productVariant.isSingle && selectedCount !== 1) {
+                return `${productVariant.label} must have exactly one selection`;
+            }
+
+            // Validate multiple selection doesn't exceed max
+            if (!productVariant.isSingle && productVariant.maxSelections && selectedCount > productVariant.maxSelections) {
+                return `${productVariant.label} cannot have more than ${productVariant.maxSelections} selections`;
+            }
+            // console.log(productVariant )
+            // console.log(submittedVariant)
+
+            // Validate minimum selections if specified
+            if (!productVariant.isSingle && productVariant.required  && productVariant.maxSelections && selectedCount !== productVariant.maxSelections) {
+                return `${productVariant.label} must have ${productVariant.maxSelections} selections`;
+            }
+
+            // Validate that all selected items exist in the product options
+            const validOptions = new Set(productVariant.options.map(opt => opt.label));
+            for (const item of submittedVariant.selectedItems) {
+                if (!validOptions.has(item.label)) {
+                    return `Invalid option ${item.label} for ${productVariant.label}`;
+                }
+            }
+        }
+    }
+
+    return null; // No validation errors
+}
 
 /**
  * Removes a product from the cart in Cosmos DB.

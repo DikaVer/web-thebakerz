@@ -12,6 +12,7 @@ import {v4 as uuidv4} from "uuid";
 import {containerOrdersUnpaid} from "@/db";
 import {getBusinessStoreData} from "@/lib/actions/store";
 import {calculateTotals} from "@/lib/price/tax";
+import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
 
 function roundToTwoDecimals(num: number): number {
     return Math.round(num);
@@ -94,7 +95,7 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
             continue; // Skip if product not found
         }
 
-        const unitAmount = product.price; // Assuming price is stored in cents
+        const unitAmount = calculateItemTotalPrice(cartItem.variants, product.price); // Assuming price is stored in cents
         total += unitAmount * cartItem.quantity;
 
         const { subtotal } = calculateTotals(unitAmount, applyVat);
@@ -117,10 +118,12 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
             name: product.name,
             qty: cartItem.quantity,
             price: product.price,
-            variants: cartItem.note ? [cartItem.note] : [],
+            note: cartItem.note,
+            variants: cartItem.variants,
             const_id: product.constId,
             ingredients: product.ingredients,
-            allergies: product.allergies
+            allergies: product.allergies,
+            unitAmount: unitAmount,
         });
     }
 
