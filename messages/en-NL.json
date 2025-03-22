@@ -120,6 +120,7 @@
                 "description": "Our dedicated team is here to help during our available hours, ensuring your queries are addressed promptly."
             }
         },
+        "Item Options": "Item Options",
         "CustomerFee": "Service Fee",
         "Minimum Amount": "Minimum order amount is €10",
         "Auth_Description": "Sign in to order delicious treats",
@@ -549,6 +550,19 @@
         "shrimp": "shrimp",
         "sulfur": "sulfites",
         "abalone": "abalone"
+    },
+    "Variants": {
+        "New Option": "New Option",
+        "Option Group Name": "Option Group Name",
+        "Placeholder": "e.g. Size, Toppings, Extras",
+        "Single choice": "Single choice",
+        "Multiple choices": "Multiple choices",
+        "Required": "Required",
+        "Max selections": "Max selections",
+        "Options": "Options",
+        "Option name": "Option name",
+        "Add Option": "Add Option",
+        "Add Option Group": "Add Option Group"
     }
 }
 

@@ -260,39 +260,40 @@ export const TagsSelectInput: React.FC<TagsInputProps> = ({
 
             {/* Add button and Select */}
 
-            <Select
-                selectionMode="multiple"
-                color={'warning'}
-                selectedKeys={selectedKeys}
-                onSelectionChange={handleSelectionChange}
-                placeholder={placeholder}
-                disableSelectorIconRotation
-                selectorIcon={
-                    <div>
-                        {allergy("Add Allergy")}
-                        <Icon icon="material-symbols:add-rounded" width={16} />
-                    </div>
-                }
-                classNames={{
-                    innerWrapper: 'hidden',
-                    selectorIcon: 'w-fit flex end-0 gap-1 items-center static text-warning-600 font-medium',
-                    trigger: 'rounded-full w-fit text-sm min-h-8 h-8 gap-1',
-                    popoverContent: 'min-w-[200px]',
-                }}
-                isDisabled={isLoading}
-            >
-                {Object.keys(iconAllergyMap).map((key) => {
-                    const IconComponent = iconAllergyMap[key];
-                    return (
-                        <SelectItem
-                            key={key}
-                            startContent={<IconComponent size={24} />}
-                        >
-                            {allergy(key)}
-                        </SelectItem>
-                    );
-                })}
-            </Select>
+                <Select
+                    selectionMode="multiple"
+                    color={'warning'}
+                    selectedKeys={selectedKeys}
+                    onSelectionChange={handleSelectionChange}
+                    placeholder={placeholder}
+                    disableSelectorIconRotation
+                    selectorIcon={
+                        <div>
+                            {allergy("Add Allergy")}
+                            <Icon icon="material-symbols:add-rounded" width={16}/>
+                        </div>
+                    }
+                    classNames={{
+                        mainWrapper: 'items-end',
+                        innerWrapper: 'hidden',
+                        selectorIcon: 'w-fit flex end-0 gap-1 items-center static text-warning-600 font-medium',
+                        trigger: 'rounded-full w-fit text-sm min-h-8 h-8 gap-1',
+                        popoverContent: 'min-w-[200px]',
+                    }}
+                    isDisabled={isLoading}
+                >
+                    {Object.keys(iconAllergyMap).map((key) => {
+                        const IconComponent = iconAllergyMap[key];
+                        return (
+                            <SelectItem
+                                key={key}
+                                startContent={<IconComponent size={24}/>}
+                            >
+                                {allergy(key)}
+                            </SelectItem>
+                        );
+                    })}
+                </Select>
         </div>
     );
 };

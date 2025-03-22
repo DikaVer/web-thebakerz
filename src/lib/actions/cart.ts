@@ -13,11 +13,28 @@ export interface CartItem {
     [item_id: string]: ItemCart;
 }
 
+// export interface Variants {
+//     label: string;
+//     isSingle: boolean;
+//     required: boolean;
+//
+// }[]
+
+export interface Variant {
+    label: string;
+    selectedItems: {
+        label: string;
+        price: number;
+    }[];
+}
+
+
 export interface ItemCart {
     id: string;
     store_id: string;
     product_id: string;
-    note: string;
+    note?: string;
+    variants?: Variant[];
     quantity: number;
     createdAt: string;
     user_id: string;

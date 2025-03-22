@@ -115,18 +115,20 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProd
                                 </span>
                                 }
                                 <div className={"flex flex-col text-default-400 gap-2"}>
-                                    {item.variants[0] && (<>
-                                        <CustomAlert
-                                            color="blue"
-                                            hideIcon={true}
-                                            classNames={{
-                                                base: 'p-0 pl-2 bg-blue-100 rounded-r-full',
-                                                mainWrapper: 'p-0 py-1 min-h-0',
-                                            }}
-                                        >
-                                            <p className="text-small text-blue-600">{item.variants[0]}</p>
-                                        </CustomAlert>
-                                    </>)}
+                                    {item.note && (
+                                        <>
+                                            <CustomAlert
+                                                color="blue"
+                                                hideIcon={true}
+                                                classNames={{
+                                                    base: 'p-0 pl-2 bg-blue-100 rounded-r-full',
+                                                    mainWrapper: 'p-0 py-1 min-h-0',
+                                                }}
+                                            >
+                                                <p className="text-small text-blue-600">{item.note}</p>
+                                            </CustomAlert>
+                                        </>
+                                    )}
                                     {/* Ingredients Alert: Default variant */}
                                     {/*{item.ingredients && item.ingredients.length > 0 && (*/}
                                     {/*    <CustomAlert*/}

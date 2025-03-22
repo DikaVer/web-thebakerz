@@ -108,6 +108,7 @@ export const addProduct = async (
         category: formData.category,
         name: formData.name,
         description: formData.description,
+        variants: formData.variants,
         price: formData.price,
         picture: image_url || formData.url,
         ingredients: formData.ingredients || [],
@@ -193,7 +194,7 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
         }
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.constId, c.additionalImages FROM c WHERE c.store_id = @storeId AND c.archive = false",
+            query: "SELECT c.id, c.store_id, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.constId, c.additionalImages, c.variants FROM c WHERE c.store_id = @storeId AND c.archive = false",
             parameters: [{ name: "@storeId", value: storeId }]
         };
 
@@ -245,6 +246,17 @@ export type ProductData = {
     category: string;
     name: string;
     description?: string | null;
+    variants?: {
+        label: string;
+        isSingle: boolean;
+        required: boolean;
+        minSelections?: number;
+        maxSelections?: number;
+        options: {
+            label: string;
+            price: number;
+        }[];
+    }[];
     price: number;
     picture: string;
     ingredients?: string[];

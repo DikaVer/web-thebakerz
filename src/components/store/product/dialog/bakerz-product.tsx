@@ -41,11 +41,8 @@ import { useTranslations } from "next-intl";
 import { useActionState } from "react";
 import {ImageUploadSection} from "@/components/store/product/dialog/image-upload-section";
 import {DeleteConfirmationModal} from "@/components/store/product/dialog/delete-confirmation";
+import {VariantsFormField} from "@/components/store/orders/overview/components/variants-form-field";
 
-// Extend ProductSchema to include additional images
-const ExtendedProductSchema = ProductSchema.extend({
-    additionalImages: z.array(z.string()).max(3).optional(),
-});
 
 type ProductDialogProps = {
     productData: ProductData | undefined;
@@ -74,8 +71,8 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
     // Form setup with zod validation
-    const form = useForm<z.infer<typeof ExtendedProductSchema>>({
-        resolver: zodResolver(ExtendedProductSchema),
+    const form = useForm<z.infer<typeof ProductSchema>>({
+        resolver: zodResolver(ProductSchema),
         defaultValues: {
             category: productData?.category,
             name: productData?.name,
@@ -87,6 +84,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
             allergies: productData?.allergies || [],
             additionalImages: productData?.additionalImages || [],
             file_additional_pictures: undefined,
+            variants: productData?.variants || [],
         },
     });
 
@@ -95,7 +93,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
     }, [form]);
 
     const [state, submitAction, isPending] = useActionState(
-        async (prevState: any, formData: z.infer<typeof ExtendedProductSchema>) => {
+        async (prevState: any, formData: z.infer<typeof ProductSchema>) => {
             const result = await addProduct(formData, productData?.id);
             if (result?.success) {
                 showSuccessMessage({ success: result.success });
@@ -116,7 +114,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
         setPictureEdit(true);
     };
 
-    const handleSubmit = (formData: z.infer<typeof ExtendedProductSchema>) => {
+    const handleSubmit = (formData: z.infer<typeof ProductSchema>) => {
         startTransition(() => submitAction(formData));
     };
 
@@ -447,6 +445,33 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                         </FormItem>
                                     )}
                                 />
+
+                                <Spacer y={4} />
+                                <h3 className="text-lg font-medium mb-2">{t("Item Options")}</h3>
+                                <VariantsFormField
+                                    form={form}
+                                    isPending={isPending}
+                                />
+
+                                {/*<FormField*/}
+                                {/*    control={form.control}*/}
+                                {/*    name="name"*/}
+                                {/*    render={({ field, fieldState }) => (*/}
+                                {/*        <FormItem className="w-2/3">*/}
+                                {/*            <FormControl>*/}
+                                {/*                <Input*/}
+                                {/*                    {...field}*/}
+                                {/*                    isDisabled={isPending}*/}
+                                {/*                    variant="underlined"*/}
+                                {/*                    placeholder={t("Item Name")}*/}
+                                {/*                    classNames={{ input: "text-xl sm:text-2xl truncate font-medium" }}*/}
+                                {/*                    validate={() => fieldState.error?.message}*/}
+                                {/*                />*/}
+                                {/*            </FormControl>*/}
+                                {/*        </FormItem>*/}
+                                {/*    )}*/}
+                                {/*/>*/}
+
                             </div>
                         </ScrollShadow>
                     </ModalBody>
@@ -477,7 +502,10 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                             color="primary"
                             type="submit"
                             isLoading={isPending}
-                            onPress={() => setIsDismissable(false)}
+                            onPress={() => {
+                                console.log(ProductSchema.safeParse(form.getValues()));
+                                setIsDismissable(false)
+                            }}
                         >
                             {isPending ? t("Loading") : productData ? t("Update Item") : t("Add Item")}
                         </Button>

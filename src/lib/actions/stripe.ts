@@ -117,7 +117,8 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
             name: product.name,
             qty: cartItem.quantity,
             price: product.price,
-            variants: cartItem.note ? [cartItem.note] : [],
+            note: cartItem.note,
+            variants: cartItem.variants,
             const_id: product.constId,
             ingredients: product.ingredients,
             allergies: product.allergies

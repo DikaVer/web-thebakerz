@@ -3,14 +3,13 @@ import * as z from "zod";
 import {CustomerOrderSchema} from "@/lib/schemas";
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {getCartSessionCookieOrCreate, getCurrentSession} from "@/lib/actions/session";
-import {getCart, removeCartByUserIdAndStoreId} from "@/lib/actions/cart";
+import {getCart, removeCartByUserIdAndStoreId, Variant} from "@/lib/actions/cart";
 import {getOrderTime} from "@/app/(store)/[id]/actions";
 import {getProductsByStoreId} from "@/lib/actions/product";
 import {connectionPool, containerOrders} from "@/db";
 import {sendOrderPlaced} from "@/lib/emailSendRequest";
 import {revalidateTag} from "next/cache";
 import {v4 as uuidv4} from "uuid";
-import {calculateTax} from "@/lib/utils";
 import Stripe from "stripe";
 import {calculateTotals} from "@/lib/price/tax";
 
@@ -68,12 +67,13 @@ export type Customer = {
 export type OrderProduct = {
     id: string;
     name: string;
-    variants: string[];
+    note?: string;
+    variants?: Variant[];
     qty: number;
     price: number;
     const_id: string;
-    ingredients: string[] | undefined;
-    allergies: string[] | undefined;
+    ingredients?: string[];
+    allergies?: string[];
 }
 
 /**
@@ -148,7 +148,8 @@ export const createOrder = async (
             name: product.name,
             qty: cartItem.quantity,
             price: product.price,
-            variants: cartItem.note ? [cartItem.note] : [],
+            variants: cartItem.variants,
+            note: cartItem.note,
             const_id: product.constId,
             ingredients: product.ingredients,
             allergies: product.allergies
