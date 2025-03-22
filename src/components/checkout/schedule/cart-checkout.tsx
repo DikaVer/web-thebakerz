@@ -16,6 +16,7 @@ import { useTranslations } from "next-intl";
 import {Icon} from "@iconify/react";
 import showErrorMessage from "@/components/toast/toast-error";
 import {calculatePlatformFee, calculateTotals} from "@/lib/price/tax";
+import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
 
 const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     const {
@@ -39,7 +40,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
 
     const amount = itemsArray.reduce((sum, item) => {
         const productData = getProductDataById(item.product_id);
-        return productData ? sum + productData.price * item.quantity : sum;
+        return productData ? sum + calculateItemTotalPrice(item.variants, productData.price, item.quantity) : sum;
     }, 0);
 
 

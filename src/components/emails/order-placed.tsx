@@ -179,12 +179,17 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
                                     <tr>
                                         <td style={productCell} colSpan={2}>
                                             <Text style={productName}>{product.name}</Text>
-                                            {product.variants.map((variant, vIndex) => (
-                                                <Text key={vIndex} style={productVariant}>Note: {variant}</Text>
+                                            {product.variants && product.variants.map((variant, vIndex) => (
+                                                <Text key={vIndex} style={productVariant}>
+                                                    <span style={{ fontWeight: "500" }}>{variant.label}:</span> {variant.selectedItems.map(item =>
+                                                    `${item.label}${item.price > 0 ? ` (+${formatCurrency(item.price)})` : ''}`
+                                                ).join(", ")}
+                                                </Text>
                                             ))}
+                                            {product.note && <Text style={productVariant}>Note: {product.note}</Text>}
                                         </td>
                                         <td style={quantityCell}>{product.qty}</td>
-                                        <td style={priceCell}>{formatCurrency(product.price)}</td>
+                                        <td style={priceCell}>{formatCurrency(product.unitAmount * product.qty)}</td>
                                     </tr>
                                     {index < products.length - 1 && <tr><td colSpan={4} style={rowDivider}></td></tr>}
                                 </React.Fragment>

@@ -563,6 +563,9 @@
         "Option name": "Option name",
         "Add Option": "Add Option",
         "Add Option Group": "Add Option Group"
+    },
+    "variants-user-selection": {
+        "max": "Maximum"
     }
 }
 

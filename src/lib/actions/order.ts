@@ -12,6 +12,7 @@ import {revalidateTag} from "next/cache";
 import {v4 as uuidv4} from "uuid";
 import Stripe from "stripe";
 import {calculateTotals} from "@/lib/price/tax";
+import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
 
 // Order data interface
 export interface OrderData {
@@ -71,6 +72,7 @@ export type OrderProduct = {
     variants?: Variant[];
     qty: number;
     price: number;
+    unitAmount: number;
     const_id: string;
     ingredients?: string[];
     allergies?: string[];
@@ -141,7 +143,7 @@ export const createOrder = async (
 
         if (!product) continue;
 
-        amount += product.price * cartItem.quantity;
+        amount += calculateItemTotalPrice(cartItem.variants, product.price);
 
         cartItems.push({
             id: product.id,
@@ -152,7 +154,8 @@ export const createOrder = async (
             note: cartItem.note,
             const_id: product.constId,
             ingredients: product.ingredients,
-            allergies: product.allergies
+            allergies: product.allergies,
+            unitAmount: amount
         });
     }
 

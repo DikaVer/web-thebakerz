@@ -19,9 +19,10 @@ type ProductDialogProps = {
     isOpen: boolean;
     onClose: () => void;
     bakerzOrder?: boolean;
+    setIsUpdating: (isUpdating: boolean) => void;
 }
 
-export default function ProductDialog({storeId, productData, itemCart, isOpen, onClose, bakerzOrder = false }: ProductDialogProps) {
+export default function ProductDialog({storeId, productData, itemCart, isOpen, onClose, bakerzOrder = false, setIsUpdating }: ProductDialogProps) {
     const { session } = useSession();
     const isSmall = useMediaQuery("(max-width: 800px)");
     const t = useTranslations("TheBakerz");
@@ -50,6 +51,7 @@ export default function ProductDialog({storeId, productData, itemCart, isOpen, o
                                             productData={productData}
                                             onClose={onClose}
                                             setIsDismissable={setIsDismissable}
+                                            setIsUpdating={setIsUpdating}
                                         />
                                     ) : (
                                         productData && (

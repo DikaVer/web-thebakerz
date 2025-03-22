@@ -5,6 +5,7 @@ import ProductDialog from "@/components/store/product/dialog/product-dialog";
 import { ProductData, ProductDataFull } from "@/lib/actions/product";
 import { CartData, ItemCart, updateCart, removeCartItem } from "@/lib/actions/cart";
 import showErrorMessage from "@/components/toast/toast-error";
+import showSuccessMessage from "@/components/toast/toast-succes";
 
 interface CartContextProps {
     cart: CartData;
@@ -50,7 +51,7 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
 
     // Async update: calls server action updateCart and updates local state
     const updateItem = async (cart: ItemCart) => {
-        const result = await updateCart(cart.product_id, cart.store_id, cart.note, cart.quantity, cart.id);
+        const result = await updateCart(cart.product_id, cart.store_id, cart.quantity, cart.note, cart.variants, cart.id);
         if (result.success && result.itemCart) {
             setCart((prevCart) => {
                 return {
@@ -61,6 +62,7 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
                     },
                 };
             });
+            showSuccessMessage({success: "Item updated successfully"});
             return true;
         } else {
             showErrorMessage({ error: result.error ? result.error : "Error updating cart item" });

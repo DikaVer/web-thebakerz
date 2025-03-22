@@ -10,6 +10,7 @@ import {AllergenIcon} from "@/components/store/product/components/allergy-icons"
 import {useMediaQuery} from "usehooks-ts";
 import {useTheme} from "next-themes";
 import {useTranslations} from "next-intl";
+import {formatVariants} from "@/components/cart/cart-item";
 
 
 interface ItemRowProps {
@@ -129,6 +130,17 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProd
                                             </CustomAlert>
                                         </>
                                     )}
+                                    {item.variants && item.variants.length > 0 && (
+                                        <div className="mt-1 mb-1">
+                                            {formatVariants(
+                                                item.variants,
+                                                'warning',
+                                                {
+                                                text: 'text-small',
+                                                }
+                                            )}
+                                        </div>
+                                    )}
                                     {/* Ingredients Alert: Default variant */}
                                     {/*{item.ingredients && item.ingredients.length > 0 && (*/}
                                     {/*    <CustomAlert*/}
@@ -191,7 +203,7 @@ export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProd
                             </div>
                             {!isSmall &&
                                 <span className={'text-small text-default-500 font-medium '}>
-                                    {formatCurrency(item.price)} X {item.qty}
+                                    {formatCurrency(item.unitAmount)} X {item.qty}
                                 </span>
                             }
                         </div>

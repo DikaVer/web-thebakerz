@@ -16,6 +16,7 @@ import {CartItemRow} from "@/components/cart/cart-item";
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
 import {calculatePlatformFee, calculateTotals} from "@/lib/price/tax";
+import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
 
 
 const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
@@ -42,7 +43,7 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     );
     const amount = itemsArray.reduce((sum, item) => {
         const productData = getProductDataById(item.product_id);
-        return productData ? sum + productData.price * item.quantity : sum;
+        return productData ? sum + calculateItemTotalPrice(item.variants, productData.price, item.quantity) : sum;
     }, 0);
 
     const { vat, subtotal, total} = calculateTotals(amount, store.kor);

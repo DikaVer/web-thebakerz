@@ -12,6 +12,7 @@ import {useFilteredProducts} from "@/components/store/product/hooks/useFilteredP
 import {ProductSearch} from "@/components/store/product/components/product-search";
 import {useSearchParams} from "next/navigation";
 import {useTranslations} from "next-intl";
+import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 
 interface ProductListBaseProps {
     productsData: ProductDataFull;
@@ -30,11 +31,23 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const isSmall = useMediaQuery('(max-width: 768px)');
     const [isVisible, setVisible] = useState(false);
     const [selectedTab, setSelectedTab] = useState('');
-    const { setProductsDataLocal, handleOpenWithProduct } = useProductDialog();
+    const { setProductsDataLocal, handleOpenWithProduct, isUpdating, setIsUpdating } = useProductDialog();
     const categoryRefs = useRef<Record<string, HTMLDivElement | null>>({});
     const searchParams = useSearchParams();
     const initialProductHandled = useRef(false);
     const t = useTranslations('TheBakerz');
+
+    useEffect(() => {
+        let timeoutId: NodeJS.Timeout;
+        if (isUpdating) {
+            timeoutId = setTimeout(() => {
+                setIsUpdating(false);
+            }, 2000);
+        }
+        return () => {
+            if (timeoutId) clearTimeout(timeoutId);
+        };
+    }, [isUpdating, setIsUpdating]);
 
     // Update local product data
     useEffect(() => {
@@ -102,7 +115,9 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
         categoryRefs.current[category] = el;
     };
 
-    return (
+    return isUpdating ? (
+        <ProductListSkeleton />
+    ) : (
         <div className="flex w-full flex-col">
             <div
                 className={`flex flex-col-reverse md:flex-row transition-all justify-between items-center w-full ${

@@ -94,16 +94,18 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
 
     // It is not a joke
     const animals = [
-        {key: "cat", label: "1"},
-        {key: "dog", label: "2"},
-        {key: "elephant", label: "3"},
-        {key: "lion", label: "4"},
-        {key: "tiger", label: "5"},
-        {key: "giraffe", label: "6"},
-        {key: "dolphin", label: "7"},
-        {key: "penguin", label: "8"},
-        {key: "zebra", label: "9"}
+        {key: "1", label: "1"},
+        {key: "2", label: "2"},
+        {key: "3", label: "3"},
+        {key: "4", label: "4"},
+        {key: "5", label: "5"},
+        {key: "6", label: "6"},
+        {key: "7", label: "7"},
+        {key: "8", label: "8"},
+        {key: "9", label: "9"}
     ];
+
+    console.log(form.getValues());
     return (
         <FormField
             control={form.control}
@@ -228,6 +230,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                             <Switch
                                                                 isSelected={!variant.isSingle}
                                                                 onValueChange={(isMultiple) => {
+                                                                    //@ts-ignore
                                                                     const updatedVariants = [...field.value];
                                                                     updatedVariants[variantIndex].isSingle = !isMultiple;
                                                                     field.onChange(updatedVariants);
@@ -261,10 +264,11 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                 size="sm"
                                                                 variant={'underlined'}
                                                                 // defaultSelectedKeys={["cat"]}
-                                                                // selectedKeys={[`${variant.maxSelections || 1}`]}
+                                                                selectedKeys={[`${variant.maxSelections}`]}
                                                                 onChange={(e) => {
                                                                     const updatedVariants = [...field.value];
                                                                     updatedVariants[variantIndex].maxSelections = Number(e.target.value);
+                                                                    console.log(Number(e.target.value))
                                                                     field.onChange(updatedVariants);
                                                                 }}
                                                                 isDisabled={isPending}
@@ -311,8 +315,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                             inputWrapper: "h-12"
                                                                         }}
                                                                         validate={()=> {
-                                                                            //@ts-ignore
-                                                                            if(fieldState?.error && fieldState.error[variantIndex] !== undefined) {
+                                                                            if(checkFieldError(fieldState, variantIndex, optionIndex, 'options')) {
                                                                                 //@ts-ignore
                                                                                 return fieldState?.error[variantIndex]['options'][optionIndex].label?.message
                                                                             }
@@ -325,16 +328,15 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
 
                                                                     <NumberInput
                                                                         placeholder="0.00"
-                                                                        value={option.price / 100} // Convert from cents back to display value
+                                                                        value={option.price} // Convert from cents back to display value
                                                                         onChange={(val) => {
                                                                             const updatedVariants = [...field.value];
                                                                             const price = typeof val === 'number' ? val : parseFloat(val.target.value);
-                                                                            updatedVariants[variantIndex].options[optionIndex].price = price * 100; // Store as cents
+                                                                            updatedVariants[variantIndex].options[optionIndex].price = price ;
                                                                             field.onChange(updatedVariants);
                                                                         }}
                                                                         validate={()=> {
-                                                                            //@ts-ignore
-                                                                            if(fieldState?.error && fieldState.error[variantIndex] !== undefined) {
+                                                                            if(checkFieldError(fieldState, variantIndex, optionIndex, 'options')) {
                                                                                 //@ts-ignore
                                                                                 return fieldState?.error[variantIndex]['options'][optionIndex].price?.message
                                                                             }
@@ -419,3 +421,8 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
         />
     );
 };
+
+
+const checkFieldError = (fieldState: any, index: number, key: number, label: string) => {
+    return fieldState?.error && fieldState.error[index] !== undefined && fieldState.error[index][label] !== undefined && fieldState.error[index][label][key] !== undefined
+}

@@ -74,7 +74,7 @@ export const addProduct = async (
             }
       }
     }
-    console.log(updatedAdditionalImages);
+    // console.log(updatedAdditionalImages);
 
     let image_url;
     if (formData.file_picture) {

@@ -29,6 +29,7 @@ import {useMediaQuery} from "usehooks-ts";
 import {AllergenIcon} from "@/components/store/product/components/allergy-icons";
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
+import VariantsUserSelection from "@/components/store/product/components/variants-user-selection";
 
 type ProductDialogProps = {
     productData: ProductData;
@@ -45,11 +46,12 @@ export default function UserProductDialog({
     const t = useTranslations("TheBakerz");
     const allergy = useTranslations("Allergies");
 
-    const [charCount, setCharCount] = useState(itemCart?.note.length || 0);
+    const [charCount, setCharCount] = useState(itemCart?.note ? itemCart?.note.length : 0);
     const [quantity, setQuantity] = useState(itemCart?.quantity || 1);
-    const totalPrice = formatCurrency((productData?.price || 1) * quantity);
     const [note, setNote] = useState(itemCart?.note || "");
     const [isLoading, setIsLoading] = useState(false);
+    const [variants, setVariants] = useState(itemCart?.variants || []);
+    const totalPrice = formatCurrency(((productData?.price || 1) + variants.reduce((sum, variant) => sum + (variant.selectedItems ? variant.selectedItems.reduce((itemSum, item) => itemSum + (item.price || 0), 0) : 0), 0)) * quantity);
     // Add state to track the current main image
     const [mainImage, setMainImage] = useState(productData.picture);
 
@@ -74,17 +76,16 @@ export default function UserProductDialog({
         try {
             if (!itemCart){// Call our server action to update (or add) the cart item.
                 // We pass productData.id as product_id, productData.store_id as store_id, and the note and quantity.
-                const result = await updateCart(productData.id, productData.store_id, note, quantity);
+                const result = await updateCart(productData.id, productData.store_id, quantity, note, variants);
                 if (result.success) {
                     showSuccessMessage({success: t("Cart updated successfully")});
                     result.itemCart && addItem(result.itemCart);
                     onClose();
                 } else if (result.error) {
-                    showErrorMessage({ error: t("Too many requests") });
+                    showErrorMessage({ error: result.error });
                 }
             } else {
-                await updateItem({...itemCart, note, quantity});
-                onClose();
+                await updateItem({...itemCart, note, quantity, variants}) && onClose();
             }
         } catch (error: any) {
             showErrorMessage({ error: t("Unexpected Error") });
@@ -246,6 +247,14 @@ export default function UserProductDialog({
                                     </div>
                                 </CustomAlert>
                             )}
+
+                            <VariantsUserSelection
+                                productData={productData}
+                                variants={variants}
+                                setVariants={setVariants}
+                            />
+
+
                             <Textarea
                                 label={t("Notes")}
                                 labelPlacement={"outside"}

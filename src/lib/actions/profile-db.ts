@@ -23,9 +23,9 @@ export async function updateUserProfile(
 
 // Update the store record (only for bakerz) with storeName, description, and phone
 export async function updateStoreProfile(
-    storeName: string,
-    description: string,
     id: string,
+    storeName: string,
+    description?: string,
     facebook_url?: string,
     instagram_url?: string,
     storeSlug?: string
