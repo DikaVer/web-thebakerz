@@ -72,12 +72,14 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
     // Sort each category's products (fallback to alphabetical)
     categoriesKeys.forEach((category) => {
         const orderForCategory: string[] = productsOrder[category] || [];
-        productsByCategories[category] = sortItems<ProductData>(
-            productsByCategories[category],
-            orderForCategory,
-            (product) => product.constId,
-            (a, b) => a.name.localeCompare(b.name)
-        );
+        if(productsByCategories[category]) {
+            productsByCategories[category] = sortItems<ProductData>(
+                productsByCategories[category],
+                orderForCategory,
+                (product) => product.constId,
+                (a, b) => a.name.localeCompare(b.name)
+            );
+        }
     });
 
     // State for product orders and tabs

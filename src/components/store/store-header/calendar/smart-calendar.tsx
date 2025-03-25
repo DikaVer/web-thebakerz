@@ -120,7 +120,7 @@ const DateTimeLocalInput = ({ children, className, ...props }: DateTimeLocalInpu
     const { value, onValueChange, schedule, minValue, showCalendar, showTimePicker, isError } =
         useSmartDateInput();
 
-    // Disable dates if the corresponding weekday in the schedule is missing or disabled
+    // Disable dates if they have no available time slots
     const isDateUnavailable = (date: CalendarDate) => {
         if (!schedule) return true;
 
@@ -128,7 +128,54 @@ const DateTimeLocalInput = ({ children, className, ...props }: DateTimeLocalInpu
         const weekday = jsDate.getDay(); // 0 (Sun) to 6 (Sat)
         const dayKey = weekdayMapping[weekday];
         const workDay = schedule[dayKey as keyof WorkHours];
-        return !workDay || !workDay.isEnabled;
+
+        // Check if the day is disabled in schedule
+        if (!workDay || !workDay.isEnabled) return true;
+
+        // Check if there are any available time slots for this date
+        const hasAvailableTimeSlots = checkTimeSlotAvailability(date, workDay, minValue);
+
+        return !hasAvailableTimeSlots;
+    };
+
+// Helper function to check if a date has any available time slots
+    const checkTimeSlotAvailability = (
+        date: CalendarDate,
+        workDay: { start: { hour: number, minute: number }, end: { hour: number, minute: number } },
+        minValue: ZonedDateTime | CalendarDate | CalendarDateTime
+    ) => {
+        // Working hours range in minutes
+        const startTime = workDay.start.hour * 60 + workDay.start.minute;
+        const endTime = workDay.end.hour * 60 + workDay.end.minute;
+
+        // If end time is before start time, no slots available
+        if (endTime <= startTime) return false;
+
+        // Check if this date is the same as minValue's date
+        let minTimeInMinutes = 0;
+        let isMinValueDate = false;
+
+        if (minValue) {
+            isMinValueDate =
+                date.year === minValue.year &&
+                date.month === minValue.month &&
+                date.day === minValue.day;
+
+            if (isMinValueDate && (minValue instanceof CalendarDateTime || minValue instanceof ZonedDateTime)) {
+                minTimeInMinutes = minValue.hour * 60 + minValue.minute;
+            }
+        }
+
+        // If this is the minValue date and minTime is after the end of work hours, no slots available
+        if (isMinValueDate && minTimeInMinutes >= endTime) return false;
+
+        // The effective start time is the later of workDay.start and minTime (if this is minValue's date)
+        const effectiveStartTime = isMinValueDate
+            ? Math.max(startTime, minTimeInMinutes)
+            : startTime;
+
+        // If there's at least 1 minute available in the range, return true
+        return effectiveStartTime < endTime;
     };
 
     // When a date is selected, preserve the existing time (if any) or default to midnight

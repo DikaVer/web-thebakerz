@@ -1,28 +1,19 @@
 'use client';
-import React, { useState, useRef, useEffect, useCallback, startTransition } from "react";
+import React, { useState, useRef, startTransition } from "react";
 import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
     Button,
-    Image,
     Textarea,
-    cn,
     Input,
     Select,
     SelectItem,
     Spacer,
     NumberInput,
-    ScrollShadow,
     Alert,
     PressEvent,
+    CardFooter, Card,
+    CardBody,
 } from "@heroui/react";
-import { addProduct, deleteProduct, ProductData } from "@/lib/actions/product";
-import { useTheme } from "next-themes";
-import { CopyText } from "@/components/ui/copy-text";
-import { ItemCart } from "@/lib/actions/cart";
+import {addProduct, deleteProduct, ProductData, ProductVariant} from "@/lib/actions/product";
 import { Icon } from "@iconify/react";
 import { ImageUploader } from "@/components/image/image-upload";
 import { useForm } from "react-hook-form";
@@ -43,18 +34,13 @@ import {DeleteConfirmationModal} from "@/components/store/product/components/del
 import {ImageUploadSection} from "@/components/store/product/components/image-upload-section";
 
 
-type ProductDialogProps = {
+type ProductViewProps = {
     productData: ProductData | undefined;
-    onClose: () => void;
-    itemCart?: ItemCart;
-    setIsDismissable: (isDismissable: boolean) => void;
-    setIsUpdating: (isUpdating: boolean) => void;
 };
 
 
 
-export default function BakerzProductDialog({ productData, onClose, setIsDismissable, setIsUpdating }: ProductDialogProps) {
-    const { theme } = useTheme();
+export default function BakerzProductView({ productData }: ProductViewProps) {
     const t = useTranslations("TheBakerz");
     const router = useRouter();
     const isSmall = useMediaQuery("(max-width: 460px)");
@@ -88,7 +74,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
             allergies: productData?.allergies || [],
             additionalImages: productData?.additionalImages || [],
             file_additional_pictures: undefined,
-            variants: (productData?.variants || []).map(variant => ({
+            variants: (productData?.variants || []).map((variant: ProductVariant) => ({
                 ...variant,
                 options: variant.options.map(option => ({
                     ...option,
@@ -106,10 +92,8 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
         async (prevState: any, formData: z.infer<typeof ProductSchema>) => {
             const result = await addProduct(formData, productData?.id);
             if (result?.success) {
-                setIsUpdating(true);
                 showSuccessMessage({ success: result.success });
                 router.refresh();
-                onClose();
             } else if (result?.error) {
                 showErrorMessage({ error: result.error });
             }
@@ -131,14 +115,11 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
 
     const handleDelete = async () => {
         if (productData) {
-            setIsDismissable(false);
             setIsLoadingDelete(true);
             await deleteProduct(productData.id);
-            setIsUpdating(true);
             showSuccessMessage({ success: t("Product Deleted") });
-            router.refresh();
-            onClose();
             setIsOpenDelete(false);
+            router.refresh();
         }
     };
 
@@ -232,7 +213,9 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
     };
 
     return (
-        <>
+        <Card
+            className={'w-full max-w-full md:max-w-3xl'}
+        >
             <ImageUploader
                 type="square"
                 file={file}
@@ -249,27 +232,10 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                 }}
             />
 
-            <ModalHeader className="px-4 justify-between">
-                <Button isDisabled={isPending} isIconOnly variant="light" radius="full" onPress={onClose}>
-                    <Icon icon="iconamoon:close-bold" width={32} className="text-default-400" />
-                </Button>
-                {productData && (
-                    <CopyText
-                        onClose={onClose}
-                        isDisabled={isPending}
-                        isIconOnly
-                        copyText={`${origin}/${productData?.store_id}/${productData?.id}`}
-                        textNotify={t("Product Link Copied")}
-                    >
-                        <Icon icon="mi:share" width={32} className="text-default-400" />
-                    </CopyText>
-                )}
-            </ModalHeader>
-
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-y-1">
-                    <ModalBody className={`px-0 ${picture ? "" : "pt-0"}`}>
-                        <ScrollShadow className="md:flex max-h-[80svh] w-full space-x-0" size={0}>
+                    <CardBody className={`px-0 ${picture ? "" : "pt-0"}`}>
+                        <div className="md:flex w-full space-x-0">
                             <FormField
                                 control={form.control}
                                 name="url"
@@ -485,15 +451,15 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                 {/*/>*/}
 
                             </div>
-                        </ScrollShadow>
-                    </ModalBody>
-                    <ModalFooter className="px-4 space-x-4">
+                        </div>
+                    </CardBody>
+                    <CardFooter className="px-4 space-x-4">
                         {productData && (
                             <>
                                 <DeleteConfirmationModal
                                     isOpen={isOpenDelete}
                                     isLoadingDelete={isLoadingDelete}
-                                    onClose={onClose}
+                                    onClose={() => {}}
                                     onConfirm={handleDelete}
                                     t={t}
                                 />
@@ -513,15 +479,12 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                             color="primary"
                             type="submit"
                             isLoading={isPending}
-                            onPress={() => {
-                                setIsDismissable(false)
-                            }}
                         >
                             {isPending ? t("Loading") : productData ? t("Update Item") : t("Add Item")}
                         </Button>
-                    </ModalFooter>
+                    </CardFooter>
                 </form>
             </Form>
-        </>
+        </Card>
     );
 }

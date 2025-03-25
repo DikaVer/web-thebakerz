@@ -159,7 +159,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                 <SmartDatetimeInput
                     schedule={store.schedule}
                     minValue={(() => {
-                        return now("Europe/Amsterdam"); // Default to 2 days if not set
+                        return now("Europe/Amsterdam");
                     })()}
                     value={selectedDate}
                     onValueChange={handleDateChange}

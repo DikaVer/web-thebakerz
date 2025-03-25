@@ -215,6 +215,55 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
     }
 }
 
+export async function getProductByStoreIdAndProductId(storeId: string, productId: string): Promise<ProductData | null> {
+    try {
+        if (!storeId || !productId) {
+            return null;
+        }
+
+        // Directly retrieve the item by ID and partition key
+        const { resource } = await containerProducts.item(productId, storeId).read();
+
+        // Return null if product is archived
+        if (resource && resource.archive === true) {
+            return null;
+        }
+
+        return resource;
+    } catch (error) {
+        // If item not found, CosmosDB will throw a 404 error
+        if ((error as any).code === 404) {
+            return null;
+        }
+        console.error("Error fetching product:", error);
+        throw new Error("Failed to fetch product");
+    }
+}
+
+export async function getCurrentProduct(storeId: string, productId: string): Promise<ProductData | null> {
+    try {
+
+        if (!storeId) {
+            return {};
+        }
+
+        return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/products/${productId}`, {
+            headers: {
+                'Store-Id': storeId,
+                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+            },
+            next: {
+                tags: ['products'],
+                revalidate: 300
+            }
+        }).then(res => res.json());
+
+    } catch (error) {
+        console.error("Error fetching store products:", error);
+        throw new Error("Failed to fetch store products");
+    }
+}
+
 export async function getCurrentProducts(storeId: string): Promise<ProductDataFull> {
     try {
 
@@ -246,17 +295,7 @@ export type ProductData = {
     category: string;
     name: string;
     description?: string | null;
-    variants?: {
-        label: string;
-        isSingle: boolean;
-        required: boolean;
-        minSelections?: number;
-        maxSelections?: number;
-        options: {
-            label: string;
-            price: number;
-        }[];
-    }[];
+    variants?: ProductVariant[];
     price: number;
     picture: string;
     ingredients?: string[];
@@ -264,6 +303,18 @@ export type ProductData = {
     constId: string;
     additionalImages: string[];
 };
+
+export type ProductVariant = {
+    label: string;
+    isSingle: boolean;
+    required: boolean;
+    minSelections?: number;
+    maxSelections?: number;
+    options: {
+        label: string;
+        price: number;
+    }[];
+}
 
 export type ProductDataFull = {
     [productId: string]: ProductData;

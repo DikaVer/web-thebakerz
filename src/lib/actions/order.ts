@@ -13,6 +13,8 @@ import {v4 as uuidv4} from "uuid";
 import Stripe from "stripe";
 import {calculateTotals} from "@/lib/price/tax";
 import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
+import {CalendarDateTime, now} from "@internationalized/date";
+import {scheduledToCalendarDateTime} from "@/lib/utils";
 
 // Order data interface
 export interface OrderData {
@@ -93,43 +95,46 @@ export type OrderProduct = {
 export const createOrder = async (
     formData: z.infer<typeof CustomerOrderSchema>
 ):Promise<{error?: string; orderId?: string}> => {
-  // Check rate limiting
+    // Check rate limiting
     if (!(await globalPOSTRateLimit())) {
-    return { error: "Too many requests" };
+        return { error: "Too many requests" };
     }
 
-  // Validate form data
+    // Validate form data
     const validation = CustomerOrderSchema.safeParse(formData);
     if (!validation.success) {
         return { error: "Invalid fields!" };
     }
 
-  // Get session, user, and store details
+    // Get session, user, and store details
     const { session, user, store} = await getCurrentSession();
-  const userId = (!session || !user) ? await getCartSessionCookieOrCreate() : user.id;
-  if (!store) return { error: "Store not found!" };
+      const userId = (!session || !user) ? await getCartSessionCookieOrCreate() : user.id;
+    if (!store) return { error: "Store not found!" };
     if (!userId) return { error: "User not found!" };
 
     // Retrieve the user's cart data for the current store
     const cartData = await getCart(userId, store.id);
+
     if (!cartData || !cartData[store.id] || Object.keys(cartData[store.id]).length === 0) {
-    return { error: "Cart is empty" };
+        return { error: "Cart is empty" };
     }
 
-  // Get scheduled order time
-  const { date, time } = await getOrderTime();
-  if (!date || !time) return { error: "Order time is not set" };
+    // Get scheduled order time
+    const { date, time } = await getOrderTime();
+    if (!date || !time) return { error: "Order time is not set" };
 
-  // Prevent ordering for past dates
-    const today = new Date();
-  today.setHours(0, 0, 0, 0);
-    const orderDateObj = new Date(date);
-  orderDateObj.setHours(0, 0, 0, 0);
-    if (orderDateObj < today) {
-    return { error: "Cannot place orders for past dates" };
+    // Prevent ordering for past dates
+    const today = now("Europe/Amsterdam")
+    const todayCalendar = new CalendarDateTime(today.year, today.month, today.day, today.hour, today.minute);
+    const orderDateObj = scheduledToCalendarDateTime({
+        date,
+        time
+    })
+    if (orderDateObj < todayCalendar) {
+        return { error: "Cannot place orders for past dates or time is near to end" };
     }
 
-  // Get products data and prepare cart items with subtotal calculation
+    // Get products data and prepare cart items with subtotal calculation
     const productsData = await getProductsByStoreId(store.id);
 
     // Prepare cart items and calculate subtotal

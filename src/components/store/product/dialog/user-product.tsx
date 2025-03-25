@@ -18,7 +18,7 @@ import { IconCopy } from "@/components/ui/icons";
 import { useTheme } from "next-themes";
 import { CopyText } from "@/components/ui/copy-text";
 import { InputStepper } from "@/components/store/product/dialog/button-stepper";
-import { ItemCart } from "@/lib/actions/cart";
+import {ItemCart, Variant} from "@/lib/actions/cart";
 import { updateCart } from "@/lib/actions/cart";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
@@ -30,6 +30,7 @@ import {AllergenIcon} from "@/components/store/product/components/allergy-icons"
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
 import VariantsUserSelection from "@/components/store/product/components/variants-user-selection";
+import {usePathname} from "next/navigation";
 
 type ProductDialogProps = {
     productData: ProductData;
@@ -42,7 +43,6 @@ export default function UserProductDialog({
                                               onClose,
                                               itemCart,
                                           }: ProductDialogProps) {
-    const { theme } = useTheme();
     const t = useTranslations("TheBakerz");
     const allergy = useTranslations("Allergies");
 
@@ -50,10 +50,12 @@ export default function UserProductDialog({
     const [quantity, setQuantity] = useState(itemCart?.quantity || 1);
     const [note, setNote] = useState(itemCart?.note || "");
     const [isLoading, setIsLoading] = useState(false);
-    const [variants, setVariants] = useState(itemCart?.variants || []);
+    const [variants, setVariants] = useState<Variant[]>(itemCart?.variants || []);
     const totalPrice = formatCurrency(((productData?.price || 1) + variants.reduce((sum, variant) => sum + (variant.selectedItems ? variant.selectedItems.reduce((itemSum, item) => itemSum + (item.price || 0), 0) : 0), 0)) * quantity);
     // Add state to track the current main image
     const [mainImage, setMainImage] = useState(productData.picture);
+    // Get origin of the current page from window object
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
 
 
     // Function to handle image swapping
@@ -66,7 +68,7 @@ export default function UserProductDialog({
         addItem,
         updateItem,
     } = useCart();
-    const isSmall = useMediaQuery("(max-width: 416px)");
+    const isSmall = useMediaQuery("(max-width: 432px)");
 
 
 
@@ -105,9 +107,9 @@ export default function UserProductDialog({
                     onClose={onClose}
                     isIconOnly={true}
                     copyText={
-                        process.env.NEXT_PUBLIC_API_BASE_URL + "/" +
+                        origin + "/" +
                         productData?.store_id +
-                        "?product=" +
+                        "/" +
                         productData?.id
                     }
                     textNotify={t("Product Link Copied")}
@@ -119,15 +121,16 @@ export default function UserProductDialog({
                 {productData && (
                     <ScrollShadow className={" md:flex  max-h-[80svh] w-full gap-x-4"} size={0}>
                         <div>
-                            <div className={'md:w-[258px] w-full max-w-[400px]'}>
+                            <div className={cn('w-full md:w-[258px] aspect-square',
+                                isSmall ? "max-w-full" : "max-w-[400px]"
+                            )}>
                                 <Card
                                     isFooterBlurred
-                                    className={`flex w-fit justify-start items-start shadow-none rounded-none md:ml-4`}
+                                    className={cn(`flex w-full justify-start items-start shadow-none rounded-none ml-4`,
+                                        isSmall ? "ml-0" : "ml-4"
+                                    )}
                                 >
-                                    <div
-                                        className={cn("relative flex flex-col justify-center items-center md:w-[258px] w-full max-w-[400px] aspect-square rounded-none",
-                                        )}
-                                    >
+
                                         {/* Display the current main image instead of productData.picture */}
                                         <Image
                                             removeWrapper
@@ -139,7 +142,9 @@ export default function UserProductDialog({
                                             src={mainImage}
                                         />
                                         <CardFooter
-                                            className={`text-black justify-between items-end bg-white/40 border-white/20 border-1  overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10`}
+                                            className={cn(`text-black justify-between items-end bg-white/40 border-white/20 border-1  overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 shadow-small ml-1 z-10`,
+                                                isSmall ? "w-[calc(100%_-_16px)]" : "w-[calc(100%_-_8px)]"
+                                            )}
                                         >
                                             <p className={`w-full text-xl truncate mr-6 font-medium`}>
                                                 {productData.name}
@@ -148,12 +153,12 @@ export default function UserProductDialog({
                                                 {formatCurrency(productData.price)}
                                             </p>
                                         </CardFooter>
-                                    </div>
+
                                 </Card>
                             </div>
                             <div className="flex flex-row gap-2 mt-2 justify-start w-full px-4">
                                 {/* Map through additional images */}
-                                {productData.additionalImages &&
+                                {(productData.additionalImages && productData.additionalImages.length > 0) &&
                                     (
                                         <>
                                             <div

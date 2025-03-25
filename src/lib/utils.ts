@@ -20,28 +20,6 @@ export const formatCurrency = (amount: number) => {
   });
 };
 
-// Convert a string date to CalendarDate
-export function toCalendarDate(dateString: string): CalendarDate {
-  try {
-    // Try ISO format (YYYY-MM-DD)
-    if (dateString.includes('-')) {
-      const [year, month, day] = dateString.split('-').map(Number);
-      return new CalendarDate(year, month, day);
-    }
-
-    // Fallback to native Date parsing
-    const date = new Date(dateString);
-    return new CalendarDate(
-        date.getFullYear(),
-        date.getMonth() + 1,
-        date.getDate()
-    );
-  } catch (e) {
-    console.error("Error parsing date:", e);
-    return new CalendarDate(1970, 1, 1); // Fallback
-  }
-}
-
 // Convert scheduled_time object to CalendarDateTime
 export function scheduledToCalendarDateTime(scheduled: { date: string, time: string }): CalendarDateTime {
   try {

@@ -1,6 +1,7 @@
 import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@heroui/react";
 import {IconClose} from "@/components/ui/icons";
 import React from "react";
+import {useTheme} from "next-themes";
 
 type DeleteModalProps = {
     isOpen: boolean;
@@ -8,10 +9,10 @@ type DeleteModalProps = {
     onClose: () => void;
     onConfirm: () => void;
     t: (key: string) => string;
-    theme?: string;
 };
 
-export function DeleteConfirmationModal({ isOpen, isLoadingDelete, onClose, onConfirm, t, theme }: DeleteModalProps) {
+export function DeleteConfirmationModal({ isOpen, isLoadingDelete, onClose, onConfirm, t}: DeleteModalProps) {
+    const { theme } = useTheme();
     return (
         <Modal
             isDismissable={!isLoadingDelete}
