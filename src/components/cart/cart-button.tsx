@@ -121,7 +121,7 @@ const CartButton: React.FC = () => {
                                         </Button>
                                     </DrawerHeader>
                                     <DrawerBody>
-                                        <ScrollShadow className="max-h-full">
+                                        <ScrollShadow className="max-h-full" hideScrollBar>
                                             <Divider />
                                             {renderCartItems(isLoading, setIsLoading)}
                                         </ScrollShadow>
