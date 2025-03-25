@@ -91,7 +91,7 @@
     "module_name": "^1.0.0",
     "motion": "^12.5.0",
     "nanoid": "^5.1.5",
-    "next": "15.1.6",
+    "next": "15.2.4",
     "next-intl": "^3.26.5",
     "next-themes": "^0.4.6",
     "pdfmake": "^0.2.18",
