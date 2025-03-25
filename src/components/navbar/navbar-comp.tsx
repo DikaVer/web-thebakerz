@@ -157,14 +157,16 @@ const ReturnNavbar: React.FC<CheckoutNavbarProps> = ({
                                 base: "bg-default text-text shadow-lg cursor-pointer",
                             }}
                         />
-                     ) : session?.store ? (
+                     ) : (session?.store && store.id === session?.store.id) ? (
                         <Image
                             src="/images/TheBakerzLogo.svg"
                             alt="Logo"
                             width={32}
                             radius="full"
                         />
-                        ) : (<CartButton />)
+                        ) : (
+                            <CartButton />
+                        )
 
                     :(
                         <Image
@@ -232,7 +234,7 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                 </a>
             </NavbarBrand>
             {store ? (
-                session?.store ? (
+                (session?.store && store.id === session?.store.id) ? (
                     <a href={process.env.NEXT_PUBLIC_API_BASE_URL}>
                         <Image
                             src="/images/TheBakerzLogo.svg"
@@ -248,7 +250,7 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                 )
             ) : (
                 <NavbarItem className="mr-1 !flex">
-                    {!session?.user ? (
+                    {!session?.session ? (
                         <SigninButton className="text-large rounded-full" />
                     ) : (
                         <Image

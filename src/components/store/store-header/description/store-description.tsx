@@ -16,7 +16,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
     const { store } = useStore();
     const { theme } = useTheme();
 
-    const [latitude, longitude] = [50.853356, 5.669382];
+    const [latitude, longitude] = [store?.location.latitude, store?.location.longitude];
 
     const location = store?.location.route ? `${store.location.route}` : "";
     const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "";

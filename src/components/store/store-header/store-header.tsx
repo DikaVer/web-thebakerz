@@ -43,7 +43,7 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
                          e.preventDefault();
                          if (session?.user?.role !== "bakerz" && isSmall) {
                              onOpen();
-                         } else if (session?.user?.role === "bakerz") {
+                         } else if (session?.user?.role === "bakerz" && session.store?.id === store.id) {
                              router.push("/settings");
                              router.refresh();
                          }
