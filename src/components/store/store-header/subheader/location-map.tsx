@@ -4,6 +4,7 @@
 import React, { useEffect, useRef } from "react";
 import * as atlas from "azure-maps-control";
 import Head from "next/head";
+import {useTranslations} from "next-intl";
 
 interface LocationMapProps {
     latitude: number;
@@ -46,6 +47,7 @@ const LocationMap: React.FC<LocationMapProps> = ({
                                                  }) => {
     const mapRef = useRef<HTMLDivElement>(null);
     const subscriptionKey = process.env.NEXT_PUBLIC_AZURE_MAPS_KEY;
+    const t = useTranslations("app/(store)/components/location-map");
 
     // Apply MS map
     useEffect(() => {
@@ -128,7 +130,7 @@ const LocationMap: React.FC<LocationMapProps> = ({
 
     return (
         <>
-            <a href={`https://www.google.com/maps?q=${latitude},${longitude}`}>
+            <a href={`https://www.google.com/maps?q=${latitude},${longitude}`} aria-label={t("viewOnGoogleMaps")}>
                 <div
                     ref={mapRef}
                     style={{width: `${width}px`, height: `${height}px`}}

@@ -25,7 +25,7 @@ export function StoreTop({dateParam, timeParam}: StoreTopProps) {
     const { store, sentinelRef} = useStore();
     const { handleOpen } = useProductDialog();
     const isSmall = useMediaQuery("(max-width: 960px)");
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/store-top");
 
     return (
         <div className={'w-full flex flex-col'}>
@@ -62,7 +62,7 @@ export function StoreTop({dateParam, timeParam}: StoreTopProps) {
                             handleOpen();
                         }}
                     >
-                        {t("Add Item")}
+                        {t("addItem")}
                     </Button>
                     <ThreeDotsDropdown/>
                 </div>

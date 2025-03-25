@@ -38,8 +38,6 @@ interface StoreSubHeaderProps {
     setSelectedDateGlobal?: (date: CalendarDateTime | CalendarDate | undefined) => void;
 }
 
-
-
 export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: StoreSubHeaderProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -48,10 +46,10 @@ export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: S
     const { session } = useSession();
     const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
     const { theme } = useTheme();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/store-subheader");
 
-    const location = store?.location.route ? `${store.location.route}` : t("Address Placeholder");
-    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : t("Location Placeholder");
+    const location = store?.location.route ? `${store.location.route}` : t("addressPlaceholder");
+    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : t("locationPlaceholder");
 
     // --- 2. onChange Handler for DatePicker: Save the date/time and update URL search params ---
     const handleDateChange = (newDate: CalendarDateTime | CalendarDate) => {
@@ -112,7 +110,7 @@ export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: S
                             })()}
                             value={selectedDate}
                             onValueChange={handleDateChange}
-                            placeholder={t("Schedule Order Time")}
+                            placeholder={t("scheduleOrderTime")}
                         >
                             <Button
                                 startContent={<Icon icon={'solar:walking-round-linear'} width={24}/>}
@@ -120,23 +118,16 @@ export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: S
                                 className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600' : 'text-white bg-gradient-primary'} text-sm`}
                                 onPress={() =>
                                     addToast({
-                                        description: t("Pick Up Option Selected"),
+                                        description: t("pickUpOptionSelected"),
                                         //@ts-ignore
                                         color: "success",
                                         shouldShowTimeoutProgress: true,
                                         timeout: 1000,
                                     })}
                             >
-                                {(selectedDate instanceof CalendarDateTime) ? `${t("Pick Up at")} ${formatDate(selectedDate)}` : t("Select Pick Up Time")}
+                                {(selectedDate instanceof CalendarDateTime) ? `${t("pickUpAt")} ${formatDate(selectedDate)}` : t("selectPickUpTime")}
                             </Button>
                         </SmartDatetimeInput>
-                        {/*<Button*/}
-                        {/*    isDisabled*/}
-                        {/*    startContent={<Icon icon={'bxs:car'} width={24}/>}*/}
-                        {/*    variant="bordered"*/}
-                        {/*>*/}
-                        {/*    Delivery*/}
-                        {/*</Button>*/}
                     </ButtonGroup>
                 </>
             )}

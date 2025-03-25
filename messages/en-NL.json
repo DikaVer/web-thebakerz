@@ -4,10 +4,10 @@
         "subtitle": "TheBakerz - all orders, customer messages and recipes in one place",
         "learn more": "Learn more",
         "get started": "Get started",
-        "apply": "Fill out a quick form, and we’ll get in touch to explain everything and set up your account.",
-        "we set up your store": "Share your products and prices, and we’ll handle the setup for you.",
+        "apply": "Fill out a quick form, and we'll get in touch to explain everything and set up your account.",
+        "we set up your store": "Share your products and prices, and we'll handle the setup for you.",
         "Start selling": "Test your store, make adjustments, and start taking real orders!",
-        "support": "We’re here to answer your questions.",
+        "support": "We're here to answer your questions.",
         "start and grow": "Start & grow your bakery business",
         "subtitle phone": "You do the cooking and we'll take care of the rest.",
         "terms and conditions": "I read and agree with the Term and Privacy Policy."
@@ -36,34 +36,34 @@
     },
     "About Us": {
         "Greeting title": "Nice to meet you",
-        "greeting": "We’re David and Dumitru, and TheBakerz means a lot to us. After seeing our friends and family who bake struggle with late-night orders, juggling too many apps, and feeling like they never had time for the craft they love, we knew something had to change.\n\nSo we stepped in to help.",
+        "greeting": "We're David and Dumitru, and TheBakerz means a lot to us. After seeing our friends and family who bake struggle with late-night orders, juggling too many apps, and feeling like they never had time for the craft they love, we knew something had to change.\n\nSo we stepped in to help.",
         "Slogan title": "Bake More, Stress Less",
         "slogan": "TheBakerz puts everything bakers need in one place. Instead of bouncing between spreadsheets, emails, and messages, you can handle all your orders, schedules, and customer details from a single, organized spot. Less hassle, fewer headaches, and more energy for doing what you do best—baking.",
         "why title": "Why We Do This",
-        "why": "For us, TheBakerz isn’t just another idea—it’s a direct response to what our friends and family bakers told us they need. We’re here to make it easier, so you can focus on what you love most. Follow us on social and let’s shape a better future together.",
+        "why": "For us, TheBakerz isn't just another idea—it's a direct response to what our friends and family bakers told us they need. We're here to make it easier, so you can focus on what you love most. Follow us on social and let's shape a better future together.",
         "follow": "Follow Us"
     },
     "FAQ Baker": {
         "Question 1": "What is TheBakerz",
         "Answer 1": "TheBakerz is an all-in-one platform that helps bakers manage their businesses and reach more customers. It handles orders, production planning, payments, and customer communication in one place. This means less time on admin and more time doing what you love—baking!",
         "Question 2": "How do I start selling on TheBakerz?",
-        "Answer 2": "Getting started is easy! Fill out this form (link), and we’ll schedule a quick call to set everything up. We’ll help you create your online shop and show you how to use it step by step.",
+        "Answer 2": "Getting started is easy! Fill out this form (link), and we'll schedule a quick call to set everything up. We'll help you create your online shop and show you how to use it step by step.",
         "Question 3": "What do I need to get started?",
-        "Answer 3": "You’ll just need a KVK number, VAT number, and food safety certification. If you’re missing something, don’t worry—we’ll help you figure it out.",
+        "Answer 3": "You'll just need a KVK number, VAT number, and food safety certification. If you're missing something, don't worry—we'll help you figure it out.",
         "Question 4": "Can I choose my own prices and menu?",
-        "Answer 4": "Of course! You’re in control of what you sell and how much you charge. You can update your menu and prices whenever you like.",
+        "Answer 4": "Of course! You're in control of what you sell and how much you charge. You can update your menu and prices whenever you like.",
         "Question 5": "How do orders and delivery work?",
         "Answer 5": "You decide what works best for your bakery. You can offer delivery or allow customers to pick up orders from your location. Set your own delivery areas and pickup times to fit your schedule.",
         "Question 6": "What does it cost to use TheBakerz?",
-        "Answer 6": "It’s €29.99 per month for hosting and a 5% commission per sale to cover payment processing. The first three months are free, so you can try it out without risk.",
+        "Answer 6": "It's €29.99 per month for hosting and a 5% commission per sale to cover payment processing. The first three months are free, so you can try it out without risk.",
         "Question 7": "How do payments work?",
         "Answer 7": "Customers pay upfront through our secure payment system. We transfer your earnings, minus the commission, to your bank account weekly. Payments typically arrive within 1-2 business days after Monday",
-        "Question 8": "Is it easy to use if I’m not good with technology?",
+        "Question 8": "Is it easy to use if I'm not good with technology?",
         "Answer 8": "Absolutely! TheBakerz is designed to be simple and user-friendly. If you ever need help, our support team is just an email or call away.",
         "Question 9": "Can I trust TheBakerz with payments and orders?",
         "Answer 9": "Yes, you can. Orders are tracked automatically, and payments are processed securely with our payment partner (Stripe). Both you and your customers will have full transparency at every step.",
         "Question 10": "Can I trust TheBakerz with payments and orders?",
-        "Answer 10": "We’re here to help with anything you need. From setting up your shop to managing orders, contact us or call us at +31 684794739. We’ll make sure everything runs smoothly for you."
+        "Answer 10": "We're here to help with anything you need. From setting up your shop to managing orders, contact us or call us at +31 684794739. We'll make sure everything runs smoothly for you."
     },
     "FAQ Customer": {
         "Question 1": "",
@@ -273,7 +273,7 @@
         "signInOrSignUpStep": "1. Sign in or sign up to place order",
         "signInOrSignUpText": "Sign in or sign up to place order",
         "to order": "to order",
-        "Support Card Message": "We’re here to answer your questions.",
+        "Support Card Message": "We're here to answer your questions.",
         "Why Choose TheBakerz?": "Why Choose TheBakerz?",
         "Transparent pricing": "Transparent pricing",
         "Monthly Subscription": "€9.99/month subscription",
@@ -435,9 +435,9 @@
     },
     "MultiStepSidebar": {
         "applyTitle": "Apply",
-        "applyDescription": "Fill out a quick form, and we’ll get in touch to explain everything and set up your account.",
+        "applyDescription": "Fill out a quick form, and we'll get in touch to explain everything and set up your account.",
         "setUpStoreTitle": "We Set Up Your Store",
-        "setUpStoreDescription": "Share your products and prices, and we’ll handle the setup for you.",
+        "setUpStoreDescription": "Share your products and prices, and we'll handle the setup for you.",
         "startSellingTitle": "Start Selling",
         "startSellingDescription": "Test your store, make adjustments, and start taking real orders!"
     },
@@ -499,13 +499,12 @@
         "day": "day",
         "days": "days"
     },
-    "Not Found": {
-        "Alert": "Shop offers only pickup orders",
-        "Under Construction": "Under Construction!",
-        "Broken Link": "The link you followed may be broken, or the page may have been removed.",
-        "Go back to TheBakerz": "Go back to TheBakerz",
-        "Subtitle": "We are doing our best to deliver it soon!",
-        "Sorry": "Sorry, this page is not available yet."
+    "app/(error_layout)/not-found": {
+        "sorry": "Sorry, this page is not available yet.",
+        "brokenLink": "The link you followed may be broken, or the page may have been removed.",
+        "goBackToTheBakerz": "Go back to TheBakerz",
+        "underConstruction": "Under Construction!",
+        "subtitle": "We are doing our best to deliver it soon!"
     },
     "Error": {
         "Something went wrong": "Something went wrong!",
@@ -566,6 +565,272 @@
     },
     "variants-user-selection": {
         "max": "Maximum"
+    },
+    "app/(main)/page": {
+        "whyChooseTheBakerz": "Why Choose TheBakerz?",
+        "transparentPricing": "Transparent pricing",
+        "monthlySubscription": "€9.99/month subscription",
+        "paymentFee": "Payment and service fee 5%",
+        "paymentFeeInfo": "5% of sales to host website, operational and payment services",
+        "freeTrial": "FREE TRIAL",
+        "exclusiveOffer": "Exclusive offer: start for 3 months for free!",
+        "getStarted": "Get started with TheBakerz",
+        "loading": "Loading...",
+        "ownWebshop": "You own webshop",
+        "professionalStore": "Professional online store to showcase and sell your baked creations",
+        "allMessagesInOnePlace": "All Messages in One Place",
+        "connectMessages": "Connect your WhatsApp, Instagram, and Facebook messages in a single view",
+        "recipeOrderControl": "Recipe & Order Control",
+        "easyToUseSystem": "Easy-to-use system to manage your recipes and track all orders",
+        "smartCalendar": "Smart Calendar", 
+        "planProduction": "Plan your production and keep track of daily tasks",
+        "wantYouToSucceed": "We want you to succeed"
+    },
+    "app/(main)/about-us/page": {
+        "greetingTitle": "Nice to meet you",
+        "greeting": "We're David and Dumitru, and TheBakerz means a lot to us. After seeing our friends and family who bake struggle with late-night orders, juggling too many apps, and feeling like they never had time for the craft they love, we knew something had to change.\n\nSo we stepped in to help.",
+        "sloganTitle": "Bake More, Stress Less",
+        "slogan": "TheBakerz puts everything bakers need in one place. Instead of bouncing between spreadsheets, emails, and messages, you can handle all your orders, schedules, and customer details from a single, organized spot. Less hassle, fewer headaches, and more energy for doing what you do best—baking.",
+        "whyTitle": "Why We Do This",
+        "why": "For us, TheBakerz isn't just another idea—it's a direct response to what our friends and family bakers told us they need. We're here to make it easier, so you can focus on what you love most. Follow us on social and let's shape a better future together.",
+        "follow": "Follow Us"
+    },
+    "app/(return_page)/settings/page": {
+        "settingsTitle": "Settings",
+        "settingsDescription": "Customize your settings and profile."
+    },
+    "app/(return_page)/support/contact-us/page": {
+        "support": "Support",
+        "contactUs": "Contact Us",
+        "contactUsDescription": "We are here to assist you during our business hours. Please feel free to contact us for any questions or issues you may have."
+    },
+    "app/(return_page)/transit-login/page": {
+        "performingSignIn": "Performing sign in..."
+    },
+    "app/(return_page)/transit-exit/page": {
+        "performingSignOut": "Performing sign out..."
+    },
+    "app/(return_page)/settings/components/profile-setting": {
+        "profilePicture": "Profile Picture",
+        "uploadProfilePicture": "Upload a profile picture",
+        "profile": "Profile",
+        "displaysProfileStore": "This information will be displayed on your store profile",
+        "displaysProfile": "This information will be displayed on your profile",
+        "customer": "Customer",
+        "baker": "Baker",
+        "storeName": "Store Name",
+        "name": "Name",
+        "editCurrentStoreName": "Edit your current store name",
+        "editCurrentName": "Edit your current name",
+        "storeLink": "Store Link",
+        "howUserFindYou": "How users will find your store",
+        "typeYourStoreName": "Type your store name",
+        "storeSlug": "Store Subtitle",
+        "howUserRecognizeYou": "This will be part of your store's subtitle",
+        "typeYourStoreSlug": "Store since 2021",
+        "locationPhone": "Location & Phone",
+        "editLocationPhoneBy": "You can edit these by contacting us at",
+        "contactUs": "Contact Us",
+        "phoneNumberPlaceholder": "+31 6 12 34 56 78",
+        "facebookURL": "Facebook URL",
+        "enterFacebookURL": "Enter your Facebook page URL",
+        "facebookURLPlaceholder": "https://facebook.com/your-page",
+        "instagramURL": "Instagram URL",
+        "enterInstagramURL": "Enter your Instagram profile URL",
+        "instagramURLPlaceholder": "https://instagram.com/your-handle",
+        "description": "Description",
+        "writeAboutStore": "Write a short description about your store (max 500 characters)",
+        "storeDescriptionPlaceholder": "Tell us about your store... (max 500 characters)",
+        "locationPlaceholder": "Location Placeholder",
+        "profileUpdated": "Profile Updated",
+        "profileStoreUpdated": "Your profile and store details have been updated",
+        "profileHasUpdated": "Your profile has been updated",
+        "updating": "Updating...",
+        "updateProfile": "Update Profile"
+    },
+    "app/(return_page)/settings/components/calendar-settings": {
+        "workingSchedule": "Working Schedule",
+        "workingScheduleDescription": "Set your working hours for each day of the week"
+    },
+    "app/(return_page)/settings/components/products-settings": {
+        "image": "Image",
+        "nameAndPrice": "Name & Price",
+        "drag": "Drag",
+        "updatingOrders": "Updating Orders...",
+        "products": "Products"
+    },
+    "app/(return_page)/settings/components/tabs-settings": {
+        "profile": "Profile",
+        "profileAndStoreTab": " & Store View",
+        "workingHoursTab": "Work Hours"
+    },
+    "app/(return_page)/settings/components/products/product-tab": {
+        "image": "Image",
+        "nameAndPrice": "Name & Price",
+        "drag": "Drag"
+    },
+    "app/(return_page)/settings/components/products/product-card": {
+        "productManager": "Product Manager"
+    },
+    "app/(return_page)/settings/components/calendar/day-picker": {
+        "specialWorkingHours": "Special Working Hours",
+        "selectDaysWithDifferentHours": "Select Days with different hours",
+        "stayDuration": "Stay duration",
+        "editDay": "Edit Day",
+        "startTime": "Start Time",
+        "endTime": "End Time",
+        "pleaseEnterValidTime": "Please enter a valid time"
+    },
+    "app/(return_page)/settings/components/calendar/min-time-order": {
+        "title": "Minimum Time to Order",
+        "description": "Select how much advance notice you need before fulfilling an order",
+        "selectLabel": "Minimum pre-order time",
+        "selectPlaceholder": "Select a time",
+        "successMessage": "Minimum order time updated successfully",
+        "errorMessage": "Failed to update minimum order time",
+        "minutes": "minutes",
+        "hour": "hour",
+        "hours": "hours",
+        "day": "day",
+        "days": "days"
+    },
+    "app/(return_page)/settings/components/calendar/schedule-picker": {
+        "startTime": "Start Time",
+        "endTime": "End Time",
+        "startTimeError": "Start time must be before end time",
+        "endTimeError": "End time must be after start time",
+        "saving": "Saving...",
+        "saveWorkingHours": "Save Working Hours",
+        "errorSomethingWentWrong": "Something went wrong!",
+        "errorTooManyRequests": "Too many requests!",
+        "errorInvalidTimeFields": "Invalid time fields!",
+        "errorFailedToSaveSchedule": "Failed to save schedule",
+        "scheduleSavedSuccess": "Schedule saved successfully"
+    },
+    "app/(store)/[id]/page": {
+        "loading": "Loading...",
+        "noProducts": "No products available",
+        "storeNotFound": "Store not found"
+    },
+    "app/(store)/components/store-header": {
+        "addItem": "Add Item",
+        "close": "Close",
+        "addressPlaceholder": "Address Placeholder",
+        "locationPlaceholder": "Location Placeholder",
+        "phone": "Phone",
+        "instagram": "Instagram",
+        "facebook": "Facebook"
+    },
+    "app/(store)/components/store-description": {
+        "pickUpOnly": "Pick Up Only",
+        "pickUpDescription": "This store only offers pickup orders. Please select a pickup time during checkout.",
+        "workingHours": "Working Hours",
+        "address": "Address",
+        "phone": "Phone"
+    },
+    "app/(store)/components/product-search": {
+        "search": "Search by product name or category..."
+    },
+    "app/(store)/components/product-tabs": {
+        "categoryNavigation": "Category Navigation"
+    },
+    "app/(store)/components/orders": {
+        "backToOrderDashboard": "Back to Order Dashboard",
+        "order": "Order",
+        "changeStatusAction": "Are you sure you want to change the status of this order?"
+    },
+    "app/(store)/components/smart-calendar": {
+        "time": "Time"
+    },
+    "app/(store)/components/store-top-next": {
+        "alert": "Shop offers only pickup orders",
+        "alertHover": "Opening hours and pickup address are presented below. You can select pickup time and day during checkout",
+        "openingHours": "Opening Hours",
+        "phone": "Phone"
+    },
+    "app/(store)/components/location-map": {
+        "viewOnGoogleMaps": "View on Google Maps"
+    },
+    "app/(store)/components/working-hours": {
+        "noScheduleAvailable": "No schedule available",
+        "closed": "Closed",
+        "workingHours": "Working Hours",
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+    },
+    "app/(store)/components/three-dots": {
+        "storeLinkCopied": "Store Link Copied!",
+        "copyStoreLink": "Copy Store Link",
+        "editProfile": "Edit Profile",
+        "editSchedule": "Edit Schedule",
+        "editProducts": "Edit Products",
+        "addOrder": "Add Order",
+        "getHelp": "Get Help",
+        "report": "Report"
+    },
+    "app/(store)/components/product-page": {
+        "noProductsAvailable": "No products available",
+        "productNotFound": "Product not found",
+        "notes": "Notes",
+        "addNotesPlaceholder": "Add notes to your order... (max 100 characters)",
+        "ingredients": "Ingredients",
+        "allergies": "Allergies",
+        "itemImage": "Item Image",
+        "uploadImageSubtitle": "Upload Item Image",
+        "productDeleted": "Product deleted successfully",
+        "unexpectedError": "Unexpected Error",
+        "cartUpdatedSuccess": "Cart updated successfully",
+        "productLinkCopied": "Product Link Copied!",
+        "itemName": "Item Name",
+        "addDescriptionPlaceholder": "Add a description for this item...",
+        "selectCategory": "Select Category",
+        "addIngredientsPlaceholder": "Add ingredients... (Press Enter to add)",
+        "addAllergiesPlaceholder": "Add allergies... (Press Enter to add)",
+        "itemOptions": "Item Options",
+        "minimalOrder": "Minimal Order",
+        "minimalOrderDescription": "What is the minimum number of items a customer can order?",
+        "loading": "Loading...",
+        "updateItem": "Update Item",
+        "addItem": "Add Item"
+    },
+    "app/(store)/components/store-subheader": {
+        "addressPlaceholder": "Address Placeholder",
+        "locationPlaceholder": "Location Placeholder",
+        "scheduleOrderTime": "Schedule Order Time",
+        "pickUpOptionSelected": "Pick Up Option Selected",
+        "pickUpAt": "Pick Up at",
+        "selectPickUpTime": "Select Pick Up Time"
+    },
+    "app/(store)/components/store-top": {
+        "addItem": "Add Item"
+    },
+    "app/(store)/components/button-stepper": {
+        "deleteItem": "Delete Item",
+        "removeItem": "Remove Item",
+        "addItem": "Add Item"
+    },
+    "app/(store)/components/user-product": {
+        "productLinkCopied": "Product Link Copied!",
+        "notes": "Notes",
+        "addNotesPlaceholder": "Add notes to your order... (max 100 characters)",
+        "ingredients": "Ingredients",
+        "allergies": "Allergies",
+        "cartUpdatedSuccess": "Cart updated successfully",
+        "unexpectedError": "Unexpected Error",
+        "update": "Update",
+        "add": "Add",
+        "toOrder": "to order",
+        "updatingCart": "Updating cart..."
+    },
+    "app/(store)/components/product-dialog": {
+        "loading": "Loading...",
+        "noProducts": "No products available",
+        "storeNotFound": "Store not found"
     }
 }
 

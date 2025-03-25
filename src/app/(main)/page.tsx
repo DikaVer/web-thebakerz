@@ -53,7 +53,7 @@ export default function Page() {
 
 const WhyChooseSectionAnimated = () => {
     const [whyChooseRef, whyChooseInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(main)/page");
 
     return (
         <section
@@ -68,7 +68,7 @@ const WhyChooseSectionAnimated = () => {
                             opacity-0 transform
                             ${whyChooseInView ? 'animate-fadeInUp' : ''}`}
             >
-                {t('Why Choose TheBakerz?')}
+                {t('whyChooseTheBakerz')}
             </h2>
             <ScrollTriggered />
         </section>
@@ -80,7 +80,7 @@ const PricingSection = () => {
     const [isLoading, setLoading] = useState(false);
     const [isOpen, setOpen] = useState(false);
     const { theme } = useTheme();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(main)/page");
 
     const [pricingOut, PricingInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
 
@@ -120,14 +120,14 @@ const PricingSection = () => {
                     {(onClose) => (
                         <>
                             <ModalHeader>
-                                {t('Transparent pricing')}
+                                {t('transparentPricing')}
                             </ModalHeader>
                             <ModalBody>
                                 <div className={'w-full flex flex-row space-x-3 items-center'}>
                                     <IconBadge className={`w-8 h-8 text-text`}/>
                                     <div className={'w-full flex flex-col'}>
                                         <p>
-                                            {t('Monthly Subscription')}
+                                            {t('monthlySubscription')}
                                         </p>
                                     </div>
                                 </div>
@@ -135,12 +135,12 @@ const PricingSection = () => {
                                     <IconBadge className={`w-8 h-8 text-text`}/>
                                     <div className={'w-full flex flex-col'}>
                                         <p>
-                                            {t('Payment Fee')}
+                                            {t('paymentFee')}
                                         </p>
                                         <p
                                             className={`text-tiny cm:text-small text-grayText`}
                                         >
-                                            {t('Payment Fee Info')}
+                                            {t('paymentFeeInfo')}
                                         </p>
                                     </div>
                                 </div>
@@ -175,7 +175,7 @@ const PricingSection = () => {
                         className={`text-lg cm:text-xl text-text`}
                     >
                         <span className={'font-semibold'}>
-                            {t('FREE TRIAL')}
+                            {t('freeTrial')}
                         </span>
                     </Chip>
                 </CardFooter>
@@ -194,7 +194,7 @@ const PricingSection = () => {
                             className={`w-48 px-3 h-8 gap-1 text-sm justify-start`}
                             onPress={() => setOpen(true)}
                         >
-                            {t('Transparent pricing')}
+                            {t('transparentPricing')}
                         </Button>
                     </div>
                     <hr/>
@@ -202,7 +202,7 @@ const PricingSection = () => {
                         <p
                             className={`text-small md:text-lg italic text-grayText text-center my-3`}
                         >
-                            {t('Exclusive Offer')}
+                            {t('exclusiveOffer')}
                         </p>
                     </div>
                     <Button
@@ -215,11 +215,11 @@ const PricingSection = () => {
                     >
                         {isLoading ? (
                             <>
-                                {t('Loading')}
+                                {t('loading')}
                             </>
                         ) : (
                             <div className={`flex flex-col text-xl desktop:text-2xl`}>
-                                {t('Get Started')}
+                                {t('getStarted')}
                             </div>
                         )}
                     </Button>
@@ -229,12 +229,12 @@ const PricingSection = () => {
                             <IconBadgeCheck className={`w-10 h-10 text-success`}/>
                             <div className={'w-full flex flex-col'}>
                                 <p>
-                                    {t('You own webshop')}
+                                    {t('ownWebshop')}
                                 </p>
                                 <p
                                     className={`text-tiny cm:text-small text-grayText`}
                                 >
-                                    {t('Professional online store to showcase and sell your baked creations')}
+                                    {t('professionalStore')}
                                 </p>
                             </div>
                         </div>
@@ -242,12 +242,12 @@ const PricingSection = () => {
                             <IconBadgeCheck className={`w-10 h-10 text-success`}/>
                             <div className={'w-full flex flex-col'}>
                                 <p>
-                                    {t('All Messages in One Place')}
+                                    {t('allMessagesInOnePlace')}
                                 </p>
                                 <p
                                     className={`text-tiny cm:text-small text-grayText`}
                                 >
-                                    {t('Connect your WhatsApp, Instagram, and Facebook messages in a single view')}
+                                    {t('connectMessages')}
                                 </p>
                             </div>
                         </div>
@@ -255,12 +255,12 @@ const PricingSection = () => {
                             <IconBadgeCheck className={`w-10 h-10 text-success`}/>
                             <div className={'w-full flex flex-col'}>
                                 <p>
-                                    {t('Recipe & Order Control')}
+                                    {t('recipeOrderControl')}
                                 </p>
                                 <p
                                     className={`text-tiny cm:text-small text-grayText`}
                                 >
-                                    {t('Easy-to-use system to manage your recipes and track all orders')}
+                                    {t('easyToUseSystem')}
                                 </p>
                             </div>
                         </div>
@@ -268,12 +268,12 @@ const PricingSection = () => {
                             <IconBadgeCheck className={`w-10 h-10 text-success`}/>
                             <div className={'w-full flex flex-col'}>
                                 <p>
-                                    {t('Smart Calendar')}
+                                    {t('smartCalendar')}
                                 </p>
                                 <p
                                     className={`text-tiny cm:text-small text-grayText`}
                                 >
-                                    {t('Plan your production and keep track of daily tasks')}
+                                    {t('planProduction')}
                                 </p>
                             </div>
                         </div>
@@ -287,7 +287,7 @@ const PricingSection = () => {
 const Footer = () => {
     const [footerRef, footerInView] = useInView<HTMLDivElement>({threshold: 0});
     const isMobile = useMediaQuery("(max-width: 768px)");
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(main)/page");
 
     return (
         <div
@@ -325,7 +325,7 @@ const Footer = () => {
                 </div>
             </div>
             <span className={`text-[3vh] py-12 text-primary text-center ${pacifico.className}`}>
-                {t('We want you to succeed')}
+                {t('wantYouToSucceed')}
             </span>
             <div
                 ref={footerRef}

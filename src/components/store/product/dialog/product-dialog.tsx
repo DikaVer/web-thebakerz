@@ -25,7 +25,7 @@ type ProductDialogProps = {
 export default function ProductDialog({storeId, productData, itemCart, isOpen, onClose, bakerzOrder = false, setIsUpdating }: ProductDialogProps) {
     const { session } = useSession();
     const isSmall = useMediaQuery("(max-width: 800px)");
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/product-dialog");
     const [isDismissable, setIsDismissable] = useState(true);
 
     return (

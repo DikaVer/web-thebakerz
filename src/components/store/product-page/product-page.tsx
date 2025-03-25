@@ -6,12 +6,12 @@ import {ProductView} from "@/components/store/product-page/product-view";
 
 export const ProductPage: React.FC<{ storeId: string, productId: string }> = async ({ storeId, productId }) => {
     const productsData: ProductDataFull = await getCurrentProducts(storeId);
-    const t = await getTranslations("TheBakerz");
+    const t = await getTranslations("app/(store)/components/product-page");
 
     if (productsData === null || Object.keys(productsData).length === 0) {
         return (
             <div className="text-center">
-                <p className="text-2xl my-10">{t("No Products Available")}</p>
+                <p className="text-2xl my-10">{t("noProductsAvailable")}</p>
             </div>
         );
     }

@@ -15,17 +15,15 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
 
     const { store } = useStore();
     const { theme } = useTheme();
+    const t = useTranslations("app/(store)/components/store-description");
 
     const [latitude, longitude] = [store?.location.latitude, store?.location.longitude];
 
     const location = store?.location.route ? `${store.location.route}` : "";
     const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "";
 
-    const t = useTranslations("TheBakerz");
-    const shopT = useTranslations("Shop");
-
     const phone = {
-        name: t("Phone"),
+        name: t("phone"),
         href: `tel:${store?.phone}`,
         icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
     };
@@ -51,37 +49,34 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                         <ModalBody
                             className={'gap-y-4'}
                         >
-                            <div className={'flex  flex-col justify-center'}>
-                                {store?.ownerName &&
-                                    <div className={'flex gap-x-4'}>
-                                        <p className={`text-xl whitespace-pre-wrap font-medium text-text ${pacifico.className}`}>
-                                            {store.ownerName}
-                                        </p>
+                            {store?.ownerName &&
+                                <div className={'flex gap-x-4'}>
+                                    <p className={`text-xl whitespace-pre-wrap font-medium text-text ${pacifico.className}`}>
+                                        {store.ownerName}
+                                    </p>
 
-                                        <>
-                                            {store?.instagram_url && (
-                                                <Link key={"Instagram"} isExternal className="text-blue-500 h-6"
-                                                      href={store.instagram_url}>
-                                                    <span className="sr-only">{t("Instagram")}</span>
-                                                    <Icon icon="line-md:instagram" strokeWidth={1.5} width={24}
-                                                          aria-hidden="true"
-                                                          className="w-6"/>
-                                                </Link>
-                                            )}
-                                            {store?.facebook_url && (
-                                                <Link key={"Facebook"} isExternal className="text-blue-500 h-6"
-                                                      href={store.facebook_url}>
-                                                    <span className="sr-only">{t("Facebook")}</span>
-                                                    <Icon icon="line-md:facebook" strokeWidth={1.5} width={24}
-                                                          aria-hidden="true"
-                                                          className="w-6"/>
-                                                </Link>
-                                            )}
-                                        </>
-
-                                    </div>
-                                }
-                            </div>
+                                    <>
+                                        {store?.instagram_url && (
+                                            <Link key={"Instagram"} isExternal className="text-blue-500 h-6"
+                                                  href={store.instagram_url}>
+                                                <span className="sr-only">{t("instagram")}</span>
+                                                <Icon icon="line-md:instagram" strokeWidth={1.5} width={24}
+                                                      aria-hidden="true"
+                                                      className="w-6"/>
+                                            </Link>
+                                        )}
+                                        {store?.facebook_url && (
+                                            <Link key={"Facebook"} isExternal className="text-blue-500 h-6"
+                                                  href={store.facebook_url}>
+                                                <span className="sr-only">{t("facebook")}</span>
+                                                <Icon icon="line-md:facebook" strokeWidth={1.5} width={24}
+                                                      aria-hidden="true"
+                                                      className="w-6"/>
+                                            </Link>
+                                        )}
+                                    </>
+                                </div>
+                            }
 
                             <Divider/>
 
@@ -92,8 +87,8 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                     description: 'text-white dark:text-default-500',
                                     title: 'text-md'
                                 }}
-                                title={shopT("Alert")}
-                                description={shopT("Alert Hover")}
+                                title={t("pickUpOnly")}
+                                description={t("pickUpDescription")}
                                 variant={"solid"}
                             />
 
@@ -105,46 +100,30 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                         enter: {
                                             y: 0,
                                             opacity: 1,
-                                            height: "auto",
-                                            overflowY: "unset",
                                             transition: {
-                                                height: {
-                                                    type: "spring",
-                                                    stiffness: 500,
-                                                    damping: 30,
-                                                    duration: 1,
-                                                },
-                                                opacity: {
-                                                    easings: "ease",
-                                                    duration: 1,
-                                                },
-                                            },
+                                                height: "var(--radix-accordion-content-height)",
+                                                opacity: 0.3,
+                                                ease: "easeOut"
+                                            }
                                         },
                                         exit: {
                                             y: -10,
                                             opacity: 0,
-                                            height: 0,
-                                            overflowY: "hidden",
                                             transition: {
-                                                height: {
-                                                    easings: "ease",
-                                                    duration: 0.25,
-                                                },
-                                                opacity: {
-                                                    easings: "ease",
-                                                    duration: 0.3,
-                                                },
-                                            },
-                                        },
-                                    },
+                                                height: 0,
+                                                opacity: 0.3,
+                                                ease: "easeIn"
+                                            }
+                                        }
+                                    }
                                 }}
                                 variant="light"
                                 className={'px-0'}
                             >
                                 <AccordionItem
                                     key="Working Hours"
-                                    aria-label={shopT("Opening Hours")}
-                                    title={shopT("Opening Hours")}
+                                    aria-label={t("workingHours")}
+                                    title={t("workingHours")}
                                     className={'px-0'}
                                     classNames={{
                                         title: 'text-text',
@@ -162,6 +141,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
 
                             <Divider/>
                             <Link
+                                isExternal
                                 href={`https://www.google.com/maps?q=${latitude},${longitude}`}
                                 className={'flex flex-row justify-between'}
                             >
@@ -172,10 +152,10 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                     />
                                     <div className={'flex flex-col gap-y-0'}>
                                         <p className={"text-sm  text-text"}>
-                                            {location || t("Address Placeholder")}
+                                            {location || t("addressPlaceholder")}
                                         </p>
                                         <p className={"text-xs  text-default-600"}>
-                                            {subLocation || t("Location Placeholder")}
+                                            {subLocation || t("locationPlaceholder")}
                                         </p>
                                     </div>
                                 </div>
@@ -183,7 +163,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                             </Link>
                             <Divider/>
 
-                            {store?.phone &&
+                            {store?.phone && (
                                 <>
                                     <Link key={"Phone"} isExternal className="text-default-500 justify-between"
                                           href={phone.href}>
@@ -198,11 +178,11 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                     </Link>
                                     <Divider/>
                                 </>
-                            }
+                            )}
                         </ModalBody>
                         <ModalFooter>
                             <Button color="primary" radius={'full'} onPress={onClose}>
-                                {t("Close")}
+                                {t("close")}
                             </Button>
                         </ModalFooter>
                     </>

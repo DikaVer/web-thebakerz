@@ -33,7 +33,7 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
                                                              initialStartTime = new Time(9, 0),
                                                              initialEndTime = new Time(17, 0),
                                                          }) => {
-    const t = useTranslations("Schedule");
+    const t = useTranslations("app/(return_page)/settings/components/calendar/schedule-picker");
     const whT = useTranslations("Working Hours");
 
     const [isEnabled, setIsEnabled] = useState(initialEnabled);
@@ -51,9 +51,7 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
     }   , []);
 
     const handleStartChange = (newTime: Time | null) => {
-
-        if(newTime &&
-            endTime){
+        if(newTime && endTime){
             setStartTime(newTime);
             setWorkingHours(day, { isEnabled, startTime: newTime, endTime });
 
@@ -66,15 +64,10 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
                 setIsInvalid(true);
             }
         }
-        // Validate: start must be before end
     };
 
     const handleEndChange = (newTime: Time | null) => {
-        // Validate: end must be after start
-        if (
-            newTime &&
-            startTime) {
-
+        if (newTime && startTime) {
             setEndTime(newTime);
             setWorkingHours(day, {isEnabled, startTime, endTime: newTime});
 
@@ -102,11 +95,11 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
                     isDisabled={!isEnabled || isLoading}
                     // @ts-ignore
                     defaultValue={startTime}
-                    label={t("StartTime")}
+                    label={t("startTime")}
                     classNames={{ inputWrapper: 'rounded-r-none shadow-none' }}
                     isInvalid={isInvalid}
                     labelPlacement="inside"
-                    errorMessage={t("StartTimeError")}
+                    errorMessage={t("startTimeError")}
                     // @ts-ignore
                     onChange={handleStartChange}
                 />
@@ -115,10 +108,10 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
                     // @ts-ignore
                     defaultValue={endTime}
                     isInvalid={isInvalid}
-                    label={t("EndTime")}
+                    label={t("endTime")}
                     classNames={{ inputWrapper: 'rounded-none shadow-none' }}
                     labelPlacement="inside"
-                    errorMessage={t("EndTimeError")}
+                    errorMessage={t("endTimeError")}
                     // @ts-ignore
                     onChange={handleEndChange}
                 />
@@ -142,7 +135,7 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
 const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
 export const WorkingHoursComp: React.FC = () => {
-    const t = useTranslations("Schedule");
+    const t = useTranslations("app/(return_page)/settings/components/calendar/schedule-picker");
     const {session} = useSession();
 
     if (!session) {
@@ -183,18 +176,18 @@ export const WorkingHoursComp: React.FC = () => {
             });
             if (!res.ok) {
                 if (res.status === 500) {
-                    showErrorMessage({ error: t("ErrorSomethingWentWrong") });
+                    showErrorMessage({ error: t("errorSomethingWentWrong") });
                 } else if (res.status === 429) {
-                    showErrorMessage({ error: t("ErrorTooManyRequests") });
+                    showErrorMessage({ error: t("errorTooManyRequests") });
                 } else {
-                    showErrorMessage({ error: t("ErrorInvalidTimeFields") });
+                    showErrorMessage({ error: t("errorInvalidTimeFields") });
                 }
             } else {
-                showSuccessMessage({success: t("ScheduleSavedSuccess")});
+                showSuccessMessage({success: t("scheduleSavedSuccess")});
             }
         } catch (error) {
             console.error('Error saving schedule:', error);
-            showErrorMessage({ error: t("ErrorFailedToSaveSchedule") });
+            showErrorMessage({ error: t("errorFailedToSaveSchedule") });
         }
         setIsLoading(false);
     };
@@ -242,7 +235,7 @@ export const WorkingHoursComp: React.FC = () => {
                     onPress={handleSave}
                     isLoading={isLoading}
                 >
-                    {isLoading ? t("Saving") : t("SaveWorkingHours")}
+                    {isLoading ? t("saving") : t("saveWorkingHours")}
                 </Button>
             </div>
         </div>

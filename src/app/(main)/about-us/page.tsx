@@ -4,7 +4,7 @@ import React from "react";
 import {FollowUs} from "@/components/about-us/follow-us";
 import type {Metadata} from "next";
 import {getLocalizedMetadata, metadataDefault} from "@/components/metadata";
-import {getLocale, getTranslations} from "next-intl/server"; // Add this import
+import {getLocale, getTranslations} from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {
     const locale = await getLocale();
@@ -36,9 +36,8 @@ export async function generateMetadata(): Promise<Metadata> {
     };
 }
 
-
 export default async function Page() {
-    const t = await getTranslations("About Us"); // Initialize translations
+    const t = await getTranslations("app/(main)/about-us/page");
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -51,7 +50,7 @@ export default async function Page() {
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
                                 <h2 className={`text-left text-4xl lg:text-6xl font-bold mb-10 ${pacifico.className}`}>
-                                    {t("Greeting title")}
+                                    {t("greetingTitle")}
                                 </h2>
 
                                 <div className="mb-6 text-md lg:text-lg font-light ">
@@ -96,7 +95,7 @@ export default async function Page() {
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
                                 <h2 className="text-3xl lg:text-5xl font-bold mb-4">
-                                    {t("Slogan title")}
+                                    {t("sloganTitle")}
                                 </h2>
 
                                 <div className="mb-6 text-md lg:text-lg font-light">
@@ -116,7 +115,7 @@ export default async function Page() {
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
                                 <h2 className="text-3xl lg:text-5xl font-bold mb-4">
-                                    {t("why title")}
+                                    {t("whyTitle")}
                                 </h2>
 
                                 <div className="mb-6 text-md lg:text-lg font-light">

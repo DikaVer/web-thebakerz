@@ -10,11 +10,10 @@ type SocialIconProps = Omit<IconProps, "icon">;
 
 const StoreTopNext: React.FC = () => {
     const { store } = useStore();
-    const t = useTranslations('Shop');
-    const tBakerz = useTranslations('TheBakerz');
+    const t = useTranslations('app/(store)/components/store-top-next');
 
     const phone = {
-        name: tBakerz("Phone"),
+        name: t("phone"),
         href: `tel:${store?.phone}`,
         icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
     };
@@ -22,7 +21,7 @@ const StoreTopNext: React.FC = () => {
     return (
         <div className={'flex flex-col gap-y-4 w-full'}>
             <Tooltip
-                content={<p className={'max-w-sm'}>{t("Alert Hover")}</p>}
+                content={<p className={'max-w-sm'}>{t("alertHover")}</p>}
             >
                 <Alert
                     key={"Pick Up Only Alert"}
@@ -30,7 +29,7 @@ const StoreTopNext: React.FC = () => {
                     classNames={{
                         title: 'text-medium '
                     }}
-                    title={t("Alert")}
+                    title={t("alert")}
                     variant={"solid"}
                 />
             </Tooltip>
@@ -45,7 +44,7 @@ const StoreTopNext: React.FC = () => {
                 <AccordionItem
                     key="Working Hours"
                     aria-label="Working Hours"
-                    title={t("Opening Hours")}
+                    title={t("openingHours")}
                     className={'px-0'}
                     classNames={{
                         title: 'text-default-500',

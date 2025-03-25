@@ -42,7 +42,6 @@ import {VariantsFormField} from "@/components/store/product/components/variants-
 import {DeleteConfirmationModal} from "@/components/store/product/components/delete-confirmation";
 import {ImageUploadSection} from "@/components/store/product/components/image-upload-section";
 
-
 type ProductDialogProps = {
     productData: ProductData | undefined;
     onClose: () => void;
@@ -51,11 +50,9 @@ type ProductDialogProps = {
     setIsUpdating: (isUpdating: boolean) => void;
 };
 
-
-
 export default function BakerzProductDialog({ productData, onClose, setIsDismissable, setIsUpdating }: ProductDialogProps) {
     const { theme } = useTheme();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/product-page");
     const router = useRouter();
     const isSmall = useMediaQuery("(max-width: 460px)");
     const fileRef = useRef<HTMLInputElement>(null);
@@ -136,7 +133,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
             setIsLoadingDelete(true);
             await deleteProduct(productData.id);
             setIsUpdating(true);
-            showSuccessMessage({ success: t("Product Deleted") });
+            showSuccessMessage({ success: t("productDeleted") });
             router.refresh();
             onClose();
             setIsOpenDelete(false);
@@ -242,8 +239,8 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                     setPictureEdit(false);
                     setCurrentImageIndex(null);
                 }}
-                title={t("Item Image")}
-                subtitle={t("Upload Image Subtitle")}
+                title={t("itemImage")}
+                subtitle={t("uploadImageSubtitle")}
                 container="products"
                 setImageURL={(file: File, url: string) => {
                     addNewImage(file, url);
@@ -260,7 +257,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                         isDisabled={isPending}
                         isIconOnly
                         copyText={`${origin}/${productData?.store_id}/${productData?.id}`}
-                        textNotify={t("Product Link Copied")}
+                        textNotify={t("productLinkCopied")}
                     >
                         <Icon icon="mi:share" width={32} className="text-default-400" />
                     </CopyText>
@@ -334,7 +331,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                                         {...field}
                                                         isDisabled={isPending}
                                                         variant="underlined"
-                                                        placeholder={t("Item Name")}
+                                                        placeholder={t("itemName")}
                                                         classNames={{ input: "text-xl sm:text-2xl truncate font-medium" }}
                                                         validate={() => fieldState.error?.message}
                                                     />
@@ -388,7 +385,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                                     {...field}
                                                     isDisabled={isPending}
                                                     value={field.value ?? ""}
-                                                    placeholder={t("Add Description Placeholder")}
+                                                    placeholder={t("addDescriptionPlaceholder")}
                                                     variant="underlined"
                                                     style={{ resize: "none" }}
                                                     className="text-default-400"
@@ -409,7 +406,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                                 <Select
                                                     {...field}
                                                     isDisabled={isPending}
-                                                    placeholder={t("Select Category")}
+                                                    placeholder={t("selectCategory")}
                                                     variant="underlined"
                                                     className="w-1/2"
                                                     validate={() => fieldState.error?.message}
@@ -433,7 +430,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                                     isLoading={isPending}
                                                     tags={field.value || []}
                                                     setTags={(newTags) => field.onChange(newTags)}
-                                                    placeholder={t("Add Ingredients Placeholder")}
+                                                    placeholder={t("addIngredientsPlaceholder")}
                                                 />
                                             </FormControl>
                                             {fieldState.error && <p className="text-danger-400 text-sm">{fieldState.error.message}</p>}
@@ -451,7 +448,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                                     tags={field.value || []}
                                                     setTags={(newTags) => field.onChange(newTags)}
                                                     type="warning"
-                                                    placeholder={t("Add Allergies Placeholder")}
+                                                    placeholder={t("addAllergiesPlaceholder")}
                                                 />
                                             </FormControl>
                                             {fieldState.error && <p className="text-danger-400 text-sm">{fieldState.error.message}</p>}
@@ -460,7 +457,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                 />
 
                                 <Spacer y={4} />
-                                <h3 className="text-lg font-medium mb-2">{t("Item Options")}</h3>
+                                <h3 className="text-lg font-medium mb-2">{t("itemOptions")}</h3>
                                 <VariantsFormField
                                     form={form}
                                     isPending={isPending}
@@ -468,7 +465,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
 
                                 <Spacer y={4} />
                                 <div className="flex w-full justify-between">
-                                    <h3 className="text-lg font-medium">Minimal Order</h3>
+                                    <h3 className="text-lg font-medium">{t("minimalOrder")}</h3>
                                     <FormField
                                         control={form.control}
                                         name="min_order"
@@ -499,7 +496,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                         )}
                                     />
                                 </div>
-                                <h4 className="text-base text-default-400 font-medium mb-2">What is the minimum number of items a customer can order?</h4>
+                                <h4 className="text-base text-default-400 font-medium mb-2">{t("minimalOrderDescription")}</h4>
 
                             </div>
                         </ScrollShadow>
@@ -534,7 +531,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                 setIsDismissable(false)
                             }}
                         >
-                            {isPending ? t("Loading") : productData ? t("Update Item") : t("Add Item")}
+                            {isPending ? t("loading") : productData ? t("updateItem") : t("addItem")}
                         </Button>
                     </ModalFooter>
                 </form>

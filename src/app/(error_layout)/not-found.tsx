@@ -9,12 +9,12 @@ import LayoutComp from "@/components/layout-comp";
 import {getTranslations} from "next-intl/server";
 
 export default async function NotFound() {
-    const t = await getTranslations("Not Found");
+    const t = await getTranslations("app/(error_layout)/not-found");
     return (
         <>
             <div className="flex flex-col mb-20 min-h-screen">
                 <div className="z-10 flex flex-col justify-center items-center container mx-auto text-center ">
-                    <p className={`text-3xl my-10 ${pacifico.className}`}>{t('Sorry')}</p>
+                    <p className={`text-3xl my-10 ${pacifico.className}`}>{t('sorry')}</p>
                     <div className="w-2/3 h-2/3 ml-14 mb-2">
                         <Image
                             src="/images/Search.svg"
@@ -26,11 +26,11 @@ export default async function NotFound() {
                         />
                     </div>
                     <p>
-                        {t("Broken Link")}
+                        {t("brokenLink")}
                     </p>
                     <ExternalLink href="/">
                         {/*<TranslateOnServer key={'Not Found'} value={"Go back to TheBakerz"}/>*/}
-                        {t("Go back to TheBakerz")}
+                        {t("goBackToTheBakerz")}
                     </ExternalLink>
                 </div>
             </div>
@@ -68,12 +68,12 @@ export async function ComingSoon() {
 export async function UnderConstruction(
     link: string = "/"
 ) {
-    const t = await getTranslations("Not Found");
+    const t = await getTranslations("app/(error_layout)/not-found");
     return (
         <>
             <div className={`flex flex-col gap-y-10 my-10 items-center justify-center min-h-screen`}>
                 <p className={`text-5xl text-center ${pacifico.className}`}>
-                    {t("Under Construction")}
+                    {t("underConstruction")}
                 </p>
                 <div
                     className={`h-10`}
@@ -81,13 +81,13 @@ export async function UnderConstruction(
                     <ExternalLink
                         href={link}
                     >
-                        {t('Go back to TheBakerz')}
+                        {t('goBackToTheBakerz')}
                     </ExternalLink>
                 </div>
                 <div className="w-full max-w-2xl">
                     <IconHeartCrack className="w-full h-full text-primary" />
                 </div>
-                <p className={`text-3xl text-grayText text-center`}>{t('Subtitle')}</p>
+                <p className={`text-3xl text-grayText text-center`}>{t('subtitle')}</p>
             </div>
         </>
     );

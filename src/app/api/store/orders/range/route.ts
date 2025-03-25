@@ -70,8 +70,8 @@ export async function GET(request: Request) {
             ]
         };
 
-        const { resources: orders } = await containerOrders.items.query(querySpec).fetchAll();
 
+        const { resources: orders } = await containerOrders.items.query(querySpec).fetchAll();
 
         return NextResponse.json(orders);
     } catch (error) {

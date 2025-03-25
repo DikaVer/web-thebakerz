@@ -7,10 +7,7 @@ import {ProductDataFull} from "@/lib/actions/product";
 import {useTranslations} from "next-intl";
 
 export const ProductCard: React.FC<{productsData: ProductDataFull; productsOrder: Record<string, string[]>}> = ({ productsData, productsOrder }) => {
-
-
-
-    const t = useTranslations("ProductSettings");
+    const t = useTranslations("app/(return_page)/settings/components/products/product-card");
     const searchParams = useSearchParams();
 
     // Read the "tab" query parameter; default to "profile" if not provided.
@@ -19,9 +16,7 @@ export const ProductCard: React.FC<{productsData: ProductDataFull; productsOrder
 
     return (
         <Tabs
-
             defaultSelectedKey={selectedTab}
-            // onValueChange will update the URL query parameter to reflect the selected tab.
             //@ts-ignore
             fullWidth
             classNames={{
@@ -30,7 +25,7 @@ export const ProductCard: React.FC<{productsData: ProductDataFull; productsOrder
                 panel: "w-full p-0 pt-4",
             }}
         >
-            <Tab key="products" title={t("ProductManager")}>
+            <Tab key="products" title={t("productManager")}>
                 <ProductManager
                     productsOrder={productsOrder}
                     productsData={productsData}

@@ -3,7 +3,7 @@
 import {Image, Tab, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@heroui/react";
 import {formatCurrency} from "@/lib/utils";
 import React, { useState } from "react";
-
+import { useTranslations } from "use-intl";
 
 import {ProductData, ProductDataFull} from "@/lib/actions/product";
 import {useProductDialog} from "@/components/providers/product-provider";
@@ -18,12 +18,10 @@ export interface ProductTabsProps {
     updateOrder: (category: string, order: string[]) => void;
 }
 export const ProductTable: React.FC<ProductTabsProps> = ({ category, productsData, updateOrder}) => {
-
+    const t = useTranslations("app/(return_page)/settings/components/products/product-tab");
     const { handleOpen } = useProductDialog();
 
-
     const [products, setProducts] = useState<string[]>(Object.keys(productsData));
-
 
     return (
         <Reorder.Group
@@ -65,9 +63,8 @@ export const ProductTable: React.FC<ProductTabsProps> = ({ category, productsDat
                                 </span>
                             </div>
                         </button>
-                </ItemProduct>
+                    </ItemProduct>
                 );
-
             })}
         </Reorder.Group>
     );

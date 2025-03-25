@@ -27,7 +27,7 @@ import showSuccessMessage from "@/components/toast/toast-succes";
 import { useTranslations } from "next-intl";
 
 const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: Record<string, string[]>}> = ({ productsData, productsOrder }) => {
-    const t = useTranslations("ProductSettings");
+    const t = useTranslations("app/(return_page)/settings/components/products-settings");
     const { handleOpen, setProductsDataLocal } = useProductDialog();
     const [isLoading, setIsLoading] = useState(false);
     const categoriesKeys = Object.keys(productsOrder);
@@ -190,12 +190,12 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                         <div
                             className=" col-span-5  grid grid-cols-5 gap-x-4"
                         >
-                            <span>{t("Image")}</span>
-                            <span className={'flex col-span-4'}>{t("NameAndPrice")}</span>
+                            <span>{t("image")}</span>
+                            <span className={'flex col-span-4'}>{t("nameAndPrice")}</span>
                         </div>
                         <span
                             className={'text-center'}
-                        >{t("Drag")}</span>
+                        >{t("drag")}</span>
                     </div>
                     {/* Use a key prop so that the ProductTable re-mounts when the selectedTab changes */}
                     <AnimatePresence mode="wait">

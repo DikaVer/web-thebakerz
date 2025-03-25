@@ -23,13 +23,13 @@ interface ProductViewProps {
 }
 
 export const ProductView: React.FC<ProductViewProps> = ({
-                                                                    productsData,
-                                                                    productId
-                                                                }) => {
-
+    productsData,
+    productId
+}) => {
     const { setProductsDataLocal} = useProductDialog();
     const { session } = useSession();
     const { store } = useStore();
+    const t = useTranslations("app/(store)/components/product-page");
 
     // Update local product data
     useEffect(() => {
@@ -43,7 +43,7 @@ export const ProductView: React.FC<ProductViewProps> = ({
     if (!product) {
         return (
             <div className="text-center">
-                <p className="text-2xl my-10">Product not found</p>
+                <p className="text-2xl my-10">{t("productNotFound")}</p>
             </div>
         );
     }

@@ -4,11 +4,12 @@ import { pacifico } from "@/components/fonts";
 import React, { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {IconLoadingCircle} from "@/components/ui/icons";
+import { useTranslations } from 'next-intl';
 
 export default function Page() {
     const nextParams = useSearchParams();
     const next = nextParams.get('next') as string;
-
+    const t = useTranslations('app/(return_page)/transit-login/page');
     const router = useRouter();
 
     useEffect(() => {
@@ -23,7 +24,7 @@ export default function Page() {
                 <div className="flex flex-col min-h-screen justify-center items-center">
                     <IconLoadingCircle strokeWidth={3} className="text-grayText w-20 h-20" />
                     <p className={`text-4xl md:text-8xl my-10 ${pacifico.className}`}>
-                        Performing sign in...
+                        {t('performingSignIn')}
                     </p>
                 </div>
             </div>

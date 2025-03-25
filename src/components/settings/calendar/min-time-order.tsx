@@ -16,7 +16,7 @@ interface MinTimeOrderProps {
 }
 
 export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
-    const t = useTranslations("MinTimeOrder");
+    const t = useTranslations("app/(return_page)/settings/components/calendar/min-time-order");
     const { session } = useSession();
     // console.log(session);
     if (!session.store?.minTimeOrder){

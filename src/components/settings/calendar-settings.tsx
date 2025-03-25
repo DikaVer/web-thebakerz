@@ -9,16 +9,16 @@ import {MinTimeOrder} from "@/components/settings/calendar/min-time-order";
 
 
 const WorkingHoursManager = () => {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(return_page)/settings/components/calendar-settings");
 
     return (
         <div>
             <Spacer y={4}/>
             <MinTimeOrder />
             <Spacer y={8}/>
-            <p className="text-base font-medium text-default-700">{t("WorkingSchedule")}</p>
+            <p className="text-base font-medium text-default-700">{t("workingSchedule")}</p>
             <p className="mt-1 text-sm font-normal text-default-400">
-                {t("WorkingScheduleDescription")}
+                {t("workingScheduleDescription")}
             </p>
 
             <Spacer y={4}/>

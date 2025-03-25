@@ -42,7 +42,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
         if (isUpdating) {
             timeoutId = setTimeout(() => {
                 setIsUpdating(false);
-            }, 2000);
+            }, 2500);
         }
         return () => {
             if (timeoutId) clearTimeout(timeoutId);

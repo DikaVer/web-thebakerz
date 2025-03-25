@@ -1,6 +1,6 @@
-
 // --- Function to parse a date to numeric date and time strings ---
 import {CalendarDateTime} from "@internationalized/date";
+import {useTranslations} from "next-intl";
 
 export function parseDateTime(
     dateValue: CalendarDateTime | undefined

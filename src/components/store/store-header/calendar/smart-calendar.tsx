@@ -9,6 +9,7 @@ import { Calendar, Button, Popover, PopoverContent, PopoverTrigger, ScrollShadow
 import { Icon } from "@iconify/react";
 import {WorkHours} from "@/lib/actions/calendar-actions";
 import showSuccessMessage from "@/components/toast/toast-succes";
+import { useTranslations } from "use-intl";
 
 // Define props to include schedule and minValue
 interface SmartDatetimeInputProps {
@@ -267,6 +268,7 @@ const TimePicker = ({onClose}: {onClose: () => void}) => {
     const { value, onValueChange, onTimeChange, schedule, minValue } = useSmartDateInput();
     const [activeIndex, setActiveIndex] = React.useState(-1);
     const timestamp = 15; // 15-minute intervals
+    const t = useTranslations("app/(store)/components/smart-calendar");
 
     // Generate candidate time slots (optimized)
     const slots = useTimeSlots(timestamp);
@@ -355,7 +357,7 @@ const TimePicker = ({onClose}: {onClose: () => void}) => {
 
     return (
         <div className="space-y-2 pr-3 py-3 relative">
-            <h3 className="text-sm text-default-500 font-medium text-center">Time</h3>
+            <h3 className="text-sm text-default-500 font-medium text-center">{t("time")}</h3>
             <ScrollShadow size={20} className="h-[90%] w-full">
                 <ul className={cn("flex items-center flex-col gap-1 h-full max-h-56 w-28 px-1 py-0.5")}>
                     {slots.map((slot, index) => {

@@ -23,7 +23,7 @@ interface OrderOverviewProps {
 export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderData, from, to}) => {
     const { store } = useStore();
     const router = useRouter();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/orders");
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
     return (
         <div className={'flex flex-col w-full max-w-2xl container'}>
@@ -46,7 +46,7 @@ export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderDat
                     />
                 }
             >
-                {t("Back to Order Dashboard")}
+                {t("backToOrderDashboard")}
             </Button>
             <Spacer y={4}/>
             <OrderTopContent

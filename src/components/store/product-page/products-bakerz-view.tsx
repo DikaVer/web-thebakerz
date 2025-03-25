@@ -33,15 +33,12 @@ import {VariantsFormField} from "@/components/store/product/components/variants-
 import {DeleteConfirmationModal} from "@/components/store/product/components/delete-confirmation";
 import {ImageUploadSection} from "@/components/store/product/components/image-upload-section";
 
-
 type ProductViewProps = {
     productData: ProductData | undefined;
 };
 
-
-
 export default function BakerzProductView({ productData }: ProductViewProps) {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/product-page");
     const router = useRouter();
     const isSmall = useMediaQuery("(max-width: 460px)");
     const fileRef = useRef<HTMLInputElement>(null);
@@ -81,8 +78,6 @@ export default function BakerzProductView({ productData }: ProductViewProps) {
         },
     });
 
-
-
     const [state, submitAction, isPending] = useActionState(
         async (prevState: any, formData: z.infer<typeof ProductSchema>) => {
             const result = await addProduct(formData, productData?.id);
@@ -113,7 +108,7 @@ export default function BakerzProductView({ productData }: ProductViewProps) {
         if (productData) {
             setIsLoadingDelete(true);
             await deleteProduct(productData.id);
-            showSuccessMessage({ success: t("Product Deleted") });
+            showSuccessMessage({ success: t("productDeleted") });
             setIsOpenDelete(false);
             router.refresh();
         }
@@ -220,8 +215,8 @@ export default function BakerzProductView({ productData }: ProductViewProps) {
                     setPictureEdit(false);
                     setCurrentImageIndex(null);
                 }}
-                title={t("Item Image")}
-                subtitle={t("Upload Image Subtitle")}
+                title={t("itemImage")}
+                subtitle={t("uploadImageSubtitle")}
                 container="products"
                 setImageURL={(file: File, url: string) => {
                     addNewImage(file, url);
