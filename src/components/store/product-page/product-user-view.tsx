@@ -90,7 +90,7 @@ export default function UserProductView({
             <Card
                 className={'w-full max-w-full md:max-w-3xl'}
             >
-                <CardBody className={"p-0 justify-center items-center"}>
+                <CardBody className={"p-0 py-4 justify-center items-center"}>
                     {productData && (
                         <div className={" md:flex  w-full gap-x-4"} >
                             <div>
