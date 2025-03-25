@@ -73,6 +73,12 @@ export const updateCart = async (
             }
         }
 
+        const minOrder = productData?.min_order || 1;
+
+        if (quantity < minOrder) {
+            return { error: `You need to order at least ${minOrder} of this product` };
+        }
+
         const session = await getCurrentSession();
         let userId;
         if (!session || !session.user) {

@@ -42,7 +42,7 @@ export default function UserProductView({
     const allergy = useTranslations("Allergies");
 
     const [charCount, setCharCount] = useState(0);
-    const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState(productData?.min_order || 1);
     const [note, setNote] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [variants, setVariants] = useState<Variant[]>([]);
@@ -260,7 +260,7 @@ export default function UserProductView({
                 </CardBody>
                 <CardFooter className={"px-4 space-x-4"}>
                     <InputStepper
-                        min={1}
+                        min={productData?.min_order || 1}
                         max={999}
                         value={quantity}
                         onChange={setQuantity}

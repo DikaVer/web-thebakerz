@@ -95,6 +95,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                     price: option.price ? option.price / 100 : 0
                 }))
             })),
+            min_order: productData?.min_order || 1,
         },
     });
 
@@ -465,24 +466,40 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                     isPending={isPending}
                                 />
 
-                                {/*<FormField*/}
-                                {/*    control={form.control}*/}
-                                {/*    name="name"*/}
-                                {/*    render={({ field, fieldState }) => (*/}
-                                {/*        <FormItem className="w-2/3">*/}
-                                {/*            <FormControl>*/}
-                                {/*                <Input*/}
-                                {/*                    {...field}*/}
-                                {/*                    isDisabled={isPending}*/}
-                                {/*                    variant="underlined"*/}
-                                {/*                    placeholder={t("Item Name")}*/}
-                                {/*                    classNames={{ input: "text-xl sm:text-2xl truncate font-medium" }}*/}
-                                {/*                    validate={() => fieldState.error?.message}*/}
-                                {/*                />*/}
-                                {/*            </FormControl>*/}
-                                {/*        </FormItem>*/}
-                                {/*    )}*/}
-                                {/*/>*/}
+                                <Spacer y={4} />
+                                <div className="flex w-full justify-between">
+                                    <h3 className="text-lg font-medium">Minimal Order</h3>
+                                    <FormField
+                                        control={form.control}
+                                        name="min_order"
+                                        render={({ field, fieldState }) => (
+                                            <FormItem className="w-1/3">
+                                                <FormControl>
+                                                    <NumberInput
+                                                        {...field}
+                                                        isRequired
+                                                        isDisabled={isPending}
+                                                        placeholder="1"
+                                                        variant="underlined"
+                                                        classNames={{
+                                                            input: "text-lg cm:text-xl font-light",
+                                                            inputWrapper: "h-8",
+                                                        }}
+                                                        validate={() => fieldState.error?.message}
+                                                        onChange={(value) => {
+                                                            if (typeof value === "number") {
+                                                                field.onChange(value);
+                                                            } else {
+                                                                field.onChange(parseFloat(value.target.value));
+                                                            }
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <h4 className="text-base text-default-400 font-medium mb-2">What is the minimum number of items a customer can order?</h4>
 
                             </div>
                         </ScrollShadow>

@@ -189,6 +189,7 @@ export const ProductSchema = z.object({
     additionalImages: z.array(z.string()).max(2).optional(),
     file_additional_pictures: z.array(ImageSchema.optional()).max(2).optional(),
     variants: z.array(VariantSchema).optional(),
+    min_order: z.number().min(1, { message: "Minimum order must be at least 1" }).default(1),
 });
 
 

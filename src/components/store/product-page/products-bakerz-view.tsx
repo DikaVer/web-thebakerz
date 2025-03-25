@@ -55,10 +55,6 @@ export default function BakerzProductView({ productData }: ProductViewProps) {
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(null);
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
-    // Get origin of the current page from window object
-    const origin = typeof window !== "undefined" ? window.location.origin : "";
-
-    // console.log(productData);
 
     // Form setup with zod validation
     const form = useForm<z.infer<typeof ProductSchema>>({
@@ -81,18 +77,18 @@ export default function BakerzProductView({ productData }: ProductViewProps) {
                     price: option.price ? option.price / 100 : 0
                 }))
             })),
+            min_order: productData?.min_order || 1,
         },
     });
 
-    // useEffect(() => {
-    //     console.log(form.getValues());
-    // }, [form]);
+
 
     const [state, submitAction, isPending] = useActionState(
         async (prevState: any, formData: z.infer<typeof ProductSchema>) => {
             const result = await addProduct(formData, productData?.id);
             if (result?.success) {
                 showSuccessMessage({ success: result.success });
+                router.push(`/${result.product.store_id}/${result.product.id}`);
                 router.refresh();
             } else if (result?.error) {
                 showErrorMessage({ error: result.error });
@@ -431,24 +427,40 @@ export default function BakerzProductView({ productData }: ProductViewProps) {
                                     isPending={isPending}
                                 />
 
-                                {/*<FormField*/}
-                                {/*    control={form.control}*/}
-                                {/*    name="name"*/}
-                                {/*    render={({ field, fieldState }) => (*/}
-                                {/*        <FormItem className="w-2/3">*/}
-                                {/*            <FormControl>*/}
-                                {/*                <Input*/}
-                                {/*                    {...field}*/}
-                                {/*                    isDisabled={isPending}*/}
-                                {/*                    variant="underlined"*/}
-                                {/*                    placeholder={t("Item Name")}*/}
-                                {/*                    classNames={{ input: "text-xl sm:text-2xl truncate font-medium" }}*/}
-                                {/*                    validate={() => fieldState.error?.message}*/}
-                                {/*                />*/}
-                                {/*            </FormControl>*/}
-                                {/*        </FormItem>*/}
-                                {/*    )}*/}
-                                {/*/>*/}
+                                <Spacer y={4} />
+                                <div className="flex w-full justify-between">
+                                    <h3 className="text-lg font-medium">Minimal Order</h3>
+                                    <FormField
+                                        control={form.control}
+                                        name="min_order"
+                                        render={({ field, fieldState }) => (
+                                            <FormItem className="w-1/3">
+                                                <FormControl>
+                                                    <NumberInput
+                                                        {...field}
+                                                        isRequired
+                                                        isDisabled={isPending}
+                                                        placeholder="1"
+                                                        variant="underlined"
+                                                        classNames={{
+                                                            input: "text-lg cm:text-xl font-light",
+                                                            inputWrapper: "h-8",
+                                                        }}
+                                                        validate={() => fieldState.error?.message}
+                                                        onChange={(value) => {
+                                                            if (typeof value === "number") {
+                                                                field.onChange(value);
+                                                            } else {
+                                                                field.onChange(parseFloat(value.target.value));
+                                                            }
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <h4 className="text-base text-default-400 font-medium mb-2">What is the minimum number of items a customer can order?</h4>
 
                             </div>
                         </div>

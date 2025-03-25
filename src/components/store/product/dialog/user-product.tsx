@@ -47,7 +47,7 @@ export default function UserProductDialog({
     const allergy = useTranslations("Allergies");
 
     const [charCount, setCharCount] = useState(itemCart?.note ? itemCart?.note.length : 0);
-    const [quantity, setQuantity] = useState(itemCart?.quantity || 1);
+    const [quantity, setQuantity] = useState(itemCart?.quantity || productData?.min_order || 1);
     const [note, setNote] = useState(itemCart?.note || "");
     const [isLoading, setIsLoading] = useState(false);
     const [variants, setVariants] = useState<Variant[]>(itemCart?.variants || []);
@@ -287,7 +287,7 @@ export default function UserProductDialog({
             </ModalBody>
             <ModalFooter className={"px-4 space-x-4"}>
                 <InputStepper
-                    min={1}
+                    min={productData?.min_order || 1}
                     max={999}
                     value={quantity}
                     onChange={setQuantity}
