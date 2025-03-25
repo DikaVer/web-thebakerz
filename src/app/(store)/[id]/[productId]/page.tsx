@@ -26,9 +26,16 @@ interface StorePageProps {
     }>;
 }
 
-export async function generateMetadata({ params }: { params: { id: string, productId: string } }) {
+type Params = Promise<{ id: string, productId: string }>
+
+export async function generateMetadata({
+                                           params
+                                       }: {
+    params: Params
+}) {
     try {
-        const storeData = await getCurrentStore(params.id);
+        const { id, productId } = await params;
+        const storeData = await getCurrentStore(id);
         if (!storeData) {
             return {
                 title: 'Product Not Found',
@@ -36,7 +43,7 @@ export async function generateMetadata({ params }: { params: { id: string, produ
             };
         }
 
-        const product = await getCurrentProduct(storeData.id, params.productId);
+        const product = await getCurrentProduct(storeData.id, productId);
 
         if (!product) {
             return {

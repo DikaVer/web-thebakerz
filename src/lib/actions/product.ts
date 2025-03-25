@@ -244,7 +244,7 @@ export async function getCurrentProduct(storeId: string, productId: string): Pro
     try {
 
         if (!storeId) {
-            return {};
+            return null;
         }
 
         return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/products/${productId}`, {
