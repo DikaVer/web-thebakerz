@@ -59,7 +59,7 @@ export default function UserProductView({
 
     const {
         addItem,
-        updateItem,
+        onOpen
     } = useCart();
     const isSmall = useMediaQuery("(max-width: 484px)");
 
@@ -74,6 +74,7 @@ export default function UserProductView({
             if (result.success) {
                 showSuccessMessage({success: t("Cart updated successfully")});
                 result.itemCart && addItem(result.itemCart);
+                onOpen();
             } else if (result.error) {
                 showErrorMessage({ error: result.error });
             }

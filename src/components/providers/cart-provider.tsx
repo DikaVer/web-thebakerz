@@ -6,6 +6,7 @@ import { ProductData, ProductDataFull } from "@/lib/actions/product";
 import { CartData, ItemCart, updateCart, removeCartItem } from "@/lib/actions/cart";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
+import {useDisclosure} from "@heroui/react";
 
 interface CartContextProps {
     cart: CartData;
@@ -14,6 +15,9 @@ interface CartContextProps {
     updateItem: (cart: ItemCart) => Promise<boolean>;
     removeItem: (cart: ItemCart) => Promise<boolean>;
     removeAllItems: () => void;
+    isOpen: boolean;
+    onOpen: () => void;
+    onOpenChange: () => void;
 }
 
 export const useCart = () => {
@@ -36,6 +40,7 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
 
     const initialItemCount = cartData[storeId] ? Object.keys(cartData[storeId]).length : 0;
     const [itemCount, setItemCount] = useState<number>(initialItemCount);
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
 
     const addItem = (cart: ItemCart) => {
@@ -104,7 +109,10 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
                 removeItem,
                 updateItem,
                 addItem,
-                removeAllItems
+                removeAllItems,
+                isOpen,
+                onOpen,
+                onOpenChange
             }}
         >
             {children}

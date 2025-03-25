@@ -28,12 +28,14 @@ const CartButton: React.FC = () => {
     } = useProductDialog();
 
     const {
+        isOpen,
+        onOpen,
+        onOpenChange,
         itemCount,
         cart,
         updateItem,
         removeItem,
     } = useCart();
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const isMobile = useMediaQuery("(max-width: 768px)");
     const [isLoading, setIsLoading] = useState(false);
     const { store } = useStore();
