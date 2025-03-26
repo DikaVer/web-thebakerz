@@ -456,7 +456,15 @@
         "pickUpDetailsStep": "2. Détails de la prise en charge",
         "backToOrderDashboard": "Retour au tableau de bord des commandes",
         "yes": "Oui",
-        "no": "Non"
+        "no": "Non",
+        "customerDetails": "Détails du client",
+        "customerNameLabel": "Entrez le nom du client.",
+        "customerNamePlaceholder": "Entrez le nom du client",
+        "customerEmailLabel": "Entrez l'adresse e-mail du client.",
+        "customerEmailPlaceholder": "Entrez l'adresse e-mail du client",
+        "customerPhoneLabel": "Entrez le numéro de téléphone du client. (Optionnel)",
+        "customerPhonePlaceholder": "Entrez le numéro de téléphone du client",
+        "createOrderButton": "Créer la commande"
     },
     "app/(store)/components/orders/overview": {
         "Order": "Commande",

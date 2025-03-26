@@ -275,9 +275,9 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                             className={'grid gap-y-1 w-full'}
                         >
                             <div>
-                                <p className="text-base font-medium text-default-700">Customer Details</p>
+                                <p className="text-base font-medium text-default-700">{t('customerDetails')}</p>
 
-                                <p className="mt-1 text-sm font-normal text-default-400">Enter customer name.</p>
+                                <p className="mt-1 text-sm font-normal text-default-400">{t('customerNameLabel')}</p>
                                 <FormField
                                     control={form.control}
                                     name="name"
@@ -291,7 +291,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                                     startContent={
                                                         <Icon icon={'stash:user-avatar'} className={'text-default-500'} width={24}/>
                                                     }
-                                                    placeholder={`Enter customer name`}
+                                                    placeholder={t('customerNamePlaceholder')}
                                                     type="text"
                                                     validate={() => {
                                                         return fieldState.error?.message;
@@ -303,7 +303,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                 />
                                 <Spacer y={2}/>
 
-                                <p className="mt-1 text-sm font-normal text-default-400">Enter customer e-mail address.</p>
+                                <p className="mt-1 text-sm font-normal text-default-400">{t('customerEmailLabel')}</p>
                                 <FormField
                                     control={form.control}
                                     name="email"
@@ -317,7 +317,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                                     startContent={
                                                         <IconMail className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                                                     }
-                                                    placeholder={`Enter customer email address`}
+                                                    placeholder={t('customerEmailPlaceholder')}
                                                     type="text"
                                                     validate={() => {
                                                         return fieldState.error?.message;
@@ -330,7 +330,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
 
                                 <Spacer y={2}/>
 
-                                <p className="mt-1 text-sm font-normal text-default-400">Enter customer phone number. (Optional)</p>
+                                <p className="mt-1 text-sm font-normal text-default-400">{t('customerPhoneLabel')}</p>
                                 <FormField
                                     control={form.control}
                                     name="phoneNumber"
@@ -344,7 +344,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                                     startContent={
                                                         <Icon icon={"solar:phone-calling-bold"} className="text-default-400 pointer-events-none flex-shrink-0" width={24}/>
                                                     }
-                                                    placeholder={`Enter customer phone number`}
+                                                    placeholder={t('customerPhonePlaceholder')}
                                                     type="text"
                                                     validate={() => {
                                                         return fieldState.error?.message;
@@ -364,7 +364,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                     className={`${(!form.watch("email") && !form.watch("phoneNumber")) ? "" : "bg-gradient-primary text-white border-none"} w-full`}
                                     endContent={<Icon icon="solar:alt-arrow-right-linear" width={24} />}
                                 >
-                                    Create Order
+                                    {t('createOrderButton')}
                                 </Button>
                             </div>
 
