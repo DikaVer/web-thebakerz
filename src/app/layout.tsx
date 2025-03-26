@@ -1,4 +1,5 @@
 import { lexendDeca } from "@/components/fonts";
+import { connection } from "next/server";
 import '@/styles/globals.css'
 import React from "react";
 import type { Metadata } from "next";
@@ -36,6 +37,8 @@ export default async function RootLayout({
                                    }: Readonly<{
     children: React.ReactNode;
 }>) {
+    // Opt-out of static generation for every page so the CSP nonce can be applied
+    await connection();
 
     const session = await getCurrentSession();
 

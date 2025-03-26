@@ -55,6 +55,9 @@ importers:
       '@microsoft/clarity':
         specifier: ^1.0.0
         version: 1.0.0
+      '@nosecone/next':
+        specifier: 1.0.0-beta.4
+        version: 1.0.0-beta.4(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
       '@number-flow/react':
         specifier: ^0.5.8
         version: 0.5.8(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -1408,6 +1411,12 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@nosecone/next@1.0.0-beta.4':
+    resolution: {integrity: sha512-wjfBQ5T1b4rmWVkc5ATqMrwZOBOilVDIw4SwXNne0nQY2moVw18601xG9D9nTghuvYrPHlYZF9MJf+9lwqcyIA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      next: '>=14'
 
   '@number-flow/react@0.5.8':
     resolution: {integrity: sha512-ZHjih9W/kD5srBn7XjcASOEssRbU3vn8VcqXbngVaUeTJNBSn9358QwIg4/WFT6GJXyFAnNQsZeLSCAi6xrMfg==}
@@ -4487,6 +4496,10 @@ packages:
   normalize-wheel@1.0.1:
     resolution: {integrity: sha512-1OnlAPZ3zgrk8B91HyRj+eVv+kS5u+Z0SCsak6Xil/kmgEia50ga7zfkumayonZrImffAxPU/5WcyGhzetHNPA==}
 
+  nosecone@1.0.0-beta.4:
+    resolution: {integrity: sha512-itrwEwhoyPAeDqT3TgorqajXU3xLbab3TiCI8PNHTP8dK4vaoSy9M97z6pHqpbjIW7+Sco+pNAvuCELV+AzRGw==}
+    engines: {node: '>=18'}
+
   number-flow@0.5.6:
     resolution: {integrity: sha512-3K4lWNn+zWYeWEgaJMbFIjqy6WnvIETXTVIybKnaPU0XmhsqQmdXfxXf7tmB4MybzHwrl5GN4oFT34EU/B2yhg==}
 
@@ -7321,6 +7334,11 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
+
+  '@nosecone/next@1.0.0-beta.4(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))':
+    dependencies:
+      next: 15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      nosecone: 1.0.0-beta.4
 
   '@number-flow/react@0.5.8(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
@@ -11144,6 +11162,8 @@ snapshots:
   normalize-path@3.0.0: {}
 
   normalize-wheel@1.0.1: {}
+
+  nosecone@1.0.0-beta.4: {}
 
   number-flow@0.5.6:
     dependencies:
