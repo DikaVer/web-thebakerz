@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "obfuscate-build": "next-css-obfuscator"
+    "obfuscate-build": "next-css-obfuscator",
+    "translations:find-unused": "ts-node src/scripts/find-unused-translations.ts",
+    "translations:sync": "ts-node src/scripts/sync-translations.ts",
+    "translations:check": "ts-node src/scripts/check-translation-integrity.ts",
+    "translations:clean": "npm run translations:find-unused && npm run translations:sync && npm run translations:check"
   },
   "browserslist": {},
   "dependencies": {

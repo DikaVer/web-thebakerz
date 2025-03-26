@@ -15,6 +15,9 @@ import {calculateTotals} from "@/lib/price/tax";
 import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
 import {CalendarDateTime, now} from "@internationalized/date";
 import {scheduledToCalendarDateTime} from "@/lib/utils";
+import { getTranslations } from "next-intl/server";
+
+type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
 // Order data interface
 export interface OrderData {
@@ -95,33 +98,35 @@ export type OrderProduct = {
 export const createOrder = async (
     formData: z.infer<typeof CustomerOrderSchema>
 ):Promise<{error?: string; orderId?: string}> => {
+    const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
+    
     // Check rate limiting
     if (!(await globalPOSTRateLimit())) {
-        return { error: "Too many requests" };
+        return { error: t("tooManyRequests") };
     }
 
     // Validate form data
     const validation = CustomerOrderSchema.safeParse(formData);
     if (!validation.success) {
-        return { error: "Invalid fields!" };
+        return { error: t("invalidFields") };
     }
 
     // Get session, user, and store details
     const { session, user, store} = await getCurrentSession();
-      const userId = (!session || !user) ? await getCartSessionCookieOrCreate() : user.id;
-    if (!store) return { error: "Store not found!" };
-    if (!userId) return { error: "User not found!" };
+    const userId = (!session || !user) ? await getCartSessionCookieOrCreate() : user.id;
+    if (!store) return { error: t("storeNotFound") };
+    if (!userId) return { error: t("userNotFound") };
 
     // Retrieve the user's cart data for the current store
     const cartData = await getCart(userId, store.id);
 
     if (!cartData || !cartData[store.id] || Object.keys(cartData[store.id]).length === 0) {
-        return { error: "Cart is empty" };
+        return { error: t("cartEmpty") };
     }
 
     // Get scheduled order time
     const { date, time } = await getOrderTime();
-    if (!date || !time) return { error: "Order time is not set" };
+    if (!date || !time) return { error: t("orderTimeNotSet") };
 
     // Prevent ordering for past dates
     const today = now("Europe/Amsterdam")
@@ -131,7 +136,7 @@ export const createOrder = async (
         time
     })
     if (orderDateObj < todayCalendar) {
-        return { error: "Cannot place orders for past dates or time is near to end" };
+        return { error: t("pastDateOrder") };
     }
 
     // Get products data and prepare cart items with subtotal calculation
@@ -173,67 +178,67 @@ export const createOrder = async (
         await connectionPool.query("BEGIN");
 
         // Insert order record into PostgreSQL
-            const result = await connectionPool.query(
-                `
-                        INSERT INTO payment_orders
-                        (store_id, store_order_id, email_customer, amount, product_ids, status, cosmos_id)
-                        VALUES
-                            (
-                                $1,
-                                (SELECT COALESCE(COUNT(*) + 1, 1) FROM payment_orders WHERE store_id = $7),
-                                $2,
-                                $3,
-                                $4::text[],
-                                $5,
-                                $6
-                            )
-                            RETURNING id, order_date, store_order_id
-                    `,
-                [
-                    store.id,
-                    formData.email,
-                    amount,
-            cartItems.map(item => item.id || "Error"),
-                    "manual",
-                    cosmosId,
-            store.id
-                ]
-            );
-            if (result.rows.length === 0) {
-          await connectionPool.query("ROLLBACK");
-          return { error: "Failed to create order" };
-            }
+        const result = await connectionPool.query(
+            `
+                    INSERT INTO payment_orders
+                    (store_id, store_order_id, email_customer, amount, product_ids, status, cosmos_id)
+                    VALUES
+                        (
+                            $1,
+                            (SELECT COALESCE(COUNT(*) + 1, 1) FROM payment_orders WHERE store_id = $7),
+                            $2,
+                            $3,
+                            $4::text[],
+                            $5,
+                            $6
+                        )
+                        RETURNING id, order_date, store_order_id
+                `,
+            [
+                store.id,
+                formData.email,
+                amount,
+                cartItems.map(item => item.id || "Error"),
+                "manual",
+                cosmosId,
+                store.id
+            ]
+        );
+        if (result.rows.length === 0) {
+            await connectionPool.query("ROLLBACK");
+            return { error: t("failedCreateOrder") };
+        }
 
-            // Calculate tax and adjusted amounts
-            const { vat, total, subtotal } = calculateTotals(amount, !store.kor);
+        // Calculate tax and adjusted amounts
+        const { vat, total, subtotal } = calculateTotals(amount, !store.kor);
 
         // Prepare order data for Cosmos DB
-            const orderData: OrderData = {
-                id: cosmosId,
-                seq_id: result.rows[0].id,
-                store_order_id: result.rows[0].store_order_id,
-                store_id: store.id,
-                customer_email: formData.email,
-                customer: {
-                    email_customer: formData.email,
-                    email_verified: false,
-                    name_customer: formData.name,
-                    phone_number: formData.phoneNumber,
-                    address: null
-                },
-                createdAt: result.rows[0].order_date,
-                status: "manual",
-                scheduled_time: { date, time },
-                order_status: "new",
-                completed: false,
-                productsData: cartItems,
-                tax_amount: vat,
-                sub_amount: subtotal,
-                amount: amount,
+        const orderData: OrderData = {
+            id: cosmosId,
+            seq_id: result.rows[0].id,
+            store_order_id: result.rows[0].store_order_id,
+            store_id: store.id,
+            customer_email: formData.email,
+            customer: {
+                email_customer: formData.email,
+                email_verified: false,
+                name_customer: formData.name,
+                phone_number: formData.phoneNumber,
+                address: null
+            },
+            createdAt: result.rows[0].order_date,
+            status: "manual",
+            scheduled_time: { date, time },
+            order_status: "new",
+            completed: false,
+            productsData: cartItems,
+            tax_amount: vat,
+            sub_amount: subtotal,
+            amount: amount,
         };
 
         // Create order record in Cosmos DB
-          await containerOrders.items.create(orderData);
+        await containerOrders.items.create(orderData);
 
         // Clear cart, send confirmation email, and invalidate cache
         await removeCartByUserIdAndStoreId(userId, store.id);
@@ -249,11 +254,13 @@ export const createOrder = async (
         // Rollback transaction on error
         await connectionPool.query("ROLLBACK");
         console.error("Error creating checkout session:", error);
-        return { error: "Failed to create checkout session" };
+        return { error: t("failedCreateCheckout") };
     }
 };
 
 export async function getOrdersByDateRange(storeId: string, fromDate: string, toDate: string): Promise<OrderData[]> {
+    const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
+    
     try {
         const {store} = await getCurrentSession();
         if (!store || store.id !== storeId) {return [];}
@@ -271,9 +278,8 @@ export async function getOrdersByDateRange(storeId: string, fromDate: string, to
             }
         });
 
-
         if (!response.ok) {
-            throw new Error(`Failed to fetch orders: ${response.status}`);
+            throw new Error(t("failedFetchOrders"));
         }
 
         return response.json();
@@ -282,7 +288,6 @@ export async function getOrdersByDateRange(storeId: string, fromDate: string, to
         return [];
     }
 }
-
 
 export async function updateOrderStatus(storeId: string, orderId: string, email: string, status: string): Promise<boolean> {
     try {
@@ -305,9 +310,9 @@ export async function updateOrderStatus(storeId: string, orderId: string, email:
     }
 };
 
-
-
 export async function getOrder(storeId: string, orderId: string, email: string): Promise<OrderData | null> {
+    const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
+    
     try {
         if (!storeId || !orderId || !email) {return null;}
         const partitionKeyValue = [storeId, email];
@@ -315,7 +320,7 @@ export async function getOrder(storeId: string, orderId: string, email: string):
         return order ? order : null;
     } catch (error) {
         console.error("Error fetching store data:", error);
-        throw new Error("Failed to fetch store data");
+        throw new Error(t("failedFetchOrder"));
     }
 }
 
@@ -335,101 +340,3 @@ export const getCurrentOrder = async (storeId: string, orderId: string, email: s
     }).then(res => res.json());
 };
 
-
-
-    type Type =
-        | 'ad_nrt'
-        | 'ae_trn'
-        | 'ar_cuit'
-        | 'au_abn'
-        | 'au_arn'
-        | 'bg_uic'
-        | 'bh_vat'
-        | 'bo_tin'
-        | 'br_cnpj'
-        | 'br_cpf'
-        | 'by_tin'
-        | 'ca_bn'
-        | 'ca_gst_hst'
-        | 'ca_pst_bc'
-        | 'ca_pst_mb'
-        | 'ca_pst_sk'
-        | 'ca_qst'
-        | 'ch_uid'
-        | 'ch_vat'
-        | 'cl_tin'
-        | 'cn_tin'
-        | 'co_nit'
-        | 'cr_tin'
-        | 'de_stn'
-        | 'do_rcn'
-        | 'ec_ruc'
-        | 'eg_tin'
-        | 'es_cif'
-        | 'eu_oss_vat'
-        | 'eu_vat'
-        | 'gb_vat'
-        | 'ge_vat'
-        | 'hk_br'
-        | 'hr_oib'
-        | 'hu_tin'
-        | 'id_npwp'
-        | 'il_vat'
-        | 'in_gst'
-        | 'is_vat'
-        | 'jp_cn'
-        | 'jp_rn'
-        | 'jp_trn'
-        | 'ke_pin'
-        | 'kr_brn'
-        | 'kz_bin'
-        | 'li_uid'
-        | 'li_vat'
-        | 'ma_vat'
-        | 'md_vat'
-        | 'mx_rfc'
-        | 'my_frp'
-        | 'my_itn'
-        | 'my_sst'
-        | 'ng_tin'
-        | 'no_vat'
-        | 'no_voec'
-        | 'nz_gst'
-        | 'om_vat'
-        | 'pe_ruc'
-        | 'ph_tin'
-        | 'ro_tin'
-        | 'rs_pib'
-        | 'ru_inn'
-        | 'ru_kpp'
-        | 'sa_vat'
-        | 'sg_gst'
-        | 'sg_uen'
-        | 'si_tin'
-        | 'sv_nit'
-        | 'th_vat'
-        | 'tr_tin'
-        | 'tw_vat'
-        | 'tz_vat'
-        | 'ua_vat'
-        | 'unknown'
-        | 'us_ein'
-        | 'uy_ruc'
-        | 'uz_tin'
-        | 'uz_vat'
-        | 've_rif'
-        | 'vn_tin'
-        | 'za_vat';
-
-
-interface TaxId {
-    /**
-     * The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
-     */
-    type: Type;
-
-    /**
-     * The value of the tax ID.
-     */
-    value: string | null;
-}

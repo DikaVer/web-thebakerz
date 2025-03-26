@@ -288,8 +288,8 @@ const GuestMenu: React.FC<GuestMenuProps> = ({ isCollapsed }) => {
                     }}
                 />
                 <div className={cn("flex max-w-full flex-col", { hidden: isCollapsed })}>
-                    <p className="text-small font-medium text-foreground">{t("Welcomed Guest")}</p>
-                    <p className="text-tiny font-medium text-grayText">{t("Sign in")}</p>
+                    <p className="text-small font-medium text-foreground">{t("welcomedGuest")}</p>
+                    <p className="text-tiny font-medium text-grayText">{t("signIn")}</p>
                 </div>
             </a>
         </Tooltip>

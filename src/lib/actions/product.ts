@@ -6,8 +6,9 @@ import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {v4 as uuidv4} from "uuid";
 import {containerProducts} from "@/db";
 import {revalidateTag} from "next/cache";
+import { getTranslations } from "next-intl/server";
 
-
+type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
 /**
  * Adds a new product or updates an existing one in the database.
@@ -22,14 +23,15 @@ export const addProduct = async (
     formData: z.infer<typeof ProductSchema>,
     productId?: string
 ) => {
-    if (!(await globalPOSTRateLimit())) return { error: "Too many requests" };
-
+    const t = await getTranslations("app/lib/actions/product") as TranslationFunction;
+    
+    if (!(await globalPOSTRateLimit())) return { error: t("tooManyRequests") };
 
     const validation = ProductSchema.safeParse(formData);
-    if (!validation.success) return { error: "Invalid fields!" };
+    if (!validation.success) return { error: t("invalidFields") };
 
     const { user, store } = await getCurrentSession();
-    if (!user || !store) return { error: "User not found!" };
+    if (!user || !store) return { error: t("userNotFound") };
 
     let oldProductData = null;
     if (productId) {
@@ -61,10 +63,10 @@ export const addProduct = async (
                 }
             );
             if (!response.ok) {
-              return { error: "Failed to upload image" };
+              return { error: t("failedUploadImage") };
             }
             const { url: newUrl } = await response.json();
-            if (!newUrl) return { error: "Failed to upload image" };
+            if (!newUrl) return { error: t("failedUploadImage") };
 
             // Replace if an old URL exists at the same index, otherwise append.
             if (updatedAdditionalImages[i]) {
@@ -94,10 +96,10 @@ export const addProduct = async (
         );
         if (!response.ok) {
             console.error("Failed to upload image");
-            return { error: "Failed to upload image" };
+            return { error: t("failedUploadImage") };
         }
         const { url } = await response.json();
-        if (!url) return { error: "Failed to upload image" };
+        if (!url) return { error: t("failedUploadImage") };
         image_url = url;
     }
 
@@ -134,15 +136,15 @@ export const addProduct = async (
             });
             await containerProducts.items.create(productData);
             revalidateTag("products");
-            return { success: "Product updated!", product: productData };
+            return { success: t("productUpdated"), product: productData };
         } else {
             await containerProducts.items.create(productData);
             revalidateTag("products");
-            return { success: "Product added!", product: productData };
+            return { success: t("productAdded"), product: productData };
         }
     } catch (error: any) {
         console.error("Error updating product:", error);
-        return { error: "Failed to update product." };
+        return { error: t("failedUpdateProduct") };
     }
 };
 
@@ -288,7 +290,6 @@ export async function getCurrentProducts(storeId: string): Promise<ProductDataFu
         throw new Error("Failed to fetch store products");
     }
 }
-
 
 export type ProductData = {
     id: string;

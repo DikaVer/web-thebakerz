@@ -5,6 +5,9 @@ import { v4 as uuidv4 } from "uuid";
 import {containerCart, containerProducts} from "@/db";
 import {revalidateTag} from "next/cache";
 import {ProductData} from "@/lib/actions/product";
+import { getTranslations } from "next-intl/server";
+
+type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
 export interface CartData {
     [store_id: string]: CartItem;
@@ -52,22 +55,21 @@ export const updateCart = async (
     variants?: Variant[],
     itemId?: string
 ): Promise<{ success?: string; error?: string; itemCart?: ItemCart }> => {
+    const t = await getTranslations("app/lib/actions/cart") as TranslationFunction;
+    
     try {
         if (!(await globalPOSTRateLimit())) {
-            return { error: "Too many requests" };
+            return { error: t("tooManyRequests") };
         }
 
-        // check note length
         if (note && note.length > 100) {
-            return { error: "Note is too long!" };
+            return { error: t("noteTooLong") };
         }
 
-        // Get the product data to validate variants
         const { resource: productData } = await containerProducts.item(productId, storeId).read<ProductData>();
 
-        // Validate variants against product configuration
         if (productData?.variants && productData.variants.length > 0) {
-            const variantsError = validateVariants(variants || [], productData.variants);
+            const variantsError = validateVariants(variants || [], productData.variants, t);
             if (variantsError) {
                 return { error: variantsError };
             }
@@ -76,7 +78,7 @@ export const updateCart = async (
         const minOrder = productData?.min_order || 1;
 
         if (quantity < minOrder) {
-            return { error: `You need to order at least ${minOrder} of this product` };
+            return { error: t("minOrderRequired", { min: minOrder }) };
         }
 
         const session = await getCurrentSession();
@@ -86,11 +88,8 @@ export const updateCart = async (
         } else {
             userId = session.user.id;
         }
-        if (!userId) return { error: "User not found!" };
+        if (!userId) return { error: t("userNotFound") };
 
-
-        // If your container uses a composite partition key with /store_id and /user_id,
-        // use an array: [storeId, userId]
         const partitionKeyValue = [storeId, userId];
         const now = new Date().toISOString();
         const newItemCart: ItemCart = {
@@ -116,12 +115,11 @@ export const updateCart = async (
             await containerCart.items.create(newItemCart);
         }
 
-        // console.log(newItemCart);
         revalidateTag('cart');
-        return { success: "Cart updated successfully!", itemCart: newItemCart };
+        return { success: t("cartUpdatedSuccess"), itemCart: newItemCart };
     } catch (error: any) {
         console.error("Error updating cart:", error);
-        return { error: "Failed to update cart." };
+        return { error: t("failedUpdateCart") };
     }
 };
 
@@ -129,7 +127,8 @@ export const updateCart = async (
 // Helper function to validate variants against product configuration
 function validateVariants(
     submittedVariants: Variant[],
-    productVariants: ProductData["variants"]
+    productVariants: ProductData["variants"],
+    t: TranslationFunction
 ): string | null {
     // Create a map of submitted variants for easier lookup
     const submittedVariantsMap = new Map<string, Variant>();
@@ -144,7 +143,7 @@ function validateVariants(
 
         // Check if required variant is missing
         if (productVariant.required && (!submittedVariant || submittedVariant.selectedItems.length === 0)) {
-            return `${productVariant.label} is required`;
+            return t("requiredVariantMissing", { variant: productVariant.label });
         }
 
         // If variant was submitted, validate it
@@ -153,26 +152,26 @@ function validateVariants(
 
             // Validate single selection has exactly one item
             if (productVariant.isSingle && selectedCount !== 1) {
-                return `${productVariant.label} must have exactly one selection`;
+                return t("singleSelectionRequired", { variant: productVariant.label });
             }
 
             // Validate multiple selection doesn't exceed max
             if (!productVariant.isSingle && productVariant.maxSelections && selectedCount > productVariant.maxSelections) {
-                return `${productVariant.label} cannot have more than ${productVariant.maxSelections} selections`;
+                return t("maxSelectionsExceeded", { variant: productVariant.label, max: productVariant.maxSelections });
             }
             // console.log(productVariant )
             // console.log(submittedVariant)
 
             // Validate minimum selections if specified
             if (!productVariant.isSingle && productVariant.required  && productVariant.maxSelections && selectedCount !== productVariant.maxSelections) {
-                return `${productVariant.label} must have ${productVariant.maxSelections} selections`;
+                return t("minSelectionsRequired", { variant: productVariant.label, min: productVariant.maxSelections });
             }
 
             // Validate that all selected items exist in the product options
             const validOptions = new Set(productVariant.options.map(opt => opt.label));
             for (const item of submittedVariant.selectedItems) {
                 if (!validOptions.has(item.label)) {
-                    return `Invalid option ${item.label} for ${productVariant.label}`;
+                    return t("invalidOption", { option: item.label, variant: productVariant.label });
                 }
             }
         }
@@ -188,9 +187,11 @@ export const removeCartItem = async (
     storeId: string,
     itemId: string
 ): Promise<{ success?: string; error?: string }> => {
+    const t = await getTranslations("app/lib/actions/cart") as TranslationFunction;
+    
     try {
         if (!(await globalPOSTRateLimit())) {
-            return { error: "Too many requests" };
+            return { error: t("tooManyRequests") };
         }
         const session = await getCurrentSession();
         let userId;
@@ -199,15 +200,15 @@ export const removeCartItem = async (
         } else {
             userId = session.user.id;
         }
-        if (!userId) return { error: "User not found!" };
+        if (!userId) return { error: t("userNotFound") };
 
         const partitionKeyValue = [storeId, userId];
         await containerCart.item(itemId, partitionKeyValue).delete();
         revalidateTag('cart');
-        return { success: "Item removed successfully!" };
+        return { success: t("itemRemovedSuccess") };
     } catch (error: any) {
         console.error("Error removing cart item:", error);
-        return { error: "Failed to remove cart item." };
+        return { error: t("failedRemoveItem") };
     }
 };
 
@@ -222,29 +223,25 @@ export const removeCartItem = async (
 export const replaceGuestCart = async (
     storeId: string
 ): Promise<{ success?: string; error?: string }> => {
+    const t = await getTranslations("app/lib/actions/cart") as TranslationFunction;
+    
     try {
         if (!(await globalGETRateLimit())) {
-            return { error: "Too many requests" };
+            return { error: t("tooManyRequests") };
         }
 
         const session = await getCurrentSession();
 
         if (!session || !session.user) {
-            return { error: "Session is not recognized" };
+            return { error: t("sessionNotRecognized") };
         }
-
 
         const userId = session.user.id;
         const guestId = await getCartSessionCookie();
 
-
-
-        // Assuming your container is partitioned with a composite key on /store_id and /user_id,
-        // you must supply the partition key as an array: [storeId, guestId]
         const guestPartitionKey = [storeId, guestId];
         const userPartitionKey = [storeId, userId];
 
-        // Query for all cart items for this guest.
         const querySpec = {
             query: "SELECT * FROM c WHERE c.store_id = @storeId AND c.user_id = @guestId",
             parameters: [
@@ -253,13 +250,10 @@ export const replaceGuestCart = async (
             ],
         };
 
-
         const { resources: guestItems } = await containerCart.items
             .query(querySpec, { partitionKey: guestPartitionKey })
             .fetchAll();
 
-
-        // Query for existing user cart items.
         const userQuerySpec = {
             query: "SELECT * FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
             parameters: [
@@ -272,7 +266,6 @@ export const replaceGuestCart = async (
             .query(userQuerySpec, { partitionKey: userPartitionKey })
             .fetchAll();
 
-        // Delete all existing user items concurrently.
         if (userItems && userItems.length > 0) {
             await Promise.all(
                 userItems.map((item) =>
@@ -281,22 +274,16 @@ export const replaceGuestCart = async (
             );
         }
 
-        // Process each guest cart item concurrently.
         if (guestItems && guestItems.length > 0) {
             await Promise.all(
                 guestItems.map(async (item) => {
-                    // Create a new item with the updated user id.
                     const newItem: ItemCart = {
                         ...item,
-                        // Retain the same id (or generate a new one if desired).
                         id: item.id,
                         user_id: userId,
                     };
 
-                    // Insert the new document into the user partition.
                     await containerCart.items.create(newItem);
-
-                    // Delete the original guest document.
                     await containerCart.item(item.id, guestPartitionKey).delete();
                 })
             );
@@ -304,11 +291,11 @@ export const replaceGuestCart = async (
         revalidateTag('cart');
 
         return {
-            success: "Guest cart replaced successfully with user cart items!",
+            success: t("guestCartReplacedSuccess")
         };
     } catch (error: any) {
         console.error("Error replacing guest cart:", error);
-        return { error: "Failed to replace guest cart." };
+        return { error: t("failedReplaceGuestCart") };
     }
 }
 
@@ -323,22 +310,20 @@ export const removeCartByUserIdAndStoreId = async (
     userId: string,
     storeId: string
 ): Promise<{ cartData?: CartData; success?: string; error?: string }> => {
+    const t = await getTranslations("app/lib/actions/cart") as TranslationFunction;
+    
     try {
         if (!(await globalPOSTRateLimit())) {
-            return { error: "Too many requests" };
+            return { error: t("tooManyRequests") };
         }
 
         if (!userId || !storeId) {
-            return { error: "User ID and Store ID are required" };
+            return { error: t("userIdStoreIdRequired") };
         }
 
-        // Get current cart before deletion
         const cartData = await getCart(userId, storeId);
-
-        // Define the partition key value
         const partitionKeyValue = [storeId, userId];
 
-        // Check if there are items in the cart and delete them sequentially
         if (cartData[storeId]) {
             const cartItems = Object.values(cartData[storeId]);
             if (cartItems.length > 0) {
@@ -351,11 +336,11 @@ export const removeCartByUserIdAndStoreId = async (
         revalidateTag('cart');
 
         return {
-            success: "Cart removed successfully!"
+            success: t("cartRemovedSuccess")
         };
     } catch (error: any) {
         console.error("Error removing cart:", error);
-        return { error: "Failed to remove cart." };
+        return { error: t("failedRemoveCart") };
     }
 };
 

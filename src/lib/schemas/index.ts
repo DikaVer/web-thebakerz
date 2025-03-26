@@ -1,6 +1,7 @@
 import * as z from 'zod';
 import validator from "validator";
 import {categories} from "@/lib/local-variables";
+import { getTranslations } from "next-intl/server";
 
 
 export const PhoneSchema = z.string().refine(validator.isMobilePhone, { message: "Invalid phone number" });
