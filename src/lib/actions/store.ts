@@ -125,7 +125,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 store_locations.country AS store_country,
                 store_locations.latitude AS store_latitude,
                 store_locations.longitude AS store_longitude,
-                COALESCE(bs.kor, false) AS kor
+                bs.kor AS kor
             FROM stores
                      INNER JOIN store_locations ON store_locations.store_id = stores.id
                      LEFT JOIN business_store bs ON bs.store_id = stores.id
@@ -144,7 +144,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
     if (rowS){
         store = {
             id: rowS.store_id,
-            kor: false,
+            kor: rowS.kor,
             storeName: rowS.store_name,
             description: rowS.store_description,
             phone: rowS.store_phone,
