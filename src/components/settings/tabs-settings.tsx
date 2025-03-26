@@ -6,6 +6,7 @@ import WorkingHoursManager from "@/components/settings/calendar-settings";
 import {useTranslations} from "next-intl";
 import {useSession} from "@/components/providers/session-provider";
 import {redirect, useSearchParams} from "next/navigation";
+import DeliveryManager from "@/components/settings/delivery-settings";
 
 
 interface TabsSettingsProps {
@@ -48,6 +49,9 @@ export const TabsSettings: React.FC<TabsSettingsProps> = ({
               <>
                   <Tab key="calendar" title={t("workingHoursTab")}>
                       <WorkingHoursManager/>
+                  </Tab>
+                  <Tab key="delivery" title={t("deliveryTab")}>
+                      <DeliveryManager/>
                   </Tab>
               </>
           )}
