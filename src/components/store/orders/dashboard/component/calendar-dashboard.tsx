@@ -359,13 +359,13 @@ function CalendarDashboard({
                             handleDayClick(date);
                         }} // Better touch support
                     >
-                        <span className={cn('bg-danger rounded-full border-text border-2 text-xs sm:text-small px-0.5 text-white aspect-square',
+                        <span className={cn('bg-danger rounded-full border-text border-1 text-xs sm:text-small px-0.5 text-white aspect-square',
                             (dateStatus?.new_count <= 0 || !dateStatus?.new_count) && 'bg-transparent border-transparent text-transparent'
                             )}>
                             {dateStatus?.new_count || 0}
                         </span>
                         {date.getDate()}
-                        <span className={cn('bg-warning rounded-full border-text border-2 text-xs sm:text-small px-0.5 text-text aspect-square',
+                        <span className={cn('bg-warning rounded-full border-text border-1 text-xs sm:text-small px-0.5 text-text aspect-square',
                             (dateStatus?.started_count <= 0 || !dateStatus?.started_count) && 'bg-transparent border-transparent text-transparent'
                             )}>
                             {dateStatus?.started_count || 0}
