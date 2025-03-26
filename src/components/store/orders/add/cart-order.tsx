@@ -46,7 +46,7 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         return productData ? sum + calculateItemTotalPrice(item.variants, productData.price, item.quantity) : sum;
     }, 0);
 
-    const { vat, subtotal, total} = calculateTotals(amount, store.kor);
+    const { vat, subtotal, total} = calculateTotals(amount, !store.kor);
 
     const { platform_fee } = calculatePlatformFee(total);
 
