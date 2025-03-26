@@ -106,7 +106,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
             // Update the URL search parameters (make sure this runs on the client)
             if (date && time) {
                 setSelectedDate(parseDateParams(`${date} ${time}`))
-                await updateOrderTime(date, time);
+                await updateOrderTime(store.id, date, time);
             }
             setSelectedDate(newDate);
         }

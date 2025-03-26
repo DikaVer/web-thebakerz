@@ -52,7 +52,7 @@ export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: S
     const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : t("locationPlaceholder");
 
     // --- 2. onChange Handler for DatePicker: Save the date/time and update URL search params ---
-    const handleDateChange = (newDate: CalendarDateTime | CalendarDate) => {
+    const handleDateChange = async (newDate: CalendarDateTime | CalendarDate) => {
         if (newDate instanceof CalendarDate) {
             setSelectedDate(newDate);
         } else {
@@ -62,7 +62,7 @@ export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal}: S
                 const parsedDate = parseDateParams(`${date} ${time}`);
                 setSelectedDate(parsedDate);
                 setSelectedDateGlobal && setSelectedDateGlobal(parsedDate);
-                updateOrderTime(date, time);
+                await updateOrderTime(store.id, date, time);
             }
             setSelectedDate(newDate);
         }

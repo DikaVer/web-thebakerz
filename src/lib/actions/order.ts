@@ -125,7 +125,7 @@ export const createOrder = async (
     }
 
     // Get scheduled order time
-    const { date, time } = await getOrderTime();
+    const { date, time } = await getOrderTime(store.id);
     if (!date || !time) return { error: t("orderTimeNotSet") };
 
     // Prevent ordering for past dates
