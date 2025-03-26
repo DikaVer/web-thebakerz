@@ -3,7 +3,7 @@
 import {Image, Tab, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@heroui/react";
 import {formatCurrency} from "@/lib/utils";
 import React, { useState } from "react";
-import { useTranslations } from "use-intl";
+import { useTranslations } from "next-intl";
 
 import {ProductData, ProductDataFull} from "@/lib/actions/product";
 import {useProductDialog} from "@/components/providers/product-provider";

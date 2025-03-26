@@ -9,7 +9,7 @@ import { Calendar, Button, Popover, PopoverContent, PopoverTrigger, ScrollShadow
 import { Icon } from "@iconify/react";
 import {WorkHours} from "@/lib/actions/calendar-actions";
 import showSuccessMessage from "@/components/toast/toast-succes";
-import { useTranslations } from "use-intl";
+import { useTranslations } from "next-intl";
 
 // Define props to include schedule and minValue
 interface SmartDatetimeInputProps {

@@ -6,7 +6,8 @@ import React, { useState} from "react";
 import {Spacer, TimeInput, Switch, Button, DatePicker} from "@heroui/react";
 import {getLocalTimeZone, today} from "@internationalized/date";
 import {Icon} from "@iconify/react";
-import { useTranslations } from "use-intl";
+import {useTranslations} from "next-intl";
+
 
 interface DayHoursProps {
 
