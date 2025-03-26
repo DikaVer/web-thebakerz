@@ -223,7 +223,6 @@ export const categories: Readonly<{ [key: string]: { description: string } }> = 
     'Macarons': { description: 'French almond meringue cookies with filling.' },
     'Pastries': { description: 'Flaky, buttery baked goods including croissants and danish.' },
     'Pies': { description: 'Traditional fruit or savory fillings in a pastry crust.' },
-    'Tarts': { description: 'Pastry shell filled with sweet or savory ingredients.' },
     'Vegan': { description: 'Plant-based baked goods made without animal products.' },
     'Wedding Cakes': { description: 'Elegant multi-tiered cakes for wedding celebrations.' }
 };
