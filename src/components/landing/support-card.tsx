@@ -13,7 +13,7 @@ export type SupportCardProps = React.HTMLAttributes<HTMLDivElement>;
 const SupportCard = React.forwardRef<HTMLDivElement, SupportCardProps>(
     ({ className, ...props }, ref) => {
         const router = useRouter();
-        const t = useTranslations("TheBakerz");
+        const t = useTranslations("app/(landing)/components/support-card");
 
         const handleClick = () => {
             router.push("/support/contact-us");
@@ -29,7 +29,7 @@ const SupportCard = React.forwardRef<HTMLDivElement, SupportCardProps>(
                 )}
             >
                 <div className="line-clamp-2 text-left text-tiny font-medium text-default-700">
-                    {t("Support Card Message")}
+                    {t("supportCardMessage")}
                 </div>
                 <Button
                     isIconOnly

@@ -3,6 +3,7 @@ import {getOrder} from "@/lib/actions/order";
 import {connectionPool, containerOrders} from "@/db";
 import {getCurrentSession} from "@/lib/actions/session";
 import {revalidateTag} from "next/cache";
+import { getTranslations } from "next-intl/server";
 
 // This array defines the valid progression order.
 const validStatusOrder = ['cancelled', 'refunded', "new", "started", "ready", "completed"];
@@ -10,7 +11,6 @@ const validStatusOrder = ['cancelled', 'refunded', "new", "started", "ready", "c
 // This function updates the status of an order in the database.
 async function updateOrderInCosmos(storeId: string, orderId: string, email: string, newStatus: string) {
     try {
-
         const partitionKeyValue = [storeId, email];
         // Example Cosmos DB update operation
         await containerOrders.item(orderId, partitionKeyValue).patch({
@@ -19,8 +19,6 @@ async function updateOrderInCosmos(storeId: string, orderId: string, email: stri
                 { op: 'set', path: `/${newStatus}_at`, value: newStatus },
             ]
         });
-
-        // console.log(`Updated order ${orderId} status to ${newStatus} in Cosmos DB`);
     } catch (error) {
         console.error('Error updating order in Cosmos DB:', error);
         throw new Error('Failed to update order in Cosmos DB');
@@ -40,8 +38,6 @@ async function updateOrderInPostgreSQL(storeId: string, orderId: string, email: 
         if (result.rows.length === 0) {
             throw new Error('Order not found or update failed');
         }
-
-        // console.log(`Updated order ${orderId} status to in PostgreSQL`);
     } catch (error) {
         console.error('Error updating order in PostgreSQL:', error);
         throw new Error('Failed to update order in PostgreSQL');
@@ -50,11 +46,13 @@ async function updateOrderInPostgreSQL(storeId: string, orderId: string, email: 
 
 // This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function POST(request: Request) {
+    const t = await getTranslations("app/api/store/order/updateStatus");
+    
     // Retrieve the Authorization header
     const storeId = request.headers.get('Store-Id');
     if (!storeId) {
         return NextResponse.json(
-            { error: 'Missing or invalid Store-Id header' },
+            { error: t("missingStoreId") },
             { status: 401 }
         );
     }
@@ -62,7 +60,7 @@ export async function POST(request: Request) {
     const orderId = request.headers.get('Order-Id');
     if (!orderId) {
         return NextResponse.json(
-            { error: 'Missing or invalid Order-Id header' },
+            { error: t("missingOrderId") },
             { status: 401 }
         );
     }
@@ -70,7 +68,7 @@ export async function POST(request: Request) {
     const email = request.headers.get('Email');
     if (!email) {
         return NextResponse.json(
-            { error: 'Missing or invalid User-Id header' },
+            { error: t("missingEmail") },
             { status: 401 }
         );
     }
@@ -78,7 +76,7 @@ export async function POST(request: Request) {
     const status = request.headers.get('Status');
     if (!status) {
         return NextResponse.json(
-            { error: 'Missing or invalid Status header' },
+            { error: t("missingStatus") },
             { status: 401 }
         );
     }
@@ -86,7 +84,7 @@ export async function POST(request: Request) {
     const authHeader = request.headers.get('Authorization');
     if (!authHeader) {
         return NextResponse.json(
-            { error: 'Missing or invalid Authorization header' },
+            { error: t("missingAuth") },
             { status: 401 }
         );
     }
@@ -94,47 +92,37 @@ export async function POST(request: Request) {
     const token = authHeader.replace('Bearer ', '').trim();
     if (token !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
         return NextResponse.json(
-            { error: 'Not Authorize Access' },
+            { error: t("notAuthorized") },
             { status: 401 }
         );
     }
 
     try {
-
         const orderData = await getOrder(storeId, orderId, email);
 
         if (!orderData) {
             return NextResponse.json(
-                { error: 'Order not found' },
+                { error: t("orderNotFound") },
                 { status: 404 }
             );
         }
 
         if (orderData.id !== orderId || orderData.store_id !== storeId || orderData.customer_email !== email) {
             return NextResponse.json(
-                { error: 'Invalid Data' },
+                { error: t("invalidData") },
                 { status: 401 }
             );
         }
 
         const newStatus = status.toLowerCase();
-        // const currentIndex = validStatusOrder.indexOf(orderData.order_status);
         const newIndex = validStatusOrder.indexOf(newStatus);
 
         if (newIndex === -1) {
             return NextResponse.json(
-                { error: 'Invalid Status' },
+                { error: t("invalidStatus") },
                 { status: 400 }
             );
         }
-        // console.log(currentIndex, newIndex);
-        //
-        // if (newIndex <= currentIndex) {
-        //     return NextResponse.json(
-        //         { error: 'Invalid Status' },
-        //         { status: 400 }
-        //     );
-        // }
 
         if (newStatus === "completed") {
             await updateOrderInPostgreSQL(storeId, orderId, email);
@@ -143,14 +131,12 @@ export async function POST(request: Request) {
             await updateOrderInCosmos(storeId, orderId, email, newStatus);
         }
 
-
-
         revalidateTag('orders');
         return NextResponse.json(orderData, {status: 200 });
     } catch (error) {
         console.error('Error validating session:', error);
         return NextResponse.json(
-            { error: 'Internal Server Error' },
+            { error: t("internalError") },
             { status: 500 }
         );
     }

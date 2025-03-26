@@ -31,7 +31,7 @@ const cardVariants: Variants = {
 
 /**
  * You can convert these inline styles to Tailwind if desired,
- * but for clarity, we’ll keep them as-is from your example.
+ * but for clarity, we'll keep them as-is from your example.
  */
 const container: React.CSSProperties = {
     margin: "20px auto",
@@ -79,7 +79,7 @@ const food: [string, ReactElement, string, string][] = [
 ];
 
 function Card({ icon, title, description }: CardProps) {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(landing)/components/scroll-triggered");
     return (
         <motion.div
             style={cardContainer}

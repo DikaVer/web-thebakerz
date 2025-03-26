@@ -1,13 +1,16 @@
 // src/app/api/store/orders/range/route.ts
 import { NextResponse } from 'next/server';
 import { containerOrders } from "@/db";
+import { getTranslations } from "next-intl/server";
 
 export async function GET(request: Request) {
+    const t = await getTranslations("app/api/store/orders/range");
+    
     // Retrieve headers
     const storeId = request.headers.get('Store-Id');
     if (!storeId) {
         return NextResponse.json(
-            { error: 'Missing Store-Id header' },
+            { error: t("missingStoreId") },
             { status: 400 }
         );
     }
@@ -15,7 +18,7 @@ export async function GET(request: Request) {
     const fromDate = request.headers.get('From-Date');
     if (!fromDate) {
         return NextResponse.json(
-            { error: 'Missing From-Date header' },
+            { error: t("missingFromDate") },
             { status: 400 }
         );
     }
@@ -23,7 +26,7 @@ export async function GET(request: Request) {
     const toDate = request.headers.get('To-Date');
     if (!toDate) {
         return NextResponse.json(
-            { error: 'Missing To-Date header' },
+            { error: t("missingToDate") },
             { status: 400 }
         );
     }
@@ -31,7 +34,7 @@ export async function GET(request: Request) {
     const authHeader = request.headers.get('Authorization');
     if (!authHeader) {
         return NextResponse.json(
-            { error: 'Missing Authorization header' },
+            { error: t("missingAuth") },
             { status: 401 }
         );
     }
@@ -39,18 +42,15 @@ export async function GET(request: Request) {
     const token = authHeader.replace('Bearer ', '').trim();
     if (token !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
         return NextResponse.json(
-            { error: 'Not Authorized Access' },
+            { error: t("notAuthorized") },
             { status: 401 }
         );
     }
 
     try {
-
         // Format dates to match the format in the database (YYYY-M-D)
         const fromDateObj = new Date(fromDate);
-
         const toDateObj = new Date(toDate);
-
 
         const fromDateString = `${fromDateObj.getFullYear()}-${fromDateObj.getMonth() + 1}-${fromDateObj.getDate()}`;
         const toDateString = `${toDateObj.getFullYear()}-${toDateObj.getMonth() + 1}-${toDateObj.getDate()}`;
@@ -70,14 +70,13 @@ export async function GET(request: Request) {
             ]
         };
 
-
         const { resources: orders } = await containerOrders.items.query(querySpec).fetchAll();
 
         return NextResponse.json(orders);
     } catch (error) {
         console.error('Error fetching orders by date range:', error);
         return NextResponse.json(
-            { error: 'Internal Server Error' },
+            { error: t("internalError") },
             { status: 500 }
         );
     }

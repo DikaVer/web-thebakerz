@@ -39,7 +39,7 @@ export function ScheduleOrder({
         CalendarDateTime | CalendarDate | undefined
     >(parseDateParams(`${dateParam} ${timeParam}`));
 
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/checkout");
 
     const phone = {
         name: t("Phone"),
@@ -58,7 +58,7 @@ export function ScheduleOrder({
                     classNames={{
                         title: 'text-md',
                     }}
-                    title={t("Alert")}
+                    title={t("alert")}
                     variant={"solid"}
                 />
                 <Divider />
@@ -70,8 +70,8 @@ export function ScheduleOrder({
                 >
                     <AccordionItem
                         key="Working Hours"
-                        aria-label={t("Working Hours")}
-                        title={t("Opening Hours")}
+                        aria-label={t("workingHours")}
+                        title={t("openingHours")}
                         className={'px-0 cursor-default text-default-500'}
                         classNames={{
                             title: 'text-default-500',
@@ -138,7 +138,7 @@ export function ScheduleOrder({
                         }
                     }}
                 >
-                    {t("Save Pick Up Details")}
+                    {t("savePickUpDetails")}
                 </Button>
             </div>
         </div>

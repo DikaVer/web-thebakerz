@@ -19,7 +19,7 @@ export type ApplyFormProps = React.HTMLAttributes<HTMLDivElement> & {
 
 const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
     ({ className, onNext, ...props }, ref) => {
-        const t = useTranslations("ApplyForm");
+        const t = useTranslations("app/(landing)/components/apply-form");
         const [[page, direction], setPage] = React.useState([0, 0]);
 
         const paginate = (newDirection: number) => {
@@ -103,10 +103,10 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
             <>
                 <div className="flex flex-col text-left gap-2 mb-4">
                     <h2 className="text-3xl lg:text-5xl font-bold bg-gradient-text pb-4">
-                        {t("StartAndGrowBusiness")}
+                        {t("startAndGrowBusiness")}
                     </h2>
                     <p className="text-lg lg:text-xl font-bold text-grayText">
-                        {t("CookingAndRest")}
+                        {t("cookingAndRest")}
                     </p>
                 </div>
                 <LazyMotion features={domAnimation}>
@@ -136,8 +136,8 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                         <Input
                                                             {...field}
                                                             isRequired
-                                                            label={t("Phone")}
-                                                            placeholder={t("PhonePlaceholder")}
+                                                            label={t("phone")}
+                                                            placeholder={t("phonePlaceholder")}
                                                             type="text"
                                                             validate={() => fieldState.error?.message}
                                                         />
@@ -162,21 +162,21 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                                 size="md"
                                                             />
                                                             <p className="mb-2 text-start">
-                                                                {t("TermsAgreement")}{" "}
+                                                                {t("termsAgreement")}{" "}
                                                                 <Link
                                                                     className="mx-1 text-grayText underline"
                                                                     href="/policies/terms-of-use"
                                                                     size="md"
                                                                 >
-                                                                    {t("Terms")}
+                                                                    {t("terms")}
                                                                 </Link>
-                                                                <span>{t("And")}</span>{" "}
+                                                                <span>{t("and")}</span>{" "}
                                                                 <Link
                                                                     className="text-grayText underline"
                                                                     href="/policies/privacy-policy"
                                                                     size="md"
                                                                 >
-                                                                    {t("PrivacyPolicy")}
+                                                                    {t("privacyPolicy")}
                                                                 </Link>
                                                                 .
                                                             </p>
@@ -194,7 +194,7 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                 type="submit"
                                                 endContent={<Icon icon="solar:arrow-right-broken" height={24} />}
                                             >
-                                                {t("GetStarted")}
+                                                {t("getStarted")}
                                             </Button>
                                         </div>
                                     </form>
@@ -215,8 +215,8 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                         <Input
                                                             {...field}
                                                             isRequired
-                                                            label={t("Name")}
-                                                            placeholder={t("NamePlaceholder")}
+                                                            label={t("name")}
+                                                            placeholder={t("namePlaceholder")}
                                                             type="text"
                                                             validate={() => fieldState.error?.message}
                                                         />
@@ -239,8 +239,8 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                                     icon="solar:mail"
                                                                 />
                                                             }
-                                                            label={t("Email")}
-                                                            placeholder={t("EmailPlaceholder")}
+                                                            label={t("email")}
+                                                            placeholder={t("emailPlaceholder")}
                                                             type="email"
                                                             validate={() => fieldState.error?.message}
                                                         />
@@ -258,7 +258,7 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                             exit={{ opacity: 0, x: -10 }}
                                                             initial={{ opacity: 0, x: -10 }}
                                                         >
-                                                            <Tooltip content={t("GoBack")} delay={3000}>
+                                                            <Tooltip content={t("goBack")} delay={3000}>
                                                                 <Button
                                                                     isIconOnly
                                                                     size="sm"
@@ -283,7 +283,7 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                 endContent={<Icon icon="solar:arrow-right-broken" height={24} />}
                                                 isLoading={isPending}
                                             >
-                                                {isPending ? t("Submitting") : t("Submit")}
+                                                {isPending ? t("submitting") : t("submit")}
                                             </Button>
                                         </div>
                                     </form>

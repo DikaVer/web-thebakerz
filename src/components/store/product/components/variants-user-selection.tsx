@@ -25,7 +25,7 @@ export default function VariantsUserSelection({
                                                   variants = [],
                                                   setVariants
                                               }: VariantsUserSelectionProps) {
-    const t = useTranslations("variants-user-selection");
+    const t = useTranslations("app/(store)/components/variants-user-selection");
 
     // Initialize selected keys for each variant
     const [selectedVariantsMap, setSelectedVariantsMap] = useState<{[label: string]: Set<string>}>({});

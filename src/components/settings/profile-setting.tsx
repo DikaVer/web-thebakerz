@@ -123,8 +123,6 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                 <div>
                     <ImageUploader
                         type={"circle"}
-                        title={t("profilePicture")}
-                        subtitle={t("uploadProfilePicture")}
                         file={file}
                         isOpen={avatarEdit}
                         onClose={() => setAvatarEdit(false)}

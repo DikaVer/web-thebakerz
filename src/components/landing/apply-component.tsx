@@ -27,7 +27,7 @@ const variants = {
 
 export default function ApplyComponent() {
     const [[page, direction], setPage] = React.useState([0, 0]);
-    const t = useTranslations("ApplyComponent");
+    const t = useTranslations("app/(landing)/components/apply");
 
     const paginate = React.useCallback((newDirection: number) => {
         setPage((prev) => {
@@ -84,7 +84,7 @@ export default function ApplyComponent() {
 }
 
 const CongratulationPage = () => {
-    const t = useTranslations("ApplyComponent");
+    const t = useTranslations("app/(landing)/components/apply");
 
     React.useEffect(() => {
         confetti({
@@ -96,8 +96,8 @@ const CongratulationPage = () => {
 
     return (
         <div className="flex flex-col items-center justify-center h-full text-center">
-            <h1 className="text-4xl font-bold mb-4">{t("Congratulations")}</h1>
-            <p className="text-lg">{t("ApplicationSuccess")}</p>
+            <h1 className="text-4xl font-bold mb-4">{t("congratulations")}</h1>
+            <p className="text-lg">{t("applicationSuccess")}</p>
         </div>
     );
 };

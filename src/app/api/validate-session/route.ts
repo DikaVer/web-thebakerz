@@ -1,14 +1,17 @@
 // app/api/validate-session/route.ts
 import { NextResponse } from 'next/server';
 import { validateSessionToken } from '@/lib/actions/session';
+import { getTranslations } from "next-intl/server";
 
 // This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(request: Request) {
+    const t = await getTranslations("app/api/validate-session");
+    
     // Retrieve the Authorization header
     const authHeader = request.headers.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return NextResponse.json(
-            { error: 'Missing or invalid Authorization header' },
+            { error: t('missingAuth') },
             { status: 401 }
         );
     }
@@ -17,7 +20,7 @@ export async function GET(request: Request) {
     const token = authHeader.replace('Bearer ', '').trim();
     if (!token) {
         return NextResponse.json(
-            { error: 'Token not provided' },
+            { error: t('tokenNotProvided') },
             { status: 401 }
         );
     }
@@ -28,9 +31,10 @@ export async function GET(request: Request) {
         return NextResponse.json(sessionValidationResult, { status: 200 });
     } catch (error) {
         console.error('Error validating session:', error);
-        return NextResponse.json(
-            { error: 'Internal Server Error' },
-            { status: 500 }
-        );
+        return NextResponse.json({ 
+            error: t("internalError") 
+        }, { 
+            status: 500 
+        });
     }
 }

@@ -31,7 +31,7 @@ interface OrderTopContentProps {
  */
 export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) => {
     const locale = useLocale();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/orders/overview");
     const [isLoading, setIsLoading] = useState(false);
     // console.log(orderData);
     return (

@@ -11,21 +11,21 @@ import {useTranslations} from "next-intl";
 type SocialIconProps = Omit<IconProps, "icon">;
 
 export function FooterSimple() {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(components)/footer-simple");
 
     const footerNavigation = {
         overview: [
-            {name: t("BrandName"), href: "/"},
-            {name: t("AboutTheBakerz"), href: "/about-us"},
-            {name: t("JoinTheBakerz"), href: "/#join-thebakerz"},
+            {name: t("brandName"), href: "/"},
+            {name: t("aboutTheBakerz"), href: "/about-us"},
+            {name: t("joinTheBakerz"), href: "/#join-thebakerz"},
         ],
         supportOptions: [
-            {name: t("GetHelp"), href: "/support"},
+            {name: t("getHelp"), href: "/support"},
         ],
         legal: [
-            {name: t("PrivacyPolicy"), href: "/policies/privacy-policy"},
-            {name: t("TermsOfUse"), href: "/policies/terms-of-use"},
-            {name: t("RefundPolicy"), href: "/policies/refund-policy"},
+            {name: t("privacyPolicy"), href: "/policies/privacy-policy"},
+            {name: t("termsOfUse"), href: "/policies/terms-of-use"},
+            {name: t("refundPolicy"), href: "/policies/refund-policy"},
         ],
     };
 
@@ -53,14 +53,14 @@ export function FooterSimple() {
                 <div className="flex flex-col gap-y-6 items-start justify-between">
                     <div>
                         <div className={`grid gap-8 grid-cols-2`}>
-                            {renderList({title: t("Support"), items: footerNavigation.supportOptions})}
-                            {renderList({title: t("Legal"), items: footerNavigation.legal})}
+                            {renderList({title: t("support"), items: footerNavigation.supportOptions})}
+                            {renderList({title: t("legal"), items: footerNavigation.legal})}
                         </div>
                     </div>
                     <Divider/>
                     <div className={'w-full flex justify-between items-center'}>
                         <p className="text-small text-grayText">
-                            © {new Date().getFullYear()} {t("Copyright")}
+                            © {new Date().getFullYear()} {t("copyright")}
                         </p>
                         <a
                             className="flex items-end justify-end w-[80%]"
@@ -71,7 +71,7 @@ export function FooterSimple() {
                                 width={32}
                                 height={32}
                             />
-                            <span className={`text-2xl ml-2 ${pacifico.className}`}>{t("BrandName")}</span>
+                            <span className={`text-2xl ml-2 ${pacifico.className}`}>{t("brandName")}</span>
                         </a>
                     </div>
                 </div>

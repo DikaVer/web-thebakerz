@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getCart } from "@/lib/actions/cart";
+import { getTranslations } from "next-intl/server";
 
 /**
  * API Route: GET /api/store/cart
@@ -14,6 +15,8 @@ import { getCart } from "@/lib/actions/cart";
  * @returns {Promise<NextResponse>} JSON response with cart data or error message
  */
 export async function GET(request: Request) {
+    const t = await getTranslations("app/api/store/cart");
+    
     // Extract and validate required headers
     const storeId = request.headers.get('Store-Id');
     const userId = request.headers.get('User-Id');
@@ -21,21 +24,21 @@ export async function GET(request: Request) {
 
     // Check for missing headers and return appropriate errors
     if (!storeId) {
-        return NextResponse.json({ error: 'Missing or invalid Store-Id header' }, { status: 401 });
+        return NextResponse.json({ error: t("missingStoreId") }, { status: 401 });
     }
 
     if (!userId) {
-        return NextResponse.json({ error: 'Missing or invalid User-Id header' }, { status: 401 });
+        return NextResponse.json({ error: t("missingUserId") }, { status: 401 });
     }
 
     if (!authHeader) {
-        return NextResponse.json({ error: 'Missing or invalid Authorization header' }, { status: 401 });
+        return NextResponse.json({ error: t("missingAuth") }, { status: 401 });
     }
 
     // Validate bearer token
     const token = authHeader.replace('Bearer ', '').trim();
     if (token !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
-        return NextResponse.json({ error: 'Not Authorize Access' }, { status: 401 });
+        return NextResponse.json({ error: t("notAuthorized") }, { status: 401 });
     }
 
     try {
@@ -44,6 +47,6 @@ export async function GET(request: Request) {
         return NextResponse.json(cartData, { status: 200 });
     } catch (error) {
         console.error('Error validating session:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json({ error: t("internalError") }, { status: 500 });
     }
 }

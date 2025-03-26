@@ -16,7 +16,7 @@ export const SigninButton = ({ className}: SigninButtonProps) => {
     const router = useRouter();
     const pathname = usePathname();
     const [isLoading, setLoading] = useState(false);
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(components)/signin-button");
 
     // Redirects the user to the sign-in page, appending the current path for post-authActions redirection
     const handleSignIn = () => {
@@ -33,7 +33,7 @@ export const SigninButton = ({ className}: SigninButtonProps) => {
             className={`${className} ${pacifico.className} text-black bg-secondary border-1`}
             onPress={handleSignIn}
         >
-            {isLoading ? t("Loading") : t("SignIn")}
+            {isLoading ? t("loading") : t("signIn")}
         </Button>
     );
 }

@@ -16,7 +16,7 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
     const pathname = usePathname();
     const { session, setSession } = useSession();
     const [ isLoading, setIsLoading ] = useState(false);
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(components)/signout-button");
 
     const handleSignOut = () => {
         startTransition(async () => {
@@ -38,7 +38,7 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
     };
 
     return (
-        <Tooltip content={t("LogOut")} isDisabled={!isCollapsed} placement="right">
+        <Tooltip content={t("logOut")} isDisabled={!isCollapsed} placement="right">
             <Button
                 className={cn("justify-start text-grayText data-[hover=true]:text-foreground data-[hover=true]:bg-default/40", {
                     "justify-center": isCollapsed,
@@ -64,7 +64,7 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
                         width={24}
                     />
                 ) : (
-                    t("SignOut")
+                    t("signOut")
                 )}
             </Button>
         </Tooltip>

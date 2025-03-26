@@ -14,15 +14,11 @@ export interface AvatarImageUploaderProps {
     isOpen: boolean;
     onClose: () => void;
     file: File | undefined;
-    title: string;
-    subtitle: string;
     container: string;
     setImageURL?: (file: File, url: string) => void;
 }
 
 export function ImageUploader({
-                                  title,
-                                  subtitle,
                                   container,
                                   type,
                                   isOpen,
@@ -32,7 +28,7 @@ export function ImageUploader({
                               }: AvatarImageUploaderProps) {
     const [previewUrl, setPreviewUrl] = useState<string | undefined>();
     const { theme } = useTheme();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/image");
 
     // Create a preview URL from the file
     useEffect(() => {
@@ -72,7 +68,7 @@ export function ImageUploader({
                             primaryColor={theme === "light" ? "#730c70" : "#faf4d1"}
                             secondaryColor={theme === "light" ? "#5d5d5b" : "#a3a3a3"}
                         />
-                        <span className="sr-only">{t("Close")}</span>
+                        <span className="sr-only">{t("close")}</span>
                     </div>
                 }
             >
@@ -80,8 +76,8 @@ export function ImageUploader({
                     {(modalClose) => (
                         <>
                             <ModalHeader className="flex flex-col">
-                                <p className="text-base font-medium text-default-700">{t(title)}</p>
-                                <p className="mt-1 text-sm font-normal text-default-400">{t(subtitle)}</p>
+                                <p className="text-base font-medium text-default-700">{t("title")}</p>
+                                <p className="mt-1 text-sm font-normal text-default-400">{t("subtitle")}</p>
                             </ModalHeader>
                             <CropEasy
                                 type={type}

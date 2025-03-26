@@ -44,7 +44,7 @@ interface StoreSubHeaderProps {
 type ClientSecretResponse = string | { error: string }
 
 export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSubHeaderProps) {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/orders/add");
     const searchParams = useSearchParams();
     const { store } = useStore();
     const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(parseDateParams(`${dateParam} ${timeParam}`));
@@ -74,8 +74,8 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
 
             if (result?.orderId) {
                 addToast({
-                    title: t("Order Created"),
-                    description: t("Order Created Success"),
+                    title: t("orderCreated"),
+                    description: t("orderCreatedSuccess"),
                     color: "success",
                     shouldShowTimeoutProgress: true,
                     timeout: 2000,
@@ -87,7 +87,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
             } else if (result?.error) {
                 showErrorMessage({error: result.error});
             } else {
-                showErrorMessage({error: t("Failed Create Order")});
+                showErrorMessage({error: t("failedCreateOrder")});
             }
             setIsLoading(false);
         },
@@ -140,11 +140,11 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
             } else if (typeof response === 'string') {
                 setClientSecret(response)
             } else {
-                const errorMsg = t("Failed Init Checkout")
+                const errorMsg = t("failedInitCheckout")
                 showErrorMessage({ error: errorMsg })
             }
         } catch (err) {
-            const errorMsg = t("Something Went Wrong")
+            const errorMsg = t("somethingWentWrong")
             showErrorMessage({ error: errorMsg })
         } finally {
             setIsLoading(false)
@@ -163,7 +163,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                     })()}
                     value={selectedDate}
                     onValueChange={handleDateChange}
-                    placeholder={t("Schedule Order Time")}
+                    placeholder={t("scheduleOrderTime")}
                 >
                     <Button
                         startContent={<Icon icon={'solar:walking-round-linear'} width={24}/>}
@@ -172,13 +172,13 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                         className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600' : 'text-white bg-gradient-primary'} text-sm`}
                         onPress={() =>
                             addToast({
-                                description: t("Pick Up Option Selected"),
+                                description: t("pickUpOptionSelected"),
                                 color: "success",
                                 shouldShowTimeoutProgress: true,
                                 timeout: 1000,
                             })}
                     >
-                        {(selectedDate instanceof CalendarDateTime) ? `${t("Pick Up at")} ${formatDate(selectedDate)}` : t("Select Pick Up Time")}
+                        {(selectedDate instanceof CalendarDateTime) ? `${t("pickUpAt")} ${formatDate(selectedDate)}` : t("selectPickUpTime")}
                     </Button>
                 </SmartDatetimeInput>
             </div>
@@ -205,13 +205,13 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                             <ModalContent>
                                 {(onClose) => (
                                     <>
-                                        <ModalHeader className="flex flex-col gap-1">{t("Order Link")}</ModalHeader>
+                                        <ModalHeader className="flex flex-col gap-1">{t("orderLink")}</ModalHeader>
                                         <ModalBody>
                                             <p>
-                                                {t("Copy Link Instructions")}
+                                                {t("copyLinkInstructions")}
                                             </p>
                                             <Input
-                                                label={t("Order Link")}
+                                                label={t("orderLink")}
                                                 classNames={{
                                                     input: 'truncate',
                                                 }}
@@ -220,14 +220,14 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button variant="light" onPress={onClose}>
-                                                {t("Close")}
+                                                {t("close")}
                                             </Button>
                                             <Button color="primary" variant="light" onPress={() => {
                                                 onClose();
                                                 navigator.clipboard.writeText(process.env.NEXT_PUBLIC_API_BASE_URL + "/" + storeUrl + "/pay/" + clientSecret);
-                                                showSuccessMessage({success: t("Order Link Copied Client")});
+                                                showSuccessMessage({success: t("orderLinkCopiedClient")});
                                             }}>
-                                                {t("Copy Link")}
+                                                {t("copyLink")}
                                             </Button>
                                         </ModalFooter>
                                     </>
@@ -242,7 +242,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                             <p className={cn("text-center my-2 text-default-500",
 
                             )}>
-                                {t("Has Customer Paid")}
+                                {t("hasCustomerPaid")}
                             </p>
                             <div className={'flex w-full gap-x-8'}>
                                 <Button

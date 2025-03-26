@@ -41,7 +41,7 @@ const CartButton: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { store } = useStore();
     const router = useRouter();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/cart");
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
 
     const handleOpenDrawer = () => onOpen();
@@ -142,7 +142,7 @@ const CartButton: React.FC = () => {
                                     <DrawerHeader className="flex flex-col">
                                         {!isMobile && <Spacer y={16} />}
                                         <p className="text-default-500 text-xs font-medium">
-                                            {t("Your cart from")}
+                                            {t("yourCartFrom")}
                                         </p>
                                         <p className="text-xl">{store.ownerName}</p>
                                         <Spacer y={4} />
@@ -155,7 +155,7 @@ const CartButton: React.FC = () => {
                                                 router.refresh();
                                             }}
                                         >
-                                            {t("Continue")}
+                                            {t("continue")}
                                         </Button>
                                     </DrawerHeader>
                                     <DrawerBody>
@@ -168,8 +168,8 @@ const CartButton: React.FC = () => {
                             ) : (
                                 <DrawerHeader className="flex flex-col text-xs font-medium items-center">
                                     {!isMobile && <Spacer y={16} />}
-                                    <p>{t("Cart Empty")}</p>
-                                    <p>{t("Add Items To Start")}</p>
+                                    <p>{t("cartEmpty")}</p>
+                                    <p>{t("addItemsToStart")}</p>
                                     <Spacer y={48} />
                                 </DrawerHeader>
                             )}

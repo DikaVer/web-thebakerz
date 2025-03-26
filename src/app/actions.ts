@@ -1,21 +1,22 @@
 "use server";
 
-
-
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {deleteSessionTokenCookie, getCurrentSession, invalidateSession} from "@/lib/actions/session";
 import {revalidateTag} from "next/cache";
+import {getTranslations} from "next-intl/server";
 
 export async function logoutAction(): Promise<ActionResult> {
+    const t = await getTranslations("app/actions");
+
     if (!await globalPOSTRateLimit()) {
         return {
-            message: "Too many requests"
+            message: t("tooManyRequests")
         };
     }
     const { session } = await getCurrentSession();
     if (session === null) {
         return {
-            message: "Not authenticated"
+            message: t("notAuthenticated")
         };
     }
     await invalidateSession(session.id);
@@ -24,8 +25,6 @@ export async function logoutAction(): Promise<ActionResult> {
 
     return null;
 }
-
-
 
 import { revalidatePath } from 'next/cache';
 

@@ -81,7 +81,7 @@ function CalendarDashboard({
     const containerRef = useRef<HTMLDivElement>(null);
     const [isPending, startTransition] = useTransition();
     const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
-    const t = useTranslations("Calendar");
+    const t = useTranslations("app/(store)/components/calendar-dashboard");
 
     // States for range selection with hover preview
     const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
@@ -404,9 +404,9 @@ function CalendarDashboard({
                     size="sm"
                     variant="bordered"
                 >
-                    <Button onPress={handleTodayClick}>{t("Today")}</Button>
-                    <Button onPress={handleThisWeekClick}>{t("This Week")}</Button>
-                    <Button onPress={handleThisMonthClick}>{t("This Month")}</Button>
+                    <Button onPress={handleTodayClick}>{t("today")}</Button>
+                    <Button onPress={handleThisWeekClick}>{t("thisWeek")}</Button>
+                    <Button onPress={handleThisMonthClick}>{t("thisMonth")}</Button>
                 </ButtonGroup>
             </div>
 

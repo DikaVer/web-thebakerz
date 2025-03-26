@@ -14,7 +14,7 @@ interface CheckoutOrderProps {
 }
 
 export default function CheckoutOrder({ date, time, currentStep, setCurrentStep }: CheckoutOrderProps) {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/orders/add");
 
     // Define steps as strings "1", "2", "3", "4"
     const steps = ["1", "2", "3", "4"];
@@ -53,8 +53,8 @@ export default function CheckoutOrder({ date, time, currentStep, setCurrentStep 
                 <AccordionItem
                     key="1"
                     className={'shadow-none border-1'}
-                    aria-label={t("Cart Details")}
-                    title={t("Cart Details Step")}
+                    aria-label={t("cartDetails")}
+                    title={t("cartDetailsStep")}
                     disableIndicatorAnimation
                     indicator={
                         1 < currentStep
@@ -71,8 +71,8 @@ export default function CheckoutOrder({ date, time, currentStep, setCurrentStep 
                 <AccordionItem
                     key="2"
                     className={'shadow-none border-1'}
-                    aria-label={t("Pick Up Details")}
-                    title={t("Pick Up Details Step")}
+                    aria-label={t("pickUpDetails")}
+                    title={t("pickUpDetailsStep")}
                     disableIndicatorAnimation
                     indicator={
                         2 < currentStep

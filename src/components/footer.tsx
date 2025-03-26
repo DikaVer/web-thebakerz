@@ -11,35 +11,35 @@ import {useTranslations} from "next-intl";
 type SocialIconProps = Omit<IconProps, "icon">;
 
 const Footer = () => {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(components)/footer");
 
     const footerNavigation = {
         overview: [
-            {name: t("BrandName"), href: "/"},
-            {name: t("AboutTheBakerz"), href: "/about-us"},
-            {name: t("JoinTheBakerz"), href: "/#join-thebakerz"},
+            {name: t("brandName"), href: "/"},
+            {name: t("aboutTheBakerz"), href: "/about-us"},
+            {name: t("joinTheBakerz"), href: "/#join-thebakerz"},
         ],
         supportOptions: [
-            {name: t("GetHelp"), href: "/support"},
+            {name: t("getHelp"), href: "/support"},
         ],
         legal: [
-            {name: t("PrivacyPolicy"), href: "/policies/privacy-policy"},
-            {name: t("TermsOfUse"), href: "/policies/terms-of-use"},
-            {name: t("RefundPolicy"), href: "/policies/refund-policy"},
+            {name: t("privacyPolicy"), href: "/policies/privacy-policy"},
+            {name: t("termsOfUse"), href: "/policies/terms-of-use"},
+            {name: t("refundPolicy"), href: "/policies/refund-policy"},
         ],
         social: [
             {
-                name: t("LinkedIn"),
+                name: t("linkedIn"),
                 href: "https://www.linkedin.com/company/thebakerz",
                 icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:linkedin" />,
             },
             {
-                name: t("Instagram"),
+                name: t("instagram"),
                 href: "https://www.instagram.com/thebakerz.official",
                 icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:instagram" />,
             },
             {
-                name: t("Twitter"),
+                name: t("twitter"),
                 href: "https://x.com/the_bakerz",
                 icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:twitter" />,
             }
@@ -78,10 +78,10 @@ const Footer = () => {
                                 width={42}
                                 height={42}
                             />
-                            <span className={`text-3xl ml-2 ${pacifico.className}`}>{t("BrandName")}</span>
+                            <span className={`text-3xl ml-2 ${pacifico.className}`}>{t("brandName")}</span>
                         </a>
                         <p className="text-small text-grayText">
-                            © {new Date().getFullYear()} {t("Copyright")}
+                            © {new Date().getFullYear()} {t("copyright")}
                         </p>
                         <div className="flex space-x-6">
                             {footerNavigation.social.map((item) => (
@@ -94,14 +94,14 @@ const Footer = () => {
                     </div>
                     <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
                         <div className="md:grid md:grid-cols-2 md:gap-8">
-                            <div>{renderList({title: t("Navigation"), items: footerNavigation.overview})}</div>
+                            <div>{renderList({title: t("navigation"), items: footerNavigation.overview})}</div>
                             <div className="mt-10 md:mt-0">
-                                {renderList({title: t("Support"), items: footerNavigation.supportOptions})}
+                                {renderList({title: t("support"), items: footerNavigation.supportOptions})}
                             </div>
                         </div>
                         <div className="md:grid md:grid-cols-2 md:gap-8">
                             <div className="mt-10 md:mt-0">
-                                {renderList({title: t("Legal"), items: footerNavigation.legal})}
+                                {renderList({title: t("legal"), items: footerNavigation.legal})}
                             </div>
                         </div>
                     </div>

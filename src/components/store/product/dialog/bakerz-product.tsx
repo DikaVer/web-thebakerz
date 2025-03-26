@@ -239,8 +239,6 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                     setPictureEdit(false);
                     setCurrentImageIndex(null);
                 }}
-                title={t("itemImage")}
-                subtitle={t("uploadImageSubtitle")}
                 container="products"
                 setImageURL={(file: File, url: string) => {
                     addNewImage(file, url);
@@ -509,7 +507,6 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                                     isLoadingDelete={isLoadingDelete}
                                     onClose={onClose}
                                     onConfirm={handleDelete}
-                                    t={t}
                                 />
                                 <Button
                                     variant="bordered"

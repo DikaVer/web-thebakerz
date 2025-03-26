@@ -5,29 +5,29 @@ interface FAQ {
 
 // Define the FAQs using translation keys instead of hardcoded text
 const faqsBakerz: FAQ[] = [
-  { questionKey: "Question 1", answerKey: "Answer 1" },
-  { questionKey: "Question 2", answerKey: "Answer 2" },
-  { questionKey: "Question 3", answerKey: "Answer 3" },
-  { questionKey: "Question 4", answerKey: "Answer 4" },
-  { questionKey: "Question 5", answerKey: "Answer 5" },
-  { questionKey: "Question 6", answerKey: "Answer 6" },
-  { questionKey: "Question 7", answerKey: "Answer 7" },
-  { questionKey: "Question 8", answerKey: "Answer 8" },
-  { questionKey: "Question 9", answerKey: "Answer 9" },
-  { questionKey: "Question 10", answerKey: "Answer 10" },
+  { questionKey: "question1", answerKey: "answer1" },
+  { questionKey: "question2", answerKey: "answer2" },
+  { questionKey: "question3", answerKey: "answer3" },
+  { questionKey: "question4", answerKey: "answer4" },
+  { questionKey: "question5", answerKey: "answer5" },
+  { questionKey: "question6", answerKey: "answer6" },
+  { questionKey: "question7", answerKey: "answer7" },
+  { questionKey: "question8", answerKey: "answer8" },
+  { questionKey: "question9", answerKey: "answer9" },
+  { questionKey: "question10", answerKey: "answer10" },
 ];
 
 const faqsCustomer: FAQ[] = [
-  { questionKey: "Question 1", answerKey: "Answer 1" },
-  { questionKey: "Question 2", answerKey: "Answer 2" },
-  { questionKey: "Question 3", answerKey: "Answer 3" },
-  { questionKey: "Question 4", answerKey: "Answer 4" },
-  { questionKey: "Question 5", answerKey: "Answer 5" },
-  { questionKey: "Question 6", answerKey: "Answer 6" },
-  { questionKey: "Question 7", answerKey: "Answer 7" },
-  { questionKey: "Question 8", answerKey: "Answer 8" },
-  { questionKey: "Question 9", answerKey: "Answer 9" },
-  { questionKey: "Question 10", answerKey: "Answer 10" },
+  { questionKey: "question1", answerKey: "answer1" },
+  { questionKey: "question2", answerKey: "answer2" },
+  { questionKey: "question3", answerKey: "answer3" },
+  { questionKey: "question4", answerKey: "answer4" },
+  { questionKey: "question5", answerKey: "answer5" },
+  { questionKey: "question6", answerKey: "answer6" },
+  { questionKey: "question7", answerKey: "answer7" },
+  { questionKey: "question8", answerKey: "answer8" },
+  { questionKey: "question9", answerKey: "answer9" },
+  { questionKey: "question10", answerKey: "answer10" },
 ];
 
 export { faqsBakerz, faqsCustomer };

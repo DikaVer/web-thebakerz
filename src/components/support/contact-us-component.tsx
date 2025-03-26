@@ -17,7 +17,7 @@ import { useTranslations } from "next-intl";
 
 export default function ContactUsComponent() {
     const [charCount, setCharCount] = React.useState(0);
-    const t = useTranslations("ContactUsComponent");
+    const t = useTranslations("app/(support)/components/contact-us");
 
     const form = useForm<z.infer<typeof ContactSchema>>({
         resolver: zodResolver(ContactSchema),

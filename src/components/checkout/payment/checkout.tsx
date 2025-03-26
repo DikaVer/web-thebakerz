@@ -8,6 +8,7 @@ import { Button, Spacer } from "@heroui/react"
 import { useRouter } from 'next/navigation'
 import { Icon } from "@iconify/react"
 import showErrorMessage from "@/components/toast/toast-error"
+import { useTranslations } from "next-intl"
 
 // Define response type for fetchClientSecret
 type ClientSecretResponse = string | { error: string }
@@ -24,6 +25,7 @@ export default function Checkout({ id, storeId, clientSecretParam, storeStripeAc
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const router = useRouter()
+    const t = useTranslations("app/(store)/components/checkout")
 
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
@@ -82,12 +84,13 @@ export default function Checkout({ id, storeId, clientSecretParam, storeStripeAc
 }
 
 function LoadingView() {
+    const t = useTranslations("app/(store)/components/checkout")
     return (
         <div className="flex flex-col items-center justify-center min-h-[400px]">
             <div className="animate-spin mb-4">
                 <Icon icon="eos-icons:loading" width={48} />
             </div>
-            <p>Loading payment gateway...</p>
+            <p>{t("loadingPaymentGateway")}</p>
         </div>
     )
 }
@@ -98,20 +101,21 @@ interface ErrorViewProps {
 }
 
 function ErrorView({ error, onRetry }: ErrorViewProps) {
+    const t = useTranslations("app/(store)/components/checkout")
     return (
         <div className="flex flex-col items-center justify-center min-h-[400px]">
             <div className="text-red-500 mb-4">
                 <Icon icon="ph:warning-circle" width={48} />
             </div>
             <p className="text-lg font-medium mb-2">
-                {error || 'Unable to initialize payment gateway'}
+                {error || t("unableToInitializePayment")}
             </p>
             <Spacer y={4} />
             <Button
                 className="bg-gradient-primary text-white"
                 onPress={onRetry}
             >
-                Return to Checkout
+                {t("returnToCheckout")}
             </Button>
         </div>
     )

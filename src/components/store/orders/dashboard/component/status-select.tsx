@@ -21,7 +21,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { theme } = useTheme();
     const router = useRouter();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/status-select");
     const statusT = useTranslations("OrderStatus");
 
     const [targetStatus, setTargetStatus] = React.useState<OrderStatus>(currentStatus);
@@ -48,10 +48,10 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
         );
 
         if (!isUpdated) {
-            showErrorMessage({error: t("Failed to update status")});
+            showErrorMessage({error: t("failedToUpdateStatus")});
             setSelectedStatus(currentStatus)
         } else {
-            showSuccessMessage({success: t("Status updated successfully")});
+            showSuccessMessage({success: t("statusUpdatedSuccess")});
             onStatusChange?.(selectedStatus, targetStatus);
             setSelectedStatus(targetStatus);
             router.refresh();
@@ -117,19 +117,19 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
                         <>
                             <ModalHeader className="flex flex-col gap-1">
                                 <div className="flex">
-                                    <p className="text-xl">{t("Order")}</p>
+                                    <p className="text-xl">{t("order")}</p>
                                     <Spacer x={1}/>
                                     <GradientText>#{order.store_order_id}</GradientText>
                                 </div>
                             </ModalHeader>
                             <ModalBody>
-                                <p>{t("Change Status Action")}</p>
+                                <p>{t("changeStatusAction")}</p>
                                 <div className="flex items-center gap-x-2">
                                     <OrderStatusChip status={selectedStatus} />
                                     <Icon icon="solar:arrow-right-linear" width={24}/>
                                     <OrderStatusChip status={targetStatus} />
                                 </div>
-                                <p className="font-medium">{t("Select one option")}</p>
+                                <p className="font-medium">{t("selectOneOption")}</p>
                             </ModalBody>
                             <ModalFooter>
                                 <Button
@@ -139,7 +139,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
                                     variant="light"
                                     onPress={handleConfirmStatusChange}
                                 >
-                                    {!isLoading && t("Change Status")}
+                                    {!isLoading && t("changeStatus")}
                                 </Button>
                             </ModalFooter>
                         </>

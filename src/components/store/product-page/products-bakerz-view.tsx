@@ -215,8 +215,6 @@ export default function BakerzProductView({ productData }: ProductViewProps) {
                     setPictureEdit(false);
                     setCurrentImageIndex(null);
                 }}
-                title={t("itemImage")}
-                subtitle={t("uploadImageSubtitle")}
                 container="products"
                 setImageURL={(file: File, url: string) => {
                     addNewImage(file, url);
@@ -468,7 +466,6 @@ export default function BakerzProductView({ productData }: ProductViewProps) {
                                     isLoadingDelete={isLoadingDelete}
                                     onClose={() => {}}
                                     onConfirm={handleDelete}
-                                    t={t}
                                 />
                                 <Button
                                     variant="bordered"

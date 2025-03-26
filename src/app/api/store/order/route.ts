@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getOrder } from "@/lib/actions/order";
+import { getTranslations } from "next-intl/server";
 
 /**
  * API Route: GET Order Information
@@ -17,6 +18,8 @@ import { getOrder } from "@/lib/actions/order";
  * @returns {Promise<NextResponse>} Order data or error response
  */
 export async function GET(request: Request) {
+    const t = await getTranslations("app/api/store/order");
+    
     // Validate required headers
     const headers = {
         storeId: request.headers.get('Store-Id'),
@@ -32,7 +35,7 @@ export async function GET(request: Request) {
                 key === 'email' ? 'User-Id' : `${key.charAt(0).toUpperCase() + key.slice(1)}-Id`;
 
             return NextResponse.json(
-                { error: `Missing or invalid ${headerName} header` },
+                { error: t(`missing${key.charAt(0).toUpperCase() + key.slice(1)}`) },
                 { status: 401 }
             );
         }
@@ -43,7 +46,7 @@ export async function GET(request: Request) {
     const token = headers.auth.replace('Bearer ', '').trim();
     if (token !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
         return NextResponse.json(
-            { error: 'Not Authorize Access' },
+            { error: t("notAuthorized") },
             { status: 401 }
         );
     }
@@ -56,7 +59,7 @@ export async function GET(request: Request) {
     } catch (error) {
         console.error('Error retrieving order data:', error);
         return NextResponse.json(
-            { error: 'Internal Server Error' },
+            { error: t("internalError") },
             { status: 500 }
         );
     }

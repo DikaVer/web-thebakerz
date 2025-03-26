@@ -12,9 +12,9 @@ import { faqsBakerz, faqsCustomer } from "./faqs";
 
 const SupportComponent: React.FC = () => {
     const router = useRouter();
-    const t = useTranslations("SupportComponent");
-    const tBaker = useTranslations("FAQ Baker");
-    const tCustomer = useTranslations("FAQ Customer");
+    const t = useTranslations("app/(support)/components/support");
+    const tBaker = useTranslations("app/(support)/components/faq-baker");
+    const tCustomer = useTranslations("app/(support)/components/faq-customer");
 
     return (
         <section className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-32 md:px-6 lg:px-8 lg:py-40">

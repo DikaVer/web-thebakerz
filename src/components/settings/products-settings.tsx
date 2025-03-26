@@ -41,14 +41,13 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
     if (productsData === null || Object.keys(productsData || {}).length === 0) {
         return (
             <div className="text-center">
-                <p className="text-2xl my-10">{t("NoProductsYet")}</p>
+                <p className="text-2xl my-10">{t("noProductsYet")}</p>
             </div>
         );
     }
 
     // Convert the object to an array before categorizing
     const productsArray: ProductData[] = Object.values(productsData || {});
-
 
     // Categorize products by their category
     const productsByCategories: Record<string, ProductData[]> = productsArray.reduce((acc, product) => {
@@ -59,15 +58,12 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
         return acc;
     }, {} as Record<string, ProductData[]>);
 
-
     const categories = sortItems(
         Object.keys(productsByCategories),
         categoriesKeys,
         (category) => category,
         (a, b) => a.localeCompare(b)
     )
-
-
 
     // Sort each category's products (fallback to alphabetical)
     categoriesKeys.forEach((category) => {
@@ -85,7 +81,6 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
     // State for product orders and tabs
     const [tabs, setTabs] = useState<string[]>(categories);
     const [selectedTab, setSelectedTab] = useState(tabs[0]);
-
 
     // Memoize the productsData for the selected tab so that it recomputes when selectedTab or productOrders change
     const computedProductsData: ProductDataFull = useMemo(() => {
@@ -122,7 +117,6 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
             console.error('Failed to update order:', error);
         }
 
-
         setIsLoading(false);
     };
 
@@ -131,9 +125,9 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
             <Spacer y={8} />
             <div className={'flex justify-between'}>
                 <div>
-                    <p className="text-base font-medium text-default-700">{t("ProductManager")}</p>
+                    <p className="text-base font-medium text-default-700">{t("productManager")}</p>
                     <p className="mt-1 text-sm font-normal text-default-400">
-                        {t("ManageProductsDescription")}
+                        {t("manageProductsDescription")}
                     </p>
                 </div>
                 <Button
@@ -145,7 +139,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                         handleOpen();
                     }}
                 >
-                    {t("AddItem")}
+                    {t("addItem")}
                 </Button>
             </div>
             <Spacer y={4} />
@@ -224,7 +218,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                         onPress={handleSaveOrder}
                         color={'secondary'}
                     >
-                        {!isLoading ? t("UpdateProductOrder") : t("UpdatingOrders")}
+                        {!isLoading ? t("updateProductOrder") : t("updatingOrders")}
                     </Button>
                 </CardFooter>
             </Card>

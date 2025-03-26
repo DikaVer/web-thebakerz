@@ -66,7 +66,7 @@ const getBgColorFromClass = (classStr: string): string => {
 
 
 export const OrdersBarChart: React.FC<OrdersBarChartProps> = ({orderDataList, isLoading = false, selectedStatuses}) => {
-    const barT = useTranslations("BarChartDashboard");
+    const barT = useTranslations("app/(store)/components/orders-bar-chart");
     // Process order data to get stats by status
     const { chartData, categories, totalAmount, totalOrders } = useMemo(() => {
         // Count and sum orders by status
@@ -111,7 +111,7 @@ export const OrdersBarChart: React.FC<OrdersBarChartProps> = ({orderDataList, is
     }, [orderDataList]);
 
     const chartConfig: CircleChartProps = {
-        title: barT("Title"),
+        title: barT("title"),
         total: totalAmount,
         unit: "EUR",
         categories,
@@ -161,7 +161,7 @@ const CircleChartCard = React.forwardRef<
    }, ref) => {
     // State for selected statuses, initialize with all categories
     const t = useTranslations("OrderStatus");
-    const barT = useTranslations("BarChartDashboard");
+    const barT = useTranslations("app/(store)/components/orders-bar-chart");
 
     // Use the passed selectedStatuses to filter chart data
     const filteredChartData = useMemo(() => {
@@ -269,7 +269,7 @@ const CircleChartCard = React.forwardRef<
                 <div className="p-8 flex flex-col items-center justify-center">
                     <Icon icon="solar:clipboard-list-broken" width={48} className="text-default-500" />
                     <Spacer y={2} />
-                    <p className="text-default-500">{barT("Not Found")}</p>
+                    <p className="text-default-500">{barT("notFound")}</p>
                 </div>
             ) : (
                 <div className="flex h-full flex-wrap items-center justify-center gap-x-2 lg:flex-nowrap">

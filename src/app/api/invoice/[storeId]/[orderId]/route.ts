@@ -5,14 +5,16 @@ import { globalLargeRateLimit } from "@/lib/actions/requests";
 import {getCurrentOrder, OrderData } from "@/lib/actions/order";
 import {getBusinessStoreData} from "@/lib/actions/store";
 import {getCurrentSession} from "@/lib/actions/session";
-
+import {getTranslations} from "next-intl/server";
 
 export async function POST(
     req: NextRequest,
     { params }: { params: Promise<{ orderId: string; storeId: string }> }
 ): Promise<Response> {
+    const t = await getTranslations("app/api/invoice/[storeId]/[orderId]");
+
     if (!await globalLargeRateLimit()) {
-        return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+        return NextResponse.json({ error: t("tooManyRequests") }, { status: 429 });
     }
 
     try {
@@ -24,28 +26,28 @@ export async function POST(
 
         if (!store && user) {
             if (customer_email !== user.email) {
-                return NextResponse.json({ error: "Restricted Access" }, { status: 404 });
+                return NextResponse.json({ error: t("restrictedAccess") }, { status: 404 });
             }
         } else if (store && user) {
             if (store.id !== storeId) {
-                return NextResponse.json({ error: "Restricted Access" }, { status: 404 });
+                return NextResponse.json({ error: t("restrictedAccess") }, { status: 404 });
             }
         }
 
         if (!user) {
-            return NextResponse.json({ error: "Not Authenticated" }, { status: 404 });
+            return NextResponse.json({ error: t("notAuthenticated") }, { status: 404 });
         }
 
         const storeData = await getBusinessStoreData(storeId);
         // Fixed duplicate condition
         if (!storeData) {
-            return NextResponse.json({ error: "Store is Not Found" }, { status: 404 });
+            return NextResponse.json({ error: t("storeNotFound") }, { status: 404 });
         }
 
         const order: OrderData = await getCurrentOrder(storeId, orderId, customer_email);
 
         if (!order) {
-            return NextResponse.json({ error: "Order is Not Found" }, { status: 404 });
+            return NextResponse.json({ error: t("orderNotFound") }, { status: 404 });
         }
 
         const htmlContent = await renderPdf(storeData, order);
@@ -60,6 +62,6 @@ export async function POST(
         });
     } catch (error) {
         console.error(error);
-        return new Response("Error generating PDF", { status: 500 });
+        return new Response(t("errorGeneratingPdf"), { status: 500 });
     }
 }

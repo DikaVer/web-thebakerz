@@ -45,7 +45,7 @@ export default function NavbarComponent({
                                             pay = false,
                                             props = {},
                                         }: LayoutProps) {
-    const t = useTranslations("Navbar");
+    const t = useTranslations("app/(landing)/components/navbar");
     const isSmall = useMediaQuery("(max-width: 1024px)");
     const { isSticky } = store ? useStore() : { isSticky: false };
     const { session } = useSession();

@@ -24,6 +24,7 @@ import {
 import {revalidateTag} from "next/cache";
 import {acceptTOS} from "@/lib/term-of-service";
 import {TOS_VERSION} from "@/lib/local-variables";
+import {getTranslations} from "next-intl/server";
 
 /**
  * Type definition for the standard action result
@@ -47,27 +48,29 @@ const ipBucket = new RefillingTokenBucket<string>(20, 1);
  * Handles user login by email
  */
 export async function loginAction(_prev: ActionResult, formData: z.infer<typeof EmailSchema>): Promise<ActionResult> {
+    const t = await getTranslations("app/(auth)/auth/actions");
+
     // Check global rate limit
     if (!await globalPOSTRateLimit()) {
-        return { message: "Too many requests" };
+        return { message: t("tooManyRequests") };
     }
 
     // Check IP-based rate limit
     const reqHeaders = await headers();
     const clientIP = reqHeaders.get("x-forwarded-for");
     if (clientIP !== null && !ipBucket.check(clientIP, 1)) {
-        return { message: "Too many requests" };
+        return { message: t("tooManyRequests") };
     }
 
     // Validate email
     const validation = EmailSchema.safeParse(formData);
     if (!validation.success) {
-        return { message: "Invalid or missing field" };
+        return { message: t("invalidOrMissingField") };
     }
 
     // Consume rate limit token
     if (clientIP !== null && !ipBucket.consume(clientIP, 1)) {
-        return { message: "Too many requests" };
+        return { message: t("tooManyRequests") };
     }
 
     const email = formData.email;
@@ -90,21 +93,23 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
  * Verifies the email using the OTP code provided
  */
 export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<typeof OTPSchema>): Promise<ActionLogin> {
+    const t = await getTranslations("app/(auth)/auth/actions");
+
     // Check global rate limit
     if (!await globalPOSTRateLimit()) {
-        return { message: "Too many requests" };
+        return { message: t("tooManyRequests") };
     }
 
     // Validate OTP input
     const validation = OTPSchema.safeParse(formData);
     if (!validation.success) {
-        return { message: "Invalid or missing fields" };
+        return { message: t("invalidOrMissingField") };
     }
 
     const email = formData.email;
     const user = await getUserFromEmail(email);
     if (user === null) {
-        return { message: "Account does not exist" };
+        return { message: t("accountDoesNotExist") };
     }
 
     const code = formData.otp;
@@ -113,30 +118,30 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
     const reqHeaders = await headers();
     const clientIP = reqHeaders.get("x-forwarded-for");
     if (clientIP !== null && !ipBucket.check(clientIP, 1)) {
-        return { message: "Too many requests" };
+        return { message: t("tooManyRequests") };
     }
 
     // Get verification request
     let verificationRequest = await getUserEmailVerificationRequestFromRequest(user.id);
     if (verificationRequest === null) {
-        return { message: "Not authenticated" };
+        return { message: t("notAuthenticated") };
     }
 
     // Consume rate limit token
     if (clientIP !== null && !ipBucket.consume(clientIP, 1)) {
-        return { message: "Too many requests" };
+        return { message: t("tooManyRequests") };
     }
 
     // Handle expired verification code
     if (Date.now() >= verificationRequest.expiresAt.getTime()) {
         verificationRequest = await createEmailVerificationRequest(verificationRequest.userId, verificationRequest.email);
         await sendVerificationEmail(verificationRequest.email, verificationRequest.code);
-        return { message: "The verification code was expired. We sent another code to your email." };
+        return { message: t("verificationCodeExpired") };
     }
 
     // Check code validity
     if (verificationRequest.code !== code) {
-        return { message: "Incorrect code." };
+        return { message: t("incorrectCode") };
     }
 
     // Create session on successful verification
@@ -160,14 +165,16 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
  * Resends the email verification code to the user
  */
 export async function resendEmailVerificationCodeAction(email: string): Promise<ActionResult> {
+    const t = await getTranslations("app/(auth)/auth/actions");
+
     const user = await getUserFromEmail(email);
     if (user === null) {
-        return { message: "Problem with account" };
+        return { message: t("problemWithAccount") };
     }
 
     // Check rate limit for sending emails
     if (!sendVerificationEmailBucket.check(user.id, 1)) {
-        return { message: "Too many requests" };
+        return { message: t("tooManyRequests") };
     }
 
     let verificationRequest = await getUserEmailVerificationRequestFromRequest(user.id);
@@ -175,12 +182,12 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
     // Create or update verification request
     if (verificationRequest === null) {
         if (!sendVerificationEmailBucket.consume(user.id, 1)) {
-            return { message: "Too many requests" };
+            return { message: t("tooManyRequests") };
         }
         verificationRequest = await createEmailVerificationRequest(user.id, user.email);
     } else {
         if (!sendVerificationEmailBucket.consume(user.id, 1)) {
-            return { message: "Too many requests" };
+            return { message: t("tooManyRequests") };
         }
         verificationRequest = await createEmailVerificationRequest(user.id, verificationRequest.email);
     }

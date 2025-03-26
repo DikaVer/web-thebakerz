@@ -18,7 +18,7 @@ interface OrderStatusProps {
 
 export const OrderStatusCard: React.FC<OrderStatusProps> = ({orderData}) => {
     const locale = useLocale();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/orders/overview");
 
     const status = (order_status: string) => {
         switch (order_status) {
