@@ -25,6 +25,11 @@ import {revalidateTag} from "next/cache";
 import {acceptTOS} from "@/lib/term-of-service";
 import {TOS_VERSION} from "@/lib/local-variables";
 import {getTranslations} from "next-intl/server";
+import {createLogger} from "@/lib/logging";
+import {getRequestContext} from "@/lib/request-context";
+
+// Initialize logger for auth module
+const logger = createLogger('auth');
 
 /**
  * Type definition for the standard action result
@@ -49,42 +54,99 @@ const ipBucket = new RefillingTokenBucket<string>(20, 1);
  */
 export async function loginAction(_prev: ActionResult, formData: z.infer<typeof EmailSchema>): Promise<ActionResult> {
     const t = await getTranslations("app/(auth)/auth/actions");
+    const context = await getRequestContext();
+    const clientIP = context.clientIP || undefined;
+
+    logger.info('loginAction', 'Login attempt started', { 
+        requestId: context.requestId,
+        clientIP
+    });
 
     // Check global rate limit
     if (!await globalPOSTRateLimit()) {
+        logger.warn('loginAction', 'Global rate limit hit', { 
+            requestId: context.requestId,
+            clientIP 
+        });
         return { message: t("tooManyRequests") };
     }
 
     // Check IP-based rate limit
-    const reqHeaders = await headers();
-    const clientIP = reqHeaders.get("x-forwarded-for");
-    if (clientIP !== null && !ipBucket.check(clientIP, 1)) {
+    if (clientIP && !ipBucket.check(clientIP, 1)) {
+        logger.warn('loginAction', 'IP rate limit hit', { 
+            requestId: context.requestId,
+            clientIP 
+        });
         return { message: t("tooManyRequests") };
     }
 
     // Validate email
     const validation = EmailSchema.safeParse(formData);
     if (!validation.success) {
+        logger.warn('loginAction', 'Invalid email format', { 
+            requestId: context.requestId,
+            clientIP,
+            data: { validationErrors: validation.error.errors }
+        });
         return { message: t("invalidOrMissingField") };
     }
 
     // Consume rate limit token
-    if (clientIP !== null && !ipBucket.consume(clientIP, 1)) {
+    if (clientIP && !ipBucket.consume(clientIP, 1)) {
+        logger.warn('loginAction', 'IP rate limit consumed', { 
+            requestId: context.requestId,
+            clientIP 
+        });
         return { message: t("tooManyRequests") };
     }
 
     const email = formData.email;
+    logger.info('loginAction', 'Processing login for email', { 
+        requestId: context.requestId,
+        clientIP,
+        email 
+    });
 
     // Get or create user
     let user: User | null = await getUserFromEmail(email);
     if (user === null) {
+        logger.info('loginAction', 'Creating new user', { 
+            requestId: context.requestId,
+            clientIP,
+            email 
+        });
         user = await createUser(email);
+    } else {
+        logger.info('loginAction', 'Existing user found', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id 
+        });
     }
 
     // Create and send verification email
-    const emailVerificationRequest = await createEmailVerificationRequest(user.id, user.email);
-    await sendVerificationEmail(emailVerificationRequest.email, emailVerificationRequest.code);
-    await setEmailVerificationRequestCookie(emailVerificationRequest);
+    try {
+        const emailVerificationRequest = await createEmailVerificationRequest(user.id, user.email);
+        await sendVerificationEmail(emailVerificationRequest.email, emailVerificationRequest.code);
+        await setEmailVerificationRequestCookie(emailVerificationRequest);
+        
+        logger.info('loginAction', 'Verification email sent successfully', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id 
+        });
+    } catch (error) {
+        logger.error('loginAction', 'Failed to send verification email', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id,
+            error 
+        });
+        return { message: t("problemSendingEmail") };
+    }
 
     return null;
 }
@@ -94,46 +156,96 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
  */
 export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<typeof OTPSchema>): Promise<ActionLogin> {
     const t = await getTranslations("app/(auth)/auth/actions");
+    const context = await getRequestContext();
+    const clientIP = context.clientIP || undefined;
+
+    logger.info('verifyEmailAction', 'Email verification attempt started', { 
+        requestId: context.requestId,
+        clientIP
+    });
 
     // Check global rate limit
     if (!await globalPOSTRateLimit()) {
+        logger.warn('verifyEmailAction', 'Global rate limit hit', { 
+            requestId: context.requestId,
+            clientIP 
+        });
         return { message: t("tooManyRequests") };
     }
 
     // Validate OTP input
     const validation = OTPSchema.safeParse(formData);
     if (!validation.success) {
+        logger.warn('verifyEmailAction', 'Invalid OTP format', { 
+            requestId: context.requestId,
+            clientIP,
+            data: { validationErrors: validation.error.errors } 
+        });
         return { message: t("invalidOrMissingField") };
     }
 
     const email = formData.email;
     const user = await getUserFromEmail(email);
     if (user === null) {
+        logger.warn('verifyEmailAction', 'Account does not exist', { 
+            requestId: context.requestId,
+            clientIP,
+            email 
+        });
         return { message: t("accountDoesNotExist") };
     }
 
     const code = formData.otp;
+    logger.debug('verifyEmailAction', 'Processing verification', { 
+        requestId: context.requestId,
+        clientIP,
+        email,
+        userId: user.id
+    });
 
     // Check IP-based rate limit
-    const reqHeaders = await headers();
-    const clientIP = reqHeaders.get("x-forwarded-for");
-    if (clientIP !== null && !ipBucket.check(clientIP, 1)) {
+    if (clientIP && !ipBucket.check(clientIP, 1)) {
+        logger.warn('verifyEmailAction', 'IP rate limit hit', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id
+        });
         return { message: t("tooManyRequests") };
     }
 
     // Get verification request
     let verificationRequest = await getUserEmailVerificationRequestFromRequest(user.id);
     if (verificationRequest === null) {
+        logger.warn('verifyEmailAction', 'No verification request found', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id
+        });
         return { message: t("notAuthenticated") };
     }
 
     // Consume rate limit token
-    if (clientIP !== null && !ipBucket.consume(clientIP, 1)) {
+    if (clientIP && !ipBucket.consume(clientIP, 1)) {
+        logger.warn('verifyEmailAction', 'IP rate limit consumed', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id
+        });
         return { message: t("tooManyRequests") };
     }
 
     // Handle expired verification code
     if (Date.now() >= verificationRequest.expiresAt.getTime()) {
+        logger.info('verifyEmailAction', 'Verification code expired, sending new one', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id 
+        });
+        
         verificationRequest = await createEmailVerificationRequest(verificationRequest.userId, verificationRequest.email);
         await sendVerificationEmail(verificationRequest.email, verificationRequest.code);
         return { message: t("verificationCodeExpired") };
@@ -141,24 +253,49 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
 
     // Check code validity
     if (verificationRequest.code !== code) {
+        logger.warn('verifyEmailAction', 'Incorrect verification code', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id,
+            data: { attemptedCode: code }
+        });
         return { message: t("incorrectCode") };
     }
 
-    // Create session on successful verification
-    const sessionToken = generateSessionToken();
-    const session = await createSession(sessionToken, user.id);
+    try {
+        // Create session on successful verification
+        const sessionToken = generateSessionToken();
+        const session = await createSession(sessionToken, user.id);
 
-    // Update user and clean up
-    await setSessionTokenCookie(sessionToken, session.expiresAt);
-    await deleteUserEmailVerificationRequest(user.id);
-    await updateUserEmailAndSetEmailAsVerified(user.id, verificationRequest.email);
-    await deleteEmailVerificationRequestCookie();
-    await acceptTOS(user.email, TOS_VERSION, clientIP || "Not Available", "explicit", "login");
-    revalidateTag('session');
+        // Update user and clean up
+        await setSessionTokenCookie(sessionToken, session.expiresAt);
+        await deleteUserEmailVerificationRequest(user.id);
+        await updateUserEmailAndSetEmailAsVerified(user.id, verificationRequest.email);
+        await deleteEmailVerificationRequestCookie();
+        await acceptTOS(user.email, TOS_VERSION, clientIP || "Not Available", "explicit", "login");
+        revalidateTag('session');
 
-    return {
-        session: await getCurrentSession()
-    };
+        logger.info('verifyEmailAction', 'Email verified and session created successfully', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id 
+        });
+
+        return {
+            session: await getCurrentSession()
+        };
+    } catch (error) {
+        logger.error('verifyEmailAction', 'Failed to create session after verification', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id,
+            error
+        });
+        return { message: t("problemWithAccount") };
+    }
 }
 
 /**
@@ -166,36 +303,97 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
  */
 export async function resendEmailVerificationCodeAction(email: string): Promise<ActionResult> {
     const t = await getTranslations("app/(auth)/auth/actions");
+    const context = await getRequestContext();
+    const clientIP = context.clientIP || undefined;
+
+    logger.info('resendEmailVerificationCodeAction', 'Email resend attempt started', { 
+        requestId: context.requestId,
+        clientIP,
+        email
+    });
 
     const user = await getUserFromEmail(email);
     if (user === null) {
+        logger.warn('resendEmailVerificationCodeAction', 'Account does not exist', { 
+            requestId: context.requestId,
+            clientIP,
+            email 
+        });
         return { message: t("problemWithAccount") };
     }
 
     // Check rate limit for sending emails
     if (!sendVerificationEmailBucket.check(user.id, 1)) {
+        logger.warn('resendEmailVerificationCodeAction', 'Email rate limit hit', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id
+        });
         return { message: t("tooManyRequests") };
     }
 
     let verificationRequest = await getUserEmailVerificationRequestFromRequest(user.id);
 
-    // Create or update verification request
-    if (verificationRequest === null) {
-        if (!sendVerificationEmailBucket.consume(user.id, 1)) {
-            return { message: t("tooManyRequests") };
+    try {
+        // Create or update verification request
+        if (verificationRequest === null) {
+            if (!sendVerificationEmailBucket.consume(user.id, 1)) {
+                logger.warn('resendEmailVerificationCodeAction', 'Email rate limit consumed', { 
+                    requestId: context.requestId,
+                    clientIP,
+                    email,
+                    userId: user.id
+                });
+                return { message: t("tooManyRequests") };
+            }
+            logger.info('resendEmailVerificationCodeAction', 'Creating new verification request', { 
+                requestId: context.requestId,
+                clientIP,
+                email,
+                userId: user.id 
+            });
+            verificationRequest = await createEmailVerificationRequest(user.id, user.email);
+        } else {
+            if (!sendVerificationEmailBucket.consume(user.id, 1)) {
+                logger.warn('resendEmailVerificationCodeAction', 'Email rate limit consumed', { 
+                    requestId: context.requestId,
+                    clientIP,
+                    email,
+                    userId: user.id
+                });
+                return { message: t("tooManyRequests") };
+            }
+            logger.info('resendEmailVerificationCodeAction', 'Updating existing verification request', { 
+                requestId: context.requestId,
+                clientIP,
+                email,
+                userId: user.id 
+            });
+            verificationRequest = await createEmailVerificationRequest(user.id, verificationRequest.email);
         }
-        verificationRequest = await createEmailVerificationRequest(user.id, user.email);
-    } else {
-        if (!sendVerificationEmailBucket.consume(user.id, 1)) {
-            return { message: t("tooManyRequests") };
-        }
-        verificationRequest = await createEmailVerificationRequest(user.id, verificationRequest.email);
-    }
 
-    // Send email and set cookie
-    await sendVerificationEmail(verificationRequest.email, verificationRequest.code);
-    await setEmailVerificationRequestCookie(verificationRequest);
-    return null;
+        // Send email and set cookie
+        await sendVerificationEmail(verificationRequest.email, verificationRequest.code);
+        await setEmailVerificationRequestCookie(verificationRequest);
+        
+        logger.info('resendEmailVerificationCodeAction', 'Verification email resent successfully', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id 
+        });
+        return null;
+    } catch (error) {
+        logger.error('resendEmailVerificationCodeAction', 'Failed to resend verification email', { 
+            requestId: context.requestId,
+            clientIP,
+            email,
+            userId: user.id,
+            error 
+        });
+        return { message: t("problemSendingEmail") };
+    }
 }
 
 /**
