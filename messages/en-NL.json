@@ -450,7 +450,15 @@
         "pickUpDetailsStep": "2. Pick Up Details",
         "backToOrderDashboard": "Back to Order Dashboard",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "customerDetails": "Customer Details",
+        "customerNameLabel": "Enter customer name.",
+        "customerNamePlaceholder": "Enter customer name",
+        "customerEmailLabel": "Enter customer e-mail address.",
+        "customerEmailPlaceholder": "Enter customer email address",
+        "customerPhoneLabel": "Enter customer phone number. (Optional)",
+        "customerPhonePlaceholder": "Enter customer phone number",
+        "createOrderButton": "Create Order"
     },
     "app/(store)/components/orders/overview": {
         "Order": "Order",

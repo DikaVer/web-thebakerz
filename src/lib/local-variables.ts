@@ -214,7 +214,6 @@ export const categories: Readonly<{ [key: string]: { description: string } }> = 
     'Bread': { description: 'Freshly baked bread varieties including sourdough, baguettes, and rolls.' },
     'Cakes': { description: 'Variety of cakes including sponge, layered, and specialty cakes.' },
     'Cheesecake': { description: 'Chocolate-based treats including truffles, bars, and bonbons.' },
-    'Choux Pastries': { description: 'Light pastry dough used for profiteroles, éclairs, and cream puffs.' },
     'Chocolate': { description: 'Chocolate-based treats including truffles, bars, and bonbons.' },
     'Cookies and Biscuits': { description: 'Various sweet and savory cookies and biscuits.' },
     'Cupcakes': { description: 'Individual portion cakes with decorative frosting.' },
@@ -226,7 +225,6 @@ export const categories: Readonly<{ [key: string]: { description: string } }> = 
     'Pies': { description: 'Traditional fruit or savory fillings in a pastry crust.' },
     'Tarts': { description: 'Pastry shell filled with sweet or savory ingredients.' },
     'Vegan': { description: 'Plant-based baked goods made without animal products.' },
-    'Vlaai': { description: 'Dutch fruit tart with a sweet filling and pastry crust.' },
     'Wedding Cakes': { description: 'Elegant multi-tiered cakes for wedding celebrations.' }
 };
 

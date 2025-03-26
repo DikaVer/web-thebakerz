@@ -9,7 +9,7 @@ interface ToastMessageProps {
 const showErrorMessage = ({ error }: ToastMessageProps) => {
     addToast({
         description: error,
-        timeout: 2000,
+        timeout: 4000,
         shouldShowTimeoutProgress: true,
         color: "danger"
     });

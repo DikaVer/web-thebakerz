@@ -51,7 +51,7 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         return { error: 'Cart is empty' };
     }
 
-    const {date, time} = await getOrderTime()
+    const {date, time} = await getOrderTime(storeId)
 
     // Check if order time is set
     if (!date || !time) {
@@ -168,7 +168,7 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
             line_items: lineItems,
             mode: 'payment',
             currency: 'eur',
-            payment_method_types: ['card', 'ideal', 'paypal', 'revolut_pay', 'bancontact'],
+            payment_method_types: ['card', 'ideal', 'revolut_pay', 'bancontact'],
             return_url: `${origin}/api/pay?session_id={CHECKOUT_SESSION_ID}&store_id=${storeId}&store_stripe_account_id=${storeStipeAccountId}`,
             automatic_tax: {
                 enabled: false,

@@ -42,7 +42,7 @@ export function ScheduleOrder({
     const t = useTranslations("app/(store)/components/checkout");
 
     const phone = {
-        name: t("Phone"),
+        name: t("phone"),
         href: `tel:${store?.phone}`,
         icon: (props: SocialIconProps) => (
             <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24} />

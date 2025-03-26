@@ -40,7 +40,7 @@ export default async function Page(props: StorePageProps) {
 
     const cartData = await getCurrentCart(storeData.id);
 
-    const {date, time} = await getOrderTime();
+    const {date, time} = await getOrderTime(storeData.id);
 
     return (
         <CartProvider

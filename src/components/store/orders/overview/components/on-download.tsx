@@ -39,7 +39,7 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, storeO
             addToast({
                 title:"Error",
                 description: resJson?.error || "Failed to download PDF",
-                timeout: 1000,
+                timeout: 4000,
                 shouldShowTimeoutProgress: true,
                 color: "danger"
             });
@@ -49,7 +49,7 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, storeO
         addToast({
             title:"Something went wrong",
             description: error instanceof Error ? error.message : "Unknown error occurred",
-            timeout: 1000,
+            timeout: 4000,
             shouldShowTimeoutProgress: true,
             color: "danger"
         });

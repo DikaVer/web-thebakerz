@@ -456,7 +456,15 @@
         "pickUpDetailsStep": "2. Ophaalgegevens",
         "backToOrderDashboard": "Terug naar het besteldashboard",
         "yes": "Ja",
-        "no": "Nee"
+        "no": "Nee",
+        "customerDetails": "Klantgegevens",
+        "customerNameLabel": "Voer de naam van de klant in.",
+        "customerNamePlaceholder": "Voer de naam van de klant in",
+        "customerEmailLabel": "Voer het e-mailadres van de klant in.",
+        "customerEmailPlaceholder": "Voer het e-mailadres van de klant in",
+        "customerPhoneLabel": "Voer het telefoonnummer van de klant in. (Optioneel)",
+        "customerPhonePlaceholder": "Voer het telefoonnummer van de klant in",
+        "createOrderButton": "Bestelling aanmaken"
     },
     "app/(store)/components/orders/overview": {
         "Order": "Volgorde",
