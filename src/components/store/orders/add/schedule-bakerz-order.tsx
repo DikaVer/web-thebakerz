@@ -251,7 +251,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                     isLoading={isLoading}
                                     onPress={() => setIsCreating(true)}
                                 >
-                                    {t("Yes")}
+                                    {t("yes")}
                                 </Button>
                                 <Button
                                     isLoading={isLoading}
@@ -262,7 +262,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                         onOpen();
                                     }}
                                 >
-                                    {t("No")}
+                                    {t("no")}
                                 </Button>
                             </div>
                         </section>

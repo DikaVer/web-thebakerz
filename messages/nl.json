@@ -37,6 +37,12 @@
         "underConstruction": "In aanbouw!",
         "subtitle": "Wij doen ons best om het zo snel mogelijk te leveren!"
     },
+    "app/(error_layout)/error": {
+        "error": "Fout",
+        "somethingWentWrong": "Er is iets misgegaan!",
+        "tryAgain": "Probeer opnieuw",
+        "goBackToTheBakerz": "Ga terug naar TheBakerz"
+    },
     "Allergies": {
         "Add Allergy": "Allergie toevoegen",
         "egg": "ei",
@@ -448,7 +454,9 @@
         "cartDetailsStep": "1. Winkelwagengegevens",
         "pickUpDetails": "Ophaalgegevens",
         "pickUpDetailsStep": "2. Ophaalgegevens",
-        "backToOrderDashboard": "Terug naar het besteldashboard"
+        "backToOrderDashboard": "Terug naar het besteldashboard",
+        "yes": "Ja",
+        "no": "Nee"
     },
     "app/(store)/components/orders/overview": {
         "Order": "Volgorde",

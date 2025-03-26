@@ -65,12 +65,14 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
     // Sort each category's products (fallback to alphabetical)
     categoriesKeys.forEach((category) => {
         const orderForCategory: string[] = productsOrder[category] || [];
-        productsByCategories[category] = sortItems<ProductData>(
-            productsByCategories[category],
-            orderForCategory,
-            (product) => product.constId,
-            (a, b) => a.name.localeCompare(b.name)
-        );
+        if(productsOrder[category] && productsByCategories[category]) {
+            productsByCategories[category] = sortItems<ProductData>(
+                productsByCategories[category],
+                orderForCategory,
+                (product) => product.constId,
+                (a, b) => a.name.localeCompare(b.name)
+            );
+        }
     });
 
     // State for product orders and tabs
@@ -80,10 +82,12 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
 
     // Memoize the productsData for the selected tab so that it recomputes when selectedTab or productOrders change
     const computedProductsData: ProductDataFull = useMemo(() => {
+        console.log(productsByCategories[selectedTab])
         return productsByCategories[selectedTab]?.reduce((acc, product) => {
             acc[product.constId] = product;
             return acc;
         }, {} as ProductDataFull) || {};
+
     }, [productsByCategories, selectedTab]);
 
 

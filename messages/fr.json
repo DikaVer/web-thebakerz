@@ -37,6 +37,12 @@
         "underConstruction": "En cours de construction!",
         "subtitle": "Nous faisons de notre mieux pour le livrer bientôt !"
     },
+    "app/(error_layout)/error": {
+        "error": "Erreur",
+        "somethingWentWrong": "Une erreur s'est produite !",
+        "tryAgain": "Réessayer",
+        "goBackToTheBakerz": "Retour à TheBakerz"
+    },
     "Allergies": {
         "Add Allergy": "Ajouter une allergie",
         "egg": "œuf",
@@ -448,7 +454,9 @@
         "cartDetailsStep": "1. Détails du panier",
         "pickUpDetails": "Détails du ramassage",
         "pickUpDetailsStep": "2. Détails de la prise en charge",
-        "backToOrderDashboard": "Retour au tableau de bord des commandes"
+        "backToOrderDashboard": "Retour au tableau de bord des commandes",
+        "yes": "Oui",
+        "no": "Non"
     },
     "app/(store)/components/orders/overview": {
         "Order": "Commande",

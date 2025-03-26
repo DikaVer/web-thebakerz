@@ -213,6 +213,7 @@ export const categories: Readonly<{ [key: string]: { description: string } }> = 
     'Birthday Cakes': { description: 'Special decorated cakes for birthday celebrations.' },
     'Bread': { description: 'Freshly baked bread varieties including sourdough, baguettes, and rolls.' },
     'Cakes': { description: 'Variety of cakes including sponge, layered, and specialty cakes.' },
+    'Cheesecake': { description: 'Chocolate-based treats including truffles, bars, and bonbons.' },
     'Choux Pastries': { description: 'Light pastry dough used for profiteroles, éclairs, and cream puffs.' },
     'Chocolate': { description: 'Chocolate-based treats including truffles, bars, and bonbons.' },
     'Cookies and Biscuits': { description: 'Various sweet and savory cookies and biscuits.' },

@@ -448,7 +448,9 @@
         "cartDetailsStep": "1. Cart Details",
         "pickUpDetails": "Pick Up Details",
         "pickUpDetailsStep": "2. Pick Up Details",
-        "backToOrderDashboard": "Back to Order Dashboard"
+        "backToOrderDashboard": "Back to Order Dashboard",
+        "yes": "Yes",
+        "no": "No"
     },
     "app/(store)/components/orders/overview": {
         "Order": "Order",
@@ -1003,6 +1005,12 @@
         "profileStoreSlugTooLong": "Description must be at most 100 characters",
         "profileInvalidFacebookUrl": "Invalid Facebook URL",
         "profileInvalidInstagramUrl": "Invalid Instagram URL"
+    },
+    "app/(error_layout)/error": {
+        "error": "Error",
+        "somethingWentWrong": "Something went wrong!",
+        "tryAgain": "Try again",
+        "goBackToTheBakerz": "Go back to TheBakerz"
     }
 }
 

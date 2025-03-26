@@ -66,7 +66,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
             <Select
                 variant="flat"
                 size="sm"
-                aria-label={t("Order Status")}
+                aria-label={t("orderStatus")}
                 selectedKeys={[selectedStatus]}
                 disallowEmptySelection={true}
                 classNames={{

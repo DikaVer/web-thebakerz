@@ -448,7 +448,9 @@
         "cartDetailsStep": "1. Cart Details",
         "pickUpDetails": "Pick Up Details",
         "pickUpDetailsStep": "2. Pick Up Details",
-        "backToOrderDashboard": "Back to Order Dashboard"
+        "backToOrderDashboard": "Back to Order Dashboard",
+        "yes": "Yes",
+        "no": "No"
     },
     "app/(store)/components/orders/overview": {
         "Order": "Order",
@@ -958,6 +960,57 @@
         "failedUpdateProduct": "Failed to update product.",
         "failedFetchProductsOrder": "Failed to fetch products order",
         "failedFetchStoreProducts": "Failed to fetch store products"
+    },
+    "app/lib/schemas": {
+        "invalidPhone": "Invalid phone number",
+        "emailRequired": "Email required!",
+        "invalidEmail": "Invalid email!",
+        "otpRequired": "OTP must be 6 digits",
+        "termsRequired": "You need to agreed with the Terms and Privacy Policy",
+        "nameRequired": "Name is required",
+        "subjectRequired": "Subject is required",
+        "subjectTooLong": "Context must be less than 200 characters",
+        "contextTooShort": "Context must be bigger than 5 characters",
+        "contextTooLong": "Context must be less than 2000 characters",
+        "unsupportedFileType": "Unsupported file type. Allowed types: JPEG, PNG, WebP, SVG",
+        "fileTooLarge": "File is too large. Maximum allowed size is 5MB.",
+        "nameTooShort": "Minimum of 4 characters for name",
+        "nameTooLong": "Maximum of 120 characters for name",
+        "nameInvalidFormat": "Name can only contain letters, numbers, periods, underscores, hyphens, brackets, with a maximum of two spaces and cannot start with a space",
+        "nameConsecutivePeriods": "Name cannot contain two or more consecutive periods",
+        "nicknameTooShort": "Minimum of 4 characters for nickname",
+        "nicknameTooLong": "Maximum of 120 characters for nickname",
+        "nicknameInvalidFormat": "Nickname can only contain letters, numbers, periods, underscores, and hyphens",
+        "nicknameConsecutivePeriods": "Nickname cannot contain two or more consecutive periods",
+        "descriptionTooLong": "Description must be less than 500 characters",
+        "variantLabelTooShort": "Minimum 4 characters",
+        "variantPricePositive": "Price must be a positive number",
+        "variantLabelRequired": "Minimum 4 characters",
+        "variantOptionsRequired": "At least one option is required",
+        "categoryInvalid": "Category must be from the list",
+        "productNameRequired": "Product Name is required",
+        "priceRequired": "Price is required",
+        "pricePositive": "Price must be a positive number",
+        "invalidUrl": "Invalid URL",
+        "imageRequired": "Image is required",
+        "minOrderRequired": "Minimum order must be at least 1",
+        "customerEmailRequired": "Email required!",
+        "customerNameRequired": "Name required!",
+        "customerNameTooShort": "Name must be at least 2 characters",
+        "customerNameTooLong": "Name must be less than 100 characters",
+        "contactMethodRequired": "At least one contact method (email or phone number) is required",
+        "profileNameRequired": "Name is required",
+        "profileDescriptionTooLong": "Description must be at most 200 characters",
+        "profileStoreNameRequired": "Store name is required",
+        "profileStoreSlugTooLong": "Description must be at most 100 characters",
+        "profileInvalidFacebookUrl": "Invalid Facebook URL",
+        "profileInvalidInstagramUrl": "Invalid Instagram URL"
+    },
+    "app/(error_layout)/error": {
+        "error": "Error",
+        "somethingWentWrong": "Something went wrong!",
+        "tryAgain": "Try again",
+        "goBackToTheBakerz": "Go back to TheBakerz"
     }
 }
 
