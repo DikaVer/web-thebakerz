@@ -1,4 +1,3 @@
-
 import Checkout from "@/components/checkout/payment/checkout";
 import {getCurrentStore} from "@/lib/actions/store";
 import NotFound from "@/app/(error_layout)/not-found";
@@ -56,7 +55,7 @@ export default async function Page(props: StorePageProps) {
         return NotFound();
     }
 
-    const t = await getTranslations("OrderProcess")
+    const t = await getTranslations("app/(store)/[id]/order/failed")
 
     return <div>
         <StoreProvider
@@ -70,7 +69,7 @@ export default async function Page(props: StorePageProps) {
                 <div className={'flex min-h-svh w-full justify-center items-center flex-col gap-y-2 text-center'}
                 >
                     <p>
-                        {t("Error")}
+                        {t("error")}
                     </p>
                     <PaymentSupportButton
                         error={searchParams.error}

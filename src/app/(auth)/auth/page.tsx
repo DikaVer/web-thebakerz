@@ -25,7 +25,7 @@ import { Metadata } from "next"
      }
 
      // Get translations
-     const t = await getTranslations("TheBakerz");
+     const t = await getTranslations("app/(auth)/page");
 
      return (
          <main className="relative flex flex-col isolate min-h-screen items-center justify-center">
@@ -60,7 +60,7 @@ import { Metadata } from "next"
                  <div className="mx-auto flex flex-col justify-center space-y-6 w-[350px]">
                      <div className="container flex flex-col items-center w-full gap-1">
                          <p className={`flex text-7xl ${pacifico.className}`}>TheBakerz</p>
-                         <p className="flex text-grayText">{t("Auth_Description")}</p>
+                         <p className="flex text-grayText">{t("authDescription")}</p>
                      </div>
                      <TwoStepAuthForm />
                  </div>

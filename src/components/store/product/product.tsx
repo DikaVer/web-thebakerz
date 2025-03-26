@@ -18,7 +18,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
 
     const { handleOpen } = useProductDialog();
     const isSmall = useMediaQuery("(max-width: 658px)");
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/product");
 
     return (
         <div

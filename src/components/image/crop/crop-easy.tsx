@@ -33,7 +33,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                                                setImageURL,
                                            }) => {
     const { session, setSession } = useSession();
-    const t = useTranslations("CropEasy");
+    const t = useTranslations("app/(store)/components/image");
 
     const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
     const [zoom, setZoom] = useState<number>(1);
@@ -65,7 +65,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
 
                     if (!response.ok) {
                         if (response.status === 500) {
-                            showErrorMessage({ error: t("Failed to upload image") });
+                            showErrorMessage({ error: t("failedToUploadImage") });
                         } else {
                             const { error } = await response.json();
                             showErrorMessage({ error: error });
@@ -96,7 +96,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                 }
                 setOpenCrop(false);
             } else {
-                showErrorMessage({ error: t("Failed to upload image") });
+                showErrorMessage({ error: t("failedToUploadImage") });
                 setOpenCrop(false);
             }
             setIsPending(false);
@@ -134,7 +134,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                 <div className="px-6">
                     <div>
                         <Slider
-                            label={t("Zoom")}
+                            label={t("zoom")}
                             value={zoom}
                             color="secondary"
                             radius="md"
@@ -148,7 +148,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                     </div>
                     <div>
                         <Slider
-                            label={t("Rotation")}
+                            label={t("rotation")}
                             value={rotation / 360}
                             color="secondary"
                             radius="md"
@@ -173,7 +173,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                     }
                     isLoading={isPending}
                 >
-                    {isPending ? t("Uploading") : t("Upload Image")}
+                    {isPending ? t("uploading") : t("uploadImage")}
                 </Button>
             </ModalFooter>
         </>

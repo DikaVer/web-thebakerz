@@ -5,17 +5,22 @@ import {getCurrentSession} from "@/lib/actions/session";
 import {containerProductsOrder} from "@/db";
 import {revalidateTag} from "next/cache";
 import {ProductDataFull} from "@/lib/actions/product";
+import { getTranslations } from "next-intl/server";
+
+type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
 export const updateProductsOrder = async (
     orderData: Record<string, string[]>,
 ) => {
+    const t = await getTranslations("app/lib/actions/order-products") as TranslationFunction;
+    
     if (!(await globalPOSTRateLimit())) {
-        return { error: "Too many requests" };
+        return { error: t("tooManyRequests") };
     }
 
     const { user, store } = await getCurrentSession();
     if (!user || !store) {
-        return { error: "User not found!" };
+        return { error: t("userNotFound") };
     }
 
     // Fetch the old product data if updating
@@ -27,19 +32,18 @@ export const updateProductsOrder = async (
     }
 
     try {
-
-
         await containerProductsOrder.items.upsert(productsOrderData);
         revalidateTag('productsOrder');
-        return { success: "Order updated!"};
-
+        return { success: t("orderUpdated")};
     } catch (error: any) {
         console.error("Error updating product:", error);
-        return { error: "Failed to update product." };
+        return { error: t("failedUpdateProduct") };
     }
 };
 
 export const getProductsOrder = async (storeId: string): Promise<Record<string, string[]>> => {
+    const t = await getTranslations("app/lib/actions/order-products") as TranslationFunction;
+    
     try {
         if (!storeId) {
             return {};
@@ -57,8 +61,9 @@ export const getProductsOrder = async (storeId: string): Promise<Record<string, 
 };
 
 export async function getCurrentProductsOrder(storeId: string): Promise<Record<string, string[]>> {
+    const t = await getTranslations("app/lib/actions/order-products") as TranslationFunction;
+    
     try {
-
         if (!storeId) {
             return {};
         }
@@ -76,6 +81,6 @@ export async function getCurrentProductsOrder(storeId: string): Promise<Record<s
 
     } catch (error) {
         console.error("Error fetching store products:", error);
-        throw new Error("Failed to fetch store products");
+        throw new Error(t("failedFetchStoreProducts"));
     }
 }

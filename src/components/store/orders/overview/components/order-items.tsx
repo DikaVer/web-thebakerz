@@ -18,7 +18,7 @@ interface OrderItemsProps {
 export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) => {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState<string>("");
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/orders/overview");
 
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);

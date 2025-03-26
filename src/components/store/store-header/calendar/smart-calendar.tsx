@@ -9,6 +9,7 @@ import { Calendar, Button, Popover, PopoverContent, PopoverTrigger, ScrollShadow
 import { Icon } from "@iconify/react";
 import {WorkHours} from "@/lib/actions/calendar-actions";
 import showSuccessMessage from "@/components/toast/toast-succes";
+import { useTranslations } from "next-intl";
 
 // Define props to include schedule and minValue
 interface SmartDatetimeInputProps {
@@ -120,7 +121,7 @@ const DateTimeLocalInput = ({ children, className, ...props }: DateTimeLocalInpu
     const { value, onValueChange, schedule, minValue, showCalendar, showTimePicker, isError } =
         useSmartDateInput();
 
-    // Disable dates if the corresponding weekday in the schedule is missing or disabled
+    // Disable dates if they have no available time slots
     const isDateUnavailable = (date: CalendarDate) => {
         if (!schedule) return true;
 
@@ -128,7 +129,54 @@ const DateTimeLocalInput = ({ children, className, ...props }: DateTimeLocalInpu
         const weekday = jsDate.getDay(); // 0 (Sun) to 6 (Sat)
         const dayKey = weekdayMapping[weekday];
         const workDay = schedule[dayKey as keyof WorkHours];
-        return !workDay || !workDay.isEnabled;
+
+        // Check if the day is disabled in schedule
+        if (!workDay || !workDay.isEnabled) return true;
+
+        // Check if there are any available time slots for this date
+        const hasAvailableTimeSlots = checkTimeSlotAvailability(date, workDay, minValue);
+
+        return !hasAvailableTimeSlots;
+    };
+
+// Helper function to check if a date has any available time slots
+    const checkTimeSlotAvailability = (
+        date: CalendarDate,
+        workDay: { start: { hour: number, minute: number }, end: { hour: number, minute: number } },
+        minValue: ZonedDateTime | CalendarDate | CalendarDateTime
+    ) => {
+        // Working hours range in minutes
+        const startTime = workDay.start.hour * 60 + workDay.start.minute;
+        const endTime = workDay.end.hour * 60 + workDay.end.minute;
+
+        // If end time is before start time, no slots available
+        if (endTime <= startTime) return false;
+
+        // Check if this date is the same as minValue's date
+        let minTimeInMinutes = 0;
+        let isMinValueDate = false;
+
+        if (minValue) {
+            isMinValueDate =
+                date.year === minValue.year &&
+                date.month === minValue.month &&
+                date.day === minValue.day;
+
+            if (isMinValueDate && (minValue instanceof CalendarDateTime || minValue instanceof ZonedDateTime)) {
+                minTimeInMinutes = minValue.hour * 60 + minValue.minute;
+            }
+        }
+
+        // If this is the minValue date and minTime is after the end of work hours, no slots available
+        if (isMinValueDate && minTimeInMinutes >= endTime) return false;
+
+        // The effective start time is the later of workDay.start and minTime (if this is minValue's date)
+        const effectiveStartTime = isMinValueDate
+            ? Math.max(startTime, minTimeInMinutes)
+            : startTime;
+
+        // If there's at least 1 minute available in the range, return true
+        return effectiveStartTime < endTime;
     };
 
     // When a date is selected, preserve the existing time (if any) or default to midnight
@@ -220,6 +268,7 @@ const TimePicker = ({onClose}: {onClose: () => void}) => {
     const { value, onValueChange, onTimeChange, schedule, minValue } = useSmartDateInput();
     const [activeIndex, setActiveIndex] = React.useState(-1);
     const timestamp = 15; // 15-minute intervals
+    const t = useTranslations("app/(store)/components/smart-calendar");
 
     // Generate candidate time slots (optimized)
     const slots = useTimeSlots(timestamp);
@@ -308,7 +357,7 @@ const TimePicker = ({onClose}: {onClose: () => void}) => {
 
     return (
         <div className="space-y-2 pr-3 py-3 relative">
-            <h3 className="text-sm text-default-500 font-medium text-center">Time</h3>
+            <h3 className="text-sm text-default-500 font-medium text-center">{t("time")}</h3>
             <ScrollShadow size={20} className="h-[90%] w-full">
                 <ul className={cn("flex items-center flex-col gap-1 h-full max-h-56 w-28 px-1 py-0.5")}>
                     {slots.map((slot, index) => {

@@ -30,7 +30,7 @@ interface ProfileSettingCardProps {
 
 const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
     ({ className, ...props }, ref) => {
-        const t = useTranslations("Settings");
+        const t = useTranslations("app/(return_page)/settings/components/profile-setting");
 
         const { session, setSession } = useSession();
 
@@ -70,8 +70,8 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
 
                 if (result?.success) {
                     addToast({
-                        title: t("ProfileUpdated"),
-                        description: user.role === "bakerz" ? t("ProfileStoreUpdated") : t("ProfileHasUpdated"),
+                        title: t("profileUpdated"),
+                        description: user.role === "bakerz" ? t("profileStoreUpdated") : t("profileHasUpdated"),
                         color: "success",
                         shouldShowTimeoutProgress: true,
                         timeout: 2000,
@@ -123,16 +123,14 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                 <div>
                     <ImageUploader
                         type={"circle"}
-                        title={t("ProfilePicture")}
-                        subtitle={t("UploadProfilePicture")}
                         file={file}
                         isOpen={avatarEdit}
                         onClose={() => setAvatarEdit(false)}
                         container={"avatars"}
                     />
-                    <p className="text-base font-medium text-default-700">{t("Profile")}</p>
+                    <p className="text-base font-medium text-default-700">{t("profile")}</p>
                     <p className="mt-1 text-sm font-normal text-default-400">
-                        {user.role === "bakerz" ? t("DisplaysProfileStore") : t("DisplaysProfile")}
+                        {user.role === "bakerz" ? t("displaysProfileStore") : t("displaysProfile")}
                     </p>
                     <Card className="mt-4 bg-default-100" shadow="none">
                         <CardBody>
@@ -164,7 +162,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                 <div>
                                     <p className="text-sm font-medium text-default-500">{user.username}</p>
                                     <p className="text-xs text-default-400">
-                                        {user.role === "user" ? t("Customer") : `${t("TheBakerzNickname")} - ${store?.storeName}`}
+                                        {user.role === "user" ? t("customer") : `${t("baker")} - ${store?.storeName}`}
                                     </p>
                                     <p className="mt-1 text-xs text-default-400">{user.email}</p>
                                 </div>
@@ -181,10 +179,10 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                     >
                         <div>
                             <p className="text-base font-medium text-default-700">
-                                {store ? `${t("StoreName")}` : t("Name")}
+                                {store ? `${t("storeName")}` : t("name")}
                             </p>
                             <p className="mt-1 text-sm font-normal text-default-400">
-                                {store ? t("EditCurrentStoreName") : t("EditCurrentName")}
+                                {store ? t("editCurrentStoreName") : t("editCurrentName")}
                             </p>
                             <FormField
                                 control={form.control}
@@ -213,8 +211,8 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                             <>
                                 <div>
                                     {/* Store link */}
-                                    <p className="text-base font-medium text-default-700">{t("StoreLink")}</p>
-                                    <p className="mt-1 text-sm font-normal text-default-400">{t("HowUserFindYou")}</p>
+                                    <p className="text-base font-medium text-default-700">{t("storeLink")}</p>
+                                    <p className="mt-1 text-sm font-normal text-default-400">{t("howUserFindYou")}</p>
                                     <FormField
                                         control={form.control}
                                         name="storeName"
@@ -226,7 +224,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                         isDisabled={isPending}
                                                         isRequired
                                                         className={'mt-2'}
-                                                        placeholder={t("TypeYourStoreName")}
+                                                        placeholder={t("typeYourStoreName")}
                                                         type="text"
                                                         validate={() => {
                                                             return fieldState.error?.message;
@@ -240,8 +238,8 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                 <Spacer y={2}/>
                                 <div>
                                     {/* Store Slug */}
-                                    <p className="text-base font-medium text-default-700">{t("StoreSlug")}</p>
-                                    <p className="mt-1 text-sm font-normal text-default-400">{t("HowUserRecognizeYou")}</p>
+                                    <p className="text-base font-medium text-default-700">{t("storeSlug")}</p>
+                                    <p className="mt-1 text-sm font-normal text-default-400">{t("howUserRecognizeYou")}</p>
                                     <FormField
                                         control={form.control}
                                         name="storeSlug"
@@ -252,7 +250,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                         {...field}
                                                         isDisabled={isPending}
                                                         className={'mt-2'}
-                                                        placeholder={t("TypeYourStoreSlug")}
+                                                        placeholder={t("typeYourStoreSlug")}
                                                         type="text"
                                                         validate={() => {
                                                             return fieldState.error?.message;
@@ -266,14 +264,14 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                 <Spacer y={2}/>
                                 {/* Location & Phone Number */}
                                 <div>
-                                    <p className="text-base font-medium text-default-700">{t("LocationPhone")}</p>
-                                    <p className="mt-1 text-sm font-normal text-default-400">{t("EditLocationPhoneBy")}{" "}
+                                    <p className="text-base font-medium text-default-700">{t("locationPhone")}</p>
+                                    <p className="mt-1 text-sm font-normal text-default-400">{t("editLocationPhoneBy")}{" "}
                                         <Link
                                             className={'text-grayText underline'}
                                             href="/support/contact-us"
                                             size="sm"
                                             underline="hover">
-                                            {t("ContactUs")}
+                                            {t("contactUs")}
                                         </Link>
                                     </p>
                                     <Spacer y={2}/>
@@ -281,7 +279,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                         isDisabled
                                         className={'mt-2 opacity-100'}
                                         labelPlacement="outside"
-                                        placeholder={store?.location.route ? `${store.location.route}, ${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : t("Location Placeholder")}
+                                        placeholder={store?.location.route ? `${store.location.route}, ${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : t("locationPlaceholder")}
                                         startContent={
                                             <IconLocation size={24}
                                                           primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
@@ -294,7 +292,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                         isDisabled
                                         className={'mt-2 opacity-100'}
                                         labelPlacement="outside"
-                                        placeholder={`${store?.phone ? store.phone : t("PhoneNumberPlaceholder")}`}
+                                        placeholder={`${store?.phone ? store.phone : t("phoneNumberPlaceholder")}`}
                                         startContent={
                                             <IconPhone size={24}
                                                        primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
@@ -308,8 +306,8 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
 
                                 {/* Facebook URL */}
                                 <div>
-                                    <p className="text-base font-medium text-default-700">{t("FacebookURL")}</p>
-                                    <p className="mt-1 text-sm font-normal text-default-400">{t("EnterFacebookURL")}</p>
+                                    <p className="text-base font-medium text-default-700">{t("facebookURL")}</p>
+                                    <p className="mt-1 text-sm font-normal text-default-400">{t("enterFacebookURL")}</p>
                                     <FormField
                                         control={form.control}
                                         name="facebook_url"
@@ -320,7 +318,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                         {...field}
                                                         isDisabled={isPending}
                                                         className="mt-2"
-                                                        placeholder={t("FacebookURLPlaceholder")}
+                                                        placeholder={t("facebookURLPlaceholder")}
                                                         type="text"
                                                         validate={() => fieldState.error?.message}
                                                     />
@@ -334,8 +332,8 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
 
                                 {/* Instagram URL */}
                                 <div>
-                                    <p className="text-base font-medium text-default-700">{t("InstagramURL")}</p>
-                                    <p className="mt-1 text-sm font-normal text-default-400">{t("EnterInstagramURL")}</p>
+                                    <p className="text-base font-medium text-default-700">{t("instagramURL")}</p>
+                                    <p className="mt-1 text-sm font-normal text-default-400">{t("enterInstagramURL")}</p>
                                     <FormField
                                         control={form.control}
                                         name="instagram_url"
@@ -346,7 +344,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                         {...field}
                                                         isDisabled={isPending}
                                                         className="mt-2"
-                                                        placeholder={t("InstagramURLPlaceholder")}
+                                                        placeholder={t("instagramURLPlaceholder")}
                                                         type="text"
                                                         validate={() => fieldState.error?.message}
                                                     />
@@ -358,9 +356,9 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                 <Spacer y={2} />
                                 {/* Description */}
                                 <div>
-                                    <p className="text-base font-medium text-default-700">{t("Description")}</p>
+                                    <p className="text-base font-medium text-default-700">{t("description")}</p>
                                     <p className="mt-1 text-sm font-normal text-default-400">
-                                        {t("WriteAboutStore")}
+                                        {t("writeAboutStore")}
                                     </p>
                                     <FormField
                                         control={form.control}
@@ -371,7 +369,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                                     <Textarea
                                                         {...field}
                                                         isDisabled={isPending}
-                                                        placeholder='Tell us about your store... (max 200 characters)'
+                                                        placeholder={t("storeDescriptionPlaceholder")}
                                                         style={{resize: "none"}}
                                                         className="mt-2"
                                                         classNames={{
@@ -405,7 +403,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                 isLoading={isPending}
                             >
                                 {
-                                    isPending ? t('Updating...') : t('Update Profile')
+                                    isPending ? t('updating') : t('updateProfile')
                                 }
                             </Button>
                         </div>

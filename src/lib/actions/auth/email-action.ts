@@ -4,10 +4,11 @@ import * as z from "zod";
 
 import {ApplySchema, ContactSchema, GetStartedSchema,} from "@/lib/schemas";
 import {sendContactUsForm, sendOnboardingRequest} from "@/lib/emailSendRequest";
+import { getTranslations } from "next-intl/server";
 
 // Function to handle authActions using form data
 export const sendPaymentSupport = async ({error, description}: {error: string; description: string}) => {
-
+    const t = await getTranslations("app/lib/actions/auth/email-action");
 
     await sendContactUsForm({
         email: "Urgent Payment Support",
@@ -16,13 +17,13 @@ export const sendPaymentSupport = async ({error, description}: {error: string; d
     })
 
     return {
-        success: "Email sent successfully!"
+        success: t("emailSentSuccess")
     }
-
 };
 
 // Function to handle authActions using form data
 export const sendEmail = async (formData: z.infer<typeof ContactSchema>) => {
+    const t = await getTranslations("app/lib/actions/auth/email-action");
 
     // Validate the fields in the form using the LoginSchema
     const validateFields = ContactSchema.safeParse(formData);
@@ -30,7 +31,7 @@ export const sendEmail = async (formData: z.infer<typeof ContactSchema>) => {
     // If validation fails, return an error message
     if (!validateFields.success) {
         return {
-            error: "Invalid fields!"
+            error: t("invalidFields")
         };
     }
 
@@ -41,21 +42,20 @@ export const sendEmail = async (formData: z.infer<typeof ContactSchema>) => {
     })
 
     return {
-        success: "Email sent successfully!"
+        success: t("emailSentSuccess")
     }
-
 };
 
 export const sendApplication = async (formData: z.infer<typeof ApplySchema>) => {
+    const t = await getTranslations("app/lib/actions/auth/email-action");
 
     // Validate the fields in the form using the LoginSchema
     const validateFields = ApplySchema.safeParse(formData);
 
-
     // If validation fails, return an error message
     if (!validateFields.success) {
         return {
-            error: "Invalid fields!"
+            error: t("invalidFields")
         };
     }
 
@@ -66,13 +66,12 @@ export const sendApplication = async (formData: z.infer<typeof ApplySchema>) => 
     });
 
     return {
-        success: "Application was submitted successfully!"
+        success: t("applicationSubmittedSuccess")
     }
-
 };
 
-
 export const validatePhone = async (formData: z.infer<typeof GetStartedSchema>) => {
+    const t = await getTranslations("app/lib/actions/auth/email-action");
 
     // Validate the fields in the form using the LoginSchema
     const validateFields = GetStartedSchema.safeParse(formData);
@@ -80,12 +79,11 @@ export const validatePhone = async (formData: z.infer<typeof GetStartedSchema>) 
     // If validation fails, return an error message
     if (!validateFields.success) {
         return {
-            error: "Invalid fields!"
+            error: t("invalidFields")
         };
     }
 
     return {
-        success: "Phone is correct!"
+        success: t("phoneCorrect")
     }
-
 };

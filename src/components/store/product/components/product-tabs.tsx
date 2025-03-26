@@ -10,12 +10,12 @@ interface ProductTabsProps {
 }
 
 export const ProductTabs: React.FC<ProductTabsProps> = ({ categories, selectedTab, onTabSelect }) => {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/product-tabs");
 
     return (
         <Tabs
             key="underlined_tabs"
-            aria-label={t("Category Navigation")}
+            aria-label={t("categoryNavigation")}
             variant="underlined"
             className="mx-0 px-0 w-full md:w-2/3"
             onSelectionChange={(index) => onTabSelect(index.toString())}

@@ -6,8 +6,9 @@ import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {v4 as uuidv4} from "uuid";
 import {containerProducts} from "@/db";
 import {revalidateTag} from "next/cache";
+import { getTranslations } from "next-intl/server";
 
-
+type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
 /**
  * Adds a new product or updates an existing one in the database.
@@ -22,14 +23,15 @@ export const addProduct = async (
     formData: z.infer<typeof ProductSchema>,
     productId?: string
 ) => {
-    if (!(await globalPOSTRateLimit())) return { error: "Too many requests" };
-
+    const t = await getTranslations("app/lib/actions/product") as TranslationFunction;
+    
+    if (!(await globalPOSTRateLimit())) return { error: t("tooManyRequests") };
 
     const validation = ProductSchema.safeParse(formData);
-    if (!validation.success) return { error: "Invalid fields!" };
+    if (!validation.success) return { error: t("invalidFields") };
 
     const { user, store } = await getCurrentSession();
-    if (!user || !store) return { error: "User not found!" };
+    if (!user || !store) return { error: t("userNotFound") };
 
     let oldProductData = null;
     if (productId) {
@@ -61,10 +63,10 @@ export const addProduct = async (
                 }
             );
             if (!response.ok) {
-              return { error: "Failed to upload image" };
+              return { error: t("failedUploadImage") };
             }
             const { url: newUrl } = await response.json();
-            if (!newUrl) return { error: "Failed to upload image" };
+            if (!newUrl) return { error: t("failedUploadImage") };
 
             // Replace if an old URL exists at the same index, otherwise append.
             if (updatedAdditionalImages[i]) {
@@ -94,10 +96,10 @@ export const addProduct = async (
         );
         if (!response.ok) {
             console.error("Failed to upload image");
-            return { error: "Failed to upload image" };
+            return { error: t("failedUploadImage") };
         }
         const { url } = await response.json();
-        if (!url) return { error: "Failed to upload image" };
+        if (!url) return { error: t("failedUploadImage") };
         image_url = url;
     }
 
@@ -108,6 +110,7 @@ export const addProduct = async (
         category: formData.category,
         name: formData.name,
         description: formData.description,
+        min_order: formData.min_order,
         variants: formData.variants,
         price: formData.price,
         picture: image_url || formData.url,
@@ -133,15 +136,15 @@ export const addProduct = async (
             });
             await containerProducts.items.create(productData);
             revalidateTag("products");
-            return { success: "Product updated!", product: productData };
+            return { success: t("productUpdated"), product: productData };
         } else {
             await containerProducts.items.create(productData);
             revalidateTag("products");
-            return { success: "Product added!", product: productData };
+            return { success: t("productAdded"), product: productData };
         }
     } catch (error: any) {
         console.error("Error updating product:", error);
-        return { error: "Failed to update product." };
+        return { error: t("failedUpdateProduct") };
     }
 };
 
@@ -194,7 +197,7 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
         }
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.constId, c.additionalImages, c.variants FROM c WHERE c.store_id = @storeId AND c.archive = false",
+            query: "SELECT c.id, c.store_id, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.constId, c.additionalImages, c.variants, c.min_order FROM c WHERE c.store_id = @storeId AND c.archive = false",
             parameters: [{ name: "@storeId", value: storeId }]
         };
 
@@ -209,6 +212,55 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
         });
 
         return productDataFull;
+    } catch (error) {
+        console.error("Error fetching store products:", error);
+        throw new Error("Failed to fetch store products");
+    }
+}
+
+export async function getProductByStoreIdAndProductId(storeId: string, productId: string): Promise<ProductData | null> {
+    try {
+        if (!storeId || !productId) {
+            return null;
+        }
+
+        // Directly retrieve the item by ID and partition key
+        const { resource } = await containerProducts.item(productId, storeId).read();
+
+        // Return null if product is archived
+        if (resource && resource.archive === true) {
+            return null;
+        }
+
+        return resource;
+    } catch (error) {
+        // If item not found, CosmosDB will throw a 404 error
+        if ((error as any).code === 404) {
+            return null;
+        }
+        console.error("Error fetching product:", error);
+        throw new Error("Failed to fetch product");
+    }
+}
+
+export async function getCurrentProduct(storeId: string, productId: string): Promise<ProductData | null> {
+    try {
+
+        if (!storeId) {
+            return null;
+        }
+
+        return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/products/${productId}`, {
+            headers: {
+                'Store-Id': storeId,
+                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+            },
+            next: {
+                tags: ['products'],
+                revalidate: 300
+            }
+        }).then(res => res.json());
+
     } catch (error) {
         console.error("Error fetching store products:", error);
         throw new Error("Failed to fetch store products");
@@ -239,24 +291,14 @@ export async function getCurrentProducts(storeId: string): Promise<ProductDataFu
     }
 }
 
-
 export type ProductData = {
     id: string;
     store_id: string;
     category: string;
     name: string;
+    min_order: number;
     description?: string | null;
-    variants?: {
-        label: string;
-        isSingle: boolean;
-        required: boolean;
-        minSelections?: number;
-        maxSelections?: number;
-        options: {
-            label: string;
-            price: number;
-        }[];
-    }[];
+    variants?: ProductVariant[];
     price: number;
     picture: string;
     ingredients?: string[];
@@ -264,6 +306,18 @@ export type ProductData = {
     constId: string;
     additionalImages: string[];
 };
+
+export type ProductVariant = {
+    label: string;
+    isSingle: boolean;
+    required: boolean;
+    minSelections?: number;
+    maxSelections?: number;
+    options: {
+        label: string;
+        price: number;
+    }[];
+}
 
 export type ProductDataFull = {
     [productId: string]: ProductData;

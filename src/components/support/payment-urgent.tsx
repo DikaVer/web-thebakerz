@@ -12,7 +12,7 @@ export default function PaymentSupportButton({error, description}: {error: strin
 
     const [isPending, setIsPending] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    const t = useTranslations("OrderProcess");
+    const t = useTranslations("app/(support)/components/payment-urgent");
 
 
     return !isSuccess ? (
@@ -25,7 +25,7 @@ export default function PaymentSupportButton({error, description}: {error: strin
                     setIsPending(true)
                     try {
                         await sendPaymentSupport({error, description});
-                        showSuccessMessage({success: "Your request has been sent successfully."});
+                        showSuccessMessage({success: t("requestSentSuccess")});
                         setIsSuccess(true);
                     } catch (e) {
                         console.error(e);
@@ -35,10 +35,10 @@ export default function PaymentSupportButton({error, description}: {error: strin
                 }}
             >
                 {
-                    isPending ? "Sending..." : "Send request"
+                    isPending ? t("sending") : t("sendRequest")
                 }
             </Button>
     ):(
-        <p>{t("Support Ticket")}</p>
+        <p>{t("supportTicket")}</p>
     );
 }

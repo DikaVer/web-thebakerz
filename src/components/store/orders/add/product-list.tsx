@@ -23,7 +23,7 @@ interface ProductListProps {
 const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, productsOrder }) => {
     const { setProductsDataLocal } = useProductDialog();
     const categoriesKeys = Object.keys(productsOrder);
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/orders/add");
 
     useEffect(() => {
         if (productsData) {
@@ -34,7 +34,7 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
     if (productsData === null || Object.keys(productsData || {}).length === 0) {
         return (
             <div className="text-center">
-                <p className="text-2xl my-10">{t("No Products Available")}</p>
+                <p className="text-2xl my-10">{t("noProductsAvailable")}</p>
             </div>
         );
     }
@@ -65,12 +65,14 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
     // Sort each category's products (fallback to alphabetical)
     categoriesKeys.forEach((category) => {
         const orderForCategory: string[] = productsOrder[category] || [];
-        productsByCategories[category] = sortItems<ProductData>(
-            productsByCategories[category],
-            orderForCategory,
-            (product) => product.constId,
-            (a, b) => a.name.localeCompare(b.name)
-        );
+        if(productsOrder[category] && productsByCategories[category]) {
+            productsByCategories[category] = sortItems<ProductData>(
+                productsByCategories[category],
+                orderForCategory,
+                (product) => product.constId,
+                (a, b) => a.name.localeCompare(b.name)
+            );
+        }
     });
 
     // State for product orders and tabs
@@ -80,10 +82,12 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
 
     // Memoize the productsData for the selected tab so that it recomputes when selectedTab or productOrders change
     const computedProductsData: ProductDataFull = useMemo(() => {
+        console.log(productsByCategories[selectedTab])
         return productsByCategories[selectedTab]?.reduce((acc, product) => {
             acc[product.constId] = product;
             return acc;
         }, {} as ProductDataFull) || {};
+
     }, [productsByCategories, selectedTab]);
 
 
@@ -93,9 +97,9 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
         <div className={`${(currentStep === 0 || currentStep > 1) && 'hidden'}`}>
             <div className={'flex justify-between'}>
                 <div>
-                    <p className="text-base font-medium text-default-700">{t("Customer Cart")}</p>
+                    <p className="text-base font-medium text-default-700">{t("customerCart")}</p>
                     <p className="mt-1 text-sm font-normal text-default-400">
-                        {t("Add Manage Cart")}
+                        {t("addManageCart")}
                     </p>
                 </div>
             </div>
@@ -132,12 +136,12 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
                         <div
                             className=" col-span-5  grid grid-cols-5 gap-x-4"
                         >
-                            <span>{t("Image")}</span>
-                            <span className={'flex col-span-4'}>{t("Name Price")}</span>
+                            <span>{t("image")}</span>
+                            <span className={'flex col-span-4'}>{t("namePrice")}</span>
                         </div>
                         <span
                             className={'text-center'}
-                        >{t("Add")}</span>
+                        >{t("add")}</span>
                     </div>
                     {/* Use a key prop so that the ProductTable re-mounts when the selectedTab changes */}
                     <AnimatePresence mode="wait">

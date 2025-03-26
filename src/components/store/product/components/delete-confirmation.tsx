@@ -1,17 +1,20 @@
 import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@heroui/react";
 import {IconClose} from "@/components/ui/icons";
 import React from "react";
+import {useTheme} from "next-themes";
+import { useTranslations } from "next-intl";
 
 type DeleteModalProps = {
     isOpen: boolean;
     isLoadingDelete: boolean;
     onClose: () => void;
     onConfirm: () => void;
-    t: (key: string) => string;
-    theme?: string;
 };
 
-export function DeleteConfirmationModal({ isOpen, isLoadingDelete, onClose, onConfirm, t, theme }: DeleteModalProps) {
+export function DeleteConfirmationModal({ isOpen, isLoadingDelete, onClose, onConfirm }: DeleteModalProps) {
+    const { theme } = useTheme();
+    const t = useTranslations("app/(store)/components/delete-confirmation");
+
     return (
         <Modal
             isDismissable={!isLoadingDelete}
@@ -34,16 +37,16 @@ export function DeleteConfirmationModal({ isOpen, isLoadingDelete, onClose, onCo
             <ModalContent>
                 {(onCloseModal) => (
                     <>
-                        <ModalHeader className="flex flex-col gap-1">{t("Delete Confirmation")}</ModalHeader>
+                        <ModalHeader className="flex flex-col gap-1">{t("deleteConfirmation")}</ModalHeader>
                         <ModalBody>
-                            <p>{t("Delete Product Warning")}</p>
+                            <p>{t("deleteProductWarning")}</p>
                         </ModalBody>
                         <ModalFooter>
                             <Button color="primary" isDisabled={isLoadingDelete} onPress={() => onCloseModal()}>
-                                {t("Close")}
+                                {t("close")}
                             </Button>
                             <Button color="danger" isLoading={isLoadingDelete} variant="light" onPress={onConfirm}>
-                                {t("Confirm")}
+                                {t("confirm")}
                             </Button>
                         </ModalFooter>
                     </>

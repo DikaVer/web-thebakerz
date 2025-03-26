@@ -18,7 +18,6 @@ export interface ProductItemsProps {
 
 export const ProductItems: React.FC<ProductItemsProps> = ({ category, productsData}) => {
     const { handleOpenWithProduct } = useProductDialog();
-    const t = useTranslations("TheBakerz");
 
     return (
         Object.keys(productsData).map((consId) => {

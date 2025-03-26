@@ -14,7 +14,7 @@ interface OrderCustomerDetailsProps {
 
 export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({customer}) => {
     const router = useRouter();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/orders/overview");
 
     return (
         <div className={'flex flex-col w-full max-w-2xl'}>

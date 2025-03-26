@@ -1,17 +1,62 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Installation
+
+### Setting up pnpm in Visual Studio Code
+
+Unlike WebStorm which has pnpm pre-installed, you'll need to install pnpm manually in VS Code:
+
+1. Install Node.js from [nodejs.org](https://nodejs.org/) if you haven't already
+2. Install pnpm globally by running:
+
+```bash
+npm install -g pnpm
+```
+
+3. Verify the installation:
+
+```bash
+pnpm --version
+```
+
+### Fixing PowerShell Execution Policy Issues
+
+If you get a PowerShell security error like:
+```
+pnpm : File C:\Program Files\nodejs\pnpm.ps1 cannot be loaded. The file C:\Program Files\nodejs\pnpm.ps1 is not digitally signed.
+You cannot run this script on the current system.
+```
+
+You have two options:
+
+#### Option 1: Run PowerShell as Administrator and change the execution policy
+```bash
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+#### Option 2: Use the Corepack version of pnpm
+```bash
+# Enable corepack (comes with Node.js)
+corepack enable
+
+# Use corepack to install pnpm
+corepack prepare pnpm@latest --activate
+```
+
+### Installing Project Dependencies
+
+Once pnpm is installed, install the project dependencies:
+
+```bash
+pnpm install
+```
+
 ## Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

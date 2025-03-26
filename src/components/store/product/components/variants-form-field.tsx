@@ -17,7 +17,7 @@ import {ProductSchema} from "@/lib/schemas";
 import {z} from "zod";
 
 export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.infer<typeof ProductSchema>>, isPending: boolean}) => {
-    const t = useTranslations("Variants");
+    const t = useTranslations("app/(store)/components/variants-form-field");
     const [expandedVariants, setExpandedVariants] = useState<number[]>([]);
 
     const toggleVariantExpand = (index: number) => {
@@ -136,7 +136,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                             className="flex justify-between items-center cursor-pointer"
                                             onClick={() => toggleVariantExpand(variantIndex)}
                                         >
-                                            <h3 className="font-medium">{variant.label || t("New Option")}</h3>
+                                            <h3 className="font-medium">{variant.label || t("newOption")}</h3>
                                             <div className="flex space-x-2">
                                                 <motion.div
                                                     initial={false}
@@ -203,8 +203,8 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                 >
                                                     {/* Variant Label */}
                                                     <Input
-                                                        label={t("Option Group Name")}
-                                                        placeholder={t("Placeholder")}
+                                                        label={t("optionGroupName")}
+                                                        placeholder={t("placeholder")}
                                                         value={variant.label}
                                                         onChange={(e) => {
                                                             //@ts-ignore
@@ -239,7 +239,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                 isDisabled={isPending}
                                                             />
                                                             <span className="text-sm">
-                                                                {variant.isSingle ? t("Single choice") : t("Multiple choices")}
+                                                                {variant.isSingle ? t("singleChoice") : t("multipleChoices")}
                                                             </span>
                                                         </div>
 
@@ -254,12 +254,12 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                 size="sm"
                                                                 isDisabled={isPending}
                                                             />
-                                                            <span className="text-sm">{t("Required")}</span>
+                                                            <span className="text-sm">{t("required")}</span>
                                                         </div>
 
                                                         {!variant.isSingle && (
                                                             <Select
-                                                                label={t("Max selections")}
+                                                                label={t("maxSelections")}
                                                                 className="max-w-xs"
                                                                 size="sm"
                                                                 variant={'underlined'}
@@ -289,7 +289,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
 
                                                     {/* Options */}
                                                     <div className="space-y-2 mt-4 pr-2">
-                                                        <h4 className="text-sm font-medium">{t("Options")}</h4>
+                                                        <h4 className="text-sm font-medium">{t("options")}</h4>
 
                                                         <AnimatePresence>
                                                             {variant.options.map((option: { label: string; price: number }, optionIndex: number) => (
@@ -302,7 +302,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                     transition={{ type: "spring", damping: 20, stiffness: 300 }}
                                                                 >
                                                                     <Input
-                                                                        placeholder={t("Option name")}
+                                                                        placeholder={t("optionName")}
                                                                         value={option.label}
                                                                         onChange={(e) => {
                                                                             const updatedVariants = [...field.value];
@@ -386,7 +386,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                 className="mt-2"
                                                             >
                                                                 <Icon icon="mdi:plus" className="mr-1" width={16} />
-                                                                {t("Add Option")}
+                                                                {t("addOption")}
                                                             </Button>
                                                         </motion.div>
                                                     </div>
@@ -409,7 +409,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                         isDisabled={isPending}
                                         endContent={<Icon icon="material-symbols:add-rounded" width={24}/>}
                                     >
-                                        {t("Add Option Group")}
+                                        {t("addOptionGroup")}
                                     </Button>
                                 </motion.div>
                             </div>

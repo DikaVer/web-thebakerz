@@ -11,7 +11,7 @@ import {acceptAll, CookiePreferences, rejectAll, savePreferences} from "@/lib/co
 import { useTranslations } from "next-intl";
 
 export default function CookieConsentComponent() {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(components)/cookie-consent");
 
     const [localPreferences, setLocalPreferences] = useState<CookiePreferences>({
         necessary: true,
@@ -69,13 +69,13 @@ export default function CookieConsentComponent() {
 
     const cookieSettingsContent = (
         <div className={`pointer-events-auto ml-auto max-w-sm rounded-large border border-divider bg-background/15 p-6 shadow-small backdrop-blur`}>
-            <h1 className="text-large font-semibold">{t("YourPrivacy")}</h1>
+            <h1 className="text-large font-semibold">{t("yourPrivacy")}</h1>
             <p className="text-small font-normal text-default-700">
-                {t("PrivacyDescription")}{" "}
+                {t("privacyDescription")}{" "}
                 <Link href="/policies/privacy-policy" size="sm" underline="always">
-                    {t("Privacy")}
+                    {t("privacy")}
                 </Link>{" "}
-                {t("ForMoreInfo")}
+                {t("forMoreInfo")}
             </p>
             <Spacer y={4} />
             <div className="flex flex-col gap-y-2">
@@ -85,8 +85,8 @@ export default function CookieConsentComponent() {
                         base: "dark:bg-content1",
                         label: "text-small",
                     }}
-                    description={t("EssentialDescription")}
-                    label={t("Essential")}
+                    description={t("essentialDescription")}
+                    label={t("essential")}
                     name="necessary"
                     onChange={handleCheckboxChange}
                     isDisabled
@@ -97,8 +97,8 @@ export default function CookieConsentComponent() {
                         base: "dark:bg-content1",
                         label: "text-small",
                     }}
-                    description={t("MarketingDescription")}
-                    label={t("Marketing")}
+                    description={t("marketingDescription")}
+                    label={t("marketing")}
                     name="marketing"
                     onChange={handleCheckboxChange}
                 />
@@ -108,8 +108,8 @@ export default function CookieConsentComponent() {
                         base: "dark:bg-content1",
                         label: "text-small",
                     }}
-                    description={t("AnalyticsDescription")}
-                    label={t("Analytics")}
+                    description={t("analyticsDescription")}
+                    label={t("analytics")}
                     name="analytics"
                     onChange={handleCheckboxChange}
                 />
@@ -124,13 +124,13 @@ export default function CookieConsentComponent() {
                     isDisabled={isLoading}
                     onPress={handleAcceptSelected}
                 >
-                    {t("AcceptSelected")}
+                    {t("acceptSelected")}
                 </Button>
                 <Button fullWidth variant="bordered"
                         isLoading={isLoading}
                         isDisabled={isLoading}
                         onPress={handleRejectAll}>
-                    {t("RejectAll")}
+                    {t("rejectAll")}
                 </Button>
             </div>
         </div>
@@ -138,14 +138,14 @@ export default function CookieConsentComponent() {
 
     const cookiesAlertContent = (
         <AnimatedWrapper>
-            <h1 className="text-large font-semibold">{t("ContinueToTheBakerz")}</h1>
+            <h1 className="text-large font-semibold">{t("continueToTheBakerz")}</h1>
             <p className="text-small font-normal text-default-700">
-                {t("CookiesExplanation")}
+                {t("cookiesExplanation")}
             </p>
             <p className="text-small font-normal text-default-700">
-                {t("CookiesConsentText")}{" "}
+                {t("cookiesConsentText")}{" "}
                 <Link href="/policies/privacy-policy" size="sm" underline="hover">
-                    {t("CookiePolicy")}
+                    {t("cookiePolicy")}
                 </Link>
             </p>
             <div className="mt-4 space-y-2">
@@ -158,7 +158,7 @@ export default function CookieConsentComponent() {
                     isDisabled={isLoading}
                     onPress={acceptAll}
                 >
-                    {t("AcceptAll")}
+                    {t("acceptAll")}
                 </Button>
                 <Button
                     fullWidth
@@ -169,7 +169,7 @@ export default function CookieConsentComponent() {
                     isDisabled={isLoading}
                     onPress={handleRejectAll}
                 >
-                    {t("RejectAll")}
+                    {t("rejectAll")}
                 </Button>
                 <Button
                     fullWidth
@@ -180,7 +180,7 @@ export default function CookieConsentComponent() {
                     isDisabled={isLoading}
                     onPress={() => setIsSettingsOpen(true)}
                 >
-                    {t("CookieSettings")}
+                    {t("cookieSettings")}
                 </Button>
             </div>
         </AnimatedWrapper>

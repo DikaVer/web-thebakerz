@@ -31,21 +31,21 @@ const stepperClasses = cn(
 
 const MultiStepSidebar = React.forwardRef<HTMLDivElement, MultiStepSidebarProps>(
     ({ children, className, currentPage, onNext, ...props }, ref) => {
-        const t = useTranslations("MultiStepSidebar");
+        const t = useTranslations("app/(landing)/components/multistep-sidebar");
 
         const verticalSteps = [
             {
                 title: t("applyTitle", { default: "Apply" }),
                 description: t("applyDescription", {
                     default:
-                        "Fill out a quick form, and we’ll get in touch to explain everything and set up your account."
+                        "Fill out a quick form, and we'll get in touch to explain everything and set up your account."
                 })
             },
             {
                 title: t("setUpStoreTitle", { default: "We Set Up Your Store" }),
                 description: t("setUpStoreDescription", {
                     default:
-                        "Share your products and prices, and we’ll handle the setup for you."
+                        "Share your products and prices, and we'll handle the setup for you."
                 })
             },
             {

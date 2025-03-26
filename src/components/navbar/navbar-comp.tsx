@@ -21,6 +21,7 @@ import CartButton from "@/components/cart/cart-button";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/components/providers/session-provider";
 import {useTranslations} from "next-intl";
+import {SessionValidationResult} from "@/lib/actions/session";
 
 interface LayoutProps {
     store?: StoreData;
@@ -29,6 +30,7 @@ interface LayoutProps {
     onToggle: () => void;
     props?: NavbarProps;
     hideSideBar?: boolean;
+    isVisibleCart?: boolean;
     pay?: boolean;
 }
 
@@ -38,11 +40,12 @@ export default function NavbarComponent({
                                             setIsCollapsed,
                                             onOpenChange,
                                             onToggle,
+                                            isVisibleCart,
                                             hideSideBar,
                                             pay = false,
                                             props = {},
                                         }: LayoutProps) {
-    const t = useTranslations("Navbar");
+    const t = useTranslations("app/(landing)/components/navbar");
     const isSmall = useMediaQuery("(max-width: 1024px)");
     const { isSticky } = store ? useStore() : { isSticky: false };
     const { session } = useSession();
@@ -76,7 +79,13 @@ export default function NavbarComponent({
                     justify="center"
                 >
                     {hideSideBar ? (
-                        <CheckoutNavbar store={store} navigateToStore={navigateToStore} t={t}/>
+                        <ReturnNavbar
+                            store={store}
+                            navigateToStore={navigateToStore}
+                            isVisibleCart={isVisibleCart}
+                            session={session}
+                            t={t}
+                        />
                     ) : (
                         <DefaultNavbar
                             isSmall={isSmall}
@@ -102,11 +111,13 @@ interface NavbarTranslationProps {
 interface CheckoutNavbarProps extends NavbarTranslationProps {
     store?: StoreData;
     navigateToStore: () => void;
+    isVisibleCart?: boolean;
+    session: SessionValidationResult;
 }
 
-const CheckoutNavbar: React.FC<CheckoutNavbarProps> = ({
+const ReturnNavbar: React.FC<CheckoutNavbarProps> = ({
                                                            store,
-                                                           navigateToStore, t
+                                                           navigateToStore, t, isVisibleCart, session
                                                        }) => {
 
     const router = useRouter();
@@ -132,7 +143,7 @@ const CheckoutNavbar: React.FC<CheckoutNavbarProps> = ({
                 </Button>
             </NavbarItem>
             <NavbarItem className="ml-1 !flex">
-                {store ? (
+                {store ? !isVisibleCart ? (
                         <Avatar
                             alt="Avatar"
                             isBordered
@@ -146,7 +157,18 @@ const CheckoutNavbar: React.FC<CheckoutNavbarProps> = ({
                                 base: "bg-default text-text shadow-lg cursor-pointer",
                             }}
                         />
-                    ):(
+                     ) : (session?.store && store.id === session?.store.id) ? (
+                        <Image
+                            src="/images/TheBakerzLogo.svg"
+                            alt="Logo"
+                            width={32}
+                            radius="full"
+                        />
+                        ) : (
+                            <CartButton />
+                        )
+
+                    :(
                         <Image
                             src="/images/TheBakerzLogo.svg"
                             alt="Logo"
@@ -165,7 +187,7 @@ interface DefaultNavbarProps extends NavbarTranslationProps {
     onOpenChange: () => void;
     onToggle: () => void;
     store?: StoreData;
-    session: any;
+    session: SessionValidationResult;
     navigateToStore: () => void;
 }
 
@@ -212,7 +234,7 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                 </a>
             </NavbarBrand>
             {store ? (
-                session?.store ? (
+                (session?.store && store.id === session?.store.id) ? (
                     <a href={process.env.NEXT_PUBLIC_API_BASE_URL}>
                         <Image
                             src="/images/TheBakerzLogo.svg"
@@ -228,7 +250,7 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                 )
             ) : (
                 <NavbarItem className="mr-1 !flex">
-                    {!session?.user ? (
+                    {!session?.session ? (
                         <SigninButton className="text-large rounded-full" />
                     ) : (
                         <Image

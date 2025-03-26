@@ -7,10 +7,13 @@ import {createSession, generateSessionToken, setSessionTokenCookie} from "@/lib/
 import {createUserGoogle, getUserFromEmail, getUserFromGoogleId} from "@/lib/actions/user";
 import {replace} from "lodash";
 import {replaceGuestCart} from "@/lib/actions/cart";
+import {getTranslations} from "next-intl/server";
 
 export async function GET(request: Request): Promise<Response> {
+	const t = await getTranslations("app/api/auth/google");
+
 	if (!await globalGETRateLimit()) {
-		return new Response("Too many requests", {
+		return new Response(t("tooManyRequests"), {
 			status: 429
 		});
 	}
@@ -22,12 +25,12 @@ export async function GET(request: Request): Promise<Response> {
 	const storedState = cookieStore.get("google_oauth_state")?.value ?? null;
 	const codeVerifier = cookieStore.get("google_code_verifier")?.value ?? null;
 	if (code === null || state === null || storedState === null || codeVerifier === null) {
-		return new Response("Please restart the process.", {
+		return new Response(t("pleaseRestartProcess"), {
 			status: 400
 		});
 	}
 	if (state !== storedState) {
-		return new Response("Please restart the process.", {
+		return new Response(t("pleaseRestartProcess"), {
 			status: 400
 		});
 	}
@@ -36,7 +39,7 @@ export async function GET(request: Request): Promise<Response> {
 	try {
 		tokens = await google.validateAuthorizationCode(code, codeVerifier);
 	} catch {
-		return new Response("Please restart the process.", {
+		return new Response(t("pleaseRestartProcess"), {
 			status: 400
 		});
 	}

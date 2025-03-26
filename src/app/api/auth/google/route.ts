@@ -2,10 +2,13 @@ import { generateState, generateCodeVerifier } from "arctic";
 import { google} from "@/lib/actions/auth/oauth";
 import { cookies } from "next/headers";
 import { globalGETRateLimit} from "@/lib/actions/requests";
+import {getTranslations} from "next-intl/server";
 
 export async function GET(request: Request): Promise<Response> {
+	const t = await getTranslations("app/api/auth/google");
+
 	if (!await globalGETRateLimit()) {
-		return new Response("Too many requests", {
+		return new Response(t("tooManyRequests"), {
 			status: 429
 		});
 	}

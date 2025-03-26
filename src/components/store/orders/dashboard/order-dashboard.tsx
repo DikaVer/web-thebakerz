@@ -41,7 +41,7 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) 
     const [isPending, startTransition] = useTransition();
     const [isLoading, setIsLoading] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/order-dashboard");
     const [orderStatusByDate, setOrderStatusByDate] = useState<OrderStatusByDate>({});
 
     const [orderDataList, setOrderDataList] = useState<OrderData[]>([]);
@@ -68,20 +68,17 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) 
     const fromDate = dateRange?.start ? formatApiDate(dateRange.start.toDate(getLocalTimeZone())) : '';
     const toDate = dateRange?.end ? formatApiDate(dateRange.end.toDate(getLocalTimeZone())) : '';
 
-
-
     // Fetch orders for the selected date range
     useEffect(() => {
         if (!store?.id || !fromDate || !toDate) return;
 
-        setIsLoading(true);
 
         startTransition(async () => {
             const data = await getOrdersByDateRange(store.id, fromDate, toDate);
             setOrderDataList(data);
             setIsLoading(false);
         });
-    }, [store?.id, fromDate, toDate]);
+    }, []);
 
     useEffect(() => {
         setIsLoading(isPending);
@@ -122,6 +119,7 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) 
                                     formatApiDate(range.from),
                                     formatApiDate(range.to)
                                 );
+
                                 setOrderDataList(data);
                             });
                             // Convert native Date to CalendarDate

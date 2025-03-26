@@ -33,7 +33,7 @@ interface SidebarMenuProps {
 
 
 export default function SidebarMenu({ store, isOpen, onOpenChange, isCollapsed }: SidebarMenuProps) {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(landing)/components/sidebar-menu");
     const pathname = usePathname();
     const router = useRouter();
     const currentPath = pathname.split("/")?.[1];
@@ -78,7 +78,7 @@ export default function SidebarMenu({ store, isOpen, onOpenChange, isCollapsed }
                                     { "w-0 opacity-0": isCollapsed }
                                 )}
                             >
-                {t("App Name")}
+                {t("appName")}
               </span>
                         </>
                     )}
@@ -115,7 +115,7 @@ export default function SidebarMenu({ store, isOpen, onOpenChange, isCollapsed }
                     <Spacer y={2} />
                     <hr />
                     <Spacer y={3} />
-                    <Tooltip content={t("Support")} isDisabled={!isCollapsed} placement="right">
+                    <Tooltip content={t("support")} isDisabled={!isCollapsed} placement="right">
                         <Button
                             fullWidth
                             className={cn(
@@ -137,7 +137,7 @@ export default function SidebarMenu({ store, isOpen, onOpenChange, isCollapsed }
                             {isCollapsed ? (
                                 <Icon className="text-grayText" icon="solar:info-circle-line-duotone" width={24} />
                             ) : (
-                                t("Get Help")
+                                t("getHelp")
                             )}
                         </Button>
                     </Tooltip>
@@ -177,7 +177,7 @@ const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreD
                     key: "",
                     href: `/auth?next=${storeUrl}`,
                     icon: "line-md:login",
-                    titleKey: "SignIn"
+                    titleKey: "signInButton"
                 }
             ]);
         }
@@ -196,12 +196,12 @@ const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreD
                 sidebarItems = [
                     {
                         key: "account",
-                        titleKey: "Account",
+                        titleKey: "account",
                         items: [
                             {
                                 key: "orders",
                                 href: `/${storeUrl}/orders`,
-                                titleKey: "Orders",
+                                titleKey: "orders",
                                 icon: "solar:notification-unread-lines-broken"
                             },
                             {
@@ -214,7 +214,7 @@ const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreD
                                 key: "products",
                                 href: `/${storeUrl}/products`,
                                 icon: "solar:bag-5-broken",
-                                titleKey: "Products"
+                                titleKey: "products"
                             },
                             // {
                             //     key: "payments",
@@ -243,9 +243,9 @@ interface LoggedInMenuProps {
 }
 
 const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ theme, name, picture, isCollapsed }) => {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(landing)/components/sidebar-menu");
     return (
-        <Tooltip content={t("Account Settings")} isDisabled={!isCollapsed} placement="right">
+        <Tooltip content={t("accountSettings")} isDisabled={!isCollapsed} placement="right">
             <a className="flex items-center gap-3 px-3 py-1.5 hover:bg-default/40 rounded-xl cursor-pointer" href={"/settings"}>
                 <Avatar
                     alt="Avatar"
@@ -261,7 +261,7 @@ const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ theme, name, picture, isCol
                 />
                 <div className={cn("flex max-w-full flex-col", { hidden: isCollapsed })}>
                     <p className="text-small font-medium text-foreground truncate max-w-40">{name}</p>
-                    <p className="text-tiny font-medium text-grayText">{t("Account Settings")}</p>
+                    <p className="text-tiny font-medium text-grayText">{t("accountSettings")}</p>
                 </div>
             </a>
         </Tooltip>
@@ -273,10 +273,10 @@ interface GuestMenuProps {
 }
 
 const GuestMenu: React.FC<GuestMenuProps> = ({ isCollapsed }) => {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(landing)/components/sidebar-menu");
     const pathname = usePathname();
     return (
-        <Tooltip content={t("Account Settings")} isDisabled={!isCollapsed} placement="right">
+        <Tooltip content={t("accountSettings")} isDisabled={!isCollapsed} placement="right">
             <a className="flex items-center gap-3 px-3 py-1.5 hover:bg-default/40 rounded-xl cursor-pointer" href={`/auth?next=${pathname}`}>
                 <Avatar
                     icon={<AvatarIcon />}
@@ -288,8 +288,8 @@ const GuestMenu: React.FC<GuestMenuProps> = ({ isCollapsed }) => {
                     }}
                 />
                 <div className={cn("flex max-w-full flex-col", { hidden: isCollapsed })}>
-                    <p className="text-small font-medium text-foreground">{t("Welcomed Guest")}</p>
-                    <p className="text-tiny font-medium text-grayText">{t("Sign in")}</p>
+                    <p className="text-small font-medium text-foreground">{t("welcomedGuest")}</p>
+                    <p className="text-tiny font-medium text-grayText">{t("signIn")}</p>
                 </div>
             </a>
         </Tooltip>

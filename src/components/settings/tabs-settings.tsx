@@ -16,7 +16,7 @@ export const TabsSettings: React.FC<TabsSettingsProps> = ({
 
 }) => {
 
-    const t = useTranslations("Settings");
+    const t = useTranslations("app/(return_page)/settings/components/tabs-settings");
     const { session } = useSession();
     const searchParams = useSearchParams();
 
@@ -41,12 +41,12 @@ export const TabsSettings: React.FC<TabsSettingsProps> = ({
               panel: "w-full p-0 pt-4",
           }}
         >
-          <Tab key="profile" title={`${t("Profile")} ${session?.store ? t("ProfileAndStoreTab") : ""}`}>
+          <Tab key="profile" title={`${t("profile")} ${session?.store ? t("profileAndStoreTab") : ""}`}>
               <ProfileSetting />
           </Tab>
           {session?.store  && (
               <>
-                  <Tab key="calendar" title={t("WorkingHoursTab")}>
+                  <Tab key="calendar" title={t("workingHoursTab")}>
                       <WorkingHoursManager/>
                   </Tab>
               </>

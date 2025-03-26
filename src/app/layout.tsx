@@ -1,8 +1,7 @@
 import { lexendDeca } from "@/components/fonts";
 import '@/styles/globals.css'
 import React from "react";
-import type { Metadata } from "next";
-import {getLocalizedMetadata, metadataDefault} from "@/components/metadata";
+import {getLocalizedMetadata} from "@/components/metadata";
 import {Providers} from "@/app/providers";
 import CookieConsentComponent from "@/components/ui/cookie-consent";
 import type { Viewport } from 'next'

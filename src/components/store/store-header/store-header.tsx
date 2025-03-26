@@ -18,6 +18,8 @@ import StoreDescription from "@/components/store/store-header/description/store-
 import {useTranslations} from "next-intl";
 import {useRouter} from "next/navigation";
 
+type SocialIconProps = Omit<IconProps, "icon">;
+
 interface StoreHeaderProps {
     dateParam: string | null;
     timeParam: string | null;
@@ -28,8 +30,20 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
     const { session } = useSession();
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const isSmall = useMediaQuery("(max-width: 960px)");
-    const t = useTranslations("TheBakerz");
+    const { theme } = useTheme();
+    const t = useTranslations("app/(store)/components/store-header");
     const router = useRouter();
+
+    const [latitude, longitude] = [store?.location.latitude, store?.location.longitude];
+
+    const location = store?.location.route ? `${store.location.route}` : "";
+    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "";
+
+    const phone = {
+        name: t("phone"),
+        href: `tel:${store?.phone}`,
+        icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
+    };
 
     return (
         <div>
@@ -43,7 +57,7 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
                          e.preventDefault();
                          if (session?.user?.role !== "bakerz" && isSmall) {
                              onOpen();
-                         } else if (session?.user?.role === "bakerz") {
+                         } else if (session?.user?.role === "bakerz" && session.store?.id === store.id) {
                              router.push("/settings");
                              router.refresh();
                          }
@@ -74,7 +88,7 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
                                         {store?.instagram_url && (
                                             <Link key={"Instagram"} isExternal className="text-blue-500 h-6"
                                                   href={store.instagram_url}>
-                                                <span className="sr-only">{t("Instagram")}</span>
+                                                <span className="sr-only">{t("instagram")}</span>
                                                 <Icon icon="line-md:instagram" strokeWidth={1.5} width={24}
                                                       aria-hidden="true"
                                                       className="w-6"/>
@@ -83,7 +97,7 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
                                         {store?.facebook_url && (
                                             <Link key={"Facebook"} isExternal className="text-blue-500 h-6"
                                                   href={store.facebook_url}>
-                                                <span className="sr-only">{t("Facebook")}</span>
+                                                <span className="sr-only">{t("facebook")}</span>
                                                 <Icon icon="line-md:facebook" strokeWidth={1.5} width={24}
                                                       aria-hidden="true"
                                                       className="w-6"/>

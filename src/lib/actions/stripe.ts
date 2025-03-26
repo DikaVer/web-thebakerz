@@ -13,6 +13,8 @@ import {containerOrdersUnpaid} from "@/db";
 import {getBusinessStoreData} from "@/lib/actions/store";
 import {calculateTotals} from "@/lib/price/tax";
 import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
+import {CalendarDateTime, now} from "@internationalized/date";
+import {scheduledToCalendarDateTime} from "@/lib/utils";
 
 function roundToTwoDecimals(num: number): number {
     return Math.round(num);
@@ -56,13 +58,15 @@ export async function fetchClientSecret(storeId: string, storeStipeAccountId: st
         return { error: 'Order time is not set' };
     }
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time to start of day
-    const orderDateObj = new Date(date);
-    orderDateObj.setHours(0, 0, 0, 0); // Reset time to start of day
-
-    if (orderDateObj < today) {
-        return {error: 'Cannot place orders for past dates'};
+    // Prevent ordering for past dates
+    const today = now("Europe/Amsterdam")
+    const todayCalendar = new CalendarDateTime(today.year, today.month, today.day, today.hour, today.minute);
+    const orderDateObj = scheduledToCalendarDateTime({
+        date,
+        time
+    })
+    if (orderDateObj < todayCalendar) {
+        return { error: "Cannot place orders for past dates or time is near to end" };
     }
 
     // Get products data to fetch prices

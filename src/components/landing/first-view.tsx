@@ -21,7 +21,7 @@ export function FirstView() {
         setLoading(false);
     };
 
-    const t = useTranslations('HomePage')
+    const t = useTranslations('HomePage');
 
 
     const [aboutusRef, aboutusInView] = useInView<HTMLHeadingElement>({ threshold: 0 });
@@ -79,7 +79,6 @@ export function FirstView() {
                                     onPress={handleCreate}
                                 >
                                     <>
-
                                         {isLoading ? (
                                             <>Loading...</>
                                         ) : (

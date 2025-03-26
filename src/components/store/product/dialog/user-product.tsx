@@ -18,7 +18,7 @@ import { IconCopy } from "@/components/ui/icons";
 import { useTheme } from "next-themes";
 import { CopyText } from "@/components/ui/copy-text";
 import { InputStepper } from "@/components/store/product/dialog/button-stepper";
-import { ItemCart } from "@/lib/actions/cart";
+import {ItemCart, Variant} from "@/lib/actions/cart";
 import { updateCart } from "@/lib/actions/cart";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
@@ -30,6 +30,7 @@ import {AllergenIcon} from "@/components/store/product/components/allergy-icons"
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
 import VariantsUserSelection from "@/components/store/product/components/variants-user-selection";
+import {usePathname} from "next/navigation";
 
 type ProductDialogProps = {
     productData: ProductData;
@@ -42,19 +43,19 @@ export default function UserProductDialog({
                                               onClose,
                                               itemCart,
                                           }: ProductDialogProps) {
-    const { theme } = useTheme();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/user-product");
     const allergy = useTranslations("Allergies");
 
     const [charCount, setCharCount] = useState(itemCart?.note ? itemCart?.note.length : 0);
-    const [quantity, setQuantity] = useState(itemCart?.quantity || 1);
+    const [quantity, setQuantity] = useState(itemCart?.quantity || productData?.min_order || 1);
     const [note, setNote] = useState(itemCart?.note || "");
     const [isLoading, setIsLoading] = useState(false);
-    const [variants, setVariants] = useState(itemCart?.variants || []);
+    const [variants, setVariants] = useState<Variant[]>(itemCart?.variants || []);
     const totalPrice = formatCurrency(((productData?.price || 1) + variants.reduce((sum, variant) => sum + (variant.selectedItems ? variant.selectedItems.reduce((itemSum, item) => itemSum + (item.price || 0), 0) : 0), 0)) * quantity);
     // Add state to track the current main image
     const [mainImage, setMainImage] = useState(productData.picture);
-
+    // Get origin of the current page from window object
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
 
     // Function to handle image swapping
     const handleImageSwap = (additionalImage: string) => {
@@ -66,9 +67,7 @@ export default function UserProductDialog({
         addItem,
         updateItem,
     } = useCart();
-    const isSmall = useMediaQuery("(max-width: 416px)");
-
-
+    const isSmall = useMediaQuery("(max-width: 432px)");
 
     // This function calls the updateCart server action.
     const handleUpdateCart = async () => {
@@ -78,7 +77,7 @@ export default function UserProductDialog({
                 // We pass productData.id as product_id, productData.store_id as store_id, and the note and quantity.
                 const result = await updateCart(productData.id, productData.store_id, quantity, note, variants);
                 if (result.success) {
-                    showSuccessMessage({success: t("Cart updated successfully")});
+                    showSuccessMessage({success: t("cartUpdatedSuccess")});
                     result.itemCart && addItem(result.itemCart);
                     onClose();
                 } else if (result.error) {
@@ -88,7 +87,7 @@ export default function UserProductDialog({
                 await updateItem({...itemCart, note, quantity, variants}) && onClose();
             }
         } catch (error: any) {
-            showErrorMessage({ error: t("Unexpected Error") });
+            showErrorMessage({ error: t("unexpectedError") });
         } finally {
             setIsLoading(false);
         }
@@ -97,7 +96,6 @@ export default function UserProductDialog({
     return (
         <>
             <ModalHeader className={'px-4 justify-between'}>
-
                 <Button isIconOnly variant={'light'} radius={'full'} onPress={onClose}>
                     <Icon icon="iconamoon:close-bold" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
                 </Button>
@@ -105,12 +103,12 @@ export default function UserProductDialog({
                     onClose={onClose}
                     isIconOnly={true}
                     copyText={
-                        process.env.NEXT_PUBLIC_API_BASE_URL + "/" +
+                        origin + "/" +
                         productData?.store_id +
-                        "?product=" +
+                        "/" +
                         productData?.id
                     }
-                    textNotify={t("Product Link Copied")}
+                    textNotify={t("productLinkCopied")}
                 >
                     <Icon icon="mi:share" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
                 </CopyText>
@@ -119,41 +117,42 @@ export default function UserProductDialog({
                 {productData && (
                     <ScrollShadow className={" md:flex  max-h-[80svh] w-full gap-x-4"} size={0}>
                         <div>
-                            <div className={'md:w-[258px] w-full max-w-[400px]'}>
+                            <div className={cn('w-full md:w-[258px] aspect-square',
+                                isSmall ? "max-w-full" : "max-w-[400px]"
+                            )}>
                                 <Card
                                     isFooterBlurred
-                                    className={`flex w-fit justify-start items-start shadow-none rounded-none md:ml-4`}
+                                    className={cn(`flex w-full justify-start items-start shadow-none rounded-none ml-4`,
+                                        isSmall ? "ml-0" : "ml-4"
+                                    )}
                                 >
-                                    <div
-                                        className={cn("relative flex flex-col justify-center items-center md:w-[258px] w-full max-w-[400px] aspect-square rounded-none",
+                                    {/* Display the current main image instead of productData.picture */}
+                                    <Image
+                                        removeWrapper
+                                        alt={productData.name}
+                                        radius={'none'}
+                                        className={cn("w-full",
+                                            isSmall ? "rounded-none border-none" : "rounded-xl"
+                                        )}
+                                        src={mainImage}
+                                    />
+                                    <CardFooter
+                                        className={cn(`text-black justify-between items-end bg-white/40 border-white/20 border-1  overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 shadow-small ml-1 z-10`,
+                                            isSmall ? "w-[calc(100%_-_16px)]" : "w-[calc(100%_-_8px)]"
                                         )}
                                     >
-                                        {/* Display the current main image instead of productData.picture */}
-                                        <Image
-                                            removeWrapper
-                                            alt={productData.name}
-                                            radius={'none'}
-                                            className={cn("w-full",
-                                                isSmall ? "rounded-none border-none" : "rounded-xl"
-                                            )}
-                                            src={mainImage}
-                                        />
-                                        <CardFooter
-                                            className={`text-black justify-between items-end bg-white/40 border-white/20 border-1  overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10`}
-                                        >
-                                            <p className={`w-full text-xl truncate mr-6 font-medium`}>
-                                                {productData.name}
-                                            </p>
-                                            <p className={`text-lg cm:text-xl font-light`}>
-                                                {formatCurrency(productData.price)}
-                                            </p>
-                                        </CardFooter>
-                                    </div>
+                                        <p className={`w-full text-xl truncate mr-6 font-medium`}>
+                                            {productData.name}
+                                        </p>
+                                        <p className={`text-lg cm:text-xl font-light`}>
+                                            {formatCurrency(productData.price)}
+                                        </p>
+                                    </CardFooter>
                                 </Card>
                             </div>
                             <div className="flex flex-row gap-2 mt-2 justify-start w-full px-4">
                                 {/* Map through additional images */}
-                                {productData.additionalImages &&
+                                {(productData.additionalImages && productData.additionalImages.length > 0) &&
                                     (
                                         <>
                                             <div
@@ -195,14 +194,13 @@ export default function UserProductDialog({
                             </div>
                         </div>
 
-                        {/*{isSmall && (*/}
                         <div className={"flex flex-col px-4 py-2 w-full text-default-400 gap-4"}>
                             <p className={'font-light text-sm'}>{productData.description}</p>
                             {/* Ingredients Alert: Default variant */}
                             {productData.ingredients && productData.ingredients.length > 0 && (
                                 <CustomAlert
                                     color="default"
-                                    title={t("Ingredients")}
+                                    title={t("ingredients")}
                                     hideIcon
                                     classNames={{
                                         title: "text-text font-medium"
@@ -217,8 +215,8 @@ export default function UserProductDialog({
                                                 >
                                                     <AllergenIcon allergen={ingredient} />
                                                     <span>
-                                                            {ingredient}
-                                                        </span>
+                                                        {ingredient}
+                                                    </span>
                                                 </div>
                                             );
                                         })}
@@ -227,9 +225,8 @@ export default function UserProductDialog({
                             )}
                             {/* Allergies Alert: Warning variant */}
                             {productData.allergies && productData.allergies.length > 0 && (
-                                <CustomAlert color="warning" title={t("Allergies")} hideIcon>
+                                <CustomAlert color="warning" title={t("allergies")} hideIcon>
                                     <div className="flex flex-wrap gap-2 mt-4">
-
                                         {productData.allergies.map((allergies, index) => {
                                             return (
                                                 <div
@@ -238,9 +235,8 @@ export default function UserProductDialog({
                                                 >
                                                     <AllergenIcon allergen={allergies} />
                                                     <span>
-                                                            {allergy(allergies)}
-                                                        </span>
-
+                                                        {allergy(allergies)}
+                                                    </span>
                                                 </div>
                                             );
                                         })}
@@ -254,11 +250,10 @@ export default function UserProductDialog({
                                 setVariants={setVariants}
                             />
 
-
                             <Textarea
-                                label={t("Notes")}
+                                label={t("notes")}
                                 labelPlacement={"outside"}
-                                placeholder={t("Add Notes Placeholder")}
+                                placeholder={t("addNotesPlaceholder")}
                                 style={{resize: "none"}}
                                 className="mt-2"
                                 classNames={{
@@ -282,7 +277,7 @@ export default function UserProductDialog({
             </ModalBody>
             <ModalFooter className={"px-4 space-x-4"}>
                 <InputStepper
-                    min={1}
+                    min={productData?.min_order || 1}
                     max={999}
                     value={quantity}
                     onChange={setQuantity}
@@ -293,7 +288,7 @@ export default function UserProductDialog({
                     onPress={handleUpdateCart}
                     isLoading={isLoading}
                 >
-                    { !isLoading ? (`${itemCart ? t("Update") : t("Add")} ${quantity} ${t("to order")} • ${totalPrice}`) : t("Updating Cart") }
+                    { !isLoading ? (`${itemCart ? t("update") : t("add")} ${quantity} ${t("toOrder")} • ${totalPrice}`) : t("updatingCart") }
                 </Button>
             </ModalFooter>
         </>

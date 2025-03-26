@@ -81,7 +81,7 @@ function CalendarDashboard({
     const containerRef = useRef<HTMLDivElement>(null);
     const [isPending, startTransition] = useTransition();
     const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
-    const t = useTranslations("Calendar");
+    const t = useTranslations("app/(store)/components/calendar-dashboard");
 
     // States for range selection with hover preview
     const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
@@ -130,6 +130,10 @@ function CalendarDashboard({
                     formatApiDate(monthStart),
                     formatApiDate(monthEnd)
                 );
+
+                console.log(formatApiDate(monthStart))
+                console.log(formatApiDate(monthEnd))
+                console.log(orders)
 
                 processOrderData(orders || []);
             } catch (error) {
@@ -219,6 +223,7 @@ function CalendarDashboard({
 
             setRange(newRange);
             setSelectedDay(undefined); // Reset for next selection
+            console.log(newRange)
             onDateRangeChange?.(newRange);
 
             // Update URL search params
@@ -340,7 +345,7 @@ function CalendarDashboard({
                     <button
                         {...(dayRender.isButton ? dayRender.buttonProps : {})}
                         className={cn(
-                            "relative w-full h-full flex items-center justify-center",
+                            "relative w-full h-full flex flex-col",
                             elementProps.className,
                         )}
                         disabled={isLoading}
@@ -354,24 +359,17 @@ function CalendarDashboard({
                             handleDayClick(date);
                         }} // Better touch support
                     >
-                        <Badge
-                            content={dateStatus?.started_count || undefined}
-                            size={isSmall ? 'sm' : 'md'}
-                            className={cn('translate-x-1 translate-y-5 border-text',
-                                (dateStatus?.started_count <= 0 || !dateStatus?.started_count) && 'hidden')}
-
-                            color={'warning'}
-                        >
-                            <Badge
-                                content={dateStatus?.new_count || undefined}
-                                size={isSmall ? 'sm' : 'md'}
-                                className={cn('translate-x-1 -translate-y-4 border-text',
-                                    (dateStatus?.new_count <= 0 || !dateStatus?.new_count) && 'hidden')}
-                                color={'danger'}
-                            >
-                                {date.getDate()}
-                            </Badge>
-                        </Badge>
+                        <span className={cn('bg-danger rounded-full border-text border-1 text-xs sm:text-small px-0.5 text-white aspect-square',
+                            (dateStatus?.new_count <= 0 || !dateStatus?.new_count) && 'bg-transparent border-transparent text-transparent'
+                            )}>
+                            {dateStatus?.new_count || 0}
+                        </span>
+                        {date.getDate()}
+                        <span className={cn('bg-warning rounded-full border-text border-1 text-xs sm:text-small px-0.5 text-text aspect-square',
+                            (dateStatus?.started_count <= 0 || !dateStatus?.started_count) && 'bg-transparent border-transparent text-transparent'
+                            )}>
+                            {dateStatus?.started_count || 0}
+                        </span>
                     </button>
 
                  {/*Status indicators */}
@@ -406,9 +404,9 @@ function CalendarDashboard({
                     size="sm"
                     variant="bordered"
                 >
-                    <Button onPress={handleTodayClick}>{t("Today")}</Button>
-                    <Button onPress={handleThisWeekClick}>{t("This Week")}</Button>
-                    <Button onPress={handleThisMonthClick}>{t("This Month")}</Button>
+                    <Button onPress={handleTodayClick}>{t("today")}</Button>
+                    <Button onPress={handleThisWeekClick}>{t("thisWeek")}</Button>
+                    <Button onPress={handleThisMonthClick}>{t("thisMonth")}</Button>
                 </ButtonGroup>
             </div>
 
@@ -454,7 +452,7 @@ function CalendarDashboard({
                         head_row: "flex relative text-default-400 bg-content1 px-4 pb-2 shadow-[0px_20px_20px_0px_rgb(0_0_0/0.05)]",
                         tbody: 'bg-default-50',
                         head_cell: "flex justify-center items-center font-medium text-small w-full",
-                        row: "flex w-full my-2 px-4",
+                        row: "flex w-full my-8 px-4",
                         cell: "w-full text-base text-center p-0 relative flex-1 py-0.5 px-0 flex items-center justify-center aspect-square [&:has([aria-selected].day-outside)]:bg-primary-100 [&:has([aria-selected])]:bg-primary-100 first:[&:has([aria-selected])]:rounded-l-full last:[&:has([aria-selected])]:rounded-r-full [&:has([aria-selected].day-range-start)]:rounded-l-full [&:has([aria-selected].day-range-end)]:rounded-r-full",
                         day: cn(
                             "flex items-center text-foreground justify-center w-full h-full rounded-full",

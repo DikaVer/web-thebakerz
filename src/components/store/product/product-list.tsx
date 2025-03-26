@@ -35,14 +35,14 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const categoryRefs = useRef<Record<string, HTMLDivElement | null>>({});
     const searchParams = useSearchParams();
     const initialProductHandled = useRef(false);
-    const t = useTranslations('TheBakerz');
+    const t = useTranslations('app/(store)/components/product-list');
 
     useEffect(() => {
         let timeoutId: NodeJS.Timeout;
         if (isUpdating) {
             timeoutId = setTimeout(() => {
                 setIsUpdating(false);
-            }, 2000);
+            }, 2500);
         }
         return () => {
             if (timeoutId) clearTimeout(timeoutId);
@@ -144,7 +144,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             ))}
             {Object.keys(filteredProductsByCategories).length === 0 && (
                 <div className="flex justify-center w-full">
-                    <span className="text-default-400 text-lg">{t("No Products Found")}</span>
+                    <span className="text-default-400 text-lg">{t("noProductsFound")}</span>
                 </div>
             )}
         </div>

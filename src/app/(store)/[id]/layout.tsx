@@ -142,7 +142,7 @@ export default async function Layout({
 
     return (
         <div className={'min-h-svh'}>
-            <StoreIdChecker storeId={id} storeName={storeData?.storeName}/>
+            {(storeData?.storeName && id !== storeData?.storeName) && <StoreIdChecker storeId={id} storeName={storeData?.storeName}/>}
             {children}
         </div>
     );

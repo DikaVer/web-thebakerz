@@ -7,14 +7,14 @@ import {getTranslations} from "next-intl/server";
 
 export const ProductComponentBase: React.FC<{ storeId: string }> = async ({ storeId }) => {
     const productsData: ProductDataFull = await getCurrentProducts(storeId);
-    const t = await getTranslations("TheBakerz");
+    const t = await getTranslations("app/(store)/[id]/page");
 
     const productsOrder = await getCurrentProductsOrder(storeId);
 
     if (productsData === null || Object.keys(productsData).length === 0) {
         return (
             <div className="text-center">
-                <p className="text-2xl my-10">{t("No Products Available")}</p>
+                <p className="text-2xl my-10">{t("noProducts")}</p>
             </div>
         );
     }

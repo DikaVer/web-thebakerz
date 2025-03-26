@@ -6,17 +6,19 @@ import {connectionPool, containerClientAvatar, containerClientProduct} from "@/d
 import {globalGETRateLimit} from "@/lib/actions/requests";
 import {getCurrentSession} from "@/lib/actions/session";
 import {ImageSchema} from "@/lib/schemas";
+import { getTranslations } from "next-intl/server";
 
 
 // Ensure the API route runs in the Node.js runtime so we can use Sharp
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
+    const t = await getTranslations("app/api/upload-image");
+    
     try {
-
         if (!await globalGETRateLimit()) {
             return NextResponse.json({
-                error: "Too many requests"
+                error: t("tooManyRequests")
             }, {
                 status: 429
             });
@@ -29,7 +31,7 @@ export async function POST(request: Request) {
 
         if (!fileField || !(fileField instanceof File) || !containerName) {
             return NextResponse.json(
-                { error: "File not provided" },
+                { error: t("fileNotProvided") },
                 { status: 400 }
             );
         }
@@ -52,7 +54,7 @@ export async function POST(request: Request) {
             const token = authHeader.replace('Bearer ', '').trim();
             if (token !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
                 return NextResponse.json(
-                    {error: 'Not Authorize Access'},
+                    {error: t("notAuthorized")},
                     {status: 401}
                 );
             }
@@ -62,7 +64,7 @@ export async function POST(request: Request) {
 
             if (!user) {
                 return NextResponse.json({
-                    error: "Not authenticated"
+                    error: t("notAuthenticated")
                 }, {
                     status: 401
                 });
@@ -101,7 +103,7 @@ export async function POST(request: Request) {
             containerClient = containerClientProduct;
         } else {
             return NextResponse.json(
-                { error: "Invalid container name" },
+                { error: t("invalidContainer") },
                 { status: 400 }
             );
         }
@@ -126,9 +128,9 @@ export async function POST(request: Request) {
             );
         }
 
-        return NextResponse.json({ success: "Image updated successfully!", url: blobUrl }, { status: 200 });
+        return NextResponse.json({ success: t("imageUpdated"), url: blobUrl }, { status: 200 });
     } catch (error) {
         console.error("Error during image upload:", error);
-        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+        return NextResponse.json({ error: t("internalError") }, { status: 500 });
     }
 }

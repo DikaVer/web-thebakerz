@@ -1,4 +1,3 @@
-
 import Checkout from "@/components/checkout/payment/checkout";
 import {getCurrentStore} from "@/lib/actions/store";
 import NotFound from "@/app/(error_layout)/not-found";
@@ -50,19 +49,18 @@ export default async function Page(props: StorePageProps) {
 
     const { id } = await params
 
-
     const storeData = await getCurrentStore(id);
 
     if (!storeData) {
         return NotFound();
     }
 
-    const t = await getTranslations("OrderProcess")
+    const t = await getTranslations("app/(store)/[id]/order/success")
 
     return (
         <div className="flex flex-col mb-20 min-h-screen">
             <div className="z-10 flex flex-col justify-center items-center container mx-auto text-center ">
-                <p className={`text-3xl my-10 ${pacifico.className}`}>{t("Order Placed")}</p>
+                <p className={`text-3xl my-10 ${pacifico.className}`}>{t("orderPlaced")}</p>
                 <div className="w-[300px] h-2/3 ml-14 mb-2">
                     <Image
                         src="/images/VerifyEmail.svg"
@@ -74,13 +72,12 @@ export default async function Page(props: StorePageProps) {
                     />
                 </div>
                 <p>
-                    {t("Check Email")}
+                    {t("checkEmail")}
                 </p>
                 <ExternalLink href={`/${id}`}>
-                    {t("Return To Store")}
+                    {t("returnToStore")}
                 </ExternalLink>
             </div>
         </div>
     );
-
 }

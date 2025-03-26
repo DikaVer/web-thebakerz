@@ -12,18 +12,18 @@ export const sectionItemsGuestTheBakerz: SidebarItem[] = [
         key: "",
         href: "/",
         icon: "solar:home-2-linear",
-        titleKey: "App Name" // Changed to key
+        titleKey: "appName"
     },
     {
         key: "about-us",
         href: "/about-us",
         icon: "solar:users-group-two-rounded-outline",
-        titleKey: "AboutTheBakerz", // Changed to key
+        titleKey: "aboutTheBakerz"
     },
     {
         key: "#join-thebakerz",
         href: "/#join-thebakerz",
-        titleKey: "JoinTheBakerz", // Changed to key
+        titleKey: "joinTheBakerz",
         icon: "solar:chef-hat-heart-broken",
     }
 ];
@@ -33,20 +33,20 @@ export const sectionItemsGuestStore: SidebarItem[] = [
         key: "",
         href: "/auth",
         icon: "line-md:login",
-        titleKey: "SignIn" // Changed to key
+        titleKey: "signInButton"
     },
 ];
 
 export const sectionStoreItemsUser: SidebarItem[] = [
     {
         key: "account",
-        titleKey: "Account", // Changed to key
+        titleKey: "account",
         items: [
             {
                 key: "orders",
                 href: "/orders",
                 icon: "solar:notification-unread-lines-broken",
-                titleKey: "Orders", // Changed to key
+                titleKey: "orders"
             },
         ],
     }
@@ -55,24 +55,24 @@ export const sectionStoreItemsUser: SidebarItem[] = [
 export const sectionItemsTheBakerz: SidebarItem[] = [
     {
         key: "navigation",
-        titleKey: "Navigation", // Changed to key
+        titleKey: "navigation",
         items: [
             {
                 key: "",
                 href: "/",
                 icon: "solar:home-2-linear",
-                titleKey: "App Name", // Changed to key
+                titleKey: "appName"
             },
             {
                 key: "about-us",
                 href: "/about-us",
                 icon: "solar:users-group-two-rounded-outline",
-                titleKey: "AboutTheBakerz", // Changed to key
+                titleKey: "aboutTheBakerz"
             },
             {
                 key: "#join-thebakerz",
                 href: "/#join-thebakerz",
-                titleKey: "JoinTheBakerz", // Changed to key
+                titleKey: "joinTheBakerz",
                 icon: "solar:chef-hat-heart-broken",
             }
         ],
@@ -87,19 +87,19 @@ export const sectionItemsUser: SidebarItem[] = [
 export const sectionItemsBakerz: SidebarItem[] = [
     {
         key: "navigation",
-        titleKey: "Navigation", // Changed to key
+        titleKey: "navigation",
         items: [
             {
                 key: "",
                 href: "/",
                 icon: "solar:home-2-linear",
-                titleKey: "App Name", // Changed to key
+                titleKey: "appName"
             },
             {
                 key: "about-us",
                 href: "/about-us",
                 icon: "solar:users-group-two-rounded-outline",
-                titleKey: "AboutTheBakerz", // Changed to key
+                titleKey: "aboutTheBakerz"
             }
         ],
     },
@@ -108,37 +108,37 @@ export const sectionItemsBakerz: SidebarItem[] = [
 export const sectionItemsAdmin: SidebarItem[] = [
     {
         key: "account",
-        titleKey: "Account", // Changed to key
+        titleKey: "account",
         items: [
             {
                 key: "dashboard-navigation",
                 icon: "solar:widget-2-outline",
-                titleKey: "Dashboard", // Changed to key
+                titleKey: "dashboard",
                 type: SidebarItemType.Nest,
                 items: [
                     {
                         key: "dashboard",
                         icon: "solar:bomb-emoji-broken",
                         href: "/dashboard",
-                        titleKey: "Overview", // Changed to key
+                        titleKey: "overview"
                     },
                     {
                         key: "dashboard/orders",
                         icon: "solar:notification-unread-lines-broken",
                         href: "/dashboard/orders",
-                        titleKey: "Orders", // Changed to key
+                        titleKey: "orders"
                     },
                     {
                         key: "dashboard/users",
                         icon: "solar:user-hand-up-broken",
                         href: "/dashboard/users",
-                        titleKey: "Users", // Changed to key
+                        titleKey: "users"
                     },
                     {
                         key: "dashboard/stripe",
                         icon: "solar:shop-2-broken",
                         href: "/dashboard/stripe",
-                        titleKey: "Stripe", // Changed to key
+                        titleKey: "stripe"
                     },
                 ],
             },
@@ -146,19 +146,19 @@ export const sectionItemsAdmin: SidebarItem[] = [
     },
     {
         key: "navigation",
-        titleKey: "Navigation", // Changed to key
+        titleKey: "navigation",
         items: [
             {
                 key: "",
                 href: "/",
                 icon: "solar:home-2-linear",
-                titleKey: "App Name", // Changed to key
+                titleKey: "appName"
             },
             {
                 key: "about-us",
                 href: "/about-us",
                 icon: "solar:users-group-two-rounded-outline",
-                titleKey: "AboutTheBakerz", // Changed to key
+                titleKey: "aboutTheBakerz"
             }
         ],
     },

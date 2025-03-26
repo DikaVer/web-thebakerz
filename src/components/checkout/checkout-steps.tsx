@@ -15,7 +15,7 @@ import { useTranslations } from "next-intl";
 
 export default function CheckoutSteps({ date, time }: { date: string | null; time: string | null }) {
     const { session } = useSession();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/checkout-steps");
 
     if (session?.store) {
         return NotFound();

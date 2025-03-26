@@ -15,7 +15,7 @@ import {useTranslations} from "next-intl";
 type SocialIconProps = Omit<IconProps, "icon">;
 
 export function FooterStore() {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(components)/footer-store");
     const shopT = useTranslations("Shop");
 
     const { store } = useStore();
@@ -23,36 +23,36 @@ export function FooterStore() {
 
     const [latitude, longitude] = [50.853356, 5.669382];
 
-    const location = store?.location.route ? `${store.location.route}` : t("Address Placeholder");
-    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : t("Location Placeholder");
+    const location = store?.location.route ? `${store.location.route}` : t("addressPlaceholder");
+    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : t("locationPlaceholder");
 
     const footerNavigation = {
         overview: [
-            {name: t("BrandName"), href: "/"},
-            {name: t("AboutTheBakerz"), href: "/about-us"},
-            {name: t("JoinTheBakerz"), href: "/#join-thebakerz"},
+            {name: t("brandName"), href: "/"},
+            {name: t("aboutTheBakerz"), href: "/about-us"},
+            {name: t("joinTheBakerz"), href: "/#join-thebakerz"},
         ],
         supportOptions: [
-            {name: t("GetHelp"), href: "/support"},
+            {name: t("getHelp"), href: "/support"},
         ],
         legal: [
-            {name: t("PrivacyPolicy"), href: "/policies/privacy-policy"},
-            {name: t("TermsOfUse"), href: "/policies/terms-of-use"},
-            {name: t("RefundPolicy"), href: "/policies/refund-policy"},
+            {name: t("privacyPolicy"), href: "/policies/privacy-policy"},
+            {name: t("termsOfUse"), href: "/policies/terms-of-use"},
+            {name: t("refundPolicy"), href: "/policies/refund-policy"},
         ],
         social: [
             {
-                name: t("LinkedIn"),
+                name: t("linkedIn"),
                 href: "https://www.linkedin.com/company/thebakerz",
                 icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:linkedin" />,
             },
             {
-                name: t("Instagram"),
+                name: t("instagram"),
                 href: "https://www.instagram.com/thebakerz.official",
                 icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:instagram" />,
             },
             {
-                name: t("Twitter"),
+                name: t("twitter"),
                 href: "https://x.com/the_bakerz",
                 icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:twitter" />,
             }
@@ -78,7 +78,7 @@ export function FooterStore() {
     );
 
     const phone = {
-        name: t("Phone"),
+        name: t("phone"),
         href: `tel:${store?.phone}`,
         icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={20} className={'text-default-600'}/>,
     };
@@ -89,7 +89,7 @@ export function FooterStore() {
                 <div className="flex flex-col gap-y-8 items-start justify-between">
                     <div className="flex flex-col gap-y-8 gap-x-12 w-full md:flex-row md:items-start">
                         <div className="grid gap-y-4 md:my-0 w-full md:w-[40%]">
-                            <h3 className="md:small text-medium font-semibold text-default-600">{t("ContactUs")}</h3>
+                            <h3 className="md:small text-medium font-semibold text-default-600">{t("contactUs")}</h3>
                             <Link
                                 href={`https://www.google.com/maps?q=${latitude},${longitude}`}
                                 className="flex flex-row hover:text-default-500 transition-colors"
@@ -131,10 +131,10 @@ export function FooterStore() {
                         </div>
                         <div className="grid grid-cols-2 gap-8 w-full md:w-[30%]">
                             <div>
-                                {renderList({title: t("Legal"), items: footerNavigation.legal})}
+                                {renderList({title: t("legal"), items: footerNavigation.legal})}
                             </div>
                             <div>
-                                {renderList({title: t("Support"), items: footerNavigation.supportOptions})}
+                                {renderList({title: t("support"), items: footerNavigation.supportOptions})}
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@ export function FooterStore() {
                             ))}
                         </div>
                         <p className="text-small text-grayText order-3 md:order-2">
-                            © {new Date().getFullYear()} {t("Copyright")}
+                            © {new Date().getFullYear()} {t("copyright")}
                         </p>
                         <a
                             className="flex items-center justify-end order-1 md:order-3"
@@ -159,9 +159,9 @@ export function FooterStore() {
                                 src="/images/TheBakerzLogo.svg"
                                 width={32}
                                 height={32}
-                                alt={t("BrandName") + " Logo"}
+                                alt={t("brandName") + " Logo"}
                             />
-                            <span className={`text-2xl ml-2 ${pacifico.className}`}>{t("BrandName")}</span>
+                            <span className={`text-2xl ml-2 ${pacifico.className}`}>{t("brandName")}</span>
                         </a>
                     </div>
                 </div>

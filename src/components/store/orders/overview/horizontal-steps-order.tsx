@@ -121,7 +121,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
             onStepChange,
         );
 
-        const t = useTranslations("TheBakerz");
+        const t = useTranslations("app/(store)/components/orders/overview");
 
         const colors = React.useMemo(() => {
             let userColor;

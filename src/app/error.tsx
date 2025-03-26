@@ -9,25 +9,24 @@ import { useRouter } from 'next/navigation';
 import {useTranslations} from "next-intl";
 
 export default function Error({ error, reset } : { error: Error, reset: () => void }) {
-
     const router = useRouter();
-    const t = useTranslations("Error");
+    const t = useTranslations("app/(error_layout)/error");
 
     return (
         <div className="flex flex-col mb-20 min-h-screen">
             <div className="z-10 flex flex-col justify-center items-center container mx-auto text-center ">
-                <p className={`text-3xl my-10 ${pacifico.className}`}>{t("Something went wrong")}</p>
+                <p className={`text-3xl my-10 ${pacifico.className}`}>{t("somethingWentWrong")}</p>
                 <div className="w-2/3 h-2/3 ml-14 mb-2">
                     <Image
                         src="/images/HomeBaker.svg"
-                        alt="Verify Email Image"
-                        width={200} // Adjust based on desired size
-                        height={200} // Adjust based on desired size
+                        alt="Error Image"
+                        width={200}
+                        height={200}
                         className="w-full h-full"
                         priority
                     />
                 </div>
-                <p>{t("Message")}</p>
+                <p>{t("error")}</p>
                 <strong>{error.message}</strong>
                 <Button
                     size="md"
@@ -46,7 +45,7 @@ export default function Error({ error, reset } : { error: Error, reset: () => vo
                         />
                     }
                 >
-                    {t("Go Back")}
+                    {t("goBackToTheBakerz")}
                 </Button>
             </div>
         </div>

@@ -57,7 +57,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                                                             handleOpen,
                                                             isBakerzOrder = false,
                                                         }) => {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/cart");
 
     const handleQuantityChange = async (value: number) => {
         let updatedValue;
@@ -115,7 +115,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                                             mainWrapper: 'p-0 py-1 min-h-0',
                                         }}
                                     >
-                                        <p className="text-xs">{`${t("Note")}: ${item.note}`}</p>
+                                        <p className="text-xs">{`${t("note")}: ${item.note}`}</p>
                                     </CustomAlert>
                                     <Spacer x={4} />
                                 </>

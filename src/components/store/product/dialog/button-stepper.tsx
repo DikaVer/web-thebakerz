@@ -9,6 +9,7 @@ import {IconLoadingCircle} from "@/components/ui/icons";
 import {useEffect, useRef} from "react";
 import {useDebouncedCallback} from "use-debounce";
 import showErrorMessage from "@/components/toast/toast-error";
+import { useTranslations } from "next-intl";
 
 type Props = {
     isCart?: boolean;
@@ -33,6 +34,7 @@ export function InputStepper({
                                  isLoading = false,
                                  setIsLoading,
                              }: Props) {
+    const t = useTranslations("app/(store)/components/button-stepper");
     const defaultValue = React.useRef(value);
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [animated, setAnimated] = React.useState(true);
@@ -191,7 +193,7 @@ export function InputStepper({
     return (
         <div className="group flex items-stretch justify-center text-2xl font-semibold w-fit mx-auto rounded-full"
         >
-            <Tooltip content={isCart && localValue <= 1 ? "Delete Item" : "Remove Item"}>
+            <Tooltip content={isCart && localValue <= 1 ? t("deleteItem") : t("removeItem")}>
                 <Button
                     isIconOnly
                     variant="bordered"
@@ -254,7 +256,7 @@ export function InputStepper({
                     </>
                 )}
             </div>
-            <Tooltip content="Add Item">
+            <Tooltip content={t("addItem")}>
                 <Button
                     isIconOnly
                     variant="bordered"

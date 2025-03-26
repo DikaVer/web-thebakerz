@@ -20,7 +20,7 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
     const [currentStep, setCurrentStep] = useState(1);
     const router = useRouter();
     const { store } = useStore();
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/orders/add");
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
 
     return (
@@ -43,7 +43,7 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
                     />
                 }
             >
-                {t("Back to Order Dashboard")}
+                {t("backToOrderDashboard")}
             </Button>
             <Spacer y={4}/>
             <ProductList

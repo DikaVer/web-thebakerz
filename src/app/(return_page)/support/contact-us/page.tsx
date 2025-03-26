@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-    const t = await getTranslations("ContactUsComponent");
+    const t = await getTranslations("app/(return_page)/support/contact-us/page");
 
     return (
         <div className={'flex flex-col w-full justify-center items-center'}>
@@ -28,17 +28,17 @@ export default async function Page() {
                 <h2
                     className={`font-medium`}
                 >
-                    {t("Support")}
+                    {t("support")}
                 </h2>
                 <h1
                     className={`text-3xl font-medium tracking-tight lg:text-5xl`}
                 >
-                    {t("Contact Us")}
+                    {t("contactUs")}
                 </h1>
                 <h2
                     className={`mt-2 text-medium text-default-500 lg:mt-4 lg:text-large`}
                 >
-                    {t("Contact Us Description")}
+                    {t("contactUsDescription")}
                 </h2>
             </div>
             <ContactUsComponent/>

@@ -21,7 +21,7 @@ import type { SessionValidationResult } from "@/lib/actions/session";
 import { useTranslations } from "next-intl";
 
 export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { setIsLogin?: (value: boolean) => void, handleNext?: () => void, storeId?: string }) {
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(auth)/components/two-step-auth-form");
     const nextParams = useSearchParams();
     const next = nextParams.get("next") as string;
     const { setSession } = useSession();
@@ -182,8 +182,8 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                                                         endContent={
                                                             <IconMail className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                                                         }
-                                                        label={t("Email")}
-                                                        placeholder={t("Email Placeholder")}
+                                                        label={t("email")}
+                                                        placeholder={t("emailPlaceholder")}
                                                         type="email"
                                                         disabled={isPendingEmail}
                                                         validate={() => {
@@ -201,7 +201,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                                         isLoading={isPendingEmail}
                                         className={"bg-gradient-primary"}
                                     >
-                                        {t("Continue with Email")}
+                                        {t("continueWithEmail")}
                                     </Button>
                                 </form>
                             </Form>
@@ -220,7 +220,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                                                             <InputOtp
                                                                 {...field}
                                                                 isRequired
-                                                                label={t("OTP")}
+                                                                label={t("otp")}
                                                                 type={"number"}
                                                                 classNames={{
                                                                     segmentWrapper: "gap-x-0",
@@ -245,11 +245,11 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                                                                 }}
                                                                 validationBehavior="native"
                                                                 radius="none"
-                                                                placeholder={t("Enter OTP")}
+                                                                placeholder={t("enterOtp")}
                                                                 validate={() => {
                                                                     return fieldState.error?.message;
                                                                 }}
-                                                                description={t("Enter the 6 digit code sent to") + " " + email}
+                                                                description={t("enterOtpDescription") + " " + email}
                                                                 length={6}
                                                             />
                                                         </div>
@@ -258,7 +258,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                                             )}
                                         />
                                         <div className="flex justify-between">
-                                            <Tooltip content={t("Go back")} delay={300}>
+                                            <Tooltip content={t("goBack")} delay={300}>
                                                 <Button
                                                     isIconOnly
                                                     size="sm"
@@ -278,7 +278,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                                                 type="submit"
                                                 isLoading={isPendingOTP}
                                             >
-                                                {t("Verify")}
+                                                {!isPendingOTP && t("verify")}
                                             </Button>
                                         </div>
                                     </form>
@@ -292,7 +292,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                 <>
                     <div className="flex items-center gap-4">
                         <Divider className="flex-1 bg-grayText" />
-                        <span className="text-grayText">{t("or continue with")}</span>
+                        <span className="text-grayText">{t("orContinueWith")}</span>
                         <Divider className="flex-1 bg-grayText" />
                     </div>
                     <div className="flex flex-row w-full justify-between items-center -my-1">
@@ -322,13 +322,13 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                         </form>
                     </div>
                     <p className="px-8 text-center text-sm text-muted-foreground">
-                        {t("By clicking continue, you agree to our")}{" "}
+                        {t("byClickingContinue")}{" "}
                         <Link href="/policies/terms-of-use" className="underline underline-offset-4 hover:text-primary">
-                            {t("Terms of Service")}
+                            {t("termsOfService")}
                         </Link>{" "}
                         {t("and")}{" "}
                         <Link href="/policies/privacy-policy" className="underline underline-offset-4 hover:text-primary">
-                            {t("Privacy Policy")}
+                            {t("privacyPolicy")}
                         </Link>
                         .
                     </p>
@@ -342,7 +342,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                                 isLoading={isPendingEmail}
                                 onPress={handleNext}
                             >
-                                {t("Continue as a Guest")}
+                                {t("continueAsGuest")}
                             </Button>
                         </>
                     )}

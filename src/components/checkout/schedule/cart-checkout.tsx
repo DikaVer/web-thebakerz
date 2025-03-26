@@ -31,7 +31,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const queryString = searchParams ? `?${searchParams.toString()}` : "";
-    const t = useTranslations("TheBakerz");
+    const t = useTranslations("app/(store)/components/checkout");
 
     // Compute totals
     const itemsArray = Object.values(cart).flatMap(
@@ -94,7 +94,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                                 setIsLoading(true);
                             }}
                         >
-                            {t("Add Item")}
+                            {t("addItem")}
                         </Button>
                     </div>
                     <Spacer y={2} />
@@ -102,12 +102,12 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                     {renderCartItems(isLoading, setIsLoading)}
                     <div className="py-4">
                         <div className="flex justify-between">
-                            <span className="text-sm font-medium">{t("Subtotal")}</span>
+                            <span className="text-sm font-medium">{t("subtotal")}</span>
                             <span className="text-sm">{formatCurrency(subtotal)}</span>
                         </div>
                         {vat > 0 &&
                             <div className="flex justify-between mt-2">
-                                <span className="text-sm font-medium">{t("VAT Exclusive")}</span>
+                                <span className="text-sm font-medium">{t("vatExclusive")}</span>
                                 <span className="text-sm">{formatCurrency(vat)}</span>
                             </div>
                         }
@@ -121,7 +121,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                         <Divider className="my-2" />
                         <Spacer y={4} />
                         <div className="flex justify-between">
-                            <span className="text-base font-bold">{t("Total")}</span>
+                            <span className="text-base font-bold">{t("total")}</span>
                             <span className="text-base font-bold">{formatCurrency(total)}</span>
                         </div>
                     </div>
@@ -136,17 +136,17 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                                 router.refresh();
                                 handleNext();
                             } else {
-                                showErrorMessage({error: t("Minimum Amount")});
+                                showErrorMessage({error: t("minimumAmount")});
                             }
                         }}
                     >
-                        {t("Pay")}
+                        {t("pay")}
                     </Button>
                 </>
             ) : (
                 <div className="flex flex-col text-xs font-medium items-center my-2">
-                    <p>{t("Cart Empty")}</p>
-                    <p>{t("Add Items To Start")}</p>
+                    <p>{t("cartEmpty")}</p>
+                    <p>{t("addItemsToStart")}</p>
                     <Spacer y={4} />
                     <Button
                         isLoading={isLoading}
@@ -167,7 +167,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             setIsLoading(true);
                         }}
                     >
-                        {t("Add Item")}
+                        {t("addItem")}
                     </Button>
                 </div>
             )}

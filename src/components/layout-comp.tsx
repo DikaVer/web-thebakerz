@@ -16,10 +16,11 @@ interface LayoutCompProps {
     children: React.ReactNode;
     store?: StoreData;
     hideSideBar?: boolean;
+    isVisibleCart?: boolean;
     pay?: boolean;
 }
 
-export default function LayoutComp({ children, store, hideSideBar, pay }: LayoutCompProps) {
+export default function LayoutComp({ children, store, hideSideBar, pay, isVisibleCart }: LayoutCompProps) {
     const { isOpen, onOpenChange } = useDisclosure();
     const [isCollapsed, setIsCollapsed] = React.useState(true);
     const isMobile = useMediaQuery("(max-width: 768px)");
@@ -70,6 +71,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay }: Layout
                     onOpenChange={onOpenChange}
                     onToggle={onToggle}
                     hideSideBar={hideSideBar}
+                    isVisibleCart={isVisibleCart}
                     pay={pay}
                 />
                 <main className=" w-full overflow-visible">

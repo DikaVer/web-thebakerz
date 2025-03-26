@@ -3,6 +3,7 @@ import {globalGETRateLimit, globalPOSTRateLimit} from '@/lib/actions/requests';
 import { NextResponse } from 'next/server';
 import { getCurrentSession } from '@/lib/actions/session';
 import { z } from 'zod';
+import { getTranslations } from "next-intl/server";
 
 // Define Zod schemas for the nested types.
 const timeSchema = z.object({
@@ -36,9 +37,11 @@ const requestBodySchema = z.object({
 export const runtime = 'nodejs';
 
 export async function POST(req: Request) {
+    const t = await getTranslations("app/api/update-schedule");
+    
     // Rate limiting check
     if (!(await globalPOSTRateLimit())) {
-        return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+        return NextResponse.json({ error: t("tooManyRequests") }, { status: 429 });
     }
 
     // Extract JSON body from the request
@@ -46,14 +49,14 @@ export async function POST(req: Request) {
     try {
         body = await req.json();
     } catch (error) {
-        return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
+        return NextResponse.json({ error: t("invalidJson") }, { status: 400 });
     }
 
     // Validate the request payload using Zod
     const parsedBody = requestBodySchema.safeParse(body);
     if (!parsedBody.success) {
         return NextResponse.json(
-            { error: 'Invalid request payload', details: parsedBody.error.flatten() },
+            { error: t("invalidPayload"), details: parsedBody.error.flatten() },
             { status: 400 }
         );
     }
@@ -67,7 +70,7 @@ export async function POST(req: Request) {
         if (daySchedule) {
             const { start, end } = daySchedule;
             if ((start.hour > end.hour || (start.hour === end.hour && start.minute >= end.minute)) && daySchedule.isEnabled) {
-                return NextResponse.json({ error: 'Invalid time fields' }, { status: 400 });
+                return NextResponse.json({ error: t("invalidTimeFields") }, { status: 400 });
             }
         }
     }
@@ -75,7 +78,7 @@ export async function POST(req: Request) {
     // Get the current store from session
     const { store } = await getCurrentSession();
     if (!store) {
-        return NextResponse.json({ error: 'Store not found' }, { status: 404 });
+        return NextResponse.json({ error: t("storeNotFound") }, { status: 404 });
     }
 
     try {
@@ -101,6 +104,6 @@ export async function POST(req: Request) {
         );
     } catch (error) {
         console.error('Error updating schedule:', error);
-        return NextResponse.json({ error: 'Failed to update schedule' }, { status: 500 });
+        return NextResponse.json({ error: t("updateFailed") }, { status: 500 });
     }
 }
