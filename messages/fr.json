@@ -1,33 +1,33 @@
 {
     "HomePage": {
-        "title": "Cuisinez plus. SAUT DE LIGNE. Stressez moins.",
+        "title": "Cuisinez plus.\\ Stressez moins.",
         "subtitle": "TheBakerz - toutes les commandes, messages clients et recettes au même endroit",
-        "learn more": "Apprendre encore plus",
+        "learn more": "Plus d'information",
         "get started": "Commencer",
         "apply": "Remplissez un formulaire rapide et nous vous contacterons pour tout vous expliquer et configurer votre compte.",
         "we set up your store": "Partagez vos produits et vos prix, et nous nous occuperons de la configuration pour vous.",
         "Start selling": "Testez votre boutique, faites des ajustements et commencez à prendre de vraies commandes !",
         "support": "Nous sommes là pour répondre à vos questions.",
-        "start and grow": "Démarrez et développez votre entreprise de boulangerie",
-        "subtitle phone": "Vous faites la cuisine et nous nous occupons du reste.",
+        "start and grow": "Démarrez et développez votre entreprise de boulangerie-patisserie",
+        "subtitle phone": "Vous boulangez-patissez et nous nous occupons du reste.",
         "terms and conditions": "J'ai lu et j'accepte les conditions générales et la politique de confidentialité."
     },
     "Shop": {
-        "Alert": "La boutique propose uniquement des commandes à emporter",
+        "Alert": "La boutique propose uniquement des commandes à collecter en magasin",
         "Alert Hover": "Les horaires d'ouverture et l'adresse de retrait sont indiqués ci-dessous. Vous pouvez sélectionner l'heure et le jour de retrait lors du paiement.",
         "Opening Hours": "Horaires d'ouverture"
     },
     "OrderStatus": {
         "new": "Nouveau",
-        "started": "Cuisson",
+        "started": "Commencé",
         "ready": "Prêt",
-        "completed": "Ramassé",
+        "completed": "Collecté",
         "cancelled": "Annulé",
         "refunded": "Remboursé",
         "unknown": "Inconnu"
     },
     "ProductSettings": {
-        "ProductManager": "Chef de produit",
+        "ProductManager": "Gestion des produits",
         "ManageProductsDescription": "Ajoutez et gérez vos produits"
     },
     "app/(error_layout)/not-found": {
@@ -35,7 +35,7 @@
         "brokenLink": "Le lien que vous avez suivi est peut-être rompu ou la page a peut-être été supprimée.",
         "goBackToTheBakerz": "Retour à TheBakerz",
         "underConstruction": "En cours de construction!",
-        "subtitle": "Nous faisons de notre mieux pour le livrer bientôt !"
+        "subtitle": "Nous faisons de notre mieux pour le délivrer bientôt !"
     },
     "app/(error_layout)/error": {
         "error": "Erreur",
@@ -48,8 +48,8 @@
         "egg": "œuf",
         "milk": "lait",
         "gluten": "gluten",
-        "walnut": "noyer",
-        "cashew": "anacardier",
+        "walnut": "noix",
+        "cashew": "noix de pecan",
         "nuts": "noix",
         "wheat": "blé",
         "gelatin": "gélatine",
@@ -62,11 +62,11 @@
         "orange": "orange",
         "banana": "banane",
         "fish": "poisson",
-        "matsuke": "Matthieu",
+        "matsuke": "matsuke",
         "chicken": "poulet",
         "potato": "pomme de terre",
         "pork": "porc",
-        "squid": "calmar",
+        "squid": "calamar",
         "mushroom": "champignon",
         "crab": "crabe",
         "celery": "céleri",
@@ -94,18 +94,18 @@
         "ownWebshop": "Vous possédez une boutique en ligne",
         "professionalStore": "Boutique en ligne professionnelle pour présenter et vendre vos créations pâtissières",
         "allMessagesInOnePlace": "Tous les messages au même endroit",
-        "connectMessages": "Connectez vos messages WhatsApp, Instagram et Facebook dans une seule vue",
+        "connectMessages": "Connectez vos messages WhatsApp, Instagram et Facebook dans un seul endroit",
         "recipeOrderControl": "Contrôle des recettes et des commandes",
         "easyToUseSystem": "Système facile à utiliser pour gérer vos recettes et suivre toutes les commandes",
         "smartCalendar": "Calendrier intelligent",
-        "planProduction": "Planifiez votre production et suivez les tâches quotidiennes",
-        "wantYouToSucceed": "Nous voulons que vous réussissiez"
+        "planProduction": "Planifiez votre production et suivez vos tâches quotidiennes",
+        "wantYouToSucceed": "Nous voulons votre succés"
     },
     "app/(main)/about-us/page": {
         "greetingTitle": "Ravi de vous rencontrer",
-        "greeting": "Nous sommes David et Dumitru, et TheBakerz compte beaucoup pour nous. Après avoir vu nos amis et notre famille pâtissiers se débattre avec les commandes tardives, jongler avec trop d'applications et avoir l'impression de ne jamais avoir de temps pour leur passion, nous savions qu'il fallait que quelque chose change.\n\n Nous sommes donc intervenus pour les aider.",
+        "greeting": "Nous sommes David et Dumitru, et TheBakerz compte beaucoup pour nous. Après avoir vu nos amis et notre famille travaillant dans la boulangerie se débattre avec les commandes tardives, jongler avec trop de demande et avoir l'impression de ne jamais avoir de temps pour leur passion, nous savions qu'il fallait que quelque chose change.\n\n Nous sommes donc intervenus pour les aider.",
         "sloganTitle": "Cuisinez plus, stressez moins",
-        "slogan": "TheBakerz regroupe tout ce dont les boulangers ont besoin au même endroit. Au lieu de jongler entre feuilles de calcul, e-mails et messages, vous pouvez gérer toutes vos commandes, plannings et informations clients depuis un seul et même endroit. Moins de tracas, moins de maux de tête et plus d'énergie pour vous consacrer à votre spécialité : la pâtisserie.",
+        "slogan": "TheBakerz regroupe tout ce dont les boulangers-patissiers ont besoin au même endroit. Au lieu de jongler entre feuilles de calcul, e-mails et messages, vous pouvez gérer toutes vos commandes, plannings et informations clients depuis un seul et même endroit. Moins de tracas, moins de maux de tête et plus d'énergie pour vous consacrer à votre spécialité : la pâtisserie.",
         "whyTitle": "Pourquoi nous faisons cela",
         "why": "Pour nous, TheBakerz n'est pas une simple idée : c'est une réponse directe aux besoins de nos amis et de nos proches pâtissiers. Nous sommes là pour vous simplifier la vie, afin que vous puissiez vous concentrer sur ce que vous aimez le plus. Suivez-nous sur les réseaux sociaux et construisons ensemble un avenir meilleur.",
         "follow": "Suivez-nous"
@@ -115,7 +115,7 @@
         "settingsDescription": "Personnalisez vos paramètres et votre profil."
     },
     "app/(return_page)/support/contact-us/page": {
-        "support": "Soutien",
+        "support": "Support",
         "contactUs": "Contactez-nous",
         "contactUsDescription": "Nous sommes là pour vous aider pendant nos heures d'ouverture. N'hésitez pas à nous contacter pour toute question ou tout problème."
     },
@@ -132,11 +132,11 @@
         "displaysProfileStore": "Ces informations seront affichées sur le profil de votre boutique",
         "displaysProfile": "Ces informations seront affichées sur votre profil",
         "customer": "Client",
-        "baker": "Boulanger",
+        "baker": "Boulanger-patissier",
         "storeName": "Nom du magasin",
         "name": "Nom",
-        "editCurrentStoreName": "Modifiez le nom de votre magasin actuel",
-        "editCurrentName": "Modifiez votre nom actuel",
+        "editCurrentStoreName": "Modifiez le nom de votre magasin",
+        "editCurrentName": "Modifiez votre nom",
         "storeLink": "Lien vers la boutique",
         "howUserFindYou": "Comment les utilisateurs trouveront votre boutique",
         "typeYourStoreName": "Tapez le nom de votre magasin",
@@ -170,13 +170,13 @@
     "app/(return_page)/settings/components/products-settings": {
         "image": "Image",
         "nameAndPrice": "Nom et prix",
-        "drag": "Traîner",
+        "drag": "Faites glisser",
         "updatingOrders": "Mise à jour des commandes...",
         "products": "Produits",
         "updateProductOrder": "Mettre à jour les commandes de produits et de catégories",
         "noProductsYet": "Le magasin n'a pas encore de produits.",
         "addItem": "Ajouter un élément",
-        "productManager": "Chef de produit",
+        "productManager": "Gestion des produits",
         "manageProductsDescription": "Ajoutez et gérez vos produits"
     },
     "app/(return_page)/settings/components/tabs-settings": {
@@ -187,23 +187,23 @@
     "app/(return_page)/settings/components/products/product-tab": {
         "image": "Image",
         "nameAndPrice": "Nom et prix",
-        "drag": "Traîner"
+        "drag": "Faites glisser"
     },
     "app/(return_page)/settings/components/products/product-card": {
-        "productManager": "Chef de produit"
+        "productManager": "Gestions des produits"
     },
     "app/(return_page)/settings/components/calendar/day-picker": {
         "specialWorkingHours": "Horaires de travail spéciaux",
         "selectDaysWithDifferentHours": "Sélectionnez des jours avec des heures différentes",
-        "stayDuration": "Durée du séjour",
-        "editDay": "Jour de montage",
+        "stayDuration": "xxx",
+        "editDay": "Changer de jour",
         "startTime": "Heure de début",
-        "endTime": "Fin des temps",
+        "endTime": "Heure de fin",
         "pleaseEnterValidTime": "Veuillez saisir une heure valide"
     },
     "app/(return_page)/settings/components/calendar/min-time-order": {
         "title": "Délai minimum pour commander",
-        "description": "Sélectionnez le délai de préavis dont vous avez besoin avant d'exécuter une commande",
+        "description": "Sélectionnez le délai minimum dont vous avez besoin avant d'exécuter une commande",
         "selectLabel": "Délai minimum de précommande",
         "selectPlaceholder": "Sélectionnez une heure",
         "successMessage": "Le délai minimum de commande a été mis à jour avec succès",
@@ -216,7 +216,7 @@
     },
     "app/(return_page)/settings/components/calendar/schedule-picker": {
         "startTime": "Heure de début",
-        "endTime": "Fin des temps",
+        "endTime": "Heure de fin",
         "startTimeError": "L'heure de début doit être antérieure à l'heure de fin",
         "endTimeError": "L'heure de fin doit être postérieure à l'heure de début",
         "saving": "Économie...",
@@ -236,14 +236,14 @@
         "addItem": "Ajouter un élément",
         "close": "Fermer",
         "addressPlaceholder": "Espace réservé à l'adresse",
-        "locationPlaceholder": "Emplacement Espace réservé",
+        "locationPlaceholder": "Espace réservé à la localisation",
         "phone": "Téléphone",
         "instagram": "Instagram",
         "facebook": "Facebook"
     },
     "app/(store)/components/store-description": {
-        "pickUpOnly": "Ramassage uniquement",
-        "pickUpDescription": "Ce magasin propose uniquement des commandes à emporter. Veuillez sélectionner une heure de retrait lors du paiement.",
+        "pickUpOnly": "Collect en magasin uniquement",
+        "pickUpDescription": "Ce magasin propose uniquement des commandes à collecter en magasin. Veuillez sélectionner une heure de retrait lors du paiement.",
         "workingHours": "Horaires de travail",
         "address": "Adresse",
         "phone": "Téléphone"
@@ -263,7 +263,7 @@
         "time": "Temps"
     },
     "app/(store)/components/store-top-next": {
-        "alert": "La boutique propose uniquement des commandes à emporter",
+        "alert": "La boutique propose uniquement des commandes à collecter en magasin",
         "alertHover": "Les horaires d'ouverture et l'adresse de retrait sont indiqués ci-dessous. Vous pouvez sélectionner l'heure et le jour de retrait lors du paiement.",
         "openingHours": "Horaires d'ouverture",
         "phone": "Téléphone"
@@ -297,7 +297,7 @@
         "noProductsAvailable": "Aucun produit disponible",
         "productNotFound": "Produit non trouvé",
         "notes": "Remarques",
-        "addNotesPlaceholder": "Ajoutez des notes à votre commande... (max 100 caractères)",
+        "addNotesPlaceholder": "Ajoutez des remarques à votre commande... (max 100 caractères)",
         "ingredients": "Ingrédients",
         "allergies": "Allergies",
         "productDeleted": "Produit supprimé avec succès",
@@ -318,10 +318,10 @@
     },
     "app/(store)/components/store-subheader": {
         "addressPlaceholder": "Espace réservé à l'adresse",
-        "locationPlaceholder": "Emplacement Espace réservé",
+        "locationPlaceholder": "Espace réservé à la localisation",
         "scheduleOrderTime": "Horaire de la commande",
-        "pickUpOptionSelected": "Option de ramassage sélectionnée",
-        "pickUpAt": "Ramassage à",
+        "pickUpOptionSelected": "Option de collecte sélectionnée",
+        "pickUpAt": "Collecte à",
         "selectPickUpTime": "Sélectionnez l'heure de prise en charge"
     },
     "app/(store)/components/store-top": {
@@ -335,14 +335,14 @@
     "app/(store)/components/user-product": {
         "productLinkCopied": "Lien du produit copié !",
         "notes": "Remarques",
-        "addNotesPlaceholder": "Ajoutez des notes à votre commande... (max 100 caractères)",
+        "addNotesPlaceholder": "Ajoutez des remarques à votre commande... (max 100 caractères)",
         "ingredients": "Ingrédients",
         "allergies": "Allergies",
         "cartUpdatedSuccess": "Panier mis à jour avec succès",
         "unexpectedError": "Erreur inattendue",
         "update": "Mise à jour",
         "add": "Ajouter",
-        "toOrder": "commander",
+        "toOrder": "produit",
         "updatingCart": "Mise à jour du panier..."
     },
     "app/(store)/components/product-dialog": {
@@ -429,8 +429,8 @@
         "failedInitCheckout": "Échec de l'initialisation du paiement",
         "somethingWentWrong": "Quelque chose s'est mal passé",
         "scheduleOrderTime": "Horaire de la commande",
-        "pickUpOptionSelected": "Option de ramassage sélectionnée",
-        "pickUpAt": "Ramassage à",
+        "pickUpOptionSelected": "Option de collecte sélectionnée",
+        "pickUpAt": "Collecte à",
         "selectPickUpTime": "Sélectionnez l'heure de prise en charge",
         "orderLink": "Lien de commande",
         "copyLinkInstructions": "Copiez ce lien pour le partager avec le client pour le paiement.",
@@ -524,7 +524,7 @@
         "addItemsToStart": "Ajouter des éléments pour commencer",
         "minimumAmount": "Le montant minimum de commande est de 10 €",
         "pay": "Payer",
-        "alert": "La boutique propose uniquement des commandes à emporter",
+        "alert": "La boutique propose uniquement des commandes à collecter en magasin",
         "workingHours": "Horaires de travail",
         "openingHours": "Horaires d'ouverture",
         "phone": "Téléphone",
@@ -573,7 +573,7 @@
         "supportCardMessage": "Besoin d'aide ? Nous sommes là pour vous aider !"
     },
     "app/(landing)/components/navbar": {
-        "back": "Dos",
+        "back": "Retour",
         "backTo": "retour à",
         "brandName": "Les Bakerz"
     },
@@ -609,7 +609,7 @@
     },
     "app/(landing)/components/sidebar-menu": {
         "appName": "Les Bakerz",
-        "support": "Soutien",
+        "support": "Support",
         "getHelp": "Obtenir de l'aide",
         "accountSettings": "Paramètres du compte",
         "welcomedGuest": "Bienvenue, invité",
@@ -636,7 +636,7 @@
         "buttonSending": "Envoi...",
         "buttonSubmit": "Soumettre un ticket",
         "successMessage": "Votre ticket a été soumis avec succès. Nous vous redirigerons automatiquement vers la page principale dans :",
-        "support": "Soutien",
+        "support": "Support",
         "contactUs": "Contactez-nous",
         "contactUsDescription": "Nous sommes là pour vous aider pendant nos heures d'ouverture. N'hésitez pas à nous contacter pour toute question ou tout problème."
     },
@@ -715,7 +715,7 @@
         "twitter": "Gazouillement",
         "copyright": "TheBakerz. Tous droits réservés.",
         "navigation": "Navigation",
-        "support": "Soutien",
+        "support": "Support",
         "legal": "Légal"
     },
     "app/(components)/footer-store": {
@@ -731,7 +731,7 @@
         "twitter": "Gazouillement",
         "copyright": "TheBakerz. Tous droits réservés.",
         "legal": "Légal",
-        "support": "Soutien",
+        "support": "Support",
         "contactUs": "Contactez-nous",
         "phone": "Téléphone",
         "addressPlaceholder": "Espace réservé à l'adresse",
@@ -746,7 +746,7 @@
         "termsOfUse": "Conditions d'utilisation",
         "refundPolicy": "Politique de remboursement",
         "copyright": "TheBakerz. Tous droits réservés.",
-        "support": "Soutien",
+        "support": "Support",
         "legal": "Légal"
     },
     "app/(auth)/page": {
@@ -932,7 +932,7 @@
         "userIdStoreIdRequired": "L'identifiant utilisateur et l'identifiant du magasin sont requis",
         "cartRemovedSuccess": "Panier supprimé avec succès !",
         "failedRemoveCart": "Échec de la suppression du panier.",
-        "variantRequired": "{label} est obligatoire",
+        "variantRequired": "{label} doit être sélectionné",
         "variantSingleSelection": "{label} doit avoir exactement une sélection",
         "variantMaxSelections": "{label} ne peut pas avoir plus de {max} sélections",
         "variantRequiredSelections": "{label} doit avoir {max} sélections",
