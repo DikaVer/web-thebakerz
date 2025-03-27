@@ -67,7 +67,7 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
                     },
                 };
             });
-            showSuccessMessage({success: "Item updated successfully"});
+            showSuccessMessage({success: "Item updated"});
             return true;
         } else {
             showErrorMessage({ error: result.error ? result.error : "Error updating cart item" });
@@ -87,6 +87,7 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
                 }
                 return newCart;
             });
+            showSuccessMessage({success: "Item deleted"});
             return true;
         } else {
             console.error("Error removing cart item", result.error);

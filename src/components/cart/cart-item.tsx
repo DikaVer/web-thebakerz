@@ -1,12 +1,13 @@
 import React from "react";
 import { ItemCart, Variant } from "@/lib/actions/cart";
 import { ProductData } from "@/lib/actions/product";
-import {cn, Divider, Image, Spacer } from "@heroui/react";
+import {Button, cn, Divider, Image, Spacer} from "@heroui/react";
 import { formatCurrency } from "@/lib/utils";
 import { InputStepper } from "@/components/store/product/dialog/button-stepper";
 import CustomAlert from "@/components/ui/custom-alerts";
 import { useTranslations } from "next-intl";
 import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
+import {Icon} from "@iconify/react";
 
 type CartItemRowProps = {
     item: ItemCart;
@@ -69,6 +70,10 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
         return updatedValue;
     };
 
+    const handleDelete = async () => {
+        const updateValue = await removeItem(item);
+    }
+
     if (item.quantity === 0) return null;
 
 
@@ -95,7 +100,20 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                     <Spacer x={4} />
                     <div className="flex justify-between w-[70%]">
                         <div className="flex flex-col w-full">
-                            <p className="font-medium truncate text-start">{productData.name}</p>
+                            <div className={'flex justify-between'}>
+                                <p className="font-medium truncate text-start">{productData.name}</p>
+                                <Button
+                                    size={'sm'}
+                                    variant={'ghost'}
+                                    isLoading={isLoading}
+                                    onPress={async () => {
+                                        setIsLoading(true);
+                                        await handleDelete();
+                                    }}
+                                >
+                                    {!isLoading && <Icon icon="solar:trash-bin-trash-broken" width={24} />}
+                                </Button>
+                            </div>
 
                             {/* Display variants */}
                             {item.variants && item.variants.length > 0 && (

@@ -97,7 +97,7 @@ const allowedMimeTypes = [
     "image/svg+xml",    // SVG images
     "image/heic",        // HEIC images
 ];
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 
 // Create a Zod schema to validate the "file" field
 export const ImageSchema = z.instanceof(File)
@@ -105,7 +105,7 @@ export const ImageSchema = z.instanceof(File)
         message: "Unsupported file type. Allowed types: JPEG, PNG, WebP, SVG",
     })
     .refine((file) => file.size <= MAX_FILE_SIZE, {
-        message: "File is too large. Maximum allowed size is 5MB.",
+        message: "File is too large. Maximum allowed size is 10MB.",
     });
 
 
