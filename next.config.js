@@ -17,6 +17,9 @@ const nextConfig = {
                 },
             },
         },
+    serverActions: {
+        bodySizeLimit: '5mb',
+        },
     },
     bundlePagesRouterDependencies: true,
     eslint: {
