@@ -44,7 +44,9 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.REPO }}:${{ github.sha }}
           build-args: |
-            NEXT_PUBLIC_API_BASE_URL_ARG=${{ vars.NEXT_PUBLIC_API_BASE_URL }}
+            NEXT_PUBLIC_API_BASE_URL=${{ vars.NEXT_PUBLIC_API_BASE_URL }} \
+            NEXT_PUBLIC_AZURE_MAPS_KEY=${{ vars.NEXT_PUBLIC_AZURE_MAPS_KEY }} \
+            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ vars.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
   
 
   deploy:
