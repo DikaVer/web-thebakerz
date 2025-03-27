@@ -7,52 +7,66 @@ ARG NODE_VERSION=20-alpine
 FROM node:${NODE_VERSION} AS base
 
 # --- Setup Corepack and pnpm ---
-# Enable Corepack and prepare pnpm (using a supported version, e\.g\. 8\.7\.0)
+# Enable Corepack and prepare pnpm
 RUN corepack enable && corepack prepare pnpm@8.7.0 --activate
 
 # --- Dependencies Stage ---
-# Install system dependencies and Node modules
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-# Copy package files first to leverage Docker cache
+
+# Copy only package files for better caching
 COPY package.json pnpm-lock.yaml .npmrc* ./
-# Install dependencies with a frozen lockfile
-RUN pnpm i --frozen-lockfile
+# Install dependencies with production flag for smaller node_modules
+RUN pnpm i --frozen-lockfile --prod
+
+# --- Development Dependencies Stage ---
+FROM deps AS dev-deps
+# Install all dependencies including devDependencies
+RUN pnpm i --frozen-lockfile 
 
 # --- Build Stage ---
-# Build the application
-FROM base AS builder
+FROM dev-deps AS builder
 WORKDIR /app
-# Copy previously installed dependencies and source code
-COPY --from=deps /app/node_modules ./node_modules
+# Copy source code
 COPY . .
 
-# Run the Next\.js build to generate production assets
+# Set build arguments for environment variables
+ARG NEXT_PUBLIC_API_BASE_URL
+ARG NEXT_PUBLIC_AZURE_MAPS_KEY
+ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+ARG NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+ENV NEXT_PUBLIC_AZURE_MAPS_KEY=${NEXT_PUBLIC_AZURE_MAPS_KEY}
+ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+ENV NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+
+# Use Next.js output options for smaller builds
 RUN pnpm run build
 
-# --- Production \(Runner\) Stage ---
-# Set up the production environment
-FROM mcr.microsoft.com/playwright:focal AS runner
+# --- Production (Runner) Stage ---
+# Use Node alpine instead of Playwright for a smaller image
+FROM node:${NODE_VERSION} AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Create a non\-root user for better security
+# Create a non-root user for better security
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-# Copy public assets and build outputs \(standalone output and static assets\)
+# Copy only necessary files
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/next.config.js ./
 RUN mkdir -p .next && chown nextjs:nodejs .next
 
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Expose the port and set environment variables for runtime configuration
+# Expose the port and set environment variables
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Switch to the non\-root user and start the server
+# Switch to the non-root user and start the server
 USER nextjs
 CMD ["node", "server.js"]
