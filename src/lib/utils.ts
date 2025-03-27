@@ -1,8 +1,8 @@
-
 import {CalendarDate, CalendarDateTime, getLocalTimeZone} from '@internationalized/date';
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import {format} from "date-fns";
+import {DeliveryLocation} from "@/lib/actions/store";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -154,4 +154,74 @@ export function generateRandomOTP(): string {
         otp += (byte % 10).toString();
     }
     return otp;
+}
+
+/**
+ * Checks if the cart total meets the minimum order price for a delivery region
+ * @param deliveryLocationName - The name of the delivery location
+ * @param deliveryLocations - Array of delivery locations
+ * @param cartTotal - Total amount of the cart in cents
+ * @returns An object with isValid and message properties
+ */
+export function validateMinOrderPrice(
+  deliveryLocationName: string | null, 
+  deliveryLocations: DeliveryLocation[], 
+  cartTotal: number
+): { isValid: boolean; message: string } {
+  // If no delivery location selected, validation passes
+  if (!deliveryLocationName) {
+    return { isValid: true, message: '' };
+  }
+  
+  // Find the selected delivery location
+  const deliveryLocation = deliveryLocations.find(
+    location => location.name === deliveryLocationName
+  );
+  
+  // If the location doesn't exist, validation passes
+  if (!deliveryLocation) {
+    return { isValid: true, message: '' };
+  }
+  
+  // Check if the cart total meets the minimum order price
+  if (cartTotal < deliveryLocation.minOrderPriceInCents) {
+    const minPrice = formatCurrency(deliveryLocation.minOrderPriceInCents);
+    return { 
+      isValid: false, 
+      message: `Minimum order amount for delivery to ${deliveryLocationName} is ${minPrice}` 
+    };
+  }
+  
+  return { isValid: true, message: '' };
+}
+
+/**
+ * Gets the delivery price for a specific location and optionally a specific strategy
+ * @param deliveryLocationName - The name of the delivery location
+ * @param deliveryLocations - Array of delivery locations
+ * @param strategyId - Optional strategy ID to use for pricing
+ * @returns The delivery price in cents or null if the location is not found
+ */
+export function getDeliveryPrice(
+  deliveryLocationName: string | null, 
+  deliveryLocations: DeliveryLocation[],
+  strategyId?: string
+): number | null {
+  // If no delivery location selected, return null
+  if (!deliveryLocationName) {
+    return null;
+  }
+  
+  // Find the selected delivery location
+  const deliveryLocation = deliveryLocations.find(
+    location => location.name === deliveryLocationName
+  );
+  
+  // If the location doesn't exist, return null
+  if (!deliveryLocation) {
+    return null;
+  }
+  
+  // Otherwise, return the default delivery price for this location
+  return deliveryLocation.priceInCents;
 }

@@ -90,7 +90,7 @@ export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
                     <Button
                         color="secondary"
                         isIconOnly
-                        className={"h-14 px-0 w-14 shadow-small"}
+                        className={"h-14 px-0 w-14 shadow-small text-text"}
                         onPress={handleSave}
                         isLoading={isLoading}
                     >

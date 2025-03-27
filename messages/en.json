@@ -176,7 +176,8 @@
     "app/(return_page)/settings/components/tabs-settings": {
         "profile": "Profile",
         "profileAndStoreTab": " & Store View",
-        "workingHoursTab": "Work Hours"
+        "workingHoursTab": "Work Hours",
+        "deliveryTab": "Delivery Manager"
     },
     "app/(return_page)/settings/components/products/product-tab": {
         "image": "Image",
@@ -220,6 +221,52 @@
         "errorInvalidTimeFields": "Invalid time fields!",
         "errorFailedToSaveSchedule": "Failed to save schedule",
         "scheduleSavedSuccess": "Schedule saved successfully"
+    },
+    "app/(return_page)/settings/components/delivery-settings": {
+        "deliveryRegions": "Delivery Regions",
+        "resetMap": "Reset Zoom",
+        "selectDeliveryRegions": "Select Delivery Regions",
+        "saving": "Saving...",
+        "saveDeliveryRegions": "Save Delivery Regions",
+        "loadingMap": "Loading...",
+        "updateSuccess": "Delivery regions updated successfully",
+        "updateError": "Failed to update delivery regions",
+        "loadError": "Failed to load delivery regions",
+        "selectDeliveryCity": "Select Delivery City",
+        "selectCity": "Select a city",
+        "deliveryRange": "Delivery Range",
+        "deliveryPrice": "Delivery Price",
+        "priceLabel": "Price (€)",
+        "addCity": "Add City",
+        "selectedCities": "Selected Cities",
+        "noCitiesSelected": "No cities selected",
+        "mapView": "Map View",
+        "deliveryDescription": "Customers will be eligible for delivery if they are within the delivery range. Delivery costs are calculated based on the nearest point to the nearest delivery city region.",
+        "minOrderPrice": "Minimum Order Price",
+        "minPriceLabel": "Min Price",
+        "minOrderPriceDescription": "Customers must order at least this amount to qualify for delivery in this region",
+        "deliverySchedule": "Delivery Times",
+        "manageDeliverySchedule": "Manage Delivery Times",
+        "deliveryScheduleDescription": "Set the times when delivery is available for this region",
+        "startTime": "Start Time",
+        "endTime": "End Time",
+        "startTimeError": "Start time must be before end time",
+        "endTimeError": "End time must be after start time",
+        "deliveryTimes": "Delivery Times",
+        "noDeliveryDays": "No delivery days set",
+        "deliveryAllWeek": "Delivery available all week",
+        "cancel": "Cancel",
+        "save": "Save",
+        "deliveryOptions": "Delivery Options",
+        "deliveryOptionsDescription": "Configure how customers can receive their orders.",
+        "pickupOption": "Pickup",
+        "pickupDescription": "Allow customers to pick up orders from your store",
+        "deliveryOption": "Delivery",
+        "deliveryDescription": "Allow customers to have orders delivered to their address",
+        "updatingOptions": "Updating options...",
+        "updateDeliveryOptions": "Update Delivery Options",
+        "optionsUpdateSuccess": "Delivery options updated successfully",
+        "optionsUpdateError": "Failed to update delivery options"
     },
     "app/(store)/[id]/page": {
         "loading": "Loading...",
@@ -450,7 +497,15 @@
         "pickUpDetailsStep": "2. Pick Up Details",
         "backToOrderDashboard": "Back to Order Dashboard",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "customerDetails": "Customer Details",
+        "customerNameLabel": "Enter customer name.",
+        "customerNamePlaceholder": "Enter customer name",
+        "customerEmailLabel": "Enter customer e-mail address.",
+        "customerEmailPlaceholder": "Enter customer email address",
+        "customerPhoneLabel": "Enter customer phone number. (Optional)",
+        "customerPhonePlaceholder": "Enter customer phone number",
+        "createOrderButton": "Create Order"
     },
     "app/(store)/components/orders/overview": {
         "Order": "Order",
@@ -498,7 +553,12 @@
         "continue": "Continue",
         "cartEmpty": "Cart Empty",
         "addItemsToStart": "Add Items To Start",
-        "note": "Note"
+        "note": "Note",
+        "variantRequired": "{label} is required",
+        "variantSingleSelection": "{label} must have exactly one selection",
+        "variantMaxSelections": "{label} cannot have more than {max} selections",
+        "variantRequiredSelections": "{label} must have {max} selections",
+        "variantInvalidOption": "Invalid option {option} for {label}"
     },
     "app/(store)/components/checkout-steps": {
         "signInOrSignUpText": "Sign in or sign up to place order",
@@ -909,23 +969,28 @@
     "app/lib/actions/cart": {
         "tooManyRequests": "Too many requests",
         "noteTooLong": "Note is too long!",
-        "variantRequired": "{label} is required",
-        "variantSingleSelection": "{label} must have exactly one selection",
-        "variantMaxSelections": "{label} cannot have more than {max} selections",
-        "variantRequiredSelections": "{label} must have {max} selections",
-        "invalidOption": "Invalid option {option} for {label}",
-        "minOrderRequired": "You need to order at least {min} of this product",
+        "requiredVariantMissing": "{variant} is required",
+        "singleSelectionRequired": "{variant} must have exactly one selection",
+        "maxSelectionsExceeded": "{variant} cannot have more than {max} selections",
+        "minSelectionsRequired": "{variant} must have {min} selections",
+        "invalidOption": "Invalid option {option} for {variant}",
+        "minOrderRequired": "You must order at least {min} of this product",
         "userNotFound": "User not found!",
         "cartUpdatedSuccess": "Cart updated successfully!",
         "failedUpdateCart": "Failed to update cart.",
         "itemRemovedSuccess": "Item removed successfully!",
-        "failedRemoveItem": "Failed to remove cart item.",
-        "sessionNotRecognized": "Session is not recognized",
-        "guestCartReplacedSuccess": "Guest cart replaced successfully with user cart items!",
+        "failedRemoveItem": "Failed to remove item from cart.",
+        "sessionNotRecognized": "Session not recognized",
+        "guestCartReplacedSuccess": "Guest cart has been successfully replaced with user cart items!",
         "failedReplaceGuestCart": "Failed to replace guest cart.",
         "userIdStoreIdRequired": "User ID and Store ID are required",
         "cartRemovedSuccess": "Cart removed successfully!",
-        "failedRemoveCart": "Failed to remove cart."
+        "failedRemoveCart": "Failed to remove cart.",
+        "variantRequired": "{label} is required",
+        "variantSingleSelection": "{label} must have exactly one selection",
+        "variantMaxSelections": "{label} cannot have more than {max} selections",
+        "variantRequiredSelections": "{label} must have {max} selections",
+        "variantInvalidOption": "Invalid option {option} for {label}"
     },
     "app/lib/actions/product": {
         "tooManyRequests": "Too many requests",
@@ -1011,6 +1076,15 @@
         "somethingWentWrong": "Something went wrong!",
         "tryAgain": "Try again",
         "goBackToTheBakerz": "Go back to TheBakerz"
+    },
+    "Working Hours": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
     }
 }
 

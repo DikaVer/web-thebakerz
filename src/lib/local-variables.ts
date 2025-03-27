@@ -1,4 +1,3 @@
-
 export const cityLatLngMap: Readonly<{ [key: string]: { lat: number, lng: number } }> = {
     'Aalsmeer': {'lat': 52.2667, 'lng': 4.75},
     'Aerdenhout': {'lat': 52.3644, 'lng': 4.5972},

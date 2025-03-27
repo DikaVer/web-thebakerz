@@ -2,6 +2,7 @@
 import {connectionPool} from "@/db";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
 import {getCurrentSession} from "@/lib/actions/session";
+import { getMerchantDeliveryRegions } from "@/lib/actions/delivery-actions";
 import {revalidateTag} from "next/cache";
 
 export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData | null> {
@@ -21,6 +22,7 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
                     s.slug,
                     s.stripe_id,
                     s.min_time_order,
+                    s.delivery_option,
                     COALESCE(bs.kor, false) AS kor
              FROM stores s
                       JOIN users u ON s.user_id = u.id
@@ -48,6 +50,22 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             })
             .catch((error) => console.error("Error reading item:", error));
 
+        // Fetch delivery locations
+        let deliveryLocations: DeliveryLocation[] = [];
+        try {
+            // Get delivery locations from Cosmos DB
+            const regions = await getMerchantDeliveryRegions(storeRow.id);
+            deliveryLocations = regions.map(region => ({
+                name: region.name,
+                radiusKm: region.radiusKm,
+                priceInCents: region.priceInCents,
+                minOrderPriceInCents: region.minOrderPriceInCents,
+                deliverySchedule: region.deliverySchedule
+            }));
+        } catch (error) {
+            console.error("Error fetching delivery locations:", error);
+            // Continue with empty array if delivery locations can't be fetched
+        }
 
         return {
             id: storeRow.id,
@@ -63,8 +81,10 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             slug: storeRow.slug,
             stripe_id: storeRow.stripe_id,
             minTimeOrder: storeRow.min_time_order,
+            deliveryOption: storeRow.delivery_option,
             location,  // This is of type LocationData
             schedule,
+            deliveryLocations,
         };
     } catch (error) {
         console.error("Error fetching store data:", error);
@@ -119,6 +139,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 stores.instagram_url AS store_instagram_url,
                 stores.slug AS slug,
                 stores.min_time_order AS min_time_order,
+                stores.delivery_option AS delivery_option,
                 store_locations.route AS store_route,
                 store_locations.city AS store_city,
                 store_locations.zip_code AS store_zip_code,
@@ -142,6 +163,23 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
 
     // Build the store object.
     if (rowS){
+        // Fetch delivery locations
+        let deliveryLocations: DeliveryLocation[] = [];
+        try {
+            // Get delivery locations from Cosmos DB
+            const regions = await getMerchantDeliveryRegions(rowS.store_id);
+            deliveryLocations = regions.map(region => ({
+                name: region.name,
+                radiusKm: region.radiusKm,
+                priceInCents: region.priceInCents,
+                minOrderPriceInCents: region.minOrderPriceInCents,
+                deliverySchedule: region.deliverySchedule
+            }));
+        } catch (error) {
+            console.error("Error fetching delivery locations:", error);
+            // Continue with empty array if delivery locations can't be fetched
+        }
+
         store = {
             id: rowS.store_id,
             kor: rowS.kor,
@@ -152,6 +190,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
             instagram_url: rowS.store_instagram_url,
             slug: rowS.slug,
             minTimeOrder: rowS.min_time_order,
+            deliveryOption: rowS.delivery_option,
             location: {
                 route: rowS.store_route,
                 city: rowS.store_city,
@@ -159,7 +198,8 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 country: rowS.store_country,
                 latitude: rowS.store_latitude,
                 longitude: rowS.store_longitude
-            }
+            },
+            deliveryLocations
         };
 
         await getScheduleById(store.id, store.id)
@@ -294,11 +334,32 @@ export interface StoreData {
     minTimeOrder: number;
     location: LocationData;
     schedule?: WorkHours;
+    deliveryLocations: DeliveryLocation[];
+    deliveryOption?: 'pickup' | 'delivery' | 'multi';
+}
 
-    // --- Additional fields for invoicing
-    vatNumber?: string;     // e.g. "NL123456789B01"
-    kvkNumber?: string;     // Chamber of Commerce number, if in NL
-    bankAccount?: string;   // Optional bank account or IBAN
+export interface DeliveryLocation {
+    name: string;
+    radiusKm: number;
+    priceInCents: number;
+    minOrderPriceInCents: number;
+    deliverySchedule: DeliverySchedule;
+}
+
+export interface DeliverySchedule {
+    monday?: TimeRange;
+    tuesday?: TimeRange;
+    wednesday?: TimeRange;
+    thursday?: TimeRange;
+    friday?: TimeRange;
+    saturday?: TimeRange;
+    sunday?: TimeRange;
+}
+
+export interface TimeRange {
+    isEnabled: boolean;
+    start: { hour: number; minute: number };
+    end: { hour: number; minute: number };
 }
 
 export interface LocationData {
@@ -308,4 +369,27 @@ export interface LocationData {
     latitude: number;
     longitude: number;
     zipCode: string;
+}
+
+export async function updateStoreDeliveryOptions(deliveryOption: 'pickup' | 'delivery' | 'multi'): Promise<boolean> {
+    try {
+
+        const {store} = await getCurrentSession();
+        if (!store) {
+            throw new Error("Store not found");
+        }
+
+        // Update the store's delivery option in the database
+        await connectionPool.query(
+            `UPDATE stores SET delivery_option = $1 WHERE id = $2`,
+            [deliveryOption, store.id]
+        );
+
+        revalidateTag('session');
+        revalidateTag('store');
+        return true;
+    } catch (error) {
+        console.error("Error updating store delivery options:", error);
+        throw new Error("Failed to update store delivery options");
+    }
 }
