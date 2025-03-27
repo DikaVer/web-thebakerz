@@ -109,6 +109,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                                     onPress={async () => {
                                         setIsLoading(true);
                                         await handleDelete();
+                                        setIsLoading(false);
                                     }}
                                 >
                                     {!isLoading && <Icon icon="solar:trash-bin-trash-broken" width={24} />}
