@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { getCurrentSession } from '@/lib/actions/session';
 import { z } from 'zod';
 import { getTranslations } from "next-intl/server";
+import {revalidateTag} from "next/cache";
 
 // Define Zod schemas for the nested types.
 const timeSchema = z.object({
@@ -97,6 +98,9 @@ export async function POST(req: Request) {
         if (cosmosResponse.statusCode !== 201 && cosmosResponse.statusCode !== 200) {
             throw new Error('Failed to update schedule');
         }
+
+        revalidateTag('session');
+        revalidateTag('store');
 
         return NextResponse.json(
             { message: 'Schedule updated successfully' },
