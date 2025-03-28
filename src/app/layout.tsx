@@ -12,6 +12,7 @@ import {getLocale, getMessages} from 'next-intl/server';
 import LanguageModal from "@/components/language-modal";
 import {getCookiePreferences, isCookieConsentFromServer} from "@/lib/cookie";
 import ClarityScript from "@/components/clarity-script";
+import GoogleAnalytics from "@/components/google-analytics";
 
 
 export const viewport: Viewport = {
@@ -55,6 +56,10 @@ export default async function RootLayout({
                         session={session}
                     >
                         <ClarityScript
+                            id={session.user?.id}
+                            preferences={preferences}
+                        />
+                        <GoogleAnalytics
                             id={session.user?.id}
                             preferences={preferences}
                         />

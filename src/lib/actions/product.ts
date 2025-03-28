@@ -4,9 +4,10 @@ import {ProductSchema} from "@/lib/schemas";
 import {getCurrentSession} from "@/lib/actions/session";
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {v4 as uuidv4} from "uuid";
-import {containerProducts} from "@/db";
+import {containerProducts, containerCart} from "@/db";
 import {revalidateTag} from "next/cache";
 import { getTranslations } from "next-intl/server";
+import { getCartItemsByProductId } from "@/lib/actions/cart";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -128,6 +129,19 @@ export const addProduct = async (
 
     try {
         if (productId) {
+            // Get all cart items for this product
+            const cartItems = await getCartItemsByProductId(store.id, productId);
+            
+            // Delete all cart items for this product
+            if (cartItems.length > 0) {
+                await Promise.all(
+                    cartItems.map(async (item) => {
+                        const partitionKeyValue = [store.id, item.user_id];
+                        await containerCart.item(item.id, partitionKeyValue).delete();
+                    })
+                );
+            }
+
             await containerProducts.item(productId, store.id).patch({
                 operations: [
                     { op: "set", path: "/archive", value: true },
@@ -136,6 +150,7 @@ export const addProduct = async (
             });
             await containerProducts.items.create(productData);
             revalidateTag("products");
+            revalidateTag("cart");
             return { success: t("productUpdated"), product: productData };
         } else {
             await containerProducts.items.create(productData);

@@ -266,28 +266,39 @@ export const replaceGuestCart = async (
             .query(userQuerySpec, { partitionKey: userPartitionKey })
             .fetchAll();
 
+        const operations = [];
+
+        // Add user items deletion to operations
         if (userItems && userItems.length > 0) {
-            await Promise.all(
-                userItems.map((item) =>
+            operations.push(
+                ...userItems.map((item) =>
                     containerCart.item(item.id, userPartitionKey).delete()
                 )
             );
         }
 
+        // Add guest items replacement to operations
         if (guestItems && guestItems.length > 0) {
-            await Promise.all(
-                guestItems.map(async (item) => {
+            operations.push(
+                ...guestItems.map(async (item) => {
                     const newItem: ItemCart = {
                         ...item,
                         id: item.id,
                         user_id: userId,
                     };
-
-                    await containerCart.items.create(newItem);
-                    await containerCart.item(item.id, guestPartitionKey).delete();
+                    return Promise.all([
+                        containerCart.items.create(newItem),
+                        containerCart.item(item.id, guestPartitionKey).delete()
+                    ]);
                 })
             );
         }
+
+        // Execute all operations in parallel
+        if (operations.length > 0) {
+            await Promise.all(operations);
+        }
+
         revalidateTag('cart');
 
         return {
@@ -327,9 +338,11 @@ export const removeCartByUserIdAndStoreId = async (
         if (cartData[storeId]) {
             const cartItems = Object.values(cartData[storeId]);
             if (cartItems.length > 0) {
-                for (const item of cartItems) {
-                    await containerCart.item(item.id, partitionKeyValue).delete();
-                }
+                await Promise.all(
+                    cartItems.map(async (item) => {
+                        await containerCart.item(item.id, partitionKeyValue).delete();
+                    })
+                );
             }
         }
 
@@ -406,5 +419,36 @@ export const getCurrentCart = async (
         }
     }).then(res => res.json());
 
+};
+
+/**
+ * Gets all cart items for a specific product in a store.
+ * 
+ * @param storeId - The store's ID.
+ * @param productId - The product's ID.
+ * @returns A Promise that resolves to an array of cart items.
+ */
+export const getCartItemsByProductId = async (
+    storeId: string,
+    productId: string
+): Promise<ItemCart[]> => {
+    try {
+        const querySpec = {
+            query: "SELECT * FROM c WHERE c.store_id = @storeId AND c.product_id = @productId",
+            parameters: [
+                { name: "@storeId", value: storeId },
+                { name: "@productId", value: productId }
+            ],
+        };
+
+        const { resources: items } = await containerCart.items
+            .query(querySpec)
+            .fetchAll();
+
+        return items;
+    } catch (error) {
+        console.error("Error fetching cart items by product:", error);
+        return [];
+    }
 };
 

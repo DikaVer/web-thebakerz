@@ -234,7 +234,7 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                 </a>
             </NavbarBrand>
             {store ? (
-                (session?.store && store.id === session?.store.id) ? (
+                (session?.store || session?.user?.role === 'admin') ? (
                     <a href={process.env.NEXT_PUBLIC_API_BASE_URL}>
                         <Image
                             src="/images/TheBakerzLogo.svg"
