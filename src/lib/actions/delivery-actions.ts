@@ -3,6 +3,7 @@
 import { containerDeliveryRegions } from "@/db";
 import {revalidatePath, revalidateTag} from "next/cache";
 import {getCurrentSession} from "@/lib/actions/session";
+import { DeliveryRegionsSchema } from "@/lib/schemas/delivery.schema";
 
 export interface DeliveryRegion {
   id: string;
@@ -64,6 +65,14 @@ export async function updateMerchantDeliveryRegions(
   }[]
 ) {
   try {
+    // Validate the input data
+    const validationResult = DeliveryRegionsSchema.safeParse(regions);
+    
+    if (!validationResult.success) {
+      console.error("Validation error:", validationResult.error);
+      throw new Error("Invalid delivery region data");
+    }
+
     const { store } = await getCurrentSession();
     if (!store) {
       throw new Error("Not authenticated");
@@ -81,7 +90,7 @@ export async function updateMerchantDeliveryRegions(
     }
 
     // Add new regions
-    for (const region of regions) {
+    for (const region of validationResult.data) {
       await containerDeliveryRegions.items.create({
         id: `${storeId}-${region.name.toLowerCase().replace(/\s+/g, '-')}`,
         storeId: storeId,
@@ -89,8 +98,8 @@ export async function updateMerchantDeliveryRegions(
         coordinates: region.coordinates,
         radiusKm: region.radiusKm,
         priceInCents: region.priceInCents,
-        minOrderPriceInCents: region.minOrderPriceInCents || 1000,
-        deliverySchedule: region.deliverySchedule || {},
+        minOrderPriceInCents: region.minOrderPriceInCents,
+        deliverySchedule: region.deliverySchedule,
         type: 'merchant_region',
       });
     }

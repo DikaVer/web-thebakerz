@@ -2,7 +2,7 @@
 
 import React, {useEffect} from "react";
 import {useStore} from "@/components/providers/store-provider";
-import {Link, Avatar, Spacer, Divider, Button, useDisclosure, cn} from "@heroui/react";
+import {Link, Avatar, Spacer, Divider, Button, useDisclosure, cn, Switch, ButtonGroup} from "@heroui/react";
 import {Icon, IconProps} from "@iconify/react";
 import Clarity from "@microsoft/clarity";
 import {randomUUID} from "node:crypto";
@@ -17,6 +17,7 @@ import { useTheme } from "next-themes";
 import StoreDescription from "@/components/store/store-header/description/store-description";
 import {useTranslations} from "next-intl";
 import {useRouter} from "next/navigation";
+import { setDeliveryMode, getDeliveryMode, type DeliveryMode } from '@/lib/delivery-cookie';
 
 type SocialIconProps = Omit<IconProps, "icon">;
 
@@ -30,19 +31,28 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
     const { session } = useSession();
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const isSmall = useMediaQuery("(max-width: 960px)");
-    const { theme } = useTheme();
     const t = useTranslations("app/(store)/components/store-header");
     const router = useRouter();
+    const [isDelivery, setIsDelivery] = React.useState(false);
 
-    const [latitude, longitude] = [store?.location.latitude, store?.location.longitude];
 
-    const location = store?.location.route ? `${store.location.route}` : "";
-    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "";
+    // Initialize the delivery state from cookie on component mount
+    useEffect(() => {
+        const fetchDeliveryMode = async () => {
+            const mode = await getDeliveryMode();
+            if (store.deliveryOption === "delivery" && mode === "pickup") {
+                setIsDelivery(store.deliveryOption === 'delivery');
+                await setDeliveryMode(store.deliveryOption ? 'delivery' : 'pickup');
+            } else {
+                setIsDelivery(mode === 'delivery');
+            }
+        };
+        fetchDeliveryMode();
+    }, []);
 
-    const phone = {
-        name: t("phone"),
-        href: `tel:${store?.phone}`,
-        icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
+    const handleDeliveryToggle = async (value: boolean) => {
+        setIsDelivery(value);
+        await setDeliveryMode(value ? 'delivery' : 'pickup');
     };
 
     return (
@@ -130,7 +140,55 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
             </div>
             <Spacer y={4}/>
             <Divider/>
-            <StoreSubHeader dateParam={dateParam} timeParam={timeParam}/>
+            {(store.deliveryOption === "multi" && session?.user?.role !== "bakerz" && session.store?.id !== store.id) && (
+                <div className="flex items-center justify-end w-full gap-6 py-3">
+                    <ButtonGroup>
+                        <Button
+                            onPress={() => handleDeliveryToggle(false)}
+                            className={cn(
+                                !isDelivery ? "bg-default-50 text-primary" : "text-default-400"
+                            )}
+                        >
+                            <div className="relative w-12 h-12 flex items-center justify-center">
+                                <Icon
+                                    icon="solar:shop-2-bold"
+                                    width={32}
+                                    height={32}
+                                    className={cn(
+                                        "transition-all duration-200",
+                                        !isDelivery ? "scale-110" : "scale-100"
+                                    )}
+                                />
+                            </div>
+                            <span className="text-sm font-medium">
+                            {t('pickup')}
+                        </span>
+                        </Button>
+                        <Button
+                            onPress={() => handleDeliveryToggle(true)}
+                            className={cn(
+                                isDelivery ? "bg-default-50 text-primary" : "text-default-400"
+                            )}
+                        >
+                            <div className="relative w-12 h-12 flex items-center justify-center">
+                                <Icon
+                                    icon="solar:scooter-linear"
+                                    width={32}
+                                    height={32}
+                                    className={cn(
+                                        "transition-all duration-200",
+                                        isDelivery ? "scale-110" : "scale-100"
+                                    )}
+                                />
+                            </div>
+                            <span className="text-sm font-medium">
+                            {t('delivery')}
+                        </span>
+                        </Button>
+                    </ButtonGroup>
+                </div>
+            )}
+            <StoreSubHeader dateParam={dateParam} timeParam={timeParam} isDelivery={isDelivery}/>
         </div>
     );
 }

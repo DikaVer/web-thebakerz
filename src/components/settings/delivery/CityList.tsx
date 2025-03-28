@@ -29,14 +29,6 @@ const CityList: React.FC<CityListProps> = ({
 }) => {
   const t = useTranslations("app/(return_page)/settings/components/delivery-settings");
 
-  if (cities.length === 0) {
-    return (
-      <p className="text-sm text-gray-500">
-        {t("noCitiesSelected")}
-      </p>
-    );
-  }
-
   const whT = useTranslations("Working Hours");
 
   // Get a summary of the delivery schedule for display
@@ -61,6 +53,14 @@ const CityList: React.FC<CityListProps> = ({
       </div>
     );
   };
+
+  if (cities.length === 0) {
+    return (
+        <p className="text-sm text-gray-500">
+          {t("noCitiesSelected")}
+        </p>
+    );
+  }
 
   return (
     <div className="grid gap-2">

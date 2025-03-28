@@ -74,7 +74,7 @@ const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
         <div className="flex items-center">
           <input
             type="number"
-            min="0"
+            min="10"
             step="0.50"
             value={(minOrderPriceInCents / 100).toFixed(2)}
             onChange={(e) => onMinOrderPriceChange(e.target.value)}

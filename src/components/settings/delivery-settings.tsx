@@ -200,15 +200,40 @@ const DeliveryManager = () => {
   const handleSetDeliveryRange = () => {
     if (!selectedCityForRange) return;
     
+    // Validate the city exists in our predefined list
+    if (!(selectedCityForRange in cityLatLngMap)) {
+      addToast({
+        title: t("invalidCity"),
+        color: "danger",
+        shouldShowTimeoutProgress: true,
+        timeout: 2000,
+      });
+      return;
+    }
+
+    // Validate minimum order price
+    if (minOrderPriceInCents < 1000) {
+      addToast({
+        title: t("minOrderPriceError"),
+        color: "danger",
+        shouldShowTimeoutProgress: true,
+        timeout: 2000,
+      });
+      return;
+    }
+    
     // Check if city is already in the list
     const existingCityIndex = deliveryCities.findIndex(city => city.name === selectedCityForRange);
     
     if (existingCityIndex >= 0) {
       // Update existing city
       const updatedCities = [...deliveryCities];
-      updatedCities[existingCityIndex].range = deliveryRange;
-      updatedCities[existingCityIndex].priceInCents = deliveryPriceInCents;
-      updatedCities[existingCityIndex].minOrderPriceInCents = minOrderPriceInCents;
+      updatedCities[existingCityIndex] = {
+        ...updatedCities[existingCityIndex],
+        range: deliveryRange,
+        priceInCents: deliveryPriceInCents,
+        minOrderPriceInCents: minOrderPriceInCents,
+      };
       setDeliveryCities(updatedCities);
     } else {
       // Add new city
@@ -278,10 +303,6 @@ const DeliveryManager = () => {
     closeScheduleModal();
   };
 
-  // Format time from hour and minute
-  const formatTime = (time: { hour: number; minute: number }) => {
-    return `${time.hour.toString().padStart(2, '0')}:${time.minute.toString().padStart(2, '0')}`;
-  };
 
   if (loading) {
     return <div className="p-4">{t("loadingMap")}</div>;
