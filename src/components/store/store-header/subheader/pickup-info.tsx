@@ -101,7 +101,7 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
               {/* Title with icon */}
             
               <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/30 dark:to-primary-800/20">
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                     <div className="p-2 rounded-full bg-primary/10">
                         <Icon icon="solar:shop-2-linear" className="h-5 w-5 text-primary" />

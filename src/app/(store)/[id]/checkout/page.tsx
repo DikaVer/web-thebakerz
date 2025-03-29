@@ -16,6 +16,8 @@ import { ProductDialogProvider } from "@/components/providers/product-provider";
 import {StoreProvider} from "@/components/providers/store-provider";
 import LayoutComp from "@/components/layout-comp";
 import {getDeliveryMode} from "@/lib/delivery-cookie";
+import { DeliveryProvider } from "@/components/providers/delivery-provider";
+import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 
 interface StorePageProps {
     params: Promise<{
@@ -41,6 +43,7 @@ export default async function Page(props: StorePageProps) {
     const productsData: ProductDataFull = await getCurrentProducts(storeData.id);
 
     const deliveryMode = await getDeliveryMode();
+    const savedAddress = await getCurrentDeliveryAddress(storeData.id);
 
     return (
         <CartProvider
@@ -54,22 +57,25 @@ export default async function Page(props: StorePageProps) {
                 <StoreProvider
                     store={storeData}
                 >
-                    <LayoutComp
-                        hideSideBar={true}
-                        store={storeData}
+                    <DeliveryProvider
+                        initialDeliveryMode={deliveryMode === 'delivery'}
+                        initialAddress={savedAddress}
                     >
-                        <div className={'min-h-svh'}>
-                            <Suspense fallback={<StoreSkeleton/>}>
-                                <div className="flex flex-col min-h-screen relative z-10 items-center">
-                                    <div className="flex flex-col container mx-auto items-center my-4 min-h-screen max-w-2xl">
-                                        <CheckoutSteps
-                                            isDelivery={deliveryMode === 'delivery'}
-                                        />
+                        <LayoutComp
+                            hideSideBar={true}
+                            store={storeData}
+                        >
+                            <div className={'min-h-svh'}>
+                                <Suspense fallback={<StoreSkeleton/>}>
+                                    <div className="flex flex-col min-h-screen relative z-10 items-center">
+                                        <div className="flex flex-col container mx-auto items-center my-4 min-h-screen max-w-2xl">
+                                            <CheckoutSteps/>
+                                        </div>
                                     </div>
-                                </div>
-                            </Suspense>
-                        </div>
-                    </LayoutComp>
+                                </Suspense>
+                            </div>
+                        </LayoutComp>
+                    </DeliveryProvider>
                 </StoreProvider>
             </ProductDialogProvider>
         </CartProvider>

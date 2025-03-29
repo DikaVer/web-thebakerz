@@ -258,7 +258,8 @@
     "pickUpDescription": "Deze winkel biedt alleen afhaalbestellingen aan. Selecteer een afhaaltijd tijdens het afrekenen.",
     "workingHours": "Werkuren",
     "address": "Adres",
-    "phone": "Telefoon"
+    "phone": "Telefoon",
+    "close": "Dichtbij"
   },
   "app/(store)/components/product-search": {
     "search": "Zoeken op productnaam of categorie..."
@@ -340,7 +341,7 @@
     "minimumOrder": "Minimale bestelling",
     "deliveryHours": "Bezorgtijden",
     "enterDeliveryAddressPrompt": "Voer bezorgadres in",
-    "enterDeliveryAddress": "Voer bezorgadres in",
+    "enterDeliveryAddress": "Voer afleveradres in",
     "noDeliveryAddressYet": "Nog geen bezorgadres",
     "enterAddressToSeeDeliveryOptions": "Voer je adres in om bezorgopties te zien",
     "addressInRange": "Je adres ligt binnen het bezorggebied",
@@ -365,7 +366,27 @@
     "additionalInfo": "Aanvullende info",
     "storeOpen": "Bewaar nu",
     "storeClosed": "Bewaar gesloten",
-    "pickUp": "Ophalen"
+    "pickUp": "Ophalen",
+    "orEnterManually": "Of ga handmatig binnen",
+    "selectFromSuggestions": "Selecteer uit suggesties",
+    "loadingGoogleMaps": "Laden ...",
+    "errorLoadingGoogleMaps": "Fout met Google",
+    "searchAddress": "Zoekadres",
+    "typeToSearchAddress": "Type om te zoeken adres",
+    "maxCharsExceeded": "{Field} kan niet hoger zijn dan {max} tekens",
+    "street": "Straat",
+    "enterStreet": "Voer de straatnaam in",
+    "houseNumber": "Huisnummer",
+    "enterHouseNumber": "Voer het huisnummer in",
+    "zipCode": "Postcode",
+    "enterZipCode": "Voer de postcode in",
+    "city": "Stad",
+    "enterCity": "Betreed de stad",
+    "enterAdditionalInfo": "Bijv. \nAppartementnummer, vloer, etc.",
+    "confirm": "Bevestigen",
+    "editYourDeliveryAddressDescription": "Bewerk uw adresbeschrijving",
+    "enterYourDeliveryAddressDescription": "Voer uw adresbeschrijving in",
+    "editDeliveryAddress": "Bewerk afleveradres"
   },
   "app/(store)/components/store-top": {
     "addItem": "Item toevoegen"
@@ -569,7 +590,7 @@
   "app/(store)/components/checkout": {
     "addItem": "Item toevoegen",
     "subtotal": "Subtotaal",
-    "vatExclusive": "BTW (9%)",
+    "vatExclusive": "Btw (9%)",
     "total": "Totaal",
     "cartEmpty": "Winkelwagen leeg",
     "addItemsToStart": "Voeg items toe om te beginnen",
@@ -585,7 +606,12 @@
     "returnToCheckout": "Terug naar afrekenen",
     "pickup": "Ophalen",
     "delivery": "Levering",
-    "saveDeliveryDetails": "Bewaar pick -up details"
+    "saveDeliveryDetails": "Bewaar pick -up details",
+    "invalidDeliveryAddress": "Ongeldig afleveradres",
+    "deliveryFee": "Bezorgkosten",
+    "serviceFee": "Servicekosten",
+    "minimumOrderForDelivery": "Minimale bestelling is {amount}",
+    "addressOutOfRange": "Adres uit de afleverregio"
   },
   "app/(store)/components/image": {
     "close": "Dichtbij",

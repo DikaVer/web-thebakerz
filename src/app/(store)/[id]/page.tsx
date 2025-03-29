@@ -16,6 +16,8 @@ import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 import {useTranslations} from "next-intl";
 import {getTranslations} from "next-intl/server";
 import {getDeliveryMode} from "@/lib/delivery-cookie";
+import {DeliveryProvider} from "@/components/providers/delivery-provider";
+import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 
 interface StorePageProps {
     params: Promise<{
@@ -42,6 +44,7 @@ export default async function Page(props: StorePageProps) {
     const cartData = await getCurrentCart(storeData.id);
 
     const deliveryMode = await getDeliveryMode();
+    const savedAddress = await getCurrentDeliveryAddress(storeData.id);
 
     return (
         <CartProvider
@@ -54,22 +57,27 @@ export default async function Page(props: StorePageProps) {
                 <StoreProvider
                     store={storeData}
                 >
-                    <LayoutComp
-                        store={storeData}
+                    <DeliveryProvider
+                        initialDeliveryMode={deliveryMode === 'delivery'}
+                        initialAddress={savedAddress}
                     >
-                        <div className="flex flex-col min-h-screen relative z-10 items-center">
-                            <div className="flex flex-col container mx-auto items-center justify-center">
-                                <Spacer y={8}/>
-                                <StoreTop isDelivery={deliveryMode === 'delivery'}/>
-                                <Spacer y={8}/>
-                                <Suspense fallback={<ProductListSkeleton />}>
-                                    <ProductComponentBase storeId={storeData.id} />
-                                </Suspense>
+                        <LayoutComp
+                            store={storeData}
+                        >
+                            <div className="flex flex-col min-h-screen relative z-10 items-center">
+                                <div className="flex flex-col container mx-auto items-center justify-center">
+                                    <Spacer y={8}/>
+                                    <StoreTop />
+                                    <Spacer y={8}/>
+                                    <Suspense fallback={<ProductListSkeleton />}>
+                                        <ProductComponentBase storeId={storeData.id} />
+                                    </Suspense>
+                                </div>
+                                <Spacer y={16}/>
                             </div>
-                            <Spacer y={16}/>
-                        </div>
-                        <FooterStore/>
-                    </LayoutComp>
+                            <FooterStore/>
+                        </LayoutComp>
+                    </DeliveryProvider>
                 </StoreProvider>
             </ProductDialogProvider>
         </CartProvider>

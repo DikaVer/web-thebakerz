@@ -98,7 +98,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                         />
                     </div>
                     <Spacer x={4} />
-                    <div className="flex justify-between w-[70%]">
+                    <div className="flex justify-between w-[100%]">
                         <div className="flex flex-col w-full">
                             <div className={'flex justify-between'}>
                                 <p className="font-medium truncate text-start">{productData.name}</p>

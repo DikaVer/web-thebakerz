@@ -5,10 +5,12 @@ export async function updateOrderTime(storeId: string, date: string, time: strin
     const cookieStore = await cookies();
 
     cookieStore.set(`orderDate_${storeId}`, date, {
-        httpOnly: false
+        httpOnly: false,
+        maxAge: 3600 // Expire after 1 hour (3600 seconds)
     });
     cookieStore.set(`orderTime_${storeId}`, time, {
-        httpOnly: false
+        httpOnly: false,
+        maxAge: 3600 // Expire after 1 hour (3600 seconds)
     });
 }
 
@@ -16,10 +18,12 @@ export async function updateDeliveryTime(storeId: string, date: string, time: st
     const cookieStore = await cookies();
 
     cookieStore.set(`deliveryDate_${storeId}_${location}`, date, {
-        httpOnly: false
+        httpOnly: false,
+        maxAge: 3600 // Expire after 1 hour (3600 seconds)
     });
     cookieStore.set(`deliveryTime_${storeId}_${location}`, time, {
-        httpOnly: false
+        httpOnly: false,
+        maxAge: 3600 // Expire after 1 hour (3600 seconds)
     });
 }
 

@@ -290,7 +290,8 @@
     "pickUpDescription": "This store only offers pickup orders. Please select a pickup time during checkout.",
     "workingHours": "Working Hours",
     "address": "Address",
-    "phone": "Phone"
+    "phone": "Phone",
+    "close": "Close"
   },
   "app/(store)/components/product-search": {
     "search": "Search by product name or category..."
@@ -378,7 +379,7 @@
     "minimumOrder": "Minimum Order",
     "deliveryHours": "Delivery Hours",
     "enterDeliveryAddressPrompt": "Enter delivery address",
-    "enterDeliveryAddress": "Enter delivery address",
+    "enterDeliveryAddress": "Enter Delivery Address",
     "noDeliveryAddressYet": "No delivery address yet",
     "enterAddressToSeeDeliveryOptions": "Enter your address to see delivery options",
     "addressInRange": "Your address is within delivery range",
@@ -418,7 +419,16 @@
     "additionalInfo": "Additional Info",
     "storeOpen": "Store Open",
     "storeClosed": "Store Closed",
-    "pickUp": "Pick Up"
+    "pickUp": "Pick Up",
+    "orEnterManually": "Or Enter Manually",
+    "selectFromSuggestions": "Select from suggestions",
+    "loadingGoogleMaps": "Loading...",
+    "errorLoadingGoogleMaps": "Error with google",
+    "searchAddress": "Search Address",
+    "typeToSearchAddress": "Type to search address",
+    "editYourDeliveryAddressDescription": "Edit your address description",
+    "enterYourDeliveryAddressDescription": "Enter your address description",
+    "editDeliveryAddress": "Edit Delivery Address"
   },
   "app/(store)/components/store-top": {
     "addItem": "Add Item"
@@ -631,7 +641,7 @@
     "total": "Total",
     "cartEmpty": "Cart Empty",
     "addItemsToStart": "Add Items To Start",
-    "minimumAmount": "Minimum order amount is €10",
+    "minimumAmount": "Minimum order amount is {minOrder}",
     "pay": "Pay",
     "alert": "Shop offers only pickup orders",
     "workingHours": "Working Hours",
@@ -643,7 +653,12 @@
     "returnToCheckout": "Return to Checkout",
     "pickup": "Pick Up",
     "delivery": "Delivery",
-    "saveDeliveryDetails": "Save Pick Up Details"
+    "saveDeliveryDetails": "Save Pick Up Details",
+    "invalidDeliveryAddress": "Invalid Delivery Address",
+    "deliveryFee": "Delivery Fee",
+    "serviceFee": "Service Fee",
+    "minimumOrderForDelivery": "Minimum Order is {amount}",
+    "addressOutOfRange": "Address Out of Delivery Region"
   },
   "app/(store)/components/image": {
     "close": "Close",

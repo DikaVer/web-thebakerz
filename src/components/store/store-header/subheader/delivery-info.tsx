@@ -47,7 +47,7 @@ export default function DeliveryInfo({
     <Card className="h-auto mb-4 overflow-hidden transition-all duration-300 max-w-[440px]" shadow="sm">
       <CardBody className="p-0 w-[440px] max-w-[100%]">
         <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/30 dark:to-primary-800/20">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-full bg-primary/10">
                 <Icon icon="solar:scooter-linear" className="h-5 w-5 text-primary" />

@@ -20,6 +20,9 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
     // Get origin of the current page from window object
     const origin = typeof window !== "undefined" ? window.location.origin : "";
+    
+    // Check if user has bakerz role
+    const isBakerz = !!session?.user?.role && session.user.role === "bakerz";
 
     return (
         <Dropdown className="flex flex-row" backdrop="blur">
@@ -46,7 +49,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
 
             </DropdownTrigger>
             <DropdownMenu aria-label="Static Actions" variant="faded">
-                {session?.user?.role === "bakerz" ? (
+                {isBakerz ? (
                     <>
                         <DropdownItem
                             key="link"

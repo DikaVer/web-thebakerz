@@ -258,7 +258,8 @@
     "pickUpDescription": "Ce magasin propose uniquement des commandes à collecter en magasin. Veuillez sélectionner une heure de retrait lors du paiement.",
     "workingHours": "Horaires de travail",
     "address": "Adresse",
-    "phone": "Téléphone"
+    "phone": "Téléphone",
+    "close": "Fermer"
   },
   "app/(store)/components/product-search": {
     "search": "Rechercher par nom de produit ou par catégorie..."
@@ -365,7 +366,27 @@
     "additionalInfo": "Informations supplémentaires",
     "storeOpen": "Store Open",
     "storeClosed": "Magasin fermé",
-    "pickUp": "Ramasser"
+    "pickUp": "Ramasser",
+    "orEnterManually": "Ou entrez manuellement",
+    "selectFromSuggestions": "Sélectionnez parmi les suggestions",
+    "loadingGoogleMaps": "Chargement...",
+    "errorLoadingGoogleMaps": "Erreur avec Google",
+    "searchAddress": "Adresse de recherche",
+    "typeToSearchAddress": "Type à l'adresse de recherche",
+    "maxCharsExceeded": "{champ} ne peut pas dépasser {max} caractères",
+    "street": "Rue",
+    "enterStreet": "Entrez le nom de la rue",
+    "houseNumber": "Numéro de maison",
+    "enterHouseNumber": "Entrez le numéro de maison",
+    "zipCode": "Code Postal",
+    "enterZipCode": "Entrez le code postal",
+    "city": "Ville",
+    "enterCity": "Entrer dans la ville",
+    "enterAdditionalInfo": "Par exemple \nnuméro d'appartement, plancher, etc.",
+    "confirm": "Confirmer",
+    "editYourDeliveryAddressDescription": "Modifiez votre description d'adresse",
+    "enterYourDeliveryAddressDescription": "Entrez la description de votre adresse",
+    "editDeliveryAddress": "Modifier l'adresse de livraison"
   },
   "app/(store)/components/store-top": {
     "addItem": "Ajouter un élément"
@@ -573,7 +594,7 @@
     "total": "Total",
     "cartEmpty": "Panier vide",
     "addItemsToStart": "Ajouter des éléments pour commencer",
-    "minimumAmount": "Le montant minimum de commande est de 10 €",
+    "minimumAmount": "Le montant minimum de commande est de {minOrder}",
     "pay": "Payer",
     "alert": "La boutique propose uniquement des commandes à collecter en magasin",
     "workingHours": "Horaires de travail",
@@ -585,7 +606,12 @@
     "returnToCheckout": "Retour à la caisse",
     "pickup": "Ramasser",
     "delivery": "Livraison",
-    "saveDeliveryDetails": "Enregistrer les détails de ramassage"
+    "saveDeliveryDetails": "Enregistrer les détails de ramassage",
+    "invalidDeliveryAddress": "Adresse de livraison non valide",
+    "deliveryFee": "Frais de livraison",
+    "serviceFee": "Frais de service",
+    "minimumOrderForDelivery": "L'ordre minimum est {amount}",
+    "addressOutOfRange": "Adresse de la région de livraison"
   },
   "app/(store)/components/image": {
     "close": "Fermer",

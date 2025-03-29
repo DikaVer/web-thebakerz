@@ -13,7 +13,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import Checkout from "@/components/checkout/payment/checkout";
 import { useTranslations } from "next-intl";
 
-export default function CheckoutSteps({ isDelivery}: { isDelivery: boolean }) {
+export default function CheckoutSteps({ }: {}) {
     const { session } = useSession();
     const t = useTranslations("app/(store)/components/checkout-steps");
 
@@ -103,7 +103,6 @@ export default function CheckoutSteps({ isDelivery}: { isDelivery: boolean }) {
                     }}
                 >
                     <ScheduleOrder
-                        isDeliveryProps={isDelivery}
                         handleNext={() => handleNext(3)}
                     />
                 </AccordionItem>

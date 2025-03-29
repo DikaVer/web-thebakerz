@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Button,
     ButtonGroup,
@@ -10,340 +10,73 @@ import {
     ModalBody,
     useDisclosure,
     Spacer,
-    addToast,
     Card,
     CardBody,
     Spinner,
     Tooltip,
     Skeleton
 } from "@heroui/react";
-import { useSession } from "@/components/providers/session-provider";
 import { Icon } from "@iconify/react";
 import { CalendarDateTime, CalendarDate, now } from "@internationalized/date";
 import { useStore } from "@/components/providers/store-provider";
-import { updateDeliveryTime, getDeliveryTime } from "@/app/(store)/[id]/actions";
-import { updateDeliveryAddress, getCurrentDeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
-import { parseDateParams, parseDateTime } from "@/components/store/store-header/calendar/calendar-params";
+import { parseDateParams } from "@/components/store/store-header/calendar/calendar-params";
 import { IconLocation } from "@/components/ui/icons";
 import { useTheme } from "next-themes";
 import { formatDate, SmartDatetimeInput } from "@/components/store/store-header/calendar/smart-calendar";
 import { useTranslations } from "next-intl";
-import { useAddressValidation, AddressForm as AddressFormType } from "@/hooks/use-address-validation";
-import { AddressForm } from "./address-form";
-import { useDebouncedCallback } from "use-debounce";
-
-import { checkDeliveryRange } from "@/lib/maps/google-maps";
+import { useDelivery } from "@/components/providers/delivery-provider";
 import DeliveryInfo from "@/components/store/store-header/subheader/delivery-info";
+import { AddressForm } from "@/components/store/store-header/subheader/address-form";
 
 interface StoreSubHeaderDeliveryProps {
-    onLoadingStateChange?: (isLoaded: boolean) => void;
-    setSelectedGlobalDate?: (date: CalendarDateTime | CalendarDate | undefined) => void;
 }
 
-export function StoreSubHeaderDelivery({ onLoadingStateChange, setSelectedGlobalDate }: StoreSubHeaderDeliveryProps) {
+export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
     const { store } = useStore();
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const { isOpen, onOpen, onOpenChange: originalOnOpenChange } = useDisclosure();
     const { theme } = useTheme();
     const t = useTranslations("app/(store)/components/store-subheader");
     
-    const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(undefined);
-    const [isLoadingDate, setIsLoadingDate] = useState(true);
-
-    const [address, setAddress] = useState<AddressFormType>({
-        street: "",
-        houseNumber: "",
-        city: "",
-        zipCode: "",
-        additionalInfo: ""
-    });
-
-    const [isAddressLoading, setIsAddressLoading] = useState(false);
-    const [showDeliveryInfo, setShowDeliveryInfo] = useState(false);
-    const [isDateUpdating, setIsDateUpdating] = useState(false);
-
-    // Use the address validation hook
-    const {
-        isValidating,
-        validationResult,
-        validateAddress
-    } = useAddressValidation();
-
-    const [modalSubmissionStatus, setModalSubmissionStatus] = useState<'idle' | 'validating' | 'saving' | 'success' | 'error'>('idle');
-
-    // Load saved delivery date and time
-    useEffect(() => {
-        const loadSavedDateTime = async () => {
-            try {
-                setIsLoadingDate(true);
-                
-                // Only retrieve saved delivery time if we have a selected delivery region
-                if (validationResult.isInRange && validationResult.deliveryRegion?.name) {
-                    const { date, time } = await getDeliveryTime(store.id, validationResult.deliveryRegion.name);
-                    
-                    if (date && time) {
-                        const parsedDate = parseDateParams(`${date} ${time}`);
-                        setSelectedDate(parsedDate);
-                        setSelectedGlobalDate?.(parsedDate);
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading saved delivery time:', error);
-            } finally {
-                setIsLoadingDate(false);
-            }
-        };
-        
-        if (validationResult.isInRange && validationResult.deliveryRegion) {
-            loadSavedDateTime();
-        } else {
-            setIsLoadingDate(false);
-        }
-    }, [store.id, validationResult.isInRange, validationResult.deliveryRegion]);
-
-    // Load saved delivery address
-    const loadSavedAddress = async () => {
-        try {
-            setIsAddressLoading(true);
-            const savedAddress = await getCurrentDeliveryAddress(store.id);
-            
-            if (savedAddress) {
-                setAddress({
-                    street: savedAddress.street,
-                    houseNumber: savedAddress.houseNumber,
-                    city: savedAddress.city,
-                    zipCode: savedAddress.zipCode,
-                    additionalInfo: savedAddress.additionalInfo || "",
-                });
-                
-                // If we have coordinates, we can assume this address was already validated
-                if (savedAddress.coordinates && savedAddress.formattedAddress) {
-                    setShowDeliveryInfo(true);
-                    
-                    // Find the delivery region for this address
-                    const { lat, lng } = savedAddress.coordinates;
-                    const { inRange, closestRegion } = checkDeliveryRange(
-                        { lat, lng },
-                        {
-                            latitude: store.location.latitude,
-                            longitude: store.location.longitude
-                        },
-                        store.deliveryRegions
-                    );
-                    
-                    if (inRange && closestRegion) {
-                        await validateAddress(
-                            {
-                                street: savedAddress.street,
-                                houseNumber: savedAddress.houseNumber,
-                                city: savedAddress.city,
-                                zipCode: savedAddress.zipCode,
-                                additionalInfo: savedAddress.additionalInfo || "",
-                            },
-                            {
-                                latitude: store.location.latitude,
-                                longitude: store.location.longitude
-                            },
-                            store.deliveryRegions
-                        );
-                    }
-                }
-            }
-        } catch (error) {
-            console.error('Error loading saved delivery address:', error);
-        } finally {
-            setIsAddressLoading(false);
-        }
-    };
+    const [isAutocompleteFocused, setIsAutocompleteFocused] = useState(false);
     
-    // Load saved address on component mount
-    useEffect(() => {
-        loadSavedAddress();
-    }, [store.id]);
-
+    const { 
+        // Date selection
+        selectedDate,
+        isLoadingDate,
+        isDateUpdating,
+        handleDateChange,
+        
+        // Address management
+        address,
+        isAddressLoading,
+        showDeliveryInfo,
+        modalSubmissionStatus,
+        resetModalStatus,
+        
+        // Address validation
+        validationResult,
+        isValidating,
+        
+        // Set subheader loaded state
+        setSubheaderLoaded
+    } = useDelivery();
+    
     // Notify parent when loading is complete
     useEffect(() => {
-        if (onLoadingStateChange) {
-            // Consider subheader loaded when address is loaded and date is loaded
-            const isLoaded = !isAddressLoading && !isLoadingDate;
-            
-            // Use a slight delay to ensure UI stability
-            const timer = setTimeout(() => {
-                onLoadingStateChange(isLoaded);
-            }, 100);
-            
-            return () => clearTimeout(timer);
-        }
-    }, [isAddressLoading, isLoadingDate, onLoadingStateChange]);
+        // Consider subheader loaded when address is loaded and date is loaded
+        const isLoaded = !isAddressLoading && !isLoadingDate;
+        
+        // Use a slight delay to ensure UI stability
+        const timer = setTimeout(() => {
+            setSubheaderLoaded(isLoaded);
+        }, 100);
+        
+        return () => clearTimeout(timer);
+    }, [isAddressLoading, isLoadingDate, setSubheaderLoaded]);
 
-    // Debounced function to save delivery address
-    const debouncedSaveAddress = useDebouncedCallback(
-      async (
-        storeId: string, 
-        addressData: AddressFormType,
-        coordinates: { lat: number; lng: number } | undefined,
-        formattedAddress: string | undefined,
-        closeModal: () => void
-      ): Promise<boolean> => {
-        try {
-            setModalSubmissionStatus('saving');
-            
-            const result = await updateDeliveryAddress(storeId, {
-                formattedAddress: formattedAddress || "",
-                street: addressData.street,
-                houseNumber: addressData.houseNumber,
-                city: addressData.city,
-                zipCode: addressData.zipCode,
-                additionalInfo: addressData.additionalInfo,
-                coordinates: coordinates
-            });
-            
-            if (result.error) {
-                addToast({
-                    description: result.error || t("errorSavingAddress"),
-                    color: "danger",
-                    shouldShowTimeoutProgress: true,
-                    timeout: 3000,
-                });
-                setModalSubmissionStatus('error');
-                return false;
-            }
-            
-            addToast({
-                description: t("addressInRange"),
-                color: "success",
-                shouldShowTimeoutProgress: true,
-                timeout: 3000,
-            });
-            
-            setModalSubmissionStatus('success');
-            closeModal();
-            return true;
-        } catch (error) {
-            console.error('Error saving delivery address:', error);
-            addToast({
-                description: t("errorSavingAddress"),
-                color: "danger",
-                shouldShowTimeoutProgress: true,
-                timeout: 3000,
-            });
-            setModalSubmissionStatus('error');
-            return false;
-        }
-    }, 500);
-
-    // Handle address submission - keep the modal open until submission is successful
-    const handleAddressSubmit = async (addressData: AddressFormType, modalCloseCallback: () => void): Promise<void> => {
-        setAddress(addressData);
-        setModalSubmissionStatus('validating');
-
-        try {
-            // Validate the address with Google Maps API
-            const result = await validateAddress(
-                addressData,
-                {
-                    latitude: store.location.latitude,
-                    longitude: store.location.longitude
-                },
-                store.deliveryRegions
-            );
-
-            // Update UI based on validation result
-            if (result.isValid && result.isInRange && result.deliveryRegion) {
-                setShowDeliveryInfo(true);
-
-                // Save the delivery address with debounce
-                const saveSuccess = await debouncedSaveAddress(
-                    store.id,
-                    addressData,
-                    result.validatedAddress?.coordinates,
-                    result.formattedAddress,
-                    modalCloseCallback
-                );
-
-                // Modal will be closed by debouncedSaveAddress if successful
-                if (!saveSuccess) {
-                    setModalSubmissionStatus('idle');
-                }
-            } else if (result.isValid && !result.isInRange) {
-                addToast({
-                    description: t("addressNotInRange"),
-                    color: "danger",
-                    shouldShowTimeoutProgress: true,
-                    timeout: 3000,
-                });
-                setModalSubmissionStatus('error');
-            } else {
-                addToast({
-                    description: result.error || t("errorCheckingAddress"),
-                    color: "danger",
-                    shouldShowTimeoutProgress: true,
-                    timeout: 3000,
-                });
-                setModalSubmissionStatus('error');
-            }
-        } catch (error) {
-            console.error('Error during address validation:', error);
-            addToast({
-                description: t("errorValidatingAddress"),
-                color: "danger",
-                shouldShowTimeoutProgress: true,
-                timeout: 3000,
-            });
-            setModalSubmissionStatus('error');
-        }
-    };
-
-    // Reset modal status when it's closed or opened
-    const handleModalStateChange = useCallback((open: boolean) => {
-        if (!open) {
-            // Only reset after modal is fully closed
-            setTimeout(() => {
-                setModalSubmissionStatus('idle');
-            }, 300);
-        } else {
-            setModalSubmissionStatus('idle');
-        }
-    }, []);
-
-
-    const handleDateChange = async (newDate: CalendarDateTime | CalendarDate) => {
-        if (newDate instanceof CalendarDate) {
-            setSelectedDate(newDate);
-            setSelectedGlobalDate?.(newDate);
-        } else {
-            const { date, time } = parseDateTime(newDate);
-            if (date && time && validationResult.deliveryRegion?.name) {
-                const parsedDate = parseDateParams(`${date} ${time}`);
-                setSelectedDate(parsedDate);
-                setSelectedGlobalDate?.(parsedDate);
-                setIsDateUpdating(true);
-                try {
-                    // Update order time with the delivery region name
-                    await updateDeliveryTime(store.id, date, time, validationResult.deliveryRegion?.name);
-                    
-                    addToast({
-                        description: t("deliveryTimeSelected"),
-                        color: "success",
-                        shouldShowTimeoutProgress: true,
-                        timeout: 1000,
-                    });
-                } catch (error) {
-                    console.error('Error updating delivery time:', error);
-                    addToast({
-                        description: t("errorUpdatingOrderTime"),
-                        color: "danger",
-                        shouldShowTimeoutProgress: true,
-                        timeout: 3000,
-                    });
-                } finally {
-                    setIsDateUpdating(false);
-                }
-            }
-            setSelectedGlobalDate?.(newDate);
-            setSelectedDate(newDate);
-        }
-    };
-
+    // Determine if we're submitting the address
+    const isSubmittingAddress = modalSubmissionStatus === 'validating' || modalSubmissionStatus === 'saving';
+    
     // Get the current delivery region's schedule for the SmartDatetimeInput
     const getDeliverySchedule = () => {
         if (validationResult.isInRange && validationResult.deliveryRegion?.deliverySchedule) {
@@ -356,7 +89,43 @@ export function StoreSubHeaderDelivery({ onLoadingStateChange, setSelectedGlobal
 
     // Updated loading state check
     const isLoading = isAddressLoading || isValidating;
-    const isSubmittingAddress = modalSubmissionStatus === 'validating' || modalSubmissionStatus === 'saving';
+
+    // Handle autocomplete focus/blur events
+    const handleAutocompleteFocus = () => {
+        setIsAutocompleteFocused(true);
+        console.log('Address autocomplete focused');
+    };
+    
+    const handleAutocompleteBlur = () => {
+        // Small delay to prevent closing modal when clicking a suggestion
+        setTimeout(() => {
+            if (!document.querySelector('.pac-container:hover')) {
+                setIsAutocompleteFocused(false);
+                console.log('Address autocomplete blurred');
+            }
+        }, 200);
+    };
+
+    // --- Custom onOpenChange Handler ---
+    const handleModalOpenChange = (open: boolean) => {
+        console.log(`Modal handleModalOpenChange called with open: ${open}, isSubmitting: ${isSubmittingAddress}, isAutocompleteFocused: ${isAutocompleteFocused}`);
+        
+        // Prevent closing if submitting or if autocomplete dropdown is focused
+        if (!open && (isSubmittingAddress || isAutocompleteFocused)) {
+            console.log('Preventing modal close due to submission or autocomplete focus.');
+            return; // Prevent closing
+        }
+
+        // If closing is allowed, reset the autocomplete focus state
+        if (!open) {
+            setIsAutocompleteFocused(false); // Reset focus state on allowed close
+            console.log('Resetting isAutocompleteFocused state as modal closes.');
+        }
+
+        // Call original handlers
+        originalOnOpenChange(); // originalOnOpenChange doesn't take arguments
+        resetModalStatus(open); // Reset delivery provider status
+    };
 
     return (
         <div className="flex flex-col w-full h-full justify-between max-w-[440px]">
@@ -453,7 +222,7 @@ export function StoreSubHeaderDelivery({ onLoadingStateChange, setSelectedGlobal
                                 return now("Europe/Amsterdam").add({ minutes: store.minTimeOrder || 2880 });
                             })()}
                             value={selectedDate}
-                            onValueChange={handleDateChange}
+                            onValueChange={(newDate) => handleDateChange(newDate)}
                             placeholder={t("scheduleDeliveryTime")}
                         >
                             <Button
@@ -466,14 +235,7 @@ export function StoreSubHeaderDelivery({ onLoadingStateChange, setSelectedGlobal
                                 className={`${
                                     selectedDate instanceof CalendarDateTime ? "text-default-600" : "text-white bg-gradient-primary"
                                 } text-sm transition-all duration-300`}
-                                onPress={() =>
-                                    addToast({
-                                        description: t("deliveryTimeSelected"),
-                                        color: "success",
-                                        shouldShowTimeoutProgress: true,
-                                        timeout: 1000,
-                                    })
-                                }
+                                onPress={() => {}}
                                 isDisabled={!showDeliveryInfo || isDateUpdating || isLoadingDate}
                             >
                                 {isLoadingDate ? (
@@ -488,42 +250,37 @@ export function StoreSubHeaderDelivery({ onLoadingStateChange, setSelectedGlobal
                     </ButtonGroup>
                 </>
             )}
-
-            {/* Address Input Modal */}
+            
+            {/* Address Modal */}
             <Modal 
                 isOpen={isOpen} 
-                onOpenChange={(open) => {
-                    // Prevent closing during submission
-                    if (!open && isSubmittingAddress) {
-                        return;
-                    }
-                    onOpenChange();
-                    handleModalStateChange(open);
-                }} 
-                placement="center" 
-                size="lg" 
+                onOpenChange={handleModalOpenChange}
+                placement="center"
                 backdrop="blur"
-                isDismissable={!isSubmittingAddress}
-                hideCloseButton={isSubmittingAddress}
+                scrollBehavior="inside"
+                size="lg"
+                classNames={{
+                    base: "max-w-xl",
+                }}
             >
                 <ModalContent>
-                    {(closeModal) => (
+                    {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">
-                                {t("enterDeliveryAddress")}
-                                {isSubmittingAddress && (
-                                    <div className="flex items-center text-xs text-default-500 mt-1 gap-4">
-                                        <Spinner size="sm" color="primary" className="mr-2" />
-                                        {modalSubmissionStatus === 'validating' ? t("validatingAddress") : t("savingAddress")}
-                                    </div>
-                                )}
+                            <ModalHeader>
+                                <div className="flex flex-col">
+                                    <h3 className="text-lg font-semibold">
+                                        {address.formattedAddress ? t("editDeliveryAddress") : t("enterDeliveryAddress")}
+                                    </h3>
+                                </div>
                             </ModalHeader>
-                            <ModalBody>
-                                <AddressForm
+                            <ModalBody className="px-6 pb-6">
+                                <AddressForm 
                                     initialAddress={address}
-                                    onSubmit={(formData) => handleAddressSubmit(formData, closeModal)}
-                                    isValidating={isSubmittingAddress}
-                                    validationError={validationResult.error}
+                                    isValidating={isValidating || isSubmittingAddress}
+                                    validationError={validationResult.message}
+                                    onAutocompleteFocus={handleAutocompleteFocus}
+                                    onAutocompleteBlur={handleAutocompleteBlur}
+                                    onClose={onClose}
                                 />
                             </ModalBody>
                         </>

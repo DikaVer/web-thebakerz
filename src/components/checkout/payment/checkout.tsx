@@ -35,7 +35,10 @@ export default function Checkout({ id, storeId, clientSecretParam, storeStripeAc
                 setIsLoading(true)
                 setError(null)
 
-                const response = await fetchClientSecret(storeId, storeStripeAccountId) as ClientSecretResponse
+                const response = await fetchClientSecret({
+                    storeId,
+                    storeStripeAccountId,
+                }) as ClientSecretResponse
 
                 if (typeof response === 'object' && 'error' in response) {
                     showErrorMessage({ error: response.error })

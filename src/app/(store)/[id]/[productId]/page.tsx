@@ -15,6 +15,9 @@ import {CartProvider} from "@/components/providers/cart-provider";
 import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 import {getCurrentProduct, getProductByStoreIdAndProductId} from "@/lib/actions/product";
 import {ProductPage} from "@/components/store/product-page/product-page";
+import {getDeliveryMode} from "@/lib/delivery-cookie";
+import {DeliveryProvider} from "@/components/providers/delivery-provider";
+import { getCurrentDeliveryAddress } from "../delivery-actions";
 
 interface StorePageProps {
     params: Promise<{
@@ -96,7 +99,8 @@ export default async function Page(props: StorePageProps) {
     }
 
     const cartData = await getCurrentCart(storeData.id);
-
+    const deliveryMode = await getDeliveryMode();
+    const savedAddress = await getCurrentDeliveryAddress(storeData.id);
 
     return (
         <CartProvider
@@ -109,22 +113,27 @@ export default async function Page(props: StorePageProps) {
                 <StoreProvider
                     store={storeData}
                 >
-                    <LayoutComp
-                        isVisibleCart={true}
-                        hideSideBar={true}
-                        store={storeData}
+                    <DeliveryProvider 
+                    initialDeliveryMode={deliveryMode === 'delivery'}
+                    initialAddress={savedAddress}
                     >
-                        <div className="flex flex-col min-h-screen relative z-10 items-center">
-                            <div className="flex flex-col container mx-auto items-center justify-center">
-                                <ProductPage
-                                    storeId={storeData.id}
-                                    productId={productId}
-                                />
+                        <LayoutComp
+                            isVisibleCart={true}
+                            hideSideBar={true}
+                            store={storeData}
+                        >
+                            <div className="flex flex-col min-h-screen relative z-10 items-center">
+                                <div className="flex flex-col container mx-auto items-center justify-center">
+                                    <ProductPage
+                                        storeId={storeData.id}
+                                        productId={productId}
+                                    />
+                                </div>
+                                <Spacer y={16}/>
                             </div>
-                            <Spacer y={16}/>
-                        </div>
-                        <FooterStore/>
-                    </LayoutComp>
+                            <FooterStore/>
+                        </LayoutComp>
+                    </DeliveryProvider>
                 </StoreProvider>
             </ProductDialogProvider>
         </CartProvider>

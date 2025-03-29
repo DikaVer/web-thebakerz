@@ -5,46 +5,39 @@ import {useStore} from "@/components/providers/store-provider";
 import {Link, Avatar, Spacer, Divider, Button, useDisclosure, cn, Switch, ButtonGroup, Spinner} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {pacifico} from "@/components/fonts";
-import {StoreSubHeader} from "@/components/store/store-header/store-subheader";
+import {DeliverySubheader} from "@/components/store/store-header/delivery-subheader";
 import {useMediaQuery} from "usehooks-ts";
 import {useSession} from "@/components/providers/session-provider";
 import StoreDescription from "@/components/store/store-header/description/store-description";
 import {useTranslations} from "next-intl";
 import {useRouter} from "next/navigation";
-import { setDeliveryMode, getDeliveryMode, type DeliveryMode } from '@/lib/delivery-cookie';
-import { useDebouncedCallback } from "use-debounce";
+import { useDelivery } from "@/components/providers/delivery-provider";
 
 interface StoreHeaderProps {
-    isDeliveryProps: boolean;
+
 }
 
-export function StoreHeader( { isDeliveryProps }: StoreHeaderProps) {
+export function StoreHeader( {  }: StoreHeaderProps) {
     const { store } = useStore();
     const { session } = useSession();
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const isSmall = useMediaQuery("(max-width: 960px)");
     const t = useTranslations("app/(store)/components/store-header");
     const router = useRouter();
-    const [isDelivery, setIsDelivery] = useState(isDeliveryProps);
-    const [isTogglingDelivery, setIsTogglingDelivery] = useState(false);
-    const [isSubheaderLoaded, setIsSubheaderLoaded] = useState(true);
+    
+    // Use delivery provider instead of local state
+    const { 
+        isDelivery,
+    } = useDelivery();
 
-    const handleDeliveryToggle = async (value: boolean) => {
-        // Skip if we're already toggling or if the value didn't change
-        if (isTogglingDelivery) return;
-
-        setIsTogglingDelivery(true);
-        setIsDelivery(value);
-        await setDeliveryMode(value ? 'delivery' : 'pickup');
-        setIsTogglingDelivery(false);
-    };
-
-    // Handler to update subheader loaded state
-    const handleSubheaderLoaded = (loaded: boolean) => {
-        if (loaded !== isSubheaderLoaded) {
-            setIsSubheaderLoaded(loaded);
-        }
-    };
+    // Check if user is a baker and owns this store
+    const isOwner = session?.user?.role === "bakerz" && 
+                   session?.store?.id && 
+                   store?.id && 
+                   session.store.id === store.id;
+    
+    // Determine if clicking on the header should trigger the cursor pointer style
+    const showCursorPointer = session?.user?.role === "bakerz";
 
     return (
         <div className="w-full max-w-screen-xl mx-auto flex flex-col">
@@ -52,13 +45,13 @@ export function StoreHeader( { isDeliveryProps }: StoreHeaderProps) {
                 className={`flex flex-row w-full justify-between`}
             >
                 <div className={cn("flex flex-row gap-x-4 justify-center",
-                    session?.user?.role === "bakerz" && "cursor-pointer"
+                    showCursorPointer && "cursor-pointer"
                 )}
                      onClick={(e) => {
                          e.preventDefault();
                          if (session?.user?.role !== "bakerz" && isSmall) {
                              onOpen();
-                         } else if (session?.user?.role === "bakerz" && session.store?.id === store.id) {
+                         } else if (isOwner) {
                              router.push("/settings");
                              router.refresh();
                          }
@@ -131,81 +124,7 @@ export function StoreHeader( { isDeliveryProps }: StoreHeaderProps) {
             </div>
             <Spacer y={4}/>
             <Divider/>
-            {(store.deliveryOption === "multi" && session?.user?.role !== "bakerz" && session.store?.id !== store.id) && (
-                <div className="flex items-center justify-end w-full py-4">
-                    <div className="relative p-1 rounded-xl bg-default-100 shadow-sm">
-                        <ButtonGroup className="relative z-10 overflow-hidden" isDisabled={isTogglingDelivery || !isSubheaderLoaded}>
-                            <Button
-                                disableRipple
-                                onPress={() => handleDeliveryToggle(false)}
-                                className={cn(
-                                    "min-w-32 transition-all duration-300 data-[hover=true]:bg-transparent",
-                                    !isDelivery ? "text-primary font-medium" : "text-default-500 font-normal",
-                                    isTogglingDelivery || !isSubheaderLoaded ? "opacity-50" : "opacity-100"
-                                )}
-                                variant="light"
-                                isDisabled={isTogglingDelivery || !isSubheaderLoaded}
-                            >
-                                <div className="flex items-center gap-2">
-                                    <Icon
-                                        icon="solar:shop-2-bold"
-                                        width={20}
-                                        height={20}
-                                        className={cn(
-                                            "transition-all duration-300",
-                                            !isDelivery ? "text-primary" : "text-default-500"
-                                        )}
-                                    />
-                                    <span className="text-sm">{t('pickup')}</span>
-                                </div>
-                            </Button>
-                            <Button
-                                disableRipple
-                                onPress={() => handleDeliveryToggle(true)}
-                                className={cn(
-                                    "min-w-32 transition-all duration-300 data-[hover=true]:bg-transparent",
-                                    isDelivery ? "text-primary font-medium" : "text-default-500 font-normal",
-                                    isTogglingDelivery || !isSubheaderLoaded ? "opacity-50" : "opacity-100"
-                                )}
-                                variant="light"
-                                isDisabled={isTogglingDelivery || !isSubheaderLoaded}
-                            >
-                                <div className="flex items-center gap-2">
-                                    <Icon
-                                        icon="solar:scooter-bold"
-                                        width={20}
-                                        height={20}
-                                        className={cn(
-                                            "transition-all duration-300",
-                                            isDelivery ? "text-primary" : "text-default-500"
-                                        )}
-                                    />
-                                    <span className="text-sm">{t('delivery')}</span>
-                                </div>
-                            </Button>
-                        </ButtonGroup>
-                        {/* Animated background pill */}
-                        <div 
-                            className={cn(
-                                "absolute top-1 bottom-1 w-[calc(50%-2px)] rounded-lg bg-default-50 dark:bg-default-700 shadow-md transition-all duration-300",
-                                isDelivery ? "translate-x-[calc(100%+2px)]" : "translate-x-[1px]"
-                            )}
-                            style={{ 
-                                left: 0
-                            }}
-                        />
-                    </div>
-                </div>
-            )}
-            {(session?.user?.role !== "bakerz" && session.store?.id !== store.id) ?
-                <StoreSubHeader 
-                    isDelivery={isDelivery} 
-                    key={`subheader-${isDelivery ? 'delivery' : 'pickup'}`}
-                    onLoadingStateChange={handleSubheaderLoaded}
-                />
-            :
-                <StoreSubHeader isDelivery={false} />
-            }
+            <DeliverySubheader/>
         </div>
     );
 }
