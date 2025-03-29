@@ -288,3 +288,5 @@ export const ProfileSettingsSchema = z
         }
     });
 
+export * from './address.schema';
+

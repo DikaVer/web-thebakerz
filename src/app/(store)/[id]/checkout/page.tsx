@@ -15,6 +15,7 @@ import {CartProvider} from "@/components/providers/cart-provider";
 import { ProductDialogProvider } from "@/components/providers/product-provider";
 import {StoreProvider} from "@/components/providers/store-provider";
 import LayoutComp from "@/components/layout-comp";
+import {getDeliveryMode} from "@/lib/delivery-cookie";
 
 interface StorePageProps {
     params: Promise<{
@@ -39,7 +40,7 @@ export default async function Page(props: StorePageProps) {
 
     const productsData: ProductDataFull = await getCurrentProducts(storeData.id);
 
-    const {date, time} = await getOrderTime(storeData.id)
+    const deliveryMode = await getDeliveryMode();
 
     return (
         <CartProvider
@@ -62,8 +63,7 @@ export default async function Page(props: StorePageProps) {
                                 <div className="flex flex-col min-h-screen relative z-10 items-center">
                                     <div className="flex flex-col container mx-auto items-center my-4 min-h-screen max-w-2xl">
                                         <CheckoutSteps
-                                            date={date}
-                                            time={time}
+                                            isDelivery={deliveryMode === 'delivery'}
                                         />
                                     </div>
                                 </div>

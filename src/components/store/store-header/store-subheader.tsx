@@ -7,24 +7,15 @@ import { getDeliveryMode } from "@/lib/delivery-cookie";
 import { CalendarDateTime, CalendarDate } from "@internationalized/date";
 
 interface StoreSubHeaderProps {
-    dateParam: string | null;
-    timeParam: string | null;
-    setSelectedDateGlobal?: (date: CalendarDateTime | CalendarDate | undefined) => void;
     isDelivery: boolean;
+    onLoadingStateChange?: (loaded: boolean) => void;
+    setSelectedGlobalDate?: (date: CalendarDateTime | CalendarDate | undefined) => void;
 }
 
-export function StoreSubHeader({ dateParam, timeParam, setSelectedDateGlobal, isDelivery }: StoreSubHeaderProps) {
+export function StoreSubHeader({ isDelivery, onLoadingStateChange, setSelectedGlobalDate }: StoreSubHeaderProps) {
     return isDelivery ? (
-        <StoreSubHeaderDelivery
-            dateParam={dateParam}
-            timeParam={timeParam}
-            setSelectedDateGlobal={setSelectedDateGlobal}
-        />
+        <StoreSubHeaderDelivery setSelectedGlobalDate={setSelectedGlobalDate} onLoadingStateChange={onLoadingStateChange}/>
     ) : (
-        <StoreSubHeaderPickUp
-            dateParam={dateParam}
-            timeParam={timeParam}
-            setSelectedDateGlobal={setSelectedDateGlobal}
-        />
+        <StoreSubHeaderPickUp  onLoadingStateChange={onLoadingStateChange}/>
     );
 }

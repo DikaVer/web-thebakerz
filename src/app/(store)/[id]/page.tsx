@@ -15,6 +15,7 @@ import {CartProvider} from "@/components/providers/cart-provider";
 import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 import {useTranslations} from "next-intl";
 import {getTranslations} from "next-intl/server";
+import {getDeliveryMode} from "@/lib/delivery-cookie";
 
 interface StorePageProps {
     params: Promise<{
@@ -40,7 +41,7 @@ export default async function Page(props: StorePageProps) {
 
     const cartData = await getCurrentCart(storeData.id);
 
-    const {date, time} = await getOrderTime(storeData.id);
+    const deliveryMode = await getDeliveryMode();
 
     return (
         <CartProvider
@@ -59,7 +60,7 @@ export default async function Page(props: StorePageProps) {
                         <div className="flex flex-col min-h-screen relative z-10 items-center">
                             <div className="flex flex-col container mx-auto items-center justify-center">
                                 <Spacer y={8}/>
-                                <StoreTop dateParam={date} timeParam={time}/>
+                                <StoreTop isDelivery={deliveryMode === 'delivery'}/>
                                 <Spacer y={8}/>
                                 <Suspense fallback={<ProductListSkeleton />}>
                                     <ProductComponentBase storeId={storeData.id} />

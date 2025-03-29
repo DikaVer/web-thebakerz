@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState, useCallback, useEffect } from "react";
-import { getMerchantDeliveryRegions, updateMerchantDeliveryRegions, DeliverySchedule } from "@/lib/actions/delivery-actions";
+import { getMerchantDeliveryRegions, updateMerchantDeliveryRegions} from "@/lib/actions/delivery-actions";
 import { Card, CardBody, CardHeader, addToast, Button, useDisclosure, Switch } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { cityLatLngMap } from "@/lib/local-variables";
 import { useSession } from "@/components/providers/session-provider";
 import { Time } from '@internationalized/date';
 import { updateStoreDeliveryOptions } from "@/lib/actions/store";
+import { WorkHours, WorkDay } from "@/lib/actions/calendar-actions";
 
 // Import separated components
 import CitySelector from "./delivery/CitySelector";
@@ -15,14 +16,31 @@ import DeliveryRangeSettings from "./delivery/DeliveryRangeSettings";
 import CityList from "./delivery/CityList";
 import MapView from "./delivery/MapView";
 import DeliveryScheduleModal from "./delivery/DeliveryScheduleModal";
-import { DeliveryCity } from "./delivery/types";
+import { DeliveryCity as DeliveryCityType } from "./delivery/types";
 import { eurosToCents } from "./delivery/utils";
 
 type DeliveryOption = 'pickup' | 'delivery' | 'multi';
 
+// Create an empty WorkHours object with the right structure
+const defaultWorkDay: WorkDay = {
+  isEnabled: false,
+  start: { hour: 9, minute: 0 },
+  end: { hour: 17, minute: 0 }
+};
+
+const emptyWorkHours: WorkHours = {
+  monday: { ...defaultWorkDay },
+  tuesday: { ...defaultWorkDay },
+  wednesday: { ...defaultWorkDay },
+  thursday: { ...defaultWorkDay },
+  friday: { ...defaultWorkDay },
+  saturday: { ...defaultWorkDay },
+  sunday: { ...defaultWorkDay }
+};
+
 const DeliveryManager = () => {
   const { session } = useSession();
-  const [deliveryCities, setDeliveryCities] = useState<DeliveryCity[]>([]);
+  const [deliveryCities, setDeliveryCities] = useState<DeliveryCityType[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [updatingOptions, setUpdatingOptions] = useState(false);
@@ -30,8 +48,8 @@ const DeliveryManager = () => {
   const [deliveryRange, setDeliveryRange] = useState(10); // Default delivery range 10km
   const [deliveryPriceInCents, setDeliveryPriceInCents] = useState(500); // Default delivery price 5€ in cents
   const [minOrderPriceInCents, setMinOrderPriceInCents] = useState(1000); // Default minimum order price 10€ in cents
-  const [currentCityForSchedule, setCurrentCityForSchedule] = useState<DeliveryCity | null>(null);
-  const [deliverySchedule, setDeliverySchedule] = useState<DeliverySchedule>({});
+  const [currentCityForSchedule, setCurrentCityForSchedule] = useState<DeliveryCityType | null>(null);
+  const [deliverySchedule, setDeliverySchedule] = useState<WorkHours>(emptyWorkHours);
   const [isPickupEnabled, setIsPickupEnabled] = useState(true);
   const [isDeliveryEnabled, setIsDeliveryEnabled] = useState(false);
   const {isOpen: isScheduleModalOpen, onOpen: openScheduleModal, onClose: closeScheduleModal} = useDisclosure();
@@ -56,7 +74,7 @@ const DeliveryManager = () => {
             priceInCents: region.priceInCents,
             minOrderPriceInCents: region.minOrderPriceInCents || 1000, // Default to 10€ if not set
             coordinates: region.coordinates,
-            deliverySchedule: region.deliverySchedule || {}
+            deliverySchedule: region.deliverySchedule || {...emptyWorkHours}
           }));
           setDeliveryCities(cities);
         } else {
@@ -101,7 +119,7 @@ const DeliveryManager = () => {
         priceInCents: city.priceInCents,
         minOrderPriceInCents: city.minOrderPriceInCents,
         coordinates: city.coordinates,
-        deliverySchedule: city.deliverySchedule
+        deliverySchedule: city.deliverySchedule || {...emptyWorkHours}
       }));
       
       // Update the merchant's delivery regions
@@ -243,7 +261,7 @@ const DeliveryManager = () => {
         priceInCents: deliveryPriceInCents,
         minOrderPriceInCents: minOrderPriceInCents,
         coordinates: cityLatLngMap[selectedCityForRange],
-        deliverySchedule: {}
+        deliverySchedule: undefined
       }]);
     }
     
@@ -264,9 +282,9 @@ const DeliveryManager = () => {
   };
 
   // Open modal for managing delivery schedule for a city
-  const handleManageSchedule = (city: DeliveryCity) => {
+  const handleManageSchedule = (city: DeliveryCityType) => {
     setCurrentCityForSchedule(city);
-    setDeliverySchedule(city.deliverySchedule || {});
+    setDeliverySchedule(city.deliverySchedule || { ...emptyWorkHours });
     openScheduleModal();
   };
 
@@ -275,7 +293,7 @@ const DeliveryManager = () => {
     day: string,
     data: { isEnabled: boolean; startTime: Time | null; endTime: Time | null }
   ) => {
-    setDeliverySchedule((prev) => ({
+    setDeliverySchedule((prev: WorkHours) => ({
       ...prev,
       [day]: {
         isEnabled: data.isEnabled,
@@ -295,7 +313,7 @@ const DeliveryManager = () => {
 
     const updatedCities = deliveryCities.map(city => 
       city.name === currentCityForSchedule.name 
-        ? { ...city, deliverySchedule: deliverySchedule } 
+        ? { ...city, deliverySchedule } 
         : city
     );
     

@@ -1,140 +1,181 @@
 // components/LocationMap.tsx
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import * as atlas from "azure-maps-control";
-import Head from "next/head";
-import {useTranslations} from "next-intl";
+import React, { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import Script from "next/script";
+import { Icon } from "@iconify/react";
 
 interface LocationMapProps {
     latitude: number;
     longitude: number;
     zoom?: number;
-    width?: number;
     height?: number;
     className?: string;
+    onMapLoaded: () => void;
 }
 
-// Helper function to generate a circle polygon around a center coordinate.
-// radius is in meters and steps defines the number of points in the circle.
-const getCirclePolygon = (center: number[], radius: number, steps: number = 64) => {
-    const coordinates: number[][] = [];
-    const earthRadius = 6371000; // Earth radius in meters
-    const lat = center[1] * Math.PI / 180;
-    const lon = center[0] * Math.PI / 180;
-
-    for (let i = 0; i <= steps; i++) {
-        const angle = i * 360 / steps * Math.PI / 180;
-        // Compute the offset in radians.
-        const dx = radius * Math.cos(angle) / earthRadius;
-        const dy = radius * Math.sin(angle) / earthRadius;
-        // Adjust the lat and lon.
-        const newLat = lat + dy;
-        const newLon = lon + dx / Math.cos(lat);
-        coordinates.push([newLon * 180 / Math.PI, newLat * 180 / Math.PI]);
-    }
-
-    return new atlas.data.Polygon([coordinates]);
-};
-
 const LocationMap: React.FC<LocationMapProps> = ({
-                                                     latitude,
-                                                     longitude,
-                                                        zoom = 12,
-                                                     width = 460,
-                                                     height = 160,
-                                                     className,
-                                                 }) => {
-    const mapRef = useRef<HTMLDivElement>(null);
-    const subscriptionKey = process.env.NEXT_PUBLIC_AZURE_MAPS_KEY;
+    latitude,
+    longitude,
+    zoom = 15,
+    height = 147,
+    onMapLoaded,
+    className,
+}) => {
     const t = useTranslations("app/(store)/components/location-map");
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    const mapRef = useRef<HTMLDivElement>(null);
+    const mapInstanceRef = useRef<google.maps.Map | null>(null);
+    const markerRef = useRef<google.maps.Marker | null>(null);
+    const circlesRef = useRef<google.maps.Circle[]>([]);
+    const iconUrlRef = useRef<string | null>(null);
 
-    // Apply MS map
+
+    // Create custom marker element using the exact Iconify icon
+    const createCustomMarker = () => {
+        if (!mapInstanceRef.current) return;
+        
+        // Create pure SVG for the marker with the correct shop icon - light blue background with white icon
+        const iconSvg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+            <circle cx="16" cy="16" r="16" fill="#730c70" />
+            <g fill="none" stroke="white" stroke-width="1.5"  transform="translate(6, 6) scale(0.8)">
+                <path stroke-linecap="round" d="M22 22H2m18 0V11M4 22V11" />
+                <path stroke-linejoin="round" d="M16.528 2H7.472c-1.203 0-1.804 0-2.287.299c-.484.298-.753.836-1.29 1.912L2.49 7.76c-.324.82-.608 1.786-.062 2.479A2 2 0 0 0 6 9a2 2 0 1 0 4 0a2 2 0 1 0 4 0a2 2 0 1 0 4 0a2 2 0 0 0 3.571 1.238c.546-.693.262-1.659-.062-2.479l-1.404-3.548c-.537-1.076-.806-1.614-1.29-1.912C18.332 2 17.731 2 16.528 2Z" />
+                <path stroke-linecap="round" d="M9.5 21.5v-3c0-.935 0-1.402.201-1.75a1.5 1.5 0 0 1 .549-.549C10.598 16 11.065 16 12 16s1.402 0 1.75.201a1.5 1.5 0 0 1 .549.549c.201.348.201.815.201 1.75v3" />
+            </g>
+        </svg>`;
+        
+        // Create a blob URL for the SVG
+        const blob = new Blob([iconSvg], {type: 'image/svg+xml'});
+        const iconUrl = URL.createObjectURL(blob);
+        iconUrlRef.current = iconUrl;
+        
+        // Create the marker with proper configuration - properly centered
+        const marker = new google.maps.Marker({
+            position: { lat: latitude, lng: longitude },
+            map: mapInstanceRef.current,
+            icon: {
+                url: iconUrl,
+                scaledSize: new google.maps.Size(32, 32),
+                anchor: new google.maps.Point(16, 16) // Center point of the marker
+            },
+            optimized: false,
+            clickable: false,
+            zIndex: 10
+        });
+        markerRef.current = marker;
+        
+        // Create circles with consistent configuration
+        const createCircle = (radius: number, fillOpacity: number, zIndex: number) => {
+            const circle = new google.maps.Circle({
+                strokeWeight: 0,
+                fillColor: "#730c70",
+                fillOpacity,
+                map: mapInstanceRef.current,
+                center: { lat: latitude, lng: longitude },
+                radius,
+                zIndex,
+                clickable: false
+            });
+            circlesRef.current.push(circle);
+            return circle;
+        };
+        
+        // Create the four circles with different radii and opacities
+        createCircle(80, 0.25, 5);  // First circle (closest to marker)
+        createCircle(120, 0.2, 4);  // Second circle
+        createCircle(160, 0.1, 3);  // Third circle
+        createCircle(200, 0.05, 2); // Fourth circle (outermost)
+    };
+
+    // Initialize map once script is loaded
+    const initializeMap = () => {
+        if (!mapRef.current || mapInstanceRef.current) return;
+
+        const mapOptions = {
+            center: { lat: latitude, lng: longitude },
+            zoom: zoom,
+            disableDefaultUI: true,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            
+            // Disable all interactions
+            draggable: false,
+            scrollwheel: false,
+            disableDoubleClickZoom: true,
+            gestureHandling: 'none',
+            keyboardShortcuts: false,
+            
+            styles: [
+                { "featureType": "poi", "elementType": "all", "stylers": [{ "visibility": "off" }] },
+                { "featureType": "transit", "elementType": "all", "stylers": [{ "visibility": "off" }] },
+                { "featureType": "road", "elementType": "all", "stylers": [{ "saturation": 40 }, { "lightness": 40 }] },
+                { "featureType": "water", "elementType": "all", "stylers": [{ "color": "#d3eaf8" }] }
+            ]
+        };
+
+        // Create the map
+        const map = new google.maps.Map(mapRef.current, mapOptions);
+        
+        // Make sure the map is properly centered after it loads
+        google.maps.event.addListenerOnce(map, 'idle', () => {
+            map.setCenter({ lat: latitude, lng: longitude });
+            mapInstanceRef.current = map;
+            onMapLoaded?.();
+            createCustomMarker();
+        });
+    };
+
+
+    // Initialize map when Google Maps script is loaded
     useEffect(() => {
-        // Create a link element
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css';
-        link.type = 'text/css';
-        document.head.appendChild(link);
+        if (window.google?.maps) {
+            initializeMap();
+        }
+        
+        // Clean up map on unmount
+        return () => {
+            if (mapInstanceRef.current) {
+                mapInstanceRef.current = null;
+            }
+        };
     }, []);
 
-    useEffect(() => {
-        if (!mapRef.current) return;
-
-        // Initialize the map
-        const map = new atlas.Map(mapRef.current, {
-            autoResize: true,
-            zoom: zoom,
-            center: [longitude, latitude],
-            authOptions: {
-                authType: atlas.AuthenticationType.subscriptionKey,
-                subscriptionKey: subscriptionKey || "YOUR_AZURE_MAPS_SUBSCRIPTION_KEY",
-            },
-            showFeedbackLink: false,
-            showLogo: false,
-            // Disable user interactions (drag, zoom, etc.)
-            style: "grayscale_light",
-            interactive: false,
-        });
-
-        map.events.add("ready", () => {
-            // Define your custom SVG for the pin.
-            const customPinHtml = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
-                  <!-- Background circle filled with #730c70 -->
-                  <circle cx="12" cy="12" r="12" fill="#730c70" />
-                  <rect width="24" height="24" fill="none"/>
-                  <!-- Group with transform to scale down the inner icon -->
-                  <g transform="translate(5, 5) scale(0.6)" fill="none" stroke="#fff" stroke-width="2">
-                    <path d="M3.5 11v3c0 3.771 0 5.657 1.172 6.828S7.729 22 11.5 22h1c3.771 0 5.657 0 6.828-1.172S20.5 17.771 20.5 14v-3"/>
-                    <path d="M9.5 2h5l.652 6.517a3.167 3.167 0 1 1-6.304 0z"/>
-                    <path d="M3.33 5.351c.178-.89.267-1.335.448-1.696a3 3 0 0 1 1.888-1.548C6.056 2 6.51 2 7.418 2H9.5l-.725 7.245a3.06 3.06 0 1 1-6.043-.904zm17.34 0c-.178-.89-.267-1.335-.448-1.696a3 3 0 0 0-1.888-1.548C17.944 2 17.49 2 16.582 2H14.5l.725 7.245a3.06 3.06 0 1 0 6.043-.904z"/>
-                    <path stroke-linecap="round" d="M9.5 21.5v-3c0-.935 0-1.402.201-1.75a1.5 1.5 0 0 1 .549-.549C10.598 16 11.065 16 12 16s1.402 0 1.75.201a1.5 1.5 0 0 1 .549.549c.201.348.201.815.201 1.75v3"/>
-                  </g>
-                </svg>
-            `;
-
-
-
-            // Create a circle polygon around the pin (for example, radius 500 meters).
-            const circlePolygon1 = getCirclePolygon([longitude, latitude], 300);
-            const circlePolygon2 = getCirclePolygon([longitude, latitude], 400);
-            const circlePolygon3 = getCirclePolygon([longitude, latitude], 500);
-
-            // Create a data source, add the circle polygon, and add it to the map.
-            const dataSource = new atlas.source.DataSource();
-            dataSource.add(circlePolygon1);
-            dataSource.add(circlePolygon2);
-            dataSource.add(circlePolygon3);
-            map.sources.add(dataSource);
-
-            // Add a polygon layer to render the circle.
-            map.layers.add(new atlas.layer.PolygonLayer(dataSource, "polygon-layer", {
-                fillColor: "rgba(115,12,112,0.3)",
-                strokeColor: "#730c70",
-                strokeWidth: 2,
-                filter: ['any', ['==', ['geometry-type'], 'Polygon']]
-            }));
-
-            // Add the custom pin marker at the specified location.
-            const marker = new atlas.HtmlMarker({
-                position: [longitude, latitude - 0.0018],
-                htmlContent: customPinHtml,
-            });
-            map.markers.add(marker);
-        });
-
-        return () => map.dispose();
-    }, [latitude, longitude, zoom, subscriptionKey]);
 
     return (
         <>
-            <a href={`https://www.google.com/maps?q=${latitude},${longitude}`} aria-label={t("viewOnGoogleMaps")}>
-                <div
-                    ref={mapRef}
-                    style={{width: `${width}px`, height: `${height}px`}}
-                />
+            <Script 
+                src={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`}
+                onLoad={initializeMap}
+                strategy="lazyOnload"
+            />
+            <a 
+                href={`https://www.google.com/maps?q=${latitude},${longitude}`} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label={t("viewOnGoogleMaps")}
+                className={`block overflow-hidden rounded-xl rounded-t-none shadow-lg relative hover:shadow-xl transition-shadow duration-300 ${className}`}
+            >
+                <div className="relative" style={{ width: '100%', height: `${height}px` }}>
+                    <div 
+                        ref={mapRef} 
+                        className="w-full h-full rounded-xl rounded-t-none"
+                    >
+                        {/* Fallback content while map loads */}
+                        <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                            <span className="text-gray-400">{t("storeLocation")}</span>
+                        </div>
+                    </div>
+                    <div className="absolute inset-0 rounded-xl rounded-t-none border border-default-100 pointer-events-none"></div>
+                    <div className="absolute top-3 right-3 bg-black/70 text-white text-xs font-medium px-3 py-1.5 rounded-lg backdrop-blur-sm transition-transform hover:scale-105 flex items-center">
+                        <Icon icon="solar:map-arrow-right-bold" className="mr-1.5 text-secondary" />
+                        {t("viewOnGoogleMaps")}
+                    </div>
+                </div>
             </a>
         </>
     );

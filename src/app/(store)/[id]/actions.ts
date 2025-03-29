@@ -1,5 +1,5 @@
 "use server";
-import {cookies} from "next/headers";
+import { cookies } from 'next/headers';
 
 export async function updateOrderTime(storeId: string, date: string, time: string) {
     const cookieStore = await cookies();
@@ -8,6 +8,17 @@ export async function updateOrderTime(storeId: string, date: string, time: strin
         httpOnly: false
     });
     cookieStore.set(`orderTime_${storeId}`, time, {
+        httpOnly: false
+    });
+}
+
+export async function updateDeliveryTime(storeId: string, date: string, time: string, location: string) {
+    const cookieStore = await cookies();
+
+    cookieStore.set(`deliveryDate_${storeId}_${location}`, date, {
+        httpOnly: false
+    });
+    cookieStore.set(`deliveryTime_${storeId}_${location}`, time, {
         httpOnly: false
     });
 }
@@ -21,26 +32,13 @@ export async function getOrderTime(storeId: string) {
     }
 }
 
-export async function updateDeliveryAddress(
-    storeId: string, 
-    address: {
-        street: string,
-        houseNumber: string,
-        city: string,
-        zipCode: string,
-        additionalInfo?: string
-    }
-) {
-    "use server";
-    
-    // Here you would store the delivery address in the database or session
-    // For now, we'll just store it in a cookie
-    
+export async function getDeliveryTime(storeId: string, location: string) {
     const cookieStore = await cookies();
-    cookieStore.set(`delivery_address_${storeId}`, JSON.stringify(address), {
-        path: '/',
-        maxAge: 30 * 24 * 60 * 60, // 30 days
-    });
-    
-    return { success: true };
+
+    return {
+        date: cookieStore.get(`deliveryDate_${storeId}_${location}`)?.value ?? null,
+        time: cookieStore.get(`deliveryTime_${storeId}_${location}`)?.value ?? null
+    }
 }
+
+

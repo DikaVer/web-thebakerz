@@ -4,12 +4,12 @@ import React from "react";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { Time } from '@internationalized/date';
-import { DeliverySchedule } from "@/lib/actions/delivery-actions";
 import DayDeliveryTime from "./DayDeliveryTime";
+import {WorkDay, WorkHours} from "@/lib/actions/calendar-actions";
 
 interface DeliveryCity {
   name: string;
-  deliverySchedule: DeliverySchedule;
+  deliverySchedule?: WorkHours;
 }
 
 interface DeliveryScheduleModalProps {
@@ -17,7 +17,7 @@ interface DeliveryScheduleModalProps {
   onClose: () => void;
   onSave: () => void;
   city: DeliveryCity | null;
-  deliverySchedule: DeliverySchedule;
+  deliverySchedule: WorkHours;
   setDeliveryTime: (
     day: string,
     data: { isEnabled: boolean; startTime: Time | null; endTime: Time | null }
@@ -42,6 +42,7 @@ const DeliveryScheduleModal: React.FC<DeliveryScheduleModalProps> = ({
       isOpen={isOpen} 
       onClose={onClose}
       size="md"
+      backdrop="blur"
     >
       <ModalContent>
         <ModalHeader>{t("manageDeliverySchedule")} - {city?.name}</ModalHeader>

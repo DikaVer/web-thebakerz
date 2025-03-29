@@ -1,34 +1,12 @@
 'use server';
 
 import { containerDeliveryRegions } from "@/db";
-import {revalidatePath, revalidateTag} from "next/cache";
-import {getCurrentSession} from "@/lib/actions/session";
+import { revalidateTag } from "next/cache";
+import { getCurrentSession } from "@/lib/actions/session";
 import { DeliveryRegionsSchema } from "@/lib/schemas/delivery.schema";
+import { WorkHours } from "@/lib/actions/calendar-actions";
 
-export interface DeliveryRegion {
-  id: string;
-  name: string;
-  code: string;
-  description?: string;
-}
 
-// Interface for time schedule
-export interface TimeRange {
-  isEnabled: boolean;
-  start: { hour: number; minute: number };
-  end: { hour: number; minute: number };
-}
-
-// Interface for weekly schedule
-export interface DeliverySchedule {
-  monday?: TimeRange;
-  tuesday?: TimeRange;
-  wednesday?: TimeRange;
-  thursday?: TimeRange;
-  friday?: TimeRange;
-  saturday?: TimeRange;
-  sunday?: TimeRange;
-}
 
 export interface MerchantDeliveryRegion {
   id: string;
@@ -38,9 +16,8 @@ export interface MerchantDeliveryRegion {
   priceInCents: number;
   minOrderPriceInCents: number;
   coordinates: { lat: number, lng: number };
-  deliverySchedule: DeliverySchedule;
+  deliverySchedule: WorkHours;
 }
-
 
 export async function getMerchantDeliveryRegions(storeId: string) {
   try {
@@ -61,7 +38,7 @@ export async function updateMerchantDeliveryRegions(
     priceInCents: number; 
     minOrderPriceInCents: number;
     coordinates: { lat: number, lng: number }; 
-    deliverySchedule: DeliverySchedule;
+    deliverySchedule: WorkHours | undefined;
   }[]
 ) {
   try {
@@ -72,6 +49,7 @@ export async function updateMerchantDeliveryRegions(
       console.error("Validation error:", validationResult.error);
       throw new Error("Invalid delivery region data");
     }
+
 
     const { store } = await getCurrentSession();
     if (!store) {

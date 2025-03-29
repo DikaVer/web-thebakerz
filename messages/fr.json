@@ -281,7 +281,8 @@
     "phone": "Téléphone"
   },
   "app/(store)/components/location-map": {
-    "viewOnGoogleMaps": "Voir sur Google Maps"
+    "viewOnGoogleMaps": "Voir sur Google Maps",
+    "storeLocation": "Emplacement du magasin"
   },
   "app/(store)/components/working-hours": {
     "noScheduleAvailable": "Aucun horaire disponible",
@@ -330,44 +331,41 @@
     "addItem": "Ajouter un élément"
   },
   "app/(store)/components/store-subheader": {
-    "addressPlaceholder": "Espace réservé à l'adresse",
-    "locationPlaceholder": "Espace réservé à la localisation",
-    "scheduleOrderTime": "Horaire de la commande",
-    "pickUpOptionSelected": "Option de collecte sélectionnée",
-    "pickUpAt": "Collecte à",
-    "selectPickUpTime": "Sélectionnez l'heure de prise en charge",
-    "pickup": "Récupérer",
     "delivery": "Livraison",
-    "enterDeliveryAddressPrompt": "Veuillez saisir votre adresse de livraison",
-    "enterAddress": "Saisir l'adresse",
-    "changeAddress": "Modifier",
-    "enterDeliveryAddress": "Saisir l'adresse de livraison",
-    "street": "Rue",
-    "enterStreet": "Saisissez le nom de la rue",
-    "houseNumber": "Maison #",
-    "enterHouseNumber": "Saisissez le numéro de maison",
-    "zipCode": "Code postal",
-    "enterZipCode": "Saisissez le code postal",
-    "city": "Ville",
-    "enterCity": "Saisissez la ville",
-    "additionalInfo": "Informations supplémentaires (facultatif)",
-    "enterAdditionalInfo": "Numéro d'appartement, étage, instructions de livraison, etc.",
-    "cancel": "Annuler",
-    "confirm": "Confirmer",
-    "validatingAddress": "Vérification si votre adresse est dans notre zone de livraison...",
-    "addressInRange": "Votre adresse est dans notre zone de livraison !",
-    "addressNotInRange": "Désolé, votre adresse est en dehors de notre zone de livraison",
-    "errorCheckingAddress": "Erreur lors de la vérification de la zone de livraison. Veuillez réessayer.",
-    "invalidAddressFields": "Veuillez remplir tous les champs d'adresse obligatoires",
-    "deliveryDetails": "Détails de livraison",
-    "deliveryArea": "Zone de livraison",
+    "deliveryTo": "Livraison à",
+    "pickup": "Retrait",
+    "pickupAt": "Retrait à",
+    "userNotLoggedIn": "Utilisateur non connecté",
     "deliveryFee": "Frais de livraison",
     "minimumOrder": "Commande minimum",
-    "enterAddressToSeeDeliveryOptions": "Saisissez votre adresse pour voir les options de livraison",
-    "scheduleDeliveryTime": "Planifiez votre heure de livraison",
+    "deliveryHours": "Heures de livraison",
+    "enterDeliveryAddressPrompt": "Entrez l'adresse de livraison",
+    "enterDeliveryAddress": "Entrez l'adresse de livraison",
+    "noDeliveryAddressYet": "Pas encore d'adresse de livraison",
+    "enterAddressToSeeDeliveryOptions": "Entrez votre adresse pour voir les options de livraison",
+    "addressInRange": "Votre adresse est dans la zone de livraison",
+    "addressNotInRange": "Votre adresse est en dehors de la zone de livraison",
+    "loadingAddress": "Chargement de l'adresse...",
+    "loadingDeliveryOptions": "Chargement des options de livraison...",
+    "errorCheckingAddress": "Erreur lors de la vérification de l'adresse",
+    "errorSavingAddress": "Erreur lors de l'enregistrement de l'adresse",
+    "errorUpdatingOrderTime": "Erreur lors de la mise à jour de l'heure de livraison",
     "deliveryTimeSelected": "Heure de livraison sélectionnée",
     "deliverAt": "Livrer à",
-    "selectDeliveryTime": "Sélectionnez l'heure de livraison"
+    "selectDeliveryTime": "Sélectionner l'heure de livraison",
+    "scheduleDeliveryTime": "Planifier l'heure de livraison",
+    "monday": "Lundi",
+    "tuesday": "Mardi",
+    "wednesday": "Mercredi",
+    "thursday": "Jeudi",
+    "friday": "Vendredi",
+    "saturday": "Samedi",
+    "sunday": "Dimanche",
+    "cancel": "Annuler",
+    "additionalInfo": "Informations supplémentaires",
+    "storeOpen": "Store Open",
+    "storeClosed": "Magasin fermé",
+    "pickUp": "Ramasser"
   },
   "app/(store)/components/store-top": {
     "addItem": "Ajouter un élément"
@@ -584,7 +582,10 @@
     "savePickUpDetails": "Enregistrer les détails de la collecte",
     "loadingPaymentGateway": "Chargement de la passerelle de paiement...",
     "unableToInitializePayment": "Impossible d'initialiser la passerelle de paiement",
-    "returnToCheckout": "Retour à la caisse"
+    "returnToCheckout": "Retour à la caisse",
+    "pickup": "Ramasser",
+    "delivery": "Livraison",
+    "saveDeliveryDetails": "Enregistrer les détails de ramassage"
   },
   "app/(store)/components/image": {
     "close": "Fermer",
@@ -1117,5 +1118,17 @@
     "optionsUpdateError": "Échec de la mise à jour des options de livraison",
     "invalidCity": "Ville invalide sélectionnée",
     "minOrderPriceError": "Le prix minimum de commande doit être d'au moins 10€"
+  },
+  "app/(store)/components/delivery-map": {
+    "loadingMap": "Chargement de la carte...",
+    "mapError": "Impossible de charger la carte",
+    "routeCalculation": "Calcul de l'itinéraire de livraison",
+    "distanceInfo": "Distance : {distance} km",
+    "errorSavingAddress": "Erreur lors de l'enregistrement de l'adresse",
+    "errorValidatingAddress": "Erreur lors de la validation de l'adresse",
+    "savingAddress": "Enregistrement de l'adresse...",
+    "validatingAddress": "Validation de l'adresse...",
+    "maxCharsExceeded": "{field} ne peut pas dépasser {max} caractères",
+    "errorUpdatingOrderTime": "Erreur lors de la mise à jour de l'heure de livraison"
   }
 }

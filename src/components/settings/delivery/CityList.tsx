@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { formatCurrency } from "@/lib/utils";
-import { DeliverySchedule } from "@/lib/actions/delivery-actions";
+import { WorkHours } from "@/lib/actions/calendar-actions";
 import {formatTime} from "@/components/settings/delivery/utils";
 
 interface DeliveryCity {
@@ -13,7 +13,7 @@ interface DeliveryCity {
   priceInCents: number;
   minOrderPriceInCents: number;
   coordinates: { lat: number, lng: number };
-  deliverySchedule: DeliverySchedule;
+  deliverySchedule?: WorkHours;
 }
 
 interface CityListProps {
@@ -32,16 +32,18 @@ const CityList: React.FC<CityListProps> = ({
   const whT = useTranslations("Working Hours");
 
   // Get a summary of the delivery schedule for display
-  const getScheduleSummary = (schedule: DeliverySchedule) => {
+  const getScheduleSummary = (schedule?: WorkHours) => {
+    if (!schedule) return <div>{t("noDeliveryDays")}</div>;
+    
     const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    const enabledDays = daysOfWeek.filter(day => schedule[day as keyof DeliverySchedule]?.isEnabled);
+    const enabledDays = daysOfWeek.filter(day => schedule[day as keyof WorkHours]?.isEnabled);
     if (enabledDays.length === 0) return <div>{t("noDeliveryDays")}</div>;
     if (enabledDays.length === 7) return <div>{t("deliveryAllWeek")}</div>;
 
     return (
       <div className="grid gap-1 max-w-xs">
         {enabledDays.map(day => {
-          const daySchedule = schedule[day as keyof DeliverySchedule];
+          const daySchedule = schedule[day as keyof WorkHours];
           if (!daySchedule) return null;
           return (
             <div key={day} className="flex justify-between text-xs">

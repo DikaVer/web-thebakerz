@@ -2,7 +2,7 @@
 import {connectionPool} from "@/db";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
 import {getCurrentSession} from "@/lib/actions/session";
-import { getMerchantDeliveryRegions } from "@/lib/actions/delivery-actions";
+import { getMerchantDeliveryRegions, MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
 import {revalidateTag} from "next/cache";
 
 export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData | null> {
@@ -50,21 +50,14 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             })
             .catch((error) => console.error("Error reading item:", error));
 
-        // Fetch delivery locations
-        let deliveryLocations: DeliveryLocation[] = [];
+        // Fetch delivery regions
+        let deliveryRegions: MerchantDeliveryRegion[] = [];
         try {
-            // Get delivery locations from Cosmos DB
-            const regions = await getMerchantDeliveryRegions(storeRow.id);
-            deliveryLocations = regions.map(region => ({
-                name: region.name,
-                radiusKm: region.radiusKm,
-                priceInCents: region.priceInCents,
-                minOrderPriceInCents: region.minOrderPriceInCents,
-                deliverySchedule: region.deliverySchedule
-            }));
+            // Get delivery regions from Cosmos DB
+            deliveryRegions = await getMerchantDeliveryRegions(storeRow.id);
         } catch (error) {
-            console.error("Error fetching delivery locations:", error);
-            // Continue with empty array if delivery locations can't be fetched
+            console.error("Error fetching delivery regions:", error);
+            // Continue with empty array if delivery regions can't be fetched
         }
 
         return {
@@ -84,7 +77,7 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             deliveryOption: storeRow.delivery_option,
             location,  // This is of type LocationData
             schedule,
-            deliveryLocations,
+            deliveryRegions,
         };
     } catch (error) {
         console.error("Error fetching store data:", error);
@@ -163,21 +156,14 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
 
     // Build the store object.
     if (rowS){
-        // Fetch delivery locations
-        let deliveryLocations: DeliveryLocation[] = [];
+        // Fetch delivery regions
+        let deliveryRegions: MerchantDeliveryRegion[] = [];
         try {
-            // Get delivery locations from Cosmos DB
-            const regions = await getMerchantDeliveryRegions(rowS.store_id);
-            deliveryLocations = regions.map(region => ({
-                name: region.name,
-                radiusKm: region.radiusKm,
-                priceInCents: region.priceInCents,
-                minOrderPriceInCents: region.minOrderPriceInCents,
-                deliverySchedule: region.deliverySchedule
-            }));
+            // Get delivery regions from Cosmos DB
+            deliveryRegions = await getMerchantDeliveryRegions(rowS.store_id);
         } catch (error) {
-            console.error("Error fetching delivery locations:", error);
-            // Continue with empty array if delivery locations can't be fetched
+            console.error("Error fetching delivery regions:", error);
+            // Continue with empty array if delivery regions can't be fetched
         }
 
         store = {
@@ -199,13 +185,14 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 latitude: rowS.store_latitude,
                 longitude: rowS.store_longitude
             },
-            deliveryLocations
+            deliveryRegions
         };
 
         await getScheduleById(store.id, store.id)
             .then((item) => {
                 if(item?.schedule){
                     schedule = item.schedule;
+                    store!.schedule = item.schedule;
                 }
             })
             .catch((error) => console.error("Error reading item:", error));
@@ -318,6 +305,15 @@ export interface LocationBusiness {
     country: string;
 }
 
+export interface LocationData {
+    route: string;
+    city: string;
+    country: string;
+    latitude: number;
+    longitude: number;
+    zipCode: string;
+}
+
 export interface StoreData {
     id: string;
     kor: boolean;
@@ -334,41 +330,8 @@ export interface StoreData {
     minTimeOrder: number;
     location: LocationData;
     schedule?: WorkHours;
-    deliveryLocations: DeliveryLocation[];
+    deliveryRegions: MerchantDeliveryRegion[];
     deliveryOption?: 'pickup' | 'delivery' | 'multi';
-}
-
-export interface DeliveryLocation {
-    name: string;
-    radiusKm: number;
-    priceInCents: number;
-    minOrderPriceInCents: number;
-    deliverySchedule: DeliverySchedule;
-}
-
-export interface DeliverySchedule {
-    monday?: TimeRange;
-    tuesday?: TimeRange;
-    wednesday?: TimeRange;
-    thursday?: TimeRange;
-    friday?: TimeRange;
-    saturday?: TimeRange;
-    sunday?: TimeRange;
-}
-
-export interface TimeRange {
-    isEnabled: boolean;
-    start: { hour: number; minute: number };
-    end: { hour: number; minute: number };
-}
-
-export interface LocationData {
-    route: string;
-    city: string;
-    country: string;
-    latitude: number;
-    longitude: number;
-    zipCode: string;
 }
 
 export async function updateStoreDeliveryOptions(deliveryOption: 'pickup' | 'delivery' | 'multi'): Promise<boolean> {

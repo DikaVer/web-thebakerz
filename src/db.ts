@@ -42,6 +42,7 @@ export const containerCart = cosmosDB.container("Carts");
 export const containerOrders = cosmosDB.container("Orders");
 export const containerOrdersUnpaid = cosmosDB.container("OrdersUnpaid");
 export const containerDeliveryRegions = cosmosDB.container("DeliveryRegions");
+export const containerDeliveryLocations = cosmosDB.container("DeliveryLocations");
 
 
 

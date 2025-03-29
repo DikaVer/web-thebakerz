@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import {Icon, IconProps} from "@iconify/react";
+import {Icon} from "@iconify/react";
 import {Button, Card, CardBody} from "@heroui/react";
 import {StoreHeader} from "@/components/store/store-header/store-header";
-import {StoreSubHeader} from "@/components/store/store-header/store-subheader";
 import ThreeDotsDropdown from "@/components/store/store-header/subheader/three-dots";
 import {useSession} from "@/components/providers/session-provider";
 import {useProductDialog} from "@/components/providers/product-provider";
@@ -13,14 +12,12 @@ import {useMediaQuery} from "usehooks-ts";
 import StoreTopNext from "@/components/store/store-header/description/store-top-next";
 import {useTranslations} from "next-intl";
 
-type SocialIconProps = Omit<IconProps, "icon">;
 
 interface StoreTopProps {
-    dateParam: string | null;
-    timeParam: string | null;
+    isDelivery: boolean;
 }
 
-export function StoreTop({dateParam, timeParam}: StoreTopProps) {
+export function StoreTop( { isDelivery }: StoreTopProps) {
     const { session} = useSession();
     const { store, sentinelRef} = useStore();
     const { handleOpen } = useProductDialog();
@@ -38,8 +35,7 @@ export function StoreTop({dateParam, timeParam}: StoreTopProps) {
                 >
                     <div className={'flex flex-col gap-x-24 md:flex-row md:items-start w-full'}>
                         <StoreHeader
-                            dateParam={dateParam}
-                            timeParam={timeParam}
+                            isDeliveryProps={isDelivery}
                         />
                         {!isSmall && (
                             <StoreTopNext/>

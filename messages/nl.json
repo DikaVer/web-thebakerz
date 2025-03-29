@@ -281,7 +281,8 @@
     "phone": "Telefoon"
   },
   "app/(store)/components/location-map": {
-    "viewOnGoogleMaps": "Bekijk op Google Maps"
+    "viewOnGoogleMaps": "Bekijk op Google Maps",
+    "storeLocation": "Winkellocatie"
   },
   "app/(store)/components/working-hours": {
     "noScheduleAvailable": "Geen schema beschikbaar",
@@ -330,44 +331,41 @@
     "addItem": "Item toevoegen"
   },
   "app/(store)/components/store-subheader": {
-    "addressPlaceholder": "Adres-plaatsaanduiding",
-    "locationPlaceholder": "Locatie Plaatsaanduiding",
-    "scheduleOrderTime": "Tijdschema voor bestelling",
-    "pickUpOptionSelected": "Ophaaloptie geselecteerd",
-    "pickUpAt": "Afhalen bij",
-    "selectPickUpTime": "Selecteer ophaaltijd",
+    "delivery": "Bezorging",
+    "deliveryTo": "Bezorgen naar",
     "pickup": "Afhalen",
-    "delivery": "Bezorgen",
-    "enterDeliveryAddressPrompt": "Voer uw bezorgadres in",
-    "enterAddress": "Adres invoeren",
-    "changeAddress": "Wijzigen",
-    "enterDeliveryAddress": "Bezorgadres invoeren",
-    "street": "Straat",
-    "enterStreet": "Voer straatnaam in",
-    "houseNumber": "Huis #",
-    "enterHouseNumber": "Voer huisnummer in",
-    "zipCode": "Postcode",
-    "enterZipCode": "Voer postcode in",
-    "city": "Plaats",
-    "enterCity": "Voer plaats in",
-    "additionalInfo": "Extra informatie (optioneel)",
-    "enterAdditionalInfo": "Appartementnummer, verdieping, bezorginstructies, enz.",
-    "cancel": "Annuleren",
-    "confirm": "Bevestigen",
-    "validatingAddress": "We controleren of uw adres binnen het bezorggebied valt...",
-    "addressInRange": "Uw adres valt binnen ons bezorggebied!",
-    "addressNotInRange": "Sorry, uw adres valt buiten ons bezorggebied",
-    "errorCheckingAddress": "Fout bij het controleren van het bezorggebied. Probeer het opnieuw.",
-    "invalidAddressFields": "Vul alle verplichte adresvelden in",
-    "deliveryDetails": "Bezorgdetails",
-    "deliveryArea": "Bezorggebied",
+    "pickupAt": "Afhalen bij",
+    "userNotLoggedIn": "Gebruiker niet ingelogd",
     "deliveryFee": "Bezorgkosten",
     "minimumOrder": "Minimale bestelling",
-    "enterAddressToSeeDeliveryOptions": "Voer uw adres in om bezorgopties te zien",
-    "scheduleDeliveryTime": "Plan uw bezorgtijd",
+    "deliveryHours": "Bezorgtijden",
+    "enterDeliveryAddressPrompt": "Voer bezorgadres in",
+    "enterDeliveryAddress": "Voer bezorgadres in",
+    "noDeliveryAddressYet": "Nog geen bezorgadres",
+    "enterAddressToSeeDeliveryOptions": "Voer je adres in om bezorgopties te zien",
+    "addressInRange": "Je adres ligt binnen het bezorggebied",
+    "addressNotInRange": "Je adres ligt buiten het bezorggebied",
+    "loadingAddress": "Adres laden...",
+    "loadingDeliveryOptions": "Bezorgopties laden...",
+    "errorCheckingAddress": "Fout bij het controleren van het adres",
+    "errorSavingAddress": "Fout bij het opslaan van het adres",
+    "errorUpdatingOrderTime": "Fout bij het bijwerken van de bezorgtijd",
     "deliveryTimeSelected": "Bezorgtijd geselecteerd",
-    "deliverAt": "Bezorgen op",
-    "selectDeliveryTime": "Selecteer bezorgtijd"
+    "deliverAt": "Bezorgen om",
+    "selectDeliveryTime": "Selecteer bezorgtijd",
+    "scheduleDeliveryTime": "Plan bezorgtijd",
+    "monday": "Maandag",
+    "tuesday": "Dinsdag",
+    "wednesday": "Woensdag",
+    "thursday": "Donderdag",
+    "friday": "Vrijdag",
+    "saturday": "Zaterdag",
+    "sunday": "Zondag",
+    "cancel": "Annuleren",
+    "additionalInfo": "Aanvullende info",
+    "storeOpen": "Bewaar nu",
+    "storeClosed": "Bewaar gesloten",
+    "pickUp": "Ophalen"
   },
   "app/(store)/components/store-top": {
     "addItem": "Item toevoegen"
@@ -584,7 +582,10 @@
     "savePickUpDetails": "Ophaalgegevens opslaan",
     "loadingPaymentGateway": "Betalingsgateway wordt geladen...",
     "unableToInitializePayment": "Kan betalingsgateway niet initialiseren",
-    "returnToCheckout": "Terug naar afrekenen"
+    "returnToCheckout": "Terug naar afrekenen",
+    "pickup": "Ophalen",
+    "delivery": "Levering",
+    "saveDeliveryDetails": "Bewaar pick -up details"
   },
   "app/(store)/components/image": {
     "close": "Dichtbij",
@@ -1117,5 +1118,17 @@
     "optionsUpdateError": "Fout bij het bijwerken van bezorgopties",
     "invalidCity": "Ongeldige stad geselecteerd",
     "minOrderPriceError": "Minimale bestelprijs moet minimaal 10€ zijn"
-  }
+  },
+  "app/(store)/components/delivery-map": {
+    "loadingMap": "Kaart laden...",
+    "mapError": "Kon kaart niet laden",
+    "routeCalculation": "Bezorgroute berekenen",
+    "distanceInfo": "Afstand: {distance} km"
+  },
+  "errorSavingAddress": "Fout bij het opslaan van het adres",
+  "errorValidatingAddress": "Fout bij het valideren van het adres",
+  "savingAddress": "Adres opslaan...",
+  "validatingAddress": "Adres valideren...",
+  "maxCharsExceeded": "{field} mag niet meer dan {max} tekens bevatten",
+  "errorUpdatingOrderTime": "Fout bij het bijwerken van de bezorgtijd"
 }

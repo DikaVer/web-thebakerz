@@ -1,4 +1,5 @@
-import { DeliverySchedule } from "@/lib/actions/delivery-actions";
+import {WorkHours} from "@/lib/actions/calendar-actions";
+
 
 export interface DeliveryCity {
   name: string;
@@ -6,7 +7,7 @@ export interface DeliveryCity {
   priceInCents: number; // delivery price in cents
   minOrderPriceInCents: number; // minimum order price in cents
   coordinates: { lat: number, lng: number };
-  deliverySchedule: DeliverySchedule;
+  deliverySchedule?: WorkHours;
 }
 
 export interface MapElement {
