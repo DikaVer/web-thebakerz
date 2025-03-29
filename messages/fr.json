@@ -896,7 +896,8 @@
     "missingOrderTime": "Heure de commande manquante",
     "missingCart": "Panier manquant",
     "orderFailed": "La commande a échoué",
-    "processingError": "Erreur lors du traitement du paiement"
+    "processingError": "Erreur lors du traitement du paiement",
+    "missingPricingDetails": "Détails des prix manquants"
   },
   "app/api/store/cart": {
     "missingStoreId": "En-tête Store-Id manquant ou non valide",

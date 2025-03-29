@@ -13,30 +13,35 @@ import {
 } from "@react-email/components";
 
 import * as React from "react";
-import {formatCurrency, formatDisplayDateTime} from "@/lib/utils";
+import {formatCurrency, formatDisplayDateTime, scheduledToCalendarDateTime} from "@/lib/utils";
 import {OrderProducts} from "@/lib/actions/order";
+import { AddressFormType } from "@/components/providers/delivery-provider";
 
 export interface OrderPlacedEmailProps {
     orderId: string;
     storeName: string;
-    pickUpTime: string;
+    scheduledTime: {
+        date: string;
+        time: string;
+    };
     storePhone: string;
-    location: {
+    storeLocation: {
         address: string;
         longitude: number;
         latitude: number;
     }
     products: OrderProducts;
-    subtotal_amount: number;
+    itemsSubtotalInclVat: number;
+    deliveryFeeInclVat?: number;
     total_amount: number;
     vat: number;
+    isDelivery: boolean;
+    deliveryAddress?: AddressFormType;
 }
-// Helper functions for date formatting
+
 function formatDateForCalendar(dateString: string): string {
     const date = new Date(dateString);
-    const endDate = new Date(date.getTime() + 30 * 60000); // Adding 30 minutes for pickup window
-
-    // Format: YYYYMMDDTHHMMSS/YYYYMMDDTHHMMSS
+    const endDate = new Date(date.getTime() + 30 * 60000);
     return `${formatCalendarDate(date)}/${formatCalendarDate(endDate)}`;
 }
 
@@ -55,7 +60,35 @@ function padZero(num: number): string {
 }
 
 
-export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUpTime, location, products, subtotal_amount, total_amount, vat}: OrderPlacedEmailProps) {
+export default function OrderPlacedEmail({
+    orderId, 
+    storeName, 
+    storePhone, 
+    scheduledTime, 
+    storeLocation, 
+    products, 
+    itemsSubtotalInclVat,
+    deliveryFeeInclVat, 
+    total_amount, 
+    vat, 
+    isDelivery, 
+    deliveryAddress
+}: OrderPlacedEmailProps) {
+    
+    const scheduledTimeLabel = isDelivery ? "Delivery Time" : "Pick Up Time";
+    const addressLabel = isDelivery ? "Delivery Address" : "Pick Up Address";
+    const addressToShow = isDelivery 
+        ? `${deliveryAddress?.street} ${deliveryAddress?.houseNumber}, ${deliveryAddress?.zipCode} ${deliveryAddress?.city}` 
+        : storeLocation.address;
+    const mapLink = isDelivery
+        ? `https://maps.google.com/?q=${encodeURIComponent(addressToShow)}`
+        : `https://maps.google.com/?q=${storeLocation.latitude},${storeLocation.longitude}`;
+        
+    const calendarEventTitle = `${storeName} Order ${isDelivery ? 'Delivery' : 'Pickup'} #${orderId}`;
+    const calendarLocation = isDelivery ? addressToShow : storeLocation.address;
+    const calendarDetails = `Order #${orderId} from ${storeName}. Scheduled for ${formatDisplayDateTime(scheduledTime, 'en-NL')}. ${isDelivery ? `Delivery to: ${addressToShow}` : `Pickup at: ${storeLocation.address}`}`;
+    const calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calendarEventTitle)}&dates=${formatDateForCalendar(scheduledTime)}&location=${encodeURIComponent(calendarLocation)}&details=${encodeURIComponent(calendarDetails)}`;
+
     return (
         <Html>
             <Head>
@@ -92,60 +125,42 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
                     <Section>
                         <Text style={summaryText}>
                             Hello,<br/>
-                            Your order has been placed and you will receive the next email, when your order will be ready.
+                            Your order #{orderId} has been placed. You will receive another email when your order is ready for {isDelivery ? "delivery" : "pickup"}.
                         </Text>
                     </Section>
 
                     <Section style={detailsContainer}>
-                        {/* Pick Up Time */}
+                        {/* Scheduled Time */}
                         <Row style={detailRow}>
-                            <Column
-                                style={iconColumn}
-                            >
-                                🕒
-                            </Column>
+                            <Column style={iconColumn}>🕒</Column>
                             <Column style={textColumn}>
-                                <Text style={detailHeading}>Pick Up Time</Text>
-                                <Link
-                                    href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(storeName + " Order Pickup")}&dates=${formatDateForCalendar(pickUpTime)}&location=${encodeURIComponent(location.address)}&details=${encodeURIComponent(`Your order #${orderId} is ready for pickup. Location: ${location.longitude},${location.latitude}`)}`}
-                                    style={linkStyle}
-                                >
-                                    {formatDisplayDateTime(pickUpTime, 'en-NL')}
+                                <Text style={detailHeading}>{scheduledTimeLabel}</Text>
+                                <Link href={calendarLink} style={linkStyle}>
+                                    {scheduledToCalendarDateTime(scheduledTime).toString()}
                                 </Link>
                             </Column>
                         </Row>
 
-                        {/* Pick Up Address */}
+                        {/* Address */}
                         <Row style={detailRow}>
-                            <Column
-                                style={iconColumn}
-                            >
-                                📍
-                            </Column>
+                            <Column style={iconColumn}>📍</Column>
                             <Column style={textColumn}>
-                                <Text style={detailHeading}>Pick Up Address</Text>
-                                <Link
-                                    href={`https://maps.google.com/?q=${location.latitude},${location.longitude}`}
-                                    style={linkStyle}
-                                >
-                                    {location.address}
+                                <Text style={detailHeading}>{addressLabel}</Text>
+                                <Link href={mapLink} style={linkStyle}>
+                                    {addressToShow}
                                 </Link>
+                                {isDelivery && deliveryAddress?.additionalInfo && (
+                                    <Text style={deliveryNoteStyle}>Note: {deliveryAddress.additionalInfo}</Text>
+                                )}
                             </Column>
                         </Row>
 
-                        {/* Contact Us */}
+                        {/* Contact Us (Store Phone) */}
                         <Row>
-                            <Column
-                                style={iconColumn}
-                            >
-                                📞
-                            </Column>
+                            <Column style={iconColumn}>📞</Column>
                             <Column style={textColumn}>
-                                <Text style={detailHeading}>Contact Us</Text>
-                                <Link
-                                    href={"tel:" + storePhone}
-                                    style={linkStyle}
-                                >
+                                <Text style={detailHeading}>Contact {storeName}</Text>
+                                <Link href={`tel:${storePhone}`} style={linkStyle}>
                                     {storePhone}
                                 </Link>
                             </Column>
@@ -158,54 +173,52 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
                         <Text style={orderIdText}>Order ID: #{orderId}</Text>
                         {/* Products Table */}
                         <table style={table}>
-                            {/*<thead>*/}
-                            {/*<tr>*/}
-                            {/*    <th style={tableHeader} colSpan={2}>Product</th>*/}
-                            {/*    <th style={tableHeader}>Qty</th>*/}
-                            {/*    <th style={tableHeader}>Price</th>*/}
-                            {/*</tr>*/}
-                            {/*</thead>*/}
                             <thead>
-                            <tr>
-                                <th style={productHeaderCell} colSpan={2}>Product</th>
-                                <th style={qtyHeaderCell}>Qty</th>
-                                <th style={priceHeaderCell}>Price</th>
-                            </tr>
+                                <tr>
+                                    <th style={productHeaderCell} colSpan={2}>Product</th>
+                                    <th style={qtyHeaderCell}>Qty</th>
+                                    <th style={priceHeaderCell}>Price</th>
+                                </tr>
                             </thead>
-
                             <tbody>
-                            {products.map((product, index) => (
-                                <React.Fragment key={index}>
-                                    <tr>
-                                        <td style={productCell} colSpan={2}>
-                                            <Text style={productName}>{product.name}</Text>
-                                            {product.variants && product.variants.map((variant, vIndex) => (
-                                                <Text key={vIndex} style={productVariant}>
-                                                    <span style={{ fontWeight: "500" }}>{variant.label}:</span> {variant.selectedItems.map(item =>
-                                                    `${item.label}${item.price > 0 ? ` (+${formatCurrency(item.price)})` : ''}`
-                                                ).join(", ")}
-                                                </Text>
-                                            ))}
-                                            {product.note && <Text style={productVariant}>Note: {product.note}</Text>}
-                                        </td>
-                                        <td style={quantityCell}>{product.qty}</td>
-                                        <td style={priceCell}>{formatCurrency(product.unitAmount * product.qty)}</td>
-                                    </tr>
-                                    {index < products.length - 1 && <tr><td colSpan={4} style={rowDivider}></td></tr>}
-                                </React.Fragment>
-                            ))}
+                                {products.map((product, index) => (
+                                    <React.Fragment key={index}>
+                                        <tr>
+                                            <td style={productCell} colSpan={2}>
+                                                <Text style={productName}>{product.name}</Text>
+                                                {product.variants && product.variants.map((variant, vIndex) => (
+                                                    <Text key={vIndex} style={productVariant}>
+                                                        <span style={{ fontWeight: "500" }}>{variant.label}:</span> {variant.selectedItems.map(item =>
+                                                        `${item.label}${item.price > 0 ? ` (+${formatCurrency(item.price)})` : ''}`
+                                                    ).join(", ")}
+                                                    </Text>
+                                                ))}
+                                                {product.note && <Text style={productVariant}>Note: {product.note}</Text>}
+                                            </td>
+                                            <td style={quantityCell}>{product.qty}</td>
+                                            <td style={priceCell}>{formatCurrency(product.itemTotalInclVat ?? (product.unitAmount * product.qty))}</td>
+                                        </tr>
+                                        {index < products.length - 1 && <tr><td colSpan={4} style={rowDivider}></td></tr>}
+                                    </React.Fragment>
+                                ))}
                             </tbody>
                         </table>
 
                         {/* Totals */}
                         <Section style={totalSection}>
                             <Row style={totalRow}>
-                                <Column><Text style={totalLabel}>Subtotal</Text></Column>
-                                <Column><Text style={totalValue}>{formatCurrency(subtotal_amount)}</Text></Column>
+                                <Column><Text style={totalLabel}>Subtotal (Items)</Text></Column>
+                                <Column><Text style={totalValue}>{formatCurrency(itemsSubtotalInclVat)}</Text></Column>
                             </Row>
+                            {isDelivery && deliveryFeeInclVat !== undefined && deliveryFeeInclVat > 0 && (
+                                <Row style={totalRow}>
+                                    <Column><Text style={totalLabel}>Delivery Fee</Text></Column>
+                                    <Column><Text style={totalValue}>{formatCurrency(deliveryFeeInclVat)}</Text></Column>
+                                </Row>
+                            )}
                             {vat > 0 &&
                                 <Row style={totalRow}>
-                                    <Column><Text style={totalLabel}>VAT(9%)</Text></Column>
+                                    <Column><Text style={totalLabel}>Total VAT</Text></Column>
                                     <Column><Text style={totalValue}>{formatCurrency(vat)}</Text></Column>
                                 </Row>
                             }
@@ -219,21 +232,6 @@ export default function OrderPlacedEmail({orderId, storeName, storePhone, pickUp
                     {/* Footer */}
                     <Section style={footer}>
                         <Text style={thankYou}>Thank you for choosing {storeName}! 🧁</Text>
-                        {/*<Text style={followUs}>Follow Our Journey</Text>*/}
-                        {/*<Row style={socialRow}>*/}
-                        {/*    {socialLinks.map((social, index) => (*/}
-                        {/*        <Column key={index} style={socialColumn}>*/}
-                        {/*            <Link href={social.url} style={socialLink}>*/}
-                        {/*                <Img*/}
-                        {/*                    src={social.icon}*/}
-                        {/*                    width="24"*/}
-                        {/*                    alt={social.name}*/}
-                        {/*                    style={socialIcon}*/}
-                        {/*                />*/}
-                        {/*            </Link>*/}
-                        {/*        </Column>*/}
-                        {/*    ))}*/}
-                        {/*</Row>*/}
                     </Section>
                 </Container>
             </Body>
@@ -463,4 +461,10 @@ const thankYou = {
     fontSize: "16px",
     color: "#333",
     marginBottom: "10px",
+};
+
+const deliveryNoteStyle = {
+    fontSize: "12px",
+    color: "#666",
+    margin: "4px 0 0 0",
 };

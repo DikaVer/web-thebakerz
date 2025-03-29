@@ -896,7 +896,8 @@
     "missingOrderTime": "Ontbrekende besteltijd",
     "missingCart": "Winkelwagen ontbreekt",
     "orderFailed": "Bestelling mislukt",
-    "processingError": "Fout bij het verwerken van de betaling"
+    "processingError": "Fout bij het verwerken van de betaling",
+    "missingPricingDetails": "Ontbrekende prijsdetails"
   },
   "app/api/store/cart": {
     "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",

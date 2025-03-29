@@ -93,79 +93,100 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
 
     const storeData = await getCurrentStore(orderData.store_id);
     if (!storeData) {
-        throw new Error("Store not found");
+        // Maybe throw a more specific error or log details
+        console.error(`Failed to send order emails: Store not found for ID ${orderData.store_id}`);
+        return; // Exit if store data is missing
     }
 
     const { emailClient, senderAddress } = await getEmailClient();
 
+
+        
+    // Construct store location object (handle potential nulls)
+    const storeLocation = {
+        address: `${storeData.location?.route || ''}, ${storeData.location?.city || ''}, ${storeData.location?.country || ''}`.replace(/^, |, $/g, ''), // Clean up extra commas
+        latitude: storeData.location?.latitude ?? 0,
+        longitude: storeData.location?.longitude ?? 0,
+    };
+
+    // --- Customer Email --- 
     const messageCustomer = {
         senderAddress,
         content: {
-            subject: `Your #${orderData.store_order_id} is placed!`,
+            subject: `Your ${storeData.ownerName} Order #${orderData.store_order_id} is Placed!`, // Use store name in subject
             html: await render(OrderPlacedEmail({
                 orderId: orderData.store_order_id,
-                storeName: storeData.ownerName ? storeData.ownerName : "Anonymous Store",
-                pickUpTime: orderData.scheduled_time.date + " " + orderData.scheduled_time.time,
-                storePhone: storeData.phone ? storeData.phone : "No phone number",
-                location: {
-                    address: storeData.location.route + ", " + storeData.location.city + ", " + storeData.location.country,
-                    latitude: storeData.location.latitude,
-                    longitude: storeData.location.longitude,
-                },
+                storeName: storeData.ownerName || "The Store", // Use store name
+                scheduledTime: orderData.scheduled_time, // Pass combined string
+                storePhone: storeData.phone || "", // Pass store phone
+                storeLocation: storeLocation, // Pass formatted store location
                 products: orderData.productsData,
-                subtotal_amount: orderData.sub_amount,
-                total_amount: orderData.amount,
-                vat: orderData.tax_amount,
+                // Pass new pricing/delivery fields
+                itemsSubtotalInclVat: orderData.itemsSubtotalInclVat,
+                deliveryFeeInclVat: orderData.deliveryFeeInclVat,
+                total_amount: orderData.amount, // Final total incl VAT
+                vat: orderData.tax_amount, // Total VAT
+                isDelivery: orderData.isDelivery,
+                deliveryAddress: orderData.deliveryAddress,
             })),
         },
         recipients: {
             to: [
                 {
-                    address: to,
-                    displayName: storeData.ownerName,
+                    address: to, // Customer email passed in `identifier`
+                    displayName: orderData.customer.name_customer, // Use customer name from order data
                 },
             ],
         },
     };
 
+    // --- Baker Email --- 
     const messageBakerz = {
         senderAddress,
         content: {
-            subject: `You have a new order #${orderData.store_order_id} 🎉`,
+            subject: `New ${orderData.isDelivery ? 'Delivery' : 'Pickup'} Order #${orderData.store_order_id} (${storeData.ownerName})`, // Indicate type and store
             html: await render(NewOrderEmail({
-                orderId: orderData.store_order_id,
-                storeName: storeData.ownerName ? storeData.ownerName : "Anonymous Store",
-                pickUpTime: orderData.scheduled_time.date + " " + orderData.scheduled_time.time,
-                storePhone: storeData.phone ? storeData.phone : "No phone number",
-                location: {
-                    address: storeData.location.route + ", " + storeData.location.city + ", " + storeData.location.country,
-                    latitude: storeData.location.latitude,
-                    longitude: storeData.location.longitude,
-                },
+                 orderId: orderData.store_order_id,
+                storeName: storeData.ownerName || "Your Store",
+                scheduledTime: orderData.scheduled_time,
+                storePhone: storeData.phone || "", // Include store phone for reference
+                storeLocation: storeLocation, // Include store location for pickup reference
+                customer: orderData.customer, // Pass the whole customer object
                 products: orderData.productsData,
-                subtotal_amount: orderData.sub_amount,
-                total_amount: orderData.amount,
-                vat: orderData.tax_amount,
+                // Pass new pricing/delivery fields
+                itemsSubtotalInclVat: orderData.itemsSubtotalInclVat,
+                deliveryFeeInclVat: orderData.deliveryFeeInclVat,
+                total_amount: orderData.amount, // Final total incl VAT
+                vat: orderData.tax_amount, // Total VAT
+                isDelivery: orderData.isDelivery,
+                deliveryAddress: orderData.deliveryAddress,
             })),
         },
         recipients: {
             to: [
                 {
-                    address: storeData.email,
-                    displayName: "TheBakerz",
+                    address: storeData.email, // Use store's email from storeData
+                    displayName: storeData.ownerName || storeData.storeName || "Store Owner", // Use owner or store name
                 },
             ],
+            // Optional: Add CC/BCC if needed
+            // cc: [{ address: "management@example.com" }],
         },
     };
 
     try {
-        await sendEmailMessage(emailClient, messageBakerz);
-        await sendEmailMessage(emailClient, messageCustomer);
-        console.log(`Email email sent successfully to ${to}`);
-        console.log(`Email email sent successfully to ${storeData.email}`);
+        // Send emails concurrently for efficiency
+        const sendCustomerEmail = sendEmailMessage(emailClient, messageCustomer);
+        const sendBakerEmail = sendEmailMessage(emailClient, messageBakerz);
+        
+        await Promise.all([sendCustomerEmail, sendBakerEmail]);
+        
+        console.log(`Order confirmation email sent successfully to customer: ${to}`);
+        console.log(`New order notification email sent successfully to baker: ${storeData.email}`);
     } catch (error) {
-        console.error(`Error sending magic link email: ${error}`);
-        throw error;
+        console.error(`Error sending order emails for order ${orderData.id}:`, error);
+        // Decide if you need to re-throw or just log
+        // throw error; // Re-throwing might interrupt other processes
     }
 }
 

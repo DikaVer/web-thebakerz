@@ -16,6 +16,7 @@ import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-varian
 import {CalendarDateTime, now} from "@internationalized/date";
 import {scheduledToCalendarDateTime} from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
+import { AddressFormType } from "@/components/providers/delivery-provider";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -36,9 +37,20 @@ export interface OrderData {
     order_status: OrderStatus;
     completed: boolean;
     productsData: OrderProducts;
-    tax_amount: number;
-    sub_amount: number;
-    amount: number;
+    
+    // Pricing details (store in cents)
+    itemsSubtotalInclVat: number; // Subtotal of items only, including VAT
+    deliveryFeeInclVat?: number;   // Delivery fee, including VAT (optional)
+    sub_amount: number;           // Total amount *excluding* VAT (items + delivery + service)
+    tax_amount: number;           // Total calculated VAT
+    amount: number;               // Final total amount *including* VAT
+
+    // Delivery details
+    isDelivery: boolean;
+    deliveryAddress?: AddressFormType; // Store the structured address
+    deliveryRegionName?: string;
+
+    // Timestamps
     cancelledAt?: Date;
     refundedAt?: Date;
 }
@@ -81,7 +93,8 @@ export type OrderProduct = {
     const_id: string;
     ingredients?: string[];
     allergies?: string[];
-}
+    itemTotalInclVat?: number;
+};
 
 /**
  * Creates a new order based on the customer's form data and cart contents
@@ -209,8 +222,17 @@ export const createOrder = async (
             return { error: t("failedCreateOrder") };
         }
 
-        // Calculate tax and adjusted amounts
-        const { vat, total, subtotal } = calculateTotals(amount, !store.kor);
+        // Calculate tax and adjusted amounts using the updated calculateTotals
+        // Assuming manual orders via createOrder are always pickup (deliveryFee = 0)
+        const { 
+            totalVat,           // Use totalVat instead of vat
+            totalInclVat,       // Use totalInclVat instead of total
+            itemSubtotalExclVat // Use itemSubtotalExclVat instead of subtotal for sub_amount?
+                                // Let's keep sub_amount as the total *excluding* tax for consistency
+        } = calculateTotals(amount, !store.kor, 0); // Pass 0 for delivery fee
+
+        // Calculate subtotal excluding VAT
+        const subAmountExclVat = totalInclVat - totalVat;
 
         // Prepare order data for Cosmos DB
         const orderData: OrderData = {
@@ -224,7 +246,7 @@ export const createOrder = async (
                 email_verified: false,
                 name_customer: formData.name,
                 phone_number: formData.phoneNumber,
-                address: null
+                address: null // Manual orders don't have Stripe address details
             },
             createdAt: result.rows[0].order_date,
             status: "manual",
@@ -232,9 +254,16 @@ export const createOrder = async (
             order_status: "new",
             completed: false,
             productsData: cartItems,
-            tax_amount: vat,
-            sub_amount: subtotal,
-            amount: amount,
+            
+            // Use new calculated values
+            itemsSubtotalInclVat: amount, // Original amount included VAT if applicable
+            deliveryFeeInclVat: 0,       // Manual order assumed pickup
+            sub_amount: subAmountExclVat, // Total excluding VAT
+            tax_amount: totalVat,       // Total VAT amount
+            amount: totalInclVat,       // Final total including VAT
+
+            isDelivery: false,           // Manual order assumed pickup
+            // deliveryAddress, deliveryRegionName are undefined for pickup
         };
 
         // Create order record in Cosmos DB

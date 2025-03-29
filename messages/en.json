@@ -943,7 +943,8 @@
     "missingOrderTime": "Missing order time",
     "missingCart": "Missing cart",
     "orderFailed": "Order failed",
-    "processingError": "Error processing payment"
+    "processingError": "Error processing payment",
+    "missingPricingDetails": "Missing Price Details"
   },
   "app/api/store/cart": {
     "missingStoreId": "Missing or invalid Store-Id header",
