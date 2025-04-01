@@ -50,6 +50,7 @@ export const iconAllergyMap: Record<string, React.FC<{ size?: number }>> = {
     soy: iconSoy,
     orange: iconOrange,
     banana: iconBanana,
+    honey: iconHoney,
     fish: iconFish,
     matsuke: iconMatsuke,
     chicken: iconChicken,
@@ -63,7 +64,6 @@ export const iconAllergyMap: Record<string, React.FC<{ size?: number }>> = {
     shrimp: iconShrimp,
     sulfur: iconSulfurDioxideSulphites,
     abalone: iconAbalone,
-    honey: iconHoney
 }
 
 interface AllergenIconProps {
