@@ -29,7 +29,9 @@ import {
     iconSulfurDioxideSulphites,
     iconNuts,
     iconAbalone,
+    iconHoney
 } from "@/components/store/product/components/allergy-icon"
+import { useTranslations } from 'next-intl'
 
 export const iconAllergyMap: Record<string, React.FC<{ size?: number }>> = {
     egg: iconEggs,
@@ -48,6 +50,7 @@ export const iconAllergyMap: Record<string, React.FC<{ size?: number }>> = {
     soy: iconSoy,
     orange: iconOrange,
     banana: iconBanana,
+    honey: iconHoney,
     fish: iconFish,
     matsuke: iconMatsuke,
     chicken: iconChicken,
@@ -77,5 +80,7 @@ export const AllergenIcon: React.FC<AllergenIconProps> = ({ allergen, size = 24 
     if (!IconComponent) {
         return null
     }
+    // const t = useTranslations('Allergies')
+    // t('honey')
     return <IconComponent size={size} />
 }
