@@ -44,7 +44,7 @@ export default function DeliveryInfo({
   }, [deliveryRegion]);
 
   return (
-    <Card className="h-auto mb-4 overflow-hidden transition-all duration-300 max-w-[440px]" shadow="sm">
+    <Card className="h-auto overflow-hidden transition-all duration-300 max-w-[440px]" shadow="sm">
       <CardBody className="p-0 w-[440px] max-w-[100%]">
         <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/30 dark:to-primary-800/20">
           <div className="flex items-center justify-between">

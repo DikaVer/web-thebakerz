@@ -17,6 +17,7 @@ import {CalendarDateTime, now} from "@internationalized/date";
 import {scheduledToCalendarDateTime} from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 import { AddressFormType } from "@/components/providers/delivery-provider";
+import {MerchantDeliveryRegion} from "@/lib/actions/delivery-actions";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -38,21 +39,31 @@ export interface OrderData {
     completed: boolean;
     productsData: OrderProducts;
     
-    // Pricing details (store in cents)
-    itemsSubtotalInclVat: number; // Subtotal of items only, including VAT
-    deliveryFeeInclVat?: number;   // Delivery fee, including VAT (optional)
-    sub_amount: number;           // Total amount *excluding* VAT (items + delivery + service)
-    tax_amount: number;           // Total calculated VAT
-    amount: number;               // Final total amount *including* VAT
+    // Pricing details
+    priceData: PriceOrderData;
 
     // Delivery details
     isDelivery: boolean;
     deliveryAddress?: AddressFormType; // Store the structured address
-    deliveryRegionName?: string;
 
     // Timestamps
     cancelledAt?: Date;
     refundedAt?: Date;
+}
+
+export interface PriceOrderData {
+    itemExclVat: number;
+    deliveryFeeExclVat: number;
+    serviceFeeExclVat: number;
+    itemInclVat: number;
+    deliveryFeeInclVat: number;
+    serviceFeeInclVat: number;
+    itemVat: number;
+    deliveryVat: number;
+    serviceVat: number;
+    totalInclVat: number;
+    totalVat: number;
+    totalExclVat: number;
 }
 
 export interface OrderRaw {
@@ -65,6 +76,38 @@ export interface OrderRaw {
         time: string;
     };
     productsData: OrderProducts;
+}
+
+export interface ExtendedOrderRaw extends OrderRaw {
+    // Added fields from stripe.ts
+    isDelivery: boolean;
+    deliveryToAddress?: AddressFormType;
+    deliveryFromAddress?: {
+        lat: number;
+        lng: number;
+    };
+    itemExclVat: number;
+    deliveryFeeExclVat: number;
+    serviceFeeExclVat: number;
+    itemInclVat: number;
+    deliveryFeeInclVat: number;
+    serviceFeeInclVat: number;
+    itemVat: number;
+    deliveryVat: number;
+    serviceVat: number;
+    totalInclVat: number;
+    totalVat: number;
+    totalExclVat: number;
+    region: string;
+    currency: string;
+    transfer_data: [
+        {
+            destination: string;
+            amount: number;
+            app_fee: number;
+        }
+    ];
+    status: string;
 }
 
 export type OrderStatus = "new" | "started" | "ready" | "completed" | "cancelled" | 'refunded';
@@ -111,180 +154,181 @@ export type OrderProduct = {
 export const createOrder = async (
     formData: z.infer<typeof CustomerOrderSchema>
 ):Promise<{error?: string; orderId?: string}> => {
-    const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
-    
-    // Check rate limiting
-    if (!(await globalPOSTRateLimit())) {
-        return { error: t("tooManyRequests") };
-    }
-
-    // Validate form data
-    const validation = CustomerOrderSchema.safeParse(formData);
-    if (!validation.success) {
-        return { error: t("invalidFields") };
-    }
-
-    // Get session, user, and store details
-    const { session, user, store} = await getCurrentSession();
-    const userId = (!session || !user) ? await getCartSessionCookieOrCreate() : user.id;
-    if (!store) return { error: t("storeNotFound") };
-    if (!userId) return { error: t("userNotFound") };
-
-    // Retrieve the user's cart data for the current store
-    const cartData = await getCart(userId, store.id);
-
-    if (!cartData || !cartData[store.id] || Object.keys(cartData[store.id]).length === 0) {
-        return { error: t("cartEmpty") };
-    }
-
-    // Get scheduled order time
-    const { date, time } = await getOrderTime(store.id);
-    if (!date || !time) return { error: t("orderTimeNotSet") };
-
-    // Prevent ordering for past dates
-    const today = now("Europe/Amsterdam")
-    const todayCalendar = new CalendarDateTime(today.year, today.month, today.day, today.hour, today.minute);
-    const orderDateObj = scheduledToCalendarDateTime({
-        date,
-        time
-    })
-    if (orderDateObj < todayCalendar) {
-        return { error: t("pastDateOrder") };
-    }
-
-    // Get products data and prepare cart items with subtotal calculation
-    const productsData = await getProductsByStoreId(store.id);
-
-    // Prepare cart items and calculate subtotal
-    const cartItems = [];
-    let amount = 0;
-
-    for (const itemId in cartData[store.id]) {
-
-        const cartItem = cartData[store.id][itemId];
-        const product = productsData[cartItem.product_id];
-
-        if (!product) continue;
-
-        amount += calculateItemTotalPrice(cartItem.variants, product.price);
-
-        cartItems.push({
-            id: product.id,
-            name: product.name,
-            qty: cartItem.quantity,
-            price: product.price,
-            variants: cartItem.variants,
-            note: cartItem.note,
-            const_id: product.constId,
-            ingredients: product.ingredients,
-            allergies: product.allergies,
-            unitAmount: amount
-        });
-    }
-
-
-    // Generate a unique ID for the order
-    const cosmosId = uuidv4();
-
-    try {
-        // Begin PostgreSQL transaction
-        await connectionPool.query("BEGIN");
-
-        // Insert order record into PostgreSQL
-        const result = await connectionPool.query(
-            `
-                    INSERT INTO payment_orders
-                    (store_id, store_order_id, email_customer, amount, product_ids, status, cosmos_id)
-                    VALUES
-                        (
-                            $1,
-                            (SELECT COALESCE(COUNT(*) + 1, 1) FROM payment_orders WHERE store_id = $7),
-                            $2,
-                            $3,
-                            $4::text[],
-                            $5,
-                            $6
-                        )
-                        RETURNING id, order_date, store_order_id
-                `,
-            [
-                store.id,
-                formData.email,
-                amount,
-                cartItems.map(item => item.id || "Error"),
-                "manual",
-                cosmosId,
-                store.id
-            ]
-        );
-        if (result.rows.length === 0) {
-            await connectionPool.query("ROLLBACK");
-            return { error: t("failedCreateOrder") };
-        }
-
-        // Calculate tax and adjusted amounts using the updated calculateTotals
-        // Assuming manual orders via createOrder are always pickup (deliveryFee = 0)
-        const { 
-            totalVat,           // Use totalVat instead of vat
-            totalInclVat,       // Use totalInclVat instead of total
-            itemSubtotalExclVat // Use itemSubtotalExclVat instead of subtotal for sub_amount?
-                                // Let's keep sub_amount as the total *excluding* tax for consistency
-        } = calculateTotals(amount, !store.kor, 0); // Pass 0 for delivery fee
-
-        // Calculate subtotal excluding VAT
-        const subAmountExclVat = totalInclVat - totalVat;
-
-        // Prepare order data for Cosmos DB
-        const orderData: OrderData = {
-            id: cosmosId,
-            seq_id: result.rows[0].id,
-            store_order_id: result.rows[0].store_order_id,
-            store_id: store.id,
-            customer_email: formData.email,
-            customer: {
-                email_customer: formData.email,
-                email_verified: false,
-                name_customer: formData.name,
-                phone_number: formData.phoneNumber,
-                address: null // Manual orders don't have Stripe address details
-            },
-            createdAt: result.rows[0].order_date,
-            status: "manual",
-            scheduled_time: { date, time },
-            order_status: "new",
-            completed: false,
-            productsData: cartItems,
-            
-            // Use new calculated values
-            itemsSubtotalInclVat: amount, // Original amount included VAT if applicable
-            deliveryFeeInclVat: 0,       // Manual order assumed pickup
-            sub_amount: subAmountExclVat, // Total excluding VAT
-            tax_amount: totalVat,       // Total VAT amount
-            amount: totalInclVat,       // Final total including VAT
-
-            isDelivery: false,           // Manual order assumed pickup
-            // deliveryAddress, deliveryRegionName are undefined for pickup
-        };
-
-        // Create order record in Cosmos DB
-        await containerOrders.items.create(orderData);
-
-        // Clear cart, send confirmation email, and invalidate cache
-        await removeCartByUserIdAndStoreId(userId, store.id);
-        sendOrderPlaced({ orderData, identifier: formData.email });
-
-        revalidateTag('cart');
-        revalidateTag('orders');
-
-        // Commit transaction
-        await connectionPool.query("COMMIT");
-        return { orderId: cosmosId };
-    } catch (error) {
-        // Rollback transaction on error
-        await connectionPool.query("ROLLBACK");
-        console.error("Error creating checkout session:", error);
-        return { error: t("failedCreateCheckout") };
-    }
+    // const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
+    //
+    // // Check rate limiting
+    // if (!(await globalPOSTRateLimit())) {
+    //     return { error: t("tooManyRequests") };
+    // }
+    //
+    // // Validate form data
+    // const validation = CustomerOrderSchema.safeParse(formData);
+    // if (!validation.success) {
+    //     return { error: t("invalidFields") };
+    // }
+    //
+    // // Get session, user, and store details
+    // const { session, user, store} = await getCurrentSession();
+    // const userId = (!session || !user) ? await getCartSessionCookieOrCreate() : user.id;
+    // if (!store) return { error: t("storeNotFound") };
+    // if (!userId) return { error: t("userNotFound") };
+    //
+    // // Retrieve the user's cart data for the current store
+    // const cartData = await getCart(userId, store.id);
+    //
+    // if (!cartData || !cartData[store.id] || Object.keys(cartData[store.id]).length === 0) {
+    //     return { error: t("cartEmpty") };
+    // }
+    //
+    // // Get scheduled order time
+    // const { date, time } = await getOrderTime(store.id);
+    // if (!date || !time) return { error: t("orderTimeNotSet") };
+    //
+    // // Prevent ordering for past dates
+    // const today = now("Europe/Amsterdam")
+    // const todayCalendar = new CalendarDateTime(today.year, today.month, today.day, today.hour, today.minute);
+    // const orderDateObj = scheduledToCalendarDateTime({
+    //     date,
+    //     time
+    // })
+    // if (orderDateObj < todayCalendar) {
+    //     return { error: t("pastDateOrder") };
+    // }
+    //
+    // // Get products data and prepare cart items with subtotal calculation
+    // const productsData = await getProductsByStoreId(store.id);
+    //
+    // // Prepare cart items and calculate subtotal
+    // const cartItems = [];
+    // let amount = 0;
+    //
+    // for (const itemId in cartData[store.id]) {
+    //
+    //     const cartItem = cartData[store.id][itemId];
+    //     const product = productsData[cartItem.product_id];
+    //
+    //     if (!product) continue;
+    //
+    //     amount += calculateItemTotalPrice(cartItem.variants, product.price);
+    //
+    //     cartItems.push({
+    //         id: product.id,
+    //         name: product.name,
+    //         qty: cartItem.quantity,
+    //         price: product.price,
+    //         variants: cartItem.variants,
+    //         note: cartItem.note,
+    //         const_id: product.constId,
+    //         ingredients: product.ingredients,
+    //         allergies: product.allergies,
+    //         unitAmount: amount
+    //     });
+    // }
+    //
+    //
+    // // Generate a unique ID for the order
+    // const cosmosId = uuidv4();
+    //
+    // try {
+    //     // Begin PostgreSQL transaction
+    //     await connectionPool.query("BEGIN");
+    //
+    //     // Insert order record into PostgreSQL
+    //     const result = await connectionPool.query(
+    //         `
+    //                 INSERT INTO payment_orders
+    //                 (store_id, store_order_id, email_customer, amount, product_ids, status, cosmos_id)
+    //                 VALUES
+    //                     (
+    //                         $1,
+    //                         (SELECT COALESCE(COUNT(*) + 1, 1) FROM payment_orders WHERE store_id = $7),
+    //                         $2,
+    //                         $3,
+    //                         $4::text[],
+    //                         $5,
+    //                         $6
+    //                     )
+    //                     RETURNING id, order_date, store_order_id
+    //             `,
+    //         [
+    //             store.id,
+    //             formData.email,
+    //             amount,
+    //             cartItems.map(item => item.id || "Error"),
+    //             "manual",
+    //             cosmosId,
+    //             store.id
+    //         ]
+    //     );
+    //     if (result.rows.length === 0) {
+    //         await connectionPool.query("ROLLBACK");
+    //         return { error: t("failedCreateOrder") };
+    //     }
+    //
+    //     // Calculate tax and adjusted amounts using the updated calculateTotals
+    //     // Assuming manual orders via createOrder are always pickup (deliveryFee = 0)
+    //     const {
+    //         totalVat,           // Use totalVat instead of vat
+    //         totalInclVat,       // Use totalInclVat instead of total
+    //         itemExclVat // Use itemSubtotalExclVat instead of subtotal for sub_amount?
+    //                             // Let's keep sub_amount as the total *excluding* tax for consistency
+    //     } = calculateTotals(amount, !store.kor, 0); // Pass 0 for delivery fee
+    //
+    //     // Calculate subtotal excluding VAT
+    //     const subAmountExclVat = totalInclVat - totalVat;
+    //
+    //     // Prepare order data for Cosmos DB
+    //     const orderData: OrderData = {
+    //         id: cosmosId,
+    //         seq_id: result.rows[0].id,
+    //         store_order_id: result.rows[0].store_order_id,
+    //         store_id: store.id,
+    //         customer_email: formData.email,
+    //         customer: {
+    //             email_customer: formData.email,
+    //             email_verified: false,
+    //             name_customer: formData.name,
+    //             phone_number: formData.phoneNumber,
+    //             address: null // Manual orders don't have Stripe address details
+    //         },
+    //         createdAt: result.rows[0].order_date,
+    //         status: "manual",
+    //         scheduled_time: { date, time },
+    //         order_status: "new",
+    //         completed: false,
+    //         productsData: cartItems,
+    //
+    //         // Use new calculated values
+    //         itemsSubtotalInclVat: amount, // Original amount included VAT if applicable
+    //         deliveryFeeInclVat: 0,       // Manual order assumed pickup
+    //         sub_amount: subAmountExclVat, // Total excluding VAT
+    //         tax_amount: totalVat,       // Total VAT amount
+    //         amount: totalInclVat,       // Final total including VAT
+    //
+    //         isDelivery: false,           // Manual order assumed pickup
+    //         // deliveryAddress, deliveryRegionName are undefined for pickup
+    //     };
+    //
+    //     // Create order record in Cosmos DB
+    //     await containerOrders.items.create(orderData);
+    //
+    //     // Clear cart, send confirmation email, and invalidate cache
+    //     await removeCartByUserIdAndStoreId(userId, store.id);
+    //     sendOrderPlaced({ orderData, identifier: formData.email });
+    //
+    //     revalidateTag('cart');
+    //     revalidateTag('orders');
+    //
+    //     // Commit transaction
+    //     await connectionPool.query("COMMIT");
+    //     return { orderId: cosmosId };
+    // } catch (error) {
+    //     // Rollback transaction on error
+    //     await connectionPool.query("ROLLBACK");
+    //     console.error("Error creating checkout session:", error);
+    //     return { error: t("failedCreateCheckout") };
+    // }
+    return {}
 };
 
 export async function getOrdersByDateRange(storeId: string, fromDate: string, toDate: string): Promise<OrderData[]> {

@@ -8,6 +8,8 @@ export interface DeliveryCity {
   minOrderPriceInCents: number; // minimum order price in cents
   coordinates: { lat: number, lng: number };
   deliverySchedule?: WorkHours;
+  isStoreDelivery: boolean;
+  minOrderTime: number; // minimum order time in minutes
 }
 
 export interface MapElement {

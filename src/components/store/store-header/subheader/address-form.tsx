@@ -555,21 +555,6 @@ export function AddressForm({
     }
   }, [initialAddress, setAutocompleteValue, validateField]);
 
-  // Close modal if validation is successful and address is in range
-  useEffect(() => {
-    // Only auto-close if validation has completed, address is valid and in range,
-    // we're not in the middle of submitting, and onClose handler is provided
-    if (validationResult.isValid && 
-        validationResult.isInRange && 
-        onClose && 
-        !isSubmitting && 
-        !isValidating) {
-      // Add a small delay to give user feedback that validation completed
-      setTimeout(() => {
-        onClose();
-      }, 500);
-    }
-  }, [validationResult.isValid, validationResult.isInRange, onClose, isSubmitting, isValidating]);
 
   return (
     <form
@@ -652,99 +637,102 @@ export function AddressForm({
           ))}
         </Autocomplete>
       </div>
+      {address.coordinates && (
+        <>
+          <Divider/>
 
-      <Divider />
+          {/* Manual Address Fields */}
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-2">
+              <Input
+                  label={t('street') || "Street"}
+                  placeholder={t('enterStreet') || "Street name"}
+                  value={address.street}
+                  onChange={(e) => handleInputChange('street', e.target.value)}
+                  isRequired
+                  variant="bordered"
+                  maxLength={MAX_CHARS.street}
+                  isInvalid={!!errors.street}
+                  errorMessage={errors.street}
+                  isDisabled={isValidating || isSubmitting}
+                  className="flex-1"
+              />
+              <Input
+                  label={t('houseNumber') || "House Number"}
+                  placeholder={t('enterHouseNumber') || "Number"}
+                  value={address.houseNumber}
+                  onChange={(e) => handleInputChange('houseNumber', e.target.value)}
+                  isRequired
+                  variant="bordered"
+                  maxLength={MAX_CHARS.houseNumber}
+                  isInvalid={!!errors.houseNumber}
+                  errorMessage={errors.houseNumber}
+                  isDisabled={isValidating || isSubmitting}
+                  className="w-1/3"
+              />
+            </div>
 
-      {/* Manual Address Fields */}
-      <div className="flex flex-col gap-4">
-        <div className="flex gap-2">
-          <Input
-            label={t('street') || "Street"}
-            placeholder={t('enterStreet') || "Street name"}
-            value={address.street}
-            onChange={(e) => handleInputChange('street', e.target.value)}
-            isRequired
-            variant="bordered"
-            maxLength={MAX_CHARS.street}
-            isInvalid={!!errors.street}
-            errorMessage={errors.street}
-            isDisabled={isValidating || isSubmitting}
-            className="flex-1"
-          />
-          <Input
-            label={t('houseNumber') || "House Number"}
-            placeholder={t('enterHouseNumber') || "Number"}
-            value={address.houseNumber}
-            onChange={(e) => handleInputChange('houseNumber', e.target.value)}
-            isRequired
-            variant="bordered"
-            maxLength={MAX_CHARS.houseNumber}
-            isInvalid={!!errors.houseNumber}
-            errorMessage={errors.houseNumber}
-            isDisabled={isValidating || isSubmitting}
-            className="w-1/3"
-          />
-        </div>
+            <div className="flex gap-2">
+              <Input
+                  label={t('zipCode') || "Postal Code"}
+                  placeholder={t('enterZipCode') || "1234 AB"}
+                  value={address.zipCode}
+                  onChange={(e) => handleInputChange('zipCode', e.target.value)}
+                  isRequired
+                  variant="bordered"
+                  maxLength={MAX_CHARS.zipCode}
+                  isInvalid={!!errors.zipCode}
+                  errorMessage={errors.zipCode}
+                  isDisabled={isValidating || isSubmitting}
+                  className="w-1/3"
+              />
+              <Input
+                  label={t('city') || "City"}
+                  placeholder={t('enterCity') || "City"}
+                  value={address.city}
+                  onChange={(e) => handleInputChange('city', e.target.value)}
+                  isRequired
+                  variant="bordered"
+                  maxLength={MAX_CHARS.city}
+                  isInvalid={!!errors.city}
+                  errorMessage={errors.city}
+                  isDisabled={isValidating || isSubmitting}
+                  className="flex-1"
+              />
+            </div>
 
-        <div className="flex gap-2">
-          <Input
-            label={t('zipCode') || "Postal Code"}
-            placeholder={t('enterZipCode') || "1234 AB"}
-            value={address.zipCode}
-            onChange={(e) => handleInputChange('zipCode', e.target.value)}
-            isRequired
-            variant="bordered"
-            maxLength={MAX_CHARS.zipCode}
-            isInvalid={!!errors.zipCode}
-            errorMessage={errors.zipCode}
-            isDisabled={isValidating || isSubmitting}
-            className="w-1/3"
-          />
-          <Input
-            label={t('city') || "City"}
-            placeholder={t('enterCity') || "City"}
-            value={address.city}
-            onChange={(e) => handleInputChange('city', e.target.value)}
-            isRequired
-            variant="bordered"
-            maxLength={MAX_CHARS.city}
-            isInvalid={!!errors.city}
-            errorMessage={errors.city}
-            isDisabled={isValidating || isSubmitting}
-            className="flex-1"
-          />
-        </div>
+            <Textarea
+                label={t('additionalInfo') || "Additional Information"}
+                placeholder={t('enterAdditionalInfo') || "Apartment number, floor, delivery instructions..."}
+                value={address.additionalInfo || ''}
+                onChange={(e) => handleInputChange('additionalInfo', e.target.value)}
+                variant="bordered"
+                maxLength={MAX_CHARS.additionalInfo}
+                isInvalid={!!errors.additionalInfo}
+                errorMessage={errors.additionalInfo}
+                description={`${address.additionalInfo?.length || 0}/${MAX_CHARS.additionalInfo}`}
+                isDisabled={isValidating || isSubmitting}
+            />
+          </div>
 
-        <Textarea
-          label={t('additionalInfo') || "Additional Information"}
-          placeholder={t('enterAdditionalInfo') || "Apartment number, floor, delivery instructions..."}
-          value={address.additionalInfo || ''}
-          onChange={(e) => handleInputChange('additionalInfo', e.target.value)}
-          variant="bordered"
-          maxLength={MAX_CHARS.additionalInfo}
-          isInvalid={!!errors.additionalInfo}
-          errorMessage={errors.additionalInfo}
-          description={`${address.additionalInfo?.length || 0}/${MAX_CHARS.additionalInfo}`}
-          isDisabled={isValidating || isSubmitting}
-        />
-      </div>
+          {/* Server Validation Error */}
+          {validationError && (
+              <div className="text-danger text-sm mt-1">{validationError}</div>
+          )}
 
-      {/* Server Validation Error */}
-      {validationError && (
-        <div className="text-danger text-sm mt-1">{validationError}</div>
+          {/* Submit Button */}
+          <div className="flex justify-end gap-2 mt-2">
+            <Button
+                type="submit"
+                color="primary"
+                isLoading={isValidating || isSubmitting}
+                isDisabled={isValidating || isSubmitting || Object.values(errors).some(e => !!e)}
+            >
+              {t('confirm') || "Confirm Address"}
+            </Button>
+          </div>
+        </>
       )}
-
-      {/* Submit Button */}
-      <div className="flex justify-end gap-2 mt-2">
-        <Button
-          type="submit"
-          color="primary"
-          isLoading={isValidating || isSubmitting}
-          isDisabled={isValidating || isSubmitting || Object.values(errors).some(e => !!e)}
-        >
-          {t('confirm') || "Confirm Address"}
-        </Button>
-      </div>
     </form>
   );
 } 

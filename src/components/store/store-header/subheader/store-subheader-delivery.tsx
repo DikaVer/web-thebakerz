@@ -44,11 +44,11 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
         selectedDate,
         isLoadingDate,
         isDateUpdating,
+        isSubheaderLoaded,
         handleDateChange,
         
         // Address management
         address,
-        isAddressLoading,
         showDeliveryInfo,
         modalSubmissionStatus,
         resetModalStatus,
@@ -63,16 +63,14 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
     
     // Notify parent when loading is complete
     useEffect(() => {
-        // Consider subheader loaded when address is loaded and date is loaded
-        const isLoaded = !isAddressLoading && !isLoadingDate;
-        
+
         // Use a slight delay to ensure UI stability
         const timer = setTimeout(() => {
-            setSubheaderLoaded(isLoaded);
+            setSubheaderLoaded(!isDateUpdating || !isLoadingDate);
         }, 100);
         
         return () => clearTimeout(timer);
-    }, [isAddressLoading, isLoadingDate, setSubheaderLoaded]);
+    }, [isDateUpdating, isLoadingDate, setSubheaderLoaded]);
 
     // Determine if we're submitting the address
     const isSubmittingAddress = modalSubmissionStatus === 'validating' || modalSubmissionStatus === 'saving';
@@ -86,9 +84,6 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
         // Fall back to store schedule
         return store.schedule;
     };
-
-    // Updated loading state check
-    const isLoading = isAddressLoading || isValidating;
 
     // Handle autocomplete focus/blur events
     const handleAutocompleteFocus = () => {
@@ -134,7 +129,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                 onClick={onOpen}
             >
                 <div className="flex flex-row gap-x-4 items-center flex-1 min-w-0">
-                    {isLoading ? (
+                    {!isSubheaderLoaded ? (
                         <Spinner size="sm" color="primary" />
                     ) : (
                         <IconLocation
@@ -159,7 +154,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                     ) : (
                         <div className="flex flex-col gap-y-0 min-w-0">
                             <p className="text-sm text-text truncate">
-                                {isLoading ? t("loadingAddress") : t("enterDeliveryAddressPrompt")}
+                                {!isSubheaderLoaded ? t("loadingAddress") : t("enterDeliveryAddressPrompt")}
                             </p>
                         </div>
                     )}
@@ -171,7 +166,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                     variant={showDeliveryInfo ? "light" : "solid"}
                     onPress={onOpen}
                     isIconOnly
-                    isLoading={isLoading}
+                    isLoading={!isSubheaderLoaded}
                     className="flex-shrink-0 ml-2"
                 >
                     {showDeliveryInfo ? <Icon icon="solar:pen-linear" width={24} /> : <Icon icon="solar:add-square-linear" width={24} />}
@@ -186,9 +181,9 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                 />
             ) : (
                 <div onClick={onOpen}>
-                    <Card className="w-full overflow-hidden border border-border mb-4 cursor-pointer max-w-[440px]" shadow="none">
+                    <Card className="w-full overflow-hidden border border-border cursor-pointer max-w-[440px]" shadow="none">
                         <CardBody className="p-6 flex flex-col items-center justify-center gap-3 w-[440px] max-w-[100%]">
-                            {isLoading ? (
+                            {!isSubheaderLoaded ? (
                                 <>
                                     <Spinner color="primary" size="lg" />
                                     <p className="text-sm text-default-500">{t("loadingDeliveryOptions")}</p>
@@ -214,12 +209,12 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                         fullWidth
                         size="sm"
                         radius="md"
-                        className="text-grayText"
+                        className="text-grayText mt-4"
                     >
                         <SmartDatetimeInput
                             schedule={getDeliverySchedule()}
                             minValue={(() => {
-                                return now("Europe/Amsterdam").add({ minutes: store.minTimeOrder || 2880 });
+                                return now("Europe/Amsterdam").add({ minutes: validationResult.deliveryRegion.minOrderTime || 2880});
                             })()}
                             value={selectedDate}
                             onValueChange={(newDate) => handleDateChange(newDate)}

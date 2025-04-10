@@ -77,7 +77,7 @@ export const OrdersBarChart: React.FC<OrdersBarChartProps> = ({orderDataList, is
             const currentData = statusMap.get(status) || { amount: 0, count: 0 };
 
             statusMap.set(status, {
-                amount: currentData.amount + order.amount,
+                amount: currentData.amount + order.totalInclVat,
                 count: currentData.count + 1
             });
         });

@@ -48,7 +48,7 @@ export function StoreSubHeaderPickUp({ }: StoreSubHeaderPickUpProps) {
                     fullWidth
                     size="sm"
                     radius="md"
-                    className="text-grayText"
+                    className="text-grayText mt-4"
                 >
                     <SmartDatetimeInput
                         schedule={store.schedule}

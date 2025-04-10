@@ -132,7 +132,9 @@
     "thursday": "Donderdag",
     "friday": "Vrijdag",
     "saturday": "Zaterdag",
-    "sunday": "Zondag"
+    "sunday": "Zondag",
+    "brandName": "TheBakerz",
+    "minOrderTime": "Min besteltijd:"
   },
   "app/(return_page)/settings/components/profile-setting": {
     "profilePicture": "Profielfoto",
@@ -897,7 +899,10 @@
     "missingCart": "Winkelwagen ontbreekt",
     "orderFailed": "Bestelling mislukt",
     "processingError": "Fout bij het verwerken van de betaling",
-    "missingPricingDetails": "Ontbrekende prijsdetails"
+    "missingPricingDetails": "Ontbrekende prijsdetails",
+    "orderDbFailed": "Bestel DB mislukt",
+    "userCreationFailed": "Gebruikerscreatie is mislukt",
+    "missingUserEmail": "Ontbrekende gebruikersmail"
   },
   "app/api/store/cart": {
     "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
@@ -1144,7 +1149,14 @@
     "optionsUpdateSuccess": "Bezorgopties succesvol bijgewerkt",
     "optionsUpdateError": "Fout bij het bijwerken van bezorgopties",
     "invalidCity": "Ongeldige stad geselecteerd",
-    "minOrderPriceError": "Minimale bestelprijs moet minimaal 10€ zijn"
+    "minOrderPriceError": "Minimale bestelprijs moet minimaal 10€ zijn",
+    "minOrderTime": "Min besteltijd:",
+    "brandName": "TheBakerz",
+    "minutes": "notulen",
+    "hour": "uur",
+    "hours": "uren",
+    "day": "dag",
+    "days": "dagen"
   },
   "app/(store)/components/delivery-map": {
     "loadingMap": "Kaart laden...",

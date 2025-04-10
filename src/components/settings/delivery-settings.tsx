@@ -74,7 +74,9 @@ const DeliveryManager = () => {
             priceInCents: region.priceInCents,
             minOrderPriceInCents: region.minOrderPriceInCents || 1000, // Default to 10€ if not set
             coordinates: region.coordinates,
-            deliverySchedule: region.deliverySchedule || {...emptyWorkHours}
+            deliverySchedule: region.deliverySchedule || {...emptyWorkHours},
+            isStoreDelivery: region.isStoreDelivery,
+            minOrderTime: region.minOrderTime || 1440 // Default to 24 hours if not set
           }));
           setDeliveryCities(cities);
         } else {
@@ -119,7 +121,9 @@ const DeliveryManager = () => {
         priceInCents: city.priceInCents,
         minOrderPriceInCents: city.minOrderPriceInCents,
         coordinates: city.coordinates,
-        deliverySchedule: city.deliverySchedule || {...emptyWorkHours}
+        deliverySchedule: city.deliverySchedule || {...emptyWorkHours},
+        isStoreDelivery: city.isStoreDelivery,
+        minOrderTime: city.minOrderTime || 1444
       }));
       
       // Update the merchant's delivery regions
@@ -251,6 +255,7 @@ const DeliveryManager = () => {
         range: deliveryRange,
         priceInCents: deliveryPriceInCents,
         minOrderPriceInCents: minOrderPriceInCents,
+        minOrderTime: updatedCities[existingCityIndex].minOrderTime || 1440
       };
       setDeliveryCities(updatedCities);
     } else {
@@ -260,8 +265,10 @@ const DeliveryManager = () => {
         range: deliveryRange,
         priceInCents: deliveryPriceInCents,
         minOrderPriceInCents: minOrderPriceInCents,
+        minOrderTime: 1440,
         coordinates: cityLatLngMap[selectedCityForRange],
-        deliverySchedule: undefined
+        deliverySchedule: undefined,
+        isStoreDelivery: true
       }]);
     }
     
@@ -321,6 +328,18 @@ const DeliveryManager = () => {
     closeScheduleModal();
   };
 
+  // Handle min order time change from modal
+  const handleMinOrderTimeChange = (minutes: number) => {
+    if (!currentCityForSchedule) return;
+    
+    const updatedCities = deliveryCities.map(city => 
+      city.name === currentCityForSchedule.name 
+        ? { ...city, minOrderTime: minutes } 
+        : city
+    );
+    
+    setDeliveryCities(updatedCities);
+  };
 
   if (loading) {
     return <div className="p-4">{t("loadingMap")}</div>;
@@ -376,6 +395,7 @@ const DeliveryManager = () => {
           </div>
         </CardBody>
       </Card>
+
 
       {/* Delivery Regions Card */}
       <Card className="w-full max-w-2xl mx-auto">
@@ -445,6 +465,7 @@ const DeliveryManager = () => {
           deliverySchedule={deliverySchedule}
           setDeliveryTime={setDeliveryTime}
           saving={saving}
+          onMinOrderTimeChange={handleMinOrderTimeChange}
         />
       </Card>
     </div>

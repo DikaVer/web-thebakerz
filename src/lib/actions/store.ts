@@ -23,10 +23,12 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
                     s.stripe_id,
                     s.min_time_order,
                     s.delivery_option,
-                    COALESCE(bs.kor, false) AS kor
+                    COALESCE(bs.kor, false) AS kor,
+                    s.region as region,
+                    s.currency as currency
              FROM stores s
                       JOIN users u ON s.user_id = u.id
-                      LEFT JOIN business_store bs ON bs.store_id = s.id
+                      LEFT JOIN business_acc bs ON bs.user_id = s.user_id
              WHERE (LOWER(s.nickname) = LOWER($1) OR s.id = $1)
                AND s.deleted = false`,
             [id]
@@ -63,6 +65,8 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
         return {
             id: storeRow.id,
             kor: storeRow.kor,
+            region: storeRow.region,
+            currency: storeRow.currency,
             storeName: storeRow.nickname,
             description: storeRow.description,
             phone: storeRow.phone,
@@ -139,10 +143,12 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 store_locations.country AS store_country,
                 store_locations.latitude AS store_latitude,
                 store_locations.longitude AS store_longitude,
-                bs.kor AS kor
+                bs.kor AS kor,
+                stores.region as region,
+                stores.currency as currency
             FROM stores
                      INNER JOIN store_locations ON store_locations.store_id = stores.id
-                     LEFT JOIN business_store bs ON bs.store_id = stores.id
+                     LEFT JOIN business_acc bs ON bs.user_id = stores.user_id
             WHERE stores.user_id = $1
         `,
         [userId]
@@ -169,12 +175,14 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
         store = {
             id: rowS.store_id,
             kor: rowS.kor,
+            region: rowS.region,
             storeName: rowS.store_name,
             description: rowS.store_description,
             phone: rowS.store_phone,
             facebook_url: rowS.store_facebook_url,
             instagram_url: rowS.store_instagram_url,
             slug: rowS.slug,
+            currency: rowS.currency,
             minTimeOrder: rowS.min_time_order,
             deliveryOption: rowS.delivery_option,
             location: {
@@ -216,10 +224,11 @@ export async function getBusinessStoreData(id: string): Promise<StoreBusinessDat
                 ba.route,
                 ba.city,
                 ba.zip_code,
-                ba.country
-             FROM business_store bs
+                ba.country,
+                bs.location
+             FROM business_acc bs
              JOIN business_address ba ON bs.business_address_id = ba.id
-             WHERE bs.store_id = $1`,
+             WHERE bs.user_id = $1`,
             [id]
         );
 
@@ -242,6 +251,7 @@ export async function getBusinessStoreData(id: string): Promise<StoreBusinessDat
                 zip_code: row.zip_code,
                 country: row.country,
             },
+            region: row.location,
         };
     } catch (error) {
         console.error("Error fetching business store data:", error);
@@ -296,6 +306,7 @@ export interface StoreBusinessData {
     kvk: string;
     bank_account: string;
     location: LocationBusiness;
+    region: string;
 }
 
 export interface LocationBusiness {
@@ -317,6 +328,8 @@ export interface LocationData {
 export interface StoreData {
     id: string;
     kor: boolean;
+    region: string;
+    currency: string;
     storeName?: string;
     description?: string;
     email?: string;

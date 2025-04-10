@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Spacer, Select, SelectItem, Button } from "@heroui/react";
 import { updateMinOrderTime } from "@/lib/actions/store";
 import showErrorMessage from "@/components/toast/toast-error";
@@ -18,13 +18,16 @@ interface MinTimeOrderProps {
 export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
     const t = useTranslations("app/(return_page)/settings/components/calendar/min-time-order");
     const { session } = useSession();
-    // console.log(session);
-    if (!session.store?.minTimeOrder){
-        return null;
-    }
-
-    const [minOrderTime, setMinOrderTime] = useState<string>(session.store.minTimeOrder.toString());
+    const [isVisible, setIsVisible] = useState(false);
+    const [minOrderTime, setMinOrderTime] = useState<string>("30");
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (session.store?.minTimeOrder) {
+            setMinOrderTime(session.store.minTimeOrder.toString());
+            setIsVisible(true);
+        }
+    }, [session.store?.minTimeOrder]);
 
     const timeOptions = useMemo(() => {
         const options = [];
@@ -64,6 +67,10 @@ export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
             setIsLoading(false);
         }
     };
+
+    if (!isVisible) {
+        return null;
+    }
 
     return (
         <div>

@@ -48,6 +48,14 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         return 0;
     }, [isDelivery, validationResult]);
 
+    // Get delivery fee from the selected region if in delivery mode
+    const isStoreDelivery = useMemo(() => {
+        if (isDelivery && validationResult.deliveryRegion?.isStoreDelivery) {
+            return validationResult.deliveryRegion.isStoreDelivery;
+        }
+        return false;
+    }, [isDelivery, validationResult]);
+
     // Calculate minimum order amount based on delivery region if applicable
     const minimumOrderAmount = useMemo(() => {
         if (isDelivery && validationResult.deliveryRegion?.minOrderPriceInCents) {
@@ -58,13 +66,13 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
 
     // Calculate totals with delivery fee
     const { 
-        itemSubtotalExclVat,
+        itemExclVat,
         deliveryFeeExclVat,
         serviceFeeExclVat,
         totalVat,
         totalInclVat 
     } = useMemo(() => {
-        return calculateTotals(amount, !store.kor, deliveryFee);
+        return calculateTotals(amount, !store.kor, deliveryFee, isStoreDelivery);
     }, [amount, store.kor, isDelivery, deliveryFee]);
 
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
@@ -147,7 +155,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                     <div className="py-4">
                         <div className="flex justify-between">
                             <span className="text-sm font-medium">{t("subtotal")}</span>
-                            <span className="text-sm">{formatCurrency(itemSubtotalExclVat)}</span>
+                            <span className="text-sm">{formatCurrency(itemExclVat)}</span>
                         </div>
                         {isDelivery && deliveryFeeExclVat > 0 &&
                             <div className="flex justify-between mt-2">

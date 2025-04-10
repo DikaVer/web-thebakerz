@@ -44,7 +44,9 @@ const DeliveryRegionSchema = z.object({
   priceInCents: z.number().min(0),
   minOrderPriceInCents: z.number().min(1000, { message: "Minimum order price must be at least 10€" }),
   coordinates: CoordinatesSchema,
-  deliverySchedule: DeliveryScheduleSchema
+  deliverySchedule: DeliveryScheduleSchema,
+  isStoreDelivery: z.boolean().default(false),
+  minOrderTime: z.number().min(0, { message: "Minimum order time must be greater than 0" })
 });
 
 // Schema for the array of delivery regions

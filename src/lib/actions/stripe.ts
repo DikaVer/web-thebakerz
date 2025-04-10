@@ -6,11 +6,11 @@ import { globalPOSTRateLimit } from "@/lib/actions/requests";
 import { getCart } from "@/lib/actions/cart";
 import { getProductsByStoreId } from "@/lib/actions/product";
 import { getDeliveryTime, getOrderTime} from "@/app/(store)/[id]/actions";
-import {OrderRaw} from "@/lib/actions/order";
+import {OrderRaw, ExtendedOrderRaw} from "@/lib/actions/order";
 import {v4 as uuidv4} from "uuid";
 import {containerOrdersUnpaid} from "@/db";
 import {getStoreDataByStoreNameOrId} from "@/lib/actions/store";
-import {calculateTotals} from "@/lib/price/tax";
+import {calculateApplicationFee, calculateTotals} from "@/lib/price/tax";
 import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
 import { CalendarDateTime, getDayOfWeek, Time, toTime, ZonedDateTime, now, getLocalTimeZone, toZoned } from "@internationalized/date";
 import {scheduledToCalendarDateTime, formatCurrency} from "@/lib/utils";
@@ -21,7 +21,7 @@ import { validateAddress } from "@/lib/actions/delivery-address-actions";
 import { MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
 import { WorkHours } from "@/lib/actions/calendar-actions";
 
-// --- PLACEHOLDER --- 
+
 // It should validate if the given time is within the schedule and respects lead time.
 async function validateOrderTimeAgainstSchedule(
     orderDateTime: CalendarDateTime,
@@ -88,22 +88,19 @@ async function validateOrderTimeAgainstSchedule(
     // If all checks pass
     return { isValid: true, message: "Order time is valid." };
 }
-// --- END PLACEHOLDER ---
 
-// Helper function to round to two decimals (for cents)
-function roundToCents(num: number): number {
-    return Math.round(num);
-}
 
 // Define the expected input structure for fetchClientSecret
 interface FetchClientSecretInput {
     storeId: string;
     storeStripeAccountId: string;
+    promotionCode?: string; // Optional promotion code
+    referralCode?: string; // Optional referral code
     // Add addressData if needed for server-side validation
     // addressData?: AddressFormType;
 }
 
-export async function fetchClientSecret({ storeId, storeStripeAccountId }: FetchClientSecretInput) {
+export async function fetchClientSecret({ storeId, storeStripeAccountId, promotionCode, referralCode }: FetchClientSecretInput) {
     // 1. Basic Checks & Rate Limiting
     // ---------------------------------
     if (!(await globalPOSTRateLimit())) {
@@ -117,7 +114,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId }: Fetch
 
     // 2. User & Session Info
     // ----------------------
-    const { session, user, store: userIsStoreOwner } = await getCurrentSession();
+    const { user, store: userIsStoreOwner } = await getCurrentSession();
     let userId = user?.id || await getCartSessionCookieOrCreate();
     if (!userId) return { error: "User identifier could not be determined." };
 
@@ -168,8 +165,8 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId }: Fetch
         }
         
         selectedRegion = deliveryValidationResult.deliveryRegion;
-        deliveryFeeInclVat = selectedRegion.priceInCents || 0;
-        minimumOrderAmount = selectedRegion.minOrderPriceInCents || minimumOrderAmount; 
+        deliveryFeeInclVat = selectedRegion.priceInCents;
+        minimumOrderAmount = selectedRegion.minOrderPriceInCents;
     }
 
     // 6. Order Time Validation
@@ -211,12 +208,12 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId }: Fetch
         return { error: isDelivery ? "Delivery/Store schedule not found." : "Store operating hours not found." };
     }
 
-    const leadTime = storeData.minTimeOrder || 0; // Use minTimeOrder from storeData
+    const leadTime = isDelivery ? selectedRegion?.minOrderTime : storeData.minTimeOrder// Use minTimeOrder from storeData
     
     const timeValidation = await validateOrderTimeAgainstSchedule(
         orderDateTime, 
         scheduleToValidateAgainst, 
-        leadTime
+        leadTime || 1440 // Default to 24 hours if not set
     );
     if (!timeValidation.isValid) {
         return { error: `Invalid order time: ${timeValidation.message}` };
@@ -228,7 +225,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId }: Fetch
     const applyVat = !storeData.kor; // Use KOR status from storeData
 
     // Calculate item subtotal (including VAT if applicable)
-    let itemsSubtotalInclVat = 0;
+    let itemsInclVat = 0;
     const cartItemsForOrder = []; // Store details for the unpaid order
 
     for (const itemId in cartData[storeId]) {
@@ -237,7 +234,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId }: Fetch
         if (!product) continue; 
 
         const itemTotalInclVat = calculateItemTotalPrice(cartItem.variants, product.price, cartItem.quantity);
-        itemsSubtotalInclVat += itemTotalInclVat;
+        itemsInclVat += itemTotalInclVat;
 
         cartItemsForOrder.push({
             id: product.id,
@@ -255,25 +252,31 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId }: Fetch
     }
 
     // Check against minimum order amount (based on items subtotal *before* delivery fee)
-    if (itemsSubtotalInclVat < minimumOrderAmount) {
-        return { error: `Minimum order amount is ${formatCurrency(minimumOrderAmount)}. Current items total is ${formatCurrency(itemsSubtotalInclVat)}.` };
+    if (itemsInclVat < minimumOrderAmount) {
+        return { error: `Minimum order amount is ${formatCurrency(minimumOrderAmount)}. Current items total is ${formatCurrency(itemsInclVat)}.` };
     }
 
     // Calculate final totals using the updated function
-    const { 
-        itemSubtotalExclVat, 
-        deliveryFeeExclVat, 
-        totalVat, 
-        totalInclVat 
-    } = calculateTotals(itemsSubtotalInclVat, applyVat, deliveryFeeInclVat);
+    const {
+        itemExclVat,
+        deliveryFeeExclVat,
+        serviceFeeExclVat,
+        serviceFeeInclVat,
+        itemVat,
+        deliveryVat,
+        serviceVat,
+        totalVat,
+        totalInclVat,
+        totalExclVat
+    } = calculateTotals(itemsInclVat, applyVat, deliveryFeeInclVat, selectedRegion?.isStoreDelivery || false);
 
     // 8. Prepare Stripe Line Items (Prices EXCLUDING VAT)
     // ---------------------------------------------------
     const stripeLineItems = [];
     const stripeTaxRateId = applyVat ? (await stripe.taxRates.create({
         display_name: 'VAT',
-        description: 'BTW',
-        jurisdiction: 'NL',
+        description: 'TAX',
+        jurisdiction: storeData.region,
         percentage: 9.0, // Assuming 9%
         inclusive: false, // Prices we provide are *exclusive* of tax
     })).id : undefined;
@@ -283,17 +286,17 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId }: Fetch
         if (!product) continue; 
 
         // Calculate price PER UNIT, excluding VAT
-        const unitPriceExclVat = calculateTotals(cartItem.unitAmount, applyVat, 0).itemSubtotalExclVat;
+        const unitPriceExclVat = calculateTotals(cartItem.unitAmount, applyVat, 0, selectedRegion?.isStoreDelivery || false).itemExclVat;
 
         stripeLineItems.push({
             price_data: {
-                currency: 'eur',
+                currency: storeData.currency,
                 product_data: {
                     name: cartItem.name,
                     description: product.description || undefined, // Optional
                     images: product.picture ? [product.picture] : [], // Optional
                 },
-                unit_amount: roundToCents(unitPriceExclVat), // Price per item EXCL VAT
+                unit_amount: unitPriceExclVat, // Price per item EXCL VAT
             },
             quantity: cartItem.qty,
             tax_rates: stripeTaxRateId ? [stripeTaxRateId] : undefined,
@@ -302,55 +305,101 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId }: Fetch
 
     // Add delivery fee as a separate line item if applicable (EXCLUDING VAT)
     if (isDelivery && deliveryFeeInclVat > 0) {
+        // Calculate delivery tax rate
+        let deliveryTaxRates: string[] | undefined;
+        if (applyVat || !selectedRegion?.isStoreDelivery) {
+            const deliveryTaxRate = await stripe.taxRates.create({
+                display_name: 'VAT',
+                description: 'TAX',
+                jurisdiction: storeData.region,
+                percentage: 21.0,
+                inclusive: false,
+            });
+            deliveryTaxRates = [deliveryTaxRate.id];
+        }
+
         stripeLineItems.push({
             price_data: {
-                currency: 'eur',
+                currency: storeData.currency,
                 product_data: {
                     name: 'Delivery Fee',
                 },
-                unit_amount: roundToCents(deliveryFeeExclVat), // Delivery fee EXCL VAT
+                unit_amount: deliveryFeeExclVat, // Delivery fee EXCL VAT
             },
             quantity: 1,
-            tax_rates: stripeTaxRateId ? [stripeTaxRateId] : undefined,
+            tax_rates: deliveryTaxRates
         });
     }
     
     // Add Service Fee if needed (Example - assuming SERVICE_FEE_CENTS is defined)
-    // const SERVICE_FEE_CENTS = 50; // 50 cents example
-    // if (SERVICE_FEE_CENTS > 0) {
-    //     const { serviceFeeExclVat } = calculateTotals(0, applyVat, 0, SERVICE_FEE_CENTS);
-    //     stripeLineItems.push({
-    //         price_data: {
-    //             currency: 'eur',
-    //             product_data: {
-    //                 name: 'Service Fee',
-    //             },
-    //             unit_amount: roundToCents(serviceFeeExclVat),
-    //         },
-    //         quantity: 1,
-    //         tax_rates: stripeTaxRateId ? [stripeTaxRateId] : undefined,
-    //     });
-    // }
+    if (serviceFeeExclVat > 0) {
+        const serviceTaxRate = await stripe.taxRates.create({
+            display_name: 'VAT',
+            description: 'TAX',
+            jurisdiction: storeData.region,
+            percentage: 21.0,
+            inclusive: false,
+        });
+
+        stripeLineItems.push({
+            price_data: {
+                currency: storeData.currency,
+                product_data: {
+                    name: 'Service Fee',
+                },
+                unit_amount: serviceFeeExclVat,
+            },
+            quantity: 1,
+            tax_rates: [serviceTaxRate.id],
+        });
+    }
+
+    // Calculate the transfer amount to the connected account
+    let transferAmount = itemsInclVat;
+    if (isDelivery && deliveryFeeInclVat > 0 && selectedRegion?.isStoreDelivery) {
+        transferAmount += deliveryFeeInclVat; // Include delivery fee in the transfer amount
+    }
+    const applicationFee = calculateApplicationFee(totalInclVat, selectedRegion?.isStoreDelivery || true);
+    transferAmount -= applicationFee; // Subtract application fee
+
 
     // 9. Create Unpaid Order Record
     // ------------------------------
     const cosmosId = uuidv4();
-    // Adjust the type to match the actual structure being created, then cast for DB insert
-    const orderRecordForDb: Omit<OrderRaw, 'id'> & { id: string; isDelivery: boolean; deliveryAddress?: AddressFormType; deliveryRegionName?: string; deliveryFeeInclVat?: number; itemsSubtotalInclVat: number; totalInclVat: number; totalVat: number; status: string; } = {
+    // Create the order record with proper typing
+    const orderRecordForDb: ExtendedOrderRaw = {
         id: cosmosId,
         store_id: storeId,
         createdAt: new Date(),
         scheduled_time: selectedTime, // Use the validated time
         customer_email: (user && !userIsStoreOwner) ? user.email : undefined,
         productsData: cartItemsForOrder, // Use the detailed cart items
-        // Add extra fields needed internally or for Stripe metadata, but not part of base OrderRaw
+        // Add extra fields needed internally or for Stripe metadata
         isDelivery: isDelivery,
-        deliveryAddress: isDelivery ? deliveryValidationResult?.validatedAddress : undefined,
-        deliveryRegionName: isDelivery ? selectedRegion?.name : undefined,
-        deliveryFeeInclVat: isDelivery ? deliveryFeeInclVat : 0,
-        itemsSubtotalInclVat: itemsSubtotalInclVat,
+        deliveryToAddress: deliveryValidationResult ? deliveryValidationResult.validatedAddress : undefined,
+        deliveryFromAddress: selectedRegion ? {
+            lat: selectedRegion.coordinates.lat,
+            lng: selectedRegion.coordinates.lng
+        } : undefined,
+        itemExclVat: itemExclVat,
+        deliveryFeeExclVat: deliveryFeeExclVat,
+        serviceFeeExclVat: serviceFeeExclVat,
+        itemInclVat: itemsInclVat,
+        deliveryFeeInclVat: selectedRegion ? deliveryFeeInclVat : 0,
+        serviceFeeInclVat: serviceFeeInclVat,
+        itemVat: itemVat,
+        deliveryVat: deliveryVat,
+        serviceVat: serviceVat,
         totalInclVat: totalInclVat,
         totalVat: totalVat,
+        totalExclVat: totalExclVat,
+        region: storeData.region,
+        currency: storeData.currency,
+        transfer_data: [{
+            destination: storeStripeAccountId,
+            amount: transferAmount, // Amount to transfer to the connected account
+            app_fee: applicationFee
+        }],
         status: 'pending_payment',
     };
 
@@ -365,6 +414,8 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId }: Fetch
     // 10. Create Stripe Checkout Session
     // ---------------------------------
     try {
+
+
         const stripeSession = await stripe.checkout.sessions.create({
             ui_mode: 'embedded',
             submit_type: 'pay',
@@ -375,15 +426,15 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId }: Fetch
             },
             line_items: stripeLineItems,
             mode: 'payment',
-            currency: 'eur',
+            currency: storeData.currency,
             payment_method_types: ['card', 'ideal', 'revolut_pay', 'bancontact'],
             return_url: `${origin}/api/pay?session_id={CHECKOUT_SESSION_ID}&store_id=${storeId}&store_stripe_account_id=${storeStripeAccountId}&order_id=${cosmosId}`,
             automatic_tax: { enabled: false }, // We specify tax rates manually
             payment_intent_data: {
-              transfer_data: {
-                  destination: storeStripeAccountId,
-              },
-              // application_fee_amount: calculateApplicationFee(totalInclVat), // Optional: Platform fee
+                transfer_data: {
+                    destination: storeStripeAccountId,
+                    amount: transferAmount // Amount to transfer to the connected account
+                },
             },
             metadata: {
                 userId: userId,

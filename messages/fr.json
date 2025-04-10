@@ -132,7 +132,9 @@
     "thursday": "Jeudi",
     "friday": "Vendredi",
     "saturday": "Samedi",
-    "sunday": "Dimanche"
+    "sunday": "Dimanche",
+    "brandName": "TheBakerz",
+    "minOrderTime": ""
   },
   "app/(return_page)/settings/components/profile-setting": {
     "profilePicture": "Photo de profil",
@@ -897,7 +899,10 @@
     "missingCart": "Panier manquant",
     "orderFailed": "La commande a échoué",
     "processingError": "Erreur lors du traitement du paiement",
-    "missingPricingDetails": "Détails des prix manquants"
+    "missingPricingDetails": "Détails des prix manquants",
+    "orderDbFailed": "L'ordre de commande a échoué",
+    "userCreationFailed": "La création de l'utilisateur a échoué",
+    "missingUserEmail": "E-mail utilisateur manquant"
   },
   "app/api/store/cart": {
     "missingStoreId": "En-tête Store-Id manquant ou non valide",
@@ -1144,7 +1149,14 @@
     "optionsUpdateSuccess": "Options de livraison mises à jour avec succès",
     "optionsUpdateError": "Échec de la mise à jour des options de livraison",
     "invalidCity": "Ville invalide sélectionnée",
-    "minOrderPriceError": "Le prix minimum de commande doit être d'au moins 10€"
+    "minOrderPriceError": "Le prix minimum de commande doit être d'au moins 10€",
+    "minOrderTime": "Min Order Temps:",
+    "brandName": "TheBakerz",
+    "minutes": "minutes",
+    "hour": "heure",
+    "hours": "heures",
+    "day": "jour",
+    "days": "jours"
   },
   "app/(store)/components/delivery-map": {
     "loadingMap": "Chargement de la carte...",

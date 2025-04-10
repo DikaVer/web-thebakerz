@@ -180,7 +180,7 @@ export async function validateAndSaveAddress(
   // 2. If valid (even if out of range), save it
   let saveResult: { success?: string; error?: string } = {};
   
-  if (validationResult.isValid && validationResult.validatedAddress) {
+  if (validationResult.isValid && validationResult.validatedAddress && validationResult.isInRange) {
     saveResult = await saveDeliveryAddress(storeId, validationResult.validatedAddress);
   } else {
     saveResult = { error: "Address validation failed" };

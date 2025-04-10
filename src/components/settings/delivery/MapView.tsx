@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@heroui/react";
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { useTranslations } from "next-intl";
+import { WorkHours } from "@/lib/actions/calendar-actions";
 
 // Map styles
 const mapContainerStyle = {
@@ -27,7 +28,12 @@ interface MapElement {
 interface DeliveryCity {
   name: string;
   range: number;
+  priceInCents: number;
+  minOrderPriceInCents: number;
   coordinates: { lat: number, lng: number };
+  deliverySchedule?: WorkHours;
+  isStoreDelivery: boolean;
+  minOrderTime: number;
 }
 
 interface MapViewProps {

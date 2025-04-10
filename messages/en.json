@@ -267,7 +267,14 @@
     "optionsUpdateSuccess": "Delivery options updated successfully",
     "optionsUpdateError": "Failed to update delivery options",
     "invalidCity": "Invalid city selected",
-    "minOrderPriceError": "Minimum order price must be at least 10€"
+    "minOrderPriceError": "Minimum order price must be at least 10€",
+    "minOrderTime": "Min Order Time:",
+    "brandName": "TheBakerz",
+    "minutes": "minutes",
+    "hour": "hour",
+    "hours": "hours",
+    "day": "day",
+    "days": "days"
   },
   "app/(store)/[id]/page": {
     "loading": "Loading...",
@@ -944,7 +951,10 @@
     "missingCart": "Missing cart",
     "orderFailed": "Order failed",
     "processingError": "Error processing payment",
-    "missingPricingDetails": "Missing Price Details"
+    "missingPricingDetails": "Missing Price Details",
+    "orderDbFailed": "Order DB Failed",
+    "userCreationFailed": "User Creation Failed",
+    "missingUserEmail": "Missing user email"
   },
   "app/api/store/cart": {
     "missingStoreId": "Missing or invalid Store-Id header",
@@ -1159,7 +1169,9 @@
     "thursday": "Thursday",
     "friday": "Friday",
     "saturday": "Saturday",
-    "sunday": "Sunday"
+    "sunday": "Sunday",
+    "brandName": "TheBakerz",
+    "minOrderTime": ""
   },
   "app/(store)/components/delivery-map": {
     "viewOnGoogleMaps": "View on Google Maps",

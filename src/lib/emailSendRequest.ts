@@ -122,10 +122,10 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
                 storeLocation: storeLocation, // Pass formatted store location
                 products: orderData.productsData,
                 // Pass new pricing/delivery fields
-                itemsSubtotalInclVat: orderData.itemsSubtotalInclVat,
+                itemsSubtotalInclVat: orderData.itemsInclVat,
                 deliveryFeeInclVat: orderData.deliveryFeeInclVat,
-                total_amount: orderData.amount, // Final total incl VAT
-                vat: orderData.tax_amount, // Total VAT
+                total_amount: orderData.totalInclVat, // Final total incl VAT
+                vat: orderData.totalVat, // Total VAT
                 isDelivery: orderData.isDelivery,
                 deliveryAddress: orderData.deliveryAddress,
             })),
@@ -154,10 +154,10 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
                 customer: orderData.customer, // Pass the whole customer object
                 products: orderData.productsData,
                 // Pass new pricing/delivery fields
-                itemsSubtotalInclVat: orderData.itemsSubtotalInclVat,
+                itemsSubtotalInclVat: orderData.itemsInclVat,
                 deliveryFeeInclVat: orderData.deliveryFeeInclVat,
-                total_amount: orderData.amount, // Final total incl VAT
-                vat: orderData.tax_amount, // Total VAT
+                total_amount: orderData.totalInclVat, // Final total incl VAT
+                vat: orderData.totalVat, // Total VAT
                 isDelivery: orderData.isDelivery,
                 deliveryAddress: orderData.deliveryAddress,
             })),

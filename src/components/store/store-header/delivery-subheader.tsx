@@ -5,7 +5,7 @@ import { StoreSubHeaderPickUp } from "@/components/store/store-header/subheader/
 import { StoreSubHeaderDelivery } from "@/components/store/store-header/subheader/store-subheader-delivery";
 import { CalendarDateTime, CalendarDate } from "@internationalized/date";
 import { useDelivery } from "@/components/providers/delivery-provider";
-import {Button, ButtonGroup, cn} from "@heroui/react";
+import {Button, ButtonGroup, cn, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {useStore} from "@/components/providers/store-provider";
 import {useSession} from "@/components/providers/session-provider";
@@ -29,7 +29,7 @@ export function DeliverySubheader() {
 
 
     return (<>
-                {(store.deliveryOption === "multi" && session?.user?.role !== "bakerz" && session.store?.id !== store.id) && (
+                {(store.deliveryOption === "multi" && session?.user?.role !== "bakerz" && session.store?.id !== store.id) ? (
                     <div className="flex items-center justify-end w-full py-4">
                         <div className="relative p-1 rounded-xl bg-default-100 shadow-sm">
                             <ButtonGroup className="relative z-10 overflow-hidden" isDisabled={isTogglingDelivery || !isSubheaderLoaded}>
@@ -94,6 +94,8 @@ export function DeliverySubheader() {
                             />
                         </div>
                     </div>
+                ) : (
+                    <Spacer y={4}/>
                 )}
                 {(session?.user?.role !== "bakerz" && session.store?.id !== store.id) ?
                     isDelivery ? (
@@ -102,7 +104,7 @@ export function DeliverySubheader() {
                             <StoreSubHeaderPickUp key={'pickup-settings'}/>
                         )
                     :
-                    <DeliverySubheader />
+                    <StoreSubHeaderPickUp key={'pickup-settings'}/>
                 }
             </>);
 }

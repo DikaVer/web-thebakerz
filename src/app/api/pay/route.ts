@@ -4,31 +4,13 @@ import { getCurrentSession } from "@/lib/actions/session";
 import { globalPOSTRateLimit } from "@/lib/actions/requests";
 import { creatAccountAction } from "@/lib/actions/user";
 import { removeCartByUserIdAndStoreId } from "@/lib/actions/cart";
-import { connectionPool, containerOrders, containerOrdersUnpaid } from "@/db";
-import { OrderData, OrderProducts } from "@/lib/actions/order";
+import { connectionPool, containerOrders, containerOrdersUnpaid, containerTransfers } from "@/db";
+import {ExtendedOrderRaw, OrderData, OrderProducts} from "@/lib/actions/order";
 import { sendOrderPlaced } from "@/lib/emailSendRequest";
 import { revalidateTag } from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { AddressFormType } from "@/components/providers/delivery-provider";
 
-// Define an extended type for the raw order data we expect from unpaid container
-interface ExtendedOrderRaw {
-    id: string;
-    store_id: string;
-    createdAt: Date;
-    customer_email?: string;
-    scheduled_time: { date: string; time: string };
-    productsData: OrderProducts;
-    // Added fields from stripe.ts
-    isDelivery?: boolean;
-    deliveryAddress?: AddressFormType;
-    deliveryRegionName?: string;
-    deliveryFeeInclVat?: number;
-    itemsSubtotalInclVat?: number;
-    totalInclVat?: number;
-    totalVat?: number;
-    status?: string; 
-}
 
 /**
  * Handles payment validation and order processing after a Stripe checkout session.
@@ -120,71 +102,98 @@ export async function GET(req: NextRequest) {
             return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=${t("userCreationFailed")}&session_id=${sessionId}`, origin), { status: 308 });
         }
 
-        // --- Validate and Extract Data from orderRaw ---
-        const dateParams = orderRaw.scheduled_time?.date;
-        const timeParams = orderRaw.scheduled_time?.time;
-        const cartItems: OrderProducts = orderRaw.productsData;
-        const isDelivery = orderRaw.isDelivery ?? false;
-        const deliveryAddress = orderRaw.deliveryAddress; // Keep as object
-        const deliveryRegionName = orderRaw.deliveryRegionName;
-        const deliveryFeeInclVat = orderRaw.deliveryFeeInclVat ?? 0;
-        const itemsSubtotalInclVat = orderRaw.itemsSubtotalInclVat;
-        const totalVat = orderRaw.totalVat;
-        const totalInclVat = orderRaw.totalInclVat; // This is the final amount
+        // Create delivery order record
+        const deliveryQuery = `
+            INSERT INTO delivery_orders (
+                to_lng, to_lat, from_lng, from_lat, is_store_delivery
+            )
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING id
+        `;
         
-        // Calculate total excluding VAT
-        const totalExclVat = (totalInclVat !== undefined && totalVat !== undefined) 
-            ? totalInclVat - totalVat 
-            : checkoutSession.amount_subtotal ?? 0; // Fallback to Stripe's subtotal if ours is missing
+        const deliveryValues = [
+            orderRaw.deliveryToAddress?.coordinates?.lng || null,
+            orderRaw.deliveryToAddress?.coordinates?.lat || null,
+            orderRaw.deliveryFromAddress?.lng || null,
+            orderRaw.deliveryFromAddress?.lat || null,
+            orderRaw.isDelivery || false
+        ];
 
-        if (!dateParams || !timeParams || !cartItems || cartItems.length === 0 || itemsSubtotalInclVat === undefined || totalVat === undefined || totalInclVat === undefined) {
-            const errorType = !dateParams || !timeParams ? t("missingOrderTime") 
-                            : !cartItems || cartItems.length === 0 ? t("missingCart") 
-                            : t("missingPricingDetails");
-            await connectionPool.query('ROLLBACK');
-            console.error("Missing critical data in unpaid order record:", { cosmosId, dateParams, timeParams, cartItems, itemsSubtotalInclVat, totalVat, totalInclVat });
-            return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=${errorType}&session_id=${sessionId}`, origin), { status: 308 });
+        const deliveryResult = await connectionPool.query(deliveryQuery, deliveryValues);
+        const deliveryId = deliveryResult.rows[0].id;
+
+        // Create price order record
+        const priceQuery = `
+            INSERT INTO price_orders (
+                promotion_id, referral_id, transfer_id,
+                itemInclVat, itemExclVat,
+                deliveryInclVat, deliveryExclVat,
+                serviceInclVat, serviceExclVat,
+                totalInclVat, totalExclVat
+            )
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            RETURNING id
+        `;
+
+        // Create transfer records in Cosmos DB
+        for (const transfer of orderRaw.transfer_data) {
+            const transferData = {
+                transfer_id: cosmosId,
+                store_id: storeId,
+                destination: transfer.destination,
+                amount: transfer.amount,
+                app_fee: transfer.app_fee,
+                created_at: new Date()
+            };
+
+            await containerTransfers.items.create(transferData);
         }
-        // --- End Data Validation ---
 
-        // Create order in PostgreSQL - Updated Query
-        const pgQuery = `
-            INSERT INTO payment_orders (
-                store_id, store_order_id, email_customer, total_incl_vat, product_ids, 
-                status, stripe_id, cosmos_id, email_verified, is_delivery, 
-                delivery_address, delivery_region_name, delivery_fee_incl_vat, 
-                items_subtotal_incl_vat, total_vat, total_excl_vat 
+        const priceValues = [
+            null, // promotion_id not available in ExtendedOrderRaw
+            null, // referral_id not available in ExtendedOrderRaw
+            cosmosId, // Use cosmosId as transfer_id
+            orderRaw.itemInclVat,
+            orderRaw.itemExclVat,  
+            orderRaw.deliveryFeeInclVat,   
+            orderRaw.deliveryFeeExclVat, 
+            orderRaw.serviceFeeInclVat, 
+            orderRaw.serviceFeeExclVat, 
+            orderRaw.totalInclVat,     
+            orderRaw.totalExclVat 
+        ];
+
+        const priceResult = await connectionPool.query(priceQuery, priceValues);
+        const priceId = priceResult.rows[0].id;
+
+        // Create main order record
+        const orderQuery = `
+            INSERT INTO orders (
+                store_id, store_order_id, customer, email_verified,
+                delivery_id, price_id, product_ids, region,
+                status, currency
             )
             VALUES (
                 $1, 
-                (SELECT COALESCE(MAX(store_order_id), 0) + 1 FROM payment_orders WHERE store_id = $16), 
-                $2, $3, $4::text[], 
-                $5, $6, $7, $8, $9, 
-                $10, $11, $12, 
-                $13, $14, $15
+                get_next_store_order_id($1),
+                $2, $3, $4, $5, $6, $7, $8, $9
             )
-            RETURNING id, order_date, store_order_id
+            RETURNING id, created_at
         `;
-        const pgValues = [
-            storeId,                    // $1
-            email,                      // $2 
-            totalInclVat,               // $3 (amount - total incl VAT)
-            cartItems.map(item => item.id || 'Error'), // $4 (product_ids)
-            checkoutSession.payment_status, // $5 (status)
-            sessionId,                  // $6 (stripe_id)
-            cosmosId,                   // $7 (cosmos_id)
-            emailVerified,              // $8 (email_verified)
-            isDelivery,                 // $9 (is_delivery)
-            isDelivery ? JSON.stringify(deliveryAddress) : null, // $10 (delivery_address - stringified JSON or NULL)
-            deliveryRegionName,         // $11 (delivery_region_name)
-            deliveryFeeInclVat,         // $12 (delivery_fee_incl_vat)
-            itemsSubtotalInclVat,       // $13 (items_subtotal_incl_vat)
-            totalVat,                   // $14 (total_vat)
-            totalExclVat,                // $15 (sub_amount - total EXCL VAT)
-            storeId           // $16 (added duplicate for the subquery)
+
+        const orderValues = [
+            storeId,
+            email,
+            emailVerified,
+            deliveryId,
+            priceId,
+            orderRaw.productsData?.map(p => p.id) || [],
+            orderRaw.region,
+            checkoutSession.payment_status,
+            orderRaw.currency
         ];
-        
-        const result = await connectionPool.query(pgQuery, pgValues);
+
+        const result = await connectionPool.query(orderQuery, orderValues);
 
         if (result.rows.length === 0) {
             await connectionPool.query('ROLLBACK');
@@ -192,40 +201,49 @@ export async function GET(req: NextRequest) {
             return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=${t("orderDbFailed")}&session_id=${sessionId}`, origin), { status: 308 });
         }
 
-        // Create final order record in Cosmos DB - Using updated OrderData fields
+        // Create final order record in Cosmos DB
         const orderData: OrderData = {
             id: cosmosId,
             seq_id: result.rows[0].id,
             store_order_id: result.rows[0].store_order_id,
             store_id: storeId,
-            customer_email: email, // Use the validated/primary email
+            customer_email: email,
             customer: {
-                email_customer: email, // Use primary email
+                email_customer: email,
                 email_verified: emailVerified,
                 name_customer: username,
-                phone_number: checkoutSession.customer_details?.phone, // From Stripe
-                address: checkoutSession.customer_details?.address || null, // Stripe billing/shipping
+                phone_number: checkoutSession.customer_details?.phone,
+                address: checkoutSession.customer_details?.address || null,
                 payment_method: checkoutSession.payment_method_types,
                 payment_name: checkoutSession.customer_details?.name,
                 tax_id: checkoutSession.customer_details?.tax_ids?.[0]?.value,
             },
-            createdAt: result.rows[0].order_date,
-            status: checkoutSession.payment_status as "paid" | "manual", // Should be 'paid' here
-            scheduled_time: { date: dateParams, time: timeParams },
-            order_status: 'new', // Initial status
+            createdAt: result.rows[0].created_at,
+            status: checkoutSession.payment_status as "paid" | "manual",
+            scheduled_time: orderRaw.scheduled_time,
+            order_status: 'new',
             completed: false,
-            productsData: cartItems,
+            productsData: orderRaw.productsData || [],
             
-            // Use values from orderRaw/calculated
-            itemsSubtotalInclVat: itemsSubtotalInclVat, 
-            deliveryFeeInclVat: deliveryFeeInclVat,
-            sub_amount: totalExclVat,           // Total EXCL VAT
-            tax_amount: totalVat,               // Total VAT
-            amount: totalInclVat,               // Final total INCL VAT
+            // Price information
+            priceData: {
+                itemInclVat: orderRaw.itemInclVat,
+                itemExclVat: orderRaw.itemExclVat,
+                deliveryFeeInclVat: orderRaw.deliveryFeeInclVat,
+                deliveryFeeExclVat: orderRaw.deliveryFeeExclVat,
+                serviceFeeInclVat: orderRaw.serviceFeeInclVat,
+                serviceFeeExclVat: orderRaw.serviceFeeExclVat,
+                itemVat: orderRaw.itemVat,
+                deliveryVat: orderRaw.deliveryVat,
+                serviceVat: orderRaw.serviceVat,
+                totalInclVat: orderRaw.totalInclVat,
+                totalExclVat: orderRaw.totalExclVat,
+                totalVat: orderRaw.totalVat
+            },
 
-            isDelivery: isDelivery,
-            deliveryAddress: deliveryAddress, // Store the object
-            deliveryRegionName: deliveryRegionName,
+            // Delivery information
+            isDelivery: orderRaw.isDelivery,
+            deliveryAddress: orderRaw.deliveryToAddress
         };
 
         // Store final order and clean up

@@ -15,14 +15,16 @@ export interface MerchantDeliveryRegion {
   radiusKm: number;
   priceInCents: number;
   minOrderPriceInCents: number;
+  minOrderTime: number;
   coordinates: { lat: number, lng: number };
   deliverySchedule: WorkHours;
+  isStoreDelivery: boolean;
 }
 
 export async function getMerchantDeliveryRegions(storeId: string) {
   try {
     const { resources } = await containerDeliveryRegions.items
-      .query(`SELECT * FROM c WHERE c.storeId = "${storeId}" AND c.type = 'merchant_region'`)
+      .query(`SELECT * FROM c WHERE c.storeId = "${storeId}"`)
       .fetchAll();
     return resources as MerchantDeliveryRegion[];
   } catch (error) {
@@ -39,6 +41,8 @@ export async function updateMerchantDeliveryRegions(
     minOrderPriceInCents: number;
     coordinates: { lat: number, lng: number }; 
     deliverySchedule: WorkHours | undefined;
+    isStoreDelivery: boolean;
+    minOrderTime: number;
   }[]
 ) {
   try {
@@ -50,7 +54,6 @@ export async function updateMerchantDeliveryRegions(
       throw new Error("Invalid delivery region data");
     }
 
-
     const { store } = await getCurrentSession();
     if (!store) {
       throw new Error("Not authenticated");
@@ -60,7 +63,7 @@ export async function updateMerchantDeliveryRegions(
 
     // Delete existing regions
     const { resources } = await containerDeliveryRegions.items
-      .query(`SELECT * FROM c WHERE c.storeId = "${storeId}" AND c.type = 'merchant_region'`)
+      .query(`SELECT * FROM c WHERE c.storeId = "${storeId}"`)
       .fetchAll();
     
     for (const resource of resources) {
@@ -74,12 +77,13 @@ export async function updateMerchantDeliveryRegions(
         storeId: storeId,
         name: region.name,
         coordinates: region.coordinates,
-        radiusKm: region.radiusKm,
+        radiusKm: region.radiusKm,  
         priceInCents: region.priceInCents,
         minOrderPriceInCents: region.minOrderPriceInCents,
+        minOrderTime: region.minOrderTime,
         deliverySchedule: region.deliverySchedule,
-        type: 'merchant_region',
-      });
+        isStoreDelivery: region.isStoreDelivery,
+        });
     }
 
     revalidateTag("store");

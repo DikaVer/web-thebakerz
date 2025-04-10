@@ -25,9 +25,9 @@ export const InvoiceBakerzDump: React.FC = () => {
 export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
 
     // Compute totals
-    const totalNet = order.sub_amount
-    const totalTax = order.tax_amount
-    const grandTotal = order.amount
+    const totalNet = order.totalExclVat
+    const totalTax = order.totalVat
+    const grandTotal = order.totalInclVat
 
     // Build line items
     const lineItems = (order.productsData ?? []).map((p) => {
