@@ -676,26 +676,26 @@ export function AddressForm({
             <Input
                   label={t('zipCode') || "Postal Code"}
                   placeholder={t('enterZipCode') || "1234 AB"}
-              value={address.zipCode}
+                  value={address.zipCode}
                   onChange={(e) => handleInputChange('zipCode', e.target.value)}
-              isRequired
-              variant="bordered"
-              maxLength={MAX_CHARS.zipCode}
+                  isRequired
+                  variant="bordered"
+                  maxLength={MAX_CHARS.zipCode}
                   isInvalid={!!errors.zipCode}
-              errorMessage={errors.zipCode}
+                  errorMessage={errors.zipCode}
                   isDisabled={isValidating || isSubmitting}
                   className="w-1/3"
             />
             <Input
                   label={t('city') || "City"}
                   placeholder={t('enterCity') || "City"}
-              value={address.city}
+                  value={address.city}
                   onChange={(e) => handleInputChange('city', e.target.value)}
-              isRequired
-              variant="bordered"
-              maxLength={MAX_CHARS.city}
+                  isRequired
+                  variant="bordered"
+                  maxLength={MAX_CHARS.city}
                   isInvalid={!!errors.city}
-              errorMessage={errors.city}
+                  errorMessage={errors.city}
                   isDisabled={isValidating || isSubmitting}
                   className="flex-1"
             />
@@ -706,11 +706,11 @@ export function AddressForm({
                 placeholder={t('enterAdditionalInfo') || "Apartment number, floor, delivery instructions..."}
                 value={address.additionalInfo || ''}
                 onChange={(e) => handleInputChange('additionalInfo', e.target.value)}
-          variant="bordered"
-          maxLength={MAX_CHARS.additionalInfo}
-          isInvalid={!!errors.additionalInfo}
-          errorMessage={errors.additionalInfo}
-          description={`${address.additionalInfo?.length || 0}/${MAX_CHARS.additionalInfo}`}
+                variant="bordered"
+                maxLength={MAX_CHARS.additionalInfo}
+                isInvalid={!!errors.additionalInfo}
+                errorMessage={errors.additionalInfo}
+                description={`${address.additionalInfo?.length || 0}/${MAX_CHARS.additionalInfo}`}
                 isDisabled={isValidating || isSubmitting}
         />
           </div>
@@ -722,14 +722,14 @@ export function AddressForm({
 
           {/* Submit Button */}
         <div className="flex justify-end gap-2 mt-2">
-          <Button 
-            type="submit" 
-            color="primary" 
+            <Button
+              type="submit"
+              color="primary"
                 isLoading={isValidating || isSubmitting}
                 isDisabled={isValidating || isSubmitting || Object.values(errors).some(e => !!e)}
-          >
+            >
               {t('confirm') || "Confirm Address"}
-          </Button>
+            </Button>
         </div>
         </>
       )}
