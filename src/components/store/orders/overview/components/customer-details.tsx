@@ -76,7 +76,19 @@ export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({custo
                                 {address.street}, {address.city}, {address.zipCode}
                             </a>
                         </div>
-                    }          
+                    }
+                    {address && address.additionalInfo && (
+                        <>
+                            <Spacer y={4}/>
+                            <div className={'flex justify-center items-center'}>
+                                <Icon icon={"solar:info-circle-bold"} className="text-default-400 pointer-events-none flex-shrink-0" width={24}/>
+                                <Spacer x={2}/>
+                                <p className={'text-default-500'}>
+                                    {address.additionalInfo}
+                                </p>
+                            </div>
+                        </>
+                    )}
                 </CardBody>
             </Card>
         </div>

@@ -173,12 +173,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   // Initialize delivery mode
   useEffect(() => {
     const initDeliveryMode = async () => {
-      try {
-        const mode = await getDeliveryMode();
-        setIsDelivery(mode === 'delivery');
-      } catch (error) {
-        console.error("Error initializing delivery mode:", error);
-      }
+      await setDeliveryMode(initialDeliveryMode ? 'delivery' : 'pickup');
     };
     
     initDeliveryMode();

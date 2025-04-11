@@ -298,7 +298,15 @@
     "workingHours": "Working Hours",
     "address": "Address",
     "phone": "Phone",
-    "close": "Close"
+    "close": "Close",
+    "deliveryOnly": "Delivery Only",
+    "deliveryOnlyDescription": "This store only offers delivery orders. Please select a delivery time during checkout.",
+    "pickUpAndDelivery": "Pickup and Delivery",
+    "pickUpAndDeliveryDescription": "This store offers delivery and pickup orders. Please select a time during checkout.",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "addressPlaceholder": "Address Placeholder",
+    "locationPlaceholder": "Location Placeholder"
   },
   "app/(store)/components/product-search": {
     "search": "Search by product name or category..."
@@ -318,7 +326,13 @@
     "alert": "Shop offers only pickup orders",
     "alertHover": "Opening hours and pickup address are presented below. You can select pickup time and day during checkout",
     "openingHours": "Opening Hours",
-    "phone": "Phone"
+    "phone": "Phone",
+    "alertPickupOnly": "This store only offers pickup orders.",
+    "alertDeliveryAndPickup": "This store offers pickup and delivery orders",
+    "alertDeliveryOnly": "This store only offers delivery orders.",
+    "alertHoverPickupOnly": "Please select a pickup time during checkout",
+    "alertHoverDeliveryOnly": "Please select a delivery time during checkout",
+    "alertHoverDeliveryAndPickup": "Please select a delivery or pickup time during checkout"
   },
   "app/(store)/components/location-map": {
     "viewOnGoogleMaps": "View on Google Maps",
@@ -334,7 +348,16 @@
     "thursday": "Thursday",
     "friday": "Friday",
     "saturday": "Saturday",
-    "sunday": "Sunday"
+    "sunday": "Sunday",
+    "addressOutOfRange": "Address Out of Range",
+    "enterAddressPrompt": "Enter Address",
+    "deliveryRegionError": "Delivery Region Error",
+    "noDeliveryHours": "No Delivery Hours",
+    "scheduleUnavailable": "Schedule Unavailable",
+    "checkingAddress": "Checking Address",
+    "deliveryScheduleFor": "Delivery Schedule for",
+    "usingStoreHours": "Using store hours",
+    "deliveryAvailableForAddress": "Delivery Available for address"
   },
   "app/(store)/components/three-dots": {
     "storeLinkCopied": "Store Link Copied!",
@@ -1182,5 +1205,9 @@
     "mapError": "Could not load map",
     "routeCalculation": "Calculating delivery route",
     "distanceInfo": "Distance: {distance} km"
-  }
+  },
+  "noInfo": "No Info",
+  "closed": "Closed",
+  "scheduleFormatError": "Schedule Format Error",
+  "noScheduleAvailable": "No Schedule Available"
 }

@@ -472,6 +472,7 @@ export function AddressForm({
       e.preventDefault();
     
     if (isValidating || isSubmitting) {
+      onClose && onClose();
       return; // Prevent multiple submissions
     }
     

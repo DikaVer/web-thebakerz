@@ -18,18 +18,53 @@ const StoreTopNext: React.FC = () => {
         icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
     };
 
+    // Helper function to determine alert content based on delivery options
+    const getAlertContent = () => {
+        if (!store?.deliveryOption) {
+            return {
+                title: t("alertPickupOnly"),
+                tooltipContent: t("alertHoverPickupOnly")
+            };
+        }
+
+        switch(store.deliveryOption) {
+            case 'pickup':
+                return {
+                    title: t("alertPickupOnly"),
+                    tooltipContent: t("alertHoverPickupOnly")
+                };
+            case 'delivery':
+                return {
+                    title: t("alertDeliveryOnly"),
+                    tooltipContent: t("alertHoverDeliveryOnly")
+                };
+            case 'multi':
+                return {
+                    title: t("alertDeliveryAndPickup"),
+                    tooltipContent: t("alertHoverDeliveryAndPickup")
+                };
+            default:
+                return {
+                    title: t("alertPickupOnly"),
+                    tooltipContent: t("alertHoverPickupOnly")
+                };
+        }
+    };
+
+    const alertContent = getAlertContent();
+
     return (
         <div className={'flex flex-col gap-y-4 w-full'}>
             <Tooltip
-                content={<p className={'max-w-sm'}>{t("alertHover")}</p>}
+                content={<p className={'max-w-sm'}>{alertContent.tooltipContent}</p>}
             >
                 <Alert
-                    key={"Pick Up Only Alert"}
+                    key={"Delivery Options Alert"}
                     className={'bg-default-100 items-center my-2 '}
                     classNames={{
                         title: 'text-medium '
                     }}
-                    title={t("alert")}
+                    title={alertContent.title}
                     variant={"solid"}
                 />
             </Tooltip>
@@ -47,10 +82,10 @@ const StoreTopNext: React.FC = () => {
                     title={t("openingHours")}
                     className={'px-0'}
                     classNames={{
-                        title: 'text-default-500',
+                        title: 'text-warning-600',
                         trigger: 'py-0 cursor-default',
                     }}
-                    startContent={<Icon icon={'solar:clock-circle-outline'} className={'text-default-500'} width={24}/> }
+                    startContent={<Icon icon={'solar:clock-circle-outline'} className={'text-warning-600'} width={24}/> }
                     indicator={<></>}
                 >
                     <>

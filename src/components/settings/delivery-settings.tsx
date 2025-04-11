@@ -173,6 +173,11 @@ const DeliveryManager = () => {
       // Update the merchant's delivery options
       await updateStoreDeliveryOptions(deliveryOption);
       
+      // Update the local session state to reflect the change
+      if (session.store) {
+        session.store.deliveryOption = deliveryOption;
+      }
+      
       addToast({
         title: t("optionsUpdateSuccess"),
         color: "success",

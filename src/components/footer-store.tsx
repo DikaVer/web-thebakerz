@@ -121,8 +121,8 @@ export function FooterStore() {
                                 </div>
                             </Link>
                         </div>
-                        <div className="grid justify-start gap-y-4 my-0 w-full md:w-[30%]">
-                            <div>
+                        <div className="flex justify-start gap-y-4 my-0 w-full md:w-[30%]">
+                            <div className="w-full mr-4">
                                 <h3 className="md:small text-medium font-semibold text-default-600">{shopT("Opening Hours")}</h3>
                                 <div className="mt-4">
                                     {renderCalendarContent()}

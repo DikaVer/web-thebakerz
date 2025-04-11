@@ -46,6 +46,11 @@ export default async function Page(props: StorePageProps) {
     const deliveryMode = await getDeliveryMode();
     const savedAddress = await getCurrentDeliveryAddress(storeData.id);
 
+    let initialDeliveryMode = deliveryMode === 'delivery';
+    if (storeData.deliveryOption !== "multi") {
+        initialDeliveryMode = storeData.deliveryOption === 'delivery';
+    }
+
     return (
         <CartProvider
             cart={cartData}
@@ -58,7 +63,7 @@ export default async function Page(props: StorePageProps) {
                     store={storeData}
                 >
                     <DeliveryProvider
-                        initialDeliveryMode={deliveryMode === 'delivery'}
+                        initialDeliveryMode={initialDeliveryMode}
                         initialAddress={savedAddress}
                     >
                         <LayoutComp

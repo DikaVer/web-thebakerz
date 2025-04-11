@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import { Button, Slider } from "@heroui/react";
+import { Button, Slider, NumberInput } from "@heroui/react";
 import { useTranslations } from "next-intl";
 
 interface DeliveryRangeSettingsProps {
@@ -53,36 +53,56 @@ const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
         <label className="text-sm font-medium">
           {t("deliveryPrice")}
         </label>
-        <div className="flex items-center">
-          <input
-            type="number"
-            min="0"
-            step="0.50"
-            value={(deliveryPriceInCents / 100).toFixed(2)}
-            onChange={(e) => onPriceChange(e.target.value)}
-            className="w-24 p-2 border rounded-md"
-            placeholder={t("priceLabel")}
-          />
-          <span className="ml-2">€</span>
-        </div>
+        <NumberInput
+          min={0}
+          step={0.5}
+          value={(deliveryPriceInCents / 100)}
+          onChange={(value) => {
+            if (typeof value === "number") {
+              onPriceChange(value.toString());
+            } else {
+              onPriceChange(value.target.value);
+            }
+          }}
+          placeholder={t("priceLabel")}
+          classNames={{
+            input: "text-base font-light",
+            inputWrapper: "h-8 w-24",
+          }}
+          startContent={
+            <div className="pointer-events-none flex items-center">
+              <span className="text-default-400">€</span>
+            </div>
+          }
+        />
       </div>
 
       <div className="space-y-2">
         <label className="text-sm font-medium">
           {t("minOrderPrice")}
         </label>
-        <div className="flex items-center">
-          <input
-            type="number"
-            min="10"
-            step="0.50"
-            value={(minOrderPriceInCents / 100).toFixed(2)}
-            onChange={(e) => onMinOrderPriceChange(e.target.value)}
-            className="w-24 p-2 border rounded-md"
-            placeholder={t("minPriceLabel")}
-          />
-          <span className="ml-2">€</span>
-        </div>
+        <NumberInput
+          min={10}
+          step={0.5}
+          value={(minOrderPriceInCents / 100)}
+          onChange={(value) => {
+            if (typeof value === "number") {
+              onMinOrderPriceChange(value.toString());
+            } else {
+              onMinOrderPriceChange(value.target.value);
+            }
+          }}
+          placeholder={t("minPriceLabel")}
+          classNames={{
+            input: "text-base font-light",
+            inputWrapper: "h-8 w-24",
+          }}
+          startContent={
+            <div className="pointer-events-none flex items-center">
+              <span className="text-default-400">€</span>
+            </div>
+          }
+        />
         <p className="text-xs text-gray-500 mt-1">
           {t("minOrderPriceDescription")}
         </p>

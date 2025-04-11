@@ -261,7 +261,15 @@
     "workingHours": "Horaires de travail",
     "address": "Adresse",
     "phone": "Téléphone",
-    "close": "Fermer"
+    "close": "Fermer",
+    "deliveryOnly": "Livraison uniquement",
+    "deliveryOnlyDescription": "Ce magasin n'offre que des commandes de livraison. \nVeuillez sélectionner un délai de livraison pendant le paiement.",
+    "pickUpAndDelivery": "Ramassage et livraison",
+    "pickUpAndDeliveryDescription": "Ce magasin n'offre que des commandes de livraison et de ramassage. \nVeuillez sélectionner une heure pendant la caisse.",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "addressPlaceholder": "Adressez l'espace réservé",
+    "locationPlaceholder": "Emplacement d'emplacement"
   },
   "app/(store)/components/product-search": {
     "search": "Rechercher par nom de produit ou par catégorie..."
@@ -281,7 +289,13 @@
     "alert": "La boutique propose uniquement des commandes à collecter en magasin",
     "alertHover": "Les horaires d'ouverture et l'adresse de retrait sont indiqués ci-dessous. Vous pouvez sélectionner l'heure et le jour de retrait lors du paiement.",
     "openingHours": "Horaires d'ouverture",
-    "phone": "Téléphone"
+    "phone": "Téléphone",
+    "alertPickupOnly": "Ce magasin n'offre que des commandes de ramassage.",
+    "alertDeliveryAndPickup": "Ce magasin propose des commandes de ramassage et de livraison.",
+    "alertDeliveryOnly": "Ce magasin n'offre que des commandes de livraison.",
+    "alertHoverPickupOnly": "Veuillez sélectionner un temps de ramassage pendant le paiement",
+    "alertHoverDeliveryOnly": "Veuillez sélectionner un délai de livraison pendant le paiement",
+    "alertHoverDeliveryAndPickup": "Veuillez sélectionner une heure de livraison ou de ramassage pendant la caisse"
   },
   "app/(store)/components/location-map": {
     "viewOnGoogleMaps": "Voir sur Google Maps",
@@ -297,7 +311,16 @@
     "thursday": "Jeudi",
     "friday": "Vendredi",
     "saturday": "Samedi",
-    "sunday": "Dimanche"
+    "sunday": "Dimanche",
+    "addressOutOfRange": "Adresse hors de portée",
+    "enterAddressPrompt": "Entrer l'adresse",
+    "deliveryRegionError": "Erreur de la région de livraison",
+    "noDeliveryHours": "Pas d'heures de livraison",
+    "scheduleUnavailable": "Planification indisponible",
+    "checkingAddress": "Adresse de vérification",
+    "deliveryScheduleFor": "Calendrier de livraison pour",
+    "usingStoreHours": "Utilisation d'heures de magasin",
+    "deliveryAvailableForAddress": "Livraison disponible pour l'adresse"
   },
   "app/(store)/components/three-dots": {
     "storeLinkCopied": "Lien du magasin copié !",
@@ -1172,5 +1195,9 @@
     "validatingAddress": "Validation de l'adresse...",
     "maxCharsExceeded": "{field} ne peut pas dépasser {max} caractères",
     "errorUpdatingOrderTime": "Erreur lors de la mise à jour de l'heure de livraison"
-  }
+  },
+  "noInfo": "Aucune information",
+  "closed": "Fermé",
+  "scheduleFormatError": "Erreur de format de planification",
+  "noScheduleAvailable": "Aucun horaire disponible"
 }

@@ -56,10 +56,10 @@ export default function DeliveryInfo({
                 <span className="text-sm font-medium">{deliveryRegion.name} {t("delivery")}</span>
               </Skeleton>
             </div>
-            <div className="flex items-center gap-1">
+            {/* <div className="flex items-center gap-1">
               <Icon icon="solar:star-linear" className="h-4 w-4 text-yellow-500" />
               <span className="text-xs font-medium">Premium</span>
-            </div>
+            </div> */}
           </div>
         </div>
 

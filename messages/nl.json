@@ -261,7 +261,14 @@
     "workingHours": "Werkuren",
     "address": "Adres",
     "phone": "Telefoon",
-    "close": "Dichtbij"
+    "close": "Dichtbij",
+    "deliveryOnly": "Alleen levering",
+    "deliveryOnlyDescription": "Deze winkel biedt alleen leveringsopdrachten aan. \nSelecteer een levertijd tijdens het afrekenen.",
+    "pickUpAndDelivery": "Ophalen en leveren",
+    "pickUpAndDeliveryDescription": "Deze winkel biedt alleen leverings- en ophaalopdrachten. \nSelecteer een tijdstip tijdens het afrekenen.",
+    "facebook": "Facebook",
+    "addressPlaceholder": "Adres Placeholder",
+    "locationPlaceholder": "Locatie Placolaar"
   },
   "app/(store)/components/product-search": {
     "search": "Zoeken op productnaam of categorie..."
@@ -281,7 +288,13 @@
     "alert": "Winkel biedt alleen afhaalbestellingen aan",
     "alertHover": "Openingstijden en afhaaladres worden hieronder weergegeven. U kunt de afhaaltijd en -dag selecteren tijdens het afrekenen",
     "openingHours": "Openingstijden",
-    "phone": "Telefoon"
+    "phone": "Telefoon",
+    "alertPickupOnly": "Deze winkel biedt alleen pick -uporders.",
+    "alertDeliveryAndPickup": "Deze winkel biedt pick -up- en leveringsopdrachten.",
+    "alertDeliveryOnly": "Deze winkel biedt alleen leveringsopdrachten aan.",
+    "alertHoverPickupOnly": "Selecteer een ophaaltijd tijdens het afrekenen",
+    "alertHoverDeliveryOnly": "Selecteer een levertijd tijdens het afrekenen",
+    "alertHoverDeliveryAndPickup": "Selecteer een leverings- of ophaaltijd tijdens het afrekenen"
   },
   "app/(store)/components/location-map": {
     "viewOnGoogleMaps": "Bekijk op Google Maps",
@@ -297,7 +310,16 @@
     "thursday": "Donderdag",
     "friday": "Vrijdag",
     "saturday": "Zaterdag",
-    "sunday": "Zondag"
+    "sunday": "Zondag",
+    "addressOutOfRange": "Adres buiten bereik",
+    "enterAddressPrompt": "Voer adres in",
+    "deliveryRegionError": "Leveringsregio -fout",
+    "noDeliveryHours": "Geen leveringsuren",
+    "scheduleUnavailable": "Plan niet beschikbaar",
+    "checkingAddress": "Controle -adres",
+    "deliveryScheduleFor": "Leveringsschema voor",
+    "usingStoreHours": "Winkeluren gebruiken",
+    "deliveryAvailableForAddress": "Levering beschikbaar voor adres"
   },
   "app/(store)/components/three-dots": {
     "storeLinkCopied": "Winkellink gekopieerd!",
@@ -1172,5 +1194,9 @@
   "savingAddress": "Adres opslaan...",
   "validatingAddress": "Adres valideren...",
   "maxCharsExceeded": "{field} mag niet meer dan {max} tekens bevatten",
-  "errorUpdatingOrderTime": "Fout bij het bijwerken van de bezorgtijd"
+  "errorUpdatingOrderTime": "Fout bij het bijwerken van de bezorgtijd",
+  "noInfo": "Geen info",
+  "closed": "Gesloten",
+  "scheduleFormatError": "Schema -formaatfout",
+  "noScheduleAvailable": "Geen schema beschikbaar"
 }
