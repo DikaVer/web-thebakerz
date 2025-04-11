@@ -553,7 +553,9 @@
     "Picked Up": "Opgepakt",
     "Cancelled": "Geannuleerd",
     "Something Went Wrong": "Er is iets misgegaan",
-    "Print Invoice": "Factuur afdrukken"
+    "Print Invoice": "Factuur afdrukken",
+    "Delivery VAT": "Btw (21%)",
+    "Delivery Fee": "Bezorgkosten"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "E-mail",
@@ -613,7 +615,8 @@
     "deliveryFee": "Bezorgkosten",
     "serviceFee": "Servicekosten",
     "minimumOrderForDelivery": "Minimale bestelling is {amount}",
-    "addressOutOfRange": "Adres uit de afleverregio"
+    "addressOutOfRange": "Adres uit de afleverregio",
+    "vat21": "Btw (21%)"
   },
   "app/(store)/components/image": {
     "close": "Dichtbij",

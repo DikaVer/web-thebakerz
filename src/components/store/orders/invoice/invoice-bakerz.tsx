@@ -23,27 +23,37 @@ export const InvoiceBakerzDump: React.FC = () => {
  * as close as possible to your provided screenshot/PDF.
  */
 export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
-
+    // Get price data from order
+    const priceData = order.priceData;
+    
     // Compute totals
-    const totalNet = order.totalExclVat
-    const totalTax = order.totalVat
-    const grandTotal = order.totalInclVat
+    const itemNet = priceData.itemExclVat;
+    const itemTax = priceData.itemVat;
+    const itemTotal = priceData.itemInclVat;
+
+    const deliveryNet = priceData.deliveryFeeExclVat;
+    const deliveryTax = priceData.deliveryVat;
+    const deliveryTotal = priceData.deliveryFeeInclVat;
+
+    let grandTotal = itemTotal;
+    if (deliveryTotal > 0 && order.isStoreDelivery) {
+        grandTotal += deliveryTotal;
+    }
 
     // Build line items
     const lineItems = (order.productsData ?? []).map((p) => {
-        const amount = p.price * p.qty; // net = price * quantity
-        const { subtotal, vat, total } = calculateTotals(amount, totalTax > 0);
+        const amount = p.price * p.qty;
+        const { itemExclVat, itemVat, itemInclVat } = calculateTotals(amount, !store.kor, 0, false);
         return {
             id: p.id,
             name: p.name,
             qty: p.qty,
-            taxRate: 9,
-            subtotal: subtotal,
-            vat: vat,
-            total: total,
+            taxRate: !store.kor ? 9 : 0,
+            subtotal: itemExclVat,
+            vat: itemVat,
+            total: itemInclVat,
         };
     });
-
 
     return (
         <div style={styles.invoiceContainer}>
@@ -105,7 +115,7 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                 <tr>
                     <th style={{...styles.th, width: "50%", textAlign: "left"}}>Items</th>
                     <th style={{...styles.th, textAlign: "right"}}>Quantity</th>
-                    <th style={{...styles.th, textAlign: "right"}}>{totalTax > 0 && 'Tax'}</th>
+                    <th style={{...styles.th, textAlign: "right"}}>Tax Rate</th>
                     <th style={{...styles.th, textAlign: "right"}}>Price</th>
                     <th style={{...styles.th, textAlign: "right"}}>Total</th>
                 </tr>
@@ -115,7 +125,7 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                     <tr style={{...styles.td, fontSize: "14px"}} key={item.id}>
                         <td style={{...styles.td, textAlign: "left"}}>{item.name}</td>
                         <td style={{...styles.td, textAlign: "right"}}>{item.qty}</td>
-                        <td style={{...styles.td, textAlign: "right"}}>{totalTax > 0 && "9%"}</td>
+                        <td style={{...styles.td, textAlign: "right"}}>{item.taxRate}%</td>
                         <td style={{...styles.td, textAlign: "right"}}>{formatCurrency(item.subtotal)}</td>
                         <td style={{...styles.td, textAlign: "right"}}>{formatCurrency(item.total)}</td>
                     </tr>
@@ -125,28 +135,42 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                 <tr>
                     <td colSpan={5} style={{...styles.td, height: "10px", borderBottom: "none"}}></td>
                 </tr>
-                {/* Total */}
+                {/* Items Subtotal */}
                 <tr>
                     <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
                     <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
-                    <td colSpan={2} style={{...styles.td, borderBottom: "none", textAlign: "left", fontSize: "12px"}}><strong>Total:</strong></td>
-                    <td style={{...styles.td, borderBottom: "none", textAlign: "right", fontSize: "12px"}}>{formatCurrency(totalNet)}</td>
+                    <td colSpan={2} style={{...styles.td, borderBottom: "none", textAlign: "left", fontSize: "12px"}}><strong>Items Subtotal:</strong></td>
+                    <td style={{...styles.td, borderBottom: "none", textAlign: "right", fontSize: "12px"}}>{formatCurrency(itemNet)}</td>
                 </tr>
-                {/* Tax */}
-                {totalTax > 0 &&
+                {/* Items Tax */}
+                {itemTax > 0 && (
                     <tr>
-                        <td style={{...styles.td, textAlign: "left", borderBottom: "none", marginBottom: "8px"}}></td>
                         <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
-                        <td colSpan={2} style={{...styles.td, borderBottom: "none", textAlign: "left", fontSize: "12px"}}>
-                            <strong>Tax 9%:</strong></td>
-                        <td style={{
-                            ...styles.td,
-                            textAlign: "right",
-                            borderBottom: "none",
-                            fontSize: "12px"
-                        }}>{formatCurrency(totalTax)}</td>
+                        <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
+                        <td colSpan={2} style={{...styles.td, borderBottom: "none", textAlign: "left", fontSize: "12px"}}><strong>Items Tax ({!store.kor ? '9%' : '0%'}):</strong></td>
+                        <td style={{...styles.td, borderBottom: "none", textAlign: "right", fontSize: "12px"}}>{formatCurrency(itemTax)}</td>
                     </tr>
-                }
+                )}
+                {/* Delivery Fee */}
+                {(deliveryTotal > 0 && order.isStoreDelivery) && (
+                    <>
+                        <tr>
+                            <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
+                            <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
+                            <td colSpan={2} style={{...styles.td, borderBottom: "none", textAlign: "left", fontSize: "12px"}}><strong>Delivery Fee:</strong></td>
+                            <td style={{...styles.td, borderBottom: "none", textAlign: "right", fontSize: "12px"}}>{formatCurrency(deliveryNet)}</td>
+                        </tr>
+                        {/* Delivery Tax */}
+                        {deliveryTax > 0 && (
+                            <tr>
+                                <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
+                                <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
+                                <td colSpan={2} style={{...styles.td, borderBottom: "none", textAlign: "left", fontSize: "12px"}}><strong>VAT (21%):</strong></td>
+                                <td style={{...styles.td, borderBottom: "none", textAlign: "right", fontSize: "12px"}}>{formatCurrency(deliveryTax)}</td>
+                            </tr>
+                        )}
+                    </>
+                )}
                 {/* Divider */}
                 <tr>
                     <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
@@ -156,12 +180,6 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                 </tr>
                 {/* Grand total */}
                 <tr>
-                    <td ></td>
-                    <td></td>
-                    <td colSpan={2}></td>
-                    <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
-                </tr>
-                <tr>
                     <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
                     <td style={{...styles.td, textAlign: "right", borderBottom: "none"}}></td>
                     <td colSpan={2} style={{...styles.td, textAlign: "left", borderBottom: "none", fontWeight: "bold", fontSize: "12px", padding: "8px 4px"}}>
@@ -169,37 +187,12 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                     </td>
                     <td style={{...styles.td, textAlign: "right", borderBottom: "none", fontWeight: "bold", fontSize: "12px", padding: "8px 4px"}}>{formatCurrency(grandTotal)}</td>
                 </tr>
-                {/* Divider */}
-                <tr>
-                    <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
-                    <td style={{...styles.td, textAlign: "right", borderBottom: "none"}}></td>
-                    <td colSpan={2} style={{...styles.td, borderBottom: "2px solid #000"}}></td>
-                    <td style={{...styles.td, textAlign: "right", borderBottom: "2px solid #000"}}></td>
-                </tr>
-                <tr>
-                    <td ></td>
-                    <td></td>
-                    <td colSpan={2}></td>
-                    <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
-                </tr>
                 {/* Payment method */}
                 <tr>
                     <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
                     <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
                     <td colSpan={2} style={{...styles.td, borderBottom: "none",  textAlign: "left", fontSize: "12px"}}>Paid using</td>
                     <td style={{...styles.td, textAlign: "right", borderBottom: "none", fontSize: "12px"}}>{order.customer.payment_method ? order.customer.payment_method[0] : 'Cash'}</td>
-                </tr>
-                <tr>
-                    <td ></td>
-                    <td></td>
-                    <td colSpan={2}></td>
-                    <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
-                </tr>
-                <tr>
-                    <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
-                    <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
-                    <td colSpan={2} style={{...styles.td, borderBottom: "none",  textAlign: "left", fontSize: "12px"}}></td>
-                    <td style={{...styles.td, textAlign: "right", borderBottom: "none", fontSize: "12px"}}>{store.name}</td>
                 </tr>
                 </tfoot>
             </table>

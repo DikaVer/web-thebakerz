@@ -600,7 +600,9 @@
     "Picked Up": "Picked Up",
     "Cancelled": "Cancelled",
     "Something Went Wrong": "Something went wrong",
-    "Print Invoice": "Print Invoice"
+    "Print Invoice": "Print Invoice",
+    "Delivery VAT": "VAT (21%)",
+    "Delivery Fee": "Delivery Fee"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "Email",
@@ -665,7 +667,8 @@
     "deliveryFee": "Delivery Fee",
     "serviceFee": "Service Fee",
     "minimumOrderForDelivery": "Minimum Order is {amount}",
-    "addressOutOfRange": "Address Out of Delivery Region"
+    "addressOutOfRange": "Address Out of Delivery Region",
+    "vat21": "VAT (21%)"
   },
   "app/(store)/components/image": {
     "close": "Close",

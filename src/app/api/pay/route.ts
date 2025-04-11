@@ -116,7 +116,7 @@ export async function GET(req: NextRequest) {
             orderRaw.deliveryToAddress?.coordinates?.lat || null,
             orderRaw.deliveryFromAddress?.lng || null,
             orderRaw.deliveryFromAddress?.lat || null,
-            orderRaw.isDelivery || false
+            orderRaw.isStoreDelivery || false
         ];
 
         const deliveryResult = await connectionPool.query(deliveryQuery, deliveryValues);
@@ -178,7 +178,7 @@ export async function GET(req: NextRequest) {
                 get_next_store_order_id($1),
                 $2, $3, $4, $5, $6, $7, $8, $9
             )
-            RETURNING id, created_at
+            RETURNING id, created_at, store_order_id
         `;
 
         const orderValues = [
@@ -243,6 +243,7 @@ export async function GET(req: NextRequest) {
 
             // Delivery information
             isDelivery: orderRaw.isDelivery,
+            isStoreDelivery: orderRaw.isStoreDelivery,
             deliveryAddress: orderRaw.deliveryToAddress
         };
 

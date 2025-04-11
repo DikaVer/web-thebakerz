@@ -44,6 +44,7 @@ export interface OrderData {
 
     // Delivery details
     isDelivery: boolean;
+    isStoreDelivery: boolean;
     deliveryAddress?: AddressFormType; // Store the structured address
 
     // Timestamps
@@ -81,6 +82,7 @@ export interface OrderRaw {
 export interface ExtendedOrderRaw extends OrderRaw {
     // Added fields from stripe.ts
     isDelivery: boolean;
+    isStoreDelivery: boolean;
     deliveryToAddress?: AddressFormType;
     deliveryFromAddress?: {
         lat: number;

@@ -15,7 +15,7 @@ import { useStore } from "@/components/providers/store-provider";
 import {CartItemRow} from "@/components/cart/cart-item";
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
-import {calculatePlatformFee, calculateTotals} from "@/lib/price/tax";
+import {calculateTotals, calculateApplicationFee} from "@/lib/price/tax";
 import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
 
 
@@ -46,9 +46,12 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         return productData ? sum + calculateItemTotalPrice(item.variants, productData.price, item.quantity) : sum;
     }, 0);
 
-    const { vat, subtotal, total} = calculateTotals(amount, !store.kor);
+    const { 
+        itemExclVat,
+        itemVat,
+        totalInclVat 
+    } = calculateTotals(amount, !store.kor, 0, false);
 
-    const { platform_fee } = calculatePlatformFee(total);
 
     const renderCartItems = (isLoading: boolean, setIsLoading: (value: boolean) => void) => {
         return itemsArray.map((item) => {
@@ -82,12 +85,12 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                     <div className="py-4">
                         <div className="flex justify-between">
                             <span className="text-sm font-medium">{t("subtotal")}</span>
-                            <span className="text-sm">{formatCurrency(subtotal)}</span>
+                            <span className="text-sm">{formatCurrency(itemExclVat)}</span>
                         </div>
-                        {vat > 0 &&
+                        {itemVat > 0 &&
                             <div className="flex justify-between mt-2">
                                 <span className="text-sm font-medium">{t("vatExclusive")}</span>
-                                <span className="text-sm">{formatCurrency(vat)}</span>
+                                <span className="text-sm">{formatCurrency(itemVat)}</span>
                             </div>
                         }
                         <Spacer y={2} />
@@ -95,7 +98,7 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                         <Spacer y={4} />
                         <div className="flex justify-between">
                             <span className="text-base font-bold">{t("total")}</span>
-                            <span className="text-base font-bold">{formatCurrency(total)}</span>
+                            <span className="text-base font-bold">{formatCurrency(totalInclVat)}</span>
                         </div>
                     </div>
                     <Button

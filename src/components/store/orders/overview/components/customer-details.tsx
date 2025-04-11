@@ -1,18 +1,19 @@
 "use client";
 import React from "react";
 import {useRouter} from "next/navigation";
-import {Customer, OrderData} from "@/lib/actions/order";
+import {Customer} from "@/lib/actions/order";
 import {Avatar, Card, CardBody, CardFooter, CardHeader, Divider, Spacer} from "@heroui/react";
 import {IconMail} from "@/components/ui/icons";
 import {Icon} from "@iconify/react";
 import {useTranslations} from "next-intl";
-
+import {AddressFormType} from "@/components/providers/delivery-provider";
 
 interface OrderCustomerDetailsProps {
     customer: Customer;
+    address?: AddressFormType;
 }
 
-export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({customer}) => {
+export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({customer, address}) => {
     const router = useRouter();
     const t = useTranslations("app/(store)/components/orders/overview");
 
@@ -25,7 +26,7 @@ export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({custo
                     <Spacer y={2}/>
                     <div className={'flex justify-center items-center'}>
                         <Avatar size={'sm'} className={'bg-background'}/>
-                        <Spacer x={2}/>
+                        <Spacer x={2}/> 
                         <p>{t("Customer Details")}</p>
                     </div>
                     <Spacer y={4}/>
@@ -59,6 +60,23 @@ export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({custo
                             </div>
                         </>
                     }
+                    <Spacer y={4}/>
+                    <Divider />
+                    <Spacer y={4}/>
+                    {address &&
+                        <div className={'flex justify-center items-center'}>
+                            <Icon icon={"solar:map-point-bold"} className="text-default-400 pointer-events-none flex-shrink-0" width={24}/>
+                            <Spacer x={2}/>
+                            <a 
+                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${address.street}, ${address.city}, ${address.zipCode}`)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={'text-default-500 hover:underline'}
+                            >
+                                {address.street}, {address.city}, {address.zipCode}
+                            </a>
+                        </div>
+                    }          
                 </CardBody>
             </Card>
         </div>

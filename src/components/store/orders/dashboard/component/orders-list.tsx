@@ -290,7 +290,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                                         </>
                                                     )}
                                                     <div className="font-medium">
-                                                        {formatCurrency(order.amount)}
+                                                        {formatCurrency(order.priceData.itemInclVat)}
                                                     </div>
                                                 </div>
                                             </>

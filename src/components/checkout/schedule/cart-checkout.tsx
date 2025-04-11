@@ -67,8 +67,12 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     // Calculate totals with delivery fee
     const { 
         itemExclVat,
+        itemVat,
         deliveryFeeExclVat,
+        deliveryVat,
         serviceFeeExclVat,
+        serviceVat,
+        totalExclVat,
         totalVat,
         totalInclVat 
     } = useMemo(() => {
@@ -157,23 +161,39 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             <span className="text-sm font-medium">{t("subtotal")}</span>
                             <span className="text-sm">{formatCurrency(itemExclVat)}</span>
                         </div>
-                        {isDelivery && deliveryFeeExclVat > 0 &&
-                            <div className="flex justify-between mt-2">
-                                <span className="text-sm font-medium">{t("deliveryFee")}</span>
-                                <span className="text-sm">{formatCurrency(deliveryFeeExclVat)}</span>
-                            </div>
-                        }
-                        {serviceFeeExclVat > 0 &&
-                            <div className="flex justify-between mt-2">
-                                <span className="text-sm font-medium">{t("serviceFee")}</span>
-                                <span className="text-sm">{formatCurrency(serviceFeeExclVat)}</span>
-                            </div>
-                        }
-                        {totalVat > 0 &&
+                        {itemVat > 0 &&
                             <div className="flex justify-between mt-2">
                                 <span className="text-sm font-medium">{t("vatExclusive")}</span>
-                                <span className="text-sm">{formatCurrency(totalVat)}</span>
+                                <span className="text-sm">{formatCurrency(itemVat)}</span>
                             </div>
+                        }
+                        {isDelivery && deliveryFeeExclVat > 0 &&
+                            <>    
+                                <div className="flex justify-between mt-2">
+                                    <span className="text-sm font-medium">{t("deliveryFee")}</span>
+                                    <span className="text-sm">{formatCurrency(deliveryFeeExclVat)}</span>
+                                </div>
+                                {deliveryVat > 0 &&
+                                    <div className="flex justify-between mt-2">
+                                        <span className="text-sm font-medium">{t("vat21")}</span>
+                                        <span className="text-sm">{formatCurrency(deliveryVat)}</span>
+                                    </div>
+                                }
+                            </>
+                        }
+                        {serviceFeeExclVat > 0 &&
+                            <>
+                                <div className="flex justify-between mt-2">
+                                    <span className="text-sm font-medium">{t("serviceFee")}</span>
+                                    <span className="text-sm">{formatCurrency(serviceFeeExclVat)}</span>
+                                </div>
+                                {serviceVat > 0 &&
+                                    <div className="flex justify-between mt-2">
+                                        <span className="text-sm font-medium">{t("vat21")}</span>
+                                        <span className="text-sm">{formatCurrency(serviceVat)}</span>
+                                    </div>
+                                }
+                            </>
                         }
                         <Spacer y={2} />
                         <Divider className="my-2" />

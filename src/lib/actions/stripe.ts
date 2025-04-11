@@ -376,6 +376,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
         productsData: cartItemsForOrder, // Use the detailed cart items
         // Add extra fields needed internally or for Stripe metadata
         isDelivery: isDelivery,
+        isStoreDelivery: selectedRegion?.isStoreDelivery || false,
         deliveryToAddress: deliveryValidationResult ? deliveryValidationResult.validatedAddress : undefined,
         deliveryFromAddress: selectedRegion ? {
             lat: selectedRegion.coordinates.lat,

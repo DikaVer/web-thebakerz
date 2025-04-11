@@ -215,7 +215,7 @@ export async function getBusinessStoreData(id: string): Promise<StoreBusinessDat
         const result = await connectionPool.query(
             `SELECT 
                 bs.id,
-                bs.store_id,
+                bs.user_id,
                 bs.name,
                 bs.vat,
                 bs.kor,
@@ -228,7 +228,8 @@ export async function getBusinessStoreData(id: string): Promise<StoreBusinessDat
                 bs.location
              FROM business_acc bs
              JOIN business_address ba ON bs.business_address_id = ba.id
-             WHERE bs.user_id = $1`,
+             JOIN stores s ON bs.user_id = s.user_id
+             WHERE s.id = $1`,
             [id]
         );
 
@@ -240,7 +241,7 @@ export async function getBusinessStoreData(id: string): Promise<StoreBusinessDat
         return {
             id: row.id.toString(),
             kor: row.kor,
-            store_id: row.store_id,
+            user_id: row.user_id,
             name: row.name,
             vat: row.vat,
             kvk: row.kvk,
@@ -299,7 +300,7 @@ async function getLocationStore(storeId: string): Promise<LocationData> {
 
 export interface StoreBusinessData {
     id: string;
-    store_id: string;
+    user_id: string;
     kor: boolean;
     name: string;
     vat: string;

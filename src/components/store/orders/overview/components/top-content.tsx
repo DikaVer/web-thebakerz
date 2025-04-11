@@ -46,7 +46,7 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) =
                     {formatScheduledDateTime(orderData.scheduled_time, locale)}
                 </p>
             </div>
-            {/* <Button
+            <Button
                 startContent={
                     <div className="w-[24px]">
                         <Icon icon="solar:printer-minimalistic-bold" width={24} height={24}/>
@@ -62,7 +62,7 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) =
                 }}
             >
                 {t("Print Invoice")}
-            </Button> */}
+            </Button>
         </section>
     );
 };

@@ -133,7 +133,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                 throw new Error('Invalid store id or stripe id')
             }
 
-            const response = await fetchClientSecret(store.id, store.stripe_id) as ClientSecretResponse
+            const response = await fetchClientSecret({storeId: store.id, storeStripeAccountId: store.stripe_id}) as ClientSecretResponse
 
             if (typeof response === 'object' && 'error' in response) {
                 showErrorMessage({ error: response.error })

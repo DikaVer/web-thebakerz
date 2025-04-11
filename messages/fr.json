@@ -553,7 +553,9 @@
     "Picked Up": "Collecté",
     "Cancelled": "Annulé",
     "Something Went Wrong": "Quelque chose s'est mal passé",
-    "Print Invoice": "Imprimer la facture"
+    "Print Invoice": "Imprimer la facture",
+    "Delivery VAT": "TVA (21%)",
+    "Delivery Fee": "Frais de livraison"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "E-mail",
@@ -613,7 +615,8 @@
     "deliveryFee": "Frais de livraison",
     "serviceFee": "Frais de service",
     "minimumOrderForDelivery": "L'ordre minimum est {amount}",
-    "addressOutOfRange": "Adresse de la région de livraison"
+    "addressOutOfRange": "Adresse de la région de livraison",
+    "vat21": "TVA (21%)"
   },
   "app/(store)/components/image": {
     "close": "Fermer",

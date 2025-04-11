@@ -84,21 +84,21 @@ export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) =>
                     <div className={'flex flex-col justify-between text-start col-span-4'}>
                         <div className="flex justify-between">
                             <span className="text-sm font-medium">{t("Subtotal")}</span>
-                            <span className="text-sm">{formatCurrency(orderData.totalExclVat)}</span>
+                            <span className="text-sm">{formatCurrency(orderData.priceData.itemExclVat)}</span>
                         </div>
                     </div>
-                    {orderData.totalVat > 0 &&
+                    {orderData.priceData.itemVat > 0 &&
                         <div className={'flex flex-col justify-between text-start col-span-4'}>
                             <div className="flex justify-between mt-2">
                                 <span className="text-sm font-medium">{t("VAT Exclusive")}</span>
-                                <span className="text-sm">{formatCurrency(orderData.totalVat)}</span>
+                                <span className="text-sm">{formatCurrency(orderData.priceData.itemVat)}</span>
                             </div>
                         </div>
                     }
                     <div className={'flex flex-col justify-between text-start col-span-4'}>
                         <div className="flex justify-between mt-4">
                             <span className="text-base font-bold">{t("Total")}</span>
-                            <span className="text-base font-bold">{formatCurrency(orderData.totalInclVat)}</span>
+                            <span className="text-base font-bold">{formatCurrency(orderData.priceData.itemInclVat)}</span>
                         </div>
                     </div>
                 </CardFooter>
