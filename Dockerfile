@@ -34,10 +34,6 @@ ARG NEXT_PRIVATE_STRIPE_SECRET_KEY_ARG="dummy"
 ARG NEXT_PRIVATE_BLOB_AVATAR_CONTAINER_ARG="dummy"
 ARG NEXT_PRIVATE_BLOB_PRODUCTS_CONTAINER_ARG="dummy"
 ARG NEXT_PRIVATE_COSMOS_DB_NAME_ARG="dummy"
-ARG NEXT_PUBLIC_API_BASE_URL="http://localhost:3000"
-ARG NEXT_PUBLIC_AZURE_MAPS_KEY="dummy"
-ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="dummy"
-ARG NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="dummy"
 
 
 # --- Dependencies Stage ---
@@ -46,9 +42,9 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 # Copy package files first to leverage Docker cache
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml .npmrc* ./
 # Install dependencies with a frozen lockfile
-RUN pnpm install --frozen-lockfile
+RUN pnpm i --frozen-lockfile
 
 # --- Build Stage ---
 # Build the application
@@ -73,13 +69,9 @@ ENV NEXT_PRIVATE_COSMOS_DB_KEY=${NEXT_PRIVATE_COSMOS_DB_KEY_ARG} \
     NEXT_PRIVATE_STRIPE_SECRET_KEY=${NEXT_PRIVATE_STRIPE_SECRET_KEY_ARG} \
     NEXT_PRIVATE_BLOB_AVATAR_CONTAINER=${NEXT_PRIVATE_BLOB_AVATAR_CONTAINER_ARG} \
     NEXT_PRIVATE_BLOB_PRODUCTS_CONTAINER=${NEXT_PRIVATE_BLOB_PRODUCTS_CONTAINER_ARG} \
-    NEXT_PRIVATE_COSMOS_DB_NAME=${NEXT_PRIVATE_COSMOS_DB_NAME_ARG} \
-    NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL} \
-    NEXT_PUBLIC_AZURE_MAPS_KEY=${NEXT_PUBLIC_AZURE_MAPS_KEY} \
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY} \
-    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+    NEXT_PRIVATE_COSMOS_DB_NAME=${NEXT_PRIVATE_COSMOS_DB_NAME_ARG}
 # Run the Next\.js build to generate production assets
-RUN pnpm build
+RUN pnpm run build
 
 # --- Production \(Runner\) Stage ---
 # Set up the production environment
@@ -102,9 +94,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-
-# Set Node.js memory limit
-ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # Switch to the non\-root user and start the server
 USER nextjs
