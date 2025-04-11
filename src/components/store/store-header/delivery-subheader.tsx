@@ -97,14 +97,12 @@ export function DeliverySubheader() {
                 ) : (
                     <Spacer y={4}/>
                 )}
-                {(session?.user?.role !== "bakerz" && session.store?.id !== store.id) ?
+                {
                     isDelivery ? (
                             <StoreSubHeaderDelivery key={'delivery-settings'}/>
                         ) : (
                             <StoreSubHeaderPickUp key={'pickup-settings'}/>
                         )
-                    :
-                    <StoreSubHeaderPickUp key={'pickup-settings'}/>
                 }
             </>);
 }
