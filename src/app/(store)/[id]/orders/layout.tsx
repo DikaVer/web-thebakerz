@@ -79,7 +79,6 @@ export default async function Layout({
                         store={storeData}
                     >
                         {children}
-                        <FooterStore/>
                     </LayoutComp>
                 </StoreProvider>
             </ProductDialogProvider>
