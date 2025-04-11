@@ -17,4 +17,10 @@ services:
       - PORT=3000
       - HOSTNAME=0.0.0.0
       - NODE_OPTIONS=--max-old-space-size=4096
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+        reservations:
+          memory: 4G
     restart: unless-stopped
