@@ -354,7 +354,7 @@
     "deliveryRegionError": "Delivery Region Error",
     "noDeliveryHours": "No Delivery Hours",
     "scheduleUnavailable": "Schedule Unavailable",
-    "checkingAddress": "Checking Address",
+    "checkingAddress": "Enter your address",
     "deliveryScheduleFor": "Delivery Schedule for",
     "usingStoreHours": "Using store hours",
     "deliveryAvailableForAddress": "Delivery Available for address"

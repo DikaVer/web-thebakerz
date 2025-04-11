@@ -317,7 +317,7 @@
     "deliveryRegionError": "Erreur de la région de livraison",
     "noDeliveryHours": "Pas d'heures de livraison",
     "scheduleUnavailable": "Planification indisponible",
-    "checkingAddress": "Adresse de vérification",
+    "checkingAddress": "Entrez votre adresse",
     "deliveryScheduleFor": "Calendrier de livraison pour",
     "usingStoreHours": "Utilisation d'heures de magasin",
     "deliveryAvailableForAddress": "Livraison disponible pour l'adresse"
