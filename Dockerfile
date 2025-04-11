@@ -83,7 +83,7 @@ RUN pnpm run build
 
 # --- Production \(Runner\) Stage ---
 # Set up the production environment
-FROM mcr.microsoft.com/playwright:focal AS runner
+FROM mcr.microsoft.com/playwright:v1.51.1-focal AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 

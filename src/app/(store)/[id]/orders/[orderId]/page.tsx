@@ -59,7 +59,6 @@ export default async function Page(props: StorePageProps) {
     }
 
     const orderData = await getCurrentOrder(storeData.id, orderId, email);
-    console.log(orderData);
 
     if (!orderData) {
         return NotFound();
