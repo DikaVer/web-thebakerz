@@ -12,6 +12,7 @@ import {FooterStore} from "@/components/footer-store";
 import {getCurrentCart} from "@/lib/actions/cart";
 import {redirect} from "next/navigation";
 import {metadataDefault} from "@/components/metadata";
+import {verifyStoreAccess} from "@/app/(store)/[id]/store-utils";
 
 type Params = Promise<{ id: string  }>
 
@@ -49,39 +50,10 @@ export default async function Layout({
 
     const { id } = await params
 
-    const storeData = await getCurrentStore(id);
-
+    const storeData = await verifyStoreAccess(id);
     if (!storeData) {
         return NotFound();
     }
 
-    const session  = await getCurrentSession();
-
-    if (!session?.store || session.store.id !== storeData.id) {
-        !session?.user && redirect('/auth');
-        return NotFound();
-    }
-
-    const cartData = await getCurrentCart(storeData.id);
-
-    return (
-        <CartProvider
-            cart={cartData}
-            storeId={storeData.id}
-        >
-            <ProductDialogProvider
-                storeId={storeData.id}
-            >
-                <StoreProvider
-                    store={storeData}
-                >
-                    <LayoutComp
-                        store={storeData}
-                    >
-                        {children}
-                    </LayoutComp>
-                </StoreProvider>
-            </ProductDialogProvider>
-        </CartProvider>
-    );
+    return children;
 }

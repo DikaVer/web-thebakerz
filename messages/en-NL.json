@@ -67,7 +67,8 @@
     "beef": "beef",
     "shrimp": "shrimp",
     "sulfur": "sulfites",
-    "abalone": "abalone"
+    "abalone": "abalone",
+    "honey": "honey"
   },
   "app/(store)/components/variants-user-selection": {
     "max": "Maximum",
@@ -391,7 +392,16 @@
     "minimalOrderDescription": "What is the minimum number of items a customer can order?",
     "loading": "Loading...",
     "updateItem": "Update Item",
-    "addItem": "Add Item"
+    "addItem": "Add Item",
+    "Update Item": "Update Item",
+    "Item Name": "Item Name",
+    "Add Description Placeholder": "Describe your item",
+    "Select Category": "Select Category",
+    "Add Ingredients Placeholder": "Add Ingredients",
+    "Add Allergies Placeholder": "Add Allergies",
+    "Item Options": "Item Options",
+    "Loading": "Loading",
+    "Add Item": "Add Item"
   },
   "app/(store)/components/store-subheader": {
     "addressPlaceholder": "Address Placeholder",

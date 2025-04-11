@@ -105,7 +105,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
         {key: "9", label: "9"}
     ];
 
-    console.log(form.getValues());
+    // console.log(form.getValues());
     return (
         <FormField
             control={form.control}

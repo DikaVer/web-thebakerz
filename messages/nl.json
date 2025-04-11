@@ -73,7 +73,8 @@
     "beef": "rundvlees",
     "shrimp": "garnaal",
     "sulfur": "sulfieten",
-    "abalone": "abalone"
+    "abalone": "abalone",
+    "honey": "Honing"
   },
   "app/(store)/components/variants-user-selection": {
     "max": "Maximaal",
@@ -353,7 +354,16 @@
     "minimalOrderDescription": "Wat is het minimale aantal artikelen dat een klant kan bestellen?",
     "loading": "Bezig met laden...",
     "updateItem": "Item bijwerken",
-    "addItem": "Item toevoegen"
+    "addItem": "Item toevoegen",
+    "Update Item": "Update item bijwerken",
+    "Item Name": "Itemnaam",
+    "Add Description Placeholder": "Beschrijf uw item",
+    "Select Category": "Selecteer Categorie",
+    "Add Ingredients Placeholder": "Voeg ingrediënten toe",
+    "Add Allergies Placeholder": "Voeg allergieën toe",
+    "Item Options": "Itemopties",
+    "Loading": "Laden",
+    "Add Item": "Voeg item toe"
   },
   "app/(store)/components/store-subheader": {
     "delivery": "Bezorging",

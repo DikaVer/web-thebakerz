@@ -58,16 +58,7 @@ export default async function Page(props: StorePageProps) {
     const t = await getTranslations("app/(store)/[id]/order/failed")
 
     return <div>
-        <StoreProvider
-            store={storeData}
-        >
-            <LayoutComp
-                pay={true}
-                hideSideBar={true}
-                store={storeData}
-            >
-                <div className={'flex min-h-svh w-full justify-center items-center flex-col gap-y-2 text-center'}
-                >
+                <div className={'flex min-h-svh w-full justify-center items-center flex-col gap-y-2 text-center'}>
                     <p>
                         {t("error")}
                     </p>
@@ -76,8 +67,5 @@ export default async function Page(props: StorePageProps) {
                         description={searchParams.session_id}
                     />
                 </div>
-
-            </LayoutComp>
-        </StoreProvider>
-    </div>;
+            </div>;
 }

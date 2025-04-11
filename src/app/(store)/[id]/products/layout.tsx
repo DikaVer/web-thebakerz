@@ -9,6 +9,7 @@ import NotFound from "@/app/(error_layout)/not-found";
 import { CartProvider } from '@/components/providers/cart-provider';
 import {getCurrentSession} from "@/lib/actions/session";
 import {redirect} from "next/navigation";
+import {verifyStoreAccess} from "@/app/(store)/[id]/store-utils";
 
 type Params = Promise<{ id: string  }>
 
@@ -37,37 +38,10 @@ export default async function Layout({
 
     const { id } = await params
 
-    const storeData = await getCurrentStore(id);
-
+    const storeData = await verifyStoreAccess(id);
     if (!storeData) {
         return NotFound();
     }
 
-    const session  = await getCurrentSession();
-
-    if (!session?.store || session.store.id !== storeData.id) {
-        !session?.user && redirect('/auth?next=' + window.location.pathname);
-        return NotFound();
-    }
-
-    return (
-        <CartProvider
-            cart={{}}
-            storeId={storeData.id}
-        >
-            <ProductDialogProvider
-                storeId={storeData.id}
-            >
-                    <StoreProvider
-                        store={storeData}
-                    >
-                        <LayoutComp
-                            store={storeData}
-                        >
-                            {children}
-                        </LayoutComp>
-                    </StoreProvider>
-            </ProductDialogProvider>
-        </CartProvider>
-    );
+    return children;
 }

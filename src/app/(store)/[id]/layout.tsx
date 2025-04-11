@@ -1,10 +1,19 @@
 import '@/styles/globals.css'
 import React from "react";
 import {getCurrentStore, getStoreDataByStoreNameOrId} from "@/lib/actions/store";
-import {getLocalizedMetadata, metadataDefault} from "@/components/metadata";
+import {getLocalizedMetadata} from "@/components/metadata";
 import type {Metadata} from "next";
 import {getLocale} from "next-intl/server";
 import {StoreIdChecker} from "@/components/store/store-id-checker";
+import {StoreProvider} from "@/components/providers/store-provider";
+import {ProductDialogProvider} from "@/components/providers/product-provider";
+import {CartProvider} from "@/components/providers/cart-provider";
+import {getCurrentCart} from "@/lib/actions/cart";
+import {getDeliveryMode} from "@/lib/delivery-cookie";
+import {DeliveryProvider} from "@/components/providers/delivery-provider";
+import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
+import LayoutComp from "@/components/layout-comp";
+import NotFound from "@/app/(error_layout)/not-found";
 
 type Params = Promise<{ id: string }>
 
@@ -127,6 +136,59 @@ export async function generateMetadata({
     };
 }
 
+// Helper function to set up store providers
+async function setupStoreProviders({ 
+    id, 
+    children, 
+    layoutOptions = {} 
+}: { 
+    id: string; 
+    children: React.ReactNode; 
+    layoutOptions?: Record<string, any>; 
+}) {
+    const storeData = await getCurrentStore(id);
+    
+    if (!storeData) {
+        return NotFound();
+    }
+    
+    const cartData = await getCurrentCart(storeData.id);
+    const deliveryMode = await getDeliveryMode();
+    const savedAddress = await getCurrentDeliveryAddress(storeData.id);
+    
+    let initialDeliveryMode = deliveryMode === 'delivery';
+    if (storeData.deliveryOption !== "multi") {
+        initialDeliveryMode = storeData.deliveryOption === 'delivery';
+    }
+    
+    return (
+        <CartProvider
+            cart={cartData}
+            storeId={storeData.id}
+        >
+            <ProductDialogProvider
+                storeId={storeData.id}
+            >
+                <StoreProvider
+                    store={storeData}
+                >
+                    <DeliveryProvider
+                        initialDeliveryMode={initialDeliveryMode}
+                        initialAddress={savedAddress}
+                    >
+                        <LayoutComp
+                            store={storeData}
+                            {...layoutOptions}
+                        >
+                            {children}
+                        </LayoutComp>
+                    </DeliveryProvider>
+                </StoreProvider>
+            </ProductDialogProvider>
+        </CartProvider>
+    );
+}
+
 export default async function Layout({
                                          children,
                                          params,
@@ -143,7 +205,11 @@ export default async function Layout({
     return (
         <div className={'min-h-svh'}>
             {(storeData?.storeName && id !== storeData?.storeName) && <StoreIdChecker storeId={id} storeName={storeData?.storeName}/>}
-            {children}
+            {await setupStoreProviders({
+                id,
+                children,
+                layoutOptions: {}
+            })}
         </div>
     );
 }

@@ -73,7 +73,8 @@
     "beef": "bœuf",
     "shrimp": "crevette",
     "sulfur": "sulfites",
-    "abalone": "ormeau"
+    "abalone": "ormeau",
+    "honey": "Miel"
   },
   "app/(store)/components/variants-user-selection": {
     "max": "Maximum",
@@ -354,7 +355,16 @@
     "minimalOrderDescription": "Quel est le nombre minimum d'articles qu'un client peut commander ?",
     "loading": "Chargement...",
     "updateItem": "Mettre à jour l'élément",
-    "addItem": "Ajouter un élément"
+    "addItem": "Ajouter un élément",
+    "Update Item": "Mettre à jour",
+    "Item Name": "Nom d'article",
+    "Add Description Placeholder": "Décrivez votre article",
+    "Select Category": "Sélectionner la catégorie",
+    "Add Ingredients Placeholder": "Ajouter des ingrédients",
+    "Add Allergies Placeholder": "Ajouter les allergies",
+    "Item Options": "Options d'article",
+    "Loading": "Chargement",
+    "Add Item": "Ajouter"
   },
   "app/(store)/components/store-subheader": {
     "delivery": "Livraison",

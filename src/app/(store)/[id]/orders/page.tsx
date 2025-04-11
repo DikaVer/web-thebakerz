@@ -35,13 +35,16 @@ export default async function Page(props: StorePageProps) {
 
 
     return (
-        <div className="flex flex-col min-h-dvh relative z-10 items-center">
-            <OrderDashboard
-                date={date}
-                from={from}
-                to={to}
-            />
-        </div>
+        <>
+            <div className="flex flex-col min-h-dvh relative z-10 items-center">
+                <OrderDashboard
+                    date={date}
+                    from={from}
+                    to={to}
+                />
+            </div>
+            <FooterStore/>
+        </>
     );
 }
 
