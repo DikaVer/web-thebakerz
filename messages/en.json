@@ -752,7 +752,7 @@
   },
   "app/(landing)/components/navbar": {
     "back": "Back",
-    "backTo": "back to",
+    "backTo": "to",
     "brandName": "TheBakerz"
   },
   "app/(landing)/components/apply": {
@@ -1378,5 +1378,8 @@
     "businessAddress": "Address",
     "registeredAddress": "Registered Address",
     "bankAccount": "Bank Account"
+  },
+  "UsersDashboard": {
+    "Search User": "Search User"
   }
 }

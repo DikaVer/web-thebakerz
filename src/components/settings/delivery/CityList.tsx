@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { formatCurrency } from "@/lib/utils";
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import {formatTime} from "@/components/settings/delivery/utils";
-
+import { useSession } from "@/components/providers/session-provider";
 interface DeliveryRange {
   range: number;
   deliveryPriceInCents: number;
@@ -36,6 +36,8 @@ const CityList: React.FC<CityListProps> = ({
 
   const whT = useTranslations("Working Hours");
   const t = useTranslations("app/(return_page)/settings/components/delivery-settings");
+  const { session } = useSession();
+
 
   // Get a summary of the delivery schedule for display
   const getScheduleSummary = (schedule?: WorkHours) => {
@@ -127,12 +129,37 @@ const CityList: React.FC<CityListProps> = ({
                   </Button>
                 </>
              ) : (
-              <Image
+              <>
+               {session?.user?.role === "admin" && (
+                  <>
+                    <Button
+                      size="sm"
+                      color="primary"
+                      variant="light"
+                      onPress={() => onManageSchedule(city)}
+                      className="text-xs"
+                    >
+                      {t("deliverySchedule")}
+                    </Button>
+                
+                    <Button
+                      size="sm"
+                      color="danger"
+                      variant="light"
+                      isIconOnly
+                      onPress={() => onRemoveCity(city.name)}
+                    >
+                      x
+                    </Button>
+                  </>
+                )}
+                  <Image
                     src="/images/TheBakerzLogo.svg"
                     width={32}
                     height={32}
                     alt={t("brandName") + " Logo"}
-                />
+                  />
+                </>   
               )}
             </div>
           </div>

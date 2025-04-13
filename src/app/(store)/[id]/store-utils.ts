@@ -66,7 +66,7 @@ export async function verifyStoreAccess(id: string) {
     
     if (!session?.user || session.user.id !== storeData.user_id) {
         if (!session?.user) {
-            redirect('/auth?next=' + encodeURIComponent(window.location.pathname));
+            redirect('/auth');
         }
         return null;
     }

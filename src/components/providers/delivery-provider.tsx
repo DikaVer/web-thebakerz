@@ -138,25 +138,25 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
           setIsValidating(true);
           
           // 3. Calculate distances and find the closest region
-          console.log("Server: Calculating distances to", store.deliveryRegions.length, "regions");
+          console.log("Client: Calculating distances to", store.deliveryRegions.length, "regions");
           let closestRegion: MerchantDeliveryRegion | null = null;
           let minDistance = Infinity;
           
           for (const region of store.deliveryRegions) {
             if (region.coordinates) {
               const distance = haversineDistance(initialAddress.coordinates, region.coordinates);
-              console.log(`Server: Distance to ${region.name}: ${distance.toFixed(2)} km`);
+              console.log(`Client: Distance to ${region.name}: ${distance.toFixed(2)} km`);
               if (distance < minDistance) {
                 minDistance = distance;
                 closestRegion = region;
               }
             } else {
-              console.warn(`Server: Delivery region '${region.name}' is missing coordinates.`);
+              console.warn(`Client: Delivery region '${region.name}' is missing coordinates.`);
             }
           }
           // 4. Determine if the address is within range and find the applicable pricing tier
           if (closestRegion) {
-            console.log(`Server: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
+            console.log(`Client: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
     
             // First check if we have multi-range pricing (new format)
             let useMultiRangePricing = false;
@@ -165,14 +165,14 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
             if (closestRegion.ranges && Array.isArray(closestRegion.ranges) && closestRegion.ranges.length > 0) {
               // Sort ranges by distance (ascending)
               const sortedRanges = [...closestRegion.ranges].sort((a, b) => a.range - b.range);
-              console.log(`Server: Region has ${sortedRanges.length} delivery ranges`);
+              console.log(`Client: Region has ${sortedRanges.length} delivery ranges`);
               
               // Find the applicable range based on the distance
               for (const range of sortedRanges) {
                 if (minDistance <= range.range) {
                   applicableRange = range;
                   useMultiRangePricing = true;
-                  console.log(`Server: Found applicable range: ${range.range} km with delivery price ${range.deliveryPriceInCents / 100}€`);
+                  console.log(`Client: Found applicable range: ${range.range} km with delivery price ${range.deliveryPriceInCents / 100}€`);
                   break;
                 }
               }
@@ -193,7 +193,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
                 ? applicableRange.minOrderPriceInCents 
                 : (closestRegion.minOrderPriceInCents || 1000);
               
-              console.log(`Server: Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
+              console.log(`Client: Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
               
               setValidationResult({
                 isValid: true,
@@ -210,7 +210,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
                 validatedAddress: { ...initialAddress, coordinates: initialAddress.coordinates },
               });
             } else {
-              console.log(`Server: Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
+              console.log(`Client: Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
               setValidationResult({
                 isValid: true,
                 isInRange: false,
@@ -230,7 +230,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
             });
           }
         } catch (error) {
-          console.error("Error validating initial address:", error);
+          console.error("Client: Error validating initial address:", error);
           // Keep the default validation result if validation fails
         } finally {
           setIsValidating(false);

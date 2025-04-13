@@ -33,14 +33,14 @@ export async function POST(
             return NextResponse.json({ error: t("notAuthenticated") }, { status: 404 });
         }
 
-        const storeData = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+        const { store: storeData } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
 
         if (!storeData && user) {
             if (customer_email !== user.email) {
                 return NextResponse.json({ error: t("restrictedAccess") }, { status: 404 });
             }
-        } else if (storeData.store && user) {
-            if (storeData.store.user_id !== user.id) {
+        } else if (storeData && user) {
+            if (storeData.user_id !== user.id) {
                 return NextResponse.json({ error: t("restrictedAccess") }, { status: 404 });
             }
         }

@@ -14,6 +14,7 @@ import {DeliveryProvider} from "@/components/providers/delivery-provider";
 import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 import LayoutComp from "@/components/layout-comp";
 import NotFound from "@/app/(error_layout)/not-found";
+import { headers } from "next/headers";
 
 type Params = Promise<{ id: string }>
 
@@ -198,18 +199,15 @@ export default async function Layout({
     params: Params
 }) {
     const { id } = await params;
-
     const storeData = await getCurrentStore(id);
 
-    // console.log(storeData);
 
     return (
         <div className={'min-h-svh'}>
             {(storeData?.storeName && id !== storeData?.storeName) && <StoreIdChecker storeId={id} storeName={storeData?.storeName}/>}
             {await setupStoreProviders({
                 id,
-                children,
-                layoutOptions: {}
+                children
             })}
         </div>
     );

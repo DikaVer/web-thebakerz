@@ -693,7 +693,7 @@
   },
   "app/(landing)/components/navbar": {
     "back": "Ga terug",
-    "backTo": "terug naar",
+    "backTo": "naar",
     "brandName": "TheBakerz"
   },
   "app/(landing)/components/apply": {
@@ -1270,5 +1270,8 @@
     "businessAddress": "Adres",
     "registeredAddress": "Geregistreerd adres",
     "bankAccount": "Bankrekening"
+  },
+  "UsersDashboard": {
+    "Search User": "Zoekgebruiker"
   }
 }

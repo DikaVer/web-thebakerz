@@ -1,21 +1,17 @@
 "use client";
-import { Icon } from "@iconify/react";
 import React, { useState } from "react";
 import {
     Button,
     Divider,
-    Spacer,
-    useDisclosure,
+    Spacer
 } from "@heroui/react";
-import { useMediaQuery } from "usehooks-ts";
 import { useProductDialog } from "@/components/providers/product-provider";
-import {calculateTax, formatCurrency} from "@/lib/utils";
-import { useRouter, useSearchParams } from "next/navigation";
+import {formatCurrency} from "@/lib/utils";
 import { useStore } from "@/components/providers/store-provider";
 import {CartItemRow} from "@/components/cart/cart-item";
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
-import {calculateTotals, calculateApplicationFee} from "@/lib/price/tax";
+import {calculateTotals} from "@/lib/price/tax";
 import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
 
 

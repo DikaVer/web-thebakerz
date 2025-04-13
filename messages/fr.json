@@ -694,7 +694,7 @@
   },
   "app/(landing)/components/navbar": {
     "back": "Retour",
-    "backTo": "retour à",
+    "backTo": "à",
     "brandName": "Les Bakerz"
   },
   "app/(landing)/components/apply": {
@@ -1272,5 +1272,8 @@
     "businessAddress": "Adresse",
     "registeredAddress": "Adresse enregistrée",
     "bankAccount": "Compte bancaire"
+  },
+  "UsersDashboard": {
+    "Search User": "Rechercher un utilisateur"
   }
 }

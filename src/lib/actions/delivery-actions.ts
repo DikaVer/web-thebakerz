@@ -54,6 +54,7 @@ export async function updateMerchantDeliveryRegions(
     }[]
 ) {
   try {
+    console.log("regions", regions);
     // Validate the input data
     const validationResult = DeliveryRegionsSchema.safeParse(regions);
     
@@ -67,9 +68,12 @@ export async function updateMerchantDeliveryRegions(
       throw new Error("Not authenticated");
     }
 
-    const storeData = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
-    if (!storeData) {
-      throw new Error("Store not found");
+  
+    if(user.role !== "admin") {
+      const { store: storeData } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+      if (!storeData) {
+        throw new Error("Store not found");
+      }
     }
 
     // Delete existing regions
@@ -80,6 +84,7 @@ export async function updateMerchantDeliveryRegions(
     for (const resource of resources) {
       await containerDeliveryRegions.item(resource.id, storeId).delete();
     }
+
 
     // Add new regions
     for (const region of validationResult.data) {
@@ -93,7 +98,7 @@ export async function updateMerchantDeliveryRegions(
         minOrderPriceInCents: region.minOrderPriceInCents,
         minOrderTime: region.minOrderTime,
         deliverySchedule: region.deliverySchedule,
-        isStoreDelivery: region.isStoreDelivery,
+        isStoreDelivery: user.role === "admin" ? region.isStoreDelivery : true,
         ranges: region.ranges || [{ 
           range: region.radiusKm, 
           deliveryPriceInCents: region.priceInCents,

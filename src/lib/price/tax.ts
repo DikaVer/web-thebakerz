@@ -48,8 +48,8 @@ export const calculateTotals = (
     };
 };
 
-export const calculateApplicationFee = (totalInclVat: number, isStoreDelivery: boolean) => {
-    const applicationFeeRate = isStoreDelivery ? 0.08 : 0.25; // 8% fee and if store does not deliver then 25%
+export const calculateApplicationFee = (totalInclVat: number, isStoreDelivery: boolean, custom_app_fee: number, custom_delivery_fee: number) => {
+    const applicationFeeRate = isStoreDelivery ? custom_app_fee / 100 : custom_delivery_fee / 100; // 8% fee and if store does not deliver then 25%
     const applicationFee = totalInclVat * applicationFeeRate;
     return Math.round(applicationFee);
 };

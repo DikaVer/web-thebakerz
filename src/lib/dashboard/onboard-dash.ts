@@ -26,6 +26,7 @@ export const onboardBakerz = async (
     if (session.user?.role !== "admin") {
         return { error: "Permission Denied." };
     }
+    const isCustomFee = formData.app_fee !==  8 || formData.delivery_fee !== 20;
 
     try {
         // Start a transaction to ensure data consistency
@@ -34,11 +35,11 @@ export const onboardBakerz = async (
         // 1. Insert store record
         const result = await connectionPool.query(
             `
-                INSERT INTO stores (user_id, phone)
-                VALUES ($1, $2)
+                INSERT INTO stores (user_id, phone, region, currency, custom_fee, custom_app_fee, custom_delivery_fee, stripe_id)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
                     RETURNING id
             `,
-            [userId, formData.phoneNumber],
+            [userId, formData.phoneNumber, formData.region, formData.currency, isCustomFee, formData.app_fee, formData.delivery_fee, formData.stripeAccountId],
         );
 
         if (result.rows.length === 0) {
@@ -72,20 +73,20 @@ export const onboardBakerz = async (
 
         const businessAddressId = businessAddressResult.rows[0].id;
 
-        // 4. Insert business store information
+        // 4. Insert business account information
         await connectionPool.query(
             `
-                INSERT INTO business_store (store_id, name, vat, kvk, bank_account, business_address_id, kor)
-                VALUES ($1, $2, $3, $4, $5, $6, $7)
+                INSERT INTO business_acc (user_id, name, vat, kvk, bank_account, business_address_id, kor, location)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
             `,
-            [storeId, formData.businessName, formData.vat, formData.kvk, formData.bankAccount, businessAddressId, formData.kor],
+            [userId, formData.businessName, formData.vat, formData.kvk, formData.bankAccount, businessAddressId, formData.kor, formData.regionBusiness],
         );
 
         await connectionPool.query(
             `
-                UPDATE users SET role = 'bakerz' WHERE id = $1
+                UPDATE users SET role = 'bakerz', name = $1 WHERE id = $2
             `,
-            [userId],
+            [formData.name, userId],
         );
 
         // Commit the transaction

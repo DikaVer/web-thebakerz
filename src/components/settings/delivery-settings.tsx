@@ -1,13 +1,12 @@
 'use client';
 
-import React, { useState, useCallback, useEffect } from "react";
-import { getMerchantDeliveryRegions, updateMerchantDeliveryRegions } from "@/lib/actions/delivery-actions";
+import React, { useState, useEffect } from "react";
+import {updateMerchantDeliveryRegions } from "@/lib/actions/delivery-actions";
 import { Card, CardBody, CardHeader, addToast, Button, useDisclosure, Switch } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { cityLatLngMap } from "@/lib/local-variables";
 import { useSession } from "@/components/providers/session-provider";
 import { Time } from '@internationalized/date';
-import { updateStoreDeliveryOptions } from "@/lib/actions/store";
 import { WorkHours, WorkDay } from "@/lib/actions/calendar-actions";
 
 // Import separated components
@@ -19,6 +18,7 @@ import DeliveryScheduleModal from "./delivery/DeliveryScheduleModal";
 import { DeliveryCity, DeliveryRange } from "./delivery/types";
 import { eurosToCents } from "./delivery/utils";
 import { useStore } from "../providers/store-provider";
+import { StoreData } from "@/lib/actions/store";
 
 // Create an empty WorkHours object with the right structure
 const defaultWorkDay: WorkDay = {
@@ -37,7 +37,11 @@ const emptyWorkHours: WorkHours = {
   sunday: { ...defaultWorkDay }
 };
 
-const DeliveryManager = () => {
+interface DeliveryManagerProps {
+  storeData?: StoreData;
+}
+
+const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
   const { session } = useSession();
   const [deliveryCities, setDeliveryCities] = useState<DeliveryCity[]>([]);
   const [loading, setLoading] = useState(true);
@@ -51,7 +55,7 @@ const DeliveryManager = () => {
   const [currentCityForSchedule, setCurrentCityForSchedule] = useState<DeliveryCity | null>(null);
   const [deliverySchedule, setDeliverySchedule] = useState<WorkHours>(emptyWorkHours);
   const {isOpen: isScheduleModalOpen, onOpen: openScheduleModal, onClose: closeScheduleModal} = useDisclosure();
-  const { store } = useStore();
+  const { store } = storeData ? {store: storeData }: useStore(); 
 
   if (!store) {
     return;
@@ -234,7 +238,7 @@ const DeliveryManager = () => {
         ranges: currentRanges,
         coordinates: cityLatLngMap[selectedCityForRange],
         deliverySchedule: undefined,
-        isStoreDelivery: true,
+        isStoreDelivery:  session?.user?.role !== "admin" ? true : false,
         minOrderTime: 1440
       }]);
     }

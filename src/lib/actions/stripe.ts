@@ -9,7 +9,7 @@ import { getDeliveryTime, getOrderTime} from "@/app/(store)/[id]/actions";
 import {OrderRaw, ExtendedOrderRaw} from "@/lib/actions/order";
 import {v4 as uuidv4} from "uuid";
 import {containerOrdersUnpaid} from "@/db";
-import {getCurrentStore} from "@/lib/actions/store";
+import { getCurrentStorePayment} from "@/lib/actions/store";
 import {calculateApplicationFee, calculateTotals} from "@/lib/price/tax";
 import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
 import { CalendarDateTime, getDayOfWeek, Time, toTime, ZonedDateTime, now, getLocalTimeZone, toZoned } from "@internationalized/date";
@@ -131,7 +131,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     const isDelivery = deliveryMode === 'delivery';
 
     // Fetch Full Store Data (needed for schedule, lead time, KOR status)
-    const storeData = await getCurrentStore(storeId);
+    const storeData = await getCurrentStorePayment(storeId);
     if (!storeData) {
         return { error: 'Store data could not be found.' };
     }
@@ -359,7 +359,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     if (isDelivery && deliveryFeeInclVat > 0 && selectedRegion?.isStoreDelivery) {
         transferAmount += deliveryFeeInclVat; // Include delivery fee in the transfer amount
     }
-    const applicationFee = calculateApplicationFee(totalInclVat, selectedRegion?.isStoreDelivery || true);
+    const applicationFee = calculateApplicationFee(totalInclVat, selectedRegion?.isStoreDelivery || true, storeData.custom_app_fee, storeData.custom_delivery_fee);
     transferAmount -= applicationFee; // Subtract application fee
 
 
