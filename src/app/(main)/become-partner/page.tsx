@@ -86,8 +86,10 @@ const PricingSection = () => {
 
     const handleCreate = () => {
         setLoading(true);
-        router.push('#join-thebakerz');
-        router.refresh();
+        const element = document.getElementById('join-thebakerz');
+        if (element) {
+            element?.scrollIntoView({ behavior: 'smooth' });
+        }
         setLoading(false);
     };
 

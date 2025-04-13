@@ -15,8 +15,8 @@ import {useTranslations} from "next-intl";
 type SocialIconProps = Omit<IconProps, "icon">;
 
 export function FooterStore() {
-    const t = useTranslations("app/(components)/footer-store");
     const shopT = useTranslations("Shop");
+    const t = useTranslations("app/(components)/footer-store");
 
     const { store } = useStore();
     const { theme } = useTheme();
@@ -28,9 +28,9 @@ export function FooterStore() {
 
     const footerNavigation = {
         overview: [
-            {name: t("brandName"), href: "/"},
+            {name: t("search"), href: "/"},
             {name: t("aboutTheBakerz"), href: "/about-us"},
-            {name: t("joinTheBakerz"), href: "/#join-thebakerz"},
+            {name: t("joinTheBakerz"), href: "/become-partner#join-thebakerz"},
         ],
         supportOptions: [
             {name: t("getHelp"), href: "/support"},

@@ -18,10 +18,11 @@ import { useMediaQuery } from "usehooks-ts";
 import { StoreData } from "@/lib/actions/store";
 import { useStore } from "@/components/providers/store-provider";
 import CartButton from "@/components/cart/cart-button";
-import { useRouter } from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import { useSession } from "@/components/providers/session-provider";
 import {useTranslations} from "next-intl";
 import {SessionValidationResult} from "@/lib/actions/session";
+import { JoinButton } from "../ui/join-button";
 
 interface LayoutProps {
     store?: StoreData;
@@ -202,6 +203,9 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
     t
                                                      }) => {
 
+    const pathname = usePathname();
+    const isPartnerPage = pathname.includes("/become-partner");
+
     return (
         <>
             <NavbarItem className="ml-1 !flex">
@@ -251,7 +255,11 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
             ) : (
                 <NavbarItem className="mr-1 !flex">
                     {!session?.session ? (
-                        <SigninButton className="text-large rounded-full" />
+                        isPartnerPage ? (
+                            <JoinButton />
+                        ) : (
+                            <SigninButton className="text-large rounded-full" />
+                        )
                     ) : (
                         <Image
                         src="/images/TheBakerzLogo.svg"

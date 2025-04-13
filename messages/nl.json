@@ -743,7 +743,8 @@
     "dashboard": "Dashboard",
     "overview": "Overzicht",
     "users": "Gebruikers",
-    "stripe": "Streep"
+    "stripe": "Streep",
+    "search": "Zoek Bakerz"
   },
   "app/(support)/components/contact-us": {
     "emailLabel": "E-mail",
@@ -822,7 +823,7 @@
     "redirectNow": "Nu omleiden"
   },
   "app/(components)/footer": {
-    "brandName": "TheBakerz",
+    "brandName": "Zoek Bakerz",
     "aboutTheBakerz": "Over TheBakerz",
     "joinTheBakerz": "Sluit je aan bij TheBakerz",
     "getHelp": "Krijg hulp",
@@ -835,10 +836,11 @@
     "copyright": "TheBakerz. Alle rechten voorbehouden.",
     "navigation": "Navigatie",
     "support": "Steun",
-    "legal": "Juridisch"
+    "legal": "Juridisch",
+    "search": "Zoek Bakerz"
   },
   "app/(components)/footer-store": {
-    "brandName": "TheBakerz",
+    "brandName": "Zoek Bakerz",
     "aboutTheBakerz": "Over TheBakerz",
     "joinTheBakerz": "Sluit je aan bij TheBakerz",
     "getHelp": "Krijg hulp",
@@ -854,10 +856,11 @@
     "contactUs": "Neem contact met ons op",
     "phone": "Telefoon",
     "addressPlaceholder": "Adres-plaatsaanduiding",
-    "locationPlaceholder": "Locatie Plaatsaanduiding"
+    "locationPlaceholder": "Locatie Plaatsaanduiding",
+    "search": "Zoek Bakerz"
   },
   "app/(components)/footer-simple": {
-    "brandName": "TheBakerz",
+    "brandName": "Zoek Bakerz",
     "aboutTheBakerz": "Over TheBakerz",
     "joinTheBakerz": "Sluit je aan bij TheBakerz",
     "getHelp": "Krijg hulp",
@@ -866,7 +869,8 @@
     "refundPolicy": "Restitutiebeleid",
     "copyright": "TheBakerz. Alle rechten voorbehouden.",
     "support": "Steun",
-    "legal": "Juridisch"
+    "legal": "Juridisch",
+    "search": "Zoek Bakerz"
   },
   "app/(auth)/page": {
     "authDescription": "Meld u aan om heerlijke lekkernijen te bestellen"
@@ -1273,5 +1277,9 @@
   },
   "UsersDashboard": {
     "Search User": "Zoekgebruiker"
+  },
+  "app/(components)/join-button": {
+    "loading": "Laden ...",
+    "join": "Join TheBakerz"
   }
 }

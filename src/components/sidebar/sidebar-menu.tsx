@@ -50,6 +50,7 @@ export default function SidebarMenu({ store, isOpen, onOpenChange, isCollapsed }
 
 
 
+
     return (
         <SidebarDrawer
             className={cn("min-w-[240px] rounded-lg", { "min-w-[64px]": isCollapsed })}

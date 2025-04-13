@@ -15,9 +15,9 @@ const Footer = () => {
 
     const footerNavigation = {
         overview: [
-            {name: t("brandName"), href: "/"},
+            {name: t("search"), href: "/"},
             {name: t("aboutTheBakerz"), href: "/about-us"},
-            {name: t("joinTheBakerz"), href: "/#join-thebakerz"},
+            {name: t("joinTheBakerz"), href: "/become-partner#join-thebakerz"},
         ],
         supportOptions: [
             {name: t("getHelp"), href: "/support"},

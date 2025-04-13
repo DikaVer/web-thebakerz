@@ -805,7 +805,8 @@
     "dashboard": "Dashboard",
     "overview": "Overview",
     "users": "Users",
-    "stripe": "Stripe"
+    "stripe": "Stripe",
+    "search": "Search Bakerz"
   },
   "app/(support)/components/contact-us": {
     "emailLabel": "Email",
@@ -897,7 +898,8 @@
     "copyright": "TheBakerz. All rights reserved.",
     "navigation": "Navigation",
     "support": "Support",
-    "legal": "Legal"
+    "legal": "Legal",
+    "search": "Search Bakerz"
   },
   "app/(components)/footer-store": {
     "brandName": "TheBakerz",
@@ -916,7 +918,8 @@
     "contactUs": "Contact Us",
     "phone": "Phone",
     "addressPlaceholder": "Address Placeholder",
-    "locationPlaceholder": "Location Placeholder"
+    "locationPlaceholder": "Location Placeholder",
+    "search": "Search Bakerz"
   },
   "app/(components)/footer-simple": {
     "brandName": "TheBakerz",
@@ -928,7 +931,8 @@
     "refundPolicy": "Refund Policy",
     "copyright": "TheBakerz. All rights reserved.",
     "support": "Support",
-    "legal": "Legal"
+    "legal": "Legal",
+    "search": "Search Bakerz"
   },
   "app/(auth)/page": {
     "authDescription": "Sign in to order delicious treats"
@@ -1381,5 +1385,9 @@
   },
   "UsersDashboard": {
     "Search User": "Search User"
+  },
+  "app/(components)/join-button": {
+    "loading": "Loading...",
+    "join": "Join TheBakerz"
   }
 }

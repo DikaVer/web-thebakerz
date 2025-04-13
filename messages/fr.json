@@ -744,7 +744,8 @@
     "dashboard": "Tableau de bord",
     "overview": "Aperçu",
     "users": "Utilisateurs",
-    "stripe": "Bande"
+    "stripe": "Bande",
+    "search": "Rechercher Bakerz"
   },
   "app/(support)/components/contact-us": {
     "emailLabel": "E-mail",
@@ -823,7 +824,7 @@
     "redirectNow": "Rediriger maintenant"
   },
   "app/(components)/footer": {
-    "brandName": "Les Bakerz",
+    "brandName": "TheBakerz",
     "aboutTheBakerz": "À propos de TheBakerz",
     "joinTheBakerz": "Rejoignez TheBakerz",
     "getHelp": "Obtenir de l'aide",
@@ -836,10 +837,11 @@
     "copyright": "TheBakerz. Tous droits réservés.",
     "navigation": "Navigation",
     "support": "Support",
-    "legal": "Légal"
+    "legal": "Légal",
+    "search": "Rechercher Bakerz"
   },
   "app/(components)/footer-store": {
-    "brandName": "Les Bakerz",
+    "brandName": "TheBakerz",
     "aboutTheBakerz": "À propos de TheBakerz",
     "joinTheBakerz": "Rejoignez TheBakerz",
     "getHelp": "Obtenir de l'aide",
@@ -855,10 +857,11 @@
     "contactUs": "Contactez-nous",
     "phone": "Téléphone",
     "addressPlaceholder": "Espace réservé à l'adresse",
-    "locationPlaceholder": "Espace réservé à la localisation"
+    "locationPlaceholder": "Espace réservé à la localisation",
+    "search": "Rechercher Bakerz"
   },
   "app/(components)/footer-simple": {
-    "brandName": "Les Bakerz",
+    "brandName": "TheBakerz",
     "aboutTheBakerz": "À propos de TheBakerz",
     "joinTheBakerz": "Rejoignez TheBakerz",
     "getHelp": "Obtenir de l'aide",
@@ -867,7 +870,8 @@
     "refundPolicy": "Politique de remboursement",
     "copyright": "TheBakerz. Tous droits réservés.",
     "support": "Support",
-    "legal": "Légal"
+    "legal": "Légal",
+    "search": "Rechercher Bakerz"
   },
   "app/(auth)/page": {
     "authDescription": "Connectez-vous pour commander de délicieuses friandises"
@@ -1275,5 +1279,9 @@
   },
   "UsersDashboard": {
     "Search User": "Rechercher un utilisateur"
+  },
+  "app/(components)/join-button": {
+    "loading": "Chargement...",
+    "join": "Rejoignez TheBakerz"
   }
 }

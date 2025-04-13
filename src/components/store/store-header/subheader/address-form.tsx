@@ -501,9 +501,7 @@ export function AddressForm({
         
         if (success) {
           // If the address is valid and within delivery range, close the modal with small delay to show success state
-          if (validationResult.isValid && validationResult.isInRange && onClose) {
-              onClose();
-          }
+          onClose && onClose();
         }
       } catch (err) {
         console.error('Form submission failed:', err);

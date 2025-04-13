@@ -7,8 +7,16 @@ export interface CookiePreferences {
     analytics: boolean;
     marketing: boolean;
 }
+
+export interface Coordinates {
+    lat: number;
+    lng: number;
+}
+
 const COOKIE_CONSENT_KEY = "cookie_consent";
 const COOKIE_PREFERENCES_KEY = "cookie_preferences";
+const SEARCH_LAT_KEY = "search_lat";
+const SEARCH_LNG_KEY = "search_lng";
 
 export async function isCookieConsentFromServer() {
     const cookie = await cookies();
@@ -23,6 +31,29 @@ export async function getCookiePreferences(): Promise<CookiePreferences | null> 
     return preferences ? JSON.parse(preferences) : null;
 }
 
+/**
+ * Get saved search coordinates from cookies
+ * @returns Coordinates if available, null otherwise
+ */
+export async function getSearchCoordinates(): Promise<Coordinates | null> {
+    const cookie = await cookies();
+    const lat = cookie.get(SEARCH_LAT_KEY)?.value;
+    const lng = cookie.get(SEARCH_LNG_KEY)?.value;
+    
+    if (!lat || !lng) {
+        return null;
+    }
+    
+    try {
+        return {
+            lat: parseFloat(lat),
+            lng: parseFloat(lng)
+        };
+    } catch (error) {
+        console.error("Error parsing coordinates from cookies:", error);
+        return null;
+    }
+}
 
 export async function acceptAll() {
     const cookie = await cookies();

@@ -77,6 +77,9 @@ export default async function Page(props: StorePageProps) {
     const { id, productId } = await params;
 
     const storeData = await getCurrentStore(id);
+    if (!storeData) {
+        return <NotFound />;
+    }
 
     // Store data and providers are handled in the layout
     return (

@@ -16,8 +16,19 @@ export function FirstView() {
 
     const handleCreate = () => {
         setLoading(true);
-        router.push('/#join-thebakerz');
-        router.refresh();
+        
+        // Check if we're already on the home page
+        if (window.location.pathname === '/') {
+            // If on the same page, scroll smoothly to the element
+            const element = document.getElementById('join-thebakerz');
+            if (element) {
+                element?.scrollIntoView({ behavior: 'smooth' });
+            }
+        } else {
+            // Navigate to the home page first, then add the hash
+            router.push('/#join-thebakerz');
+        }
+        
         setLoading(false);
     };
 
