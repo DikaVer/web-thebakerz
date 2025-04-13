@@ -18,16 +18,17 @@ interface MinTimeOrderProps {
 export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
     const t = useTranslations("app/(return_page)/settings/components/calendar/min-time-order");
     const { session } = useSession();
+    const { store } = useStore();
     const [isVisible, setIsVisible] = useState(false);
     const [minOrderTime, setMinOrderTime] = useState<string>("30");
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        if (session.store?.minTimeOrder) {
-            setMinOrderTime(session.store.minTimeOrder.toString());
+        if (store?.minTimeOrder) {
+            setMinOrderTime(store.minTimeOrder.toString());
             setIsVisible(true);
         }
-    }, [session.store?.minTimeOrder]);
+    }, [store?.minTimeOrder]);
 
     const timeOptions = useMemo(() => {
         const options = [];
@@ -58,7 +59,7 @@ export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
     const handleSave = async () => {
         setIsLoading(true);
         try {
-            await updateMinOrderTime(parseInt(minOrderTime));
+            await updateMinOrderTime(store?.id, parseInt(minOrderTime));
             showSuccessMessage({ success: t("successMessage") });
         } catch (error) {
             showErrorMessage({ error: t("errorMessage") });

@@ -9,6 +9,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import {useSession} from "@/components/providers/session-provider";
 import {IconLoadingCircle} from "@/components/ui/icons";
 import {useTranslations} from "next-intl";
+import { useStore } from '@/components/providers/store-provider';
 
 interface DayWorkingHoursProps {
     day: string;
@@ -139,11 +140,11 @@ export const WorkingHoursComp: React.FC = () => {
     const {session} = useSession();
 
     if (!session) {
-        return null;
+        return null;    
     }
-    const { schedule } = session;
+    const { store } = useStore();
     // Use Partial<WorkHours> as some days might not be set initially.
-    const [workingHours, setWorkingHoursState] = useState<Partial<WorkHours>>(schedule ? schedule : {});
+    const [workingHours, setWorkingHoursState] = useState<Partial<WorkHours>>(store?.schedule ? store?.schedule : {});
     const [isLoading, setIsLoading] = useState(false);
 
     const setWorkingHours = (
@@ -172,6 +173,7 @@ export const WorkingHoursComp: React.FC = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     workHours: workingHours,
+                    storeId: store.id,
                 }),
             });
             if (!res.ok) {

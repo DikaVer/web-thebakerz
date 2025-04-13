@@ -11,9 +11,11 @@ import UserProductDialog from "@/components/store/product/dialog/user-product";
 import BakerzProductDialog from "@/components/store/product/dialog/bakerz-product";
 import {useMediaQuery} from "usehooks-ts";
 import {useTranslations} from "next-intl";
+import {useStore} from "@/components/providers/store-provider";
 
 type ProductDialogProps = {
     storeId: string;
+    storeOwnerId: string;
     productData: ProductData | undefined;
     itemCart?: ItemCart;
     isOpen: boolean;
@@ -22,7 +24,7 @@ type ProductDialogProps = {
     setIsUpdating: (isUpdating: boolean) => void;
 }
 
-export default function ProductDialog({storeId, productData, itemCart, isOpen, onClose, bakerzOrder = false, setIsUpdating }: ProductDialogProps) {
+export default function ProductDialog({storeId, storeOwnerId, productData, itemCart, isOpen, onClose, bakerzOrder = false, setIsUpdating }: ProductDialogProps) {
     const { session } = useSession();
     const isSmall = useMediaQuery("(max-width: 800px)");
     const t = useTranslations("app/(store)/components/product-dialog");
@@ -45,9 +47,10 @@ export default function ProductDialog({storeId, productData, itemCart, isOpen, o
                     {(onClose) => (
                         <>
                             {
-                                session.user?.role === 'bakerz' && session.store?.id === storeId && !bakerzOrder ?
+                                session.user?.role === 'bakerz' && session.user?.id === storeOwnerId && !bakerzOrder ?
                                     (
                                         <BakerzProductDialog
+                                            storeId={storeId}
                                             productData={productData}
                                             onClose={onClose}
                                             setIsDismissable={setIsDismissable}

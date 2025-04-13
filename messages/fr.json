@@ -141,7 +141,7 @@
     "profilePicture": "Photo de profil",
     "uploadProfilePicture": "Télécharger une photo de profil",
     "profile": "Profil",
-    "displaysProfileStore": "Ces informations seront affichées sur le profil de votre boutique",
+    "displaysProfileStore": "Ces informations seront affichées sur votre magasin",
     "displaysProfile": "Ces informations seront affichées sur votre profil",
     "customer": "Client",
     "baker": "Boulanger-patissier",
@@ -173,7 +173,8 @@
     "profileStoreUpdated": "Votre profil et les détails de votre magasin ont été mis à jour",
     "profileHasUpdated": "Votre profil a été mis à jour",
     "updating": "Mise à jour...",
-    "updateProfile": "Mettre à jour le profil"
+    "updateProfile": "Mettre à jour le profil",
+    "bakerz": "Partenaire TheBakerz"
   },
   "app/(return_page)/settings/components/calendar-settings": {
     "workingSchedule": "Horaire de travail",
@@ -195,7 +196,8 @@
     "profile": "Profil",
     "profileAndStoreTab": " & Vue du magasin",
     "workingHoursTab": "Heures de travail",
-    "deliveryTab": "Gestionnaire de livraison"
+    "deliveryTab": "Gestionnaire de livraison",
+    "information": "Informations"
   },
   "app/(return_page)/settings/components/products/product-tab": {
     "image": "Image",
@@ -1072,7 +1074,8 @@
     "productDeletedSuccess": "Produit supprimé avec succès !",
     "failedDeleteProduct": "Échec de la suppression du produit.",
     "failedFetchStoreProducts": "Impossible de récupérer les produits du magasin",
-    "failedFetchProduct": "Échec de la récupération du produit"
+    "failedFetchProduct": "Échec de la récupération du produit",
+    "storeNotFound": "Store introuvable!"
   },
   "app/lib/actions/order": {
     "tooManyRequests": "Trop de demandes",
@@ -1093,7 +1096,8 @@
     "orderUpdated": "Commande mise à jour !",
     "failedUpdateProduct": "Échec de la mise à jour du produit.",
     "failedFetchProductsOrder": "Échec de la récupération de la commande de produits",
-    "failedFetchStoreProducts": "Impossible de récupérer les produits du magasin"
+    "failedFetchStoreProducts": "Impossible de récupérer les produits du magasin",
+    "storeNotFound": "Store introuvable!"
   },
   "app/lib/schemas": {
     "invalidPhone": "Numéro de téléphone invalide",
@@ -1192,7 +1196,13 @@
     "hour": "heure",
     "hours": "heures",
     "day": "jour",
-    "days": "jours"
+    "days": "jours",
+    "addRange": "Ajouter la plage",
+    "saveSettings": "Enregistrer les paramètres",
+    "rangeExplanation": "Range: {range}",
+    "deliveryZone": "Zone de livraison",
+    "deliverySettings": "Paramètres de livraison",
+    "rangeOrderError": "Rendre la gamme plus grande que celle précédente"
   },
   "app/(store)/components/delivery-map": {
     "loadingMap": "Chargement de la carte...",
@@ -1209,5 +1219,58 @@
   "noInfo": "Aucune information",
   "closed": "Fermé",
   "scheduleFormatError": "Erreur de format de planification",
-  "noScheduleAvailable": "Aucun horaire disponible"
+  "noScheduleAvailable": "Aucun horaire disponible",
+  "app/(store)/[id]/settings/page": {
+    "settingsTitle": "",
+    "settingsDescription": ""
+  },
+  "app/(return_page)/settings/components/store-tabs-settings": {
+    "store": "Magasin",
+    "pickup": "Ramasser",
+    "delivery": "Livraison"
+  },
+  "app/(return_page)/settings/components/store-setting": {
+    "profileUpdated": "Profil mis à jour",
+    "storeUpdated": "Store mis à jour!",
+    "updateStore": "MISE À JOUR MAGNAGE",
+    "storeDescriptionPlaceholder": "Parlez-nous de votre magasin ... (Max 200 caractères)",
+    "writeAboutStore": "Écrivez une brève description sur votre magasin (max 200 caractères)"
+  },
+  "app/lib/actions/store-actions": {
+    "tooManyRequests": "Trop de demandes!",
+    "invalidFields": "Champs non valides",
+    "userNotFound": "L'utilisateur n'est pas trouvé!",
+    "storeNameExists": "Le nom du magasin existe déjà!",
+    "storeUpdated": "Stocker les informations mises à jour!"
+  },
+  "app/(return_page)/settings/components/store-info": {
+    "pickupOnly": "Ramassage uniquement",
+    "deliveryOnly": "Livraison uniquement",
+    "pickupAndDelivery": "Ramasser",
+    "notConfigured": "Non configuré",
+    "storeInformation": "Stocker des informations",
+    "owner": "Propriétaire",
+    "region": "Région",
+    "currency": "Devise",
+    "deliveryOption": "Options d'expédition",
+    "currencyText": "Devise"
+  },
+  "app/(return_page)/settings/components/business-info": {
+    "accountInformation": "Informations sur le compte",
+    "accountType": "Type de compte",
+    "email": "E-mail",
+    "memberSince": "Membre depuis",
+    "accountStatus": "Statut de compte",
+    "verified": "Vérifié",
+    "unverified": "Non vérifié",
+    "businessInformation": "Informations commerciales",
+    "businessName": "Nom d'entreprise",
+    "notAvailable": "Pas disponible",
+    "kvkNumber": "Numéro d'activité",
+    "vatNumber": "Carte d'identité d'impôt",
+    "region": "Région",
+    "businessAddress": "Adresse",
+    "registeredAddress": "Adresse enregistrée",
+    "bankAccount": "Compte bancaire"
+  }
 }

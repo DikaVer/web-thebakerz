@@ -29,6 +29,10 @@ export default async function Page(props: StorePageProps) {
 
     const storeData = await getCurrentStore(id);
 
+    if (!storeData) {
+        return <NotFound />;
+    }
+
     // The store data is now fetched in the layout
     // We don't need to fetch it again or set up providers
 

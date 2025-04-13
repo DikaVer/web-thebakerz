@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useCallback, useEffect } from "react";
-import { getMerchantDeliveryRegions, updateMerchantDeliveryRegions} from "@/lib/actions/delivery-actions";
+import { getMerchantDeliveryRegions, updateMerchantDeliveryRegions } from "@/lib/actions/delivery-actions";
 import { Card, CardBody, CardHeader, addToast, Button, useDisclosure, Switch } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { cityLatLngMap } from "@/lib/local-variables";
@@ -16,10 +16,9 @@ import DeliveryRangeSettings from "./delivery/DeliveryRangeSettings";
 import CityList from "./delivery/CityList";
 import MapView from "./delivery/MapView";
 import DeliveryScheduleModal from "./delivery/DeliveryScheduleModal";
-import { DeliveryCity as DeliveryCityType } from "./delivery/types";
+import { DeliveryCity, DeliveryRange } from "./delivery/types";
 import { eurosToCents } from "./delivery/utils";
-
-type DeliveryOption = 'pickup' | 'delivery' | 'multi';
+import { useStore } from "../providers/store-provider";
 
 // Create an empty WorkHours object with the right structure
 const defaultWorkDay: WorkDay = {
@@ -40,55 +39,60 @@ const emptyWorkHours: WorkHours = {
 
 const DeliveryManager = () => {
   const { session } = useSession();
-  const [deliveryCities, setDeliveryCities] = useState<DeliveryCityType[]>([]);
+  const [deliveryCities, setDeliveryCities] = useState<DeliveryCity[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [updatingOptions, setUpdatingOptions] = useState(false);
   const [selectedCityForRange, setSelectedCityForRange] = useState<string | null>(null);
-  const [deliveryRange, setDeliveryRange] = useState(10); // Default delivery range 10km
-  const [deliveryPriceInCents, setDeliveryPriceInCents] = useState(500); // Default delivery price 5€ in cents
-  const [minOrderPriceInCents, setMinOrderPriceInCents] = useState(1000); // Default minimum order price 10€ in cents
-  const [currentCityForSchedule, setCurrentCityForSchedule] = useState<DeliveryCityType | null>(null);
+  const [currentRanges, setCurrentRanges] = useState<DeliveryRange[]>([{
+    range: 10,
+    deliveryPriceInCents: 500,
+    minOrderPriceInCents: 1000
+  }]);
+  const [currentCityForSchedule, setCurrentCityForSchedule] = useState<DeliveryCity | null>(null);
   const [deliverySchedule, setDeliverySchedule] = useState<WorkHours>(emptyWorkHours);
-  const [isPickupEnabled, setIsPickupEnabled] = useState(true);
-  const [isDeliveryEnabled, setIsDeliveryEnabled] = useState(false);
   const {isOpen: isScheduleModalOpen, onOpen: openScheduleModal, onClose: closeScheduleModal} = useDisclosure();
+  const { store } = useStore();
+
+  if (!store) {
+    return;
+  }
   const t = useTranslations("app/(return_page)/settings/components/delivery-settings");
 
   // Load cities on component mount
   useEffect(() => {
-    const loadCities = async () => {
+    const loadCities = () => {
       try {
-        // Get store ID from session
-        const storeId = session.store?.id;
-        if (!storeId) {
-          throw new Error("Store not found in session");
-        }
-        
         // Fetch merchant's delivery cities from the server
-        const merchantDeliveryRegions = await getMerchantDeliveryRegions(storeId);
+        const merchantDeliveryRegions = store.deliveryRegions;
         if (merchantDeliveryRegions && merchantDeliveryRegions.length > 0) {
-          const cities = merchantDeliveryRegions.map(region => ({
-            name: region.name,
-            range: region.radiusKm,
-            priceInCents: region.priceInCents,
-            minOrderPriceInCents: region.minOrderPriceInCents || 1000, // Default to 10€ if not set
-            coordinates: region.coordinates,
-            deliverySchedule: region.deliverySchedule || {...emptyWorkHours},
-            isStoreDelivery: region.isStoreDelivery,
-            minOrderTime: region.minOrderTime || 1440 // Default to 24 hours if not set
-          }));
+          const cities = merchantDeliveryRegions.map(region => {
+            // Convert legacy format to multi-range format if needed
+            let ranges: DeliveryRange[] = [];
+            if (Array.isArray(region.ranges) && region.ranges.length > 0) {
+              // New format with multiple ranges
+              ranges = region.ranges;
+            } else {
+              // Legacy format with single range
+              ranges = [{
+                range: region.radiusKm,
+                deliveryPriceInCents: region.priceInCents,
+                minOrderPriceInCents: region.minOrderPriceInCents || 1000
+              }];
+            }
+            
+            return {
+              name: region.name,
+              ranges: ranges.sort((a, b) => a.range - b.range), // Sort ranges by distance
+              coordinates: region.coordinates,
+              deliverySchedule: region.deliverySchedule || {...emptyWorkHours},
+              isStoreDelivery: region.isStoreDelivery,
+              minOrderTime: region.minOrderTime || 1440 // Default to 24 hours if not set
+            };
+          });
           setDeliveryCities(cities);
         } else {
           // Initialize with empty array if no regions found
           setDeliveryCities([]);
-        }
-
-        // Set initial delivery options based on session
-        if (session.store?.deliveryOption) {
-          const deliveryOption = session.store.deliveryOption;
-          setIsPickupEnabled(deliveryOption === 'pickup' || deliveryOption === 'multi');
-          setIsDeliveryEnabled(deliveryOption === 'delivery' || deliveryOption === 'multi');
         }
       } catch (error) {
         addToast({
@@ -108,26 +112,22 @@ const DeliveryManager = () => {
   const handleSave = async () => {
     try {
       setSaving(true);
-      // Get store ID from session
-      const storeId = session.store?.id;
-      if (!storeId) {
-        throw new Error("Store ID not found in session");
-      }
       
       // Convert delivery cities to the format expected by the API
       const regions = deliveryCities.map(city => ({
         name: city.name,
-        radiusKm: city.range,
-        priceInCents: city.priceInCents,
-        minOrderPriceInCents: city.minOrderPriceInCents,
+        radiusKm: city.ranges[0]?.range || 10, // Keep for backward compatibility
+        priceInCents: city.ranges[0]?.deliveryPriceInCents || 500, // Keep for backward compatibility
+        minOrderPriceInCents: city.ranges[0]?.minOrderPriceInCents || 1000, // Keep for backward compatibility
         coordinates: city.coordinates,
         deliverySchedule: city.deliverySchedule || {...emptyWorkHours},
         isStoreDelivery: city.isStoreDelivery,
-        minOrderTime: city.minOrderTime || 1444
+        minOrderTime: city.minOrderTime || 1444,
+        ranges: city.ranges // Add the new ranges array
       }));
       
       // Update the merchant's delivery regions
-      await updateMerchantDeliveryRegions(regions);
+      await updateMerchantDeliveryRegions(store.id, regions);
       
       addToast({
         title: t("updateSuccess"),
@@ -147,55 +147,6 @@ const DeliveryManager = () => {
     }
   };
 
-  const handleUpdateDeliveryOptions = async () => {
-    try {
-      setUpdatingOptions(true);
-      // Get store ID from session
-      const storeId = session.store?.id;
-      if (!storeId) {
-        throw new Error("Store ID not found in session");
-      }
-      
-      // Determine the delivery option based on toggles
-      let deliveryOption: DeliveryOption = 'pickup'; // Default
-      if (isPickupEnabled && isDeliveryEnabled) {
-        deliveryOption = 'multi';
-      } else if (isDeliveryEnabled) {
-        deliveryOption = 'delivery';
-      } else if (isPickupEnabled) {
-        deliveryOption = 'pickup';
-      } else {
-        // At least one option should be enabled, default to pickup if none selected
-        setIsPickupEnabled(true);
-        deliveryOption = 'pickup';
-      }
-      
-      // Update the merchant's delivery options
-      await updateStoreDeliveryOptions(deliveryOption);
-      
-      // Update the local session state to reflect the change
-      if (session.store) {
-        session.store.deliveryOption = deliveryOption;
-      }
-      
-      addToast({
-        title: t("optionsUpdateSuccess"),
-        color: "success",
-        shouldShowTimeoutProgress: true,
-        timeout: 2000,
-      });
-    } catch (error) {
-      addToast({
-        title: t("optionsUpdateError"),
-        color: "danger",
-        shouldShowTimeoutProgress: true,
-        timeout: 2000,
-      });
-    } finally {
-      setUpdatingOptions(false);
-    }
-  };
-
   // Handle selecting a city from the autocomplete
   const handleCitySelectionChange = (cityName: string) => {    
     setSelectedCityForRange(cityName);
@@ -203,13 +154,14 @@ const DeliveryManager = () => {
     // Check if city is already in our delivery cities
     const existingCity = deliveryCities.find(city => city.name === cityName);
     if (existingCity) {
-      setDeliveryRange(existingCity.range);
-      setDeliveryPriceInCents(existingCity.priceInCents);
-      setMinOrderPriceInCents(existingCity.minOrderPriceInCents || 1000);
+      setCurrentRanges([...existingCity.ranges]);
     } else {
-      setDeliveryRange(10); // Default range
-      setDeliveryPriceInCents(500); // Default price in cents (5€)
-      setMinOrderPriceInCents(1000); // Default minimum order price in cents (10€)
+      // Initialize with a single default range
+      setCurrentRanges([{
+        range: 10,
+        deliveryPriceInCents: 500,
+        minOrderPriceInCents: 1000
+      }]);
     }
   };
 
@@ -223,7 +175,7 @@ const DeliveryManager = () => {
     }
   };
 
-  // Handle adding or updating a delivery city's range
+  // Handle adding or updating a delivery city's ranges
   const handleSetDeliveryRange = () => {
     if (!selectedCityForRange) return;
     
@@ -238,15 +190,30 @@ const DeliveryManager = () => {
       return;
     }
 
-    // Validate minimum order price
-    if (minOrderPriceInCents < 1000) {
-      addToast({
-        title: t("minOrderPriceError"),
-        color: "danger",
-        shouldShowTimeoutProgress: true,
-        timeout: 2000,
-      });
-      return;
+    // Validate ranges are in ascending order
+    for (let i = 1; i < currentRanges.length; i++) {
+      if (currentRanges[i].range <= currentRanges[i-1].range) {
+        addToast({
+          title: t("rangeOrderError"),
+          color: "danger",
+          shouldShowTimeoutProgress: true,
+          timeout: 2000,
+        });
+        return;
+      }
+    }
+    
+    // Validate minimum order prices
+    for (const range of currentRanges) {
+      if (range.minOrderPriceInCents < 1000) {
+        addToast({
+          title: t("minOrderPriceError"),
+          color: "danger",
+          shouldShowTimeoutProgress: true,
+          timeout: 2000,
+        });
+        return;
+      }
     }
     
     // Check if city is already in the list
@@ -257,44 +224,79 @@ const DeliveryManager = () => {
       const updatedCities = [...deliveryCities];
       updatedCities[existingCityIndex] = {
         ...updatedCities[existingCityIndex],
-        range: deliveryRange,
-        priceInCents: deliveryPriceInCents,
-        minOrderPriceInCents: minOrderPriceInCents,
-        minOrderTime: updatedCities[existingCityIndex].minOrderTime || 1440
+        ranges: currentRanges
       };
       setDeliveryCities(updatedCities);
     } else {
       // Add new city
       setDeliveryCities([...deliveryCities, { 
         name: selectedCityForRange, 
-        range: deliveryRange,
-        priceInCents: deliveryPriceInCents,
-        minOrderPriceInCents: minOrderPriceInCents,
-        minOrderTime: 1440,
+        ranges: currentRanges,
         coordinates: cityLatLngMap[selectedCityForRange],
         deliverySchedule: undefined,
-        isStoreDelivery: true
+        isStoreDelivery: true,
+        minOrderTime: 1440
       }]);
     }
     
     // Reset after adding
     setSelectedCityForRange(null);
+    setCurrentRanges([{
+      range: 10,
+      deliveryPriceInCents: 500,
+      minOrderPriceInCents: 1000
+    }]);
   };
 
-  // Helper function to handle price input in euros but store in cents
-  const handlePriceChange = (value: string) => {
-    const euros = parseFloat(value) || 0;
-    setDeliveryPriceInCents(eurosToCents(euros));
+  // Handle range change for a specific range index
+  const handleRangeChange = (index: number, value: number) => {
+    const newRanges = [...currentRanges];
+    newRanges[index].range = value;
+    setCurrentRanges(newRanges);
   };
 
-  // Helper function to handle minimum order price input in euros but store in cents
-  const handleMinOrderPriceChange = (value: string) => {
+  // Handle price change for a specific range index
+  const handlePriceChange = (index: number, value: string) => {
     const euros = parseFloat(value) || 0;
-    setMinOrderPriceInCents(eurosToCents(euros));
+    const newRanges = [...currentRanges];
+    newRanges[index].deliveryPriceInCents = eurosToCents(euros);
+    setCurrentRanges(newRanges);
+  };
+
+  // Handle minimum order price change for a specific range index
+  const handleMinOrderPriceChange = (index: number, value: string) => {
+    const euros = parseFloat(value) || 0;
+    const newRanges = [...currentRanges];
+    newRanges[index].minOrderPriceInCents = eurosToCents(euros);
+    setCurrentRanges(newRanges);
+  };
+
+  // Add a new range
+  const handleAddRange = () => {
+    if (currentRanges.length >= 5) return; // Limit to 5 ranges
+    
+    // Get the last range value to use as a base for the new range
+    const lastRange = currentRanges[currentRanges.length - 1];
+    
+    // Add a new range that's 5km more than the last one
+    setCurrentRanges([...currentRanges, {
+      range: lastRange.range + 5,
+      deliveryPriceInCents: lastRange.deliveryPriceInCents + 100, // Add 1€ to previous range price
+      minOrderPriceInCents: lastRange.minOrderPriceInCents
+    }]);
+  };
+
+  // Remove a range
+  const handleRemoveRange = (index: number) => {
+    if (index === 0 || currentRanges.length <= 1) return; // Keep at least one range
+    
+    const newRanges = [...currentRanges];
+    newRanges.splice(index, 1);
+    setCurrentRanges(newRanges);
   };
 
   // Open modal for managing delivery schedule for a city
-  const handleManageSchedule = (city: DeliveryCityType) => {
+  const handleManageSchedule = (city: DeliveryCity) => {
     setCurrentCityForSchedule(city);
     setDeliverySchedule(city.deliverySchedule || { ...emptyWorkHours });
     openScheduleModal();
@@ -355,53 +357,6 @@ const DeliveryManager = () => {
 
   return (
     <div className="space-y-6">
-      {/* Delivery Options Card */}
-      <Card className="w-full max-w-2xl mx-auto">
-        <CardHeader className="flex flex-col items-start">
-          <h1>{t("deliveryOptions")}</h1>
-          <p className="text-sm text-gray-600">{t("deliveryOptionsDescription")}</p>
-        </CardHeader>
-        <CardBody>
-          <div className="space-y-4">
-            <div className="flex flex-col gap-3">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h4 className="text-md font-medium">{t("pickupOption")}</h4>
-                  <p className="text-xs text-gray-500">{t("pickupDescription")}</p>
-                </div>
-                <Switch 
-                  isDisabled={updatingOptions}
-                  isSelected={isPickupEnabled}
-                  onValueChange={setIsPickupEnabled}
-                />
-              </div>
-              
-              <div className="flex justify-between items-center">
-                <div>
-                  <h4 className="text-md font-medium">{t("deliveryOption")}</h4>
-                  <p className="text-xs text-gray-500">{t("deliveryDescription")}</p>
-                </div>
-                <Switch 
-                  isDisabled={updatingOptions}
-                  isSelected={isDeliveryEnabled}
-                  onValueChange={setIsDeliveryEnabled}
-                />
-              </div>
-            </div>
-            
-            <Button 
-              onPress={handleUpdateDeliveryOptions}
-              isDisabled={updatingOptions}
-              className="w-full shadow-small"
-              color="primary"
-            >
-              {updatingOptions ? t("updatingOptions") : t("updateDeliveryOptions")}
-            </Button>
-          </div>
-        </CardBody>
-      </Card>
-
-
       {/* Delivery Regions Card */}
       <Card className="w-full max-w-2xl mx-auto">
         <CardHeader>
@@ -419,13 +374,13 @@ const DeliveryManager = () => {
             {selectedCityForRange && (
               <DeliveryRangeSettings
                 cityName={selectedCityForRange}
-                deliveryRange={deliveryRange}
-                deliveryPriceInCents={deliveryPriceInCents}
-                minOrderPriceInCents={minOrderPriceInCents}
-                onRangeChange={setDeliveryRange}
+                ranges={currentRanges}
+                onRangeChange={handleRangeChange}
                 onPriceChange={handlePriceChange}
                 onMinOrderPriceChange={handleMinOrderPriceChange}
                 onSave={handleSetDeliveryRange}
+                onAddRange={handleAddRange}
+                onRemoveRange={handleRemoveRange}
               />
             )}
             
@@ -446,7 +401,7 @@ const DeliveryManager = () => {
             <MapView
               cities={deliveryCities}
               selectedCity={selectedCityForRange}
-              deliveryRange={deliveryRange}
+              deliveryRanges={currentRanges}
               cityCoordinates={cityLatLngMap}
             />
             

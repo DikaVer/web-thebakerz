@@ -12,6 +12,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { ValidatedDeliveryRegion } from '@/lib/schemas/delivery.schema';
 import { MerchantDeliveryRegion } from '@/lib/actions/delivery-actions';
 import { WorkHours } from "@/lib/actions/calendar-actions";
+import { haversineDistance } from '@/lib/utils';
 
 // Define interfaces for our context
 export type AddressFormType = Omit<DbDeliveryAddress, 'id' | 'storeId' | 'userId' | 'createdAt'>;
@@ -135,25 +136,98 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
       if (initialAddress?.coordinates && store?.id) {
         try {
           setIsValidating(true);
-          // Import the server action dynamically
-          const { validateAddress } = await import('@/lib/actions/delivery-address-actions');
           
-          // Validate the initial address against the store's delivery regions
-          const result = await validateAddress(
-            formattedInitialAddress,
-            store.id
-          );
+          // 3. Calculate distances and find the closest region
+          console.log("Server: Calculating distances to", store.deliveryRegions.length, "regions");
+          let closestRegion: MerchantDeliveryRegion | null = null;
+          let minDistance = Infinity;
           
-          if (result) {
-            setValidationResult({
-              ...result,
-              validatedAddress: formattedInitialAddress
-            });
-            
-            // Update showDeliveryInfo based on validation result
-            if (result.isValid) {
-              setShowDeliveryInfo(true);
+          for (const region of store.deliveryRegions) {
+            if (region.coordinates) {
+              const distance = haversineDistance(initialAddress.coordinates, region.coordinates);
+              console.log(`Server: Distance to ${region.name}: ${distance.toFixed(2)} km`);
+              if (distance < minDistance) {
+                minDistance = distance;
+                closestRegion = region;
+              }
+            } else {
+              console.warn(`Server: Delivery region '${region.name}' is missing coordinates.`);
             }
+          }
+          // 4. Determine if the address is within range and find the applicable pricing tier
+          if (closestRegion) {
+            console.log(`Server: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
+    
+            // First check if we have multi-range pricing (new format)
+            let useMultiRangePricing = false;
+            let applicableRange = null;
+      
+            if (closestRegion.ranges && Array.isArray(closestRegion.ranges) && closestRegion.ranges.length > 0) {
+              // Sort ranges by distance (ascending)
+              const sortedRanges = [...closestRegion.ranges].sort((a, b) => a.range - b.range);
+              console.log(`Server: Region has ${sortedRanges.length} delivery ranges`);
+              
+              // Find the applicable range based on the distance
+              for (const range of sortedRanges) {
+                if (minDistance <= range.range) {
+                  applicableRange = range;
+                  useMultiRangePricing = true;
+                  console.log(`Server: Found applicable range: ${range.range} km with delivery price ${range.deliveryPriceInCents / 100}€`);
+                  break;
+                }
+              }
+            }
+      
+            // Check if the address is within the maximum delivery range
+            const maxRange = useMultiRangePricing 
+              ? Math.max(...(closestRegion.ranges?.map(r => r.range) || [0]))
+              : closestRegion.radiusKm;
+            
+            if (minDistance <= maxRange) {
+              // Address is within range - use the applicable range pricing or fall back to legacy pricing
+              const deliveryPriceInCents = useMultiRangePricing && applicableRange
+                ? applicableRange.deliveryPriceInCents 
+                : (closestRegion.priceInCents || 0);
+              
+              const minOrderPriceInCents = useMultiRangePricing && applicableRange
+                ? applicableRange.minOrderPriceInCents 
+                : (closestRegion.minOrderPriceInCents || 1000);
+              
+              console.log(`Server: Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
+              
+              setValidationResult({
+                isValid: true,
+                isInRange: true,
+                message: `Address is within the '${closestRegion.name}' delivery zone.`,
+                deliveryRegion: {
+                  ...closestRegion,
+                  // Override with the applicable range pricing if using multi-range
+                  priceInCents: deliveryPriceInCents,
+                  minOrderPriceInCents: minOrderPriceInCents
+                },
+                formattedAddress: initialAddress.formattedAddress,
+                coordinates: initialAddress.coordinates,
+                validatedAddress: { ...initialAddress, coordinates: initialAddress.coordinates },
+              });
+            } else {
+              console.log(`Server: Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
+              setValidationResult({
+                isValid: true,
+                isInRange: false,
+                message: `Address is outside our delivery area. Nearest location is ${minDistance.toFixed(1)} km away.`,
+                formattedAddress: initialAddress.formattedAddress,
+                coordinates: initialAddress.coordinates,
+                validatedAddress: { ...initialAddress, coordinates: initialAddress.coordinates },
+              }); 
+            }
+          } else {
+            setValidationResult({
+              isValid: false,
+              isInRange: false,
+              message: "No delivery regions found for this store.",
+              formattedAddress: initialAddress?.formattedAddress || "",
+              coordinates: initialAddress?.coordinates,
+            });
           }
         } catch (error) {
           console.error("Error validating initial address:", error);
@@ -168,7 +242,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     if (initialAddress?.coordinates && store?.id) {
       validateInitialAddress();
     }
-  }, [initialAddress, store?.id]);
+  }, [initialAddress as DbDeliveryAddress | null, store?.id]);
   
   // Initialize delivery mode
   useEffect(() => {

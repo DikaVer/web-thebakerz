@@ -8,6 +8,7 @@ import {containerProducts, containerCart} from "@/db";
 import {revalidateTag} from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { getCartItemsByProductId } from "@/lib/actions/cart";
+import {getCurrentStoreByUserIdAndStoreId} from "@/lib/actions/store";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -22,6 +23,7 @@ type TranslationFunction = (key: string, params?: Record<string, string | number
  */
 export const addProduct = async (
     formData: z.infer<typeof ProductSchema>,
+    storeId: string,
     productId?: string
 ) => {
     const t = await getTranslations("app/lib/actions/product") as TranslationFunction;
@@ -31,8 +33,11 @@ export const addProduct = async (
     const validation = ProductSchema.safeParse(formData);
     if (!validation.success) return { error: t("invalidFields") };
 
-    const { user, store } = await getCurrentSession();
-    if (!user || !store) return { error: t("userNotFound") };
+    const { user } = await getCurrentSession();
+    if (!user) return { error: t("userNotFound") };
+
+    const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+    if (!store) return { error: t("storeNotFound") };
 
     let oldProductData = null;
     if (productId) {
@@ -180,10 +185,15 @@ export const deleteProduct = async (
             }
         }
 
-        const {user, store} = await getCurrentSession();
+        const {user} = await getCurrentSession();
 
-        if (!user || !store) {
+        if (!user) {
             return { error: "User not found!" };
+        }
+
+        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, productId);
+        if (!store) {
+            return { error: "Store not found!" };
         }
 
 

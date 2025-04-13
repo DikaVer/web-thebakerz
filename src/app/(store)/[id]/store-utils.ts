@@ -1,6 +1,5 @@
-import {getCurrentStore, getStoreDataByStoreNameOrId} from "@/lib/actions/store";
+import {getCurrentStore} from "@/lib/actions/store";
 import {Metadata} from "next";
-import NotFound from "@/app/(error_layout)/not-found";
 import {getLocale} from "next-intl/server";
 import {getCurrentSession} from "@/lib/actions/session";
 import {redirect} from "next/navigation";
@@ -14,7 +13,7 @@ export async function generateStorePageMetadata(
     pageDescription: string = '',
     robotsConfig = { index: true, follow: true }
 ): Promise<Metadata> {
-    const storeData = await getStoreDataByStoreNameOrId(id);
+    const storeData = await getCurrentStore(id);
     
     if (!storeData) {
         return {
@@ -65,7 +64,7 @@ export async function verifyStoreAccess(id: string) {
     
     const session = await getCurrentSession();
     
-    if (!session?.store || session.store.id !== storeData.id) {
+    if (!session?.user || session.user.id !== storeData.user_id) {
         if (!session?.user) {
             redirect('/auth?next=' + encodeURIComponent(window.location.pathname));
         }

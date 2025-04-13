@@ -1,23 +1,13 @@
 'use server';
 import * as z from "zod";
 import {CustomerOrderSchema} from "@/lib/schemas";
-import {globalPOSTRateLimit} from "@/lib/actions/requests";
-import {getCartSessionCookieOrCreate, getCurrentSession} from "@/lib/actions/session";
-import {getCart, removeCartByUserIdAndStoreId, Variant} from "@/lib/actions/cart";
-import {getOrderTime} from "@/app/(store)/[id]/actions";
-import {getProductsByStoreId} from "@/lib/actions/product";
-import {connectionPool, containerOrders} from "@/db";
-import {sendOrderPlaced} from "@/lib/emailSendRequest";
-import {revalidateTag} from "next/cache";
-import {v4 as uuidv4} from "uuid";
+import {getCurrentSession} from "@/lib/actions/session";
+import {Variant} from "@/lib/actions/cart";
+import {containerOrders} from "@/db";
 import Stripe from "stripe";
-import {calculateTotals} from "@/lib/price/tax";
-import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
-import {CalendarDateTime, now} from "@internationalized/date";
-import {scheduledToCalendarDateTime} from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 import { AddressFormType } from "@/components/providers/delivery-provider";
-import {MerchantDeliveryRegion} from "@/lib/actions/delivery-actions";
+import {getCurrentStoreByUserIdAndStoreId} from "@/lib/actions/store";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -337,7 +327,12 @@ export async function getOrdersByDateRange(storeId: string, fromDate: string, to
     const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
     
     try {
-        const {store} = await getCurrentSession();
+        const {user} = await getCurrentSession();
+        if (!user) {return [];}
+
+        const {store} = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+        if (!store) {return [];}
+
         if (!store || store.id !== storeId) {return [];}
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/orders/range`, {
@@ -366,12 +361,18 @@ export async function getOrdersByDateRange(storeId: string, fromDate: string, to
 
 export async function updateOrderStatus(storeId: string, orderId: string, email: string, status: string): Promise<boolean> {
     try {
-        const {store} = await getCurrentSession();
+        const {user} = await getCurrentSession();
+        if (!user) {return false;}
+
+        const {store} = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+        if (!store) {return false;}
+
         if (!store || store.id !== storeId) {return false;}
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/order/updateStatus`, {
             method: 'POST',
             headers: {
-                'Store-Id': storeId,
+                'Store-Id': store.id,
                 'Order-Id': orderId,
                 'Email': email,
                 'Status': status,

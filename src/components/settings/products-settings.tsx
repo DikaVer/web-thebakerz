@@ -25,12 +25,14 @@ import {updateProductsOrder} from "@/lib/actions/order-products";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import { useTranslations } from "next-intl";
+import {useStore} from "@/components/providers/store-provider";
 
 const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: Record<string, string[]>}> = ({ productsData, productsOrder }) => {
     const t = useTranslations("app/(return_page)/settings/components/products-settings");
     const { handleOpen, setProductsDataLocal } = useProductDialog();
     const [isLoading, setIsLoading] = useState(false);
     const categoriesKeys = Object.keys(productsOrder);
+    const { store } = useStore()
 
     useEffect(() => {
         if (productsData) {
@@ -106,7 +108,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
         }, {} as Record<string, string[]>);
 
         try {
-            const res = await updateProductsOrder(finalOrderPayload);
+            const res = await updateProductsOrder(store.id, finalOrderPayload);
 
             if (res.error) {
                 showErrorMessage({error: res.error});

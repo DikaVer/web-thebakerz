@@ -48,8 +48,11 @@ export const ProductView: React.FC<ProductViewProps> = ({
         );
     }
 
-    return session?.store && store.id === session?.store.id ? (
-        <BakerzProductView productData={product} />
+    return  store.user_id === session?.user?.id ? (
+        <BakerzProductView
+            storeId={store.id}
+            productData={product}
+        />
     ) : (
         <UserProductView productData={product} />
     );

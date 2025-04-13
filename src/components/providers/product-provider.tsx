@@ -25,7 +25,7 @@ export const useProductDialog = () => {
 
 const ProductDialogContext = createContext<ProductDialogContextProps | undefined>(undefined);
 
-export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDataServer?: ProductDataFull; storeId: string }> = ({children, productsDataServer, storeId}) => {
+export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDataServer?: ProductDataFull; storeId: string; storeOwnerId: string; }> = ({children, productsDataServer, storeId, storeOwnerId}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [productData, setProductData] = useState<ProductData | undefined>();
     const [productsData, setProductsData] = useState<ProductDataFull>(productsDataServer ? productsDataServer : {});
@@ -80,7 +80,16 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
                 setIsUpdating
             }}
         >
-            <ProductDialog storeId={storeId} productData={productData} isOpen={isOpen} onClose={onClose} itemCart={itemCart} bakerzOrder={isBakerzOrder} setIsUpdating={setIsUpdating}/>
+            <ProductDialog
+                storeId={storeId}
+                storeOwnerId={storeOwnerId}
+                productData={productData}
+                isOpen={isOpen}
+                onClose={onClose}
+                itemCart={itemCart}
+                bakerzOrder={isBakerzOrder}
+                setIsUpdating={setIsUpdating}
+            />
             {children}
         </ProductDialogContext.Provider>
     );

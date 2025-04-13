@@ -4,12 +4,12 @@ import { stripe } from "@/stripe";
 import {getCartSessionCookieOrCreate, getCurrentSession} from "@/lib/actions/session";
 import { globalPOSTRateLimit } from "@/lib/actions/requests";
 import { getCart } from "@/lib/actions/cart";
-import { getProductsByStoreId } from "@/lib/actions/product";
+import {getCurrentProducts, getProductsByStoreId} from "@/lib/actions/product";
 import { getDeliveryTime, getOrderTime} from "@/app/(store)/[id]/actions";
 import {OrderRaw, ExtendedOrderRaw} from "@/lib/actions/order";
 import {v4 as uuidv4} from "uuid";
 import {containerOrdersUnpaid} from "@/db";
-import {getStoreDataByStoreNameOrId} from "@/lib/actions/store";
+import {getCurrentStore} from "@/lib/actions/store";
 import {calculateApplicationFee, calculateTotals} from "@/lib/price/tax";
 import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
 import { CalendarDateTime, getDayOfWeek, Time, toTime, ZonedDateTime, now, getLocalTimeZone, toZoned } from "@internationalized/date";
@@ -114,7 +114,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
 
     // 2. User & Session Info
     // ----------------------
-    const { user, store: userIsStoreOwner } = await getCurrentSession();
+    const { user } = await getCurrentSession();
     let userId = user?.id || await getCartSessionCookieOrCreate();
     if (!userId) return { error: "User identifier could not be determined." };
 
@@ -131,7 +131,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     const isDelivery = deliveryMode === 'delivery';
 
     // Fetch Full Store Data (needed for schedule, lead time, KOR status)
-    const storeData = await getStoreDataByStoreNameOrId(storeId);
+    const storeData = await getCurrentStore(storeId);
     if (!storeData) {
         return { error: 'Store data could not be found.' };
     }
@@ -221,7 +221,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
 
     // 7. Calculate Totals & Minimum Order Check
     // -----------------------------------------
-    const productsData = await getProductsByStoreId(storeId);
+    const productsData = await getCurrentProducts(storeId);
     const applyVat = !storeData.kor; // Use KOR status from storeData
 
     // Calculate item subtotal (including VAT if applicable)
@@ -372,7 +372,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
         store_id: storeId,
         createdAt: new Date(),
         scheduled_time: selectedTime, // Use the validated time
-        customer_email: (user && !userIsStoreOwner) ? user.email : undefined,
+        customer_email: (user && user.role !== 'bakerz') ? user.email : undefined,
         productsData: cartItemsForOrder, // Use the detailed cart items
         // Add extra fields needed internally or for Stripe metadata
         isDelivery: isDelivery,

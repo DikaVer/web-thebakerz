@@ -157,7 +157,7 @@ const ReturnNavbar: React.FC<CheckoutNavbarProps> = ({
                                 base: "bg-default text-text shadow-lg cursor-pointer",
                             }}
                         />
-                     ) : (session?.store && store.id === session?.store.id) ? (
+                     ) : (session?.user && store?.user_id === session?.user.id) ? (
                         <Image
                             src="/images/TheBakerzLogo.svg"
                             alt="Logo"
@@ -234,7 +234,7 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                 </a>
             </NavbarBrand>
             {store ? (
-                (session?.store || session?.user?.role === 'admin') ? (
+                (session?.user?.id === store.user_id || session?.user?.role === 'admin') ? (
                     <a href={process.env.NEXT_PUBLIC_API_BASE_URL}>
                         <Image
                             src="/images/TheBakerzLogo.svg"

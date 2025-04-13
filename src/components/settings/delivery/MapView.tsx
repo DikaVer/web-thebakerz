@@ -5,6 +5,7 @@ import { Button } from "@heroui/react";
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { useTranslations } from "next-intl";
 import { WorkHours } from "@/lib/actions/calendar-actions";
+import { DeliveryRange, DeliveryCity } from "./types";
 
 // Map styles
 const mapContainerStyle = {
@@ -22,31 +23,20 @@ const center = {
 
 interface MapElement {
   marker: google.maps.Marker | null;
-  circle: google.maps.Circle | null;
-}
-
-interface DeliveryCity {
-  name: string;
-  range: number;
-  priceInCents: number;
-  minOrderPriceInCents: number;
-  coordinates: { lat: number, lng: number };
-  deliverySchedule?: WorkHours;
-  isStoreDelivery: boolean;
-  minOrderTime: number;
+  circles: google.maps.Circle[];
 }
 
 interface MapViewProps {
   cities: DeliveryCity[];
   selectedCity: string | null;
-  deliveryRange: number;
+  deliveryRanges: DeliveryRange[];
   cityCoordinates: Record<string, { lat: number, lng: number }>;
 }
 
 const MapView: React.FC<MapViewProps> = ({ 
   cities, 
   selectedCity, 
-  deliveryRange,
+  deliveryRanges,
   cityCoordinates
 }) => {
   const t = useTranslations("app/(return_page)/settings/components/delivery-settings");
@@ -71,7 +61,7 @@ const MapView: React.FC<MapViewProps> = ({
     // Clean up all existing map elements
     Object.values(mapElementsRef.current).forEach(element => {
       if (element.marker) element.marker.setMap(null);
-      if (element.circle) element.circle.setMap(null);
+      element.circles.forEach(circle => circle.setMap(null));
     });
     
     // Reset the map elements reference
@@ -98,34 +88,42 @@ const MapView: React.FC<MapViewProps> = ({
         title: city.name
       });
       
-      // Convert km to meters for circle radius
-      const radiusInMeters = city.range * 1000;
+      // Create circles for each range in descending order (largest first)
+      const sortedRanges = [...city.ranges].sort((a, b) => b.range - a.range);
+      const circles: google.maps.Circle[] = [];
       
-      // Create circle
-      const circle = new google.maps.Circle({
-        center: { lat: cityData.lat, lng: cityData.lng },
-        radius: radiusInMeters,
-        map: map,
-        fillColor: '#4285F4',
-        fillOpacity: 0.2,
-        strokeColor: '#4285F4',
-        strokeOpacity: 0.8,
-        strokeWeight: 2
+      sortedRanges.forEach((rangeData, idx) => {
+        // Convert km to meters for circle radius
+        const radiusInMeters = rangeData.range * 1000;
+        
+        // Create circle with different opacity based on index
+        const circle = new google.maps.Circle({
+          center: { lat: cityData.lat, lng: cityData.lng },
+          radius: radiusInMeters,
+          map: map,
+          fillColor: '#4285F4',
+          fillOpacity: 0.1 + (idx * 0.05), // Increase opacity for inner circles
+          strokeColor: '#4285F4',
+          strokeOpacity: 0.6,
+          strokeWeight: 2
+        });
+        
+        circles.push(circle);
+        
+        // Extend bounds to include the circle
+        const radiusInDegrees = rangeData.range / 111; // Rough conversion from km to degrees
+        bounds.extend(new google.maps.LatLng(
+          cityData.lat + radiusInDegrees,
+          cityData.lng + radiusInDegrees
+        ));
+        bounds.extend(new google.maps.LatLng(
+          cityData.lat - radiusInDegrees,
+          cityData.lng - radiusInDegrees
+        ));
       });
       
       // Store references to map elements
-      mapElementsRef.current[city.name] = { marker, circle };
-      
-      // Extend bounds to include the circle
-      const radiusInDegrees = city.range / 111; // Rough conversion from km to degrees
-      bounds.extend(new google.maps.LatLng(
-        cityData.lat + radiusInDegrees,
-        cityData.lng + radiusInDegrees
-      ));
-      bounds.extend(new google.maps.LatLng(
-        cityData.lat - radiusInDegrees,
-        cityData.lng - radiusInDegrees
-      ));
+      mapElementsRef.current[city.name] = { marker, circles };
     });
     
     // Fit the map to show all cities and their delivery ranges
@@ -143,7 +141,7 @@ const MapView: React.FC<MapViewProps> = ({
     // Clean up previous preview
     if (previewElementRef.current) {
       if (previewElementRef.current.marker) previewElementRef.current.marker.setMap(null);
-      if (previewElementRef.current.circle) previewElementRef.current.circle.setMap(null);
+      previewElementRef.current.circles.forEach(circle => circle.setMap(null));
       previewElementRef.current = null;
     }
     
@@ -170,52 +168,52 @@ const MapView: React.FC<MapViewProps> = ({
       }
     });
     
-    // Convert km to meters for circle radius
-    const radiusInMeters = deliveryRange * 1000;
+    // Create circles for preview in descending order (largest first)
+    const sortedRanges = [...deliveryRanges].sort((a, b) => b.range - a.range);
+    const circles: google.maps.Circle[] = [];
     
-    // Create circle for the selected city with different color
-    const circle = new google.maps.Circle({
-      center: { lat: cityData.lat, lng: cityData.lng },
-      radius: radiusInMeters,
-      map: map,
-      fillColor: '#FF5722', // Orange color for selected city
-      fillOpacity: 0.2,
-      strokeColor: '#FF5722',
-      strokeOpacity: 0.8,
-      strokeWeight: 2
+    sortedRanges.forEach((rangeData, idx) => {
+      // Convert km to meters for circle radius
+      const radiusInMeters = rangeData.range * 1000;
+      
+      // Create circle for the selected city with different color and opacity based on index
+      const circle = new google.maps.Circle({
+        center: { lat: cityData.lat, lng: cityData.lng },
+        radius: radiusInMeters,
+        map: map,
+        fillColor: '#FF5722', // Orange color for selected city
+        fillOpacity: 0.1 + (idx * 0.05), // Increase opacity for inner circles
+        strokeColor: '#FF5722',
+        strokeOpacity: 0.8,
+        strokeWeight: 2
+      });
+      
+      circles.push(circle);
     });
     
     // Store the preview elements
-    previewElementRef.current = { marker, circle };
+    previewElementRef.current = { marker, circles };
     
     // Ensure the selected city is visible on the map
     const bounds = new google.maps.LatLngBounds();
     bounds.extend(new google.maps.LatLng(cityData.lat, cityData.lng));
     
-    // Extend bounds to include the circle
-    const radiusInDegrees = deliveryRange / 111; // Rough conversion from km to degrees
-    bounds.extend(new google.maps.LatLng(
-      cityData.lat + radiusInDegrees,
-      cityData.lng + radiusInDegrees
-    ));
-    bounds.extend(new google.maps.LatLng(
-      cityData.lat - radiusInDegrees,
-      cityData.lng - radiusInDegrees
-    ));
+    // Extend bounds to include the largest circle
+    if (sortedRanges.length > 0) {
+      const radiusInDegrees = sortedRanges[0].range / 111; // Rough conversion from km to degrees
+      bounds.extend(new google.maps.LatLng(
+        cityData.lat + radiusInDegrees,
+        cityData.lng + radiusInDegrees
+      ));
+      bounds.extend(new google.maps.LatLng(
+        cityData.lat - radiusInDegrees,
+        cityData.lng - radiusInDegrees
+      ));
+    }
     
     map.fitBounds(bounds);
     
-  }, [selectedCity, deliveryRange, mapLoaded, map, cityCoordinates]);
-
-  // Update delivery range circle in real-time when slider changes
-  useEffect(() => {
-    if (!mapLoaded || !map || !selectedCity || !previewElementRef.current?.circle) return;
-    
-    // Update the circle radius when delivery range changes
-    const radiusInMeters = deliveryRange * 1000;
-    previewElementRef.current.circle.setRadius(radiusInMeters);
-    
-  }, [deliveryRange, mapLoaded, map, selectedCity]);
+  }, [selectedCity, deliveryRanges, mapLoaded, map, cityCoordinates]);
 
   const onMapLoad = useCallback((map: google.maps.Map) => {
     mapRef.current = map;

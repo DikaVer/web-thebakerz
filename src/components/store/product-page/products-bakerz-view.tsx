@@ -34,10 +34,11 @@ import {DeleteConfirmationModal} from "@/components/store/product/components/del
 import {ImageUploadSection} from "@/components/store/product/components/image-upload-section";
 
 type ProductViewProps = {
+    storeId: string;
     productData: ProductData | undefined;
 };
 
-export default function BakerzProductView({ productData }: ProductViewProps) {
+export default function BakerzProductView({ storeId, productData }: ProductViewProps) {
     const t = useTranslations("app/(store)/components/product-page");
     const router = useRouter();
     const isSmall = useMediaQuery("(max-width: 460px)");
@@ -80,7 +81,7 @@ export default function BakerzProductView({ productData }: ProductViewProps) {
 
     const [state, submitAction, isPending] = useActionState(
         async (prevState: any, formData: z.infer<typeof ProductSchema>) => {
-            const result = await addProduct(formData, productData?.id);
+            const result = await addProduct(formData, storeId, productData?.id);
             if (result?.success) {
                 showSuccessMessage({ success: result.success });
                 router.push(`/${result.product.store_id}/${result.product.id}`);

@@ -1,6 +1,6 @@
 import '@/styles/globals.css'
 import React from "react";
-import {getCurrentStore, getStoreDataByStoreNameOrId} from "@/lib/actions/store";
+import {getCurrentStore} from "@/lib/actions/store";
 import {getLocalizedMetadata} from "@/components/metadata";
 import type {Metadata} from "next";
 import {getLocale} from "next-intl/server";
@@ -23,7 +23,7 @@ export async function generateMetadata({
     params: Params,
 }): Promise<Metadata> {
     const { id } = await params;
-    const storeData = await getStoreDataByStoreNameOrId(id);
+    const storeData = await getCurrentStore(id);
     const locale = await getLocale();
 
     // Get base localized metadata
@@ -168,6 +168,7 @@ async function setupStoreProviders({
         >
             <ProductDialogProvider
                 storeId={storeData.id}
+                storeOwnerId={storeData.user_id}
             >
                 <StoreProvider
                     store={storeData}

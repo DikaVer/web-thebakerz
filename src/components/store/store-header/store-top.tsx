@@ -22,10 +22,8 @@ export function StoreTop() {
     const t = useTranslations("app/(store)/components/store-top");
 
     // Check if the current session user is a bakerz and owns this store
-    const isOwner = session?.user?.role === "bakerz" && 
-                   session?.store?.id && 
-                   store?.id && 
-                   session.store.id === store.id;
+    const isOwner = session?.user?.role === "bakerz" &&
+                   session.user.id === store.user_id;
 
     return (
         <div className={'w-full flex flex-col'}>

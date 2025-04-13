@@ -233,7 +233,6 @@ export const renderCalendarContent = () => {
             // FIX: Handle case where validationResult doesn't have deliveryRegion
             // This happens when the address is valid but no region data was fetched yet
             if (!validationResult.deliveryRegion) {
-                console.log("Delivery validation succeeded but region data is missing:", validationResult);
                 return (
                     <div className="w-full flex flex-col gap-2 items-center py-3">
                         {renderScheduleDisplay(store?.schedule, t)}

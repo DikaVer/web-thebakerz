@@ -1,9 +1,9 @@
+'use server';
 import {connectionPool} from "@/db";
-import {ActionResult} from "@/app/(auth)/auth/actions";
-import {createSession, generateSessionToken, setSessionTokenCookie} from "@/lib/actions/session";
 import {acceptTOS} from "@/lib/term-of-service";
 import {TOS_VERSION} from "@/lib/local-variables";
 import {revalidateTag} from "next/cache";
+import { StoreBusinessData } from "./store";
 
 export async function createUser(email: string): Promise<User> {
     try {
@@ -189,16 +189,16 @@ export async function getUserFromEmail(email: string): Promise<User | null> {
     }
 }
 
-export async function isStoreNicknameExist(nickname: string): Promise<Boolean> {
+export async function isStoreNicknameExist(nickname: string, userId: string): Promise<Boolean> {
     try {
         const result = await connectionPool.query(
             `
       SELECT 
         id
       FROM stores
-      WHERE nickname = $1
+      WHERE nickname = $1 AND user_id != $2
       `,
-            [nickname]
+            [nickname, userId]
         );
 
         if (result.rows.length === 0) {
@@ -237,6 +237,19 @@ export async function creatAccountAction(email: string, bearer: string): Promise
     revalidateTag('session');
     return user;
 }
+
+export const getCurrentBusinessUser = async (id: string): Promise<StoreBusinessData | null> => {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/business`, {
+        headers: {
+            'User-Id': id,
+            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+        },
+        next: {
+            tags: ['store'],
+            revalidate: 300
+        }
+    }).then(res => res.json());
+};
 
 
 export interface User {

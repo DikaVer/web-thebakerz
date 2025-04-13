@@ -5,8 +5,6 @@ import {cookies} from "next/headers";
 
 import type {User} from "./user";
 import {connectionPool} from "@/db";
-import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
-import {getStoreByUserId, StoreData} from "@/lib/actions/store";
 import {v4 as uuidv4} from "uuid";
 
 export async function validateSessionToken(
@@ -39,7 +37,7 @@ export async function validateSessionToken(
 
     // If no matching session is found, return null for both session and user.
     if (result.rows.length === 0) {
-        return {session: null, user: null, store: null, schedule: null};
+        return {session: null, user: null, stores: null};
     }
 
     const row = result.rows[0];
@@ -62,9 +60,21 @@ export async function validateSessionToken(
         picture: row.picture
     };
 
+    const stores = await connectionPool.query(
+        `
+            SELECT 
+              id, nickname as name
+            FROM stores
+            WHERE user_id = $1
+            `,
+        [user.id]
+    );
 
-
-    const {store, schedule} = await getStoreByUserId(user.id);
+    // Extract store IDs and names from the query result
+    const storeData = stores.rows.map((row: { id: string, name: string }) => ({
+        id: row.id,
+        name: row.name
+    }));
 
     // If the session has expired, delete it from the database and return null.
     if (Date.now() >= session.expiresAt.getTime()) {
@@ -72,7 +82,7 @@ export async function validateSessionToken(
             `DELETE FROM sessions WHERE id = $1`,
             [session.id]
         );
-        return { session: null, user: null, store: null, schedule: null };
+        return { session: null, user: null, stores: null };
     }
 
     // If the session is nearing expiry (within 15 days), extend it by 30 days from now.
@@ -84,9 +94,7 @@ export async function validateSessionToken(
         );
     }
 
-
-
-    return { session, user, store, schedule };
+    return { session, user, stores: storeData };
 }
 
 // Wrap getCurrentSession with React's cache. Note that since cookies() is now async,
@@ -96,7 +104,7 @@ export const getCurrentSession = async (): Promise<SessionValidationResult> => {
     const token = cookieStore.get("session")?.value ?? null;
 
     if (token === null) {
-        return { session: null, user: null, store: null, schedule: null };
+        return { session: null, user: null, stores: null };
     }
 
     // Call the validate-session API with the bearer token and a revalidation tag.
@@ -231,7 +239,11 @@ export interface Session {
     userId: string;
 }
 
+export interface StoreInfo {
+    id: string;
+    name: string;
+}
 
 export type SessionValidationResult =
-    | { session: Session; user: User; store: StoreData | null; schedule: WorkHours | null }
-    | { session: null; user: null; store: null; schedule: null };
+    | { session: Session; user: User; stores: StoreInfo[] }
+    | { session: null; user: null; stores: null };

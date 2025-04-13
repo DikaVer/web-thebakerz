@@ -141,7 +141,7 @@
     "profilePicture": "Profielfoto",
     "uploadProfilePicture": "Upload een profielfoto",
     "profile": "Profiel",
-    "displaysProfileStore": "Deze informatie wordt weergegeven op uw winkelprofiel",
+    "displaysProfileStore": "Deze informatie wordt in uw winkel weergegeven",
     "displaysProfile": "Deze informatie wordt weergegeven op uw profiel",
     "customer": "Klant",
     "baker": "Bakker",
@@ -173,7 +173,8 @@
     "profileStoreUpdated": "Uw profiel en winkelgegevens zijn bijgewerkt",
     "profileHasUpdated": "Je profiel is bijgewerkt",
     "updating": "Bijwerken...",
-    "updateProfile": "Profiel bijwerken"
+    "updateProfile": "Profiel bijwerken",
+    "bakerz": "TheBakerz -partner"
   },
   "app/(return_page)/settings/components/calendar-settings": {
     "workingSchedule": "Werkschema",
@@ -195,7 +196,8 @@
     "profile": "Profiel",
     "profileAndStoreTab": " & Winkelweergave",
     "workingHoursTab": "Werkuren",
-    "deliveryTab": "Bezorgbeheer"
+    "deliveryTab": "Bezorgbeheer",
+    "information": "Info"
   },
   "app/(return_page)/settings/components/products/product-tab": {
     "image": "Afbeelding",
@@ -1071,7 +1073,8 @@
     "productDeletedSuccess": "Product succesvol verwijderd!",
     "failedDeleteProduct": "Het product kon niet worden verwijderd.",
     "failedFetchStoreProducts": "Het ophalen van winkelproducten is mislukt",
-    "failedFetchProduct": "Het ophalen van het product is mislukt"
+    "failedFetchProduct": "Het ophalen van het product is mislukt",
+    "storeNotFound": "Winkel niet gevonden!"
   },
   "app/lib/actions/order": {
     "tooManyRequests": "Te veel verzoeken",
@@ -1092,7 +1095,8 @@
     "orderUpdated": "Bestelling bijgewerkt!",
     "failedUpdateProduct": "Het product kon niet worden bijgewerkt.",
     "failedFetchProductsOrder": "Het is niet gelukt om de productbestelling op te halen",
-    "failedFetchStoreProducts": "Het ophalen van winkelproducten is mislukt"
+    "failedFetchStoreProducts": "Het ophalen van winkelproducten is mislukt",
+    "storeNotFound": "Winkel niet gevonden!"
   },
   "app/lib/schemas": {
     "invalidPhone": "Ongeldig telefoonnummer",
@@ -1191,7 +1195,13 @@
     "hour": "uur",
     "hours": "uren",
     "day": "dag",
-    "days": "dagen"
+    "days": "dagen",
+    "addRange": "Bereik toevoegen",
+    "saveSettings": "Instellingen opslaan",
+    "rangeExplanation": "Bereik: {bereik}",
+    "deliveryZone": "Leveringszone",
+    "deliverySettings": "Leveringsinstellingen",
+    "rangeOrderError": "Maak het bereik groter dan de vorige"
   },
   "app/(store)/components/delivery-map": {
     "loadingMap": "Kaart laden...",
@@ -1208,5 +1218,57 @@
   "noInfo": "Geen info",
   "closed": "Gesloten",
   "scheduleFormatError": "Schema -formaatfout",
-  "noScheduleAvailable": "Geen schema beschikbaar"
+  "noScheduleAvailable": "Geen schema beschikbaar",
+  "app/(store)/[id]/settings/page": {
+    "settingsTitle": "",
+    "settingsDescription": ""
+  },
+  "app/(return_page)/settings/components/store-tabs-settings": {
+    "store": "Winkel",
+    "pickup": "Ophalen",
+    "delivery": "Levering"
+  },
+  "app/(return_page)/settings/components/store-setting": {
+    "profileUpdated": "Profiel bijgewerkt",
+    "storeUpdated": "Winkel bijgewerkt!",
+    "updateStore": "Updatewinkel",
+    "storeDescriptionPlaceholder": "Vertel ons over uw winkel ... (Max 200 tekens)",
+    "writeAboutStore": "Schrijf een korte beschrijving over uw winkel (max 200 tekens)"
+  },
+  "app/lib/actions/store-actions": {
+    "tooManyRequests": "Te veel verzoeken!",
+    "invalidFields": "Ongeldige velden",
+    "userNotFound": "Gebruiker niet gevonden!",
+    "storeNameExists": "Winkelnaam bestaat al!",
+    "storeUpdated": "Winkelinformatie bijgewerkt!"
+  },
+  "app/(return_page)/settings/components/store-info": {
+    "pickupOnly": "Alleen ophalen",
+    "deliveryOnly": "Alleen levering",
+    "pickupAndDelivery": "Ophalen",
+    "notConfigured": "Niet geconfigureerd",
+    "storeInformation": "Informatie opslaan",
+    "owner": "Eigenaar",
+    "region": "Regio",
+    "currency": "Munteenheid",
+    "deliveryOption": "Verzendopties",
+    "currencyText": "Munteenheid"
+  },
+  "app/(return_page)/settings/components/business-info": {
+    "accountInformation": "Accountinformatie",
+    "accountType": "Accounttype",
+    "memberSince": "Lid sinds",
+    "accountStatus": "Accountstatus",
+    "verified": "Geverifieerd",
+    "unverified": "Niet geverifieerd",
+    "businessInformation": "Zakelijke informatie",
+    "businessName": "Bedrijfsnaam",
+    "notAvailable": "Niet beschikbaar",
+    "kvkNumber": "Zakelijke nummer",
+    "vatNumber": "Belasting -ID",
+    "region": "Regio",
+    "businessAddress": "Adres",
+    "registeredAddress": "Geregistreerd adres",
+    "bankAccount": "Bankrekening"
+  }
 }

@@ -7,23 +7,13 @@ import { Time } from '@internationalized/date';
 import DayDeliveryTime from "./DayDeliveryTime";
 import {WorkDay, WorkHours} from "@/lib/actions/calendar-actions";
 import { Icon } from "@iconify/react";
-
-interface DeliveryCity {
-  name: string;
-  range: number;
-  priceInCents: number;
-  minOrderPriceInCents: number;
-  coordinates: { lat: number, lng: number };
-  deliverySchedule?: WorkHours;
-  isStoreDelivery: boolean;
-  minOrderTime?: number;
-}
+import { DeliveryCity as DeliveryCityType, DeliveryRange } from "./types";
 
 interface DeliveryScheduleModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: () => void;
-  city: DeliveryCity | null;
+  city: DeliveryCityType | null;
   deliverySchedule: WorkHours;
   setDeliveryTime: (
     day: string,
@@ -43,8 +33,8 @@ const DeliveryScheduleModal: React.FC<DeliveryScheduleModalProps> = ({
   saving,
   onMinOrderTimeChange
 }) => {
-  const t = useTranslations("app/(return_page)/settings/components/delivery-settings");
   const minTimeT = useTranslations("app/(return_page)/settings/components/calendar/min-time-order");
+  const t = useTranslations("app/(return_page)/settings/components/delivery-settings");
   const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   const [minOrderTime, setMinOrderTime] = useState<string>(city?.minOrderTime?.toString() || "1440");
 

@@ -1,17 +1,21 @@
 'use client';
 
 import React from "react";
-import { Button, Image } from "@heroui/react";
+import { Button, Image, Chip } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { formatCurrency } from "@/lib/utils";
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import {formatTime} from "@/components/settings/delivery/utils";
 
+interface DeliveryRange {
+  range: number;
+  deliveryPriceInCents: number;
+  minOrderPriceInCents: number;
+}
+
 interface DeliveryCity {
   name: string;
-  range: number;
-  priceInCents: number;
-  minOrderPriceInCents: number;
+  ranges: DeliveryRange[];
   coordinates: { lat: number, lng: number };
   deliverySchedule?: WorkHours;
   isStoreDelivery: boolean;
@@ -93,10 +97,10 @@ const CityList: React.FC<CityListProps> = ({
             <div>
               <span className="font-medium">{city.name}</span>
               <span className="ml-2 text-sm text-gray-500">
-                {city.range} km
-              </span>
-              <span className="ml-2 text-sm font-medium">
-                {formatCurrency(city.priceInCents)}
+                {city.ranges.length > 1 
+                  ? `${city.ranges[0].range} - ${city.ranges[city.ranges.length - 1].range} km`
+                  : `${city.ranges[0].range} km`
+                }
               </span>
             </div>
             <div className="flex gap-2">
@@ -119,7 +123,7 @@ const CityList: React.FC<CityListProps> = ({
                     isIconOnly
                     onPress={() => onRemoveCity(city.name)}
                   >
-                    ×
+                    x
                   </Button>
                 </>
              ) : (
@@ -132,9 +136,22 @@ const CityList: React.FC<CityListProps> = ({
               )}
             </div>
           </div>
-          <div className="text-xs text-gray-500">
-            {t("minOrderPrice")}: {formatCurrency(city.minOrderPriceInCents)}
+
+          {/* Display ranges */}
+          <div className="mb-2 flex flex-wrap gap-1">
+            {city.ranges.map((range, idx) => (
+              <Chip 
+                key={idx} 
+                size="sm" 
+                variant="flat" 
+                color={"primary"}
+                className="text-xs"
+              >
+                {range.range} km: {formatCurrency(range.deliveryPriceInCents)} / min: {formatCurrency(range.minOrderPriceInCents)}
+              </Chip>
+            ))}
           </div>
+          
           <div className="mt-1 text-xs">
             <div className="flex flex-col">
               <span className="font-medium">{t("deliveryTimes")}:</span>
