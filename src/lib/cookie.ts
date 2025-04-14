@@ -17,6 +17,7 @@ const COOKIE_CONSENT_KEY = "cookie_consent";
 const COOKIE_PREFERENCES_KEY = "cookie_preferences";
 const SEARCH_LAT_KEY = "search_lat";
 const SEARCH_LNG_KEY = "search_lng";
+const SEARCH_CITY_KEY = "search_city";
 
 export async function isCookieConsentFromServer() {
     const cookie = await cookies();
@@ -52,6 +53,62 @@ export async function getSearchCoordinates(): Promise<Coordinates | null> {
     } catch (error) {
         console.error("Error parsing coordinates from cookies:", error);
         return null;
+    }
+}
+
+/**
+ * Get saved search city from cookies
+ * @returns City name if available, null otherwise
+ */
+export async function getSearchCity(): Promise<string | null> {
+    const cookie = await cookies();
+    return cookie.get(SEARCH_CITY_KEY)?.value ?? null;
+}
+
+/**
+ * Set search coordinates in cookies
+ * @param coords Coordinates to save
+ */
+export async function setSearchCoordinates(coords: Coordinates): Promise<void> {
+    const cookie = await cookies();
+    const maxAge = 60 * 60 * 24 * 30; // 30 days
+
+    cookie.set(SEARCH_LAT_KEY, coords.lat.toString(), {
+        path: '/',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: maxAge,
+    });
+
+    cookie.set(SEARCH_LNG_KEY, coords.lng.toString(), {
+        path: '/',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: maxAge,
+    });
+}
+
+/**
+ * Set search city in cookies
+ * @param city City name to save
+ */
+export async function setSearchCity(city: string | null): Promise<void> {
+    const cookie = await cookies();
+    const maxAge = 60 * 60 * 24 * 30; // 30 days
+
+    if (city) {
+        cookie.set(SEARCH_CITY_KEY, city, {
+            path: '/',
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: maxAge,
+        });
+    } else {
+        // Remove the cookie if the city is null
+        cookie.delete(SEARCH_CITY_KEY);
     }
 }
 

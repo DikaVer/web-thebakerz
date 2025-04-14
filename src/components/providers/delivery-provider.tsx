@@ -72,14 +72,16 @@ interface DeliveryProviderProps {
   children: ReactNode;
   initialDeliveryMode: boolean;
   initialAddress: DbDeliveryAddress | null;
+  isStore?: boolean;
 }
 
 export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   children,
   initialDeliveryMode = false,
-  initialAddress = null
+  initialAddress = null,
+  isStore = true
 }) => {
-  const { store } = useStore();
+  const { store } =  isStore ? useStore() : { store: null };
   const [isDelivery, setIsDelivery] = useState(initialDeliveryMode);
   const [isTogglingDelivery, setIsTogglingDelivery] = useState(false);
   const [isSubheaderLoaded, setIsSubheaderLoaded] = useState(true);
@@ -258,6 +260,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     const loadSavedDateTime = async () => {
       try {
         setIsLoadingDate(true);
+        if (!store) return;
         
         if (isDelivery) {
           // For delivery mode
@@ -297,7 +300,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     
     // Always load date/time when isDelivery changes
     loadSavedDateTime();
-  }, [isDelivery, store.id, validationResult.isInRange, validationResult.deliveryRegion?.name]);
+  }, [isDelivery, store?.id, validationResult.isInRange, validationResult.deliveryRegion?.name]);
   
   
   // Toggle delivery mode
@@ -313,6 +316,8 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   
   // Handle date change
   const handleDateChange = async (newDate: CalendarDateTime | CalendarDate) => {
+    if (!store) return;
+
     if (newDate instanceof CalendarDate) {
       setSelectedDate(newDate);
     } else {
@@ -357,6 +362,8 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   const handleAddressSubmit = async (
       addressData: AddressFormType
   ): Promise<boolean> => {
+    if (!store) return false;
+
     setModalSubmissionStatus('validating');
     setIsValidating(true);
 

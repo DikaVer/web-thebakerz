@@ -36,9 +36,13 @@ export async function revalidateAndNavigate(path: string) {
 /**
  * Stores coordinates in secure HTTP-only cookies for search functionality
  * @param coordinates - The latitude and longitude coordinates
+ * @param city - The city associated with the coordinates
  * @returns ActionResult indicating success or failure
  */
-export async function storeCoordinatesInCookies(coordinates: { lat: number; lng: number }): Promise<ActionResult> {
+export async function storeCoordinatesInCookies(
+    coordinates: { lat: number; lng: number },
+    city?: string
+): Promise<ActionResult> {
     try {
         if (!await globalPOSTRateLimit()) {
             return {
@@ -73,6 +77,17 @@ export async function storeCoordinatesInCookies(coordinates: { lat: number; lng:
             path: '/',
             sameSite: 'strict'
         });
+
+        // Store city if provided
+        if (city) {
+            cookieStore.set('search_city', city, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 60 * 60 * 24, // 24 hours
+                path: '/',
+                sameSite: 'strict'
+            });
+        }
 
         return null; // Success
     } catch (error) {

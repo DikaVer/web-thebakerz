@@ -38,8 +38,11 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: '2luntz9vzwxujpdd.public.blob.vercel-storage.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'storage4thebakerz.blob.core.windows.net',
             }
-
         ],
     },
     webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {

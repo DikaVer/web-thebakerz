@@ -4,6 +4,7 @@ import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
 import {getCurrentSession} from "@/lib/actions/session";
 import { getMerchantDeliveryRegions, MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
 import {revalidateTag} from "next/cache";
+import { haversineDistance } from "../utils";
 
 export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData | null> {
     try {
@@ -704,5 +705,147 @@ export async function updateStoreDeliveryOptions(storeId: string, deliveryOption
     } catch (error) {
         console.error("Error updating store delivery options:", error);
         throw new Error("Failed to update store delivery options");
+    }
+}
+
+export interface NearbyStore extends StoreData {
+    distance: number; // Distance in kilometers from the search location
+}
+
+export async function findNearbyStores(userLat: number, userLng: number, deliveryMode: 'pickup' | 'delivery'): Promise<NearbyStore[]> {
+    try {
+        // Fetch all active stores and their locations
+        const storeResults = await connectionPool.query(
+            `SELECT
+                s.id,
+                s.user_id,
+                s.nickname,
+                s.description,
+                s.phone,
+                u.image AS picture,
+                u.name AS "ownerName",
+                u.email AS email,
+                s.facebook_url,
+                s.instagram_url,
+                s.slug,
+                s.stripe_id,
+                s.min_time_order,
+                s.delivery_option,
+                COALESCE(bs.kor, false) AS kor,
+                s.region as region,
+                s.currency as currency,
+                sl.route,
+                sl.city,
+                sl.country,
+                sl.latitude,
+                sl.longitude,
+                sl.zip_code
+             FROM stores s
+             JOIN users u ON s.user_id = u.id
+             JOIN store_locations sl ON s.id = sl.store_id
+             LEFT JOIN business_acc bs ON bs.user_id = s.user_id
+             WHERE s.deleted = false`
+        );
+
+        const nearbyStores: NearbyStore[] = [];
+
+        for (const storeRow of storeResults.rows) {
+            const storeLat = storeRow.latitude;
+            const storeLng = storeRow.longitude;
+
+            // Calculate distance
+            const distance = haversineDistance({ lat: userLat, lng: userLng }, { lat: storeLat, lng: storeLng });
+
+            let deliveryRegions: MerchantDeliveryRegion[] = [];
+            if (storeRow.delivery_option === 'delivery' || storeRow.delivery_option === 'multi') {
+                try {
+                    deliveryRegions = await getMerchantDeliveryRegions(storeRow.id);
+                } catch (error) {
+                    console.error(`Error fetching delivery regions for store ${storeRow.id}:`, error);
+                }
+            }
+
+            let schedule: WorkHours | undefined = undefined;
+            await getScheduleById(storeRow.id, storeRow.id)
+                .then((item) => {
+                    if(item?.schedule){
+                        schedule = item.schedule;
+                    }
+                })
+                .catch((error) => console.error("Error reading item:", error));
+
+
+            const storeData: StoreData = {
+                id: storeRow.id,
+                user_id: storeRow.user_id,
+                kor: storeRow.kor,
+                region: storeRow.region,
+                currency: storeRow.currency,
+                storeName: storeRow.nickname,
+                description: storeRow.description,
+                phone: storeRow.phone,
+                email: storeRow.email,
+                picture: storeRow.picture,
+                ownerName: storeRow.ownerName,
+                instagram_url: storeRow.instagram_url,
+                facebook_url: storeRow.facebook_url,
+                slug: storeRow.slug,
+                stripe_id: storeRow.stripe_id,
+                minTimeOrder: storeRow.min_time_order,
+                deliveryOption: storeRow.delivery_option,
+                location: {
+                    route: storeRow.route,
+                    city: storeRow.city,
+                    country: storeRow.country,
+                    latitude: storeLat,
+                    longitude: storeLng,
+                    zipCode: storeRow.zip_code,
+                }, 
+                deliveryRegions: deliveryRegions,
+                schedule: schedule,
+            };
+
+            // Filter based on delivery mode
+            if (deliveryMode === 'pickup') {
+                // Include if store offers pickup or multi
+                if (storeData.deliveryOption === 'pickup' || storeData.deliveryOption === 'multi') {
+                    nearbyStores.push({ ...storeData, distance });
+                }
+            } else { // deliveryMode === 'delivery'
+                // Include if store offers delivery or multi AND user is within a delivery range
+                if (storeData.deliveryOption === 'delivery' || storeData.deliveryOption === 'multi') {
+                    let isInRange = false;
+                    if (storeData.deliveryRegions && storeData.deliveryRegions.length > 0) {
+                        // Check new ranges first
+                        for (const region of storeData.deliveryRegions) {
+                            if(region.ranges && region.ranges.length > 0) {
+                                for (const range of region.ranges) {
+                                    // Check if distance is within this specific range's radius
+                                    // AND potentially if min order price is met (though this might be better handled at checkout)
+                                    if (distance <= range.range) { 
+                                        isInRange = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (isInRange) break; // Exit region loop if found within range
+                        }
+                    }
+
+                    if (isInRange) {
+                        nearbyStores.push({ ...storeData, distance });
+                    }
+                }
+            }
+        }
+
+        // Sort stores by distance (closest first)
+        nearbyStores.sort((a, b) => a.distance - b.distance);
+
+        return nearbyStores;
+
+    } catch (error) {
+        console.error("Error finding nearby stores:", error);
+        throw new Error("Failed to find nearby stores");
     }
 }

@@ -104,6 +104,7 @@ export function AddressForm({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
     libraries: GOOGLE_MAPS_LIBRARIES as any,
     language: 'nl', // Set Dutch language for suggestions
+    preventGoogleFontsLoading: true, // Optional: prevent font loading if handled elsewhere
   });
 
   // Check if API key is missing and log error
@@ -118,6 +119,16 @@ export function AddressForm({
     }
   }, [loadError]);
 
+  // Basic initialization check
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    if (isLoaded && window.google?.maps?.places) {
+      setIsInitialized(true);
+      console.log('Google Maps and Places API initialized');
+    }
+  }, [isLoaded]);
+
   // --- usePlacesAutocomplete hook with optimized options ---
   const {
     ready,
@@ -126,21 +137,30 @@ export function AddressForm({
     setValue: setAutocompleteValue,
     clearSuggestions,
   } = usePlacesAutocomplete({
-    callbackName: "googleMapsAutocompleteCallback",
     requestOptions: {
       componentRestrictions: { country: COUNTRY_RESTRICTION },
       types: ['address'],
     },
     debounce: 350,
     cacheKey: 'delivery-location',
-    initOnMount: true,
+    initOnMount: isInitialized, // Only initialize when we're sure the API is ready
   });
+
+  // Log when relevant states change
+  useEffect(() => {
+    console.log('Google Maps loaded state:', isLoaded);
+    console.log('Initialization state:', isInitialized);
+    console.log('Places autocomplete ready state:', ready);
+    console.log('Suggestion Status:', status);
+    console.log('Window.google exists:', !!window.google);
+    console.log('Window.google.maps exists:', !!window.google?.maps);
+    console.log('Window.google.maps.places exists:', !!window.google?.maps?.places);
+  }, [isLoaded, isInitialized, ready, status]);
 
   // Initialize Google Places Autocomplete when loaded
   useEffect(() => {
-    if (isLoaded && ready) {
-      // Initialize when both Google Maps is loaded and the hook is ready
-      setAutocompleteValue(initialAddress?.formattedAddress || "", false);
+    if (isLoaded && ready && initialAddress?.formattedAddress) {
+      setAutocompleteValue(initialAddress.formattedAddress, false);
     }
   }, [isLoaded, ready, initialAddress, setAutocompleteValue]);
 
@@ -603,19 +623,19 @@ export function AddressForm({
               </Button>
             ))
           }
-          description={
-            loadError
-              ? "Error loading Google Maps. Please check your API key and try again."
-              : !isLoaded
-              ? "Loading Google Maps..."
-              : !ready
-              ? "Initializing address search..."
-              : isLocating
-              ? "Finding your location..."
-              : isSubmitting
-              ? "Validating address..."
-              : "Type to search for an address"
-          }
+          // description={
+          //   loadError
+          //     ? "Error loading Google Maps. Please check your API key and try again."
+          //     : !isLoaded
+          //     ? "Loading Google Maps..."
+          //     : !ready
+          //     ? "Initializing address search..."
+          //     : isLocating
+          //     ? "Finding your location..."
+          //     : isSubmitting
+          //     ? "Validating address..."
+          //     : "Type to search for an address"
+          // }
           classNames={{
             base: "w-full",
             listbox: "max-h-[200px]",

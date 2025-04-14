@@ -1389,5 +1389,34 @@
   "app/(components)/join-button": {
     "loading": "Loading...",
     "join": "Join TheBakerz"
+  },
+  "search": {
+    "errors": {
+      "fetchStores": "Error Fetch Stores"
+    },
+    "loadingStores": "Loading Stores...",
+    "noStoresFound": {
+      "title": "No Stores Found",
+      "message": "Try different address or delivery mode"
+    },
+    "noLocation": {
+      "title": "We cannot find stores for you",
+      "message": "Please enter address to find stores"
+    },
+    "components": {
+      "toggleDelivery": {
+        "pickup": "Pick Up",
+        "delivery": "Delivery"
+      },
+      "storePanel": {
+        "deliveryFee": "Delivery Fee",
+        "deliveryAvailable": "Deliver Now",
+        "minOrder": "Min order",
+        "pickupAvailable": "Pick Up Available",
+        "deliveryUnavailable": "No Deliver Now",
+        "open": "Open",
+        "closed": "Closed"
+      }
+    }
   }
 }

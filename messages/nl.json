@@ -1281,5 +1281,34 @@
   "app/(components)/join-button": {
     "loading": "Laden ...",
     "join": "Join TheBakerz"
+  },
+  "search": {
+    "errors": {
+      "fetchStores": "Error haalt winkels op"
+    },
+    "loadingStores": "Winkels laden ...",
+    "noStoresFound": {
+      "title": "Geen winkels gevonden",
+      "message": "Probeer een ander adres- of leveringsmodus"
+    },
+    "noLocation": {
+      "title": "We kunnen geen winkels voor u vinden",
+      "message": "Voer het adres in om winkels te vinden"
+    },
+    "components": {
+      "toggleDelivery": {
+        "pickup": "Ophalen",
+        "delivery": "Levering"
+      },
+      "storePanel": {
+        "deliveryFee": "Bezorgkosten",
+        "deliveryAvailable": "Lever nu",
+        "minOrder": "Min bestelling",
+        "pickupAvailable": "Pak beschikbaar",
+        "deliveryUnavailable": "Geen levering nu",
+        "open": "Open",
+        "closed": "Gesloten"
+      }
+    }
   }
 }

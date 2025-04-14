@@ -179,7 +179,8 @@ const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreD
                     href: `/auth?next=${storeUrl}`,
                     icon: "line-md:login",
                     titleKey: "signInButton"
-                }
+                },
+                ...sectionItemsGuestStore
             ]);
         }
         sidebarItems = sectionItemsGuestTheBakerz;

@@ -1283,5 +1283,34 @@
   "app/(components)/join-button": {
     "loading": "Chargement...",
     "join": "Rejoignez TheBakerz"
+  },
+  "search": {
+    "errors": {
+      "fetchStores": "Stores d'erreur de récupération"
+    },
+    "loadingStores": "Chargement des magasins ...",
+    "noStoresFound": {
+      "title": "Aucun magasin trouvé",
+      "message": "Essayez différents mode d'adresse ou de livraison"
+    },
+    "noLocation": {
+      "title": "Nous ne pouvons pas trouver de magasins pour vous",
+      "message": "Veuillez saisir l'adresse pour trouver les magasins"
+    },
+    "components": {
+      "toggleDelivery": {
+        "pickup": "Ramasser",
+        "delivery": "Livraison"
+      },
+      "storePanel": {
+        "deliveryFee": "Frais de livraison",
+        "deliveryAvailable": "Livrer maintenant",
+        "minOrder": "Commande min",
+        "pickupAvailable": "Ramasser disponible",
+        "deliveryUnavailable": "Pas livrer maintenant",
+        "open": "Ouvrir",
+        "closed": "Fermé"
+      }
+    }
   }
 }
