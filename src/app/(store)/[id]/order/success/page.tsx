@@ -55,7 +55,7 @@ export default async function Page(props: StorePageProps) {
         return NotFound();
     }
 
-    const t = await getTranslations("app/(store)/[id]/order/success")
+    const t = await getTranslations("app/(store)/id/order/success")
 
     return (
         <div className="flex flex-col mb-20 min-h-screen">
@@ -64,7 +64,7 @@ export default async function Page(props: StorePageProps) {
                 <div className="w-[300px] h-2/3 ml-14 mb-2">
                     <Image
                         src="/images/VerifyEmail.svg"
-                        alt="Verify Email Image"
+                        alt={t("verifyEmail")}
                         width={200}
                         height={200}
                         className="w-full h-full"

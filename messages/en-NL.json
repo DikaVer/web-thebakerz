@@ -3,20 +3,9 @@
     "title": "Bake more. \nStress less.",
     "subtitle": "TheBakerz - all orders, customer messages and recipes in one place",
     "learn more": "Learn more",
-    "get started": "Get started",
-    "apply": "Fill out a quick form, and we'll get in touch to explain everything and set up your account.",
-    "we set up your store": "Share your products and prices, and we'll handle the setup for you.",
-    "Start selling": "Test your store, make adjustments, and start taking real orders!",
-    "support": "We're here to answer your questions.",
-    "start and grow": "Start & grow your bakery business",
-    "subtitle phone": "You do the cooking and we'll take care of the rest.",
-    "terms and conditions": "I read and agree with the Term and Privacy Policy."
+    "get started": "Get started"
   },
-  "Shop": {
-    "Alert": "Shop offers only pickup orders",
-    "Alert Hover": "Opening hours and pickup address are presented below. You can select pickup time and day during checkout",
-    "Opening Hours": "Opening Hours"
-  },
+  "Shop": {},
   "OrderStatus": {
     "new": "New",
     "started": "Cooking",
@@ -71,10 +60,7 @@
     "honey": "honey"
   },
   "app/(store)/components/variants-user-selection": {
-    "max": "Maximum",
-    "required": "Required",
-    "selectOption": "Select an option",
-    "selectOptions": "Select options"
+    "max": "Maximum"
   },
   "app/(main)/page": {
     "whyChooseTheBakerz": "Why Choose TheBakerz?",
@@ -94,7 +80,9 @@
     "easyToUseSystem": "Easy-to-use system to manage your recipes and track all orders",
     "smartCalendar": "Smart Calendar",
     "planProduction": "Plan your production and keep track of daily tasks",
-    "wantYouToSucceed": "We want you to succeed"
+    "wantYouToSucceed": "We want you to succeed",
+    "Tips": "Tips",
+    "Tips Info": "Tips Info"
   },
   "app/(main)/about-us/page": {
     "greetingTitle": "Nice to meet you",
@@ -121,39 +109,15 @@
     "performingSignOut": "Performing sign out..."
   },
   "app/(return_page)/settings/components/profile-setting": {
-    "profilePicture": "Profile Picture",
-    "uploadProfilePicture": "Upload a profile picture",
     "profile": "Profile",
     "displaysProfileStore": "This information will be displayed on your store",
     "displaysProfile": "This information will be displayed on your profile",
     "customer": "Customer",
-    "baker": "Baker",
     "storeName": "Store Name",
     "name": "Name",
     "editCurrentStoreName": "Edit your current store name",
     "editCurrentName": "Edit your current name",
-    "storeLink": "Store Link",
-    "howUserFindYou": "How users will find your store",
-    "typeYourStoreName": "Type your store name",
-    "storeSlug": "Store Subtitle",
-    "howUserRecognizeYou": "This will be part of your store's subtitle",
-    "typeYourStoreSlug": "Store since 2021",
-    "locationPhone": "Location & Phone",
-    "editLocationPhoneBy": "You can edit these by contacting us at",
-    "contactUs": "Contact Us",
-    "phoneNumberPlaceholder": "+31 6 12 34 56 78",
-    "facebookURL": "Facebook URL",
-    "enterFacebookURL": "Enter your Facebook page URL",
-    "facebookURLPlaceholder": "https://facebook.com/your-page",
-    "instagramURL": "Instagram URL",
-    "enterInstagramURL": "Enter your Instagram profile URL",
-    "instagramURLPlaceholder": "https://instagram.com/your-handle",
-    "description": "Description",
-    "writeAboutStore": "Write a short description about your store (max 500 characters)",
-    "storeDescriptionPlaceholder": "Tell us about your store... (max 500 characters)",
-    "locationPlaceholder": "Location Placeholder",
     "profileUpdated": "Profile Updated",
-    "profileStoreUpdated": "Your profile and store details have been updated",
     "profileHasUpdated": "Your profile has been updated",
     "updating": "Updating...",
     "updateProfile": "Update Profile",
@@ -168,7 +132,6 @@
     "nameAndPrice": "Name & Price",
     "drag": "Drag",
     "updatingOrders": "Updating Orders...",
-    "products": "Products",
     "updateProductOrder": "Update Product & Category Orders",
     "noProductsYet": "Store does not have any products yet.",
     "addItem": "Add Item",
@@ -177,15 +140,7 @@
   },
   "app/(return_page)/settings/components/tabs-settings": {
     "profile": "Profile",
-    "profileAndStoreTab": " & Store View",
-    "workingHoursTab": "Work Hours",
-    "deliveryTab": "Delivery Manager",
     "information": "Info"
-  },
-  "app/(return_page)/settings/components/products/product-tab": {
-    "image": "Image",
-    "nameAndPrice": "Name & Price",
-    "drag": "Drag"
   },
   "app/(return_page)/settings/components/products/product-card": {
     "productManager": "Product Manager"
@@ -212,23 +167,9 @@
     "day": "day",
     "days": "days"
   },
-  "app/(return_page)/settings/components/calendar/schedule-picker": {
-    "startTime": "Start Time",
-    "endTime": "End Time",
-    "startTimeError": "Start time must be before end time",
-    "endTimeError": "End time must be after start time",
-    "saving": "Saving...",
-    "saveWorkingHours": "Save Working Hours",
-    "errorSomethingWentWrong": "Something went wrong!",
-    "errorTooManyRequests": "Too many requests!",
-    "errorInvalidTimeFields": "Invalid time fields!",
-    "errorFailedToSaveSchedule": "Failed to save schedule",
-    "scheduleSavedSuccess": "Schedule saved successfully"
-  },
   "app/(return_page)/settings/components/delivery-settings": {
     "deliveryRegions": "Delivery Regions",
     "resetMap": "Reset Zoom",
-    "selectDeliveryRegions": "Select Delivery Regions",
     "saving": "Saving...",
     "saveDeliveryRegions": "Save Delivery Regions",
     "loadingMap": "Loading...",
@@ -251,24 +192,11 @@
     "deliverySchedule": "Delivery Times",
     "manageDeliverySchedule": "Manage Delivery Times",
     "deliveryScheduleDescription": "Set the times when delivery is available for this region",
-    "startTime": "Start Time",
-    "endTime": "End Time",
-    "startTimeError": "Start time must be before end time",
-    "endTimeError": "End time must be after start time",
     "deliveryTimes": "Delivery Times",
     "noDeliveryDays": "No delivery days set",
     "deliveryAllWeek": "Delivery available all week",
     "cancel": "Cancel",
     "save": "Save",
-    "deliveryOptions": "Delivery Options",
-    "deliveryOptionsDescription": "Configure how customers can receive their orders.",
-    "pickupOption": "Pickup",
-    "pickupDescription": "Allow customers to pick up orders from your store",
-    "deliveryOption": "Delivery",
-    "updatingOptions": "Updating options...",
-    "updateDeliveryOptions": "Update Delivery Options",
-    "optionsUpdateSuccess": "Delivery options updated successfully",
-    "optionsUpdateError": "Failed to update delivery options",
     "invalidCity": "Invalid city selected",
     "minOrderPriceError": "Minimum order price must be at least 10€",
     "minOrderTime": "Min Order Time:",
@@ -279,23 +207,16 @@
     "day": "day",
     "days": "days",
     "addRange": "Add Range",
-    "saveSettings": "Save Settings",
-    "rangeExplanation": "Range: {range}",
-    "deliveryZone": "Delivery Zone",
-    "deliverySettings": "Delivery Settings",
-    "rangeOrderError": "Make Range Bigger than previous one"
+    "rangeOrderError": "Make Range Bigger than previous one",
+    "startTime": "Start Time",
+    "startTimeError": "Start Time Error",
+    "endTime": "End Time",
+    "endTimeError": "End Time Error"
   },
-  "app/(store)/[id]/page": {
-    "loading": "Loading...",
-    "noProducts": "No products available",
-    "storeNotFound": "Store not found"
+  "app/(store)/id/page": {
+    "noProducts": "No products available"
   },
   "app/(store)/components/store-header": {
-    "addItem": "Add Item",
-    "close": "Close",
-    "addressPlaceholder": "Address Placeholder",
-    "locationPlaceholder": "Location Placeholder",
-    "phone": "Phone",
     "instagram": "Instagram",
     "facebook": "Facebook",
     "pickup": "Pick up",
@@ -305,7 +226,6 @@
     "pickUpOnly": "Pick Up Only",
     "pickUpDescription": "This store only offers pickup orders. Please select a pickup time during checkout.",
     "workingHours": "Working Hours",
-    "address": "Address",
     "phone": "Phone",
     "close": "Close",
     "deliveryOnly": "Delivery Only",
@@ -324,16 +244,12 @@
     "categoryNavigation": "Category Navigation"
   },
   "app/(store)/components/orders": {
-    "backToOrderDashboard": "Back to Order Dashboard",
-    "order": "Order",
-    "changeStatusAction": "Are you sure you want to change the status of this order?"
+    "backToOrderDashboard": "Back to Order Dashboard"
   },
   "app/(store)/components/smart-calendar": {
     "time": "Time"
   },
   "app/(store)/components/store-top-next": {
-    "alert": "Shop offers only pickup orders",
-    "alertHover": "Opening hours and pickup address are presented below. You can select pickup time and day during checkout",
     "openingHours": "Opening Hours",
     "phone": "Phone",
     "alertPickupOnly": "This store only offers pickup orders.",
@@ -349,31 +265,26 @@
   },
   "app/(store)/components/working-hours": {
     "noScheduleAvailable": "No schedule available",
-    "closed": "Closed",
     "workingHours": "Working Hours",
+    "addressOutOfRange": "Address Out of Range",
+    "enterAddressPrompt": "Enter Address",
+    "scheduleUnavailable": "Schedule Unavailable",
+    "checkingAddress": "Enter your address",
+    "scheduleFormatError": "Schedule Format Error",
+    "closed": "Closed Now",
+    "noInfo": "Open Now",
     "monday": "Monday",
     "tuesday": "Tuesday",
     "wednesday": "Wednesday",
     "thursday": "Thursday",
     "friday": "Friday",
     "saturday": "Saturday",
-    "sunday": "Sunday",
-    "addressOutOfRange": "Address Out of Range",
-    "enterAddressPrompt": "Enter Address",
-    "deliveryRegionError": "Delivery Region Error",
-    "noDeliveryHours": "No Delivery Hours",
-    "scheduleUnavailable": "Schedule Unavailable",
-    "checkingAddress": "Enter your address",
-    "deliveryScheduleFor": "Delivery Schedule for",
-    "usingStoreHours": "Using store hours",
-    "deliveryAvailableForAddress": "Delivery Available for address"
+    "sunday": "Sunday"
   },
   "app/(store)/components/three-dots": {
     "storeLinkCopied": "Store Link Copied!",
     "copyStoreLink": "Copy Store Link",
-    "editProfile": "Edit Profile",
     "editDelivery": "Edit Delivery",
-    "editSchedule": "Edit Schedule",
     "editProducts": "Edit Products",
     "addOrder": "Add Order",
     "getHelp": "Get Help",
@@ -384,13 +295,7 @@
   "app/(store)/components/product-page": {
     "noProductsAvailable": "No products available",
     "productNotFound": "Product not found",
-    "notes": "Notes",
-    "addNotesPlaceholder": "Add notes to your order... (max 100 characters)",
-    "ingredients": "Ingredients",
-    "allergies": "Allergies",
     "productDeleted": "Product deleted successfully",
-    "unexpectedError": "Unexpected Error",
-    "cartUpdatedSuccess": "Cart updated successfully",
     "productLinkCopied": "Product Link Copied!",
     "itemName": "Item Name",
     "addDescriptionPlaceholder": "Add a description for this item...",
@@ -411,20 +316,25 @@
     "Add Allergies Placeholder": "Add Allergies",
     "Item Options": "Item Options",
     "Loading": "Loading",
-    "Add Item": "Add Item"
+    "Add Item": "Add Item",
+    "cartUpdatedSuccess": "Cart is Updated",
+    "unexpectedError": "Unexpected Error",
+    "ingredients": "Ingredients",
+    "allergies": "Allergies",
+    "notes": "Notes",
+    "addNotesPlaceholder": "Write notes to the item",
+    "Add": "Add",
+    "to order": "to order",
+    "Updating Cart": "Updating Cart",
+    "Update": "Update"
   },
   "app/(store)/components/store-subheader": {
     "addressPlaceholder": "Address Placeholder",
     "locationPlaceholder": "Location Placeholder",
     "scheduleOrderTime": "Schedule Order Time",
-    "pickUpOptionSelected": "Pick Up Option Selected",
     "pickUpAt": "Pick Up at",
     "selectPickUpTime": "Select Pick Up Time",
-    "pickup": "Pick up",
     "delivery": "Delivery",
-    "deliveryTo": "Delivery to",
-    "pickupAt": "Pickup at",
-    "userNotLoggedIn": "User not logged in",
     "deliveryFee": "Delivery Fee",
     "minimumOrder": "Minimum Order",
     "deliveryHours": "Delivery Hours",
@@ -433,17 +343,8 @@
     "noDeliveryAddressYet": "No delivery address yet",
     "enterAddressToSeeDeliveryOptions": "Enter your address to see delivery options",
     "addressInRange": "Your address is within delivery range",
-    "addressNotInRange": "Your address is outside the delivery range",
     "loadingAddress": "Loading address...",
     "loadingDeliveryOptions": "Loading delivery options...",
-    "errorCheckingAddress": "Error checking address",
-    "errorSavingAddress": "Error saving address",
-    "errorValidatingAddress": "Error validating address",
-    "savingAddress": "Saving address...",
-    "validatingAddress": "Validating address...",
-    "maxCharsExceeded": "{field} cannot exceed {max} characters",
-    "errorUpdatingOrderTime": "Error updating delivery time",
-    "deliveryTimeSelected": "Delivery time selected",
     "deliverAt": "Deliver at",
     "selectDeliveryTime": "Select delivery time",
     "scheduleDeliveryTime": "Schedule delivery time",
@@ -456,28 +357,13 @@
     "enterZipCode": "Enter postal code",
     "enterCity": "Enter city",
     "enterAdditionalInfo": "E.g. apartment number, floor, etc.",
-    "required": "Required",
     "confirm": "Confirm",
-    "monday": "Monday",
-    "tuesday": "Tuesday",
-    "wednesday": "Wednesday",
-    "thursday": "Thursday",
-    "friday": "Friday",
-    "saturday": "Saturday",
-    "sunday": "Sunday",
-    "cancel": "Cancel",
     "additionalInfo": "Additional Info",
-    "storeOpen": "Store Open",
-    "storeClosed": "Store Closed",
+    "storeOpen": "Open Now",
+    "storeClosed": "Closed Now",
     "pickUp": "Pick Up",
-    "orEnterManually": "Or Enter Manually",
-    "selectFromSuggestions": "Select from suggestions",
-    "loadingGoogleMaps": "Loading...",
-    "errorLoadingGoogleMaps": "Error with google",
     "searchAddress": "Search Address",
     "typeToSearchAddress": "Type to search address",
-    "editYourDeliveryAddressDescription": "Edit your address description",
-    "enterYourDeliveryAddressDescription": "Enter your address description",
     "editDeliveryAddress": "Edit Delivery Address"
   },
   "app/(store)/components/store-top": {
@@ -488,34 +374,12 @@
     "removeItem": "Remove Item",
     "addItem": "Add Item"
   },
-  "app/(store)/components/user-product": {
-    "productLinkCopied": "Product Link Copied!",
-    "notes": "Notes",
-    "addNotesPlaceholder": "Add notes to your order... (max 100 characters)",
-    "ingredients": "Ingredients",
-    "allergies": "Allergies",
-    "cartUpdatedSuccess": "Cart updated successfully",
-    "unexpectedError": "Unexpected Error",
-    "update": "Update",
-    "add": "Add",
-    "toOrder": "to order",
-    "updatingCart": "Updating cart..."
-  },
-  "app/(store)/components/product-dialog": {
-    "loading": "Loading...",
-    "noProducts": "No products available",
-    "storeNotFound": "Store not found"
-  },
+  "app/(store)/components/user-product": {},
+  "app/(store)/components/product-dialog": {},
   "app/(store)/components/product-list": {
-    "noProductsFound": "No products found",
-    "loading": "Loading...",
-    "searchPlaceholder": "Search products..."
+    "noProductsFound": "No products found"
   },
-  "app/(store)/components/product": {
-    "loading": "Loading...",
-    "noProducts": "No products available",
-    "productNotFound": "Product not found"
-  },
+  "app/(store)/components/product": {},
   "app/(store)/components/variants-form-field": {
     "newOption": "New Option",
     "optionGroupName": "Option Group Name",
@@ -535,44 +399,34 @@
     "close": "Close",
     "confirm": "Confirm"
   },
-  "app/(store)/[id]/order/success": {
+  "app/(store)/id/order/success": {
     "orderPlaced": "Your Order is placed!",
     "checkEmail": "Check your email for the information about your order.",
-    "returnToStore": "Go back to Store"
+    "returnToStore": "Go back to Store",
+    "verifyEmail": "Verify Email Image"
   },
-  "app/(store)/[id]/order/failed": {
-    "error": "Sorry, something went wrong with your order. Please send the support request and wait for the response."
+  "app/(store)/id/order/failed": {
+    "error": "Something wrong with the payment"
   },
-  "app/(store)/components/order-dashboard": {
-    "noOrdersFound": "No orders found for this period",
-    "loading": "Loading...",
-    "orders": "Orders",
-    "orderStatus": "Order Status",
-    "orderStatusFilter": "Order status filter"
-  },
+  "app/(store)/components/order-dashboard": {},
   "app/(store)/components/status-select": {
+    "failedToUpdateStatus": "Failed to Update Status",
+    "statusUpdatedSuccess": "Status is updated",
     "orderStatus": "Order Status",
-    "failedToUpdateStatus": "Failed to update status",
-    "statusUpdatedSuccess": "Status updated successfully",
     "order": "Order",
-    "changeStatusAction": "Are you sure you want to change the status of this order?",
-    "selectOneOption": "Select one option",
+    "changeStatusAction": "Change Status",
+    "selectOneOption": "Selct one option",
     "changeStatus": "Change Status"
   },
   "app/(store)/components/orders-list": {
-    "orders": "Orders",
-    "addOrder": "Add Order",
-    "orderStatusFilter": "Order status filter",
-    "no": "No",
+    "noOrdersFound": "No Order Found",
     "order": "Order",
-    "noOrdersFound": "No orders found for this period"
+    "no": "No Selection",
+    "orderStatusFilter": "Order Status Filter",
+    "addOrder": "Add Order",
+    "orders": "Orders"
   },
-  "app/(store)/components/orders-bar-chart": {
-    "title": "Orders Overview",
-    "notFound": "No orders found for this period",
-    "print": "Print",
-    "orders": "orders"
-  },
+  "app/(store)/components/orders-bar-chart": {},
   "app/(store)/components/calendar-dashboard": {
     "today": "Today",
     "thisWeek": "This Week",
@@ -642,10 +496,8 @@
     "Ready": "Ready",
     "Picked Up": "Picked Up",
     "Cancelled": "Cancelled",
-    "Something Went Wrong": "Something went wrong",
     "Print Invoice": "Print Invoice",
-    "Delivery VAT": "VAT (21%)",
-    "Delivery Fee": "Delivery Fee"
+    "Something Went Wrong": "Something went wrong"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "Email",
@@ -662,20 +514,15 @@
     "enterOtpDescription": "Enter the 6 digit code sent to",
     "goBack": "Go back",
     "verify": "Verify",
-    "newCodeSent": "A new code was sent to your email",
-    "unexpectedError": "An unexpected error occurred"
+    "An unexpected error occurred": "An Unexpected Error Occured",
+    "A new code was sent to your email": "A new code was sent to your email"
   },
   "app/(store)/components/cart": {
     "yourCartFrom": "Your cart from",
     "continue": "Continue",
     "cartEmpty": "Cart Empty",
     "addItemsToStart": "Add Items To Start",
-    "note": "Note",
-    "variantRequired": "{label} is required",
-    "variantSingleSelection": "{label} must have exactly one selection",
-    "variantMaxSelections": "{label} cannot have more than {max} selections",
-    "variantRequiredSelections": "{label} must have {max} selections",
-    "variantInvalidOption": "Invalid option {option} for {label}"
+    "note": "Note"
   },
   "app/(store)/components/checkout-steps": {
     "signInOrSignUpText": "Sign in or sign up to place order",
@@ -703,8 +550,6 @@
     "loadingPaymentGateway": "Loading payment gateway...",
     "unableToInitializePayment": "Unable to initialize payment gateway",
     "returnToCheckout": "Return to Checkout",
-    "pickup": "Pick Up",
-    "delivery": "Delivery",
     "saveDeliveryDetails": "Save Pick Up Details",
     "invalidDeliveryAddress": "Invalid Delivery Address",
     "deliveryFee": "Delivery Fee",
@@ -724,29 +569,11 @@
     "subtitle": "Crop and adjust your image"
   },
   "app/(landing)/components/scroll-triggered": {
-    "title": "Why TheBakerz?",
-    "description": "",
     "features": {
-      "online_store": {
-        "key": "online-store",
-        "title": "Online Store",
-        "description": "We create your own online store to showcase your delicious creations and accept orders seamlessly."
-      },
-      "order_management": {
-        "key": "order-management",
-        "title": "Order Management",
-        "description": "Easily track and manage all your orders in one place, reducing the risk of errors and missed orders."
-      },
-      "all_chats": {
-        "key": "all-chats-in-one-place",
-        "title": "All Chats in One Place",
-        "description": "Connect customer chats from Instagram, Facebook, and WhatsApp to orders in one place for easy communication."
-      },
-      "support": {
-        "key": "flexible-support",
-        "title": "Flexible Support",
-        "description": "Our dedicated team is here to help during our available hours, ensuring your queries are addressed promptly."
-      }
+      "online_store": {},
+      "order_management": {},
+      "all_chats": {},
+      "support": {}
     }
   },
   "app/(landing)/components/support-card": {
@@ -819,10 +646,7 @@
     "contextPlaceholder": "Help me with...",
     "buttonSending": "Sending...",
     "buttonSubmit": "Submit ticket",
-    "successMessage": "Your ticket was submitted successfully. We will redirect you to main page automatically in:",
-    "support": "Support",
-    "contactUs": "Contact Us",
-    "contactUsDescription": "We are here to assist you during our business hours. Please feel free to contact us for any questions or issues you may have."
+    "successMessage": "Your ticket was submitted successfully. We will redirect you to main page automatically in:"
   },
   "app/(support)/components/payment-urgent": {
     "requestSentSuccess": "Your request has been sent successfully.",
@@ -831,10 +655,11 @@
     "supportTicket": "Support Ticket"
   },
   "app/(support)/components/support": {
-    "faqsTitleShort": "FAQs",
-    "faqsTitleLong": "Frequently Asked Questions",
+    "faqsTitleShort": "FAQ",
+    "faqsTitleLong": "Frequently Ask Questions",
     "contactUs": "Contact Us",
-    "sectionBaker": "For Bakers"
+    "sectionBaker": "Bakeries",
+    "sectionCustomer": "Customers"
   },
   "app/(support)/components/faq-baker": {
     "question1": "What is TheBakerz",
@@ -858,28 +683,7 @@
     "question10": "Can I trust TheBakerz with payments and orders?",
     "answer10": "We're here to help with anything you need. From setting up your shop to managing orders, contact us or call us at +31 684794739. We'll make sure everything runs smoothly for you."
   },
-  "app/(support)/components/faq-customer": {
-    "question1": "What is TheBakerz",
-    "answer1": "TheBakerz is an all-in-one platform that helps bakers manage their businesses and reach more customers. It handles orders, production planning, payments, and customer communication in one place. This means less time on admin and more time doing what you love—baking!",
-    "question2": "How do I start selling on TheBakerz?",
-    "answer2": "Getting started is easy! Fill out this form (link), and we'll schedule a quick call to set everything up. We'll help you create your online shop and show you how to use it step by step.",
-    "question3": "What do I need to get started?",
-    "answer3": "You'll just need a KVK number, VAT number, and food safety certification. If you're missing something, don't worry—we'll help you figure it out.",
-    "question4": "Can I choose my own prices and menu?",
-    "answer4": "Of course! You're in control of what you sell and how much you charge. You can update your menu and prices whenever you like.",
-    "question5": "How do orders and delivery work?",
-    "answer5": "You decide what works best for your bakery. You can offer delivery or allow customers to pick up orders from your location. Set your own delivery areas and pickup times to fit your schedule.",
-    "question6": "What does it cost to use TheBakerz?",
-    "answer6": "It's €29.99 per month for hosting and a 5% commission per sale to cover payment processing. The first three months are free, so you can try it out without risk.",
-    "question7": "How do payments work?",
-    "answer7": "Customers pay upfront through our secure payment system. We transfer your earnings, minus the commission, to your bank account weekly. Payments typically arrive within 1-2 business days after Monday",
-    "question8": "Is it easy to use if I'm not good with technology?",
-    "answer8": "Absolutely! TheBakerz is designed to be simple and user-friendly. If you ever need help, our support team is just an email or call away.",
-    "question9": "Can I trust TheBakerz with payments and orders?",
-    "answer9": "Yes, you can. Orders are tracked automatically, and payments are processed securely with our payment partner (Stripe). Both you and your customers will have full transparency at every step.",
-    "question10": "Can I trust TheBakerz with payments and orders?",
-    "answer10": "We're here to help with anything you need. From setting up your shop to managing orders, contact us or call us at +31 684794739. We'll make sure everything runs smoothly for you."
-  },
+  "app/(support)/components/faq-customer": {},
   "app/(components)/redirect-page": {
     "success": "Success!",
     "seconds": "seconds",
@@ -921,7 +725,8 @@
     "phone": "Phone",
     "addressPlaceholder": "Address Placeholder",
     "locationPlaceholder": "Location Placeholder",
-    "search": "Search Bakerz"
+    "search": "Search Bakerz",
+    "Opening Hours": "Opening Hours"
   },
   "app/(components)/footer-simple": {
     "brandName": "TheBakerz",
@@ -985,7 +790,7 @@
     "tooManyRequests": "Too many requests",
     "pleaseRestartProcess": "Please restart the process."
   },
-  "app/api/invoice/[storeId]/[orderId]": {
+  "app/api/invoice/storeId/orderId": {
     "tooManyRequests": "Too many requests",
     "restrictedAccess": "Restricted Access",
     "notAuthenticated": "Not Authenticated",
@@ -995,16 +800,11 @@
   },
   "app/api/pay": {
     "tooManyRequests": "Too many requests",
-    "missingUser": "Missing user",
     "missingStoreId": "Missing store ID",
     "missingCosmosId": "Missing Cosmos ID",
     "missingCartId": "Missing cart ID",
     "orderNotFound": "Order not found",
-    "missingOrderTime": "Missing order time",
-    "missingCart": "Missing cart",
-    "orderFailed": "Order failed",
     "processingError": "Error processing payment",
-    "missingPricingDetails": "Missing Price Details",
     "orderDbFailed": "Order DB Failed",
     "userCreationFailed": "User Creation Failed",
     "missingUserEmail": "Missing user email"
@@ -1029,10 +829,6 @@
     "internalError": "Internal Server Error"
   },
   "app/api/store/order": {
-    "missingStoreId": "Missing or invalid Store-Id header",
-    "missingOrderId": "Missing or invalid Order-Id header",
-    "missingEmail": "Missing or invalid User-Id header",
-    "missingAuth": "Missing or invalid Authorization header",
     "notAuthorized": "Not Authorize Access",
     "internalError": "Internal Server Error"
   },
@@ -1044,7 +840,7 @@
     "notAuthorized": "Not Authorized Access",
     "internalError": "Internal Server Error"
   },
-  "app/api/store/products/[productId]": {
+  "app/api/store/products/productId": {
     "missingStoreId": "Missing or invalid Store-Id header",
     "missingAuth": "Missing or invalid Authorization header",
     "notAuthorized": "Not Authorize Access",
@@ -1074,8 +870,7 @@
     "invalidPayload": "Invalid request payload",
     "invalidTimeFields": "Invalid time fields",
     "storeNotFound": "Store not found",
-    "updateFailed": "Failed to update schedule",
-    "internalError": "Internal Server Error"
+    "updateFailed": "Failed to update schedule"
   },
   "app/api/upload-image": {
     "tooManyRequests": "Too many requests",
@@ -1095,7 +890,6 @@
     "tooManyRequests": "Too many requests",
     "invalidFields": "Invalid fields!",
     "userNotFound": "User not found!",
-    "storeNameExists": "Store name \"{name}\" already exists",
     "profileUpdated": "Profile updated successfully!"
   },
   "app/lib/actions/auth/email-action": {
@@ -1123,12 +917,7 @@
     "failedReplaceGuestCart": "Failed to replace guest cart.",
     "userIdStoreIdRequired": "User ID and Store ID are required",
     "cartRemovedSuccess": "Cart removed successfully!",
-    "failedRemoveCart": "Failed to remove cart.",
-    "variantRequired": "{label} is required",
-    "variantSingleSelection": "{label} must have exactly one selection",
-    "variantMaxSelections": "{label} cannot have more than {max} selections",
-    "variantRequiredSelections": "{label} must have {max} selections",
-    "variantInvalidOption": "Invalid option {option} for {label}"
+    "failedRemoveCart": "Failed to remove cart."
   },
   "app/lib/actions/product": {
     "tooManyRequests": "Too many requests",
@@ -1138,10 +927,6 @@
     "productUpdated": "Product updated!",
     "productAdded": "Product added!",
     "failedUpdateProduct": "Failed to update product.",
-    "productDeletedSuccess": "Product deleted successfully!",
-    "failedDeleteProduct": "Failed to delete product.",
-    "failedFetchStoreProducts": "Failed to fetch store products",
-    "failedFetchProduct": "Failed to fetch product",
     "storeNotFound": "Store not Found!"
   },
   "app/lib/actions/order": {
@@ -1162,59 +947,13 @@
     "userNotFound": "User not found!",
     "orderUpdated": "Order updated!",
     "failedUpdateProduct": "Failed to update product.",
-    "failedFetchProductsOrder": "Failed to fetch products order",
     "failedFetchStoreProducts": "Failed to fetch store products",
     "storeNotFound": "Store not found!"
   },
-  "app/lib/schemas": {
-    "invalidPhone": "Invalid phone number",
-    "emailRequired": "Email required!",
-    "invalidEmail": "Invalid email!",
-    "otpRequired": "OTP must be 6 digits",
-    "termsRequired": "You need to agreed with the Terms and Privacy Policy",
-    "nameRequired": "Name is required",
-    "subjectRequired": "Subject is required",
-    "subjectTooLong": "Context must be less than 200 characters",
-    "contextTooShort": "Context must be bigger than 5 characters",
-    "contextTooLong": "Context must be less than 2000 characters",
-    "unsupportedFileType": "Unsupported file type. Allowed types: JPEG, PNG, WebP, SVG",
-    "fileTooLarge": "File is too large. Maximum allowed size is 5MB.",
-    "nameTooShort": "Minimum of 4 characters for name",
-    "nameTooLong": "Maximum of 120 characters for name",
-    "nameInvalidFormat": "Name can only contain letters, numbers, periods, underscores, hyphens, brackets, with a maximum of two spaces and cannot start with a space",
-    "nameConsecutivePeriods": "Name cannot contain two or more consecutive periods",
-    "nicknameTooShort": "Minimum of 4 characters for nickname",
-    "nicknameTooLong": "Maximum of 120 characters for nickname",
-    "nicknameInvalidFormat": "Nickname can only contain letters, numbers, periods, underscores, and hyphens",
-    "nicknameConsecutivePeriods": "Nickname cannot contain two or more consecutive periods",
-    "descriptionTooLong": "Description must be less than 500 characters",
-    "variantLabelTooShort": "Minimum 4 characters",
-    "variantPricePositive": "Price must be a positive number",
-    "variantLabelRequired": "Minimum 4 characters",
-    "variantOptionsRequired": "At least one option is required",
-    "categoryInvalid": "Category must be from the list",
-    "productNameRequired": "Product Name is required",
-    "priceRequired": "Price is required",
-    "pricePositive": "Price must be a positive number",
-    "invalidUrl": "Invalid URL",
-    "imageRequired": "Image is required",
-    "minOrderRequired": "Minimum order must be at least 1",
-    "customerEmailRequired": "Email required!",
-    "customerNameRequired": "Name required!",
-    "customerNameTooShort": "Name must be at least 2 characters",
-    "customerNameTooLong": "Name must be less than 100 characters",
-    "contactMethodRequired": "At least one contact method (email or phone number) is required",
-    "profileNameRequired": "Name is required",
-    "profileDescriptionTooLong": "Description must be at most 200 characters",
-    "profileStoreNameRequired": "Store name is required",
-    "profileStoreSlugTooLong": "Description must be at most 100 characters",
-    "profileInvalidFacebookUrl": "Invalid Facebook URL",
-    "profileInvalidInstagramUrl": "Invalid Instagram URL"
-  },
+  "app/lib/schemas": {},
   "app/(error_layout)/error": {
     "error": "Error",
     "somethingWentWrong": "Something went wrong!",
-    "tryAgain": "Try again",
     "goBackToTheBakerz": "Go back to TheBakerz"
   },
   "Working Hours": {
@@ -1225,21 +964,10 @@
     "friday": "Friday",
     "saturday": "Saturday",
     "sunday": "Sunday",
-    "brandName": "TheBakerz",
-    "minOrderTime": ""
+    "brandName": "TheBakerz"
   },
-  "app/(store)/components/delivery-map": {
-    "viewOnGoogleMaps": "View on Google Maps",
-    "loadingMap": "Loading map...",
-    "mapError": "Could not load map",
-    "routeCalculation": "Calculating delivery route",
-    "distanceInfo": "Distance: {distance} km"
-  },
-  "noInfo": "No Info",
-  "closed": "Closed",
-  "scheduleFormatError": "Schedule Format Error",
-  "noScheduleAvailable": "No Schedule Available",
-  "app/(store)/[id]/settings/page": {
+  "app/(store)/components/delivery-map": {},
+  "app/(store)/id/settings/page": {
     "settingsTitle": "Store Settings",
     "settingsDescription": "Customize your store and settings"
   },
@@ -1249,17 +977,6 @@
     "delivery": "Delivery"
   },
   "app/(return_page)/settings/components/store-setting": {
-    "profilePicture": "Profile Picture",
-    "uploadProfilePicture": "Upload a profile picture",
-    "profile": "Profile",
-    "displaysProfileStore": "This information will be displayed on your store profile",
-    "displaysProfile": "This information will be displayed on your profile",
-    "customer": "Customer",
-    "baker": "Baker",
-    "storeName": "Store Name",
-    "name": "Name",
-    "editCurrentStoreName": "Edit your current store name",
-    "editCurrentName": "Edit your current name",
     "storeLink": "Store Link",
     "howUserFindYou": "How users will find your store",
     "typeYourStoreName": "Type your store name",
@@ -1280,11 +997,7 @@
     "writeAboutStore": "Write a short description about your store (max 200 characters)",
     "storeDescriptionPlaceholder": "Tell us about your store... (max 200 characters)",
     "locationPlaceholder": "Location Placeholder",
-    "profileUpdated": "Profile Updated",
-    "profileStoreUpdated": "Your profile and store details have been updated",
-    "profileHasUpdated": "Your profile has been updated",
     "updating": "Updating...",
-    "updateProfile": "Update Profile",
     "storeUpdated": "Store Updated!",
     "updateStore": "Update Store"
   },
@@ -1296,40 +1009,7 @@
     "storeUpdated": "Store Info Updated!"
   },
   "app/(return_page)/settings/components/delivery-options": {
-    "deliveryRegions": "Delivery Regions",
-    "resetMap": "Reset Zoom",
-    "selectDeliveryRegions": "Select Delivery Regions",
-    "saving": "Saving...",
-    "saveDeliveryRegions": "Save Delivery Regions",
-    "loadingMap": "Loading...",
-    "updateSuccess": "Delivery regions updated successfully",
-    "updateError": "Failed to update delivery regions",
-    "loadError": "Failed to load delivery regions",
-    "selectDeliveryCity": "Select Delivery City",
-    "selectCity": "Select a city",
-    "deliveryRange": "Delivery Range",
-    "deliveryPrice": "Delivery Price",
-    "priceLabel": "Price (€)",
-    "addCity": "Add City",
-    "selectedCities": "Selected Cities",
-    "noCitiesSelected": "No cities selected",
-    "mapView": "Map View",
     "deliveryDescription": "Allow customers to have orders delivered to their address",
-    "minOrderPrice": "Minimum Order Price",
-    "minPriceLabel": "Min Price",
-    "minOrderPriceDescription": "Customers must order at least this amount to qualify for delivery in this region",
-    "deliverySchedule": "Delivery Times",
-    "manageDeliverySchedule": "Manage Delivery Times",
-    "deliveryScheduleDescription": "Set the times when delivery is available for this region",
-    "startTime": "Start Time",
-    "endTime": "End Time",
-    "startTimeError": "Start time must be before end time",
-    "endTimeError": "End time must be after start time",
-    "deliveryTimes": "Delivery Times",
-    "noDeliveryDays": "No delivery days set",
-    "deliveryAllWeek": "Delivery available all week",
-    "cancel": "Cancel",
-    "save": "Save",
     "deliveryOptions": "Delivery Options",
     "deliveryOptionsDescription": "Configure how customers can receive their orders.",
     "pickupOption": "Pickup",
@@ -1338,22 +1018,7 @@
     "updatingOptions": "Updating options...",
     "updateDeliveryOptions": "Update Delivery Options",
     "optionsUpdateSuccess": "Delivery options updated successfully",
-    "optionsUpdateError": "Failed to update delivery options",
-    "invalidCity": "Invalid city selected",
-    "minOrderPriceError": "Minimum order price must be at least 10€",
-    "minOrderTime": "Min Order Time:",
-    "brandName": "TheBakerz",
-    "minutes": "minutes",
-    "hour": "hour",
-    "hours": "hours",
-    "day": "day",
-    "days": "days",
-    "addRange": "Add Range",
-    "saveSettings": "Save Settings",
-    "rangeExplanation": "Range: {range}",
-    "deliveryZone": "Delivery Zone",
-    "deliverySettings": "Delivery Settings",
-    "rangeOrderError": "Make Range Bigger than previous one"
+    "optionsUpdateError": "Failed to update delivery options"
   },
   "app/(return_page)/settings/components/store-info": {
     "pickupOnly": "Pickup Only",
@@ -1363,7 +1028,6 @@
     "storeInformation": "Store Information",
     "owner": "Owner",
     "region": "Region",
-    "currency": "Currency",
     "deliveryOption": "Shipping Options",
     "currencyText": "Currency"
   },
@@ -1381,9 +1045,11 @@
     "kvkNumber": "Business Number",
     "vatNumber": "TAX ID",
     "region": "Region",
-    "businessAddress": "Address",
     "registeredAddress": "Registered Address",
-    "bankAccount": "Bank Account"
+    "bankAccount": "Bank Account",
+    "korStatus": "Kor Status",
+    "korEnabled": "Enabled",
+    "korDisabled": "Disabled"
   },
   "UsersDashboard": {
     "Search User": "Search User"
@@ -1393,18 +1059,9 @@
     "join": "Join TheBakerz"
   },
   "search": {
-    "errors": {
-      "fetchStores": "Error Fetch Stores"
-    },
-    "loadingStores": "Loading Stores...",
-    "noStoresFound": {
-      "title": "No Stores Found",
-      "message": "Try different address or delivery mode"
-    },
-    "noLocation": {
-      "title": "We cannot find stores for you",
-      "message": "Please enter address to find stores"
-    },
+    "errors": {},
+    "noStoresFound": {},
+    "noLocation": {},
     "components": {
       "toggleDelivery": {
         "pickup": "Pick Up",
@@ -1414,11 +1071,27 @@
         "deliveryFee": "Delivery Fee",
         "deliveryAvailable": "Deliver Now",
         "minOrder": "Min order",
-        "pickupAvailable": "Pick Up Available",
         "deliveryUnavailable": "No Deliver Now",
         "open": "Open",
         "closed": "Closed"
       }
     }
+  },
+  "app/(store)/id/orders/add": {
+    "addOrder": "Add Order",
+    "addOrderDescription": "Create a cart and add to your order list."
+  },
+  "app/(return_page)/settings/components/calendar/schedule-picker": {
+    "startTime": "Start Time",
+    "startTimeError": "Start Time Error",
+    "endTime": "End Time",
+    "endTimeError": "End Time Error",
+    "errorSomethingWentWrong": "Something Went Wrong!",
+    "errorTooManyRequests": "Too Many Request!",
+    "errorInvalidTimeFields": "Invalid Time",
+    "scheduleSavedSuccess": "Schedule Saved",
+    "errorFailedToSaveSchedule": "Failed to Save Schedule",
+    "saving": "Saving...",
+    "saveWorkingHours": "Save Working Hours"
   }
 }

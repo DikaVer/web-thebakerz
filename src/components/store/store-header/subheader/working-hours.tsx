@@ -31,7 +31,9 @@ function pad(num: number): string {
 }
 
 // --- Helper to render the actual schedule list ---
-const renderScheduleDisplay = (scheduleData: StoreData['schedule'] | WorkHours | undefined, t: Function) => {
+const renderScheduleDisplay = (scheduleData: StoreData['schedule'] | WorkHours | undefined) => {
+    const t = useTranslations("app/(store)/components/working-hours");
+
     if (!scheduleData) {
         return (
             <div className="w-full flex justify-center items-center py-2">
@@ -179,7 +181,7 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
                         <h3 className="text-center text-default-700 font-medium mb-2 pb-2 border-b border-default-200/50">
                             {t(isDelivery ? "deliveryHoursTitle" : "workingHoursTitle")}
                         </h3>
-                        {renderScheduleDisplay(scheduleToShow, t)}
+                        {renderScheduleDisplay(scheduleToShow)}
                     </CardBody>
                 </Card>
             </DropdownMenu>
@@ -235,7 +237,7 @@ export const renderCalendarContent = () => {
             if (!validationResult.deliveryRegion) {
                 return (
                     <div className="w-full flex flex-col gap-2 items-center py-3">
-                        {renderScheduleDisplay(store?.schedule, t)}
+                        {renderScheduleDisplay(store?.schedule)}
                     </div>
                 );
             }
@@ -245,7 +247,7 @@ export const renderCalendarContent = () => {
                 console.warn("Delivery schedule missing for delivery region:", validationResult.deliveryRegion.name);
                 return (
                     <div className="w-full flex flex-col gap-2 items-center py-3">
-                        {renderScheduleDisplay(store?.schedule, t)}
+                        {renderScheduleDisplay(store?.schedule)}
                     </div>
                 );
             }
@@ -253,7 +255,7 @@ export const renderCalendarContent = () => {
             // Show the delivery schedule
             return (
                 <div className="w-full py-1">
-                    {renderScheduleDisplay(validationResult.deliveryRegion.deliverySchedule, t)}
+                    {renderScheduleDisplay(validationResult.deliveryRegion.deliverySchedule)}
                 </div>
             );
         }
@@ -268,7 +270,7 @@ export const renderCalendarContent = () => {
         // For pickup mode, show store schedule
         return (
             <div className="w-full py-1">
-                {renderScheduleDisplay(store?.schedule, t)}
+                {renderScheduleDisplay(store?.schedule)}
             </div>
         );
     }

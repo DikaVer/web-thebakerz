@@ -3,27 +3,16 @@
     "title": "Bak meer. Minder stress.",
     "subtitle": "TheBakerz - alle bestellingen, klantberichten en recepten op één plek",
     "learn more": "Meer informatie",
-    "get started": "Aan de slag",
-    "apply": "Vul een kort formulier in, dan nemen wij contact met u op om alles uit te leggen en uw account in te stellen.",
-    "we set up your store": "Deel uw producten en prijzen, dan regelen wij de installatie voor u.",
-    "Start selling": "Test uw winkel, voer aanpassingen door en begin met het aannemen van echte bestellingen!",
-    "support": "Wij zijn er om uw vragen te beantwoorden.",
-    "start and grow": "Start en laat uw bakkerijbedrijf groeien",
-    "subtitle phone": "U kookt en wij zorgen voor de rest.",
-    "terms and conditions": "Ik heb de Algemene Voorwaarden en het Privacybeleid gelezen en ga hiermee akkoord."
+    "get started": "Aan de slag"
   },
-  "Shop": {
-    "Alert": "Winkel biedt alleen afhaalbestellingen aan",
-    "Alert Hover": "Openingstijden en afhaaladres worden hieronder weergegeven. U kunt de afhaaltijd en -dag selecteren tijdens het afrekenen",
-    "Opening Hours": "Openingstijden"
-  },
+  "Shop": {},
   "OrderStatus": {
-    "new": "Nieuw",
-    "started": "Koken",
-    "ready": "Klaar",
-    "completed": "Opgepakt",
     "cancelled": "Geannuleerd",
+    "completed": "Opgehaald",
+    "new": "Nieuw",
+    "ready": "Klaar",
     "refunded": "Terugbetaald",
+    "started": "Koken",
     "unknown": "Onbekend"
   },
   "ProductSettings": {
@@ -40,47 +29,43 @@
   "app/(error_layout)/error": {
     "error": "Fout",
     "somethingWentWrong": "Er is iets misgegaan!",
-    "tryAgain": "Probeer opnieuw",
     "goBackToTheBakerz": "Ga terug naar TheBakerz"
   },
   "Allergies": {
-    "Add Allergy": "Allergie toevoegen",
-    "egg": "ei",
-    "milk": "melk",
-    "gluten": "gluten",
-    "walnut": "okkernoot",
-    "cashew": "cachou",
-    "nuts": "noten",
-    "wheat": "tarwe",
-    "gelatin": "gelatine",
-    "peach": "perzik",
-    "kiwi": "kiwi",
-    "sesame": "sesam",
-    "apple": "appel",
-    "lupine": "wolvin",
-    "soy": "soja",
-    "orange": "oranje",
-    "banana": "banaan",
-    "fish": "vis",
-    "matsuke": "Mattheus",
-    "chicken": "kip",
-    "potato": "aardappel",
-    "pork": "varkensvlees",
-    "squid": "inktvis",
-    "mushroom": "paddestoel",
-    "crab": "krab",
-    "celery": "selderij",
-    "beef": "rundvlees",
-    "shrimp": "garnaal",
-    "sulfur": "sulfieten",
+    "honey": "Honing",
+    "Add Allergy": "Voeg allergie toe",
     "abalone": "abalone",
-    "honey": "Honing"
+    "apple": "appel",
+    "banana": "banaan",
+    "beef": "rundvlees",
+    "cashew": "cachou",
+    "celery": "selderij",
+    "chicken": "kip",
+    "crab": "krab",
+    "egg": "ei",
+    "fish": "vis",
+    "gelatin": "gelatine",
+    "gluten": "gluten",
+    "kiwi": "kiwi",
+    "lupine": "wolvin",
+    "matsuke": "Matsuke",
+    "milk": "melk",
+    "mushroom": "paddestoel",
+    "nuts": "gek",
+    "orange": "oranje",
+    "peach": "perzik",
+    "pork": "varkensvlees",
+    "potato": "aardappel",
+    "sesame": "sesam",
+    "shrimp": "garnaal",
+    "soy": "soja",
+    "squid": "inktvis",
+    "sulfur": "sulfieten",
+    "walnut": "okkernoot",
+    "wheat": "tarwe"
   },
   "app/(store)/components/variants-user-selection": {
-    "max": "Maximaal",
-    "required": "Vereist",
-    "selectOption": "Selecteer een optie",
-    "selectOptions": "Selecteer opties"
+    "max": "Maximaal"
   },
   "app/(main)/page": {
     "whyChooseTheBakerz": "Waarom kiezen voor TheBakerz?",
@@ -100,7 +85,9 @@
     "easyToUseSystem": "Gebruiksvriendelijk systeem om uw recepten te beheren en alle bestellingen te volgen",
     "smartCalendar": "Slimme kalender",
     "planProduction": "Plan uw productie en houd dagelijkse taken bij",
-    "wantYouToSucceed": "Wij willen dat u slaagt"
+    "wantYouToSucceed": "Wij willen dat u slaagt",
+    "Tips": "Tips",
+    "Tips Info": "Tips Info"
   },
   "app/(main)/about-us/page": {
     "greetingTitle": "Aangenaam",
@@ -127,50 +114,25 @@
     "performingSignOut": "Afmelden wordt uitgevoerd..."
   },
   "Working Hours": {
-    "monday": "Maandag",
-    "tuesday": "Dinsdag",
-    "wednesday": "Woensdag",
-    "thursday": "Donderdag",
+    "brandName": "Thebakerz",
     "friday": "Vrijdag",
+    "monday": "Maandag",
     "saturday": "Zaterdag",
     "sunday": "Zondag",
-    "brandName": "TheBakerz",
-    "minOrderTime": "Min besteltijd:"
+    "thursday": "Donderdag",
+    "tuesday": "Dinsdag",
+    "wednesday": "Woensdag"
   },
   "app/(return_page)/settings/components/profile-setting": {
-    "profilePicture": "Profielfoto",
-    "uploadProfilePicture": "Upload een profielfoto",
     "profile": "Profiel",
     "displaysProfileStore": "Deze informatie wordt in uw winkel weergegeven",
     "displaysProfile": "Deze informatie wordt weergegeven op uw profiel",
     "customer": "Klant",
-    "baker": "Bakker",
     "storeName": "Winkelnaam",
     "name": "Naam",
     "editCurrentStoreName": "Bewerk uw huidige winkelnaam",
     "editCurrentName": "Bewerk uw huidige naam",
-    "storeLink": "Winkellink",
-    "howUserFindYou": "Hoe gebruikers uw winkel vinden",
-    "typeYourStoreName": "Typ de naam van uw winkel",
-    "storeSlug": "Ondertitel opslaan",
-    "howUserRecognizeYou": "Dit zal deel uitmaken van de ondertitel van uw winkel",
-    "typeYourStoreSlug": "Winkel sinds 2021",
-    "locationPhone": "Locatie & Telefoon",
-    "editLocationPhoneBy": "U kunt deze bewerken door contact met ons op te nemen via",
-    "contactUs": "Neem contact met ons op",
-    "phoneNumberPlaceholder": "+31 6 12 34 56 78",
-    "facebookURL": "Facebook-URL",
-    "enterFacebookURL": "Voer de URL van uw Facebook-pagina in",
-    "facebookURLPlaceholder": "https://facebook.com/uw-pagina",
-    "instagramURL": "Instagram-URL",
-    "enterInstagramURL": "Voer de URL van uw Instagram-profiel in",
-    "instagramURLPlaceholder": "https://instagram.com/uw-handle",
-    "description": "Beschrijving",
-    "writeAboutStore": "Schrijf een korte beschrijving van uw winkel (max. 500 tekens)",
-    "storeDescriptionPlaceholder": "Vertel ons over uw winkel... (max. 500 tekens)",
-    "locationPlaceholder": "Locatie Plaatsaanduiding",
     "profileUpdated": "Profiel bijgewerkt",
-    "profileStoreUpdated": "Uw profiel en winkelgegevens zijn bijgewerkt",
     "profileHasUpdated": "Je profiel is bijgewerkt",
     "updating": "Bijwerken...",
     "updateProfile": "Profiel bijwerken",
@@ -185,7 +147,6 @@
     "nameAndPrice": "Naam & Prijs",
     "drag": "Sleuren",
     "updatingOrders": "Bestellingen bijwerken...",
-    "products": "Producten",
     "updateProductOrder": "Product- en categoriebestellingen bijwerken",
     "noProductsYet": "De winkel heeft nog geen producten.",
     "addItem": "Item toevoegen",
@@ -194,16 +155,9 @@
   },
   "app/(return_page)/settings/components/tabs-settings": {
     "profile": "Profiel",
-    "profileAndStoreTab": " & Winkelweergave",
-    "workingHoursTab": "Werkuren",
-    "deliveryTab": "Bezorgbeheer",
     "information": "Info"
   },
-  "app/(return_page)/settings/components/products/product-tab": {
-    "image": "Afbeelding",
-    "nameAndPrice": "Naam & Prijs",
-    "drag": "Sleuren"
-  },
+  "app/(return_page)/settings/components/products/product-tab": {},
   "app/(return_page)/settings/components/products/product-card": {
     "productManager": "Productmanager"
   },
@@ -231,28 +185,18 @@
   },
   "app/(return_page)/settings/components/calendar/schedule-picker": {
     "startTime": "Starttijd",
+    "startTimeError": "Starttijdfout",
     "endTime": "Eindtijd",
-    "startTimeError": "De begintijd moet vóór de eindtijd liggen",
-    "endTimeError": "Eindtijd moet na starttijd zijn",
+    "endTimeError": "Eindtijdfout",
+    "errorSomethingWentWrong": "Er ging iets mis!",
+    "errorTooManyRequests": "Te veel aanvragen!",
+    "errorInvalidTimeFields": "Ongeldige tijd",
+    "scheduleSavedSuccess": "Schema opgeslagen",
+    "errorFailedToSaveSchedule": "Kan schema niet opslaan",
     "saving": "Besparing...",
-    "saveWorkingHours": "Bespaar werkuren",
-    "errorSomethingWentWrong": "Er is iets fout gegaan!",
-    "errorTooManyRequests": "Te veel verzoeken!",
-    "errorInvalidTimeFields": "Ongeldige tijdvelden!",
-    "errorFailedToSaveSchedule": "Het is niet gelukt om het schema op te slaan",
-    "scheduleSavedSuccess": "Schema succesvol opgeslagen"
-  },
-  "app/(store)/[id]/page": {
-    "loading": "Bezig met laden...",
-    "noProducts": "Geen producten beschikbaar",
-    "storeNotFound": "Winkel niet gevonden"
+    "saveWorkingHours": "Bespaar werkuren"
   },
   "app/(store)/components/store-header": {
-    "addItem": "Item toevoegen",
-    "close": "Dichtbij",
-    "addressPlaceholder": "Adres-plaatsaanduiding",
-    "locationPlaceholder": "Locatie Plaatsaanduiding",
-    "phone": "Telefoon",
     "instagram": "Instagram",
     "facebook": "Facebook",
     "pickup": "Ophalen",
@@ -262,7 +206,6 @@
     "pickUpOnly": "Alleen afhalen",
     "pickUpDescription": "Deze winkel biedt alleen afhaalbestellingen aan. Selecteer een afhaaltijd tijdens het afrekenen.",
     "workingHours": "Werkuren",
-    "address": "Adres",
     "phone": "Telefoon",
     "close": "Dichtbij",
     "deliveryOnly": "Alleen levering",
@@ -271,7 +214,8 @@
     "pickUpAndDeliveryDescription": "Deze winkel biedt alleen leverings- en ophaalopdrachten. \nSelecteer een tijdstip tijdens het afrekenen.",
     "facebook": "Facebook",
     "addressPlaceholder": "Adres Placeholder",
-    "locationPlaceholder": "Locatie Placolaar"
+    "locationPlaceholder": "Locatie Placolaar",
+    "instagram": "Instagram"
   },
   "app/(store)/components/product-search": {
     "search": "Zoeken op productnaam of categorie..."
@@ -280,16 +224,12 @@
     "categoryNavigation": "Categorie Navigatie"
   },
   "app/(store)/components/orders": {
-    "backToOrderDashboard": "Terug naar het besteldashboard",
-    "order": "Volgorde",
-    "changeStatusAction": "Weet u zeker dat u de status van deze bestelling wilt wijzigen?"
+    "backToOrderDashboard": "Terug naar het besteldashboard"
   },
   "app/(store)/components/smart-calendar": {
     "time": "Tijd"
   },
   "app/(store)/components/store-top-next": {
-    "alert": "Winkel biedt alleen afhaalbestellingen aan",
-    "alertHover": "Openingstijden en afhaaladres worden hieronder weergegeven. U kunt de afhaaltijd en -dag selecteren tijdens het afrekenen",
     "openingHours": "Openingstijden",
     "phone": "Telefoon",
     "alertPickupOnly": "Deze winkel biedt alleen pick -uporders.",
@@ -305,31 +245,26 @@
   },
   "app/(store)/components/working-hours": {
     "noScheduleAvailable": "Geen schema beschikbaar",
-    "closed": "Gesloten",
     "workingHours": "Werkuren",
-    "monday": "Maandag",
-    "tuesday": "Dinsdag",
-    "wednesday": "Woensdag",
-    "thursday": "Donderdag",
-    "friday": "Vrijdag",
-    "saturday": "Zaterdag",
-    "sunday": "Zondag",
     "addressOutOfRange": "Adres buiten bereik",
     "enterAddressPrompt": "Voer adres in",
-    "deliveryRegionError": "Leveringsregio -fout",
-    "noDeliveryHours": "Geen leveringsuren",
     "scheduleUnavailable": "Plan niet beschikbaar",
     "checkingAddress": "Voer uw adres in",
-    "deliveryScheduleFor": "Leveringsschema voor",
-    "usingStoreHours": "Winkeluren gebruiken",
-    "deliveryAvailableForAddress": "Levering beschikbaar voor adres"
+    "scheduleFormatError": "Schema -formaatfout",
+    "closed": "Nu gesloten",
+    "noInfo": "Nu open",
+    "friday": "Vrijdag",
+    "monday": "Maandag",
+    "saturday": "Zaterdag",
+    "sunday": "Zondag",
+    "thursday": "Donderdag",
+    "tuesday": "Dinsdag",
+    "wednesday": "Woensdag"
   },
   "app/(store)/components/three-dots": {
     "storeLinkCopied": "Winkellink gekopieerd!",
     "copyStoreLink": "Kopieer winkellink",
-    "editProfile": "Profiel bewerken",
     "editDelivery": "Bewerk bezorging",
-    "editSchedule": "Bewerk schema",
     "editProducts": "Producten bewerken",
     "addOrder": "Bestelling toevoegen",
     "getHelp": "Krijg hulp",
@@ -340,13 +275,7 @@
   "app/(store)/components/product-page": {
     "noProductsAvailable": "Geen producten beschikbaar",
     "productNotFound": "Product niet gevonden",
-    "notes": "Notities",
-    "addNotesPlaceholder": "Voeg notities toe aan uw bestelling... (max. 100 tekens)",
-    "ingredients": "Ingrediënten",
-    "allergies": "Allergieën",
     "productDeleted": "Product succesvol verwijderd",
-    "unexpectedError": "Onverwachte fout",
-    "cartUpdatedSuccess": "Winkelwagen succesvol bijgewerkt",
     "productLinkCopied": "Productlink gekopieerd!",
     "itemName": "Artikelnaam",
     "addDescriptionPlaceholder": "Voeg een beschrijving voor dit item toe...",
@@ -367,14 +296,20 @@
     "Add Allergies Placeholder": "Voeg allergieën toe",
     "Item Options": "Itemopties",
     "Loading": "Laden",
-    "Add Item": "Voeg item toe"
+    "Add Item": "Voeg item toe",
+    "cartUpdatedSuccess": "Kar is bijgewerkt",
+    "unexpectedError": "Onverwachte fout",
+    "ingredients": "Ingrediënten",
+    "allergies": "Allergieën",
+    "notes": "Aantekeningen",
+    "addNotesPlaceholder": "Schrijf notities naar het item",
+    "Add": "Toevoegen",
+    "to order": "bestellen",
+    "Updating Cart": "Bijwerken",
+    "Update": "Update"
   },
   "app/(store)/components/store-subheader": {
     "delivery": "Bezorging",
-    "deliveryTo": "Bezorgen naar",
-    "pickup": "Afhalen",
-    "pickupAt": "Afhalen bij",
-    "userNotLoggedIn": "Gebruiker niet ingelogd",
     "deliveryFee": "Bezorgkosten",
     "minimumOrder": "Minimale bestelling",
     "deliveryHours": "Bezorgtijden",
@@ -383,35 +318,17 @@
     "noDeliveryAddressYet": "Nog geen bezorgadres",
     "enterAddressToSeeDeliveryOptions": "Voer je adres in om bezorgopties te zien",
     "addressInRange": "Je adres ligt binnen het bezorggebied",
-    "addressNotInRange": "Je adres ligt buiten het bezorggebied",
     "loadingAddress": "Adres laden...",
     "loadingDeliveryOptions": "Bezorgopties laden...",
-    "errorCheckingAddress": "Fout bij het controleren van het adres",
-    "errorSavingAddress": "Fout bij het opslaan van het adres",
-    "errorUpdatingOrderTime": "Fout bij het bijwerken van de bezorgtijd",
-    "deliveryTimeSelected": "Bezorgtijd geselecteerd",
     "deliverAt": "Bezorgen om",
     "selectDeliveryTime": "Selecteer bezorgtijd",
     "scheduleDeliveryTime": "Plan bezorgtijd",
-    "monday": "Maandag",
-    "tuesday": "Dinsdag",
-    "wednesday": "Woensdag",
-    "thursday": "Donderdag",
-    "friday": "Vrijdag",
-    "saturday": "Zaterdag",
-    "sunday": "Zondag",
-    "cancel": "Annuleren",
     "additionalInfo": "Aanvullende info",
-    "storeOpen": "Bewaar nu",
-    "storeClosed": "Bewaar gesloten",
+    "storeOpen": "Nu open",
+    "storeClosed": "Nu gesloten",
     "pickUp": "Ophalen",
-    "orEnterManually": "Of ga handmatig binnen",
-    "selectFromSuggestions": "Selecteer uit suggesties",
-    "loadingGoogleMaps": "Laden ...",
-    "errorLoadingGoogleMaps": "Fout met Google",
     "searchAddress": "Zoekadres",
     "typeToSearchAddress": "Type om te zoeken adres",
-    "maxCharsExceeded": "{Field} kan niet hoger zijn dan {max} tekens",
     "street": "Straat",
     "enterStreet": "Voer de straatnaam in",
     "houseNumber": "Huisnummer",
@@ -422,9 +339,12 @@
     "enterCity": "Betreed de stad",
     "enterAdditionalInfo": "Bijv. \nAppartementnummer, vloer, etc.",
     "confirm": "Bevestigen",
-    "editYourDeliveryAddressDescription": "Bewerk uw adresbeschrijving",
-    "enterYourDeliveryAddressDescription": "Voer uw adresbeschrijving in",
-    "editDeliveryAddress": "Bewerk afleveradres"
+    "editDeliveryAddress": "Bewerk afleveradres",
+    "addressPlaceholder": "Adres Placeholder",
+    "locationPlaceholder": "Locatie Placolaar",
+    "pickUpAt": "Ophalen",
+    "scheduleOrderTime": "Plan de besteltijd",
+    "selectPickUpTime": "Selecteer Pick -up tijd"
   },
   "app/(store)/components/store-top": {
     "addItem": "Item toevoegen"
@@ -434,34 +354,12 @@
     "removeItem": "Item verwijderen",
     "addItem": "Item toevoegen"
   },
-  "app/(store)/components/user-product": {
-    "productLinkCopied": "Productlink gekopieerd!",
-    "notes": "Notities",
-    "addNotesPlaceholder": "Voeg notities toe aan uw bestelling... (max. 100 tekens)",
-    "ingredients": "Ingrediënten",
-    "allergies": "Allergieën",
-    "cartUpdatedSuccess": "Winkelwagen succesvol bijgewerkt",
-    "unexpectedError": "Onverwachte fout",
-    "update": "Update",
-    "add": "Toevoegen",
-    "toOrder": "bestellen",
-    "updatingCart": "Winkelwagen bijwerken..."
-  },
-  "app/(store)/components/product-dialog": {
-    "loading": "Bezig met laden...",
-    "noProducts": "Geen producten beschikbaar",
-    "storeNotFound": "Winkel niet gevonden"
-  },
+  "app/(store)/components/user-product": {},
+  "app/(store)/components/product-dialog": {},
   "app/(store)/components/product-list": {
-    "noProductsFound": "Geen producten gevonden",
-    "loading": "Bezig met laden...",
-    "searchPlaceholder": "Zoek producten..."
+    "noProductsFound": "Geen producten gevonden"
   },
-  "app/(store)/components/product": {
-    "loading": "Bezig met laden...",
-    "noProducts": "Geen producten beschikbaar",
-    "productNotFound": "Product niet gevonden"
-  },
+  "app/(store)/components/product": {},
   "app/(store)/components/variants-form-field": {
     "newOption": "Nieuwe optie",
     "optionGroupName": "Optie Groep Naam",
@@ -481,44 +379,25 @@
     "close": "Dichtbij",
     "confirm": "Bevestigen"
   },
-  "app/(store)/[id]/order/success": {
-    "orderPlaced": "Uw bestelling is geplaatst!",
-    "checkEmail": "Controleer uw e-mail voor informatie over uw bestelling.",
-    "returnToStore": "Ga terug naar de winkel"
-  },
-  "app/(store)/[id]/order/failed": {
-    "error": "Sorry, er is iets misgegaan met uw bestelling. Stuur het supportverzoek en wacht op de reactie."
-  },
-  "app/(store)/components/order-dashboard": {
-    "noOrdersFound": "Geen bestellingen gevonden voor deze periode",
-    "loading": "Bezig met laden...",
-    "orders": "Bestellingen",
-    "orderStatus": "Bestelstatus",
-    "orderStatusFilter": "Bestelstatusfilter"
-  },
+  "app/(store)/components/order-dashboard": {},
   "app/(store)/components/status-select": {
+    "failedToUpdateStatus": "Status niet bijgewerkt",
+    "statusUpdatedSuccess": "Status wordt bijgewerkt",
     "orderStatus": "Bestelstatus",
-    "failedToUpdateStatus": "Status kan niet worden bijgewerkt",
-    "statusUpdatedSuccess": "Status succesvol bijgewerkt",
     "order": "Volgorde",
-    "changeStatusAction": "Weet u zeker dat u de status van deze bestelling wilt wijzigen?",
-    "selectOneOption": "Selecteer één optie",
-    "changeStatus": "Status wijzigen"
+    "changeStatusAction": "Wijzigstatus",
+    "selectOneOption": "Selct een optie",
+    "changeStatus": "Wijzigstatus"
   },
   "app/(store)/components/orders-list": {
-    "orders": "Bestellingen",
-    "addOrder": "Bestelling toevoegen",
-    "orderStatusFilter": "Bestelstatusfilter",
-    "no": "Nee",
+    "noOrdersFound": "Geen bestelling gevonden",
     "order": "Volgorde",
-    "noOrdersFound": "Geen bestellingen gevonden voor deze periode"
+    "no": "Geen selectie",
+    "orderStatusFilter": "Bestelstatusfilter",
+    "addOrder": "Voeg bestelling toe",
+    "orders": "Bevelen"
   },
-  "app/(store)/components/orders-bar-chart": {
-    "title": "Overzicht bestellingen",
-    "notFound": "Geen bestellingen gevonden voor deze periode",
-    "print": "Afdrukken",
-    "orders": "bestellingen"
-  },
+  "app/(store)/components/orders-bar-chart": {},
   "app/(store)/components/calendar-dashboard": {
     "today": "Vandaag",
     "thisWeek": "Deze week",
@@ -588,10 +467,8 @@
     "Ready": "Klaar",
     "Picked Up": "Opgepakt",
     "Cancelled": "Geannuleerd",
-    "Something Went Wrong": "Er is iets misgegaan",
     "Print Invoice": "Factuur afdrukken",
-    "Delivery VAT": "Btw (21%)",
-    "Delivery Fee": "Bezorgkosten"
+    "Something Went Wrong": "Er ging iets mis"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "E-mail",
@@ -608,8 +485,8 @@
     "enterOtpDescription": "Voer de 6-cijferige code in die naar u is verzonden",
     "goBack": "Ga terug",
     "verify": "Verifiëren",
-    "newCodeSent": "Er is een nieuwe code naar uw e-mailadres verzonden",
-    "unexpectedError": "Er is een onverwachte fout opgetreden"
+    "An unexpected error occurred": "Er is een onverwachte fout opgetreden",
+    "A new code was sent to your email": "Er is een nieuwe code naar uw e -mail verzonden"
   },
   "app/(store)/components/cart": {
     "yourCartFrom": "Uw winkelwagen van",
@@ -644,8 +521,6 @@
     "loadingPaymentGateway": "Betalingsgateway wordt geladen...",
     "unableToInitializePayment": "Kan betalingsgateway niet initialiseren",
     "returnToCheckout": "Terug naar afrekenen",
-    "pickup": "Ophalen",
-    "delivery": "Levering",
     "saveDeliveryDetails": "Bewaar pick -up details",
     "invalidDeliveryAddress": "Ongeldig afleveradres",
     "deliveryFee": "Bezorgkosten",
@@ -665,29 +540,11 @@
     "subtitle": "Uw afbeelding bijsnijden en aanpassen"
   },
   "app/(landing)/components/scroll-triggered": {
-    "title": "Waarom TheBakerz?",
-    "description": "",
     "features": {
-      "online_store": {
-        "key": "online-winkel",
-        "title": "Online winkel",
-        "description": "Wij creëren uw eigen online winkel, waar u uw heerlijke creaties kunt presenteren en naadloos bestellingen kunt verwerken."
-      },
-      "order_management": {
-        "key": "orderbeheer",
-        "title": "Orderbeheer",
-        "description": "Volg en beheer al uw bestellingen eenvoudig op één plek. Zo verkleint u de kans op fouten en gemiste bestellingen."
-      },
-      "all_chats": {
-        "key": "alle-chats-op-één-plek",
-        "title": "Alle chats op één plek",
-        "description": "Koppel klantchats van Instagram, Facebook en WhatsApp aan bestellingen op één plek voor eenvoudige communicatie."
-      },
-      "support": {
-        "key": "flexibele-ondersteuning",
-        "title": "Flexibele ondersteuning",
-        "description": "Ons toegewijde team staat voor u klaar tijdens onze openingstijden en zorgt ervoor dat uw vragen snel worden beantwoord."
-      }
+      "online_store": {},
+      "order_management": {},
+      "all_chats": {},
+      "support": {}
     }
   },
   "app/(landing)/components/support-card": {
@@ -735,18 +592,21 @@
     "accountSettings": "Accountinstellingen",
     "welcomedGuest": "Welkom, Gast",
     "signIn": "Aanmelden",
-    "signInButton": "Aanmelden",
+    "aboutTheBakerz": "Over Thebakerz",
     "account": "Rekening",
-    "orders": "Bestellingen",
-    "products": "Producten",
-    "navigation": "Navigatie",
-    "aboutTheBakerz": "Over TheBakerz",
-    "joinTheBakerz": "Sluit je aan bij TheBakerz",
     "dashboard": "Dashboard",
+    "joinTheBakerz": "Word lid van Thebakerz",
+    "navigation": "Navigatie",
+    "orders": "Bevelen",
     "overview": "Overzicht",
-    "users": "Gebruikers",
+    "products": "Producten",
+    "search": "Zoek Bakerz",
+    "settings": "Instellingen",
+    "shop": "Winkel",
+    "signInButton": "Inloggen",
+    "stores": "Winkels",
     "stripe": "Streep",
-    "search": "Zoek Bakerz"
+    "users": "Gebruikers"
   },
   "app/(support)/components/contact-us": {
     "emailLabel": "E-mail",
@@ -757,10 +617,7 @@
     "contextPlaceholder": "Help mij met...",
     "buttonSending": "Verzenden...",
     "buttonSubmit": "Ticket indienen",
-    "successMessage": "Uw ticket is succesvol ingediend. We sturen u automatisch door naar de hoofdpagina in:",
-    "support": "Steun",
-    "contactUs": "Neem contact met ons op",
-    "contactUsDescription": "Wij zijn er om u te helpen tijdens onze kantooruren. Neem gerust contact met ons op voor vragen of problemen die u heeft."
+    "successMessage": "Uw ticket is succesvol ingediend. We sturen u automatisch door naar de hoofdpagina in:"
   },
   "app/(support)/components/payment-urgent": {
     "requestSentSuccess": "Uw verzoek is succesvol verzonden.",
@@ -769,55 +626,35 @@
     "supportTicket": "Ondersteuningsticket"
   },
   "app/(support)/components/support": {
-    "faqsTitleShort": "Veelgestelde vragen",
-    "faqsTitleLong": "Veelgestelde vragen",
+    "faqsTitleShort": "FAQ",
+    "faqsTitleLong": "Stel vaak vragen",
     "contactUs": "Neem contact met ons op",
-    "sectionBaker": "Voor bakkers"
+    "sectionBaker": "Bakkerijen",
+    "sectionCustomer": "Klanten"
   },
   "app/(support)/components/faq-baker": {
-    "question1": "Wat is TheBakerz",
-    "answer1": "TheBakerz is een alles-in-één platform dat bakkers helpt hun bedrijf te beheren en meer klanten te bereiken. Het verwerkt bestellingen, productieplanning, betalingen en klantcommunicatie op één plek. Dit betekent minder tijd voor administratie en meer tijd voor wat je leuk vindt: bakken!",
-    "question2": "Hoe begin ik met verkopen op TheBakerz?",
-    "answer2": "Aan de slag gaan is makkelijk! Vul dit formulier in (link), en we plannen een snel gesprek om alles in te stellen. We helpen je bij het maken van je online shop en laten je stap voor stap zien hoe je deze gebruikt.",
-    "question3": "Wat heb ik nodig om te beginnen?",
-    "answer3": "U hebt alleen een KVK-nummer, BTW-nummer en een voedselveiligheidscertificaat nodig. Als u iets mist, maak u dan geen zorgen: wij helpen u het uit te zoeken.",
+    "answer1": "Thebakerz is een alles-in-één platform dat bakkers helpt hun bedrijven te beheren en meer klanten te bereiken. \nHet behandelt bestellingen, productieplanning, betalingen en klantcommunicatie op één plek. \nDit betekent minder tijd op admin en meer tijd om te doen waar je van houdt - bouwen!",
+    "answer10": "We zijn hier om te helpen met alles wat je nodig hebt. \nVan het opzetten van uw winkel tot het beheren van bestellingen, neemt contact met ons op of bel ons op 31 684794739. We zullen ervoor zorgen dat alles soepel voor u verloopt.",
+    "answer4": "Natuurlijk! \nJe hebt de controle over wat je verkoopt en hoeveel je in rekening brengt. \nU kunt uw menu en prijzen bijwerken wanneer u maar wilt.",
+    "answer5": "U bepaalt wat het beste werkt voor uw bakkerij. \nU kunt levering aanbieden of klanten toestaan ​​om bestellingen van uw locatie op te halen. \nStel uw eigen leveringsgebieden en pick -uptijden in om aan uw schema te passen.",
+    "answer6": "Het is € 29,99 per maand voor hosting en een commissie van 5% per verkoop om de betalingsverwerking te dekken. \nDe eerste drie maanden zijn gratis, dus u kunt het uitproberen zonder risico.",
+    "answer7": "Klanten betalen vooraf via ons beveiligde betalingssysteem. \nWij dragen uw inkomsten, minus de Commissie, wekelijks naar uw bankrekening. \nBetalingen komen meestal binnen 1-2 werkdagen na maandag aan",
+    "answer8": "Absoluut! \nThebakerz is ontworpen om eenvoudig en gebruiksvriendelijk te zijn. \nAls je ooit hulp nodig hebt, is ons ondersteuningsteam slechts een e -mail of bel weg.",
+    "answer9": "Ja, dat kan. \nBestellingen worden automatisch bijgehouden en betalingen worden veilig verwerkt met onze betalingspartner (Stripe). \nZowel u als uw klanten zullen bij elke stap volledige transparantie hebben.",
+    "question1": "Wat is Thebakerz",
+    "question10": "Kan ik Thebakerz vertrouwen met betalingen en bestellingen?",
+    "question2": "Hoe begin ik te verkopen op Thebakerz?",
+    "question3": "Wat heb ik nodig om aan de slag te gaan?",
     "question4": "Kan ik mijn eigen prijzen en menu kiezen?",
-    "answer4": "Natuurlijk! Jij bepaalt wat je verkoopt en hoeveel je vraagt. Je kunt je menu en prijzen updaten wanneer je maar wilt.",
-    "question5": "Hoe werkt bestellen en bezorgen?",
-    "answer5": "U bepaalt wat het beste werkt voor uw bakkerij. U kunt bezorging aanbieden of klanten toestaan om bestellingen op te halen bij u op locatie. Stel uw eigen bezorggebieden en ophaaltijden in die passen bij uw schema.",
-    "question6": "Wat kost het om TheBakerz te gebruiken?",
-    "answer6": "Het kost €29,99 per maand voor hosting en 5% commissie per verkoop om de betalingsverwerking te dekken. De eerste drie maanden zijn gratis, dus je kunt het zonder risico uitproberen.",
+    "question5": "Hoe werken bestellingen en bezorging?",
+    "question6": "Wat kost het om Thebakerz te gebruiken?",
     "question7": "Hoe werken betalingen?",
-    "answer7": "Klanten betalen vooraf via ons beveiligde betalingssysteem. We storten uw inkomsten, minus de commissie, wekelijks op uw bankrekening. Betalingen komen doorgaans binnen 1-2 werkdagen na maandag aan.",
-    "question8": "Is het makkelijk te gebruiken als ik niet zo goed ben met technologie?",
-    "answer8": "Absoluut! TheBakerz is ontworpen om eenvoudig en gebruiksvriendelijk te zijn. Als u ooit hulp nodig hebt, is ons supportteam slechts een e-mail of telefoontje verwijderd.",
-    "question9": "Kan ik TheBakerz vertrouwen voor betalingen en bestellingen?",
-    "answer9": "Ja, dat kan. Bestellingen worden automatisch gevolgd en betalingen worden veilig verwerkt met onze betalingspartner (Stripe). Zowel u als uw klanten hebben volledige transparantie bij elke stap.",
-    "question10": "Kan ik TheBakerz vertrouwen voor betalingen en bestellingen?",
-    "answer10": "Wij zijn er om u te helpen met alles wat u nodig heeft. Van het opzetten van uw shop tot het beheren van bestellingen, neem contact met ons op of bel ons op +31 684794739. Wij zorgen ervoor dat alles soepel voor u verloopt."
+    "question8": "Is het gemakkelijk te gebruiken als ik niet goed ben met technologie?",
+    "question9": "Kan ik Thebakerz vertrouwen met betalingen en bestellingen?",
+    "answer2": "Aan de slag gaan is eenvoudig! \nVul dit formulier (link) in en we plannen een snelle oproep om alles in te stellen. \nWe helpen u uw online winkel te maken en u te laten zien hoe u deze stap voor stap kunt gebruiken.",
+    "answer3": "U hebt alleen een KVK -nummer, btw -nummer en voedselveiligheidscertificering nodig. \nAls je iets mist, maak je geen zorgen - we zullen je helpen erachter te komen."
   },
-  "app/(support)/components/faq-customer": {
-    "question1": "Wat is TheBakerz",
-    "answer1": "TheBakerz is een alles-in-één platform dat bakkers helpt hun bedrijf te beheren en meer klanten te bereiken. Het verwerkt bestellingen, productieplanning, betalingen en klantcommunicatie op één plek. Dit betekent minder tijd voor administratie en meer tijd voor wat je leuk vindt: bakken!",
-    "question2": "Hoe begin ik met verkopen op TheBakerz?",
-    "answer2": "Aan de slag gaan is makkelijk! Vul dit formulier in (link), en we plannen een snel gesprek om alles in te stellen. We helpen je bij het maken van je online shop en laten je stap voor stap zien hoe je deze gebruikt.",
-    "question3": "Wat heb ik nodig om te beginnen?",
-    "answer3": "U hebt alleen een KVK-nummer, BTW-nummer en een voedselveiligheidscertificaat nodig. Als u iets mist, maak u dan geen zorgen: wij helpen u het uit te zoeken.",
-    "question4": "Kan ik mijn eigen prijzen en menu kiezen?",
-    "answer4": "Natuurlijk! Jij bepaalt wat je verkoopt en hoeveel je vraagt. Je kunt je menu en prijzen updaten wanneer je maar wilt.",
-    "question5": "Hoe werkt bestellen en bezorgen?",
-    "answer5": "U bepaalt wat het beste werkt voor uw bakkerij. U kunt bezorging aanbieden of klanten toestaan om bestellingen op te halen bij u op locatie. Stel uw eigen bezorggebieden en ophaaltijden in die passen bij uw schema.",
-    "question6": "Wat kost het om TheBakerz te gebruiken?",
-    "answer6": "Het kost €29,99 per maand voor hosting en 5% commissie per verkoop om de betalingsverwerking te dekken. De eerste drie maanden zijn gratis, dus je kunt het zonder risico uitproberen.",
-    "question7": "Hoe werken betalingen?",
-    "answer7": "Klanten betalen vooraf via ons beveiligde betalingssysteem. We storten uw inkomsten, minus de commissie, wekelijks op uw bankrekening. Betalingen komen doorgaans binnen 1-2 werkdagen na maandag binnen",
-    "question8": "Is het makkelijk te gebruiken als ik niet zo goed ben met technologie?",
-    "answer8": "Absoluut! TheBakerz is ontworpen om eenvoudig en gebruiksvriendelijk te zijn. Als u ooit hulp nodig hebt, is ons supportteam slechts een e-mail of telefoontje verwijderd.",
-    "question9": "Kan ik TheBakerz vertrouwen voor betalingen en bestellingen?",
-    "answer9": "Ja, dat kan. Bestellingen worden automatisch gevolgd en betalingen worden veilig verwerkt met onze betalingspartner (Stripe). Zowel u als uw klanten hebben volledige transparantie bij elke stap.",
-    "question10": "Kan ik TheBakerz vertrouwen voor betalingen en bestellingen?",
-    "answer10": "Wij zijn er om u te helpen met alles wat u nodig heeft. Van het opzetten van uw shop tot het beheren van bestellingen, neem contact met ons op of bel ons op +31 684794739. Wij zorgen ervoor dat alles soepel voor u verloopt."
-  },
+  "app/(support)/components/faq-customer": {},
   "app/(components)/redirect-page": {
     "success": "Succes!",
     "seconds": "seconden",
@@ -859,7 +696,8 @@
     "phone": "Telefoon",
     "addressPlaceholder": "Adres-plaatsaanduiding",
     "locationPlaceholder": "Locatie Plaatsaanduiding",
-    "search": "Zoek Bakerz"
+    "search": "Zoek Bakerz",
+    "Opening Hours": "Openingstijden"
   },
   "app/(components)/footer-simple": {
     "brandName": "Zoek Bakerz",
@@ -923,7 +761,7 @@
     "tooManyRequests": "Te veel verzoeken",
     "pleaseRestartProcess": "Start het proces opnieuw."
   },
-  "app/api/invoice/[storeId]/[orderId]": {
+  "app/api/invoice/storeId/orderId": {
     "tooManyRequests": "Te veel verzoeken",
     "restrictedAccess": "Beperkte toegang",
     "notAuthenticated": "Niet geverifieerd",
@@ -933,16 +771,11 @@
   },
   "app/api/pay": {
     "tooManyRequests": "Te veel verzoeken",
-    "missingUser": "Gebruiker ontbreekt",
     "missingStoreId": "Ontbrekende winkel-ID",
     "missingCosmosId": "Cosmos-ID ontbreekt",
     "missingCartId": "Winkelwagen-ID ontbreekt",
     "orderNotFound": "Bestelling niet gevonden",
-    "missingOrderTime": "Ontbrekende besteltijd",
-    "missingCart": "Winkelwagen ontbreekt",
-    "orderFailed": "Bestelling mislukt",
     "processingError": "Fout bij het verwerken van de betaling",
-    "missingPricingDetails": "Ontbrekende prijsdetails",
     "orderDbFailed": "Bestel DB mislukt",
     "userCreationFailed": "Gebruikerscreatie is mislukt",
     "missingUserEmail": "Ontbrekende gebruikersmail"
@@ -967,10 +800,6 @@
     "internalError": "Interne serverfout"
   },
   "app/api/store/order": {
-    "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
-    "missingOrderId": "Ontbrekende of ongeldige Order-Id-header",
-    "missingEmail": "Ontbrekende of ongeldige User-ID-header",
-    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
     "notAuthorized": "Geen toegang verlenen",
     "internalError": "Interne serverfout"
   },
@@ -980,12 +809,6 @@
     "missingToDate": "Ontbrekende Tot-Datum header",
     "missingAuth": "Autorisatieheader ontbreekt",
     "notAuthorized": "Niet-geautoriseerde toegang",
-    "internalError": "Interne serverfout"
-  },
-  "app/api/store/products/[productId]": {
-    "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
-    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
-    "notAuthorized": "Geen toegang verlenen",
     "internalError": "Interne serverfout"
   },
   "app/api/store/products": {
@@ -1012,8 +835,7 @@
     "invalidPayload": "Ongeldige aanvraag-payload",
     "invalidTimeFields": "Ongeldige tijdvelden",
     "storeNotFound": "Winkel niet gevonden",
-    "updateFailed": "Het is niet gelukt om het schema bij te werken",
-    "internalError": "Interne serverfout"
+    "updateFailed": "Het is niet gelukt om het schema bij te werken"
   },
   "app/api/upload-image": {
     "tooManyRequests": "Te veel verzoeken",
@@ -1033,7 +855,6 @@
     "tooManyRequests": "Te veel verzoeken",
     "invalidFields": "Ongeldige velden!",
     "userNotFound": "Gebruiker niet gevonden!",
-    "storeNameExists": "Winkelnaam \"{name}\" bestaat al",
     "profileUpdated": "Profiel succesvol bijgewerkt!"
   },
   "app/lib/actions/auth/email-action": {
@@ -1061,12 +882,7 @@
     "failedReplaceGuestCart": "Gastwinkelwagen vervangen mislukt.",
     "userIdStoreIdRequired": "Gebruikers-ID en Winkel-ID zijn verplicht",
     "cartRemovedSuccess": "Winkelwagen succesvol verwijderd!",
-    "failedRemoveCart": "Winkelwagen verwijderen mislukt.",
-    "variantRequired": "{label} is vereist",
-    "variantSingleSelection": "{label} moet precies één selectie hebben",
-    "variantMaxSelections": "{label} kan niet meer dan {max} selecties hebben",
-    "variantRequiredSelections": "{label} moet {max} selecties hebben",
-    "variantInvalidOption": "Ongeldige optie {option} voor {label}"
+    "failedRemoveCart": "Winkelwagen verwijderen mislukt."
   },
   "app/lib/actions/product": {
     "tooManyRequests": "Te veel verzoeken",
@@ -1076,10 +892,6 @@
     "productUpdated": "Product bijgewerkt!",
     "productAdded": "Product toegevoegd!",
     "failedUpdateProduct": "Het product kon niet worden bijgewerkt.",
-    "productDeletedSuccess": "Product succesvol verwijderd!",
-    "failedDeleteProduct": "Het product kon niet worden verwijderd.",
-    "failedFetchStoreProducts": "Het ophalen van winkelproducten is mislukt",
-    "failedFetchProduct": "Het ophalen van het product is mislukt",
     "storeNotFound": "Winkel niet gevonden!"
   },
   "app/lib/actions/order": {
@@ -1100,59 +912,13 @@
     "userNotFound": "Gebruiker niet gevonden!",
     "orderUpdated": "Bestelling bijgewerkt!",
     "failedUpdateProduct": "Het product kon niet worden bijgewerkt.",
-    "failedFetchProductsOrder": "Het is niet gelukt om de productbestelling op te halen",
     "failedFetchStoreProducts": "Het ophalen van winkelproducten is mislukt",
     "storeNotFound": "Winkel niet gevonden!"
   },
-  "app/lib/schemas": {
-    "invalidPhone": "Ongeldig telefoonnummer",
-    "emailRequired": "E-mailadres vereist!",
-    "invalidEmail": "Ongeldig e-mailadres!",
-    "otpRequired": "OTP moet uit 6 cijfers bestaan",
-    "termsRequired": "U dient akkoord te gaan met de Algemene Voorwaarden en het Privacybeleid",
-    "nameRequired": "Naam is verplicht",
-    "subjectRequired": "Onderwerp is verplicht",
-    "subjectTooLong": "Context moet korter zijn dan 200 tekens",
-    "contextTooShort": "Context moet langer zijn dan 5 tekens",
-    "contextTooLong": "Context moet korter zijn dan 2000 tekens",
-    "unsupportedFileType": "Niet-ondersteund bestandstype. Toegestane typen: JPEG, PNG, WebP, SVG",
-    "fileTooLarge": "Bestand is te groot. Maximaal toegestane grootte is 5MB.",
-    "nameTooShort": "Minimaal 4 tekens voor naam",
-    "nameTooLong": "Maximaal 120 tekens voor naam",
-    "nameInvalidFormat": "De naam mag alleen letters, cijfers, punten, onderstrepingstekens, koppeltekens en haakjes bevatten, met maximaal twee spaties en mag niet beginnen met een spatie",
-    "nameConsecutivePeriods": "Naam kan niet twee of meer opeenvolgende punten bevatten",
-    "nicknameTooShort": "Minimaal 4 tekens voor bijnaam",
-    "nicknameTooLong": "Maximaal 120 tekens voor bijnaam",
-    "nicknameInvalidFormat": "Bijnaam mag alleen letters, cijfers, punten, onderstrepingstekens en koppeltekens bevatten",
-    "nicknameConsecutivePeriods": "Bijnaam mag niet twee of meer opeenvolgende punten bevatten",
-    "descriptionTooLong": "Beschrijving moet korter zijn dan 500 tekens",
-    "variantLabelTooShort": "Minimaal 4 tekens",
-    "variantPricePositive": "Prijs moet een positief getal zijn",
-    "variantLabelRequired": "Minimaal 4 tekens",
-    "variantOptionsRequired": "Er is minimaal één optie vereist",
-    "categoryInvalid": "Categorie moet uit de lijst komen",
-    "productNameRequired": "Productnaam is vereist",
-    "priceRequired": "Prijs is vereist",
-    "pricePositive": "Prijs moet een positief getal zijn",
-    "invalidUrl": "Ongeldige URL",
-    "imageRequired": "Afbeelding is vereist",
-    "minOrderRequired": "Minimale bestelling moet minimaal 1 zijn",
-    "customerEmailRequired": "E-mailadres vereist!",
-    "customerNameRequired": "Naam verplicht!",
-    "customerNameTooShort": "Naam moet minimaal 2 tekens lang zijn",
-    "customerNameTooLong": "Naam moet korter zijn dan 100 tekens",
-    "contactMethodRequired": "Er is minimaal één contactmethode (e-mail of telefoonnummer) vereist",
-    "profileNameRequired": "Naam is verplicht",
-    "profileDescriptionTooLong": "Beschrijving mag maximaal 200 tekens lang zijn",
-    "profileStoreNameRequired": "Winkelnaam is vereist",
-    "profileStoreSlugTooLong": "Beschrijving mag maximaal 100 tekens lang zijn",
-    "profileInvalidFacebookUrl": "Ongeldige Facebook-URL",
-    "profileInvalidInstagramUrl": "Ongeldige Instagram-URL"
-  },
+  "app/lib/schemas": {},
   "app/(return_page)/settings/components/delivery-settings": {
     "deliveryRegions": "Bezorggebieden",
     "resetMap": "Zoom Resetten",
-    "selectDeliveryRegions": "Selecteer Bezorggebieden",
     "saving": "Opslaan...",
     "saveDeliveryRegions": "Bezorggebieden Opslaan",
     "loadingMap": "Laden...",
@@ -1175,24 +941,11 @@
     "deliverySchedule": "Bezorgtijden",
     "manageDeliverySchedule": "Beheer Bezorgtijden",
     "deliveryScheduleDescription": "Stel de tijden in waarop bezorging beschikbaar is voor dit gebied",
-    "startTime": "Starttijd",
-    "endTime": "Eindtijd",
-    "startTimeError": "Starttijd moet voor eindtijd zijn",
-    "endTimeError": "Eindtijd moet na starttijd zijn",
     "deliveryTimes": "Bezorgtijden",
     "noDeliveryDays": "Geen bezorgdagen ingesteld",
     "deliveryAllWeek": "Bezorging beschikbaar de hele week",
     "cancel": "Annuleren",
     "save": "Opslaan",
-    "deliveryOptions": "Bezorgopties",
-    "deliveryOptionsDescription": "Configureer hoe klanten hun bestellingen kunnen ontvangen.",
-    "pickupOption": "Afhalen",
-    "pickupDescription": "Klanten toestaan bestellingen af te halen bij uw winkel",
-    "deliveryOption": "Bezorgen",
-    "updatingOptions": "Opties bijwerken...",
-    "updateDeliveryOptions": "Bezorgopties Bijwerken",
-    "optionsUpdateSuccess": "Bezorgopties succesvol bijgewerkt",
-    "optionsUpdateError": "Fout bij het bijwerken van bezorgopties",
     "invalidCity": "Ongeldige stad geselecteerd",
     "minOrderPriceError": "Minimale bestelprijs moet minimaal 10€ zijn",
     "minOrderTime": "Min besteltijd:",
@@ -1203,43 +956,42 @@
     "day": "dag",
     "days": "dagen",
     "addRange": "Bereik toevoegen",
-    "saveSettings": "Instellingen opslaan",
-    "rangeExplanation": "Bereik: {bereik}",
-    "deliveryZone": "Leveringszone",
-    "deliverySettings": "Leveringsinstellingen",
-    "rangeOrderError": "Maak het bereik groter dan de vorige"
+    "rangeOrderError": "Maak het bereik groter dan de vorige",
+    "startTime": "Starttijd",
+    "startTimeError": "Starttijdfout",
+    "endTime": "Eindtijd",
+    "endTimeError": "Eindtijdfout"
   },
-  "app/(store)/components/delivery-map": {
-    "loadingMap": "Kaart laden...",
-    "mapError": "Kon kaart niet laden",
-    "routeCalculation": "Bezorgroute berekenen",
-    "distanceInfo": "Afstand: {distance} km"
-  },
-  "errorSavingAddress": "Fout bij het opslaan van het adres",
-  "errorValidatingAddress": "Fout bij het valideren van het adres",
-  "savingAddress": "Adres opslaan...",
-  "validatingAddress": "Adres valideren...",
-  "maxCharsExceeded": "{field} mag niet meer dan {max} tekens bevatten",
-  "errorUpdatingOrderTime": "Fout bij het bijwerken van de bezorgtijd",
-  "noInfo": "Geen info",
-  "closed": "Gesloten",
-  "scheduleFormatError": "Schema -formaatfout",
-  "noScheduleAvailable": "Geen schema beschikbaar",
-  "app/(store)/[id]/settings/page": {
-    "settingsTitle": "",
-    "settingsDescription": ""
-  },
+  "app/(store)/components/delivery-map": {},
   "app/(return_page)/settings/components/store-tabs-settings": {
     "store": "Winkel",
     "pickup": "Ophalen",
     "delivery": "Levering"
   },
   "app/(return_page)/settings/components/store-setting": {
-    "profileUpdated": "Profiel bijgewerkt",
     "storeUpdated": "Winkel bijgewerkt!",
     "updateStore": "Updatewinkel",
     "storeDescriptionPlaceholder": "Vertel ons over uw winkel ... (Max 200 tekens)",
-    "writeAboutStore": "Schrijf een korte beschrijving over uw winkel (max 200 tekens)"
+    "writeAboutStore": "Schrijf een korte beschrijving over uw winkel (max 200 tekens)",
+    "contactUs": "Neem contact met ons op",
+    "description": "Beschrijving",
+    "editLocationPhoneBy": "U kunt deze bewerken door contact met ons op te nemen op",
+    "enterFacebookURL": "Voer uw Facebook -pagina -URL in",
+    "enterInstagramURL": "Voer uw Instagram -profiel -URL in",
+    "facebookURL": "Facebook -URL",
+    "facebookURLPlaceholder": "https://facebook.com/your-page",
+    "howUserFindYou": "Hoe gebruikers uw winkel zullen vinden",
+    "howUserRecognizeYou": "Dit zal deel uitmaken van de ondertitel van uw winkel",
+    "instagramURL": "Instagram URL",
+    "instagramURLPlaceholder": "https://instagram.com/your-handle",
+    "locationPhone": "Locatie",
+    "locationPlaceholder": "Locatie Placolaar",
+    "phoneNumberPlaceholder": "31 6 12 34 56 78",
+    "storeLink": "Winkellink",
+    "storeSlug": "Store ondertitel",
+    "typeYourStoreName": "Typ uw winkelnaam",
+    "typeYourStoreSlug": "Bewaar sinds 2021",
+    "updating": "Update ..."
   },
   "app/lib/actions/store-actions": {
     "tooManyRequests": "Te veel verzoeken!",
@@ -1256,7 +1008,6 @@
     "storeInformation": "Informatie opslaan",
     "owner": "Eigenaar",
     "region": "Regio",
-    "currency": "Munteenheid",
     "deliveryOption": "Verzendopties",
     "currencyText": "Munteenheid"
   },
@@ -1273,9 +1024,12 @@
     "kvkNumber": "Zakelijke nummer",
     "vatNumber": "Belasting -ID",
     "region": "Regio",
-    "businessAddress": "Adres",
     "registeredAddress": "Geregistreerd adres",
-    "bankAccount": "Bankrekening"
+    "bankAccount": "Bankrekening",
+    "korStatus": "KOR -status",
+    "korEnabled": "Ingeschakeld",
+    "korDisabled": "Gehandicapt",
+    "email": "E-mail"
   },
   "UsersDashboard": {
     "Search User": "Zoekgebruiker"
@@ -1285,18 +1039,9 @@
     "join": "Join TheBakerz"
   },
   "search": {
-    "errors": {
-      "fetchStores": "Error haalt winkels op"
-    },
-    "loadingStores": "Winkels laden ...",
-    "noStoresFound": {
-      "title": "Geen winkels gevonden",
-      "message": "Probeer een ander adres- of leveringsmodus"
-    },
-    "noLocation": {
-      "title": "We kunnen geen winkels voor u vinden",
-      "message": "Voer het adres in om winkels te vinden"
-    },
+    "errors": {},
+    "noStoresFound": {},
+    "noLocation": {},
     "components": {
       "toggleDelivery": {
         "pickup": "Ophalen",
@@ -1306,11 +1051,51 @@
         "deliveryFee": "Bezorgkosten",
         "deliveryAvailable": "Lever nu",
         "minOrder": "Min bestelling",
-        "pickupAvailable": "Pak beschikbaar",
         "deliveryUnavailable": "Geen levering nu",
         "open": "Open",
         "closed": "Gesloten"
       }
     }
+  },
+  "app/(store)/id/order/success": {
+    "verifyEmail": "Controleer e -mailafbeelding",
+    "checkEmail": "Controleer uw e -mail op de informatie over uw bestelling.",
+    "orderPlaced": "Uw bestelling is geplaatst!",
+    "returnToStore": "Ga terug naar de winkel"
+  },
+  "app/api/store/products/": {
+    "productId": {}
+  },
+  "app/(return_page)/settings/components/delivery-options": {
+    "deliveryDescription": "Sta klanten in staat om bestellingen aan hun adres te geven",
+    "deliveryOption": "Levering",
+    "deliveryOptions": "Leveringsopties",
+    "deliveryOptionsDescription": "Configureer hoe klanten hun bestellingen kunnen ontvangen.",
+    "optionsUpdateError": "De leveringsopties niet bijwerken",
+    "optionsUpdateSuccess": "Leveringsopties met succes bijgewerkt",
+    "pickupDescription": "Sta klanten in staat om bestellingen uit uw winkel op te halen",
+    "pickupOption": "Ophalen",
+    "updateDeliveryOptions": "Update leveringsopties",
+    "updatingOptions": "Opties bijwerken ..."
+  },
+  "app/(store)/id/order/failed": {
+    "error": "Er is iets mis met de betaling"
+  },
+  "app/(store)/id/orders/add": {
+    "addOrder": "Voeg bestelling toe",
+    "addOrderDescription": "Maak een kar en voeg toe aan uw bestellijst."
+  },
+  "app/(store)/id/page": {
+    "noProducts": "Geen producten beschikbaar"
+  },
+  "app/(store)/id/settings/page": {
+    "settingsDescription": "Pas uw winkel en instellingen aan",
+    "settingsTitle": "Winkelinstellingen"
+  },
+  "app/api/store/products/productId": {
+    "internalError": "Interne serverfout",
+    "missingAuth": "Ontbrekende of ongeldige autorisatiekop",
+    "missingStoreId": "Ontbrekende of ongeldige winkel-ID-header",
+    "notAuthorized": "Geen toegang toestaan"
   }
 }

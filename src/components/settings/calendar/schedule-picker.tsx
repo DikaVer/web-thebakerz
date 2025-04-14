@@ -34,8 +34,9 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
                                                              initialStartTime = new Time(9, 0),
                                                              initialEndTime = new Time(17, 0),
                                                          }) => {
+    
+    const t_c = useTranslations();
     const t = useTranslations("app/(return_page)/settings/components/calendar/schedule-picker");
-    const whT = useTranslations("Working Hours");
 
     const [isEnabled, setIsEnabled] = useState(initialEnabled);
     const [startTime, setStartTime] = useState(initialStartTime);
@@ -89,7 +90,7 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
 
     return (
         <div className="mb-4">
-            <p className="mt-1 text-xs font-normal text-default-400 capitalize">{whT(day)}</p>
+            <p className="mt-1 text-xs font-normal text-default-400 capitalize">{t_c(`Working Hours.${day}`)}</p>
             <Spacer y={2} />
             <div className="flex flex-row">
                 <TimeInput

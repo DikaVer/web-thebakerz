@@ -32,8 +32,8 @@ interface OrdersListProps {
 
 export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderDataList, fromDate, toDate, isLoadingTime = false, selectedStatuses, setSelectedStatuses, orderStatusByDate }) => {
     const locale = useLocale();
+    const c_T = useTranslations();
     const t = useTranslations("app/(store)/components/orders-list");
-    const statusT = useTranslations("OrderStatus");
     const [isLoading, setIsLoading] = React.useState(false);
     const { store } = useStore();
     const router = useRouter();
@@ -171,7 +171,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                             defaultSelectedKeys={statusCategories}
                         >
                             {statusCategories.map((cat) => (
-                                <SelectItem key={cat}>{statusT(cat.toLowerCase() || "unknown")}</SelectItem>
+                                <SelectItem key={cat}>{c_T(`OrderStatus.${cat.toLowerCase() || "unknown"}`)}</SelectItem>
                             ))}
                         </Select>
                     )}

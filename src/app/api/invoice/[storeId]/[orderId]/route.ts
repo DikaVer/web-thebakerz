@@ -16,7 +16,7 @@ export async function POST(
     req: NextRequest,
     { params }: { params: Promise<{ orderId: string; storeId: string }> }
 ): Promise<Response> {
-    const t = await getTranslations("app/api/invoice/[storeId]/[orderId]");
+    const t = await getTranslations("app/api/invoice/storeId/orderId");
 
     if (!await globalLargeRateLimit()) {
         return NextResponse.json({ error: t("tooManyRequests") }, { status: 429 });

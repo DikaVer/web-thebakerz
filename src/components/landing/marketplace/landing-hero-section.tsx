@@ -237,6 +237,7 @@ export const LandingHeroSection = () => {
         <Image
           src="/landing/landingImage.png"
           alt="Bakers with cakes and pastries"
+          quality={100}
           fill
           priority
           className="object-cover object-center"
@@ -251,7 +252,7 @@ export const LandingHeroSection = () => {
           delay={150}
           animateBy="words"
           direction="top"
-          className={`font-pacifico text-5xl sm:text-7xl text-primary-800 drop-shadow-xl ${pacifico.className}`}
+          className={`font-pacifico text-5xl sm:text-7xl text-primary-900 drop-shadow-xl ${pacifico.className}`}
         />
       </div>
       
@@ -260,13 +261,16 @@ export const LandingHeroSection = () => {
            
         <div className="max-w-3xl mx-auto p-8 md:p-12 rounded-2xl">
     
+          {/* Visually hidden H1 for SEO and accessibility */}
+          <h1 className="sr-only">Discover artisanal bakeries near you</h1>
+
           <BlurText
             once={true}
             text="Discover artisanal bakeries near you"
             delay={150}
             animateBy="words"
             direction="top"
-            className="text-3xl sm:text-5xl font-bold text-primary-800 mb-8 drop-shadow-xl justify-center"
+            className="text-3xl sm:text-5xl font-bold text-primary-900 mb-8 drop-shadow-xl justify-center"
           />
           
           <form 
@@ -327,7 +331,7 @@ export const LandingHeroSection = () => {
               </Autocomplete>
               
               {/* Status indicators below input */}
-              <div className="mt-2 text-sm">                
+              <div className="mt-2 text-sm" aria-live="polite"> 
                 {isLocating && (
                   <div className="flex items-center justify-center gap-2 text-blue-700 p-2 rounded-md">
                     <Spinner size="sm" color="primary" />

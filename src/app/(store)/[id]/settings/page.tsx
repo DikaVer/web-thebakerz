@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-    const t = await getTranslations("app/(store)/[id]/settings/page");
+    const t = await getTranslations("app/(store)/id/settings/page");
 
     return (
         <div className="flex flex-col min-h-screen relative items-center container mx-auto justify-center">

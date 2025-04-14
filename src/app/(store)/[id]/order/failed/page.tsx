@@ -54,8 +54,8 @@ export default async function Page(props: StorePageProps) {
     if (!storeData || !searchParams?.error || !searchParams?.session_id) {
         return NotFound();
     }
-
-    const t = await getTranslations("app/(store)/[id]/order/failed")
+    
+    const t = await getTranslations("app/(store)/id/order/failed")
 
     return <div>
                 <div className={'flex min-h-svh w-full justify-center items-center flex-col gap-y-2 text-center'}>

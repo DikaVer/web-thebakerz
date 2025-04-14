@@ -3,36 +3,73 @@ import Image from 'next/image';
 import React from "react";
 import {FollowUs} from "@/components/about-us/follow-us";
 import type {Metadata} from "next";
-import {getLocalizedMetadata, metadataDefault} from "@/components/metadata";
+import {getLocalizedMetadata, metadataTranslations} from "@/components/metadata";
 import {getLocale, getTranslations} from "next-intl/server";
+
+// Define page-specific metadata translations
+const pageMetadataTranslations = {
+    en: {
+        title: "About Us | The Team Behind Your Bakery Success",
+        description: "Meet the passionate team behind TheBakerz - dedicated to helping artisanal bakers grow their businesses with innovative tools and personalized support.",
+        keywords: "TheBakerz team, about TheBakerz, bakery platform developers, artisanal bakery support, bakery tech innovators, baker community, bakery business experts, bakery management team",
+        ogTitle: "About TheBakerz | Meet the Team",
+        ogDescription: "Discover the story and the people behind TheBakerz, the platform empowering artisanal bakers.",
+        twitterTitle: "About Us | TheBakerz Team",
+        twitterDescription: "Meet the passionate team dedicated to helping bakers succeed. #TheBakerz #BakeryTech #AboutUs"
+    },
+    nl: {
+        title: "Over Ons | Het Team Achter Jouw Bakkerijsucces",
+        description: "Maak kennis met het gepassioneerde team achter TheBakerz - toegewijd aan het helpen van ambachtelijke bakkers om hun bedrijf te laten groeien met innovatieve tools en persoonlijke ondersteuning.",
+        keywords: "TheBakerz team, over TheBakerz, ontwikkelaars bakkerijplatform, ondersteuning ambachtelijke bakkerij, bakkerij tech innovators, bakkersgemeenschap, experts bakkerijbedrijf, bakkerij management team",
+        ogTitle: "Over TheBakerz | Ontmoet het Team",
+        ogDescription: "Ontdek het verhaal en de mensen achter TheBakerz, het platform dat ambachtelijke bakkers ondersteunt.",
+        twitterTitle: "Over Ons | TheBakerz Team",
+        twitterDescription: "Maak kennis met het gepassioneerde team dat zich inzet om bakkers te helpen slagen. #TheBakerz #BakeryTech #OverOns"
+    }
+};
 
 export async function generateMetadata(): Promise<Metadata> {
     const locale = await getLocale();
+    const baseMetadata = getLocalizedMetadata(locale); // Fetch base metadata
+
+    let localeKey: 'en' | 'nl' = 'en';
+    if (locale === 'nl-NL' || locale === 'nl') {
+        localeKey = 'nl';
+    }
+
+    const pageSpecifics = pageMetadataTranslations[localeKey];
+    const aboutUrl = `https://www.thebakerz.com/about-us`;
+
+    // Merge keywords
+    const baseKeywords = metadataTranslations[localeKey].keywords.split(', ');
+    const pageKeywords = pageSpecifics.keywords.split(', ');
+    const mergedKeywords = Array.from(new Set([...baseKeywords, ...pageKeywords]));
 
     return {
-        ...getLocalizedMetadata(locale),
-        title: "About Us | The Team Behind Your Bakery Success",
-        description: "Meet the passionate team behind TheBakerz - dedicated to helping artisanal bakers grow their businesses with innovative tools and personalized support.",
+        ...baseMetadata,
+        title: pageSpecifics.title,
+        description: pageSpecifics.description,
+        keywords: mergedKeywords,
+        alternates: {
+            ...baseMetadata.alternates,
+            canonical: aboutUrl,
+            languages: {
+                'en-US': `https://www.thebakerz.com/about-us`,
+                'nl-NL': `https://www.thebakerz.com/about-us`,
+                'x-default': `https://www.thebakerz.com/about-us`,
+            }
+        },
         openGraph: {
-            ...metadataDefault.openGraph,
-            title: "About Us | The Team Behind Your Bakery Success",
-            description: "Meet the passionate team behind TheBakerz - dedicated to helping artisanal bakers grow their businesses with innovative tools and personalized support.",
-            url: 'https://www.thebakerz.com/about-us/',
+            ...baseMetadata.openGraph,
+            title: pageSpecifics.ogTitle,
+            description: pageSpecifics.ogDescription,
+            url: aboutUrl,
         },
         twitter: {
-            ...metadataDefault.twitter,
-            title: "About Us | The Team Behind Your Bakery Success",
-            description: "Meet the passionate team behind TheBakerz - dedicated to helping artisanal bakers grow their businesses with innovative tools and personalized support.",
+            ...baseMetadata.twitter,
+            title: pageSpecifics.twitterTitle,
+            description: pageSpecifics.twitterDescription,
         },
-        keywords: "TheBakerz team, bakery platform developers, artisanal bakery support, bakery tech innovators, baker community, bakery business experts, bakery management team",
-        alternates: {
-            ...metadataDefault.alternates,
-            canonical: 'https://www.thebakerz.com/about-us/',
-            languages: {
-                'nl-NL': 'https://www.thebakerz.com/about-us/',
-                'en-NL': 'https://www.thebakerz.com/about-us/',
-            }
-        }
     };
 }
 

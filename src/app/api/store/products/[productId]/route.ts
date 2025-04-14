@@ -7,7 +7,7 @@ export async function GET(
     request: Request,
     { params }: { params: Promise<{ productId: string;}> }
 ) {
-    const t = await getTranslations("app/api/store/products/[productId]");
+    const t = await getTranslations("app/api/store/products/productId");
     const { productId } = await params;
 
     // Retrieve the Authorization header

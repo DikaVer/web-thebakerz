@@ -18,7 +18,6 @@ export interface ProductTabsProps {
     updateOrder: (category: string, order: string[]) => void;
 }
 export const ProductTable: React.FC<ProductTabsProps> = ({ category, productsData, updateOrder}) => {
-    const t = useTranslations("app/(return_page)/settings/components/products/product-tab");
     const { handleOpen } = useProductDialog();
 
     const [products, setProducts] = useState<string[]>(Object.keys(productsData));

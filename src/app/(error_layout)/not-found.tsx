@@ -4,8 +4,6 @@ import {pacifico} from "@/components/fonts";
 import Image from "next/image";
 import React from "react";
 import {IconHeartCrack} from "@/components/ui/icons";
-import {StoreProvider} from "@/components/providers/store-provider";
-import LayoutComp from "@/components/layout-comp";
 import {getTranslations} from "next-intl/server";
 
 export default async function NotFound() {

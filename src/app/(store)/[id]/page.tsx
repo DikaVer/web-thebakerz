@@ -23,7 +23,6 @@ interface StorePageProps {
 export default async function Page(props: StorePageProps) {
     const searchParams = await props.searchParams;
     const params = await props.params;
-    const t = await getTranslations("app/(store)/[id]/page");
 
     const { id } = await params;
 

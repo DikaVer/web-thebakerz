@@ -1,7 +1,7 @@
 import '@/styles/globals.css'
 import React from "react";
 import {getCurrentStore} from "@/lib/actions/store";
-import {getLocalizedMetadata} from "@/components/metadata";
+import {getLocalizedMetadata, metadataTranslations} from "@/components/metadata";
 import type {Metadata} from "next";
 import {getLocale} from "next-intl/server";
 import {StoreIdChecker} from "@/components/store/store-id-checker";
@@ -14,7 +14,6 @@ import {DeliveryProvider} from "@/components/providers/delivery-provider";
 import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 import LayoutComp from "@/components/layout-comp";
 import NotFound from "@/app/(error_layout)/not-found";
-import { headers } from "next/headers";
 
 type Params = Promise<{ id: string }>
 
@@ -29,6 +28,12 @@ export async function generateMetadata({
 
     // Get base localized metadata
     const localizedMetadata = getLocalizedMetadata(locale);
+    // Determine locale key for consistency
+    let localeKey: 'en' | 'nl' = 'en';
+    if (locale === 'nl-NL' || locale === 'nl') {
+        localeKey = 'nl';
+    }
+    const baseTranslations = metadataTranslations[localeKey]; // Get base translations for keywords
 
     if (!storeData) {
         return {
@@ -39,22 +44,26 @@ export async function generateMetadata({
 
     const storeName = storeData.ownerName || "TheBakerz Store";
     const storeDescription = storeData.description ||
-    locale === 'nl'
+    localeKey === 'nl'
         ? `Bestel verse, ambachtelijke bakkerijproducten van ${storeName}. Handgemaakt met zorg en aan uw deur geleverd.`
         : `Order fresh, artisanal baked goods from ${storeName}. Handcrafted with care and delivered to your door.`;
 
     const storeLocation = storeData.location ?
         `${storeData.location.city}, ${storeData.location.country}` : '';
     const storeUrl = storeData.storeName
-        ? `https://www.thebakerz.com/${storeData.storeName}/orders/`
-        : `https://www.thebakerz.com/${id}/orders/`;
+        ? `https://www.thebakerz.com/${localeKey === 'nl' ? 'nl/' : ''}${storeData.storeName}`
+        : `https://www.thebakerz.com/${localeKey === 'nl' ? 'nl/' : ''}${id}`;
 
     // Create location-based keywords if available
     const locationKeywords = storeLocation
-        ? locale === 'nl'
+        ? localeKey === 'nl'
             ? `bakkerij in ${storeLocation}, ${storeData.location?.city} bakkerij, ambachtelijke bakkerij ${storeData.location?.city}`
             : `bakery in ${storeLocation}, ${storeData.location?.city} bakery, artisanal bakery ${storeData.location?.city}`
         : '';
+
+    const imageAlt = localeKey === 'nl'
+        ? `${storeName} - Verse ambachtelijke bakkerijproducten`
+        : `${storeName} - Fresh artisanal baked goods`;
 
     // Create store images array for use in multiple places
     const storeImages = storeData.picture ? [
@@ -62,27 +71,27 @@ export async function generateMetadata({
             url: storeData.picture,
             width: 1200,
             height: 630,
-            alt: locale === 'nl'
-                ? `${storeName} - Ambachtelijke Bakkerij`
-                : `${storeName} - Artisanal Bakery`,
+            alt: imageAlt,
         }
     ] : localizedMetadata.openGraph?.images;
 
-    const storeTitle = locale === 'nl'
+    const storeTitle = localeKey === 'nl'
         ? `${storeName} | Ambachtelijke Bakkerij op TheBakerz`
         : `${storeName} | Artisanal Bakery on TheBakerz`;
 
-    const storeOgTitle = locale === 'nl'
+    const storeOgTitle = localeKey === 'nl'
         ? `${storeName} | Verse Bakkerijproducten Geleverd`
         : `${storeName} | Fresh Baked Goods Delivered`;
 
-    const keywords = locale === 'nl'
+    // Generate store-specific keywords string first
+    const storeKeywordsString = localeKey === 'nl'
         ? `${storeName}, ambachtelijke bakkerij, vers brood, gebak, thuisbakkerij, ${locationKeywords}, online bakkerij bestelling, ${storeData.ownerName || 'lokale bakker'}`
         : `${storeName}, artisanal bakery, fresh bread, pastries, homemade bakery, ${locationKeywords}, online bakery order, ${storeData.ownerName || 'local baker'}`;
 
-    const imageAlt = locale === 'nl'
-        ? `${storeName} - Verse ambachtelijke bakkerijproducten`
-        : `${storeName} - Fresh artisanal baked goods`;
+    // Merge base keywords with store-specific keywords
+    const baseKeywords = baseTranslations.keywords.split(', ');
+    const storeKeywordsArray = storeKeywordsString.split(', ').map(k => k.trim()).filter(k => k !== ''); // Split, trim, and remove empty strings
+    const mergedKeywords = Array.from(new Set([...baseKeywords, ...storeKeywordsArray]));
 
     return {
         ...localizedMetadata,
@@ -95,14 +104,14 @@ export async function generateMetadata({
             url: storeUrl,
             images: storeImages,
             siteName: storeName,
-            locale: locale === 'nl' ? 'nl' : 'en_NL',
+            locale: localeKey === 'nl' ? 'nl_NL' : 'en_US',
         },
         twitter: {
             ...localizedMetadata.twitter,
             title: storeOgTitle,
             description: storeDescription.substring(0, 160),
             images: storeData.picture ? [storeData.picture] : localizedMetadata.twitter?.images,
-            card: 'summary_large_image',
+            card: storeData.picture ? 'summary_large_image' : 'summary',
         },
         appLinks: storeData.picture ? {
             web: {
@@ -110,17 +119,16 @@ export async function generateMetadata({
                 should_fallback: true,
             },
         } : undefined,
-        keywords: keywords,
+        keywords: mergedKeywords,
         alternates: {
             ...localizedMetadata.alternates,
             canonical: storeUrl,
             languages: {
-                'nl': storeUrl,
-                'en-NL': storeUrl,
+                'en-US': storeData.storeName ? `https://www.thebakerz.com/${storeData.storeName}` : `https://www.thebakerz.com/${id}`,
+                'x-default': storeData.storeName ? `https://www.thebakerz.com/${storeData.storeName}` : `https://www.thebakerz.com/${id}`,
             }
         },
         other: {
-            'og:image:alt': imageAlt,
             'og:street-address': storeData.location?.route,
             'og:locality': storeData.location?.city,
             'og:postal-code': storeData.location?.zipCode,

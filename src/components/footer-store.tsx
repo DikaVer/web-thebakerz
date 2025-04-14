@@ -15,7 +15,6 @@ import {useTranslations} from "next-intl";
 type SocialIconProps = Omit<IconProps, "icon">;
 
 export function FooterStore() {
-    const shopT = useTranslations("Shop");
     const t = useTranslations("app/(components)/footer-store");
 
     const { store } = useStore();
@@ -123,7 +122,7 @@ export function FooterStore() {
                         </div>
                         <div className="flex justify-start gap-y-4 my-0 w-full md:w-[30%]">
                             <div className="w-full mr-4">
-                                <h3 className="md:small text-medium font-semibold text-default-600">{shopT("Opening Hours")}</h3>
+                                <h3 className="md:small text-medium font-semibold text-default-600">{t("Opening Hours")}</h3>
                                 <div className="mt-4">
                                     {renderCalendarContent()}
                                 </div>
