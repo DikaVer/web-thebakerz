@@ -113,7 +113,7 @@ const CityList: React.FC<CityListProps> = ({
                     color="primary"
                     variant="light"
                     onPress={() => onManageSchedule(city)}
-                    className="text-xs"
+                    className="text-xs dark:text-white"
                   >
                     {t("deliverySchedule")}
                   </Button>
@@ -172,7 +172,7 @@ const CityList: React.FC<CityListProps> = ({
                 size="sm" 
                 variant="flat" 
                 color={"primary"}
-                className="text-xs"
+                className="text-xs dark:text-secondary"
               >
                 {range.range} km: {formatCurrency(range.deliveryPriceInCents)} / min: {formatCurrency(range.minOrderPriceInCents)}
               </Chip>

@@ -424,9 +424,13 @@
     "no": "No Selection",
     "orderStatusFilter": "Order Status Filter",
     "addOrder": "Add Order",
-    "orders": "Orders"
+    "orders": "Orders",
+    "delivery": "Delivery"
   },
-  "app/(store)/components/orders-bar-chart": {},
+  "app/(store)/components/orders-bar-chart": {
+    "notFound": "Not Found",
+    "title": "Title"
+  },
   "app/(store)/components/calendar-dashboard": {
     "today": "Today",
     "thisWeek": "This Week",
@@ -497,7 +501,8 @@
     "Picked Up": "Picked Up",
     "Cancelled": "Cancelled",
     "Print Invoice": "Print Invoice",
-    "Something Went Wrong": "Something went wrong"
+    "Something Went Wrong": "Something went wrong",
+    "delivery": "Delivery"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "Email",
@@ -826,7 +831,9 @@
     "orderNotFound": "Order not found",
     "invalidData": "Invalid Data",
     "invalidStatus": "Invalid Status",
-    "internalError": "Internal Server Error"
+    "internalError": "Internal Server Error",
+    "missingSeqId": "Missing or invalid Seq-Id header",
+    "cannotChangeStatus": "TheBakerz can only complete this order!"
   },
   "app/api/store/order": {
     "notAuthorized": "Not Authorize Access",

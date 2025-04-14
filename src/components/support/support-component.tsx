@@ -65,7 +65,7 @@ const SupportComponent: React.FC = () => {
                         >
                             <ReactMarkdown
                                 rehypePlugins={[rehypeSanitize]}
-                                className="prose text-grayText prose-strong:text-text prose-a:text-grayText"
+                                className="prose text-grayText prose-strong:text-text prose-a:text-grayText dark:text-white dark:prose-strong:text-white dark:prose-a:text-white"
                             >
                                 {tBaker(faq.answerKey)}
                             </ReactMarkdown>

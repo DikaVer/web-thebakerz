@@ -69,14 +69,14 @@ const StoreInfo: React.FC<StoreInfoProps> = ({ className }) => {
   return (
     <Card className={`w-full overflow-hidden transition-all duration-300 ${className}`} shadow="sm">
       <CardBody className="p-0 w-full">
-        <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/30 dark:to-primary-800/20">
+        <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-secondary dark:to-primary">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-full bg-primary/10">
                 <Icon icon="solar:shop-linear" className="h-5 w-5 text-primary" />
               </div>
               <Skeleton isLoaded={!isLoading} className="rounded-full">
-                <span className="text-sm font-medium">{t("storeInformation")}</span>
+                <span className="text-sm font-medium dark:text-black">{t("storeInformation")}</span>
               </Skeleton>
             </div>
           </div>
@@ -129,7 +129,7 @@ const StoreInfo: React.FC<StoreInfoProps> = ({ className }) => {
             {/* Delivery Option */}
             <div className="flex flex-col gap-1 p-3 rounded-lg bg-default-50 dark:bg-default-100">
               <div className="flex items-center gap-2 mb-1">
-                <Icon icon="solar:delivery-linear" className="h-4 w-4 text-primary" />
+                <Icon icon="solar:delivery-linear" className="h-4 w-4 text-primary dark:text-secondary" />
                 <span className="text-xs text-default-600">{t("deliveryOption")}</span>
               </div>
               <Skeleton isLoaded={!isLoading} className="rounded-full">

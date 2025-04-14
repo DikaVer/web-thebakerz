@@ -32,12 +32,12 @@ const pageMetadataTranslations = {
 // interface Bakery { ... }
 
 interface SearchPageProps {
-  searchParams?: {
+  searchParams?: Promise<{
     lat?: string;
     lng?: string;
     city?: string;
     mode?: 'pickup' | 'delivery';
-  };
+  }>;
 }
 
 export async function generateMetadata(
@@ -51,8 +51,11 @@ export async function generateMetadata(
         localeKey = 'nl';
     }
 
-    const city = searchParams?.city;
-    const mode = searchParams?.mode === 'delivery' ? (localeKey === 'nl' ? 'bezorging' : 'delivery') : (localeKey === 'nl' ? 'afhalen' : 'pickup');
+    // Get search parameters
+    const search = await searchParams;
+
+    const city = search?.city;
+    const mode = search?.mode === 'delivery' ? (localeKey === 'nl' ? 'bezorging' : 'delivery') : (localeKey === 'nl' ? 'afhalen' : 'pickup');
 
     const pageSpecifics = pageMetadataTranslations[localeKey];
 
@@ -68,10 +71,10 @@ export async function generateMetadata(
 
     // Construct URL based on params
     const params = new URLSearchParams();
-    if (searchParams?.lat) params.set('lat', searchParams.lat);
-    if (searchParams?.lng) params.set('lng', searchParams.lng);
+    if (search?.lat) params.set('lat', search.lat);
+    if (search?.lng) params.set('lng', search.lng);
     if (city) params.set('city', city);
-    if (searchParams?.mode) params.set('mode', searchParams.mode);
+    if (search?.mode) params.set('mode', search.mode);
     const searchUrl = `https://www.thebakerz.com/search${params.toString() ? '?' + params.toString() : ''}`;
 
     // Merge keywords
@@ -157,7 +160,7 @@ async function StoreResults({ coords, mode }: { coords: Coordinates, mode: 'pick
 
 export default async function Page(props : SearchPageProps) {
   // Get search parameters (no await needed as searchParams is already available)
-  const searchParams = props.searchParams; // Use the props directly
+  const searchParams = await props.searchParams; // Use the props directly
   const latParam = searchParams?.lat;
   const lngParam = searchParams?.lng;
   const cityParam = searchParams?.city;

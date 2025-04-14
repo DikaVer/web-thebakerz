@@ -395,9 +395,13 @@
     "no": "Geen selectie",
     "orderStatusFilter": "Bestelstatusfilter",
     "addOrder": "Voeg bestelling toe",
-    "orders": "Bevelen"
+    "orders": "Bevelen",
+    "delivery": "Levering"
   },
-  "app/(store)/components/orders-bar-chart": {},
+  "app/(store)/components/orders-bar-chart": {
+    "notFound": "Niet gevonden",
+    "title": "Titel"
+  },
   "app/(store)/components/calendar-dashboard": {
     "today": "Vandaag",
     "thisWeek": "Deze week",
@@ -468,7 +472,8 @@
     "Picked Up": "Opgepakt",
     "Cancelled": "Geannuleerd",
     "Print Invoice": "Factuur afdrukken",
-    "Something Went Wrong": "Er ging iets mis"
+    "Something Went Wrong": "Er ging iets mis",
+    "delivery": "Levering"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "E-mail",
@@ -797,7 +802,9 @@
     "orderNotFound": "Bestelling niet gevonden",
     "invalidData": "Ongeldige gegevens",
     "invalidStatus": "Ongeldige status",
-    "internalError": "Interne serverfout"
+    "internalError": "Interne serverfout",
+    "missingSeqId": "Ontbrekende of ongeldige SEQ-ID-header",
+    "cannotChangeStatus": "Thebakerz kan deze bestelling alleen voltooien!"
   },
   "app/api/store/order": {
     "notAuthorized": "Geen toegang verlenen",

@@ -236,16 +236,31 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                                             <Chip
                                                                 size="sm"
                                                                 variant="flat"
-                                                                className={'dark:text-white'}
+                                                                className={'text-primary dark:text-white'}
                                                                 color={order.status === 'paid' ? "primary" : "default"}
                                                             >
                                                                 {order.status}
                                                             </Chip>
                                                         </div>
                                                         <div
-                                                            className="text-sm text-default-600">{order.customer.name_customer}</div>
+                                                            className="text-sm text-default-600">{order.customer.name_customer}
+                                                        </div>
                                                         <div
-                                                            className="text-sm text-default-600">{order.customer.email_customer}</div>
+                                                            className="text-sm text-default-600">{order.customer.email_customer}
+                                                        </div>
+                                                        {order.isDelivery && (
+                                                            <>
+                                                                <Spacer y={2}/>
+                                                                <Chip
+                                                                    size="sm"
+                                                                    variant="flat"
+                                                                    className={'text-blue-700 bg-blue-200'}
+                                                                    color={'default'}
+                                                                >
+                                                                    {t("delivery")}
+                                                                </Chip>
+                                                            </>
+                                                        )}
                                                     </div>
                                                     <StatusSelect
                                                         order={order}

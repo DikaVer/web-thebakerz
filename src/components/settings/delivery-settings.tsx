@@ -412,7 +412,7 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
             <Button 
               onPress={handleSave}
               isDisabled={saving}
-              className="w-full shadow-small text-text"
+              className="w-full shadow-small text-black"
               color={'secondary'}
             >
               {saving ? t("saving") : t("saveDeliveryRegions")}

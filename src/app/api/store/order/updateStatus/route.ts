@@ -25,14 +25,14 @@ async function updateOrderInCosmos(storeId: string, orderId: string, email: stri
     }
 }
 
-async function updateOrderInPostgreSQL(storeId: string, orderId: string, email: string) {
+async function updateOrderInPostgreSQL(storeId: string, seqId: string, email: string) {
     try {
         const result = await connectionPool.query(
-            `UPDATE payment_orders 
+            `UPDATE orders 
              SET completed = $1
-             WHERE cosmos_id = $2 AND store_id = $3 AND email_customer = $4
+             WHERE id = $2 AND store_id = $3 AND customer = $4
              RETURNING id`,
-            [true, orderId, storeId, email]
+            [true, seqId, storeId, email]
         );
 
         if (result.rows.length === 0) {
@@ -61,6 +61,14 @@ export async function POST(request: Request) {
     if (!orderId) {
         return NextResponse.json(
             { error: t("missingOrderId") },
+            { status: 401 }
+        );
+    }
+
+    const seqId = request.headers.get('Seq-Id');
+    if (!seqId) {
+        return NextResponse.json(
+            { error: t("missingSeqId") },
             { status: 401 }
         );
     }
@@ -107,6 +115,7 @@ export async function POST(request: Request) {
             );
         }
 
+
         if (orderData.id !== orderId || orderData.store_id !== storeId || orderData.customer_email !== email) {
             return NextResponse.json(
                 { error: t("invalidData") },
@@ -124,8 +133,15 @@ export async function POST(request: Request) {
             );
         }
 
+        if(!orderData.isStoreDelivery && newStatus === "completed") {
+            return NextResponse.json(
+                { error: t("cannotChangeStatus") },
+                { status: 403 }
+            );
+        }
+
         if (newStatus === "completed") {
-            await updateOrderInPostgreSQL(storeId, orderId, email);
+            await updateOrderInPostgreSQL(storeId, seqId, email);
             await updateOrderInCosmos(storeId, orderId, email, newStatus);
         } else {
             await updateOrderInCosmos(storeId, orderId, email, newStatus);

@@ -1,6 +1,5 @@
 
 import { NextRequest, NextResponse } from "next/server";
-import { getDeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
 import {getStoreByUserIdAndStoreId} from "@/lib/actions/store";
 
 export async function GET(

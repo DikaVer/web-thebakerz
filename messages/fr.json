@@ -395,9 +395,13 @@
     "no": "Pas de sélection",
     "orderStatusFilter": "Filtre d'état de commande",
     "addOrder": "Ajouter la commande",
-    "orders": "Ordres"
+    "orders": "Ordres",
+    "delivery": "Livraison"
   },
-  "app/(store)/components/orders-bar-chart": {},
+  "app/(store)/components/orders-bar-chart": {
+    "notFound": "Pas trouvé",
+    "title": "Titre"
+  },
   "app/(store)/components/calendar-dashboard": {
     "today": "Aujourd'hui",
     "thisWeek": "Cette semaine",
@@ -468,7 +472,8 @@
     "Picked Up": "Collecté",
     "Cancelled": "Annulé",
     "Print Invoice": "Imprimer la facture",
-    "Something Went Wrong": "Quelque chose s'est mal passé"
+    "Something Went Wrong": "Quelque chose s'est mal passé",
+    "delivery": "Livraison"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "E-mail",
@@ -797,7 +802,9 @@
     "orderNotFound": "Commande non trouvée",
     "invalidData": "Données invalides",
     "invalidStatus": "Statut invalide",
-    "internalError": "Erreur interne du serveur"
+    "internalError": "Erreur interne du serveur",
+    "missingSeqId": "En-tête SEQ-ID manquant ou non valide",
+    "cannotChangeStatus": "Thebakerz ne peut terminer cette commande!"
   },
   "app/api/store/order": {
     "notAuthorized": "Accès non autorisé",

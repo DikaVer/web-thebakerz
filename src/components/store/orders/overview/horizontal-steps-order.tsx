@@ -196,7 +196,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
             //     return
             // }
 
-            const isUpdated = await updateOrderStatus(orderData.store_id, orderData.id, orderData.customer.email_customer, (() => {
+            const isUpdated = await updateOrderStatus(orderData.store_id, orderData.id, orderData.seq_id.toString(), orderData.customer.email_customer, (() => {
                 switch (stepIdx) {
                     case 1:
                         return "started";

@@ -359,7 +359,7 @@ export async function getOrdersByDateRange(storeId: string, fromDate: string, to
     }
 }
 
-export async function updateOrderStatus(storeId: string, orderId: string, email: string, status: string): Promise<boolean> {
+export async function updateOrderStatus(storeId: string, orderId: string, seqId: string, email: string, status: string): Promise<boolean> {
     try {
         const {user} = await getCurrentSession();
         if (!user) {return false;}
@@ -374,6 +374,7 @@ export async function updateOrderStatus(storeId: string, orderId: string, email:
             headers: {
                 'Store-Id': store.id,
                 'Order-Id': orderId,
+                'Seq-Id': seqId,
                 'Email': email,
                 'Status': status,
                 'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,

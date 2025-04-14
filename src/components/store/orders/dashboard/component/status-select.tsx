@@ -43,6 +43,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
         const isUpdated = await updateOrderStatus(
             order.store_id,
             order.id,
+            order.seq_id.toString(),
             order.customer.email_customer,
             targetStatus
         );

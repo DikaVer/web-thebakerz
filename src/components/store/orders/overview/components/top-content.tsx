@@ -1,7 +1,7 @@
 "use client";
 import React, {useState} from "react";
 import { Icon } from "@iconify/react";
-import { Button, Spacer } from "@heroui/react";
+import { Button, Chip, Spacer } from "@heroui/react";
 import GradientText from "@/components/ui/gradient-text";
 import { formatScheduledDateTime } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";
@@ -41,6 +41,19 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) =
                     <p>{t("Order")}</p>
                     <Spacer x={1} />
                     <GradientText>#{orderData.store_order_id}</GradientText>
+                    {orderData.isDelivery && (
+                    <>
+                        <Spacer x={2}/>
+                        <Chip
+                            size="sm"
+                            variant="flat"
+                            className={'text-blue-700 bg-blue-200'}
+                            color={'default'}
+                        >
+                            {t("delivery")}
+                        </Chip>
+                    </>
+                )}
                 </div>
                 <p className="text-sm font-light text-default-600">
                     {formatScheduledDateTime(orderData.scheduled_time, locale)}
