@@ -333,7 +333,9 @@
     "editProducts": "Producten bewerken",
     "addOrder": "Bestelling toevoegen",
     "getHelp": "Krijg hulp",
-    "report": "Rapport"
+    "report": "Rapport",
+    "editPickup": "Bewerken pick -up",
+    "editStore": "Bewerkingswinkel"
   },
   "app/(store)/components/product-page": {
     "noProductsAvailable": "Geen producten beschikbaar",

@@ -377,7 +377,9 @@
     "editProducts": "Edit Products",
     "addOrder": "Add Order",
     "getHelp": "Get Help",
-    "report": "Report"
+    "report": "Report",
+    "editPickup": "Edit Pickup",
+    "editStore": "Edit Store"
   },
   "app/(store)/components/product-page": {
     "noProductsAvailable": "No products available",

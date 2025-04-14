@@ -334,7 +334,9 @@
     "editProducts": "Modifier les produits",
     "addOrder": "Ajouter une commande",
     "getHelp": "Obtenir de l'aide",
-    "report": "Rapport"
+    "report": "Rapport",
+    "editPickup": "Modifier le ramassage",
+    "editStore": "Magasin de modification"
   },
   "app/(store)/components/product-page": {
     "noProductsAvailable": "Aucun produit disponible",

@@ -82,14 +82,14 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             }
                             onPress={() => {
                                 setIsLoading(true);
-                                router.push("/settings?tab=profile");
+                                router.push("/" + storeUrl + "/settings?tab=store");
                                 router.refresh();
                             }}
                         >
-                            {t("editProfile")}
+                            {t("editStore")}
                         </DropdownItem>
                         <DropdownItem
-                            key="schedule"
+                            key="Pickup"
                             endContent={
                                 <Icon
                                     className="text-default-500"
@@ -99,11 +99,11 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             }
                             onPress={() => {
                                 setIsLoading(true);
-                                router.push("/settings?tab=calendar");
+                                router.push("/" + storeUrl + "/settings?tab=pickup");
                                 router.refresh();
                             }}
                         >
-                            {t("editSchedule")}
+                            {t("editPickup")}
                         </DropdownItem>
                         <DropdownItem
                             key="delivery"
@@ -116,7 +116,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             }
                             onPress={() => {
                                 setIsLoading(true);
-                                router.push("/settings?tab=delivery");
+                                router.push("/" + storeUrl + "/settings?tab=delivery");
                                 router.refresh();
                             }}
                         >
