@@ -69,8 +69,6 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         });
     };
 
-    console.log(itemCount);
-
     return (
         <>
             {itemCount !== 0 ? (

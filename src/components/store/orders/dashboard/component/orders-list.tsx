@@ -14,7 +14,7 @@ import {
 } from "@/lib/utils";
 import { useStore } from "@/components/providers/store-provider";
 import { useRouter } from "next/navigation";
-import {OrderStatusChip} from "@/components/ui/status-chip";
+import {OrderStatusChip, getStatusColor} from "@/components/ui/status-chip";
 import { motion } from "framer-motion";
 import {StatusSelect} from "@/components/store/orders/dashboard/component/status-select";
 import {OrderStatusByDate} from "@/components/store/orders/dashboard/order-dashboard";
@@ -202,7 +202,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                 >
                                     <div className="flex items-center gap-2">
                                         {statusCategories.includes(status) && (
-                                            <Chip size="sm" variant="flat" color="primary">
+                                            <Chip size="sm" variant="flat" className={getStatusColor(status)}>
                                                 {orderDataList.filter(order => order.order_status === status).length}
                                             </Chip>
                                         )}
