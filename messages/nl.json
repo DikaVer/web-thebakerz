@@ -546,10 +546,26 @@
   },
   "app/(landing)/components/scroll-triggered": {
     "features": {
-      "online_store": {},
-      "order_management": {},
-      "all_chats": {},
-      "support": {}
+      "online_store": {
+        "description": "We maken uw eigen online winkel om uw heerlijke creaties te presenteren en bestellingen naadloos te accepteren.",
+        "key": "online-winkel",
+        "title": "Online winkel"
+      },
+      "order_management": {
+        "description": "Volg en beheert eenvoudig al uw bestellingen op één plek, waardoor het risico op fouten en gemiste bestellingen wordt verminderd.",
+        "key": "orderbeheer",
+        "title": "Orderbeheer"
+      },
+      "all_chats": {
+        "description": "Verbind klantchats van Instagram, Facebook en WhatsApp met bestellingen op één plek voor eenvoudige communicatie.",
+        "key": "All-chats-in-one-place",
+        "title": "Alle chats op één plek"
+      },
+      "support": {
+        "description": "Ons toegewijde team is hier om te helpen tijdens onze beschikbare uren, zodat uw vragen onmiddellijk worden aangepakt.",
+        "key": "flexibele ondersteuning",
+        "title": "Flexibele ondersteuning"
+      }
     }
   },
   "app/(landing)/components/support-card": {

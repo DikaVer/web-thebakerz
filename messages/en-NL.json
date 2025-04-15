@@ -575,11 +575,27 @@
   },
   "app/(landing)/components/scroll-triggered": {
     "features": {
-      "online_store": {},
-      "order_management": {},
-      "all_chats": {},
-      "support": {}
-    }
+       "online_store": {
+         "key": "online-store",
+         "title": "Online Store",
+         "description": "We create your own online store to showcase your delicious creations and accept orders seamlessly."
+       },
+       "order_management": {
+         "key": "order-management",
+         "title": "Order Management",
+         "description": "Easily track and manage all your orders in one place, reducing the risk of errors and missed orders."
+       },
+       "all_chats": {
+         "key": "all-chats-in-one-place",
+         "title": "All Chats in One Place",
+         "description": "Connect customer chats from Instagram, Facebook, and WhatsApp to orders in one place for easy communication."
+       },
+       "support": {
+         "key": "flexible-support",
+         "title": "Flexible Support",
+         "description": "Our dedicated team is here to help during our available hours, ensuring your queries are addressed promptly."
+       }
+     }
   },
   "app/(landing)/components/support-card": {
     "supportCardMessage": "Need help? We're here to assist you!"
@@ -614,7 +630,7 @@
   "app/(landing)/components/multistep-sidebar": {
     "applyTitle": "Apply",
     "applyDescription": "Fill out a quick form, and we'll get in touch to explain everything and set up your account.",
-    "setUpStoreTitle": "We Set Up Your Store",
+    "setUpStoreTitle": "Set Up Store",
     "setUpStoreDescription": "Share your products and prices, and we'll handle the setup for you.",
     "startSellingTitle": "Start Selling",
     "startSellingDescription": "Test your store, make adjustments, and start taking real orders!"

@@ -546,10 +546,26 @@
   },
   "app/(landing)/components/scroll-triggered": {
     "features": {
-      "online_store": {},
-      "order_management": {},
-      "all_chats": {},
-      "support": {}
+      "online_store": {
+        "description": "Nous créons votre propre boutique en ligne pour présenter vos délicieuses créations et accepter les commandes de manière transparente.",
+        "key": "magasin en ligne",
+        "title": "Boutique en ligne"
+      },
+      "order_management": {
+        "description": "Suivre et gérer facilement toutes vos commandes en un seul endroit, en réduisant le risque d'erreurs et des commandes manquées.",
+        "key": "gestion des commandes",
+        "title": "Gestion des commandes"
+      },
+      "all_chats": {
+        "description": "Connectez les chats des clients d'Instagram, Facebook et WhatsApp aux commandes en un seul endroit pour une communication facile.",
+        "key": "tout-chats sur une place",
+        "title": "Tous les chats en un seul endroit"
+      },
+      "support": {
+        "description": "Notre équipe dédiée est là pour vous aider pendant nos heures disponibles, en veillant à ce que vos requêtes soient traitées rapidement.",
+        "key": "soutien flexible",
+        "title": "Support flexible"
+      }
     }
   },
   "app/(landing)/components/support-card": {

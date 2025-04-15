@@ -108,9 +108,9 @@ export async function generateMetadata({
                 description: productDescription,
                 url: productUrl,
                 images: productImages,
-                type: 'product', // Specific OG type for product
+                type: 'article', // Changed from 'product' to 'article' which is valid in Next.js
                 siteName: storeName, // Use store name as site name here
-            } as any, // Cast to allow 'product' type override
+            },
             twitter: {
                 ...baseMetadata.twitter,
                 card: product.picture ? 'summary_large_image' : 'summary',
