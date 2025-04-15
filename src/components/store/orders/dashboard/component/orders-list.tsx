@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useEffect } from "react";
-import {Button, Card, Chip, cn, ScrollShadow, Spacer, Select, SelectItem} from "@heroui/react";
+import {Button, Card, Chip, cn, ScrollShadow, Spacer, Select, SelectItem, Image} from "@heroui/react";
 import {OrderData, OrderStatus} from "@/lib/actions/order";
 import { Icon } from "@iconify/react";
 import { useLocale, useTranslations } from "next-intl";
@@ -28,21 +28,44 @@ interface OrdersListProps {
     selectedStatuses: string[];
     setSelectedStatuses: (statuses: string[]) => void;
     orderStatusByDate: OrderStatusByDate;
+    isStore?: boolean;
 }
 
-export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderDataList, fromDate, toDate, isLoadingTime = false, selectedStatuses, setSelectedStatuses, orderStatusByDate }) => {
+export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderDataList: initialOrderDataList, fromDate, toDate, isLoadingTime = false, selectedStatuses, setSelectedStatuses, orderStatusByDate, isStore = true}) => {
     const locale = useLocale();
     const c_T = useTranslations();
     const t = useTranslations("app/(store)/components/orders-list");
     const [isLoading, setIsLoading] = React.useState(false);
-    const { store } = useStore();
+    const { store } = isStore ? useStore() : { store: null };
     const router = useRouter();
+    
+    // Track orders with status changes
+    const [orderDataList, setOrderDataList] = React.useState<OrderData[]>(initialOrderDataList);
+    
+    // Update local orderDataList when props change
+    React.useEffect(() => {
+        setOrderDataList(initialOrderDataList);
+    }, [initialOrderDataList]);
+
+    // Define all possible statuses
+    const allOrderStatuses: OrderStatus[] = ['new', 'started', 'ready', 'completed', 'cancelled', 'refunded'];
 
     // Compute status categories whenever orderDataList changes
     const statusCategories = useMemo(() => {
         if (!orderDataList || orderDataList.length === 0) return [];
         return [...new Set(orderDataList.map(order => order.order_status))];
     }, [orderDataList]);
+    
+    // Update an order's status in the local state
+    const updateOrderStatus = (orderId: string, newStatus: OrderStatus) => {
+        setOrderDataList(prevOrders => 
+            prevOrders.map(order => 
+                order.id === orderId 
+                    ? { ...order, order_status: newStatus } 
+                    : order
+            )
+        );
+    };
 
     // Update selected statuses when status categories change
     useEffect(() => {
@@ -121,21 +144,23 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                     </div>
                 </div>
                 <div className="flex justify-end items-end gap-2">
-                    <Button
-                        isLoading={isLoading}
-                        startContent={
-                            <Icon icon="solar:document-add-linear" width={24} />
-                        }
-                        onPress={() => {
-                            setIsLoading(true);
-                            router.push("/" + storeUrl + "/orders/add");
-                            router.refresh();
-                        }}
-                        variant="faded"
-                        color="default"
-                    >
+                    {store && (
+                        <Button
+                            isLoading={isLoading}
+                            startContent={
+                                <Icon icon="solar:document-add-linear" width={24} />
+                            }
+                            onPress={() => {
+                                setIsLoading(true);
+                                router.push("/" + storeUrl + "/orders/add");
+                                router.refresh();
+                            }}
+                            variant="faded"
+                            color="default"
+                        >
                         {!isLoading && t("addOrder")}
-                    </Button>
+                        </Button>
+                    )}
                     {statusCategories.length > 0 && (
                         <Select
                             variant="faded"
@@ -170,8 +195,20 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                             onSelectionChange={handleStatusChange}
                             defaultSelectedKeys={statusCategories}
                         >
-                            {statusCategories.map((cat) => (
-                                <SelectItem key={cat}>{c_T(`OrderStatus.${cat.toLowerCase() || "unknown"}`)}</SelectItem>
+                            {allOrderStatuses.map((status) => (
+                                <SelectItem 
+                                    key={status}
+                                    textValue={c_T(`OrderStatus.${status.toLowerCase() || "unknown"}`)}
+                                >
+                                    <div className="flex items-center gap-2">
+                                        {statusCategories.includes(status) && (
+                                            <Chip size="sm" variant="flat" color="primary">
+                                                {orderDataList.filter(order => order.order_status === status).length}
+                                            </Chip>
+                                        )}
+                                         <span>{c_T(`OrderStatus.${status.toLowerCase() || "unknown"}`)}</span>
+                                    </div>
+                                </SelectItem>
                             ))}
                         </Select>
                     )}
@@ -208,13 +245,24 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                             const formattedFromDate = new Date(fromDate.getTime() - (fromDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
                                             const formattedToDate = new Date(toDate.getTime() - (toDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
 
-                                            router.push(
-                                                "/" + storeUrl +
-                                                "/orders/" + order.id +
-                                                "?email=" + order.customer.email_customer +
-                                                "&from=" + formattedFromDate +
-                                                "&to=" + formattedToDate
-                                            );
+                                            if (store) {
+                                                router.push(
+                                                    "/" + storeUrl +
+                                                    "/orders/" + order.id +
+                                                    "?email=" + order.customer.email_customer +
+                                                    "&from=" + formattedFromDate +
+                                                    "&to=" + formattedToDate
+                                                );
+                                            } else {
+                                                router.push(
+                                                    "/dashboard" +
+                                                    "/orders/" + order.id +
+                                                    "?email=" + order.customer.email_customer +
+                                                    "&storeId=" + order.store_id +
+                                                    "&from=" + formattedFromDate +
+                                                    "&to=" + formattedToDate
+                                                );
+                                            }
                                             router.refresh();
                                         }}
                                     >
@@ -251,14 +299,26 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                                         {order.isDelivery && (
                                                             <>
                                                                 <Spacer y={2}/>
-                                                                <Chip
-                                                                    size="sm"
-                                                                    variant="flat"
-                                                                    className={'text-blue-700 bg-blue-200'}
-                                                                    color={'default'}
-                                                                >
-                                                                    {t("delivery")}
-                                                                </Chip>
+                                                                <div className={'flex gap-2'}>
+                                                                    <Chip
+                                                                        size="sm"
+                                                                        variant="flat"
+                                                                        className={`text-blue-700 bg-blue-200`}
+                                                                        color={'default'}
+                                                                    >
+                                                                        <div className={'flex gap-2 items-center'}>
+                                                                            {t("delivery")}
+                                                                            {!order.isStoreDelivery && (
+                                                                                <Image
+                                                                                    src="/images/TheBakerzLogo.svg"
+                                                                                    width={24}
+                                                                                    height={24}
+                                                                                    alt={t("brandName") + " Logo"}
+                                                                                />
+                                                                            )}
+                                                                        </div>
+                                                                    </Chip>
+                                                                </div>
                                                             </>
                                                         )}
                                                     </div>
@@ -266,15 +326,62 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                                         order={order}
                                                         currentStatus={order.order_status}
                                                         onStatusChange={(oldStatus: OrderStatus, newStatus: OrderStatus) => {
-                                                            // Optional: If you need to refresh the list after status change
-                                                            // setIsLoadingTime && setIsLoadingTime(true);
-                                                            // router.refresh();
+                                                            // Update the calendar dashboard counts
                                                             const statusCounts = orderStatusByDate[order.scheduled_time.date];
 
-                                                            if (oldStatus === 'new') statusCounts.new_count--;
-                                                            if (oldStatus === 'started') statusCounts.started_count--;
-                                                            if (newStatus === 'new') statusCounts.new_count++;
-                                                            if (newStatus === 'started') statusCounts.started_count++;
+                                                            if (oldStatus === 'new') {
+                                                                statusCounts.new_count--;
+                                                                if (statusCounts.new_count <= 0) statusCounts.new = false;
+                                                            }
+                                                            if (oldStatus === 'started') {
+                                                                statusCounts.started_count--;
+                                                                if (statusCounts.started_count <= 0) statusCounts.started = false;
+                                                            }
+                                                            if (oldStatus === 'ready') {
+                                                                statusCounts.ready_count--;
+                                                                if (statusCounts.ready_count <= 0) statusCounts.ready = false;
+                                                            }
+                                                            
+                                                            if (newStatus === 'new') {
+                                                                statusCounts.new_count++;
+                                                                statusCounts.new = true;
+                                                            }
+                                                            if (newStatus === 'started') {
+                                                                statusCounts.started_count++;
+                                                                statusCounts.started = true;
+                                                            }
+                                                            if (newStatus === 'ready') {
+                                                                statusCounts.ready_count++;
+                                                                statusCounts.ready = true;
+                                                            }
+
+                                                            // Update the order status in our local state
+                                                            updateOrderStatus(order.id, newStatus);
+
+                                                            // Handle the filter status updates with the updated orderDataList
+                                                            let newSelectedStatuses = [...selectedStatuses];
+                                                            
+                                                            // 1. Add new status to filters if not already there
+                                                            if (!newSelectedStatuses.includes(newStatus)) {
+                                                                newSelectedStatuses.push(newStatus);
+                                                            }
+                                                            
+                                                            // 2. Check if any other order still has the old status
+                                                            // Use the updated orderDataList (with the current order already changed)
+                                                            const anyOtherOrderHasOldStatus = orderDataList.some(o => 
+                                                                o.id !== order.id && o.order_status === oldStatus
+                                                            );
+                                                            
+                                                            // 3. Remove old status from filters if it was the last one
+                                                            if (!anyOtherOrderHasOldStatus && newSelectedStatuses.includes(oldStatus)) {
+                                                                newSelectedStatuses = newSelectedStatuses.filter(s => s !== oldStatus);
+                                                            }
+                                                            
+                                                            // 4. Only update the state if there's a change
+                                                            if (newSelectedStatuses.length !== selectedStatuses.length || 
+                                                                !newSelectedStatuses.every(s => selectedStatuses.includes(s))) {
+                                                                setSelectedStatuses(newSelectedStatuses);
+                                                            }
                                                         }}
                                                     />
                                                 </div>

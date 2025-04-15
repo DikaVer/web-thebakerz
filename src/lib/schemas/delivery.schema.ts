@@ -47,9 +47,6 @@ const DeliveryRegionSchema = z.object({
     (name) => name in cityLatLngMap,
     { message: "City must be from the predefined list" }
   ),
-  radiusKm: z.number().min(0).max(100),
-  priceInCents: z.number().min(0),
-  minOrderPriceInCents: z.number().min(1000, { message: "Minimum order price must be at least 10€" }),
   coordinates: CoordinatesSchema,
   deliverySchedule: DeliveryScheduleSchema,
   isStoreDelivery: z.boolean().default(false),

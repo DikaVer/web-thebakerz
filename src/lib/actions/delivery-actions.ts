@@ -17,9 +17,6 @@ export interface MerchantDeliveryRegion {
   id: string;
   storeId: string;
   name: string;
-  radiusKm: number; // Legacy - keeping for backward compatibility
-  priceInCents: number; // Legacy - keeping for backward compatibility
-  minOrderPriceInCents: number; // Legacy - keeping for backward compatibility
   minOrderTime: number;
   coordinates: { lat: number, lng: number };
   deliverySchedule: WorkHours;
@@ -43,9 +40,6 @@ export async function updateMerchantDeliveryRegions(
     storeId: string,
     regions: {
       name: string;
-      radiusKm: number;
-      priceInCents: number;
-      minOrderPriceInCents: number;
       coordinates: { lat: number, lng: number };
       deliverySchedule: WorkHours | undefined;
       isStoreDelivery: boolean;
@@ -93,17 +87,10 @@ export async function updateMerchantDeliveryRegions(
         storeId: storeId,
         name: region.name,
         coordinates: region.coordinates,
-        radiusKm: region.radiusKm,  
-        priceInCents: region.priceInCents,
-        minOrderPriceInCents: region.minOrderPriceInCents,
         minOrderTime: region.minOrderTime,
         deliverySchedule: region.deliverySchedule,
         isStoreDelivery: user.role === "admin" ? region.isStoreDelivery : true,
-        ranges: region.ranges || [{ 
-          range: region.radiusKm, 
-          deliveryPriceInCents: region.priceInCents,
-          minOrderPriceInCents: region.minOrderPriceInCents
-        }]
+        ranges: region.ranges
       });
     }
 

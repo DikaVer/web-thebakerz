@@ -104,8 +104,7 @@ export async function validateAddress(
     if (closestRegion) {
       console.log(`Server: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
       
-      // First check if we have multi-range pricing (new format)
-      let useMultiRangePricing = false;
+      // First check if we have multi-range pricing 
       let applicableRange = null;
       
       if (closestRegion.ranges && Array.isArray(closestRegion.ranges) && closestRegion.ranges.length > 0) {
@@ -117,39 +116,26 @@ export async function validateAddress(
         for (const range of sortedRanges) {
           if (minDistance <= range.range) {
             applicableRange = range;
-            useMultiRangePricing = true;
             console.log(`Server: Found applicable range: ${range.range} km with delivery price ${range.deliveryPriceInCents / 100}€`);
             break;
           }
         }
       }
-      
-      // Check if the address is within the maximum delivery range
-      const maxRange = useMultiRangePricing 
-        ? Math.max(...(closestRegion.ranges?.map(r => r.range) || [0]))
-        : closestRegion.radiusKm;
-      
-      if (minDistance <= maxRange) {
+
+      if (applicableRange) {
         // Address is within range - use the applicable range pricing or fall back to legacy pricing
-        const deliveryPriceInCents = useMultiRangePricing && applicableRange
-          ? applicableRange.deliveryPriceInCents 
-          : (closestRegion.priceInCents || 0);
+        const deliveryPriceInCents = applicableRange.deliveryPriceInCents;
         
-        const minOrderPriceInCents = useMultiRangePricing && applicableRange
-          ? applicableRange.minOrderPriceInCents 
-          : (closestRegion.minOrderPriceInCents || 1000);
-        
+        const minOrderPriceInCents = applicableRange.minOrderPriceInCents;
+
         console.log(`Server: Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
-        
         return {
           isValid: true,
           isInRange: true,
           message: `Address is within the '${closestRegion.name}' delivery zone.`,
           deliveryRegion: {
             ...closestRegion,
-            // Override with the applicable range pricing if using multi-range
-            priceInCents: deliveryPriceInCents,
-            minOrderPriceInCents: minOrderPriceInCents
+            ranges: [applicableRange]
           },
           formattedAddress: addressData.formattedAddress,
           coordinates: coords,

@@ -2,7 +2,6 @@
 import React, {Suspense} from "react";
 import StoreSkeleton from "@/components/skeletons";
 import CheckoutSteps from "@/components/checkout/checkout-steps";
-import NotFound from "@/app/(error_layout)/not-found";
 import {generateStorePageMetadata} from "../store-utils";
 
 interface StorePageProps {

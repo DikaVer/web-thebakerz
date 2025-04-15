@@ -31,13 +31,14 @@ function pad(num: number): string {
 }
 
 // --- Helper to render the actual schedule list ---
-const renderScheduleDisplay = (scheduleData: StoreData['schedule'] | WorkHours | undefined) => {
-    const t = useTranslations("app/(store)/components/working-hours");
-
+export const renderScheduleDisplay = (
+    scheduleData: StoreData['schedule'] | WorkHours | undefined,
+    translations: any // Accept translations function as parameter
+) => {
     if (!scheduleData) {
         return (
             <div className="w-full flex justify-center items-center py-2">
-                <div className="text-default-500 text-center text-sm">{t("noScheduleAvailable")}</div>
+                <div className="text-default-500 text-center text-sm">{translations("noScheduleAvailable")}</div>
             </div>
         );
     }
@@ -52,7 +53,7 @@ const renderScheduleDisplay = (scheduleData: StoreData['schedule'] | WorkHours |
         console.warn("Schedule data does not contain expected day keys:", scheduleData);
         return (
             <div className="w-full flex justify-center items-center py-2">
-                <div className="text-default-500 text-center text-sm">{t("scheduleFormatError")}</div>
+                <div className="text-default-500 text-center text-sm">{translations("scheduleFormatError")}</div>
             </div>
         );
     }
@@ -63,7 +64,7 @@ const renderScheduleDisplay = (scheduleData: StoreData['schedule'] | WorkHours |
                 // Type assertion to handle different schedule types
                 const workday = (scheduleData as any)[day] as WorkDay | undefined;
 
-                let displayText = t("closed");
+                let displayText = translations("closed");
                 let isOpen = false;
                 
                 if (workday && workday.isEnabled) {
@@ -74,10 +75,10 @@ const renderScheduleDisplay = (scheduleData: StoreData['schedule'] | WorkHours |
                     displayText = `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
                     isOpen = true;
                 } else if (workday && !workday.isEnabled) {
-                    displayText = t("closed");
+                    displayText = translations("closed");
                 } else if (!workday) {
                     // Handle cases where a day might be missing in the data
-                    displayText = t("noInfo");
+                    displayText = translations("noInfo");
                 }
 
                 return (
@@ -86,7 +87,7 @@ const renderScheduleDisplay = (scheduleData: StoreData['schedule'] | WorkHours |
                         className={`flex justify-between items-center py-1.5 ${index !== daysOrder.length - 1 ? 'border-b border-default-200/50' : ''}`}
                     >
                         <span className="text-sm font-medium text-default-700 capitalize">
-                            {t(day)}
+                            {translations(day)}
                         </span>
                         {isOpen ? (
                             <p className="text-default-600 text-xs font-medium bg-default-100 px-2 py-1 rounded-md">
@@ -113,6 +114,7 @@ export const renderCalendarTopContent = () => {
     const { store } = useStore();
     const isSmall = useMediaQuery("(max-width: 767px)");
     const t = useTranslations("app/(store)/components/working-hours");
+
 
     if (!store?.schedule) {
         return (
@@ -181,7 +183,7 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
                         <h3 className="text-center text-default-700 font-medium mb-2 pb-2 border-b border-default-200/50">
                             {t(isDelivery ? "deliveryHoursTitle" : "workingHoursTitle")}
                         </h3>
-                        {renderScheduleDisplay(scheduleToShow)}
+                        {renderScheduleDisplay(scheduleToShow, t)}
                     </CardBody>
                 </Card>
             </DropdownMenu>
@@ -237,7 +239,7 @@ export const renderCalendarContent = () => {
             if (!validationResult.deliveryRegion) {
                 return (
                     <div className="w-full flex flex-col gap-2 items-center py-3">
-                        {renderScheduleDisplay(store?.schedule)}
+                        {renderScheduleDisplay(store?.schedule, t)}
                     </div>
                 );
             }
@@ -247,7 +249,7 @@ export const renderCalendarContent = () => {
                 console.warn("Delivery schedule missing for delivery region:", validationResult.deliveryRegion.name);
                 return (
                     <div className="w-full flex flex-col gap-2 items-center py-3">
-                        {renderScheduleDisplay(store?.schedule)}
+                        {renderScheduleDisplay(store?.schedule, t)}
                     </div>
                 );
             }
@@ -255,7 +257,7 @@ export const renderCalendarContent = () => {
             // Show the delivery schedule
             return (
                 <div className="w-full py-1">
-                    {renderScheduleDisplay(validationResult.deliveryRegion.deliverySchedule)}
+                    {renderScheduleDisplay(validationResult.deliveryRegion.deliverySchedule, t)}
                 </div>
             );
         }
@@ -270,7 +272,7 @@ export const renderCalendarContent = () => {
         // For pickup mode, show store schedule
         return (
             <div className="w-full py-1">
-                {renderScheduleDisplay(store?.schedule)}
+                {renderScheduleDisplay(store?.schedule, t)}
             </div>
         );
     }

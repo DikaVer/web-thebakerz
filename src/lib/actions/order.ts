@@ -2,13 +2,23 @@
 import * as z from "zod";
 import {CustomerOrderSchema} from "@/lib/schemas";
 import {getCurrentSession} from "@/lib/actions/session";
-import {Variant} from "@/lib/actions/cart";
-import {containerOrders} from "@/db";
+import {getCart, removeCartByUserIdAndStoreId, Variant} from "@/lib/actions/cart";
+import {connectionPool, containerOrders, containerOrdersUnpaid} from "@/db";
 import Stripe from "stripe";
 import { getTranslations } from "next-intl/server";
 import { AddressFormType } from "@/components/providers/delivery-provider";
 import {getCurrentStoreByUserIdAndStoreId} from "@/lib/actions/store";
-
+import { revalidateTag } from "next/cache";
+import {globalPOSTRateLimit} from "@/lib/actions/requests";
+import { getOrderTime } from "@/app/(store)/[id]/actions";
+import { now } from "@internationalized/date";
+import { CalendarDateTime } from "@internationalized/date";
+import { formatCurrency, scheduledToCalendarDateTime } from "../utils";
+import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
+import { calculateTotals } from "@/lib/price/tax";
+import { getCurrentProducts } from "./product";
+import { v4 as uuidv4 } from 'uuid';
+import { sendOrderPlaced } from "../emailSendRequest";
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
 // Order data interface
@@ -131,6 +141,45 @@ export type OrderProduct = {
     itemTotalInclVat?: number;
 };
 
+// This array defines the valid progression order.
+const validStatusOrder = ['cancelled', 'refunded', "new", "started", "ready", "completed"];
+
+// This function updates the status of an order in the database.
+async function updateOrderInCosmos(storeId: string, orderId: string, email: string, newStatus: string) {
+    try {
+        const partitionKeyValue = [storeId, email];
+        // Example Cosmos DB update operation
+        await containerOrders.item(orderId, partitionKeyValue).patch({
+            operations: [
+                { op: 'replace', path: '/order_status', value: newStatus },
+                { op: 'set', path: `/${newStatus}_at`, value: newStatus },
+            ]
+        });
+    } catch (error) {
+        console.error('Error updating order in Cosmos DB:', error);
+        throw new Error('Failed to update order in Cosmos DB');
+    }
+}
+
+async function updateOrderInPostgreSQL(storeId: string, seqId: string, email: string) {
+    try {
+        const result = await connectionPool.query(
+            `UPDATE orders 
+             SET completed = $1
+             WHERE id = $2 AND store_id = $3 AND customer = $4
+             RETURNING id`,
+            [true, seqId, storeId, email]
+        );
+
+        if (result.rows.length === 0) {
+            throw new Error('Order not found or update failed');
+        }
+    } catch (error) {
+        console.error('Error updating order in PostgreSQL:', error);
+        throw new Error('Failed to update order in PostgreSQL');
+    }
+}
+
 /**
  * Creates a new order based on the customer's form data and cart contents
  *
@@ -144,184 +193,224 @@ export type OrderProduct = {
  * @returns {Promise<{error?: string; orderId?: string}>} Object with an error message or the created order ID
  */
 export const createOrder = async (
-    formData: z.infer<typeof CustomerOrderSchema>
+    formData: z.infer<typeof CustomerOrderSchema>,
+    storeId: string
 ):Promise<{error?: string; orderId?: string}> => {
-    // const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
-    //
-    // // Check rate limiting
-    // if (!(await globalPOSTRateLimit())) {
-    //     return { error: t("tooManyRequests") };
-    // }
-    //
-    // // Validate form data
-    // const validation = CustomerOrderSchema.safeParse(formData);
-    // if (!validation.success) {
-    //     return { error: t("invalidFields") };
-    // }
-    //
-    // // Get session, user, and store details
-    // const { session, user, store} = await getCurrentSession();
-    // const userId = (!session || !user) ? await getCartSessionCookieOrCreate() : user.id;
-    // if (!store) return { error: t("storeNotFound") };
-    // if (!userId) return { error: t("userNotFound") };
-    //
-    // // Retrieve the user's cart data for the current store
-    // const cartData = await getCart(userId, store.id);
-    //
-    // if (!cartData || !cartData[store.id] || Object.keys(cartData[store.id]).length === 0) {
-    //     return { error: t("cartEmpty") };
-    // }
-    //
-    // // Get scheduled order time
-    // const { date, time } = await getOrderTime(store.id);
-    // if (!date || !time) return { error: t("orderTimeNotSet") };
-    //
-    // // Prevent ordering for past dates
-    // const today = now("Europe/Amsterdam")
-    // const todayCalendar = new CalendarDateTime(today.year, today.month, today.day, today.hour, today.minute);
-    // const orderDateObj = scheduledToCalendarDateTime({
-    //     date,
-    //     time
-    // })
-    // if (orderDateObj < todayCalendar) {
-    //     return { error: t("pastDateOrder") };
-    // }
-    //
-    // // Get products data and prepare cart items with subtotal calculation
-    // const productsData = await getProductsByStoreId(store.id);
-    //
-    // // Prepare cart items and calculate subtotal
-    // const cartItems = [];
-    // let amount = 0;
-    //
-    // for (const itemId in cartData[store.id]) {
-    //
-    //     const cartItem = cartData[store.id][itemId];
-    //     const product = productsData[cartItem.product_id];
-    //
-    //     if (!product) continue;
-    //
-    //     amount += calculateItemTotalPrice(cartItem.variants, product.price);
-    //
-    //     cartItems.push({
-    //         id: product.id,
-    //         name: product.name,
-    //         qty: cartItem.quantity,
-    //         price: product.price,
-    //         variants: cartItem.variants,
-    //         note: cartItem.note,
-    //         const_id: product.constId,
-    //         ingredients: product.ingredients,
-    //         allergies: product.allergies,
-    //         unitAmount: amount
-    //     });
-    // }
-    //
-    //
-    // // Generate a unique ID for the order
-    // const cosmosId = uuidv4();
-    //
-    // try {
-    //     // Begin PostgreSQL transaction
-    //     await connectionPool.query("BEGIN");
-    //
-    //     // Insert order record into PostgreSQL
-    //     const result = await connectionPool.query(
-    //         `
-    //                 INSERT INTO payment_orders
-    //                 (store_id, store_order_id, email_customer, amount, product_ids, status, cosmos_id)
-    //                 VALUES
-    //                     (
-    //                         $1,
-    //                         (SELECT COALESCE(COUNT(*) + 1, 1) FROM payment_orders WHERE store_id = $7),
-    //                         $2,
-    //                         $3,
-    //                         $4::text[],
-    //                         $5,
-    //                         $6
-    //                     )
-    //                     RETURNING id, order_date, store_order_id
-    //             `,
-    //         [
-    //             store.id,
-    //             formData.email,
-    //             amount,
-    //             cartItems.map(item => item.id || "Error"),
-    //             "manual",
-    //             cosmosId,
-    //             store.id
-    //         ]
-    //     );
-    //     if (result.rows.length === 0) {
-    //         await connectionPool.query("ROLLBACK");
-    //         return { error: t("failedCreateOrder") };
-    //     }
-    //
-    //     // Calculate tax and adjusted amounts using the updated calculateTotals
-    //     // Assuming manual orders via createOrder are always pickup (deliveryFee = 0)
-    //     const {
-    //         totalVat,           // Use totalVat instead of vat
-    //         totalInclVat,       // Use totalInclVat instead of total
-    //         itemExclVat // Use itemSubtotalExclVat instead of subtotal for sub_amount?
-    //                             // Let's keep sub_amount as the total *excluding* tax for consistency
-    //     } = calculateTotals(amount, !store.kor, 0); // Pass 0 for delivery fee
-    //
-    //     // Calculate subtotal excluding VAT
-    //     const subAmountExclVat = totalInclVat - totalVat;
-    //
-    //     // Prepare order data for Cosmos DB
-    //     const orderData: OrderData = {
-    //         id: cosmosId,
-    //         seq_id: result.rows[0].id,
-    //         store_order_id: result.rows[0].store_order_id,
-    //         store_id: store.id,
-    //         customer_email: formData.email,
-    //         customer: {
-    //             email_customer: formData.email,
-    //             email_verified: false,
-    //             name_customer: formData.name,
-    //             phone_number: formData.phoneNumber,
-    //             address: null // Manual orders don't have Stripe address details
-    //         },
-    //         createdAt: result.rows[0].order_date,
-    //         status: "manual",
-    //         scheduled_time: { date, time },
-    //         order_status: "new",
-    //         completed: false,
-    //         productsData: cartItems,
-    //
-    //         // Use new calculated values
-    //         itemsSubtotalInclVat: amount, // Original amount included VAT if applicable
-    //         deliveryFeeInclVat: 0,       // Manual order assumed pickup
-    //         sub_amount: subAmountExclVat, // Total excluding VAT
-    //         tax_amount: totalVat,       // Total VAT amount
-    //         amount: totalInclVat,       // Final total including VAT
-    //
-    //         isDelivery: false,           // Manual order assumed pickup
-    //         // deliveryAddress, deliveryRegionName are undefined for pickup
-    //     };
-    //
-    //     // Create order record in Cosmos DB
-    //     await containerOrders.items.create(orderData);
-    //
-    //     // Clear cart, send confirmation email, and invalidate cache
-    //     await removeCartByUserIdAndStoreId(userId, store.id);
-    //     sendOrderPlaced({ orderData, identifier: formData.email });
-    //
-    //     revalidateTag('cart');
-    //     revalidateTag('orders');
-    //
-    //     // Commit transaction
-    //     await connectionPool.query("COMMIT");
-    //     return { orderId: cosmosId };
-    // } catch (error) {
-    //     // Rollback transaction on error
-    //     await connectionPool.query("ROLLBACK");
-    //     console.error("Error creating checkout session:", error);
-    //     return { error: t("failedCreateCheckout") };
-    // }
-    return {}
+    const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
+
+    // Check rate limiting
+    if (!(await globalPOSTRateLimit())) {
+        return { error: t("tooManyRequests") };
+    }
+
+    // Validate form data
+    const validation = CustomerOrderSchema.safeParse(formData);
+    if (!validation.success) {
+        return { error: t("invalidFields") };
+    }
+
+    // Get session, user, and store details
+    const { user } = await getCurrentSession();
+    if (!user) {
+        return { error: t("sessionExpired") };
+    }
+
+    if(user.role !== "bakerz" && user.role !== "admin"){
+      return { error: t("userNotAuthorized") };
+    }
+
+    const {store} = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+    if (!store) {
+        return { error: t("storeNotFound") };
+    }
+
+    // Retrieve the user's cart data for the current store
+    const cartData = await getCart(user.id, store.id);
+
+    if (!cartData || !cartData[store.id] || Object.keys(cartData[store.id]).length === 0) {
+        return { error: t("cartEmpty") };
+    }
+
+    // Get scheduled order time
+    const { date, time } = await getOrderTime(store.id);
+    if (!date || !time) return { error: t("orderTimeNotSet") };
+
+    // Prevent ordering for past dates
+    const today = now("Europe/Amsterdam")
+    const todayCalendar = new CalendarDateTime(today.year, today.month, today.day, today.hour, today.minute);
+    const orderDateObj = scheduledToCalendarDateTime({
+        date,
+        time
+    })
+    if (orderDateObj < todayCalendar) {
+        return { error: t("pastDateOrder") };
+    }
+
+    // 7. Calculate Totals & Minimum Order Check
+    // -----------------------------------------
+    const productsData = await getCurrentProducts(storeId);
+    const applyVat = !store.kor; // Use KOR status from storeData
+
+    // Calculate item subtotal (including VAT if applicable)
+    let itemsInclVat = 0;
+    const cartItemsForOrder = []; // Store details for the unpaid order
+
+    for (const itemId in cartData[storeId]) {
+        const cartItem = cartData[storeId][itemId];
+        const product = productsData[cartItem.product_id];
+        if (!product) continue; 
+
+        const itemTotalInclVat = calculateItemTotalPrice(cartItem.variants, product.price, cartItem.quantity);
+        itemsInclVat += itemTotalInclVat;
+
+        cartItemsForOrder.push({
+            id: product.id,
+            name: product.name,
+            qty: cartItem.quantity,
+            price: product.price, // Base price
+            note: cartItem.note,
+            variants: cartItem.variants,
+            const_id: product.constId,
+            ingredients: product.ingredients,
+            allergies: product.allergies,
+            unitAmount: calculateItemTotalPrice(cartItem.variants, product.price), // Price per unit incl VAT
+            itemTotalInclVat: itemTotalInclVat // Total for this line incl VAT
+        });
+    }
+
+
+    // Calculate final totals using the updated function
+    const {
+        itemExclVat,
+        deliveryFeeExclVat,
+        serviceFeeExclVat,
+        serviceFeeInclVat,
+        itemVat,
+        deliveryVat,
+        serviceVat,
+        totalVat,
+        totalInclVat,
+        totalExclVat
+    } = calculateTotals(itemsInclVat, applyVat, 0, true);
+
+
+    try {
+        const cosmosId = uuidv4();  
+        // Create final order record in Cosmos DB
+        const orderData: OrderData = {
+            id: cosmosId,
+            seq_id: -1,
+            store_order_id: "Manual Order",
+            store_id: storeId,
+            customer_email: formData.email,
+            customer: {
+                email_customer: formData.email,
+                email_verified: false,
+                name_customer: formData.name,
+                phone_number: formData.phoneNumber,
+                address: null,
+                payment_method: [],
+                payment_name: null,
+                tax_id: null,
+            },
+            createdAt: new Date(),
+            status: "manual",
+            scheduled_time: {
+                date: date,
+                time: time
+            },
+            order_status: 'new',
+            completed: false,
+            productsData: cartItemsForOrder,
+            
+            // Price information
+            priceData: {
+                itemInclVat: itemsInclVat,
+                itemExclVat: itemExclVat,
+                deliveryFeeInclVat: 0,
+                deliveryFeeExclVat: 0,
+                serviceFeeInclVat: 0,
+                serviceFeeExclVat: 0,
+                itemVat: itemVat,
+                deliveryVat: 0,
+                serviceVat: 0,
+                totalInclVat: totalInclVat,
+                totalExclVat: totalExclVat,
+                totalVat: totalVat
+            },
+
+            // Delivery information
+            isDelivery: false,
+            isStoreDelivery: false,
+            deliveryAddress: undefined
+        };
+
+        // Store final order and clean up
+        await containerOrders.items.create(orderData);
+        await removeCartByUserIdAndStoreId(user.id, storeId);
+
+         // Send confirmation email and invalidate cache
+         sendOrderPlaced({
+            orderData: orderData,
+            identifier: formData.email, // Use primary email for notification
+        });
+
+        revalidateTag('cart');
+        revalidateTag('orders');
+
+
+        return { orderId: cosmosId };
+    } catch (error) {
+        // Rollback transaction on error
+        await connectionPool.query("ROLLBACK");
+        console.error("Error creating checkout session:", error);
+        return { error: t("failedCreateCheckout") };
+    }
 };
+
+export async function getOrdersAdminByDateRange(fromDate: string, toDate: string): Promise<OrderData[]> {
+    const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
+
+    try {
+        const {user} = await getCurrentSession();
+        if (!user) {return [];}
+
+        if (user.role !== "admin") {return [];}
+
+        const fromDateObj = new Date(fromDate);
+        const toDateObj = new Date(toDate);
+
+        const fromDateString = `${fromDateObj.getFullYear()}-${fromDateObj.getMonth() + 1}-${fromDateObj.getDate()}`;
+        const toDateString = `${toDateObj.getFullYear()}-${toDateObj.getMonth() + 1}-${toDateObj.getDate()}`;
+
+        // Query using the UDF
+        const querySpec = {
+            query: `
+                SELECT * FROM c
+                  WHERE udf.compareDateStrings(c.scheduled_time.date, @fromDate) = true
+                  AND udf.compareDateStrings(@toDate, c.scheduled_time.date) = true
+                  AND c.isStoreDelivery = false
+                  AND c.isDelivery = true
+            `,
+            parameters: [
+                { name: "@fromDate", value: fromDateString },
+                { name: "@toDate", value: toDateString }
+            ]
+        };
+
+        const { resources: orders } = await containerOrders.items.query(querySpec).fetchAll();
+
+        if (!orders || orders.length === 0) {
+            return [];
+        }
+
+        // Map the orders to the desired format
+        return orders;
+    } catch (error) {
+        console.error("Error fetching orders by date range:", error);
+        return [];
+    }
+}
 
 export async function getOrdersByDateRange(storeId: string, fromDate: string, toDate: string): Promise<OrderData[]> {
     const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
@@ -329,6 +418,10 @@ export async function getOrdersByDateRange(storeId: string, fromDate: string, to
     try {
         const {user} = await getCurrentSession();
         if (!user) {return [];}
+
+        if (user.role === "admin") {
+            return await getOrdersAdminByDateRange(fromDate, toDate);
+        }
 
         const {store} = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
         if (!store) {return [];}
@@ -344,7 +437,7 @@ export async function getOrdersByDateRange(storeId: string, fromDate: string, to
             },
             next: {
                 tags: ['orders'],
-                revalidate: 300
+                revalidate: 0
             }
         });
 
@@ -359,31 +452,79 @@ export async function getOrdersByDateRange(storeId: string, fromDate: string, to
     }
 }
 
-export async function updateOrderStatus(storeId: string, orderId: string, seqId: string, email: string, status: string): Promise<boolean> {
+export async function updateOrderStatus(storeId: string, orderId: string, seqId: string, email: string, status: string): Promise<{ok: boolean, error?: string}> {
+    const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
+    
     try {
         const {user} = await getCurrentSession();
-        if (!user) {return false;}
+        if (!user) {return {ok: false, error: "User not found"};}
 
-        const {store} = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
-        if (!store) {return false;}
+        if (user.role !== "admin") {
+            const {store} = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+            if (!store) {return {ok: false, error: "Store not found"};}
 
-        if (!store || store.id !== storeId) {return false;}
+            if (!store || store.id !== storeId) {return {ok: false, error: "Store mismatch"};}
+        } 
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/order/updateStatus`, {
-            method: 'POST',
-            headers: {
-                'Store-Id': store.id,
-                'Order-Id': orderId,
-                'Seq-Id': seqId,
-                'Email': email,
-                'Status': status,
-                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+        const orderData = await getOrder(storeId, orderId, email);
+
+        if (!orderData) {
+            return {
+                ok: false,
+                error: t("orderNotFound")
             }
-        });
-        return response.ok;
+        }
+
+
+        if (orderData.id !== orderId || orderData.store_id !== storeId || orderData.customer_email !== email) {
+            return {
+                ok: false,
+                error: t("invalidData")
+            }
+        }
+
+        if(orderData.order_status === "completed") {
+            return {
+                ok: false,
+                error: t("orderAlreadyCompleted")
+            }
+        }
+
+        const newStatus = status.toLowerCase();
+        const newIndex = validStatusOrder.indexOf(newStatus);
+
+        if (newIndex === -1) {
+            return {
+                ok: false,
+                error: t("invalidStatus")
+            }
+        }
+
+        if(!orderData.isStoreDelivery && newStatus === "completed") {
+            if (user?.role !== "admin") {
+                return {
+                    ok: false,
+                    error: t("cannotChangeStatus")
+                }
+            }
+        }
+
+        if (newStatus === "completed") {
+            orderData.status === 'paid' && await updateOrderInPostgreSQL(storeId, seqId, email);
+            await updateOrderInCosmos(storeId, orderId, email, newStatus);
+        } else {
+            await updateOrderInCosmos(storeId, orderId, email, newStatus);
+        }
+
+        revalidateTag('orders');
+        
+        return { ok: true };
     } catch (error) {
-        console.error("Error fetching orders by date range:", error);
-        return false;
+        console.error("Error updating order status:", error);
+        return {
+            ok: false,
+            error: t("failedUpdateOrderStatus")
+        };
     }
 };
 
@@ -394,6 +535,7 @@ export async function getOrder(storeId: string, orderId: string, email: string):
         if (!storeId || !orderId || !email) {return null;}
         const partitionKeyValue = [storeId, email];
         const { resource: order } = await containerOrders.item(orderId, partitionKeyValue).read();
+        // console.log(order);
         return order ? order : null;
     } catch (error) {
         console.error("Error fetching store data:", error);
@@ -416,4 +558,28 @@ export const getCurrentOrder = async (storeId: string, orderId: string, email: s
         }
     }).then(res => res.json());
 };
+
+export async function getNewOrderCount(storeId: string): Promise<number> {
+    const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
+    
+    try {
+        const querySpec = {
+            query: `
+                SELECT * FROM c
+                WHERE c.store_id = @storeId
+                AND c.order_status = 'new'
+            `,
+            parameters: [
+                { name: "@storeId", value: storeId }
+            ]
+        };
+
+        const { resources: orders } = await containerOrders.items.query(querySpec).fetchAll();
+
+        return orders.length;
+    } catch (error) {
+        console.error("Error fetching new orders:", error);
+        return 0;
+    }
+}
 

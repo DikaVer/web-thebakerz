@@ -8,7 +8,7 @@
   "Shop": {},
   "OrderStatus": {
     "cancelled": "Geannuleerd",
-    "completed": "Opgehaald",
+    "completed": "Voltooid",
     "new": "Nieuw",
     "ready": "Klaar",
     "refunded": "Terugbetaald",
@@ -251,7 +251,7 @@
     "scheduleUnavailable": "Plan niet beschikbaar",
     "checkingAddress": "Voer uw adres in",
     "scheduleFormatError": "Schema -formaatfout",
-    "closed": "Nu gesloten",
+    "closed": "Gesloten",
     "noInfo": "Nu open",
     "friday": "Vrijdag",
     "monday": "Maandag",
@@ -396,7 +396,8 @@
     "orderStatusFilter": "Bestelstatusfilter",
     "addOrder": "Voeg bestelling toe",
     "orders": "Bevelen",
-    "delivery": "Levering"
+    "delivery": "Levering",
+    "brandName": "TheBakerz"
   },
   "app/(store)/components/orders-bar-chart": {
     "notFound": "Niet gevonden",
@@ -469,11 +470,11 @@
     "Placed": "Geplaatst",
     "Cooking": "Koken",
     "Ready": "Klaar",
-    "Picked Up": "Opgepakt",
     "Cancelled": "Geannuleerd",
     "Print Invoice": "Factuur afdrukken",
     "Something Went Wrong": "Er ging iets mis",
-    "delivery": "Levering"
+    "delivery": "Levering",
+    "completed": "Voltooid"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "E-mail",
@@ -532,7 +533,8 @@
     "serviceFee": "Servicekosten",
     "minimumOrderForDelivery": "Minimale bestelling is {amount}",
     "addressOutOfRange": "Adres uit de afleverregio",
-    "vat21": "Btw (21%)"
+    "vat21": "Btw (21%)",
+    "deliveryVat": "Levering btw (21%)"
   },
   "app/(store)/components/image": {
     "close": "Dichtbij",
@@ -758,7 +760,8 @@
   },
   "app/(components)/signin-button": {
     "loading": "Bezig met laden...",
-    "signIn": "Aanmelden"
+    "signIn": "Aanmelden",
+    "storeRedirect": "Winkel"
   },
   "app/(components)/signout-button": {
     "logOut": "Uitloggen",
@@ -808,20 +811,7 @@
     "notAuthorized": "Geen toegang verlenen",
     "internalError": "Interne serverfout"
   },
-  "app/api/store/order/updateStatus": {
-    "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
-    "missingOrderId": "Ontbrekende of ongeldige Order-Id-header",
-    "missingEmail": "Ontbrekende of ongeldige User-ID-header",
-    "missingStatus": "Ontbrekende of ongeldige statusheader",
-    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
-    "notAuthorized": "Geen toegang verlenen",
-    "orderNotFound": "Bestelling niet gevonden",
-    "invalidData": "Ongeldige gegevens",
-    "invalidStatus": "Ongeldige status",
-    "internalError": "Interne serverfout",
-    "missingSeqId": "Ontbrekende of ongeldige SEQ-ID-header",
-    "cannotChangeStatus": "Thebakerz kan deze bestelling alleen voltooien!"
-  },
+  "app/api/store/order/updateStatus": {},
   "app/api/store/order": {
     "notAuthorized": "Geen toegang verlenen",
     "internalError": "Interne serverfout"
@@ -928,7 +918,15 @@
     "failedCreateOrder": "Het is niet gelukt om een bestelling te maken",
     "failedCreateCheckout": "Het is niet gelukt om een checkout-sessie te maken",
     "failedFetchOrders": "Het is niet gelukt om bestellingen op te halen",
-    "failedFetchOrder": "Het ophalen van winkelgegevens is mislukt"
+    "failedFetchOrder": "Het ophalen van winkelgegevens is mislukt",
+    "failedUpdateOrderStatus": "Kan de bestelstatus niet bijwerken",
+    "orderNotFound": "Bestel niet gevonden",
+    "invalidData": "Ongeldige bestelgegevens",
+    "orderAlreadyCompleted": "Bestelling is al voltooid",
+    "invalidStatus": "Ongeldige status",
+    "cannotChangeStatus": "TheBakerz kan deze bestelling alleen voltooien",
+    "sessionExpired": "Sessie is niet geldig",
+    "userNotAuthorized": "Geen toegang"
   },
   "app/lib/actions/order-products": {
     "tooManyRequests": "Te veel verzoeken",
@@ -1120,5 +1118,8 @@
     "missingAuth": "Ontbrekende of ongeldige autorisatiekop",
     "missingStoreId": "Ontbrekende of ongeldige winkel-ID-header",
     "notAuthorized": "Geen toegang toestaan"
+  },
+  "app/api/store/orders/new": {
+    "internalError": "Interne fout"
   }
 }

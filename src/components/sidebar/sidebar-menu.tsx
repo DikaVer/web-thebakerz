@@ -1,10 +1,10 @@
 // TypeScript
-import { AvatarIcon, Button, cn, Image, Spacer, Tooltip, Avatar, ScrollShadow } from "@heroui/react";
+import { AvatarIcon, Button, cn, Image, Spacer, Tooltip, Avatar, ScrollShadow, Badge } from "@heroui/react";
 import { pacifico } from "@/components/fonts";
 import Sidebar, {SidebarItemType} from "@/components/sidebar/sidebar";
 import { Icon } from "@iconify/react";
 import SidebarDrawer from "@/components/sidebar/sidebar-drawer";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { SignOutButton } from "@/components/ui/signout-button";
@@ -13,7 +13,6 @@ import {
     sectionItemsBakerz,
     sectionItemsGuestStore,
     sectionItemsGuestTheBakerz,
-    sectionItemsTheBakerz,
     sectionItemsUser,
     sectionStoreItemsUser
 } from "@/components/sidebar/sidebar-items";
@@ -49,6 +48,9 @@ export default function SidebarMenu({ store, isOpen, onOpenChange, isCollapsed }
     const storeUrl = null;
 
 
+    useEffect(() => {
+        console.log(session);
+    });
 
 
     return (
@@ -214,7 +216,7 @@ const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreD
                                         key: `orders-${session.stores[0].id}`,
                                         href: `/${session.stores[0].name || session.stores[0].id}/orders`,
                                         titleKey: "orders",
-                                        icon: "solar:notification-unread-lines-broken"
+                                        startContent: <NotificationIconWithBadge count={session.stores[0].newOrdersCount} />
                                     },
                                     {
                                         key: `products-${session.stores[0].id}`,
@@ -255,7 +257,7 @@ const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreD
                                         key: `orders-${store.id}`,
                                         href: `/${storeUrl}/orders`,
                                         titleKey: "orders",
-                                        icon: "solar:notification-unread-lines-broken"
+                                        startContent: <NotificationIconWithBadge count={store.newOrdersCount} />
                                     },
                                     {
                                         key: `products-${store.id}`,
@@ -344,3 +346,24 @@ const GuestMenu: React.FC<GuestMenuProps> = ({ isCollapsed }) => {
         </Tooltip>
     );
 };
+
+function NotificationIconWithBadge({ count = 0 }: { count?: number }) {
+    return (
+        <div className="relative inline-flex items-center justify-center">
+            <Badge 
+                variant="solid" 
+                color="danger" 
+                size="md" 
+                className="absolute"
+                content={count}
+                isInvisible={count === 0}
+            >
+                <Icon 
+                    className="text-grayText group-data-[selected=true]:text-foreground" 
+                    icon="solar:notification-unread-lines-broken" 
+                    width={24} 
+                />
+            </Badge>
+        </div>
+    );
+}

@@ -1,15 +1,14 @@
 import React from "react";
 import NotFound from "@/app/(error_layout)/not-found";
 import {getCurrentOrder} from "@/lib/actions/order";
-import {getCurrentStore} from "@/lib/actions/store";
 import {OrderOverview} from "@/components/store/orders/overview/order-overview";
 
 interface StorePageProps {
     params: Promise<{
-        id: string
         orderId: string
     }>
     searchParams: Promise<{
+        storeId?: string;
         email?: string;
         from?: string;
         to?: string;
@@ -17,22 +16,12 @@ interface StorePageProps {
 }
 
 export async function generateMetadata({ params }: {
-    params: Promise<{ id: string, orderId: string }>
+    params: Promise<{ orderId: string }>
 }) {
-    const { id } = await params;
-
-    const storeData = await getCurrentStore(id);
-
-    if (!storeData) {
-        return {
-            title: "Order Not Found",
-            description: "The requested order could not be found."
-        };
-    }
 
     return {
-        title: `Order Details | ${storeData.ownerName}`,
-        description: `View order details for your purchase at ${storeData.ownerName}`,
+        title: `Order Details | TheBakerz`,
+        description: `View order details for your purchase at TheBakerz`,
         robots: {
             index: false,
             follow: false
@@ -45,20 +34,14 @@ export default async function Page(props: StorePageProps) {
     const searchParams = await props.searchParams;
     const params = await props.params;
 
-    const { id, orderId } = params;
-    const { email, to, from } = searchParams;
+    const { orderId} = params;
+    const { email, to, from, storeId } = searchParams;
 
-    if (!email || !id || !orderId) {
+    if (!email || !orderId || !storeId) {
         return NotFound();
     }
 
-    const storeData = await getCurrentStore(id);
-
-    if (!storeData) {
-        return NotFound();
-    }
-
-    const orderData = await getCurrentOrder(storeData.id, orderId, email);
+    const orderData = await getCurrentOrder(storeId, orderId, email);
 
     if (!orderData) {
         return NotFound();
@@ -67,6 +50,7 @@ export default async function Page(props: StorePageProps) {
     return (
         <div className="flex flex-col min-h-screen relative z-10 items-center">
             <OrderOverview
+                isStore={false}
                 orderData={orderData}
                 from={from}
                 to={to}

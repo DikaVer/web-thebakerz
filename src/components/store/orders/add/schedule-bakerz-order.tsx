@@ -70,7 +70,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
         async (previousState: any, formData: z.infer<typeof CustomerOrderSchema>) => {
             // Pass along the user's email and role so the updateProfile action can write to the proper tables
             setIsLoading(true);
-            const result = await createOrder(formData);
+            const result = await createOrder(formData, store.id);
 
             if (result?.orderId) {
                 addToast({

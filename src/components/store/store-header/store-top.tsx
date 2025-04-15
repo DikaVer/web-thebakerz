@@ -23,7 +23,7 @@ export function StoreTop() {
 
     // Check if the current session user is a bakerz and owns this store
     const isOwner = session?.user?.role === "bakerz" &&
-                   session.user.id === store.user_id;
+                session?.user?.id === store?.user_id;
 
     return (
         <div className={'w-full flex flex-col'}>

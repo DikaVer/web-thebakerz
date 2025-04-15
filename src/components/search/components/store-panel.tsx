@@ -24,24 +24,9 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
     
     if (deliveryMode === 'delivery') {
         // Find the applicable delivery range/price
-        if(store.deliveryRegions && store.deliveryRegions.length > 0) {
-            const firstRegion = store.deliveryRegions[0];
-            if (firstRegion.ranges && firstRegion.ranges.length > 0) {
-                // Find the first range that covers the distance
-                const applicableRange = firstRegion.ranges.find(r => store.distance <= r.range);
-                if (applicableRange) {
-                    deliveryPrice = applicableRange.deliveryPriceInCents;
-                    minOrder = applicableRange.minOrderPriceInCents;
-                } else {
-                    // Fallback to legacy region prices if no specific range matches
-                    deliveryPrice = firstRegion.priceInCents;
-                    minOrder = firstRegion.minOrderPriceInCents;
-                }
-            } else {
-                 // Fallback to legacy region prices if no ranges array
-                 deliveryPrice = firstRegion.priceInCents;
-                 minOrder = firstRegion.minOrderPriceInCents;
-            }
+        if(store.deliveryRange) {
+            deliveryPrice = store.deliveryRange.deliveryPriceInCents;
+            minOrder = store.deliveryRange.minOrderPriceInCents;
         }
         deliveryInfo = deliveryPrice !== undefined
             ? `${formatCurrency(deliveryPrice)} ${t('deliveryFee')}`
@@ -91,18 +76,35 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
     const isDeliveryAvailable = useMemo(() => {
         if (deliveryMode !== 'delivery' || !store.deliveryRegions || store.deliveryRegions.length === 0) return false;
         
+        const region = store.deliveryRegion;
         // First check if store is open at all - delivery requires the store to be open
-        if (!isStoreOpen) return false;
+        if (!region) return false;
         
-        // Check if there's a delivery region that covers the distance
-        const region = store.deliveryRegions[0];
-        if (region.ranges && region.ranges.length > 0) {
-            // Check if any range covers the current distance
-            return region.ranges.some(r => store.distance <= r.range);
-        }
+        // Get current date and time
+        const now = new Date();
+        const currentDay = now.getDay(); // 0 is Sunday, 1 is Monday, etc.
+        const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
         
-        // If no ranges, check if there's a price set (indicating delivery is available)
-        return region.priceInCents !== undefined && region.priceInCents >= 0;
+        // Map day number to day name
+        const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const todayName = dayNames[currentDay];
+        
+        // Get today's schedule
+        const todaySchedule = region.deliverySchedule[todayName as keyof typeof region.deliverySchedule];
+        
+        // Check if the store is open today
+        if (!todaySchedule?.isEnabled) return false;
+        
+        // Convert current time to minutes for easier comparison
+        const currentTimeInMinutes = currentHour * 60 + currentMinute;
+        
+        // Convert store opening hours to minutes
+        const openingTimeInMinutes = todaySchedule.start.hour * 60 + todaySchedule.start.minute;
+        const closingTimeInMinutes = todaySchedule.end.hour * 60 + todaySchedule.end.minute;
+        
+        // Check if current time is within store hours
+        return currentTimeInMinutes >= openingTimeInMinutes && currentTimeInMinutes < closingTimeInMinutes;
     }, [store.deliveryRegions, store.distance, isStoreOpen, deliveryMode]);
 
     return (

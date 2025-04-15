@@ -11,43 +11,69 @@ import {OrderCustomerDetails} from "@/components/store/orders/overview/component
 import {OrderItems} from "@/components/store/orders/overview/components/order-items";
 import {useStore} from "@/components/providers/store-provider";
 import {useTranslations} from "next-intl";
+import {useSession} from "@/components/providers/session-provider";
 
 
 interface OrderOverviewProps {
-    storeData: StoreData;
     orderData: OrderData;
     from?: string;
     to?: string;
+    isStore?: boolean;
 }
 
-export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderData, from, to}) => {
-    const { store } = useStore();
+export const OrderOverview: React.FC<OrderOverviewProps> = ({orderData, from, to, isStore = true}) => {
+    const { store } = isStore ? useStore() : { store: null };
+    const { session } = useSession();
     const router = useRouter();
     const t = useTranslations("app/(store)/components/orders");
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
+
+    const dateParams = `date=${orderData.scheduled_time.date}`;
+    const fromToParams = from && to ? `&from=${from}&to=${to}` : '';
+    const returnUrl = session?.user?.role === "admin" ? `/dashboard/orders?${dateParams}${fromToParams}` : `/orders`;
     return (
         <div className={'flex flex-col w-full max-w-2xl container'}>
-            <Button
-                size="md"
-                variant="light"
-                className="text-default-500 max-w-fit px-0 pr-2"
-                onPress={() => {
-                    const dateParams = `date=${orderData.scheduled_time.date}`;
-                    const fromToParams = from && to ? `&from=${from}&to=${to}` : '';
-                    router.push(`/${storeUrl}/orders?${dateParams}${fromToParams}`);
-                    router.refresh()
-                }}
-                startContent={
-                    <Icon
-                        className="text-default-500"
-                        height={24}
-                        icon="solar:alt-arrow-left-linear"
-                        width={24}
-                    />
-                }
-            >
-                {t("backToOrderDashboard")}
-            </Button>
+            {isStore ? (
+                <Button
+                    size="md"
+                    variant="light"
+                    className="text-default-500 max-w-fit px-0 pr-2"
+                    onPress={() => {
+                        router.push(`/${storeUrl}/orders?${dateParams}${fromToParams}`);
+                        router.refresh()
+                    }}
+                    startContent={
+                        <Icon
+                            className="text-default-500"
+                            height={24}
+                            icon="solar:alt-arrow-left-linear"
+                            width={24}
+                        />
+                    }
+                >
+                    {t("backToOrderDashboard")}
+                </Button>
+            ) : (
+                <Button
+                    size="md"
+                    variant="light"
+                    className="text-default-500 max-w-fit px-0 pr-2"
+                    onPress={() => {
+                        router.push(returnUrl);
+                        router.refresh()
+                    }}
+                    startContent={
+                        <Icon
+                            className="text-default-500"
+                            height={24}
+                            icon="solar:alt-arrow-left-linear"
+                            width={24}
+                        />
+                    }
+                >
+                    {t("backToOrderDashboard")}
+                </Button>
+            )}
             <Spacer y={4}/>
             <OrderTopContent
                 orderData={orderData}
@@ -58,7 +84,6 @@ export const OrderOverview: React.FC<OrderOverviewProps> = ({storeData, orderDat
             />
             <Spacer y={8}/>
             <OrderItems
-                storeData={storeData}
                 orderData={orderData}
             />
             <Spacer y={8}/>

@@ -95,14 +95,14 @@ const BusinessInfo: React.FC<BusinessInfoProps> = ({ className }) => {
       {/* Account Information Card */}
       <Card className={`w-full overflow-hidden transition-all duration-300 ${className}`} shadow="sm">
         <CardBody className="p-0 w-full">
-          <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/30 dark:to-primary-800/20">
+          <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-secondary dark:to-primary">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-full bg-primary/10">
                   <Icon icon="solar:info-circle-linear" className="h-5 w-5 text-primary" />
                 </div>
                 <Skeleton isLoaded={!isLoading} className="rounded-full">
-                  <span className="text-sm font-medium">{t("accountInformation")}</span>
+                  <span className="text-sm font-medium dark:text-black">{t("accountInformation")}</span>
                 </Skeleton>
               </div>
             </div>
@@ -113,7 +113,7 @@ const BusinessInfo: React.FC<BusinessInfoProps> = ({ className }) => {
               {/* Account Type */}
               <div className="flex flex-col gap-1 p-3 rounded-lg bg-default-50 dark:bg-default-100">
                 <div className="flex items-center gap-2 mb-1">
-                  <Icon icon={accountTypeInfo.icon} className={`h-4 w-4 ${accountTypeInfo.color}`} />
+                  <Icon icon={accountTypeInfo.icon} className={`h-4 w-4 text-primary dark:text-secondary`} />
                   <span className="text-xs text-default-600">{t("accountType")}</span>
                 </div>
                 <Skeleton isLoaded={!isLoading} className="rounded-full">
@@ -126,7 +126,7 @@ const BusinessInfo: React.FC<BusinessInfoProps> = ({ className }) => {
               {/* Email */}
               <div className="flex flex-col gap-1 p-3 rounded-lg bg-default-50 dark:bg-default-100">
                 <div className="flex items-center gap-2 mb-1">
-                  <Icon icon="solar:letter-linear" className="h-4 w-4 text-primary" />
+                  <Icon icon="solar:letter-linear" className="h-4 w-4 text-primary dark:text-secondary" />
                   <span className="text-xs text-default-600">{t("email")}</span>
                 </div>
                 <Skeleton isLoaded={!isLoading} className="rounded-full">
@@ -141,7 +141,7 @@ const BusinessInfo: React.FC<BusinessInfoProps> = ({ className }) => {
               {/* Created Date */}
               <div className="flex flex-col gap-1 p-3 rounded-lg bg-default-50 dark:bg-default-100">
                 <div className="flex items-center gap-2 mb-1">
-                  <Icon icon="solar:calendar-date-linear" className="h-4 w-4 text-primary" />
+                  <Icon icon="solar:calendar-date-linear" className="h-4 w-4 text-primary dark:text-secondary" />
                   <span className="text-xs text-default-600">{t("memberSince")}</span>
                 </div>
                 <Skeleton isLoaded={!isLoading} className="rounded-full">
@@ -156,7 +156,7 @@ const BusinessInfo: React.FC<BusinessInfoProps> = ({ className }) => {
               {/* Authentication Status */}
               <div className="flex flex-col gap-1 p-3 rounded-lg bg-default-50 dark:bg-default-100">
                 <div className="flex items-center gap-2 mb-1">
-                  <Icon icon="solar:shield-check-linear" className="h-4 w-4 text-primary" />
+                  <Icon icon="solar:shield-check-linear" className="h-4 w-4 text-primary dark:text-secondary" />
                   <span className="text-xs text-default-600">{t("accountStatus")}</span>
                 </div>
                 <Skeleton isLoaded={!isLoading} className="rounded-full">

@@ -1,10 +1,9 @@
-import React, {Suspense} from "react";
+import React from "react";
 import {Spacer} from "@heroui/react";
 import NotFound from "@/app/(error_layout)/not-found";
 import { FooterStore } from "@/components/footer-store";
 import {getCurrentProduct} from "@/lib/actions/product";
 import {ProductPage} from "@/components/store/product-page/product-page";
-import {generateStorePageMetadata, verifyStoreExists} from "../store-utils";
 import {getCurrentStore} from "@/lib/actions/store";
 import { getLocale } from 'next-intl/server';
 import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata';

@@ -165,7 +165,7 @@ export const InvoiceBakerz: React.FC<InvoiceProps> = ({ store, order }) => {
                             <tr>
                                 <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
                                 <td style={{...styles.td, textAlign: "left", borderBottom: "none"}}></td>
-                                <td colSpan={2} style={{...styles.td, borderBottom: "none", textAlign: "left", fontSize: "12px"}}><strong>VAT (21%):</strong></td>
+                                <td colSpan={2} style={{...styles.td, borderBottom: "none", textAlign: "left", fontSize: "12px"}}><strong>Delivery VAT (21%):</strong></td>
                                 <td style={{...styles.td, borderBottom: "none", textAlign: "right", fontSize: "12px"}}>{formatCurrency(deliveryTax)}</td>
                             </tr>
                         )}

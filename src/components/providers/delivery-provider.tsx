@@ -6,10 +6,8 @@ import { setDeliveryMode, getDeliveryMode } from '@/lib/delivery-cookie';
 import { addToast } from "@heroui/react";
 import { useStore } from '@/components/providers/store-provider';
 import { updateOrderTime, getOrderTime, updateDeliveryTime, getDeliveryTime } from '@/app/(store)/[id]/actions';
-import { updateDeliveryAddress, getCurrentDeliveryAddress, DeliveryAddress as DbDeliveryAddress } from '@/app/(store)/[id]/delivery-actions';
+import { DeliveryAddress as DbDeliveryAddress } from '@/app/(store)/[id]/delivery-actions';
 import { parseDateParams, parseDateTime } from "@/components/store/store-header/calendar/calendar-params";
-import { useDebouncedCallback } from "use-debounce";
-import { ValidatedDeliveryRegion } from '@/lib/schemas/delivery.schema';
 import { MerchantDeliveryRegion } from '@/lib/actions/delivery-actions';
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import { haversineDistance } from '@/lib/utils';
@@ -161,7 +159,6 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
             console.log(`Client: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
     
             // First check if we have multi-range pricing (new format)
-            let useMultiRangePricing = false;
             let applicableRange = null;
       
             if (closestRegion.ranges && Array.isArray(closestRegion.ranges) && closestRegion.ranges.length > 0) {
@@ -173,54 +170,41 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
               for (const range of sortedRanges) {
                 if (minDistance <= range.range) {
                   applicableRange = range;
-                  useMultiRangePricing = true;
                   console.log(`Client: Found applicable range: ${range.range} km with delivery price ${range.deliveryPriceInCents / 100}€`);
                   break;
                 }
               }
             }
       
-            // Check if the address is within the maximum delivery range
-            const maxRange = useMultiRangePricing 
-              ? Math.max(...(closestRegion.ranges?.map(r => r.range) || [0]))
-              : closestRegion.radiusKm;
-            
-            if (minDistance <= maxRange) {
+            if (applicableRange) {
               // Address is within range - use the applicable range pricing or fall back to legacy pricing
-              const deliveryPriceInCents = useMultiRangePricing && applicableRange
-                ? applicableRange.deliveryPriceInCents 
-                : (closestRegion.priceInCents || 0);
+              const deliveryPriceInCents = applicableRange.deliveryPriceInCents;
               
-              const minOrderPriceInCents = useMultiRangePricing && applicableRange
-                ? applicableRange.minOrderPriceInCents 
-                : (closestRegion.minOrderPriceInCents || 1000);
-              
-              console.log(`Client: Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
-              
+              const minOrderPriceInCents = applicableRange.minOrderPriceInCents;
+      
+              console.log(`Server: Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
               setValidationResult({
                 isValid: true,
                 isInRange: true,
                 message: `Address is within the '${closestRegion.name}' delivery zone.`,
                 deliveryRegion: {
                   ...closestRegion,
-                  // Override with the applicable range pricing if using multi-range
-                  priceInCents: deliveryPriceInCents,
-                  minOrderPriceInCents: minOrderPriceInCents
+                  ranges: [applicableRange]
                 },
-                formattedAddress: initialAddress.formattedAddress,
-                coordinates: initialAddress.coordinates,
-                validatedAddress: { ...initialAddress, coordinates: initialAddress.coordinates },
+                formattedAddress: initialAddress?.formattedAddress || "",
+                coordinates: initialAddress?.coordinates,
+                validatedAddress: { ...address, coordinates: initialAddress?.coordinates },
               });
             } else {
-              console.log(`Client: Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
+              console.log(`Server: Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
               setValidationResult({
                 isValid: true,
                 isInRange: false,
                 message: `Address is outside our delivery area. Nearest location is ${minDistance.toFixed(1)} km away.`,
-                formattedAddress: initialAddress.formattedAddress,
-                coordinates: initialAddress.coordinates,
-                validatedAddress: { ...initialAddress, coordinates: initialAddress.coordinates },
-              }); 
+                formattedAddress: initialAddress?.formattedAddress || "",
+                coordinates: initialAddress?.coordinates,
+                validatedAddress: { ...address, coordinates: initialAddress?.coordinates },
+              })  ;
             }
           } else {
             setValidationResult({

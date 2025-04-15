@@ -19,20 +19,20 @@ export default function DeliveryInfo({
   const [isLoading, setIsLoading] = useState(true);
 
   // Get delivery price
-  const deliveryPrice = deliveryRegion.priceInCents;
+  const deliveryPrice = deliveryRegion.ranges?.[0]?.deliveryPriceInCents || 100000;
   const formattedDeliveryPrice = formatCurrency(deliveryPrice);
 
   // Get minimum order value
-  const minOrderValue = deliveryRegion.minOrderPriceInCents;
+  const minOrderValue = deliveryRegion.ranges?.[0]?.minOrderPriceInCents || 100000;
   const formattedMinOrderValue = formatCurrency(minOrderValue);
 
   // Show delivery schedule information if available
-  const deliverySchedule = deliveryRegion.deliverySchedule as WorkHours | undefined;
-  const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-  const enabledDays = deliverySchedule ? 
-    daysOfWeek.filter(day => 
-      deliverySchedule[day as keyof WorkHours]?.isEnabled
-    ) : [];
+  // const deliverySchedule = deliveryRegion.deliverySchedule as WorkHours | undefined;
+  // const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  // const enabledDays = deliverySchedule ? 
+  //   daysOfWeek.filter(day => 
+  //     deliverySchedule[day as keyof WorkHours]?.isEnabled
+  //   ) : [];
 
   // Simulate loading effect
   useEffect(() => {

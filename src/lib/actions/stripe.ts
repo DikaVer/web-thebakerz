@@ -104,25 +104,25 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     // 1. Basic Checks & Rate Limiting
     // ---------------------------------
     if (!(await globalPOSTRateLimit())) {
-        return { error: 'Too many requests' };
+        return {error: 'Too many requests'};
     }
 
     const origin = process.env.NEXT_PUBLIC_API_BASE_URL;
     if (!storeId || !storeStripeAccountId) {
-        return { error: 'Store ID and Stripe Account ID are required' };
+        return {error: 'Store ID and Stripe Account ID are required'};
     }
 
     // 2. User & Session Info
     // ----------------------
-    const { user } = await getCurrentSession();
+    const {user} = await getCurrentSession();
     let userId = user?.id || await getCartSessionCookieOrCreate();
-    if (!userId) return { error: "User identifier could not be determined." };
+    if (!userId) return {error: "User identifier could not be determined."};
 
     // 3. Cart Validation
     // ------------------
     const cartData = await getCart(userId, storeId);
     if (!cartData || !cartData[storeId] || Object.keys(cartData[storeId]).length === 0) {
-        return { error: 'Your cart is empty.' };
+        return {error: 'Your cart is empty.'};
     }
 
     // 4. Determine Delivery/Pickup Mode
@@ -133,7 +133,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     // Fetch Full Store Data (needed for schedule, lead time, KOR status)
     const storeData = await getCurrentStorePayment(storeId);
     if (!storeData) {
-        return { error: 'Store data could not be found.' };
+        return {error: 'Store data could not be found.'};
     }
 
     // 5. Address & Delivery Region Validation (if delivery)
@@ -146,27 +146,27 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     if (isDelivery) {
         const currentAddress = await getCurrentDeliveryAddress(storeId); // Fetch from DB
         if (!currentAddress || !currentAddress.coordinates) {
-            return { error: 'Delivery address is missing or incomplete.' };
+            return {error: 'Delivery address is missing or incomplete.'};
         }
-        const addressDataForValidation: AddressFormType = { ...currentAddress }; // Map DB structure if needed
-        
+        const addressDataForValidation: AddressFormType = {...currentAddress}; // Map DB structure if needed
+
         // Use storeData.deliveryRegions if already fetched
         deliveryValidationResult = await validateAddress(addressDataForValidation, storeId);
-        
+
         if (!deliveryValidationResult.isValid) {
-            return { error: `Address validation failed: ${deliveryValidationResult.message}` };
+            return {error: `Address validation failed: ${deliveryValidationResult.message}`};
         }
         if (!deliveryValidationResult.isInRange) {
-            return { error: `Address is outside the delivery area: ${deliveryValidationResult.message}` };
+            return {error: `Address is outside the delivery area: ${deliveryValidationResult.message}`};
         }
         if (!deliveryValidationResult.deliveryRegion) {
-             // Should not happen if isInRange is true, but good to check
-            return { error: 'Could not determine the delivery region for the address.' };
+            // Should not happen if isInRange is true, but good to check
+            return {error: 'Could not determine the delivery region for the address.'};
         }
-        
+
         selectedRegion = deliveryValidationResult.deliveryRegion;
-        deliveryFeeInclVat = selectedRegion.priceInCents;
-        minimumOrderAmount = selectedRegion.minOrderPriceInCents;
+        deliveryFeeInclVat = selectedRegion.ranges?.[0]?.deliveryPriceInCents || 100000;
+        minimumOrderAmount = selectedRegion.ranges?.[0]?.minOrderPriceInCents || 100000;
     }
 
     // 6. Order Time Validation
@@ -174,49 +174,51 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     // Fetch selected time based on mode and potentially region
     let fetchedTimeData: { date: string | null; time: string | null; } | null = null;
     if (isDelivery && selectedRegion) {
-        fetchedTimeData = await getDeliveryTime(storeId, selectedRegion.name); 
+        fetchedTimeData = await getDeliveryTime(storeId, selectedRegion.name);
     } else if (!isDelivery) {
-        fetchedTimeData = await getOrderTime(storeId); 
+        fetchedTimeData = await getOrderTime(storeId);
     }
 
     // Ensure date and time are strings, not null
     if (!fetchedTimeData?.date || !fetchedTimeData?.time) {
-        return { error: isDelivery ? 'Delivery time is not set.' : 'Pickup time is not set.' };
+        return {error: isDelivery ? 'Delivery time is not set.' : 'Pickup time is not set.'};
     }
     // Now we know date and time are strings
-    const selectedTime = { date: fetchedTimeData.date, time: fetchedTimeData.time };
+    const selectedTime = {date: fetchedTimeData.date, time: fetchedTimeData.time};
 
     // Validate against current time (prevent past orders)
     const nowInAmsterdam: ZonedDateTime = now("Europe/Amsterdam");
     const orderDateTime: CalendarDateTime = scheduledToCalendarDateTime(selectedTime);
     // Compare using epoch milliseconds for safety
     if (orderDateTime.toDate(nowInAmsterdam.timeZone).getTime() < nowInAmsterdam.toDate().getTime()) {
-        return { error: "Cannot place orders for past dates/times." };
+        return {error: "Cannot place orders for past dates/times."};
     }
 
     // Validate against store schedule (operating hours, lead time)
     // Get the correct schedule based on delivery mode
-    const relevantSchedule = isDelivery 
+    const relevantSchedule = isDelivery
         ? selectedRegion?.deliverySchedule // Use region specific schedule if available
         : storeData.schedule; // Use general store schedule for pickup
-        
+
     // If delivery is chosen but the specific region has no schedule, fall back to store schedule?
     // Or maybe it should be an error? Let's assume fallback for now.
     const scheduleToValidateAgainst = relevantSchedule || storeData.schedule;
 
     if (!scheduleToValidateAgainst) {
-        return { error: isDelivery ? "Delivery/Store schedule not found." : "Store operating hours not found." };
+        return {error: isDelivery ? "Delivery/Store schedule not found." : "Store operating hours not found."};
     }
 
     const leadTime = isDelivery ? selectedRegion?.minOrderTime : storeData.minTimeOrder// Use minTimeOrder from storeData
-    
-    const timeValidation = await validateOrderTimeAgainstSchedule(
-        orderDateTime, 
-        scheduleToValidateAgainst, 
-        leadTime || 1440 // Default to 24 hours if not set
-    );
-    if (!timeValidation.isValid) {
-        return { error: `Invalid order time: ${timeValidation.message}` };
+
+    if (user?.role !== 'bakerz') {
+        const timeValidation = await validateOrderTimeAgainstSchedule(
+            orderDateTime,
+            scheduleToValidateAgainst,
+            leadTime || 1440 // Default to 24 hours if not set
+        );
+        if (!timeValidation.isValid) {
+            return {error: `Invalid order time: ${timeValidation.message}`};
+        }
     }
 
     // 7. Calculate Totals & Minimum Order Check

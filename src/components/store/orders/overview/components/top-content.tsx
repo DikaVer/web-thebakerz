@@ -1,7 +1,7 @@
 "use client";
 import React, {useState} from "react";
 import { Icon } from "@iconify/react";
-import { Button, Chip, Spacer } from "@heroui/react";
+import {Button, Chip, Image, Spacer} from "@heroui/react";
 import GradientText from "@/components/ui/gradient-text";
 import { formatScheduledDateTime } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";
@@ -44,14 +44,26 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) =
                     {orderData.isDelivery && (
                     <>
                         <Spacer x={2}/>
-                        <Chip
-                            size="sm"
-                            variant="flat"
-                            className={'text-blue-700 bg-blue-200'}
-                            color={'default'}
-                        >
-                            {t("delivery")}
-                        </Chip>
+                        <div className={'flex gap-2'}>
+                            <Chip
+                                size="sm"
+                                variant="flat"
+                                className={`text-blue-700 bg-blue-200`}
+                                color={'default'}
+                            >
+                                <div className={'flex gap-2 items-center'}>
+                                    {t("delivery")}
+                                    {!orderData.isStoreDelivery && (
+                                        <Image
+                                            src="/images/TheBakerzLogo.svg"
+                                            width={24}
+                                            height={24}
+                                            alt={t("brandName") + " Logo"}
+                                        />
+                                    )}
+                                </div>
+                            </Chip>
+                        </div>
                     </>
                 )}
                 </div>

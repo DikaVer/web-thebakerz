@@ -40,7 +40,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
     const handleConfirmStatusChange = async () => {
         setIsLoading(true);
 
-        const isUpdated = await updateOrderStatus(
+        const { ok: isUpdated, error } = await updateOrderStatus(
             order.store_id,
             order.id,
             order.seq_id.toString(),
@@ -49,7 +49,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
         );
 
         if (!isUpdated) {
-            showErrorMessage({error: t("failedToUpdateStatus")});
+            showErrorMessage({error: error || t("failedToUpdateStatus")});
             setSelectedStatus(currentStatus)
         } else {
             showSuccessMessage({success: t("statusUpdatedSuccess")});
@@ -130,7 +130,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
                                     <Icon icon="solar:arrow-right-linear" width={24}/>
                                     <OrderStatusChip status={targetStatus} />
                                 </div>
-                                <p className="font-medium">{t("selectOneOption")}</p>
+                                {/*<p className="font-medium">{t("selectOneOption")}</p>*/}
                             </ModalBody>
                             <ModalFooter>
                                 <Button

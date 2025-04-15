@@ -196,7 +196,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
             //     return
             // }
 
-            const isUpdated = await updateOrderStatus(orderData.store_id, orderData.id, orderData.seq_id.toString(), orderData.customer.email_customer, (() => {
+            const { ok: isUpdated, error } = await updateOrderStatus(orderData.store_id, orderData.id, orderData.seq_id.toString(), orderData.customer.email_customer, (() => {
                 switch (stepIdx) {
                     case 1:
                         return "started";
@@ -210,7 +210,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
             })());
 
             if (!isUpdated) {
-                showErrorMessage({error: t("Failed to update status")});
+                showErrorMessage({error: error || t("Failed to update status")});
 
             } else {
                 showSuccessMessage({success: t("Status updated successfully")});
@@ -297,9 +297,9 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                             }
                                         />
                                     </div>
-                                    <p className={'font-medium'}>
-                                        {t("Select one option")}
-                                    </p>
+                                    {/*<p className={'font-medium'}>*/}
+                                    {/*    {t("Select one option")}*/}
+                                    {/*</p>*/}
                                 </ModalBody>
                                 <ModalFooter>
                                     {/*<Button*/}

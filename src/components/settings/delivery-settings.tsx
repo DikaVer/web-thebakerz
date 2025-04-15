@@ -75,13 +75,6 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
             if (Array.isArray(region.ranges) && region.ranges.length > 0) {
               // New format with multiple ranges
               ranges = region.ranges;
-            } else {
-              // Legacy format with single range
-              ranges = [{
-                range: region.radiusKm,
-                deliveryPriceInCents: region.priceInCents,
-                minOrderPriceInCents: region.minOrderPriceInCents || 1000
-              }];
             }
             
             return {
@@ -120,9 +113,6 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
       // Convert delivery cities to the format expected by the API
       const regions = deliveryCities.map(city => ({
         name: city.name,
-        radiusKm: city.ranges[0]?.range || 10, // Keep for backward compatibility
-        priceInCents: city.ranges[0]?.deliveryPriceInCents || 500, // Keep for backward compatibility
-        minOrderPriceInCents: city.ranges[0]?.minOrderPriceInCents || 1000, // Keep for backward compatibility
         coordinates: city.coordinates,
         deliverySchedule: city.deliverySchedule || {...emptyWorkHours},
         isStoreDelivery: city.isStoreDelivery,

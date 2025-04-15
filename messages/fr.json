@@ -7,7 +7,7 @@
   },
   "Shop": {},
   "OrderStatus": {
-    "completed": "Ramassé",
+    "completed": "Complété",
     "new": "Nouveau",
     "ready": "Prêt",
     "refunded": "Remboursé",
@@ -251,7 +251,7 @@
     "scheduleUnavailable": "Planification indisponible",
     "checkingAddress": "Entrez votre adresse",
     "scheduleFormatError": "Erreur de format de planification",
-    "closed": "Fermé maintenant",
+    "closed": "Fermé",
     "noInfo": "Ouvrir maintenant",
     "friday": "Vendredi",
     "monday": "Lundi",
@@ -396,7 +396,8 @@
     "orderStatusFilter": "Filtre d'état de commande",
     "addOrder": "Ajouter la commande",
     "orders": "Ordres",
-    "delivery": "Livraison"
+    "delivery": "Livraison",
+    "brandName": "TheBakerz"
   },
   "app/(store)/components/orders-bar-chart": {
     "notFound": "Pas trouvé",
@@ -469,11 +470,12 @@
     "Placed": "Mis",
     "Cooking": "Commencé",
     "Ready": "Prêt",
-    "Picked Up": "Collecté",
     "Cancelled": "Annulé",
     "Print Invoice": "Imprimer la facture",
     "Something Went Wrong": "Quelque chose s'est mal passé",
-    "delivery": "Livraison"
+    "delivery": "Livraison",
+    "completed": "Complété",
+    "brandName": "TheBakerz"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "E-mail",
@@ -532,7 +534,8 @@
     "serviceFee": "Frais de service",
     "minimumOrderForDelivery": "L'ordre minimum est {amount}",
     "addressOutOfRange": "Adresse de la région de livraison",
-    "vat21": "TVA (21%)"
+    "vat21": "TVA (21%)",
+    "deliveryVat": "TVA de livraison (21%)"
   },
   "app/(store)/components/image": {
     "close": "Fermer",
@@ -758,7 +761,8 @@
   },
   "app/(components)/signin-button": {
     "loading": "Chargement...",
-    "signIn": "Se connecter"
+    "signIn": "Se connecter",
+    "storeRedirect": "Magasin"
   },
   "app/(components)/signout-button": {
     "logOut": "Se déconnecter",
@@ -808,20 +812,7 @@
     "notAuthorized": "Accès non autorisé",
     "internalError": "Erreur interne du serveur"
   },
-  "app/api/store/order/updateStatus": {
-    "missingStoreId": "En-tête Store-Id manquant ou non valide",
-    "missingOrderId": "En-tête Order-Id manquant ou non valide",
-    "missingEmail": "En-tête d'ID utilisateur manquant ou non valide",
-    "missingStatus": "En-tête d'état manquant ou non valide",
-    "missingAuth": "En-tête d'autorisation manquant ou non valide",
-    "notAuthorized": "Accès non autorisé",
-    "orderNotFound": "Commande non trouvée",
-    "invalidData": "Données invalides",
-    "invalidStatus": "Statut invalide",
-    "internalError": "Erreur interne du serveur",
-    "missingSeqId": "En-tête SEQ-ID manquant ou non valide",
-    "cannotChangeStatus": "Thebakerz ne peut terminer cette commande!"
-  },
+  "app/api/store/order/updateStatus": {},
   "app/api/store/order": {
     "notAuthorized": "Accès non autorisé",
     "internalError": "Erreur interne du serveur"
@@ -928,7 +919,15 @@
     "failedCreateOrder": "Échec de la création de la commande",
     "failedCreateCheckout": "Échec de la création de la session de paiement",
     "failedFetchOrders": "Échec de la récupération des commandes",
-    "failedFetchOrder": "Échec de la récupération des données du magasin"
+    "failedFetchOrder": "Échec de la récupération des données du magasin",
+    "failedUpdateOrderStatus": "Échec de la mise à jour de l'état de la commande",
+    "orderNotFound": "Ordre non trouvé",
+    "invalidData": "Données de commande non valides",
+    "orderAlreadyCompleted": "La commande est déjà terminée",
+    "invalidStatus": "Statut non valide",
+    "cannotChangeStatus": "TheBakerz ne peut terminer cette commande",
+    "sessionExpired": "La session n'est pas valable",
+    "userNotAuthorized": "Pas d'accès"
   },
   "app/lib/actions/order-products": {
     "tooManyRequests": "Trop de demandes",
@@ -1120,5 +1119,8 @@
     "missingStoreId": "En-tête de magasin de magasin manquant ou non valide",
     "notAuthorized": "Pas autoriser l'accès",
     "internalError": "Erreur interne du serveur"
+  },
+  "app/api/store/orders/new": {
+    "internalError": "Erreur interne"
   }
 }

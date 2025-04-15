@@ -42,8 +42,8 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
 
     // Get delivery fee from the selected region if in delivery mode
     const deliveryFee = useMemo(() => {
-        if (isDelivery && validationResult.deliveryRegion?.priceInCents) {
-            return validationResult.deliveryRegion.priceInCents;
+        if (isDelivery && validationResult.deliveryRegion?.ranges?.[0]?.deliveryPriceInCents) {
+            return validationResult.deliveryRegion.ranges[0].deliveryPriceInCents;
         }
         return 0;
     }, [isDelivery, validationResult]);
@@ -58,8 +58,8 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
 
     // Calculate minimum order amount based on delivery region if applicable
     const minimumOrderAmount = useMemo(() => {
-        if (isDelivery && validationResult.deliveryRegion?.minOrderPriceInCents) {
-            return validationResult.deliveryRegion.minOrderPriceInCents;
+        if (isDelivery && validationResult.deliveryRegion?.ranges?.[0]?.minOrderPriceInCents) {
+            return validationResult.deliveryRegion.ranges[0].minOrderPriceInCents;
         }
         return 1000; // Default minimum 10€ (in cents)
     }, [isDelivery, validationResult]);
@@ -175,7 +175,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                                 </div>
                                 {deliveryVat > 0 &&
                                     <div className="flex justify-between mt-2">
-                                        <span className="text-sm font-medium">{t("vat21")}</span>
+                                        <span className="text-sm font-medium">{t("deliveryVat")}</span>
                                         <span className="text-sm">{formatCurrency(deliveryVat)}</span>
                                     </div>
                                 }

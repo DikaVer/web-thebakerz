@@ -6,6 +6,7 @@ import {cookies} from "next/headers";
 import type {User} from "./user";
 import {connectionPool} from "@/db";
 import {v4 as uuidv4} from "uuid";
+import { getNewOrderCount } from './order';
 
 export async function validateSessionToken(
     token: string
@@ -71,10 +72,18 @@ export async function validateSessionToken(
     );
 
     // Extract store IDs and names from the query result
-    const storeData = stores.rows.map((row: { id: string, name: string }) => ({
-        id: row.id,
-        name: row.name
-    }));
+    const storeData = await Promise.all(
+        stores.rows.map(async (row: { id: string, name: string }) => {
+            // Get new orders count for each store
+            const orders = await getNewOrderCount(row.id);
+
+            return {
+                id: row.id,
+                name: row.name,
+                newOrdersCount: orders
+            };
+        })
+    );
 
     // If the session has expired, delete it from the database and return null.
     if (Date.now() >= session.expiresAt.getTime()) {
@@ -96,6 +105,7 @@ export async function validateSessionToken(
 
     return { session, user, stores: storeData };
 }
+
 
 // Wrap getCurrentSession with React's cache. Note that since cookies() is now async,
 // we mark the callback as async and return a Promise.
@@ -242,6 +252,7 @@ export interface Session {
 export interface StoreInfo {
     id: string;
     name: string;
+    newOrdersCount: number;
 }
 
 export type SessionValidationResult =

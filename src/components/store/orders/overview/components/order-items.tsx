@@ -11,11 +11,10 @@ import {formatCurrency} from "@/lib/utils";
 import {useTranslations} from "next-intl";
 
 interface OrderItemsProps {
-    storeData: StoreData;
     orderData: OrderData;
 }
 
-export const OrderItems: React.FC<OrderItemsProps> = ({storeData, orderData}) => {
+export const OrderItems: React.FC<OrderItemsProps> = ({orderData}) => {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState<string>("");
     const t = useTranslations("app/(store)/components/orders/overview");

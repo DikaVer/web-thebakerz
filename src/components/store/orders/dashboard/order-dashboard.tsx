@@ -17,6 +17,7 @@ interface OrderDashboardProps {
     date?: string;
     from?: string;
     to?: string;
+    isStore?: boolean;
 }
 
 /**
@@ -36,8 +37,8 @@ export interface OrderStatusByDate {
 }
 
 
-export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) => {
-    const { store } = useStore();
+export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to, isStore = true}) => {
+    const { store } = isStore ? useStore() : {store: null};
     const [isPending, startTransition] = useTransition();
     const [isLoading, setIsLoading] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -70,11 +71,11 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) 
 
     // Fetch orders for the selected date range
     useEffect(() => {
-        if (!store?.id || !fromDate || !toDate) return;
+        if (!fromDate || !toDate) return;
 
 
         startTransition(async () => {
-            const data = await getOrdersByDateRange(store.id, fromDate, toDate);
+            const data = await getOrdersByDateRange(store?.id || "X", fromDate, toDate);
             setOrderDataList(data);
             setIsLoading(false);
         });
@@ -115,7 +116,7 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) 
                         if (range) {
                             startTransition(async () => {
                                 const data = await getOrdersByDateRange(
-                                    store.id,
+                                    store?.id || "X",
                                     formatApiDate(range.from),
                                     formatApiDate(range.to)
                                 );
@@ -132,6 +133,7 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) 
                     isLoading={isLoading}
                     orderStatusByDate={orderStatusByDate}
                     setOrderStatusByDate={setOrderStatusByDate}
+                    isStore={isStore}
                 />
                 <Spacer y={8} />
                 <OrdersBarChart
@@ -150,6 +152,7 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to}) 
                 selectedStatuses={selectedStatuses}
                 setSelectedStatuses={setSelectedStatuses}
                 orderStatusByDate={orderStatusByDate}
+                isStore={isStore}
             />
             <Spacer y={8} />
         </div>

@@ -98,6 +98,21 @@
         "Allergies.beef",
         "Allergies.shrimp",
         "Allergies.sulfur",
-        "Allergies.abalone"
+        "Allergies.abalone",
+        "app/(store)/components/working-hours.noInfo",
+        "app/(store)/components/working-hours.closed",
+        "app/(store)/components/working-hours.scheduleFormatError",
+        "app/(landing)/components/scroll-triggered.features.online_store.key",
+        "app/(landing)/components/scroll-triggered.features.online_store.title",
+        "app/(landing)/components/scroll-triggered.features.online_store.description",
+        "app/(landing)/components/scroll-triggered.features.order_management.key",
+        "app/(landing)/components/scroll-triggered.features.order_management.title",
+        "app/(landing)/components/scroll-triggered.features.order_management.description",
+        "app/(landing)/components/scroll-triggered.features.all_chats.key",
+        "app/(landing)/components/scroll-triggered.features.all_chats.title",
+        "app/(landing)/components/scroll-triggered.features.all_chats.description",
+        "app/(landing)/components/scroll-triggered.features.support.key",
+        "app/(landing)/components/scroll-triggered.features.support.title",
+        "app/(landing)/components/scroll-triggered.features.support.description"
     ]
 }

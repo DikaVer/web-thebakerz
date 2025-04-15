@@ -2,7 +2,7 @@
 import {connectionPool} from "@/db";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
 import {getCurrentSession} from "@/lib/actions/session";
-import { getMerchantDeliveryRegions, MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
+import { DeliveryRange, getMerchantDeliveryRegions, MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
 import {revalidateTag} from "next/cache";
 import { haversineDistance } from "../utils";
 
@@ -710,6 +710,8 @@ export async function updateStoreDeliveryOptions(storeId: string, deliveryOption
 
 export interface NearbyStore extends StoreData {
     distance: number; // Distance in kilometers from the search location
+    deliveryRange?: DeliveryRange;
+    deliveryRegion?: MerchantDeliveryRegion;
 }
 
 export async function findNearbyStores(userLat: number, userLng: number, deliveryMode: 'pickup' | 'delivery'): Promise<NearbyStore[]> {
@@ -814,26 +816,38 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
             } else { // deliveryMode === 'delivery'
                 // Include if store offers delivery or multi AND user is within a delivery range
                 if (storeData.deliveryOption === 'delivery' || storeData.deliveryOption === 'multi') {
-                    let isInRange = false;
-                    if (storeData.deliveryRegions && storeData.deliveryRegions.length > 0) {
-                        // Check new ranges first
+                    let closestRange = Infinity;
+            
+                    let regionFound = false;
+                    let deliveryRange: DeliveryRange | undefined = undefined;
+                    let deliveryRegion: MerchantDeliveryRegion | undefined = undefined;
+                    
+                    if (storeData.deliveryRegions && storeData.deliveryRegions && storeData.deliveryRegions.length > 0) {
+                        // Check all ranges to find the closest one
                         for (const region of storeData.deliveryRegions) {
+                            const distanceDelivery = haversineDistance({ lat: userLat, lng: userLng }, { lat: region.coordinates.lat, lng: region.coordinates.lng });
                             if(region.ranges && region.ranges.length > 0) {
                                 for (const range of region.ranges) {
-                                    // Check if distance is within this specific range's radius
-                                    // AND potentially if min order price is met (though this might be better handled at checkout)
-                                    if (distance <= range.range) { 
-                                        isInRange = true;
-                                        break;
+                                    if(distanceDelivery < range.range) {
+                                        if(distanceDelivery < closestRange) {
+                                            closestRange = distanceDelivery;
+                                            deliveryRange = range;
+                                            deliveryRegion = region;
+                                            regionFound = true;
+                                        }
                                     }
                                 }
                             }
-                            if (isInRange) break; // Exit region loop if found within range
                         }
                     }
 
-                    if (isInRange) {
-                        nearbyStores.push({ ...storeData, distance });
+                    if (regionFound) {
+                        nearbyStores.push({ 
+                            ...storeData, 
+                            distance: distance,
+                            deliveryRegion: deliveryRegion,
+                            deliveryRange: deliveryRange
+                        });
                     }
                 }
             }
