@@ -341,7 +341,7 @@ export const createOrder = async (
 
             // Delivery information
             isDelivery: false,
-            isStoreDelivery: false,
+            isStoreDelivery: true,
             deliveryAddress: undefined
         };
 
@@ -500,7 +500,7 @@ export async function updateOrderStatus(storeId: string, orderId: string, seqId:
             }
         }
 
-        if(!orderData.isStoreDelivery && newStatus === "completed") {
+        if(orderData.isDelivery && !orderData.isStoreDelivery && newStatus === "completed") {
             if (user?.role !== "admin") {
                 return {
                     ok: false,
