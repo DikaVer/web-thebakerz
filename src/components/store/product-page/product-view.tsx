@@ -38,7 +38,10 @@ export const ProductView: React.FC<ProductViewProps> = ({
         }
     }, [productsData]);
 
-    const product = productsData[productId];
+    // Find product by either web_name or id
+    const product = Object.values(productsData).find(p => 
+        p.id === productId || p.web_name === productId
+    );
 
     if (!product) {
         return (

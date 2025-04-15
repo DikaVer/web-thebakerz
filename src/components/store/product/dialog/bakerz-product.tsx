@@ -255,7 +255,7 @@ export default function BakerzProductDialog({storeId, productData, onClose, setI
                         onClose={onClose}
                         isDisabled={isPending}
                         isIconOnly
-                        copyText={`${origin}/${productData?.store_id}/${productData?.id}`}
+                        copyText={`${origin}/${productData?.store_name}/${productData?.web_name}`}
                         textNotify={t("productLinkCopied")}
                     >
                         <Icon icon="mi:share" width={32} className="text-default-400" />

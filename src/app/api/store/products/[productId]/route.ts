@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import {getProductByStoreIdAndProductId} from "@/lib/actions/product";
+import {getProductByStoreIdAndWebName} from "@/lib/actions/product";
 import { getTranslations } from "next-intl/server";
 
 // This API route accepts GET requests with a Bearer token in the Authorization header.
@@ -37,7 +37,7 @@ export async function GET(
 
     try {
         // Call your validation logic with the extracted token
-        const productData = await getProductByStoreIdAndProductId(id, productId);
+        const productData = await getProductByStoreIdAndWebName(id, productId);
         return NextResponse.json(productData, { status: 200 });
     } catch (error) {
         console.error('Error validating session:', error);

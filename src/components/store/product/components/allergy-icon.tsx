@@ -419,7 +419,7 @@ export const iconHoney: React.FC<{ size?: number }> = ({ size = 20 }) => {
             preserveAspectRatio="xMidYMid meet">
 
             <g transform="translate(0.000000,1024.000000) scale(0.100000,-0.100000)"
-            fill="#000000" stroke="none">
+             stroke="currentColor" fill="currentColor">
             <path d="M2488 9040 c-203 -34 -380 -164 -467 -340 -61 -125 -71 -186 -71
             -452 0 -129 5 -250 11 -280 23 -109 82 -202 163 -255 l45 -30 -261 -289 c-144
             -159 -269 -302 -279 -319 -26 -41 -24 -104 4 -146 17 -27 54 -50 169 -107

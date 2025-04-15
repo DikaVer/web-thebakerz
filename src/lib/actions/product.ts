@@ -113,6 +113,8 @@ export const addProduct = async (
     const productData = {
         id: uuidv4(),
         store_id: store.id,
+        store_name: store.storeName,
+        web_name: formData.name.replace(/\s+/g, '-'),
         category: formData.category,
         name: formData.name,
         description: formData.description,
@@ -222,7 +224,7 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
         }
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.constId, c.additionalImages, c.variants, c.min_order FROM c WHERE c.store_id = @storeId AND c.archive = false",
+            query: "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.constId, c.additionalImages, c.variants, c.min_order FROM c WHERE c.store_id = @storeId AND c.archive = false",
             parameters: [{ name: "@storeId", value: storeId }]
         };
 
@@ -265,6 +267,35 @@ export async function getProductByStoreIdAndProductId(storeId: string, productId
         }
         console.error("Error fetching product:", error);
         throw new Error("Failed to fetch product");
+    }
+}
+
+export async function getProductByStoreIdAndWebName(storeId: string, webName: string): Promise<ProductData | null> {
+    try {
+        if (!storeId || !webName) {
+            return null;
+        }
+
+        const querySpec = {
+            query: "SELECT * FROM c WHERE c.store_id = @storeId AND (c.web_name = @webName OR c.id = @webName) AND c.archive = false",
+            parameters: [
+                { name: "@storeId", value: storeId },
+                { name: "@webName", value: webName }
+            ]
+        };
+
+        const { resources } = await containerProducts.items
+            .query(querySpec, { partitionKey: storeId })
+            .fetchAll();
+
+        if (resources.length === 0) {
+            return null;
+        }
+
+        return resources[0];
+    } catch (error) {
+        console.error("Error fetching product by web name:", error);
+        throw new Error("Failed to fetch product by web name");
     }
 }
 
@@ -321,6 +352,8 @@ export type ProductData = {
     store_id: string;
     category: string;
     name: string;
+    web_name: string;
+    store_name: string;
     min_order: number;
     description?: string | null;
     variants?: ProductVariant[];

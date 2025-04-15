@@ -106,9 +106,9 @@ export default function UserProductDialog({
                     isIconOnly={true}
                     copyText={
                         origin + "/" +
-                        productData?.store_id +
+                        productData?.store_name +
                         "/" +
-                        productData?.id
+                        productData?.web_name
                     }
                     textNotify={t("productLinkCopied")}
                 >
