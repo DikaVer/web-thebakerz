@@ -70,18 +70,36 @@ export async function updateMerchantDeliveryRegions(
       }
     }
 
-    // Delete existing regions
-    const { resources } = await containerDeliveryRegions.items
+    // Get existing regions
+    const { resources: existingRegions } = await containerDeliveryRegions.items
       .query(`SELECT * FROM c WHERE c.storeId = "${storeId}"`)
       .fetchAll();
     
-    for (const resource of resources) {
-      await containerDeliveryRegions.item(resource.id, storeId).delete();
+    // Create a map of existing regions for quick lookup
+    const existingRegionsMap = new Map();
+    for (const region of existingRegions) {
+      existingRegionsMap.set(region.name, region);
+      await containerDeliveryRegions.item(region.id, storeId).delete();
     }
-
 
     // Add new regions
     for (const region of validationResult.data) {
+      // For non-admin users, if the region existed before with isStoreDelivery=false, preserve that value
+      let isStoreDeliveryValue = region.isStoreDelivery;
+      
+      if (user.role !== "admin") {
+        const existingRegion = existingRegionsMap.get(region.name);
+
+        if (existingRegion && existingRegion.isStoreDelivery === false) {
+          if(region.isStoreDelivery !== existingRegion.isStoreDelivery) {
+              continue;
+          }
+          isStoreDeliveryValue = false;
+        } else {
+          isStoreDeliveryValue = true;
+        }
+      }
+
       await containerDeliveryRegions.items.create({
         id: `${storeId}-${region.name.toLowerCase().replace(/\s+/g, '-')}`,
         storeId: storeId,
@@ -89,7 +107,7 @@ export async function updateMerchantDeliveryRegions(
         coordinates: region.coordinates,
         minOrderTime: region.minOrderTime,
         deliverySchedule: region.deliverySchedule,
-        isStoreDelivery: user.role === "admin" ? region.isStoreDelivery : true,
+        isStoreDelivery: isStoreDeliveryValue,
         ranges: region.ranges
       });
     }
