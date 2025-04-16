@@ -33,7 +33,7 @@ export async function acceptTOS(
   `;
 
     await connectionPool.query(query, [
-        email,
+        email.toLowerCase(),
         tosVersion,
         ipAddress,
         location,

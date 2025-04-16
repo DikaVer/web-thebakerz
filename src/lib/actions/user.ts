@@ -7,11 +7,12 @@ import { StoreBusinessData } from "./store";
 
 export async function createUser(email: string): Promise<User> {
     try {
-        const emailSplit = email.split("@")
+        const normalizedEmail = email.toLowerCase();
+        const emailSplit = normalizedEmail.split("@")
         const username = emailSplit[0]
         const result = await connectionPool.query(
             `INSERT INTO users (email, name) VALUES ($1, $2) RETURNING id`,
-            [email, username]
+            [normalizedEmail, username]
         );
 
         if (result.rows.length === 0) {
@@ -22,7 +23,7 @@ export async function createUser(email: string): Promise<User> {
         const user: User = {
             id: row.id,
             username,
-            email,
+            email: normalizedEmail,
             emailVerified: false,
             role: row.role
         };
@@ -41,13 +42,14 @@ export async function createUserGoogle(
     picture: string
 ): Promise<User> {
     try {
+        const normalizedEmail = email.toLowerCase();
         const result = await connectionPool.query(
             `
       INSERT INTO users (google_id, email, name, image, email_verified)
       VALUES ($1, $2, $3, $4, NOW())
       RETURNING id, role, email_verified
       `,
-            [googleId, email, name, picture]
+            [googleId, normalizedEmail, name, picture]
         );
 
         if (result.rows.length === 0) {
@@ -59,7 +61,7 @@ export async function createUserGoogle(
         const user: User = {
             id: row.id, // id is returned as a string
             googleId,
-            email,
+            email: normalizedEmail,
             username: name,
             picture,
             role: row.role,
@@ -113,13 +115,14 @@ export async function updateUserEmailAndSetEmailAsVerified(
     email: string
 ): Promise<void> {
     try {
+        const normalizedEmail = email.toLowerCase();
         await connectionPool.query(
             `
       UPDATE users
       SET email = $1, email_verified = NOW()
       WHERE id = $2
       `,
-            [email, userId]
+            [normalizedEmail, userId]
         );
     } catch (error) {
         console.error('Database Error:', error);
@@ -137,13 +140,14 @@ export async function setUserAsEmailVerifiedIfEmailMatches(
     email: string
 ): Promise<boolean> {
     try {
+        const normalizedEmail = email.toLowerCase();
         const result = await connectionPool.query(
             `
       UPDATE users
       SET email_verified = NOW()
       WHERE id = $1 AND email = $2
       `,
-            [userId, email]
+            [userId, normalizedEmail]
         );
         return result.rowCount > 0;
     } catch (error) {
@@ -159,13 +163,14 @@ export async function setUserAsEmailVerifiedIfEmailMatches(
  */
 export async function getUserFromEmail(email: string): Promise<User | null> {
     try {
+        const normalizedEmail = email.toLowerCase();
         const result = await connectionPool.query(
             `
       SELECT id, email, name AS username, email_verified, role
       FROM users
       WHERE email = $1
       `,
-            [email]
+            [normalizedEmail]
         );
 
         if (result.rows.length === 0) {
@@ -176,7 +181,7 @@ export async function getUserFromEmail(email: string): Promise<User | null> {
 
         const user: User = {
             id: row.id,
-            email: row.email,
+            email: normalizedEmail,
             username: row.username,
             emailVerified: row.email_verified !== null, // if a timestamp exists, the email is verified
             role: row.role,

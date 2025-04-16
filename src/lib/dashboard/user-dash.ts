@@ -16,6 +16,7 @@ export async function searchUsersByEmailPaginated(
     limit: number = 10
 ): Promise<{ users: User[]; nextCursor?: string }> {
     try {
+        const normalizedEmail = email.toLowerCase();
         // Use ILIKE for case-insensitive matching
         const query = `
       SELECT id, email, name AS username, email_verified, role
@@ -24,13 +25,13 @@ export async function searchUsersByEmailPaginated(
       ORDER BY id ASC
       LIMIT $2 OFFSET $3
     `;
-        const values = [`%${email}%`, limit, cursor];
+        const values = [`%${normalizedEmail}%`, limit, cursor];
         const result = await connectionPool.query(query, values);
 
         // Map each row to the User interface
         const users: User[] = result.rows.map((row: any) => ({
             id: row.id,
-            email: row.email,
+            email: normalizedEmail,
             username: row.username,
             emailVerified: row.email_verified !== null,
             role: row.role,

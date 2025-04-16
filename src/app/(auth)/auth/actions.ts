@@ -100,7 +100,7 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
         return { message: t("tooManyRequests") };
     }
 
-    const email = formData.email;
+    const email = formData.email.toLowerCase();
     logger.info('loginAction', 'Processing login for email', { 
         requestId: context.requestId,
         clientIP,
@@ -184,7 +184,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
         return { message: t("invalidOrMissingField") };
     }
 
-    const email = formData.email;
+    const email = formData.email.toLowerCase();
     const user = await getUserFromEmail(email);
     if (user === null) {
         logger.warn('verifyEmailAction', 'Account does not exist', { 
@@ -305,19 +305,21 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
     const t = await getTranslations("app/(auth)/auth/actions");
     const context = await getRequestContext();
     const clientIP = context.clientIP || undefined;
+    
+    const normalizedEmail = email.toLowerCase();
 
     logger.info('resendEmailVerificationCodeAction', 'Email resend attempt started', { 
         requestId: context.requestId,
         clientIP,
-        email
+        email: normalizedEmail
     });
 
-    const user = await getUserFromEmail(email);
+    const user = await getUserFromEmail(normalizedEmail);
     if (user === null) {
         logger.warn('resendEmailVerificationCodeAction', 'Account does not exist', { 
             requestId: context.requestId,
             clientIP,
-            email 
+            email: normalizedEmail 
         });
         return { message: t("problemWithAccount") };
     }
@@ -327,7 +329,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
         logger.warn('resendEmailVerificationCodeAction', 'Email rate limit hit', { 
             requestId: context.requestId,
             clientIP,
-            email,
+            email: normalizedEmail,
             userId: user.id
         });
         return { message: t("tooManyRequests") };
@@ -342,7 +344,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
                 logger.warn('resendEmailVerificationCodeAction', 'Email rate limit consumed', { 
                     requestId: context.requestId,
                     clientIP,
-                    email,
+                    email: normalizedEmail,
                     userId: user.id
                 });
                 return { message: t("tooManyRequests") };
@@ -350,7 +352,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
             logger.info('resendEmailVerificationCodeAction', 'Creating new verification request', { 
                 requestId: context.requestId,
                 clientIP,
-                email,
+                email: normalizedEmail,
                 userId: user.id 
             });
             verificationRequest = await createEmailVerificationRequest(user.id, user.email);
@@ -359,7 +361,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
                 logger.warn('resendEmailVerificationCodeAction', 'Email rate limit consumed', { 
                     requestId: context.requestId,
                     clientIP,
-                    email,
+                    email: normalizedEmail,
                     userId: user.id
                 });
                 return { message: t("tooManyRequests") };
@@ -367,7 +369,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
             logger.info('resendEmailVerificationCodeAction', 'Updating existing verification request', { 
                 requestId: context.requestId,
                 clientIP,
-                email,
+                email: normalizedEmail,
                 userId: user.id 
             });
             verificationRequest = await createEmailVerificationRequest(user.id, verificationRequest.email);
@@ -380,7 +382,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
         logger.info('resendEmailVerificationCodeAction', 'Verification email resent successfully', { 
             requestId: context.requestId,
             clientIP,
-            email,
+            email: normalizedEmail,
             userId: user.id 
         });
         return null;
@@ -388,7 +390,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
         logger.error('resendEmailVerificationCodeAction', 'Failed to resend verification email', { 
             requestId: context.requestId,
             clientIP,
-            email,
+            email: normalizedEmail,
             userId: user.id,
             error 
         });

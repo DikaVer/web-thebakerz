@@ -115,10 +115,10 @@ export const updateBakerz = async (
             [formData.businessRoute, formData.businessCity, formData.businessCountry, formData.businessZipCode, businessAddressId]
         );
 
-        
+        const normalizedEmail = formData?.email?.toLowerCase();
 
         // 4. Update user email if provided
-        if (formData.email) {
+        if (normalizedEmail) {
             await connectionPool.query(
                 `
                     UPDATE users 
@@ -126,7 +126,7 @@ export const updateBakerz = async (
                         name = $2
                     WHERE id = $3
                 `,
-                [formData.email, formData.name, userId]
+                [normalizedEmail, formData.name, userId]
             );
         }
 
