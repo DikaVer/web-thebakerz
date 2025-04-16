@@ -322,13 +322,13 @@ export const LandingHeroSection = () => {
                       isDisabled={!isLoaded || !ready || isLocating || isSubmitting}
                       type="button"
                     >
-                      <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500" />
+                      <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500 dark:text-secondary" />
                     </Button>
                 }
                 classNames={{
-                  base: "w-full bg-white/95 rounded-2xl backdrop-blur-sm border-hidden shadow-lg",
+                  base: "w-full bg-gradient-card rounded-2xl backdrop-blur-sm border-hidden shadow-lg",
 
-                  listbox: "max-h-[200px] bg-white/95 backdrop-blur-sm",
+                  listbox: "max-h-[200px] bg-gradient-card backdrop-blur-sm",
                   popoverContent: "z-[1000]"
                 }}
                 menuTrigger="input"
@@ -337,8 +337,8 @@ export const LandingHeroSection = () => {
                 {data.map((item) => (
                   <AutocompleteItem key={item.place_id} textValue={item.description}>
                     <div className="flex items-center">
-                      <Icon icon="solar:map-point-linear" className="text-primary-500 mr-2" width={16} />
-                      <span className="text-gray-800">{item.description}</span>
+                      <Icon icon="solar:map-point-linear" className="text-primary-500 dark:text-secondary mr-2" width={16} />
+                      <span className="">{item.description}</span>
                     </div>
                   </AutocompleteItem>
                 ))}

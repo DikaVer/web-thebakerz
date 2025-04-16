@@ -149,7 +149,7 @@ async function StoreResults({ coords, mode }: { coords: Coordinates, mode: 'pick
         />
       ))}
       {stores.length === 0 && (
-        <div className="col-span-full text-center py-10 text-default-600">
+        <div className="col-span-full text-center py-10 text-default-600 min-h-svh">
           <p className="text-lg font-medium">No stores found</p> {/* Add translations later if needed */}
           <p className="text-sm">Try changing your location or delivery mode.</p>
         </div>
