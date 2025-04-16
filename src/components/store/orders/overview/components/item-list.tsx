@@ -21,7 +21,6 @@ interface ItemRowProps {
 
 export const ItemList: React.FC<ItemRowProps> = ({orderId, searchTerm, orderProducts}) => {
     const t = useTranslations("app/(store)/components/orders/overview");
-    const allergy = useTranslations("Allergies");
 
     if (!orderProducts) {
         return <p>{t("Something Went Wrong")}</p>

@@ -5,7 +5,7 @@ import {
     Accordion,
     AccordionItem,
     Alert,
-    Button,
+    Button, ButtonGroup, cn,
     Divider,
     Link,
     Spacer,
@@ -17,29 +17,29 @@ import { CalendarDateTime, CalendarDate } from "@internationalized/date";
 
 import { useStore } from "@/components/providers/store-provider";
 import { parseDateParams } from "@/components/store/store-header/calendar/calendar-params";
-import { StoreSubHeader } from "@/components/store/store-header/store-subheader";
+import { DeliverySubheader } from "@/components/store/store-header/delivery-subheader";
 import { renderCalendarContent } from "@/components/store/store-header/subheader/working-hours";
 import { useTranslations } from "next-intl";
+import {useDebouncedCallback} from "use-debounce";
+import {getDeliveryMode, setDeliveryMode} from "@/lib/delivery-cookie";
+import {useDelivery} from "@/components/providers/delivery-provider";
 
 interface StoreSubHeaderProps {
-    dateParam: string | null;
-    timeParam: string | null;
     handleNext: () => void;
 }
 
 type SocialIconProps = Omit<IconProps, "icon">;
 
 export function ScheduleOrder({
-                                  dateParam,
-                                  timeParam,
                                   handleNext,
                               }: StoreSubHeaderProps) {
     const { store } = useStore();
-    const [selectedDate, setSelectedDate] = useState<
-        CalendarDateTime | CalendarDate | undefined
-    >(parseDateParams(`${dateParam} ${timeParam}`));
-
     const t = useTranslations("app/(store)/components/checkout");
+    const {
+        isDelivery,
+        selectedDate
+    } = useDelivery();
+
 
     const phone = {
         name: t("phone"),
@@ -112,12 +112,8 @@ export function ScheduleOrder({
                 )}
                 <Divider />
             </div>
-            <div className={'flex flex-row w-full justify-center'}>
-                <StoreSubHeader
-                    dateParam={dateParam}
-                    timeParam={timeParam}
-                    setSelectedDateGlobal={setSelectedDate}
-                />
+            <div className={'flex flex-col w-full justify-center max-w-[440px]'}>
+                <DeliverySubheader/>
             </div>
             <Spacer y={4} />
             <div className={'flex flex-row w-full justify-center'}>
@@ -138,7 +134,7 @@ export function ScheduleOrder({
                         }
                     }}
                 >
-                    {t("savePickUpDetails")}
+                    {isDelivery ? t("saveDeliveryDetails") : t("savePickUpDetails")}
                 </Button>
             </div>
         </div>

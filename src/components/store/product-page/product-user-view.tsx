@@ -38,8 +38,9 @@ type ProductViewProps = {
 export default function UserProductView({
     productData
 }: ProductViewProps) {
+    const c_T = useTranslations();
     const t = useTranslations("app/(store)/components/product-page");
-    const allergy = useTranslations("Allergies");
+
 
     const [charCount, setCharCount] = useState(0);
     const [quantity, setQuantity] = useState(productData?.min_order || 1);
@@ -204,7 +205,7 @@ export default function UserProductView({
                                                     >
                                                         <AllergenIcon allergen={allergies} />
                                                         <span>
-                                                            {allergy(allergies)}
+                                                            {c_T(`Allergies.${allergies}`)}
                                                         </span>
                                                     </div>
                                                 );

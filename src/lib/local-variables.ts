@@ -1,4 +1,3 @@
-
 export const cityLatLngMap: Readonly<{ [key: string]: { lat: number, lng: number } }> = {
     'Aalsmeer': {'lat': 52.2667, 'lng': 4.75},
     'Aerdenhout': {'lat': 52.3644, 'lng': 4.5972},
@@ -207,7 +206,7 @@ export const cityLatLngMap: Readonly<{ [key: string]: { lat: number, lng: number
     '’s-Hertogenbosch': {'lat': 51.6833, 'lng': 5.3}
 };
 
-export const TOS_VERSION = '1.0';
+export const TOS_VERSION = '2.0';
 
 export const categories: Readonly<{ [key: string]: { description: string } }> = {
     'Birthday Cakes': { description: 'Special decorated cakes for birthday celebrations.' },

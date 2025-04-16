@@ -3,28 +3,17 @@
     "title": "Cuisinez plus. \nStressez moins.",
     "subtitle": "TheBakerz - toutes les commandes, messages clients et recettes au même endroit",
     "learn more": "Plus d'information",
-    "get started": "Commencer",
-    "apply": "Remplissez un formulaire rapide et nous vous contacterons pour tout vous expliquer et configurer votre compte.",
-    "we set up your store": "Partagez vos produits et vos prix, et nous nous occuperons de la configuration pour vous.",
-    "Start selling": "Testez votre boutique, faites des ajustements et commencez à prendre de vraies commandes !",
-    "support": "Nous sommes là pour répondre à vos questions.",
-    "start and grow": "Démarrez et développez votre entreprise de boulangerie-patisserie",
-    "subtitle phone": "Vous boulangez-patissez et nous nous occupons du reste.",
-    "terms and conditions": "J'ai lu et j'accepte les conditions générales et la politique de confidentialité."
+    "get started": "Commencer"
   },
-  "Shop": {
-    "Alert": "La boutique propose uniquement des commandes à collecter en magasin",
-    "Alert Hover": "Les horaires d'ouverture et l'adresse de retrait sont indiqués ci-dessous. Vous pouvez sélectionner l'heure et le jour de retrait lors du paiement.",
-    "Opening Hours": "Horaires d'ouverture"
-  },
+  "Shop": {},
   "OrderStatus": {
+    "completed": "Complété",
     "new": "Nouveau",
-    "started": "Commencé",
     "ready": "Prêt",
-    "completed": "Collecté",
-    "cancelled": "Annulé",
     "refunded": "Remboursé",
-    "unknown": "Inconnu"
+    "started": "Cuisson",
+    "unknown": "Inconnu",
+    "cancelled": "Annulé"
   },
   "ProductSettings": {
     "ProductManager": "Gestion des produits",
@@ -40,47 +29,43 @@
   "app/(error_layout)/error": {
     "error": "Erreur",
     "somethingWentWrong": "Une erreur s'est produite !",
-    "tryAgain": "Réessayer",
     "goBackToTheBakerz": "Retour à TheBakerz"
   },
   "Allergies": {
-    "Add Allergy": "Ajouter une allergie",
-    "egg": "œuf",
-    "milk": "lait",
-    "gluten": "gluten",
-    "walnut": "noix",
-    "cashew": "noix de pecan",
-    "nuts": "noix",
-    "wheat": "blé",
-    "gelatin": "gélatine",
-    "peach": "pêche",
-    "kiwi": "kiwi",
-    "sesame": "sésame",
-    "apple": "pomme",
-    "lupine": "lupin",
-    "soy": "soja",
-    "orange": "orange",
-    "banana": "banane",
-    "fish": "poisson",
-    "matsuke": "matsuke",
-    "chicken": "poulet",
-    "potato": "pomme de terre",
-    "pork": "porc",
-    "squid": "calamar",
-    "mushroom": "champignon",
-    "crab": "crabe",
-    "celery": "céleri",
-    "beef": "bœuf",
-    "shrimp": "crevette",
-    "sulfur": "sulfites",
+    "honey": "Miel",
+    "Add Allergy": "Ajouter des allergies",
     "abalone": "ormeau",
-    "honey": "chéri"
+    "apple": "pomme",
+    "banana": "banane",
+    "beef": "bœuf",
+    "cashew": "anacardier",
+    "celery": "céleri",
+    "chicken": "poulet",
+    "egg": "œuf",
+    "fish": "poisson",
+    "gelatin": "gélatine",
+    "gluten": "gluten",
+    "lupine": "lupin",
+    "matsuke": "Matsuke",
+    "milk": "lait",
+    "mushroom": "champignon",
+    "nuts": "noix",
+    "orange": "orange",
+    "peach": "pêche",
+    "pork": "porc",
+    "potato": "pomme de terre",
+    "sesame": "sésame",
+    "shrimp": "crevette",
+    "squid": "calmar",
+    "sulfur": "sulfites",
+    "wheat": "blé",
+    "crab": "crabe",
+    "kiwi": "kiwi",
+    "soy": "soja",
+    "walnut": "noyer"
   },
   "app/(store)/components/variants-user-selection": {
-    "max": "Maximum",
-    "required": "Requis",
-    "selectOption": "Sélectionnez une option",
-    "selectOptions": "Sélectionnez les options"
+    "max": "Maximum"
   },
   "app/(main)/page": {
     "whyChooseTheBakerz": "Pourquoi choisir TheBakerz ?",
@@ -100,7 +85,9 @@
     "easyToUseSystem": "Système facile à utiliser pour gérer vos recettes et suivre toutes les commandes",
     "smartCalendar": "Calendrier intelligent",
     "planProduction": "Planifiez votre production et suivez vos tâches quotidiennes",
-    "wantYouToSucceed": "Nous voulons votre succés"
+    "wantYouToSucceed": "Nous voulons votre succés",
+    "Tips": "Conseils",
+    "Tips Info": "Informations sur les conseils"
   },
   "app/(main)/about-us/page": {
     "greetingTitle": "Ravi de vous rencontrer",
@@ -126,43 +113,30 @@
   "app/(return_page)/transit-exit/page": {
     "performingSignOut": "Exécution de la déconnexion..."
   },
+  "Working Hours": {
+    "brandName": "Thebakerz",
+    "friday": "Vendredi",
+    "monday": "Lundi",
+    "saturday": "Samedi",
+    "sunday": "Dimanche",
+    "thursday": "Jeudi",
+    "tuesday": "Mardi",
+    "wednesday": "Mercredi"
+  },
   "app/(return_page)/settings/components/profile-setting": {
-    "profilePicture": "Photo de profil",
-    "uploadProfilePicture": "Télécharger une photo de profil",
     "profile": "Profil",
-    "displaysProfileStore": "Ces informations seront affichées sur le profil de votre boutique",
+    "displaysProfileStore": "Ces informations seront affichées sur votre magasin",
     "displaysProfile": "Ces informations seront affichées sur votre profil",
     "customer": "Client",
-    "baker": "Boulanger-patissier",
     "storeName": "Nom du magasin",
     "name": "Nom",
     "editCurrentStoreName": "Modifiez le nom de votre magasin",
     "editCurrentName": "Modifiez votre nom",
-    "storeLink": "Lien vers la boutique",
-    "howUserFindYou": "Comment les utilisateurs trouveront votre boutique",
-    "typeYourStoreName": "Tapez le nom de votre magasin",
-    "storeSlug": "Sous-titre du magasin",
-    "howUserRecognizeYou": "Cela fera partie du sous-titre de votre boutique",
-    "typeYourStoreSlug": "Magasin depuis 2021",
-    "locationPhone": "Localisation et téléphone",
-    "editLocationPhoneBy": "Vous pouvez les modifier en nous contactant à",
-    "contactUs": "Contactez-nous",
-    "phoneNumberPlaceholder": "+31 6 12 34 56 78",
-    "facebookURL": "URL Facebook",
-    "enterFacebookURL": "Entrez l'URL de votre page Facebook",
-    "facebookURLPlaceholder": "https://facebook.com/votre-page",
-    "instagramURL": "URL Instagram",
-    "enterInstagramURL": "Entrez l'URL de votre profil Instagram",
-    "instagramURLPlaceholder": "https://instagram.com/your-handle",
-    "description": "Description",
-    "writeAboutStore": "Rédigez une brève description de votre magasin (500 caractères maximum)",
-    "storeDescriptionPlaceholder": "Parlez-nous de votre magasin... (max 500 caractères)",
-    "locationPlaceholder": "Emplacement Espace réservé",
     "profileUpdated": "Profil mis à jour",
-    "profileStoreUpdated": "Votre profil et les détails de votre magasin ont été mis à jour",
     "profileHasUpdated": "Votre profil a été mis à jour",
     "updating": "Mise à jour...",
-    "updateProfile": "Mettre à jour le profil"
+    "updateProfile": "Mettre à jour le profil",
+    "bakerz": "Partenaire TheBakerz"
   },
   "app/(return_page)/settings/components/calendar-settings": {
     "workingSchedule": "Horaire de travail",
@@ -173,7 +147,6 @@
     "nameAndPrice": "Nom et prix",
     "drag": "Faites glisser",
     "updatingOrders": "Mise à jour des commandes...",
-    "products": "Produits",
     "updateProductOrder": "Mettre à jour les commandes de produits et de catégories",
     "noProductsYet": "Le magasin n'a pas encore de produits.",
     "addItem": "Ajouter un élément",
@@ -182,14 +155,9 @@
   },
   "app/(return_page)/settings/components/tabs-settings": {
     "profile": "Profil",
-    "profileAndStoreTab": " & Vue du magasin",
-    "workingHoursTab": "Heures de travail"
+    "information": "Informations"
   },
-  "app/(return_page)/settings/components/products/product-tab": {
-    "image": "Image",
-    "nameAndPrice": "Nom et prix",
-    "drag": "Faites glisser"
-  },
+  "app/(return_page)/settings/components/products/product-tab": {},
   "app/(return_page)/settings/components/products/product-card": {
     "productManager": "Gestions des produits"
   },
@@ -217,37 +185,37 @@
   },
   "app/(return_page)/settings/components/calendar/schedule-picker": {
     "startTime": "Heure de début",
+    "startTimeError": "Erreur de début",
     "endTime": "Heure de fin",
-    "startTimeError": "L'heure de début doit être antérieure à l'heure de fin",
-    "endTimeError": "L'heure de fin doit être postérieure à l'heure de début",
+    "endTimeError": "Erreur de temps de fin",
+    "errorSomethingWentWrong": "Quelque chose s'est mal passé!",
+    "errorTooManyRequests": "Trop de demandes!",
+    "errorInvalidTimeFields": "Temps invalide",
+    "scheduleSavedSuccess": "Horaire enregistré",
+    "errorFailedToSaveSchedule": "Échec de la planification",
     "saving": "Économie...",
-    "saveWorkingHours": "Économisez des heures de travail",
-    "errorSomethingWentWrong": "Quelque chose s'est mal passé !",
-    "errorTooManyRequests": "Trop de demandes !",
-    "errorInvalidTimeFields": "Champs horaires non valides !",
-    "errorFailedToSaveSchedule": "Échec de l'enregistrement du planning",
-    "scheduleSavedSuccess": "Le calendrier a été enregistré avec succès"
-  },
-  "app/(store)/[id]/page": {
-    "loading": "Chargement...",
-    "noProducts": "Aucun produit disponible",
-    "storeNotFound": "Magasin non trouvé"
+    "saveWorkingHours": "Économisez les heures de travail"
   },
   "app/(store)/components/store-header": {
-    "addItem": "Ajouter un élément",
-    "close": "Fermer",
-    "addressPlaceholder": "Espace réservé à l'adresse",
-    "locationPlaceholder": "Espace réservé à la localisation",
-    "phone": "Téléphone",
     "instagram": "Instagram",
-    "facebook": "Facebook"
+    "facebook": "Facebook",
+    "pickup": "Ramasser",
+    "delivery": "Livraison"
   },
   "app/(store)/components/store-description": {
     "pickUpOnly": "Collect en magasin uniquement",
     "pickUpDescription": "Ce magasin propose uniquement des commandes à collecter en magasin. Veuillez sélectionner une heure de retrait lors du paiement.",
     "workingHours": "Horaires de travail",
-    "address": "Adresse",
-    "phone": "Téléphone"
+    "phone": "Téléphone",
+    "close": "Fermer",
+    "deliveryOnly": "Livraison uniquement",
+    "deliveryOnlyDescription": "Ce magasin n'offre que des commandes de livraison. \nVeuillez sélectionner un délai de livraison pendant le paiement.",
+    "pickUpAndDelivery": "Ramassage et livraison",
+    "pickUpAndDeliveryDescription": "Ce magasin n'offre que des commandes de livraison et de ramassage. \nVeuillez sélectionner une heure pendant la caisse.",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "addressPlaceholder": "Adressez l'espace réservé",
+    "locationPlaceholder": "Emplacement d'emplacement"
   },
   "app/(store)/components/product-search": {
     "search": "Rechercher par nom de produit ou par catégorie..."
@@ -256,54 +224,58 @@
     "categoryNavigation": "Navigation par catégorie"
   },
   "app/(store)/components/orders": {
-    "backToOrderDashboard": "Retour au tableau de bord des commandes",
-    "order": "Commande",
-    "changeStatusAction": "Êtes-vous sûr de vouloir modifier le statut de cette commande ?"
+    "backToOrderDashboard": "Retour au tableau de bord des commandes"
   },
   "app/(store)/components/smart-calendar": {
     "time": "Temps"
   },
   "app/(store)/components/store-top-next": {
-    "alert": "La boutique propose uniquement des commandes à collecter en magasin",
-    "alertHover": "Les horaires d'ouverture et l'adresse de retrait sont indiqués ci-dessous. Vous pouvez sélectionner l'heure et le jour de retrait lors du paiement.",
     "openingHours": "Horaires d'ouverture",
-    "phone": "Téléphone"
+    "phone": "Téléphone",
+    "alertPickupOnly": "Ce magasin n'offre que des commandes de ramassage.",
+    "alertDeliveryAndPickup": "Ce magasin propose des commandes de ramassage et de livraison.",
+    "alertDeliveryOnly": "Ce magasin n'offre que des commandes de livraison.",
+    "alertHoverPickupOnly": "Veuillez sélectionner un temps de ramassage pendant le paiement",
+    "alertHoverDeliveryOnly": "Veuillez sélectionner un délai de livraison pendant le paiement",
+    "alertHoverDeliveryAndPickup": "Veuillez sélectionner une heure de livraison ou de ramassage pendant la caisse"
   },
   "app/(store)/components/location-map": {
-    "viewOnGoogleMaps": "Voir sur Google Maps"
+    "viewOnGoogleMaps": "Voir sur Google Maps",
+    "storeLocation": "Emplacement du magasin"
   },
   "app/(store)/components/working-hours": {
     "noScheduleAvailable": "Aucun horaire disponible",
-    "closed": "Fermé",
     "workingHours": "Horaires de travail",
-    "monday": "Lundi",
-    "tuesday": "Mardi",
-    "wednesday": "Mercredi",
-    "thursday": "Jeudi",
+    "addressOutOfRange": "Adresse hors de portée",
+    "enterAddressPrompt": "Entrer l'adresse",
+    "scheduleUnavailable": "Planification indisponible",
+    "checkingAddress": "Entrez votre adresse",
+    "scheduleFormatError": "Erreur de format de planification",
+    "closed": "Fermé",
+    "noInfo": "Ouvrir maintenant",
     "friday": "Vendredi",
+    "monday": "Lundi",
     "saturday": "Samedi",
-    "sunday": "Dimanche"
+    "sunday": "Dimanche",
+    "thursday": "Jeudi",
+    "tuesday": "Mardi",
+    "wednesday": "Mercredi"
   },
   "app/(store)/components/three-dots": {
     "storeLinkCopied": "Lien du magasin copié !",
     "copyStoreLink": "Copier le lien du magasin",
-    "editProfile": "Modifier le profil",
-    "editSchedule": "Modifier le calendrier",
+    "editDelivery": "Modifier la livraison",
     "editProducts": "Modifier les produits",
     "addOrder": "Ajouter une commande",
     "getHelp": "Obtenir de l'aide",
-    "report": "Rapport"
+    "report": "Rapport",
+    "editPickup": "Modifier le ramassage",
+    "editStore": "Magasin de modification"
   },
   "app/(store)/components/product-page": {
     "noProductsAvailable": "Aucun produit disponible",
     "productNotFound": "Produit non trouvé",
-    "notes": "Remarques",
-    "addNotesPlaceholder": "Ajoutez des remarques à votre commande... (max 100 caractères)",
-    "ingredients": "Ingrédients",
-    "allergies": "Allergies",
     "productDeleted": "Produit supprimé avec succès",
-    "unexpectedError": "Erreur inattendue",
-    "cartUpdatedSuccess": "Panier mis à jour avec succès",
     "productLinkCopied": "Lien du produit copié !",
     "itemName": "Nom de l'article",
     "addDescriptionPlaceholder": "Ajoutez une description pour cet article...",
@@ -315,15 +287,64 @@
     "minimalOrderDescription": "Quel est le nombre minimum d'articles qu'un client peut commander ?",
     "loading": "Chargement...",
     "updateItem": "Mettre à jour l'élément",
-    "addItem": "Ajouter un élément"
+    "addItem": "Ajouter un élément",
+    "Update Item": "Mettre à jour",
+    "Item Name": "Nom d'article",
+    "Add Description Placeholder": "Décrivez votre article",
+    "Select Category": "Sélectionner la catégorie",
+    "Add Ingredients Placeholder": "Ajouter des ingrédients",
+    "Add Allergies Placeholder": "Ajouter les allergies",
+    "Item Options": "Options d'article",
+    "Loading": "Chargement",
+    "Add Item": "Ajouter",
+    "cartUpdatedSuccess": "Le panier est mis à jour",
+    "unexpectedError": "Erreur inattendue",
+    "ingredients": "Ingrédients",
+    "allergies": "Allergies",
+    "notes": "Notes",
+    "addNotesPlaceholder": "Écrire des notes à l'article",
+    "Add": "Ajouter",
+    "to order": "pour commander",
+    "Updating Cart": "Cart à jour",
+    "Update": "Mise à jour"
   },
   "app/(store)/components/store-subheader": {
-    "addressPlaceholder": "Espace réservé à l'adresse",
-    "locationPlaceholder": "Espace réservé à la localisation",
-    "scheduleOrderTime": "Horaire de la commande",
-    "pickUpOptionSelected": "Option de collecte sélectionnée",
-    "pickUpAt": "Collecte à",
-    "selectPickUpTime": "Sélectionnez l'heure de prise en charge"
+    "delivery": "Livraison",
+    "deliveryFee": "Frais de livraison",
+    "minimumOrder": "Commande minimum",
+    "deliveryHours": "Heures de livraison",
+    "enterDeliveryAddressPrompt": "Entrez l'adresse de livraison",
+    "enterDeliveryAddress": "Entrez l'adresse de livraison",
+    "noDeliveryAddressYet": "Pas encore d'adresse de livraison",
+    "enterAddressToSeeDeliveryOptions": "Entrez votre adresse pour voir les options de livraison",
+    "addressInRange": "Votre adresse est dans la zone de livraison",
+    "loadingAddress": "Chargement de l'adresse...",
+    "loadingDeliveryOptions": "Chargement des options de livraison...",
+    "deliverAt": "Livrer à",
+    "selectDeliveryTime": "Sélectionner l'heure de livraison",
+    "scheduleDeliveryTime": "Planifier l'heure de livraison",
+    "additionalInfo": "Informations supplémentaires",
+    "storeOpen": "Ouvrir maintenant",
+    "storeClosed": "Fermé maintenant",
+    "pickUp": "Ramasser",
+    "searchAddress": "Adresse de recherche",
+    "typeToSearchAddress": "Type à l'adresse de recherche",
+    "street": "Rue",
+    "enterStreet": "Entrez le nom de la rue",
+    "houseNumber": "Numéro de maison",
+    "enterHouseNumber": "Entrez le numéro de maison",
+    "zipCode": "Code Postal",
+    "enterZipCode": "Entrez le code postal",
+    "city": "Ville",
+    "enterCity": "Entrer dans la ville",
+    "enterAdditionalInfo": "Par exemple \nnuméro d'appartement, plancher, etc.",
+    "confirm": "Confirmer",
+    "editDeliveryAddress": "Modifier l'adresse de livraison",
+    "addressPlaceholder": "Adressez l'espace réservé",
+    "locationPlaceholder": "Emplacement d'emplacement",
+    "pickUpAt": "Ramasser",
+    "scheduleOrderTime": "Planifier l'heure de la commande",
+    "selectPickUpTime": "Sélectionnez le temps de ramassage"
   },
   "app/(store)/components/store-top": {
     "addItem": "Ajouter un élément"
@@ -333,34 +354,12 @@
     "removeItem": "Supprimer l'élément",
     "addItem": "Ajouter un élément"
   },
-  "app/(store)/components/user-product": {
-    "productLinkCopied": "Lien du produit copié !",
-    "notes": "Remarques",
-    "addNotesPlaceholder": "Ajoutez des remarques à votre commande... (max 100 caractères)",
-    "ingredients": "Ingrédients",
-    "allergies": "Allergies",
-    "cartUpdatedSuccess": "Panier mis à jour avec succès",
-    "unexpectedError": "Erreur inattendue",
-    "update": "Mise à jour",
-    "add": "Ajouter",
-    "toOrder": "produit",
-    "updatingCart": "Mise à jour du panier..."
-  },
-  "app/(store)/components/product-dialog": {
-    "loading": "Chargement...",
-    "noProducts": "Aucun produit disponible",
-    "storeNotFound": "Magasin non trouvé"
-  },
+  "app/(store)/components/user-product": {},
+  "app/(store)/components/product-dialog": {},
   "app/(store)/components/product-list": {
-    "noProductsFound": "Aucun produit trouvé",
-    "loading": "Chargement...",
-    "searchPlaceholder": "Rechercher des produits..."
+    "noProductsFound": "Aucun produit trouvé"
   },
-  "app/(store)/components/product": {
-    "loading": "Chargement...",
-    "noProducts": "Aucun produit disponible",
-    "productNotFound": "Produit non trouvé"
-  },
+  "app/(store)/components/product": {},
   "app/(store)/components/variants-form-field": {
     "newOption": "Nouvelle option",
     "optionGroupName": "Nom du groupe d'options",
@@ -380,43 +379,29 @@
     "close": "Fermer",
     "confirm": "Confirmer"
   },
-  "app/(store)/[id]/order/success": {
-    "orderPlaced": "Votre commande est passée !",
-    "checkEmail": "Consultez votre courrier électronique pour obtenir les informations concernant votre commande.",
-    "returnToStore": "Retourner à la boutique"
-  },
-  "app/(store)/[id]/order/failed": {
-    "error": "Désolé, un problème est survenu avec votre commande. Veuillez envoyer une demande d'assistance et attendre la réponse."
-  },
-  "app/(store)/components/order-dashboard": {
-    "noOrdersFound": "Aucune commande trouvée pour cette période",
-    "loading": "Chargement...",
-    "orders": "Commandes",
-    "orderStatus": "Statut de la commande",
-    "orderStatusFilter": "Filtre d'état de commande"
-  },
+  "app/(store)/components/order-dashboard": {},
   "app/(store)/components/status-select": {
-    "orderStatus": "Statut de la commande",
-    "failedToUpdateStatus": "Échec de la mise à jour du statut",
-    "statusUpdatedSuccess": "Statut mis à jour avec succès",
+    "failedToUpdateStatus": "Échec de la mise à jour de l'état",
+    "statusUpdatedSuccess": "Le statut est mis à jour",
+    "orderStatus": "Statut de commande",
     "order": "Commande",
-    "changeStatusAction": "Êtes-vous sûr de vouloir modifier le statut de cette commande ?",
-    "selectOneOption": "Sélectionnez une option",
-    "changeStatus": "Changer de statut"
+    "changeStatusAction": "Changer le statut",
+    "selectOneOption": "Selct une option",
+    "changeStatus": "Changer le statut"
   },
   "app/(store)/components/orders-list": {
-    "orders": "Commandes",
-    "addOrder": "Ajouter une commande",
-    "orderStatusFilter": "Filtre d'état de commande",
-    "no": "Non",
+    "noOrdersFound": "Aucune commande trouvée",
     "order": "Commande",
-    "noOrdersFound": "Aucune commande trouvée pour cette période"
+    "no": "Pas de sélection",
+    "orderStatusFilter": "Filtre d'état de commande",
+    "addOrder": "Ajouter la commande",
+    "orders": "Ordres",
+    "delivery": "Livraison",
+    "brandName": "TheBakerz"
   },
   "app/(store)/components/orders-bar-chart": {
-    "title": "Aperçu des commandes",
-    "notFound": "Aucune commande trouvée pour cette période",
-    "print": "Imprimer",
-    "orders": "Commandes"
+    "notFound": "Pas trouvé",
+    "title": "Aperçu de la commande"
   },
   "app/(store)/components/calendar-dashboard": {
     "today": "Aujourd'hui",
@@ -485,10 +470,12 @@
     "Placed": "Mis",
     "Cooking": "Commencé",
     "Ready": "Prêt",
-    "Picked Up": "Collecté",
     "Cancelled": "Annulé",
+    "Print Invoice": "Imprimer la facture",
     "Something Went Wrong": "Quelque chose s'est mal passé",
-    "Print Invoice": "Imprimer la facture"
+    "delivery": "Livraison",
+    "completed": "Complété",
+    "brandName": "TheBakerz"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "E-mail",
@@ -505,8 +492,8 @@
     "enterOtpDescription": "Entrez le code à 6 chiffres envoyé à",
     "goBack": "Retour",
     "verify": "Vérifier",
-    "newCodeSent": "Un nouveau code a été envoyé à votre adresse e-mail",
-    "unexpectedError": "Une erreur inattendue s'est produite"
+    "An unexpected error occurred": "Une erreur inattendue s'est produite",
+    "A new code was sent to your email": "Un nouveau code a été envoyé à votre e-mail"
   },
   "app/(store)/components/cart": {
     "yourCartFrom": "Votre panier de",
@@ -531,7 +518,7 @@
     "total": "Total",
     "cartEmpty": "Panier vide",
     "addItemsToStart": "Ajouter des éléments pour commencer",
-    "minimumAmount": "Le montant minimum de commande est de 10 €",
+    "minimumAmount": "Le montant minimum de commande est de {minOrder}",
     "pay": "Payer",
     "alert": "La boutique propose uniquement des commandes à collecter en magasin",
     "workingHours": "Horaires de travail",
@@ -540,7 +527,15 @@
     "savePickUpDetails": "Enregistrer les détails de la collecte",
     "loadingPaymentGateway": "Chargement de la passerelle de paiement...",
     "unableToInitializePayment": "Impossible d'initialiser la passerelle de paiement",
-    "returnToCheckout": "Retour à la caisse"
+    "returnToCheckout": "Retour à la caisse",
+    "saveDeliveryDetails": "Enregistrer les détails de ramassage",
+    "invalidDeliveryAddress": "Adresse de livraison non valide",
+    "deliveryFee": "Frais de livraison",
+    "serviceFee": "Frais de service",
+    "minimumOrderForDelivery": "L'ordre minimum est {amount}",
+    "addressOutOfRange": "Adresse de la région de livraison",
+    "vat21": "TVA (21%)",
+    "deliveryVat": "TVA de livraison (21%)"
   },
   "app/(store)/components/image": {
     "close": "Fermer",
@@ -553,28 +548,26 @@
     "subtitle": "Recadrez et ajustez votre image"
   },
   "app/(landing)/components/scroll-triggered": {
-    "title": "Pourquoi TheBakerz ?",
-    "description": "",
     "features": {
       "online_store": {
-        "key": "boutique en ligne",
-        "title": "Boutique en ligne",
-        "description": "Nous vous aidons à créer votre propre boutique en ligne pour présenter vos délicieuses créations et accepter vos commandes en toute transparence."
+        "description": "Nous créons votre propre boutique en ligne pour présenter vos délicieuses créations et accepter les commandes de manière transparente.",
+        "key": "magasin en ligne",
+        "title": "Boutique en ligne"
       },
       "order_management": {
+        "description": "Suivre et gérer facilement toutes vos commandes en un seul endroit, en réduisant le risque d'erreurs et des commandes manquées.",
         "key": "gestion des commandes",
-        "title": "Gestion des commandes",
-        "description": "Suivez et gérez facilement toutes vos commandes en un seul endroit, réduisant ainsi le risque d'erreurs et de commandes manquées."
+        "title": "Gestion des commandes"
       },
       "all_chats": {
-        "key": "toutes-les-discussions-en-un-même-endroit",
-        "title": "Toutes les discussions au même endroit",
-        "description": "Connectez les discussions clients d'Instagram, Facebook et WhatsApp aux commandes en un seul endroit pour une communication facilitée."
+        "description": "Connectez les chats des clients d'Instagram, Facebook et WhatsApp aux commandes en un seul endroit pour une communication facile.",
+        "key": "tout-chats sur une place",
+        "title": "Tous les chats en un seul endroit"
       },
       "support": {
-        "key": "support flexible",
-        "title": "Support flexible",
-        "description": "Notre équipe dédiée est là pour vous aider pendant nos heures de disponibilité, en veillant à ce que vos questions soient traitées rapidement."
+        "description": "Notre équipe dédiée est là pour vous aider pendant nos heures disponibles, en veillant à ce que vos requêtes soient traitées rapidement.",
+        "key": "soutien flexible",
+        "title": "Support flexible"
       }
     }
   },
@@ -583,7 +576,7 @@
   },
   "app/(landing)/components/navbar": {
     "back": "Retour",
-    "backTo": "retour à",
+    "backTo": "à",
     "brandName": "Les Bakerz"
   },
   "app/(landing)/components/apply": {
@@ -623,17 +616,21 @@
     "accountSettings": "Paramètres du compte",
     "welcomedGuest": "Bienvenue, invité",
     "signIn": "Se connecter",
-    "signInButton": "Se connecter",
+    "aboutTheBakerz": "À propos de Thebakerz",
     "account": "Compte",
-    "orders": "Commandes",
-    "products": "Produits",
-    "navigation": "Navigation",
-    "aboutTheBakerz": "À propos de TheBakerz",
-    "joinTheBakerz": "Rejoignez TheBakerz",
     "dashboard": "Tableau de bord",
+    "joinTheBakerz": "Rejoignez Thebakerz",
+    "navigation": "Navigation",
+    "orders": "Ordres",
     "overview": "Aperçu",
-    "users": "Utilisateurs",
-    "stripe": "Bande"
+    "products": "Produits",
+    "search": "Rechercher Bakerz",
+    "settings": "Paramètres",
+    "shop": "Boutique",
+    "signInButton": "Se connecter",
+    "stores": "Magasins",
+    "stripe": "Bande",
+    "users": "Utilisateurs"
   },
   "app/(support)/components/contact-us": {
     "emailLabel": "E-mail",
@@ -644,10 +641,7 @@
     "contextPlaceholder": "Aidez-moi avec...",
     "buttonSending": "Envoi...",
     "buttonSubmit": "Soumettre un ticket",
-    "successMessage": "Votre ticket a été soumis avec succès. Nous vous redirigerons automatiquement vers la page principale dans :",
-    "support": "Support",
-    "contactUs": "Contactez-nous",
-    "contactUsDescription": "Nous sommes là pour vous aider pendant nos heures d'ouverture. N'hésitez pas à nous contacter pour toute question ou tout problème."
+    "successMessage": "Votre ticket a été soumis avec succès. Nous vous redirigerons automatiquement vers la page principale dans :"
   },
   "app/(support)/components/payment-urgent": {
     "requestSentSuccess": "Votre demande a été envoyée avec succès.",
@@ -656,55 +650,35 @@
     "supportTicket": "Ticket d'assistance"
   },
   "app/(support)/components/support": {
-    "faqsTitleShort": "FAQ",
-    "faqsTitleLong": "Questions fréquemment posées",
+    "faqsTitleShort": "Posez fréquemment des questions",
+    "faqsTitleLong": "Posez fréquemment des questions",
     "contactUs": "Contactez-nous",
-    "sectionBaker": "Pour les boulangers"
+    "sectionBaker": "Pour les boulangers",
+    "sectionCustomer": "Clients"
   },
   "app/(support)/components/faq-baker": {
-    "question1": "Qu'est-ce que TheBakerz",
-    "answer1": "TheBakerz est une plateforme tout-en-un qui aide les boulangers-patissiers à gérer leur activité et à atteindre une clientèle plus large. Elle centralise les commandes, la planification de la production, les paiements et la communication client. Vous reduisez ainsi le temps passé sur les tâches administratives et gagnez du temps pour vous consacrer à votre passion : la pâtisserie !",
-    "question2": "Comment commencer à vendre sur TheBakerz ?",
-    "answer2": "Démarrer est facile ! Remplissez ce formulaire (lien) et nous planifierons un appel rapide pour tout configurer. Nous vous aiderons à créer votre boutique en ligne et vous montrerons comment l'utiliser étape par étape.",
-    "question3": "De quoi ai-je besoin pour commencer ?",
-    "answer3": "Il vous suffit d'un numéro KVK, d'un numéro de TVA et d'un certificat de sécurité alimentaire. S'il vous manque quelque chose, pas d'inquiétude, nous vous aiderons à le trouver.",
-    "question4": "Puis-je choisir mes propres prix et menu ?",
-    "answer4": "Bien sûr ! Vous contrôlez ce que vous vendez et vos prix. Vous pouvez mettre à jour votre menu et vos prix quand vous le souhaitez.",
-    "question5": "Comment fonctionnent les commandes et la livraison ?",
-    "answer5": "C'est vous qui décidez de ce qui convient le mieux à votre boulangerie-patisserie. Vous pouvez proposer la livraison ou permettre aux clients de venir récupérer leurs commandes directement chez vous. Définissez vos propres zones de livraison et horaires de retrait en fonction de votre emploi du temps.",
-    "question6": "Combien coûte l'utilisation de TheBakerz ?",
-    "answer6": "L'hébergement coûte 9,99 € par mois et une commission de 5 % par vente est appliquée pour couvrir le traitement des paiements. Les trois premiers mois sont gratuits, vous pouvez donc l'essayer sans risque.",
-    "question7": "Comment fonctionnent les paiements ?",
-    "answer7": "Les clients paient d'avance via notre système de paiement sécurisé. Nous transférons vos gains, moins la commission, sur votre compte bancaire chaque semaine. Les paiements arrivent généralement sous 1 à 2 jours ouvrés après le lundi.",
-    "question8": "Est-ce facile à utiliser si je ne suis pas doué avec la technologie ?",
-    "answer8": "Absolument ! TheBakerz est conçu pour être simple et convivial. Si vous avez besoin d'aide, notre équipe d'assistance est à votre disposition par e-mail ou par téléphone.",
-    "question9": "Puis-je faire confiance à TheBakerz pour les paiements et les commandes ?",
-    "answer9": "Oui. Les commandes sont suivies automatiquement et les paiements sont traités en toute sécurité avec notre partenaire de paiement (Stripe). Vous et vos clients bénéficierez d'une transparence totale à chaque étape.",
-    "question10": "Puis-je faire confiance à TheBakerz pour les paiements et les commandes ?",
-    "answer10": "Nous sommes là pour vous aider, quel que soit votre besoin. De la création de votre boutique à la gestion de vos commandes, contactez-nous ou appelez-nous au +31 684794739. Nous veillerons à ce que tout se déroule parfaitement."
+    "answer1": "Thebakerz est une plate-forme tout-en-un qui aide les boulangers à gérer leurs entreprises et à atteindre plus de clients. \nIl gère les commandes, la planification de la production, les paiements et la communication des clients en un seul endroit. \nCela signifie moins de temps sur l'administrateur et plus de temps à faire ce que vous aimez, en préparant!",
+    "answer10": "Nous sommes ici pour aider avec tout ce dont vous avez besoin. \nDe la mise en place de votre boutique à la gestion des commandes, contactez-nous ou appelez-nous au 31 684794739. Nous nous assurerons que tout se passe bien pour vous.",
+    "answer2": "Le démarrage est facile! \nRemplissez ce formulaire (lien) et nous planifierons un appel rapide pour tout configurer. \nNous vous aiderons à créer votre boutique en ligne et à vous montrer comment l'utiliser étape par étape.",
+    "answer3": "Vous aurez juste besoin d'un numéro KVK, d'un numéro de TVA et d'une certification de sécurité alimentaire. \nSi vous manquez quelque chose, ne vous inquiétez pas - nous vous aiderons à le comprendre.",
+    "answer5": "Vous décidez ce qui fonctionne le mieux pour votre boulangerie. \nVous pouvez offrir une livraison ou permettre aux clients de récupérer les commandes de votre emplacement. \nDéfinissez vos propres zones de livraison et temps de ramassage pour s'adapter à votre horaire.",
+    "answer6": "Vous ne payez que lorsque vous faites une vente. Nous prenons une commission de 8%, qui couvre les opérations du site Web, les frais de traitement des paiements et la publicité.",
+    "answer7": "Les clients paient à l'avance via notre système de paiement sécurisé. \nNous transférons vos revenus, moins la Commission, sur votre compte bancaire chaque semaine. \nLes paiements arrivent généralement dans les 1-2 jours ouvrables après lundi",
+    "answer8": "Absolument! \nThebakerz est conçu pour être simple et convivial. \nSi vous avez besoin d'aide, notre équipe d'assistance n'est qu'un e-mail ou un appel.",
+    "answer9": "Oui, vous pouvez. \nLes commandes sont suivies automatiquement et les paiements sont traités en toute sécurité avec notre partenaire de paiement (Stripe). \nVous et vos clients aurez tous deux une transparence complète à chaque étape.",
+    "question1": "Qu'est-ce que Thebakerz",
+    "question10": "Puis-je faire confiance à Thebakerz avec les paiements et les commandes?",
+    "question2": "Comment commencer à vendre sur Thebakerz?",
+    "question3": "De quoi ai-je besoin pour commencer?",
+    "question4": "Puis-je choisir mes propres prix et menu?",
+    "question5": "Comment fonctionnent les commandes et la livraison?",
+    "question6": "Que coûte-t-il d'utiliser Thebakerz?",
+    "question7": "Comment fonctionnent les paiements?",
+    "question8": "Est-il facile à utiliser si je ne suis pas bon avec la technologie?",
+    "question9": "Puis-je faire confiance à Thebakerz avec les paiements et les commandes?",
+    "answer4": "Bien sûr! \nVous contrôlez ce que vous vendez et combien vous facturez. \nVous pouvez mettre à jour votre menu et vos prix quand vous le souhaitez."
   },
-  "app/(support)/components/faq-customer": {
-    "question1": "Qu'est-ce que TheBakerz",
-    "answer1": "TheBakerz est une plateforme tout-en-un qui aide les boulangers-patissiers à gérer leur activité et à atteindre une clientèle plus large. Elle centralise les commandes, la planification de la production, les paiements et la communication client. Vous gagnez ainsi du temps en administration et plus de temps pour vous consacrer à votre passion : la pâtisserie !",
-    "question2": "Comment commencer à vendre sur TheBakerz ?",
-    "answer2": "Démarrer est facile ! Remplissez ce formulaire (lien) et nous planifierons un appel rapide pour tout configurer. Nous vous aiderons à créer votre boutique en ligne et vous montrerons comment l'utiliser étape par étape.",
-    "question3": "De quoi ai-je besoin pour commencer ?",
-    "answer3": "Il vous suffit d'un numéro KVK, d'un numéro de TVA et d'un certificat de sécurité alimentaire. S'il vous manque quelque chose, pas d'inquiétude, nous vous aiderons à le trouver.",
-    "question4": "Puis-je choisir mes propres prix et menu ?",
-    "answer4": "Bien sûr ! Vous contrôlez ce que vous vendez et vos prix. Vous pouvez mettre à jour votre menu et vos prix quand vous le souhaitez.",
-    "question5": "Comment fonctionnent les commandes et la livraison ?",
-    "answer5": "C'est vous qui décidez de ce qui convient le mieux à votre boulangerie. Vous pouvez proposer la livraison ou permettre aux clients de venir récupérer leurs commandes directement chez vous. Définissez vos propres zones de livraison et horaires de retrait en fonction de votre emploi du temps.",
-    "question6": "Combien coûte l'utilisation de TheBakerz ?",
-    "answer6": "L'hébergement coûte 29,99 € par mois et une commission de 5 % par vente est appliquée pour couvrir le traitement des paiements. Les trois premiers mois sont gratuits, vous pouvez donc l'essayer sans risque.",
-    "question7": "Comment fonctionnent les paiements ?",
-    "answer7": "Les clients paient d'avance via notre système de paiement sécurisé. Nous transférons vos gains, moins la commission, sur votre compte bancaire chaque semaine. Les paiements arrivent généralement sous 1 à 2 jours ouvrés après le lundi.",
-    "question8": "Est-ce facile à utiliser si je ne suis pas doué avec la technologie ?",
-    "answer8": "Absolument ! TheBakerz est conçu pour être simple et convivial. Si vous avez besoin d'aide, notre équipe d'assistance est à votre disposition par e-mail ou par téléphone.",
-    "question9": "Puis-je faire confiance à TheBakerz pour les paiements et les commandes ?",
-    "answer9": "Oui. Les commandes sont suivies automatiquement et les paiements sont traités en toute sécurité avec notre partenaire de paiement (Stripe). Vous et vos clients bénéficierez d'une transparence totale à chaque étape.",
-    "question10": "Puis-je faire confiance à TheBakerz pour les paiements et les commandes ?",
-    "answer10": "Nous sommes là pour vous aider, quel que soit votre besoin. De la création de votre boutique à la gestion de vos commandes, contactez-nous ou appelez-nous au +31 684794739. Nous veillerons à ce que tout se déroule parfaitement."
-  },
+  "app/(support)/components/faq-customer": {},
   "app/(components)/redirect-page": {
     "success": "Succès!",
     "seconds": "secondes",
@@ -712,7 +686,7 @@
     "redirectNow": "Rediriger maintenant"
   },
   "app/(components)/footer": {
-    "brandName": "Les Bakerz",
+    "brandName": "TheBakerz",
     "aboutTheBakerz": "À propos de TheBakerz",
     "joinTheBakerz": "Rejoignez TheBakerz",
     "getHelp": "Obtenir de l'aide",
@@ -725,10 +699,11 @@
     "copyright": "TheBakerz. Tous droits réservés.",
     "navigation": "Navigation",
     "support": "Support",
-    "legal": "Légal"
+    "legal": "Légal",
+    "search": "Rechercher Bakerz"
   },
   "app/(components)/footer-store": {
-    "brandName": "Les Bakerz",
+    "brandName": "TheBakerz",
     "aboutTheBakerz": "À propos de TheBakerz",
     "joinTheBakerz": "Rejoignez TheBakerz",
     "getHelp": "Obtenir de l'aide",
@@ -744,10 +719,12 @@
     "contactUs": "Contactez-nous",
     "phone": "Téléphone",
     "addressPlaceholder": "Espace réservé à l'adresse",
-    "locationPlaceholder": "Espace réservé à la localisation"
+    "locationPlaceholder": "Espace réservé à la localisation",
+    "search": "Rechercher Bakerz",
+    "Opening Hours": "Heures d'ouverture"
   },
   "app/(components)/footer-simple": {
-    "brandName": "Les Bakerz",
+    "brandName": "TheBakerz",
     "aboutTheBakerz": "À propos de TheBakerz",
     "joinTheBakerz": "Rejoignez TheBakerz",
     "getHelp": "Obtenir de l'aide",
@@ -756,7 +733,8 @@
     "refundPolicy": "Politique de remboursement",
     "copyright": "TheBakerz. Tous droits réservés.",
     "support": "Support",
-    "legal": "Légal"
+    "legal": "Légal",
+    "search": "Rechercher Bakerz"
   },
   "app/(auth)/page": {
     "authDescription": "Connectez-vous pour commander de délicieuses friandises"
@@ -783,7 +761,8 @@
   },
   "app/(components)/signin-button": {
     "loading": "Chargement...",
-    "signIn": "Se connecter"
+    "signIn": "Se connecter",
+    "storeRedirect": "Magasin"
   },
   "app/(components)/signout-button": {
     "logOut": "Se déconnecter",
@@ -796,7 +775,8 @@
     "notAuthenticated": "Non authentifié",
     "verificationCodeExpired": "Le code de vérification a expiré. Nous vous avons envoyé un autre code par courriel.",
     "incorrectCode": "Code incorrect.",
-    "problemWithAccount": "Problème avec le compte"
+    "problemWithAccount": "Problème avec le compte",
+    "problemSendingEmail": "Un problème est survenu lors de l'envoi de l'e-mail. Veuillez réessayer plus tard."
   },
   "app/actions": {
     "tooManyRequests": "Trop de demandes",
@@ -806,7 +786,7 @@
     "tooManyRequests": "Trop de demandes",
     "pleaseRestartProcess": "Veuillez redémarrer le processus."
   },
-  "app/api/invoice/[storeId]/[orderId]": {
+  "app/api/invoice/storeId/orderId": {
     "tooManyRequests": "Trop de demandes",
     "restrictedAccess": "Accès restreint",
     "notAuthenticated": "Non authentifié",
@@ -816,15 +796,14 @@
   },
   "app/api/pay": {
     "tooManyRequests": "Trop de demandes",
-    "missingUser": "Utilisateur manquant",
     "missingStoreId": "ID de magasin manquant",
     "missingCosmosId": "ID Cosmos manquant",
     "missingCartId": "ID de panier manquant",
     "orderNotFound": "Commande non trouvée",
-    "missingOrderTime": "Heure de commande manquante",
-    "missingCart": "Panier manquant",
-    "orderFailed": "La commande a échoué",
-    "processingError": "Erreur lors du traitement du paiement"
+    "processingError": "Erreur lors du traitement du paiement",
+    "orderDbFailed": "L'ordre de commande a échoué",
+    "userCreationFailed": "La création de l'utilisateur a échoué",
+    "missingUserEmail": "E-mail utilisateur manquant"
   },
   "app/api/store/cart": {
     "missingStoreId": "En-tête Store-Id manquant ou non valide",
@@ -833,23 +812,8 @@
     "notAuthorized": "Accès non autorisé",
     "internalError": "Erreur interne du serveur"
   },
-  "app/api/store/order/updateStatus": {
-    "missingStoreId": "En-tête Store-Id manquant ou non valide",
-    "missingOrderId": "En-tête Order-Id manquant ou non valide",
-    "missingEmail": "En-tête d'ID utilisateur manquant ou non valide",
-    "missingStatus": "En-tête d'état manquant ou non valide",
-    "missingAuth": "En-tête d'autorisation manquant ou non valide",
-    "notAuthorized": "Accès non autorisé",
-    "orderNotFound": "Commande non trouvée",
-    "invalidData": "Données invalides",
-    "invalidStatus": "Statut invalide",
-    "internalError": "Erreur interne du serveur"
-  },
+  "app/api/store/order/updateStatus": {},
   "app/api/store/order": {
-    "missingStoreId": "En-tête Store-Id manquant ou non valide",
-    "missingOrderId": "En-tête Order-Id manquant ou non valide",
-    "missingEmail": "En-tête d'ID utilisateur manquant ou non valide",
-    "missingAuth": "En-tête d'autorisation manquant ou non valide",
     "notAuthorized": "Accès non autorisé",
     "internalError": "Erreur interne du serveur"
   },
@@ -858,12 +822,6 @@
     "missingFromDate": "En-tête De-Date manquant",
     "missingToDate": "En-tête manquant à ce jour",
     "missingAuth": "En-tête d'autorisation manquant",
-    "notAuthorized": "Accès non autorisé",
-    "internalError": "Erreur interne du serveur"
-  },
-  "app/api/store/products/[productId]": {
-    "missingStoreId": "En-tête Store-Id manquant ou non valide",
-    "missingAuth": "En-tête d'autorisation manquant ou non valide",
     "notAuthorized": "Accès non autorisé",
     "internalError": "Erreur interne du serveur"
   },
@@ -891,8 +849,7 @@
     "invalidPayload": "Charge utile de requête non valide",
     "invalidTimeFields": "Champs horaires non valides",
     "storeNotFound": "Magasin non trouvé",
-    "updateFailed": "Échec de la mise à jour du calendrier",
-    "internalError": "Erreur interne du serveur"
+    "updateFailed": "Échec de la mise à jour du calendrier"
   },
   "app/api/upload-image": {
     "tooManyRequests": "Trop de demandes",
@@ -912,7 +869,6 @@
     "tooManyRequests": "Trop de demandes",
     "invalidFields": "Champs invalides!",
     "userNotFound": "Utilisateur non trouvé !",
-    "storeNameExists": "Le nom de magasin « {name} » existe déjà",
     "profileUpdated": "Profil mis à jour avec succès !"
   },
   "app/lib/actions/auth/email-action": {
@@ -940,12 +896,7 @@
     "failedReplaceGuestCart": "Échec du remplacement du panier invité.",
     "userIdStoreIdRequired": "L'identifiant utilisateur et l'identifiant du magasin sont requis",
     "cartRemovedSuccess": "Panier supprimé avec succès !",
-    "failedRemoveCart": "Échec de la suppression du panier.",
-    "variantRequired": "{label} doit être sélectionné",
-    "variantSingleSelection": "{label} doit avoir exactement une sélection",
-    "variantMaxSelections": "{label} ne peut pas avoir plus de {max} sélections",
-    "variantRequiredSelections": "{label} doit avoir {max} sélections",
-    "variantInvalidOption": "Option {option} non valide pour {label}"
+    "failedRemoveCart": "Échec de la suppression du panier."
   },
   "app/lib/actions/product": {
     "tooManyRequests": "Trop de demandes",
@@ -955,10 +906,7 @@
     "productUpdated": "Produit mis à jour !",
     "productAdded": "Produit ajouté !",
     "failedUpdateProduct": "Échec de la mise à jour du produit.",
-    "productDeletedSuccess": "Produit supprimé avec succès !",
-    "failedDeleteProduct": "Échec de la suppression du produit.",
-    "failedFetchStoreProducts": "Impossible de récupérer les produits du magasin",
-    "failedFetchProduct": "Échec de la récupération du produit"
+    "storeNotFound": "Store introuvable!"
   },
   "app/lib/actions/order": {
     "tooManyRequests": "Trop de demandes",
@@ -971,59 +919,209 @@
     "failedCreateOrder": "Échec de la création de la commande",
     "failedCreateCheckout": "Échec de la création de la session de paiement",
     "failedFetchOrders": "Échec de la récupération des commandes",
-    "failedFetchOrder": "Échec de la récupération des données du magasin"
+    "failedFetchOrder": "Échec de la récupération des données du magasin",
+    "failedUpdateOrderStatus": "Échec de la mise à jour de l'état de la commande",
+    "orderNotFound": "Ordre non trouvé",
+    "invalidData": "Données de commande non valides",
+    "orderAlreadyCompleted": "La commande est déjà terminée",
+    "invalidStatus": "Statut non valide",
+    "cannotChangeStatus": "TheBakerz ne peut terminer cette commande",
+    "sessionExpired": "La session n'est pas valable",
+    "userNotAuthorized": "Pas d'accès"
   },
   "app/lib/actions/order-products": {
     "tooManyRequests": "Trop de demandes",
     "userNotFound": "Utilisateur non trouvé !",
     "orderUpdated": "Commande mise à jour !",
     "failedUpdateProduct": "Échec de la mise à jour du produit.",
-    "failedFetchProductsOrder": "Échec de la récupération de la commande de produits",
-    "failedFetchStoreProducts": "Impossible de récupérer les produits du magasin"
+    "failedFetchStoreProducts": "Impossible de récupérer les produits du magasin",
+    "storeNotFound": "Store introuvable!"
   },
-  "app/lib/schemas": {
-    "invalidPhone": "Numéro de téléphone invalide",
-    "emailRequired": "Email requis!",
-    "invalidEmail": "Email invalide!",
-    "otpRequired": "L'OTP doit comporter 6 chiffres",
-    "termsRequired": "Vous devez accepter les conditions générales et la politique de confidentialité.",
-    "nameRequired": "Le nom est obligatoire",
-    "subjectRequired": "Le sujet est obligatoire",
-    "subjectTooLong": "Le sujet doit comporter moins de 200 caractères",
-    "contextTooShort": "Le contexte doit comporter plus de 5 caractères",
-    "contextTooLong": "Le contexte doit comporter moins de 2000 caractères",
-    "unsupportedFileType": "Type de fichier non pris en charge. Types autorisés : JPEG, PNG, WebP, SVG",
-    "fileTooLarge": "Le fichier est trop volumineux. La taille maximale autorisée est de 5 Mo.",
-    "nameTooShort": "Minimum de 4 caractères pour le nom",
-    "nameTooLong": "Maximum de 120 caractères pour le nom",
-    "nameInvalidFormat": "Le nom ne peut contenir que des lettres, des chiffres, des points, des traits de soulignement, des tirets, des parenthèses, avec un maximum de deux espaces et ne peut pas commencer par un espace",
-    "nameConsecutivePeriods": "Le nom ne peut pas contenir deux points consécutifs ou plus",
-    "nicknameTooShort": "Minimum de 4 caractères pour le surnom",
-    "nicknameTooLong": "Maximum de 120 caractères pour le surnom",
-    "nicknameInvalidFormat": "Le surnom ne peut contenir que des lettres, des chiffres, des points, des traits de soulignement et des tirets",
-    "nicknameConsecutivePeriods": "Le surnom ne peut pas contenir deux points consécutifs ou plus",
-    "descriptionTooLong": "La description doit comporter moins de 500 caractères",
-    "variantLabelTooShort": "Minimum 4 caractères",
-    "variantPricePositive": "Le prix doit être un nombre positif",
-    "variantLabelRequired": "Minimum 4 caractères",
-    "variantOptionsRequired": "Au moins une option est requise",
-    "categoryInvalid": "La catégorie doit être issue de la liste",
-    "productNameRequired": "Le nom du produit est obligatoire",
-    "priceRequired": "Le prix est requis",
-    "pricePositive": "Le prix doit être un nombre positif",
-    "invalidUrl": "URL invalide",
-    "imageRequired": "L'image est requise",
-    "minOrderRequired": "La commande minimum doit être d'au moins 1",
-    "customerEmailRequired": "Email requis!",
-    "customerNameRequired": "Nom requis !",
-    "customerNameTooShort": "Le nom doit comporter au moins 2 caractères",
-    "customerNameTooLong": "Le nom doit comporter moins de 100 caractères",
-    "contactMethodRequired": "Au moins un moyen de contact (courriel ou numéro de téléphone) est requis",
-    "profileNameRequired": "Le nom est obligatoire",
-    "profileDescriptionTooLong": "La description doit comporter au maximum 200 caractères",
-    "profileStoreNameRequired": "Le nom du magasin est obligatoire",
-    "profileStoreSlugTooLong": "La description doit comporter au maximum 100 caractères",
-    "profileInvalidFacebookUrl": "URL Facebook invalide",
-    "profileInvalidInstagramUrl": "URL Instagram invalide"
+  "app/lib/schemas": {},
+  "app/(return_page)/settings/components/delivery-settings": {
+    "deliveryRegions": "Régions de Livraison",
+    "resetMap": "Réinitialiser le Zoom",
+    "saving": "Enregistrement...",
+    "saveDeliveryRegions": "Enregistrer les Régions de Livraison",
+    "loadingMap": "Chargement...",
+    "updateSuccess": "Régions de livraison mises à jour avec succès",
+    "updateError": "Échec de la mise à jour des régions de livraison",
+    "loadError": "Échec du chargement des régions de livraison",
+    "selectDeliveryCity": "Sélectionner une Ville de Livraison",
+    "selectCity": "Sélectionner une ville",
+    "deliveryRange": "Rayon de Livraison",
+    "deliveryPrice": "Frais de Livraison",
+    "priceLabel": "Prix (€)",
+    "addCity": "Ajouter une Ville",
+    "selectedCities": "Villes Sélectionnées",
+    "noCitiesSelected": "Aucune ville sélectionnée",
+    "mapView": "Vue Carte",
+    "deliveryDescription": "Permettre aux clients de se faire livrer leurs commandes à domicile",
+    "minOrderPrice": "Prix Minimum de Commande",
+    "minPriceLabel": "Prix Min",
+    "minOrderPriceDescription": "Les clients doivent commander au moins ce montant pour être éligibles à la livraison dans cette région",
+    "deliverySchedule": "Horaires de Livraison",
+    "manageDeliverySchedule": "Gérer les Horaires de Livraison",
+    "deliveryScheduleDescription": "Définir les heures auxquelles la livraison est disponible pour cette région",
+    "deliveryTimes": "Horaires de Livraison",
+    "noDeliveryDays": "Aucun jour de livraison défini",
+    "deliveryAllWeek": "Livraison disponible toute la semaine",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "invalidCity": "Ville invalide sélectionnée",
+    "minOrderPriceError": "Le prix minimum de commande doit être d'au moins 10€",
+    "minOrderTime": "Min Order Temps:",
+    "brandName": "TheBakerz",
+    "minutes": "minutes",
+    "hour": "heure",
+    "hours": "heures",
+    "day": "jour",
+    "days": "jours",
+    "addRange": "Ajouter la plage",
+    "rangeOrderError": "Rendre la gamme plus grande que celle précédente",
+    "startTime": "Heure de début",
+    "startTimeError": "Erreur de début",
+    "endTime": "Heure de fin",
+    "endTimeError": "Erreur de temps de fin"
+  },
+  "app/(store)/components/delivery-map": {},
+  "app/(return_page)/settings/components/store-tabs-settings": {
+    "store": "Magasin",
+    "pickup": "Ramasser",
+    "delivery": "Livraison"
+  },
+  "app/(return_page)/settings/components/store-setting": {
+    "storeUpdated": "Store mis à jour!",
+    "updateStore": "MISE À JOUR MAGNAGE",
+    "storeDescriptionPlaceholder": "Parlez-nous de votre magasin ... (Max 200 caractères)",
+    "writeAboutStore": "Écrivez une brève description sur votre magasin (max 200 caractères)",
+    "contactUs": "Contactez-nous",
+    "description": "Description",
+    "editLocationPhoneBy": "Vous pouvez les modifier en nous contactant à",
+    "enterFacebookURL": "Entrez URL de votre page Facebook",
+    "enterInstagramURL": "Entrez votre URL de profil Instagram",
+    "facebookURL": "URL Facebook",
+    "facebookURLPlaceholder": "https://facebook.com/your-age",
+    "howUserFindYou": "Comment les utilisateurs trouveront votre magasin",
+    "howUserRecognizeYou": "Cela fera partie du sous-titre de votre magasin",
+    "instagramURL": "URL Instagram",
+    "instagramURLPlaceholder": "https://instagram.com/your-handle",
+    "locationPhone": "Emplacement",
+    "locationPlaceholder": "Emplacement d'emplacement",
+    "storeSlug": "Magasin de sous-titre",
+    "typeYourStoreName": "Tapez le nom de votre magasin",
+    "typeYourStoreSlug": "Magasin depuis 2021",
+    "updating": "Mise à jour ...",
+    "phoneNumberPlaceholder": "31 6 12 34 56 78",
+    "storeLink": "Lien de magasin"
+  },
+  "app/lib/actions/store-actions": {
+    "tooManyRequests": "Trop de demandes!",
+    "invalidFields": "Champs non valides",
+    "userNotFound": "L'utilisateur n'est pas trouvé!",
+    "storeNameExists": "Le nom du magasin existe déjà!",
+    "storeUpdated": "Stocker les informations mises à jour!"
+  },
+  "app/(return_page)/settings/components/store-info": {
+    "pickupOnly": "Ramassage uniquement",
+    "deliveryOnly": "Livraison uniquement",
+    "pickupAndDelivery": "Ramasser",
+    "notConfigured": "Non configuré",
+    "storeInformation": "Stocker des informations",
+    "owner": "Propriétaire",
+    "region": "Région",
+    "deliveryOption": "Options d'expédition",
+    "currencyText": "Devise"
+  },
+  "app/(return_page)/settings/components/business-info": {
+    "accountInformation": "Informations sur le compte",
+    "accountType": "Type de compte",
+    "email": "E-mail",
+    "memberSince": "Membre depuis",
+    "accountStatus": "Statut de compte",
+    "verified": "Vérifié",
+    "unverified": "Non vérifié",
+    "businessInformation": "Informations commerciales",
+    "businessName": "Nom d'entreprise",
+    "notAvailable": "Pas disponible",
+    "kvkNumber": "Numéro d'activité",
+    "vatNumber": "Carte d'identité d'impôt",
+    "region": "Région",
+    "registeredAddress": "Adresse enregistrée",
+    "bankAccount": "Compte bancaire",
+    "korStatus": "Statut de Kor",
+    "korEnabled": "Activé",
+    "korDisabled": "Désactivé"
+  },
+  "UsersDashboard": {
+    "Search User": "Rechercher un utilisateur"
+  },
+  "app/(components)/join-button": {
+    "loading": "Chargement...",
+    "join": "Rejoignez TheBakerz",
+    "joinSmall": "Rejoindre"
+  },
+  "search": {
+    "errors": {},
+    "noStoresFound": {},
+    "noLocation": {},
+    "components": {
+      "toggleDelivery": {
+        "pickup": "Ramasser",
+        "delivery": "Livraison"
+      },
+      "storePanel": {
+        "deliveryFee": "Frais de livraison",
+        "deliveryAvailable": "Livrer maintenant",
+        "minOrder": "Commande min",
+        "deliveryUnavailable": "Pas livrer maintenant",
+        "open": "Ouvrir",
+        "closed": "Fermé"
+      }
+    }
+  },
+  "app/(store)/id/order/success": {
+    "verifyEmail": "Vérifiez l'image e-mail",
+    "checkEmail": "Vérifiez votre e-mail pour les informations sur votre commande.",
+    "orderPlaced": "Votre commande est passée!",
+    "returnToStore": "Retourner au magasin"
+  },
+  "app/api/store/products/": {
+    "productId": {}
+  },
+  "app/(return_page)/settings/components/delivery-options": {
+    "deliveryDescription": "Permettez aux clients de faire livrer les commandes à leur adresse",
+    "deliveryOption": "Livraison",
+    "deliveryOptions": "Options de livraison",
+    "deliveryOptionsDescription": "Configurez comment les clients peuvent recevoir leurs commandes.",
+    "optionsUpdateError": "Échec de la mise à jour des options de livraison",
+    "optionsUpdateSuccess": "Options de livraison mises à jour avec succès",
+    "pickupDescription": "Permettez aux clients de récupérer les commandes de votre magasin",
+    "pickupOption": "Ramasser",
+    "updatingOptions": "Options de mise à jour ...",
+    "updateDeliveryOptions": "Mettre à jour les options de livraison"
+  },
+  "app/(store)/id/order/failed": {
+    "error": "Quelque chose ne va pas avec le paiement"
+  },
+  "app/(store)/id/orders/add": {
+    "addOrder": "Ajouter la commande",
+    "addOrderDescription": "Créez un panier et ajoutez à votre liste de commandes."
+  },
+  "app/(store)/id/page": {
+    "noProducts": "Aucun produit disponible"
+  },
+  "app/(store)/id/settings/page": {
+    "settingsDescription": "Personnalisez votre magasin et vos paramètres",
+    "settingsTitle": "Stockage des paramètres"
+  },
+  "app/api/store/products/productId": {
+    "missingAuth": "En-tête d'autorisation manquante ou non valide",
+    "missingStoreId": "En-tête de magasin de magasin manquant ou non valide",
+    "notAuthorized": "Pas autoriser l'accès",
+    "internalError": "Erreur interne du serveur"
+  },
+  "app/api/store/orders/new": {
+    "internalError": "Erreur interne"
   }
 }

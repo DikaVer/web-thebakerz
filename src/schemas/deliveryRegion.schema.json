@@ -1,0 +1,62 @@
+{
+  "title": "DeliveryRegion Schema",
+  "description": "Schema for delivery regions in the baker's application",
+  "type": "object",
+  "required": ["id", "storeId", "regionName", "postalCodes", "price"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier for the delivery region"
+    },
+    "storeId": {
+      "type": "string",
+      "description": "The ID of the store that owns this delivery region"
+    },
+    "regionName": {
+      "type": "string",
+      "description": "The name of the delivery region"
+    },
+    "postalCodes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of postal codes included in this delivery region"
+    },
+    "price": {
+      "type": "number",
+      "description": "The delivery price for this region",
+      "minimum": 0
+    },
+    "coordinates": {
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "number",
+          "description": "Latitude of the region center"
+        },
+        "lng": {
+          "type": "number",
+          "description": "Longitude of the region center"
+        },
+        "radius": {
+          "type": "number",
+          "description": "Radius of the delivery area in meters",
+          "minimum": 0
+        }
+      },
+      "required": ["lat", "lng"],
+      "description": "Geographical coordinates and radius defining the delivery zone"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the delivery region was created"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the delivery region was last updated"
+    }
+  }
+} 

@@ -24,6 +24,7 @@ export async function updateUserProfile(
 // Update the store record (only for bakerz) with storeName, description, and phone
 export async function updateStoreProfile(
     id: string,
+    storeId: string,
     storeName: string,
     description?: string,
     facebook_url?: string,
@@ -38,9 +39,10 @@ export async function updateStoreProfile(
                  facebook_url = $3,
                  instagram_url = $4,
                  slug = $5
-             WHERE user_id = $6
-                 RETURNING id`,
-            [storeName, description, facebook_url, instagram_url, storeSlug, id]
+             WHERE user_id = $6 AND id = $7
+             RETURNING id
+             `,
+            [storeName, description, facebook_url, instagram_url, storeSlug, id, storeId]
         );
         if (result.rows.length === 0) {
             throw new Error("Store not found");

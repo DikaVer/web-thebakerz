@@ -1,10 +1,10 @@
 // TypeScript
-import { AvatarIcon, Button, cn, Image, Spacer, Tooltip, Avatar, ScrollShadow } from "@heroui/react";
+import { AvatarIcon, Button, cn, Image, Spacer, Tooltip, Avatar, ScrollShadow, Badge } from "@heroui/react";
 import { pacifico } from "@/components/fonts";
-import Sidebar from "@/components/sidebar/sidebar";
+import Sidebar, {SidebarItemType} from "@/components/sidebar/sidebar";
 import { Icon } from "@iconify/react";
 import SidebarDrawer from "@/components/sidebar/sidebar-drawer";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { SignOutButton } from "@/components/ui/signout-button";
@@ -13,7 +13,6 @@ import {
     sectionItemsBakerz,
     sectionItemsGuestStore,
     sectionItemsGuestTheBakerz,
-    sectionItemsTheBakerz,
     sectionItemsUser,
     sectionStoreItemsUser
 } from "@/components/sidebar/sidebar-items";
@@ -46,8 +45,12 @@ export default function SidebarMenu({ store, isOpen, onOpenChange, isCollapsed }
     }, [pathname]);
 
     const { theme } = useTheme();
-    const storeUrl = session.store?.storeName ? session.store?.storeName : session.store?.id;
+    const storeUrl = null;
 
+
+    useEffect(() => {
+        console.log(session);
+    });
 
 
     return (
@@ -178,13 +181,14 @@ const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreD
                     href: `/auth?next=${storeUrl}`,
                     icon: "line-md:login",
                     titleKey: "signInButton"
-                }
+                },
+                ...sectionItemsGuestStore
             ]);
         }
         sidebarItems = sectionItemsGuestTheBakerz;
     } else {
         const role = session.user.role;
-        const storeUrl = session.store?.storeName ? session.store?.storeName : session.store?.id;
+        const storeUrl = null;
         switch (role) {
             case "admin":
                 sidebarItems = sectionItemsAdmin;
@@ -193,36 +197,83 @@ const getItemsByRole = (session: SessionValidationResult, t: any, store?: StoreD
                 sidebarItems = store ? sectionStoreItemsUser : sectionItemsUser;
                 break;
             case "bakerz":
-                sidebarItems = [
+                sidebarItems = 
+                    // If there's only one store, show its items directly
+                    session.stores && session.stores.length === 1 
+                    ? [
+                        {
+                            key: "account",
+                            titleKey: "account",
+                            items: [
+                                            
+                                    {
+                                        key: `store_shop-${session.stores[0].id}`,
+                                        href: `/${session.stores[0].name || session.stores[0].id}`,
+                                        title: session.stores[0].name || session.stores[0].id,
+                                        icon: "solar:shop-minimalistic-linear"
+                                    },
+                                    {
+                                        key: `orders-${session.stores[0].id}`,
+                                        href: `/${session.stores[0].name || session.stores[0].id}/orders`,
+                                        titleKey: "orders",
+                                        startContent: <NotificationIconWithBadge count={session.stores[0].newOrdersCount} />
+                                    },
+                                    {
+                                        key: `products-${session.stores[0].id}`,
+                                        href: `/${session.stores[0].name || session.stores[0].id}/products`,
+                                        icon: "solar:bag-5-broken",
+                                        titleKey: "products"
+                                    },
+                                    {
+                                        key: `settings-${session.stores[0].id}`,
+                                        href: `/${session.stores[0].name || session.stores[0].id}/settings`,
+                                        icon: "solar:settings-linear",
+                                        titleKey: "settings"
+                                    }
+                                ],
+                        },
+                        ...sectionItemsBakerz
+                    ]
+                    // Otherwise use the nested structure
+                    : [
                     {
-                        key: "account",
-                        titleKey: "account",
-                        items: [
-                            {
-                                key: "orders",
-                                href: `/${storeUrl}/orders`,
-                                titleKey: "orders",
-                                icon: "solar:notification-unread-lines-broken"
-                            },
-                            {
-                                key: "store",
-                                href: `/${storeUrl}`,
+                        key: "stores",
+                        titleKey: "stores",
+                        items: session.stores && session.stores.length > 0 ? session.stores.map(store => {
+                            const storeUrl = store.name || store.id;
+                            return {
+                                key: `store-${store.id}`,
                                 icon: "solar:shop-broken",
-                                title: session.user.username // Keep this as is (dynamic username)
-                            },
-                            {
-                                key: "products",
-                                href: `/${storeUrl}/products`,
-                                icon: "solar:bag-5-broken",
-                                titleKey: "products"
-                            },
-                            // {
-                            //     key: "payments",
-                            //     href: `/${storeUrl}/payments`,
-                            //     icon: "solar:wallet-money-broken",
-                            //     titleKey: "Payments"
-                            // }
-                        ]
+                                title: storeUrl,
+                                type: SidebarItemType.Nest,
+                                items: [
+                                    {
+                                        key: `store_shop-${store.id}`,
+                                        href: `/${storeUrl}`,
+                                        titleKey: "shop",
+                                        icon: "solar:shop-minimalistic-linear"
+                                    },
+                                    {
+                                        key: `orders-${store.id}`,
+                                        href: `/${storeUrl}/orders`,
+                                        titleKey: "orders",
+                                        startContent: <NotificationIconWithBadge count={store.newOrdersCount} />
+                                    },
+                                    {
+                                        key: `products-${store.id}`,
+                                        href: `/${storeUrl}/products`,
+                                        icon: "solar:bag-5-broken",
+                                        titleKey: "products"
+                                    },
+                                    {
+                                        key: `settings-${store.id}`,
+                                        href: `/${storeUrl}/settings`,
+                                        icon: "solar:settings-linear",
+                                        titleKey: "settings"
+                                    },
+                                ],
+                            };
+                        }) : [],
                     },
                     ...sectionItemsBakerz
                 ];
@@ -295,3 +346,24 @@ const GuestMenu: React.FC<GuestMenuProps> = ({ isCollapsed }) => {
         </Tooltip>
     );
 };
+
+function NotificationIconWithBadge({ count = 0 }: { count?: number }) {
+    return (
+        <div className="relative inline-flex items-center justify-center">
+            <Badge 
+                variant="solid" 
+                color="danger" 
+                size="md" 
+                className="absolute"
+                content={count}
+                isInvisible={count === 0}
+            >
+                <Icon 
+                    className="text-grayText group-data-[selected=true]:text-foreground" 
+                    icon="solar:notification-unread-lines-broken" 
+                    width={24} 
+                />
+            </Badge>
+        </div>
+    );
+}

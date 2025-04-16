@@ -1,13 +1,15 @@
 'use client';
 
 // --- 1. CalendarTopContent: Render working hours (or Closed) for the selected day ---
-import {Button, Card, CardBody, Dropdown, DropdownMenu, DropdownTrigger, Spacer, Tooltip} from "@heroui/react";
+import {Button, Card, CardBody, Dropdown, DropdownMenu, DropdownTrigger, Tooltip, Spinner, Chip} from "@heroui/react";
 import {Icon} from "@iconify/react";
-import {WorkDay} from "@/lib/actions/calendar-actions";
+import {WorkDay, WorkHours} from "@/lib/actions/calendar-actions";
 import {useStore} from "@/components/providers/store-provider";
 import {useMediaQuery} from "usehooks-ts";
 import {StoreData} from "@/lib/actions/store";
 import {useTranslations} from "next-intl";
+import { useDelivery } from '@/components/providers/delivery-provider';
+import { MerchantDeliveryRegion } from '@/lib/actions/delivery-actions';
 
 // --- Helper to get a short weekday name ---
 function getShortWeekday(weekday: string): string {
@@ -28,25 +30,135 @@ function pad(num: number): string {
     return num < 10 ? `0${num}` : `${num}`;
 }
 
+// --- Helper to render the actual schedule list ---
+export const renderScheduleDisplay = (
+    scheduleData: StoreData['schedule'] | WorkHours | undefined,
+    translations: any // Accept translations function as parameter
+) => {
+    if (!scheduleData) {
+        return (
+            <div className="w-full flex justify-center items-center py-2">
+                <div className="text-default-500 text-center text-sm">{translations("noScheduleAvailable")}</div>
+            </div>
+        );
+    }
+
+    // Define the order of days
+    const daysOrder = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
+    // Check if scheduleData has keys corresponding to daysOrder
+    const hasDayKeys = daysOrder.some(day => scheduleData.hasOwnProperty(day));
+
+    if (!hasDayKeys) {
+        console.warn("Schedule data does not contain expected day keys:", scheduleData);
+        return (
+            <div className="w-full flex justify-center items-center py-2">
+                <div className="text-default-500 text-center text-sm">{translations("scheduleFormatError")}</div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="flex flex-col w-full py-1">
+            {daysOrder.map((day, index) => {
+                // Type assertion to handle different schedule types
+                const workday = (scheduleData as any)[day] as WorkDay | undefined;
+
+                let displayText = translations("closed");
+                let isOpen = false;
+                
+                if (workday && workday.isEnabled) {
+                    const startHour = pad(workday.start.hour);
+                    const startMinute = pad(workday.start.minute);
+                    const endHour = pad(workday.end.hour);
+                    const endMinute = pad(workday.end.minute);
+                    displayText = `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
+                    isOpen = true;
+                } else if (workday && !workday.isEnabled) {
+                    displayText = translations("closed");
+                } else if (!workday) {
+                    // Handle cases where a day might be missing in the data
+                    displayText = translations("noInfo");
+                }
+
+                return (
+                    <div
+                        key={day}
+                        className={`flex justify-between items-center py-1.5 ${index !== daysOrder.length - 1 ? 'border-b border-default-200/50' : ''}`}
+                    >
+                        <span className="text-sm font-medium text-default-700 capitalize">
+                            {translations(day)}
+                        </span>
+                        {isOpen ? (
+                            <p className="text-default-600 text-xs font-medium bg-default-100 px-2 py-1 rounded-md">
+                                {displayText}
+                            </p>
+                        ) : (
+                            <Chip 
+                                color="default" 
+                                variant="flat" 
+                                size="sm" 
+                                className="text-xs font-medium"
+                            >
+                                {displayText}
+                            </Chip>
+                        )}
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
+
 export const renderCalendarTopContent = () => {
     const { store } = useStore();
     const isSmall = useMediaQuery("(max-width: 767px)");
     const t = useTranslations("app/(store)/components/working-hours");
 
+
     if (!store?.schedule) {
-        return <div className="w-full mx-2 max-w-52 text-default-500 text-center">{t("noScheduleAvailable")}</div>;
+        return (
+            <div className="w-full mx-2 max-w-52 text-default-500 text-center py-2 bg-default-50 rounded-md">
+                {t("noScheduleAvailable")}
+            </div>
+        );
     }
 
     return renderWorkingHoursDropdown({ store });
 };
 
 export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
+    const { isDelivery, validationResult } = useDelivery();
     const t = useTranslations("app/(store)/components/working-hours");
+
+    // Early return if no schedule
+    if (!store?.schedule) {
+        return (
+            <Button
+                size={"sm"}
+                variant="bordered"
+                radius={'md'}
+                className={'text-default-600 bg-gradient-card'}
+                isDisabled
+            >
+                <div className={'flex items-center gap-x-2 w-full'}>
+                    <Icon icon={"solar:sort-by-time-linear"} width={24} className={"text-default-500"}/>
+                    <p className={'w-[90%] truncate'}>{t("workingHours")}</p>
+                </div>
+            </Button>
+        );
+    }
+
+    // Decide which schedule to show based on delivery mode
+    const scheduleToShow = isDelivery && validationResult.isValid && validationResult.isInRange 
+        && validationResult.deliveryRegion?.deliverySchedule
+        ? validationResult.deliveryRegion.deliverySchedule
+        : store.schedule;
 
     return (
         <Dropdown
             placement={"top"}
-            isDismissable={false}
+            isDismissable={true}
             backdrop={"blur"}
         >
             <DropdownTrigger>
@@ -54,95 +166,26 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
                     size={"sm"}
                     variant="bordered"
                     radius={'md'}
-                    className={'text-default-600 bg-gradient-card'}
+                    className={'text-default-600 hover:bg-default-100 bg-gradient-card transition-all'}
+                    startContent={<Icon icon={"solar:sort-by-time-linear"} width={20} className={"text-default-500"}/>}
                 >
-                    <Tooltip
-                        offset={15}
-                        content={
-                            <div className="flex flex-wrap items-center justify-center max-w-52">
-                                {["monday", "friday", "tuesday", "thursday", "wednesday", "saturday", "sunday"].map((day, index) => {
-                                    //@ts-ignore
-                                    const workday = store.schedule[day];
-
-                                    const shortDay = getShortWeekday(day);
-                                    let displayText = t("closed");
-                                    if (workday && (workday as WorkDay).isEnabled) {
-                                        const wd = workday as WorkDay;
-                                        const startHour = pad(wd.start.hour);
-                                        const startMinute = pad(wd.start.minute);
-                                        const endHour = pad(wd.end.hour);
-                                        const endMinute = pad(wd.end.minute);
-                                        displayText = `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
-                                    }
-
-                                    const isSunday = day === "sunday";
-
-                                    return (
-                                        <div
-                                            key={day}
-                                            className={`${isSunday ? "ml-4 w-[40%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col`}
-                                        >
-                                        <span className="text-sm font-medium text-default-600">
-                                         {t(day)}
-                                        </span>
-                                            <p className="text-default-500 text-xs font-light">
-                                                {displayText}
-                                            </p>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        }
-                    >
-                        <div className={'flex items-center gap-x-2 w-full'}>
-                            <Icon icon={"solar:sort-by-time-linear"} width={24}
-                                  className={"text-default-500"}/>
-                            <p className={'w-[90%] truncate'}>
-                                {t("workingHours")}
-                            </p>
-                        </div>
-                    </Tooltip>
+                    <p className={'truncate'}>
+                        {t(isDelivery ? "deliveryHours" : "workingHours")}
+                    </p>
                 </Button>
             </DropdownTrigger>
             <DropdownMenu
-                aria-label="Link Actions"
-                emptyContent={
-                    <div className="flex flex-wrap items-center justify-center max-w-52">
-                        {["monday", "friday", "tuesday", "thursday", "wednesday", "saturday", "sunday"].map((day, index) => {
-                            //@ts-ignore
-                            const workday = store.schedule[day];
-
-                            const shortDay = getShortWeekday(day);
-                            let displayText = t("closed");
-                            if (workday && (workday as WorkDay).isEnabled) {
-                                const wd = workday as WorkDay;
-                                const startHour = pad(wd.start.hour);
-                                const startMinute = pad(wd.start.minute);
-                                const endHour = pad(wd.end.hour);
-                                const endMinute = pad(wd.end.minute);
-                                displayText = `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
-                            }
-
-                            const isSunday = day === "sunday";
-
-                            return (
-                                <div
-                                    key={day}
-                                    className={`${isSunday ? "ml-4 w-[40%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col`}
-                                >
-                                <span className="text-sm font-medium text-default-600">
-                                  {t(day)}
-                                </span>
-                                    <p className="text-default-500 text-xs font-light">
-                                        {displayText}
-                                    </p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                }
+                aria-label={t(isDelivery ? "deliveryHoursAriaLabel" : "workingHoursAriaLabel")}
+                className="p-3 min-w-[280px]"
             >
-                {null}
+                <Card className="border-none shadow-none">
+                    <CardBody className="p-0">
+                        <h3 className="text-center text-default-700 font-medium mb-2 pb-2 border-b border-default-200/50">
+                            {t(isDelivery ? "deliveryHoursTitle" : "workingHoursTitle")}
+                        </h3>
+                        {renderScheduleDisplay(scheduleToShow, t)}
+                    </CardBody>
+                </Card>
             </DropdownMenu>
         </Dropdown>
     );
@@ -150,47 +193,87 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
 
 export const renderCalendarContent = () => {
     const { store } = useStore();
+    const {
+        isDelivery,
+        validationResult,
+        isValidating,
+        isAddressLoading
+    } = useDelivery();
     const t = useTranslations("app/(store)/components/working-hours");
 
-    if (!store?.schedule) {
-        return <div className="w-full max-w-52 text-default-500 text-center">{t("noScheduleAvailable")}</div>;
+    // Loading state
+    if (isDelivery && (isValidating || isAddressLoading)) {
+        return (
+            <div className="w-full flex justify-center items-center py-4">
+                <Spinner size="sm" color="current" />
+                <span className="ml-2 text-sm text-default-500">{t("checkingAddress")}</span>
+            </div>
+        );
     }
 
-    return (
-        <div className={'flex w-full justify-center'}>
-            <div className="flex flex-wrap items-center justify-center max-w-52">
-                {["monday", "thursday", "tuesday", "friday", "wednesday", "saturday", "sunday"].map((day, index) => {
-                    //@ts-ignore
-                    const workday = store.schedule[day];
-
-                    const shortDay = getShortWeekday(day);
-                    let displayText = t("closed");
-                    if (workday && (workday as WorkDay).isEnabled) {
-                        const wd = workday as WorkDay;
-                        const startHour = pad(wd.start.hour);
-                        const startMinute = pad(wd.start.minute);
-                        const endHour = pad(wd.end.hour);
-                        const endMinute = pad(wd.end.minute);
-                        displayText = `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
-                    }
-
-                    const isSunday = day === "sunday";
-
-                    return (
-                        <div
-                            key={day}
-                            className={`${isSunday ? "ml-4 w-[40%] text-start" : `w-1/2 ${index % 2 == 0 ? 'text-start' : 'text-end'} `} flex flex-col mb-1`}
-                        >
-                            <span className="text-sm font-medium text-default-600">
-                              {t(day)}
-                            </span>
-                            <p className="text-default-500 text-xs font-light">
-                                {displayText}
-                            </p>
-                        </div>
-                    );
-                })}
+    // For delivery mode
+    if (isDelivery) {
+        // Address not entered or invalid
+        if (!validationResult.isValid) {
+            return (
+                <div className="w-full text-warning-600 text-center text-sm bg-warning-50 py-2 px-3 rounded-md">
+                    {t("enterAddressPrompt")}
+                </div>
+            );
+        }
+        
+        // Address is out of delivery range
+        if (!validationResult.isInRange) {
+            const message = validationResult.message || t("addressOutOfRange");
+            return (
+                <div className="w-full text-warning-600 text-center text-sm bg-warning-50 py-2 px-3 rounded-md">
+                    {message}
+                </div>
+            );
+        }
+        
+        // Address is valid and in range, but no deliveryRegion
+        if (validationResult.isValid && validationResult.isInRange) {
+            // FIX: Handle case where validationResult doesn't have deliveryRegion
+            // This happens when the address is valid but no region data was fetched yet
+            if (!validationResult.deliveryRegion) {
+                return (
+                    <div className="w-full flex flex-col gap-2 items-center py-3">
+                        {renderScheduleDisplay(store?.schedule, t)}
+                    </div>
+                );
+            }
+            
+            // No delivery schedule for this region
+            if (!validationResult.deliveryRegion.deliverySchedule) {
+                console.warn("Delivery schedule missing for delivery region:", validationResult.deliveryRegion.name);
+                return (
+                    <div className="w-full flex flex-col gap-2 items-center py-3">
+                        {renderScheduleDisplay(store?.schedule, t)}
+                    </div>
+                );
+            }
+            
+            // Show the delivery schedule
+            return (
+                <div className="w-full py-1">
+                    {renderScheduleDisplay(validationResult.deliveryRegion.deliverySchedule, t)}
+                </div>
+            );
+        }
+        
+        // Fallback (unlikely to reach here)
+        return (
+            <div className="w-full text-default-500 text-center text-sm bg-default-50 py-2 px-3 rounded-md">
+                {t("scheduleUnavailable")}
             </div>
-        </div>
-    );
+        );
+    } else {
+        // For pickup mode, show store schedule
+        return (
+            <div className="w-full py-1">
+                {renderScheduleDisplay(store?.schedule, t)}
+            </div>
+        );
+    }
 };

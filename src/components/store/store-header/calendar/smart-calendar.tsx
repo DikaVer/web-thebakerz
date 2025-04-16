@@ -235,7 +235,6 @@ const DateTimeLocalInput = ({ children, className, ...props }: DateTimeLocalInpu
                     {(showTimePicker && value) && <TimePicker
                         onClose={
                         () => {
-                            showSuccessMessage({success: "Time selected successfully"});
                             setPopoverOpen(false)
                         }
                     }

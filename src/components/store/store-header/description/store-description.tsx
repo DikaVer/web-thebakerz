@@ -28,6 +28,41 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
         icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
     };
 
+    // Helper function to determine alert content based on delivery options
+    const getAlertContent = () => {
+        if (!store?.deliveryOption) {
+            return {
+                title: t("pickUpOnly"),
+                description: t("pickUpDescription")
+            };
+        }
+
+        switch(store.deliveryOption) {
+            case 'pickup':
+                return {
+                    title: t("pickUpOnly"),
+                    description: t("pickUpDescription")
+                };
+            case 'delivery':
+                return {
+                    title: t("deliveryOnly"),
+                    description: t("deliveryOnlyDescription")
+                };
+            case 'multi':
+                return {
+                    title: t("pickUpAndDelivery"),
+                    description: t("pickUpAndDeliveryDescription")
+                };
+            default:
+                return {
+                    title: t("pickUpOnly"),
+                    description: t("pickUpDescription")
+                };
+        }
+    };
+
+    const alertContent = getAlertContent();
+
     return (
         <Modal
             isOpen={isOpen}
@@ -81,14 +116,14 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                             <Divider/>
 
                             <Alert
-                                key={"Pick Up Only Alert"}
+                                key={"Delivery Options Alert"}
                                 className={'bg-primary-400'}
                                 classNames={{
                                     description: 'text-white dark:text-default-500',
                                     title: 'text-md'
                                 }}
-                                title={t("pickUpOnly")}
-                                description={t("pickUpDescription")}
+                                title={alertContent.title}
+                                description={alertContent.description}
                                 variant={"solid"}
                             />
 

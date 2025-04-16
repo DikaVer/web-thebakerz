@@ -2,7 +2,9 @@
 import {connectionPool} from "@/db";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
 import {getCurrentSession} from "@/lib/actions/session";
+import { DeliveryRange, getMerchantDeliveryRegions, MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
 import {revalidateTag} from "next/cache";
+import { haversineDistance } from "../utils";
 
 export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData | null> {
     try {
@@ -10,6 +12,7 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
         // to get the owner's name and picture.
         const storeResult = await connectionPool.query(
             `SELECT s.id,
+                    s.user_id,
                     s.nickname,
                     s.description,
                     s.phone,
@@ -21,10 +24,13 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
                     s.slug,
                     s.stripe_id,
                     s.min_time_order,
-                    COALESCE(bs.kor, false) AS kor
+                    s.delivery_option,
+                    COALESCE(bs.kor, false) AS kor,
+                    s.region as region,
+                    s.currency as currency
              FROM stores s
                       JOIN users u ON s.user_id = u.id
-                      LEFT JOIN business_store bs ON bs.store_id = s.id
+                      LEFT JOIN business_acc bs ON bs.user_id = s.user_id
              WHERE (LOWER(s.nickname) = LOWER($1) OR s.id = $1)
                AND s.deleted = false`,
             [id]
@@ -48,10 +54,22 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             })
             .catch((error) => console.error("Error reading item:", error));
 
+        // Fetch delivery regions
+        let deliveryRegions: MerchantDeliveryRegion[] = [];
+        try {
+            // Get delivery regions from Cosmos DB
+            deliveryRegions = await getMerchantDeliveryRegions(storeRow.id);
+        } catch (error) {
+            console.error("Error fetching delivery regions:", error);
+            // Continue with empty array if delivery regions can't be fetched
+        }
 
         return {
             id: storeRow.id,
+            user_id: storeRow.user_id,
             kor: storeRow.kor,
+            region: storeRow.region,
+            currency: storeRow.currency,
             storeName: storeRow.nickname,
             description: storeRow.description,
             phone: storeRow.phone,
@@ -63,8 +81,10 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             slug: storeRow.slug,
             stripe_id: storeRow.stripe_id,
             minTimeOrder: storeRow.min_time_order,
+            deliveryOption: storeRow.delivery_option,
             location,  // This is of type LocationData
             schedule,
+            deliveryRegions,
         };
     } catch (error) {
         console.error("Error fetching store data:", error);
@@ -72,20 +92,24 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
     }
 }
 
-export async function updateMinOrderTime(minutes: number): Promise<boolean> {
+export async function updateMinOrderTime(storeId: string, minutes: number): Promise<boolean> {
     try {
 
-        const {store} = await getCurrentSession();
+        const {user} = await getCurrentSession();
+        if (!user) {
+            throw new Error("Store not found");
+        }
+
+        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
         if (!store) {
             throw new Error("Store not found");
         }
 
         await connectionPool.query(
-            `UPDATE stores SET min_time_order = $1 WHERE id = $2`,
-            [minutes, store.id]
+            `UPDATE stores SET min_time_order = $1 WHERE id = $2 AND user_id = $3`,
+            [minutes, store.id, user.id]
         );
 
-        revalidateTag('session');
         revalidateTag('store');
         return true;
     } catch (error) {
@@ -107,11 +131,127 @@ export const getCurrentStore = async (id: string): Promise<StoreData> => {
     }).then(res => res.json());
 };
 
-export const getStoreByUserId = async (userId: string): Promise<{store: StoreData | null, schedule: WorkHours | null}> => {
+export const getCurrentStorePayment = async (id: string): Promise<StoreDataPayment> => {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/payment`, {
+        headers: {
+            'Store-Id': id,
+            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+        },
+        next: {
+            tags: ['store'],
+            revalidate: 300
+        }
+    }).then(res => res.json());
+};
+
+export async function getStoreDataPaymentByStoreNameOrId(id: string): Promise<StoreDataPayment | null> {
+    try {
+        // Query the stores table for the store profile, joining with the users table
+        // to get the owner's name and picture.
+        const storeResult = await connectionPool.query(
+            `SELECT s.id,
+                    s.user_id,
+                    s.phone,
+                    s.custom_fee,
+                    s.custom_app_fee,
+                    s.custom_delivery_fee,
+                    u.name AS "ownerName",
+                    u.email AS email,
+                    s.stripe_id,
+                    s.min_time_order,
+                    COALESCE(bs.kor, false) AS kor,
+                    s.region as region,
+                    s.currency as currency,
+                    bs.name as nameBusiness,
+                    bs.vat as vat,
+                    bs.kvk as kvk,
+                    bs.bank_account as bank_account,
+                    bs.location as regionBusiness,
+                    ba.route,
+                    ba.city,
+                    ba.zip_code,
+                    ba.country
+             FROM stores s
+                      JOIN users u ON s.user_id = u.id
+                      LEFT JOIN business_acc bs ON bs.user_id = s.user_id
+                      LEFT JOIN business_address ba ON bs.business_address_id = ba.id
+             WHERE (LOWER(s.nickname) = LOWER($1) OR s.id = $1)
+               AND s.deleted = false`,
+            [id]
+        );
+
+        if (storeResult.rows.length === 0) {
+            return null;
+        }
+
+        const storeRow = storeResult.rows[0];
+        // Get the store location by calling getLocationStore.
+        const location = await getLocationStore(storeRow.id);
+
+        let schedule: WorkHours | undefined = undefined;
+
+        await getScheduleById(storeRow.id, storeRow.id)
+            .then((item) => {
+                if(item?.schedule){
+                    schedule = item.schedule;
+                }
+            })
+            .catch((error) => console.error("Error reading item:", error));
+
+        if (!schedule) {
+            throw new Error("Schedule not found");
+        }
+
+        // Fetch delivery regions
+        let deliveryRegions: MerchantDeliveryRegion[] = [];
+        try {
+            // Get delivery regions from Cosmos DB
+            deliveryRegions = await getMerchantDeliveryRegions(storeRow.id);
+        } catch (error) {
+            console.error("Error fetching delivery regions:", error);
+            // Continue with empty array if delivery regions can't be fetched
+        }
+
+        return {
+            id: storeRow.id,
+            user_id: storeRow.user_id,
+            kor: storeRow.kor,
+            region: storeRow.region,
+            currency: storeRow.currency,
+            custom_fee: storeRow.custom_fee,
+            custom_app_fee: storeRow.custom_app_fee,
+            custom_delivery_fee: storeRow.custom_delivery_fee,
+            phone: storeRow.phone,
+            email: storeRow.email,
+            ownerName: storeRow.ownerName,
+            stripe_id: storeRow.stripe_id,
+            minTimeOrder: storeRow.min_time_order,
+            vat: storeRow.vat,
+            nameBusiness: storeRow.nameBusiness,
+            kvk: storeRow.kvk,
+            bank_account: storeRow.bank_account,
+            locationBusiness: {
+                route: storeRow.route,
+                city: storeRow.city,
+                zip_code: storeRow.zip_code,
+                country: storeRow.country,
+            },
+            regionBusiness: storeRow.regionBusiness,
+            location,  // This is of type LocationData
+            schedule: schedule,    
+        };
+    } catch (error) {
+        console.error("Error fetching store data:", error);
+        throw new Error("Failed to fetch store data");
+    }
+}
+
+export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string): Promise<{store: StoreData | null, schedule: WorkHours | null}> => {
     const storeResult = await connectionPool.query(
         `
             SELECT
                 stores.id AS store_id,
+                stores.user_id AS user_id,
                 stores.nickname AS store_name,
                 stores.description AS store_description,
                 stores.phone AS store_phone,
@@ -119,16 +259,124 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 stores.instagram_url AS store_instagram_url,
                 stores.slug AS slug,
                 stores.min_time_order AS min_time_order,
+                stores.delivery_option AS delivery_option,
                 store_locations.route AS store_route,
                 store_locations.city AS store_city,
                 store_locations.zip_code AS store_zip_code,
                 store_locations.country AS store_country,
                 store_locations.latitude AS store_latitude,
                 store_locations.longitude AS store_longitude,
-                bs.kor AS kor
+                bs.kor AS kor,
+                stores.region as region,
+                stores.currency as currency
             FROM stores
                      INNER JOIN store_locations ON store_locations.store_id = stores.id
-                     LEFT JOIN business_store bs ON bs.store_id = stores.id
+                     LEFT JOIN business_acc bs ON bs.user_id = stores.user_id
+            WHERE stores.user_id = $1 AND stores.id = $2
+        `,
+        [userId, storeId]
+    );
+
+    const rowS = storeResult.rows[0];
+
+    let store: StoreData | null = null;
+    let schedule: WorkHours | null = null;
+
+
+    // Build the store object.
+    if (rowS){
+        // Fetch delivery regions
+        let deliveryRegions: MerchantDeliveryRegion[] = [];
+        try {
+            // Get delivery regions from Cosmos DB
+            deliveryRegions = await getMerchantDeliveryRegions(rowS.store_id);
+        } catch (error) {
+            console.error("Error fetching delivery regions:", error);
+            // Continue with empty array if delivery regions can't be fetched
+        }
+
+        store = {
+            id: rowS.store_id,
+            user_id: rowS.user_id,
+            kor: rowS.kor,
+            region: rowS.region,
+            storeName: rowS.store_name,
+            description: rowS.store_description,
+            phone: rowS.store_phone,
+            facebook_url: rowS.store_facebook_url,
+            instagram_url: rowS.store_instagram_url,
+            slug: rowS.slug,
+            currency: rowS.currency,
+            minTimeOrder: rowS.min_time_order,
+            deliveryOption: rowS.delivery_option,
+            location: {
+                route: rowS.store_route,
+                city: rowS.store_city,
+                zipCode: rowS.store_zip_code,
+                country: rowS.store_country,
+                latitude: rowS.store_latitude,
+                longitude: rowS.store_longitude
+            },
+            deliveryRegions
+        };
+
+        await getScheduleById(store.id, store.id)
+            .then((item) => {
+                if(item?.schedule){
+                    schedule = item.schedule;
+                    store!.schedule = item.schedule;
+                }
+            })
+            .catch((error) => console.error("Error reading item:", error));
+    }
+
+    return {store, schedule};
+}
+
+export const getCurrentStoreByUserIdAndStoreId = async (userId: string, storeId: string): Promise<{store: StoreData | null, schedule: WorkHours | null}> => {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/${userId}/${storeId}`, {
+        headers: {
+            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+        },
+        next: {
+            tags: ['store'],
+            revalidate: 300
+        }
+    }).then(res => res.json());
+}
+
+
+export const getStoreByUserId = async (userId: string): Promise<{store: StoreData | null, schedule: WorkHours | null}> => {
+    const storeResult = await connectionPool.query(
+        `
+            SELECT
+                stores.id AS store_id,
+                stores.user_id AS user_id,
+                stores.nickname AS store_name,
+                stores.description AS store_description,
+                stores.phone AS store_phone,
+                u.email AS email,
+                u.image AS picture,
+                u.name AS "ownerName",
+                stores.stripe_id,
+                stores.facebook_url AS store_facebook_url,
+                stores.instagram_url AS store_instagram_url,
+                stores.slug AS slug,
+                stores.min_time_order AS min_time_order,
+                stores.delivery_option AS delivery_option,
+                store_locations.route AS store_route,
+                store_locations.city AS store_city,
+                store_locations.zip_code AS store_zip_code,
+                store_locations.country AS store_country,
+                store_locations.latitude AS store_latitude,
+                store_locations.longitude AS store_longitude,
+                bs.kor AS kor,
+                stores.region as region,
+                stores.currency as currency
+            FROM stores
+                     INNER JOIN store_locations ON store_locations.store_id = stores.id
+                     LEFT JOIN business_acc bs ON bs.user_id = stores.user_id
+                     LEFT JOIN users u ON u.id = stores.user_id
             WHERE stores.user_id = $1
         `,
         [userId]
@@ -142,16 +390,34 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
 
     // Build the store object.
     if (rowS){
+        // Fetch delivery regions
+        let deliveryRegions: MerchantDeliveryRegion[] = [];
+        try {
+            // Get delivery regions from Cosmos DB
+            deliveryRegions = await getMerchantDeliveryRegions(rowS.store_id);
+        } catch (error) {
+            console.error("Error fetching delivery regions:", error);
+            // Continue with empty array if delivery regions can't be fetched
+        }
+
         store = {
             id: rowS.store_id,
+            user_id: rowS.user_id,
             kor: rowS.kor,
+            region: rowS.region,
             storeName: rowS.store_name,
+            ownerName: rowS.ownerName,
+            picture: rowS.picture,
             description: rowS.store_description,
             phone: rowS.store_phone,
+            email: rowS.email,
+            stripe_id: rowS.stripe_id,
             facebook_url: rowS.store_facebook_url,
             instagram_url: rowS.store_instagram_url,
             slug: rowS.slug,
+            currency: rowS.currency,
             minTimeOrder: rowS.min_time_order,
+            deliveryOption: rowS.delivery_option,
             location: {
                 route: rowS.store_route,
                 city: rowS.store_city,
@@ -159,13 +425,15 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 country: rowS.store_country,
                 latitude: rowS.store_latitude,
                 longitude: rowS.store_longitude
-            }
+            },
+            deliveryRegions
         };
 
         await getScheduleById(store.id, store.id)
             .then((item) => {
                 if(item?.schedule){
                     schedule = item.schedule;
+                    store!.schedule = item.schedule;
                 }
             })
             .catch((error) => console.error("Error reading item:", error));
@@ -174,13 +442,25 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
     return {store, schedule};
 }
 
+export const getCurrentStoreByUserId = async (userId: string): Promise<{store: StoreData | null, schedule: WorkHours | null}> => {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/${userId}`, {
+        headers: {
+            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+        },
+        next: {
+            tags: ['store'],
+            revalidate: 0
+        }
+    }).then(res => res.json());
+}
+
 export async function getBusinessStoreData(id: string): Promise<StoreBusinessData | null> {
     try {
         // Query the business_store table joined with business_address.
         const result = await connectionPool.query(
             `SELECT 
                 bs.id,
-                bs.store_id,
+                bs.user_id,
                 bs.name,
                 bs.vat,
                 bs.kor,
@@ -189,10 +469,12 @@ export async function getBusinessStoreData(id: string): Promise<StoreBusinessDat
                 ba.route,
                 ba.city,
                 ba.zip_code,
-                ba.country
-             FROM business_store bs
+                ba.country,
+                bs.location
+             FROM business_acc bs
              JOIN business_address ba ON bs.business_address_id = ba.id
-             WHERE bs.store_id = $1`,
+             JOIN stores s ON bs.user_id = s.user_id
+             WHERE s.id = $1`,
             [id]
         );
 
@@ -204,7 +486,7 @@ export async function getBusinessStoreData(id: string): Promise<StoreBusinessDat
         return {
             id: row.id.toString(),
             kor: row.kor,
-            store_id: row.store_id,
+            user_id: row.user_id,
             name: row.name,
             vat: row.vat,
             kvk: row.kvk,
@@ -215,12 +497,76 @@ export async function getBusinessStoreData(id: string): Promise<StoreBusinessDat
                 zip_code: row.zip_code,
                 country: row.country,
             },
+            region: row.location,
         };
     } catch (error) {
         console.error("Error fetching business store data:", error);
         throw new Error("Failed to fetch business store data");
     }
 }
+
+export async function getBusinessByUserId(id: string): Promise<StoreBusinessData | null> {
+    try {
+        // Query the business_store table joined with business_address.
+        const result = await connectionPool.query(
+            `SELECT 
+                bs.id,
+                bs.user_id,
+                bs.name,
+                bs.vat,
+                bs.kor,
+                bs.kvk,
+                bs.bank_account,
+                ba.route,
+                ba.city,
+                ba.zip_code,
+                ba.country,
+                bs.location
+             FROM business_acc bs
+             JOIN business_address ba ON bs.business_address_id = ba.id
+             WHERE bs.user_id = $1`,
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+            return null;
+        }
+
+        const row = result.rows[0];
+        return {
+            id: row.id.toString(),
+            kor: row.kor,
+            user_id: row.user_id,
+            name: row.name,
+            vat: row.vat,
+            kvk: row.kvk,
+            bank_account: row.bank_account,
+            location: {
+                route: row.route,
+                city: row.city,
+                zip_code: row.zip_code,
+                country: row.country,
+            },
+            region: row.location,
+        };
+    } catch (error) {
+        console.error("Error fetching business store data:", error);
+        throw new Error("Failed to fetch business store data");
+    }
+}
+
+export const getCurrentBusinessStore = async (id: string): Promise<StoreBusinessData > => {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/business`, {
+        headers: {
+            'Store-Id': id,
+            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+        },
+        next: {
+            tags: ['store'],
+            revalidate: 300
+        }
+    }).then(res => res.json());
+};
 
 
 async function getLocationStore(storeId: string): Promise<LocationData> {
@@ -262,13 +608,14 @@ async function getLocationStore(storeId: string): Promise<LocationData> {
 
 export interface StoreBusinessData {
     id: string;
-    store_id: string;
+    user_id: string;
     kor: boolean;
     name: string;
     vat: string;
     kvk: string;
     bank_account: string;
     location: LocationBusiness;
+    region: string;
 }
 
 export interface LocationBusiness {
@@ -278,9 +625,21 @@ export interface LocationBusiness {
     country: string;
 }
 
+export interface LocationData {
+    route: string;
+    city: string;
+    country: string;
+    latitude: number;
+    longitude: number;
+    zipCode: string;
+}
+
 export interface StoreData {
     id: string;
+    user_id: string;
     kor: boolean;
+    region: string;
+    currency: string;
     storeName?: string;
     description?: string;
     email?: string;
@@ -294,18 +653,213 @@ export interface StoreData {
     minTimeOrder: number;
     location: LocationData;
     schedule?: WorkHours;
-
-    // --- Additional fields for invoicing
-    vatNumber?: string;     // e.g. "NL123456789B01"
-    kvkNumber?: string;     // Chamber of Commerce number, if in NL
-    bankAccount?: string;   // Optional bank account or IBAN
+    deliveryRegions: MerchantDeliveryRegion[];
+    deliveryOption?: 'pickup' | 'delivery' | 'multi';
 }
 
-export interface LocationData {
-    route: string;
-    city: string;
-    country: string;
-    latitude: number;
-    longitude: number;
-    zipCode: string;
+export interface StoreDataPayment {
+    id: string;
+    user_id: string;
+    kor: boolean;
+    region: string;
+    currency: string;
+    custom_fee: boolean;
+    custom_app_fee: number;
+    custom_delivery_fee: number;
+    email: string;
+    phone?: string;
+    ownerName?: string;
+    stripe_id?: string;
+    minTimeOrder: number;
+    location: LocationData;
+    schedule: WorkHours;
+    vat: string;
+    nameBusiness: string;
+    kvk: string;
+    bank_account: string;
+    locationBusiness: LocationBusiness;
+    regionBusiness: string;
+}
+
+export async function updateStoreDeliveryOptions(storeId: string, deliveryOption: 'pickup' | 'delivery' | 'multi'): Promise<boolean> {
+    try {
+
+        const {user} = await getCurrentSession();
+        if (!user) {
+            throw new Error("Store not found");
+        }
+
+        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+        if (!store) {
+            throw new Error("Store not found");
+        }
+
+        // Update the store's delivery option in the database
+        await connectionPool.query(
+            `UPDATE stores SET delivery_option = $1 WHERE id = $2 AND user_id = $3`,
+            [deliveryOption, store.id, user.id]
+        );
+
+        revalidateTag('store');
+        return true;
+    } catch (error) {
+        console.error("Error updating store delivery options:", error);
+        throw new Error("Failed to update store delivery options");
+    }
+}
+
+export interface NearbyStore extends StoreData {
+    distance: number; // Distance in kilometers from the search location
+    deliveryRange?: DeliveryRange;
+    deliveryRegion?: MerchantDeliveryRegion;
+}
+
+export async function findNearbyStores(userLat: number, userLng: number, deliveryMode: 'pickup' | 'delivery'): Promise<NearbyStore[]> {
+    try {
+        // Fetch all active stores and their locations
+        const storeResults = await connectionPool.query(
+            `SELECT
+                s.id,
+                s.user_id,
+                s.nickname,
+                s.description,
+                s.phone,
+                u.image AS picture,
+                u.name AS "ownerName",
+                u.email AS email,
+                s.facebook_url,
+                s.instagram_url,
+                s.slug,
+                s.stripe_id,
+                s.min_time_order,
+                s.delivery_option,
+                COALESCE(bs.kor, false) AS kor,
+                s.region as region,
+                s.currency as currency,
+                sl.route,
+                sl.city,
+                sl.country,
+                sl.latitude,
+                sl.longitude,
+                sl.zip_code
+             FROM stores s
+             JOIN users u ON s.user_id = u.id
+             JOIN store_locations sl ON s.id = sl.store_id
+             LEFT JOIN business_acc bs ON bs.user_id = s.user_id
+             WHERE s.deleted = false`
+        );
+
+        const nearbyStores: NearbyStore[] = [];
+
+        for (const storeRow of storeResults.rows) {
+            const storeLat = storeRow.latitude;
+            const storeLng = storeRow.longitude;
+
+            // Calculate distance
+            const distance = haversineDistance({ lat: userLat, lng: userLng }, { lat: storeLat, lng: storeLng });
+
+            let deliveryRegions: MerchantDeliveryRegion[] = [];
+            if (storeRow.delivery_option === 'delivery' || storeRow.delivery_option === 'multi') {
+                try {
+                    deliveryRegions = await getMerchantDeliveryRegions(storeRow.id);
+                } catch (error) {
+                    console.error(`Error fetching delivery regions for store ${storeRow.id}:`, error);
+                }
+            }
+
+            let schedule: WorkHours | undefined = undefined;
+            await getScheduleById(storeRow.id, storeRow.id)
+                .then((item) => {
+                    if(item?.schedule){
+                        schedule = item.schedule;
+                    }
+                })
+                .catch((error) => console.error("Error reading item:", error));
+
+
+            const storeData: StoreData = {
+                id: storeRow.id,
+                user_id: storeRow.user_id,
+                kor: storeRow.kor,
+                region: storeRow.region,
+                currency: storeRow.currency,
+                storeName: storeRow.nickname,
+                description: storeRow.description,
+                phone: storeRow.phone,
+                email: storeRow.email,
+                picture: storeRow.picture,
+                ownerName: storeRow.ownerName,
+                instagram_url: storeRow.instagram_url,
+                facebook_url: storeRow.facebook_url,
+                slug: storeRow.slug,
+                stripe_id: storeRow.stripe_id,
+                minTimeOrder: storeRow.min_time_order,
+                deliveryOption: storeRow.delivery_option,
+                location: {
+                    route: storeRow.route,
+                    city: storeRow.city,
+                    country: storeRow.country,
+                    latitude: storeLat,
+                    longitude: storeLng,
+                    zipCode: storeRow.zip_code,
+                }, 
+                deliveryRegions: deliveryRegions,
+                schedule: schedule,
+            };
+
+            // Filter based on delivery mode
+            if (deliveryMode === 'pickup') {
+                // Include if store offers pickup or multi
+                if (storeData.deliveryOption === 'pickup' || storeData.deliveryOption === 'multi') {
+                    nearbyStores.push({ ...storeData, distance });
+                }
+            } else { // deliveryMode === 'delivery'
+                // Include if store offers delivery or multi AND user is within a delivery range
+                if (storeData.deliveryOption === 'delivery' || storeData.deliveryOption === 'multi') {
+                    let closestRange = Infinity;
+            
+                    let regionFound = false;
+                    let deliveryRange: DeliveryRange | undefined = undefined;
+                    let deliveryRegion: MerchantDeliveryRegion | undefined = undefined;
+                    
+                    if (storeData.deliveryRegions && storeData.deliveryRegions && storeData.deliveryRegions.length > 0) {
+                        // Check all ranges to find the closest one
+                        for (const region of storeData.deliveryRegions) {
+                            const distanceDelivery = haversineDistance({ lat: userLat, lng: userLng }, { lat: region.coordinates.lat, lng: region.coordinates.lng });
+                            if(region.ranges && region.ranges.length > 0) {
+                                for (const range of region.ranges) {
+                                    if(distanceDelivery < range.range) {
+                                        if(distanceDelivery < closestRange) {
+                                            closestRange = distanceDelivery;
+                                            deliveryRange = range;
+                                            deliveryRegion = region;
+                                            regionFound = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (regionFound) {
+                        nearbyStores.push({ 
+                            ...storeData, 
+                            distance: distance,
+                            deliveryRegion: deliveryRegion,
+                            deliveryRange: deliveryRange
+                        });
+                    }
+                }
+            }
+        }
+
+        // Sort stores by distance (closest first)
+        nearbyStores.sort((a, b) => a.distance - b.distance);
+
+        return nearbyStores;
+
+    } catch (error) {
+        console.error("Error finding nearby stores:", error);
+        throw new Error("Failed to find nearby stores");
+    }
 }

@@ -42,9 +42,11 @@ export default function UserProductDialog({
                                               productData,
                                               onClose,
                                               itemCart,
-                                          }: ProductDialogProps) {
-    const t = useTranslations("app/(store)/components/user-product");
-    const allergy = useTranslations("Allergies");
+                                          }: ProductDialogProps) 
+                                          {
+    const c_T = useTranslations();
+    const t = useTranslations("app/(store)/components/product-page");
+
 
     const [charCount, setCharCount] = useState(itemCart?.note ? itemCart?.note.length : 0);
     const [quantity, setQuantity] = useState(itemCart?.quantity || productData?.min_order || 1);
@@ -104,9 +106,9 @@ export default function UserProductDialog({
                     isIconOnly={true}
                     copyText={
                         origin + "/" +
-                        productData?.store_id +
+                        productData?.store_name +
                         "/" +
-                        productData?.id
+                        productData?.web_name
                     }
                     textNotify={t("productLinkCopied")}
                 >
@@ -235,7 +237,7 @@ export default function UserProductDialog({
                                                 >
                                                     <AllergenIcon allergen={allergies} />
                                                     <span>
-                                                        {allergy(allergies)}
+                                                        {c_T(`Allergies.${allergies}`)}
                                                     </span>
                                                 </div>
                                             );
@@ -288,7 +290,7 @@ export default function UserProductDialog({
                     onPress={handleUpdateCart}
                     isLoading={isLoading}
                 >
-                    { !isLoading ? (`${itemCart ? t("update") : t("add")} ${quantity} ${t("toOrder")} • ${totalPrice}`) : t("updatingCart") }
+                    { !isLoading ? (`${itemCart ? t("Update") : t("Add")} ${quantity} ${t("to order")} • ${totalPrice}`) : t("Updating Cart") }
                 </Button>
             </ModalFooter>
         </>

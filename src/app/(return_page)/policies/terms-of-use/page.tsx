@@ -20,7 +20,7 @@ export default async function Page() {
             <main className="z-10 grid container mx-auto py-6 gap-y-3 justify-center">
                 <ReactMarkdown
                     rehypePlugins={[rehypeSanitize]}
-                    className="prose text-grayText prose-headings:text-text prose-strong:text-grayText prose-a:text-grayText max-w-5xl"
+                    className="prose text-grayText prose-headings:text-text prose-strong:text-grayText prose-a:text-grayText dark:text-white dark:prose-headings:text-white dark:prose-strong:text-white dark:prose-a:text-white max-w-5xl"
                 >
                     {termsEnglishBakerz.content}
                 </ReactMarkdown>

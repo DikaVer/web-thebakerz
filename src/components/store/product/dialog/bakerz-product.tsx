@@ -43,6 +43,7 @@ import {DeleteConfirmationModal} from "@/components/store/product/components/del
 import {ImageUploadSection} from "@/components/store/product/components/image-upload-section";
 
 type ProductDialogProps = {
+    storeId: string;
     productData: ProductData | undefined;
     onClose: () => void;
     itemCart?: ItemCart;
@@ -50,7 +51,7 @@ type ProductDialogProps = {
     setIsUpdating: (isUpdating: boolean) => void;
 };
 
-export default function BakerzProductDialog({ productData, onClose, setIsDismissable, setIsUpdating }: ProductDialogProps) {
+export default function BakerzProductDialog({storeId, productData, onClose, setIsDismissable, setIsUpdating }: ProductDialogProps) {
     const { theme } = useTheme();
     const t = useTranslations("app/(store)/components/product-page");
     const router = useRouter();
@@ -102,7 +103,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
 
     const [state, submitAction, isPending] = useActionState(
         async (prevState: any, formData: z.infer<typeof ProductSchema>) => {
-            const result = await addProduct(formData, productData?.id);
+            const result = await addProduct(formData, storeId, productData?.id);
             if (result?.success) {
                 setIsUpdating(true);
                 showSuccessMessage({ success: result.success });
@@ -254,7 +255,7 @@ export default function BakerzProductDialog({ productData, onClose, setIsDismiss
                         onClose={onClose}
                         isDisabled={isPending}
                         isIconOnly
-                        copyText={`${origin}/${productData?.store_id}/${productData?.id}`}
+                        copyText={`${origin}/${productData?.store_name}/${productData?.web_name}`}
                         textNotify={t("productLinkCopied")}
                     >
                         <Icon icon="mi:share" width={32} className="text-default-400" />

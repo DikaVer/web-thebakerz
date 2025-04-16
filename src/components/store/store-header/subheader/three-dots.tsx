@@ -20,6 +20,9 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
     // Get origin of the current page from window object
     const origin = typeof window !== "undefined" ? window.location.origin : "";
+    
+    // Check if user has bakerz role
+    const isBakerz = !!session?.user?.role && session.user.role === "bakerz";
 
     return (
         <Dropdown className="flex flex-row" backdrop="blur">
@@ -46,7 +49,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
 
             </DropdownTrigger>
             <DropdownMenu aria-label="Static Actions" variant="faded">
-                {session?.user?.role === "bakerz" ? (
+                {isBakerz ? (
                     <>
                         <DropdownItem
                             key="link"
@@ -79,14 +82,14 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             }
                             onPress={() => {
                                 setIsLoading(true);
-                                router.push("/settings?tab=profile");
+                                router.push("/" + storeUrl + "/settings?tab=store");
                                 router.refresh();
                             }}
                         >
-                            {t("editProfile")}
+                            {t("editStore")}
                         </DropdownItem>
                         <DropdownItem
-                            key="schedule"
+                            key="Pickup"
                             endContent={
                                 <Icon
                                     className="text-default-500"
@@ -96,11 +99,28 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             }
                             onPress={() => {
                                 setIsLoading(true);
-                                router.push("/settings?tab=calendar");
+                                router.push("/" + storeUrl + "/settings?tab=pickup");
                                 router.refresh();
                             }}
                         >
-                            {t("editSchedule")}
+                            {t("editPickup")}
+                        </DropdownItem>
+                        <DropdownItem
+                            key="delivery"
+                            endContent={
+                                <Icon
+                                    className="text-default-500"
+                                    icon="solar:scooter-linear"
+                                    width={24}
+                                />
+                            }
+                            onPress={() => {
+                                setIsLoading(true);
+                                router.push("/" + storeUrl + "/settings?tab=delivery");
+                                router.refresh();
+                            }}
+                        >
+                            {t("editDelivery")}
                         </DropdownItem>
                         <DropdownItem
                             key="products"

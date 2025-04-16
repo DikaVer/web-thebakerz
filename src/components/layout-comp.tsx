@@ -7,6 +7,7 @@ import SidebarMenu from "@/components/sidebar/sidebar-menu";
 import {StoreData} from "@/lib/actions/store";
 import NavbarComponent from "@/components/navbar/navbar-comp";
 import {motion, useScroll} from "motion/react";
+import { usePathname } from "next/navigation";
 
 
 
@@ -25,6 +26,11 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
     const [isCollapsed, setIsCollapsed] = React.useState(true);
     const isMobile = useMediaQuery("(max-width: 768px)");
 
+    // Check if path is checkout using pathname
+    const pathname = usePathname();
+    const isCheckout = pathname.includes(`/${store?.storeName}/checkout`);
+    const isPay = pathname.includes(`/${store?.storeName}/pay`) || pathname.includes(`/${store?.storeName}/order/success`) || pathname.includes(`/${store?.storeName}/order/failed`);
+
     useEffect(() => {
         if (isMobile) {
 
@@ -35,6 +41,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
         setIsCollapsed((prev) => !prev);
     }, []);
     const { scrollYProgress } = useScroll()
+    const isPartnerPage = pathname.includes("/become-partner");
 
     return (
         <div className="flex w-full">
@@ -54,7 +61,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
             />
 
             {/* Sidebar */}
-            {!hideSideBar &&
+            {!hideSideBar && !isPartnerPage &&
                 <SidebarMenu
                 store={store}
                 isOpen={isOpen}
@@ -70,9 +77,9 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
                     setIsCollapsed={setIsCollapsed}
                     onOpenChange={onOpenChange}
                     onToggle={onToggle}
-                    hideSideBar={hideSideBar}
+                    hideSideBar={isPay ? true : hideSideBar || isCheckout || isPartnerPage}
                     isVisibleCart={isVisibleCart}
-                    pay={pay}
+                    pay={pay || isPay}
                 />
                 <main className=" w-full overflow-visible">
                     {children}

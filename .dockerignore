@@ -5,3 +5,13 @@ npm-debug.log
 README.md
 .next
 .git
+.gitignore
+.env
+.env.local
+.env.development
+.env.production
+*.log
+.DS_Store
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*

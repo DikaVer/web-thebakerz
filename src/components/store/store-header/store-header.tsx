@@ -1,63 +1,49 @@
 "use client";
 
-import React, {useEffect} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {useStore} from "@/components/providers/store-provider";
-import {Link, Avatar, Spacer, Divider, Button, useDisclosure, cn} from "@heroui/react";
-import {Icon, IconProps} from "@iconify/react";
-import Clarity from "@microsoft/clarity";
-import {randomUUID} from "node:crypto";
-import clarity from "@microsoft/clarity";
+import {Link, Avatar, Spacer, Divider, Button, useDisclosure, cn, Switch, ButtonGroup, Spinner} from "@heroui/react";
+import {Icon} from "@iconify/react";
 import {pacifico} from "@/components/fonts";
-import {StoreSubHeader} from "@/components/store/store-header/store-subheader";
+import {DeliverySubheader} from "@/components/store/store-header/delivery-subheader";
 import {useMediaQuery} from "usehooks-ts";
-import ThreeDotsDropdown from "@/components/store/store-header/subheader/three-dots";
 import {useSession} from "@/components/providers/session-provider";
-import {IconDots} from "@/components/ui/icons";
-import { useTheme } from "next-themes";
 import StoreDescription from "@/components/store/store-header/description/store-description";
 import {useTranslations} from "next-intl";
 import {useRouter} from "next/navigation";
-
-type SocialIconProps = Omit<IconProps, "icon">;
+import { useDelivery } from "@/components/providers/delivery-provider";
 
 interface StoreHeaderProps {
-    dateParam: string | null;
-    timeParam: string | null;
+
 }
 
-export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
+export function StoreHeader( {  }: StoreHeaderProps) {
     const { store } = useStore();
     const { session } = useSession();
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const isSmall = useMediaQuery("(max-width: 960px)");
-    const { theme } = useTheme();
     const t = useTranslations("app/(store)/components/store-header");
     const router = useRouter();
 
-    const [latitude, longitude] = [store?.location.latitude, store?.location.longitude];
-
-    const location = store?.location.route ? `${store.location.route}` : "";
-    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "";
-
-    const phone = {
-        name: t("phone"),
-        href: `tel:${store?.phone}`,
-        icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
-    };
+    // Check if user is a baker and owns this store
+    const isOwner = session?.user?.role === "bakerz" && session.user.id === store.user_id;
+    
+    // Determine if clicking on the header should trigger the cursor pointer style
+    const showCursorPointer = session?.user?.role === "bakerz";
 
     return (
-        <div>
+        <div className="w-full max-w-screen-xl mx-auto flex flex-col">
             <div
                 className={`flex flex-row w-full justify-between`}
             >
                 <div className={cn("flex flex-row gap-x-4 justify-center",
-                    session?.user?.role === "bakerz" && "cursor-pointer"
+                    showCursorPointer && "cursor-pointer"
                 )}
                      onClick={(e) => {
                          e.preventDefault();
                          if (session?.user?.role !== "bakerz" && isSmall) {
                              onOpen();
-                         } else if (session?.user?.role === "bakerz" && session.store?.id === store.id) {
+                         } else if (isOwner) {
                              router.push("/settings");
                              router.refresh();
                          }
@@ -130,7 +116,7 @@ export function StoreHeader({dateParam, timeParam}: StoreHeaderProps) {
             </div>
             <Spacer y={4}/>
             <Divider/>
-            <StoreSubHeader dateParam={dateParam} timeParam={timeParam}/>
+            <DeliverySubheader/>
         </div>
     );
 }

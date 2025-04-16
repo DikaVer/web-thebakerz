@@ -11,17 +11,15 @@ import { updateProfile} from "@/lib/actions/profile-actions";
 import { Icon } from "@iconify/react";
 
 // Import the ProfileSchema we created above
-import { ProfileSettingsSchema } from "@/lib/schemas";
+import { ProfileSettingsSchema } from "@/lib/schemas/index";
 import { User} from "@/lib/actions/user";
 import {useTheme} from "next-themes";
-import {IconLocation, IconPhone} from "@/components/ui/icons";
 import {ImageUploader} from "@/components/image/image-upload";
 import AvatarImageForm from "@/components/image/image-form";
 import showErrorMessage from "@/components/toast/toast-error";
 import {useSession} from "@/components/providers/session-provider";
 import NotFound from "@/app/(error_layout)/not-found";
 import {SessionValidationResult} from "@/lib/actions/session";
-import {StoreData} from "@/lib/actions/store";
 import {useTranslations} from "next-intl";
 
 interface ProfileSettingCardProps {
@@ -34,7 +32,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
 
         const { session, setSession } = useSession();
 
-        const { user, store } = session;
+        const { user } = session;
 
         if (!user || !session ) {
             return NotFound();
@@ -45,20 +43,12 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
         const [avatarEdit, setAvatarEdit] = useState(false);
         const [file, setFile] = useState<File | undefined>();
 
-        // Set up a character counter for the description field (max 500 characters)
-        const [charCount, setCharCount] = useState(store?.description?.length || 0);
-
         // Initialize the form using the ProfileSchema with default values from props
         const form = useForm<z.infer<typeof ProfileSettingsSchema>>({
             resolver: zodResolver(ProfileSettingsSchema),
             defaultValues: {
                 role: user.role,
                 name: user.username,
-                description: store?.description || undefined,
-                storeName: store?.storeName || undefined,
-                storeSlug: store?.slug || undefined,
-                facebook_url: store?.facebook_url || undefined,
-                instagram_url: store?.instagram_url || undefined,
             },
         });
 
@@ -71,14 +61,14 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                 if (result?.success) {
                     addToast({
                         title: t("profileUpdated"),
-                        description: user.role === "bakerz" ? t("profileStoreUpdated") : t("profileHasUpdated"),
+                        description: t("profileHasUpdated"),
                         color: "success",
                         shouldShowTimeoutProgress: true,
                         timeout: 2000,
                     })
 
                     setSession((prevSession): SessionValidationResult => {
-                        if (!session) return prevSession;
+                        if (!prevSession) return prevSession;
 
                         if (prevSession.user) {
                             return {
@@ -86,17 +76,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                 user: {
                                     ...prevSession.user,
                                     username: formData.name
-                                } as User,
-                                store: prevSession.store ? {
-                                        ...prevSession.store,
-                                        storeName: formData.storeName,
-                                        description: formData.description,
-                                        facebook_url: formData.facebook_url,
-                                        instagram_url: formData.instagram_url,
-                                        slug: formData.storeSlug
-
-                                    } as StoreData
-                                    : null
+                                } as User
                             }
                         }
 
@@ -162,7 +142,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                 <div>
                                     <p className="text-sm font-medium text-default-500">{user.username}</p>
                                     <p className="text-xs text-default-400">
-                                        {user.role === "user" ? t("customer") : `${t("baker")} - ${store?.storeName}`}
+                                        {user.role === "bakerz" ? t("bakerz") : t("customer")}
                                     </p>
                                     <p className="mt-1 text-xs text-default-400">{user.email}</p>
                                 </div>
@@ -179,10 +159,10 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                     >
                         <div>
                             <p className="text-base font-medium text-default-700">
-                                {store ? `${t("storeName")}` : t("name")}
+                                {user.role === "bakerz" ? t("storeName") : t("name")}
                             </p>
                             <p className="mt-1 text-sm font-normal text-default-400">
-                                {store ? t("editCurrentStoreName") : t("editCurrentName")}
+                                {user.role === "bakerz" ? t("editCurrentStoreName") : t("editCurrentName")}
                             </p>
                             <FormField
                                 control={form.control}
@@ -207,192 +187,6 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                             />
                         </div>
                         <Spacer y={2} />
-                        {user.role === "bakerz" && (
-                            <>
-                                <div>
-                                    {/* Store link */}
-                                    <p className="text-base font-medium text-default-700">{t("storeLink")}</p>
-                                    <p className="mt-1 text-sm font-normal text-default-400">{t("howUserFindYou")}</p>
-                                    <FormField
-                                        control={form.control}
-                                        name="storeName"
-                                        render={({field, fieldState}) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        isDisabled={isPending}
-                                                        isRequired
-                                                        className={'mt-2'}
-                                                        placeholder={t("typeYourStoreName")}
-                                                        type="text"
-                                                        validate={() => {
-                                                            return fieldState.error?.message;
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-                                <Spacer y={2}/>
-                                <div>
-                                    {/* Store Slug */}
-                                    <p className="text-base font-medium text-default-700">{t("storeSlug")}</p>
-                                    <p className="mt-1 text-sm font-normal text-default-400">{t("howUserRecognizeYou")}</p>
-                                    <FormField
-                                        control={form.control}
-                                        name="storeSlug"
-                                        render={({field, fieldState}) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        isDisabled={isPending}
-                                                        className={'mt-2'}
-                                                        placeholder={t("typeYourStoreSlug")}
-                                                        type="text"
-                                                        validate={() => {
-                                                            return fieldState.error?.message;
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-                                <Spacer y={2}/>
-                                {/* Location & Phone Number */}
-                                <div>
-                                    <p className="text-base font-medium text-default-700">{t("locationPhone")}</p>
-                                    <p className="mt-1 text-sm font-normal text-default-400">{t("editLocationPhoneBy")}{" "}
-                                        <Link
-                                            className={'text-grayText underline'}
-                                            href="/support/contact-us"
-                                            size="sm"
-                                            underline="hover">
-                                            {t("contactUs")}
-                                        </Link>
-                                    </p>
-                                    <Spacer y={2}/>
-                                    <Input
-                                        isDisabled
-                                        className={'mt-2 opacity-100'}
-                                        labelPlacement="outside"
-                                        placeholder={store?.location.route ? `${store.location.route}, ${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : t("locationPlaceholder")}
-                                        startContent={
-                                            <IconLocation size={24}
-                                                          primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                                          secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                                            />
-                                        }
-                                    />
-                                    <Spacer y={2}/>
-                                    <Input
-                                        isDisabled
-                                        className={'mt-2 opacity-100'}
-                                        labelPlacement="outside"
-                                        placeholder={`${store?.phone ? store.phone : t("phoneNumberPlaceholder")}`}
-                                        startContent={
-                                            <IconPhone size={24}
-                                                       primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                                       secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                                            />
-                                        }
-
-                                    />
-                                </div>
-                                <Spacer y={2}/>
-
-                                {/* Facebook URL */}
-                                <div>
-                                    <p className="text-base font-medium text-default-700">{t("facebookURL")}</p>
-                                    <p className="mt-1 text-sm font-normal text-default-400">{t("enterFacebookURL")}</p>
-                                    <FormField
-                                        control={form.control}
-                                        name="facebook_url"
-                                        render={({ field, fieldState }) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        isDisabled={isPending}
-                                                        className="mt-2"
-                                                        placeholder={t("facebookURLPlaceholder")}
-                                                        type="text"
-                                                        validate={() => fieldState.error?.message}
-                                                    />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-
-                                <Spacer y={2} />
-
-                                {/* Instagram URL */}
-                                <div>
-                                    <p className="text-base font-medium text-default-700">{t("instagramURL")}</p>
-                                    <p className="mt-1 text-sm font-normal text-default-400">{t("enterInstagramURL")}</p>
-                                    <FormField
-                                        control={form.control}
-                                        name="instagram_url"
-                                        render={({ field, fieldState }) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        isDisabled={isPending}
-                                                        className="mt-2"
-                                                        placeholder={t("instagramURLPlaceholder")}
-                                                        type="text"
-                                                        validate={() => fieldState.error?.message}
-                                                    />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-                                <Spacer y={2} />
-                                {/* Description */}
-                                <div>
-                                    <p className="text-base font-medium text-default-700">{t("description")}</p>
-                                    <p className="mt-1 text-sm font-normal text-default-400">
-                                        {t("writeAboutStore")}
-                                    </p>
-                                    <FormField
-                                        control={form.control}
-                                        name="description"
-                                        render={({field, fieldState}) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <Textarea
-                                                        {...field}
-                                                        isDisabled={isPending}
-                                                        placeholder={t("storeDescriptionPlaceholder")}
-                                                        style={{resize: "none"}}
-                                                        className="mt-2"
-                                                        classNames={{
-                                                            input: cn("min-h-[115px]"),
-                                                        }}
-                                                        minRows={4}
-                                                        maxRows={5}
-                                                        onValueChange={(value) => {
-                                                            setCharCount(value.length);
-                                                        }}
-                                                        validate={() => {
-                                                            return fieldState.error?.message;
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <p className="text-right text-grayText text-small px-2">{charCount}/200</p>
-
-                                </div>
-                            </>
-                        )}
                         <div className={`flex flex-row-reverse w-full`}>
                             <Button
                                 startContent={!isPending && <Icon icon="solar:settings-broken" width={24}/>}

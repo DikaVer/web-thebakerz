@@ -27,8 +27,7 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
                     ...prevSession,
                     session: null,
                     user: null,
-                    store: null,
-                    schedule: null,
+                    stores: null,
                 };
             });
             await logoutAction();

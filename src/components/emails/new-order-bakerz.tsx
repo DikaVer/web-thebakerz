@@ -13,23 +13,31 @@ import {
 } from "@react-email/components";
 
 import * as React from "react";
-import {formatCurrency} from "@/lib/utils";
-import {OrderProducts} from "@/lib/actions/order";
-interface OrderPlacedEmailProps {
+import {formatCurrency, formatDisplayDateTime, scheduledToCalendarDateTime} from "@/lib/utils";
+import {OrderProducts, Customer, PriceOrderData} from "@/lib/actions/order";
+import { AddressFormType } from "@/components/providers/delivery-provider"; // Import AddressFormType
+
+interface NewOrderEmailProps {
     orderId: string;
     storeName: string;
-    pickUpTime: string;
+    scheduledTime: {
+        date: string;
+        time: string;
+    }; // Renamed from pickUpTime
     storePhone: string;
-    location: {
+    storeLocation: { // Renamed from location to storeLocation for clarity
         address: string;
         longitude: number;
         latitude: number;
     }
+    customer: Customer;
     products: OrderProducts;
-    subtotal_amount: number;
-    total_amount: number;
-    vat: number;
+    priceData: PriceOrderData;
+    isDelivery: boolean;
+    isStoreDelivery: boolean;
+    deliveryAddress?: AddressFormType; // Optional delivery address
 }
+
 // Helper functions for date formatting
 function formatDateForCalendar(dateString: string): string {
     const date = new Date(dateString);
@@ -64,7 +72,34 @@ function formatDisplayDate(dateString: string): string {
     return date.toLocaleString('en-US', options);
 }
 
-export default function NewOrderEmail({orderId, storeName, pickUpTime, location, products, subtotal_amount, total_amount, vat}: OrderPlacedEmailProps) {
+export default function NewOrderEmail({
+    orderId, 
+    storeName, 
+    scheduledTime, 
+    storeLocation, 
+    customer, 
+    products, 
+    priceData, 
+    isDelivery, 
+    isStoreDelivery,
+    deliveryAddress
+}: NewOrderEmailProps) {
+
+    const scheduledTimeLabel = isDelivery ? "Delivery Time" : "Pick Up Time";
+    const addressLabel = isDelivery ? "Delivery Address" : "Pick Up Address (Store)";
+    const addressToShow = isDelivery 
+        ? `${deliveryAddress?.street} ${deliveryAddress?.houseNumber}, ${deliveryAddress?.zipCode} ${deliveryAddress?.city}` 
+        : storeLocation.address;
+    const mapLink = isDelivery
+        ? `https://maps.google.com/?q=${encodeURIComponent(addressToShow)}`
+        : `https://maps.google.com/?q=${storeLocation.latitude},${storeLocation.longitude}`;
+
+    // Calendar link might be less relevant for the baker, but keep for now
+    const calendarEventTitle = `${storeName} Order ${isDelivery ? 'Delivery' : 'Pickup'} #${orderId}`;
+    const calendarLocation = isDelivery ? addressToShow : storeLocation.address;
+    const calendarDetails = `Order #${orderId} from ${storeName}. For: ${customer.name_customer}. Scheduled: ${formatDisplayDateTime(scheduledTime.date, 'en-NL')}. ${isDelivery ? `Delivery to: ${addressToShow}` : `Pickup at: ${storeLocation.address}`}`;
+    const calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calendarEventTitle)}&dates=${formatDateForCalendar(scheduledTime.date)}&location=${encodeURIComponent(calendarLocation)}&details=${encodeURIComponent(calendarDetails)}`;
+
     return (
         <Html>
             <Head>
@@ -91,27 +126,45 @@ export default function NewOrderEmail({orderId, storeName, pickUpTime, location,
                     {/* Header Section */}
                     <Section style={header}>
                         <Text style={brandTitle}>{storeName}</Text>
-                        <Text style={headerTitle}>You have a new order! 🎉</Text>
+                        <Text style={headerTitle}>You have a new {isDelivery ? "delivery" : "pickup"} order! 🎉</Text>
+                        <Text style={orderIdText}>Order ID: #{orderId}</Text>
                     </Section>
 
                     <Hr style={purpleDivider} />
 
-                    <Section style={detailsContainer}>
-                        {/* Pick Up Time */}
-                        <Row>
-                            <Column
-                                style={iconColumn}
-                            >
-                                🕒
-                            </Column>
+                    {/* Customer Info Section */}
+                    <Section style={customerInfoSection}>
+                         <Text style={sectionTitle}>Customer Information</Text>
+                         <Row style={detailRow}> 
                             <Column style={textColumn}>
-                                <Text style={detailHeading}>Pick Up Time</Text>
-                                <Link
-                                    href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(storeName + " Order Pickup")}&dates=${formatDateForCalendar(pickUpTime)}&location=${encodeURIComponent(location.address)}&details=${encodeURIComponent(`Your order #${orderId} is ready for pickup. Location: ${location.longitude},${location.latitude}`)}`}
-                                    style={linkStyle}
-                                >
-                                    {formatDisplayDate(pickUpTime)}
+                                <Text style={customerDetail}>Name: {customer.name_customer}</Text>
+                                <Text style={customerDetail}>Email: {customer.email_customer} {customer.email_verified ? "(Verified)" : "(Not Verified)"}</Text>
+                                {customer.phone_number && <Text style={customerDetail}>Phone: {customer.phone_number}</Text>}
+                            </Column>
+                         </Row>
+                    </Section>
+
+                    <Section style={detailsContainer}>
+                        {/* Scheduled Time */}
+                        <Row style={detailRow}> 
+                            <Column style={iconColumn}>🕒</Column>
+                            <Column style={textColumn}>
+                                <Text style={detailHeading}>{scheduledTimeLabel}</Text>
+                                <Text style={detailText}>{scheduledToCalendarDateTime(scheduledTime).toString()}</Text>
+                            </Column>
+                        </Row>
+                        
+                        {/* Delivery/Pickup Address */}
+                         <Row>
+                            <Column style={iconColumn}>📍</Column>
+                            <Column style={textColumn}>
+                                <Text style={detailHeading}>{addressLabel}</Text>
+                                <Link href={mapLink} style={linkStyle} target="_blank">
+                                    {addressToShow}
                                 </Link>
+                                {isDelivery && deliveryAddress?.additionalInfo && (
+                                    <Text style={deliveryNoteStyle}>Note: {deliveryAddress.additionalInfo}</Text>
+                                )}
                             </Column>
                         </Row>
 
@@ -119,70 +172,63 @@ export default function NewOrderEmail({orderId, storeName, pickUpTime, location,
 
                     {/* Order Details */}
                     <Section style={orderSection}>
-                        <Text style={sectionTitle}>Order Details</Text>
-                        <Text style={orderIdText}>Order ID: #{orderId}</Text>
-
+                        <Text style={sectionTitle}>Order Items</Text>
                         {/* Products Table */}
-                        <table style={table}>
-                            {/*<thead>*/}
-                            {/*<tr>*/}
-                            {/*    <th style={tableHeader} colSpan={2}>Product</th>*/}
-                            {/*    <th style={tableHeader}>Qty</th>*/}
-                            {/*    <th style={tableHeader}>Price</th>*/}
-                            {/*</tr>*/}
-                            {/*</thead>*/}
+                         <table style={table}>
                             <thead>
-                            <tr>
-                                <th style={productHeaderCell} colSpan={2}>Product</th>
-                                <th style={qtyHeaderCell}>Qty</th>
-                                <th style={priceHeaderCell}>Price</th>
-                            </tr>
+                                <tr>
+                                    <th style={productHeaderCell} colSpan={2}>Product</th>
+                                    <th style={qtyHeaderCell}>Qty</th>
+                                    <th style={priceHeaderCell}>Price</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {products.map((product, index) => (
-                                <React.Fragment key={index}>
-                                    <tr>
-                                        <td style={productCell} colSpan={2}>
-                                            <Text style={productName}>{product.name}</Text>
-                                            {product.variants && product.variants.map((variant, vIndex) => (
-                                                <Text key={vIndex} style={productVariant}>
-                                                    <span style={{ fontWeight: "500" }}>{variant.label}:</span> {variant.selectedItems.map(item =>
-                                                    `${item.label}${item.price > 0 ? ` (+${formatCurrency(item.price)})` : ''}`
-                                                ).join(", ")}
-                                                </Text>
-                                            ))}
-                                        </td>
-                                        <td style={quantityCell}>{product.qty}</td>
-                                        <td style={priceCell}>{formatCurrency(product.unitAmount * product.qty)}</td>
-                                    </tr>
-                                    {index < products.length - 1 && <tr><td colSpan={4} style={rowDivider}></td></tr>}
-                                </React.Fragment>
-                            ))}
+                                {products.map((product, index) => (
+                                    <React.Fragment key={index}>
+                                        <tr>
+                                            <td style={productCell} colSpan={2}>
+                                                <Text style={productName}>{product.name}</Text>
+                                                {product.variants && product.variants.map((variant, vIndex) => (
+                                                    <Text key={vIndex} style={productVariant}>
+                                                        <span style={{ fontWeight: "500" }}>{variant.label}:</span> {variant.selectedItems.map(item =>
+                                                        `${item.label}${item.price > 0 ? ` (+${formatCurrency(item.price)})` : ''}`
+                                                    ).join(", ")}
+                                                    </Text>
+                                                ))}
+                                                {product.note && <Text style={productNoteStyle}>Note: {product.note}</Text>}
+                                            </td>
+                                            <td style={quantityCell}>{product.qty}</td>
+                                            <td style={priceCell}>{formatCurrency(product.itemTotalInclVat ?? (product.unitAmount * product.qty))}</td>
+                                        </tr>
+                                        {index < products.length - 1 && <tr><td colSpan={4} style={rowDivider}></td></tr>}
+                                    </React.Fragment>
+                                ))}
                             </tbody>
                         </table>
 
                         {/* Totals */}
                         <Section style={totalSection}>
-                            <Row style={totalRow}>
-                                <Column><Text style={totalLabel}>Subtotal</Text></Column>
-                                <Column><Text style={totalValue}>{formatCurrency(subtotal_amount)}</Text></Column>
+                             <Row style={totalRow}>
+                                <Column><Text style={totalLabel}>Subtotal (Items)</Text></Column>
+                                <Column><Text style={totalValue}>{formatCurrency(priceData.itemInclVat)}</Text></Column>
                             </Row>
-                            {vat > 0 &&
+                            {isStoreDelivery && priceData.deliveryFeeInclVat !== undefined && priceData.deliveryFeeInclVat > 0 && (
                                 <Row style={totalRow}>
-                                    <Column><Text style={totalLabel}>VAT(9%)</Text></Column>
-                                    <Column><Text style={totalValue}>{formatCurrency(vat)}</Text></Column>
+                                    <Column><Text style={totalLabel}>Delivery Fee</Text></Column>
+                                    <Column><Text style={totalValue}>{formatCurrency(priceData.deliveryFeeInclVat)}</Text></Column>
                                 </Row>
-                            }
+                            )}
                             <Row style={totalTotalRow}>
-                                <Column><Text style={totalTotalLabel}>Total</Text></Column>
-                                <Column><Text style={totalTotalValue}>{formatCurrency(total_amount)}</Text></Column>
+                                <Column><Text style={totalTotalLabel}>Total Charged</Text></Column>
+                                <Column><Text style={totalTotalValue}>{formatCurrency(priceData.totalInclVat)}</Text></Column>
                             </Row>
                         </Section>
                     </Section>
 
                     {/* Footer */}
                     <Section style={footer}>
-                        <Text style={thankYou}>Thank you for choosing TheBakerz! 🧁</Text>
+                         {/* Maybe add a link to the order management system? */}
+                        <Text style={footerText}>Order received via TheBakerz Platform.</Text>
                     </Section>
                 </Container>
             </Body>
@@ -228,6 +274,16 @@ const purpleDivider = {
     margin: "25px 0",
 };
 
+const customerInfoSection = {
+    marginBottom: "20px",
+};
+
+const customerDetail = {
+    fontSize: "14px",
+    color: "#555",
+    margin: "2px 0",
+    lineHeight: "1.5",
+};
 
 const detailsContainer = {
     backgroundColor: "#f8f3fb",
@@ -237,22 +293,17 @@ const detailsContainer = {
 };
 
 const detailRow = {
-    marginBottom: "20px",
+    marginBottom: "15px",
 };
 
 const iconColumn = {
     width: "40px",
-    verticalAlign: "middle",
+    verticalAlign: "top",
+    paddingTop: "2px",
 };
 
 const textColumn = {
-    verticalAlign: "middle",
-};
-
-const detailIcon = {
-    color: "#730c6f",
-    margin: "0 auto 12px",
-    display: "block",
+    verticalAlign: "top",
 };
 
 const detailHeading = {
@@ -261,6 +312,20 @@ const detailHeading = {
     color: "#730c6f",
     margin: "0 0 5px 0",
     textAlign: "left" as const,
+};
+
+const detailText = {
+     fontSize: "14px",
+    color: "#555",
+    margin: "0",
+}
+
+const linkStyle = {
+    fontSize: "14px",
+    color: "#555",
+    textDecoration: "underline",
+    margin: "0",
+    display: "block",
 };
 
 const orderSection = {
@@ -285,14 +350,7 @@ const table = {
     borderCollapse: "collapse" as const,
     marginBottom: "20px",
 };
-//
-// const tableHeader = {
-//     padding: "12px",
-//     borderBottom: "1px solid #ddd",
-//     textAlign: "left" as const,
-//     color: "#666",
-//     fontSize: "14px",
-// };
+
 const tableHeader = {
     padding: "12px",
     borderBottom: "1px solid #ddd",
@@ -301,10 +359,9 @@ const tableHeader = {
     fontSize: "14px",
 };
 
-// Add these new style objects
 const productHeaderCell = {
     ...tableHeader,
-    width: "60%", // Adjust percentage as needed
+    width: "60%",
 };
 
 const qtyHeaderCell = {
@@ -319,18 +376,9 @@ const priceHeaderCell = {
     textAlign: "right" as const,
 };
 
-
 const productCell = {
     padding: "12px",
     verticalAlign: "top" as const,
-};
-
-const linkStyle = {
-    fontSize: "14px",
-    color: "#555",
-    textDecoration: "underline",
-    margin: "0",
-    display: "block",
 };
 
 const productName = {
@@ -345,18 +393,25 @@ const productVariant = {
     margin: "2px 0",
 };
 
+const productNoteStyle = {
+    fontSize: "12px",
+    color: "#444",
+    fontStyle: "italic",
+    margin: "4px 0 0 0",
+};
+
 const quantityCell = {
     padding: "12px",
     textAlign: "center" as const,
     color: "#666",
-    width: "15%", // David: Added this to match header
+    width: "15%",
 };
 
 const priceCell = {
     padding: "12px",
     textAlign: "right" as const,
     color: "#666",
-    width: "25%", // Daavid: Added this to match header
+    width: "25%",
 };
 
 const rowDivider = {
@@ -408,9 +463,15 @@ const footer = {
     textAlign: "center" as const,
 };
 
-const thankYou = {
-    fontSize: "16px",
-    color: "#333",
-    marginBottom: "10px",
+const footerText = {
+    fontSize: "12px",
+    color: "#aaa",
+    margin: "0",
+};
+
+const deliveryNoteStyle = {
+    fontSize: "12px",
+    color: "#666",
+    margin: "4px 0 0 0",
 };
 

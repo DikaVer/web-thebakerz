@@ -5,6 +5,7 @@ import { getCurrentSession } from '@/lib/actions/session';
 import { z } from 'zod';
 import { getTranslations } from "next-intl/server";
 import {revalidateTag} from "next/cache";
+import { getCurrentStoreByUserIdAndStoreId } from '@/lib/actions/store';
 
 // Define Zod schemas for the nested types.
 const timeSchema = z.object({
@@ -33,6 +34,7 @@ const workHoursSchema = z.object({
 // The request body must contain a "workHours" key.
 const requestBodySchema = z.object({
     workHours: workHoursSchema,
+    storeId: z.string(),
 });
 
 export const runtime = 'nodejs';
@@ -61,7 +63,7 @@ export async function POST(req: Request) {
             { status: 400 }
         );
     }
-    const { workHours } = parsedBody.data;
+    const { workHours, storeId } = parsedBody.data;
 
     // Chech if the schedule is valid start < end
     const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -77,7 +79,12 @@ export async function POST(req: Request) {
     }
 
     // Get the current store from session
-    const { store } = await getCurrentSession();
+    const { user } = await getCurrentSession();
+    if (!user) {
+        return NextResponse.json({ error: t("storeNotFound") }, { status: 404 });
+    }
+
+    const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
     if (!store) {
         return NextResponse.json({ error: t("storeNotFound") }, { status: 404 });
     }

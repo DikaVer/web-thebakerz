@@ -21,8 +21,8 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { theme } = useTheme();
     const router = useRouter();
+    const c_T = useTranslations();
     const t = useTranslations("app/(store)/components/status-select");
-    const statusT = useTranslations("OrderStatus");
 
     const [targetStatus, setTargetStatus] = React.useState<OrderStatus>(currentStatus);
     const [selectedStatus, setSelectedStatus] = React.useState<OrderStatus>(currentStatus);
@@ -40,15 +40,16 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
     const handleConfirmStatusChange = async () => {
         setIsLoading(true);
 
-        const isUpdated = await updateOrderStatus(
+        const { ok: isUpdated, error } = await updateOrderStatus(
             order.store_id,
             order.id,
+            order.seq_id.toString(),
             order.customer.email_customer,
             targetStatus
         );
 
         if (!isUpdated) {
-            showErrorMessage({error: t("failedToUpdateStatus")});
+            showErrorMessage({error: error || t("failedToUpdateStatus")});
             setSelectedStatus(currentStatus)
         } else {
             showSuccessMessage({success: t("statusUpdatedSuccess")});
@@ -82,7 +83,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
                 {statusOptions.map((status) => (
                     <SelectItem
                         key={status}
-                        textValue={statusT(status)}
+                        textValue={c_T(`OrderStatus.${status}`)}
                         onPress={() => handleStatusClick(status as OrderStatus)}
                     >
                         <OrderStatusChip status={status as OrderStatus} />
@@ -129,7 +130,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
                                     <Icon icon="solar:arrow-right-linear" width={24}/>
                                     <OrderStatusChip status={targetStatus} />
                                 </div>
-                                <p className="font-medium">{t("selectOneOption")}</p>
+                                {/*<p className="font-medium">{t("selectOneOption")}</p>*/}
                             </ModalBody>
                             <ModalFooter>
                                 <Button

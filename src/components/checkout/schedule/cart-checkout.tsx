@@ -1,22 +1,18 @@
 "use client";
-import React, { useState } from "react";
-import {
-    Button,
-    Divider,
-    Spacer,
-    useDisclosure,
-} from "@heroui/react";
-import { useProductDialog } from "@/components/providers/product-provider";
-import { calculateTax, formatCurrency } from "@/lib/utils";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useStore } from "@/components/providers/store-provider";
-import { CartItemRow } from "@/components/cart/cart-item";
-import { useCart } from "@/components/providers/cart-provider";
-import { useTranslations } from "next-intl";
+import React, {useMemo, useState} from "react";
+import {Button, Divider, Spacer, useDisclosure,} from "@heroui/react";
+import {useProductDialog} from "@/components/providers/product-provider";
+import {formatCurrency} from "@/lib/utils";
+import {useRouter, useSearchParams} from "next/navigation";
+import {useStore} from "@/components/providers/store-provider";
+import {CartItemRow} from "@/components/cart/cart-item";
+import {useCart} from "@/components/providers/cart-provider";
+import {useTranslations} from "next-intl";
 import {Icon} from "@iconify/react";
 import showErrorMessage from "@/components/toast/toast-error";
-import {calculatePlatformFee, calculateTotals} from "@/lib/price/tax";
+import {calculateTotals} from "@/lib/price/tax";
 import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
+import {useDelivery} from "@/components/providers/delivery-provider";
 
 const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     const {
@@ -28,6 +24,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     const { onOpen} = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
     const { store } = useStore();
+    const { isDelivery, validationResult } = useDelivery();
     const router = useRouter();
     const searchParams = useSearchParams();
     const queryString = searchParams ? `?${searchParams.toString()}` : "";
@@ -43,11 +40,44 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         return productData ? sum + calculateItemTotalPrice(item.variants, productData.price, item.quantity) : sum;
     }, 0);
 
+    // Get delivery fee from the selected region if in delivery mode
+    const deliveryFee = useMemo(() => {
+        if (isDelivery && validationResult.deliveryRegion?.ranges?.[0]?.deliveryPriceInCents) {
+            return validationResult.deliveryRegion.ranges[0].deliveryPriceInCents;
+        }
+        return 0;
+    }, [isDelivery, validationResult]);
 
-    const { vat, subtotal, total } = calculateTotals(amount, !store.kor);
+    // Get delivery fee from the selected region if in delivery mode
+    const isStoreDelivery = useMemo(() => {
+        if (isDelivery && validationResult.deliveryRegion?.isStoreDelivery) {
+            return validationResult.deliveryRegion.isStoreDelivery;
+        }
+        return false;
+    }, [isDelivery, validationResult]);
 
-    const { platform_fee } = calculatePlatformFee(total);
+    // Calculate minimum order amount based on delivery region if applicable
+    const minimumOrderAmount = useMemo(() => {
+        if (isDelivery && validationResult.deliveryRegion?.ranges?.[0]?.minOrderPriceInCents) {
+            return validationResult.deliveryRegion.ranges[0].minOrderPriceInCents;
+        }
+        return 1000; // Default minimum 10€ (in cents)
+    }, [isDelivery, validationResult]);
 
+    // Calculate totals with delivery fee
+    const { 
+        itemExclVat,
+        itemVat,
+        deliveryFeeExclVat,
+        deliveryVat,
+        serviceFeeExclVat,
+        serviceVat,
+        totalExclVat,
+        totalVat,
+        totalInclVat 
+    } = useMemo(() => {
+        return calculateTotals(amount, !store.kor, deliveryFee, isStoreDelivery);
+    }, [amount, store.kor, isDelivery, deliveryFee]);
 
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
 
@@ -69,6 +99,32 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
             );
         });
     };
+
+    // Check if we can proceed with payment
+    const canProceedToPayment = useMemo(() => {
+        if (amount < minimumOrderAmount) {
+            return false;
+        }
+        
+        if (isDelivery) {
+            return validationResult.isValid && validationResult.isInRange;
+        }
+        
+        return true;
+    }, [amount, minimumOrderAmount, isDelivery, validationResult]);
+
+    // Message to show when user can't proceed
+    const paymentBlockedMessage = useMemo(() => {
+        if (amount < minimumOrderAmount) {
+            return t("minimumAmount", { minOrder: formatCurrency(minimumOrderAmount) });
+        }
+        
+        if (isDelivery && (!validationResult.isValid || !validationResult.isInRange)) {
+            return t("invalidDeliveryAddress");
+        }
+        
+        return "";
+    }, [amount, minimumOrderAmount, isDelivery, validationResult, t]);
 
     return (
         <>
@@ -103,40 +159,77 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                     <div className="py-4">
                         <div className="flex justify-between">
                             <span className="text-sm font-medium">{t("subtotal")}</span>
-                            <span className="text-sm">{formatCurrency(subtotal)}</span>
+                            <span className="text-sm">{formatCurrency(itemExclVat)}</span>
                         </div>
-                        {vat > 0 &&
+                        {itemVat > 0 &&
                             <div className="flex justify-between mt-2">
                                 <span className="text-sm font-medium">{t("vatExclusive")}</span>
-                                <span className="text-sm">{formatCurrency(vat)}</span>
+                                <span className="text-sm">{formatCurrency(itemVat)}</span>
                             </div>
                         }
-                        {/*{platform_fee > 0 &&*/}
-                        {/*    <div className="flex justify-between mt-2">*/}
-                        {/*        <span className="text-sm font-medium">{t("CustomerFee")}</span>*/}
-                        {/*        <span className="text-sm">{formatCurrency(platform_fee)}</span>*/}
-                        {/*    </div>*/}
-                        {/*}*/}
+                        {isDelivery && deliveryFeeExclVat > 0 &&
+                            <>    
+                                <div className="flex justify-between mt-2">
+                                    <span className="text-sm font-medium">{t("deliveryFee")}</span>
+                                    <span className="text-sm">{formatCurrency(deliveryFeeExclVat)}</span>
+                                </div>
+                                {deliveryVat > 0 &&
+                                    <div className="flex justify-between mt-2">
+                                        <span className="text-sm font-medium">{t("deliveryVat")}</span>
+                                        <span className="text-sm">{formatCurrency(deliveryVat)}</span>
+                                    </div>
+                                }
+                            </>
+                        }
+                        {serviceFeeExclVat > 0 &&
+                            <>
+                                <div className="flex justify-between mt-2">
+                                    <span className="text-sm font-medium">{t("serviceFee")}</span>
+                                    <span className="text-sm">{formatCurrency(serviceFeeExclVat)}</span>
+                                </div>
+                                {serviceVat > 0 &&
+                                    <div className="flex justify-between mt-2">
+                                        <span className="text-sm font-medium">{t("vat21")}</span>
+                                        <span className="text-sm">{formatCurrency(serviceVat)}</span>
+                                    </div>
+                                }
+                            </>
+                        }
                         <Spacer y={2} />
                         <Divider className="my-2" />
                         <Spacer y={4} />
                         <div className="flex justify-between">
                             <span className="text-base font-bold">{t("total")}</span>
-                            <span className="text-base font-bold">{formatCurrency(total)}</span>
+                            <span className="text-base font-bold">{formatCurrency(totalInclVat)}</span>
                         </div>
+                        {isDelivery && !validationResult.isInRange && (
+                            <div className="mt-2 text-danger text-sm">
+                                {validationResult.message || t("addressOutOfRange")}
+                            </div>
+                        )}
+                        {isDelivery && !validationResult.isValid && (
+                            <div className="mt-2 text-danger text-sm">
+                                {t("invalidDeliveryAddress")}
+                            </div>
+                        )}
+                        {isDelivery && minimumOrderAmount > 0 && amount < minimumOrderAmount && (
+                            <div className="mt-2 text-danger text-sm">
+                                {t("minimumOrderForDelivery", { amount: formatCurrency(minimumOrderAmount) })}
+                            </div>
+                        )}
                     </div>
                     <Button
                         isLoading={isLoading}
+                        isDisabled={!canProceedToPayment}
                         className="w-full bg-gradient-primary text-2xl rounded-full text-white"
                         onPress={() => {
-                            // console.log(total)
-                            if (total >= 1000) {
+                            if (canProceedToPayment) {
                                 setIsLoading(true);
                                 router.push(`/${storeUrl}/pay`);
                                 router.refresh();
                                 handleNext();
                             } else {
-                                showErrorMessage({error: t("minimumAmount")});
+                                showErrorMessage({error: paymentBlockedMessage});
                             }
                         }}
                     >

@@ -1,8 +1,6 @@
-import {Chip} from "@heroui/react";
-import {Icon} from "@iconify/react";
+
 
 import {type SidebarItem, SidebarItemType} from "./sidebar";
-import {pacifico} from "@/components/fonts";
 
 /**
  * Please check the https://nextui.org/docs/guide/routing to have a seamless router integration
@@ -11,8 +9,8 @@ export const sectionItemsGuestTheBakerz: SidebarItem[] = [
     {
         key: "",
         href: "/",
-        icon: "solar:home-2-linear",
-        titleKey: "appName"
+        icon: "solar:magnifer-linear",
+        titleKey: "search"
     },
     {
         key: "about-us",
@@ -21,8 +19,8 @@ export const sectionItemsGuestTheBakerz: SidebarItem[] = [
         titleKey: "aboutTheBakerz"
     },
     {
-        key: "#join-thebakerz",
-        href: "/#join-thebakerz",
+        key: "/become-partner#join-thebakerz",
+        href: "/become-partner#join-thebakerz",
         titleKey: "joinTheBakerz",
         icon: "solar:chef-hat-heart-broken",
     }
@@ -30,11 +28,29 @@ export const sectionItemsGuestTheBakerz: SidebarItem[] = [
 
 export const sectionItemsGuestStore: SidebarItem[] = [
     {
-        key: "",
-        href: "/auth",
-        icon: "line-md:login",
-        titleKey: "signInButton"
-    },
+        key: "navigation",
+        titleKey: "navigation",
+        items: [
+            {
+                key: "",
+                href: "/",
+                icon: "solar:magnifer-linear",
+                titleKey: "search"
+            },
+            {
+                key: "about-us",
+                href: "/about-us",
+                icon: "solar:users-group-two-rounded-outline",
+                titleKey: "aboutTheBakerz"
+            },
+            {
+                key: "/become-partner#join-thebakerz",
+                href: "/become-partner#join-thebakerz",
+                titleKey: "joinTheBakerz",
+                icon: "solar:chef-hat-heart-broken",
+            }
+        ],
+    }
 ];
 
 export const sectionStoreItemsUser: SidebarItem[] = [
@@ -49,7 +65,31 @@ export const sectionStoreItemsUser: SidebarItem[] = [
                 titleKey: "orders"
             },
         ],
-    }
+    },
+    {
+        key: "navigation",
+        titleKey: "navigation",
+        items: [
+            {
+                key: "",
+                href: "/",
+                icon: "solar:magnifer-linear",
+                titleKey: "search"
+            },
+            {
+                key: "about-us",
+                href: "/about-us",
+                icon: "solar:users-group-two-rounded-outline",
+                titleKey: "aboutTheBakerz"
+            },
+            {
+                key: "/become-partner#join-thebakerz",
+                href: "/become-partner#join-thebakerz",
+                titleKey: "joinTheBakerz",
+                icon: "solar:chef-hat-heart-broken",
+            }
+        ],
+    },
 ];
 
 export const sectionItemsTheBakerz: SidebarItem[] = [
@@ -60,8 +100,8 @@ export const sectionItemsTheBakerz: SidebarItem[] = [
             {
                 key: "",
                 href: "/",
-                icon: "solar:home-2-linear",
-                titleKey: "appName"
+                icon: "solar:magnifer-linear",
+                titleKey: "search"
             },
             {
                 key: "about-us",
@@ -70,8 +110,8 @@ export const sectionItemsTheBakerz: SidebarItem[] = [
                 titleKey: "aboutTheBakerz"
             },
             {
-                key: "#join-thebakerz",
-                href: "/#join-thebakerz",
+                key: "/become-partner#join-thebakerz",
+                href: "/become-partner#join-thebakerz",
                 titleKey: "joinTheBakerz",
                 icon: "solar:chef-hat-heart-broken",
             }
@@ -92,8 +132,8 @@ export const sectionItemsBakerz: SidebarItem[] = [
             {
                 key: "",
                 href: "/",
-                icon: "solar:home-2-linear",
-                titleKey: "appName"
+                icon: "solar:magnifer-linear",
+                titleKey: "search"
             },
             {
                 key: "about-us",
@@ -151,8 +191,8 @@ export const sectionItemsAdmin: SidebarItem[] = [
             {
                 key: "",
                 href: "/",
-                icon: "solar:home-2-linear",
-                titleKey: "appName"
+                icon: "solar:magnifer-linear",
+                titleKey: "search"
             },
             {
                 key: "about-us",

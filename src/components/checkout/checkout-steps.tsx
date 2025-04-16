@@ -1,5 +1,5 @@
 'use client';
-import { Accordion, AccordionItem, Button, Divider, Spacer } from "@heroui/react";
+import { Accordion, AccordionItem} from "@heroui/react";
 import { Icon } from "@iconify/react";
 import TwoStepAuthForm from "@/components/authentication/two-step-auth-form";
 import React, { useState } from "react";
@@ -10,22 +10,21 @@ import CartCheckout from "@/components/checkout/schedule/cart-checkout";
 import { replaceGuestCart } from "@/lib/actions/cart";
 import { useStore } from "@/components/providers/store-provider";
 import showErrorMessage from "@/components/toast/toast-error";
-import Checkout from "@/components/checkout/payment/checkout";
 import { useTranslations } from "next-intl";
 
-export default function CheckoutSteps({ date, time }: { date: string | null; time: string | null }) {
+export default function CheckoutSteps({ }: {}) {
     const { session } = useSession();
     const t = useTranslations("app/(store)/components/checkout-steps");
-
-    if (session?.store) {
-        return NotFound();
-    }
 
     const { store } = useStore();
     const steps = ["1", "2", "3", "4"];
     const [currentStep, setCurrentStep] = useState<number>(session?.user ? 2 : 1);
     const disabledKeys = steps.filter((key) => Number(key) > currentStep);
     const [selectedKey, setSelectedKey] = useState<string>(currentStep.toString());
+
+    if (session?.user?.role === "bakerz" && session?.user?.id === store.user_id) {
+        return NotFound();
+    }
 
     const handleLogin = async (value: boolean) => {
         const result = await replaceGuestCart(store.id);
@@ -103,8 +102,6 @@ export default function CheckoutSteps({ date, time }: { date: string | null; tim
                     }}
                 >
                     <ScheduleOrder
-                        dateParam={date}
-                        timeParam={time}
                         handleNext={() => handleNext(3)}
                     />
                 </AccordionItem>

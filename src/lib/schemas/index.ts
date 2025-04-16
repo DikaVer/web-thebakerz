@@ -228,63 +228,71 @@ export const ProfileSettingsSchema = z
     .object({
         role: z.string(), // e.g., "bakerz" or "user"
         name: z.string().nonempty("Name is required"),
-        description: z
-            .string()
-            .max(200, "Description must be at most 200 characters")
-            .optional(),
-        storeName: nicknameSchema.optional(),
-        storeSlug: z
-            .string()
-            .max(100, "Description must be at most 100 characters")
-            .optional(),
-        facebook_url: z
-            .string()
-            .optional()
-            .refine((val) => {
-                if (!val) return true;
-                try {
-                    const url = new URL(val);
-                    return url.hostname.endsWith("facebook.com");
-                } catch {
-                    return false;
-                }
-            }, "Invalid Facebook URL"),
-        instagram_url: z
-            .string()
-            .optional()
-            .refine((val) => {
-                if (!val) return true;
-                try {
-                    const url = new URL(val);
-                    return url.hostname.endsWith("instagram.com");
-                } catch {
-                    return false;
-                }
-            }, "Invalid Instagram URL"),
-    })
-    .superRefine((data, ctx) => {
-        if (data.role === "bakerz") {
-            // if (!data.description || data.description.trim() === "") {
-            //     ctx.addIssue({
-            //         code: z.ZodIssueCode.custom,
-            //         message: "Description is required",
-            //         path: ["description"],
-            //     });
-            // }
-            if (!data.storeName || data.storeName.trim() === "") {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: "Store name is required",
-                    path: ["storeName"],
-                });
-            }
-            // if (!data.storeSlug || data.storeSlug.trim() === "") {
-            //     ctx.addIssue({
-            //         code: z.ZodIssueCode.custom,
-            //         message: "Store Slug is required",
-            //         path: ["storeSlug"],
-            //     });
-            // }
-        }
     });
+
+    // Store settings schema with store-specific fields
+export const StoreSettingsSchema = z
+.object({
+    role: z.string(), // e.g., "bakerz" or "user"
+    description: z
+        .string()
+        .max(200, "Description must be at most 200 characters")
+        .optional(),
+    storeName: nicknameSchema,
+    storeSlug: z
+        .string()
+        .max(100, "Description must be at most 100 characters")
+        .optional(),
+    facebook_url: z
+        .string()
+        .optional()
+        .refine((val) => {
+            if (!val) return true;
+            try {
+                const url = new URL(val);
+                return url.hostname.endsWith("facebook.com");
+            } catch {
+                return false;
+            }
+        }, "Invalid Facebook URL"),
+    instagram_url: z
+        .string()
+        .optional()
+        .refine((val) => {
+            if (!val) return true;
+            try {
+                const url = new URL(val);
+                return url.hostname.endsWith("instagram.com");
+            } catch {
+                return false;
+            }
+        }, "Invalid Instagram URL"),
+})
+.superRefine((data, ctx) => {
+    if (data.role === "bakerz") {
+        // if (!data.description || data.description.trim() === "") {
+        //     ctx.addIssue({
+        //         code: z.ZodIssueCode.custom,
+        //         message: "Description is required",
+        //         path: ["description"],
+        //     });
+        // }
+        if (!data.storeName || data.storeName.trim() === "") {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Store name is required",
+                path: ["storeName"],
+            });
+        }
+        // if (!data.storeSlug || data.storeSlug.trim() === "") {
+        //     ctx.addIssue({
+        //         code: z.ZodIssueCode.custom,
+        //         message: "Store Slug is required",
+        //         path: ["storeSlug"],
+        //     });
+        // }
+    }
+});
+
+export * from './address.schema';
 

@@ -8,6 +8,7 @@ import {containerProducts, containerCart} from "@/db";
 import {revalidateTag} from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { getCartItemsByProductId } from "@/lib/actions/cart";
+import {getCurrentStoreByUserIdAndStoreId} from "@/lib/actions/store";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -22,6 +23,7 @@ type TranslationFunction = (key: string, params?: Record<string, string | number
  */
 export const addProduct = async (
     formData: z.infer<typeof ProductSchema>,
+    storeId: string,
     productId?: string
 ) => {
     const t = await getTranslations("app/lib/actions/product") as TranslationFunction;
@@ -31,8 +33,11 @@ export const addProduct = async (
     const validation = ProductSchema.safeParse(formData);
     if (!validation.success) return { error: t("invalidFields") };
 
-    const { user, store } = await getCurrentSession();
-    if (!user || !store) return { error: t("userNotFound") };
+    const { user } = await getCurrentSession();
+    if (!user) return { error: t("userNotFound") };
+
+    const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+    if (!store) return { error: t("storeNotFound") };
 
     let oldProductData = null;
     if (productId) {
@@ -108,6 +113,8 @@ export const addProduct = async (
     const productData = {
         id: uuidv4(),
         store_id: store.id,
+        store_name: store.storeName,
+        web_name: formData.name.replace(/\s+/g, '-'),
         category: formData.category,
         name: formData.name,
         description: formData.description,
@@ -180,10 +187,15 @@ export const deleteProduct = async (
             }
         }
 
-        const {user, store} = await getCurrentSession();
+        const {user} = await getCurrentSession();
 
-        if (!user || !store) {
+        if (!user) {
             return { error: "User not found!" };
+        }
+
+        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, productId);
+        if (!store) {
+            return { error: "Store not found!" };
         }
 
 
@@ -212,7 +224,7 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
         }
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.constId, c.additionalImages, c.variants, c.min_order FROM c WHERE c.store_id = @storeId AND c.archive = false",
+            query: "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.constId, c.additionalImages, c.variants, c.min_order FROM c WHERE c.store_id = @storeId AND c.archive = false",
             parameters: [{ name: "@storeId", value: storeId }]
         };
 
@@ -255,6 +267,35 @@ export async function getProductByStoreIdAndProductId(storeId: string, productId
         }
         console.error("Error fetching product:", error);
         throw new Error("Failed to fetch product");
+    }
+}
+
+export async function getProductByStoreIdAndWebName(storeId: string, webName: string): Promise<ProductData | null> {
+    try {
+        if (!storeId || !webName) {
+            return null;
+        }
+
+        const querySpec = {
+            query: "SELECT * FROM c WHERE c.store_id = @storeId AND (c.web_name = @webName OR c.id = @webName) AND c.archive = false",
+            parameters: [
+                { name: "@storeId", value: storeId },
+                { name: "@webName", value: webName }
+            ]
+        };
+
+        const { resources } = await containerProducts.items
+            .query(querySpec, { partitionKey: storeId })
+            .fetchAll();
+
+        if (resources.length === 0) {
+            return null;
+        }
+
+        return resources[0];
+    } catch (error) {
+        console.error("Error fetching product by web name:", error);
+        throw new Error("Failed to fetch product by web name");
     }
 }
 
@@ -311,6 +352,8 @@ export type ProductData = {
     store_id: string;
     category: string;
     name: string;
+    web_name: string;
+    store_name: string;
     min_order: number;
     description?: string | null;
     variants?: ProductVariant[];

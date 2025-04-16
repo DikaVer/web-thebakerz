@@ -66,7 +66,8 @@ const getBgColorFromClass = (classStr: string): string => {
 
 
 export const OrdersBarChart: React.FC<OrdersBarChartProps> = ({orderDataList, isLoading = false, selectedStatuses}) => {
-    const barT = useTranslations("app/(store)/components/orders-bar-chart");
+    
+    const t = useTranslations("app/(store)/components/orders-bar-chart");
     // Process order data to get stats by status
     const { chartData, categories, totalAmount, totalOrders } = useMemo(() => {
         // Count and sum orders by status
@@ -77,7 +78,7 @@ export const OrdersBarChart: React.FC<OrdersBarChartProps> = ({orderDataList, is
             const currentData = statusMap.get(status) || { amount: 0, count: 0 };
 
             statusMap.set(status, {
-                amount: currentData.amount + order.amount,
+                amount: currentData.amount + order.priceData.itemInclVat,
                 count: currentData.count + 1
             });
         });
@@ -111,7 +112,7 @@ export const OrdersBarChart: React.FC<OrdersBarChartProps> = ({orderDataList, is
     }, [orderDataList]);
 
     const chartConfig: CircleChartProps = {
-        title: barT("title"),
+        title: t("title"),
         total: totalAmount,
         unit: "EUR",
         categories,
@@ -160,8 +161,8 @@ const CircleChartCard = React.forwardRef<
        ...props
    }, ref) => {
     // State for selected statuses, initialize with all categories
-    const t = useTranslations("OrderStatus");
-    const barT = useTranslations("app/(store)/components/orders-bar-chart");
+    const c_t = useTranslations();
+    const t = useTranslations("app/(store)/components/orders-bar-chart");
 
     // Use the passed selectedStatuses to filter chart data
     const filteredChartData = useMemo(() => {
@@ -269,7 +270,7 @@ const CircleChartCard = React.forwardRef<
                 <div className="p-8 flex flex-col items-center justify-center">
                     <Icon icon="solar:clipboard-list-broken" width={48} className="text-default-500" />
                     <Spacer y={2} />
-                    <p className="text-default-500">{barT("notFound")}</p>
+                    <p className="text-default-500">{t("notFound")}</p>
                 </div>
             ) : (
                 <div className="flex h-full flex-wrap items-center justify-center gap-x-2 lg:flex-nowrap">
@@ -290,7 +291,7 @@ const CircleChartCard = React.forwardRef<
                                                     <div className={'flex justify-between items-center'}>
                                                         <span
                                                             className="font-medium text-foreground mb-1">
-                                                            {t(data.name.toLowerCase() || "unknown")} Orders
+                                                            {c_t(`OrderStatus.${data.name.toLowerCase()}` || "unknown")} Orders
                                                         </span>
                                                         <div
                                                             className={cn("h-2 w-2 flex-none rounded-full",
@@ -387,7 +388,7 @@ const CircleChartCard = React.forwardRef<
                                             getStatusColor(item.name)
                                         )}
                                     />
-                                    <span>{t(item.name.toLowerCase() || "unknown")}</span>
+                                    <span>{c_t(`OrderStatus.${item.name.toLowerCase()}` || "unknown")}</span>
                                 </div>
                             </div>
                         ))}
