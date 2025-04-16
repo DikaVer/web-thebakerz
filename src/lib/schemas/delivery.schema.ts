@@ -34,17 +34,24 @@ const CoordinatesSchema = z.object({
   lng: z.number().min(-180).max(180)
 });
 
+// Schema for a delivery range
+const DeliveryRangeSchema = z.object({
+  range: z.number().min(1).max(100),
+  deliveryPriceInCents: z.number().min(0),
+  minOrderPriceInCents: z.number().min(1000, { message: "Minimum order price must be at least 10€" }),
+});
+
 // Schema for a single delivery region
 const DeliveryRegionSchema = z.object({
   name: z.string().refine(
     (name) => name in cityLatLngMap,
     { message: "City must be from the predefined list" }
   ),
-  radiusKm: z.number().min(0).max(100),
-  priceInCents: z.number().min(0),
-  minOrderPriceInCents: z.number().min(1000, { message: "Minimum order price must be at least 10€" }),
   coordinates: CoordinatesSchema,
-  deliverySchedule: DeliveryScheduleSchema
+  deliverySchedule: DeliveryScheduleSchema,
+  isStoreDelivery: z.boolean().default(false),
+  minOrderTime: z.number().min(0, { message: "Minimum order time must be greater than 0" }),
+  ranges: z.array(DeliveryRangeSchema).optional()
 });
 
 // Schema for the array of delivery regions

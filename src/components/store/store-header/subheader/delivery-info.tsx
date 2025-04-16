@@ -19,20 +19,20 @@ export default function DeliveryInfo({
   const [isLoading, setIsLoading] = useState(true);
 
   // Get delivery price
-  const deliveryPrice = deliveryRegion.priceInCents;
+  const deliveryPrice = deliveryRegion.ranges?.[0]?.deliveryPriceInCents || 100000;
   const formattedDeliveryPrice = formatCurrency(deliveryPrice);
 
   // Get minimum order value
-  const minOrderValue = deliveryRegion.minOrderPriceInCents;
+  const minOrderValue = deliveryRegion.ranges?.[0]?.minOrderPriceInCents || 100000;
   const formattedMinOrderValue = formatCurrency(minOrderValue);
 
   // Show delivery schedule information if available
-  const deliverySchedule = deliveryRegion.deliverySchedule as WorkHours | undefined;
-  const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-  const enabledDays = deliverySchedule ? 
-    daysOfWeek.filter(day => 
-      deliverySchedule[day as keyof WorkHours]?.isEnabled
-    ) : [];
+  // const deliverySchedule = deliveryRegion.deliverySchedule as WorkHours | undefined;
+  // const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  // const enabledDays = deliverySchedule ? 
+  //   daysOfWeek.filter(day => 
+  //     deliverySchedule[day as keyof WorkHours]?.isEnabled
+  //   ) : [];
 
   // Simulate loading effect
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function DeliveryInfo({
   }, [deliveryRegion]);
 
   return (
-    <Card className="h-auto mb-4 overflow-hidden transition-all duration-300 max-w-[440px]" shadow="sm">
+    <Card className="h-auto overflow-hidden transition-all duration-300 max-w-[440px]" shadow="sm">
       <CardBody className="p-0 w-[440px] max-w-[100%]">
         <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/30 dark:to-primary-800/20">
           <div className="flex items-center justify-between">
@@ -56,10 +56,10 @@ export default function DeliveryInfo({
                 <span className="text-sm font-medium">{deliveryRegion.name} {t("delivery")}</span>
               </Skeleton>
             </div>
-            <div className="flex items-center gap-1">
+            {/* <div className="flex items-center gap-1">
               <Icon icon="solar:star-linear" className="h-4 w-4 text-yellow-500" />
               <span className="text-xs font-medium">Premium</span>
-            </div>
+            </div> */}
           </div>
         </div>
 

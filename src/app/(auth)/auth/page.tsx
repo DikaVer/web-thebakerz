@@ -5,12 +5,78 @@ import { Metadata } from "next"
  import TwoStepAuthForm from "@/components/authentication/two-step-auth-form";
  import { globalGETRateLimit } from "@/lib/actions/requests";
  import { getCurrentSession } from "@/lib/actions/session";
- import { getTranslations } from "next-intl/server";
+ import { getTranslations, getLocale } from "next-intl/server";
+ import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata';
 
- export const metadata: Metadata = {
-     title: "Authentication",
-     description: "TheBakerz authentication to sign in the platform.",
- }
+// Define page-specific translations outside the function if static
+const pageMetadataTranslations = {
+    en: {
+        title: "Sign In | TheBakerz",
+        description: "Access your TheBakerz account. Sign in to manage your bakery, orders, or browse the marketplace.",
+        keywords: "sign in, login, authentication, baker account, customer account, thebakerz login",
+        ogTitle: "Sign In to TheBakerz",
+        ogDescription: "Access your TheBakerz bakery management or customer account.",
+        twitterTitle: "Sign In | TheBakerz",
+        twitterDescription: "Sign in to manage your bakery or browse the marketplace on TheBakerz."
+    },
+    nl: {
+        title: "Inloggen | TheBakerz",
+        description: "Krijg toegang tot uw TheBakerz-account. Log in om uw bakkerij, bestellingen te beheren of de marktplaats te doorzoeken.",
+        keywords: "inloggen, aanmelden, authenticatie, bakkersaccount, klantaccount, thebakerz login",
+        ogTitle: "Inloggen bij TheBakerz",
+        ogDescription: "Krijg toegang tot uw TheBakerz bakkerijbeheer- of klantaccount.",
+        twitterTitle: "Inloggen | TheBakerz",
+        twitterDescription: "Log in om uw bakkerij te beheren of de marktplaats te doorzoeken op TheBakerz."
+    }
+};
+
+// Replace static metadata with generateMetadata function
+export async function generateMetadata(): Promise<Metadata> {
+    const locale = await getLocale();
+    const baseMetadata = getLocalizedMetadata(locale);
+
+    let localeKey: 'en' | 'nl' = 'en';
+    if (locale === 'nl-NL' || locale === 'nl') {
+        localeKey = 'nl';
+    }
+
+    const pageSpecifics = pageMetadataTranslations[localeKey];
+    const authUrl = `https://www.thebakerz.com/auth`;
+
+    // Merge keywords
+    const baseKeywords = metadataTranslations[localeKey].keywords.split(', ');
+    const pageKeywords = pageSpecifics.keywords.split(', ');
+    const mergedKeywords = Array.from(new Set([...baseKeywords, ...pageKeywords]));
+
+    return {
+        ...baseMetadata,
+        title: pageSpecifics.title,
+        description: pageSpecifics.description,
+        keywords: mergedKeywords,
+        alternates: {
+            ...baseMetadata.alternates,
+            canonical: authUrl,
+            languages: {
+                'en-US': `https://www.thebakerz.com/auth`,
+                'nl-NL': `https://www.thebakerz.com/auth`,
+                'x-default': `https://www.thebakerz.com/auth`,
+            }
+        },
+        openGraph: {
+            ...baseMetadata.openGraph,
+            title: pageSpecifics.ogTitle,
+            description: pageSpecifics.ogDescription,
+            url: authUrl,
+            // Keep base OG image unless a specific one for auth is desired
+        },
+        twitter: {
+            ...baseMetadata.twitter,
+            title: pageSpecifics.twitterTitle,
+            description: pageSpecifics.twitterDescription,
+            // Keep base Twitter image unless a specific one for auth is desired
+        },
+    };
+}
 
  export default async function Page() {
      // Check rate limit

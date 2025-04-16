@@ -12,6 +12,7 @@ import {
     Input,
     Tooltip,
     Button,
+    Spacer,
 } from "@heroui/react";
 import { useInfiniteScroll } from "@heroui/use-infinite-scroll";
 import { useAsyncList } from "@react-stately/data";
@@ -159,21 +160,24 @@ export default function Page() {
                                     return (
                                         <TableCell>
                                             <div className="flex items-center justify-start gap-2">
-                                                {/*{(item.role !== 'admin') &&*/}
-                                                {/*    <Tooltip content="Edit">*/}
-                                                {/*        <button*/}
-                                                {/*            onClick={() => {*/}
-                                                {/*                router.push(`/dashboard/users/edit/${item.id}`);*/}
-                                                {/*            }}*/}
-                                                {/*        >*/}
-                                                {/*            <Icon*/}
-                                                {/*                icon={"solar:pen-new-round-linear"}*/}
-                                                {/*                width={16}*/}
-                                                {/*                className="text-default-500"*/}
-                                                {/*            />*/}
-                                                {/*        </button>*/}
-                                                {/*    </Tooltip>*/}
-                                                {/*}*/}
+                                                {(item.role === 'bakerz') ? (
+                                                    <Tooltip content="Edit">
+                                                        <button
+                                                            onClick={() => {
+                                                                router.push(`/dashboard/users/edit/${item.id}`);
+                                                            }}
+                                                        >
+                                                            <Icon
+                                                                icon={"solar:pen-new-round-linear"}
+                                                                width={16}
+                                                                className="text-default-500"
+                                                            />
+                                                        </button>
+                                                    </Tooltip>
+                                                ) : (
+                                                    <Spacer x={4} />
+                                                )
+                                                }
                                                 {(item.role !== 'bakerz' && item.role !== 'admin') &&
                                                     <Tooltip content="Onboard">
                                                         <button

@@ -52,7 +52,8 @@ export async function GET(request: Request): Promise<Response> {
 	const picture = claimsParser.getString("picture");
 	const email = claimsParser.getString("email");
 
-	const redirectTo = cookieStore.get("google_redirect")?.value || "/";
+	const redirectCookie = cookieStore.get("google_redirect")?.value || "/";
+	const redirectTo = redirectCookie.startsWith('/') ? redirectCookie : `/${redirectCookie}`;
 	const storeId = cookieStore.get("google_store_id")?.value || null;
 
 	// console.log("Redirecting to", cookieStore.get("google_redirect")?.value );

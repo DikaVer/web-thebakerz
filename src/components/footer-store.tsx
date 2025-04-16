@@ -16,7 +16,6 @@ type SocialIconProps = Omit<IconProps, "icon">;
 
 export function FooterStore() {
     const t = useTranslations("app/(components)/footer-store");
-    const shopT = useTranslations("Shop");
 
     const { store } = useStore();
     const { theme } = useTheme();
@@ -28,9 +27,9 @@ export function FooterStore() {
 
     const footerNavigation = {
         overview: [
-            {name: t("brandName"), href: "/"},
+            {name: t("search"), href: "/"},
             {name: t("aboutTheBakerz"), href: "/about-us"},
-            {name: t("joinTheBakerz"), href: "/#join-thebakerz"},
+            {name: t("joinTheBakerz"), href: "/become-partner#join-thebakerz"},
         ],
         supportOptions: [
             {name: t("getHelp"), href: "/support"},
@@ -121,9 +120,9 @@ export function FooterStore() {
                                 </div>
                             </Link>
                         </div>
-                        <div className="grid justify-start gap-y-4 my-0 w-full md:w-[30%]">
-                            <div>
-                                <h3 className="md:small text-medium font-semibold text-default-600">{shopT("Opening Hours")}</h3>
+                        <div className="flex justify-start gap-y-4 my-0 w-full md:w-[30%]">
+                            <div className="w-full mr-4">
+                                <h3 className="md:small text-medium font-semibold text-default-600">{t("Opening Hours")}</h3>
                                 <div className="mt-4">
                                     {renderCalendarContent()}
                                 </div>

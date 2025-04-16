@@ -9,7 +9,6 @@ import {
     IconClose,
     IconHeart,
 } from "@/components/ui/icons";
-import { FirstView } from "@/components/landing/first-view";
 import {pacifico} from "@/components/fonts";
 import {useInView} from "@/lib/hooks/useInView";
 import {
@@ -25,27 +24,17 @@ import {
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 import {Icon} from "@iconify/react";
-import ScrollTriggered from "@/components/landing/scroll-triggered";
 import ApplyComponent from "@/components/landing/apply-component";
 import {useMediaQuery} from "usehooks-ts";
 import {useTheme} from "next-themes";
 import {useTranslations} from "next-intl";
+import ScrollTriggered from "@/components/landing/oldLanding/scroll-triggered";
 
 export default function Page() {
     return (
         <>
-            <div className="flex flex-col min-h-screen relative z-10 items-center">
-                <FirstView/>
-                <div className="flex flex-col container mx-auto items-center justify-center">
-                    {/*<WhyChooseSection/>*/}
-                    <ApplyComponent/>
-                    <WhyChooseSectionAnimated/>
-                    <PricingSection/>
-                </div>
 
-                {/* Succeed Footer */}
-                <Footer/>
-            </div>
+                    <ApplyComponent/>
         </>
 
     );
@@ -86,8 +75,10 @@ const PricingSection = () => {
 
     const handleCreate = () => {
         setLoading(true);
-        router.push('#join-thebakerz');
-        router.refresh();
+        const element = document.getElementById('join-thebakerz');
+        if (element) {
+            element?.scrollIntoView({ behavior: 'smooth' });
+        }
         setLoading(false);
     };
 

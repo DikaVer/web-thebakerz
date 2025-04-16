@@ -24,17 +24,9 @@ export function StoreHeader( {  }: StoreHeaderProps) {
     const isSmall = useMediaQuery("(max-width: 960px)");
     const t = useTranslations("app/(store)/components/store-header");
     const router = useRouter();
-    
-    // Use delivery provider instead of local state
-    const { 
-        isDelivery,
-    } = useDelivery();
 
     // Check if user is a baker and owns this store
-    const isOwner = session?.user?.role === "bakerz" && 
-                   session?.store?.id && 
-                   store?.id && 
-                   session.store.id === store.id;
+    const isOwner = session?.user?.role === "bakerz" && session.user.id === store.user_id;
     
     // Determine if clicking on the header should trigger the cursor pointer style
     const showCursorPointer = session?.user?.role === "bakerz";

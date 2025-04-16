@@ -6,10 +6,12 @@ import {containerProductsOrder} from "@/db";
 import {revalidateTag} from "next/cache";
 import {ProductDataFull} from "@/lib/actions/product";
 import { getTranslations } from "next-intl/server";
+import {getCurrentStoreByUserIdAndStoreId} from "@/lib/actions/store";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
 export const updateProductsOrder = async (
+    storeId: string,
     orderData: Record<string, string[]>,
 ) => {
     const t = await getTranslations("app/lib/actions/order-products") as TranslationFunction;
@@ -18,9 +20,14 @@ export const updateProductsOrder = async (
         return { error: t("tooManyRequests") };
     }
 
-    const { user, store } = await getCurrentSession();
-    if (!user || !store) {
+    const { user} = await getCurrentSession();
+    if (!user) {
         return { error: t("userNotFound") };
+    }
+
+    const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+    if (!store) {
+        return { error: t("storeNotFound") };
     }
 
     // Fetch the old product data if updating

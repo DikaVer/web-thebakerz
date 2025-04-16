@@ -105,7 +105,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
         {key: "9", label: "9"}
     ];
 
-    console.log(form.getValues());
+    // console.log(form.getValues());
     return (
         <FormField
             control={form.control}
@@ -406,6 +406,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                         variant="flat"
                                         color="primary"
                                         onPress={addVariant}
+                                        className="text-black dark:text-white"
                                         isDisabled={isPending}
                                         endContent={<Icon icon="material-symbols:add-rounded" width={24}/>}
                                     >

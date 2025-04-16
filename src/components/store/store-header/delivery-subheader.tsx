@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { StoreSubHeaderPickUp } from "@/components/store/store-header/subheader/store-subheader-pickup";
 import { StoreSubHeaderDelivery } from "@/components/store/store-header/subheader/store-subheader-delivery";
-import { CalendarDateTime, CalendarDate } from "@internationalized/date";
 import { useDelivery } from "@/components/providers/delivery-provider";
-import {Button, ButtonGroup, cn} from "@heroui/react";
+import {Button, ButtonGroup, cn, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {useStore} from "@/components/providers/store-provider";
-import {useSession} from "@/components/providers/session-provider";
 import {useTranslations} from "next-intl";
 
 interface DeliverySubheaderProps {
@@ -25,11 +23,10 @@ export function DeliverySubheader() {
 
     const t = useTranslations("app/(store)/components/store-header");
     const { store } = useStore();
-    const { session } = useSession();
 
 
     return (<>
-                {(store.deliveryOption === "multi" && session?.user?.role !== "bakerz" && session.store?.id !== store.id) && (
+                {(store.deliveryOption === "multi") ? (
                     <div className="flex items-center justify-end w-full py-4">
                         <div className="relative p-1 rounded-xl bg-default-100 shadow-sm">
                             <ButtonGroup className="relative z-10 overflow-hidden" isDisabled={isTogglingDelivery || !isSubheaderLoaded}>
@@ -94,15 +91,15 @@ export function DeliverySubheader() {
                             />
                         </div>
                     </div>
+                ) : (
+                    <Spacer y={4}/>
                 )}
-                {(session?.user?.role !== "bakerz" && session.store?.id !== store.id) ?
+                {
                     isDelivery ? (
                             <StoreSubHeaderDelivery key={'delivery-settings'}/>
                         ) : (
                             <StoreSubHeaderPickUp key={'pickup-settings'}/>
                         )
-                    :
-                    <DeliverySubheader />
                 }
             </>);
 }

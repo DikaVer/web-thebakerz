@@ -67,6 +67,7 @@ export const UserEditSchema = z
 
 export const OnboardSchema = z.object({
     name: z.string().min(1, { message: "Name is required" }).transform(val => val.trim()),
+    email: z.string().email({ message: "Invalid email address" }).optional(),
     stripeAccountId: z
         .string()
         .min(1, { message: "Stripe Account ID is required" })
@@ -95,6 +96,17 @@ export const OnboardSchema = z.object({
         .string()
         .nonempty('Zip Code is required!')
         .transform(val => val?.trim() || ""),
+    // Store settings
+    app_fee: z.number()
+        .min(2, { message: "App fee must be at least 2" })
+        .max(100, { message: "App fee must be at most 100" })
+        .default(2),
+    delivery_fee: z.number()
+        .min(2, { message: "Delivery fee must be at least 2" })
+        .max(100, { message: "Delivery fee must be at most 100" })
+        .default(2),
+    region: z.string().default("NL"),
+    currency: z.string().default("EUR"),
     // Business information fields
     businessName: z
         .string()
@@ -128,5 +140,6 @@ export const OnboardSchema = z.object({
         .string()
         .nonempty('Business country is required!')
         .transform(val => val?.trim() || ""),
+    regionBusiness: z.string().default("NL"),
     kor: z.boolean().default(false)
 });

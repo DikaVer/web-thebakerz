@@ -104,6 +104,7 @@ export function AddressForm({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
     libraries: GOOGLE_MAPS_LIBRARIES as any,
     language: 'nl', // Set Dutch language for suggestions
+    preventGoogleFontsLoading: true, // Optional: prevent font loading if handled elsewhere
   });
 
   // Check if API key is missing and log error
@@ -118,6 +119,16 @@ export function AddressForm({
     }
   }, [loadError]);
 
+  // Basic initialization check
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    if (isLoaded && window.google?.maps?.places) {
+      setIsInitialized(true);
+      console.log('Google Maps and Places API initialized');
+    }
+  }, [isLoaded]);
+
   // --- usePlacesAutocomplete hook with optimized options ---
   const {
     ready,
@@ -126,21 +137,30 @@ export function AddressForm({
     setValue: setAutocompleteValue,
     clearSuggestions,
   } = usePlacesAutocomplete({
-    callbackName: "googleMapsAutocompleteCallback",
     requestOptions: {
       componentRestrictions: { country: COUNTRY_RESTRICTION },
       types: ['address'],
     },
     debounce: 350,
     cacheKey: 'delivery-location',
-    initOnMount: true,
+    initOnMount: isInitialized, // Only initialize when we're sure the API is ready
   });
+
+  // Log when relevant states change
+  useEffect(() => {
+    console.log('Google Maps loaded state:', isLoaded);
+    console.log('Initialization state:', isInitialized);
+    console.log('Places autocomplete ready state:', ready);
+    console.log('Suggestion Status:', status);
+    console.log('Window.google exists:', !!window.google);
+    console.log('Window.google.maps exists:', !!window.google?.maps);
+    console.log('Window.google.maps.places exists:', !!window.google?.maps?.places);
+  }, [isLoaded, isInitialized, ready, status]);
 
   // Initialize Google Places Autocomplete when loaded
   useEffect(() => {
-    if (isLoaded && ready) {
-      // Initialize when both Google Maps is loaded and the hook is ready
-      setAutocompleteValue(initialAddress?.formattedAddress || "", false);
+    if (isLoaded && ready && initialAddress?.formattedAddress) {
+      setAutocompleteValue(initialAddress.formattedAddress, false);
     }
   }, [isLoaded, ready, initialAddress, setAutocompleteValue]);
 
@@ -328,7 +348,7 @@ export function AddressForm({
       });
       return;
     }
-
+    
     setIsLocating(true);
     
     try {
@@ -374,28 +394,28 @@ export function AddressForm({
         let zipCode = '';
         
         for (const component of result.address_components) {
-          const types = component.types;
-          
-          if (types.includes('route')) {
-            street = component.long_name;
-          }
-          
-          if (types.includes('street_number')) {
-            houseNumber = component.long_name;
-          }
-          
-          if (types.includes('locality') || types.includes('postal_town')) {
-            city = component.long_name;
-          }
-          
-          if (types.includes('postal_code')) {
+      const types = component.types;
+      
+      if (types.includes('route')) {
+        street = component.long_name;
+      }
+      
+      if (types.includes('street_number')) {
+        houseNumber = component.long_name;
+      }
+      
+      if (types.includes('locality') || types.includes('postal_town')) {
+        city = component.long_name;
+      }
+      
+      if (types.includes('postal_code')) {
             zipCode = formatDutchPostalCode(component.long_name);
-          }
-        }
-        
+      }
+    }
+    
         // Set the address from geolocation result
         const updatedAddress = {
-          ...address,
+      ...address,
           formattedAddress: result.formatted_address,
           street: street || '',
           houseNumber: houseNumber || '',
@@ -469,9 +489,10 @@ export function AddressForm({
 
   // --- Form Submission ---
   const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+      e.preventDefault();
     
     if (isValidating || isSubmitting) {
+      onClose && onClose();
       return; // Prevent multiple submissions
     }
     
@@ -500,9 +521,7 @@ export function AddressForm({
         
         if (success) {
           // If the address is valid and within delivery range, close the modal with small delay to show success state
-          if (validationResult.isValid && validationResult.isInRange && onClose) {
-              onClose();
-          }
+          onClose && onClose();
         }
       } catch (err) {
         console.error('Form submission failed:', err);
@@ -555,21 +574,6 @@ export function AddressForm({
     }
   }, [initialAddress, setAutocompleteValue, validateField]);
 
-  // Close modal if validation is successful and address is in range
-  useEffect(() => {
-    // Only auto-close if validation has completed, address is valid and in range,
-    // we're not in the middle of submitting, and onClose handler is provided
-    if (validationResult.isValid && 
-        validationResult.isInRange && 
-        onClose && 
-        !isSubmitting && 
-        !isValidating) {
-      // Add a small delay to give user feedback that validation completed
-      setTimeout(() => {
-        onClose();
-      }, 500);
-    }
-  }, [validationResult.isValid, validationResult.isInRange, onClose, isSubmitting, isValidating]);
 
   return (
     <form
@@ -619,19 +623,19 @@ export function AddressForm({
               </Button>
             ))
           }
-          description={
-            loadError
-              ? "Error loading Google Maps. Please check your API key and try again."
-              : !isLoaded
-              ? "Loading Google Maps..."
-              : !ready
-              ? "Initializing address search..."
-              : isLocating
-              ? "Finding your location..."
-              : isSubmitting
-              ? "Validating address..."
-              : "Type to search for an address"
-          }
+          // description={
+          //   loadError
+          //     ? "Error loading Google Maps. Please check your API key and try again."
+          //     : !isLoaded
+          //     ? "Loading Google Maps..."
+          //     : !ready
+          //     ? "Initializing address search..."
+          //     : isLocating
+          //     ? "Finding your location..."
+          //     : isSubmitting
+          //     ? "Validating address..."
+          //     : "Type to search for an address"
+          // }
           classNames={{
             base: "w-full",
             listbox: "max-h-[200px]",
@@ -652,99 +656,102 @@ export function AddressForm({
           ))}
         </Autocomplete>
       </div>
+      {address.coordinates && (
+        <>
+        <Divider/>
 
-      <Divider />
-
-      {/* Manual Address Fields */}
-      <div className="flex flex-col gap-4">
+          {/* Manual Address Fields */}
+          <div className="flex flex-col gap-4">
         <div className="flex gap-2">
-          <Input
-            label={t('street') || "Street"}
-            placeholder={t('enterStreet') || "Street name"}
-            value={address.street}
-            onChange={(e) => handleInputChange('street', e.target.value)}
-            isRequired
-            variant="bordered"
-            maxLength={MAX_CHARS.street}
-            isInvalid={!!errors.street}
-            errorMessage={errors.street}
-            isDisabled={isValidating || isSubmitting}
-            className="flex-1"
-          />
-          <Input
-            label={t('houseNumber') || "House Number"}
-            placeholder={t('enterHouseNumber') || "Number"}
-            value={address.houseNumber}
-            onChange={(e) => handleInputChange('houseNumber', e.target.value)}
-            isRequired
-            variant="bordered"
-            maxLength={MAX_CHARS.houseNumber}
-            isInvalid={!!errors.houseNumber}
-            errorMessage={errors.houseNumber}
-            isDisabled={isValidating || isSubmitting}
-            className="w-1/3"
-          />
+            <Input
+                  label={t('street') || "Street"}
+                  placeholder={t('enterStreet') || "Street name"}
+              value={address.street}
+                  onChange={(e) => handleInputChange('street', e.target.value)}
+              isRequired
+              variant="bordered"
+              maxLength={MAX_CHARS.street}
+                  isInvalid={!!errors.street}
+              errorMessage={errors.street}
+                  isDisabled={isValidating || isSubmitting}
+                  className="flex-1"
+            />
+            <Input
+                  label={t('houseNumber') || "House Number"}
+                  placeholder={t('enterHouseNumber') || "Number"}
+              value={address.houseNumber}
+                  onChange={(e) => handleInputChange('houseNumber', e.target.value)}
+              isRequired
+              variant="bordered"
+              maxLength={MAX_CHARS.houseNumber}
+                  isInvalid={!!errors.houseNumber}
+              errorMessage={errors.houseNumber}
+                  isDisabled={isValidating || isSubmitting}
+                  className="w-1/3"
+            />
         </div>
 
         <div className="flex gap-2">
-          <Input
-            label={t('zipCode') || "Postal Code"}
-            placeholder={t('enterZipCode') || "1234 AB"}
-            value={address.zipCode}
-            onChange={(e) => handleInputChange('zipCode', e.target.value)}
-            isRequired
-            variant="bordered"
-            maxLength={MAX_CHARS.zipCode}
-            isInvalid={!!errors.zipCode}
-            errorMessage={errors.zipCode}
-            isDisabled={isValidating || isSubmitting}
-            className="w-1/3"
-          />
-          <Input
-            label={t('city') || "City"}
-            placeholder={t('enterCity') || "City"}
-            value={address.city}
-            onChange={(e) => handleInputChange('city', e.target.value)}
-            isRequired
-            variant="bordered"
-            maxLength={MAX_CHARS.city}
-            isInvalid={!!errors.city}
-            errorMessage={errors.city}
-            isDisabled={isValidating || isSubmitting}
-            className="flex-1"
-          />
+            <Input
+                  label={t('zipCode') || "Postal Code"}
+                  placeholder={t('enterZipCode') || "1234 AB"}
+                  value={address.zipCode}
+                  onChange={(e) => handleInputChange('zipCode', e.target.value)}
+                  isRequired
+                  variant="bordered"
+                  maxLength={MAX_CHARS.zipCode}
+                  isInvalid={!!errors.zipCode}
+                  errorMessage={errors.zipCode}
+                  isDisabled={isValidating || isSubmitting}
+                  className="w-1/3"
+            />
+            <Input
+                  label={t('city') || "City"}
+                  placeholder={t('enterCity') || "City"}
+                  value={address.city}
+                  onChange={(e) => handleInputChange('city', e.target.value)}
+                  isRequired
+                  variant="bordered"
+                  maxLength={MAX_CHARS.city}
+                  isInvalid={!!errors.city}
+                  errorMessage={errors.city}
+                  isDisabled={isValidating || isSubmitting}
+                  className="flex-1"
+            />
         </div>
 
         <Textarea
-          label={t('additionalInfo') || "Additional Information"}
-          placeholder={t('enterAdditionalInfo') || "Apartment number, floor, delivery instructions..."}
-          value={address.additionalInfo || ''}
-          onChange={(e) => handleInputChange('additionalInfo', e.target.value)}
-          variant="bordered"
-          maxLength={MAX_CHARS.additionalInfo}
-          isInvalid={!!errors.additionalInfo}
-          errorMessage={errors.additionalInfo}
-          description={`${address.additionalInfo?.length || 0}/${MAX_CHARS.additionalInfo}`}
-          isDisabled={isValidating || isSubmitting}
+                label={t('additionalInfo') || "Additional Information"}
+                placeholder={t('enterAdditionalInfo') || "Apartment number, floor, delivery instructions..."}
+                value={address.additionalInfo || ''}
+                onChange={(e) => handleInputChange('additionalInfo', e.target.value)}
+                variant="bordered"
+                maxLength={MAX_CHARS.additionalInfo}
+                isInvalid={!!errors.additionalInfo}
+                errorMessage={errors.additionalInfo}
+                description={`${address.additionalInfo?.length || 0}/${MAX_CHARS.additionalInfo}`}
+                isDisabled={isValidating || isSubmitting}
         />
-      </div>
+          </div>
 
-      {/* Server Validation Error */}
-      {validationError && (
-        <div className="text-danger text-sm mt-1">{validationError}</div>
+          {/* Server Validation Error */}
+          {validationError && (
+              <div className="text-danger text-sm mt-1">{validationError}</div>
+        )}
+
+          {/* Submit Button */}
+        <div className="flex justify-end gap-2 mt-2">
+            <Button
+              type="submit"
+              color="primary"
+                isLoading={isValidating || isSubmitting}
+                isDisabled={isValidating || isSubmitting || Object.values(errors).some(e => !!e)}
+            >
+              {t('confirm') || "Confirm Address"}
+            </Button>
+        </div>
+        </>
       )}
-
-      {/* Submit Button */}
-      <div className="flex justify-end gap-2 mt-2">
-        <Button
-          type="submit"
-          color="primary"
-          isLoading={isValidating || isSubmitting}
-          isDisabled={isValidating || isSubmitting || Object.values(errors).some(e => !!e)}
-        >
-          {t('confirm') || "Confirm Address"}
-        </Button>
-      </div>
     </form>
   );
-} 
+}

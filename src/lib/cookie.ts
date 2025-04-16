@@ -7,8 +7,17 @@ export interface CookiePreferences {
     analytics: boolean;
     marketing: boolean;
 }
+
+export interface Coordinates {
+    lat: number;
+    lng: number;
+}
+
 const COOKIE_CONSENT_KEY = "cookie_consent";
 const COOKIE_PREFERENCES_KEY = "cookie_preferences";
+const SEARCH_LAT_KEY = "search_lat";
+const SEARCH_LNG_KEY = "search_lng";
+const SEARCH_CITY_KEY = "search_city";
 
 export async function isCookieConsentFromServer() {
     const cookie = await cookies();
@@ -23,6 +32,85 @@ export async function getCookiePreferences(): Promise<CookiePreferences | null> 
     return preferences ? JSON.parse(preferences) : null;
 }
 
+/**
+ * Get saved search coordinates from cookies
+ * @returns Coordinates if available, null otherwise
+ */
+export async function getSearchCoordinates(): Promise<Coordinates | null> {
+    const cookie = await cookies();
+    const lat = cookie.get(SEARCH_LAT_KEY)?.value;
+    const lng = cookie.get(SEARCH_LNG_KEY)?.value;
+    
+    if (!lat || !lng) {
+        return null;
+    }
+    
+    try {
+        return {
+            lat: parseFloat(lat),
+            lng: parseFloat(lng)
+        };
+    } catch (error) {
+        console.error("Error parsing coordinates from cookies:", error);
+        return null;
+    }
+}
+
+/**
+ * Get saved search city from cookies
+ * @returns City name if available, null otherwise
+ */
+export async function getSearchCity(): Promise<string | null> {
+    const cookie = await cookies();
+    return cookie.get(SEARCH_CITY_KEY)?.value ?? null;
+}
+
+/**
+ * Set search coordinates in cookies
+ * @param coords Coordinates to save
+ */
+export async function setSearchCoordinates(coords: Coordinates): Promise<void> {
+    const cookie = await cookies();
+    const maxAge = 60 * 60 * 24 * 30; // 30 days
+
+    cookie.set(SEARCH_LAT_KEY, coords.lat.toString(), {
+        path: '/',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: maxAge,
+    });
+
+    cookie.set(SEARCH_LNG_KEY, coords.lng.toString(), {
+        path: '/',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: maxAge,
+    });
+}
+
+/**
+ * Set search city in cookies
+ * @param city City name to save
+ */
+export async function setSearchCity(city: string | null): Promise<void> {
+    const cookie = await cookies();
+    const maxAge = 60 * 60 * 24 * 30; // 30 days
+
+    if (city) {
+        cookie.set(SEARCH_CITY_KEY, city, {
+            path: '/',
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: maxAge,
+        });
+    } else {
+        // Remove the cookie if the city is null
+        cookie.delete(SEARCH_CITY_KEY);
+    }
+}
 
 export async function acceptAll() {
     const cookie = await cookies();

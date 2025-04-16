@@ -43,40 +43,40 @@ export function StoreSubHeaderPickUp({ }: StoreSubHeaderPickUpProps) {
             />
             
             {/* Pickup time selector */}
-            {(session?.user?.role !== "bakerz" || session.store?.id !== store.id) && (
-                <ButtonGroup
-                    fullWidth
-                    size="sm"
-                    radius="md"
-                    className="text-grayText"
+        
+            <ButtonGroup
+                fullWidth
+                size="sm"
+                radius="md"
+                className="text-grayText mt-4"
+            >
+                <SmartDatetimeInput
+                    schedule={store.schedule}
+                    minValue={(() => {
+                        return now("Europe/Amsterdam").add({ minutes: store.minTimeOrder || 2880 });
+                    })()}
+                    value={selectedDate}
+                    onValueChange={(newDate) => handleDateChange(newDate)}
+                    placeholder={t("scheduleOrderTime")}
                 >
-                    <SmartDatetimeInput
-                        schedule={store.schedule}
-                        minValue={(() => {
-                            return now("Europe/Amsterdam").add({ minutes: store.minTimeOrder || 2880 });
-                        })()}
-                        value={selectedDate}
-                        onValueChange={(newDate) => handleDateChange(newDate)}
-                        placeholder={t("scheduleOrderTime")}
+                    <Button
+                        startContent={isDateUpdating || isLoadingDate ? <Spinner size="sm" color="current" /> : <Icon icon="solar:walking-round-linear" width={24}/>}
+                        variant={selectedDate instanceof CalendarDateTime ? "bordered" : 'solid'}
+                        className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600' : 'text-white bg-gradient-primary'} text-sm`}
+                        onPress={() => {}}
+                        isDisabled={isLoadingDate || isDateUpdating}
                     >
-                        <Button
-                            startContent={isDateUpdating || isLoadingDate ? <Spinner size="sm" color="current" /> : <Icon icon="solar:walking-round-linear" width={24}/>}
-                            variant={selectedDate instanceof CalendarDateTime ? "bordered" : 'solid'}
-                            className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600' : 'text-white bg-gradient-primary'} text-sm`}
-                            onPress={() => {}}
-                            isDisabled={isLoadingDate || isDateUpdating}
-                        >
-                            {isLoadingDate ? (
-                                <Skeleton className="h-4 w-32 rounded-lg" />
-                            ) : (selectedDate instanceof CalendarDateTime) ? (
-                                `${t("pickUpAt")} ${formatDate(selectedDate)}`
-                            ) : (
-                                t("selectPickUpTime")
-                            )}
-                        </Button>
-                    </SmartDatetimeInput>
-                </ButtonGroup>
-            )}
+                        {isLoadingDate ? (
+                            <Skeleton className="h-4 w-32 rounded-lg" />
+                        ) : (selectedDate instanceof CalendarDateTime) ? (
+                            `${t("pickUpAt")} ${formatDate(selectedDate)}`
+                        ) : (
+                            t("selectPickUpTime")
+                        )}
+                    </Button>
+                </SmartDatetimeInput>
+            </ButtonGroup>
+        
         </div>
     );
 }

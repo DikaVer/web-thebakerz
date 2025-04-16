@@ -14,7 +14,7 @@ import {
 
 import * as React from "react";
 import {formatCurrency, formatDisplayDateTime, scheduledToCalendarDateTime} from "@/lib/utils";
-import {OrderProducts, Customer} from "@/lib/actions/order";
+import {OrderProducts, Customer, PriceOrderData} from "@/lib/actions/order";
 import { AddressFormType } from "@/components/providers/delivery-provider"; // Import AddressFormType
 
 interface NewOrderEmailProps {
@@ -32,11 +32,9 @@ interface NewOrderEmailProps {
     }
     customer: Customer;
     products: OrderProducts;
-    itemsSubtotalInclVat: number; // Use the detailed subtotal
-    deliveryFeeInclVat?: number;
-    total_amount: number;
-    vat: number; // Represents total VAT
+    priceData: PriceOrderData;
     isDelivery: boolean;
+    isStoreDelivery: boolean;
     deliveryAddress?: AddressFormType; // Optional delivery address
 }
 
@@ -81,11 +79,9 @@ export default function NewOrderEmail({
     storeLocation, 
     customer, 
     products, 
-    itemsSubtotalInclVat, 
-    deliveryFeeInclVat, 
-    total_amount, 
-    vat, 
+    priceData, 
     isDelivery, 
+    isStoreDelivery,
     deliveryAddress
 }: NewOrderEmailProps) {
 
@@ -101,8 +97,8 @@ export default function NewOrderEmail({
     // Calendar link might be less relevant for the baker, but keep for now
     const calendarEventTitle = `${storeName} Order ${isDelivery ? 'Delivery' : 'Pickup'} #${orderId}`;
     const calendarLocation = isDelivery ? addressToShow : storeLocation.address;
-    const calendarDetails = `Order #${orderId} from ${storeName}. For: ${customer.name_customer}. Scheduled: ${formatDisplayDateTime(scheduledTime, 'en-NL')}. ${isDelivery ? `Delivery to: ${addressToShow}` : `Pickup at: ${storeLocation.address}`}`;
-    const calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calendarEventTitle)}&dates=${formatDateForCalendar(scheduledTime)}&location=${encodeURIComponent(calendarLocation)}&details=${encodeURIComponent(calendarDetails)}`;
+    const calendarDetails = `Order #${orderId} from ${storeName}. For: ${customer.name_customer}. Scheduled: ${formatDisplayDateTime(scheduledTime.date, 'en-NL')}. ${isDelivery ? `Delivery to: ${addressToShow}` : `Pickup at: ${storeLocation.address}`}`;
+    const calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calendarEventTitle)}&dates=${formatDateForCalendar(scheduledTime.date)}&location=${encodeURIComponent(calendarLocation)}&details=${encodeURIComponent(calendarDetails)}`;
 
     return (
         <Html>
@@ -214,23 +210,17 @@ export default function NewOrderEmail({
                         <Section style={totalSection}>
                              <Row style={totalRow}>
                                 <Column><Text style={totalLabel}>Subtotal (Items)</Text></Column>
-                                <Column><Text style={totalValue}>{formatCurrency(itemsSubtotalInclVat)}</Text></Column>
+                                <Column><Text style={totalValue}>{formatCurrency(priceData.itemInclVat)}</Text></Column>
                             </Row>
-                            {isDelivery && deliveryFeeInclVat !== undefined && deliveryFeeInclVat > 0 && (
+                            {isStoreDelivery && priceData.deliveryFeeInclVat !== undefined && priceData.deliveryFeeInclVat > 0 && (
                                 <Row style={totalRow}>
                                     <Column><Text style={totalLabel}>Delivery Fee</Text></Column>
-                                    <Column><Text style={totalValue}>{formatCurrency(deliveryFeeInclVat)}</Text></Column>
+                                    <Column><Text style={totalValue}>{formatCurrency(priceData.deliveryFeeInclVat)}</Text></Column>
                                 </Row>
                             )}
-                            {vat > 0 &&
-                                <Row style={totalRow}>
-                                    <Column><Text style={totalLabel}>Total VAT</Text></Column>
-                                    <Column><Text style={totalValue}>{formatCurrency(vat)}</Text></Column>
-                                </Row>
-                            }
                             <Row style={totalTotalRow}>
                                 <Column><Text style={totalTotalLabel}>Total Charged</Text></Column>
-                                <Column><Text style={totalTotalValue}>{formatCurrency(total_amount)}</Text></Column>
+                                <Column><Text style={totalTotalValue}>{formatCurrency(priceData.totalInclVat)}</Text></Column>
                             </Row>
                         </Section>
                     </Section>

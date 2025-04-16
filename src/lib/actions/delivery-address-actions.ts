@@ -4,7 +4,7 @@ import { AddressFormType, ValidationResult } from '@/components/providers/delive
 import { MerchantDeliveryRegion } from '@/lib/actions/delivery-actions';
 import { containerDeliveryLocations, containerDeliveryRegions } from '@/db';
 import { updateDeliveryAddress as dbUpdateDeliveryAddress } from '@/app/(store)/[id]/delivery-actions';
-
+import { haversineDistance } from '@/lib/utils';
 /**
  * Validates an address on the server side
  * Performs both address validation and distance calculation
@@ -100,28 +100,58 @@ export async function validateAddress(
       }
     }
     
-    // 4. Determine if the address is within range
-    if (closestRegion && minDistance <= closestRegion.radiusKm) {
-      console.log(`Server: Address is within the '${closestRegion.name}' delivery zone.`);
-      return {
-        isValid: true,
-        isInRange: true,
-        message: `Address is within the '${closestRegion.name}' delivery zone.`,
-        deliveryRegion: closestRegion,
-        formattedAddress: addressData.formattedAddress,
-        coordinates: coords,
-        validatedAddress: { ...addressData, coordinates: coords },
-      };
-    } else if (closestRegion) {
-      console.log(`Server: Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
-      return {
-        isValid: true,
-        isInRange: false,
-        message: `Address is outside our delivery area. Nearest location is ${minDistance.toFixed(1)} km away.`,
-        formattedAddress: addressData.formattedAddress,
-        coordinates: coords,
-        validatedAddress: { ...addressData, coordinates: coords },
-      };
+    // 4. Determine if the address is within range and find the applicable pricing tier
+    if (closestRegion) {
+      console.log(`Server: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
+      
+      // First check if we have multi-range pricing 
+      let applicableRange = null;
+      
+      if (closestRegion.ranges && Array.isArray(closestRegion.ranges) && closestRegion.ranges.length > 0) {
+        // Sort ranges by distance (ascending)
+        const sortedRanges = [...closestRegion.ranges].sort((a, b) => a.range - b.range);
+        console.log(`Server: Region has ${sortedRanges.length} delivery ranges`);
+        
+        // Find the applicable range based on the distance
+        for (const range of sortedRanges) {
+          if (minDistance <= range.range) {
+            applicableRange = range;
+            console.log(`Server: Found applicable range: ${range.range} km with delivery price ${range.deliveryPriceInCents / 100}€`);
+            break;
+          }
+        }
+      }
+
+      if (applicableRange) {
+        // Address is within range - use the applicable range pricing or fall back to legacy pricing
+        const deliveryPriceInCents = applicableRange.deliveryPriceInCents;
+        
+        const minOrderPriceInCents = applicableRange.minOrderPriceInCents;
+
+        console.log(`Server: Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
+        return {
+          isValid: true,
+          isInRange: true,
+          message: `Address is within the '${closestRegion.name}' delivery zone.`,
+          deliveryRegion: {
+            ...closestRegion,
+            ranges: [applicableRange]
+          },
+          formattedAddress: addressData.formattedAddress,
+          coordinates: coords,
+          validatedAddress: { ...addressData, coordinates: coords },
+        };
+      } else {
+        console.log(`Server: Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
+        return {
+          isValid: true,
+          isInRange: false,
+          message: `Address is outside our delivery area. Nearest location is ${minDistance.toFixed(1)} km away.`,
+          formattedAddress: addressData.formattedAddress,
+          coordinates: coords,
+          validatedAddress: { ...addressData, coordinates: coords },
+        };
+      }
     } else {
       // Should not happen if deliveryRegions is not empty, but handle defensively
       return { 
@@ -180,7 +210,7 @@ export async function validateAndSaveAddress(
   // 2. If valid (even if out of range), save it
   let saveResult: { success?: string; error?: string } = {};
   
-  if (validationResult.isValid && validationResult.validatedAddress) {
+  if (validationResult.isValid && validationResult.validatedAddress && validationResult.isInRange) {
     saveResult = await saveDeliveryAddress(storeId, validationResult.validatedAddress);
   } else {
     saveResult = { error: "Address validation failed" };
@@ -192,16 +222,3 @@ export async function validateAndSaveAddress(
   };
 }
 
-// --- Helper function for distance calculation (Haversine formula) ---
-const haversineDistance = (coords1: { lat: number; lng: number }, coords2: { lat: number; lng: number }): number => {
-  const R = 6371; // Radius of the Earth in kilometers
-  const dLat = (coords2.lat - coords1.lat) * Math.PI / 180;
-  const dLng = (coords2.lng - coords1.lng) * Math.PI / 180;
-  const lat1 = coords1.lat * Math.PI / 180;
-  const lat2 = coords2.lat * Math.PI / 180;
-
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c; // Distance in kilometers
-};

@@ -2,8 +2,7 @@
 import Checkout from "@/components/checkout/payment/checkout";
 import {getCurrentStore} from "@/lib/actions/store";
 import NotFound from "@/app/(error_layout)/not-found";
-import LayoutComp from "@/components/layout-comp";
-import {StoreProvider} from "@/components/providers/store-provider";
+
 
 interface StorePageProps {
     params: Promise<{

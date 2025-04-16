@@ -6,12 +6,11 @@ import { setDeliveryMode, getDeliveryMode } from '@/lib/delivery-cookie';
 import { addToast } from "@heroui/react";
 import { useStore } from '@/components/providers/store-provider';
 import { updateOrderTime, getOrderTime, updateDeliveryTime, getDeliveryTime } from '@/app/(store)/[id]/actions';
-import { updateDeliveryAddress, getCurrentDeliveryAddress, DeliveryAddress as DbDeliveryAddress } from '@/app/(store)/[id]/delivery-actions';
+import { DeliveryAddress as DbDeliveryAddress } from '@/app/(store)/[id]/delivery-actions';
 import { parseDateParams, parseDateTime } from "@/components/store/store-header/calendar/calendar-params";
-import { useDebouncedCallback } from "use-debounce";
-import { ValidatedDeliveryRegion } from '@/lib/schemas/delivery.schema';
 import { MerchantDeliveryRegion } from '@/lib/actions/delivery-actions';
 import { WorkHours } from "@/lib/actions/calendar-actions";
+import { haversineDistance } from '@/lib/utils';
 
 // Define interfaces for our context
 export type AddressFormType = Omit<DbDeliveryAddress, 'id' | 'storeId' | 'userId' | 'createdAt'>;
@@ -71,14 +70,16 @@ interface DeliveryProviderProps {
   children: ReactNode;
   initialDeliveryMode: boolean;
   initialAddress: DbDeliveryAddress | null;
+  isStore?: boolean;
 }
 
 export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   children,
   initialDeliveryMode = false,
-  initialAddress = null
+  initialAddress = null,
+  isStore = true
 }) => {
-  const { store } = useStore();
+  const { store } =  isStore ? useStore() : { store: null };
   const [isDelivery, setIsDelivery] = useState(initialDeliveryMode);
   const [isTogglingDelivery, setIsTogglingDelivery] = useState(false);
   const [isSubheaderLoaded, setIsSubheaderLoaded] = useState(true);
@@ -135,28 +136,87 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
       if (initialAddress?.coordinates && store?.id) {
         try {
           setIsValidating(true);
-          // Import the server action dynamically
-          const { validateAddress } = await import('@/lib/actions/delivery-address-actions');
           
-          // Validate the initial address against the store's delivery regions
-          const result = await validateAddress(
-            formattedInitialAddress,
-            store.id
-          );
+          // 3. Calculate distances and find the closest region
+          console.log("Client: Calculating distances to", store.deliveryRegions.length, "regions");
+          let closestRegion: MerchantDeliveryRegion | null = null;
+          let minDistance = Infinity;
           
-          if (result) {
-            setValidationResult({
-              ...result,
-              validatedAddress: formattedInitialAddress
-            });
-            
-            // Update showDeliveryInfo based on validation result
-            if (result.isValid) {
-              setShowDeliveryInfo(true);
+          for (const region of store.deliveryRegions) {
+            if (region.coordinates) {
+              const distance = haversineDistance(initialAddress.coordinates, region.coordinates);
+              console.log(`Client: Distance to ${region.name}: ${distance.toFixed(2)} km`);
+              if (distance < minDistance) {
+                minDistance = distance;
+                closestRegion = region;
+              }
+            } else {
+              console.warn(`Client: Delivery region '${region.name}' is missing coordinates.`);
             }
           }
+          // 4. Determine if the address is within range and find the applicable pricing tier
+          if (closestRegion) {
+            console.log(`Client: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
+    
+            // First check if we have multi-range pricing (new format)
+            let applicableRange = null;
+      
+            if (closestRegion.ranges && Array.isArray(closestRegion.ranges) && closestRegion.ranges.length > 0) {
+              // Sort ranges by distance (ascending)
+              const sortedRanges = [...closestRegion.ranges].sort((a, b) => a.range - b.range);
+              console.log(`Client: Region has ${sortedRanges.length} delivery ranges`);
+              
+              // Find the applicable range based on the distance
+              for (const range of sortedRanges) {
+                if (minDistance <= range.range) {
+                  applicableRange = range;
+                  console.log(`Client: Found applicable range: ${range.range} km with delivery price ${range.deliveryPriceInCents / 100}€`);
+                  break;
+                }
+              }
+            }
+      
+            if (applicableRange) {
+              // Address is within range - use the applicable range pricing or fall back to legacy pricing
+              const deliveryPriceInCents = applicableRange.deliveryPriceInCents;
+              
+              const minOrderPriceInCents = applicableRange.minOrderPriceInCents;
+      
+              console.log(`Server: Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
+              setValidationResult({
+                isValid: true,
+                isInRange: true,
+                message: `Address is within the '${closestRegion.name}' delivery zone.`,
+                deliveryRegion: {
+                  ...closestRegion,
+                  ranges: [applicableRange]
+                },
+                formattedAddress: initialAddress?.formattedAddress || "",
+                coordinates: initialAddress?.coordinates,
+                validatedAddress: { ...address, coordinates: initialAddress?.coordinates },
+              });
+            } else {
+              console.log(`Server: Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
+              setValidationResult({
+                isValid: true,
+                isInRange: false,
+                message: `Address is outside our delivery area. Nearest location is ${minDistance.toFixed(1)} km away.`,
+                formattedAddress: initialAddress?.formattedAddress || "",
+                coordinates: initialAddress?.coordinates,
+                validatedAddress: { ...address, coordinates: initialAddress?.coordinates },
+              })  ;
+            }
+          } else {
+            setValidationResult({
+              isValid: false,
+              isInRange: false,
+              message: "No delivery regions found for this store.",
+              formattedAddress: initialAddress?.formattedAddress || "",
+              coordinates: initialAddress?.coordinates,
+            });
+          }
         } catch (error) {
-          console.error("Error validating initial address:", error);
+          console.error("Client: Error validating initial address:", error);
           // Keep the default validation result if validation fails
         } finally {
           setIsValidating(false);
@@ -168,17 +228,12 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     if (initialAddress?.coordinates && store?.id) {
       validateInitialAddress();
     }
-  }, [initialAddress, store?.id]);
+  }, [initialAddress as DbDeliveryAddress | null, store?.id]);
   
   // Initialize delivery mode
   useEffect(() => {
     const initDeliveryMode = async () => {
-      try {
-        const mode = await getDeliveryMode();
-        setIsDelivery(mode === 'delivery');
-      } catch (error) {
-        console.error("Error initializing delivery mode:", error);
-      }
+      await setDeliveryMode(initialDeliveryMode ? 'delivery' : 'pickup');
     };
     
     initDeliveryMode();
@@ -189,6 +244,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     const loadSavedDateTime = async () => {
       try {
         setIsLoadingDate(true);
+        if (!store) return;
         
         if (isDelivery) {
           // For delivery mode
@@ -228,7 +284,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     
     // Always load date/time when isDelivery changes
     loadSavedDateTime();
-  }, [isDelivery, store.id, validationResult.isInRange, validationResult.deliveryRegion?.name]);
+  }, [isDelivery, store?.id, validationResult.isInRange, validationResult.deliveryRegion?.name]);
   
   
   // Toggle delivery mode
@@ -244,6 +300,8 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   
   // Handle date change
   const handleDateChange = async (newDate: CalendarDateTime | CalendarDate) => {
+    if (!store) return;
+
     if (newDate instanceof CalendarDate) {
       setSelectedDate(newDate);
     } else {
@@ -288,6 +346,8 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   const handleAddressSubmit = async (
       addressData: AddressFormType
   ): Promise<boolean> => {
+    if (!store) return false;
+
     setModalSubmissionStatus('validating');
     setIsValidating(true);
 

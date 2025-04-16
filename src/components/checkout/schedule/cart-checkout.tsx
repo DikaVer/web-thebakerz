@@ -42,29 +42,41 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
 
     // Get delivery fee from the selected region if in delivery mode
     const deliveryFee = useMemo(() => {
-        if (isDelivery && validationResult.deliveryRegion?.priceInCents) {
-            return validationResult.deliveryRegion.priceInCents;
+        if (isDelivery && validationResult.deliveryRegion?.ranges?.[0]?.deliveryPriceInCents) {
+            return validationResult.deliveryRegion.ranges[0].deliveryPriceInCents;
         }
         return 0;
     }, [isDelivery, validationResult]);
 
+    // Get delivery fee from the selected region if in delivery mode
+    const isStoreDelivery = useMemo(() => {
+        if (isDelivery && validationResult.deliveryRegion?.isStoreDelivery) {
+            return validationResult.deliveryRegion.isStoreDelivery;
+        }
+        return false;
+    }, [isDelivery, validationResult]);
+
     // Calculate minimum order amount based on delivery region if applicable
     const minimumOrderAmount = useMemo(() => {
-        if (isDelivery && validationResult.deliveryRegion?.minOrderPriceInCents) {
-            return validationResult.deliveryRegion.minOrderPriceInCents;
+        if (isDelivery && validationResult.deliveryRegion?.ranges?.[0]?.minOrderPriceInCents) {
+            return validationResult.deliveryRegion.ranges[0].minOrderPriceInCents;
         }
         return 1000; // Default minimum 10€ (in cents)
     }, [isDelivery, validationResult]);
 
     // Calculate totals with delivery fee
     const { 
-        itemSubtotalExclVat,
+        itemExclVat,
+        itemVat,
         deliveryFeeExclVat,
+        deliveryVat,
         serviceFeeExclVat,
+        serviceVat,
+        totalExclVat,
         totalVat,
         totalInclVat 
     } = useMemo(() => {
-        return calculateTotals(amount, !store.kor, deliveryFee);
+        return calculateTotals(amount, !store.kor, deliveryFee, isStoreDelivery);
     }, [amount, store.kor, isDelivery, deliveryFee]);
 
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
@@ -147,25 +159,41 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                     <div className="py-4">
                         <div className="flex justify-between">
                             <span className="text-sm font-medium">{t("subtotal")}</span>
-                            <span className="text-sm">{formatCurrency(itemSubtotalExclVat)}</span>
+                            <span className="text-sm">{formatCurrency(itemExclVat)}</span>
                         </div>
-                        {isDelivery && deliveryFeeExclVat > 0 &&
-                            <div className="flex justify-between mt-2">
-                                <span className="text-sm font-medium">{t("deliveryFee")}</span>
-                                <span className="text-sm">{formatCurrency(deliveryFeeExclVat)}</span>
-                            </div>
-                        }
-                        {serviceFeeExclVat > 0 &&
-                            <div className="flex justify-between mt-2">
-                                <span className="text-sm font-medium">{t("serviceFee")}</span>
-                                <span className="text-sm">{formatCurrency(serviceFeeExclVat)}</span>
-                            </div>
-                        }
-                        {totalVat > 0 &&
+                        {itemVat > 0 &&
                             <div className="flex justify-between mt-2">
                                 <span className="text-sm font-medium">{t("vatExclusive")}</span>
-                                <span className="text-sm">{formatCurrency(totalVat)}</span>
+                                <span className="text-sm">{formatCurrency(itemVat)}</span>
                             </div>
+                        }
+                        {isDelivery && deliveryFeeExclVat > 0 &&
+                            <>    
+                                <div className="flex justify-between mt-2">
+                                    <span className="text-sm font-medium">{t("deliveryFee")}</span>
+                                    <span className="text-sm">{formatCurrency(deliveryFeeExclVat)}</span>
+                                </div>
+                                {deliveryVat > 0 &&
+                                    <div className="flex justify-between mt-2">
+                                        <span className="text-sm font-medium">{t("deliveryVat")}</span>
+                                        <span className="text-sm">{formatCurrency(deliveryVat)}</span>
+                                    </div>
+                                }
+                            </>
+                        }
+                        {serviceFeeExclVat > 0 &&
+                            <>
+                                <div className="flex justify-between mt-2">
+                                    <span className="text-sm font-medium">{t("serviceFee")}</span>
+                                    <span className="text-sm">{formatCurrency(serviceFeeExclVat)}</span>
+                                </div>
+                                {serviceVat > 0 &&
+                                    <div className="flex justify-between mt-2">
+                                        <span className="text-sm font-medium">{t("vat21")}</span>
+                                        <span className="text-sm">{formatCurrency(serviceVat)}</span>
+                                    </div>
+                                }
+                            </>
                         }
                         <Spacer y={2} />
                         <Divider className="my-2" />

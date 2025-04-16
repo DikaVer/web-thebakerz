@@ -1,8 +1,5 @@
-import Checkout from "@/components/checkout/payment/checkout";
 import {getCurrentStore} from "@/lib/actions/store";
 import NotFound from "@/app/(error_layout)/not-found";
-import LayoutComp from "@/components/layout-comp";
-import {StoreProvider} from "@/components/providers/store-provider";
 import PaymentSupportButton from "@/components/support/payment-urgent";
 import {getTranslations} from "next-intl/server";
 
@@ -54,20 +51,11 @@ export default async function Page(props: StorePageProps) {
     if (!storeData || !searchParams?.error || !searchParams?.session_id) {
         return NotFound();
     }
-
-    const t = await getTranslations("app/(store)/[id]/order/failed")
+    
+    const t = await getTranslations("app/(store)/id/order/failed")
 
     return <div>
-        <StoreProvider
-            store={storeData}
-        >
-            <LayoutComp
-                pay={true}
-                hideSideBar={true}
-                store={storeData}
-            >
-                <div className={'flex min-h-svh w-full justify-center items-center flex-col gap-y-2 text-center'}
-                >
+                <div className={'flex min-h-svh w-full justify-center items-center flex-col gap-y-2 text-center'}>
                     <p>
                         {t("error")}
                     </p>
@@ -76,8 +64,5 @@ export default async function Page(props: StorePageProps) {
                         description={searchParams.session_id}
                     />
                 </div>
-
-            </LayoutComp>
-        </StoreProvider>
-    </div>;
+            </div>;
 }

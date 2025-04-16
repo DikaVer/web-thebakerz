@@ -17,9 +17,7 @@ export default async function Layout(
     return (
             <>
                 <LayoutComp>
-                    <div className={'min-h-svh'}>
-                        {children}
-                    </div>
+                    {children}
                     <Footer/>
                 </LayoutComp>
             </>

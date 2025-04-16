@@ -1,20 +1,36 @@
 import React from "react";
+import { Tabs, Tab } from "@heroui/react";
+import { getCurrentStoreByUserId,  getCurrentBusinessStore } from "@/lib/actions/store";
+import { getUserFromId } from "@/lib/dashboard/user-dash";
+import EditBakerzForm from "@/components/dashboard/onboard/edit-bakerz-form";
+import DeliveryManager from "@/components/settings/delivery-settings";
+import {getCurrentSession} from "@/lib/actions/session";
+import {redirect} from "next/navigation";
+import { BakerzEditTabs } from "@/components/dashboard/onboard/edit/tabs-bakerz-edit";
 
-interface UserOnboardProps {
+interface UserEditProps {
     params: Promise<{
         userId: string
     }>
 }
 
+export default async function Page({ params }: UserEditProps) {
+    const { userId } = await params;
+    
+    // Check admin permissions
+    const session = await getCurrentSession();
+    if (!session || session.user?.role !== "admin") {
+        redirect('/auth');
+    }
 
-export default async function Page(props: UserOnboardProps) {
-    const params = await props.params;
-
-    const { userId } = params
-
-    return (
-            <div className="flex flex-col min-h-screen relative z-10 items-center">
-                Хуй
-            </div>
-    );
+    
+    // Fetch store data and business data
+    const { store } = await getCurrentStoreByUserId(userId);
+    
+    let businessData = null;
+    if (store) {
+        businessData = await getCurrentBusinessStore(store.id);
+    }
+    
+    return <BakerzEditTabs store={store} businessData={businessData} />;
 }

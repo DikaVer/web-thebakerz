@@ -17,11 +17,12 @@ import {
     Badge,
     addToast,
     NumberInput,
-    Switch
+    Switch,
+    Select,
+    SelectItem
 } from "@heroui/react";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useActionState } from "react";
-import { updateProfile } from "@/lib/actions/profile-actions";
 import { Icon } from "@iconify/react";
 
 // Import the OnboardSchema and User type
@@ -53,6 +54,11 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                 latitude: undefined,
                 longitude: undefined,
                 zip_code: "",
+                // Store settings
+                app_fee: 8,
+                delivery_fee: 20,
+                region: "NL",
+                currency: "EUR",
                 // Business information fields
                 businessName: "",
                 vat: "",
@@ -62,6 +68,7 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                 businessCity: "",
                 businessZipCode: "",
                 businessCountry: "",
+                regionBusiness: "NL",
             },
         });
 
@@ -348,6 +355,111 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                 )}
                             />
                         </div>
+                        {/* Store Settings Section */}
+                        <div>
+                            <p className="text-base font-medium text-default-700 mt-6">Store Settings</p>
+                            <p className="mt-1 text-sm font-normal text-default-400">Configure store payment and regional settings</p>
+                            
+                            <div className="flex gap-x-4 mt-4">
+                                {/* App Fee Field */}
+                                <FormField
+                                    control={form.control}
+                                    name="app_fee"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="flex-1">
+                                            <FormControl>
+                                                <NumberInput
+                                                    {...field}
+                                                    isDisabled={isPending}
+                                                    label="App Fee (%)"
+                                                    className="mt-2"
+                                                    placeholder="App Fee"
+                                                    endContent={<div className="pointer-events-none flex items-center"><span>%</span></div>}
+                                                    onChange={(value) => {
+                                                        //@ts-ignore
+                                                        field.onChange(parseFloat(value.target.value));
+                                                    }}
+                                                    validate={() => fieldState.error?.message}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+
+                                {/* Delivery Fee Field */}
+                                <FormField
+                                    control={form.control}
+                                    name="delivery_fee"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="flex-1">
+                                            <FormControl>
+                                                <NumberInput
+                                                    {...field}
+                                                    isDisabled={isPending}
+                                                    label="Delivery Fee (%)"
+                                                    className="mt-2"
+                                                    placeholder="Delivery Fee"
+                                                    endContent={<div className="pointer-events-none flex items-center"><span>%</span></div>}
+                                                    onChange={(value) => {
+                                                        //@ts-ignore
+                                                        field.onChange(parseFloat(value.target.value));
+                                                    }}
+                                                    validate={() => fieldState.error?.message}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            <div className="flex gap-x-4 mt-2">
+                                {/* Region Field */}
+                                <FormField
+                                    control={form.control}
+                                    name="region"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="flex-1">
+                                            <FormControl>
+                                                <Select
+                                                    isDisabled={isPending}
+                                                    isRequired
+                                                    label="Region"
+                                                    className="mt-2"
+                                                    placeholder="Select Region"
+                                                    selectedKeys={[field.value]}
+                                                    onChange={(e) => field.onChange(e.target.value)}
+                                                >
+                                                    <SelectItem key="NL">Netherlands (NL)</SelectItem>
+                                                </Select>
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+
+                                {/* Currency Field */}
+                                <FormField
+                                    control={form.control}
+                                    name="currency"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="flex-1">
+                                            <FormControl>
+                                                <Select
+                                                    isDisabled={isPending}
+                                                    isRequired
+                                                    label="Currency"
+                                                    className="mt-2"
+                                                    placeholder="Select Currency"
+                                                    selectedKeys={[field.value]}
+                                                    onChange={(e) => field.onChange(e.target.value)}
+                                                >
+                                                    <SelectItem key="EUR">Euro (EUR)</SelectItem>
+                                                </Select>
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                        </div>
                         {/* Business Information Section */}
                         <div>
                             <p className="text-base font-medium text-default-700 mt-6">Business Information</p>
@@ -550,6 +662,29 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                     )}
                                 />
                             </div>
+
+                            {/* Business Region Field */}
+                            <FormField
+                                control={form.control}
+                                name="regionBusiness"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Select
+                                                isDisabled={isPending}
+                                                isRequired
+                                                label="Business Region"
+                                                className="mt-2"
+                                                placeholder="Select Business Region"
+                                                selectedKeys={[field.value]}
+                                                onChange={(e) => field.onChange(e.target.value)}
+                                            >
+                                                <SelectItem key="NL">Netherlands (NL)</SelectItem>
+                                            </Select>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
                         </div>
                         {/* Onboard Button can be added here */}
                         <div className="flex flex-row-reverse w-full">

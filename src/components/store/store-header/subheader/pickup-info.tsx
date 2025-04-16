@@ -87,7 +87,7 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
   }, [store.schedule]);
 
   return (
-      <Card className="h-auto mb-4 overflow-hidden transition-all duration-300 max-w-[440px]" shadow="sm">
+      <Card className="h-auto overflow-hidden transition-all duration-300 max-w-[440px]" shadow="sm">
         <CardBody className="p-0 w-[440px] max-w-[100%]">
           {isLoading ? (
             <div className="space-y-3 p-4">

@@ -1,9 +1,10 @@
 import React, {Suspense} from "react";
 import {ProductCard} from "@/components/settings/products/product-card";
 import {getCurrentProducts} from "@/lib/actions/product";
-import {getCurrentSession} from "@/lib/actions/session";
 import {getCurrentProductsOrder} from "@/lib/actions/order-products";
 import {getTranslations} from "next-intl/server";
+import {verifyStoreAccess} from "../store-utils";
+import NotFound from "@/app/(error_layout)/not-found";
 
 interface StorePageProps {
     params: Promise<{
@@ -19,13 +20,16 @@ export default async function Page(props: StorePageProps) {
     const params = await props.params;
     const t = await getTranslations("ProductSettings");
 
-    const { id } = await params
+    const { id } = await params;
 
-    const session = await getCurrentSession();
+    // Verify user has access to this store
+    const storeData = await verifyStoreAccess(id);
+    if (!storeData) {
+        return NotFound();
+    }
 
-    const productsData = await getCurrentProducts(session?.store?.id ? session?.store?.id : id);
-
-    const productsOrder = await getCurrentProductsOrder(session?.store?.id ? session?.store?.id : id);
+    const productsData = await getCurrentProducts(storeData.id);
+    const productsOrder = await getCurrentProductsOrder(storeData.id);
 
     return (
         <div className="flex flex-col min-h-screen relative items-center container mx-auto justify-center">

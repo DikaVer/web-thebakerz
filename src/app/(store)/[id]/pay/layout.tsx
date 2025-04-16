@@ -1,10 +1,6 @@
 import '@/styles/globals.css'
 import React from "react";
-import {StoreProvider} from "@/components/providers/store-provider";
-import LayoutComp from "@/components/layout-comp";
-
-import {getCurrentStore} from "@/lib/actions/store";
-import NotFound from "@/app/(error_layout)/not-found";
+import {generateStorePageMetadata} from "@/app/(store)/[id]/store-utils";
 
 type Params = Promise<{ id: string  }>
 
@@ -12,53 +8,15 @@ export async function generateMetadata({ params }: {
     params: Params
 }) {
     const { id } = await params;
-
-    const storeData = await getCurrentStore(id);
-
-    if (!storeData) {
-        return {
-            title: "Store Not Found",
-            description: "The requested store could not be found."
-        };
-    }
-
-    return {
-        title: `Checkout | ${storeData.ownerName}`,
-        description: `Complete your purchase at ${storeData.ownerName}`,
-        robots: {
-            index: false,
-            follow: false
-        }
-    };
+    return generateStorePageMetadata(id, 'Checkout', 'Complete your purchase', { index: false, follow: false });
 }
 
-export default async function Layout({
-                                         children,
-                                         params,
+export default function Layout({
+                                         children
                                      }: {
     children: React.ReactNode
-    params: Params
 }) {
-
-    const {id} = await params
-
-    const storeData = await getCurrentStore(id);
-
-    if (!storeData) {
-        return NotFound();
-    }
-
-    return <div>
-                <StoreProvider
-                    store={storeData}
-                >
-                    <LayoutComp
-                        pay={true}
-                        hideSideBar={true}
-                        store={storeData}
-                    >
-                        {children}
-                    </LayoutComp>
-                </StoreProvider>
-            </div>;
+    // We don't need to fetch store data or set up providers again as they're handled in the parent layout
+    // We just need to render the children
+    return children;
 }

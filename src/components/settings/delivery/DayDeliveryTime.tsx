@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { Switch, TimeInput } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { Time } from '@internationalized/date';
-import { WorkDay } from "@/lib/actions/calendar-actions";
 
 interface DayDeliveryTimeProps {
   day: string;
@@ -26,8 +25,8 @@ const DayDeliveryTime: React.FC<DayDeliveryTimeProps> = ({
   initialStartTime = new Time(9, 0),
   initialEndTime = new Time(17, 0),
 }) => {
+  const t_c = useTranslations();
   const t = useTranslations("app/(return_page)/settings/components/delivery-settings");
-  const whT = useTranslations("Working Hours");
 
   const [isEnabled, setIsEnabled] = useState(initialEnabled);
   const [startTime, setStartTime] = useState(initialStartTime);
@@ -77,7 +76,7 @@ const DayDeliveryTime: React.FC<DayDeliveryTimeProps> = ({
 
   return (
     <div className="mb-4">
-      <p className="mt-1 text-xs font-normal text-default-400 capitalize">{whT(day)}</p>
+      <p className="mt-1 text-xs font-normal text-default-400 capitalize">{t_c(`Working Hours.${day}`)}</p>
       <div className="flex flex-row mt-2">
         <TimeInput
           isDisabled={!isEnabled || isLoading}

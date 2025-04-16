@@ -153,6 +153,11 @@ const CartButton: React.FC = () => {
                                                 setIsLoading(true);
                                                 router.push(`${storeUrl}/checkout`);
                                                 router.refresh();
+                                                // Set a timer on two seconds to refresh the page
+                                                setTimeout(() => {
+                                                    onClose();
+                                                    setIsLoading(false);
+                                                }, 1000);
                                             }}
                                         >
                                             {t("continue")}

@@ -9,7 +9,7 @@ import { getOrdersByDateRange, OrderData } from "@/lib/actions/order"
 import { useStore } from "@/components/providers/store-provider"
 import {Badge, Button, ButtonGroup, Card} from "@heroui/react"
 import { Icon } from "@iconify/react/dist/iconify.js"
-import { useMemo, useRef, useState, useTransition } from "react"
+import {useEffect, useMemo, useRef, useState, useTransition} from "react"
 import { useTranslations } from "next-intl"
 import {useMediaQuery} from "usehooks-ts";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
@@ -45,6 +45,7 @@ type CalendarDashboardProps = Omit<React.ComponentProps<typeof DayPicker>, 'mode
     };
     orderStatusByDate: OrderStatusByDate;
     setOrderStatusByDate: (status: OrderStatusByDate) => void;
+    isStore: boolean;
 }
 
 /**
@@ -75,9 +76,10 @@ function CalendarDashboard({
                                    started: { color: "#F9C97C", label: "started" },
                                    ready: { color: "#3B82F6", label: "ready" }
                                },
+                               isStore = true,
                                ...props
                            }: CalendarDashboardProps) {
-    const { store } = useStore();
+    const { store } = isStore ? useStore() : {store: null};
     const containerRef = useRef<HTMLDivElement>(null);
     const [isPending, startTransition] = useTransition();
     const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
@@ -118,7 +120,6 @@ function CalendarDashboard({
      * the order status indicators on the calendar.
      */
     React.useEffect(() => {
-        if (!store?.id) return;
 
         const fetchOrdersForMonth = async () => {
             const monthStart = startOfMonth(currentMonth);
@@ -126,14 +127,14 @@ function CalendarDashboard({
 
             try {
                 const orders = await getOrdersByDateRange(
-                    store.id,
+                    store?.id || "X",
                     formatApiDate(monthStart),
                     formatApiDate(monthEnd)
                 );
 
-                console.log(formatApiDate(monthStart))
-                console.log(formatApiDate(monthEnd))
-                console.log(orders)
+                // console.log(formatApiDate(monthStart))
+                // console.log(formatApiDate(monthEnd))
+                // console.log(orders)
 
                 processOrderData(orders || []);
             } catch (error) {
@@ -184,7 +185,7 @@ function CalendarDashboard({
                 statusMap[orderDate].started_count++;
             }
             else if (order.order_status === 'ready') {
-                statusMap[orderDate].ready = false;
+                statusMap[orderDate].ready = true;
                 statusMap[orderDate].ready_count++;
             }
         });
@@ -223,7 +224,7 @@ function CalendarDashboard({
 
             setRange(newRange);
             setSelectedDay(undefined); // Reset for next selection
-            console.log(newRange)
+            // console.log(newRange)
             onDateRangeChange?.(newRange);
 
             // Update URL search params
@@ -339,7 +340,6 @@ function CalendarDashboard({
         // Use the appropriate props based on whether it's a button or div
         const elementProps = dayRender.isButton ? dayRender.buttonProps : dayRender.divProps;
 
-
         return (
             <>
                     <button
@@ -365,11 +365,20 @@ function CalendarDashboard({
                             {dateStatus?.new_count || 0}
                         </span>
                         {date.getDate()}
-                        <span className={cn('bg-warning rounded-full border-text border-1 text-xs sm:text-small px-0.5 text-text aspect-square',
-                            (dateStatus?.started_count <= 0 || !dateStatus?.started_count) && 'bg-transparent border-transparent text-transparent'
-                            )}>
-                            {dateStatus?.started_count || 0}
-                        </span>
+                        <div className={'flex gap-2'}>
+                            <span
+                                className={cn('bg-warning rounded-full border-text border-1 text-xs sm:text-small px-0.5 text-black aspect-square',
+                                    (dateStatus?.started_count <= 0 || !dateStatus?.started_count) && 'bg-transparent border-transparent text-transparent'
+                                )}>
+                                {dateStatus?.started_count || 0}
+                            </span>
+                            <span
+                                className={cn('bg-blue-500 rounded-full border-text border-1 text-xs sm:text-small px-0.5 text-white aspect-square',
+                                    (dateStatus?.ready_count <= 0 || !dateStatus?.ready) && 'bg-transparent border-transparent text-transparent'
+                                )}>
+                                {dateStatus?.ready_count || 0}
+                            </span>
+                        </div>
                     </button>
 
                  {/*Status indicators */}

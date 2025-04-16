@@ -7,7 +7,7 @@ import {getTranslations} from "next-intl/server";
 
 export const ProductComponentBase: React.FC<{ storeId: string }> = async ({ storeId }) => {
     const productsData: ProductDataFull = await getCurrentProducts(storeId);
-    const t = await getTranslations("app/(store)/[id]/page");
+    const t = await getTranslations("app/(store)/id/page");
 
     const productsOrder = await getCurrentProductsOrder(storeId);
 

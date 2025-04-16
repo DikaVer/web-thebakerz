@@ -118,7 +118,7 @@ export default function CookieConsentComponent() {
             <div className="flex justify-between gap-x-3">
                 <Button
                     fullWidth
-                    className={`bg-gradient-primary text-default-200 text-md`}
+                    className={`bg-gradient-primary text-default-200 text-md dark:text-white`}
                     radius="lg"
                     isLoading={isLoading}
                     isDisabled={isLoading}
@@ -151,9 +151,9 @@ export default function CookieConsentComponent() {
             <div className="mt-4 space-y-2">
                 <Button
                     fullWidth
-                    className={`bg-gradient-primary text-default-200 text-xl`}
+                    className={`bg-gradient-primary text-default-200 text-xl dark:text-white`}
                     radius="lg"
-                    endContent={<Icon className="ml-2 inline-block h-6 w-6 text-default-200" icon="lucide:cookie"/>}
+                    endContent={<Icon className="ml-2 inline-block h-6 w-6 text-default-200 dark:text-white" icon="lucide:cookie"/>}
                     isLoading={isLoading}
                     isDisabled={isLoading}
                     onPress={acceptAll}

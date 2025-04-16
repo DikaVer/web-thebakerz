@@ -18,10 +18,12 @@ import { useMediaQuery } from "usehooks-ts";
 import { StoreData } from "@/lib/actions/store";
 import { useStore } from "@/components/providers/store-provider";
 import CartButton from "@/components/cart/cart-button";
-import { useRouter } from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import { useSession } from "@/components/providers/session-provider";
 import {useTranslations} from "next-intl";
 import {SessionValidationResult} from "@/lib/actions/session";
+import { JoinButton } from "../ui/join-button";
+import GradientText from "../ui/gradient-text";
 
 interface LayoutProps {
     store?: StoreData;
@@ -121,6 +123,8 @@ const ReturnNavbar: React.FC<CheckoutNavbarProps> = ({
                                                        }) => {
 
     const router = useRouter();
+    const pathname = usePathname();
+    const isPartnerPage = pathname.includes("/become-partner");
 
     return (
         <>
@@ -157,7 +161,7 @@ const ReturnNavbar: React.FC<CheckoutNavbarProps> = ({
                                 base: "bg-default text-text shadow-lg cursor-pointer",
                             }}
                         />
-                     ) : (session?.store && store.id === session?.store.id) ? (
+                     ) : (session?.user && store?.user_id === session?.user.id) ? (
                         <Image
                             src="/images/TheBakerzLogo.svg"
                             alt="Logo"
@@ -168,14 +172,19 @@ const ReturnNavbar: React.FC<CheckoutNavbarProps> = ({
                             <CartButton />
                         )
 
-                    :(
-                        <Image
+                    :
+                        isPartnerPage ? (
+                            <JoinButton />
+                        ) : (
+                            <Image
                             src="/images/TheBakerzLogo.svg"
                             alt="Logo"
                             width={32}
                             radius="full"
                         />
-                    )}
+                        )
+                
+                    }
             </NavbarItem>
         </>
     );
@@ -201,6 +210,9 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                                                          navigateToStore,
     t
                                                      }) => {
+
+    const pathname = usePathname();
+    const isPartnerPage = pathname.includes("/become-partner");
 
     return (
         <>
@@ -230,11 +242,13 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                     className={`font-medium text-2xl ${pacifico.className}`}
                     href={store?.ownerName ? `/${store?.storeName}` : "/"}
                 >
-                    {store?.ownerName || t("brandName")}
+                    <GradientText>
+                        {store?.ownerName || t("brandName")}
+                    </GradientText>
                 </a>
             </NavbarBrand>
             {store ? (
-                (session?.store || session?.user?.role === 'admin') ? (
+                (session?.user?.id === store.user_id || session?.user?.role === 'admin') ? (
                     <a href={process.env.NEXT_PUBLIC_API_BASE_URL}>
                         <Image
                             src="/images/TheBakerzLogo.svg"
@@ -251,7 +265,11 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
             ) : (
                 <NavbarItem className="mr-1 !flex">
                     {!session?.session ? (
-                        <SigninButton className="text-large rounded-full" />
+                        isPartnerPage ? (
+                            <JoinButton />
+                        ) : (
+                            <SigninButton className="text-large rounded-full" />
+                        )
                     ) : (
                         <Image
                         src="/images/TheBakerzLogo.svg"

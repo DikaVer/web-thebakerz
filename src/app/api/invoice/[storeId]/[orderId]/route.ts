@@ -3,7 +3,12 @@ import { generatePdf } from "@/lib/pdf/generateInvoicePdf";
 import {renderDumpPdf, renderPdf} from "@/lib/pdf/renderPdf";
 import { globalLargeRateLimit } from "@/lib/actions/requests";
 import {getCurrentOrder, OrderData } from "@/lib/actions/order";
-import {getBusinessStoreData} from "@/lib/actions/store";
+import {
+    getBusinessStoreData,
+    getCurrentBusinessStore,
+    getCurrentStore,
+    getCurrentStoreByUserIdAndStoreId
+} from "@/lib/actions/store";
 import {getCurrentSession} from "@/lib/actions/session";
 import {getTranslations} from "next-intl/server";
 
@@ -11,7 +16,7 @@ export async function POST(
     req: NextRequest,
     { params }: { params: Promise<{ orderId: string; storeId: string }> }
 ): Promise<Response> {
-    const t = await getTranslations("app/api/invoice/[storeId]/[orderId]");
+    const t = await getTranslations("app/api/invoice/storeId/orderId");
 
     if (!await globalLargeRateLimit()) {
         return NextResponse.json({ error: t("tooManyRequests") }, { status: 429 });
@@ -22,25 +27,27 @@ export async function POST(
         const { orderId, storeId } = await params;
         const { customer_email } = await req.json();
 
-        const { user, store } = await getCurrentSession();
-
-        if (!store && user) {
-            if (customer_email !== user.email) {
-                return NextResponse.json({ error: t("restrictedAccess") }, { status: 404 });
-            }
-        } else if (store && user) {
-            if (store.id !== storeId) {
-                return NextResponse.json({ error: t("restrictedAccess") }, { status: 404 });
-            }
-        }
+        const { user } = await getCurrentSession();
 
         if (!user) {
             return NextResponse.json({ error: t("notAuthenticated") }, { status: 404 });
         }
 
-        const storeData = await getBusinessStoreData(storeId);
+        const { store: storeData } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+
+        if (!storeData && user) {
+            if (customer_email !== user.email) {
+                return NextResponse.json({ error: t("restrictedAccess") }, { status: 404 });
+            }
+        } else if (storeData && user) {
+            if (storeData.user_id !== user.id) {
+                return NextResponse.json({ error: t("restrictedAccess") }, { status: 404 });
+            }
+        }
+
+        const storeBusinessData = await getCurrentBusinessStore(storeId);
         // Fixed duplicate condition
-        if (!storeData) {
+        if (!storeBusinessData) {
             return NextResponse.json({ error: t("storeNotFound") }, { status: 404 });
         }
 
@@ -50,7 +57,7 @@ export async function POST(
             return NextResponse.json({ error: t("orderNotFound") }, { status: 404 });
         }
 
-        const htmlContent = await renderPdf(storeData, order);
+        const htmlContent = await renderPdf(storeBusinessData, order);
         const pdfBuffer = await generatePdf(htmlContent);
 
         return new Response(pdfBuffer, {
