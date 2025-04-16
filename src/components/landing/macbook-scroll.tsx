@@ -54,7 +54,7 @@ export const MacbookScroll = ({
     [0, 0.3],
     [0.6, isMobile ? 0.7 : 1.5],
   );
-  const translate = useTransform(scrollYProgress, [0, 0.4], [0, isMobile ? 1000 : 900]);
+  const translate = useTransform(scrollYProgress, [0, 0.3], [0, isMobile ? 1000 : 900]);
   const rotate = useTransform(scrollYProgress, [0.05, 0.08, 0.2], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.2], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
@@ -62,10 +62,10 @@ export const MacbookScroll = ({
   const afterTextOpacity = useTransform(scrollYProgress, [0.1, 0.4], [0, 1]);
   const afterTextTransform = useTransform(scrollYProgress, [0.4, 0.6], [50, 0]);
   
-  const imageOpacity = useTransform(scrollYProgress, [0.44, 0.46], [1, 0]);
-  const secondImageOpacity = useTransform(scrollYProgress, [0.46, 0.48], [0, 1]);
-  const bottomTextOpacity = useTransform(scrollYProgress, [0.4, 0.5], [0, 1]);
-  const bottomTextTransform = useTransform(scrollYProgress, [0.4, 0.5], [20, 0]);
+  const imageOpacity = useTransform(scrollYProgress, [0.38, 0.4], [1, 0]);
+  const secondImageOpacity = useTransform(scrollYProgress, [0.4, 0.43], [0, 1]);
+  const bottomTextOpacity = useTransform(scrollYProgress, [0.38, 0.43], [0, 1]);
+  const bottomTextTransform = useTransform(scrollYProgress, [0.38, 0.43], [20, 0]);
 
   return (
     <div

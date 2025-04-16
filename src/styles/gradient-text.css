@@ -6,7 +6,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    border-radius: 1.25rem;
     /* 20px */
     font-weight: 500;
     backdrop-filter: blur(10px);
@@ -61,6 +60,7 @@
     display: inline-block;
     position: relative;
     z-index: 2;
+    padding: 0.3rem 0.3rem;
     background-size: 300% 100%;
     background-clip: text;
     -webkit-background-clip: text;

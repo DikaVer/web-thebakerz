@@ -82,7 +82,7 @@ export default function VariantsUserSelection({
         }).filter(v => v.selectedItems.length > 0) as Variant[];
 
 
-        console.log("Updated variants:", updatedVariants);
+        if(process.env.NODE_ENV === 'development') console.log("Updated variants:", updatedVariants);
         setVariants(updatedVariants);
     };
 

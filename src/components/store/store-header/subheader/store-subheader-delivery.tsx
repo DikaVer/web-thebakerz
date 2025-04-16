@@ -88,7 +88,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
     // Handle autocomplete focus/blur events
     const handleAutocompleteFocus = () => {
         setIsAutocompleteFocused(true);
-        console.log('Address autocomplete focused');
+        if(process.env.NODE_ENV === 'development') console.log('Address autocomplete focused');
     };
     
     const handleAutocompleteBlur = () => {
@@ -96,25 +96,25 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
         setTimeout(() => {
             if (!document.querySelector('.pac-container:hover')) {
                 setIsAutocompleteFocused(false);
-                console.log('Address autocomplete blurred');
+                if(process.env.NODE_ENV === 'development') console.log('Address autocomplete blurred');
             }
         }, 200);
     };
 
     // --- Custom onOpenChange Handler ---
     const handleModalOpenChange = (open: boolean) => {
-        console.log(`Modal handleModalOpenChange called with open: ${open}, isSubmitting: ${isSubmittingAddress}, isAutocompleteFocused: ${isAutocompleteFocused}`);
+        if(process.env.NODE_ENV === 'development')  console.log(`Modal handleModalOpenChange called with open: ${open}, isSubmitting: ${isSubmittingAddress}, isAutocompleteFocused: ${isAutocompleteFocused}`);
         
         // Prevent closing if submitting or if autocomplete dropdown is focused
         if (!open && (isSubmittingAddress || isAutocompleteFocused)) {
-            console.log('Preventing modal close due to submission or autocomplete focus.');
+            if(process.env.NODE_ENV === 'development') console.log('Preventing modal close due to submission or autocomplete focus.');
             return; // Prevent closing
         }
 
         // If closing is allowed, reset the autocomplete focus state
         if (!open) {
             setIsAutocompleteFocused(false); // Reset focus state on allowed close
-            console.log('Resetting isAutocompleteFocused state as modal closes.');
+            if(process.env.NODE_ENV === 'development') console.log('Resetting isAutocompleteFocused state as modal closes.');
         }
 
         // Call original handlers

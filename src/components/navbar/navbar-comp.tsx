@@ -242,7 +242,7 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                     className={`font-medium text-2xl ${pacifico.className}`}
                     href={store?.ownerName ? `/${store?.storeName}` : "/"}
                 >
-                    <GradientText>
+                    <GradientText className={'cursor-pointer'} subClassName={'cursor-pointer'}>
                         {store?.ownerName || t("brandName")}
                     </GradientText>
                 </a>

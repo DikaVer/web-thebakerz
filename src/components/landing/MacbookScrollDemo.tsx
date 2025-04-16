@@ -14,7 +14,7 @@ export function MacbookScrollDemo() {
             delay={150}
             animateBy="words"
             direction="top"
-            className={`font-pacifico text-6xl sm:text-8xl text-white drop-shadow-xl justify-center max-w-4xl `}
+            className={`font-pacifico text-6xl sm:text-8xl text-white drop-shadow-xl justify-center max-w-4xl gap-y-8`}
           />
         }
         src={`/landing/store.png`}
