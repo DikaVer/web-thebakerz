@@ -42,14 +42,14 @@ export function Providers({session, children, locale}: {
     children: React.ReactNode
 }) {
     const router = useRouter();
-    const pathname = usePathname();
-    const { theme, setTheme } = useTheme();
+    // const pathname = usePathname();
+    // const { theme, setTheme } = useTheme();
     
 
-    const isBecomePartner = pathname.includes('become-partner');
-    if (isBecomePartner) {
-        setTheme('dark');
-    }
+    // const isBecomePartner = pathname.includes('become-partner');
+    // if (isBecomePartner) {
+    //     setTheme('dark');
+    // }
 
 
     return (
@@ -58,7 +58,7 @@ export function Providers({session, children, locale}: {
                 navigate={router.push}
 
             >
-                <NextThemesProvider attribute="class" defaultTheme='dark'>
+                <NextThemesProvider attribute="class" defaultTheme='light'>
                     <QueryClientProvider client={queryClient}>
                         <SessionProvider sessionData={session}>
                             <div className={'relative z-60'}>
