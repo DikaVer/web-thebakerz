@@ -41,6 +41,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
         setIsCollapsed((prev) => !prev);
     }, []);
     const { scrollYProgress } = useScroll()
+    const isPartnerPage = pathname.includes("/become-partner");
 
     return (
         <div className="flex w-full">
@@ -60,7 +61,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
             />
 
             {/* Sidebar */}
-            {!hideSideBar &&
+            {!hideSideBar && !isPartnerPage &&
                 <SidebarMenu
                 store={store}
                 isOpen={isOpen}
@@ -76,7 +77,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
                     setIsCollapsed={setIsCollapsed}
                     onOpenChange={onOpenChange}
                     onToggle={onToggle}
-                    hideSideBar={isPay ? true : hideSideBar || isCheckout}
+                    hideSideBar={isPay ? true : hideSideBar || isCheckout || isPartnerPage}
                     isVisibleCart={isVisibleCart}
                     pay={pay || isPay}
                 />

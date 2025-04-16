@@ -430,7 +430,7 @@
   },
   "app/(store)/components/orders-bar-chart": {
     "notFound": "Not Found",
-    "title": "Title"
+    "title": "Order Overview"
   },
   "app/(store)/components/calendar-dashboard": {
     "today": "Today",
@@ -679,10 +679,10 @@
     "supportTicket": "Support Ticket"
   },
   "app/(support)/components/support": {
-    "faqsTitleShort": "FAQ",
+    "faqsTitleShort": "Frequently Ask Questions",
     "faqsTitleLong": "Frequently Ask Questions",
     "contactUs": "Contact Us",
-    "sectionBaker": "Bakeries",
+    "sectionBaker": "For Bakers",
     "sectionCustomer": "Customers"
   },
   "app/(support)/components/faq-baker": {
@@ -697,7 +697,7 @@
     "question5": "How do orders and delivery work?",
     "answer5": "You decide what works best for your bakery. You can offer delivery or allow customers to pick up orders from your location. Set your own delivery areas and pickup times to fit your schedule.",
     "question6": "What does it cost to use TheBakerz?",
-    "answer6": "It's €29.99 per month for hosting and a 5% commission per sale to cover payment processing. The first three months are free, so you can try it out without risk.",
+    "answer6": "You pay only when you make a sale. We take an 8% commission, which covers website operations, payment processing fees, and advertising.",
     "question7": "How do payments work?",
     "answer7": "Customers pay upfront through our secure payment system. We transfer your earnings, minus the commission, to your bank account weekly. Payments typically arrive within 1-2 business days after Monday",
     "question8": "Is it easy to use if I'm not good with technology?",
@@ -1078,7 +1078,8 @@
   },
   "app/(components)/join-button": {
     "loading": "Loading...",
-    "join": "Join TheBakerz"
+    "join": "Join TheBakerz",
+    "joinSmall": "Join"
   },
   "search": {
     "errors": {},

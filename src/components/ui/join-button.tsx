@@ -6,6 +6,7 @@ import {usePathname, useRouter} from "next/navigation";
 import {pacifico} from "@/components/fonts";
 import {useEffect, useState} from "react";
 import {useTranslations} from "next-intl";
+import { useMediaQuery } from 'usehooks-ts';
 
 interface JoinButtonProps {
     className?: string;
@@ -17,6 +18,7 @@ export const JoinButton = ({ className}: JoinButtonProps) => {
     const pathname = usePathname();
     const [isLoading, setLoading] = useState(false);
     const t = useTranslations("app/(components)/join-button");
+    const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
     // Smooth scroll to the join-thebakerz section
     const handleSignIn = () => {
@@ -60,7 +62,7 @@ export const JoinButton = ({ className}: JoinButtonProps) => {
             className={`${isLoading ? "px-6" : "px-4"} text-white bg-gradient-primary text-large shadow-xl rounded-3xl ${className}`}
             onPress={handleSignIn}
         >
-            {isLoading ? t("loading") : t("join")}
+            {isLoading ? t("loading") : isSmallScreen ? t("joinSmall") : t("join")}
         </Button>
     );
 }

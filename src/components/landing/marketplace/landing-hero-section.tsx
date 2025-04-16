@@ -246,7 +246,7 @@ export const LandingHeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-b bg-black bg-opacity-5"></div>
       </div>
 
-      <div className="absolute top-0 left-0 w-full h-full flex justify-center mt-[300px]">
+      <div className="absolute top-0 left-0 w-full h-full flex justify-center mt-[360px]">
         <BlurText
           once={true}
           text="TheBakerz"

@@ -23,6 +23,7 @@ import { useSession } from "@/components/providers/session-provider";
 import {useTranslations} from "next-intl";
 import {SessionValidationResult} from "@/lib/actions/session";
 import { JoinButton } from "../ui/join-button";
+import GradientText from "../ui/gradient-text";
 
 interface LayoutProps {
     store?: StoreData;
@@ -122,6 +123,8 @@ const ReturnNavbar: React.FC<CheckoutNavbarProps> = ({
                                                        }) => {
 
     const router = useRouter();
+    const pathname = usePathname();
+    const isPartnerPage = pathname.includes("/become-partner");
 
     return (
         <>
@@ -169,14 +172,19 @@ const ReturnNavbar: React.FC<CheckoutNavbarProps> = ({
                             <CartButton />
                         )
 
-                    :(
-                        <Image
+                    :
+                        isPartnerPage ? (
+                            <JoinButton />
+                        ) : (
+                            <Image
                             src="/images/TheBakerzLogo.svg"
                             alt="Logo"
                             width={32}
                             radius="full"
                         />
-                    )}
+                        )
+                
+                    }
             </NavbarItem>
         </>
     );
@@ -234,7 +242,9 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                     className={`font-medium text-2xl ${pacifico.className}`}
                     href={store?.ownerName ? `/${store?.storeName}` : "/"}
                 >
-                    {store?.ownerName || t("brandName")}
+                    <GradientText>
+                        {store?.ownerName || t("brandName")}
+                    </GradientText>
                 </a>
             </NavbarBrand>
             {store ? (

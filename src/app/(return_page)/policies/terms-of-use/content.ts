@@ -4,7 +4,7 @@ export const termsEnglishBakerz: {
     content: `
 # Terms and Conditions - TheBakerz
 
-_Last updated: [09.02.2025]_
+_Last updated: [12.04.2025]_
 
 
 ## Key Provisions
@@ -13,8 +13,8 @@ _Last updated: [09.02.2025]_
 - These Terms and Conditions apply to the website of TheBakerz in the Netherlands.
 - By using our platform, you agree to:
   - These General Terms (for customers)
-  - [Baker Agreement](link) (for professional sellers)
-  - [Refund Policy](link)
+  - Baker Agreement (for professional sellers)
+  - [Refund Policy](https://www.thebakerz.com/policies/refund-policy)
 
 
 ## About Us
@@ -63,7 +63,19 @@ We are TheBakerz, a general partnership (VOF) established in the Netherlands, re
 - Managing order preparation, fulfillment, and delivery.
 - Providing customer service related to their products.
 
-2.7. Some services offered through the platform or website may be subject to additional terms and conditions specific to those services. These terms will be presented for acceptance prior to use.
+2.7. Delivery Services
+
+2.7.1. General: TheBakerz offers optional delivery services ("TheBakerz Delivery Services") for orders placed via the platform. Customers can select between delivery by TheBakerz or delivery directly managed by the respective Baker, subject to availability clearly indicated during checkout.
+
+2.7.2. Delivery by TheBakerz: When Customers choose TheBakerz Delivery Services, TheBakerz assumes responsibility for delivering products ordered via the platform. TheBakerz is liable for direct damages related to delivery delays, loss, or damages during transportation, excluding cases involving force majeure, customer negligence, or incorrect customer information.
+
+2.7.3. Delivery by Bakers: When Customers select delivery services directly provided by Bakers, the respective Baker is solely responsible for the timely and appropriate delivery of products. TheBakerz explicitly excludes liability for damages, loss, or delays relating to deliveries managed by Bakers, unless due to gross negligence or intentional misconduct on the part of TheBakerz.
+
+2.7.4. Compliance with Regulations: All delivery activities, whether conducted by TheBakerz or Bakers, must comply with applicable Dutch regulations, including but not limited to Warenwet (Dutch Commodities Act), hygiene standards, transportation safety, and consumer protection laws.
+
+2.7.5. Customer Responsibilities: Customers must provide accurate and complete delivery information and ensure availability at the provided delivery address during the agreed delivery timeframe. Additional charges may apply for unsuccessful delivery attempts due to incorrect or incomplete customer information or customer absence at the time of delivery.
+
+2.8. Some services offered through the platform or website may be subject to additional terms and conditions specific to those services. These terms will be presented for acceptance prior to use.
 
 <br><br>
 
@@ -83,7 +95,7 @@ We are TheBakerz, a general partnership (VOF) established in the Netherlands, re
 
 3.6. Support for TheBakerz Services will be provided as specified in relevant agreements or communicated through the platform.
 
-3.7. Data collected during the use of TheBakerz Services may be used to improve the platform as described in the [Privacy Notice](link).
+3.7. Data collected during the use of TheBakerz Services may be used to improve the platform as described in the [Privacy Notice](https://www.thebakerz.com/policies/privacy-policy).
 
 <br><br>
 
@@ -130,6 +142,8 @@ We are TheBakerz, a general partnership (VOF) established in the Netherlands, re
 - If you submit a request via the website of TheBakerz, you agree to pay the relevant costs as described on the website of TheBakerz.
 - The costs include all applicable taxes, including VAT.
 
+6.3. Delivery Fees for TheBakerz Delivery Services are clearly indicated at checkout and are additional to product prices. Bakers offering their own delivery services will separately indicate any applicable delivery charges at checkout.
+
 <br><br>
 
 ### 7. Refunds and Consumer Rights
@@ -151,6 +165,8 @@ We are TheBakerz, a general partnership (VOF) established in the Netherlands, re
 - **Exception**: Products that are defective or not as described.
 
 7.5. Detailed procedures regarding cancellations, returns, and refunds are outlined in our Cancellation and Refund Policy.
+
+7.6. Delivery-Related Complaints: Customers must report any issues with product delivery, including late deliveries, non-delivery, or damaged products, within 24 hours of the scheduled or actual delivery time. Complaints regarding TheBakerz-managed deliveries must be addressed to our Customer Support team at [support@thebakerz.com](mailto:support@thebakerz.com). Complaints about deliveries managed by Bakers should be directed to the respective Baker. TheBakerz may facilitate communication between parties but assumes no liability for Baker-managed deliveries, except in cases of proven gross negligence or intentional misconduct by TheBakerz.
 
 <br><br>
 
@@ -181,7 +197,7 @@ We are TheBakerz, a general partnership (VOF) established in the Netherlands, re
 
 ### 10. Privacy Notice
 
-10.1. We collect, use, and disclose personal data from or about you as described in our [Privacy Notice](link), which complies with the General Data Protection Regulation (GDPR) and Dutch data protection laws.
+10.1. We collect, use, and disclose personal data from or about you as described in our [Privacy Notice](https://www.thebakerz.com/policies/privacy-policy), which complies with the General Data Protection Regulation (GDPR) and Dutch data protection laws.
 
 10.2. The Privacy Notice outlines how we process data related to both buyers and sellers, including data collected during registration, transactions, and communications.
 
@@ -205,7 +221,9 @@ We are TheBakerz, a general partnership (VOF) established in the Netherlands, re
 
 11.6. TheBakerz's aggregate liability for claims related to Website Services (excluding separate contractual arrangements) shall not exceed fifty euros (EUR 50), except where prohibited by mandatory consumer protection regulations.
 
-11.7. These provisions do not diminish consumers' statutory rights under Book 6 (General Part of the Law of Obligations) and Book 7 (Specific Contracts) of the Dutch Civil Code, including but not limited to consumer protection provisions regarding distance selling, digital content, and service agreements.
+11.7. TheBakerz is responsible for direct damages resulting from its own delivery services. Liability for damages related to Baker-managed deliveries resides solely with the respective Baker. TheBakerz disclaims liability for indirect, consequential, or incidental damages arising from delivery issues, except when caused by TheBakerz's gross negligence or intentional misconduct.
+
+11.8. These provisions do not diminish consumers' statutory rights under Book 6 (General Part of the Law of Obligations) and Book 7 (Specific Contracts) of the Dutch Civil Code, including but not limited to consumer protection provisions regarding distance selling, digital content, and service agreements.
 
 <br><br>
 
@@ -251,7 +269,7 @@ We are TheBakerz, a general partnership (VOF) established in the Netherlands, re
 
 14.1. TheBakerz may make available to users acting as consumers a mediation process for consumer disputes relating to the Website Services or these Terms and Conditions with a view to an amicable solution. Eligible consumers can also submit complaints about TheBakerz Services or these Terms and Conditions to the European Commission's online dispute resolution platform, which is accessible [here](https://ec.europa.eu/consumers/odr) under Regulation (EU) No. 524/2013 of 21 May 2013. TheBakerz is not obliged to use an online dispute resolution platform to resolve consumer disputes.
 
-14.2. If you have a complaint or dispute regarding the Website Services, TheBakerz Services, or External Services, please contact our Customer Support team at [info@thebakerz.com](mailto:info@thebakerz.com).
+14.2. If you have a complaint or dispute regarding the Website Services, TheBakerz Services, or External Services, please contact our Customer Support team at [support@thebakerz.com](mailto:support@thebakerz.com).
 
 14.3. TheBakerz will acknowledge receipt of your complaint within 2 business days and aim to resolve the issue within 14 days.
 
@@ -259,7 +277,7 @@ We are TheBakerz, a general partnership (VOF) established in the Netherlands, re
 
 14.5. Eligible consumers can submit complaints about TheBakerz Services or these Terms and Conditions to the European Commission's online dispute resolution platform, accessible [here](https://ec.europa.eu/consumers/odr).
 
-14.6. Sellers with disputes should refer to the Seller Agreement or contact Seller Support at [sellersupport@thebakerz.com](mailto:sellersupport@thebakerz.com).
+14.6. Sellers with disputes should refer to the Seller Agreement or contact Seller Support at [partners@thebakerz.com](mailto:partners@thebakerz.com).
 
 14.7. Nothing in this section limits your right to seek legal remedies in accordance with applicable laws.
 

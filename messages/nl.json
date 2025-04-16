@@ -401,7 +401,7 @@
   },
   "app/(store)/components/orders-bar-chart": {
     "notFound": "Niet gevonden",
-    "title": "Titel"
+    "title": "Besteloverzicht bestellen"
   },
   "app/(store)/components/calendar-dashboard": {
     "today": "Vandaag",
@@ -649,10 +649,10 @@
     "supportTicket": "Ondersteuningsticket"
   },
   "app/(support)/components/support": {
-    "faqsTitleShort": "FAQ",
+    "faqsTitleShort": "Stel vaak vragen",
     "faqsTitleLong": "Stel vaak vragen",
     "contactUs": "Neem contact met ons op",
-    "sectionBaker": "Bakkerijen",
+    "sectionBaker": "Voor bakkers",
     "sectionCustomer": "Klanten"
   },
   "app/(support)/components/faq-baker": {
@@ -660,7 +660,7 @@
     "answer10": "We zijn hier om te helpen met alles wat je nodig hebt. \nVan het opzetten van uw winkel tot het beheren van bestellingen, neemt contact met ons op of bel ons op 31 684794739. We zullen ervoor zorgen dat alles soepel voor u verloopt.",
     "answer4": "Natuurlijk! \nJe hebt de controle over wat je verkoopt en hoeveel je in rekening brengt. \nU kunt uw menu en prijzen bijwerken wanneer u maar wilt.",
     "answer5": "U bepaalt wat het beste werkt voor uw bakkerij. \nU kunt levering aanbieden of klanten toestaan ​​om bestellingen van uw locatie op te halen. \nStel uw eigen leveringsgebieden en pick -uptijden in om aan uw schema te passen.",
-    "answer6": "Het is € 29,99 per maand voor hosting en een commissie van 5% per verkoop om de betalingsverwerking te dekken. \nDe eerste drie maanden zijn gratis, dus u kunt het uitproberen zonder risico.",
+    "answer6": "U betaalt alleen als u een verkoop doet. We nemen een commissie van 8%, die betrekking heeft op website -activiteiten, betalingsverwerkingskosten en advertenties.",
     "answer7": "Klanten betalen vooraf via ons beveiligde betalingssysteem. \nWij dragen uw inkomsten, minus de Commissie, wekelijks naar uw bankrekening. \nBetalingen komen meestal binnen 1-2 werkdagen na maandag aan",
     "answer8": "Absoluut! \nThebakerz is ontworpen om eenvoudig en gebruiksvriendelijk te zijn. \nAls je ooit hulp nodig hebt, is ons ondersteuningsteam slechts een e -mail of bel weg.",
     "answer9": "Ja, dat kan. \nBestellingen worden automatisch bijgehouden en betalingen worden veilig verwerkt met onze betalingspartner (Stripe). \nZowel u als uw klanten zullen bij elke stap volledige transparantie hebben.",
@@ -1057,7 +1057,8 @@
   },
   "app/(components)/join-button": {
     "loading": "Laden ...",
-    "join": "Join TheBakerz"
+    "join": "Join TheBakerz",
+    "joinSmall": "Meedoen"
   },
   "search": {
     "errors": {},

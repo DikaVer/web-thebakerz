@@ -1,5 +1,6 @@
 import { Footer } from '@/components/footer';
 import { LandingHeroSection } from '@/components/landing/marketplace/landing-hero-section';
+import { BakersGrowthSection } from '@/components/landing/marketplace/bakers-growth-section';
 import { getSearchCoordinates } from '@/lib/cookie';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -76,6 +77,7 @@ export default async function Page() {
   return (
     <main className="min-h-screen">
       <LandingHeroSection />
+      <BakersGrowthSection />
       <Footer />
     </main>
   );

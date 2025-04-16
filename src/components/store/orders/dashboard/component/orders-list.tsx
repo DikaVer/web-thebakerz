@@ -313,7 +313,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                                                                     src="/images/TheBakerzLogo.svg"
                                                                                     width={24}
                                                                                     height={24}
-                                                                                    alt={t("brandName") + " Logo"}
+                                                                                     alt={t("brandName") + " Logo"}
                                                                                 />
                                                                             )}
                                                                         </div>

@@ -401,7 +401,7 @@
   },
   "app/(store)/components/orders-bar-chart": {
     "notFound": "Pas trouvé",
-    "title": "Titre"
+    "title": "Aperçu de la commande"
   },
   "app/(store)/components/calendar-dashboard": {
     "today": "Aujourd'hui",
@@ -650,10 +650,10 @@
     "supportTicket": "Ticket d'assistance"
   },
   "app/(support)/components/support": {
-    "faqsTitleShort": "FAQ",
+    "faqsTitleShort": "Posez fréquemment des questions",
     "faqsTitleLong": "Posez fréquemment des questions",
     "contactUs": "Contactez-nous",
-    "sectionBaker": "Boulangeries",
+    "sectionBaker": "Pour les boulangers",
     "sectionCustomer": "Clients"
   },
   "app/(support)/components/faq-baker": {
@@ -662,7 +662,7 @@
     "answer2": "Le démarrage est facile! \nRemplissez ce formulaire (lien) et nous planifierons un appel rapide pour tout configurer. \nNous vous aiderons à créer votre boutique en ligne et à vous montrer comment l'utiliser étape par étape.",
     "answer3": "Vous aurez juste besoin d'un numéro KVK, d'un numéro de TVA et d'une certification de sécurité alimentaire. \nSi vous manquez quelque chose, ne vous inquiétez pas - nous vous aiderons à le comprendre.",
     "answer5": "Vous décidez ce qui fonctionne le mieux pour votre boulangerie. \nVous pouvez offrir une livraison ou permettre aux clients de récupérer les commandes de votre emplacement. \nDéfinissez vos propres zones de livraison et temps de ramassage pour s'adapter à votre horaire.",
-    "answer6": "C'est 29,99 € par mois pour l'hébergement et une commission de 5% par vente pour couvrir le traitement des paiements. \nLes trois premiers mois sont gratuits, vous pouvez donc l'essayer sans risque.",
+    "answer6": "Vous ne payez que lorsque vous faites une vente. Nous prenons une commission de 8%, qui couvre les opérations du site Web, les frais de traitement des paiements et la publicité.",
     "answer7": "Les clients paient à l'avance via notre système de paiement sécurisé. \nNous transférons vos revenus, moins la Commission, sur votre compte bancaire chaque semaine. \nLes paiements arrivent généralement dans les 1-2 jours ouvrables après lundi",
     "answer8": "Absolument! \nThebakerz est conçu pour être simple et convivial. \nSi vous avez besoin d'aide, notre équipe d'assistance n'est qu'un e-mail ou un appel.",
     "answer9": "Oui, vous pouvez. \nLes commandes sont suivies automatiquement et les paiements sont traités en toute sécurité avec notre partenaire de paiement (Stripe). \nVous et vos clients aurez tous deux une transparence complète à chaque étape.",
@@ -1058,7 +1058,8 @@
   },
   "app/(components)/join-button": {
     "loading": "Chargement...",
-    "join": "Rejoignez TheBakerz"
+    "join": "Rejoignez TheBakerz",
+    "joinSmall": "Rejoindre"
   },
   "search": {
     "errors": {},
