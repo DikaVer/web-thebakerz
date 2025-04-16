@@ -44,7 +44,7 @@ export default function HorizontalScroll() {
       let totalScroll = 100 * (totalPanels - 1);
       
       // Set initial position
-      gsap.set(panels, { xPercent: -5 });
+      gsap.set(panels, { xPercent: -2.5 });
       
       // Create the scrollTrigger animation
       gsap.to(panels, {
@@ -86,7 +86,7 @@ export default function HorizontalScroll() {
     <div className="App w-full overflow-hidden" ref={component}>
       <div 
         ref={slider} 
-        className="container flex w-full text-text-bakerz"
+        className="container flex w-full text-[#0E0205]"
         style={{ height: isMobile ? '100vh' : '100vh' }}
       >
         <div className="panel min-w-[100vw] flex flex-col items-center justify-center px-4 py-0 bg-[#FFEFD9]">
