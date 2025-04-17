@@ -107,6 +107,9 @@ export const OnboardSchema = z.object({
         .default(2),
     region: z.string().default("NL"),
     currency: z.string().default("EUR"),
+    // Store status flags
+    banned: z.boolean().default(false),
+    hidden: z.boolean().default(false),
     // Business information fields
     businessName: z
         .string()

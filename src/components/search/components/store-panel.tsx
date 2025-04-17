@@ -3,11 +3,12 @@
 import React, { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardBody, CardFooter, Chip } from '@heroui/react';
+import { Badge, Card, CardBody, CardFooter, Chip } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { NearbyStore } from '@/lib/actions/store'; // Assuming NearbyStore is exported
 import { formatCurrency } from '@/lib/utils'; // Assuming a currency formatting util
 import { useTranslations } from 'next-intl';
+import { examppleStore } from '@/lib/local-variables';
 
 interface StorePanelProps {
     store: NearbyStore;
@@ -110,6 +111,7 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
     return (
         <Link href={`/${store.storeName || store.id}`} className="block group">
             <Card shadow="sm" isPressable className="w-full h-full border border-transparent group-hover:border-primary transition-colors overflow-hidden">
+            <Badge placement='top-right' key={`test-${store.id}`} content={examppleStore.includes(store.id) ? "Example Store" : ""} className={`${examppleStore.includes(store.id) ? "bg-warning-400 mt-2 mr-12 px-2" : "hidden"}`} color="warning">
                 <CardBody className="overflow-visible p-0 relative h-48"> 
 
                     {/* Main image with gradient overlay for better text visibility */}
@@ -124,6 +126,7 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
                 </CardBody>
+                </Badge>
                 
                 <CardFooter className="text-sm flex-col !items-start p-4 gap-1.5">
                     <div className="flex justify-between items-start w-full">

@@ -10,6 +10,7 @@ import { FooterStore } from "@/components/footer-store";
 import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 import {useTranslations} from "next-intl";
 import {getTranslations} from "next-intl/server";
+import { examppleStore } from "@/lib/local-variables";
 
 interface StorePageProps {
     params: Promise<{
@@ -23,6 +24,7 @@ interface StorePageProps {
 export default async function Page(props: StorePageProps) {
     const searchParams = await props.searchParams;
     const params = await props.params;
+    const t = await getTranslations("app/(store)/id");
 
     const { id } = await params;
 
@@ -40,7 +42,18 @@ export default async function Page(props: StorePageProps) {
             <div className="flex flex-col container mx-auto items-center justify-center">
                 <Spacer y={8}/>
                 <StoreTop />
-                <Spacer y={8}/>
+                {examppleStore.includes(storeData.id) && (
+                    <>
+                        <Spacer y={4}/>
+                        <div className="w-full flex flex-col items-start justify-start">
+                            <div className="w-full max-w-4xl bg-amber-100 border-l-4 border-amber-500 text-amber-700 p-4 rounded-md shadow-sm">
+                                <p className="font-medium">{t("example-store")}</p>
+                            </div>
+                        </div>
+                    </>
+                )}
+                <Spacer y={4}/>
+                
                 <Suspense fallback={<ProductListSkeleton />}>
                     <ProductComponentBase storeId={storeData.id} />
                 </Suspense>

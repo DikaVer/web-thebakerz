@@ -11,7 +11,7 @@ import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocom
 import { pacifico } from '@/components/fonts';
 import { useLoadScript } from '@react-google-maps/api';
 import { LandingSigninButton } from '@/components/ui/landing-signin';
-
+import { useTranslations } from 'next-intl';
 // Constants
 const GOOGLE_MAPS_LIBRARIES = ['places'];
 const COUNTRY_RESTRICTION = ['nl']; // Netherlands
@@ -23,6 +23,7 @@ export const LandingHeroSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const geocoderRef = useRef<google.maps.Geocoder | null>(null);
+  const t = useTranslations("app/landing/marketplace");
 
   // Load Google Maps API
   const { isLoaded, loadError } = useLoadScript({
@@ -276,15 +277,15 @@ export const LandingHeroSection = () => {
           />
 
           {/* Visually hidden H1 for SEO and accessibility */}
-          <h1 className="sr-only">Discover artisanal bakeries near you</h1>
+          <h1 className="sr-only">{t("heroSectionTitle")}</h1>
 
           <BlurText
             once={true}
-            text="Discover artisanal bakeries near you"
+            text={t("heroSectionTitle")}
             delay={150}
             animateBy="words"
             direction="top"
-            className="text-3xl sm:text-5xl font-bold text-[#0E0205] mb-8 drop-shadow-xl justify-center"
+            className="text-3xl sm:text-5xl font-bold text-[#0E0205] mb-8 drop-shadow-xl justify-center items-center"
           />
           
           <form 
@@ -295,7 +296,7 @@ export const LandingHeroSection = () => {
               <Autocomplete
                 label="Address"
                 aria-label="Address search"
-                placeholder="Enter your address"
+                placeholder={t("heroSectionPlaceholder")}
                 value={value}
                 onInputChange={setValue}
                 onSelectionChange={(key) => {
@@ -349,14 +350,14 @@ export const LandingHeroSection = () => {
                 {isLocating && (
                   <div className="flex items-center justify-center gap-2 text-blue-700 p-2 rounded-md">
                     <Spinner size="sm" color="primary" />
-                    <span>Finding your location...</span>
+                    <span>{t("heroSectionLoading")}</span>
                   </div>
                 )}
                 
                 {isSubmitting && (
                   <div className="flex items-center justify-center gap-2 text-warning-700 p-2 rounded-md">
                     <Spinner size="sm" color="primary" />
-                    <span>Processing your address...</span>
+                    <span>{t("heroSectionSubmitting")}</span>
                   </div>
                 )}
                 

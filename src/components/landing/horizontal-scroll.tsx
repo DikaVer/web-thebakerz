@@ -2,7 +2,7 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useLayoutEffect, useRef, useEffect, useState } from "react";
 import Image from "next/image";
-
+import { useTranslations } from "next-intl";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function HorizontalScroll() {
@@ -10,6 +10,7 @@ export default function HorizontalScroll() {
   const slider = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [viewportWidth, setViewportWidth] = useState(0);
+  const t = useTranslations("app/landing/horizontal-scroll");
 
   // Check for mobile/small screens and track viewport width
   useEffect(() => {
@@ -93,7 +94,7 @@ export default function HorizontalScroll() {
         style={{ height: isMobile ? '100vh' : '100vh' }}
       >
         <div className="panel min-w-[100vw] flex flex-col items-center justify-center px-4 py-0 bg-[#FFEFD9]">
-          <h2 className="panel-text text-[14.5vw] font-bold mt-8 text-center">DELIVERIES</h2>
+          <h2 className="panel-text text-[14.5vw] font-bold mt-8 text-center">{t("deliveries")}</h2>
           <div className="relative w-full" style={{ height: '500px' }}>
             <Image 
               src="/landing/delivery.webp" 
@@ -107,7 +108,7 @@ export default function HorizontalScroll() {
         </div>
         
         <div className="panel min-w-[100vw] flex flex-col items-center justify-center px-4 py-0 bg-[#CA054D]">
-          <h2 className="panel-text text-[14.5vw] font-bold mt-8 text-center">MARKETING</h2>
+          <h2 className="panel-text text-[14.5vw] font-bold mt-8 text-center">{t("marketing")}</h2>
           <div className="relative w-full" style={{ height: '500px' }}>
             <Image 
               src="/landing/marketing.webp" 
@@ -121,7 +122,7 @@ export default function HorizontalScroll() {
         </div>
         
         <div className="panel min-w-[100vw] flex flex-col items-center justify-center px-4 py-0 bg-[#D4761A]">
-          <h2 className="panel-text text-[14.5vw] font-bold mt-8 text-center">SUPPORT</h2>
+          <h2 className="panel-text text-[14.5vw] font-bold mt-8 text-center">{t("support")}</h2>
           <div className="relative w-full" style={{ height: '500px' }}>
             <div className="absolute" style={{ 
               width: '300px', 

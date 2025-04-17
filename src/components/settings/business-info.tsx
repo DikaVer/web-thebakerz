@@ -95,7 +95,7 @@ const BusinessInfo: React.FC<BusinessInfoProps> = ({ className }) => {
       {/* Account Information Card */}
       <Card className={`w-full overflow-hidden transition-all duration-300 ${className}`} shadow="sm">
         <CardBody className="p-0 w-full">
-          <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-secondary dark:to-primary">
+          <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-blue-200 dark:to-secondary-700">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-full bg-primary/10">

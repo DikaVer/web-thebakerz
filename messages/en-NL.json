@@ -689,7 +689,7 @@
     "question1": "What is TheBakerz",
     "answer1": "TheBakerz is an all-in-one platform that helps bakers manage their businesses and reach more customers. It handles orders, production planning, payments, and customer communication in one place. This means less time on admin and more time doing what you love—baking!",
     "question2": "How do I start selling on TheBakerz?",
-    "answer2": "Getting started is easy! Fill out this form (link), and we'll schedule a quick call to set everything up. We'll help you create your online shop and show you how to use it step by step.",
+    "answer2": "Getting started is easy! [Fill out this form](#join-thebakerz), and we'll schedule a quick call to set everything up. We'll help you create your online shop and show you how to use it step by step.",
     "question3": "What do I need to get started?",
     "answer3": "You'll just need a KVK number, VAT number, and food safety certification. If you're missing something, don't worry—we'll help you figure it out.",
     "question4": "Can I choose my own prices and menu?",
@@ -1118,6 +1118,43 @@
     "saveWorkingHours": "Save Working Hours"
   },
   "app/api/store/orders/new": {
-    "internalError": "Internal Error"
+    "internalError": "Internal Error",
+    "notAuthorized": "Not"
+  },
+  "app/(store)/id": {
+    "example-store": "This is an example store. Products and services shown are for demonstration purposes only."
+  },
+  "app/landing/marketplace": {
+    "heroSectionTitle": "Discover artisanal bakeries near you",
+    "heroSectionPlaceholder": "Enter your address",
+    "heroSectionLoading": "Finding your location...",
+    "heroSectionSubmitting": "Processing your address...",
+    "bakersGrowthSectionTitle": "Grow your bakery business with TheBakerz",
+    "bakersGrowthSectionDescription": "Our platform helps artisanal bakers boost revenue through promotional order management, customer discovery tools, and streamlined operations—helping you focus on creating delicious baked goods.",
+    "become": "Become a partner"
+  },
+  "app/search": {
+    "noStoresFound": "No stores found",
+    "tryChangingLocationOrDeliveryMode": "Try changing your location or delivery mode.",
+    "errorCouldNotDetermineLocation": "Error: Could not determine location.",
+    "errorLoadingAddressSearch": "Error loading address search. Please try refreshing the page.",
+    "findingLocation": "Finding your location...",
+    "updatingLocation": "Updating location...",
+    "searchAddressPlaceholder": "Street, number, city...",
+    "searchAddressLabel": "Enter Delivery Address"
+  },
+  "app/become-partner": {
+    "title": "Unlock your potential with TheBakerz",
+    "launchYourCustomWebShop": "Launch Your Custom Web-shop",
+    "launchYourCustomWebShopDescription": "Showcase your products with professional photography on our user-friendly platform featuring smooth checkout for maximum customer satisfaction",
+    "manageOrdersSmarter": "Manage Orders Smarter",
+    "manageOrdersSmarterDescription": "Track every order from placement to pickup with our intuitive calendar dashboard that displays customer details, order statuses, and financial insights—all in one organized view",
+    "weHaveMore": "You think this is all?",
+    "weHaveMoreDescription": "We have more!"
+  },
+  "app/landing/horizontal-scroll": {
+    "deliveries": "DELIVERIES",
+    "marketing": "MARKETING",
+    "support": "SUPPORT"
   }
 }

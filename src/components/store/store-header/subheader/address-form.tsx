@@ -621,7 +621,7 @@ export function AddressForm({
                 title="Use current location"
                 isDisabled={!ready}
               >
-                <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500" />
+                <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500 dark:text-secondary" />
               </Button>
             ))
           }
@@ -738,7 +738,13 @@ export function AddressForm({
 
           {/* Server Validation Error */}
           {validationError && (
-              <div className="text-danger text-sm mt-1">{validationError}</div>
+              <div className={`text-sm mt-1 ${
+                validationError.toLowerCase().includes('within') || 
+                validationError.toLowerCase().includes('success') ? 
+                'text-success' : 'text-danger'
+              }`}>
+                {validationError}
+              </div>
         )}
 
           {/* Submit Button */}

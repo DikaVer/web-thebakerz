@@ -7,6 +7,7 @@ import { useLoadScript } from '@react-google-maps/api';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { Coordinates } from '@/lib/cookie'; // Keep this for the type
 import { storeCoordinatesInCookies } from '@/app/actions';
+import { useTranslations } from 'next-intl';
 // Constants
 const GOOGLE_MAPS_LIBRARIES = ['places'];
 const COUNTRY_RESTRICTION = ['nl']; // Netherlands
@@ -28,6 +29,7 @@ export function SearchAddress({
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const geocoderRef = useRef<google.maps.Geocoder | null>(null);
+    const t = useTranslations("app/search");
 
     // Load Google Maps API
     const { isLoaded, loadError } = useLoadScript({
@@ -202,13 +204,13 @@ export function SearchAddress({
         <form onSubmit={handleSubmit} className="relative w-full ">
              {loadError && (
                 <div className="mb-2 text-red-600 bg-red-100 p-2 rounded-md text-sm">
-                    Error loading address search. Please try refreshing the page.
+                    {t("errorLoadingAddressSearch")}
                 </div>
             )}
             <Autocomplete
-                label="Enter Delivery Address" // More specific label
+                label={t("searchAddressLabel")} // More specific label
                 aria-label="Delivery address search"
-                placeholder="Street, number, city..."
+                placeholder={t("searchAddressPlaceholder")}
                 value={value}
                 onInputChange={setValue}
                 onSelectionChange={(key) => {
@@ -234,13 +236,13 @@ export function SearchAddress({
                         isDisabled={!isLoaded || !ready || isLocating || isSubmitting}
                         type="button"
                     >
-                        <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500" />
+                        <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500 dark:text-secondary" />
                     </Button>
                 }
                 classNames={{
-                    base: "w-full bg-white rounded-xl border border-default-200", // Adjusted styling
-                    listbox: "max-h-[200px] bg-white",
-                    popoverContent: "z-[1000] bg-white rounded-xl shadow-lg border border-default-200", // Style popover
+                    base: "w-full  rounded-xl border border-default-200", // Adjusted styling
+                    listbox: "max-h-[200px] ",
+                    popoverContent: "z-[1000]  rounded-xl shadow-lg border border-default-200", // Style popover
                 }}
                 menuTrigger="input"
                 items={data}
@@ -249,8 +251,8 @@ export function SearchAddress({
                 {data.map((item) => (
                     <AutocompleteItem key={item.place_id} textValue={item.description}>
                         <div className="flex items-center">
-                            <Icon icon="solar:map-point-linear" className="text-primary-500 mr-2" width={16} />
-                            <span className="text-gray-700 text-sm">{item.description}</span>
+                            <Icon icon="solar:map-point-linear" className="text-primary-500 dark:text-secondary mr-2" width={16} />
+                            <span className=" text-sm">{item.description}</span>
                         </div>
                     </AutocompleteItem>
                 ))}
@@ -261,13 +263,13 @@ export function SearchAddress({
                 {isLocating && (
                     <div className="flex items-center gap-2 text-blue-600">
                         <Spinner size="sm" color="primary" />
-                        <span>Finding your location...</span>
+                        <span>{t("findingLocation")}</span>
                     </div>
                 )}
                 {isSubmitting && (
                     <div className="flex items-center gap-2 text-orange-600">
                         <Spinner size="sm" color="warning" />
-                        <span>Updating location...</span>
+                        <span>{t("updatingLocation")}</span>
                     </div>
                 )}
                 {errorMessage && (

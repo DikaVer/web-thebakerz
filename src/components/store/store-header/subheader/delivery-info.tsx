@@ -46,14 +46,14 @@ export default function DeliveryInfo({
   return (
     <Card className="h-auto overflow-hidden transition-all duration-300 max-w-[440px]" shadow="sm">
       <CardBody className="p-0 w-[440px] max-w-[100%]">
-        <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/30 dark:to-primary-800/20">
+        <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-blue-200 dark:to-secondary-700">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-full bg-primary/10">
                 <Icon icon="solar:scooter-linear" className="h-5 w-5 text-primary" />
               </div>
               <Skeleton isLoaded={!isLoading} className="rounded-full w-40">
-                <span className="text-sm font-medium">{deliveryRegion.name} {t("delivery")}</span>
+                <span className="text-sm font-medium dark:text-black">{deliveryRegion.name} {t("delivery")}</span>
               </Skeleton>
             </div>
             {/* <div className="flex items-center gap-1">

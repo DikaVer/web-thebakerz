@@ -206,6 +206,8 @@ export const cityLatLngMap: Readonly<{ [key: string]: { lat: number, lng: number
     '’s-Hertogenbosch': {'lat': 51.6833, 'lng': 5.3}
 };
 
+export const examppleStore = ['OrGoD8o3jQ', 'NwzUMel5X6']
+
 export const TOS_VERSION = '2.0';
 
 export const categories: Readonly<{ [key: string]: { description: string } }> = {

@@ -144,7 +144,7 @@ export default function CookieConsentComponent() {
             </p>
             <p className="text-small font-normal text-default-700">
                 {t("cookiesConsentText")}{" "}
-                <Link href="/policies/privacy-policy" size="sm" underline="hover">
+                <Link className="text-primary dark:text-secondary" href="/policies/privacy-policy" size="sm" underline="hover">
                     {t("cookiePolicy")}
                 </Link>
             </p>

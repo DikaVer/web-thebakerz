@@ -44,8 +44,10 @@ export const updateBakerz = async (
                     custom_fee = $4, 
                     custom_app_fee = $5, 
                     custom_delivery_fee = $6, 
-                    stripe_id = $7
-                WHERE id = $9 AND user_id = $10
+                    stripe_id = $7, 
+                    deleted = $8,
+                    hidden = $9
+                WHERE id = $10 AND user_id = $11
             `,
             [
                 formData.phoneNumber, 
@@ -55,6 +57,8 @@ export const updateBakerz = async (
                 formData.app_fee, 
                 formData.delivery_fee, 
                 formData.stripeAccountId,
+                formData.banned,
+                formData.hidden,
                 storeId,
                 userId
             ],

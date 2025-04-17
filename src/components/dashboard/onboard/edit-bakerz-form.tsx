@@ -50,14 +50,17 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
             route: store?.location?.route || "",
             country: store?.location?.country || "",
             city: store?.location?.city || "",
-            latitude: store?.location?.latitude,
-            longitude: store?.location?.longitude,
+            latitude: store?.location?.latitude ? Number(store.location.latitude) : undefined,
+            longitude: store?.location?.longitude ? Number(store.location.longitude) : undefined,
             zip_code: store?.location?.zipCode || "",
             // Store settings
             app_fee: 8,
             delivery_fee: 20,
             region: store?.region.toUpperCase() || "NL",
             currency: store?.currency.toUpperCase() || "EUR",
+            // Store status flags
+            banned: store?.deleted || false,
+            hidden: store?.hidden || false,
             // Business information fields
             businessName: businessData?.name || "",
             vat: businessData?.vat || "",
@@ -483,6 +486,54 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                                             >
                                                 <SelectItem key="EUR">Euro (EUR)</SelectItem>
                                             </Select>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Store Status Section */}
+                    <div>
+                        <p className="text-base font-medium text-default-700 mt-6">Store Status</p>
+                        <p className="mt-1 text-sm font-normal text-default-400">Control store visibility and access</p>
+                        
+                        <div className="flex gap-x-8 mt-4">
+                            {/* Ban Store Switch */}
+                            <FormField
+                                control={form.control}
+                                name="banned"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <label className="inline-flex items-center">
+                                                <Switch
+                                                    color="danger"
+                                                    defaultSelected={field.value}
+                                                    onChange={(e) => field.onChange(e.target.checked)}
+                                                />
+                                                <span className="ml-2 text-sm font-medium">Ban Store</span>
+                                            </label>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* Hide Store Switch */}
+                            <FormField
+                                control={form.control}
+                                name="hidden"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <label className="inline-flex items-center">
+                                                <Switch
+                                                    color="warning"
+                                                    defaultSelected={field.value}
+                                                    onChange={(e) => field.onChange(e.target.checked)}
+                                                />
+                                                <span className="ml-2 text-sm font-medium">Hide Store</span>
+                                            </label>
                                         </FormControl>
                                     </FormItem>
                                 )}

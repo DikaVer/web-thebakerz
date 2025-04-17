@@ -240,7 +240,7 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
             <NavbarBrand className="w-[40rem] max-w-fit">
                 <a
                     className={`font-medium text-2xl ${pacifico.className}`}
-                    href={store?.ownerName ? `/${store?.storeName}` : "/"}
+                    href={store?.ownerName ? `/${store?.storeName || store?.id}` : "/"}
                 >
                     <GradientText className={'cursor-pointer'} subClassName={'cursor-pointer'}>
                         {store?.ownerName || t("brandName")}
@@ -250,18 +250,30 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
             {store ? (
                 (session?.user?.id === store.user_id || session?.user?.role === 'admin') ? (
                     <a href={process.env.NEXT_PUBLIC_API_BASE_URL}>
-                        <Image
-                            src="/images/TheBakerzLogo.svg"
-                            alt="Logo"
-                            width={32}
-                            radius="full"
-                        />
+                        <NavbarItem className="mr-1 !flex">
+                            <Image
+                                src="/images/TheBakerzLogo.svg"
+                                alt="Logo"
+                                width={32}
+                                radius="full"
+                            />
+                        </NavbarItem>
                     </a>
-                ) : (
-                    <NavbarItem className="mr-1 !flex">
-                        <CartButton />
-                    </NavbarItem>
-                )
+                ) : store.isStripeValid ? (
+
+                        <NavbarItem className="mr-1 !flex">
+                            <CartButton />
+                        </NavbarItem>
+                    ) : (
+                        <NavbarItem className="mr-1 !flex">
+                            <Image
+                                src="/images/TheBakerzLogo.svg"
+                                alt="Logo"
+                                width={32}
+                                radius="full"
+                            />
+                        </NavbarItem>
+                    )
             ) : (
                 <NavbarItem className="mr-1 !flex">
                     {!session?.session ? (
@@ -272,11 +284,11 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         )
                     ) : (
                         <Image
-                        src="/images/TheBakerzLogo.svg"
-                        alt="Logo"
-                        width={32}
-                        radius="full"
-                         />
+                            src="/images/TheBakerzLogo.svg"
+                            alt="Logo"
+                            width={32}
+                            radius="full"
+                        />
                     )}
                 </NavbarItem>
             )}

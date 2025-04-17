@@ -659,7 +659,7 @@
   "app/(support)/components/faq-baker": {
     "answer1": "Thebakerz est une plate-forme tout-en-un qui aide les boulangers à gérer leurs entreprises et à atteindre plus de clients. \nIl gère les commandes, la planification de la production, les paiements et la communication des clients en un seul endroit. \nCela signifie moins de temps sur l'administrateur et plus de temps à faire ce que vous aimez, en préparant!",
     "answer10": "Nous sommes ici pour aider avec tout ce dont vous avez besoin. \nDe la mise en place de votre boutique à la gestion des commandes, contactez-nous ou appelez-nous au 31 684794739. Nous nous assurerons que tout se passe bien pour vous.",
-    "answer2": "Le démarrage est facile! \nRemplissez ce formulaire (lien) et nous planifierons un appel rapide pour tout configurer. \nNous vous aiderons à créer votre boutique en ligne et à vous montrer comment l'utiliser étape par étape.",
+    "answer2": "Le démarrage est facile! \n[Remplissez ce formulaire](/become-partner#join-thebakerz), et nous planifierons un appel rapide pour tout configurer. \nNous vous aiderons à créer votre boutique en ligne et à vous montrer comment l'utiliser étape par étape.",
     "answer3": "Vous aurez juste besoin d'un numéro KVK, d'un numéro de TVA et d'une certification de sécurité alimentaire. \nSi vous manquez quelque chose, ne vous inquiétez pas - nous vous aiderons à le comprendre.",
     "answer5": "Vous décidez ce qui fonctionne le mieux pour votre boulangerie. \nVous pouvez offrir une livraison ou permettre aux clients de récupérer les commandes de votre emplacement. \nDéfinissez vos propres zones de livraison et temps de ramassage pour s'adapter à votre horaire.",
     "answer6": "Vous ne payez que lorsque vous faites une vente. Nous prenons une commission de 8%, qui couvre les opérations du site Web, les frais de traitement des paiements et la publicité.",
@@ -1122,6 +1122,43 @@
     "internalError": "Erreur interne du serveur"
   },
   "app/api/store/orders/new": {
-    "internalError": "Erreur interne"
+    "internalError": "Erreur interne",
+    "notAuthorized": "Pas"
+  },
+  "app/(store)/id": {
+    "example-store": "Ceci est un exemple de magasin. \nLes produits et services présentés sont à des fins de démonstration uniquement."
+  },
+  "app/landing/marketplace": {
+    "heroSectionTitle": "Découvrez les boulangeries artisanales près de chez vous",
+    "heroSectionPlaceholder": "Entrez votre adresse",
+    "heroSectionLoading": "Trouver votre emplacement ...",
+    "heroSectionSubmitting": "Traitement de votre adresse ...",
+    "bakersGrowthSectionTitle": "Faites développer votre entreprise de boulangerie avec Thebakerz",
+    "bakersGrowthSectionDescription": "Notre plateforme aide les boulangers artisanaux à augmenter les revenus grâce à la gestion des commandes promotionnelles, aux outils de découverte des clients et aux opérations rationalisées, ce qui vous permet de vous concentrer sur la création de délicieux produits de boulangerie.",
+    "become": "Devenir partenaire"
+  },
+  "app/search": {
+    "noStoresFound": "Aucun magasin trouvé",
+    "tryChangingLocationOrDeliveryMode": "Essayez de modifier votre emplacement ou votre mode de livraison.",
+    "errorCouldNotDetermineLocation": "Erreur: n'a pas pu déterminer l'emplacement.",
+    "errorLoadingAddressSearch": "Erreur de chargement de recherche d'adresse. \nVeuillez essayer de rafraîchir la page.",
+    "findingLocation": "Trouver votre emplacement ...",
+    "updatingLocation": "Mise à jour de l'emplacement ...",
+    "searchAddressPlaceholder": "Rue, numéro, ville ...",
+    "searchAddressLabel": "Entrez l'adresse de livraison"
+  },
+  "app/become-partner": {
+    "title": "Déverrouillez votre potentiel avec TheBakerz",
+    "launchYourCustomWebShop": "Lancez votre web-shop personnalisé",
+    "launchYourCustomWebShopDescription": "Présentez vos produits avec une photographie professionnelle sur notre plate-forme conviviale avec un paiement fluide pour une satisfaction maximale du client",
+    "manageOrdersSmarter": "Gérer les commandes plus intelligentes",
+    "manageOrdersSmarterDescription": "",
+    "weHaveMore": "Vous pensez que c'est tout?",
+    "weHaveMoreDescription": "Nous en avons plus!"
+  },
+  "app/landing/horizontal-scroll": {
+    "deliveries": "LIVRASIONS",
+    "marketing": "MARKETING",
+    "support": "SOUTIEN"
   }
 }

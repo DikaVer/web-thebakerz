@@ -3,10 +3,12 @@
 import { Button } from '@heroui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export const BakersGrowthSection = () => {
 
     const router = useRouter();
+    const t = useTranslations("app/landing/marketplace");
 
     const handleBecomeBakerz = () => {
         router.push('/become-partner');
@@ -31,12 +33,11 @@ export const BakersGrowthSection = () => {
             {/* Content Section */}
             <div className="order-1 md:order-2 flex flex-col items-start">
                 <h2 className="text-3xl md:text-4xl font-bold text-[#191919] dark:text-[#191919] mb-4">
-                Grow your bakery business with TheBakerz
+                {t("bakersGrowthSectionTitle")}
                 </h2>
                 
                 <p className="text-base md:text-lg mb-6 text-[#191919] dark:text-[#191919] max-w-xl">
-                Our platform helps artisanal bakers boost revenue through promotional order management, customer 
-                discovery tools, and streamlined operations—helping you focus on creating delicious baked goods.
+                    {t("bakersGrowthSectionDescription")}
                 </p>
                 
                     <div className="flex w-full justify-end">
@@ -46,7 +47,7 @@ export const BakersGrowthSection = () => {
                             className="px-8 py-3 bg-gradient-primary rounded-full text-white font-medium"
                             onPress={handleBecomeBakerz}
                         >
-                            Become a partner
+                            {t('become')}
                         </Button>
                     </div>
             </div>

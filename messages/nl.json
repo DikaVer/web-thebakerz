@@ -474,7 +474,8 @@
     "Print Invoice": "Factuur afdrukken",
     "Something Went Wrong": "Er ging iets mis",
     "delivery": "Levering",
-    "completed": "Voltooid"
+    "completed": "Voltooid",
+    "brandName": "Thebakerz"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "E-mail",
@@ -674,7 +675,7 @@
     "question7": "Hoe werken betalingen?",
     "question8": "Is het gemakkelijk te gebruiken als ik niet goed ben met technologie?",
     "question9": "Kan ik Thebakerz vertrouwen met betalingen en bestellingen?",
-    "answer2": "Aan de slag gaan is eenvoudig! \nVul dit formulier (link) in en we plannen een snelle oproep om alles in te stellen. \nWe helpen u uw online winkel te maken en u te laten zien hoe u deze stap voor stap kunt gebruiken.",
+    "answer2": "Aan de slag gaan is eenvoudig! \n[Vul dit formulier in](/become-partner#join-thebakerz), en we plannen een snelle oproep om alles in te stellen. \nWe helpen u uw online winkel te maken en u te laten zien hoe u deze stap voor stap kunt gebruiken.",
     "answer3": "U hebt alleen een KVK -nummer, btw -nummer en voedselveiligheidscertificering nodig. \nAls je iets mist, maak je geen zorgen - we zullen je helpen erachter te komen."
   },
   "app/(support)/components/faq-customer": {},
@@ -1121,6 +1122,43 @@
     "notAuthorized": "Geen toegang toestaan"
   },
   "app/api/store/orders/new": {
-    "internalError": "Interne fout"
+    "internalError": "Interne fout",
+    "notAuthorized": "Niet"
+  },
+  "app/(store)/id": {
+    "example-store": "Dit is een voorbeeldwinkel. \nGetoonde producten en diensten zijn alleen voor demonstratiedoeleinden."
+  },
+  "app/landing/marketplace": {
+    "heroSectionTitle": "Ontdek ambachtelijke bakkerijen bij jou in de buurt",
+    "heroSectionPlaceholder": "Voer uw adres in",
+    "heroSectionLoading": "Uw locatie vinden ...",
+    "heroSectionSubmitting": "Uw adres verwerken ...",
+    "bakersGrowthSectionTitle": "Laat uw bakkerijbedrijf groeien met Thebakerz",
+    "bakersGrowthSectionDescription": "Ons platform helpt ambachtelijke bakkers de omzet te vergroten door middel van promotionele orderbeheer, klantontdekkingstools en gestroomlijnde activiteiten - om u te richten op het creëren van heerlijke gebakken producten.",
+    "become": "Word een partner"
+  },
+  "app/search": {
+    "noStoresFound": "Geen winkels gevonden",
+    "tryChangingLocationOrDeliveryMode": "Probeer uw locatie of aflevermodus te wijzigen.",
+    "errorCouldNotDetermineLocation": "Fout: kan de locatie niet bepalen.",
+    "errorLoadingAddressSearch": "Fout laden adres zoeken. \nProbeer de pagina te vernieuwen.",
+    "findingLocation": "Uw locatie vinden ...",
+    "updatingLocation": "Locatie bijwerken ...",
+    "searchAddressPlaceholder": "Straat, nummer, stad ...",
+    "searchAddressLabel": "\"Voer het afleveradres in\""
+  },
+  "app/become-partner": {
+    "title": "Ontgrendel uw potentieel met TheBakerz",
+    "launchYourCustomWebShop": "Start uw aangepaste web-shop",
+    "launchYourCustomWebShopDescription": "Toon uw producten met professionele fotografie op ons gebruiksvriendelijke platform met een soepele kassa voor maximale klanttevredenheid",
+    "manageOrdersSmarter": "Beheer bestellingen slimmer",
+    "manageOrdersSmarterDescription": "Volg elke bestelling van plaatsing naar ophalen met ons intuïtieve agenda -dashboard dat klantgegevens, bestelstatussen en financiële inzichten weergeeft - allemaal in één georganiseerde weergave",
+    "weHaveMore": "Denk je dat dit alles is?",
+    "weHaveMoreDescription": "We hebben meer!"
+  },
+  "app/landing/horizontal-scroll": {
+    "deliveries": "LEVERINGEN",
+    "marketing": "MARKETING",
+    "support": "STEUN"
   }
 }

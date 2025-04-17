@@ -25,7 +25,7 @@ import { IconCaretLeftFilled } from "@tabler/icons-react";
 import { IconCaretDownFilled } from "@tabler/icons-react";
 import Image from "next/image";
 import { useMediaQuery } from "usehooks-ts";
-
+import { useTranslations } from "next-intl";
 export const MacbookScroll = ({
   src,
   showGradient,
@@ -41,6 +41,7 @@ export const MacbookScroll = ({
     offset: ["start start", "end start"],
   });
 
+  const t = useTranslations("app/become-partner");
   const isMobile = useMediaQuery("(max-width: 768px)");
 
 
@@ -128,9 +129,9 @@ export const MacbookScroll = ({
             }}
             className="mt-20 max-w-2xl px-4 text-center"
         >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Launch Your Custom Web-shop</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">{t("launchYourCustomWebShop")}</h2>
             <p className="text-xl text-gray-300 mb-8">
-                Showcase your products with professional photography on our user-friendly platform featuring smooth checkout for maximum customer satisfaction
+                {t("launchYourCustomWebShopDescription")}
             </p>
             
         </motion.div>
@@ -144,9 +145,9 @@ export const MacbookScroll = ({
                 isMobile ? 'mt-[500px]' : 'mt-[700px]'
             )}
         >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Manage Orders Smarter</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">{t("manageOrdersSmarter")}</h2>
             <p className="text-xl text-gray-300 mb-8">
-            Track every order from placement to pickup with our intuitive calendar dashboard that displays customer details, order statuses, and financial insights—all in one organized view
+             {t("manageOrdersSmarterDescription")}
             </p>
         </motion.div>
 
@@ -158,8 +159,8 @@ export const MacbookScroll = ({
             className={'flex flex-col items-center w-full justify-center my-[125px]'}
         >
             <div className={'flex flex-col items-start justify-start w-full max-w-4xl px-4'}>
-                <h2 className="text-3xl sm:text-5xl font-bold mb-6 text-white">You think this is all?</h2>
-                <h2 className="text-3xl sm:text-5xl font-bold mb-6 text-white">We have more!</h2>
+                <h2 className="text-3xl sm:text-5xl font-bold mb-6 text-white">{t("weHaveMore")}</h2>
+                <h2 className="text-3xl sm:text-5xl font-bold mb-6 text-white">{t("weHaveMoreDescription")}</h2>
             </div>
         </motion.div>
     
