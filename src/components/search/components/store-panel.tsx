@@ -111,7 +111,6 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
     return (
         <Link href={`/${store.storeName || store.id}`} className="block group">
             <Card shadow="sm" isPressable className="w-full h-full border border-transparent group-hover:border-primary transition-colors overflow-hidden">
-            <Badge placement='top-right' key={`test-${store.id}`} content={examppleStore.includes(store.id) ? "Example Store" : ""} className={`${examppleStore.includes(store.id) ? "bg-warning-400 mt-2 mr-12 px-2" : "hidden"}`} color="warning">
                 <CardBody className="overflow-visible p-0 relative h-48"> 
 
                     {/* Main image with gradient overlay for better text visibility */}
@@ -126,8 +125,6 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
                 </CardBody>
-                </Badge>
-                
                 <CardFooter className="text-sm flex-col !items-start p-4 gap-1.5">
                     <div className="flex justify-between items-start w-full">
                         <h4 className="font-bold text-large truncate mr-2">{store.storeName}</h4>
@@ -163,9 +160,19 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                     <p className="text-default-600 text-xs line-clamp-2">{store.slug || 'Artisanal baked goods'}</p>
                     
                     <div className="flex flex-col flex-wrap items-start gap-y-1 gap-x-2 text-default-500 text-xs mt-1 w-full">
-                        <div className="flex items-center gap-1">
+                        <div className="flex w-full items-end justify-between gap-1">
+                            <div className="flex gap-1 items-center">
                             <Icon icon="solar:routing-3-linear" width={14} className="flex-shrink-0" />
-                            <span>{distanceString}</span>
+                                <span>{distanceString}</span>
+                            </div>
+                            <Chip
+                                size="md"
+                                color={"warning"}
+                                variant="flat"
+                                className={`${examppleStore.includes(store.id) ? "bg-warning-400 px-2 text-black" : "hidden"}`}
+                            >
+                                Example Store
+                            </Chip>
                         </div>
                         
                         <div className="flex items-center gap-1 flex-1">
