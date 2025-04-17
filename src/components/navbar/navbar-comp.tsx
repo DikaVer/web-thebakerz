@@ -1,6 +1,6 @@
 "use client";
 
-import type { NavbarProps } from "@heroui/react";
+import {cn, NavbarProps} from "@heroui/react";
 import React from "react";
 import {
     Navbar,
@@ -49,7 +49,8 @@ export default function NavbarComponent({
                                         }: LayoutProps) {
     const t = useTranslations("app/(landing)/components/navbar");
     const isSmall = useMediaQuery("(max-width: 1024px)");
-    const { isSticky } = store ? useStore() : { isSticky: false };
+    const pathname = usePathname();
+    const { isSticky } = useStore();
     const { session } = useSession();
     const router = useRouter();
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
@@ -75,9 +76,8 @@ export default function NavbarComponent({
                 height="54px"
             >
                 <NavbarContent
-                    className={`flex data-[justify=center]:justify-between w-full gap-8 rounded-full ${
-                        isSticky ? "rounded-3xl rounded-b-none" : ""
-                    } border-small border-default-200/20 px-2 shadow-medium backdrop-blur-xl`}
+                    className={cn(`flex data-[justify=center]:justify-between w-full gap-8 rounded-full border-small border-default-200/20 px-2 shadow-medium backdrop-blur-xl`,
+                        isSticky && "rounded-3xl rounded-b-none")}
                     justify="center"
                 >
                     {hideSideBar ? (

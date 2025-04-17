@@ -12,12 +12,20 @@ interface StoreContextType {
     isSticky: boolean;
 }
 
+// Create a default value for when used outside of provider
+const defaultStoreContext: StoreContextType = {
+    store: {} as StoreData,
+    sentinelRef: { current: null },
+    isSticky: false
+};
+
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
 export const useStore = (): StoreContextType => {
     const context = useContext(StoreContext);
     if (!context) {
-        throw new Error('useStore must be used within a StoreProvider');
+        // Return default values instead of throwing an error
+        return defaultStoreContext;
     }
     return context;
 };
