@@ -151,7 +151,7 @@ export async function GET(req: NextRequest) {
         await connectionPool.query('BEGIN');
         
         // Extract remaining data
-        const email = checkoutSession.customer_email || checkoutSession.customer_details?.email;
+        const email = checkoutSession.customer_email?.toLowerCase() || checkoutSession.customer_details?.email?.toLowerCase();
         if (!email) {
             // Email is crucial, fail if missing
             await connectionPool.query('ROLLBACK');
@@ -166,19 +166,19 @@ export async function GET(req: NextRequest) {
 
         log.info('paymentCallback', 'Processing user session', {
             requestId: context.requestId,
-            email: email.toLowerCase(),
+            email: email,
             sessionId
         });
 
         // Handle user authentication/creation (as before)
         let { user: userSession } = await getCurrentSession();
         let emailVerified, username;
-        if (!userSession || userSession.email?.toLowerCase() !== email.toLowerCase()) {
+        if (!userSession || userSession.email?.toLowerCase() !== email) {
             log.info('paymentCallback', 'Creating/updating user account', {
                 requestId: context.requestId,
-                email: email.toLowerCase(),
+                email: email,
                 hasExistingUser: !!userSession,
-                emailMismatch: userSession ? userSession.email?.toLowerCase() !== email.toLowerCase() : false
+                emailMismatch: userSession ? userSession.email?.toLowerCase() !== email : false
             });
             
             // If no session or email mismatch, create/update account
@@ -189,7 +189,7 @@ export async function GET(req: NextRequest) {
         } else {
             log.info('paymentCallback', 'Using existing user session', {
                 requestId: context.requestId,
-                email: email.toLowerCase(),
+                email: email,
                 userId: userSession.id
             });
             
@@ -298,7 +298,7 @@ export async function GET(req: NextRequest) {
             requestId: context.requestId,
             orderId: cosmosId,
             storeId,
-            email: email.toLowerCase(),
+            email: email,
             emailVerified,
             deliveryId,
             priceId,
@@ -341,7 +341,7 @@ export async function GET(req: NextRequest) {
                 requestId: context.requestId,
                 cosmosId,
                 storeId,
-                email: email.toLowerCase()
+                email: email
             });
             
             return NextResponse.redirect(new URL(`/${storeIdParam}/order/failed?error=${t("orderDbFailed")}&session_id=${sessionId}`, origin), { status: 308 });
@@ -353,7 +353,7 @@ export async function GET(req: NextRequest) {
             storeId,
             storeOrderId: result.rows[0].store_order_id,
             seqId: result.rows[0].id,
-            email: email.toLowerCase()
+            email: email
         });
 
         // Create final order record in Cosmos DB
@@ -421,7 +421,7 @@ export async function GET(req: NextRequest) {
             requestId: context.requestId,
             orderId: cosmosId,
             storeId,
-            email: email.toLowerCase()
+            email: email
         });
 
         // Send confirmation email and invalidate cache
@@ -438,7 +438,7 @@ export async function GET(req: NextRequest) {
             orderId: cosmosId,
             storeId,
             storeOrderId: orderData.store_order_id,
-            email: email.toLowerCase()
+            email: email
         });
 
         // Redirect to success page

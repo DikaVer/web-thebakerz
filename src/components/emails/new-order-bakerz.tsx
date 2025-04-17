@@ -150,7 +150,9 @@ export default function NewOrderEmail({
                             <Column style={iconColumn}>🕒</Column>
                             <Column style={textColumn}>
                                 <Text style={detailHeading}>{scheduledTimeLabel}</Text>
-                                <Text style={detailText}>{scheduledToCalendarDateTime(scheduledTime).toString()}</Text>
+                                <Text style={detailText}>
+                                    {`${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year} at ${String(scheduledToCalendarDateTime(scheduledTime).hour).padStart(2, '0')}:${String(scheduledToCalendarDateTime(scheduledTime).minute).padStart(2, '0')}`}
+                                    </Text>
                             </Column>
                         </Row>
                         

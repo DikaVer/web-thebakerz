@@ -125,6 +125,17 @@ const ReturnNavbar: React.FC<CheckoutNavbarProps> = ({
     const router = useRouter();
     const pathname = usePathname();
     const isPartnerPage = pathname.includes("/become-partner");
+    const redirectToStore = () => {
+        if (store) {
+            navigateToStore();
+        } else {
+            if (isPartnerPage) {
+                router.push("/");
+            } else {
+                router.back();
+            }
+        }
+    }
 
     return (
         <>
@@ -133,7 +144,7 @@ const ReturnNavbar: React.FC<CheckoutNavbarProps> = ({
                     size="md"
                     variant="light"
                     className="text-default-500"
-                    onPress={store ? navigateToStore : () => router.back()}
+                    onPress={redirectToStore}
                     startContent={
                         <Icon
                             className="text-default-500"
