@@ -6,6 +6,11 @@ import {containerCart, containerProducts} from "@/db";
 import {revalidateTag} from "next/cache";
 import {ProductData} from "@/lib/actions/product";
 import { getTranslations } from "next-intl/server";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
+
+// Initialize logger for cart operations
+const log = logger.child({ module: "cart" });
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -56,21 +61,71 @@ export const updateCart = async (
     itemId?: string
 ): Promise<{ success?: string; error?: string; itemCart?: ItemCart }> => {
     const t = await getTranslations("app/lib/actions/cart") as TranslationFunction;
+    const context = await getRequestContext();
+    
+    log.info('updateCart', 'Cart update operation started', {
+        requestId: context.requestId,
+        clientIP: context.clientIP,
+        storeId,
+        productId,
+        quantity,
+        isUpdate: !!itemId
+    });
     
     try {
         if (!(await globalPOSTRateLimit())) {
+            log.warn('updateCart', 'Rate limit exceeded', {
+                requestId: context.requestId,
+                clientIP: context.clientIP,
+                storeId
+            });
             return { error: t("tooManyRequests") };
         }
 
         if (note && note.length > 100) {
+            log.warn('updateCart', 'Note too long', {
+                requestId: context.requestId,
+                clientIP: context.clientIP,
+                storeId,
+                noteLength: note.length
+            });
             return { error: t("noteTooLong") };
         }
 
+        log.debug('updateCart', 'Fetching product data', {
+            requestId: context.requestId,
+            storeId,
+            productId
+        });
+        
         const { resource: productData } = await containerProducts.item(productId, storeId).read<ProductData>();
 
+        if (!productData) {
+            log.warn('updateCart', 'Product not found', {
+                requestId: context.requestId,
+                storeId,
+                productId
+            });
+            return { error: t("productNotFound") };
+        }
+
         if (productData?.variants && productData.variants.length > 0) {
+            log.debug('updateCart', 'Validating product variants', {
+                requestId: context.requestId,
+                storeId,
+                productId,
+                variantCount: productData.variants.length,
+                submittedVariantCount: variants?.length || 0
+            });
+            
             const variantsError = validateVariants(variants || [], productData.variants, t);
             if (variantsError) {
+                log.warn('updateCart', 'Variant validation failed', {
+                    requestId: context.requestId,
+                    storeId,
+                    productId,
+                    error: variantsError
+                });
                 return { error: variantsError };
             }
         }
@@ -78,22 +133,47 @@ export const updateCart = async (
         const minOrder = productData?.min_order || 1;
 
         if (quantity < minOrder) {
+            log.warn('updateCart', 'Quantity below minimum order', {
+                requestId: context.requestId,
+                storeId,
+                productId,
+                quantity,
+                minOrder
+            });
             return { error: t("minOrderRequired", { min: minOrder }) };
         }
 
         const session = await getCurrentSession();
         let userId;
         if (!session || !session.user) {
+            log.debug('updateCart', 'Using guest user', {
+                requestId: context.requestId,
+                storeId
+            });
             userId = await getCartSessionCookieOrCreate();
         } else {
+            log.debug('updateCart', 'Using authenticated user', {
+                requestId: context.requestId,
+                storeId,
+                userId: session.user.id
+            });
             userId = session.user.id;
         }
-        if (!userId) return { error: t("userNotFound") };
+        
+        if (!userId) {
+            log.error('updateCart', 'Failed to get user ID', {
+                requestId: context.requestId,
+                storeId
+            });
+            return { error: t("userNotFound") };
+        }
 
         const partitionKeyValue = [storeId, userId];
         const now = new Date().toISOString();
+        const cartItemId = itemId || uuidv4();
+        
         const newItemCart: ItemCart = {
-            id: itemId || uuidv4(),
+            id: cartItemId,
             store_id: storeId,
             product_id: productId,
             note,
@@ -104,6 +184,15 @@ export const updateCart = async (
         };
 
         if (itemId) {
+            log.info('updateCart', 'Updating existing cart item', {
+                requestId: context.requestId,
+                storeId,
+                userId,
+                itemId,
+                productId,
+                quantity
+            });
+            
             await containerCart.item(itemId, partitionKeyValue).patch({
                 operations: [
                     { op: "set", path: "/note", value: newItemCart.note },
@@ -112,13 +201,37 @@ export const updateCart = async (
                 ],
             });
         } else {
+            log.info('updateCart', 'Adding new item to cart', {
+                requestId: context.requestId,
+                storeId,
+                userId,
+                itemId: cartItemId,
+                productId,
+                quantity
+            });
+            
             await containerCart.items.create(newItemCart);
         }
 
         revalidateTag('cart');
+        
+        log.info('updateCart', 'Cart updated successfully', {
+            requestId: context.requestId,
+            storeId,
+            userId,
+            itemId: cartItemId,
+            productId
+        });
+        
         return { success: t("cartUpdatedSuccess"), itemCart: newItemCart };
     } catch (error: any) {
-        console.error("Error updating cart:", error);
+        log.error('updateCart', 'Failed to update cart', {
+            requestId: context.requestId,
+            storeId,
+            productId,
+            itemId,
+            error: error.message || String(error)
+        });
         return { error: t("failedUpdateCart") };
     }
 };

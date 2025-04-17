@@ -5,24 +5,58 @@ import {deleteSessionTokenCookie, getCurrentSession, invalidateSession} from "@/
 import {revalidateTag} from "next/cache";
 import {getTranslations} from "next-intl/server";
 import { cookies } from 'next/headers';
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
+
+// Initialize logger for actions
+const log = logger.child({ module: "actions" });
 
 export async function logoutAction(): Promise<ActionResult> {
     const t = await getTranslations("app/actions");
+    const context = await getRequestContext();
+    
+    log.info('logoutAction', 'Logout attempt started', {
+        requestId: context.requestId,
+        clientIP: context.clientIP
+    });
 
     if (!await globalPOSTRateLimit()) {
+        log.warn('logoutAction', 'Rate limit hit during logout attempt', {
+            requestId: context.requestId,
+            clientIP: context.clientIP
+        });
         return {
             message: t("tooManyRequests")
         };
     }
+    
     const { session } = await getCurrentSession();
     if (session === null) {
+        log.warn('logoutAction', 'Logout attempted without active session', {
+            requestId: context.requestId,
+            clientIP: context.clientIP
+        });
         return {
             message: t("notAuthenticated")
         };
     }
+    
+    log.info('logoutAction', 'Valid session found, proceeding with logout', {
+        requestId: context.requestId,
+        clientIP: context.clientIP,
+        userId: session.userId
+    });
+    
     await invalidateSession(session.id);
     await deleteSessionTokenCookie();
     revalidateTag('session');
+
+    log.info('logoutAction', 'Logout completed successfully', {
+        requestId: context.requestId,
+        clientIP: context.clientIP,
+        userId: session.userId,
+        sessionId: session.id
+    });
 
     return null;
 }

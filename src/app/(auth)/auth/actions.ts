@@ -25,11 +25,11 @@ import {revalidateTag} from "next/cache";
 import {acceptTOS} from "@/lib/term-of-service";
 import {TOS_VERSION} from "@/lib/local-variables";
 import {getTranslations} from "next-intl/server";
-import {createLogger} from "@/lib/logging";
+import { logger } from "@/lib/logger";
 import {getRequestContext} from "@/lib/request-context";
 
 // Initialize logger for auth module
-const logger = createLogger('auth');
+const log = logger.child({ module: "totoro" });
 
 /**
  * Type definition for the standard action result
@@ -57,14 +57,14 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
     const context = await getRequestContext();
     const clientIP = context.clientIP || undefined;
 
-    logger.info('loginAction', 'Login attempt started', { 
+    log.info('loginAction', 'Login attempt started', { 
         requestId: context.requestId,
         clientIP
     });
 
     // Check global rate limit
     if (!await globalPOSTRateLimit()) {
-        logger.warn('loginAction', 'Global rate limit hit', { 
+        log.warn('loginAction', 'Global rate limit hit', { 
             requestId: context.requestId,
             clientIP 
         });
@@ -73,7 +73,7 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
 
     // Check IP-based rate limit
     if (clientIP && !ipBucket.check(clientIP, 1)) {
-        logger.warn('loginAction', 'IP rate limit hit', { 
+        log.warn('loginAction', 'IP rate limit hit', { 
             requestId: context.requestId,
             clientIP 
         });
@@ -83,7 +83,7 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
     // Validate email
     const validation = EmailSchema.safeParse(formData);
     if (!validation.success) {
-        logger.warn('loginAction', 'Invalid email format', { 
+        log.warn('loginAction', 'Invalid email format', { 
             requestId: context.requestId,
             clientIP,
             data: { validationErrors: validation.error.errors }
@@ -93,7 +93,7 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
 
     // Consume rate limit token
     if (clientIP && !ipBucket.consume(clientIP, 1)) {
-        logger.warn('loginAction', 'IP rate limit consumed', { 
+        log.warn('loginAction', 'IP rate limit consumed', { 
             requestId: context.requestId,
             clientIP 
         });
@@ -101,7 +101,7 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
     }
 
     const email = formData.email.toLowerCase();
-    logger.info('loginAction', 'Processing login for email', { 
+    log.info('loginAction', 'Processing login for email', { 
         requestId: context.requestId,
         clientIP,
         email 
@@ -110,14 +110,14 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
     // Get or create user
     let user: User | null = await getUserFromEmail(email);
     if (user === null) {
-        logger.info('loginAction', 'Creating new user', { 
+        log.info('loginAction', 'Creating new user', { 
             requestId: context.requestId,
             clientIP,
             email 
         });
         user = await createUser(email);
     } else {
-        logger.info('loginAction', 'Existing user found', { 
+        log.info('loginAction', 'Existing user found', { 
             requestId: context.requestId,
             clientIP,
             email,
@@ -131,14 +131,14 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
         await sendVerificationEmail(emailVerificationRequest.email, emailVerificationRequest.code);
         await setEmailVerificationRequestCookie(emailVerificationRequest);
         
-        logger.info('loginAction', 'Verification email sent successfully', { 
+        log.info('loginAction', 'Verification email sent successfully', { 
             requestId: context.requestId,
             clientIP,
             email,
             userId: user.id 
         });
     } catch (error) {
-        logger.error('loginAction', 'Failed to send verification email', { 
+        log.error('loginAction', 'Failed to send verification email', { 
             requestId: context.requestId,
             clientIP,
             email,
@@ -159,14 +159,14 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
     const context = await getRequestContext();
     const clientIP = context.clientIP || undefined;
 
-    logger.info('verifyEmailAction', 'Email verification attempt started', { 
+    log.info('verifyEmailAction', 'Email verification attempt started', { 
         requestId: context.requestId,
         clientIP
     });
 
     // Check global rate limit
     if (!await globalPOSTRateLimit()) {
-        logger.warn('verifyEmailAction', 'Global rate limit hit', { 
+        log.warn('verifyEmailAction', 'Global rate limit hit', { 
             requestId: context.requestId,
             clientIP 
         });
@@ -176,7 +176,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
     // Validate OTP input
     const validation = OTPSchema.safeParse(formData);
     if (!validation.success) {
-        logger.warn('verifyEmailAction', 'Invalid OTP format', { 
+        log.warn('verifyEmailAction', 'Invalid OTP format', { 
             requestId: context.requestId,
             clientIP,
             data: { validationErrors: validation.error.errors } 
@@ -187,7 +187,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
     const email = formData.email.toLowerCase();
     const user = await getUserFromEmail(email);
     if (user === null) {
-        logger.warn('verifyEmailAction', 'Account does not exist', { 
+        log.warn('verifyEmailAction', 'Account does not exist', { 
             requestId: context.requestId,
             clientIP,
             email 
@@ -196,7 +196,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
     }
 
     const code = formData.otp;
-    logger.debug('verifyEmailAction', 'Processing verification', { 
+    log.debug('verifyEmailAction', 'Processing verification', { 
         requestId: context.requestId,
         clientIP,
         email,
@@ -205,7 +205,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
 
     // Check IP-based rate limit
     if (clientIP && !ipBucket.check(clientIP, 1)) {
-        logger.warn('verifyEmailAction', 'IP rate limit hit', { 
+        log.warn('verifyEmailAction', 'IP rate limit hit', { 
             requestId: context.requestId,
             clientIP,
             email,
@@ -217,7 +217,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
     // Get verification request
     let verificationRequest = await getUserEmailVerificationRequestFromRequest(user.id);
     if (verificationRequest === null) {
-        logger.warn('verifyEmailAction', 'No verification request found', { 
+        log.warn('verifyEmailAction', 'No verification request found', { 
             requestId: context.requestId,
             clientIP,
             email,
@@ -228,7 +228,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
 
     // Consume rate limit token
     if (clientIP && !ipBucket.consume(clientIP, 1)) {
-        logger.warn('verifyEmailAction', 'IP rate limit consumed', { 
+        log.warn('verifyEmailAction', 'IP rate limit consumed', { 
             requestId: context.requestId,
             clientIP,
             email,
@@ -239,7 +239,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
 
     // Handle expired verification code
     if (Date.now() >= verificationRequest.expiresAt.getTime()) {
-        logger.info('verifyEmailAction', 'Verification code expired, sending new one', { 
+        log.info('verifyEmailAction', 'Verification code expired, sending new one', { 
             requestId: context.requestId,
             clientIP,
             email,
@@ -253,7 +253,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
 
     // Check code validity
     if (verificationRequest.code !== code) {
-        logger.warn('verifyEmailAction', 'Incorrect verification code', { 
+        log.warn('verifyEmailAction', 'Incorrect verification code', { 
             requestId: context.requestId,
             clientIP,
             email,
@@ -276,7 +276,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
         await acceptTOS(user.email, TOS_VERSION, clientIP || "Not Available", "explicit", "login");
         revalidateTag('session');
 
-        logger.info('verifyEmailAction', 'Email verified and session created successfully', { 
+        log.info('verifyEmailAction', 'Email verified and session created successfully', { 
             requestId: context.requestId,
             clientIP,
             email,
@@ -287,7 +287,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
             session: await getCurrentSession()
         };
     } catch (error) {
-        logger.error('verifyEmailAction', 'Failed to create session after verification', { 
+        log.error('verifyEmailAction', 'Failed to create session after verification', { 
             requestId: context.requestId,
             clientIP,
             email,
@@ -308,7 +308,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
     
     const normalizedEmail = email.toLowerCase();
 
-    logger.info('resendEmailVerificationCodeAction', 'Email resend attempt started', { 
+    log.info('resendEmailVerificationCodeAction', 'Email resend attempt started', { 
         requestId: context.requestId,
         clientIP,
         email: normalizedEmail
@@ -316,7 +316,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
 
     const user = await getUserFromEmail(normalizedEmail);
     if (user === null) {
-        logger.warn('resendEmailVerificationCodeAction', 'Account does not exist', { 
+        log.warn('resendEmailVerificationCodeAction', 'Account does not exist', { 
             requestId: context.requestId,
             clientIP,
             email: normalizedEmail 
@@ -326,7 +326,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
 
     // Check rate limit for sending emails
     if (!sendVerificationEmailBucket.check(user.id, 1)) {
-        logger.warn('resendEmailVerificationCodeAction', 'Email rate limit hit', { 
+        log.warn('resendEmailVerificationCodeAction', 'Email rate limit hit', { 
             requestId: context.requestId,
             clientIP,
             email: normalizedEmail,
@@ -341,7 +341,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
         // Create or update verification request
         if (verificationRequest === null) {
             if (!sendVerificationEmailBucket.consume(user.id, 1)) {
-                logger.warn('resendEmailVerificationCodeAction', 'Email rate limit consumed', { 
+                log.warn('resendEmailVerificationCodeAction', 'Email rate limit consumed', { 
                     requestId: context.requestId,
                     clientIP,
                     email: normalizedEmail,
@@ -349,7 +349,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
                 });
                 return { message: t("tooManyRequests") };
             }
-            logger.info('resendEmailVerificationCodeAction', 'Creating new verification request', { 
+            log.info('resendEmailVerificationCodeAction', 'Creating new verification request', { 
                 requestId: context.requestId,
                 clientIP,
                 email: normalizedEmail,
@@ -358,7 +358,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
             verificationRequest = await createEmailVerificationRequest(user.id, user.email);
         } else {
             if (!sendVerificationEmailBucket.consume(user.id, 1)) {
-                logger.warn('resendEmailVerificationCodeAction', 'Email rate limit consumed', { 
+                log.warn('resendEmailVerificationCodeAction', 'Email rate limit consumed', { 
                     requestId: context.requestId,
                     clientIP,
                     email: normalizedEmail,
@@ -366,7 +366,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
                 });
                 return { message: t("tooManyRequests") };
             }
-            logger.info('resendEmailVerificationCodeAction', 'Updating existing verification request', { 
+            log.info('resendEmailVerificationCodeAction', 'Updating existing verification request', { 
                 requestId: context.requestId,
                 clientIP,
                 email: normalizedEmail,
@@ -379,7 +379,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
         await sendVerificationEmail(verificationRequest.email, verificationRequest.code);
         await setEmailVerificationRequestCookie(verificationRequest);
         
-        logger.info('resendEmailVerificationCodeAction', 'Verification email resent successfully', { 
+        log.info('resendEmailVerificationCodeAction', 'Verification email resent successfully', { 
             requestId: context.requestId,
             clientIP,
             email: normalizedEmail,
@@ -387,7 +387,7 @@ export async function resendEmailVerificationCodeAction(email: string): Promise<
         });
         return null;
     } catch (error) {
-        logger.error('resendEmailVerificationCodeAction', 'Failed to resend verification email', { 
+        log.error('resendEmailVerificationCodeAction', 'Failed to resend verification email', { 
             requestId: context.requestId,
             clientIP,
             email: normalizedEmail,
