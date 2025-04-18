@@ -45,7 +45,7 @@
     "orange": "orange",
     "banana": "banana",
     "fish": "fish",
-    "matsuke": "matsuke",
+    "matsuke": "matsutake",
     "chicken": "chicken",
     "potato": "potato",
     "pork": "pork",
@@ -66,8 +66,8 @@
     "whyChooseTheBakerz": "Why Choose TheBakerz?",
     "transparentPricing": "Transparent pricing",
     "monthlySubscription": "€9.99/month subscription",
-    "paymentFee": "Payment and service fee 5%",
-    "paymentFeeInfo": "5% of sales to host website, operational and payment services",
+    "paymentFee": "Payment and service fee 8%",
+    "paymentFeeInfo": "8% of sales to host website, operational and payment services",
     "freeTrial": "FREE TRIAL",
     "exclusiveOffer": "Exclusive offer: start for 3 months for free!",
     "getStarted": "Get started with TheBakerz",
@@ -106,7 +106,7 @@
     "performingSignIn": "Performing sign in..."
   },
   "app/(return_page)/transit-exit/page": {
-    "performingSignOut": "Performing sign out..."
+    "performingSignOut": "Signing out..."
   },
   "app/(return_page)/settings/components/profile-setting": {
     "profile": "Profile",
@@ -186,8 +186,8 @@
     "noCitiesSelected": "No cities selected",
     "mapView": "Map View",
     "deliveryDescription": "Allow customers to have orders delivered to their address",
-    "minOrderPrice": "Minimum Order Price",
-    "minPriceLabel": "Min Price",
+    "minOrderPrice": "Minimum Order Value",
+    "minPriceLabel": "Min Value",
     "minOrderPriceDescription": "Customers must order at least this amount to qualify for delivery in this region",
     "deliverySchedule": "Delivery Times",
     "manageDeliverySchedule": "Manage Delivery Times",
@@ -198,7 +198,7 @@
     "cancel": "Cancel",
     "save": "Save",
     "invalidCity": "Invalid city selected",
-    "minOrderPriceError": "Minimum order price must be at least 10€",
+    "minOrderPriceError": "Minimum order value must be at least 10€",
     "minOrderTime": "Min Order Time:",
     "brandName": "TheBakerz",
     "minutes": "minutes",
@@ -336,7 +336,7 @@
     "selectPickUpTime": "Select Pick Up Time",
     "delivery": "Delivery",
     "deliveryFee": "Delivery Fee",
-    "minimumOrder": "Minimum Order",
+    "minimumOrder": "Minimum Order value",
     "deliveryHours": "Delivery Hours",
     "enterDeliveryAddressPrompt": "Enter delivery address",
     "enterDeliveryAddress": "Enter Delivery Address",
@@ -415,7 +415,7 @@
     "orderStatus": "Order Status",
     "order": "Order",
     "changeStatusAction": "Change Status",
-    "selectOneOption": "Selct one option",
+    "selectOneOption": "Select one option",
     "changeStatus": "Change Status"
   },
   "app/(store)/components/orders-list": {
@@ -659,7 +659,7 @@
     "overview": "Overview",
     "users": "Users",
     "stripe": "Stripe",
-    "search": "Search Bakerz"
+    "search": "Search Bakers"
   },
   "app/(support)/components/contact-us": {
     "emailLabel": "Email",
@@ -724,7 +724,7 @@
     "refundPolicy": "Refund Policy",
     "linkedIn": "LinkedIn",
     "instagram": "Instagram",
-    "twitter": "Twitter",
+    "twitter": "X",
     "copyright": "TheBakerz. All rights reserved.",
     "navigation": "Navigation",
     "support": "Support",

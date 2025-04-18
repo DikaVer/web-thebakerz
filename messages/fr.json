@@ -46,7 +46,7 @@
     "gelatin": "gélatine",
     "gluten": "gluten",
     "lupine": "lupin",
-    "matsuke": "Matsuke",
+    "matsuke": "matsutake",
     "milk": "lait",
     "mushroom": "champignon",
     "nuts": "noix",
@@ -71,8 +71,8 @@
     "whyChooseTheBakerz": "Pourquoi choisir TheBakerz ?",
     "transparentPricing": "Tarification transparente",
     "monthlySubscription": "Abonnement à 9,99 €/mois",
-    "paymentFee": "Frais de paiement et de service 5%",
-    "paymentFeeInfo": "5% des ventes pour héberger le site web, les services opérationnels et de paiement",
+    "paymentFee": "Frais de paiement et de service 8%",
+    "paymentFeeInfo": "8% des ventes pour héberger le site web, les services opérationnels et de paiement",
     "freeTrial": "ESSAI GRATUIT",
     "exclusiveOffer": "Offre exclusive : commencez gratuitement pendant 3 mois !",
     "getStarted": "Commencez avec TheBakerz",
@@ -114,7 +114,7 @@
     "performingSignOut": "Exécution de la déconnexion..."
   },
   "Working Hours": {
-    "brandName": "Thebakerz",
+    "brandName": "TheBakerz",
     "friday": "Vendredi",
     "monday": "Lundi",
     "saturday": "Samedi",
@@ -386,7 +386,7 @@
     "orderStatus": "Statut de commande",
     "order": "Commande",
     "changeStatusAction": "Changer le statut",
-    "selectOneOption": "Selct une option",
+    "selectOneOption": "Selecte une option",
     "changeStatus": "Changer le statut"
   },
   "app/(store)/components/orders-list": {

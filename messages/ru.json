@@ -55,7 +55,7 @@
     "Search User": "Поиск пользователя"
   },
   "Working Hours": {
-    "brandName": "Тибейкерз",
+    "brandName": "TheBakerz",
     "friday": "Пятница",
     "monday": "Понедельник",
     "saturday": "Суббота",
@@ -116,8 +116,8 @@
     "yourPrivacy": "Ваша конфиденциальность"
   },
   "app/(components)/footer-simple": {
-    "aboutTheBakerz": "О ТИБЕРЗ",
-    "brandName": "Тибейкерз",
+    "aboutTheBakerz": "О TheBakerz",
+    "brandName": "TheBakerz",
     "copyright": "Тибейкерз. \nВсе права защищены.",
     "getHelp": "Получите помощь",
     "joinTheBakerz": "Присоединяйтесь к Thebakerz",
@@ -130,7 +130,7 @@
   },
   "app/(components)/footer-store": {
     "Opening Hours": "Часы работы",
-    "aboutTheBakerz": "О ТИБЕРЗ",
+    "aboutTheBakerz": "O TheBakerz",
     "addressPlaceholder": "Адрес заполнителя",
     "brandName": "Тибейкерз",
     "contactUs": "Связаться с нами",
@@ -151,8 +151,8 @@
   },
   "app/(components)/footer": {
     "aboutTheBakerz": "О ТИБЕРЗ",
-    "brandName": "Тибейкерз",
-    "copyright": "Тибейкерз. \nВсе права защищены.",
+    "brandName": "TheBakerz",
+    "copyright": "TheBakerz.\nВсе права защищены.",
     "getHelp": "Получите помощь",
     "instagram": "Instagram",
     "joinTheBakerz": "Присоединяйтесь к Thebakerz",
@@ -164,7 +164,7 @@
     "search": "Поиск Бейкерца",
     "support": "Поддерживать",
     "termsOfUse": "Условия эксплуатации",
-    "twitter": "Twitter"
+    "twitter": "X"
   },
   "app/(components)/join-button": {
     "join": "Присоединяйтесь к Thebakerz",
@@ -304,8 +304,8 @@
     "loading": "Загрузка ...",
     "monthlySubscription": "€ 9,99 в месяц подписка",
     "ownWebshop": "У вас есть веб -магазин",
-    "paymentFee": "Плата за оплату и обслуживание 5%",
-    "paymentFeeInfo": "5% продаж для размещения веб -сайтов, операционных и платежных услуг",
+    "paymentFee": "Плата за оплату и обслуживание 8%",
+    "paymentFeeInfo": "8% продаж для размещения веб -сайтов, операционных и платежных услуг",
     "planProduction": "Планируйте свое производство и следите за ежедневными задачами",
     "professionalStore": "Профессиональный интернет -магазин, чтобы продемонстрировать и продавать ваши запеченные творения",
     "recipeOrderControl": "Рецепт",

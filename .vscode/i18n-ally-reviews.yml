@@ -14,3 +14,183 @@ reviews:
             type: request_change
             time: '2025-03-28T20:57:41.852Z'
             resolved: true
+  Allergies.Add Allergy:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: ZqJQr0-nQQbMJuF4jBavd
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T18:07:20.217Z'
+  Allergies.abalone:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: zv-l4YEHosKkLiQMSe9_k
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T18:07:51.681Z'
+  Allergies.apple:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: 3ROGLcjPwrIK9t8Bs57Xv
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T18:08:11.082Z'
+  Allergies.banana:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: zsAvsDzlx2sm05jfKdMa2
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T18:08:16.097Z'
+  Allergies.beef:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: 7M4xHTb8jh2lHbHB-3ztE
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T18:08:31.662Z'
+  Allergies.cashew:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: 9IMqQYpLtJ-zKCV5lGGQf
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T18:09:27.597Z'
+  Allergies.celery:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: EJ4G9BIPcilAcqkv80Qd-
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T18:09:34.565Z'
+  Allergies.chicken:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: kslg174AxrgTzgQe272ru
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T18:09:39.430Z'
+  Allergies.crab:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: fRWlGDrNsCp9eOsb8fVha
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T18:09:44.513Z'
+  Allergies.egg:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: 5NZP_BsP2XruHHwPGzddi
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T18:09:50.964Z'
+  Allergies.fish:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: 4CGli3_iuHYGpDtQbRcuE
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T18:09:54.913Z'
+  app/(main)/about-us/page.greeting:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: 4qKmnluUR5wNKm3883_tb
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T19:05:48.195Z'
+  app/(return_page)/settings/components/delivery-options.pickupDescription:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: 7Suo_FmLw7gdBu6FFnqyw
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T19:16:01.053Z'
+  app/(store)/components/variants-form-field.addOption:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: OkuLhtEUWNkjeGFiTqfT3
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T19:54:39.684Z'
+  app/(support)/components/faq-baker.answer4:
+    locales:
+      nl:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: P6KnFM0SpGBj1-2JSxEki
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-18T20:03:20.216Z'
