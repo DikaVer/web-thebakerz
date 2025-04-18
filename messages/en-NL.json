@@ -86,7 +86,7 @@
   },
   "app/(main)/about-us/page": {
     "greetingTitle": "Nice to meet you",
-    "greeting": "We're David and Dumitru, and TheBakerz means a lot to us. After seeing our friends and family who bake struggle with late-night orders, juggling too many apps, and feeling like they never had time for the craft they love, we knew something had to change.\n\nSo we stepped in to help.",
+    "greeting": "We're David and Dumitru, we founded TheBakerz to make it easy for home bakers and artisan chefs to sell their products. We saw a growing market of passionate bakers and even more people hungry for something better than supermarket desserts. So we created a platform that brings them together. It’s simple: bakers get tools to grow, customers get access to amazing goods. Win Win! ",
     "sloganTitle": "Bake More, Stress Less",
     "slogan": "TheBakerz puts everything bakers need in one place. Instead of bouncing between spreadsheets, emails, and messages, you can handle all your orders, schedules, and customer details from a single, organized spot. Less hassle, fewer headaches, and more energy for doing what you do best—baking.",
     "whyTitle": "Why We Do This",
@@ -659,7 +659,7 @@
     "overview": "Overview",
     "users": "Users",
     "stripe": "Stripe",
-    "search": "Search Bakerz"
+    "search": "Search Bakers"
   },
   "app/(support)/components/contact-us": {
     "emailLabel": "Email",
@@ -729,7 +729,7 @@
     "navigation": "Navigation",
     "support": "Support",
     "legal": "Legal",
-    "search": "Search Bakerz"
+    "search": "Search Baker"
   },
   "app/(components)/footer-store": {
     "brandName": "TheBakerz",
@@ -741,7 +741,7 @@
     "refundPolicy": "Refund Policy",
     "linkedIn": "LinkedIn",
     "instagram": "Instagram",
-    "twitter": "Twitter",
+    "twitter": "X",
     "copyright": "TheBakerz. All rights reserved.",
     "legal": "Legal",
     "support": "Support",
@@ -749,7 +749,7 @@
     "phone": "Phone",
     "addressPlaceholder": "Address Placeholder",
     "locationPlaceholder": "Location Placeholder",
-    "search": "Search Bakerz",
+    "search": "Search Bakers",
     "Opening Hours": "Opening Hours"
   },
   "app/(components)/footer-simple": {

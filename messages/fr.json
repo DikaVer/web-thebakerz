@@ -700,7 +700,7 @@
     "navigation": "Navigation",
     "support": "Support",
     "legal": "Légal",
-    "search": "Rechercher Bakerz"
+    "search": "Rechercher Baker"
   },
   "app/(components)/footer-store": {
     "brandName": "TheBakerz",
@@ -720,7 +720,7 @@
     "phone": "Téléphone",
     "addressPlaceholder": "Espace réservé à l'adresse",
     "locationPlaceholder": "Espace réservé à la localisation",
-    "search": "Rechercher Bakerz",
+    "search": "Rechercher Bakers",
     "Opening Hours": "Heures d'ouverture"
   },
   "app/(components)/footer-simple": {
