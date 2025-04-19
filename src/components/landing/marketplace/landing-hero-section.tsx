@@ -312,20 +312,20 @@ export const LandingHeroSection = () => {
                 startContent={
                   <Icon icon="solar:magnifer-linear" className="text-default-400" width={20} />
                 }
-                endContent={
-                    <Button
-                      isIconOnly
-                      variant="light"
-                      size="sm"
-                      onPress={handleLocationClick}
-                      title="Use current location"
-                      className={isLocating || isSubmitting ? "hidden" : ""}
-                      isDisabled={!isLoaded || !ready || isLocating || isSubmitting}
-                      type="button"
-                    >
-                      <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500 dark:text-secondary" />
-                    </Button>
-                }
+                // endContent={
+                //     <Button
+                //       isIconOnly
+                //       variant="light"
+                //       size="sm"
+                //       onPress={handleLocationClick}
+                //       title="Use current location"
+                //       className={isLocating || isSubmitting ? "hidden" : ""}
+                //       isDisabled={!isLoaded || !ready || isLocating || isSubmitting}
+                //       type="button"
+                //     >
+                //       <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500 dark:text-secondary" />
+                //     </Button>
+                // }
                 classNames={{
                   base: "w-full bg-gradient-card rounded-2xl backdrop-blur-sm border-hidden shadow-lg",
 

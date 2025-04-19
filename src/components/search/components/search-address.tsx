@@ -225,20 +225,20 @@ export function SearchAddress({
                 startContent={
                     <Icon icon="solar:map-point-wave-linear" className="text-default-400" width={20} />
                 }
-                endContent={
-                    <Button
-                        isIconOnly
-                        variant="light"
-                        size="sm"
-                        onPress={handleLocationClick}
-                        title="Use current location"
-                        className={isLocating || isSubmitting ? "hidden" : ""}
-                        isDisabled={!isLoaded || !ready || isLocating || isSubmitting}
-                        type="button"
-                    >
-                        <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500 dark:text-secondary" />
-                    </Button>
-                }
+                // endContent={
+                //     <Button
+                //         isIconOnly
+                //         variant="light"
+                //         size="sm"
+                //         onPress={handleLocationClick}
+                //         title="Use current location"
+                //         className={isLocating || isSubmitting ? "hidden" : ""}
+                //         isDisabled={!isLoaded || !ready || isLocating || isSubmitting}
+                //         type="button"
+                //     >
+                //         <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500 dark:text-secondary" />
+                //     </Button>
+                // }
                 classNames={{
                     base: "w-full  rounded-xl border border-default-200", // Adjusted styling
                     listbox: "max-h-[200px] ",

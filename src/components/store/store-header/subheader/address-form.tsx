@@ -610,21 +610,21 @@ export function AddressForm({
           startContent={
             <Icon icon="solar:magnifer-linear" className="text-default-400" width={20} />
           }
-          endContent={
-            ((isValidating || isSubmitting) && <Spinner size="sm" color="current" />) ||
-            (isLoaded && !isValidating && !isLocating && !isSubmitting && (
-              <Button 
-                isIconOnly 
-                variant="light" 
-                size="sm" 
-                onPress={handleLocationClick}
-                title="Use current location"
-                isDisabled={!ready}
-              >
-                <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500 dark:text-secondary" />
-              </Button>
-            ))
-          }
+          // endContent={
+          //   ((isValidating || isSubmitting) && <Spinner size="sm" color="current" />) ||
+          //   (isLoaded && !isValidating && !isLocating && !isSubmitting && (
+          //     <Button
+          //       isIconOnly
+          //       variant="light"
+          //       size="sm"
+          //       onPress={handleLocationClick}
+          //       title="Use current location"
+          //       isDisabled={!ready}
+          //     >
+          //       <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500 dark:text-secondary" />
+          //     </Button>
+          //   ))
+          // }
           // description={
           //   loadError
           //     ? "Error loading Google Maps. Please check your API key and try again."
