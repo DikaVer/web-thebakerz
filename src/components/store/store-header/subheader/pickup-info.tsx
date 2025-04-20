@@ -26,8 +26,8 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
   
   // Generate a stable map ID for the current store
   const mapId = React.useMemo(() => 
-    `map-${store.id}-${store.location.latitude}-${store.location.longitude}`,
-    [store.id, store.location.latitude, store.location.longitude]
+    `map-${store.id}-${store?.location?.latitude}-${store?.location?.longitude}`,
+    [store.id, store?.location?.latitude, store?.location?.longitude]
   );
   
   // Simulating loading effect for better UX
@@ -50,9 +50,9 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
   const minimumOrder = 1000;
 
   // Format address
-  const location = store?.location.route ? `${store.location.route}` : t("addressPlaceholder");
-  const subLocation = store?.location.route 
-    ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` 
+  const location = store?.location?.route ? `${store.location.route}` : t("addressPlaceholder");
+  const subLocation = store?.location?.route
+    ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}`
     : t("locationPlaceholder");
     
   // Determine if store is open based on schedule
@@ -154,7 +154,7 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
               
               {/* Map */}
               <div className="h-36 w-full rounded-medium rounded-t-none overflow-hidden" ref={mapContainerRef}>
-                {store.location.latitude && store.location.longitude && (
+                {store?.location?.latitude && store?.location?.longitude && (
                   <LocationMap 
                     key={mapId}
                     latitude={Number(store.location.latitude)} 
