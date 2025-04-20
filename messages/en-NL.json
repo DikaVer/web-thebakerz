@@ -45,7 +45,7 @@
     "orange": "orange",
     "banana": "banana",
     "fish": "fish",
-    "matsuke": "matsuke",
+    "matsuke": "matsutake",
     "chicken": "chicken",
     "potato": "potato",
     "pork": "pork",
@@ -66,8 +66,8 @@
     "whyChooseTheBakerz": "Why Choose TheBakerz?",
     "transparentPricing": "Transparent pricing",
     "monthlySubscription": "€9.99/month subscription",
-    "paymentFee": "Payment and service fee 5%",
-    "paymentFeeInfo": "5% of sales to host website, operational and payment services",
+    "paymentFee": "Payment and service fee 8%",
+    "paymentFeeInfo": "8% of sales to host website, operational and payment services",
     "freeTrial": "FREE TRIAL",
     "exclusiveOffer": "Exclusive offer: start for 3 months for free!",
     "getStarted": "Get started with TheBakerz",
@@ -86,7 +86,7 @@
   },
   "app/(main)/about-us/page": {
     "greetingTitle": "Nice to meet you",
-    "greeting": "We're David and Dumitru, and TheBakerz means a lot to us. After seeing our friends and family who bake struggle with late-night orders, juggling too many apps, and feeling like they never had time for the craft they love, we knew something had to change.\n\nSo we stepped in to help.",
+    "greeting": "We're David and Dumitru, we founded TheBakerz to make it easy for home bakers and artisan chefs to sell their products. We saw a growing market of passionate bakers and even more people hungry for something better than supermarket desserts. So we created a platform that brings them together. It’s simple: bakers get tools to grow, customers get access to amazing goods. Win Win! ",
     "sloganTitle": "Bake More, Stress Less",
     "slogan": "TheBakerz puts everything bakers need in one place. Instead of bouncing between spreadsheets, emails, and messages, you can handle all your orders, schedules, and customer details from a single, organized spot. Less hassle, fewer headaches, and more energy for doing what you do best—baking.",
     "whyTitle": "Why We Do This",
@@ -106,7 +106,7 @@
     "performingSignIn": "Performing sign in..."
   },
   "app/(return_page)/transit-exit/page": {
-    "performingSignOut": "Performing sign out..."
+    "performingSignOut": "Signing out..."
   },
   "app/(return_page)/settings/components/profile-setting": {
     "profile": "Profile",
@@ -186,8 +186,8 @@
     "noCitiesSelected": "No cities selected",
     "mapView": "Map View",
     "deliveryDescription": "Allow customers to have orders delivered to their address",
-    "minOrderPrice": "Minimum Order Price",
-    "minPriceLabel": "Min Price",
+    "minOrderPrice": "Minimum Order Value",
+    "minPriceLabel": "Min Value",
     "minOrderPriceDescription": "Customers must order at least this amount to qualify for delivery in this region",
     "deliverySchedule": "Delivery Times",
     "manageDeliverySchedule": "Manage Delivery Times",
@@ -198,7 +198,7 @@
     "cancel": "Cancel",
     "save": "Save",
     "invalidCity": "Invalid city selected",
-    "minOrderPriceError": "Minimum order price must be at least 10€",
+    "minOrderPriceError": "Minimum order value must be at least 10€",
     "minOrderTime": "Min Order Time:",
     "brandName": "TheBakerz",
     "minutes": "minutes",
@@ -336,7 +336,7 @@
     "selectPickUpTime": "Select Pick Up Time",
     "delivery": "Delivery",
     "deliveryFee": "Delivery Fee",
-    "minimumOrder": "Minimum Order",
+    "minimumOrder": "Minimum Order value",
     "deliveryHours": "Delivery Hours",
     "enterDeliveryAddressPrompt": "Enter delivery address",
     "enterDeliveryAddress": "Enter Delivery Address",
@@ -415,7 +415,7 @@
     "orderStatus": "Order Status",
     "order": "Order",
     "changeStatusAction": "Change Status",
-    "selectOneOption": "Selct one option",
+    "selectOneOption": "Select one option",
     "changeStatus": "Change Status"
   },
   "app/(store)/components/orders-list": {
@@ -659,7 +659,7 @@
     "overview": "Overview",
     "users": "Users",
     "stripe": "Stripe",
-    "search": "Search Bakerz"
+    "search": "Search Bakers"
   },
   "app/(support)/components/contact-us": {
     "emailLabel": "Email",
@@ -724,12 +724,12 @@
     "refundPolicy": "Refund Policy",
     "linkedIn": "LinkedIn",
     "instagram": "Instagram",
-    "twitter": "Twitter",
+    "twitter": "X",
     "copyright": "TheBakerz. All rights reserved.",
     "navigation": "Navigation",
     "support": "Support",
     "legal": "Legal",
-    "search": "Search Bakerz"
+    "search": "Search Baker"
   },
   "app/(components)/footer-store": {
     "brandName": "TheBakerz",
@@ -741,7 +741,7 @@
     "refundPolicy": "Refund Policy",
     "linkedIn": "LinkedIn",
     "instagram": "Instagram",
-    "twitter": "Twitter",
+    "twitter": "X",
     "copyright": "TheBakerz. All rights reserved.",
     "legal": "Legal",
     "support": "Support",
@@ -749,7 +749,7 @@
     "phone": "Phone",
     "addressPlaceholder": "Address Placeholder",
     "locationPlaceholder": "Location Placeholder",
-    "search": "Search Bakerz",
+    "search": "Search Bakers",
     "Opening Hours": "Opening Hours"
   },
   "app/(components)/footer-simple": {
@@ -1069,7 +1069,7 @@
     "region": "Region",
     "registeredAddress": "Registered Address",
     "bankAccount": "Bank Account",
-    "korStatus": "Kor Status",
+    "korStatus": "KOR-Status",
     "korEnabled": "Enabled",
     "korDisabled": "Disabled"
   },

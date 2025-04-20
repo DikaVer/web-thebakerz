@@ -1,6 +1,6 @@
 {
   "HomePage": {
-    "title": "Bak meer. Minder stress.",
+    "title": "Meer bakken. Minder gedoe.",
     "subtitle": "TheBakerz - alle bestellingen, klantberichten en recepten op één plek",
     "learn more": "Meer informatie",
     "get started": "Aan de slag"
@@ -32,13 +32,13 @@
     "goBackToTheBakerz": "Ga terug naar TheBakerz"
   },
   "Allergies": {
-    "honey": "Honing",
+    "honey": "honing",
     "Add Allergy": "Voeg allergie toe",
     "abalone": "abalone",
     "apple": "appel",
     "banana": "banaan",
-    "beef": "rundvlees",
-    "cashew": "cachou",
+    "beef": "rundsvlees",
+    "cashew": "cashew",
     "celery": "selderij",
     "chicken": "kip",
     "crab": "krab",
@@ -47,12 +47,12 @@
     "gelatin": "gelatine",
     "gluten": "gluten",
     "kiwi": "kiwi",
-    "lupine": "wolvin",
-    "matsuke": "Matsuke",
+    "lupine": "lupine",
+    "matsuke": "matsutake",
     "milk": "melk",
-    "mushroom": "paddestoel",
-    "nuts": "gek",
-    "orange": "oranje",
+    "mushroom": "champignon",
+    "nuts": "noten",
+    "orange": "sinaasappel",
     "peach": "perzik",
     "pork": "varkensvlees",
     "potato": "aardappel",
@@ -71,8 +71,8 @@
     "whyChooseTheBakerz": "Waarom kiezen voor TheBakerz?",
     "transparentPricing": "Transparante prijzen",
     "monthlySubscription": "Abonnement van € 9,99/maand",
-    "paymentFee": "Betalings- en servicekosten 5%",
-    "paymentFeeInfo": "5% van de omzet voor het hosten van website-, operationele en betalingsdiensten",
+    "paymentFee": "Betalings- en servicekosten 8%",
+    "paymentFeeInfo": "8% van de omzet voor het hosten van website-, operationele en betalingsdiensten",
     "freeTrial": "GRATIS PROEFVERSIE",
     "exclusiveOffer": "Exclusief aanbod: start 3 maanden gratis!",
     "getStarted": "Ga aan de slag met TheBakerz",
@@ -90,9 +90,9 @@
     "Tips Info": "Tips Info"
   },
   "app/(main)/about-us/page": {
-    "greetingTitle": "Aangenaam",
-    "greeting": "Wij zijn David en Dumitru, en TheBakerz betekent veel voor ons. Nadat we zagen hoe onze vrienden en familie die bakken moeite hadden met late bestellingen, te veel apps moesten regelen en het gevoel hadden dat ze nooit tijd hadden voor het ambacht waar ze van houden, wisten we dat er iets moest veranderen.\n\n Dus kwamen we in actie om te helpen.",
-    "sloganTitle": "Bak meer, minder stress",
+    "greetingTitle": "Aangenaam kennismaken",
+    "greeting": "Wij zijn David en Dumitru, wij hebben TheBakerz opgericht zodat thuisbakkers en hobbykoks hun producten eenvoudig kunnen verkopen. We zagen een groeiende markt van gepassioneerde bakkers en nog meer mensen die snakken naar iets beters dan supermarktgebak. Dus hebben we een platform gebouwd dat hen samenbrengt. Simpel: bakkers krijgen tools om te groeien, klanten krijgen toegang tot geweldige producten. Win Win! ",
+    "sloganTitle": "Meer bakken, minder gedoe",
     "slogan": "TheBakerz zet alles wat bakkers nodig hebben op één plek. In plaats van heen en weer te springen tussen spreadsheets, e-mails en berichten, kunt u al uw bestellingen, schema's en klantgegevens vanaf één georganiseerde plek verwerken. Minder gedoe, minder hoofdpijn en meer energie om te doen waar u het beste in bent: bakken.",
     "whyTitle": "Waarom we dit doen",
     "why": "Voor ons is TheBakerz niet zomaar een idee, het is een direct antwoord op wat onze vrienden en familiebakkers ons vertelden dat ze nodig hebben. We zijn er om het makkelijker te maken, zodat jij je kunt richten op wat je het liefste doet. Volg ons op social media en laten we samen een betere toekomst vormgeven.",
@@ -103,7 +103,7 @@
     "settingsDescription": "Pas uw instellingen en profiel aan."
   },
   "app/(return_page)/support/contact-us/page": {
-    "support": "Steun",
+    "support": "Ondersteuning",
     "contactUs": "Neem contact met ons op",
     "contactUsDescription": "Wij zijn er om u te helpen tijdens onze kantooruren. Neem gerust contact met ons op voor vragen of problemen die u heeft."
   },
@@ -111,10 +111,10 @@
     "performingSignIn": "Aanmelden uitvoeren..."
   },
   "app/(return_page)/transit-exit/page": {
-    "performingSignOut": "Afmelden wordt uitgevoerd..."
+    "performingSignOut": "Afmelden..."
   },
   "Working Hours": {
-    "brandName": "Thebakerz",
+    "brandName": "TheBakerz",
     "friday": "Vrijdag",
     "monday": "Maandag",
     "saturday": "Zaterdag",
@@ -136,7 +136,7 @@
     "profileHasUpdated": "Je profiel is bijgewerkt",
     "updating": "Bijwerken...",
     "updateProfile": "Profiel bijwerken",
-    "bakerz": "TheBakerz -partner"
+    "bakerz": "TheBakerz Partner"
   },
   "app/(return_page)/settings/components/calendar-settings": {
     "workingSchedule": "Werkschema",
@@ -145,7 +145,7 @@
   "app/(return_page)/settings/components/products-settings": {
     "image": "Afbeelding",
     "nameAndPrice": "Naam & Prijs",
-    "drag": "Sleuren",
+    "drag": "Slepen",
     "updatingOrders": "Bestellingen bijwerken...",
     "updateProductOrder": "Product- en categoriebestellingen bijwerken",
     "noProductsYet": "De winkel heeft nog geen producten.",
@@ -165,7 +165,7 @@
     "specialWorkingHours": "Speciale werkuren",
     "selectDaysWithDifferentHours": "Selecteer dagen met verschillende uren",
     "stayDuration": "Verblijfsduur",
-    "editDay": "Bewerken Dag",
+    "editDay": "Dag bewerken",
     "startTime": "Starttijd",
     "endTime": "Eindtijd",
     "pleaseEnterValidTime": "Voer een geldige tijd in"
@@ -177,7 +177,7 @@
     "selectPlaceholder": "Selecteer een tijd",
     "successMessage": "Minimale besteltijd succesvol bijgewerkt",
     "errorMessage": "Het is niet gelukt om de minimale besteltijd bij te werken",
-    "minutes": "notulen",
+    "minutes": "minuten",
     "hour": "uur",
     "hours": "uren",
     "day": "dag",
@@ -187,13 +187,13 @@
     "startTime": "Starttijd",
     "startTimeError": "Starttijdfout",
     "endTime": "Eindtijd",
-    "endTimeError": "Eindtijdfout",
+    "endTimeError": "Eindtijd fout",
     "errorSomethingWentWrong": "Er ging iets mis!",
     "errorTooManyRequests": "Te veel aanvragen!",
     "errorInvalidTimeFields": "Ongeldige tijd",
     "scheduleSavedSuccess": "Schema opgeslagen",
     "errorFailedToSaveSchedule": "Kan schema niet opslaan",
-    "saving": "Besparing...",
+    "saving": "Opslaan...",
     "saveWorkingHours": "Bespaar werkuren"
   },
   "app/(store)/components/store-header": {
@@ -207,14 +207,14 @@
     "pickUpDescription": "Deze winkel biedt alleen afhaalbestellingen aan. Selecteer een afhaaltijd tijdens het afrekenen.",
     "workingHours": "Werkuren",
     "phone": "Telefoon",
-    "close": "Dichtbij",
+    "close": "Sluit",
     "deliveryOnly": "Alleen levering",
     "deliveryOnlyDescription": "Deze winkel biedt alleen leveringsopdrachten aan. \nSelecteer een levertijd tijdens het afrekenen.",
     "pickUpAndDelivery": "Ophalen en leveren",
     "pickUpAndDeliveryDescription": "Deze winkel biedt alleen leverings- en ophaalopdrachten. \nSelecteer een tijdstip tijdens het afrekenen.",
     "facebook": "Facebook",
     "addressPlaceholder": "Adres Placeholder",
-    "locationPlaceholder": "Locatie Placolaar",
+    "locationPlaceholder": "Locatie Placeholder",
     "instagram": "Instagram"
   },
   "app/(store)/components/product-search": {
@@ -232,8 +232,8 @@
   "app/(store)/components/store-top-next": {
     "openingHours": "Openingstijden",
     "phone": "Telefoon",
-    "alertPickupOnly": "Deze winkel biedt alleen pick -uporders.",
-    "alertDeliveryAndPickup": "Deze winkel biedt pick -up- en leveringsopdrachten.",
+    "alertPickupOnly": "Deze winkel biedt alleen pick-up orders.",
+    "alertDeliveryAndPickup": "Deze winkel biedt pick-up en leveringsopdrachten.",
     "alertDeliveryOnly": "Deze winkel biedt alleen leveringsopdrachten aan.",
     "alertHoverPickupOnly": "Selecteer een ophaaltijd tijdens het afrekenen",
     "alertHoverDeliveryOnly": "Selecteer een levertijd tijdens het afrekenen",
@@ -250,7 +250,7 @@
     "enterAddressPrompt": "Voer adres in",
     "scheduleUnavailable": "Plan niet beschikbaar",
     "checkingAddress": "Voer uw adres in",
-    "scheduleFormatError": "Schema -formaatfout",
+    "scheduleFormatError": "Schema format fout",
     "closed": "Gesloten",
     "noInfo": "Gesloten",
     "friday": "Vrijdag",
@@ -267,10 +267,10 @@
     "editDelivery": "Bewerk bezorging",
     "editProducts": "Producten bewerken",
     "addOrder": "Bestelling toevoegen",
-    "getHelp": "Krijg hulp",
-    "report": "Rapport",
-    "editPickup": "Bewerken pick -up",
-    "editStore": "Bewerkingswinkel"
+    "getHelp": "Vraag om hulp",
+    "report": "Rapporteer",
+    "editPickup": "Bewerken pick-up",
+    "editStore": "Winkel bewerken"
   },
   "app/(store)/components/product-page": {
     "noProductsAvailable": "Geen producten beschikbaar",
@@ -297,11 +297,11 @@
     "Item Options": "Itemopties",
     "Loading": "Laden",
     "Add Item": "Voeg item toe",
-    "cartUpdatedSuccess": "Kar is bijgewerkt",
+    "cartUpdatedSuccess": "Winkelwagen is bijgewerkt",
     "unexpectedError": "Onverwachte fout",
     "ingredients": "Ingrediënten",
     "allergies": "Allergieën",
-    "notes": "Aantekeningen",
+    "notes": "Opmerkingen",
     "addNotesPlaceholder": "Schrijf notities naar het item",
     "Add": "Toevoegen",
     "to order": "bestellen",
@@ -311,7 +311,7 @@
   "app/(store)/components/store-subheader": {
     "delivery": "Bezorging",
     "deliveryFee": "Bezorgkosten",
-    "minimumOrder": "Minimale bestelling",
+    "minimumOrder": "Minimale bestellingswaarde",
     "deliveryHours": "Bezorgtijden",
     "enterDeliveryAddressPrompt": "Voer bezorgadres in",
     "enterDeliveryAddress": "Voer afleveradres in",
@@ -328,7 +328,7 @@
     "storeClosed": "Nu gesloten",
     "pickUp": "Ophalen",
     "searchAddress": "Zoekadres",
-    "typeToSearchAddress": "Type om te zoeken adres",
+    "typeToSearchAddress": "Type om adres te zoeken",
     "street": "Straat",
     "enterStreet": "Voer de straatnaam in",
     "houseNumber": "Huisnummer",
@@ -336,15 +336,15 @@
     "zipCode": "Postcode",
     "enterZipCode": "Voer de postcode in",
     "city": "Stad",
-    "enterCity": "Betreed de stad",
+    "enterCity": "Voer de stad in",
     "enterAdditionalInfo": "Bijv. \nAppartementnummer, vloer, etc.",
     "confirm": "Bevestigen",
     "editDeliveryAddress": "Bewerk afleveradres",
     "addressPlaceholder": "Adres Placeholder",
-    "locationPlaceholder": "Locatie Placolaar",
+    "locationPlaceholder": "Locatie Placeholder",
     "pickUpAt": "Ophalen",
     "scheduleOrderTime": "Plan de besteltijd",
-    "selectPickUpTime": "Selecteer Pick -up tijd"
+    "selectPickUpTime": "Selecteer Pick-up tijd"
   },
   "app/(store)/components/store-top": {
     "addItem": "Item toevoegen"
@@ -362,7 +362,7 @@
   "app/(store)/components/product": {},
   "app/(store)/components/variants-form-field": {
     "newOption": "Nieuwe optie",
-    "optionGroupName": "Optie Groep Naam",
+    "optionGroupName": "Optie Groepnaam",
     "placeholder": "bijv. Grootte, Toppings, Extra's",
     "singleChoice": "Enkele keuze",
     "multipleChoices": "Meerdere keuzes",
@@ -374,9 +374,9 @@
     "addOptionGroup": "Optiegroep toevoegen"
   },
   "app/(store)/components/delete-confirmation": {
-    "deleteConfirmation": "Verwijderbevestiging",
+    "deleteConfirmation": "Verwijder bevestiging",
     "deleteProductWarning": "Nadat u het item hebt verwijderd, wordt het permanent verwijderd en kan het niet meer worden hersteld.",
-    "close": "Dichtbij",
+    "close": "Sluit",
     "confirm": "Bevestigen"
   },
   "app/(store)/components/order-dashboard": {},
@@ -384,18 +384,18 @@
     "failedToUpdateStatus": "Status niet bijgewerkt",
     "statusUpdatedSuccess": "Status wordt bijgewerkt",
     "orderStatus": "Bestelstatus",
-    "order": "Volgorde",
-    "changeStatusAction": "Wijzigstatus",
-    "selectOneOption": "Selct een optie",
-    "changeStatus": "Wijzigstatus"
+    "order": "Bestelling",
+    "changeStatusAction": "Status wijzigen ",
+    "selectOneOption": "Selecteer een optie",
+    "changeStatus": "Status wijzigen"
   },
   "app/(store)/components/orders-list": {
     "noOrdersFound": "Geen bestelling gevonden",
-    "order": "Volgorde",
+    "order": "Bestelling",
     "no": "Geen selectie",
     "orderStatusFilter": "Bestelstatusfilter",
     "addOrder": "Voeg bestelling toe",
-    "orders": "Bevelen",
+    "orders": "Bestellingen",
     "delivery": "Levering",
     "brandName": "TheBakerz"
   },
@@ -420,7 +420,7 @@
     "selectPickUpTime": "Selecteer ophaaltijd",
     "orderLink": "Bestellink",
     "copyLinkInstructions": "Kopieer deze link en deel deze met de klant voor betaling.",
-    "close": "Dichtbij",
+    "close": "Sluit",
     "copyLink": "Link kopiëren",
     "orderLinkCopiedClient": "Bestellink gekopieerd naar klembord!",
     "hasCustomerPaid": "Heeft de klant al betaald?",
@@ -475,7 +475,7 @@
     "Something Went Wrong": "Er ging iets mis",
     "delivery": "Levering",
     "completed": "Voltooid",
-    "brandName": "Thebakerz"
+    "brandName": "TheBakerz"
   },
   "app/(auth)/components/two-step-auth-form": {
     "email": "E-mail",
@@ -487,13 +487,13 @@
     "and": "En",
     "privacyPolicy": "Privacybeleid",
     "continueAsGuest": "Doorgaan als gast",
-    "otp": "eenmalig",
+    "otp": "OTP",
     "enterOtp": "Voer eenmalig wachtwoord in",
     "enterOtpDescription": "Voer de 6-cijferige code in die naar u is verzonden",
     "goBack": "Ga terug",
     "verify": "Verifiëren",
     "An unexpected error occurred": "Er is een onverwachte fout opgetreden",
-    "A new code was sent to your email": "Er is een nieuwe code naar uw e -mail verzonden"
+    "A new code was sent to your email": "Er is een nieuwe code naar uw e-mail verzonden"
   },
   "app/(store)/components/cart": {
     "yourCartFrom": "Uw winkelwagen van",
@@ -514,11 +514,11 @@
   "app/(store)/components/checkout": {
     "addItem": "Item toevoegen",
     "subtotal": "Subtotaal",
-    "vatExclusive": "Btw (9%)",
+    "vatExclusive": "BTW (9%)",
     "total": "Totaal",
     "cartEmpty": "Winkelwagen leeg",
     "addItemsToStart": "Voeg items toe om te beginnen",
-    "minimumAmount": "Het minimale bestelbedrag is € 10",
+    "minimumAmount": "De minimale bestelhoeveelheid is € 10",
     "pay": "Betalen",
     "alert": "Winkel biedt alleen afhaalbestellingen aan",
     "workingHours": "Werkuren",
@@ -528,17 +528,17 @@
     "loadingPaymentGateway": "Betalingsgateway wordt geladen...",
     "unableToInitializePayment": "Kan betalingsgateway niet initialiseren",
     "returnToCheckout": "Terug naar afrekenen",
-    "saveDeliveryDetails": "Bewaar pick -up details",
+    "saveDeliveryDetails": "Bewaar pick-up details",
     "invalidDeliveryAddress": "Ongeldig afleveradres",
     "deliveryFee": "Bezorgkosten",
     "serviceFee": "Servicekosten",
     "minimumOrderForDelivery": "Minimale bestelling is {amount}",
     "addressOutOfRange": "Adres uit de afleverregio",
-    "vat21": "Btw (21%)",
-    "deliveryVat": "Levering btw (21%)"
+    "vat21": "BTW (21%)",
+    "deliveryVat": "Levering BTW (21%)"
   },
   "app/(store)/components/image": {
-    "close": "Dichtbij",
+    "close": "Sluit",
     "zoom": "Zoom",
     "rotation": "Rotatie",
     "uploading": "Uploaden...",
@@ -550,12 +550,12 @@
   "app/(landing)/components/scroll-triggered": {
     "features": {
       "online_store": {
-        "description": "We maken uw eigen online winkel om uw heerlijke creaties te presenteren en bestellingen naadloos te accepteren.",
+        "description": "We maken uw eigen online winkel om uw heerlijke creaties te presenteren en bestellingen vlot te accepteren.",
         "key": "online-winkel",
         "title": "Online winkel"
       },
       "order_management": {
-        "description": "Volg en beheert eenvoudig al uw bestellingen op één plek, waardoor het risico op fouten en gemiste bestellingen wordt verminderd.",
+        "description": "Volg en beheer eenvoudig al uw bestellingen op één plek, waardoor het risico op fouten en gemiste bestellingen wordt verminderd.",
         "key": "orderbeheer",
         "title": "Orderbeheer"
       },
@@ -565,7 +565,7 @@
         "title": "Alle chats op één plek"
       },
       "support": {
-        "description": "Ons toegewijde team is hier om te helpen tijdens onze beschikbare uren, zodat uw vragen onmiddellijk worden aangepakt.",
+        "description": "Ons toegewijde team is hier om u te helpen tijdens onze beschikbare uren, zodat uw vragen onmiddellijk worden aangepakt.",
         "key": "flexibele ondersteuning",
         "title": "Flexibele ondersteuning"
       }
@@ -585,12 +585,12 @@
   },
   "app/(landing)/components/apply-form": {
     "startAndGrowBusiness": "Start en laat uw bedrijf groeien",
-    "cookingAndRest": "U concentreert zich op het koken, wij regelen de rest",
+    "cookingAndRest": "U concentreert zich op het bakken, wij regelen de rest",
     "phone": "Telefoon",
     "phonePlaceholder": "Voer uw telefoonnummer in",
     "termsAgreement": "Ik ga akkoord met de",
     "terms": "Servicevoorwaarden",
-    "and": "En",
+    "and": "en",
     "privacyPolicy": "Privacybeleid",
     "getStarted": "Aan de slag",
     "name": "Naam",
@@ -611,25 +611,25 @@
   },
   "app/(landing)/components/sidebar-menu": {
     "appName": "TheBakerz",
-    "support": "Steun",
-    "getHelp": "Krijg hulp",
+    "support": "Ondersteuning",
+    "getHelp": "Vraag om hulp",
     "accountSettings": "Accountinstellingen",
     "welcomedGuest": "Welkom, Gast",
     "signIn": "Aanmelden",
-    "aboutTheBakerz": "Over Thebakerz",
-    "account": "Rekening",
+    "aboutTheBakerz": "Over TheBakerz",
+    "account": "Account",
     "dashboard": "Dashboard",
-    "joinTheBakerz": "Word lid van Thebakerz",
+    "joinTheBakerz": "Word lid van TheBakerz",
     "navigation": "Navigatie",
-    "orders": "Bevelen",
+    "orders": "Bestellingen",
     "overview": "Overzicht",
     "products": "Producten",
-    "search": "Zoek Bakerz",
+    "search": "Zoek Bakkers",
     "settings": "Instellingen",
     "shop": "Winkel",
     "signInButton": "Inloggen",
     "stores": "Winkels",
-    "stripe": "Streep",
+    "stripe": "Stripe",
     "users": "Gebruikers"
   },
   "app/(support)/components/contact-us": {
@@ -657,8 +657,8 @@
     "sectionCustomer": "Klanten"
   },
   "app/(support)/components/faq-baker": {
-    "answer1": "Thebakerz is een alles-in-één platform dat bakkers helpt hun bedrijven te beheren en meer klanten te bereiken. \nHet behandelt bestellingen, productieplanning, betalingen en klantcommunicatie op één plek. \nDit betekent minder tijd op admin en meer tijd om te doen waar je van houdt - bouwen!",
-    "answer10": "We zijn hier om te helpen met alles wat je nodig hebt. \nVan het opzetten van uw winkel tot het beheren van bestellingen, neemt contact met ons op of bel ons op 31 684794739. We zullen ervoor zorgen dat alles soepel voor u verloopt.",
+    "answer1": "Thebakerz is een alles-in-één platform dat bakkers helpt hun bedrijven te beheren en meer klanten te bereiken. \nHet behandelt bestellingen, productieplanning, betalingen en klantcommunicatie op één plek. \nDit betekent minder tijd op admin en meer tijd om te doen waar je van houdt - bakken!",
+    "answer10": "We zijn hier om te helpen met alles wat je nodig hebt. \nVan het opzetten van uw winkel tot het beheren van bestellingen, neem contact met ons op of bel ons op +31 684794739. We zullen ervoor zorgen dat alles soepel voor u verloopt.",
     "answer4": "Natuurlijk! \nJe hebt de controle over wat je verkoopt en hoeveel je in rekening brengt. \nU kunt uw menu en prijzen bijwerken wanneer u maar wilt.",
     "answer5": "U bepaalt wat het beste werkt voor uw bakkerij. \nU kunt levering aanbieden of klanten toestaan ​​om bestellingen van uw locatie op te halen. \nStel uw eigen leveringsgebieden en pick -uptijden in om aan uw schema te passen.",
     "answer6": "U betaalt alleen als u een verkoop doet. We nemen een commissie van 8%, die betrekking heeft op website -activiteiten, betalingsverwerkingskosten en advertenties.",
@@ -676,34 +676,34 @@
     "question8": "Is het gemakkelijk te gebruiken als ik niet goed ben met technologie?",
     "question9": "Kan ik Thebakerz vertrouwen met betalingen en bestellingen?",
     "answer2": "Aan de slag gaan is eenvoudig! \n[Vul dit formulier in](/become-partner#join-thebakerz), en we plannen een snelle oproep om alles in te stellen. \nWe helpen u uw online winkel te maken en u te laten zien hoe u deze stap voor stap kunt gebruiken.",
-    "answer3": "U hebt alleen een KVK -nummer, btw -nummer en voedselveiligheidscertificering nodig. \nAls je iets mist, maak je geen zorgen - we zullen je helpen erachter te komen."
+    "answer3": "U hebt alleen een KVK-nummer, btw-nummer en voedselveiligheidscertificering nodig. \nAls je iets mist, maak je geen zorgen - we zullen je helpen erachter te komen."
   },
   "app/(support)/components/faq-customer": {},
   "app/(components)/redirect-page": {
     "success": "Succes!",
     "seconds": "seconden",
-    "holdTight": "Houd even vast of klik op de onderstaande knop om nu te gaan:",
+    "holdTight": "Houd even vast of klik op de onderstaande knop om nu verder te gaan:",
     "redirectNow": "Nu omleiden"
   },
   "app/(components)/footer": {
-    "brandName": "Zoek Bakerz",
+    "brandName": "TheBakerz",
     "aboutTheBakerz": "Over TheBakerz",
     "joinTheBakerz": "Sluit je aan bij TheBakerz",
-    "getHelp": "Krijg hulp",
+    "getHelp": "Vraag om hulp ",
     "privacyPolicy": "Privacybeleid",
     "termsOfUse": "Gebruiksvoorwaarden",
     "refundPolicy": "Restitutiebeleid",
     "linkedIn": "LinkedIn",
     "instagram": "Instagram",
-    "twitter": "Twitter",
+    "twitter": "X",
     "copyright": "TheBakerz. Alle rechten voorbehouden.",
     "navigation": "Navigatie",
-    "support": "Steun",
+    "support": "Support",
     "legal": "Juridisch",
-    "search": "Zoek Bakerz"
+    "search": "Zoek Bakkers"
   },
   "app/(components)/footer-store": {
-    "brandName": "Zoek Bakerz",
+    "brandName": "TheBakerz",
     "aboutTheBakerz": "Over TheBakerz",
     "joinTheBakerz": "Sluit je aan bij TheBakerz",
     "getHelp": "Krijg hulp",
@@ -712,27 +712,27 @@
     "refundPolicy": "Restitutiebeleid",
     "linkedIn": "LinkedIn",
     "instagram": "Instagram",
-    "twitter": "Twitter",
+    "twitter": "X",
     "copyright": "TheBakerz. Alle rechten voorbehouden.",
     "legal": "Juridisch",
-    "support": "Steun",
+    "support": "Ondersteuning",
     "contactUs": "Neem contact met ons op",
     "phone": "Telefoon",
     "addressPlaceholder": "Adres-plaatsaanduiding",
     "locationPlaceholder": "Locatie Plaatsaanduiding",
-    "search": "Zoek Bakerz",
+    "search": "Zoek Bakkers",
     "Opening Hours": "Openingstijden"
   },
   "app/(components)/footer-simple": {
-    "brandName": "Zoek Bakerz",
+    "brandName": "TheBakerz",
     "aboutTheBakerz": "Over TheBakerz",
     "joinTheBakerz": "Sluit je aan bij TheBakerz",
-    "getHelp": "Krijg hulp",
+    "getHelp": "Vraag om hulp",
     "privacyPolicy": "Privacybeleid",
     "termsOfUse": "Gebruiksvoorwaarden",
     "refundPolicy": "Restitutiebeleid",
     "copyright": "TheBakerz. Alle rechten voorbehouden.",
-    "support": "Steun",
+    "support": "Ondersteuning",
     "legal": "Juridisch",
     "search": "Zoek Bakerz"
   },
@@ -775,7 +775,7 @@
     "notAuthenticated": "Niet geverifieerd",
     "verificationCodeExpired": "De verificatiecode is verlopen. We hebben een andere code naar uw e-mail gestuurd.",
     "incorrectCode": "Onjuiste code.",
-    "problemWithAccount": "Probleem met account",
+    "problemWithAccount": "Probleem met uw account",
     "problemSendingEmail": "Er is een probleem opgetreden bij het verzenden van de e-mail. Probeer het later opnieuw."
   },
   "app/actions": {
@@ -957,8 +957,8 @@
     "noCitiesSelected": "Geen steden geselecteerd",
     "mapView": "Kaartweergave",
     "deliveryDescription": "Klanten toestaan bestellingen te laten bezorgen op hun adres",
-    "minOrderPrice": "Minimale Bestelprijs",
-    "minPriceLabel": "Min Prijs",
+    "minOrderPrice": "Minimale Bestelwaarde",
+    "minPriceLabel": "Min waarde",
     "minOrderPriceDescription": "Klanten moeten minimaal dit bedrag bestellen om in aanmerking te komen voor bezorging in dit gebied",
     "deliverySchedule": "Bezorgtijden",
     "manageDeliverySchedule": "Beheer Bezorgtijden",
@@ -969,10 +969,10 @@
     "cancel": "Annuleren",
     "save": "Opslaan",
     "invalidCity": "Ongeldige stad geselecteerd",
-    "minOrderPriceError": "Minimale bestelprijs moet minimaal 10€ zijn",
+    "minOrderPriceError": "Minimale bestelwaarde moet minimaal 10€ zijn",
     "minOrderTime": "Min besteltijd:",
     "brandName": "TheBakerz",
-    "minutes": "notulen",
+    "minutes": "minuten",
     "hour": "uur",
     "hours": "uren",
     "day": "dag",
@@ -980,9 +980,9 @@
     "addRange": "Bereik toevoegen",
     "rangeOrderError": "Maak het bereik groter dan de vorige",
     "startTime": "Starttijd",
-    "startTimeError": "Starttijdfout",
+    "startTimeError": "Starttijd fout",
     "endTime": "Eindtijd",
-    "endTimeError": "Eindtijdfout"
+    "endTimeError": "Eindtijd fout"
   },
   "app/(store)/components/delivery-map": {},
   "app/(return_page)/settings/components/store-tabs-settings": {
@@ -992,28 +992,28 @@
   },
   "app/(return_page)/settings/components/store-setting": {
     "storeUpdated": "Winkel bijgewerkt!",
-    "updateStore": "Updatewinkel",
+    "updateStore": "Winkel bijwerken",
     "storeDescriptionPlaceholder": "Vertel ons over uw winkel ... (Max 200 tekens)",
     "writeAboutStore": "Schrijf een korte beschrijving over uw winkel (max 200 tekens)",
     "contactUs": "Neem contact met ons op",
     "description": "Beschrijving",
     "editLocationPhoneBy": "U kunt deze bewerken door contact met ons op te nemen op",
-    "enterFacebookURL": "Voer uw Facebook -pagina -URL in",
-    "enterInstagramURL": "Voer uw Instagram -profiel -URL in",
-    "facebookURL": "Facebook -URL",
+    "enterFacebookURL": "Voer uw Facebookpagina link in",
+    "enterInstagramURL": "Voer uw Instagramprofiel link in",
+    "facebookURL": "Facebook link",
     "facebookURLPlaceholder": "https://facebook.com/your-page",
     "howUserFindYou": "Hoe gebruikers uw winkel zullen vinden",
     "howUserRecognizeYou": "Dit zal deel uitmaken van de ondertitel van uw winkel",
-    "instagramURL": "Instagram URL",
+    "instagramURL": "Instagram link",
     "instagramURLPlaceholder": "https://instagram.com/your-handle",
-    "locationPhone": "Locatie",
-    "locationPlaceholder": "Locatie Placolaar",
-    "phoneNumberPlaceholder": "31 6 12 34 56 78",
+    "locationPhone": "Locatie & Telefoon",
+    "locationPlaceholder": "Locatie Placeholder",
+    "phoneNumberPlaceholder": "+31 6 12 34 56 78",
     "storeLink": "Winkellink",
-    "storeSlug": "Store ondertitel",
+    "storeSlug": "Winkel ondertitel",
     "typeYourStoreName": "Typ uw winkelnaam",
-    "typeYourStoreSlug": "Bewaar sinds 2021",
-    "updating": "Update ..."
+    "typeYourStoreSlug": "Winkel sinds 2021",
+    "updating": "Bijwerken..."
   },
   "app/lib/actions/store-actions": {
     "tooManyRequests": "Te veel verzoeken!",
@@ -1025,9 +1025,9 @@
   "app/(return_page)/settings/components/store-info": {
     "pickupOnly": "Alleen ophalen",
     "deliveryOnly": "Alleen levering",
-    "pickupAndDelivery": "Ophalen",
+    "pickupAndDelivery": "Ophalen & bezorging",
     "notConfigured": "Niet geconfigureerd",
-    "storeInformation": "Informatie opslaan",
+    "storeInformation": "Informatie winkel",
     "owner": "Eigenaar",
     "region": "Regio",
     "deliveryOption": "Verzendopties",
@@ -1043,21 +1043,21 @@
     "businessInformation": "Zakelijke informatie",
     "businessName": "Bedrijfsnaam",
     "notAvailable": "Niet beschikbaar",
-    "kvkNumber": "Zakelijke nummer",
-    "vatNumber": "Belasting -ID",
+    "kvkNumber": "Zakelijk nummer",
+    "vatNumber": "Belasting-ID",
     "region": "Regio",
     "registeredAddress": "Geregistreerd adres",
     "bankAccount": "Bankrekening",
-    "korStatus": "KOR -status",
+    "korStatus": "KOR-status",
     "korEnabled": "Ingeschakeld",
     "korDisabled": "Gehandicapt",
     "email": "E-mail"
   },
   "UsersDashboard": {
-    "Search User": "Zoekgebruiker"
+    "Search User": "Zoek gebruiker"
   },
   "app/(components)/join-button": {
-    "loading": "Laden ...",
+    "loading": "Laden...",
     "join": "Join TheBakerz",
     "joinSmall": "Meedoen"
   },
@@ -1081,8 +1081,8 @@
     }
   },
   "app/(store)/id/order/success": {
-    "verifyEmail": "Controleer e -mailafbeelding",
-    "checkEmail": "Controleer uw e -mail op de informatie over uw bestelling.",
+    "verifyEmail": "Controleer e-mailafbeelding",
+    "checkEmail": "Controleer uw e-mail op de informatie over uw bestelling.",
     "orderPlaced": "Uw bestelling is geplaatst!",
     "returnToStore": "Ga terug naar de winkel"
   },
@@ -1094,19 +1094,19 @@
     "deliveryOption": "Levering",
     "deliveryOptions": "Leveringsopties",
     "deliveryOptionsDescription": "Configureer hoe klanten hun bestellingen kunnen ontvangen.",
-    "optionsUpdateError": "De leveringsopties niet bijwerken",
+    "optionsUpdateError": "Fout bij het bijwerken van leveringsopties",
     "optionsUpdateSuccess": "Leveringsopties met succes bijgewerkt",
-    "pickupDescription": "Sta klanten in staat om bestellingen uit uw winkel op te halen",
+    "pickupDescription": "Sta klanten toe om bestellingen uit uw winkel op te halen",
     "pickupOption": "Ophalen",
     "updateDeliveryOptions": "Update leveringsopties",
-    "updatingOptions": "Opties bijwerken ..."
+    "updatingOptions": "Opties bijwerken..."
   },
   "app/(store)/id/order/failed": {
     "error": "Er is iets mis met de betaling"
   },
   "app/(store)/id/orders/add": {
     "addOrder": "Voeg bestelling toe",
-    "addOrderDescription": "Maak een kar en voeg toe aan uw bestellijst."
+    "addOrderDescription": "Maak een winkelwagen en voeg toe aan uw bestellijst."
   },
   "app/(store)/id/page": {
     "noProducts": "Geen producten beschikbaar"
@@ -1160,5 +1160,10 @@
     "deliveries": "LEVERINGEN",
     "marketing": "MARKETING",
     "support": "STEUN"
+  },
+  "app/(store)/": {
+    "id": {
+      "example-store": "Dit is een voorbeeldwinkel. Producten worden enkel weergegeven voor demonstratiedoeleinden. "
+    }
   }
 }
