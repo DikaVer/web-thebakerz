@@ -10,7 +10,7 @@ export async function setLanguageCookie(lang: Locale) {
         name: 'language',
         value: lang,
         path: '/',               // cookie available site-wide
-        maxAge: 60 * 60 * 24     // 1 day in seconds
+        maxAge: 60 * 60 * 24 * 15    // 15 day in seconds
     });
 }
 

@@ -13,6 +13,7 @@ export interface Coordinates {
     lng: number;
 }
 
+const MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 const COOKIE_CONSENT_KEY = "cookie_consent";
 const COOKIE_PREFERENCES_KEY = "cookie_preferences";
 const SEARCH_LAT_KEY = "search_lat";
@@ -65,53 +66,6 @@ export async function getSearchCity(): Promise<string | null> {
     return cookie.get(SEARCH_CITY_KEY)?.value ?? null;
 }
 
-/**
- * Set search coordinates in cookies
- * @param coords Coordinates to save
- */
-export async function setSearchCoordinates(coords: Coordinates): Promise<void> {
-    const cookie = await cookies();
-    const maxAge = 60 * 60 * 24 * 30; // 30 days
-
-    cookie.set(SEARCH_LAT_KEY, coords.lat.toString(), {
-        path: '/',
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: maxAge,
-    });
-
-    cookie.set(SEARCH_LNG_KEY, coords.lng.toString(), {
-        path: '/',
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: maxAge,
-    });
-}
-
-/**
- * Set search city in cookies
- * @param city City name to save
- */
-export async function setSearchCity(city: string | null): Promise<void> {
-    const cookie = await cookies();
-    const maxAge = 60 * 60 * 24 * 30; // 30 days
-
-    if (city) {
-        cookie.set(SEARCH_CITY_KEY, city, {
-            path: '/',
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: maxAge,
-        });
-    } else {
-        // Remove the cookie if the city is null
-        cookie.delete(SEARCH_CITY_KEY);
-    }
-}
-
 export async function acceptAll() {
     const cookie = await cookies();
     cookie.set(COOKIE_CONSENT_KEY, "accepted", {
@@ -119,7 +73,7 @@ export async function acceptAll() {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: 60 * 60 * 24 * 1, // 1 days
+        maxAge: MAX_AGE,
     });
     cookie.set(
         COOKIE_PREFERENCES_KEY,
@@ -133,7 +87,7 @@ export async function acceptAll() {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 1, // 1 days
+            maxAge: MAX_AGE,
         }
     );
     // Optionally, return a value or trigger a redirect
@@ -147,7 +101,7 @@ export async function rejectAll() {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 1, // 1 days
+            maxAge: MAX_AGE,
         });
     cookie.set(
         COOKIE_PREFERENCES_KEY,
@@ -161,7 +115,7 @@ export async function rejectAll() {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 1, // 1 days
+            maxAge: MAX_AGE,
         }
     );
 }
@@ -176,7 +130,7 @@ export async function savePreferences(newPreferences: CookiePreferences) {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 1, // 1 days
+            maxAge: MAX_AGE,
         }
     );
     const { analytics, marketing } = newPreferences;
@@ -186,7 +140,7 @@ export async function savePreferences(newPreferences: CookiePreferences) {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 1, // 1 days
+            maxAge: MAX_AGE,
         });
         cookie.set(
             COOKIE_PREFERENCES_KEY,
@@ -200,7 +154,7 @@ export async function savePreferences(newPreferences: CookiePreferences) {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'lax',
-                maxAge: 60 * 60 * 24 * 1, // 1 days
+                maxAge: MAX_AGE,
             }
         );
     } else {
@@ -209,7 +163,7 @@ export async function savePreferences(newPreferences: CookiePreferences) {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 1, // 1 days
+            maxAge: MAX_AGE,
         });
         cookie.set(
             COOKIE_PREFERENCES_KEY,
@@ -223,7 +177,7 @@ export async function savePreferences(newPreferences: CookiePreferences) {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'lax',
-                maxAge: 60 * 60 * 24 * 1, // 1 days
+                maxAge: MAX_AGE,
             }
         );
     }
