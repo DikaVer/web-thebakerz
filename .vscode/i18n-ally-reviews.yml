@@ -14,6 +14,18 @@ reviews:
             type: request_change
             time: '2025-03-28T20:57:41.852Z'
             resolved: true
+  app/(support)/components/faq-baker.question10:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: David Chakrian
+              email: d.chakrian@thebakerz.com
+            id: wz3kskPEMVfK4BT7C891c
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-20T17:30:31.650Z'
   Allergies.Add Allergy:
     locales:
       nl:

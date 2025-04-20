@@ -13,8 +13,6 @@ const faqsBakerz: FAQ[] = [
   { questionKey: "question6", answerKey: "answer6" },
   { questionKey: "question7", answerKey: "answer7" },
   { questionKey: "question8", answerKey: "answer8" },
-  { questionKey: "question9", answerKey: "answer9" },
-  { questionKey: "question10", answerKey: "answer10" },
 ];
 
 const faqsCustomer: FAQ[] = [
@@ -26,8 +24,6 @@ const faqsCustomer: FAQ[] = [
   { questionKey: "question6", answerKey: "answer6" },
   { questionKey: "question7", answerKey: "answer7" },
   { questionKey: "question8", answerKey: "answer8" },
-  { questionKey: "question9", answerKey: "answer9" },
-  { questionKey: "question10", answerKey: "answer10" },
 ];
 
 export { faqsBakerz, faqsCustomer };
