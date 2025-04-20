@@ -73,7 +73,7 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
     const todaySchedule = store.schedule[todayName as keyof typeof store.schedule];
     
     // Check if the store is open today
-    if (!todaySchedule.isEnabled) return false;
+    if (!todaySchedule?.isEnabled) return false;
     
     // Convert current time to minutes for easier comparison
     const currentTimeInMinutes = currentHour * 60 + currentMinute;
