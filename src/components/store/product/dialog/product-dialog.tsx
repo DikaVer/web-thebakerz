@@ -50,6 +50,7 @@ export default function ProductDialog({storeId, storeOwnerId, productData, itemC
                                 session.user?.role === 'bakerz' && session.user?.id === storeOwnerId && !bakerzOrder ?
                                     (
                                         <BakerzProductDialog
+                                            isOpen={isOpen}
                                             storeId={storeId}
                                             productData={productData}
                                             onClose={onClose}
