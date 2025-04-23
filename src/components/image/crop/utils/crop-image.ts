@@ -84,7 +84,7 @@ export default async function getCroppedImg(
     canvas.height = pixelCrop.height;
     ctx.putImageData(data, 0, 0);
 
-    // Step 1: Get the cropped image as a Blob/File
+    // Get the cropped image as a Blob/File and process it
     return new Promise((resolve, reject) => {
         canvas.toBlob(async (blob) => {
             if (!blob) {
@@ -95,7 +95,7 @@ export default async function getCroppedImg(
                 // Create a File from the blob with a temporary JPEG format
                 const croppedFile = new File([blob], 'cropped-temp.jpeg', { type: 'image/jpeg' });
                 
-                // Step 2: Apply advanced compression and conversion to WebP
+                // Apply advanced compression and conversion to WebP
                 const processed = await processImage(croppedFile);
                 
                 if (!processed.file) {

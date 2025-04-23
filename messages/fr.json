@@ -306,7 +306,12 @@
     "Add": "Ajouter",
     "to order": "pour commander",
     "Updating Cart": "Cart à jour",
-    "Update": "Mise à jour"
+    "Update": "Mise à jour",
+    "invalidImages": "Certaines images ne sont pas correctement chargées. \nVeuillez essayer de les télécharger à nouveau.",
+    "invalidFile": "Fichier non valide sélectionné. \nVeuillez réessayer.",
+    "submitError": "N'a pas soumis le formulaire. \nVeuillez réessayer.",
+    "productDeleteFailed": "N'a pas réussi à supprimer le produit. \nVeuillez réessayer.",
+    "unsupportedFormat": "Les images Heic / Heif ne sont pas prises en charge. \nVeuillez convertir votre image en JPEG ou PNG à l'aide de l'application photo de votre appareil avant le téléchargement."
   },
   "app/(store)/components/store-subheader": {
     "delivery": "Livraison",
@@ -545,7 +550,9 @@
     "uploadImage": "Télécharger l'image",
     "failedToUploadImage": "Échec du téléchargement de l'image. Veuillez réessayer.",
     "title": "Télécharger l'image",
-    "subtitle": "Recadrez et ajustez votre image"
+    "subtitle": "Recadrez et ajustez votre image",
+    "unsupportedFormat": "Les images Heic / Heif ne sont pas prises en charge. \nVeuillez convertir votre image en JPEG ou PNG à l'aide de l'application photo de votre appareil avant le téléchargement.",
+    "imageProcessingError": "Impossible de traiter l'image. \nVeuillez essayer un format d'image différent (JPEG ou PNG recommandé)."
   },
   "app/(landing)/components/scroll-triggered": {
     "features": {
@@ -653,21 +660,17 @@
     "faqsTitleShort": "Posez fréquemment des questions",
     "faqsTitleLong": "Posez fréquemment des questions",
     "contactUs": "Contactez-nous",
-    "sectionBaker": "Pour les boulangers",
     "sectionCustomer": "Clients"
   },
   "app/(support)/components/faq-baker": {
     "answer1": "Thebakerz est une plate-forme tout-en-un qui aide les boulangers à gérer leurs entreprises et à atteindre plus de clients. \nIl gère les commandes, la planification de la production, les paiements et la communication des clients en un seul endroit. \nCela signifie moins de temps sur l'administrateur et plus de temps à faire ce que vous aimez, en préparant!",
-    "answer10": "Nous sommes ici pour aider avec tout ce dont vous avez besoin. \nDe la mise en place de votre boutique à la gestion des commandes, contactez-nous ou appelez-nous au 31 684794739. Nous nous assurerons que tout se passe bien pour vous.",
     "answer2": "Le démarrage est facile! \n[Remplissez ce formulaire](/become-partner#join-thebakerz), et nous planifierons un appel rapide pour tout configurer. \nNous vous aiderons à créer votre boutique en ligne et à vous montrer comment l'utiliser étape par étape.",
     "answer3": "Vous aurez juste besoin d'un numéro KVK, d'un numéro de TVA et d'une certification de sécurité alimentaire. \nSi vous manquez quelque chose, ne vous inquiétez pas - nous vous aiderons à le comprendre.",
     "answer5": "Vous décidez ce qui fonctionne le mieux pour votre boulangerie. \nVous pouvez offrir une livraison ou permettre aux clients de récupérer les commandes de votre emplacement. \nDéfinissez vos propres zones de livraison et temps de ramassage pour s'adapter à votre horaire.",
     "answer6": "Vous ne payez que lorsque vous faites une vente. Nous prenons une commission de 8%, qui couvre les opérations du site Web, les frais de traitement des paiements et la publicité.",
     "answer7": "Les clients paient à l'avance via notre système de paiement sécurisé. \nNous transférons vos revenus, moins la Commission, sur votre compte bancaire chaque semaine. \nLes paiements arrivent généralement dans les 1-2 jours ouvrables après lundi",
     "answer8": "Absolument! \nThebakerz est conçu pour être simple et convivial. \nSi vous avez besoin d'aide, notre équipe d'assistance n'est qu'un e-mail ou un appel.",
-    "answer9": "Oui, vous pouvez. \nLes commandes sont suivies automatiquement et les paiements sont traités en toute sécurité avec notre partenaire de paiement (Stripe). \nVous et vos clients aurez tous deux une transparence complète à chaque étape.",
     "question1": "Qu'est-ce que Thebakerz",
-    "question10": "Puis-je faire confiance à Thebakerz avec les paiements et les commandes?",
     "question2": "Comment commencer à vendre sur Thebakerz?",
     "question3": "De quoi ai-je besoin pour commencer?",
     "question4": "Puis-je choisir mes propres prix et menu?",
@@ -675,7 +678,6 @@
     "question6": "Que coûte-t-il d'utiliser Thebakerz?",
     "question7": "Comment fonctionnent les paiements?",
     "question8": "",
-    "question9": "Puis-je faire confiance à Thebakerz avec les paiements et les commandes?",
     "answer4": "Bien sûr! \nVous contrôlez ce que vous vendez et combien vous facturez. \nVous pouvez mettre à jour votre menu et vos prix quand vous le souhaitez."
   },
   "app/(support)/components/faq-customer": {},
@@ -897,7 +899,8 @@
     "failedReplaceGuestCart": "Échec du remplacement du panier invité.",
     "userIdStoreIdRequired": "L'identifiant utilisateur et l'identifiant du magasin sont requis",
     "cartRemovedSuccess": "Panier supprimé avec succès !",
-    "failedRemoveCart": "Échec de la suppression du panier."
+    "failedRemoveCart": "Échec de la suppression du panier.",
+    "productNotFound": "Produit introuvable!"
   },
   "app/lib/actions/product": {
     "tooManyRequests": "Trop de demandes",
@@ -913,11 +916,9 @@
     "tooManyRequests": "Trop de demandes",
     "invalidFields": "Champs invalides!",
     "storeNotFound": "Magasin non trouvé !",
-    "userNotFound": "Utilisateur non trouvé !",
     "cartEmpty": "Le panier est vide",
     "orderTimeNotSet": "L'heure de la commande n'est pas définie",
     "pastDateOrder": "Impossible de passer des commandes pour des dates passées ou l'heure est proche de la fin",
-    "failedCreateOrder": "Échec de la création de la commande",
     "failedCreateCheckout": "Échec de la création de la session de paiement",
     "failedFetchOrders": "Échec de la récupération des commandes",
     "failedFetchOrder": "Échec de la récupération des données du magasin",
@@ -1077,7 +1078,9 @@
         "minOrder": "Commande min",
         "deliveryUnavailable": "Pas livrer maintenant",
         "open": "Ouvrir",
-        "closed": "Fermé"
+        "closed": "Fermé",
+        "deliveryHours": "Heures de livraison",
+        "workingHours": "Heures d'ouverture"
       }
     }
   },
@@ -1122,10 +1125,7 @@
     "notAuthorized": "Pas autoriser l'accès",
     "internalError": "Erreur interne du serveur"
   },
-  "app/api/store/orders/new": {
-    "internalError": "Erreur interne",
-    "notAuthorized": "Pas"
-  },
+  "app/api/store/orders/new": {},
   "app/(store)/id": {
     "example-store": "Ceci est un exemple de magasin. \nLes produits et services présentés sont à des fins de démonstration uniquement."
   },
@@ -1161,5 +1161,9 @@
     "deliveries": "LIVRASIONS",
     "marketing": "MARKETING",
     "support": "SOUTIEN"
+  },
+  "app/(landing)/components/partners": {
+    "title": "Nos partenaires",
+    "description": "Nous collaborons avec les leaders de l'industrie pour fournir les meilleures solutions."
   }
 }

@@ -326,7 +326,12 @@
     "Add": "Add",
     "to order": "to order",
     "Updating Cart": "Updating Cart",
-    "Update": "Update"
+    "Update": "Update",
+    "invalidImages": "Some images are not properly loaded. Please try uploading them again.",
+    "invalidFile": "Invalid file selected. Please try again.",
+    "submitError": "Failed to submit the form. Please try again.",
+    "productDeleteFailed": "Failed to delete the product. Please try again.",
+    "unsupportedFormat": "HEIC/HEIF images are not supported. Please convert your image to JPEG or PNG using your device's photo app before uploading."
   },
   "app/(store)/components/store-subheader": {
     "addressPlaceholder": "Address Placeholder",
@@ -574,7 +579,9 @@
     "uploadImage": "Upload Image",
     "failedToUploadImage": "Failed to upload image. Please try again.",
     "title": "Upload Image",
-    "subtitle": "Crop and adjust your image"
+    "subtitle": "Crop and adjust your image",
+    "unsupportedFormat": "HEIC/HEIF images are not supported. Please convert your image to JPEG or PNG using your device's photo app before uploading.",
+    "imageProcessingError": "Unable to process the image. Please try a different image format (JPEG or PNG recommended)."
   },
   "app/(landing)/components/scroll-triggered": {
     "features": {
@@ -682,7 +689,6 @@
     "faqsTitleShort": "Frequently Ask Questions",
     "faqsTitleLong": "Frequently Ask Questions",
     "contactUs": "Contact Us",
-    "sectionBaker": "For Bakers",
     "sectionCustomer": "Customers"
   },
   "app/(support)/components/faq-baker": {
@@ -928,7 +934,8 @@
     "failedReplaceGuestCart": "Failed to replace guest cart.",
     "userIdStoreIdRequired": "User ID and Store ID are required",
     "cartRemovedSuccess": "Cart removed successfully!",
-    "failedRemoveCart": "Failed to remove cart."
+    "failedRemoveCart": "Failed to remove cart.",
+    "productNotFound": "Product Not Found!"
   },
   "app/lib/actions/product": {
     "tooManyRequests": "Too many requests",
@@ -944,11 +951,9 @@
     "tooManyRequests": "Too many requests",
     "invalidFields": "Invalid fields!",
     "storeNotFound": "Store not found!",
-    "userNotFound": "User not found!",
     "cartEmpty": "Cart is empty",
     "orderTimeNotSet": "Order time is not set",
     "pastDateOrder": "Cannot place orders for past dates or time is near to end",
-    "failedCreateOrder": "Failed to create order",
     "failedCreateCheckout": "Failed to create checkout session",
     "failedFetchOrders": "Failed to fetch orders",
     "failedFetchOrder": "Failed to fetch store data",
@@ -1093,7 +1098,9 @@
         "minOrder": "Min order",
         "deliveryUnavailable": "No Deliver Now",
         "open": "Open",
-        "closed": "Closed"
+        "closed": "Closed",
+        "deliveryHours": "Delivery Hours",
+        "workingHours": "Opening Hours"
       }
     }
   },
@@ -1114,10 +1121,7 @@
     "saving": "Saving...",
     "saveWorkingHours": "Save Working Hours"
   },
-  "app/api/store/orders/new": {
-    "internalError": "Internal Error",
-    "notAuthorized": "Not"
-  },
+  "app/api/store/orders/new": {},
   "app/(store)/id": {
     "example-store": "This is an example store. Products and services shown are for demonstration purposes only."
   },
@@ -1153,5 +1157,9 @@
     "deliveries": "DELIVERIES",
     "marketing": "MARKETING",
     "support": "SUPPORT"
+  },
+  "app/(landing)/components/partners": {
+    "title": "Our Partners",
+    "description": "We collaborate with industry leaders to deliver the best solutions."
   }
 }

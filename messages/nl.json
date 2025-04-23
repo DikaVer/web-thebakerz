@@ -306,7 +306,12 @@
     "Add": "Toevoegen",
     "to order": "bestellen",
     "Updating Cart": "Bijwerken",
-    "Update": "Update"
+    "Update": "Update",
+    "invalidImages": "Sommige afbeeldingen zijn niet goed geladen. \nProbeer ze opnieuw te uploaden.",
+    "invalidFile": "Ongeldig bestand geselecteerd. \nProbeer het opnieuw.",
+    "submitError": "Kan het formulier niet indienen. \nProbeer het opnieuw.",
+    "productDeleteFailed": "Het product niet verwijderen. \nProbeer het opnieuw.",
+    "unsupportedFormat": "Heic/Heif -afbeeldingen worden niet ondersteund. \nConverteer uw afbeelding naar JPEG of PNG met behulp van de foto -app van uw apparaat voordat u uploadt."
   },
   "app/(store)/components/store-subheader": {
     "delivery": "Bezorging",
@@ -545,7 +550,9 @@
     "uploadImage": "Afbeelding uploaden",
     "failedToUploadImage": "Afbeelding uploaden mislukt. Probeer het opnieuw.",
     "title": "Afbeelding uploaden",
-    "subtitle": "Uw afbeelding bijsnijden en aanpassen"
+    "subtitle": "Uw afbeelding bijsnijden en aanpassen",
+    "unsupportedFormat": "Heic/Heif -afbeeldingen worden niet ondersteund. \nConverteer uw afbeelding naar JPEG of PNG met behulp van de foto -app van uw apparaat voordat u uploadt.",
+    "imageProcessingError": "Niet in staat om de afbeelding te verwerken. \nProbeer een ander beeldformaat (JPEG of PNG aanbevolen)."
   },
   "app/(landing)/components/scroll-triggered": {
     "features": {
@@ -653,20 +660,16 @@
     "faqsTitleShort": "Stel vaak vragen",
     "faqsTitleLong": "Stel vaak vragen",
     "contactUs": "Neem contact met ons op",
-    "sectionBaker": "Voor bakkers",
     "sectionCustomer": "Klanten"
   },
   "app/(support)/components/faq-baker": {
     "answer1": "Thebakerz is een alles-in-één platform dat bakkers helpt hun bedrijven te beheren en meer klanten te bereiken. \nHet behandelt bestellingen, productieplanning, betalingen en klantcommunicatie op één plek. \nDit betekent minder tijd op admin en meer tijd om te doen waar je van houdt - bakken!",
-    "answer10": "We zijn hier om te helpen met alles wat je nodig hebt. \nVan het opzetten van uw winkel tot het beheren van bestellingen, neem contact met ons op of bel ons op +31 684794739. We zullen ervoor zorgen dat alles soepel voor u verloopt.",
     "answer4": "Natuurlijk! \nJe hebt de controle over wat je verkoopt en hoeveel je in rekening brengt. \nU kunt uw menu en prijzen bijwerken wanneer u maar wilt.",
     "answer5": "U bepaalt wat het beste werkt voor uw bakkerij. \nU kunt levering aanbieden of klanten toestaan ​​om bestellingen van uw locatie op te halen. \nStel uw eigen leveringsgebieden en pick -uptijden in om aan uw schema te passen.",
     "answer6": "U betaalt alleen als u een verkoop doet. We nemen een commissie van 8%, die betrekking heeft op website -activiteiten, betalingsverwerkingskosten en advertenties.",
     "answer7": "Klanten betalen vooraf via ons beveiligde betalingssysteem. \nWij dragen uw inkomsten, minus de Commissie, wekelijks naar uw bankrekening. \nBetalingen komen meestal binnen 1-2 werkdagen na maandag aan",
     "answer8": "Absoluut! \nThebakerz is ontworpen om eenvoudig en gebruiksvriendelijk te zijn. \nAls je ooit hulp nodig hebt, is ons ondersteuningsteam slechts een e -mail of bel weg.",
-    "answer9": "Ja, dat kan. \nBestellingen worden automatisch bijgehouden en betalingen worden veilig verwerkt met onze betalingspartner (Stripe). \nZowel u als uw klanten zullen bij elke stap volledige transparantie hebben.",
     "question1": "Wat is Thebakerz",
-    "question10": "Kan ik Thebakerz vertrouwen met betalingen en bestellingen?",
     "question2": "Hoe begin ik te verkopen op Thebakerz?",
     "question3": "Wat heb ik nodig om aan de slag te gaan?",
     "question4": "Kan ik mijn eigen prijzen en menu kiezen?",
@@ -674,7 +677,6 @@
     "question6": "Wat kost het om Thebakerz te gebruiken?",
     "question7": "Hoe werken betalingen?",
     "question8": "",
-    "question9": "Kan ik Thebakerz vertrouwen met betalingen en bestellingen?",
     "answer2": "Aan de slag gaan is eenvoudig! \n[Vul dit formulier in](/become-partner#join-thebakerz), en we plannen een snelle oproep om alles in te stellen. \nWe helpen u uw online winkel te maken en u te laten zien hoe u deze stap voor stap kunt gebruiken.",
     "answer3": "U hebt alleen een KVK-nummer, btw-nummer en voedselveiligheidscertificering nodig. \nAls je iets mist, maak je geen zorgen - we zullen je helpen erachter te komen."
   },
@@ -897,7 +899,8 @@
     "failedReplaceGuestCart": "Gastwinkelwagen vervangen mislukt.",
     "userIdStoreIdRequired": "Gebruikers-ID en Winkel-ID zijn verplicht",
     "cartRemovedSuccess": "Winkelwagen succesvol verwijderd!",
-    "failedRemoveCart": "Winkelwagen verwijderen mislukt."
+    "failedRemoveCart": "Winkelwagen verwijderen mislukt.",
+    "productNotFound": "Product niet gevonden!"
   },
   "app/lib/actions/product": {
     "tooManyRequests": "Te veel verzoeken",
@@ -913,11 +916,9 @@
     "tooManyRequests": "Te veel verzoeken",
     "invalidFields": "Ongeldige velden!",
     "storeNotFound": "Winkel niet gevonden!",
-    "userNotFound": "Gebruiker niet gevonden!",
     "cartEmpty": "Winkelwagen is leeg",
     "orderTimeNotSet": "Besteltijd is niet ingesteld",
     "pastDateOrder": "Kan geen bestellingen plaatsen voor eerdere data of de tijd is bijna verstreken",
-    "failedCreateOrder": "Het is niet gelukt om een bestelling te maken",
     "failedCreateCheckout": "Het is niet gelukt om een checkout-sessie te maken",
     "failedFetchOrders": "Het is niet gelukt om bestellingen op te halen",
     "failedFetchOrder": "Het ophalen van winkelgegevens is mislukt",
@@ -1077,7 +1078,9 @@
         "minOrder": "Min bestelling",
         "deliveryUnavailable": "Geen levering nu",
         "open": "Open",
-        "closed": "Gesloten"
+        "closed": "Gesloten",
+        "deliveryHours": "Leveringsuren",
+        "workingHours": "Openingstijden"
       }
     }
   },
@@ -1122,10 +1125,7 @@
     "missingStoreId": "Ontbrekende of ongeldige winkel-ID-header",
     "notAuthorized": "Geen toegang toestaan"
   },
-  "app/api/store/orders/new": {
-    "internalError": "Interne fout",
-    "notAuthorized": "Niet"
-  },
+  "app/api/store/orders/new": {},
   "app/(store)/id": {
     "example-store": "Dit is een voorbeeldwinkel. \nGetoonde producten en diensten zijn alleen voor demonstratiedoeleinden."
   },
@@ -1163,8 +1163,10 @@
     "support": "STEUN"
   },
   "app/(store)/": {
-    "id": {
-      "example-store": "Dit is een voorbeeldwinkel. Producten worden enkel weergegeven voor demonstratiedoeleinden. "
-    }
+    "id": {}
+  },
+  "app/(landing)/components/partners": {
+    "title": "Onze partners",
+    "description": "We werken samen met marktleiders om de beste oplossingen te leveren."
   }
 }

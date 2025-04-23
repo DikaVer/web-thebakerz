@@ -42,6 +42,7 @@ import {VariantsFormField} from "@/components/store/product/components/variants-
 import {DeleteConfirmationModal} from "@/components/store/product/components/delete-confirmation";
 import {ImageUploadSection} from "@/components/store/product/components/image-upload-section";
 
+
 type ProductDialogProps = {
     storeId: string;
     productData: ProductData | undefined;
@@ -49,9 +50,17 @@ type ProductDialogProps = {
     itemCart?: ItemCart;
     setIsDismissable: (isDismissable: boolean) => void;
     setIsUpdating: (isUpdating: boolean) => void;
+    isOpen: boolean;
 };
 
-export default function BakerzProductDialog({storeId, productData, onClose, setIsDismissable, setIsUpdating }: ProductDialogProps) {
+export default function BakerzProductDialog({
+    storeId, 
+    productData, 
+    onClose, 
+    setIsDismissable, 
+    setIsUpdating,
+    isOpen 
+}: ProductDialogProps) {
     const { theme } = useTheme();
     const t = useTranslations("app/(store)/components/product-page");
     const router = useRouter();
@@ -103,30 +112,78 @@ export default function BakerzProductDialog({storeId, productData, onClose, setI
 
     const [state, submitAction, isPending] = useActionState(
         async (prevState: any, formData: z.infer<typeof ProductSchema>) => {
-            const result = await addProduct(formData, storeId, productData?.id);
-            if (result?.success) {
-                setIsUpdating(true);
-                showSuccessMessage({ success: result.success });
-                router.refresh();
-                onClose();
-            } else if (result?.error) {
-                showErrorMessage({ error: result.error });
+            try {
+                setIsDismissable(false);
+                const result = await addProduct(formData, storeId, productData?.id);
+                if (result?.success) {
+                    setIsUpdating(true);
+                    showSuccessMessage({ success: result.success });
+                    router.refresh();
+                    onClose();
+                } else if (result?.error) {
+                    setIsDismissable(true);
+                    showErrorMessage({ error: result.error });
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+                setIsDismissable(true);
+                showErrorMessage({ 
+                    error: t("submitError", {
+                        defaultValue: "Failed to submit the form. Please try again."
+                    })
+                });
             }
         },
         null
     );
 
     // Handlers
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
-        setFile(files ? files[0] : undefined);
-        if (fileRef.current) fileRef.current.value = "";
-        setPictureEdit(true);
-    };
+        if (!files || !files[0]) return;
+        
+        const file = files[0];
+        // Ensure the file is properly loaded before proceeding
+        if (file.size > 0) {
+            // Check if it's a HEIC/HEIF file before setting state
+            const isHeic = file.type.toLowerCase() === 'image/heic' || 
+                          file.type.toLowerCase() === 'image/heif' ||
+                          file.name.toLowerCase().endsWith('.heic') || 
+                          file.name.toLowerCase().endsWith('.heif');
 
-    const handleSubmit = (formData: z.infer<typeof ProductSchema>) => {
+            if (isHeic) {
+                showErrorMessage({ 
+                    error: t("unsupportedFormat")
+                });
+                if (fileRef.current) fileRef.current.value = "";
+                return;
+            }
+
+            setFile(file);
+            if (fileRef.current) fileRef.current.value = "";
+            setPictureEdit(true);
+        }
+    }, [t]);
+
+    const handleSubmit = useCallback((formData: z.infer<typeof ProductSchema>) => {
+        // Validate that all files are properly loaded
+        const mainFile = formData.file_picture;
+        const additionalFiles = formData.file_additional_pictures || [];
+        
+        const allFiles = [mainFile, ...additionalFiles].filter(Boolean);
+        const hasInvalidFiles = allFiles.some(file => !file || file.size === 0);
+        
+        if (hasInvalidFiles) {
+            showErrorMessage({ 
+                error: t("invalidImages", {
+                    defaultValue: "Some images are not properly loaded. Please try uploading them again."
+                })
+            });
+            return;
+        }
+
         startTransition(() => submitAction(formData));
-    };
+    }, [submitAction]);
 
     const handleDelete = async () => {
         if (productData) {
@@ -235,6 +292,13 @@ export default function BakerzProductDialog({storeId, productData, onClose, setI
         setFileAdditional(updatedFileAdditional);
         form.setValue("file_additional_pictures", updatedFileAdditional);
     };
+
+    // Reset form state when dialog is closed
+    useEffect(() => {
+        if (!isOpen) {
+            setIsDismissable(true);
+        }
+    }, [isOpen, setIsDismissable]);
 
     return (
         <>

@@ -32,23 +32,33 @@ export function ImageUploader({
 
     // Create a preview URL from the file
     useEffect(() => {
-        if (file) {
-            const formData = new FormData();
-            formData.append("file", file, "image.webp");
+        async function processFile() {
+            if (!file) return;
 
-            const validateFile = ImageSchema.safeParse(formData.get("file"));
-            if (!validateFile.success) {
-                showErrorMessage({ error: validateFile.error.errors[0].message });
+            try {
+                // Validate the file
+                const validateFile = ImageSchema.safeParse(file);
+                if (!validateFile.success) {
+                    showErrorMessage({ error: validateFile.error.errors[0].message });
+                    onClose();
+                    return;
+                }
+
+                const url = URL.createObjectURL(file);
+                setPreviewUrl(url);
+
+                return () => URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Error processing file:', error);
+                showErrorMessage({ 
+                    error: t("imageProcessingError")
+                });
                 onClose();
-                return;
             }
-
-            const url = URL.createObjectURL(file);
-            setPreviewUrl(url);
-
-            return () => URL.revokeObjectURL(url);
         }
-    }, [file, onClose]);
+
+        processFile();
+    }, [file, onClose, t]);
 
     return (
         <>
