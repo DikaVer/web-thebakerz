@@ -132,12 +132,18 @@ export default function BakerzProductDialog({storeId, productData, onClose, setI
         if (productData) {
             setIsDismissable(false);
             setIsLoadingDelete(true);
-            await deleteProduct(productData.id, storeId);
-            setIsUpdating(true);
-            showSuccessMessage({ success: t("productDeleted") });
-            router.refresh();
-            onClose();
-            setIsOpenDelete(false);
+            const response = await deleteProduct(productData.id, storeId);
+            if (response.success) {
+                setIsUpdating(true);
+                showSuccessMessage({success: t("productDeleted")});
+                router.refresh();
+                onClose();
+                setIsOpenDelete(false);
+            } else if (response.error) {
+                showErrorMessage({error: response.error});
+            } else {
+                showErrorMessage({error: t("productDeleteFailed")});
+            }
         }
     };
 

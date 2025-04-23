@@ -199,6 +199,8 @@ export const deleteProduct = async (
             return { error: "Store not found!" };
         }
 
+        console.log("Deleting product with ID:", productId, "from store with ID:", storeId);
+
 
         // Update the product's archive status to true.
         await containerProducts.item(productId, store.id).patch({
@@ -208,7 +210,21 @@ export const deleteProduct = async (
             ],
         });
 
+        // Get all cart items for this product
+        const cartItems = await getCartItemsByProductId(store.id, productId);
+
+        // Delete all cart items for this product
+        if (cartItems.length > 0) {
+            await Promise.all(
+                cartItems.map(async (item) => {
+                    const partitionKeyValue = [store.id, item.user_id];
+                    await containerCart.item(item.id, partitionKeyValue).delete();
+                })
+            );
+        }
+
         revalidateTag('products');
+        revalidateTag("cart");
         return { success: "Product deleted successfully!" };
     } catch (error: any) {
         console.error("Error deleting product:", error);
