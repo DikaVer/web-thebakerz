@@ -108,7 +108,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
     const handleDelete = async () => {
         if (productData) {
             setIsLoadingDelete(true);
-            await deleteProduct(productData.id);
+            await deleteProduct(productData.id, storeId);
             showSuccessMessage({ success: t("productDeleted") });
             setIsOpenDelete(false);
             router.refresh();

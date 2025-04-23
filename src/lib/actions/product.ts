@@ -178,7 +178,8 @@ export const addProduct = async (
  * @returns A promise resolving to a success message or an error message.
  */
 export const deleteProduct = async (
-    productId: string
+    productId: string,
+    storeId: string
 ): Promise<{ success?: string; error?: string }> => {
     try {
         if (!await globalPOSTRateLimit()){
@@ -193,7 +194,7 @@ export const deleteProduct = async (
             return { error: "User not found!" };
         }
 
-        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, productId);
+        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
         if (!store) {
             return { error: "Store not found!" };
         }

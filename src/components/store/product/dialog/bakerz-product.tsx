@@ -132,7 +132,7 @@ export default function BakerzProductDialog({storeId, productData, onClose, setI
         if (productData) {
             setIsDismissable(false);
             setIsLoadingDelete(true);
-            await deleteProduct(productData.id);
+            await deleteProduct(productData.id, storeId);
             setIsUpdating(true);
             showSuccessMessage({ success: t("productDeleted") });
             router.refresh();
