@@ -61,6 +61,23 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
         setSubheaderLoaded
     } = useDelivery();
     
+    // Helper function to get icon colors based on conditions
+    const getIconColors = () => {
+        const isActive = showDeliveryInfo && validationResult.isInRange;
+        
+        if (theme === 'light') {
+            return {
+                primary: isActive ? '#000' : '#fff',
+                secondary: isActive ? '#000' : '#fff'
+            };
+        } else {
+            return {
+                primary: isActive ? '#ffffff' : '#ffffff',
+                secondary: isActive ? '#ffffff' : '#ffffff'
+            };
+        }
+    };
+
     // Notify parent when loading is complete
     useEffect(() => {
 
@@ -88,7 +105,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
     // Handle autocomplete focus/blur events
     const handleAutocompleteFocus = () => {
         setIsAutocompleteFocused(true);
-        console.log('Address autocomplete focused');
+        if(process.env.NODE_ENV === 'development') console.log('Address autocomplete focused');
     };
     
     const handleAutocompleteBlur = () => {
@@ -96,25 +113,25 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
         setTimeout(() => {
             if (!document.querySelector('.pac-container:hover')) {
                 setIsAutocompleteFocused(false);
-                console.log('Address autocomplete blurred');
+                if(process.env.NODE_ENV === 'development') console.log('Address autocomplete blurred');
             }
         }, 200);
     };
 
     // --- Custom onOpenChange Handler ---
     const handleModalOpenChange = (open: boolean) => {
-        console.log(`Modal handleModalOpenChange called with open: ${open}, isSubmitting: ${isSubmittingAddress}, isAutocompleteFocused: ${isAutocompleteFocused}`);
+        if(process.env.NODE_ENV === 'development')  console.log(`Modal handleModalOpenChange called with open: ${open}, isSubmitting: ${isSubmittingAddress}, isAutocompleteFocused: ${isAutocompleteFocused}`);
         
         // Prevent closing if submitting or if autocomplete dropdown is focused
         if (!open && (isSubmittingAddress || isAutocompleteFocused)) {
-            console.log('Preventing modal close due to submission or autocomplete focus.');
+            if(process.env.NODE_ENV === 'development') console.log('Preventing modal close due to submission or autocomplete focus.');
             return; // Prevent closing
         }
 
         // If closing is allowed, reset the autocomplete focus state
         if (!open) {
             setIsAutocompleteFocused(false); // Reset focus state on allowed close
-            console.log('Resetting isAutocompleteFocused state as modal closes.');
+            if(process.env.NODE_ENV === 'development') console.log('Resetting isAutocompleteFocused state as modal closes.');
         }
 
         // Call original handlers
@@ -125,53 +142,49 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
     return (
         <div className="flex flex-col w-full h-full justify-between max-w-[440px]">
             
-            <div className="flex flex-row w-full justify-between items-center cursor-pointer"
-                onClick={onOpen}
-            >
-                <div className="flex flex-row gap-x-4 items-center flex-1 min-w-0">
-                    {!isSubheaderLoaded ? (
-                        <Spinner size="sm" color="primary" />
+            <Button
+                className={`w-full justify-between ${showDeliveryInfo && validationResult.isInRange ? "bg-transparent text-text" : "bg-gradient-primary text-white"}`}
+                variant="solid"
+                onPress={onOpen}
+                startContent={
+                    !isSubheaderLoaded ? (
+                        <Spinner size="sm" color="current" />
                     ) : (
                         <IconLocation
                             size={24}
-                            primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                            secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
+                            primaryColor={getIconColors().primary}
+                            secondaryColor={getIconColors().secondary}
                             className="flex-shrink-0"
                         />
-                    )}
-
+                    )
+                }
+                endContent={
+                    <Icon 
+                        icon={showDeliveryInfo ? "solar:pen-linear" : "solar:add-square-linear"} 
+                        width={24} 
+                        className={showDeliveryInfo && validationResult.isInRange ? "text-text" : "text-white"}
+                    />
+                }
+            >
+                <div className="flex flex-col items-start min-w-0 flex-1">
                     {showDeliveryInfo && validationResult.isInRange && validationResult.formattedAddress ? (
-                        <div className="flex flex-col gap-y-0 min-w-0 flex-1">
-                            <p className="text-sm text-text truncate">
+                        <>
+                            <p className="text-sm truncate w-full text-left">
                                 {`${address.street}, ${address.houseNumber}, ${address.zipCode}`}
                             </p>
                             {address.additionalInfo && (
-                                <p className="text-xs text-default-600 truncate w-full">
+                                <p className="text-xs truncate w-full text-left">
                                     {address.additionalInfo}
                                 </p>
                             )}
-                        </div>
+                        </>
                     ) : (
-                        <div className="flex flex-col gap-y-0 min-w-0">
-                            <p className="text-sm text-text truncate">
-                                {!isSubheaderLoaded ? t("loadingAddress") : t("enterDeliveryAddressPrompt")}
-                            </p>
-                        </div>
+                        <p className="text-sm truncate w-full text-left">
+                            {!isSubheaderLoaded ? t("loadingAddress") : t("enterDeliveryAddressPrompt")}
+                        </p>
                     )}
                 </div>
-
-                <Button
-                    size="sm"
-                    color={showDeliveryInfo ? "default" : "primary"}
-                    variant={showDeliveryInfo ? "light" : "solid"}
-                    onPress={onOpen}
-                    isIconOnly
-                    isLoading={!isSubheaderLoaded}
-                    className="flex-shrink-0 ml-2"
-                >
-                    {showDeliveryInfo ? <Icon icon="solar:pen-linear" width={24} /> : <Icon icon="solar:add-square-linear" width={24} />}
-                </Button>
-            </div>
+            </Button>
 
             <Spacer y={4} />
 

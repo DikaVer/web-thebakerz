@@ -1,0 +1,1154 @@
+{
+  "Allergies": {
+    "Add Allergy": "Добавить аллергию",
+    "abalone": "Убийство",
+    "apple": "яблоко",
+    "banana": "банан",
+    "beef": "говядина",
+    "cashew": "кешью",
+    "celery": "сельдерей",
+    "chicken": "курица",
+    "crab": "краб",
+    "egg": "яйцо",
+    "fish": "рыба",
+    "gelatin": "желатин",
+    "gluten": "глютен",
+    "honey": "мед",
+    "kiwi": "киви",
+    "lupine": "Люпин",
+    "matsuke": "Мацуке",
+    "milk": "молоко",
+    "mushroom": "гриб",
+    "nuts": "ореховой",
+    "orange": "апельсин",
+    "peach": "персик",
+    "pork": "свинина",
+    "potato": "картофель",
+    "sesame": "кунжут",
+    "shrimp": "креветка",
+    "soy": "соевый",
+    "squid": "кальмар",
+    "sulfur": "сульфиты",
+    "walnut": "грецкий орех",
+    "wheat": "пшеница"
+  },
+  "HomePage": {
+    "get started": "Начните",
+    "learn more": "Узнать больше",
+    "subtitle": "Thebakerz - все заказы, сообщения клиентов и рецепты в одном месте",
+    "title": "Выпекать больше. \n\nСтресс меньше."
+  },
+  "OrderStatus": {
+    "cancelled": "Отменен",
+    "completed": "Завершенный",
+    "new": "Новый",
+    "ready": "Готовый",
+    "refunded": "Возвращено",
+    "started": "Кулинария",
+    "unknown": "Неизвестный"
+  },
+  "ProductSettings": {
+    "ManageProductsDescription": "Добавлять",
+    "ProductManager": "Менеджер продукта"
+  },
+  "UsersDashboard": {
+    "Search User": "Поиск пользователя"
+  },
+  "Working Hours": {
+    "brandName": "TheBakerz",
+    "friday": "Пятница",
+    "monday": "Понедельник",
+    "saturday": "Суббота",
+    "sunday": "Воскресенье",
+    "thursday": "Четверг",
+    "tuesday": "Вторник",
+    "wednesday": "Среда"
+  },
+  "app/(auth)/auth/actions": {
+    "accountDoesNotExist": "Аккаунт не существует",
+    "incorrectCode": "Неверный код.",
+    "invalidOrMissingField": "Неверное или недостающее поле",
+    "notAuthenticated": "Не аутентифицировано",
+    "problemSendingEmail": "Была проблема с отправкой электронной почты. \nПожалуйста, попробуйте еще раз позже.",
+    "problemWithAccount": "Проблема с учетной записью",
+    "tooManyRequests": "Слишком много запросов",
+    "verificationCodeExpired": "Код проверки истек. \nМы отправили еще один код в вашу электронную почту."
+  },
+  "app/(auth)/components/two-step-auth-form": {
+    "A new code was sent to your email": "Новый код был отправлен на вашу электронную почту",
+    "An unexpected error occurred": "Произошла неожиданная ошибка",
+    "and": "и",
+    "byClickingContinue": "Нажав продолжить, вы соглашаетесь с нашим",
+    "continueAsGuest": "Продолжить как гость",
+    "continueWithEmail": "Продолжить с электронной почтой",
+    "email": "Электронная почта",
+    "emailPlaceholder": "Введите свою электронную почту",
+    "enterOtp": "Введите OTP",
+    "enterOtpDescription": "Введите 6 -значный код, отправленный в",
+    "goBack": "Возвращаться",
+    "orContinueWith": "или продолжить с",
+    "otp": "ОТП",
+    "privacyPolicy": "политика конфиденциальности",
+    "termsOfService": "Условия обслуживания",
+    "verify": "Проверять"
+  },
+  "app/(auth)/page": {
+    "authDescription": "Войдите, чтобы заказать вкусные угощения"
+  },
+  "app/(components)/cookie-consent": {
+    "acceptAll": "Принять все",
+    "acceptSelected": "Принять выбранный",
+    "analytics": "Аналитика",
+    "analyticsDescription": "Чтобы понять, как вы используете сайт",
+    "continueToTheBakerz": "Прежде чем продолжить в Тибейкерз",
+    "cookiePolicy": "Политика cookie",
+    "cookieSettings": "Настройки cookie",
+    "cookiesConsentText": "Нажав «Принять все», вы соглашаетесь с использованием всех файлов cookie. \nЕсли вы решите «отклонить все», мы будем использовать файлы cookie только для основных целей. \nТем не менее, вы можете посетить «Настройки cookie», чтобы дать контролируемое согласие. \nДля получения дополнительной информации, пожалуйста, прочтите наш",
+    "cookiesExplanation": "Мы используем файлы cookie на нашем веб -сайте, чтобы дать вам наиболее актуальный опыт, запомнив ваши предпочтения и повторные посещения.",
+    "essential": "Существенный",
+    "essentialDescription": "Необходимо для функционирования сайта",
+    "forMoreInfo": "Для получения дополнительной информации.",
+    "marketing": "Маркетинг",
+    "marketingDescription": "Чтобы показать вам соответствующий контент",
+    "privacy": "Конфиденциальность",
+    "privacyDescription": "Этот сайт использует технологии отслеживания для улучшения вашего опыта. \nВы можете принять или отклонить эти технологии. \nЕсли вы решите «отклонить все», мы будем использовать файлы cookie только для основных целей. \nПроверьте наше",
+    "rejectAll": "Отвергнуть все",
+    "yourPrivacy": "Ваша конфиденциальность"
+  },
+  "app/(components)/footer-simple": {
+    "aboutTheBakerz": "О TheBakerz",
+    "brandName": "TheBakerz",
+    "copyright": "Тибейкерз. \nВсе права защищены.",
+    "getHelp": "Получите помощь",
+    "joinTheBakerz": "Присоединяйтесь к Thebakerz",
+    "legal": "Юридический",
+    "privacyPolicy": "политика конфиденциальности",
+    "refundPolicy": "Политика возврата",
+    "search": "Поиск Бейкерца",
+    "support": "Поддерживать",
+    "termsOfUse": "Условия эксплуатации"
+  },
+  "app/(components)/footer-store": {
+    "Opening Hours": "Часы работы",
+    "aboutTheBakerz": "O TheBakerz",
+    "addressPlaceholder": "Адрес заполнителя",
+    "brandName": "Тибейкерз",
+    "contactUs": "Связаться с нами",
+    "copyright": "Тибейкерз. \nВсе права защищены.",
+    "getHelp": "Получите помощь",
+    "instagram": "Instagram",
+    "joinTheBakerz": "Присоединяйтесь к Thebakerz",
+    "legal": "Юридический",
+    "linkedIn": "LinkedIn",
+    "locationPlaceholder": "Местоположение заполнителя",
+    "phone": "Телефон",
+    "privacyPolicy": "политика конфиденциальности",
+    "refundPolicy": "Политика возврата",
+    "search": "Поиск Бейкерца",
+    "support": "Поддерживать",
+    "termsOfUse": "Условия эксплуатации",
+    "twitter": "Twitter"
+  },
+  "app/(components)/footer": {
+    "aboutTheBakerz": "О ТИБЕРЗ",
+    "brandName": "TheBakerz",
+    "copyright": "TheBakerz.\nВсе права защищены.",
+    "getHelp": "Получите помощь",
+    "instagram": "Instagram",
+    "joinTheBakerz": "Присоединяйтесь к Thebakerz",
+    "legal": "Юридический",
+    "linkedIn": "LinkedIn",
+    "navigation": "Навигация",
+    "privacyPolicy": "политика конфиденциальности",
+    "refundPolicy": "Политика возврата",
+    "search": "Поиск Бейкерца",
+    "support": "Поддерживать",
+    "termsOfUse": "Условия эксплуатации",
+    "twitter": "X"
+  },
+  "app/(components)/join-button": {
+    "join": "Присоединяйтесь к Thebakerz",
+    "joinSmall": "Присоединиться",
+    "loading": "Загрузка ..."
+  },
+  "app/(components)/redirect-page": {
+    "holdTight": "Удерживайте плотно или нажмите кнопку ниже, чтобы отправиться сейчас:",
+    "redirectNow": "Перенаправить сейчас",
+    "seconds": "секунды",
+    "success": "Успех!"
+  },
+  "app/(components)/signin-button": {
+    "loading": "Загрузка ...",
+    "signIn": "Войти",
+    "storeRedirect": "Магазин"
+  },
+  "app/(components)/signout-button": {
+    "logOut": "Выходите из строя",
+    "signOut": "Выход"
+  },
+  "app/(error_layout)/error": {
+    "error": "Ошибка",
+    "goBackToTheBakerz": "Вернитесь в Thebakerz",
+    "somethingWentWrong": "Что -то пошло не так!"
+  },
+  "app/(error_layout)/not-found": {
+    "brokenLink": "Ссылка, которую вы следовали, может быть сломана, или страница могла быть удалена.",
+    "goBackToTheBakerz": "Вернитесь в Thebakerz",
+    "sorry": "Извините, эта страница еще не доступна.",
+    "subtitle": "Мы делаем все возможное, чтобы доставить его в ближайшее время!",
+    "underConstruction": "В разработке!"
+  },
+  "app/(landing)/components/apply-form": {
+    "and": "и",
+    "cookingAndRest": "Вы сосредотачиваетесь на приготовлении, мы справимся с остальными",
+    "email": "Электронная почта",
+    "emailPlaceholder": "Введите свою электронную почту",
+    "getStarted": "Начните",
+    "goBack": "Возвращаться",
+    "name": "Имя",
+    "namePlaceholder": "Введите свое имя",
+    "phone": "Телефон",
+    "phonePlaceholder": "Введите свой номер телефона",
+    "privacyPolicy": "политика конфиденциальности",
+    "startAndGrowBusiness": "Начните и развивайте свой бизнес",
+    "submit": "Представлять на рассмотрение",
+    "submitting": "Отправка ...",
+    "terms": "Условия обслуживания",
+    "termsAgreement": "Я согласен с"
+  },
+  "app/(landing)/components/apply": {
+    "applicationSuccess": "Ваша заявка была успешно подана. \nМы скоро свяжемся!",
+    "congratulations": "Поздравляю!"
+  },
+  "app/(landing)/components/multistep-sidebar": {
+    "applyDescription": "Заполните быструю форму, и мы свяжемся с нами, чтобы объяснить все и настроить вашу учетную запись.",
+    "applyTitle": "Применять",
+    "setUpStoreDescription": "Поделитесь своими продуктами и ценами, и мы обратимся к вам.",
+    "setUpStoreTitle": "Установите магазин",
+    "startSellingDescription": "Проверьте свой магазин, внесите коррективы и начните принимать реальные заказы!",
+    "startSellingTitle": "Начните продавать"
+  },
+  "app/(landing)/components/navbar": {
+    "back": "Назад",
+    "backTo": "к",
+    "brandName": "Тибейкерз"
+  },
+  "app/(landing)/components/scroll-triggered": {
+    "features": {
+      "all_chats": {
+        "description": "Подключите чаты клиентов из Instagram, Facebook и WhatsApp с заказом в одном месте для легкого общения.",
+        "key": "Все чаты в одном месте",
+        "title": "Все чаты в одном месте"
+      },
+      "online_store": {
+        "description": "Мы создаем ваш собственный интернет -магазин, чтобы продемонстрировать ваши вкусные творения и плавно принимаем заказы.",
+        "key": "онлайн-магазин",
+        "title": "Интернет -магазин"
+      },
+      "order_management": {
+        "description": "Легко отслеживать и управлять всеми вашими заказами в одном месте, снижая риск ошибок и пропущенных заказов.",
+        "key": "порядок управления",
+        "title": "Управление заказами"
+      },
+      "support": {
+        "description": "Наша специализированная команда здесь, чтобы помочь в наши доступные часы, гарантируя, что ваши запросы будут быстро обращаться.",
+        "key": "гибкая поддержка",
+        "title": "Гибкая поддержка"
+      }
+    }
+  },
+  "app/(landing)/components/sidebar-menu": {
+    "aboutTheBakerz": "О ТИБЕРЗ",
+    "account": "Счет",
+    "accountSettings": "Настройки учетной записи",
+    "appName": "Тибейкерз",
+    "dashboard": "Приборная панель",
+    "getHelp": "Получите помощь",
+    "joinTheBakerz": "Присоединяйтесь к Thebakerz",
+    "navigation": "Навигация",
+    "orders": "Приказ",
+    "overview": "Обзор",
+    "products": "Продукция",
+    "search": "Поиск Бейкерца",
+    "settings": "Настройки",
+    "shop": "Магазин",
+    "signIn": "Войти",
+    "signInButton": "Войти",
+    "stores": "Магазины",
+    "stripe": "Полоса",
+    "support": "Поддерживать",
+    "users": "Пользователи",
+    "welcomedGuest": "Добро пожаловать, гость"
+  },
+  "app/(landing)/components/support-card": {
+    "supportCardMessage": "Нужна помощь? \nМы здесь, чтобы помочь вам!"
+  },
+  "app/(main)/about-us/page": {
+    "follow": "Подписывайтесь на нас",
+    "greeting": "Мы Дэвид и Дюмитру, а Тибейкерз много значит для нас. \nУвидев наших друзей и семью, которые выпекают борьбу с ночными заказами, жонглируя слишком многими приложениями и чувствуя, что у них никогда не было времени на ремесло, которое они любят, мы знали, что что-то должно измениться.\n\n\nИтак, мы вмешались, чтобы помочь.",
+    "greetingTitle": "Рад встрече",
+    "slogan": "Thebakerz ставит все, что нужно пекарям в одном месте. \nВместо того, чтобы отскакивать между электронными таблицами, электронными письмами и сообщениями, вы можете обрабатывать все свои заказы, графики и данные клиента в одном организованном месте. \nМеньше хлопот, меньше головных болей и больше энергии для того, чтобы делать то, что вы делаете лучше всего - выступают.",
+    "sloganTitle": "Выпекать больше, стресс меньше",
+    "why": "Для нас Thebakerz - не просто другая идея - это прямой ответ на то, что наши друзья и семейные пекари сказали нам, что им нужно. \nМы здесь, чтобы сделать это проще, чтобы вы могли сосредоточиться на том, что любите больше всего. \nСледуйте за нами в социальных сетях, и давайте сформируем лучшее будущее вместе.",
+    "whyTitle": "Почему мы делаем это"
+  },
+  "app/(main)/page": {
+    "Tips": "Советы",
+    "Tips Info": "Советы Информация",
+    "allMessagesInOnePlace": "Все сообщения в одном месте",
+    "connectMessages": "Подключите сообщения WhatsApp, Instagram и Facebook в одном представлении",
+    "easyToUseSystem": "Простая в использовании система для управления вашими рецептами и отслеживания всех заказов",
+    "exclusiveOffer": "Эксклюзивное предложение: запустите 3 месяца бесплатно!",
+    "freeTrial": "Бесплатная пробная версия",
+    "getStarted": "Начните с Thebakerz",
+    "loading": "Загрузка ...",
+    "monthlySubscription": "€ 9,99 в месяц подписка",
+    "ownWebshop": "У вас есть веб -магазин",
+    "paymentFee": "Плата за оплату и обслуживание 8%",
+    "paymentFeeInfo": "8% продаж для размещения веб -сайтов, операционных и платежных услуг",
+    "planProduction": "Планируйте свое производство и следите за ежедневными задачами",
+    "professionalStore": "Профессиональный интернет -магазин, чтобы продемонстрировать и продавать ваши запеченные творения",
+    "recipeOrderControl": "Рецепт",
+    "smartCalendar": "Умный календарь",
+    "transparentPricing": "Прозрачные цены",
+    "wantYouToSucceed": "Мы хотим, чтобы вы добились успеха",
+    "whyChooseTheBakerz": "Почему выбирают Thebakerz?"
+  },
+  "app/(return_page)/settings/components/business-info": {
+    "accountInformation": "Информация об учетной записи",
+    "accountStatus": "Статус учетной записи",
+    "accountType": "Тип учетной записи",
+    "bankAccount": "Банковский счет",
+    "businessInformation": "Деловая информация",
+    "businessName": "Название бизнеса",
+    "email": "Электронная почта",
+    "korDisabled": "Неполноценный",
+    "korEnabled": "Включено",
+    "korStatus": "KOR Статус",
+    "kvkNumber": "Номер бизнеса",
+    "memberSince": "Участник с тех пор",
+    "notAvailable": "Нет в наличии",
+    "region": "Область",
+    "registeredAddress": "Зарегистрированный адрес",
+    "unverified": "Неверный",
+    "vatNumber": "Налоговый идентификатор",
+    "verified": "Проверенный"
+  },
+  "app/(return_page)/settings/components/calendar-settings": {
+    "workingSchedule": "Рабочий график",
+    "workingScheduleDescription": "Установите рабочее время на каждый день недели"
+  },
+  "app/(return_page)/settings/components/calendar/day-picker": {
+    "editDay": "Редактировать день",
+    "endTime": "Время окончания",
+    "pleaseEnterValidTime": "Пожалуйста, введите действительное время",
+    "selectDaysWithDifferentHours": "Выберите дни с разными часами",
+    "specialWorkingHours": "Специальное рабочее время",
+    "startTime": "Время начала",
+    "stayDuration": "Оставаться продолжительностью"
+  },
+  "app/(return_page)/settings/components/calendar/min-time-order": {
+    "day": "день",
+    "days": "дни",
+    "description": "Выберите, сколько предварительного уведомления вам нужно, прежде чем выполнить заказ",
+    "errorMessage": "Не удалось обновить минимальное время заказа",
+    "hour": "час",
+    "hours": "часы",
+    "minutes": "минуты",
+    "selectLabel": "Минимальное время предварительного заказа",
+    "selectPlaceholder": "Выберите время",
+    "successMessage": "Минимальное время заказа успешно обновлено",
+    "title": "Минимальное время для заказа"
+  },
+  "app/(return_page)/settings/components/calendar/schedule-picker": {
+    "endTime": "Время окончания",
+    "endTimeError": "Ошибка времени окончания",
+    "errorFailedToSaveSchedule": "Не удалось сэкономить график",
+    "errorInvalidTimeFields": "Недопустимое время",
+    "errorSomethingWentWrong": "Что -то пошло не так!",
+    "errorTooManyRequests": "Слишком много запросов!",
+    "saveWorkingHours": "Сэкономьте рабочее время",
+    "saving": "Сохранение ...",
+    "scheduleSavedSuccess": "Расписание сохранено",
+    "startTime": "Время начала",
+    "startTimeError": "Ошибка времени начала"
+  },
+  "app/(return_page)/settings/components/delivery-options": {
+    "deliveryDescription": "Позвольте клиентам выполнять заказы на свой адрес",
+    "deliveryOption": "Доставка",
+    "deliveryOptions": "Варианты доставки",
+    "deliveryOptionsDescription": "Настройте, как клиенты могут получать свои заказы.",
+    "optionsUpdateError": "Не удалось обновить параметры доставки",
+    "optionsUpdateSuccess": "Параметры доставки успешно обновлены",
+    "pickupDescription": "Позвольте клиентам забрать заказы в вашем магазине",
+    "pickupOption": "Подобрать",
+    "updateDeliveryOptions": "Обновление вариантов доставки",
+    "updatingOptions": "Обновление параметров ..."
+  },
+  "app/(return_page)/settings/components/delivery-settings": {
+    "addCity": "Добавить город",
+    "addRange": "Добавить диапазон",
+    "brandName": "Тибейкерз",
+    "cancel": "Отмена",
+    "day": "день",
+    "days": "дни",
+    "deliveryAllWeek": "Доставка доступна всю неделю",
+    "deliveryDescription": "Позвольте клиентам выполнять заказы на свой адрес",
+    "deliveryPrice": "Цена доставки",
+    "deliveryRange": "Диапазон доставки",
+    "deliveryRegions": "Области доставки",
+    "deliverySchedule": "Время доставки",
+    "deliveryScheduleDescription": "Установите время, когда доставка доступна для этого региона",
+    "deliveryTimes": "Время доставки",
+    "endTime": "Время окончания",
+    "endTimeError": "Ошибка времени окончания",
+    "hour": "час",
+    "hours": "часы",
+    "invalidCity": "Неверный город выбрал",
+    "loadError": "Не удалось загрузить области доставки",
+    "loadingMap": "Загрузка ...",
+    "manageDeliverySchedule": "Управлять сроками доставки",
+    "mapView": "Карта вид",
+    "minOrderPrice": "Минимальная цена заказа",
+    "minOrderPriceDescription": "Клиенты должны заказать как минимум эту сумму, чтобы претендовать на доставку в этом регионе",
+    "minOrderPriceError": "Минимальная цена заказа должна быть не менее 10 €",
+    "minOrderTime": "Мин время заказа:",
+    "minPriceLabel": "Мин цена",
+    "minutes": "минуты",
+    "noCitiesSelected": "Не выбраны города",
+    "noDeliveryDays": "НЕТ ДЕНЬ ДНЕЙСТВО",
+    "priceLabel": "Цена (€)",
+    "rangeOrderError": "Сделайте диапазон больше, чем предыдущий",
+    "resetMap": "Сбросить Zoom",
+    "save": "Сохранять",
+    "saveDeliveryRegions": "Сэкономьте области доставки",
+    "saving": "Сохранение ...",
+    "selectCity": "Выберите город",
+    "selectDeliveryCity": "Выберите город доставки",
+    "selectedCities": "Выбранные города",
+    "startTime": "Время начала",
+    "startTimeError": "Ошибка времени начала",
+    "updateError": "Не удалось обновить области доставки",
+    "updateSuccess": "Области доставки успешно обновлены"
+  },
+  "app/(return_page)/settings/components/products-settings": {
+    "addItem": "Добавить пункт",
+    "drag": "Тащить",
+    "image": "Изображение",
+    "manageProductsDescription": "Добавлять",
+    "nameAndPrice": "Имя",
+    "noProductsYet": "В магазине еще нет продуктов.",
+    "productManager": "Менеджер продукта",
+    "updateProductOrder": "Обновить продукт",
+    "updatingOrders": "Обновление заказов ..."
+  },
+  "app/(return_page)/settings/components/products/product-card": {
+    "productManager": "Менеджер продукта"
+  },
+  "app/(return_page)/settings/components/profile-setting": {
+    "bakerz": "Thebakerz Partner",
+    "customer": "Клиент",
+    "displaysProfile": "Эта информация будет отображаться в вашем профиле",
+    "displaysProfileStore": "Эта информация будет отображаться в вашем магазине",
+    "editCurrentName": "Измените свое текущее имя",
+    "editCurrentStoreName": "Редактировать свое текущее название магазина",
+    "name": "Имя",
+    "profile": "Профиль",
+    "profileHasUpdated": "Ваш профиль был обновлен",
+    "profileUpdated": "Профиль обновлен",
+    "storeName": "Название магазина",
+    "updateProfile": "Обновить профиль",
+    "updating": "Обновление ..."
+  },
+  "app/(return_page)/settings/components/store-info": {
+    "currencyText": "Валюта",
+    "deliveryOnly": "Только доставка",
+    "deliveryOption": "Варианты доставки",
+    "notConfigured": "Не настроен",
+    "owner": "Владелец",
+    "pickupAndDelivery": "Подобрать",
+    "pickupOnly": "Только пикап",
+    "region": "Область",
+    "storeInformation": "Хранить информацию"
+  },
+  "app/(return_page)/settings/components/store-setting": {
+    "contactUs": "Связаться с нами",
+    "description": "Описание",
+    "editLocationPhoneBy": "Вы можете отредактировать их, связавшись с нами по",
+    "enterFacebookURL": "Введите URL на странице в Facebook",
+    "enterInstagramURL": "Введите URL своего профиля в Instagram",
+    "facebookURL": "URL Facebook",
+    "facebookURLPlaceholder": "https://facebook.com/your-page",
+    "howUserFindYou": "Как пользователи найдут ваш магазин",
+    "howUserRecognizeYou": "Это будет частью подзаголовка вашего магазина",
+    "instagramURL": "Instagram URL",
+    "instagramURLPlaceholder": "https://instagram.com/your-handle",
+    "locationPhone": "Расположение",
+    "locationPlaceholder": "Местоположение заполнителя",
+    "phoneNumberPlaceholder": "31 6 12 34 56 78",
+    "storeDescriptionPlaceholder": "Расскажите нам о своем магазине ... (максимум 200 символов)",
+    "storeLink": "Ссылка магазина",
+    "storeSlug": "Хранить подзаголовок",
+    "storeUpdated": "Магазин обновлен!",
+    "typeYourStoreName": "Введите название своего магазина",
+    "typeYourStoreSlug": "Магазин с 2021 года",
+    "updateStore": "Обновить магазин",
+    "updating": "Обновление ...",
+    "writeAboutStore": "Напишите краткое описание о вашем магазине (максимум 200 символов)"
+  },
+  "app/(return_page)/settings/components/store-tabs-settings": {
+    "delivery": "Доставка",
+    "pickup": "Подобрать",
+    "store": "Магазин"
+  },
+  "app/(return_page)/settings/components/tabs-settings": {
+    "information": "Информация",
+    "profile": "Профиль"
+  },
+  "app/(return_page)/settings/page": {
+    "settingsDescription": "Настройте свои настройки и профиль.",
+    "settingsTitle": "Настройки"
+  },
+  "app/(return_page)/support/contact-us/page": {
+    "contactUs": "Связаться с нами",
+    "contactUsDescription": "Мы здесь, чтобы помочь вам в наши рабочие часы. \nПожалуйста, не стесняйтесь обращаться к нам по любым вопросам или проблемам, которые могут у вас возникнуть.",
+    "support": "Поддерживать"
+  },
+  "app/(return_page)/transit-exit/page": {
+    "performingSignOut": "Выполнение подписи ..."
+  },
+  "app/(return_page)/transit-login/page": {
+    "performingSignIn": "Выполняя войну ..."
+  },
+  "app/(store)/": {
+    "id": {
+      "example-store": "Это пример магазина. \nПродукты и услуги, показанные только для демонстрационных целей."
+    }
+  },
+  "app/(store)/components/button-stepper": {
+    "addItem": "Добавить пункт",
+    "deleteItem": "Удалить элемент",
+    "removeItem": "Удалить предмет"
+  },
+  "app/(store)/components/calendar-dashboard": {
+    "thisMonth": "В этом месяце",
+    "thisWeek": "На этой неделе",
+    "today": "Сегодня"
+  },
+  "app/(store)/components/cart": {
+    "addItemsToStart": "Добавьте элементы, чтобы начать",
+    "cartEmpty": "Тележка пусто",
+    "continue": "Продолжать",
+    "note": "Примечание",
+    "yourCartFrom": "Ваша тележка от"
+  },
+  "app/(store)/components/checkout-steps": {
+    "cartDetails": "Детали тележки",
+    "cartDetailsStep": "3. Детали тележки",
+    "failedToUpdateCart": "Не удалось обновить корзину",
+    "pickUpDetails": "Подберите детали",
+    "pickUpDetailsStep": "2. Получите детали",
+    "signInOrSignUpStep": "1. Войдите или зарегистрируйтесь, чтобы разместить заказ",
+    "signInOrSignUpText": "Войдите или зарегистрируйтесь, чтобы разместить заказ"
+  },
+  "app/(store)/components/checkout": {
+    "addItem": "Добавить пункт",
+    "addItemsToStart": "Добавьте элементы, чтобы начать",
+    "addressOutOfRange": "Адрес из региона доставки",
+    "alert": "Магазин предлагает только заказы на получение",
+    "cartEmpty": "Тележка пусто",
+    "deliveryFee": "Плата за доставку",
+    "deliveryVat": "НДС доставки (21%)",
+    "invalidDeliveryAddress": "Неверный адрес доставки",
+    "loadingPaymentGateway": "Загрузка платежного шлюза ...",
+    "minimumAmount": "Минимальная сумма заказа - {minOrder}",
+    "minimumOrderForDelivery": "Минимальный заказ - {сумма}",
+    "openingHours": "Часы работы",
+    "pay": "Платить",
+    "phone": "Телефон",
+    "returnToCheckout": "Вернитесь к оформлению",
+    "saveDeliveryDetails": "Сохранить детали забрать",
+    "savePickUpDetails": "Сохранить детали забрать",
+    "serviceFee": "Плата за обслуживание",
+    "subtotal": "Подтотальный",
+    "total": "Общий",
+    "unableToInitializePayment": "Невозможно инициализировать платежный шлюз",
+    "vat21": "НДС (21%)",
+    "vatExclusive": "НДС (9%)",
+    "workingHours": "Рабочее время"
+  },
+  "app/(store)/components/delete-confirmation": {
+    "close": "Закрывать",
+    "confirm": "Подтверждать",
+    "deleteConfirmation": "Удалить подтверждение",
+    "deleteProductWarning": "После удаления элемент будет постоянно удален и не может быть восстановлен."
+  },
+  "app/(store)/components/image": {
+    "close": "Закрывать",
+    "failedToUploadImage": "Не удалось загрузить изображение. \nПожалуйста, попробуйте еще раз.",
+    "rotation": "Ротация",
+    "subtitle": "Обнять и отрегулировать свое изображение",
+    "title": "Загрузить изображение",
+    "uploadImage": "Загрузить изображение",
+    "uploading": "Загрузка ...",
+    "zoom": "Зум"
+  },
+  "app/(store)/components/location-map": {
+    "storeLocation": "Расположение магазина",
+    "viewOnGoogleMaps": "Посмотреть на картах Google"
+  },
+  "app/(store)/components/orders-bar-chart": {
+    "notFound": "Не найдено",
+    "title": "Обзор заказа"
+  },
+  "app/(store)/components/orders-list": {
+    "addOrder": "Добавить заказ",
+    "brandName": "Тибейкерз",
+    "delivery": "Доставка",
+    "no": "Нет выбора",
+    "noOrdersFound": "Нет заказа",
+    "order": "Заказ",
+    "orderStatusFilter": "Фильтр статуса заказа",
+    "orders": "Приказ"
+  },
+  "app/(store)/components/orders": {
+    "backToOrderDashboard": "Вернуться к заказу приборной панели"
+  },
+  "app/(store)/components/orders/add": {
+    "add": "Добавлять",
+    "addItemsToStart": "Добавьте предметы, чтобы начать",
+    "addManageCart": "Добавлять",
+    "backToOrderDashboard": "Вернуться к заказу приборной панели",
+    "cartDetails": "Детали тележки",
+    "cartDetailsStep": "1. Детали тележки",
+    "cartEmpty": "Ваша тележка пуста",
+    "close": "Закрывать",
+    "copyLink": "Ссылка копирования",
+    "copyLinkInstructions": "Скопируйте эту ссылку, чтобы поделиться с клиентом для оплаты.",
+    "createOrderButton": "Создать заказ",
+    "customerCart": "Клиентская корзина",
+    "customerDetails": "Детали клиента",
+    "customerEmailLabel": "Введите адрес электронной почты клиента.",
+    "customerEmailPlaceholder": "Введите адрес электронной почты клиента",
+    "customerNameLabel": "Введите имя клиента.",
+    "customerNamePlaceholder": "Введите имя клиента",
+    "customerPhoneLabel": "Введите номер телефона клиента. \n(Необязательный)",
+    "customerPhonePlaceholder": "Введите номер телефона клиента",
+    "failedCreateOrder": "Не удалось создать заказ",
+    "failedInitCheckout": "Не удалось инициализировать проверку",
+    "hasCustomerPaid": "Заказчик уже заплатил?",
+    "image": "Изображение",
+    "namePrice": "Имя",
+    "no": "Нет",
+    "noProductsAvailable": "В магазине еще нет продуктов.",
+    "orderCreated": "Порядок создан",
+    "orderCreatedSuccess": "Заказ был создан успешно!",
+    "orderLink": "Порядок ссылки",
+    "orderLinkCopiedClient": "Ссылка на заказ скопирован в буфер обмена!",
+    "pickUpAt": "Забрать в",
+    "pickUpDetails": "Подберите детали",
+    "pickUpDetailsStep": "2. Получите детали",
+    "pickUpOptionSelected": "Выбранный вариант забрать",
+    "saveCartDetails": "Сохранить детали корзины",
+    "scheduleOrderTime": "Запланируйте время заказа",
+    "selectPickUpTime": "Выберите время забрать",
+    "somethingWentWrong": "Что -то пошло не так",
+    "subtotal": "Подтотальный",
+    "total": "Общий",
+    "vatExclusive": "НДС (9%)",
+    "yes": "Да"
+  },
+  "app/(store)/components/orders/overview": {
+    "Cancelled": "Отменен",
+    "Change Status": "Изменить статус",
+    "Change Status Action": "Вы уверены, что хотите изменить статус этого порядка?",
+    "Cooking": "Кулинария",
+    "Customer Details": "Детали клиента",
+    "Failed to update status": "Не удалось обновить статус",
+    "Order": "Заказ",
+    "Order Items": "Заказать предметы",
+    "Order Status": "Статус заказа",
+    "Placed": "Размещенный",
+    "Print Invoice": "Распечатать счет",
+    "Progress": "Прогресс",
+    "Ready": "Готовый",
+    "Search Items": "Поиск элементов",
+    "Select one option": "Выберите один вариант",
+    "Something Went Wrong": "Что -то пошло не так",
+    "Status updated successfully": "Статус обновлен успешно",
+    "Subtotal": "Подтотальный",
+    "Total": "Общий",
+    "VAT Exclusive": "НДС (9%)",
+    "brandName": "Тибейкерз",
+    "completed": "Завершенный",
+    "delivery": "Доставка"
+  },
+  "app/(store)/components/product-list": {
+    "noProductsFound": "Не найдено продуктов"
+  },
+  "app/(store)/components/product-page": {
+    "Add": "Добавлять",
+    "Add Allergies Placeholder": "Добавить аллергию",
+    "Add Description Placeholder": "Опишите свой предмет",
+    "Add Ingredients Placeholder": "Добавить ингредиенты",
+    "Add Item": "Добавить пункт",
+    "Item Name": "Название элемента",
+    "Item Options": "Параметры предмета",
+    "Loading": "Загрузка",
+    "Select Category": "Выберите категорию",
+    "Update": "Обновлять",
+    "Update Item": "Обновить элемент",
+    "Updating Cart": "Обновление тележки",
+    "addAllergiesPlaceholder": "Добавить аллергию ... (нажмите Enter, чтобы добавить)",
+    "addDescriptionPlaceholder": "Добавьте описание для этого элемента ...",
+    "addIngredientsPlaceholder": "Добавить ингредиенты ... (нажмите Enter, чтобы добавить)",
+    "addItem": "Добавить пункт",
+    "addNotesPlaceholder": "Напишите заметки в пункт",
+    "allergies": "Аллергия",
+    "cartUpdatedSuccess": "Тележка обновляется",
+    "ingredients": "Ингредиенты",
+    "itemName": "Название элемента",
+    "itemOptions": "Параметры предмета",
+    "loading": "Загрузка ...",
+    "minimalOrder": "Минимальный заказ",
+    "minimalOrderDescription": "Какое минимальное количество товаров, которые клиент может заказать?",
+    "noProductsAvailable": "Нет продуктов",
+    "notes": "Примечания",
+    "productDeleted": "Продукт удален успешно",
+    "productLinkCopied": "Ссылка продукта скопирована!",
+    "productNotFound": "Продукт не найден",
+    "selectCategory": "Выберите категорию",
+    "to order": "на заказ",
+    "unexpectedError": "Неожиданная ошибка",
+    "updateItem": "Обновить элемент"
+  },
+  "app/(store)/components/product-search": {
+    "search": "Поиск по названию продукта или категории ..."
+  },
+  "app/(store)/components/product-tabs": {
+    "categoryNavigation": "Категория навигация"
+  },
+  "app/(store)/components/smart-calendar": {
+    "time": "Время"
+  },
+  "app/(store)/components/status-select": {
+    "changeStatus": "Изменить статус",
+    "changeStatusAction": "Изменить статус",
+    "failedToUpdateStatus": "Не удалось обновить статус",
+    "order": "Заказ",
+    "orderStatus": "Статус заказа",
+    "selectOneOption": "Selct One Option",
+    "statusUpdatedSuccess": "Статус обновляется"
+  },
+  "app/(store)/components/store-description": {
+    "addressPlaceholder": "Адрес заполнителя",
+    "close": "Закрывать",
+    "deliveryOnly": "Только доставка",
+    "deliveryOnlyDescription": "Этот магазин предлагает только заказы на доставку. \nПожалуйста, выберите время доставки во время оформления заказа.",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "locationPlaceholder": "Местоположение заполнителя",
+    "phone": "Телефон",
+    "pickUpAndDelivery": "Пикап и доставка",
+    "pickUpAndDeliveryDescription": "Этот магазин предлагает заказы на доставку и заказ. \nПожалуйста, выберите время во время заказа.",
+    "pickUpDescription": "Этот магазин предлагает только заказы на пикап. \nПожалуйста, выберите время набора во время оформления заказа.",
+    "pickUpOnly": "Забирай только",
+    "workingHours": "Рабочее время"
+  },
+  "app/(store)/components/store-header": {
+    "delivery": "Доставка",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "pickup": "Подобрать"
+  },
+  "app/(store)/components/store-subheader": {
+    "additionalInfo": "Дополнительная информация",
+    "addressInRange": "Ваш адрес находится в диапазоне доставки",
+    "addressPlaceholder": "Адрес заполнителя",
+    "city": "Город",
+    "confirm": "Подтверждать",
+    "deliverAt": "Доставить в",
+    "delivery": "Доставка",
+    "deliveryFee": "Плата за доставку",
+    "deliveryHours": "Часы доставки",
+    "editDeliveryAddress": "Редактировать адрес доставки",
+    "enterAdditionalInfo": "Например. \nНомер квартиры, пол и т. Д.",
+    "enterAddressToSeeDeliveryOptions": "Введите свой адрес, чтобы увидеть варианты доставки",
+    "enterCity": "Войти в город",
+    "enterDeliveryAddress": "Введите адрес доставки",
+    "enterDeliveryAddressPrompt": "Введите адрес доставки",
+    "enterHouseNumber": "Введите номер дома",
+    "enterStreet": "Введите название улицы",
+    "enterZipCode": "Введите почтовый код",
+    "houseNumber": "Номер дома",
+    "loadingAddress": "Загрузочный адрес ...",
+    "loadingDeliveryOptions": "Варианты доставки загрузки ...",
+    "locationPlaceholder": "Местоположение заполнителя",
+    "minimumOrder": "Минимальный заказ",
+    "noDeliveryAddressYet": "Пока нет адреса доставки",
+    "pickUp": "Подобрать",
+    "pickUpAt": "Забрать в",
+    "scheduleDeliveryTime": "Запланируйте время доставки",
+    "scheduleOrderTime": "Запланируйте время заказа",
+    "searchAddress": "Адрес поиска",
+    "selectDeliveryTime": "Выберите время доставки",
+    "selectPickUpTime": "Выберите время забрать",
+    "storeClosed": "Закрыт сейчас",
+    "storeOpen": "Открыт сейчас",
+    "street": "Улица",
+    "typeToSearchAddress": "Введите на адрес поиска",
+    "zipCode": "Почтовый индекс"
+  },
+  "app/(store)/components/store-top-next": {
+    "alertDeliveryAndPickup": "Этот магазин предлагает заказы на получение и доставку",
+    "alertDeliveryOnly": "Этот магазин предлагает только заказы на доставку.",
+    "alertHoverDeliveryAndPickup": "Пожалуйста, выберите время доставки или сбора во время оформления заказа",
+    "alertHoverDeliveryOnly": "Пожалуйста, выберите время доставки во время оформления заказа",
+    "alertHoverPickupOnly": "Пожалуйста, выберите время набора во время оформления заказа",
+    "alertPickupOnly": "Этот магазин предлагает только заказы на пикап.",
+    "openingHours": "Часы работы",
+    "phone": "Телефон"
+  },
+  "app/(store)/components/store-top": {
+    "addItem": "Добавить пункт"
+  },
+  "app/(store)/components/three-dots": {
+    "addOrder": "Добавить заказ",
+    "copyStoreLink": "Ссылка на копию магазина",
+    "editDelivery": "Редактировать доставку",
+    "editPickup": "Редактировать пикап",
+    "editProducts": "Редактировать продукты",
+    "editStore": "Редактировать магазин",
+    "getHelp": "Получите помощь",
+    "report": "Отчет",
+    "storeLinkCopied": "Ссылка магазина скопирована!"
+  },
+  "app/(store)/components/variants-form-field": {
+    "addOption": "Добавить опцию",
+    "addOptionGroup": "Добавить опционную группу",
+    "maxSelections": "Максимальный выбор",
+    "multipleChoices": "Несколько вариантов",
+    "newOption": "Новый вариант",
+    "optionGroupName": "Имя группы опционов",
+    "optionName": "Имя опции",
+    "options": "Параметры",
+    "placeholder": "например \nРазмер, начинка, дополнения",
+    "required": "Необходимый",
+    "singleChoice": "Одиночный выбор"
+  },
+  "app/(store)/components/variants-user-selection": {
+    "max": "Максимум"
+  },
+  "app/(store)/components/working-hours": {
+    "addressOutOfRange": "Адрес вне диапазона",
+    "checkingAddress": "Введите свой адрес",
+    "closed": "Закрыто",
+    "enterAddressPrompt": "Введите адрес",
+    "friday": "Пятница",
+    "monday": "Понедельник",
+    "noInfo": "Закрыто",
+    "noScheduleAvailable": "Нет расписания",
+    "saturday": "Суббота",
+    "scheduleFormatError": "Ошибка формата расписания",
+    "scheduleUnavailable": "Расписание недоступно",
+    "sunday": "Воскресенье",
+    "thursday": "Четверг",
+    "tuesday": "Вторник",
+    "wednesday": "Среда",
+    "workingHours": "Рабочее время"
+  },
+  "app/(store)/id": {
+    "example-store": "Это пример магазина. \nПродукты и услуги, показанные только для демонстрационных целей."
+  },
+  "app/(store)/id/order/failed": {
+    "error": "Что -то не так с платежей"
+  },
+  "app/(store)/id/order/success": {
+    "checkEmail": "Проверьте свою электронную почту, чтобы узнать информацию о вашем заказе.",
+    "orderPlaced": "Ваш заказ размещен!",
+    "returnToStore": "Вернуться в магазин",
+    "verifyEmail": "Проверьте изображение электронной почты"
+  },
+  "app/(store)/id/orders/add": {
+    "addOrder": "Добавить заказ",
+    "addOrderDescription": "Создайте тележку и добавьте в свой список заказов."
+  },
+  "app/(store)/id/page": {
+    "noProducts": "Нет продуктов"
+  },
+  "app/(store)/id/settings/page": {
+    "settingsDescription": "Настройте свой магазин и настройки",
+    "settingsTitle": "Настройки магазина"
+  },
+  "app/(support)/components/contact-us": {
+    "buttonSending": "Отправка ...",
+    "buttonSubmit": "Отправить билет",
+    "contextLabel": "С какой проблемой вы столкнетесь?",
+    "contextPlaceholder": "Помогите мне с ...",
+    "emailLabel": "Электронная почта",
+    "emailPlaceholder": "Введите свою электронную почту",
+    "subjectLabel": "Предмет",
+    "subjectPlaceholder": "Введите свой предмет",
+    "successMessage": "Ваш билет был успешно отправлен. \nМы автоматически перенаправляем вас на главную страницу:"
+  },
+  "app/(support)/components/faq-baker": {
+    "answer1": "Thebakerz-это платформа, которая помогает пекарям управлять своим бизнесом и охватить больше клиентов. \nОн обрабатывает заказы, планирование производства, платежи и общение с клиентами в одном месте. \nЭто означает меньше времени на администратора и больше времени, занимаясь тем, что вы любите - выступаете!",
+    "answer10": "Мы здесь, чтобы помочь со всем, что вам нужно. \nОт настройки вашего магазина до управления закалями, свяжитесь с нами или позвоните нам по телефону 31 684794739. Мы позаботимся о том, чтобы все было для вас гладко.",
+    "answer2": "Начать работу легко! \n[Заполните эту форму] (r",
+    "answer3": "Вам просто понадобится номер KVK, номер НДС и сертификация безопасности пищевых продуктов. \nЕсли вы что -то упускаете, не волнуйтесь - мы поможем вам понять это.",
+    "answer4": "Конечно! \nВы контролируете то, что продаете и сколько вы взимаете. \nВы можете обновить свое меню и цены, когда вам нравится.",
+    "answer5": "Вы решаете, что лучше всего подходит для вашей пекарни. \nВы можете предложить доставку или позволить клиентам получать заказы из вашего местоположения. \nУстановите свои собственные зоны доставки и время забора, чтобы соответствовать вашему расписанию.",
+    "answer6": "Вы платите только тогда, когда вы совершаете продажу. \nМы принимаем 8% комиссии, которая охватывает операции на веб -сайте, плату за обработку платежей и рекламу.",
+    "answer7": "Клиенты платят заранее через нашу безопасную платежную систему. \nМы переводим ваши доходы, за исключением комиссии, на ваш банковский счет еженедельно. \nПлатежи обычно прибывают в течение 1-2 рабочих дней после понедельника",
+    "answer8": "Абсолютно! \nThebakerz разработан, чтобы быть простым и удобным для пользователя. \nЕсли вам когда -нибудь нужна помощь, наша команда поддержки - это просто электронная почта или вызов.",
+    "answer9": "Да, вы можете. \nЗаказы отслеживаются автоматически, и платежи надежно обрабатываются с нашим партнером по оплате (Stripe). \nИ вы, и ваши клиенты будут иметь полную прозрачность на каждом шаге.",
+    "question1": "Что такое Тибейкерз",
+    "question10": "Могу ли я доверять Thebakerz с платежами и заказами?",
+    "question2": "Как начать продавать на Thebakerz?",
+    "question3": "Что мне нужно, чтобы начать?",
+    "question4": "Могу ли я выбрать свои собственные цены и меню?",
+    "question5": "Как работают заказы и доставка?",
+    "question6": "Сколько стоит использовать Thebakerz?",
+    "question7": "Как работают платежи?",
+    "question8": "",
+    "question9": "Могу ли я доверять Thebakerz с платежами и заказами?"
+  },
+  "app/(support)/components/payment-urgent": {
+    "requestSentSuccess": "Ваш запрос был успешно отправлен.",
+    "sendRequest": "Отправить запрос",
+    "sending": "Отправка ...",
+    "supportTicket": "Поддержка билета"
+  },
+  "app/(support)/components/support": {
+    "contactUs": "Связаться с нами",
+    "faqsTitleLong": "Часто задавайте вопросы",
+    "faqsTitleShort": "Часто задавайте вопросы",
+    "sectionBaker": "Для пекарей",
+    "sectionCustomer": "Клиенты"
+  },
+  "app/actions": {
+    "notAuthenticated": "Не аутентифицировано",
+    "tooManyRequests": "Слишком много запросов"
+  },
+  "app/api/auth/google": {
+    "pleaseRestartProcess": "Пожалуйста, перезапустите процесс.",
+    "tooManyRequests": "Слишком много запросов"
+  },
+  "app/api/invoice/storeId/orderId": {
+    "errorGeneratingPdf": "Генерация ошибок PDF",
+    "notAuthenticated": "Не аутентифицировано",
+    "orderNotFound": "Порядок не найден",
+    "restrictedAccess": "Ограниченный доступ",
+    "storeNotFound": "Магазин не найден",
+    "tooManyRequests": "Слишком много запросов"
+  },
+  "app/api/pay": {
+    "missingCartId": "Отсутствует идентификатор тележки",
+    "missingCosmosId": "Отсутствует идентификатор космоса",
+    "missingStoreId": "Отсутствует идентификатор магазина",
+    "missingUserEmail": "Отсутствует пользовательская электронная почта",
+    "orderDbFailed": "Заказ DB не удался",
+    "orderNotFound": "Порядок не найден",
+    "processingError": "Ошибка ошибки оплата",
+    "tooManyRequests": "Слишком много запросов",
+    "userCreationFailed": "Создание пользователя не удалось"
+  },
+  "app/api/store": {
+    "internalError": "Внутренняя ошибка сервера",
+    "missingAuth": "Отсутствует или неверный заголовок авторизации",
+    "missingStoreId": "Отсутствует или недействительный заголовок идентификатора магазина",
+    "notAuthorized": "Не разрешать доступ"
+  },
+  "app/api/store/cart": {
+    "internalError": "Внутренняя ошибка сервера",
+    "missingAuth": "Отсутствует или неверный заголовок авторизации",
+    "missingStoreId": "Отсутствует или недействительный заголовок идентификатора магазина",
+    "missingUserId": "Отсутствует или недействительный заголовок идентификатора пользователя",
+    "notAuthorized": "Не разрешать доступ"
+  },
+  "app/api/store/order": {
+    "internalError": "Внутренняя ошибка сервера",
+    "notAuthorized": "Не разрешать доступ"
+  },
+  "app/api/store/orders/new": {
+    "internalError": "Внутренняя ошибка",
+    "notAuthorized": "Нет"
+  },
+  "app/api/store/orders/range": {
+    "internalError": "Внутренняя ошибка сервера",
+    "missingAuth": "Отсутствующий заголовок авторизации",
+    "missingFromDate": "Отсутствует от дата заголовка",
+    "missingStoreId": "Отсутствует заголовок идентификатора магазина",
+    "missingToDate": "Отсутствует праздничный заголовок",
+    "notAuthorized": "Не уполномоченный доступ"
+  },
+  "app/api/store/products-order": {
+    "internalError": "Внутренняя ошибка сервера",
+    "missingAuth": "Отсутствует или неверный заголовок авторизации",
+    "missingStoreId": "Отсутствует или недействительный заголовок идентификатора магазина",
+    "notAuthorized": "Не разрешать доступ"
+  },
+  "app/api/store/products": {
+    "internalError": "Внутренняя ошибка сервера",
+    "missingAuth": "Отсутствует или неверный заголовок авторизации",
+    "missingStoreId": "Отсутствует или недействительный заголовок идентификатора магазина",
+    "notAuthorized": "Не разрешать доступ"
+  },
+  "app/api/store/products/productId": {
+    "internalError": "Внутренняя ошибка сервера",
+    "missingAuth": "Отсутствует или неверный заголовок авторизации",
+    "missingStoreId": "Отсутствует или недействительный заголовок идентификатора магазина",
+    "notAuthorized": "Не разрешать доступ"
+  },
+  "app/api/update-schedule": {
+    "invalidJson": "Недействительный json",
+    "invalidPayload": "Неверный запрос полезной нагрузки",
+    "invalidTimeFields": "Неверные поля времени",
+    "storeNotFound": "Магазин не найден",
+    "tooManyRequests": "Слишком много запросов",
+    "updateFailed": "Не удалось обновить график"
+  },
+  "app/api/upload-image": {
+    "fileNotProvided": "Файл не предоставлен",
+    "imageUpdated": "Изображение обновлено успешно!",
+    "internalError": "Внутренняя ошибка сервера",
+    "invalidContainer": "Неверное название контейнера",
+    "notAuthenticated": "Не аутентифицировано",
+    "notAuthorized": "Не разрешать доступ",
+    "tooManyRequests": "Слишком много запросов",
+    "invalidImage": "Неверное изображение"
+  },
+  "app/api/validate-session": {
+    "internalError": "Внутренняя ошибка сервера",
+    "missingAuth": "Отсутствует или неверный заголовок авторизации",
+    "tokenNotProvided": "Токен не предоставлен"
+  },
+  "app/become-partner": {
+    "launchYourCustomWebShop": "Запустите свой пользовательский веб-шоп",
+    "launchYourCustomWebShopDescription": "Показать свои продукты с профессиональной фотографией на нашей удобной платформе с плавной проверкой для максимального удовлетворения клиентов",
+    "manageOrdersSmarter": "Управлять заказом умнее",
+    "manageOrdersSmarterDescription": "Отслеживайте каждый заказ от размещения до получения с нашей интуитивно понятной календарной панель",
+    "title": "Разблокируйте свой потенциал с помощью Thebakerz",
+    "weHaveMore": "Ты думаешь, это все?",
+    "weHaveMoreDescription": "У нас больше!"
+  },
+  "app/landing/horizontal-scroll": {
+    "deliveries": "Поставки",
+    "marketing": "Маркетинг",
+    "support": "ПОДДЕРЖИВАТЬ"
+  },
+  "app/landing/marketplace": {
+    "bakersGrowthSectionDescription": "Наша платформа помогает ремесленным пекарям увеличить доход благодаря управлению рекламными заказами, инструментами обнаружения клиентов и оптимизированным операциям - вызывает у вас сосредоточение внимания на создании вкусной выпечки.",
+    "bakersGrowthSectionTitle": "Вырасти свой хлебоперок с Thebakerz",
+    "become": "Стать партнером",
+    "heroSectionLoading": "Поиск вашего местоположения ...",
+    "heroSectionPlaceholder": "Введите свой адрес",
+    "heroSectionSubmitting": "Обработка вашего адреса ...",
+    "heroSectionTitle": "Откройте для себя ремесленные пекарни рядом с вами"
+  },
+  "app/lib/actions/auth/email-action": {
+    "applicationSubmittedSuccess": "Заявка была подана успешно!",
+    "emailSentSuccess": "Электронная почта отправлена ​​успешно!",
+    "invalidFields": "Неверные поля!",
+    "phoneCorrect": "Телефон правильный!"
+  },
+  "app/lib/actions/cart": {
+    "cartRemovedSuccess": "Тележка успешно удалена!",
+    "cartUpdatedSuccess": "CART успешно обновлена!",
+    "failedRemoveCart": "Не удалось удалить корзину.",
+    "failedRemoveItem": "Не удалось удалить предмет из корзины.",
+    "failedReplaceGuestCart": "Не удалось заменить гостевую корзину.",
+    "failedUpdateCart": "Не удалось обновить корзину.",
+    "guestCartReplacedSuccess": "Гостевая корзина была успешно заменена на пользовательские корзины!",
+    "invalidOption": "Неверная опция {опция} для {variant}",
+    "itemRemovedSuccess": "Пункт удален успешно!",
+    "maxSelectionsExceeded": "{variant} не может иметь больше, чем {max} выборы",
+    "minOrderRequired": "Вы должны заказать хотя бы {min} этого продукта",
+    "minSelectionsRequired": "{variant} должен иметь {min} выборы",
+    "noteTooLong": "Примечание слишком длинная!",
+    "requiredVariantMissing": "{вариант} требуется",
+    "sessionNotRecognized": "Сессия не признана",
+    "singleSelectionRequired": "{вариант} должен иметь ровный выбор",
+    "tooManyRequests": "Слишком много запросов",
+    "userIdStoreIdRequired": "Требуются идентификатор пользователя и идентификатор магазина",
+    "userNotFound": "Пользователь не найден!"
+  },
+  "app/lib/actions/order-products": {
+    "failedFetchStoreProducts": "Не удалось принести продукты магазина",
+    "failedUpdateProduct": "Не удалось обновить продукт.",
+    "orderUpdated": "Заказ обновлен!",
+    "storeNotFound": "Магазин не найден!",
+    "tooManyRequests": "Слишком много запросов",
+    "userNotFound": "Пользователь не найден!"
+  },
+  "app/lib/actions/order": {
+    "cannotChangeStatus": "Thebakerz может только выполнить этот заказ",
+    "cartEmpty": "Тележка пуста",
+    "failedCreateCheckout": "Не удалось создать сеанс проверки",
+    "failedCreateOrder": "Не удалось создать заказ",
+    "failedFetchOrder": "Не удалось получить данные хранить",
+    "failedFetchOrders": "Не удалось получить заказы",
+    "failedUpdateOrderStatus": "Не удалось обновить статус заказа",
+    "invalidData": "Неверные данные заказа",
+    "invalidFields": "Неверные поля!",
+    "invalidStatus": "Неверный статус",
+    "orderAlreadyCompleted": "Заказ уже завершен",
+    "orderNotFound": "Порядок не найден",
+    "orderTimeNotSet": "Время заказа не установлено",
+    "pastDateOrder": "Не могу разместить заказы на прошлые даты или время близко к концу",
+    "sessionExpired": "Сеанс недопустим",
+    "storeNotFound": "Магазин не найден!",
+    "tooManyRequests": "Слишком много запросов",
+    "userNotAuthorized": "Нет доступа",
+    "userNotFound": "Пользователь не найден!"
+  },
+  "app/lib/actions/product": {
+    "failedUpdateProduct": "Не удалось обновить продукт.",
+    "failedUploadImage": "Не удалось загрузить изображение",
+    "invalidFields": "Неверные поля!",
+    "productAdded": "Добавлен продукт!",
+    "productUpdated": "Продукт обновлен!",
+    "storeNotFound": "Магазин не найден!",
+    "tooManyRequests": "Слишком много запросов",
+    "userNotFound": "Пользователь не найден!"
+  },
+  "app/lib/actions/profile-actions": {
+    "invalidFields": "Неверные поля!",
+    "profileUpdated": "Профиль обновлен успешно!",
+    "tooManyRequests": "Слишком много запросов",
+    "userNotFound": "Пользователь не найден!"
+  },
+  "app/lib/actions/store-actions": {
+    "invalidFields": "Неверные поля",
+    "storeNameExists": "Название магазина уже существует!",
+    "storeUpdated": "Информация о магазине обновлена!",
+    "tooManyRequests": "Слишком много запросов!",
+    "userNotFound": "Пользователь не найден!"
+  },
+  "app/search": {
+    "errorCouldNotDetermineLocation": "Ошибка: не удалось определить местоположение.",
+    "errorLoadingAddressSearch": "Поиск адреса ошибок загрузки. \nПожалуйста, попробуйте обновить страницу.",
+    "findingLocation": "Поиск вашего местоположения ...",
+    "noStoresFound": "Магазины не найдены",
+    "searchAddressLabel": "Введите адрес доставки",
+    "searchAddressPlaceholder": "Улица, номер, город ...",
+    "tryChangingLocationOrDeliveryMode": "Попробуйте изменить свое местоположение или режим доставки.",
+    "updatingLocation": "Место обновления ..."
+  },
+  "search": {
+    "components": {
+      "storePanel": {
+        "closed": "Закрыто",
+        "deliveryAvailable": "Доставить сейчас",
+        "deliveryFee": "Плата за доставку",
+        "deliveryUnavailable": "Не доставить сейчас",
+        "minOrder": "Мин заказ",
+        "open": "Открыть"
+      },
+      "toggleDelivery": {
+        "delivery": "Доставка",
+        "pickup": "Подобрать"
+      }
+    }
+  }
+}

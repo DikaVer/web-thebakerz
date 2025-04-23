@@ -147,7 +147,7 @@ const validStatusOrder = ['cancelled', 'refunded', "new", "started", "ready", "c
 // This function updates the status of an order in the database.
 async function updateOrderInCosmos(storeId: string, orderId: string, email: string, newStatus: string) {
     try {
-        const partitionKeyValue = [storeId, email];
+        const partitionKeyValue = [storeId, email.toLowerCase()];
         // Example Cosmos DB update operation
         await containerOrders.item(orderId, partitionKeyValue).patch({
             operations: [
@@ -168,7 +168,7 @@ async function updateOrderInPostgreSQL(storeId: string, seqId: string, email: st
              SET completed = $1
              WHERE id = $2 AND store_id = $3 AND customer = $4
              RETURNING id`,
-            [true, seqId, storeId, email]
+            [true, seqId, storeId, email.toLowerCase()]
         );
 
         if (result.rows.length === 0) {
@@ -230,6 +230,8 @@ export const createOrder = async (
     if (!cartData || !cartData[store.id] || Object.keys(cartData[store.id]).length === 0) {
         return { error: t("cartEmpty") };
     }
+
+    const normalizedEmail = formData.email.toLowerCase();
 
     // Get scheduled order time
     const { date, time } = await getOrderTime(store.id);
@@ -302,9 +304,9 @@ export const createOrder = async (
             seq_id: -1,
             store_order_id: "Manual Order",
             store_id: storeId,
-            customer_email: formData.email,
+            customer_email: normalizedEmail,
             customer: {
-                email_customer: formData.email,
+                email_customer: normalizedEmail,
                 email_verified: false,
                 name_customer: formData.name,
                 phone_number: formData.phoneNumber,
@@ -352,7 +354,7 @@ export const createOrder = async (
          // Send confirmation email and invalidate cache
          sendOrderPlaced({
             orderData: orderData,
-            identifier: formData.email, // Use primary email for notification
+            identifier: normalizedEmail, // Use primary email for notification
         });
 
         revalidateTag('cart');
@@ -454,7 +456,7 @@ export async function getOrdersByDateRange(storeId: string, fromDate: string, to
 
 export async function updateOrderStatus(storeId: string, orderId: string, seqId: string, email: string, status: string): Promise<{ok: boolean, error?: string}> {
     const t = await getTranslations("app/lib/actions/order") as TranslationFunction;
-    
+    const normalizedEmail = email.toLowerCase();
     try {
         const {user} = await getCurrentSession();
         if (!user) {return {ok: false, error: "User not found"};}
@@ -466,7 +468,7 @@ export async function updateOrderStatus(storeId: string, orderId: string, seqId:
             if (!store || store.id !== storeId) {return {ok: false, error: "Store mismatch"};}
         } 
 
-        const orderData = await getOrder(storeId, orderId, email);
+        const orderData = await getOrder(storeId, orderId, normalizedEmail);
 
         if (!orderData) {
             return {
@@ -476,7 +478,7 @@ export async function updateOrderStatus(storeId: string, orderId: string, seqId:
         }
 
 
-        if (orderData.id !== orderId || orderData.store_id !== storeId || orderData.customer_email !== email) {
+        if (orderData.id !== orderId || orderData.store_id !== storeId || orderData.customer_email !== normalizedEmail) {
             return {
                 ok: false,
                 error: t("invalidData")
@@ -510,10 +512,10 @@ export async function updateOrderStatus(storeId: string, orderId: string, seqId:
         }
 
         if (newStatus === "completed") {
-            orderData.status === 'paid' && await updateOrderInPostgreSQL(storeId, seqId, email);
-            await updateOrderInCosmos(storeId, orderId, email, newStatus);
+            orderData.status === 'paid' && await updateOrderInPostgreSQL(storeId, seqId, normalizedEmail);
+            await updateOrderInCosmos(storeId, orderId, normalizedEmail, newStatus);
         } else {
-            await updateOrderInCosmos(storeId, orderId, email, newStatus);
+            await updateOrderInCosmos(storeId, orderId, normalizedEmail, newStatus);
         }
 
         revalidateTag('orders');
@@ -549,7 +551,7 @@ export const getCurrentOrder = async (storeId: string, orderId: string, email: s
         headers: {
             'Store-Id': storeId,
             'Order-Id': orderId,
-            'Email': email,
+            'Email': email.toLowerCase(),
             'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
         },
         next: {

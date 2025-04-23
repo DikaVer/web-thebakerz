@@ -130,7 +130,7 @@ export default function OrderPlacedEmail({
                             <Column style={textColumn}>
                                 <Text style={detailHeading}>{scheduledTimeLabel}</Text>
                                 <Link href={calendarLink} style={linkStyle}>
-                                    {scheduledToCalendarDateTime(scheduledTime).toString()}
+                                    {`${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year} at ${String(scheduledToCalendarDateTime(scheduledTime).hour).padStart(2, '0')}:${String(scheduledToCalendarDateTime(scheduledTime).minute).padStart(2, '0')}`}
                                 </Link>
                             </Column>
                         </Row>

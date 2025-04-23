@@ -8,15 +8,32 @@ import {createUserGoogle, getUserFromEmail, getUserFromGoogleId} from "@/lib/act
 import {replace} from "lodash";
 import {replaceGuestCart} from "@/lib/actions/cart";
 import {getTranslations} from "next-intl/server";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
+
+// Initialize logger for Google OAuth callback
+const log = logger.child({ module: "google-oauth-callback" });
 
 export async function GET(request: Request): Promise<Response> {
 	const t = await getTranslations("app/api/auth/google");
+	const context = await getRequestContext();
+	
+	log.info('googleCallback', 'Google OAuth callback started', {
+		requestId: context.requestId,
+		clientIP: context.clientIP,
+		url: request.url
+	});
 
 	if (!await globalGETRateLimit()) {
+		log.warn('googleCallback', 'Rate limit exceeded for Google OAuth callback', {
+			requestId: context.requestId,
+			clientIP: context.clientIP
+		});
 		return new Response(t("tooManyRequests"), {
 			status: 429
 		});
 	}
+	
 	const url = new URL(request.url);
 	const code = url.searchParams.get("code");
 	const state = url.searchParams.get("state");
@@ -24,12 +41,28 @@ export async function GET(request: Request): Promise<Response> {
 
 	const storedState = cookieStore.get("google_oauth_state")?.value ?? null;
 	const codeVerifier = cookieStore.get("google_code_verifier")?.value ?? null;
+	
+	// Check for missing parameters
 	if (code === null || state === null || storedState === null || codeVerifier === null) {
+		log.warn('googleCallback', 'Missing required OAuth parameters', {
+			requestId: context.requestId,
+			clientIP: context.clientIP,
+			hasCode: code !== null,
+			hasState: state !== null,
+			hasStoredState: storedState !== null,
+			hasCodeVerifier: codeVerifier !== null
+		});
 		return new Response(t("pleaseRestartProcess"), {
 			status: 400
 		});
 	}
+	
+	// Check for state mismatch
 	if (state !== storedState) {
+		log.warn('googleCallback', 'OAuth state mismatch', {
+			requestId: context.requestId,
+			clientIP: context.clientIP
+		});
 		return new Response(t("pleaseRestartProcess"), {
 			status: 400
 		});
@@ -37,8 +70,17 @@ export async function GET(request: Request): Promise<Response> {
 
 	let tokens: OAuth2Tokens;
 	try {
+		log.debug('googleCallback', 'Validating authorization code', {
+			requestId: context.requestId,
+			clientIP: context.clientIP
+		});
 		tokens = await google.validateAuthorizationCode(code, codeVerifier);
-	} catch {
+	} catch (error) {
+		log.error('googleCallback', 'Failed to validate authorization code', {
+			requestId: context.requestId,
+			clientIP: context.clientIP,
+			error: error instanceof Error ? error.message : String(error)
+		});
 		return new Response(t("pleaseRestartProcess"), {
 			status: 400
 		});
@@ -51,19 +93,48 @@ export async function GET(request: Request): Promise<Response> {
 	const name = claimsParser.getString("name");
 	const picture = claimsParser.getString("picture");
 	const email = claimsParser.getString("email");
+	
+	log.info('googleCallback', 'Successfully decoded ID token', {
+		requestId: context.requestId,
+		clientIP: context.clientIP,
+		email,
+		googleId
+	});
 
 	const redirectCookie = cookieStore.get("google_redirect")?.value || "/";
 	const redirectTo = redirectCookie.startsWith('/') ? redirectCookie : `/${redirectCookie}`;
 	const storeId = cookieStore.get("google_store_id")?.value || null;
 
-	// console.log("Redirecting to", cookieStore.get("google_redirect")?.value );
-
+	// Check for existing user with Google ID
 	const existingUser = await getUserFromGoogleId(googleId);
 	if (existingUser !== null) {
+		log.info('googleCallback', 'Found existing user with Google ID', {
+			requestId: context.requestId,
+			clientIP: context.clientIP,
+			email,
+			userId: existingUser.id
+		});
+		
 		const sessionToken = generateSessionToken();
 		const session = await createSession(sessionToken, existingUser.id);
 		await setSessionTokenCookie(sessionToken, session.expiresAt);
-		storeId && await replaceGuestCart(storeId);
+		
+		if (storeId) {
+			log.debug('googleCallback', 'Replacing guest cart for existing user', {
+				requestId: context.requestId,
+				userId: existingUser.id,
+				storeId
+			});
+			await replaceGuestCart(storeId);
+		}
+		
+		log.info('googleCallback', 'Authentication successful, redirecting existing user', {
+			requestId: context.requestId,
+			clientIP: context.clientIP,
+			userId: existingUser.id,
+			redirectTo
+		});
+		
 		return new Response(null, {
 			status: 302,
 			headers: {
@@ -72,19 +143,46 @@ export async function GET(request: Request): Promise<Response> {
 		});
 	}
 
+	// Check for existing user with email
 	let user = await getUserFromEmail(email);
 
 	if (user !== null) {
-
+		log.info('googleCallback', 'Found existing user with matching email', {
+			requestId: context.requestId,
+			clientIP: context.clientIP,
+			email,
+			userId: user.id
+		});
 	} else {
+		log.info('googleCallback', 'Creating new user from Google account', {
+			requestId: context.requestId,
+			clientIP: context.clientIP,
+			email
+		});
 		user = await createUserGoogle(googleId, email, name, picture);
 	}
-
 
 	const sessionToken = generateSessionToken();
 	const session = await createSession(sessionToken, user.id);
 	await setSessionTokenCookie(sessionToken, session.expiresAt);
-	storeId && await replaceGuestCart(storeId);
+	
+	if (storeId) {
+		log.debug('googleCallback', 'Replacing guest cart for user', {
+			requestId: context.requestId,
+			userId: user.id,
+			storeId
+		});
+		await replaceGuestCart(storeId);
+	}
+	
+	log.info('googleCallback', 'Authentication successful, redirecting user', {
+		requestId: context.requestId,
+		clientIP: context.clientIP,
+		userId: user.id,
+		isNewUser: existingUser === null && await getUserFromEmail(email) === null,
+		redirectTo
+	});
+	
 	return new Response(null, {
 		status: 302,
 		headers: {

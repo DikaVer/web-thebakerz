@@ -45,7 +45,7 @@
     "orange": "orange",
     "banana": "banana",
     "fish": "fish",
-    "matsuke": "matsuke",
+    "matsuke": "matsutake",
     "chicken": "chicken",
     "potato": "potato",
     "pork": "pork",
@@ -66,8 +66,8 @@
     "whyChooseTheBakerz": "Why Choose TheBakerz?",
     "transparentPricing": "Transparent pricing",
     "monthlySubscription": "€9.99/month subscription",
-    "paymentFee": "Payment and service fee 5%",
-    "paymentFeeInfo": "5% of sales to host website, operational and payment services",
+    "paymentFee": "Payment and service fee 8%",
+    "paymentFeeInfo": "8% of sales to host website, operational and payment services",
     "freeTrial": "FREE TRIAL",
     "exclusiveOffer": "Exclusive offer: start for 3 months for free!",
     "getStarted": "Get started with TheBakerz",
@@ -86,7 +86,7 @@
   },
   "app/(main)/about-us/page": {
     "greetingTitle": "Nice to meet you",
-    "greeting": "We're David and Dumitru, and TheBakerz means a lot to us. After seeing our friends and family who bake struggle with late-night orders, juggling too many apps, and feeling like they never had time for the craft they love, we knew something had to change.\n\nSo we stepped in to help.",
+    "greeting": "We're David and Dumitru, we founded TheBakerz to make it easy for home bakers and artisan chefs to sell their products. We saw a growing market of passionate bakers and even more people hungry for something better than supermarket desserts. So we created a platform that brings them together. It’s simple: bakers get tools to grow, customers get access to amazing goods. Win Win! ",
     "sloganTitle": "Bake More, Stress Less",
     "slogan": "TheBakerz puts everything bakers need in one place. Instead of bouncing between spreadsheets, emails, and messages, you can handle all your orders, schedules, and customer details from a single, organized spot. Less hassle, fewer headaches, and more energy for doing what you do best—baking.",
     "whyTitle": "Why We Do This",
@@ -106,7 +106,7 @@
     "performingSignIn": "Performing sign in..."
   },
   "app/(return_page)/transit-exit/page": {
-    "performingSignOut": "Performing sign out..."
+    "performingSignOut": "Signing out..."
   },
   "app/(return_page)/settings/components/profile-setting": {
     "profile": "Profile",
@@ -186,8 +186,8 @@
     "noCitiesSelected": "No cities selected",
     "mapView": "Map View",
     "deliveryDescription": "Allow customers to have orders delivered to their address",
-    "minOrderPrice": "Minimum Order Price",
-    "minPriceLabel": "Min Price",
+    "minOrderPrice": "Minimum Order Value",
+    "minPriceLabel": "Min Value",
     "minOrderPriceDescription": "Customers must order at least this amount to qualify for delivery in this region",
     "deliverySchedule": "Delivery Times",
     "manageDeliverySchedule": "Manage Delivery Times",
@@ -198,7 +198,7 @@
     "cancel": "Cancel",
     "save": "Save",
     "invalidCity": "Invalid city selected",
-    "minOrderPriceError": "Minimum order price must be at least 10€",
+    "minOrderPriceError": "Minimum order value must be at least 10€",
     "minOrderTime": "Min Order Time:",
     "brandName": "TheBakerz",
     "minutes": "minutes",
@@ -272,7 +272,7 @@
     "checkingAddress": "Enter your address",
     "scheduleFormatError": "Schedule Format Error",
     "closed": "Closed",
-    "noInfo": "Open Now",
+    "noInfo": "Closed",
     "monday": "Monday",
     "tuesday": "Tuesday",
     "wednesday": "Wednesday",
@@ -336,7 +336,7 @@
     "selectPickUpTime": "Select Pick Up Time",
     "delivery": "Delivery",
     "deliveryFee": "Delivery Fee",
-    "minimumOrder": "Minimum Order",
+    "minimumOrder": "Minimum Order value",
     "deliveryHours": "Delivery Hours",
     "enterDeliveryAddressPrompt": "Enter delivery address",
     "enterDeliveryAddress": "Enter Delivery Address",
@@ -415,7 +415,7 @@
     "orderStatus": "Order Status",
     "order": "Order",
     "changeStatusAction": "Change Status",
-    "selectOneOption": "Selct one option",
+    "selectOneOption": "Select one option",
     "changeStatus": "Change Status"
   },
   "app/(store)/components/orders-list": {
@@ -659,7 +659,7 @@
     "overview": "Overview",
     "users": "Users",
     "stripe": "Stripe",
-    "search": "Search Bakerz"
+    "search": "Search Bakers"
   },
   "app/(support)/components/contact-us": {
     "emailLabel": "Email",
@@ -686,26 +686,22 @@
     "sectionCustomer": "Customers"
   },
   "app/(support)/components/faq-baker": {
-    "question1": "What is TheBakerz",
-    "answer1": "TheBakerz is an all-in-one platform that helps bakers manage their businesses and reach more customers. It handles orders, production planning, payments, and customer communication in one place. This means less time on admin and more time doing what you love—baking!",
+    "question1": "What is TheBakerz?",
+    "answer1": "TheBakerz is an all-in-one platform that helps bakers manage their businesses and reach more customers. It handles advertising, orders, payments, and deliveries (for now only in Limburg area). Besides, we can help you set-up your bakery and comply with laws and regulations.",
     "question2": "How do I start selling on TheBakerz?",
-    "answer2": "Getting started is easy! Fill out this form (link), and we'll schedule a quick call to set everything up. We'll help you create your online shop and show you how to use it step by step.",
-    "question3": "What do I need to get started?",
-    "answer3": "You'll just need a KVK number, VAT number, and food safety certification. If you're missing something, don't worry—we'll help you figure it out.",
-    "question4": "Can I choose my own prices and menu?",
-    "answer4": "Of course! You're in control of what you sell and how much you charge. You can update your menu and prices whenever you like.",
-    "question5": "How do orders and delivery work?",
-    "answer5": "You decide what works best for your bakery. You can offer delivery or allow customers to pick up orders from your location. Set your own delivery areas and pickup times to fit your schedule.",
-    "question6": "What does it cost to use TheBakerz?",
-    "answer6": "You pay only when you make a sale. We take an 8% commission, which covers website operations, payment processing fees, and advertising.",
-    "question7": "How do payments work?",
-    "answer7": "Customers pay upfront through our secure payment system. We transfer your earnings, minus the commission, to your bank account weekly. Payments typically arrive within 1-2 business days after Monday",
-    "question8": "Is it easy to use if I'm not good with technology?",
-    "answer8": "Absolutely! TheBakerz is designed to be simple and user-friendly. If you ever need help, our support team is just an email or call away.",
-    "question9": "Can I trust TheBakerz with payments and orders?",
-    "answer9": "Yes, you can. Orders are tracked automatically, and payments are processed securely with our payment partner (Stripe). Both you and your customers will have full transparency at every step.",
-    "question10": "Can I trust TheBakerz with payments and orders?",
-    "answer10": "We're here to help with anything you need. From setting up your shop to managing orders, contact us or call us at +31 684794739. We'll make sure everything runs smoothly for you."
+    "answer2": "Getting started is easy! [Fill out this form](r#join-thebakerz), and we'll schedule a quick call to set everything up. We'll help you create your online shop and show you how to use it step by step. You'll just need a KVK number, VAT number, and food safety certification. If you're missing something, don't worry—we'll help you figure it out.",
+    "question3": "Can I choose my own prices and menu?",
+    "answer3": "Of course! You're in control of what you sell and how much you charge. You can update your menu and prices whenever you like.",
+    "question4": "How do orders deliveries work?",
+    "answer4": "You can offer delivery or allow customers to pick up orders from your location. Set your own delivery areas and pick-up times to fit your schedule. Bakeries in Limburg can use TheBakerz's delivery service. This costs 20% commission of the order value (paid by the baker) and a small delivery fee (charged to the customer).",
+    "question5": "What does it cost to use TheBakerz?",
+    "answer5": "You pay only when you make a sale. We take an 8% commission, which covers website operations, payment processing fees, and advertising.",
+    "question6": "How do payments work?",
+    "answer6": "Customers pay upfront through our secure payment system. We transfer your earnings, minus the commission, to your bank account weekly. Payments typically arrive within 1-2 business days after Monday",
+    "question7": "Can I trust TheBakerz with payments and orders?",
+    "answer7": "Yes, you can. Orders are tracked automatically, and payments are processed securely with our payment partner (Stripe). Both you and your customers will have full transparency at every step.",
+    "question8": "Whom should I contact in case of questions?",
+    "answer8": "We're here to help with anything you need. From setting up your shop to managing orders, contact us or call us at +31 684794739. We'll make sure everything runs smoothly for you."
   },
   "app/(support)/components/faq-customer": {},
   "app/(components)/redirect-page": {
@@ -724,12 +720,12 @@
     "refundPolicy": "Refund Policy",
     "linkedIn": "LinkedIn",
     "instagram": "Instagram",
-    "twitter": "Twitter",
+    "twitter": "X",
     "copyright": "TheBakerz. All rights reserved.",
     "navigation": "Navigation",
     "support": "Support",
     "legal": "Legal",
-    "search": "Search Bakerz"
+    "search": "Search Baker"
   },
   "app/(components)/footer-store": {
     "brandName": "TheBakerz",
@@ -741,7 +737,7 @@
     "refundPolicy": "Refund Policy",
     "linkedIn": "LinkedIn",
     "instagram": "Instagram",
-    "twitter": "Twitter",
+    "twitter": "X",
     "copyright": "TheBakerz. All rights reserved.",
     "legal": "Legal",
     "support": "Support",
@@ -749,7 +745,7 @@
     "phone": "Phone",
     "addressPlaceholder": "Address Placeholder",
     "locationPlaceholder": "Location Placeholder",
-    "search": "Search Bakerz",
+    "search": "Search Bakers",
     "Opening Hours": "Opening Hours"
   },
   "app/(components)/footer-simple": {
@@ -893,7 +889,8 @@
     "notAuthenticated": "Not authenticated",
     "invalidContainer": "Invalid container name",
     "imageUpdated": "Image updated successfully!",
-    "internalError": "Internal server error"
+    "internalError": "Internal server error",
+    "invalidImage": "Invalid Image"
   },
   "app/api/validate-session": {
     "internalError": "Internal Server Error",
@@ -1069,7 +1066,7 @@
     "region": "Region",
     "registeredAddress": "Registered Address",
     "bankAccount": "Bank Account",
-    "korStatus": "Kor Status",
+    "korStatus": "KOR-Status",
     "korEnabled": "Enabled",
     "korDisabled": "Disabled"
   },
@@ -1118,6 +1115,43 @@
     "saveWorkingHours": "Save Working Hours"
   },
   "app/api/store/orders/new": {
-    "internalError": "Internal Error"
+    "internalError": "Internal Error",
+    "notAuthorized": "Not"
+  },
+  "app/(store)/id": {
+    "example-store": "This is an example store. Products and services shown are for demonstration purposes only."
+  },
+  "app/landing/marketplace": {
+    "heroSectionTitle": "Discover artisanal bakeries near you",
+    "heroSectionPlaceholder": "Enter your address",
+    "heroSectionLoading": "Finding your location...",
+    "heroSectionSubmitting": "Processing your address...",
+    "bakersGrowthSectionTitle": "Grow your bakery business with TheBakerz",
+    "bakersGrowthSectionDescription": "Our platform helps artisanal bakers boost revenue through promotional order management, customer discovery tools, and streamlined operations—helping you focus on creating delicious baked goods.",
+    "become": "Become a partner"
+  },
+  "app/search": {
+    "noStoresFound": "No stores found",
+    "tryChangingLocationOrDeliveryMode": "Try changing your location or delivery mode.",
+    "errorCouldNotDetermineLocation": "Error: Could not determine location.",
+    "errorLoadingAddressSearch": "Error loading address search. Please try refreshing the page.",
+    "findingLocation": "Finding your location...",
+    "updatingLocation": "Updating location...",
+    "searchAddressPlaceholder": "Street, number, city...",
+    "searchAddressLabel": "Enter Delivery Address"
+  },
+  "app/become-partner": {
+    "title": "Unlock your potential with TheBakerz",
+    "launchYourCustomWebShop": "Launch Your Custom Web-shop",
+    "launchYourCustomWebShopDescription": "Showcase your products with professional photography on our user-friendly platform featuring smooth checkout for maximum customer satisfaction",
+    "manageOrdersSmarter": "Manage Orders Smarter",
+    "manageOrdersSmarterDescription": "Track every order from placement to pickup with our intuitive calendar dashboard that displays customer details, order statuses, and financial insights—all in one organized view",
+    "weHaveMore": "You think this is all?",
+    "weHaveMoreDescription": "We have more!"
+  },
+  "app/landing/horizontal-scroll": {
+    "deliveries": "DELIVERIES",
+    "marketing": "MARKETING",
+    "support": "SUPPORT"
   }
 }

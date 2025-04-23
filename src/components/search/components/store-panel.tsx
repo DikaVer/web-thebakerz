@@ -3,11 +3,12 @@
 import React, { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardBody, CardFooter, Chip } from '@heroui/react';
+import { Badge, Card, CardBody, CardFooter, Chip } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { NearbyStore } from '@/lib/actions/store'; // Assuming NearbyStore is exported
 import { formatCurrency } from '@/lib/utils'; // Assuming a currency formatting util
 import { useTranslations } from 'next-intl';
+import { examppleStore } from '@/lib/local-variables';
 
 interface StorePanelProps {
     store: NearbyStore;
@@ -124,7 +125,6 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
                 </CardBody>
-                
                 <CardFooter className="text-sm flex-col !items-start p-4 gap-1.5">
                     <div className="flex justify-between items-start w-full">
                         <h4 className="font-bold text-large truncate mr-2">{store.storeName}</h4>
@@ -160,9 +160,19 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                     <p className="text-default-600 text-xs line-clamp-2">{store.slug || 'Artisanal baked goods'}</p>
                     
                     <div className="flex flex-col flex-wrap items-start gap-y-1 gap-x-2 text-default-500 text-xs mt-1 w-full">
-                        <div className="flex items-center gap-1">
+                        <div className="flex w-full items-end justify-between gap-1">
+                            <div className="flex gap-1 items-center">
                             <Icon icon="solar:routing-3-linear" width={14} className="flex-shrink-0" />
-                            <span>{distanceString}</span>
+                                <span>{distanceString}</span>
+                            </div>
+                            <Chip
+                                size="md"
+                                color={"warning"}
+                                variant="flat"
+                                className={`${examppleStore.includes(store.id) ? "bg-warning-400 px-2 text-black" : "hidden"}`}
+                            >
+                                Example Store
+                            </Chip>
                         </div>
                         
                         <div className="flex items-center gap-1 flex-1">

@@ -47,12 +47,6 @@ export default function SidebarMenu({ store, isOpen, onOpenChange, isCollapsed }
     const { theme } = useTheme();
     const storeUrl = null;
 
-
-    useEffect(() => {
-        console.log(session);
-    });
-
-
     return (
         <SidebarDrawer
             className={cn("min-w-[240px] rounded-lg", { "min-w-[64px]": isCollapsed })}

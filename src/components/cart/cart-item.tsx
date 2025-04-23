@@ -126,16 +126,18 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                             {/* Display note */}
                             {item.note && (
                                 <>
-                                    <CustomAlert
-                                        color="warning"
-                                        hideIcon={true}
-                                        classNames={{
-                                            base: 'p-0',
-                                            mainWrapper: 'p-0 py-1 min-h-0',
-                                        }}
-                                    >
-                                        <p className="text-xs">{`${t("note")}: ${item.note}`}</p>
-                                    </CustomAlert>
+                                    <div className="w-full overflow-hidden">
+                                        <CustomAlert
+                                            color="warning"
+                                            hideIcon={true}
+                                            classNames={{
+                                                base: 'p-0 overflow-visible',
+                                                mainWrapper: 'p-0 py-1 overflow-visible',
+                                            }}
+                                        >
+                                            <p className="text-xs break-all word-break text-wrap overflow-visible whitespace-normal">{`${t("note")}: ${item.note}`}</p>
+                                        </CustomAlert>
+                                    </div>
                                     <Spacer x={4} />
                                 </>
                             )}

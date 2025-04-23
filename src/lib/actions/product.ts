@@ -178,7 +178,8 @@ export const addProduct = async (
  * @returns A promise resolving to a success message or an error message.
  */
 export const deleteProduct = async (
-    productId: string
+    productId: string,
+    storeId: string
 ): Promise<{ success?: string; error?: string }> => {
     try {
         if (!await globalPOSTRateLimit()){
@@ -193,10 +194,12 @@ export const deleteProduct = async (
             return { error: "User not found!" };
         }
 
-        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, productId);
+        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
         if (!store) {
             return { error: "Store not found!" };
         }
+
+        console.log("Deleting product with ID:", productId, "from store with ID:", storeId);
 
 
         // Update the product's archive status to true.
@@ -207,7 +210,21 @@ export const deleteProduct = async (
             ],
         });
 
+        // Get all cart items for this product
+        const cartItems = await getCartItemsByProductId(store.id, productId);
+
+        // Delete all cart items for this product
+        if (cartItems.length > 0) {
+            await Promise.all(
+                cartItems.map(async (item) => {
+                    const partitionKeyValue = [store.id, item.user_id];
+                    await containerCart.item(item.id, partitionKeyValue).delete();
+                })
+            );
+        }
+
         revalidateTag('products');
+        revalidateTag("cart");
         return { success: "Product deleted successfully!" };
     } catch (error: any) {
         console.error("Error deleting product:", error);

@@ -1,6 +1,6 @@
 "use client";
 
-import type { NavbarProps } from "@heroui/react";
+import {cn, NavbarProps} from "@heroui/react";
 import React from "react";
 import {
     Navbar,
@@ -49,7 +49,8 @@ export default function NavbarComponent({
                                         }: LayoutProps) {
     const t = useTranslations("app/(landing)/components/navbar");
     const isSmall = useMediaQuery("(max-width: 1024px)");
-    const { isSticky } = store ? useStore() : { isSticky: false };
+    const pathname = usePathname();
+    const { isSticky } = useStore();
     const { session } = useSession();
     const router = useRouter();
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
@@ -75,9 +76,8 @@ export default function NavbarComponent({
                 height="54px"
             >
                 <NavbarContent
-                    className={`flex data-[justify=center]:justify-between w-full gap-8 rounded-full ${
-                        isSticky ? "rounded-3xl rounded-b-none" : ""
-                    } border-small border-default-200/20 px-2 shadow-medium backdrop-blur-xl`}
+                    className={cn(`flex data-[justify=center]:justify-between w-full gap-8 rounded-full border-small border-default-200/20 px-2 shadow-medium backdrop-blur-xl`,
+                        isSticky && "rounded-3xl rounded-b-none")}
                     justify="center"
                 >
                     {hideSideBar ? (
@@ -125,6 +125,17 @@ const ReturnNavbar: React.FC<CheckoutNavbarProps> = ({
     const router = useRouter();
     const pathname = usePathname();
     const isPartnerPage = pathname.includes("/become-partner");
+    const redirectToStore = () => {
+        if (store) {
+            navigateToStore();
+        } else {
+            if (isPartnerPage) {
+                router.push("/");
+            } else {
+                router.back();
+            }
+        }
+    }
 
     return (
         <>
@@ -133,7 +144,7 @@ const ReturnNavbar: React.FC<CheckoutNavbarProps> = ({
                     size="md"
                     variant="light"
                     className="text-default-500"
-                    onPress={store ? navigateToStore : () => router.back()}
+                    onPress={redirectToStore}
                     startContent={
                         <Icon
                             className="text-default-500"
@@ -240,9 +251,9 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
             <NavbarBrand className="w-[40rem] max-w-fit">
                 <a
                     className={`font-medium text-2xl ${pacifico.className}`}
-                    href={store?.ownerName ? `/${store?.storeName}` : "/"}
+                    href={store?.ownerName ? `/${store?.storeName || store?.id}` : "/"}
                 >
-                    <GradientText>
+                    <GradientText className={'cursor-pointer'} subClassName={'cursor-pointer'}>
                         {store?.ownerName || t("brandName")}
                     </GradientText>
                 </a>
@@ -250,18 +261,30 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
             {store ? (
                 (session?.user?.id === store.user_id || session?.user?.role === 'admin') ? (
                     <a href={process.env.NEXT_PUBLIC_API_BASE_URL}>
-                        <Image
-                            src="/images/TheBakerzLogo.svg"
-                            alt="Logo"
-                            width={32}
-                            radius="full"
-                        />
+                        <NavbarItem className="mr-1 !flex">
+                            <Image
+                                src="/images/TheBakerzLogo.svg"
+                                alt="Logo"
+                                width={32}
+                                radius="full"
+                            />
+                        </NavbarItem>
                     </a>
-                ) : (
-                    <NavbarItem className="mr-1 !flex">
-                        <CartButton />
-                    </NavbarItem>
-                )
+                ) : store.isStripeValid ? (
+
+                        <NavbarItem className="mr-1 !flex">
+                            <CartButton />
+                        </NavbarItem>
+                    ) : (
+                        <NavbarItem className="mr-1 !flex">
+                            <Image
+                                src="/images/TheBakerzLogo.svg"
+                                alt="Logo"
+                                width={32}
+                                radius="full"
+                            />
+                        </NavbarItem>
+                    )
             ) : (
                 <NavbarItem className="mr-1 !flex">
                     {!session?.session ? (
@@ -272,11 +295,11 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         )
                     ) : (
                         <Image
-                        src="/images/TheBakerzLogo.svg"
-                        alt="Logo"
-                        width={32}
-                        radius="full"
-                         />
+                            src="/images/TheBakerzLogo.svg"
+                            alt="Logo"
+                            width={32}
+                            radius="full"
+                        />
                     )}
                 </NavbarItem>
             )}

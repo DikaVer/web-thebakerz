@@ -51,7 +51,7 @@ export default function CookieConsentComponent() {
                              }: React.PropsWithChildren<{className?: string}>) => (
         <m.div
             className={cn(
-                "pointer-events-auto ml-auto max-w-sm rounded-large border border-divider bg-background/15 p-6 shadow-small backdrop-blur",
+                "pointer-events-auto ml-auto max-w-sm rounded-large border border-divider bg-background/80 dark:bg-black/80 p-6 shadow-small backdrop-blur-md",
                 className,
             )}
             exit="hidden"
@@ -68,9 +68,11 @@ export default function CookieConsentComponent() {
     );
 
     const cookieSettingsContent = (
-        <div className={`pointer-events-auto ml-auto max-w-sm rounded-large border border-divider bg-background/15 p-6 shadow-small backdrop-blur`}>
-            <h1 className="text-large font-semibold">{t("yourPrivacy")}</h1>
-            <p className="text-small font-normal text-default-700">
+        <div className={`pointer-events-auto ml-auto max-w-sm rounded-large border border-divider bg-background/80 dark:bg-black/80 p-6 shadow-small backdrop-blur-md`}>
+            <h1 className="text-large font-semibold text-foreground">
+                {t("yourPrivacy")}
+            </h1>
+            <p className="text-small font-normal text-foreground/80">
                 {t("privacyDescription")}{" "}
                 <Link href="/policies/privacy-policy" size="sm" underline="always">
                     {t("privacy")}
@@ -118,7 +120,7 @@ export default function CookieConsentComponent() {
             <div className="flex justify-between gap-x-3">
                 <Button
                     fullWidth
-                    className={`bg-gradient-primary text-default-200 text-md dark:text-white`}
+                    className={`bg-gradient-primary text-white text-md`}
                     radius="lg"
                     isLoading={isLoading}
                     isDisabled={isLoading}
@@ -126,10 +128,13 @@ export default function CookieConsentComponent() {
                 >
                     {t("acceptSelected")}
                 </Button>
-                <Button fullWidth variant="bordered"
-                        isLoading={isLoading}
-                        isDisabled={isLoading}
-                        onPress={handleRejectAll}>
+                <Button 
+                    fullWidth 
+                    variant="bordered"
+                    className="text-foreground border-foreground/20"
+                    isLoading={isLoading}
+                    isDisabled={isLoading}
+                    onPress={handleRejectAll}>
                     {t("rejectAll")}
                 </Button>
             </div>
@@ -138,22 +143,24 @@ export default function CookieConsentComponent() {
 
     const cookiesAlertContent = (
         <AnimatedWrapper>
-            <h1 className="text-large font-semibold">{t("continueToTheBakerz")}</h1>
-            <p className="text-small font-normal text-default-700">
+            <h1 className="text-large font-semibold text-foreground">
+                {t("continueToTheBakerz")}
+            </h1>
+            <p className="text-small font-normal text-foreground/80">
                 {t("cookiesExplanation")}
             </p>
-            <p className="text-small font-normal text-default-700">
+            <p className="text-small font-normal text-foreground/80">
                 {t("cookiesConsentText")}{" "}
-                <Link href="/policies/privacy-policy" size="sm" underline="hover">
+                <Link className="text-primary" href="/policies/privacy-policy" size="sm" underline="hover">
                     {t("cookiePolicy")}
                 </Link>
             </p>
             <div className="mt-4 space-y-2">
                 <Button
                     fullWidth
-                    className={`bg-gradient-primary text-default-200 text-xl dark:text-white`}
+                    className={`bg-gradient-primary text-white text-xl`}
                     radius="lg"
-                    endContent={<Icon className="ml-2 inline-block h-6 w-6 text-default-200 dark:text-white" icon="lucide:cookie"/>}
+                    endContent={<Icon className="ml-2 inline-block h-6 w-6 text-white" icon="lucide:cookie"/>}
                     isLoading={isLoading}
                     isDisabled={isLoading}
                     onPress={acceptAll}
@@ -162,7 +169,7 @@ export default function CookieConsentComponent() {
                 </Button>
                 <Button
                     fullWidth
-                    className="border-default-200 font-medium text-default-foreground"
+                    className="border-foreground/20 font-medium text-foreground"
                     radius="lg"
                     variant="bordered"
                     isLoading={isLoading}
@@ -173,7 +180,7 @@ export default function CookieConsentComponent() {
                 </Button>
                 <Button
                     fullWidth
-                    className="font-medium text-default-foreground"
+                    className="font-medium text-foreground/80"
                     radius="lg"
                     variant="light"
                     isLoading={isLoading}

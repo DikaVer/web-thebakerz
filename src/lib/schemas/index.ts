@@ -95,17 +95,22 @@ const allowedMimeTypes = [
     "image/png",        // PNG images
     "image/webp",       // WebP images
     "image/svg+xml",    // SVG images
-    "image/heic",        // HEIC images
+    "image/gif",        // GIF images
+    "image/bmp",        // BMP images
+    "image/tiff",       // TIFF images
+    "image/heic",       // HEIC images (common on iOS)
+    "image/heif"        // HEIF images (common on iOS)
 ];
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+// const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB - We handle large images but compress them on client
 
 // Create a Zod schema to validate the "file" field
 export const ImageSchema = z.instanceof(File)
     .refine((file) => allowedMimeTypes.includes(file.type), {
-        message: "Unsupported file type. Allowed types: JPEG, PNG, WebP, SVG",
+        message: "Unsupported file type. Allowed types: JPEG, PNG, WebP, GIF, SVG, BMP, TIFF, HEIC/HEIF",
     })
     .refine((file) => file.size <= MAX_FILE_SIZE, {
-        message: "File is too large. Maximum allowed size is 10MB.",
+        message: "File is too large. Maximum allowed size is 50MB before compression.",
     });
 
 

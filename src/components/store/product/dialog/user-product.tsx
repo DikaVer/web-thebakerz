@@ -106,7 +106,7 @@ export default function UserProductDialog({
                     isIconOnly={true}
                     copyText={
                         origin + "/" +
-                        productData?.store_name +
+                        productData?.store_name || productData?.store_id +
                         "/" +
                         productData?.web_name
                     }

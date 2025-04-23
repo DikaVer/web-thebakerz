@@ -82,9 +82,12 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     };
 
     const renderNestItem = React.useCallback(
-      (item: SidebarItem) => {
+      (item: SidebarItem, parentKey?: string) => {
         const isNestType =
           item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest;
+
+        // Create a composite key when an item is nested under a parent
+        const uniqueKey = parentKey ? `${parentKey}_${item.key}` : item.key;
 
         if (isNestType) {
           // Is a nest type item , so we need to remove the href
@@ -94,7 +97,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
         return (
           <ListboxItem
             {...item}
-            key={item.key}
+            key={uniqueKey}
             classNames={{
               base: cn(
                 {
@@ -143,7 +146,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
             {!isCompact && isNestType ? (
               <Accordion className={"p-0"}>
                 <AccordionItem
-                  key={item.key}
+                  key={uniqueKey}
                   aria-label={item.title}
                   classNames={{
                     heading: "pr-3",
@@ -179,10 +182,10 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                       items={item.items}
                       variant="flat"
                     >
-                      {item.items.map(renderItem)}
+                      {item.items.map((subItem) => renderItem(subItem, uniqueKey))}
                     </Listbox>
                   ) : (
-                    renderItem(item)
+                    renderItem(item, uniqueKey)
                   )}
                 </AccordionItem>
               </Accordion>
@@ -194,18 +197,21 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     );
 
     const renderItem = React.useCallback(
-      (item: SidebarItem) => {
+      (item: SidebarItem, parentKey?: string) => {
         const isNestType =
           item.items && item.items?.length > 0 && item?.type === SidebarItemType.Nest;
 
+        // Create a composite key when an item is nested under a parent
+        const uniqueKey = parentKey ? `${parentKey}_${item.key}` : item.key;
+
         if (isNestType) {
-          return renderNestItem(item);
+          return renderNestItem(item, parentKey);
         }
 
         return (
           <ListboxItem
             {...item}
-            key={item.key}
+            key={uniqueKey}
             endContent={isCompact || hideEndContent ? null : item.endContent ?? null}
             startContent={
               isCompact ? null : item.icon ? (
@@ -293,7 +299,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
               showDivider={isCompact}
               title={item.title}
             >
-              {item.items.map(renderItem)}
+              {item.items.map((subItem) => renderItem(subItem, item.key))}
             </ListboxSection>
           ) : (
             renderItem(item)

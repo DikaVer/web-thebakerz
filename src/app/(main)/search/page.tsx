@@ -5,7 +5,7 @@ import { findNearbyStores, NearbyStore } from '@/lib/actions/store';
 import { StorePanelSkeleton } from '@/components/search/components/store-panel-skeleton';
 import { StorePanel } from '@/components/search/components/store-panel';
 import type { Metadata } from 'next'; // Import Metadata type
-import { getLocale } from 'next-intl/server'; // Import getLocale
+import { getLocale, getTranslations } from 'next-intl/server'; // Import getLocale
 import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata utils
 
 // Define search page specific metadata translations
@@ -135,26 +135,29 @@ const StoresLoadingSkeleton = () => {
 async function StoreResults({ coords, mode }: { coords: Coordinates, mode: 'pickup' | 'delivery' }) {
   const stores = await findNearbyStores(coords.lat, coords.lng, mode);
   
+  const t = await getTranslations("app/search");
   // Log to help debug duplicate IDs
-  console.log("Store IDs:", stores.map(store => store.id));
+  if(process.env.NODE_ENV === 'development') console.log("Store IDs:", stores.map(store => store.id));
   
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      {stores.map((store, index) => (
-        // Use combination of store.id and index to ensure uniqueness
-        <StorePanel 
-          key={`${store.id}-${index}`} 
-          store={store} 
-          deliveryMode={mode} 
-        />
-      ))}
-      {stores.length === 0 && (
-        <div className="col-span-full text-center py-10 text-default-600 min-h-svh">
-          <p className="text-lg font-medium">No stores found</p> {/* Add translations later if needed */}
-          <p className="text-sm">Try changing your location or delivery mode.</p>
-        </div>
-      )}
-    </div>
+      <div className={'min-h-svh'}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
+              {stores.map((store, index) => (
+                  // Use combination of store.id and index to ensure uniqueness
+                  <StorePanel
+                      key={`${store.id}-${index}`}
+                      store={store}
+                      deliveryMode={mode}
+                  />
+              ))}
+              {stores.length === 0 && (
+                  <div className="col-span-full text-center py-10 text-default-600 min-h-svh">
+                      <p className="text-lg font-medium">{t("noStoresFound")}</p> {/* Add translations later if needed */}
+                      <p className="text-sm">{t("tryChangingLocationOrDeliveryMode")}</p>
+                  </div>
+              )}
+          </div>
+      </div>
   );
 }
 
@@ -199,7 +202,8 @@ export default async function Page(props : SearchPageProps) {
 
   // We must have coordinates to proceed
   if (!initialCoords) {
-    return <div>Error: Could not determine location.</div>;
+    const t = await getTranslations("app/search");
+    return <div>{t("errorCouldNotDetermineLocation")}</div>;
   }
 
   return (

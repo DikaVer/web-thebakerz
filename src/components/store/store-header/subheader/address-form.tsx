@@ -125,7 +125,7 @@ export function AddressForm({
   useEffect(() => {
     if (isLoaded && window.google?.maps?.places) {
       setIsInitialized(true);
-      console.log('Google Maps and Places API initialized');
+      if(process.env.NODE_ENV === 'development') console.log('Google Maps and Places API initialized');
     }
   }, [isLoaded]);
 
@@ -148,13 +148,15 @@ export function AddressForm({
 
   // Log when relevant states change
   useEffect(() => {
-    console.log('Google Maps loaded state:', isLoaded);
-    console.log('Initialization state:', isInitialized);
-    console.log('Places autocomplete ready state:', ready);
-    console.log('Suggestion Status:', status);
-    console.log('Window.google exists:', !!window.google);
-    console.log('Window.google.maps exists:', !!window.google?.maps);
-    console.log('Window.google.maps.places exists:', !!window.google?.maps?.places);
+    if(process.env.NODE_ENV === 'development') {
+      console.log('Google Maps loaded state:', isLoaded);
+      console.log('Initialization state:', isInitialized);
+      console.log('Places autocomplete ready state:', ready);
+      console.log('Suggestion Status:', status);
+      console.log('Window.google exists:', !!window.google);
+      console.log('Window.google.maps exists:', !!window.google?.maps);
+      console.log('Window.google.maps.places exists:', !!window.google?.maps?.places);
+    }
   }, [isLoaded, isInitialized, ready, status]);
 
   // Initialize Google Places Autocomplete when loaded
@@ -376,16 +378,16 @@ export function AddressForm({
       });
       
       const { latitude, longitude } = position.coords;
-      console.log("Successfully retrieved coordinates:", { latitude, longitude });
+      if(process.env.NODE_ENV === 'development') console.log("Successfully retrieved coordinates:", { latitude, longitude });
       
       // Use reverse geocoding to get address details
       const geocoder = new window.google.maps.Geocoder();
-      console.log("Performing reverse geocoding...");
+      if(process.env.NODE_ENV === 'development') console.log("Performing reverse geocoding...");
       const results = await geocoder.geocode({ location: { lat: latitude, lng: longitude } });
       
       if (results.results && results.results.length > 0) {
         const result = results.results[0];
-        console.log("Reverse geocoding successful:", result.formatted_address);
+        if(process.env.NODE_ENV === 'development') console.log("Reverse geocoding successful:", result.formatted_address);
         
         // Extract components similar to handleAutocompleteSelect
         let street = '';
@@ -427,7 +429,7 @@ export function AddressForm({
           }
         };
         
-        console.log("Setting address with components:", updatedAddress);
+        if(process.env.NODE_ENV === 'development') console.log("Setting address with components:", updatedAddress);
         setAddress(updatedAddress);
         setAutocompleteValue(result.formatted_address, false);
         
@@ -511,7 +513,7 @@ export function AddressForm({
     }
     
     if (validateForm()) {
-      console.log('Form is valid, submitting:', address);
+      if(process.env.NODE_ENV === 'development') console.log('Form is valid, submitting:', address);
       
       try {
         setIsSubmitting(true);
@@ -608,21 +610,21 @@ export function AddressForm({
           startContent={
             <Icon icon="solar:magnifer-linear" className="text-default-400" width={20} />
           }
-          endContent={
-            ((isValidating || isSubmitting) && <Spinner size="sm" color="current" />) ||
-            (isLoaded && !isValidating && !isLocating && !isSubmitting && (
-              <Button 
-                isIconOnly 
-                variant="light" 
-                size="sm" 
-                onPress={handleLocationClick}
-                title="Use current location"
-                isDisabled={!ready}
-              >
-                <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500" />
-              </Button>
-            ))
-          }
+          // endContent={
+          //   ((isValidating || isSubmitting) && <Spinner size="sm" color="current" />) ||
+          //   (isLoaded && !isValidating && !isLocating && !isSubmitting && (
+          //     <Button
+          //       isIconOnly
+          //       variant="light"
+          //       size="sm"
+          //       onPress={handleLocationClick}
+          //       title="Use current location"
+          //       isDisabled={!ready}
+          //     >
+          //       <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500 dark:text-secondary" />
+          //     </Button>
+          //   ))
+          // }
           // description={
           //   loadError
           //     ? "Error loading Google Maps. Please check your API key and try again."
@@ -736,7 +738,13 @@ export function AddressForm({
 
           {/* Server Validation Error */}
           {validationError && (
-              <div className="text-danger text-sm mt-1">{validationError}</div>
+              <div className={`text-sm mt-1 ${
+                validationError.toLowerCase().includes('within') || 
+                validationError.toLowerCase().includes('success') ? 
+                'text-success' : 'text-danger'
+              }`}>
+                {validationError}
+              </div>
         )}
 
           {/* Submit Button */}

@@ -26,8 +26,8 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
   
   // Generate a stable map ID for the current store
   const mapId = React.useMemo(() => 
-    `map-${store.id}-${store.location.latitude}-${store.location.longitude}`,
-    [store.id, store.location.latitude, store.location.longitude]
+    `map-${store.id}-${store?.location?.latitude}-${store?.location?.longitude}`,
+    [store.id, store?.location?.latitude, store?.location?.longitude]
   );
   
   // Simulating loading effect for better UX
@@ -50,9 +50,9 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
   const minimumOrder = 1000;
 
   // Format address
-  const location = store?.location.route ? `${store.location.route}` : t("addressPlaceholder");
-  const subLocation = store?.location.route 
-    ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` 
+  const location = store?.location?.route ? `${store.location.route}` : t("addressPlaceholder");
+  const subLocation = store?.location?.route
+    ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}`
     : t("locationPlaceholder");
     
   // Determine if store is open based on schedule
@@ -73,7 +73,7 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
     const todaySchedule = store.schedule[todayName as keyof typeof store.schedule];
     
     // Check if the store is open today
-    if (!todaySchedule.isEnabled) return false;
+    if (!todaySchedule?.isEnabled) return false;
     
     // Convert current time to minutes for easier comparison
     const currentTimeInMinutes = currentHour * 60 + currentMinute;
@@ -100,14 +100,14 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
             <>
               {/* Title with icon */}
             
-              <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/30 dark:to-primary-800/20">
+              <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100  dark:from-blue-200 dark:to-secondary-700">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                     <div className="p-2 rounded-full bg-primary/10">
                         <Icon icon="solar:shop-2-linear" className="h-5 w-5 text-primary" />
                     </div>
                     <Skeleton isLoaded={!isLoading} className="rounded-full w-40">
-                        <span className="text-sm font-medium">{t("pickUp")}</span>
+                        <span className="text-sm font-medium dark:text-black">{t("pickUp")}</span>
                     </Skeleton>
                     </div>
                     {/*<div className="flex items-center gap-1">*/}
@@ -154,7 +154,7 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
               
               {/* Map */}
               <div className="h-36 w-full rounded-medium rounded-t-none overflow-hidden" ref={mapContainerRef}>
-                {store.location.latitude && store.location.longitude && (
+                {store?.location?.latitude && store?.location?.longitude && (
                   <LocationMap 
                     key={mapId}
                     latitude={Number(store.location.latitude)} 

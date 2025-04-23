@@ -5,6 +5,7 @@ import {getCurrentSession} from "@/lib/actions/session";
 import { DeliveryRange, getMerchantDeliveryRegions, MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
 import {revalidateTag} from "next/cache";
 import { haversineDistance } from "../utils";
+import { stripe } from "@/stripe";
 
 export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData | null> {
     try {
@@ -64,6 +65,8 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             // Continue with empty array if delivery regions can't be fetched
         }
 
+        const isStripeValid = await validateStripeAccount(storeRow.stripe_id);
+
         return {
             id: storeRow.id,
             user_id: storeRow.user_id,
@@ -82,6 +85,7 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             stripe_id: storeRow.stripe_id,
             minTimeOrder: storeRow.min_time_order,
             deliveryOption: storeRow.delivery_option,
+            isStripeValid: isStripeValid,
             location,  // This is of type LocationData
             schedule,
             deliveryRegions,
@@ -91,6 +95,22 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
         throw new Error("Failed to fetch store data");
     }
 }
+
+export async function validateStripeAccount(stripeId: string): Promise<boolean> {
+    try {
+        if (!stripeId) {
+            return false;
+        }
+        const account = await stripe.accounts.retrieve(stripeId);
+    
+        return !!account;
+    } catch (error) {
+        console.error("Error validating Stripe account:", error);
+        return false;
+    }
+}   
+
+
 
 export async function updateMinOrderTime(storeId: string, minutes: number): Promise<boolean> {
     try {
@@ -228,7 +248,7 @@ export async function getStoreDataPaymentByStoreNameOrId(id: string): Promise<St
             minTimeOrder: storeRow.min_time_order,
             vat: storeRow.vat,
             nameBusiness: storeRow.nameBusiness,
-            kvk: storeRow.kvk,
+            kvk: storeRow.kvk,  
             bank_account: storeRow.bank_account,
             locationBusiness: {
                 route: storeRow.route,
@@ -295,6 +315,8 @@ export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string
             // Continue with empty array if delivery regions can't be fetched
         }
 
+        const isStripeValid = await validateStripeAccount(rowS.stripe_id);
+
         store = {
             id: rowS.store_id,
             user_id: rowS.user_id,
@@ -309,6 +331,7 @@ export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string
             currency: rowS.currency,
             minTimeOrder: rowS.min_time_order,
             deliveryOption: rowS.delivery_option,
+            isStripeValid: isStripeValid,
             location: {
                 route: rowS.store_route,
                 city: rowS.store_city,
@@ -355,6 +378,8 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 stores.nickname AS store_name,
                 stores.description AS store_description,
                 stores.phone AS store_phone,
+                stores.deleted AS deleted,
+                stores.hidden AS hidden,
                 u.email AS email,
                 u.image AS picture,
                 u.name AS "ownerName",
@@ -400,6 +425,8 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
             // Continue with empty array if delivery regions can't be fetched
         }
 
+        const isStripeValid = await validateStripeAccount(rowS.stripe_id);
+
         store = {
             id: rowS.store_id,
             user_id: rowS.user_id,
@@ -411,7 +438,10 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
             description: rowS.store_description,
             phone: rowS.store_phone,
             email: rowS.email,
+            deleted: rowS.deleted,
+            hidden: rowS.hidden,
             stripe_id: rowS.stripe_id,
+            isStripeValid: isStripeValid,
             facebook_url: rowS.store_facebook_url,
             instagram_url: rowS.store_instagram_url,
             slug: rowS.slug,
@@ -651,10 +681,13 @@ export interface StoreData {
     slug?: string;
     stripe_id?: string;
     minTimeOrder: number;
+    deleted?: boolean;
+    hidden?: boolean;
     location: LocationData;
     schedule?: WorkHours;
     deliveryRegions: MerchantDeliveryRegion[];
     deliveryOption?: 'pickup' | 'delivery' | 'multi';
+    isStripeValid?: boolean;
 }
 
 export interface StoreDataPayment {
@@ -746,7 +779,7 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
              JOIN users u ON s.user_id = u.id
              JOIN store_locations sl ON s.id = sl.store_id
              LEFT JOIN business_acc bs ON bs.user_id = s.user_id
-             WHERE s.deleted = false`
+             WHERE s.deleted = false AND s.hidden = false`
         );
 
         const nearbyStores: NearbyStore[] = [];

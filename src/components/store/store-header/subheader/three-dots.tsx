@@ -123,6 +123,23 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             {t("editDelivery")}
                         </DropdownItem>
                         <DropdownItem
+                            key="delivery"
+                            endContent={
+                                <Icon
+                                    className="text-default-500"
+                                    icon="solar:scooter-linear"
+                                    width={24}
+                                />
+                            }
+                            onPress={() => {
+                                setIsLoading(true);
+                                router.push("/settings?tab=delivery");
+                                router.refresh();
+                            }}
+                        >
+                            {t("editDelivery")}
+                        </DropdownItem>
+                        <DropdownItem
                             key="products"
                             endContent={
                                 <Icon

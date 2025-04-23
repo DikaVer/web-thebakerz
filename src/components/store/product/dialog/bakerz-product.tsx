@@ -132,12 +132,18 @@ export default function BakerzProductDialog({storeId, productData, onClose, setI
         if (productData) {
             setIsDismissable(false);
             setIsLoadingDelete(true);
-            await deleteProduct(productData.id);
-            setIsUpdating(true);
-            showSuccessMessage({ success: t("productDeleted") });
-            router.refresh();
-            onClose();
-            setIsOpenDelete(false);
+            const response = await deleteProduct(productData.id, storeId);
+            if (response.success) {
+                setIsUpdating(true);
+                showSuccessMessage({success: t("productDeleted")});
+                router.refresh();
+                onClose();
+                setIsOpenDelete(false);
+            } else if (response.error) {
+                showErrorMessage({error: response.error});
+            } else {
+                showErrorMessage({error: t("productDeleteFailed")});
+            }
         }
     };
 
@@ -255,7 +261,7 @@ export default function BakerzProductDialog({storeId, productData, onClose, setI
                         onClose={onClose}
                         isDisabled={isPending}
                         isIconOnly
-                        copyText={`${origin}/${productData?.store_name}/${productData?.web_name}`}
+                        copyText={`${origin}/${productData?.store_name || productData?.store_id}/${productData?.web_name}`}
                         textNotify={t("productLinkCopied")}
                     >
                         <Icon icon="mi:share" width={32} className="text-default-400" />

@@ -5,36 +5,101 @@ import {OnboardSchema} from "@/lib/dashboard/schemas";
 import {connectionPool} from "@/db";
 import {revalidateTag} from "next/cache";
 import {getCurrentSession} from "@/lib/actions/session";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
+
+// Initialize logger for bakerz update operations
+const log = logger.child({ module: "bakerz-update" });
 
 export const updateBakerz = async (
     formData: z.infer<typeof OnboardSchema>,
     userId: string,
     storeId: string
 ) => {
+    const context = await getRequestContext();
+    
+    log.info('updateBakerz', 'Bakerz update process started', {
+        requestId: context.requestId,
+        clientIP: context.clientIP,
+        userId,
+        storeId
+    });
+    
     if (!(await globalPOSTRateLimit())) {
+        log.warn('updateBakerz', 'Rate limit exceeded for update request', {
+            requestId: context.requestId,
+            clientIP: context.clientIP,
+            userId,
+            storeId
+        });
         return { error: "Too many requests" };
     }
+    
     // Validate the form data
     const validation = OnboardSchema.safeParse(formData);
     if (!validation.success) {
+        log.warn('updateBakerz', 'Invalid form data', {
+            requestId: context.requestId,
+            userId,
+            storeId,
+            validationErrors: validation.error.errors
+        });
         return { error: "Invalid fields!" };
     }
 
     const session = await getCurrentSession();
     if (!session) {
+        log.warn('updateBakerz', 'Unauthorized access - no session', {
+            requestId: context.requestId,
+            userId,
+            storeId,
+            clientIP: context.clientIP
+        });
         return { error: "User not logged in." };
     }
+    
     if (session.user?.role !== "admin") {
+        log.warn('updateBakerz', 'Permission denied - not admin', {
+            requestId: context.requestId,
+            userId,
+            storeId,
+            userRole: session.user?.role
+        });
         return { error: "Permission Denied." };
     }
     
     const isCustomFee = formData.app_fee !== 8 || formData.delivery_fee !== 20;
+    
+    log.info('updateBakerz', 'Processing update request', {
+        requestId: context.requestId,
+        userId,
+        storeId,
+        region: formData.region,
+        currency: formData.currency,
+        isCustomFee,
+        isBanned: formData.banned,
+        isHidden: formData.hidden
+    });
 
     try {
         // Start a transaction to ensure data consistency
+        log.debug('updateBakerz', 'Starting database transaction', {
+            requestId: context.requestId,
+            userId,
+            storeId
+        });
+        
         await connectionPool.query('BEGIN');
 
         // 1. Update store record
+        log.debug('updateBakerz', 'Updating store record', {
+            requestId: context.requestId,
+            userId,
+            storeId,
+            region: formData.region,
+            currency: formData.currency
+        });
+        
         await connectionPool.query(
             `
                 UPDATE stores 
@@ -44,8 +109,10 @@ export const updateBakerz = async (
                     custom_fee = $4, 
                     custom_app_fee = $5, 
                     custom_delivery_fee = $6, 
-                    stripe_id = $7
-                WHERE id = $9 AND user_id = $10
+                    stripe_id = $7, 
+                    deleted = $8,
+                    hidden = $9
+                WHERE id = $10 AND user_id = $11
             `,
             [
                 formData.phoneNumber, 
@@ -55,12 +122,21 @@ export const updateBakerz = async (
                 formData.app_fee, 
                 formData.delivery_fee, 
                 formData.stripeAccountId,
+                formData.banned,
+                formData.hidden,
                 storeId,
                 userId
             ],
         );
 
         // 2. Update store location
+        log.debug('updateBakerz', 'Updating store location', {
+            requestId: context.requestId,
+            storeId,
+            city: formData.city,
+            country: formData.country
+        });
+        
         await connectionPool.query(
             `
                 UPDATE store_locations 
@@ -83,7 +159,12 @@ export const updateBakerz = async (
             ],
         );
 
-
+        log.debug('updateBakerz', 'Updating business account', {
+            requestId: context.requestId,
+            userId,
+            businessName: formData.businessName
+        });
+        
         const businessResult = await connectionPool.query(
             `
                 UPDATE business_acc 
@@ -103,6 +184,14 @@ export const updateBakerz = async (
         const businessAddressId = businessResult.rows[0].business_address_id;
 
         // 3a. Update business address
+        log.debug('updateBakerz', 'Updating business address', {
+            requestId: context.requestId,
+            userId,
+            businessAddressId,
+            businessCity: formData.businessCity,
+            businessCountry: formData.businessCountry
+        });
+        
         await connectionPool.query(
             `
                 UPDATE business_address 
@@ -115,10 +204,16 @@ export const updateBakerz = async (
             [formData.businessRoute, formData.businessCity, formData.businessCountry, formData.businessZipCode, businessAddressId]
         );
 
-        
+        const normalizedEmail = formData?.email?.toLowerCase();
 
         // 4. Update user email if provided
-        if (formData.email) {
+        if (normalizedEmail) {
+            log.debug('updateBakerz', 'Updating user email and name', {
+                requestId: context.requestId,
+                userId,
+                name: formData.name
+            });
+            
             await connectionPool.query(
                 `
                     UPDATE users 
@@ -126,22 +221,50 @@ export const updateBakerz = async (
                         name = $2
                     WHERE id = $3
                 `,
-                [formData.email, formData.name, userId]
+                [normalizedEmail, formData.name, userId]
             );
         }
 
         // Commit the transaction
+        log.debug('updateBakerz', 'Committing transaction', {
+            requestId: context.requestId,
+            userId,
+            storeId
+        });
+        
         await connectionPool.query('COMMIT');
 
         revalidateTag('session');
         revalidateTag('store');
+        
+        log.info('updateBakerz', 'Bakerz update completed successfully', {
+            requestId: context.requestId,
+            userId,
+            storeId,
+            businessName: formData.businessName
+        });
+        
         return {
             success: "Successfully Updated Bakerz."
         };
     } catch (error: any) {
         // Rollback the transaction in case of error
+        log.debug('updateBakerz', 'Rolling back transaction due to error', {
+            requestId: context.requestId,
+            userId,
+            storeId
+        });
+        
         await connectionPool.query('ROLLBACK');
-        console.error("Error Updating Bakerz:", error);
+        
+        log.error('updateBakerz', 'Failed to update Bakerz', {
+            requestId: context.requestId,
+            userId,
+            storeId,
+            error: error.message || String(error),
+            stack: error.stack
+        });
+        
         return { error: "Failed to Update Bakerz." };
     }
 };

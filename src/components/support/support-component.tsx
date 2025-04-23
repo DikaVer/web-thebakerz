@@ -42,9 +42,6 @@ const SupportComponent: React.FC = () => {
                         {t("contactUs")}
                     </Button>
                 </div>
-                <h2 className="w-full max-w-3xl bg-gradient-to-br from-text to-foreground-600 bg-clip-text px-2 text-center text-2xl font-bold leading-7 tracking-tight text-transparent md:text-4xl">
-                    <span>{t("sectionBaker")}</span>
-                </h2>
                 <Accordion
                     fullWidth
                     keepContentMounted

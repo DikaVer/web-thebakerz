@@ -17,10 +17,10 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
     const { theme } = useTheme();
     const t = useTranslations("app/(store)/components/store-description");
 
-    const [latitude, longitude] = [store?.location.latitude, store?.location.longitude];
+    const [latitude, longitude] = [store?.location?.latitude, store?.location?.longitude];
 
-    const location = store?.location.route ? `${store.location.route}` : "";
-    const subLocation = store?.location.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "";
+    const location = store?.location?.route ? `${store.location?.route}` : "";
+    const subLocation = store?.location?.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "";
 
     const phone = {
         name: t("phone"),

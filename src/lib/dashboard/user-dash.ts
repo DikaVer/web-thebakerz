@@ -16,6 +16,7 @@ export async function searchUsersByEmailPaginated(
     limit: number = 10
 ): Promise<{ users: User[]; nextCursor?: string }> {
     try {
+
         // Use ILIKE for case-insensitive matching
         const query = `
       SELECT id, email, name AS username, email_verified, role

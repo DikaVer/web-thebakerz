@@ -9,7 +9,7 @@ export const onDownloadInvoice = async (storeId: string, orderId: string, storeO
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ customer_email }),
+            body: JSON.stringify({ customer_email: customer_email.toLowerCase() }),
             next: {
                 revalidate: 60 * 60 * 24,
             }

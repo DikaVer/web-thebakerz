@@ -59,20 +59,20 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                     >
                         English
                     </Button>
-                    <Button
-                        variant={'light'}
-                        size={'lg'}
-                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
-                        startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-nl" width={32}/></div>}
-                        onPress={(e) => {
-                            handleSubmit('nl')
-                        }}
-                    >
-                        <div className={'flex flex-col items-start'}>
-                            <p>Nederlands</p>
-                            <p className={'text-xs text-default-500'}>Kan fouten bevatten in de vertaling</p>
-                        </div>
-                    </Button>
+                    {/*<Button*/}
+                    {/*    variant={'light'}*/}
+                    {/*    size={'lg'}*/}
+                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
+                    {/*    startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-nl" width={32}/></div>}*/}
+                    {/*    onPress={(e) => {*/}
+                    {/*        handleSubmit('nl')*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    <div className={'flex flex-col items-start'}>*/}
+                    {/*        <p>Nederlands</p>*/}
+                    {/*        <p className={'text-xs text-default-500'}>Kan fouten bevatten in de vertaling</p>*/}
+                    {/*    </div>*/}
+                    {/*</Button>*/}
                     {/*<Button*/}
                     {/*    variant={'light'}*/}
                     {/*    size={'lg'}*/}
@@ -84,20 +84,20 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                     {/*>*/}
                     {/*    German*/}
                     {/*</Button>*/}
-                    <Button
-                        variant={'light'}
-                        size={'lg'}
-                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
-                        startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-fr" width={32}/></div>}
-                        onPress={(e) => {
-                            handleSubmit('fr')
-                        }}
-                    >
-                        <div className={'flex flex-col items-start'}>
-                            <p>French</p>
-                            <p className={'text-xs text-default-500'}>Peut contenir des erreurs de traduction</p>
-                        </div>
-                    </Button>
+                    {/*<Button*/}
+                    {/*    variant={'light'}*/}
+                    {/*    size={'lg'}*/}
+                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
+                    {/*    startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-fr" width={32}/></div>}*/}
+                    {/*    onPress={(e) => {*/}
+                    {/*        handleSubmit('fr')*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    <div className={'flex flex-col items-start'}>*/}
+                    {/*        <p>French</p>*/}
+                    {/*        <p className={'text-xs text-default-500'}>Peut contenir des erreurs de traduction</p>*/}
+                    {/*    </div>*/}
+                    {/*</Button>*/}
                     {/*<Button*/}
                     {/*    variant={'light'}*/}
                     {/*    size={'lg'}*/}
