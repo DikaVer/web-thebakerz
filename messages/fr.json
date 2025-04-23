@@ -858,7 +858,8 @@
     "notAuthenticated": "Non authentifié",
     "invalidContainer": "Nom de conteneur non valide",
     "imageUpdated": "Image mise à jour avec succès !",
-    "internalError": "Erreur interne du serveur"
+    "internalError": "Erreur interne du serveur",
+    "invalidImage": "Image non valide"
   },
   "app/api/validate-session": {
     "internalError": "Erreur interne du serveur",

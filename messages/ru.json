@@ -1015,7 +1015,8 @@
     "invalidContainer": "Неверное название контейнера",
     "notAuthenticated": "Не аутентифицировано",
     "notAuthorized": "Не разрешать доступ",
-    "tooManyRequests": "Слишком много запросов"
+    "tooManyRequests": "Слишком много запросов",
+    "invalidImage": "Неверное изображение"
   },
   "app/api/validate-session": {
     "internalError": "Внутренняя ошибка сервера",

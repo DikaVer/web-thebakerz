@@ -858,7 +858,8 @@
     "notAuthenticated": "Niet geverifieerd",
     "invalidContainer": "Ongeldige containernaam",
     "imageUpdated": "Afbeelding succesvol bijgewerkt!",
-    "internalError": "Interne serverfout"
+    "internalError": "Interne serverfout",
+    "invalidImage": "Ongeldige afbeelding"
   },
   "app/api/validate-session": {
     "internalError": "Interne serverfout",

@@ -1,4 +1,6 @@
 // crop-image.ts
+import { processImage } from '@/lib/utils/processImage';
+
 export const createImage = (url: string): Promise<HTMLImageElement> =>
     new Promise((resolve, reject) => {
         const image = new Image();
@@ -82,14 +84,47 @@ export default async function getCroppedImg(
     canvas.height = pixelCrop.height;
     ctx.putImageData(data, 0, 0);
 
+    // Step 1: Get the cropped image as a Blob/File
     return new Promise((resolve, reject) => {
-        canvas.toBlob((blob) => {
+        canvas.toBlob(async (blob) => {
             if (!blob) {
                 return reject(new Error('Canvas is empty'));
             }
-            // Create a File from the blob.
-            const file = new File([blob], 'cropped.jpeg', { type: 'image/jpeg' });
-            resolve({ file, url: URL.createObjectURL(file) });
-        }, 'image/jpeg');
+            
+            try {
+                // Create a File from the blob with a temporary JPEG format
+                const croppedFile = new File([blob], 'cropped-temp.jpeg', { type: 'image/jpeg' });
+                
+                // Step 2: Apply advanced compression and conversion to WebP
+                const processed = await processImage(croppedFile);
+                
+                if (!processed.file) {
+                    throw new Error(processed.error || 'Failed to process image');
+                }
+
+                // Log compression results
+                if (processed.originalSize && processed.compressedSize) {
+                    const compressionRatio = (1 - processed.compressedSize / processed.originalSize) * 100;
+                    if (process.env.NODE_ENV !== 'production') {
+                        console.log(
+                            `Image compressed: ${(processed.originalSize / (1024 * 1024)).toFixed(2)}MB → ` +
+                            `${(processed.compressedSize / (1024 * 1024)).toFixed(2)}MB (${compressionRatio.toFixed(1)}% reduction)`
+                        );
+                    }
+                }
+                
+                // Return the compressed file and its object URL
+                resolve({ 
+                    file: processed.file, 
+                    url: URL.createObjectURL(processed.file) 
+                });
+            } catch (error) {
+                console.error('Error processing cropped image:', error);
+                
+                // Fallback to original cropped file if processing fails
+                const fallbackFile = new File([blob], 'cropped.jpeg', { type: 'image/jpeg' });
+                resolve({ file: fallbackFile, url: URL.createObjectURL(fallbackFile) });
+            }
+        }, 'image/jpeg'); // Use JPEG temporarily for compatibility
     });
 }

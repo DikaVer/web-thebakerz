@@ -893,7 +893,8 @@
     "notAuthenticated": "Not authenticated",
     "invalidContainer": "Invalid container name",
     "imageUpdated": "Image updated successfully!",
-    "internalError": "Internal server error"
+    "internalError": "Internal server error",
+    "invalidImage": "Invalid Image"
   },
   "app/api/validate-session": {
     "internalError": "Internal Server Error",
