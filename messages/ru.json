@@ -910,7 +910,7 @@
     "question5": "Как работают заказы и доставка?",
     "question6": "Сколько стоит использовать Thebakerz?",
     "question7": "Как работают платежи?",
-    "question8": "Легко ли в использовании, если я не в порядке с технологиями?",
+    "question8": "",
     "question9": "Могу ли я доверять Thebakerz с платежами и заказами?"
   },
   "app/(support)/components/payment-urgent": {
