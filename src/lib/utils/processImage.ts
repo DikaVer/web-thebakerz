@@ -93,27 +93,41 @@ export async function processImage(file: File, options: {
     // Step 2: Determine output format
     let format: 'webp' | 'jpeg' | 'png' = 'webp'; // Default to WebP for best compression
     
+    // Determine initial quality level based on file size and format
+    let initialQuality = customQuality || 0.85; // Default quality
+    
     if (preserveFormat) {
       // Try to preserve the original format if requested
-      if (file.type === 'image/png') {
+      const lowerType = file.type.toLowerCase();
+      if (lowerType === 'image/png') {
         format = 'png';
         log.log('📋 Preserving original PNG format');
-      } else if (file.type === 'image/jpeg' || file.type === 'image/pjpeg') {
+      } else if (lowerType === 'image/jpeg' || lowerType === 'image/pjpeg') {
         format = 'jpeg';
         log.log('📋 Preserving original JPEG format');
+      } else if (lowerType.includes('heic') || lowerType.includes('heif')) {
+        format = 'webp'; // Always convert HEIC/HEIF to WebP for better compatibility
+        log.log('📋 Converting HEIC/HEIF to WebP for compatibility');
       } else {
         log.log('📋 Converting to WebP (original format not supported for preservation)');
       }
     } else {
-      log.log('📋 Converting to WebP for optimal compression');
+      // For HEIC/HEIF images, we might want to adjust quality settings
+      const lowerType = file.type.toLowerCase();
+      if (lowerType.includes('heic') || lowerType.includes('heif')) {
+        log.log('📋 Converting HEIC/HEIF to WebP with optimized settings');
+        // HEIC/HEIF are already highly compressed, so we use higher quality for WebP
+        if (!customQuality) {
+          initialQuality = 0.90;
+        }
+      } else {
+        log.log('📋 Converting to WebP for optimal compression');
+      }
     }
     
     // Step 3: Compress the image
     log.log('Step 3: Compressing image...');
     const originalSize = file.size;
-    
-    // Determine initial quality level based on file size and format
-    let initialQuality = customQuality || 0.85; // Default quality
     
     // For larger images or specific formats, adjust quality
     if (!customQuality) {
@@ -124,7 +138,7 @@ export async function processImage(file: File, options: {
         initialQuality = 0.75; // Medium quality for large images
         log.log(`📊 Medium-size image detected (${formatFileSize(originalSize)}) - Setting initial quality to 75%`);
       } else {
-        log.log(`📊 Normal-size image detected (${formatFileSize(originalSize)}) - Using standard quality of 85%`);
+        log.log(`📊 Normal-size image detected (${formatFileSize(originalSize)}) - Using standard quality of ${Math.round(initialQuality * 100)}%`);
       }
       
       // PNG files may need higher quality to preserve details

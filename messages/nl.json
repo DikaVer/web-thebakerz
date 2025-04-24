@@ -311,7 +311,8 @@
     "invalidFile": "Ongeldig bestand geselecteerd. \nProbeer het opnieuw.",
     "submitError": "Kan het formulier niet indienen. \nProbeer het opnieuw.",
     "productDeleteFailed": "Het product niet verwijderen. \nProbeer het opnieuw.",
-    "unsupportedFormat": "Heic/Heif -afbeeldingen worden niet ondersteund. \nConverteer uw afbeelding naar JPEG of PNG met behulp van de foto -app van uw apparaat voordat u uploadt."
+    "unsupportedFormat": "Heic/Heif -afbeeldingen worden niet ondersteund. \nConverteer uw afbeelding naar JPEG of PNG met behulp van de foto -app van uw apparaat voordat u uploadt.",
+    "EditItem": "Item bewerken"
   },
   "app/(store)/components/store-subheader": {
     "delivery": "Bezorging",
@@ -1168,5 +1169,15 @@
   "app/(landing)/components/partners": {
     "title": "Onze partners",
     "description": "We werken samen met marktleiders om de beste oplossingen te leveren."
+  },
+  "ProductAdd": {
+    "ProductAdd": "Productmanager",
+    "ManageProductsDescription": "Voeg product helemaal opnieuw toe of gebruik de sjabloon"
+  },
+  "app/(return_page)/settings/components/item-add-manager": {
+    "noProductsYet": "Nog geen producten",
+    "addItem": "Voeg nieuw item toe",
+    "image": "Afbeelding",
+    "nameAndPrice": "Naam & prijs"
   }
 }

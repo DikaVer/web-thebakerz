@@ -13,7 +13,7 @@ import {
     CardFooter, Card,
     CardBody,
 } from "@heroui/react";
-import {addProduct, deleteProduct, ProductData, ProductVariant} from "@/lib/actions/product";
+import {addProduct, deleteProduct, ProductData, ProductDataClean, ProductVariant} from "@/lib/actions/product";
 import { Icon } from "@iconify/react";
 import { ImageUploader } from "@/components/image/image-upload";
 import { useForm } from "react-hook-form";
@@ -35,7 +35,7 @@ import {ImageUploadSection} from "@/components/store/product/components/image-up
 
 type ProductViewProps = {
     storeId: string;
-    productData: ProductData | undefined;
+    productData: ProductData | ProductDataClean | undefined;
 };
 
 export default function BakerzProductView({ storeId, productData }: ProductViewProps) {
@@ -85,7 +85,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                 const result = await addProduct(formData, storeId, productData?.id);
                 if (result?.success) {
                     showSuccessMessage({ success: result.success });
-                    router.push(`/${result.product.store_id}/${result.product.id}`);
+                    router.push(`/${result.product.store_name || result.product.store_id}`);
                     router.refresh();
                 } else if (result?.error) {
                     showErrorMessage({ error: result.error });
@@ -151,13 +151,14 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
     }, [submitAction, t]);
 
     const handleDelete = async () => {
-        if (productData) {
+        if (productData?.id) {
             setIsLoadingDelete(true);
             try {
                 const response = await deleteProduct(productData.id, storeId);
                 if (response.success) {
                     showSuccessMessage({ success: t("productDeleted") });
                     setIsOpenDelete(false);
+                    router.push(`/${productData.store_name || productData.store_id}`);
                     router.refresh();
                 } else if (response.error) {
                     showErrorMessage({error: response.error});
@@ -268,7 +269,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
 
     return (
         <Card
-            className={'w-full max-w-full md:max-w-3xl'}
+            className={'w-full max-w-full md:max-w-3xl pt-4'}
         >
             <ImageUploader
                 type="square"
@@ -522,7 +523,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                         </div>
                     </CardBody>
                     <CardFooter className="px-4 space-x-4">
-                        {productData && (
+                        {productData?.id && (
                             <>
                                 <DeleteConfirmationModal
                                     isOpen={isOpenDelete}
@@ -542,12 +543,12 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                             </>
                         )}
                         <Button
-                            className={`w-2/3 ${!productData && "w-full"}`}
+                            className={`w-2/3 bg-gradient-primary ${!productData?.id && "w-full"}`}
                             color="primary"
                             type="submit"
                             isLoading={isPending}
                         >
-                            {isPending ? t("Loading") : productData ? t("Update Item") : t("Add Item")}
+                            {isPending ? t("Loading") : productData?.id ? t("Update Item") : t("Add Item")}
                         </Button>
                     </CardFooter>
                 </form>

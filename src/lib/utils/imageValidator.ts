@@ -19,11 +19,21 @@ export async function validateImage(file: File): Promise<{
   }
 
   // Check file type
-  const validTypes = ['image/webp', 'image/jpeg', 'image/png', 'image/gif'];
-  if (!validTypes.includes(file.type)) {
+  const validTypes = [
+    'image/webp',
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/heic',
+    'image/heif',
+    // Common MIME types for iPhone photos
+    'image/heic-sequence',
+    'image/heif-sequence'
+  ];
+  if (!validTypes.includes(file.type.toLowerCase())) {
     return {
       valid: false,
-      error: 'Unsupported file type. Please upload a JPEG, PNG, GIF, or WebP image.',
+      error: 'Unsupported file type. Please upload a JPEG, PNG, GIF, WebP, or HEIC/HEIF image.',
       size: file.size
     };
   }

@@ -5,30 +5,20 @@ import {
     ModalContent,
 } from "@heroui/react";
 import {ProductData} from "@/lib/actions/product";
-import {useSession} from "@/components/providers/session-provider";
 import {ItemCart} from "@/lib/actions/cart";
 import UserProductDialog from "@/components/store/product/dialog/user-product";
-import BakerzProductDialog from "@/components/store/product/dialog/bakerz-product";
 import {useMediaQuery} from "usehooks-ts";
-import {useTranslations} from "next-intl";
-import {useStore} from "@/components/providers/store-provider";
 
 type ProductDialogProps = {
-    storeId: string;
-    storeOwnerId: string;
-    productData: ProductData | undefined;
+    productData?: ProductData;
     itemCart?: ItemCart;
     isOpen: boolean;
     onClose: () => void;
-    bakerzOrder?: boolean;
-    setIsUpdating: (isUpdating: boolean) => void;
+    isBakerzStore: boolean;
 }
 
-export default function ProductDialog({storeId, storeOwnerId, productData, itemCart, isOpen, onClose, bakerzOrder = false, setIsUpdating }: ProductDialogProps) {
-    const { session } = useSession();
+export default function ProductDialog({productData, itemCart, isOpen, onClose, isBakerzStore}: ProductDialogProps) {
     const isSmall = useMediaQuery("(max-width: 800px)");
-    const t = useTranslations("app/(store)/components/product-dialog");
-    const [isDismissable, setIsDismissable] = useState(true);
 
     return (
         <>
@@ -36,7 +26,6 @@ export default function ProductDialog({storeId, storeOwnerId, productData, itemC
                 isOpen={isOpen}
                 size={isSmall ? 'full' : '2xl'}
                 onClose={onClose}
-                isDismissable={isDismissable}
                 radius={'lg'}
                 className={'h-fit max-h-fit min-h-fit !rounded-t-xl'}
                 backdrop={'blur'}
@@ -46,23 +35,14 @@ export default function ProductDialog({storeId, storeOwnerId, productData, itemC
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            {
-                                session.user?.role === 'bakerz' && session.user?.id === storeOwnerId && !bakerzOrder ?
-                                    (
-                                        <BakerzProductDialog
-                                            isOpen={isOpen}
-                                            storeId={storeId}
-                                            productData={productData}
-                                            onClose={onClose}
-                                            setIsDismissable={setIsDismissable}
-                                            setIsUpdating={setIsUpdating}
-                                        />
-                                    ) : (
-                                        productData && (
-                                            <UserProductDialog productData={productData} onClose={onClose} itemCart={itemCart}/>
-                                        )
-                                    )
-                            }
+                            { productData && (
+                                <UserProductDialog 
+                                    productData={productData} 
+                                    onClose={onClose} 
+                                    itemCart={itemCart}
+                                    isBakerzStore={isBakerzStore}
+                                />
+                            )}
                         </>
                     )}
                 </ModalContent>

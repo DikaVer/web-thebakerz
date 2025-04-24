@@ -49,7 +49,6 @@ export default function NavbarComponent({
                                         }: LayoutProps) {
     const t = useTranslations("app/(landing)/components/navbar");
     const isSmall = useMediaQuery("(max-width: 1024px)");
-    const pathname = usePathname();
     const { isSticky } = useStore();
     const { session } = useSession();
     const router = useRouter();
@@ -224,40 +223,76 @@ const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
 
     const pathname = usePathname();
     const isPartnerPage = pathname.includes("/become-partner");
+    const isProductPage = pathname.includes(`/${store?.storeName}/item`);
+    const isMobile = useMediaQuery("(max-width: 768px)");
 
     return (
         <>
             <NavbarItem className="ml-1 !flex">
-                <Button
-                    isIconOnly
-                    size="sm"
-                    variant="light"
-                    onPress={() => {
-                        if (isSmall) {
-                            setIsCollapsed(false);
-                            onOpenChange();
-                        } else {
-                            onToggle();
+                {!isProductPage ? (
+                    <Button
+                        isIconOnly
+                        size="sm"
+                        variant="light"
+                        onPress={() => {
+                            if (isSmall) {
+                                setIsCollapsed(false);
+                                onOpenChange();
+                            } else {
+                                onToggle();
+                            }
+                        }}
+                    >
+                        <Icon
+                            className="text-default-600"
+                            icon="line-md:close-to-menu-transition"
+                            width={24}
+                        />
+                    </Button>
+                ) : (
+                    <Button
+                        size="md"
+                        variant="light"
+                        className="text-default-500"
+                        onPress={navigateToStore}
+                        startContent={
+                            <Icon
+                                className="text-default-500"
+                                height={24}
+                                icon="solar:alt-arrow-left-linear"
+                                width={24}
+                            />
                         }
-                    }}
-                >
-                    <Icon
-                        className="text-default-600"
-                        icon="line-md:close-to-menu-transition"
-                        width={24}
-                    />
-                </Button>
+                    >
+                        {t("back")} {store?.ownerName && `${t("backTo")} ${store.ownerName}`}
+                    </Button>
+                )}
             </NavbarItem>
-            <NavbarBrand className="w-[40rem] max-w-fit">
-                <a
-                    className={`font-medium text-2xl ${pacifico.className}`}
-                    href={store?.ownerName ? `/${store?.storeName || store?.id}` : "/"}
-                >
-                    <GradientText className={'cursor-pointer'} subClassName={'cursor-pointer'}>
-                        {store?.ownerName || t("brandName")}
-                    </GradientText>
-                </a>
-            </NavbarBrand>
+            {!isProductPage ? (
+                <NavbarBrand className="w-[40rem] max-w-fit">
+                    <a
+                        className={`font-medium text-2xl ${pacifico.className}`}
+                        href={store?.ownerName ? `/${store?.storeName || store?.id}` : "/"}
+                    >
+                        <GradientText className={'cursor-pointer'} subClassName={'cursor-pointer'}>
+                            {store?.ownerName || t("brandName")}
+                        </GradientText>
+                    </a>
+                </NavbarBrand>
+            ) : (
+                !isMobile && (
+                    <NavbarBrand className="w-[40rem] max-w-fit">
+                    <a
+                        className={`font-medium text-2xl ${pacifico.className}`}
+                        href={store?.ownerName ? `/${store?.storeName || store?.id}` : "/"}
+                    >
+                        <GradientText className={'cursor-pointer'} subClassName={'cursor-pointer'}>
+                            {store?.ownerName || t("brandName")}
+                        </GradientText>
+                    </a>
+                </NavbarBrand>
+                )
+            )}
             {store ? (
                 (session?.user?.id === store.user_id || session?.user?.role === 'admin') ? (
                     <a href={process.env.NEXT_PUBLIC_API_BASE_URL}>

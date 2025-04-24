@@ -30,23 +30,24 @@ import {AllergenIcon} from "@/components/store/product/components/allergy-icons"
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
 import VariantsUserSelection from "@/components/store/product/components/variants-user-selection";
-import {usePathname} from "next/navigation";
+import {useRouter} from "next/navigation";
 
 type ProductDialogProps = {
     productData: ProductData;
     onClose: () => void;
     itemCart?: ItemCart;
+    isBakerzStore: boolean;
 };
 
 export default function UserProductDialog({
                                               productData,
                                               onClose,
                                               itemCart,
+                                              isBakerzStore
                                           }: ProductDialogProps) 
                                           {
     const c_T = useTranslations();
     const t = useTranslations("app/(store)/components/product-page");
-
 
     const [charCount, setCharCount] = useState(itemCart?.note ? itemCart?.note.length : 0);
     const [quantity, setQuantity] = useState(itemCart?.quantity || productData?.min_order || 1);
@@ -58,11 +59,19 @@ export default function UserProductDialog({
     const [mainImage, setMainImage] = useState(productData.picture);
     // Get origin of the current page from window object
     const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const router = useRouter();
 
     // Function to handle image swapping
     const handleImageSwap = (additionalImage: string) => {
         // Set the clicked additional image as the main image
         setMainImage(additionalImage);
+    };
+
+    const handleEditItem = () => {
+        setIsLoading(true);
+        router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`); 
+        onClose();
+        setIsLoading(false);
     };
 
     const {
@@ -106,9 +115,9 @@ export default function UserProductDialog({
                     isIconOnly={true}
                     copyText={
                         origin + "/" +
-                        productData?.store_name || productData?.store_id +
-                        "/" +
-                        productData?.web_name
+                        (productData?.store_name || productData?.store_id) +
+                        "/item/" +
+                        (productData?.web_name)
                     }
                     textNotify={t("productLinkCopied")}
                 >
@@ -278,20 +287,33 @@ export default function UserProductDialog({
                 )}
             </ModalBody>
             <ModalFooter className={"px-4 space-x-4"}>
-                <InputStepper
-                    min={productData?.min_order || 1}
-                    max={999}
-                    value={quantity}
-                    onChange={setQuantity}
-                />
-                <Button
-                    className={"w-full"}
-                    color="primary"
-                    onPress={handleUpdateCart}
-                    isLoading={isLoading}
-                >
-                    { !isLoading ? (`${itemCart ? t("Update") : t("Add")} ${quantity} ${t("to order")} • ${totalPrice}`) : t("Updating Cart") }
-                </Button>
+                {isBakerzStore ? (
+                    <Button
+                        className={"w-full bg-gradient-primary"}
+                        color="primary"
+                        onPress={handleEditItem}
+                        isLoading={isLoading}
+                    >
+                        {!isLoading && t("EditItem")}
+                    </Button>
+                ) : (
+                    <>
+                        <InputStepper
+                            min={productData?.min_order || 1}
+                            max={999}
+                            value={quantity}
+                            onChange={setQuantity}
+                        />
+                        <Button
+                            className={"w-full bg-gradient-primary"}
+                            color="primary"
+                            onPress={handleUpdateCart}
+                            isLoading={isLoading}
+                        >
+                            { !isLoading ? (`${itemCart ? t("Update") : t("Add")} ${quantity} ${t("to order")} • ${totalPrice}`) : t("Updating Cart") }
+                        </Button>
+                    </>
+                )}
             </ModalFooter>
         </>
     );

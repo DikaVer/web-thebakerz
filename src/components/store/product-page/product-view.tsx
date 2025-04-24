@@ -1,18 +1,9 @@
 'use client';
-import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
-import { Spacer } from '@heroui/react';
+import React, { useEffect} from 'react';
 import { useStore } from '@/components/providers/store-provider';
-import { useMediaQuery } from 'usehooks-ts';
 import { useProductDialog } from '@/components/providers/product-provider';
-import { ProductData, ProductDataFull } from '@/lib/actions/product';
-import {ProductTabs} from "@/components/store/product/components/product-tabs";
-import {CategoryProducts} from "@/components/store/product/components/category-products";
-import {useScrollObserver} from "@/components/store/product/hooks/useScrollObserver";
-import {useFilteredProducts} from "@/components/store/product/hooks/useFilteredProducts";
-import {ProductSearch} from "@/components/store/product/components/product-search";
-import {useSearchParams} from "next/navigation";
+import { ProductDataFull } from '@/lib/actions/product';
 import {useTranslations} from "next-intl";
-import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 import UserProductView from "@/components/store/product-page/product-user-view";
 import {useSession} from "@/components/providers/session-provider";
 import BakerzProductView from "@/components/store/product-page/products-bakerz-view";
@@ -43,7 +34,7 @@ export const ProductView: React.FC<ProductViewProps> = ({
         p.id === productId || p.web_name === productId
     );
 
-    if (!product) {
+    if (!product && store.user_id !== session?.user?.id) {
         return (
             <div className="text-center">
                 <p className="text-2xl my-10">{t("productNotFound")}</p>
@@ -57,6 +48,12 @@ export const ProductView: React.FC<ProductViewProps> = ({
             productData={product}
         />
     ) : (
-        <UserProductView productData={product} />
+        product ? (
+            <UserProductView productData={product} />
+        ) : (
+            <div className="text-center">
+                <p className="text-2xl my-10">{t("productNotFound")}</p>
+            </div>
+        )
     );
 };

@@ -29,6 +29,8 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
     // Check if path is checkout using pathname
     const pathname = usePathname();
     const isCheckout = pathname.includes(`/${store?.storeName}/checkout`);
+    const isPartnerPage = pathname.includes("/become-partner");
+    const isProductPage = pathname.includes(`/${store?.storeName || store?.id}/item`);
     const isPay = pathname.includes(`/${store?.storeName}/pay`) || pathname.includes(`/${store?.storeName}/order/success`) || pathname.includes(`/${store?.storeName}/order/failed`);
 
     useEffect(() => {
@@ -41,7 +43,6 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
         setIsCollapsed((prev) => !prev);
     }, []);
     const { scrollYProgress } = useScroll()
-    const isPartnerPage = pathname.includes("/become-partner");
 
     return (
         <div className="flex w-full">
@@ -61,7 +62,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
             />
 
             {/* Sidebar */}
-            {!hideSideBar && !isPartnerPage &&
+            {!hideSideBar && !isPartnerPage && !isProductPage &&
                 <SidebarMenu
                 store={store}
                 isOpen={isOpen}
@@ -76,7 +77,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
                     store={store}
                     setIsCollapsed={setIsCollapsed}
                     onOpenChange={onOpenChange}
-                    onToggle={onToggle}
+                    onToggle={onToggle} 
                     hideSideBar={isPay ? true : hideSideBar || isCheckout || isPartnerPage}
                     isVisibleCart={isVisibleCart}
                     pay={pay || isPay}

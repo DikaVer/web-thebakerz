@@ -10,6 +10,8 @@ import {useProductDialog} from "@/components/providers/product-provider";
 import { Reorder } from "framer-motion";
 import {motion} from "motion/react";
 import {ItemCategory, ItemProduct, Item} from "@/components/ui/drag-item";
+import {useStore} from "@/components/providers/store-provider";
+import {useSession} from "@/components/providers/session-provider";
 
 
 export interface ProductTabsProps {
@@ -19,6 +21,8 @@ export interface ProductTabsProps {
 }
 export const ProductTable: React.FC<ProductTabsProps> = ({ category, productsData, updateOrder}) => {
     const { handleOpen } = useProductDialog();
+    const { store } = useStore();
+    const { session } = useSession();
 
     const [products, setProducts] = useState<string[]>(Object.keys(productsData));
 
@@ -43,7 +47,7 @@ export const ProductTable: React.FC<ProductTabsProps> = ({ category, productsDat
                         className='border-b border-default-200 hover:bg-default-100 grid grid-cols-6 p-2 py-4 gap-x-4"'
                     >
                         <button
-                            onClick={()=>{handleOpen(product.id)}}
+                            onClick={()=>{handleOpen(product.id, store?.user_id === session?.user?.id)}}
                             className="grid grid-cols-5 col-span-5 cursor-pointer gap-x-4 "
                         >
                             <div className={'col-span-1'}>

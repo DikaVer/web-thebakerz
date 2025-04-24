@@ -311,7 +311,8 @@
     "invalidFile": "Fichier non valide sélectionné. \nVeuillez réessayer.",
     "submitError": "N'a pas soumis le formulaire. \nVeuillez réessayer.",
     "productDeleteFailed": "N'a pas réussi à supprimer le produit. \nVeuillez réessayer.",
-    "unsupportedFormat": "Les images Heic / Heif ne sont pas prises en charge. \nVeuillez convertir votre image en JPEG ou PNG à l'aide de l'application photo de votre appareil avant le téléchargement."
+    "unsupportedFormat": "Les images Heic / Heif ne sont pas prises en charge. \nVeuillez convertir votre image en JPEG ou PNG à l'aide de l'application photo de votre appareil avant le téléchargement.",
+    "EditItem": "Modifier"
   },
   "app/(store)/components/store-subheader": {
     "delivery": "Livraison",
@@ -1165,5 +1166,15 @@
   "app/(landing)/components/partners": {
     "title": "Nos partenaires",
     "description": "Nous collaborons avec les leaders de l'industrie pour fournir les meilleures solutions."
+  },
+  "ProductAdd": {
+    "ProductAdd": "Chef de produit",
+    "ManageProductsDescription": "Ajouter le produit à partir de zéro ou utiliser le modèle"
+  },
+  "app/(return_page)/settings/components/item-add-manager": {
+    "noProductsYet": "Pas encore de produits",
+    "addItem": "Ajouter un nouvel article",
+    "image": "Image",
+    "nameAndPrice": "Nom & prix"
   }
 }

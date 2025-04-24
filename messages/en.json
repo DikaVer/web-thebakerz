@@ -331,7 +331,8 @@
     "invalidFile": "Invalid file selected. Please try again.",
     "submitError": "Failed to submit the form. Please try again.",
     "productDeleteFailed": "Failed to delete the product. Please try again.",
-    "unsupportedFormat": "HEIC/HEIF images are not supported. Please convert your image to JPEG or PNG using your device's photo app before uploading."
+    "unsupportedFormat": "HEIC/HEIF images are not supported. Please convert your image to JPEG or PNG using your device's photo app before uploading.",
+    "EditItem": "Edit Item"
   },
   "app/(store)/components/store-subheader": {
     "addressPlaceholder": "Address Placeholder",
@@ -1161,5 +1162,15 @@
   "app/(landing)/components/partners": {
     "title": "Our Partners",
     "description": "We collaborate with industry leaders to deliver the best solutions."
+  },
+  "ProductAdd": {
+    "ProductAdd": "Product Manager",
+    "ManageProductsDescription": "Add product from scratch or use the template"
+  },
+  "app/(return_page)/settings/components/item-add-manager": {
+    "noProductsYet": "No Products Yet",
+    "addItem": "Add New Item",
+    "image": "Image",
+    "nameAndPrice": "Name and Price"
   }
 }

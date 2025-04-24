@@ -63,7 +63,6 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}
                     handleOpen={handleOpen}
-                    isBakerzOrder={true}
                 />
             );
         });

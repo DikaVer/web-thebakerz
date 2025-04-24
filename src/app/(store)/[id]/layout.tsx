@@ -178,6 +178,7 @@ async function setupStoreProviders({
             <ProductDialogProvider
                 storeId={storeData.id}
                 storeOwnerId={storeData.user_id}
+                storeName={storeData?.storeName}
             >
                 <StoreProvider
                     store={storeData}

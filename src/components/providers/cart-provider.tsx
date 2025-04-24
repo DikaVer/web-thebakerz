@@ -1,8 +1,6 @@
 'use client';
 
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import ProductDialog from "@/components/store/product/dialog/product-dialog";
-import { ProductData, ProductDataFull } from "@/lib/actions/product";
 import { CartData, ItemCart, updateCart, removeCartItem } from "@/lib/actions/cart";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";

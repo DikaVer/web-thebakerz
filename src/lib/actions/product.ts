@@ -370,7 +370,7 @@ export type ProductData = {
     category: string;
     name: string;
     web_name: string;
-    store_name: string;
+    store_name?: string;
     min_order: number;
     description?: string | null;
     variants?: ProductVariant[];
@@ -380,6 +380,24 @@ export type ProductData = {
     allergies?: string[];
     constId: string;
     additionalImages: string[];
+};
+
+export type ProductDataClean = {
+    store_id: string;
+    category: string;
+    name?: string;
+    web_name?: string;
+    store_name?: string;
+    min_order: number;
+    description?: string | null;
+    variants?: ProductVariant[];
+    price: number;
+    picture?: string;
+    ingredients?: string[];
+    allergies?: string[];
+    id?: string;
+    constId?: string;
+    additionalImages?: string[];
 };
 
 export type ProductVariant = {

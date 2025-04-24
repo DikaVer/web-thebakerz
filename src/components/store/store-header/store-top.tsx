@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useState} from "react";
 import {Icon} from "@iconify/react";
 import {Button, Card, CardBody} from "@heroui/react";
 import {StoreHeader} from "@/components/store/store-header/store-header";
@@ -17,9 +17,10 @@ interface StoreTopProps {}
 export function StoreTop() {
     const { session} = useSession();
     const { store, sentinelRef} = useStore();
-    const { handleOpen } = useProductDialog();
+    const { handleAddItem } = useProductDialog();
     const isSmall = useMediaQuery("(max-width: 960px)");
     const t = useTranslations("app/(store)/components/store-top");
+    const [isAddLoading, setIsAddLoading] = useState(false);
 
     // Check if the current session user is a bakerz and owns this store
     const isOwner = session?.user?.role === "bakerz" &&
@@ -46,6 +47,7 @@ export function StoreTop() {
                 <div className={'flex flex-row  justify-end gap-x-4 mt-6'}>
                     <Button
                         className="w-[150px] h-12 justify-start bg-gradient-primary text-white font-medium"
+                        isLoading={isAddLoading}
                         startContent={
                             <Icon
                                 icon="solar:add-square-broken"
@@ -54,10 +56,12 @@ export function StoreTop() {
                             />
                         }
                         onPress={() => {
-                            handleOpen();
+                            setIsAddLoading(true);
+                            handleAddItem();
                         }}
+
                     >
-                        {t("addItem")}
+                        {!isAddLoading && t("addItem")}
                     </Button>
                     <ThreeDotsDropdown/>
                 </div>

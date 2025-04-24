@@ -16,8 +16,7 @@ type CartItemRowProps = {
     removeItem: (item: ItemCart) => Promise<boolean>;
     isLoading: boolean;
     setIsLoading: (value: boolean) => void;
-    handleOpen: (productId?: string, itemCart?: ItemCart, isBakerzOrder?: boolean) => void;
-    isBakerzOrder?: boolean;
+    handleOpen: (productId: string, isBakerzStore:boolean, itemCart?: ItemCart) => void;
 };
 
 // Format variants into readable strings
@@ -55,8 +54,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                                                             removeItem,
                                                             isLoading,
                                                             setIsLoading,
-                                                            handleOpen,
-                                                            isBakerzOrder = false,
+                                                            handleOpen
                                                         }) => {
     const t = useTranslations("app/(store)/components/cart");
 
@@ -84,7 +82,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                 key={item.id}
                 onClick={() => {
                     if (!isLoading) {
-                        handleOpen(productData.id, item, isBakerzOrder);
+                        handleOpen(productData.id, false, item);
                     }
                 }}
             >

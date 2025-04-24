@@ -1,30 +1,22 @@
 'use client';
 import React, { useState} from "react";
 import {
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
     Button,
     Image,
     Card,
     Textarea,
     cn,
     CardFooter,
-    ScrollShadow, CardBody
+    CardBody
 } from "@heroui/react";
 import { ProductData } from "@/lib/actions/product";
 import { formatCurrency } from "@/lib/utils";
-import { IconCopy } from "@/components/ui/icons";
-import { useTheme } from "next-themes";
-import { CopyText } from "@/components/ui/copy-text";
 import { InputStepper } from "@/components/store/product/dialog/button-stepper";
-import { ItemCart, Variant } from "@/lib/actions/cart";
+import { Variant } from "@/lib/actions/cart";
 import { updateCart } from "@/lib/actions/cart";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
-import {useProductDialog} from "@/components/providers/product-provider";
 import CustomAlert from "@/components/ui/custom-alerts";
-import {Icon} from "@iconify/react";
 import {useMediaQuery} from "usehooks-ts";
 import {AllergenIcon} from "@/components/store/product/components/allergy-icons";
 import {useCart} from "@/components/providers/cart-provider";
