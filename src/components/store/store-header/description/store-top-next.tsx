@@ -14,7 +14,7 @@ const StoreTopNext: React.FC = () => {
 
     const phone = {
         name: t("phone"),
-        href: `tel:${store?.phone}`,
+        href: `https://wa.me/${store?.phone?.replace(/\D/g, '')}`,
         icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
     };
 
@@ -97,7 +97,7 @@ const StoreTopNext: React.FC = () => {
             {store?.phone &&
                 <>
                     <Divider />
-                    <Link key={"Phone"} isExternal className="text-default-500 justify-between"
+                    <Link key={"WhatsApp"} isExternal className="text-default-500 justify-between"
                           href={phone.href}>
                         <div className={'flex gap-x-4'}>
                             <phone.icon aria-hidden="true"/>

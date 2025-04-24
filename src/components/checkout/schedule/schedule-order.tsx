@@ -43,7 +43,7 @@ export function ScheduleOrder({
 
     const phone = {
         name: t("phone"),
-        href: `tel:${store?.phone}`,
+        href: `https://wa.me/${store?.phone?.replace(/\D/g, '')}`,
         icon: (props: SocialIconProps) => (
             <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24} />
         ),
@@ -96,7 +96,7 @@ export function ScheduleOrder({
                     <>
                         <Divider />
                         <Link
-                            key={"Phone"}
+                            key={"WhatsApp"}
                             isExternal
                             className="text-default-500 justify-between"
                             href={phone.href}

@@ -22,6 +22,7 @@ import {AllergenIcon} from "@/components/store/product/components/allergy-icons"
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
 import VariantsUserSelection from "@/components/store/product/components/variants-user-selection";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 type ProductViewProps = {
     productData: ProductData;
@@ -198,6 +199,34 @@ export default function UserProductView({
                                                         <AllergenIcon allergen={allergies} />
                                                         <span>
                                                             {c_T(`Allergies.${allergies}`)}
+                                                        </span>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </CustomAlert>
+                                )}
+
+                                {/* Special Category Alert: Success variant */}
+                                {productData.dietary && productData.dietary.length > 0 && (
+                                    <CustomAlert 
+                                        color="success" 
+                                        title={t("specialCategory")} 
+                                        hideIcon
+                                        classNames={{
+                                            title: "text-success-700 font-medium"
+                                        }}
+                                    >
+                                        <div className="flex flex-wrap gap-2 mt-4">
+                                            {productData.dietary.map((diet) => {
+                                                return (
+                                                    <div
+                                                        key={diet}
+                                                        className={`flex items-center gap-1 px-2 py-1 text-sm rounded-full text-success-700 bg-success-100`}
+                                                    >
+                                                        <Icon icon="mdi:food-certified" className="text-success-600" width={18} />
+                                                        <span>
+                                                            {c_T(`Dietary.${diet}`)}
                                                         </span>
                                                     </div>
                                                 );

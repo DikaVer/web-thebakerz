@@ -113,6 +113,12 @@
         "app/(landing)/components/scroll-triggered.features.all_chats.description",
         "app/(landing)/components/scroll-triggered.features.support.key",
         "app/(landing)/components/scroll-triggered.features.support.title",
-        "app/(landing)/components/scroll-triggered.features.support.description"
+        "app/(landing)/components/scroll-triggered.features.support.description",
+        "Dietary.lactose-free",
+        "Dietary.Diet",
+        "Dietary.halal",
+        "Dietary.sugar-free",
+        "Dietary.gluten-free",
+        "Dietary.vegan"
     ]
 }

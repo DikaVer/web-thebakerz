@@ -125,7 +125,7 @@ const ItemAddManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
             <Spacer y={4} />
 
             <Card className="w-full" shadow={'sm'}>
-                <CardHeader className={'pb-0 gap-x-2'}>
+                <CardHeader className={'pb-0 gap-x-4'}>
                         {categories.map((category) => (
                                 <motion.button
                                     key={category}

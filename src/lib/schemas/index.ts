@@ -192,10 +192,12 @@ export const ProductSchema = z.object({
     file_picture: ImageSchema.optional(),
     ingredients: z.array(z.string()).optional(),
     allergies: z.array(z.string()).optional(),
+    dietary: z.array(z.string()).optional(),
     additionalImages: z.array(z.string()).max(2).optional(),
     file_additional_pictures: z.array(ImageSchema.optional()).max(2).optional(),
     variants: z.array(VariantSchema).optional(),
     min_order: z.number().min(1, { message: "Minimum order must be at least 1" }).default(1),
+    min_lead_time: z.number().min(30, { message: "Minimum lead time must be at least 30 minutes" }).default(30),
 });
 
 

@@ -312,7 +312,18 @@
     "submitError": "N'a pas soumis le formulaire. \nVeuillez réessayer.",
     "productDeleteFailed": "N'a pas réussi à supprimer le produit. \nVeuillez réessayer.",
     "unsupportedFormat": "Les images Heic / Heif ne sont pas prises en charge. \nVeuillez convertir votre image en JPEG ou PNG à l'aide de l'application photo de votre appareil avant le téléchargement.",
-    "EditItem": "Modifier"
+    "EditItem": "Modifier",
+    "Add Dietary Restrictions": "Ajouter une restriction alimentaire",
+    "Minimal Order": "Commande minimale",
+    "MinimalNumberDescription": "Quel est le nombre minimum d'articles qu'un client peut commander?",
+    "MinimalLeadTime": "Délai minimal",
+    "MinimalLeadTimeDescription": "Quel est le délai minimum pour la commande?",
+    "MinLeadTime": "Délai de livraison min",
+    "hour": "heure",
+    "hours": "heures",
+    "day": "jour",
+    "days": "jours",
+    "specialCategory": "Spéciaux"
   },
   "app/(store)/components/store-subheader": {
     "delivery": "Livraison",
@@ -1081,7 +1092,12 @@
         "open": "Ouvrir",
         "closed": "Fermé",
         "deliveryHours": "Heures de livraison",
-        "workingHours": "Heures d'ouverture"
+        "workingHours": "Heures d'ouverture",
+        "MinLeadTime": "Délai de livraison",
+        "hour": "heure",
+        "hours": "heures",
+        "day": "jour",
+        "days": "jours"
       }
     }
   },
@@ -1176,5 +1192,14 @@
     "addItem": "Ajouter un nouvel article",
     "image": "Image",
     "nameAndPrice": "Nom & prix"
+  },
+  "Dietary": {
+    "AddDietaryRestriction": "Ajouter un régime",
+    "gluten-free": "Sans gluten",
+    "sugar-free": "Pas de sucre",
+    "halal": "Halal",
+    "vegan": "Végétalien",
+    "Diet": "Spécial",
+    "lactose-free": "Sans lactose"
   }
 }

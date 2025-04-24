@@ -255,6 +255,34 @@ export default function UserProductDialog({
                                 </CustomAlert>
                             )}
 
+                            {/* Special Category Alert: Success variant */}
+                            {productData.dietary && productData.dietary.length > 0 && (
+                                <CustomAlert 
+                                    color="success" 
+                                    title={t("specialCategory")} 
+                                    hideIcon
+                                    classNames={{
+                                        title: "text-success-700 font-medium"
+                                    }}
+                                >
+                                    <div className="flex flex-wrap gap-2 mt-4">
+                                        {productData.dietary.map((diet) => {
+                                            return (
+                                                <div
+                                                    key={diet}
+                                                    className={`flex items-center gap-1 px-2 py-1 text-sm rounded-full text-success-700 bg-success-100`}
+                                                >
+                                                    <Icon icon="mdi:food-certified" className="text-success-600" width={18} />
+                                                    <span>
+                                                        {c_T(`Dietary.${diet}`)}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </CustomAlert>
+                            )}
+
                             <VariantsUserSelection
                                 productData={productData}
                                 variants={variants}

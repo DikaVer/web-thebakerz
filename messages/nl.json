@@ -312,7 +312,18 @@
     "submitError": "Kan het formulier niet indienen. \nProbeer het opnieuw.",
     "productDeleteFailed": "Het product niet verwijderen. \nProbeer het opnieuw.",
     "unsupportedFormat": "Heic/Heif -afbeeldingen worden niet ondersteund. \nConverteer uw afbeelding naar JPEG of PNG met behulp van de foto -app van uw apparaat voordat u uploadt.",
-    "EditItem": "Item bewerken"
+    "EditItem": "Item bewerken",
+    "Add Dietary Restrictions": "Voeg een dieetbeperking toe",
+    "Minimal Order": "Minimale volgorde",
+    "MinimalNumberDescription": "Wat is het minimum aantal items dat een klant kan bestellen?",
+    "MinimalLeadTime": "Minimale doorlooptijd",
+    "MinimalLeadTimeDescription": "Wat is de minimale doorlooptijd voor de bestelling?",
+    "MinLeadTime": "Min doorlooptijd",
+    "hour": "uur",
+    "hours": "uren",
+    "day": "dag",
+    "days": "dagen",
+    "specialCategory": "Specials"
   },
   "app/(store)/components/store-subheader": {
     "delivery": "Bezorging",
@@ -1081,7 +1092,12 @@
         "open": "Open",
         "closed": "Gesloten",
         "deliveryHours": "Leveringsuren",
-        "workingHours": "Openingstijden"
+        "workingHours": "Openingstijden",
+        "MinLeadTime": "Min doorlooptijd",
+        "hour": "uur",
+        "hours": "uren",
+        "day": "dag",
+        "days": "dagen"
       }
     }
   },
@@ -1179,5 +1195,14 @@
     "addItem": "Voeg nieuw item toe",
     "image": "Afbeelding",
     "nameAndPrice": "Naam & prijs"
+  },
+  "Dietary": {
+    "AddDietaryRestriction": "Voeg dieet toe",
+    "gluten-free": "Glutenvrij",
+    "sugar-free": "Geen suiker",
+    "halal": "Halal",
+    "vegan": "Veganistisch",
+    "Diet": "Speciaal",
+    "lactose-free": "Lactosevrij"
   }
 }

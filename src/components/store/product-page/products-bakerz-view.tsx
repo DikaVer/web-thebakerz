@@ -25,13 +25,14 @@ import showErrorMessage from "@/components/toast/toast-error";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import showSuccessMessage from "@/components/toast/toast-succes";
-import {TagsInput, TagsSelectInput} from "@/components/ui/tags-input";
+import {TagsInput, TagsSelectInput, DietarySelectInput} from "@/components/ui/tags-input";
 import { useMediaQuery } from "usehooks-ts";
 import { useTranslations } from "next-intl";
 import { useActionState } from "react";
 import {VariantsFormField} from "@/components/store/product/components/variants-form-field";
 import {DeleteConfirmationModal} from "@/components/store/product/components/delete-confirmation";
 import {ImageUploadSection} from "@/components/store/product/components/image-upload-section";
+import {MinLeadTime} from "@/components/store/product/components/min-lead-time";
 
 type ProductViewProps = {
     storeId: string;
@@ -66,6 +67,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
             file_picture: undefined,
             ingredients: productData?.ingredients || [],
             allergies: productData?.allergies || [],
+            dietary: productData?.dietary || [],
             additionalImages: productData?.additionalImages || [],
             file_additional_pictures: undefined,
             variants: (productData?.variants || []).map((variant: ProductVariant) => ({
@@ -76,6 +78,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                 }))
             })),
             min_order: productData?.min_order || 1,
+            min_lead_time: productData?.min_lead_time || 30,
         },
     });
 
@@ -476,6 +479,23 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                         </FormItem>
                                     )}
                                 />
+                                <FormField
+                                    control={form.control}
+                                    name="dietary"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <DietarySelectInput
+                                                    isLoading={isPending}
+                                                    tags={field.value || []}
+                                                    setTags={(newTags) => field.onChange(newTags)}
+                                                    placeholder={t("Add Dietary Restrictions")}
+                                                />
+                                            </FormControl>
+                                            {fieldState.error && <p className="text-danger-400 text-sm">{fieldState.error.message}</p>}
+                                        </FormItem>
+                                    )}
+                                />
 
                                 <Spacer y={4} />
                                 <h3 className="text-lg font-medium mb-2">{t("Item Options")}</h3>
@@ -486,7 +506,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
 
                                 <Spacer y={4} />
                                 <div className="flex w-full justify-between">
-                                    <h3 className="text-lg font-medium">Minimal Order</h3>
+                                    <h3 className="text-lg font-medium">{t("Minimal Order")}</h3>
                                     <FormField
                                         control={form.control}
                                         name="min_order"
@@ -517,7 +537,10 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                         )}
                                     />
                                 </div>
-                                <h4 className="text-base text-default-400 font-medium mb-2">What is the minimum number of items a customer can order?</h4>
+                                <h4 className="text-base text-default-400 font-medium mb-2">{t("MinimalNumberDescription")}</h4>
+
+                                <Spacer y={4} />
+                                <MinLeadTime form={form} isPending={isPending} />
 
                             </div>
                         </div>

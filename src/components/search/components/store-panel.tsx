@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useRef, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Badge, Card, CardBody, CardFooter, Chip, Popover, PopoverContent, PopoverTrigger } from '@heroui/react';
@@ -10,57 +10,7 @@ import { formatCurrency } from '@/lib/utils'; // Assuming a currency formatting 
 import { useTranslations } from 'next-intl';
 import { examppleStore } from '@/lib/local-variables';
 import { renderScheduleDisplay } from '@/components/store/store-header/subheader/working-hours';
-
-// Custom hook for hover functionality
-const useHoverPopover = () => {
-    const [isHovered, setIsHovered] = useState(false);
-    const triggerRef = useRef<HTMLDivElement>(null);
-    const popoverRef = useRef<HTMLDivElement>(null);
-    
-    // Set up event listener for mouse movement between trigger and popover
-    useEffect(() => {
-        const trigger = triggerRef.current;
-        const popover = popoverRef.current;
-        if (!trigger) return;
-        
-        const handleMouseEnter = () => {
-            setIsHovered(true);
-        };
-        
-        const handleMouseLeave = (e: MouseEvent) => {
-            // Only close if we're not moving to the popover content
-            if (popover && popover.contains(e.relatedTarget as Node)) return;
-            
-            // Check if we're moving from trigger to popover
-            const rect = popover?.getBoundingClientRect();
-            if (rect) {
-                const x = e.clientX;
-                const y = e.clientY;
-                // If we're moving toward the popover, don't close
-                if (
-                    x >= rect.left - 20 && 
-                    x <= rect.right + 20 && 
-                    y >= rect.top - 20 && 
-                    y <= rect.bottom + 20
-                ) {
-                    return;
-                }
-            }
-            
-            setIsHovered(false);
-        };
-        
-        trigger.addEventListener('mouseenter', handleMouseEnter);
-        trigger.addEventListener('mouseleave', handleMouseLeave);
-        
-        return () => {
-            trigger.removeEventListener('mouseenter', handleMouseEnter);
-            trigger.removeEventListener('mouseleave', handleMouseLeave);
-        };
-    }, []);
-    
-    return { isHovered, setIsHovered, triggerRef, popoverRef };
-};
+import { useHoverPopover } from '@/hooks/use-hover-popover';
 
 interface StorePanelProps {
     store: NearbyStore;
@@ -68,6 +18,7 @@ interface StorePanelProps {
 }
 
 export function StorePanel({ store, deliveryMode }: StorePanelProps) {
+    const wH = useTranslations("app/(store)/components/working-hours");
     const t = useTranslations("search.components.storePanel");
     const [isManualOpen, setIsManualOpen] = React.useState(false);
     const { isHovered, setIsHovered, triggerRef, popoverRef } = useHoverPopover();
@@ -246,6 +197,16 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                                             e.stopPropagation();
                                             setIsManualOpen(prev => !prev);
                                         }}
+                                        onMouseEnter={() => setIsHovered(true)}
+                                        onMouseLeave={(e) => {
+                                            const relatedTarget = e.relatedTarget as Node;
+                                            if (popoverRef.current?.contains(relatedTarget)) {
+                                                return;
+                                            }
+                                            if (!isManualOpen) {
+                                                setIsHovered(false);
+                                            }
+                                        }}
                                     >
                                         <span className="text-text font-medium">
                                             {deliveryMode === 'delivery' ? t('deliveryHours') : t('workingHours')}
@@ -270,8 +231,8 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                                         }}
                                     >
                                         {deliveryMode === 'delivery' && store.deliveryRegion && store.deliveryRegion.deliverySchedule 
-                                            ? renderScheduleDisplay(store.deliveryRegion.deliverySchedule, useTranslations("app/(store)/components/working-hours"))
-                                            : renderScheduleDisplay(store.schedule, useTranslations("app/(store)/components/working-hours"))}
+                                            ? renderScheduleDisplay(store.deliveryRegion.deliverySchedule, wH)
+                                            : renderScheduleDisplay(store.schedule, wH)}
                                     </div>
                                 </PopoverContent>
                             </Popover>
@@ -293,6 +254,31 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                             )}
                             <span className="truncate">{deliveryInfo}</span>
                         </div>
+                        {(deliveryMode === 'pickup' ? store.minTimeOrder : store.deliveryRegion?.minOrderTime) && (
+                            <div className="flex items-center gap-1 flex-1">
+                                <Icon icon="solar:clock-circle-linear" width={14} className="flex-shrink-0 text-warning-500" />
+                                <span className="truncate">
+                                    {t("MinLeadTime")}: {(() => {
+                                        const minutes = deliveryMode === 'pickup' ? store.minTimeOrder : store.deliveryRegion?.minOrderTime;
+                                        if (!minutes) return '';
+                                        if (minutes < 60) {
+                                            return `${minutes} min`;
+                                        } else if (minutes < 24 * 60) {
+                                            const hours = minutes / 60;
+                                            return `${hours} ${hours === 1 ? t("hour") : t("hours")}`;
+                                        } else {
+                                            const days = Math.floor(minutes / (24 * 60));
+                                            const remainingHours = (minutes % (24 * 60)) / 60;
+                                            if (remainingHours === 0) {
+                                                return `${days} ${days === 1 ? t("day") : t("days")}`;
+                                            } else {
+                                                return `${days} ${days === 1 ? t("day") : t("days")} ${remainingHours} ${remainingHours === 1 ? t("hour") : t("hours")}`;
+                                            }
+                                        }
+                                    })()}
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </CardFooter>
             </Card>

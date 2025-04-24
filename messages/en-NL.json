@@ -332,7 +332,18 @@
     "submitError": "Failed to submit the form. Please try again.",
     "productDeleteFailed": "Failed to delete the product. Please try again.",
     "unsupportedFormat": "HEIC/HEIF images are not supported. Please convert your image to JPEG or PNG using your device's photo app before uploading.",
-    "EditItem": "Edit Item"
+    "EditItem": "Edit Item",
+    "Add Dietary Restrictions": "Add Dietary Restriction",
+    "Minimal Order": "Minimal Order",
+    "MinimalNumberDescription": "What is the minimum number of items a customer can order?",
+    "MinimalLeadTime": "Minimal Lead Time",
+    "MinimalLeadTimeDescription": "What is the minimum lead time for the order?",
+    "MinLeadTime": "Min Lead Time",
+    "hour": "hour",
+    "hours": "hours",
+    "day": "day",
+    "days": "days",
+    "specialCategory": "Specials"
   },
   "app/(store)/components/store-subheader": {
     "addressPlaceholder": "Address Placeholder",
@@ -1101,7 +1112,12 @@
         "open": "Open",
         "closed": "Closed",
         "deliveryHours": "Delivery Hours",
-        "workingHours": "Opening Hours"
+        "workingHours": "Opening Hours",
+        "MinLeadTime": "Min Lead Time",
+        "hour": "hour",
+        "hours": "hours",
+        "day": "day",
+        "days": "days"
       }
     }
   },
@@ -1172,5 +1188,14 @@
     "addItem": "Add New Item",
     "image": "Image",
     "nameAndPrice": "Name & Price"
+  },
+  "Dietary": {
+    "AddDietaryRestriction": "Add Diet",
+    "gluten-free": "Gluten Free",
+    "sugar-free": "No Sugar",
+    "halal": "Halal",
+    "vegan": "Vegan",
+    "Diet": "Special",
+    "lactose-free": "Lactose Free"
   }
 }

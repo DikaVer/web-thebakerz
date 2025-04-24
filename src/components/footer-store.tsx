@@ -78,7 +78,7 @@ export function FooterStore() {
 
     const phone = {
         name: t("phone"),
-        href: `tel:${store?.phone}`,
+        href: `https://wa.me/${store?.phone?.replace(/\D/g, '')}`,
         icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={20} className={'text-default-600'}/>,
     };
 
@@ -109,7 +109,7 @@ export function FooterStore() {
                                     </div>
                                 </div>
                             </Link>
-                            <Link key="Phone" isExternal className="text-default-500 hover:text-default-400 transition-colors flex items-center"
+                            <Link key="WhatsApp" isExternal className="text-default-500 hover:text-default-400 transition-colors flex items-center"
                                   href={phone.href}>
                                 <div className="flex gap-x-2 items-center">
                                     <phone.icon aria-hidden="true"/>
