@@ -16,6 +16,7 @@ import { Icon } from '@iconify/react';
 import { useDelivery } from '@/components/providers/delivery-provider';
 import { MAX_CHARS_ADDRESS, GOOGLE_MAPS_LIBRARIES, COUNTRY_RESTRICTION, DUTCH_POSTAL_CODE_REGEX } from '@/lib/schemas/address.schema';
 import { DeliveryAddress, DeliveryAddressRaw } from '@/app/(store)/[id]/delivery-actions';
+import { logger } from '@/lib/logger';
 
 // --- Define validation schema ---
 const AddressZodSchema = z.object({
@@ -98,7 +99,7 @@ export function AddressForm({
       if (window.google?.maps?.places) {
         setIsSearchReady(true);
         sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
-        if(process.env.NODE_ENV === 'development') console.log('Google Maps and Places API ready via window object');
+        logger.debug('addressForm', 'Google Maps and Places API ready via window object');
       } else {
         // If not ready, check again shortly
         setTimeout(checkGoogleMapsReady, 100); 
@@ -138,7 +139,7 @@ export function AddressForm({
           setSuggestions(formattedSuggestions);
         }
       } catch (error) {
-        console.error('Error fetching place suggestions:', error);
+        logger.error('addressForm', 'Error fetching place suggestions:', { error });
         setSuggestions([]);
       }
     };
@@ -153,13 +154,12 @@ export function AddressForm({
 
   // Log when relevant states change
   useEffect(() => {
-    if(process.env.NODE_ENV === 'development') {
-      // console.log('Google Maps loaded state:', isLoaded); // Removed isLoaded log
-      console.log('Places API ready state:', isSearchReady);
-      console.log('Window.google exists:', !!window.google);
-      console.log('Window.google.maps exists:', !!window.google?.maps);
-      console.log('Window.google.maps.places exists:', !!window.google?.maps?.places);
-    }
+    logger.debug('addressForm', 'Places API ready state:', { 
+      isSearchReady, 
+      windowGoogleExists: !!window.google,
+      googleMapsExists: !!window.google?.maps,
+      googleMapsPlacesExists: !!window.google?.maps?.places
+    });
   }, [isSearchReady]); // Removed isLoaded dependency
 
   // Initialize autocomplete value when loaded
@@ -233,7 +233,7 @@ export function AddressForm({
   // --- Handlers for places autocomplete ---
   const handleAutocompleteSelect = async (description: string, placeId?: string) => {
     try {
-      console.log('Handling selection for address:', description);
+      logger.debug('addressForm', 'Handling selection for address:', { description });
       setSuggestions([]);
       setAutocompleteValue(description);
       
@@ -251,7 +251,7 @@ export function AddressForm({
           throw new Error('No geocoding results found');
         }
       } catch (error) {
-        console.error('Geocoding error:', error);
+        logger.error('addressForm', 'Geocoding error:', { error });
         setErrors(prev => ({ 
           ...prev, 
           formattedAddress: 'Error processing address. Please try again or enter manually.' 
@@ -336,7 +336,7 @@ export function AddressForm({
       sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
       
     } catch (error) {
-      console.error('Error selecting place:', error);
+      logger.error('addressForm', 'Error selecting place:', { error });
       setErrors(prev => ({ 
         ...prev, 
         formattedAddress: 'Error processing address. Please try typing manually.' 
@@ -373,7 +373,7 @@ export function AddressForm({
             onClose && onClose();
           }
         } catch (err) {
-          console.error('Form submission failed:', err);
+          logger.error('addressForm', 'Form submission failed:', { error: err });
         } finally {
           setIsSubmitting(false);
         }
@@ -388,7 +388,7 @@ export function AddressForm({
             onClose && onClose();
           }
         } catch (err) {
-          console.error('Form submission failed:', err);
+          logger.error('addressForm', 'Form submission failed:', { error: err });
         } finally {
           setIsSubmitting(false);
         }

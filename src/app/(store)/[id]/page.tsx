@@ -1,6 +1,4 @@
 import React, {Suspense} from "react";
-import {getOrderTime} from "@/app/(store)/[id]/actions";
-import StoreSkeleton from "@/components/skeletons";
 import {ProductComponentBase} from "@/components/store/product/product-comp";
 import {Spacer} from "@heroui/react";
 import {getCurrentStore} from "@/lib/actions/store";
@@ -8,10 +6,8 @@ import NotFound from "@/app/(error_layout)/not-found";
 import {StoreTop} from "@/components/store/store-header/store-top";
 import { FooterStore } from "@/components/footer-store";
 import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
-import {useTranslations} from "next-intl";
 import {getTranslations} from "next-intl/server";
 import { examppleStore } from "@/lib/local-variables";
-import Script from "next/script";
 
 interface StorePageProps {
     params: Promise<{
@@ -37,13 +33,6 @@ export default async function Page(props: StorePageProps) {
 
     return (
         <>
-            <Script
-                id="google-maps-script"
-                strategy="afterInteractive"
-                src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
-                async
-                defer
-            />
             <div className="flex flex-col min-h-screen relative z-10 items-center">
                 <div className="flex flex-col container mx-auto items-center justify-center">
                     <Spacer y={8}/>

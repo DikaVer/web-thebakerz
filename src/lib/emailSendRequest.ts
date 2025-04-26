@@ -54,8 +54,8 @@ export async function sendMagicCode(params: { identifier: string; code: string }
     // const formattedCode = `${code.slice(0, 3)}-${code.slice(3)}`;
     const formattedCode = code;
 
-    console.log(`Sending magic link to ${to}`);
-    console.log(`Magic code: ${code}`);
+    // console.log(`Sending magic link to ${to}`);
+    // console.log(`Magic code: ${code}`);
 
     const { emailClient, senderAddress } = await getEmailClient();
 
@@ -78,7 +78,7 @@ export async function sendMagicCode(params: { identifier: string; code: string }
 
     try {
         await sendEmailMessage(emailClient, message);
-        console.log(`Magic link email sent successfully to ${to}`);
+        // console.log(`Magic link email sent successfully to ${to}`);
     } catch (error) {
         console.error(`Error sending magic link email: ${error}`);
         throw error;
@@ -217,8 +217,8 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
             await Promise.all([sendCustomerEmail, sendBakerEmail]);
         }
         
-        console.log(`Order confirmation email sent successfully to customer: ${to}`);
-        console.log(`New order notification email sent successfully to baker: ${storeData.email}`);
+        // console.log(`Order confirmation email sent successfully to customer: ${to}`);
+        // console.log(`New order notification email sent successfully to baker: ${storeData.email}`);
     } catch (error) {
         console.error(`Error sending order emails for order ${orderData.id}:`, error);
         // Decide if you need to re-throw or just log

@@ -32,7 +32,6 @@ export async function GET(request: Request) {
     }
 
     try {
-        // console.log("getProductsByStoreId", id);
         // Call your validation logic with the extracted token
         const productsData = await getProductsByStoreId(id);
         return NextResponse.json(productsData, { status: 200 });

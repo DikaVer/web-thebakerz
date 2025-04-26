@@ -114,9 +114,7 @@ export async function POST(request: Request) {
                 throw new Error(`Image dimensions too large (max: ${MAX_DIMENSION}px)`);
             }
         } catch (validationError) {
-            if (process.env.NODE_ENV !== 'production') {
-                console.error("Server-side image validation failed:", validationError);
-            }
+            console.error("Server-side image validation failed:", validationError);
             return NextResponse.json({ error: t("invalidImage") }, { status: 400 });
         }
 
@@ -155,9 +153,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ success: t("imageUpdated"), url: blobUrl }, { status: 200 });
     } catch (error) {
-        if (process.env.NODE_ENV !== 'production') {
-            console.error("Error during image upload:", error);
-        }
+        console.error("Error during image upload:", error);
         return NextResponse.json({ error: t("internalError") }, { status: 500 });
     }
 }

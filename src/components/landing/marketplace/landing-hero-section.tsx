@@ -11,6 +11,8 @@ import { pacifico } from '@/components/fonts';
 import { useLoadScript } from '@react-google-maps/api';
 import { LandingSigninButton } from '@/components/ui/landing-signin';
 import { useTranslations } from 'next-intl';
+import { logger } from '@/lib/logger';
+
 // Constants
 const GOOGLE_MAPS_LIBRARIES = ['places'];
 const COUNTRY_RESTRICTION = ['nl']; // Netherlands
@@ -45,12 +47,12 @@ export const LandingHeroSection = () => {
   // Check if API key is missing and log error
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
-      console.error('ERROR: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set in environment variables!');
-      console.warn('You need to add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to your .env.local file');
+      logger.error('googleMaps', 'NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set in environment variables!');
+      logger.warn('googleMaps', 'You need to add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to your .env.local file');
     }
     
     if (loadError) {
-      console.error('Google Maps script loading error:', loadError);
+      logger.error('googleMaps', 'Google Maps script loading error:', { error: loadError });
     }
   }, [loadError]);
 
@@ -60,7 +62,7 @@ export const LandingHeroSection = () => {
       geocoderRef.current = new google.maps.Geocoder();
       sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
       setIsSearchReady(true);
-      console.log('Google Maps and Places API initialized');
+      logger.debug('googleMaps', 'Google Maps and Places API initialized');
     }
   }, [isLoaded]);
 
@@ -92,7 +94,7 @@ export const LandingHeroSection = () => {
           setSuggestions(formattedSuggestions);
         }
       } catch (error) {
-        console.error('Error fetching place suggestions:', error);
+        logger.error('fetchSuggestions', 'Error fetching place suggestions:', { error });
         setSuggestions([]);
       }
     };

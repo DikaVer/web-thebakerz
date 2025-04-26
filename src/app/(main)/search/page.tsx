@@ -7,6 +7,7 @@ import { StorePanel } from '@/components/search/components/store-panel';
 import type { Metadata } from 'next'; // Import Metadata type
 import { getLocale, getTranslations } from 'next-intl/server'; // Import getLocale
 import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata utils
+import { logger } from '@/lib/logger';
 
 // Define search page specific metadata translations
 const pageMetadataTranslations = {
@@ -139,7 +140,7 @@ async function StoreResults({ coords, mode, country }: { coords: Coordinates, mo
   
   const t = await getTranslations("app/search");
   // Log to help debug duplicate IDs
-  if(process.env.NODE_ENV === 'development') console.log("Store IDs:", stores.map(store => store.id));
+  logger.debug("storeResults", "Store IDs:", { storeIds: stores.map(store => store.id) });
   
   return (
       <div className={'min-h-svh'}>

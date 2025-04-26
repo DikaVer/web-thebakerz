@@ -82,7 +82,6 @@ export const addProduct = async (
             }
       }
     }
-    // console.log(updatedAdditionalImages);
 
     let image_url;
     if (formData.file_picture) {
@@ -201,7 +200,7 @@ export const deleteProduct = async (
             return { error: "Store not found!" };
         }
 
-        console.log("Deleting product with ID:", productId, "from store with ID:", storeId);
+        // console.log("Deleting product with ID:", productId, "from store with ID:", storeId);
 
 
         // Update the product's archive status to true.

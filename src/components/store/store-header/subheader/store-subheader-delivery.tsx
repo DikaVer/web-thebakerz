@@ -26,6 +26,7 @@ import { useTranslations } from "next-intl";
 import { useDelivery } from "@/components/providers/delivery-provider";
 import DeliveryInfo from "@/components/store/store-header/subheader/delivery-info";
 import { AddressForm } from "@/components/store/store-header/subheader/address-form";
+import { logger } from "@/lib/logger";
 
 interface StoreSubHeaderDeliveryProps {
 }
@@ -103,7 +104,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
     // Handle autocomplete focus/blur events
     const handleAutocompleteFocus = () => {
         setIsAutocompleteFocused(true);
-        if(process.env.NODE_ENV === 'development') console.log('Address autocomplete focused');
+        logger.debug('storeSubheader', 'Address autocomplete focused');
     };
     
     const handleAutocompleteBlur = () => {
@@ -111,25 +112,29 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
         setTimeout(() => {
             if (!document.querySelector('.pac-container:hover')) {
                 setIsAutocompleteFocused(false);
-                if(process.env.NODE_ENV === 'development') console.log('Address autocomplete blurred');
+                logger.debug('storeSubheader', 'Address autocomplete blurred');
             }
         }, 200);
     };
 
     // --- Custom onOpenChange Handler ---
     const handleModalOpenChange = (open: boolean) => {
-        if(process.env.NODE_ENV === 'development')  console.log(`Modal handleModalOpenChange called with open: ${open}, isSubmitting: ${isSubmittingAddress}, isAutocompleteFocused: ${isAutocompleteFocused}`);
+        logger.debug('storeSubheader', `Modal handleModalOpenChange called`, {
+            open,
+            isSubmitting: isSubmittingAddress,
+            isAutocompleteFocused
+        });
         
         // Prevent closing if submitting or if autocomplete dropdown is focused
         if (!open && (isSubmittingAddress || isAutocompleteFocused)) {
-            if(process.env.NODE_ENV === 'development') console.log('Preventing modal close due to submission or autocomplete focus.');
+            logger.debug('storeSubheader', 'Preventing modal close due to submission or autocomplete focus.');
             return; // Prevent closing
         }
 
         // If closing is allowed, reset the autocomplete focus state
         if (!open) {
             setIsAutocompleteFocused(false); // Reset focus state on allowed close
-            if(process.env.NODE_ENV === 'development') console.log('Resetting isAutocompleteFocused state as modal closes.');
+            logger.debug('storeSubheader', 'Resetting isAutocompleteFocused state as modal closes.');
         }
 
         // Call original handlers

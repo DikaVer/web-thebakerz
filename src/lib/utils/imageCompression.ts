@@ -1,6 +1,7 @@
 /**
  * Utility functions for client-side image compression
  */
+import { logger } from '../logger';
 
 /**
  * Compresses an image file to the specified size and format
@@ -27,33 +28,33 @@ export async function compressImage(
   // Handle special formats that require different processing
   const isAnimated = await checkIfAnimatedImage(file);
   if (isAnimated && file.type === 'image/gif') {
-    console.log('🎬 Animated GIF detected - preserving original file to maintain animation');
+    logger.debug('compressImage', '🎬 Animated GIF detected - preserving original file to maintain animation');
     
     // For animated GIFs, we should preserve the original file if it's not too large
     if (file.size <= maxSizeMB * 1024 * 1024) {
       return file;
     } else {
-      console.log('⚠️ Animated GIF is too large, will attempt basic compression');
+      logger.debug('compressImage', '⚠️ Animated GIF is too large, will attempt basic compression');
       // We can't properly compress animated GIFs with canvas, but we'll try to reduce quality somewhat
     }
   }
 
   // Return early if file is already compressed enough and in the right format
   if (file.size <= maxSizeMB * 1024 * 1024 && file.type === `image/${format}`) {
-    console.log(`🔍 Image already meets compression requirements (${(file.size / 1024 / 1024).toFixed(2)}MB, ${file.type})`);
+    logger.debug('compressImage', `🔍 Image already meets compression requirements (${(file.size / 1024 / 1024).toFixed(2)}MB, ${file.type})`);
     return file;
   }
 
-  console.log(`🔍 Original image details:
+  logger.debug('compressImage', `🔍 Original image details:
   - Size: ${(file.size / 1024 / 1024).toFixed(2)}MB
   - Format: ${file.type}
   - Name: ${file.name}`);
 
   try {
     // Create an image from the file
-    console.log('📷 Loading image data...');
+    logger.debug('compressImage', '📷 Loading image data...');
     const image = await createImageFromFile(file);
-    console.log(`📏 Original dimensions: ${image.width}×${image.height}px`);
+    logger.debug('compressImage', `📏 Original dimensions: ${image.width}×${image.height}px`);
     
     // Get dimensions maintaining aspect ratio
     const { width, height } = calculateDimensions(
@@ -63,13 +64,13 @@ export async function compressImage(
     );
     
     if (width !== image.width || height !== image.height) {
-      console.log(`🔄 Resizing from ${image.width}×${image.height}px to ${width}×${height}px`);
+      logger.debug('compressImage', `🔄 Resizing from ${image.width}×${image.height}px to ${width}×${height}px`);
     } else {
-      console.log('✓ No resizing needed (dimensions are within limits)');
+      logger.debug('compressImage', '✓ No resizing needed (dimensions are within limits)');
     }
 
     // Create canvas and compress
-    console.log('🎨 Creating canvas for image manipulation...');
+    logger.debug('compressImage', '🎨 Creating canvas for image manipulation...');
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
@@ -86,9 +87,9 @@ export async function compressImage(
     // If the original is PNG with transparency, ensure we preserve transparency
     const isPngWithTransparency = file.type === 'image/png' && await hasTransparency(image);
     if (isPngWithTransparency) {
-      console.log('🔍 Detected PNG with transparency');
+      logger.debug('compressImage', '🔍 Detected PNG with transparency');
       if (format !== 'png' && format !== 'webp') {
-        console.log('⚠️ Changing output format to WebP to preserve transparency');
+        logger.debug('compressImage', '⚠️ Changing output format to WebP to preserve transparency');
         // WebP supports transparency, JPEG doesn't
         bestFormats = ['webp', 'png'];
       }
@@ -100,25 +101,25 @@ export async function compressImage(
     // Use high quality image smoothing
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    console.log('✓ Set high-quality image smoothing');
+    logger.debug('compressImage', '✓ Set high-quality image smoothing');
     
     // Draw the image on the canvas
-    console.log('📝 Drawing image on canvas...');
+    logger.debug('compressImage', '📝 Drawing image on canvas...');
     ctx.drawImage(image, 0, 0, width, height);
 
     // Convert to the desired format with specified quality
     const mimeType = `image/${format}`;
-    console.log(`🔄 Converting to ${mimeType} format with initial quality ${(initialQuality * 100).toFixed(0)}%`);
+    logger.debug('compressImage', `🔄 Converting to ${mimeType} format with initial quality ${(initialQuality * 100).toFixed(0)}%`);
     
     // Try with initial quality setting
     let blob = await canvasToBlob(canvas, mimeType, initialQuality);
     let compressedSize = blob.size / (1024 * 1024);
     
-    console.log(`✓ Initial compression: ${compressedSize.toFixed(2)}MB (${Math.round(initialQuality * 100)}% quality)`);
+    logger.debug('compressImage', `✓ Initial compression: ${compressedSize.toFixed(2)}MB (${Math.round(initialQuality * 100)}% quality)`);
     
     // If the file is still too large, gradually reduce quality until it fits
     if (compressedSize > maxSizeMB) {
-      console.log(`⚠️ Image still too large (${compressedSize.toFixed(2)}MB > ${maxSizeMB}MB), reducing quality...`);
+      logger.debug('compressImage', `⚠️ Image still too large (${compressedSize.toFixed(2)}MB > ${maxSizeMB}MB), reducing quality...`);
       
       let currentQuality = initialQuality;
       let compressionStep = 1;
@@ -128,21 +129,21 @@ export async function compressImage(
         blob = await canvasToBlob(canvas, mimeType, currentQuality);
         compressedSize = blob.size / (1024 * 1024);
         
-        console.log(`  Step ${compressionStep++}: Quality ${(currentQuality * 100).toFixed(0)}% → Size ${compressedSize.toFixed(2)}MB`);
+        logger.debug('compressImage', `  Step ${compressionStep++}: Quality ${(currentQuality * 100).toFixed(0)}% → Size ${compressedSize.toFixed(2)}MB`);
       }
       
       // If still too large, try alternate formats
       if (compressedSize > maxSizeMB && format !== 'webp') {
-        console.log(`⚠️ Still too large, trying WebP format which typically has better compression...`);
+        logger.debug('compressImage', `⚠️ Still too large, trying WebP format which typically has better compression...`);
         blob = await canvasToBlob(canvas, 'image/webp', Math.max(currentQuality, 0.6));
         compressedSize = blob.size / (1024 * 1024);
-        console.log(`  WebP result: Size ${compressedSize.toFixed(2)}MB`);
+        logger.debug('compressImage', `  WebP result: Size ${compressedSize.toFixed(2)}MB`);
       }
       
       if (compressedSize <= maxSizeMB) {
-        console.log(`✅ Successfully reduced to target size (${compressedSize.toFixed(2)}MB)`);
+        logger.debug('compressImage', `✅ Successfully reduced to target size (${compressedSize.toFixed(2)}MB)`);
       } else {
-        console.warn(`⚠️ Could not reduce below ${maxSizeMB}MB even at lowest quality. Final size: ${compressedSize.toFixed(2)}MB`);
+        logger.warn('compressImage', `⚠️ Could not reduce below ${maxSizeMB}MB even at lowest quality. Final size: ${compressedSize.toFixed(2)}MB`);
       }
     }
 
@@ -153,7 +154,7 @@ export async function compressImage(
     // Calculate compression ratio
     const compressionRatio = (1 - compressedFile.size / file.size) * 100;
     
-    console.log(`✅ Compression complete:
+    logger.debug('compressImage', `✅ Compression complete:
   - Original: ${(file.size / 1024 / 1024).toFixed(2)}MB
   - Compressed: ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB
   - Reduction: ${compressionRatio.toFixed(1)}%
@@ -162,7 +163,7 @@ export async function compressImage(
     
     return compressedFile;
   } catch (error) {
-    console.error('❌ Error during image compression:', error);
+    logger.error('compressImage', '❌ Error during image compression:', { error });
     throw error;
   }
 }
@@ -219,7 +220,7 @@ async function checkIfAnimatedImage(file: File): Promise<boolean> {
         }
       }
     } catch (e) {
-      console.warn('Unable to determine if GIF is animated:', e);
+      logger.warn('checkIfAnimatedImage', 'Unable to determine if GIF is animated:', { error: e });
     }
   }
   

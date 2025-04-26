@@ -132,10 +132,6 @@ function CalendarDashboard({
                     formatApiDate(monthEnd)
                 );
 
-                // console.log(formatApiDate(monthStart))
-                // console.log(formatApiDate(monthEnd))
-                // console.log(orders)
-
                 processOrderData(orders || []);
             } catch (error) {
                 console.error("Error fetching monthly orders:", error);
@@ -224,7 +220,6 @@ function CalendarDashboard({
 
             setRange(newRange);
             setSelectedDay(undefined); // Reset for next selection
-            // console.log(newRange)
             onDateRangeChange?.(newRange);
 
             // Update URL search params

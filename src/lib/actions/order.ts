@@ -110,9 +110,9 @@ export interface OrderRaw {
     createdAt: Date;
     customer_email?: string;
     scheduled_time: {
-        date: string;
-        time: string;
-    };
+        date: string | null;
+        time: string | null;
+    } | null;
     productsData: OrderProducts;
 }
 
@@ -543,7 +543,6 @@ export async function getOrder(storeId: string, orderId: string, email: string):
         if (!storeId || !orderId || !email) {return null;}
         const partitionKeyValue = [storeId, email];
         const { resource: order } = await containerOrders.item(orderId, partitionKeyValue).read();
-        // console.log(order);
         return order ? order : null;
     } catch (error) {
         console.error("Error fetching store data:", error);

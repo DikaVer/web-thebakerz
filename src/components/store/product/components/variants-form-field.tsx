@@ -51,10 +51,6 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
             .filter(i => i !== index)
             .map(i => i > index ? i - 1 : i));
     };
-    //
-    // useEffect(() => {
-    //     console.log(form.getValues("variants") || []);
-    // }, [form.getValues("variants")]);
 
     const addOption = (variantIndex: number) => {
         const currentVariants = form.getValues("variants") || [];
@@ -88,10 +84,6 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
         form.setValue("variants", updatedVariants);
     };
 
-    // useEffect(() => {
-    //     console.log(ProductSchema.safeParse(form.getValues()) || []);
-    // }, [form.getValues()]);
-
     // It is not a joke
     const animals = [
         {key: "1", label: "1"},
@@ -105,7 +97,6 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
         {key: "9", label: "9"}
     ];
 
-    // console.log(form.getValues());
     return (
         <FormField
             control={form.control}
@@ -266,9 +257,9 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                 // defaultSelectedKeys={["cat"]}
                                                                 selectedKeys={[`${variant.maxSelections}`]}
                                                                 onChange={(e) => {
+                                                                    //@ts-ignore
                                                                     const updatedVariants = [...field.value];
                                                                     updatedVariants[variantIndex].maxSelections = Number(e.target.value);
-                                                                    console.log(Number(e.target.value))
                                                                     field.onChange(updatedVariants);
                                                                 }}
                                                                 isDisabled={isPending}

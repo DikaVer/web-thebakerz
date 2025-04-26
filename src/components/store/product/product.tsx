@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {Card, Image, CardFooter, Popover, PopoverTrigger, PopoverContent, CardBody} from "@heroui/react";
 import {ProductData} from "@/lib/actions/product";
 import {useProductDialog} from "@/components/providers/product-provider";
@@ -145,7 +145,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                         <p className={`text-xs sm:text-sm font-medium line-clamp-2 leading-tight h-8 sm:h-10`}>
                             {productData.name}
                         </p>
-                        {(storeMinTimeOrder !== undefined) ? (
+                        {(storeMinTimeOrder !== undefined) && (
                             <div className="flex items-center gap-1 text-xs text-default-600 mb-1">
                                 <Icon icon="solar:clock-circle-linear" className="text-warning-500" width={14} />
                                 <span>{t("MinLeadTime")}: </span>
@@ -169,8 +169,6 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                     })()}
                                 </span>
                             </div>
-                        ) : (
-                            <div className="h-4"/>
                         )}
                         <div className="flex justify-between items-center w-full">
                             <div className="flex items-center gap-1">

@@ -33,7 +33,7 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) =
     const locale = useLocale();
     const t = useTranslations("app/(store)/components/orders/overview");
     const [isLoading, setIsLoading] = useState(false);
-    // console.log(orderData);
+
     return (
         <section id="Order Top Content" className="flex justify-between">
             <div className="flex flex-col w-full max-w-2xl">

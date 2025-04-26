@@ -10,6 +10,7 @@ import { DeliveryAddress as DbDeliveryAddress, DeliveryAddress, DeliveryAddressR
 import { parseDateParams, parseDateTime } from "@/components/store/store-header/calendar/calendar-params";
 import { MerchantDeliveryRegion, DeliveryRange } from '@/lib/actions/delivery-actions';
 import { haversineDistance } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 export interface ValidationResult {
     isValid: boolean;
@@ -112,21 +113,25 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
           setIsValidating(true);
           
           // 3. Calculate distances and find the closest region
-          if(process.env.NODE_ENV === 'development')  console.log("Client: Calculating distances to", store.deliveryRegions.length, "regions");
+          logger.debug("deliveryProvider", "Calculating distances to regions", { 
+            regionCount: store.deliveryRegions.length 
+          });
+          
           let closestRegion: MerchantDeliveryRegion | null = null;
           let minDistance = Infinity;
           let applicableRange: DeliveryRange | null = null;
           let minPrice = Infinity;
         
           for (const region of store.deliveryRegions) {
-            if(process.env.NODE_ENV === 'development') console.log(`Client: Checking region: ${region.name}`);
+            logger.debug("deliveryProvider", `Checking region: ${region.name}`);
+            
             // Check for country-wide delivery first
             if (region.isCountry && initialAddress.country && 
                 region.minOrderPriceInCents && region.deliveryPriceInCents &&
                 minPrice > region.minOrderPriceInCents &&
                 region.name.toLowerCase() === initialAddress.country.toLowerCase()) {
 
-                if(process.env.NODE_ENV === 'development') console.log(`Client: Found country-wide delivery region: ${region.name}`);
+                logger.debug("deliveryProvider", `Found country-wide delivery region: ${region.name}`);
                 closestRegion = region;
                 minPrice = region.minOrderPriceInCents;
                 applicableRange = {
@@ -138,7 +143,8 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
               // Check for city/region based delivery
               if (region.coordinates && initialAddress.coordinates) {
                 const distance = haversineDistance(initialAddress.coordinates, region.coordinates);
-                if(process.env.NODE_ENV === 'development') console.log(`Client: Distance to ${region.name}: ${distance.toFixed(2)} km`);
+                logger.debug("deliveryProvider", `Distance to ${region.name}: ${distance.toFixed(2)} km`);
+                
                 if (distance < minDistance && region.ranges) {
                   const sortedRanges = [...region.ranges].sort((a, b) => a.range - b.range);
 
@@ -156,15 +162,16 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
           }
           // 4. Determine if the address is within range and find the applicable pricing tier
           if (closestRegion && applicableRange) {
-            if(process.env.NODE_ENV === 'development') console.log(`Client: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
-            if(process.env.NODE_ENV === 'development') console.log(`Client: Found applicable range: ${applicableRange?.range} km with delivery price ${(applicableRange?.deliveryPriceInCents / 100).toFixed(2)}€`);
+            logger.debug("deliveryProvider", `Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
+            logger.debug("deliveryProvider", `Found applicable range: ${applicableRange?.range} km with delivery price ${(applicableRange?.deliveryPriceInCents / 100).toFixed(2)}€`);
     
             if (applicableRange || closestRegion.isCountry) {
               // Address is within range - use the applicable range pricing or fall back to legacy pricing
               const deliveryPriceInCents = applicableRange?.deliveryPriceInCents || closestRegion.deliveryPriceInCents || 100000;
               const minOrderPriceInCents = applicableRange?.minOrderPriceInCents || closestRegion.minOrderPriceInCents || 100000;
       
-              if(process.env.NODE_ENV === 'development')  console.log(`Client: Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
+              logger.debug("deliveryProvider", `Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
+              
               setValidationResult({
                 isValid: true,
                 isInRange: true,
@@ -176,13 +183,14 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
                 validatedAddress: initialAddress,
               });
             } else {
-              if(process.env.NODE_ENV === 'development')  console.log(`Client: Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
+              logger.debug("deliveryProvider", `Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
+              
               setValidationResult({
                 isValid: true,
                 isInRange: false,
                 message: `Address is outside our delivery area. Nearest location is ${minDistance.toFixed(1)} km away.`,
                 validatedAddress: initialAddress,
-              })  ;
+              });
             }
           } else {
             setValidationResult({
@@ -193,7 +201,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
             });
           }
         } catch (error) {
-          console.error("Client: Error validating initial address:", error);
+          logger.error("deliveryProvider", "Error validating initial address:", { error });
           // Keep the default validation result if validation fails
         } finally {
           setIsValidating(false);
@@ -251,7 +259,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
           }
         }
       } catch (error) {
-        console.error('Error loading saved time:', error);
+        logger.error('deliveryProvider', 'Error loading saved time:', { error });
         // Clear selected date on error
         setSelectedDate(undefined);
       } finally {
@@ -304,7 +312,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
             timeout: 1000,
           });
         } catch (error) {
-          console.error('Error updating time:', error);
+          logger.error('deliveryProvider', 'Error updating time:', { error });
           addToast({
             description: "Error updating time",
             color: "danger",
@@ -329,7 +337,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     setIsValidating(true);
 
     try {
-      if(process.env.NODE_ENV === 'development')  console.log("Using server-side validation for address:", addressData.formattedAddress);
+      logger.debug("deliveryProvider", "Using server-side validation for address:", { address: addressData.formattedAddress });
       
       // Import the server action dynamically to prevent it from being included in the client bundle
       const { validateAndSaveAddress } = await import('@/lib/actions/delivery-address-actions');
@@ -370,7 +378,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
       
       // Check for save errors
       if (saveResult.error) {
-        console.error("Error saving address:", saveResult.error);
+        logger.error("deliveryProvider", "Error saving address:", { error: saveResult.error });
         addToast({ 
           description: `Error saving address: ${saveResult.error}`, 
           color: "danger" 
@@ -396,7 +404,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
       return validationResult.isValid; // Return validation status
       
     } catch (error) {
-      console.error("Error in handleAddressSubmit:", error);
+      logger.error("deliveryProvider", "Error in handleAddressSubmit:", { error });
       addToast({ 
         description: "An unexpected error occurred while validating the address.", 
         color: "danger" 

@@ -59,13 +59,6 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
             },
         });
 
-        useEffect(() => {
-            const validatedStore = StoreSettingsSchema.safeParse(form.getValues());
-            if (!validatedStore.success) {
-                console.log(validatedStore.error);
-            }
-        }, [form.getValues()]);
-
         // useActionState to call our updateStore action
         const [state, submitAction, isPending] = useActionState(
             async (previousState: any, formData: z.infer<typeof StoreSettingsSchema>) => {
