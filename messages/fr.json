@@ -361,7 +361,14 @@
     "locationPlaceholder": "Emplacement d'emplacement",
     "pickUpAt": "Ramasser",
     "scheduleOrderTime": "Planifier l'heure de la commande",
-    "selectPickUpTime": "Sélectionnez le temps de ramassage"
+    "selectPickUpTime": "Sélectionnez le temps de ramassage",
+    "MinLeadTime": "Délai de livraison",
+    "hour": "heure",
+    "hours": "heures",
+    "day": "jour",
+    "days": "jours",
+    "deliveryOptionsAlertTitle": "Livraison postale",
+    "deliveryOptionsAlertDescription": "{store} fournit votre commande via le service postal."
   },
   "app/(store)/components/store-top": {
     "addItem": "Ajouter un élément"
@@ -545,7 +552,7 @@
     "loadingPaymentGateway": "Chargement de la passerelle de paiement...",
     "unableToInitializePayment": "Impossible d'initialiser la passerelle de paiement",
     "returnToCheckout": "Retour à la caisse",
-    "saveDeliveryDetails": "Enregistrer les détails de ramassage",
+    "saveDeliveryDetails": "Enregistrer les détails de livraison",
     "invalidDeliveryAddress": "Adresse de livraison non valide",
     "deliveryFee": "Frais de livraison",
     "serviceFee": "Frais de service",
@@ -996,7 +1003,20 @@
     "startTime": "Heure de début",
     "startTimeError": "Erreur de début",
     "endTime": "Heure de fin",
-    "endTimeError": "Erreur de temps de fin"
+    "endTimeError": "Erreur de temps de fin",
+    "selectCountry": "Pays de sélection",
+    "selectCountryPlaceholder": "Sélectionner...",
+    "cityDelivery": "Ville",
+    "countryDelivery": "Pays",
+    "addCountry": "Ajouter le pays",
+    "countryDeliveryFor": "Livraison de pays pour",
+    "selectedCountries": "Pays sélectionnés",
+    "postDelivery": "Postal",
+    "toggleDeliveryType": "Livraison à bascule",
+    "ownDelivery": "Propre livraison",
+    "noCountriesSelected": "Aucun pays sélectionné",
+    "togglePostDelivery": "Basciller la livraison postale",
+    "postalDelivery": "Livraison postale"
   },
   "app/(store)/components/delivery-map": {},
   "app/(return_page)/settings/components/store-tabs-settings": {

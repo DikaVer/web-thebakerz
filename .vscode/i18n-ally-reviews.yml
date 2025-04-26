@@ -5397,6 +5397,7 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-04-18T22:08:07.959Z'
+            resolved: true
   app/(store)/components/checkout.savePickUpDetails:
     locales:
       nl:

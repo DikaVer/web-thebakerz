@@ -2,27 +2,21 @@
 
 import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';
 import { CalendarDateTime, CalendarDate } from "@internationalized/date";
-import { setDeliveryMode, getDeliveryMode } from '@/lib/delivery-cookie';
+import { setDeliveryMode} from '@/lib/delivery-cookie';
 import { addToast } from "@heroui/react";
 import { useStore } from '@/components/providers/store-provider';
 import { updateOrderTime, getOrderTime, updateDeliveryTime, getDeliveryTime } from '@/app/(store)/[id]/actions';
-import { DeliveryAddress as DbDeliveryAddress } from '@/app/(store)/[id]/delivery-actions';
+import { DeliveryAddress as DbDeliveryAddress, DeliveryAddress, DeliveryAddressRaw } from '@/app/(store)/[id]/delivery-actions';
 import { parseDateParams, parseDateTime } from "@/components/store/store-header/calendar/calendar-params";
-import { MerchantDeliveryRegion } from '@/lib/actions/delivery-actions';
-import { WorkHours } from "@/lib/actions/calendar-actions";
+import { MerchantDeliveryRegion, DeliveryRange } from '@/lib/actions/delivery-actions';
 import { haversineDistance } from '@/lib/utils';
-
-// Define interfaces for our context
-export type AddressFormType = Omit<DbDeliveryAddress, 'id' | 'storeId' | 'userId' | 'createdAt'>;
 
 export interface ValidationResult {
     isValid: boolean;
     isInRange: boolean;
     message: string;
-    formattedAddress?: string;
-    coordinates?: { lat: number; lng: number };
     deliveryRegion?: MerchantDeliveryRegion;
-    validatedAddress?: AddressFormType;
+    validatedAddress?: DeliveryAddressRaw;
 }
 
 interface DeliveryContextProps {
@@ -38,12 +32,13 @@ interface DeliveryContextProps {
     isLoadingDate: boolean;
     isDateUpdating: boolean;
     handleDateChange: (newDate: CalendarDateTime | CalendarDate) => Promise<void>;
+    setSelectedDate: (newDate: CalendarDateTime | CalendarDate | undefined) => void;
     
     // Address management
-    address: AddressFormType;
+    address: DeliveryAddressRaw | null;
     isAddressLoading: boolean;
     showDeliveryInfo: boolean;
-    handleAddressSubmit: (addressData: AddressFormType) => Promise<boolean>;
+    handleAddressSubmit: (addressData: DeliveryAddressRaw) => Promise<boolean>;
     modalSubmissionStatus: 'idle' | 'validating' | 'saving' | 'success' | 'error';
     resetModalStatus: (open: boolean) => void;
     
@@ -69,7 +64,7 @@ const DeliveryContext = createContext<DeliveryContextProps | undefined>(undefine
 interface DeliveryProviderProps {
   children: ReactNode;
   initialDeliveryMode: boolean;
-  initialAddress: DbDeliveryAddress | null;
+  initialAddress: DeliveryAddress | null;
   isStore?: boolean;
 }
 
@@ -89,27 +84,8 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   const [isLoadingDate, setIsLoadingDate] = useState(true);
   const [isDateUpdating, setIsDateUpdating] = useState(false);
   
-  // Process initial address from server if provided
-  const formattedInitialAddress = initialAddress ? {
-    formattedAddress: initialAddress.formattedAddress,
-    street: initialAddress.street,
-    houseNumber: initialAddress.houseNumber,
-    city: initialAddress.city,
-    zipCode: initialAddress.zipCode,
-    additionalInfo: initialAddress.additionalInfo || "",
-    coordinates: initialAddress.coordinates,
-  } : {
-    formattedAddress: "",
-    street: "",
-    houseNumber: "",
-    city: "",
-    zipCode: "",
-    additionalInfo: "",
-    coordinates: undefined
-  };
-  
   // Address state
-  const [address, setAddress] = useState<AddressFormType>(formattedInitialAddress);
+  const [address, setAddress] = useState<DeliveryAddressRaw | null>(initialAddress);
   const [isAddressLoading, setIsAddressLoading] = useState(!initialAddress);
   const [showDeliveryInfo, setShowDeliveryInfo] = useState(!!initialAddress?.coordinates);
   const [modalSubmissionStatus, setModalSubmissionStatus] = useState<'idle' | 'validating' | 'saving' | 'success' | 'error'>('idle');
@@ -125,9 +101,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     message: initialAddress?.coordinates 
       ? "Delivery address loaded from your saved profile." 
       : "Please enter your delivery address.",
-    formattedAddress: initialAddress?.formattedAddress,
-    coordinates: initialAddress?.coordinates,
-    validatedAddress: initialAddress ? formattedInitialAddress : undefined
+    validatedAddress: initialAddress ? initialAddress : undefined
   });
   
   // Validate initial address when component mounts
@@ -141,46 +115,54 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
           if(process.env.NODE_ENV === 'development')  console.log("Client: Calculating distances to", store.deliveryRegions.length, "regions");
           let closestRegion: MerchantDeliveryRegion | null = null;
           let minDistance = Infinity;
-          
+          let applicableRange: DeliveryRange | null = null;
+          let minPrice = Infinity;
+        
           for (const region of store.deliveryRegions) {
-            if (region.coordinates) {
-              const distance = haversineDistance(initialAddress.coordinates, region.coordinates);
-              if(process.env.NODE_ENV === 'development')  console.log(`Client: Distance to ${region.name}: ${distance.toFixed(2)} km`);
-              if (distance < minDistance) {
-                minDistance = distance;
+            if(process.env.NODE_ENV === 'development') console.log(`Client: Checking region: ${region.name}`);
+            // Check for country-wide delivery first
+            if (region.isCountry && initialAddress.country && 
+                region.minOrderPriceInCents && region.deliveryPriceInCents &&
+                minPrice > region.minOrderPriceInCents &&
+                region.name.toLowerCase() === initialAddress.country.toLowerCase()) {
+
+                if(process.env.NODE_ENV === 'development') console.log(`Client: Found country-wide delivery region: ${region.name}`);
                 closestRegion = region;
-              }
+                minPrice = region.minOrderPriceInCents;
+                applicableRange = {
+                  range: 0,
+                  deliveryPriceInCents: region.deliveryPriceInCents,
+                  minOrderPriceInCents: region.minOrderPriceInCents
+                };
             } else {
-              console.warn(`Client: Delivery region '${region.name}' is missing coordinates.`);
-            }
-          }
-          // 4. Determine if the address is within range and find the applicable pricing tier
-          if (closestRegion) {
-            if(process.env.NODE_ENV === 'development') console.log(`Client: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
-    
-            // First check if we have multi-range pricing (new format)
-            let applicableRange = null;
-      
-            if (closestRegion.ranges && Array.isArray(closestRegion.ranges) && closestRegion.ranges.length > 0) {
-              // Sort ranges by distance (ascending)
-              const sortedRanges = [...closestRegion.ranges].sort((a, b) => a.range - b.range);
-              if(process.env.NODE_ENV === 'development')  console.log(`Client: Region has ${sortedRanges.length} delivery ranges`);
-              
-              // Find the applicable range based on the distance
-              for (const range of sortedRanges) {
-                if (minDistance <= range.range) {
-                  applicableRange = range;
-                  if(process.env.NODE_ENV === 'development') console.log(`Client: Found applicable range: ${range.range} km with delivery price ${range.deliveryPriceInCents / 100}€`);
-                  break;
+              // Check for city/region based delivery
+              if (region.coordinates && initialAddress.coordinates) {
+                const distance = haversineDistance(initialAddress.coordinates, region.coordinates);
+                if(process.env.NODE_ENV === 'development') console.log(`Client: Distance to ${region.name}: ${distance.toFixed(2)} km`);
+                if (distance < minDistance && region.ranges) {
+                  const sortedRanges = [...region.ranges].sort((a, b) => a.range - b.range);
+
+                  for (const range of sortedRanges) {
+                    if (range.minOrderPriceInCents <= minPrice && minDistance <= range.range) {
+                      minPrice = range.minOrderPriceInCents;
+                      closestRegion = region;
+                      minDistance = distance;
+                      applicableRange = range;
+                    }
+                  }
                 }
               }
             }
-      
-            if (applicableRange) {
+          }
+          // 4. Determine if the address is within range and find the applicable pricing tier
+          if (closestRegion && applicableRange) {
+            if(process.env.NODE_ENV === 'development') console.log(`Client: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
+            if(process.env.NODE_ENV === 'development') console.log(`Client: Found applicable range: ${applicableRange?.range} km with delivery price ${(applicableRange?.deliveryPriceInCents / 100).toFixed(2)}€`);
+    
+            if (applicableRange || closestRegion.isCountry) {
               // Address is within range - use the applicable range pricing or fall back to legacy pricing
-              const deliveryPriceInCents = applicableRange.deliveryPriceInCents;
-              
-              const minOrderPriceInCents = applicableRange.minOrderPriceInCents;
+              const deliveryPriceInCents = applicableRange?.deliveryPriceInCents || closestRegion.deliveryPriceInCents || 100000;
+              const minOrderPriceInCents = applicableRange?.minOrderPriceInCents || closestRegion.minOrderPriceInCents || 100000;
       
               if(process.env.NODE_ENV === 'development')  console.log(`Client: Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
               setValidationResult({
@@ -191,9 +173,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
                   ...closestRegion,
                   ranges: [applicableRange]
                 },
-                formattedAddress: initialAddress?.formattedAddress || "",
-                coordinates: initialAddress?.coordinates,
-                validatedAddress: { ...address, coordinates: initialAddress?.coordinates },
+                validatedAddress: initialAddress,
               });
             } else {
               if(process.env.NODE_ENV === 'development')  console.log(`Client: Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
@@ -201,9 +181,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
                 isValid: true,
                 isInRange: false,
                 message: `Address is outside our delivery area. Nearest location is ${minDistance.toFixed(1)} km away.`,
-                formattedAddress: initialAddress?.formattedAddress || "",
-                coordinates: initialAddress?.coordinates,
-                validatedAddress: { ...address, coordinates: initialAddress?.coordinates },
+                validatedAddress: initialAddress,
               })  ;
             }
           } else {
@@ -211,8 +189,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
               isValid: false,
               isInRange: false,
               message: "No delivery regions found for this store.",
-              formattedAddress: initialAddress?.formattedAddress || "",
-              coordinates: initialAddress?.coordinates,
+              validatedAddress: initialAddress,
             });
           }
         } catch (error) {
@@ -344,7 +321,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
 
   // Function to save delivery address (UPDATED IMPLEMENTATION USING SERVER-SIDE VALIDATION)
   const handleAddressSubmit = async (
-      addressData: AddressFormType
+      addressData: DeliveryAddressRaw
   ): Promise<boolean> => {
     if (!store) return false;
 
@@ -470,7 +447,8 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
         isLoadingDate,
         isDateUpdating,
         handleDateChange,
-        
+        setSelectedDate,
+
         // Address management
         address,
         isAddressLoading,

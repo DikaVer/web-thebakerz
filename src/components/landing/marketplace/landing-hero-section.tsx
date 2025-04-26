@@ -144,9 +144,13 @@ export const LandingHeroSection = () => {
       
       // Extract city from address components
       let city: string | undefined;
+      let country: string | undefined;
       geocodeResults.results[0].address_components.forEach((component) => {
         if (component.types.includes('locality')) {
           city = component.long_name;
+        }
+        if (component.types.includes('country')) {
+          country = component.short_name;
         }
       });
       
@@ -165,6 +169,7 @@ export const LandingHeroSection = () => {
       searchParams.append('lat', coordinates.lat.toString());
       searchParams.append('lng', coordinates.lng.toString());
       if (city) searchParams.append('city', city);
+      if (country) searchParams.append('country', country);
       
       router.push(`/search?${searchParams.toString()}`);
     } catch (error: any) {

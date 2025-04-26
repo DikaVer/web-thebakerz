@@ -5,7 +5,6 @@ import { decodeIdToken, type OAuth2Tokens } from "arctic";
 import {globalGETRateLimit} from "@/lib/actions/requests";
 import {createSession, generateSessionToken, setSessionTokenCookie} from "@/lib/actions/session";
 import {createUserGoogle, getUserFromEmail, getUserFromGoogleId} from "@/lib/actions/user";
-import {replace} from "lodash";
 import {replaceGuestCart} from "@/lib/actions/cart";
 import {getTranslations} from "next-intl/server";
 import { logger } from "@/lib/logger";

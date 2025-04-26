@@ -11,6 +11,7 @@ import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 import {useTranslations} from "next-intl";
 import {getTranslations} from "next-intl/server";
 import { examppleStore } from "@/lib/local-variables";
+import Script from "next/script";
 
 interface StorePageProps {
     params: Promise<{
@@ -34,32 +35,38 @@ export default async function Page(props: StorePageProps) {
         return <NotFound />;
     }
 
-    // The store data is now fetched in the layout
-    // We don't need to fetch it again or set up providers
-
     return (
-        <div className="flex flex-col min-h-screen relative z-10 items-center">
-            <div className="flex flex-col container mx-auto items-center justify-center">
-                <Spacer y={8}/>
-                <StoreTop />
-                {examppleStore.includes(storeData.id) && (
-                    <>
-                        <Spacer y={4}/>
-                        <div className="w-full flex flex-col items-start justify-start">
-                            <div className="w-full max-w-4xl bg-amber-100 border-l-4 border-amber-500 text-amber-700 p-4 rounded-md shadow-sm">
-                                <p className="font-medium">{t("example-store")}</p>
+        <>
+            <Script
+                id="google-maps-script"
+                strategy="afterInteractive"
+                src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+                async
+                defer
+            />
+            <div className="flex flex-col min-h-screen relative z-10 items-center">
+                <div className="flex flex-col container mx-auto items-center justify-center">
+                    <Spacer y={8}/>
+                    <StoreTop />
+                    {examppleStore.includes(storeData.id) && (
+                        <>
+                            <Spacer y={4}/>
+                            <div className="w-full flex flex-col items-start justify-start">
+                                <div className="w-full max-w-4xl bg-amber-100 border-l-4 border-amber-500 text-amber-700 p-4 rounded-md shadow-sm">
+                                    <p className="font-medium">{t("example-store")}</p>
+                                </div>
                             </div>
-                        </div>
-                    </>
-                )}
-                <Spacer y={4}/>
-                
-                <Suspense fallback={<ProductListSkeleton />}>
-                    <ProductComponentBase storeId={storeData.id} />
-                </Suspense>
+                        </>
+                    )}
+                    <Spacer y={4}/>
+                    
+                    <Suspense fallback={<ProductListSkeleton />}>
+                        <ProductComponentBase storeId={storeData.id} />
+                    </Suspense>
+                </div>
+                <Spacer y={16}/>
+                <FooterStore/>
             </div>
-            <Spacer y={16}/>
-            <FooterStore/>
-        </div>
+        </>
     );
 }

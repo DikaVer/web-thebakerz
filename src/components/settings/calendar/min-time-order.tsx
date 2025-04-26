@@ -33,7 +33,7 @@ export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
     const timeOptions = useMemo(() => {
         const options = [];
         const minutesInDay = 24 * 60;
-        const maxMinutes = 2 * minutesInDay; // 2 days
+        const maxMinutes = 7 * minutesInDay; // 7 days
 
         for (let minutes = 30; minutes <= maxMinutes; minutes += 30) {
             let label;

@@ -118,10 +118,10 @@ export const nameSchema = z
     .string()
     .min(4, "Minimum of 4 characters for name")
     .max(120, "Maximum of 120 characters for name")
-    // Allows letters, numbers, periods, underscores, hyphens, brackets, and at most 2 spaces, not starting with space
+    // Allows letters, numbers, periods, underscores, hyphens, brackets, and any number of spaces
     .regex(
-        /^[a-zA-Z0-9._\-&\[\]()'"‘]+( [a-zA-Z0-9._\-&\[\]()'"‘]*){0,2}$/,
-        "Name can only contain letters, numbers, periods, underscores, hyphens, brackets, with a maximum of two spaces and cannot start with a space"
+        /^[a-zA-Z0-9._\-&\[\]()'"‘\s]+$/,
+        "Name can only contain letters, numbers, periods, underscores, hyphens, brackets, and spaces"
     )
     .regex(
         /^(?!.*\.\.)(?!.*\.\.\.)(?!.*\.\.\.\.)(?!.*\.\.\.\.\.)(?!.*\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)/,

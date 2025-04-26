@@ -33,7 +33,7 @@ export const ProductItems: React.FC<ProductItemsProps> = ({ category, productsDa
                     key={consId}
                     className={'border-b border-default-200 hover:bg-default-100 grid grid-cols-6 p-2 py-4 gap-x-4 w-full'}
                     onClick={() => {
-                        handleOpenWithProduct(product, store?.user_id === session?.user?.id);
+                        handleOpenWithProduct(product, false);
                     }}
                     aria-label={"add-product"}
                 >

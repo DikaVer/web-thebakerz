@@ -1,29 +1,37 @@
 'use server';
 
-import { AddressFormType, ValidationResult } from '@/components/providers/delivery-provider';
-import { MerchantDeliveryRegion } from '@/lib/actions/delivery-actions';
-import { containerDeliveryLocations, containerDeliveryRegions } from '@/db';
-import { updateDeliveryAddress as dbUpdateDeliveryAddress } from '@/app/(store)/[id]/delivery-actions';
+import { ValidationResult } from '@/components/providers/delivery-provider';
+import { MerchantDeliveryRegion, getMerchantDeliveryRegions, DeliveryRange } from '@/lib/actions/delivery-actions';
+import { updateDeliveryAddress as dbUpdateDeliveryAddress, DeliveryAddress, DeliveryAddressRaw } from '@/app/(store)/[id]/delivery-actions';
 import { haversineDistance } from '@/lib/utils';
 /**
  * Validates an address on the server side
  * Performs both address validation and distance calculation
  */
 export async function validateAddress(
-  addressData: AddressFormType,
+  addressData: DeliveryAddressRaw,
   storeId: string
 ): Promise<ValidationResult> {
   console.log("Server: Validating address...", addressData.formattedAddress);
   
   try {
-    // 1. Ensure we have coordinates
+    // 1. Validate required fields
+    if (!addressData.street || !addressData.houseNumber || !addressData.city || !addressData.zipCode) {
+      return {
+        isValid: false,
+        isInRange: false,
+        message: "Please fill in all required address fields.",
+        validatedAddress: addressData
+      };
+    }
+
+    // 2. Ensure we have coordinates
     let coords = addressData.coordinates;
     
     // Geocode if coordinates are missing
     if (!coords && addressData.formattedAddress) {
       try {
         console.log("Server: Geocoding address:", addressData.formattedAddress);
-        // Use Google Maps Geocoding API on the server
         const geocodingResponse = await fetch(
           `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
             addressData.formattedAddress
@@ -40,7 +48,8 @@ export async function validateAddress(
           return {
             isValid: false,
             isInRange: false,
-            message: "Could not geocode address. Please check the details."
+            message: "Could not verify address location. Please check the details.",
+            validatedAddress: addressData
           };
         }
       } catch (error) {
@@ -48,85 +57,76 @@ export async function validateAddress(
         return {
           isValid: false,
           isInRange: false,
-          message: "Failed to verify address location."
+          message: "Failed to verify address location.",
+          validatedAddress: addressData
         };
       }
-    } else if (!coords) {
-      return {
-        isValid: false,
-        isInRange: false,
-        message: "Address is incomplete, missing coordinates."
-      };
     }
     
-    // 2. Get delivery regions for the store
+    // 3. Get delivery regions for the store
     console.log("Server: Fetching delivery regions for store:", storeId);
-    // Query the delivery regions from the database
-    const querySpec = {
-      query: "SELECT * FROM c WHERE c.storeId = @storeId",
-      parameters: [{ name: "@storeId", value: storeId }]
-    };
-
-    const { resources: deliveryRegions } = await containerDeliveryRegions.items
-      .query(querySpec)
-      .fetchAll();
-    
+    const deliveryRegions = await getMerchantDeliveryRegions(storeId);
     if (!deliveryRegions || deliveryRegions.length === 0) {
       return { 
         isValid: true, 
         isInRange: false, 
         message: "No delivery regions defined by the merchant.", 
         validatedAddress: addressData, 
-        coordinates: coords, 
-        formattedAddress: addressData.formattedAddress 
       };
     }
     
-    // 3. Calculate distances and find the closest region
+    // 4. Calculate distances and find the closest region
     console.log("Server: Calculating distances to", deliveryRegions.length, "regions");
     let closestRegion: MerchantDeliveryRegion | null = null;
+    let applicableRange: DeliveryRange | null = null;
     let minDistance = Infinity;
+    let minPrice = Infinity;
     
     for (const region of deliveryRegions) {
-      if (region.coordinates) {
-        const distance = haversineDistance(coords, region.coordinates);
-        console.log(`Server: Distance to ${region.name}: ${distance.toFixed(2)} km`);
-        if (distance < minDistance) {
-          minDistance = distance;
+      if(process.env.NODE_ENV === 'development') console.log(`Server: Checking region: ${region.name}`);
+      // Check for country-wide delivery first
+      if (region.isCountry && addressData.country && 
+          region.minOrderPriceInCents && region.deliveryPriceInCents && 
+          minPrice > region.minOrderPriceInCents && 
+          region.name.toLowerCase() === addressData.country.toLowerCase()) {
+
+          if(process.env.NODE_ENV === 'development') console.log(`Server: Found country-wide delivery region: ${region.name}`);
           closestRegion = region;
-        }
-      } else {
-        console.warn(`Server: Delivery region '${region.name}' is missing coordinates.`);
-      }
-    }
-    
-    // 4. Determine if the address is within range and find the applicable pricing tier
-    if (closestRegion) {
-      console.log(`Server: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
-      
-      // First check if we have multi-range pricing 
-      let applicableRange = null;
-      
-      if (closestRegion.ranges && Array.isArray(closestRegion.ranges) && closestRegion.ranges.length > 0) {
-        // Sort ranges by distance (ascending)
-        const sortedRanges = [...closestRegion.ranges].sort((a, b) => a.range - b.range);
-        console.log(`Server: Region has ${sortedRanges.length} delivery ranges`);
-        
-        // Find the applicable range based on the distance
-        for (const range of sortedRanges) {
-          if (minDistance <= range.range) {
-            applicableRange = range;
-            console.log(`Server: Found applicable range: ${range.range} km with delivery price ${range.deliveryPriceInCents / 100}€`);
-            break;
+          minPrice = region.minOrderPriceInCents;
+          applicableRange = {
+            range: 0,
+            deliveryPriceInCents: region.deliveryPriceInCents,
+            minOrderPriceInCents: region.minOrderPriceInCents
+          };
+      } else  {
+        // Check for city/region based delivery
+        if (region.coordinates && coords) {
+          const distance = haversineDistance(coords, region.coordinates);
+          console.log(`Server: Distance to ${region.name}: ${distance.toFixed(2)} km`);
+          if (distance < minDistance && region.ranges) {
+            const sortedRanges = [...region.ranges].sort((a, b) => a.range - b.range);
+
+            for (const range of sortedRanges) {
+              if (range.minOrderPriceInCents <= minPrice && minDistance <= range.range) {
+                minPrice = range.minOrderPriceInCents;
+                closestRegion = region;
+                minDistance = distance;
+                applicableRange = range;
+              }
+            }
           }
         }
       }
+    }
+    
+    // 5. Determine if the address is within range and find the applicable pricing tier
+    if (closestRegion && applicableRange) {
+      console.log(`Server: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
+      console.log(`Server: Found applicable range: ${applicableRange?.range} km with delivery price ${(applicableRange?.deliveryPriceInCents / 100).toFixed(2)}€`);
 
-      if (applicableRange) {
-        // Address is within range - use the applicable range pricing or fall back to legacy pricing
-        const deliveryPriceInCents = applicableRange.deliveryPriceInCents;
-        
-        const minOrderPriceInCents = applicableRange.minOrderPriceInCents;
+      if (applicableRange || closestRegion.isCountry) {
+        const deliveryPriceInCents = applicableRange?.deliveryPriceInCents || closestRegion.deliveryPriceInCents || 100000;
+        const minOrderPriceInCents = applicableRange?.minOrderPriceInCents || closestRegion.minOrderPriceInCents || 100000;
 
         console.log(`Server: Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
         return {
@@ -137,8 +137,6 @@ export async function validateAddress(
             ...closestRegion,
             ranges: [applicableRange]
           },
-          formattedAddress: addressData.formattedAddress,
-          coordinates: coords,
           validatedAddress: { ...addressData, coordinates: coords },
         };
       } else {
@@ -147,19 +145,14 @@ export async function validateAddress(
           isValid: true,
           isInRange: false,
           message: `Address is outside our delivery area. Nearest location is ${minDistance.toFixed(1)} km away.`,
-          formattedAddress: addressData.formattedAddress,
-          coordinates: coords,
           validatedAddress: { ...addressData, coordinates: coords },
         };
       }
     } else {
-      // Should not happen if deliveryRegions is not empty, but handle defensively
       return { 
         isValid: true, 
         isInRange: false, 
         message: "Could not determine delivery eligibility.", 
-        formattedAddress: addressData.formattedAddress, 
-        coordinates: coords, 
         validatedAddress: { ...addressData, coordinates: coords }
       };
     }
@@ -168,7 +161,8 @@ export async function validateAddress(
     return {
       isValid: false,
       isInRange: false,
-      message: "An unexpected error occurred while validating the address."
+      message: "An unexpected error occurred while validating the address.",
+      validatedAddress: addressData
     };
   }
 }
@@ -178,7 +172,7 @@ export async function validateAddress(
  */
 export async function saveDeliveryAddress(
   storeId: string,
-  address: AddressFormType
+  address: Omit<DeliveryAddress, 'id' | 'storeId' | 'userId' | 'createdAt' | 'type'>
 ): Promise<{ success?: string; error?: string }> {
   try {
     // Use the existing updateDeliveryAddress implementation
@@ -197,7 +191,7 @@ export async function saveDeliveryAddress(
  */
 export async function validateAndSaveAddress(
   storeId: string,
-  addressData: AddressFormType
+  addressData: DeliveryAddressRaw
 ): Promise<{
   validationResult: ValidationResult;
   saveResult: { success?: string; error?: string };
@@ -211,7 +205,12 @@ export async function validateAndSaveAddress(
   let saveResult: { success?: string; error?: string } = {};
   
   if (validationResult.isValid && validationResult.validatedAddress && validationResult.isInRange) {
-    saveResult = await saveDeliveryAddress(storeId, validationResult.validatedAddress);
+
+    const deliveryAddress: DeliveryAddressRaw = {
+      ...validationResult.validatedAddress,
+    }
+
+    saveResult = await saveDeliveryAddress(storeId, deliveryAddress);
   } else {
     saveResult = { error: "Address validation failed" };
   }

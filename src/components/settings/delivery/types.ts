@@ -10,14 +10,21 @@ export interface DeliveryCity {
   name: string;
   ranges: DeliveryRange[];
   coordinates: { lat: number, lng: number };
-  deliverySchedule?: WorkHours;
+  deliverySchedule: WorkHours;
   isStoreDelivery: boolean;
+  isPostDelivery: boolean;
   minOrderTime: number; // minimum order time in minutes
-  
-  // Kept for backward compatibility
-  range?: number; 
-  priceInCents?: number;
-  minOrderPriceInCents?: number;
+
+}
+
+export interface CountryDelivery {
+  countryCode: string;
+  deliveryPriceInCents: number;
+  minOrderPriceInCents: number;
+  deliverySchedule: WorkHours;
+  isStoreDelivery: boolean; // Whether delivery is handled by the store/merchant (true) or the platform (false)
+  isPostDelivery: boolean; // Whether delivery is handled by postal service (true) or own delivery (false)
+  minOrderTime: number; // minimum order time in minutes
 }
 
 export interface MapElement {

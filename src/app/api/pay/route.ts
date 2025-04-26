@@ -5,11 +5,10 @@ import { globalPOSTRateLimit } from "@/lib/actions/requests";
 import { creatAccountAction } from "@/lib/actions/user";
 import { removeCartByUserIdAndStoreId } from "@/lib/actions/cart";
 import { connectionPool, containerOrders, containerOrdersUnpaid, containerTransfers } from "@/db";
-import {ExtendedOrderRaw, OrderData, OrderProducts} from "@/lib/actions/order";
+import {ExtendedOrderRaw, OrderData} from "@/lib/actions/order";
 import { sendOrderPlaced } from "@/lib/emailSendRequest";
 import { revalidateTag } from "next/cache";
 import { getTranslations } from "next-intl/server";
-import { AddressFormType } from "@/components/providers/delivery-provider";
 import { logger } from "@/lib/logger";
 import { getRequestContext } from "@/lib/request-context";
 
@@ -399,7 +398,9 @@ export async function GET(req: NextRequest) {
             // Delivery information
             isDelivery: orderRaw.isDelivery,
             isStoreDelivery: orderRaw.isStoreDelivery,
-            deliveryAddress: orderRaw.deliveryToAddress
+            isPostDelivery: orderRaw.isPostDelivery,
+            isCountryDelivery: orderRaw.isCountryDelivery,
+            deliveryAddress: orderRaw.deliveryToAddress 
         };
 
         log.debug('paymentCallback', 'Storing final order and cleaning up', {

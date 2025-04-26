@@ -1,20 +1,19 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo} from "react";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ScrollShadow, Select, SelectItem, Spacer } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { Time } from '@internationalized/date';
 import DayDeliveryTime from "./DayDeliveryTime";
-import {WorkDay, WorkHours} from "@/lib/actions/calendar-actions";
-import { Icon } from "@iconify/react";
-import { DeliveryCity as DeliveryCityType, DeliveryRange } from "./types";
+import {WorkHours} from "@/lib/actions/calendar-actions";
 
 interface DeliveryScheduleModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: () => void;
-  city: DeliveryCityType | null;
+  name: string;
   deliverySchedule: WorkHours;
+  minOrderTimeParam: number;
   setDeliveryTime: (
     day: string,
     data: { isEnabled: boolean; startTime: Time | null; endTime: Time | null }
@@ -27,7 +26,8 @@ const DeliveryScheduleModal: React.FC<DeliveryScheduleModalProps> = ({
   isOpen,
   onClose,
   onSave,
-  city,
+  name,
+  minOrderTimeParam,
   deliverySchedule,
   setDeliveryTime,
   saving,
@@ -36,13 +36,13 @@ const DeliveryScheduleModal: React.FC<DeliveryScheduleModalProps> = ({
   const minTimeT = useTranslations("app/(return_page)/settings/components/calendar/min-time-order");
   const t = useTranslations("app/(return_page)/settings/components/delivery-settings");
   const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-  const [minOrderTime, setMinOrderTime] = useState<string>(city?.minOrderTime?.toString() || "1440");
+  const [minOrderTime, setMinOrderTime] = useState<string>(minOrderTimeParam.toString());
 
 
   const timeOptions = useMemo(() => {
     const options = [];
     const minutesInDay = 24 * 60;
-    const maxMinutes = 2 * minutesInDay; // 2 days
+    const maxMinutes = 7 * minutesInDay; // 7 days
 
     for (let minutes = 30; minutes <= maxMinutes; minutes += 30) {
       let label;
@@ -80,7 +80,7 @@ const DeliveryScheduleModal: React.FC<DeliveryScheduleModalProps> = ({
       backdrop="blur"
     >
       <ModalContent>
-        <ModalHeader>{t("manageDeliverySchedule")} - {city?.name}</ModalHeader>
+        <ModalHeader>{t("manageDeliverySchedule")} - {name}</ModalHeader>
         <ModalBody>
           <ScrollShadow 
             className="max-h-[60vh] overflow-y-auto" 

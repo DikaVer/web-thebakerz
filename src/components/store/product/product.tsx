@@ -174,8 +174,8 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                         )}
                         <div className="flex justify-between items-center w-full">
                             <div className="flex items-center gap-1">
-                                <span className="text-yellow-500">★★★★☆</span>
-                                <span className="text-xs text-default-600">4.0</span>
+                                {/* <span className="text-yellow-500">★★★★☆</span>
+                                <span className="text-xs text-default-600">4.0</span> */}
                             </div>
                             <p className={`text-base sm:text-lg font-semibold`}>
                                 {formatCurrency(productData.price)}

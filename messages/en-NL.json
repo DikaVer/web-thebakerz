@@ -211,7 +211,20 @@
     "startTime": "Start Time",
     "startTimeError": "Start Time Error",
     "endTime": "End Time",
-    "endTimeError": "End Time Error"
+    "endTimeError": "End Time Error",
+    "selectCountry": "Select Country",
+    "selectCountryPlaceholder": "Select...",
+    "cityDelivery": "City",
+    "countryDelivery": "Country",
+    "addCountry": "Add Country",
+    "countryDeliveryFor": "Country Delivery for",
+    "selectedCountries": "Selected Countries",
+    "postDelivery": "Postal",
+    "toggleDeliveryType": "Toggle Delivery",
+    "ownDelivery": "Own Delivery",
+    "noCountriesSelected": "No Country Selected",
+    "togglePostDelivery": "Toggle Postal Delivery",
+    "postalDelivery": "Postal Delivery"
   },
   "app/(store)/id/page": {
     "noProducts": "No products available"
@@ -381,7 +394,14 @@
     "pickUp": "Pick Up",
     "searchAddress": "Search Address",
     "typeToSearchAddress": "Type to search address",
-    "editDeliveryAddress": "Edit Delivery Address"
+    "editDeliveryAddress": "Edit Delivery Address",
+    "MinLeadTime": "Min Lead Time",
+    "hour": "hour",
+    "hours": "hours",
+    "day": "day",
+    "days": "days",
+    "deliveryOptionsAlertTitle": "Postal Delivery",
+    "deliveryOptionsAlertDescription": "{store} delivers your order via the postal service."
   },
   "app/(store)/components/store-top": {
     "addItem": "Add Item"
@@ -574,7 +594,7 @@
     "loadingPaymentGateway": "Loading payment gateway...",
     "unableToInitializePayment": "Unable to initialize payment gateway",
     "returnToCheckout": "Return to Checkout",
-    "saveDeliveryDetails": "Save Pick Up Details",
+    "saveDeliveryDetails": "Save Delivery Details",
     "invalidDeliveryAddress": "Invalid Delivery Address",
     "deliveryFee": "Delivery Fee",
     "serviceFee": "Service Fee",

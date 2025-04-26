@@ -361,7 +361,14 @@
     "locationPlaceholder": "Locatie Placeholder",
     "pickUpAt": "Ophalen",
     "scheduleOrderTime": "Plan de besteltijd",
-    "selectPickUpTime": "Selecteer Pick-up tijd"
+    "selectPickUpTime": "Selecteer Pick-up tijd",
+    "MinLeadTime": "Min doorlooptijd",
+    "hour": "uur",
+    "hours": "uren",
+    "day": "dag",
+    "days": "dagen",
+    "deliveryOptionsAlertTitle": "Postlevering",
+    "deliveryOptionsAlertDescription": "{store} levert uw bestelling via de postservice."
   },
   "app/(store)/components/store-top": {
     "addItem": "Item toevoegen"
@@ -545,7 +552,7 @@
     "loadingPaymentGateway": "Betalingsgateway wordt geladen...",
     "unableToInitializePayment": "Kan betalingsgateway niet initialiseren",
     "returnToCheckout": "Terug naar afrekenen",
-    "saveDeliveryDetails": "Bewaar pick-up details",
+    "saveDeliveryDetails": "Bewaar leveringsgegevens",
     "invalidDeliveryAddress": "Ongeldig afleveradres",
     "deliveryFee": "Bezorgkosten",
     "serviceFee": "Servicekosten",
@@ -996,7 +1003,20 @@
     "startTime": "Starttijd",
     "startTimeError": "Starttijd fout",
     "endTime": "Eindtijd",
-    "endTimeError": "Eindtijd fout"
+    "endTimeError": "Eindtijd fout",
+    "selectCountry": "Selecteer land",
+    "selectCountryPlaceholder": "Selecteer ...",
+    "cityDelivery": "Stad",
+    "countryDelivery": "Land",
+    "addCountry": "Voeg land toe",
+    "countryDeliveryFor": "Landen levering voor",
+    "selectedCountries": "Geselecteerde landen",
+    "postDelivery": "Post",
+    "toggleDeliveryType": "Schakelafgifte",
+    "ownDelivery": "Eigen levering",
+    "noCountriesSelected": "Geen land geselecteerd",
+    "togglePostDelivery": "Schakel postafgifte in",
+    "postalDelivery": "Postlevering"
   },
   "app/(store)/components/delivery-map": {},
   "app/(return_page)/settings/components/store-tabs-settings": {

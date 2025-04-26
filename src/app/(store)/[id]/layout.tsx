@@ -175,11 +175,6 @@ async function setupStoreProviders({
             cart={cartData}
             storeId={storeData.id}
         >
-            <ProductDialogProvider
-                storeId={storeData.id}
-                storeOwnerId={storeData.user_id}
-                storeName={storeData?.storeName}
-            >
                 <StoreProvider
                     store={storeData}
                 >
@@ -187,15 +182,20 @@ async function setupStoreProviders({
                         initialDeliveryMode={initialDeliveryMode}
                         initialAddress={savedAddress}
                     >
-                        <LayoutComp
-                            store={storeData}
-                            {...layoutOptions}
+                        <ProductDialogProvider
+                            storeId={storeData.id}
+                            storeOwnerId={storeData.user_id}
+                            storeName={storeData?.storeName}
                         >
-                            {children}
-                        </LayoutComp>
+                            <LayoutComp
+                                store={storeData}
+                                {...layoutOptions}
+                            >
+                                {children}
+                            </LayoutComp>
+                        </ProductDialogProvider>
                     </DeliveryProvider>
                 </StoreProvider>
-            </ProductDialogProvider>
         </CartProvider>
     );
 }

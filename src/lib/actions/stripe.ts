@@ -15,12 +15,12 @@ import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-varian
 import { CalendarDateTime, getDayOfWeek, Time, toTime, ZonedDateTime, now, getLocalTimeZone, toZoned } from "@internationalized/date";
 import {scheduledToCalendarDateTime, formatCurrency} from "@/lib/utils";
 import { getDeliveryMode } from "@/lib/delivery-cookie";
-import { AddressFormType, ValidationResult } from "@/components/providers/delivery-provider";
+import { ValidationResult } from "@/components/providers/delivery-provider";
 import { getCurrentDeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
 import { validateAddress } from "@/lib/actions/delivery-address-actions";
 import { MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
 import { WorkHours } from "@/lib/actions/calendar-actions";
-
+import { DeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 
 // It should validate if the given time is within the schedule and respects lead time.
 async function validateOrderTimeAgainstSchedule(
@@ -139,19 +139,19 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     // 5. Address & Delivery Region Validation (if delivery)
     // -----------------------------------------------------
     let deliveryValidationResult: ValidationResult | null = null;
+    let currentAddress: DeliveryAddress | null = null;
     let deliveryFeeInclVat = 0;
     let minimumOrderAmount = 1000; // Default min €10
     let selectedRegion: MerchantDeliveryRegion | undefined;
 
     if (isDelivery) {
-        const currentAddress = await getCurrentDeliveryAddress(storeId); // Fetch from DB
+        currentAddress = await getCurrentDeliveryAddress(storeId); // Fetch from DB
         if (!currentAddress || !currentAddress.coordinates) {
             return {error: 'Delivery address is missing or incomplete.'};
-        }
-        const addressDataForValidation: AddressFormType = {...currentAddress}; // Map DB structure if needed
+        } // Map DB structure if needed
 
         // Use storeData.deliveryRegions if already fetched
-        deliveryValidationResult = await validateAddress(addressDataForValidation, storeId);
+        deliveryValidationResult = await validateAddress(currentAddress, storeId);
 
         if (!deliveryValidationResult.isValid) {
             return {error: `Address validation failed: ${deliveryValidationResult.message}`};
@@ -208,18 +208,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
         return {error: isDelivery ? "Delivery/Store schedule not found." : "Store operating hours not found."};
     }
 
-    const leadTime = isDelivery ? selectedRegion?.minOrderTime : storeData.minTimeOrder// Use minTimeOrder from storeData
-
-    if (user?.role !== 'bakerz') {
-        const timeValidation = await validateOrderTimeAgainstSchedule(
-            orderDateTime,
-            scheduleToValidateAgainst,
-            leadTime || 1440 // Default to 24 hours if not set
-        );
-        if (!timeValidation.isValid) {
-            return {error: `Invalid order time: ${timeValidation.message}`};
-        }
-    }
+    let leadTime = isDelivery ? selectedRegion?.minOrderTime : storeData.minTimeOrder// Use minTimeOrder from storeData
 
     // 7. Calculate Totals & Minimum Order Check
     // -----------------------------------------
@@ -235,6 +224,9 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
         const product = productsData[cartItem.product_id];
         if (!product) continue; 
 
+        if (leadTime && leadTime < product.min_lead_time) {
+            leadTime = product.min_lead_time;
+        }
         const itemTotalInclVat = calculateItemTotalPrice(cartItem.variants, product.price, cartItem.quantity);
         itemsInclVat += itemTotalInclVat;
 
@@ -251,6 +243,18 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
             unitAmount: calculateItemTotalPrice(cartItem.variants, product.price), // Price per unit incl VAT
             itemTotalInclVat: itemTotalInclVat // Total for this line incl VAT
         });
+    }
+    
+    // Validate against store schedule (operating hours, lead time)
+    if (user?.role !== 'bakerz') {
+        const timeValidation = await validateOrderTimeAgainstSchedule(
+            orderDateTime,
+            scheduleToValidateAgainst,
+            leadTime || 10080 // Default to 7 days if not set
+        );
+        if (!timeValidation.isValid) {
+            return {error: `Invalid order time: ${timeValidation.message}`};
+        }
     }
 
     // Check against minimum order amount (based on items subtotal *before* delivery fee)
@@ -379,10 +383,12 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
         // Add extra fields needed internally or for Stripe metadata
         isDelivery: isDelivery,
         isStoreDelivery: selectedRegion?.isStoreDelivery || false,
-        deliveryToAddress: deliveryValidationResult ? deliveryValidationResult.validatedAddress : undefined,
+        isPostDelivery: selectedRegion?.isPostDelivery || false,
+        isCountryDelivery: selectedRegion?.isCountry || false,
+        deliveryToAddress: currentAddress,
         deliveryFromAddress: selectedRegion ? {
-            lat: selectedRegion.coordinates.lat,
-            lng: selectedRegion.coordinates.lng
+            lat: storeData.location.latitude,
+            lng: storeData.location.longitude
         } : undefined,
         itemExclVat: itemExclVat,
         deliveryFeeExclVat: deliveryFeeExclVat,

@@ -147,6 +147,10 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                             src={store.picture || "/search/store_front_clean.webp"}
                             fill
                             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                            onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.src = "/search/store_front_clean.webp";
+                            }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>

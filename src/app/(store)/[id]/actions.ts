@@ -1,6 +1,19 @@
 "use server";
 import { cookies } from 'next/headers';
 
+//Remove cookies
+export async function removeOrderTime(storeId: string) {
+    const cookieStore = await cookies();
+    cookieStore.delete(`orderDate_${storeId}`);
+    cookieStore.delete(`orderTime_${storeId}`);
+}
+
+export async function removeDeliveryTime(storeId: string, location: string) {
+    const cookieStore = await cookies();
+    cookieStore.delete(`deliveryDate_${storeId}_${location}`);
+    cookieStore.delete(`deliveryTime_${storeId}_${location}`);
+}
+
 export async function updateOrderTime(storeId: string, date: string, time: string) {
     const cookieStore = await cookies();
 

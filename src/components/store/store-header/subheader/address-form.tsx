@@ -5,42 +5,27 @@ import {
   Input,
   Textarea,
   Button,
-  Spinner,
   Divider,
   addToast,
   Autocomplete,
   AutocompleteItem,
 } from '@heroui/react';
-import { AddressFormType } from '@/components/providers/delivery-provider'; // Import from our provider
 import { useTranslations } from 'next-intl';
 import { z } from 'zod';
-import { useLoadScript } from '@react-google-maps/api';
 import { Icon } from '@iconify/react';
 import { useDelivery } from '@/components/providers/delivery-provider';
-
-// --- Constants ---
-const MAX_CHARS = {
-  street: 100,
-  houseNumber: 20,
-  city: 100,
-  zipCode: 20,
-  additionalInfo: 100,
-};
-const GOOGLE_MAPS_LIBRARIES = ['places'];
-const COUNTRY_RESTRICTION = ['nl']; // Netherlands
-
-// Dutch postal code regex: 4 digits followed by 2 letters (with or without space)
-const DUTCH_POSTAL_CODE_REGEX = /^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/;
+import { MAX_CHARS_ADDRESS, GOOGLE_MAPS_LIBRARIES, COUNTRY_RESTRICTION, DUTCH_POSTAL_CODE_REGEX } from '@/lib/schemas/address.schema';
+import { DeliveryAddress, DeliveryAddressRaw } from '@/app/(store)/[id]/delivery-actions';
 
 // --- Define validation schema ---
 const AddressZodSchema = z.object({
-  street: z.string().min(2, 'Street is required').max(MAX_CHARS.street),
-  houseNumber: z.string().min(1, 'House number is required').max(MAX_CHARS.houseNumber),
-  city: z.string().min(2, 'City is required').max(MAX_CHARS.city),
-  zipCode: z.string().min(4, 'Valid postal code required').max(MAX_CHARS.zipCode)
+  street: z.string().min(2, 'Street is required').max(MAX_CHARS_ADDRESS.street),
+  houseNumber: z.string().min(1, 'House number is required').max(MAX_CHARS_ADDRESS.houseNumber),
+  city: z.string().min(2, 'City is required').max(MAX_CHARS_ADDRESS.city),
+  zipCode: z.string().min(4, 'Valid postal code required').max(MAX_CHARS_ADDRESS.zipCode)
     .refine(val => DUTCH_POSTAL_CODE_REGEX.test(val.replace(/\s+/g, '')), 
       { message: 'Should be a valid Dutch postal code (e.g. 1234 AB)' }),
-  additionalInfo: z.string().max(MAX_CHARS.additionalInfo).optional(),
+  additionalInfo: z.string().max(MAX_CHARS_ADDRESS.additionalInfo).optional(),
 });
 
 // --- Normalize a Dutch postal code to the format "1234 AB" ---
@@ -60,7 +45,7 @@ const formatDutchPostalCode = (code: string): string => {
 
 // --- Interfaces ---
 interface AddressFormProps {
-  initialAddress?: AddressFormType;
+  initialAddress?: DeliveryAddressRaw;
   isValidating: boolean;
   validationError?: string;
   onAutocompleteFocus?: () => void;
@@ -83,21 +68,21 @@ export function AddressForm({
   onClose,
 }: AddressFormProps) {
   const t = useTranslations('app/(store)/components/store-subheader');
-  const { handleAddressSubmit, validationResult } = useDelivery();
+  const { handleAddressSubmit } = useDelivery();
 
   // --- State ---
-  const [address, setAddress] = useState<AddressFormType>({
+  const [address, setAddress] = useState<DeliveryAddressRaw>({
     formattedAddress: '',
     street: '',
     houseNumber: '',
     city: '',
     zipCode: '',
     additionalInfo: '',
-    coordinates: undefined,
+    coordinates: { lat: 0, lng: 0 },
+    country: 'NL',
     ...initialAddress,
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof AddressFormType, string>>>({});
-  const [isLocating, setIsLocating] = useState(false);
+  const [errors, setErrors] = useState<Partial<Record<keyof DeliveryAddress, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [autocompleteValue, setAutocompleteValue] = useState(initialAddress?.formattedAddress || '');
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
@@ -107,34 +92,23 @@ export function AddressForm({
   const formRef = useRef<HTMLFormElement>(null);
   const sessionTokenRef = useRef<google.maps.places.AutocompleteSessionToken | null>(null);
 
-  // --- Google Maps API Integration ---
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
-    libraries: GOOGLE_MAPS_LIBRARIES as any,
-    language: 'nl', // Set Dutch language for suggestions
-    preventGoogleFontsLoading: true, // Optional: prevent font loading if handled elsewhere
-  });
-
-  // Check if API key is missing and log error
+  // Initialize services when Maps API is available globally
   useEffect(() => {
-    if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
-      console.error('ERROR: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set in environment variables!');
-      console.warn('You need to add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to your .env.local file');
-    }
-    
-    if (loadError) {
-      console.error('Google Maps script loading error:', loadError);
-    }
-  }, [loadError]);
+    const checkGoogleMapsReady = () => {
+      if (window.google?.maps?.places) {
+        setIsSearchReady(true);
+        sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
+        if(process.env.NODE_ENV === 'development') console.log('Google Maps and Places API ready via window object');
+      } else {
+        // If not ready, check again shortly
+        setTimeout(checkGoogleMapsReady, 100); 
+      }
+    };
+    checkGoogleMapsReady();
 
-  // Initialize services when Maps API is loaded
-  useEffect(() => {
-    if (isLoaded && window.google?.maps) {
-      setIsSearchReady(true);
-      sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
-      if(process.env.NODE_ENV === 'development') console.log('Google Maps and Places API initialized');
-    }
-  }, [isLoaded]);
+    // Cleanup function is not strictly necessary here as we're not initializing anything
+    // that needs explicit cleanup related to this effect's trigger.
+  }, []); // Empty dependency array, runs once on mount and checks periodically
 
   // Fetch suggestions when input changes
   useEffect(() => {
@@ -180,23 +154,24 @@ export function AddressForm({
   // Log when relevant states change
   useEffect(() => {
     if(process.env.NODE_ENV === 'development') {
-      console.log('Google Maps loaded state:', isLoaded);
+      // console.log('Google Maps loaded state:', isLoaded); // Removed isLoaded log
       console.log('Places API ready state:', isSearchReady);
       console.log('Window.google exists:', !!window.google);
       console.log('Window.google.maps exists:', !!window.google?.maps);
       console.log('Window.google.maps.places exists:', !!window.google?.maps?.places);
     }
-  }, [isLoaded, isSearchReady]);
+  }, [isSearchReady]); // Removed isLoaded dependency
 
   // Initialize autocomplete value when loaded
   useEffect(() => {
-    if (isLoaded && isSearchReady && initialAddress?.formattedAddress) {
+    // Removed isLoaded check
+    if (isSearchReady && initialAddress?.formattedAddress) {
       setAutocompleteValue(initialAddress.formattedAddress);
     }
-  }, [isLoaded, isSearchReady, initialAddress]);
+  }, [isSearchReady, initialAddress]); // Removed isLoaded dependency
 
   // --- Validation ---
-  const validateField = useCallback((field: keyof AddressFormType, value: string): boolean => {
+  const validateField = useCallback((field: keyof DeliveryAddress, value: string): boolean => {
     try {
       // Check if the field is one of the known schema fields
       if (field === 'street' || field === 'houseNumber' || field === 'city' || 
@@ -218,6 +193,7 @@ export function AddressForm({
 
   const validateForm = useCallback((): boolean => {
     try {
+      if (!address) return false;
       // Extract fields that should be validated
       const { street, houseNumber, city, zipCode, additionalInfo } = address;
       AddressZodSchema.parse({ street, houseNumber, city, zipCode, additionalInfo });
@@ -225,9 +201,9 @@ export function AddressForm({
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const newErrors: Partial<Record<keyof AddressFormType, string>> = {};
+        const newErrors: Partial<Record<keyof DeliveryAddress, string>> = {};
         error.errors.forEach(err => {
-          const field = err.path[0] as keyof AddressFormType;
+          const field = err.path[0] as keyof DeliveryAddress;
           newErrors[field] = err.message;
         });
         setErrors(newErrors);
@@ -237,15 +213,19 @@ export function AddressForm({
   }, [address]);
 
   // --- Field Input Handlers ---
-  const handleInputChange = useCallback((field: keyof AddressFormType, value: string) => {
-    // For zipCode field, format the input as a Dutch postal code
+  const handleInputChange = useCallback((field: keyof DeliveryAddress, value: string) => {
     if (field === 'zipCode') {
-      // Handle postal code formatting
       const formattedZipCode = formatDutchPostalCode(value);
-      setAddress(prev => ({ ...prev, [field]: formattedZipCode }));
+      setAddress(prev => ({
+        ...prev,
+        [field]: formattedZipCode
+      }));
       validateField(field, formattedZipCode);
     } else {
-      setAddress(prev => ({ ...prev, [field]: value }));
+      setAddress(prev => ({
+        ...prev,
+        [field]: value
+      }));
       validateField(field, value);
     }
   }, [validateField]);
@@ -254,46 +234,52 @@ export function AddressForm({
   const handleAutocompleteSelect = async (description: string, placeId?: string) => {
     try {
       console.log('Handling selection for address:', description);
-      // Clear suggestions and update input field immediately for faster UI feedback
       setSuggestions([]);
       setAutocompleteValue(description);
       
-      // Use a geocoder for more accurate results
       const geocoder = new window.google.maps.Geocoder();
       
-      // Get geocode results for the selected address
       let geocodeResults;
-      if (placeId) {
-        geocodeResults = await geocoder.geocode({ placeId });
-      } else {
-        geocodeResults = await geocoder.geocode({ address: description });
+      try {
+        if (placeId) {
+          geocodeResults = await geocoder.geocode({ placeId });
+        } else {
+          geocodeResults = await geocoder.geocode({ address: description });
+        }
+        
+        if (!geocodeResults?.results?.length) {
+          throw new Error('No geocoding results found');
+        }
+      } catch (error) {
+        console.error('Geocoding error:', error);
+        setErrors(prev => ({ 
+          ...prev, 
+          formattedAddress: 'Error processing address. Please try again or enter manually.' 
+        }));
+        return;
       }
       
-      if (!geocodeResults || !geocodeResults.results || geocodeResults.results.length === 0) {
-        throw new Error('No geocoding results found');
+      const result = geocodeResults.results[0];
+      if (!result || !result.geometry || !result.geometry.location) {
+        setErrors(prev => ({ 
+          ...prev, 
+          formattedAddress: 'Invalid address format. Please try again or enter manually.' 
+        }));
+        return;
       }
-      
-      console.log('Geocoding results received:', geocodeResults.results[0].formatted_address);
-      
-      // Extract coordinates
+
       const coords = {
-        lat: geocodeResults.results[0].geometry.location.lat(),
-        lng: geocodeResults.results[0].geometry.location.lng()
+        lat: result.geometry.location.lat(),
+        lng: result.geometry.location.lng()
       };
-      console.log('Coordinates extracted:', coords);
       
-      // Extract address components
       let street = '';
       let houseNumber = '';
       let city = '';
       let zipCode = '';
+      let country = '';
       
-      const addressComponents = geocodeResults.results[0].address_components;
-      if (!addressComponents) {
-        throw new Error('No address components found in geocoding result');
-      }
-      
-      for (const component of addressComponents) {
+      for (const component of result.address_components) {
         const types = component.types;
         
         if (types.includes('route')) {
@@ -309,69 +295,44 @@ export function AddressForm({
         }
         
         if (types.includes('postal_code')) {
-          // Format Dutch postal code (e.g., 1234AB -> 1234 AB)
-          const rawCode = component.long_name.replace(/\s+/g, '');
-          zipCode = rawCode.length >= 6 
-            ? `${rawCode.substring(0, 4)} ${rawCode.substring(4).toUpperCase()}`
-            : rawCode;
-        }
-      }
-      
-      console.log('Extracted address components:', { street, houseNumber, city, zipCode });
-      
-      // Check if we have all the required fields
-      if (!street || !city) {
-        // Attempt to extract from formatted address if components are missing
-        const parts = description.split(',');
-        if (!street && parts.length > 0) {
-          const streetPart = parts[0].trim().split(' ');
-          if (streetPart.length > 1) {
-            // Last part might be the house number
-            houseNumber = houseNumber || streetPart.pop() || '';
-            street = streetPart.join(' ');
-          } else {
-            street = streetPart[0];
-          }
-        }
-        if (!city && parts.length > 1) {
-          city = parts[1].trim();
+          zipCode = formatDutchPostalCode(component.long_name);
         }
         
-        console.log('Attempted to extract from formatted address:', { street, houseNumber, city });
+        if (types.includes('country')) {
+          country = component.short_name;
+        }
       }
       
-      // Update the address state with parsed components
-      const updatedAddress = {
-        ...address,
-        formattedAddress: description,
-        street: street || '',
-        houseNumber: houseNumber || '',
-        city: city || '',
-        zipCode: zipCode || '',
-        coordinates: coords
-      };
-      
-      console.log('Setting address to:', updatedAddress);
-      setAddress(updatedAddress);
-      
-      // Validate the parsed fields
-      validateField('street', street);
-      validateField('houseNumber', houseNumber);
-      validateField('city', city);
-      validateField('zipCode', zipCode);
-      
-      // Notify user if any required fields are missing
+      // Validate required fields
       if (!street || !houseNumber || !city || !zipCode) {
-        setErrors(prev => ({
-          ...prev,
-          ...(street ? {} : { street: 'Street information is missing. Please add it manually.' }),
-          ...(houseNumber ? {} : { houseNumber: 'House number is missing. Please add it manually.' }),
-          ...(city ? {} : { city: 'City information is missing. Please add it manually.' }),
-          ...(zipCode ? {} : { zipCode: 'Postal code is missing. Please add it manually.' })
-        }));
+        setErrors({
+          street: !street ? 'Street is required' : '',
+          houseNumber: !houseNumber ? 'House number is required' : '',
+          city: !city ? 'City is required' : '',
+          zipCode: !zipCode ? 'Valid postal code required' : ''
+        });
       }
       
-      // Create a new session token for the next search
+      const addressData: DeliveryAddressRaw = {
+        formattedAddress: description,
+        street: street,
+        houseNumber: houseNumber,
+        city: city,
+        zipCode: zipCode,
+        country: country,
+        coordinates: coords,
+        additionalInfo: address.additionalInfo
+      };
+
+      // Update address state
+      setAddress(prev => ({
+        ...prev,
+        ...addressData
+      }));
+      
+      // Clear any existing errors
+      setErrors({});
+      
       sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
       
     } catch (error) {
@@ -383,217 +344,54 @@ export function AddressForm({
     }
   };
 
-  // --- Current Location ---
-  const handleLocationClick = async () => {
-    if (!navigator.geolocation) {
-      addToast({
-        description: "Geolocation is not supported by your browser",
-        color: "danger",
-        timeout: 3000
-      });
-      return;
-    }
-    
-    setIsLocating(true);
-    
-    try {
-      // Improved geolocation implementation with better error handling and timeout management
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        const locationTimeout = setTimeout(() => {
-          reject(new Error("Location request timed out. Please try again."));
-        }, 10000); // 10 seconds timeout
-        
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            clearTimeout(locationTimeout);
-            resolve(pos);
-          },
-          (err) => {
-            clearTimeout(locationTimeout);
-            reject(err);
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 8000,
-            maximumAge: 0
-          }
-        );
-      });
-      
-      const { latitude, longitude } = position.coords;
-      if(process.env.NODE_ENV === 'development') console.log("Successfully retrieved coordinates:", { latitude, longitude });
-      
-      // Use reverse geocoding to get address details
-      const geocoder = new window.google.maps.Geocoder();
-      if(process.env.NODE_ENV === 'development') console.log("Performing reverse geocoding...");
-      const results = await geocoder.geocode({ location: { lat: latitude, lng: longitude } });
-      
-      if (results.results && results.results.length > 0) {
-        const result = results.results[0];
-        if(process.env.NODE_ENV === 'development') console.log("Reverse geocoding successful:", result.formatted_address);
-        
-        // Extract components similar to handleAutocompleteSelect
-        let street = '';
-        let houseNumber = '';
-        let city = '';
-        let zipCode = '';
-        
-        for (const component of result.address_components) {
-          const types = component.types;
-          
-          if (types.includes('route')) {
-            street = component.long_name;
-          }
-          
-          if (types.includes('street_number')) {
-            houseNumber = component.long_name;
-          }
-          
-          if (types.includes('locality') || types.includes('postal_town')) {
-            city = component.long_name;
-          }
-          
-          if (types.includes('postal_code')) {
-            zipCode = formatDutchPostalCode(component.long_name);
-          }
-        }
-        
-        // Set the address from geolocation result
-        const updatedAddress = {
-          ...address,
-          formattedAddress: result.formatted_address,
-          street: street || '',
-          houseNumber: houseNumber || '',
-          city: city || '',
-          zipCode: zipCode || '',
-          coordinates: { 
-            lat: latitude, 
-            lng: longitude 
-          }
-        };
-        
-        if(process.env.NODE_ENV === 'development') console.log("Setting address with components:", updatedAddress);
-        setAddress(updatedAddress);
-        setAutocompleteValue(result.formatted_address);
-        
-        // Validate the fields
-        validateField('street', street);
-        validateField('houseNumber', houseNumber);
-        validateField('city', city);
-        validateField('zipCode', zipCode);
-        
-        // Provide friendly notification for missing fields
-        if (!street || !houseNumber || !city || !zipCode) {
-          // Still missing some fields
-          addToast({
-            description: "Some address details might be missing. Please review before submitting.",
-            color: "warning",
-            timeout: 5000
-          });
-        } else {
-          addToast({
-            description: "Your location has been found!",
-            color: "success",
-            timeout: 2000
-          });
-        }
-      } else {
-        throw new Error("No address found for your location");
-      }
-    } catch (error: any) {
-      console.error("Geolocation error:", error);
-      
-      // More specific error messages based on error code
-      let errorMessage = "Could not determine your location";
-      
-      if (error.code) {
-        switch(error.code) {
-          case 1: // PERMISSION_DENIED
-            errorMessage = "Location access was denied. Please allow location access in your browser settings.";
-            break;
-          case 2: // POSITION_UNAVAILABLE
-            errorMessage = "Your current location is unavailable. Please try again later.";
-            break;
-          case 3: // TIMEOUT
-            errorMessage = "Location request timed out. Please try again.";
-            break;
-        }
-      } else if (error.message) {
-        errorMessage = error.message;
-      }
-      
-      addToast({
-        description: errorMessage,
-        color: "danger",
-        timeout: 4000
-      });
-    } finally {
-      setIsLocating(false);
-    }
-  };
-
   // --- Form Submission ---
   const handleFormSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
+    e.preventDefault();
     
     if (isValidating || isSubmitting) {
       onClose && onClose();
-      return; // Prevent multiple submissions
+      return;
     }
     
-    // Make sure we have formatted address if street and city are provided
+    // Create formatted address if needed
     if (!address.formattedAddress && address.street && address.city) {
       const formattedAddress = `${address.street} ${address.houseNumber}, ${address.zipCode} ${address.city}, Netherlands`;
-      setAddress(prev => ({ ...prev, formattedAddress }));
-    }
-    
-    // Make sure zipCode is properly formatted
-    if (address.zipCode) {
-      const formattedZipCode = formatDutchPostalCode(address.zipCode);
-      if (formattedZipCode !== address.zipCode) {
-        setAddress(prev => ({ ...prev, zipCode: formattedZipCode }));
-      }
-    }
-    
-    if (validateForm()) {
-      if(process.env.NODE_ENV === 'development') console.log('Form is valid, submitting:', address);
+      const updatedAddress = {
+        ...address,
+        formattedAddress
+      };
       
-      try {
-        setIsSubmitting(true);
-        
-        // Use the delivery provider's handleAddressSubmit to validate and save the address via server-side validation
-        const success = await handleAddressSubmit(address);
-        
-        if (success) {
-          // If the address is valid and within delivery range, close the modal with small delay to show success state
-          onClose && onClose();
+      // Update address and validate in a single state update
+      setAddress(updatedAddress);
+      
+      if (validateForm()) {
+        try {
+          setIsSubmitting(true);
+          const success = await handleAddressSubmit(updatedAddress);
+          
+          if (success) {
+            onClose && onClose();
+          }
+        } catch (err) {
+          console.error('Form submission failed:', err);
+        } finally {
+          setIsSubmitting(false);
         }
-      } catch (err) {
-        console.error('Form submission failed:', err);
-      } finally {
-        setIsSubmitting(false);
       }
     } else {
-      console.error('Form validation failed');
-      
-      // Provide a user-friendly error message
-      if (Object.keys(errors).length > 0) {
-        const errorFieldNames = Object.keys(errors).map(field => {
-          switch(field) {
-            case 'street': return 'Street';
-            case 'houseNumber': return 'House number';
-            case 'city': return 'City';
-            case 'zipCode': return 'Postal code';
-            case 'additionalInfo': return 'Additional information';
-            default: return field;
+      if (validateForm()) {
+        try {
+          setIsSubmitting(true);
+          const success = await handleAddressSubmit(address);
+          
+          if (success) {
+            onClose && onClose();
           }
-        }).join(', ');
-        
-        addToast?.({
-          description: `Please correct the following fields: ${errorFieldNames}`,
-          color: "danger",
-          timeout: 4000
-        }) ?? alert(`Please correct the following fields: ${errorFieldNames}`);
+        } catch (err) {
+          console.error('Form submission failed:', err);
+        } finally {
+          setIsSubmitting(false);
+        }
       }
     }
   };
@@ -631,12 +429,10 @@ export function AddressForm({
       <div className="relative">
         <Autocomplete
           label={t('searchAddress') || "Search for an address"}
-          placeholder={loadError 
-            ? "Google Maps could not be loaded. Please check your connection." 
-            : (!isLoaded 
+          placeholder={ 
+            !isSearchReady 
               ? "Loading Google Maps..." 
               : t('typeToSearchAddress') || "Type to search (e.g. Damstraat 1, Amsterdam)"
-            )
           }
           value={autocompleteValue}
           onInputChange={setAutocompleteValue}
@@ -647,9 +443,9 @@ export function AddressForm({
               handleAutocompleteSelect(selected.description, selected.place_id);
             }
           }}
-          isDisabled={!isSearchReady || isValidating || isLocating || isSubmitting}
+          isDisabled={!isSearchReady || isValidating || isSubmitting}
           variant="bordered"
-          isLoading={!isLoaded || !isSearchReady || isLocating}
+          isLoading={!isSearchReady}
           startContent={
             <Icon icon="solar:magnifer-linear" className="text-default-400" width={20} />
           }
@@ -673,7 +469,7 @@ export function AddressForm({
           ))}
         </Autocomplete>
       </div>
-      {address.coordinates && (
+      {address.coordinates.lat !== 0 && address.coordinates.lng !== 0 && (
         <>
         <Divider/>
 
@@ -683,26 +479,26 @@ export function AddressForm({
             <Input
                   label={t('street') || "Street"}
                   placeholder={t('enterStreet') || "Street name"}
-              value={address.street}
+                  value={address.street}
                   onChange={(e) => handleInputChange('street', e.target.value)}
-              isRequired
-              variant="bordered"
-              maxLength={MAX_CHARS.street}
+                  isRequired
+                  variant="bordered"
+                  maxLength={MAX_CHARS_ADDRESS.street}
                   isInvalid={!!errors.street}
-              errorMessage={errors.street}
+                  errorMessage={errors.street}
                   isDisabled={isValidating || isSubmitting}
                   className="flex-1"
             />
             <Input
                   label={t('houseNumber') || "House Number"}
                   placeholder={t('enterHouseNumber') || "Number"}
-              value={address.houseNumber}
+                  value={address.houseNumber}
                   onChange={(e) => handleInputChange('houseNumber', e.target.value)}
-              isRequired
-              variant="bordered"
-              maxLength={MAX_CHARS.houseNumber}
+                  isRequired
+                  variant="bordered"
+                  maxLength={MAX_CHARS_ADDRESS.houseNumber}
                   isInvalid={!!errors.houseNumber}
-              errorMessage={errors.houseNumber}
+                  errorMessage={errors.houseNumber}
                   isDisabled={isValidating || isSubmitting}
                   className="w-1/3"
             />
@@ -716,7 +512,7 @@ export function AddressForm({
                   onChange={(e) => handleInputChange('zipCode', e.target.value)}
                   isRequired
                   variant="bordered"
-                  maxLength={MAX_CHARS.zipCode}
+                  maxLength={MAX_CHARS_ADDRESS.zipCode}
                   isInvalid={!!errors.zipCode}
                   errorMessage={errors.zipCode}
                   isDisabled={isValidating || isSubmitting}
@@ -729,7 +525,7 @@ export function AddressForm({
                   onChange={(e) => handleInputChange('city', e.target.value)}
                   isRequired
                   variant="bordered"
-                  maxLength={MAX_CHARS.city}
+                  maxLength={MAX_CHARS_ADDRESS.city}
                   isInvalid={!!errors.city}
                   errorMessage={errors.city}
                   isDisabled={isValidating || isSubmitting}
@@ -743,10 +539,10 @@ export function AddressForm({
                 value={address.additionalInfo || ''}
                 onChange={(e) => handleInputChange('additionalInfo', e.target.value)}
                 variant="bordered"
-                maxLength={MAX_CHARS.additionalInfo}
+                maxLength={MAX_CHARS_ADDRESS.additionalInfo}
                 isInvalid={!!errors.additionalInfo}
                 errorMessage={errors.additionalInfo}
-                description={`${address.additionalInfo?.length || 0}/${MAX_CHARS.additionalInfo}`}
+                description={`${address.additionalInfo?.length || 0}/${MAX_CHARS_ADDRESS.additionalInfo}`}
                 isDisabled={isValidating || isSubmitting}
         />
           </div>

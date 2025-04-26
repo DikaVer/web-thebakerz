@@ -13,13 +13,12 @@ import {
     Card,
     CardBody,
     Spinner,
-    Tooltip,
-    Skeleton
+    Skeleton,
+    Alert
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { CalendarDateTime, CalendarDate, now } from "@internationalized/date";
 import { useStore } from "@/components/providers/store-provider";
-import { parseDateParams } from "@/components/store/store-header/calendar/calendar-params";
 import { IconLocation } from "@/components/ui/icons";
 import { useTheme } from "next-themes";
 import { formatDate, SmartDatetimeInput } from "@/components/store/store-header/calendar/smart-calendar";
@@ -48,7 +47,6 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
         handleDateChange,
         
         // Address management
-        address,
         showDeliveryInfo,
         modalSubmissionStatus,
         resetModalStatus,
@@ -167,14 +165,14 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                 }
             >
                 <div className="flex flex-col items-start min-w-0 flex-1">
-                    {showDeliveryInfo && validationResult.isInRange && validationResult.formattedAddress ? (
+                    {showDeliveryInfo && validationResult.isInRange && validationResult.validatedAddress ? (
                         <>
                             <p className="text-sm truncate w-full text-left">
-                                {`${address.street}, ${address.houseNumber}, ${address.zipCode}`}
+                                {`${validationResult?.validatedAddress?.street}, ${validationResult?.validatedAddress?.houseNumber}, ${validationResult?.validatedAddress?.zipCode}`}
                             </p>
-                            {address.additionalInfo && (
+                            {validationResult?.validatedAddress?.additionalInfo && (
                                 <p className="text-xs truncate w-full text-left">
-                                    {address.additionalInfo}
+                                    {validationResult?.validatedAddress?.additionalInfo}
                                 </p>
                             )}
                         </>
@@ -216,7 +214,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                     </Card>
                 </div>
             )}
-            {(showDeliveryInfo && validationResult.isInRange && validationResult.validatedAddress && validationResult.deliveryRegion) && (
+            {(showDeliveryInfo && validationResult.isInRange && validationResult.validatedAddress && validationResult.deliveryRegion && !validationResult.deliveryRegion.isPostDelivery) ? (
                 <>
                     <ButtonGroup
                         fullWidth
@@ -257,6 +255,18 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                         </SmartDatetimeInput>
                     </ButtonGroup>
                 </>
+            ) : (
+                <Alert
+                    key={"Delivery Options Alert"}
+                    className={'bg-primary-400 mt-4'}
+                    classNames={{
+                        description: 'text-white dark:text-default-500',
+                        title: 'text-md'
+                    }}
+                    title={t("deliveryOptionsAlertTitle")}
+                    description={t("deliveryOptionsAlertDescription", {store: store.ownerName})}
+                    variant={"solid"}
+                />
             )}
             
             {/* Address Modal */}
@@ -277,13 +287,13 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                             <ModalHeader>
                                 <div className="flex flex-col">
                                     <h3 className="text-lg font-semibold">
-                                        {address.formattedAddress ? t("editDeliveryAddress") : t("enterDeliveryAddress")}
+                                        {validationResult?.validatedAddress?.formattedAddress ? t("editDeliveryAddress") : t("enterDeliveryAddress")}
                                     </h3>
                                 </div>
                             </ModalHeader>
                             <ModalBody className="px-6 pb-6">
                                 <AddressForm 
-                                    initialAddress={address}
+                                    initialAddress={validationResult?.validatedAddress}
                                     isValidating={isValidating || isSubmittingAddress}
                                     validationError={validationResult.message}
                                     onAutocompleteFocus={handleAutocompleteFocus}

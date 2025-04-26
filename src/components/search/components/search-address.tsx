@@ -13,10 +13,7 @@ const GOOGLE_MAPS_LIBRARIES = ['places'];
 const COUNTRY_RESTRICTION = ['nl']; // Netherlands
 
 interface SearchAddressProps {
-    initialAddress?: string;
-    initialCity?: string | null;
-    initialCoords?: Coordinates | null;
-    onLocationChange: (coords: Coordinates, city: string | null) => void;
+    onLocationChange: (coords: Coordinates, city?: string, country?: string) => void;
 }
 
 interface PlaceSuggestion {
@@ -25,9 +22,6 @@ interface PlaceSuggestion {
 }
 
 export function SearchAddress({ 
-    initialAddress = '', 
-    initialCity = null,
-    initialCoords = null, 
     onLocationChange 
 }: SearchAddressProps) {
     const [isLocating, setIsLocating] = useState(false);
@@ -35,7 +29,7 @@ export function SearchAddress({
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const geocoderRef = useRef<google.maps.Geocoder | null>(null);
     const sessionTokenRef = useRef<google.maps.places.AutocompleteSessionToken | null>(null);
-    const [value, setValue] = useState(initialAddress);
+    const [value, setValue] = useState('');
     const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
     const [isSearchReady, setIsSearchReady] = useState(false);
     const t = useTranslations("app/search");
@@ -109,7 +103,8 @@ export function SearchAddress({
     const processLocationSelection = async (coords: Coordinates, addrValue: string) => {
         setIsSubmitting(true);
         setErrorMessage(null);
-        let city: string | null = null;
+        let city: string | undefined;
+        let country: string | undefined;
 
         try {
             if (geocoderRef.current) {
@@ -119,19 +114,21 @@ export function SearchAddress({
                     for (const component of addressComponents) {
                         if (component.types.includes('locality')) {
                             city = component.long_name;
-                            break;
+                        }
+                        if (component.types.includes('country')) {
+                            country = component.short_name;
                         }
                     }
                 }
             }
 
             try {
-                await storeCoordinatesInCookies(coords, city || "Unknown City");
+                await storeCoordinatesInCookies(coords, city, country);
             } catch (e) {
                 console.error("Failed to save location cookies:", e);
             }
 
-            onLocationChange(coords, city);
+            onLocationChange(coords, city, country);
             setValue(addrValue);
             sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
 

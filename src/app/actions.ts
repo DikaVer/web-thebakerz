@@ -75,7 +75,8 @@ export async function revalidateAndNavigate(path: string) {
  */
 export async function storeCoordinatesInCookies(
     coordinates: { lat: number; lng: number },
-    city?: string
+    city?: string,
+    country?: string
 ): Promise<ActionResult> {
     try {
         if (!await globalPOSTRateLimit()) {
@@ -115,6 +116,17 @@ export async function storeCoordinatesInCookies(
         // Store city if provided
         if (city) {
             cookieStore.set('search_city', city, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 60 * 60 * 24, // 24 hours
+                path: '/',
+                sameSite: 'strict'
+            });
+        }
+
+        // Store country if provided
+        if (country) {
+            cookieStore.set('search_country', country, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 maxAge: 60 * 60 * 24, // 24 hours

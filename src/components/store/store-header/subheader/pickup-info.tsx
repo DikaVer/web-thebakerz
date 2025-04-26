@@ -139,6 +139,35 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
                   </p>
                 </div>
 
+                {/* Min Lead Time */}
+                {(store.minTimeOrder !== undefined) && (
+                  <div className="flex items-center gap-3 text-xs text-warning-500 mb-3">
+                      <Icon icon="solar:clock-circle-linear" className="text-warning-500" width={16} />
+                      <div className="flex flex-row gap-1">
+                        <span>{t("MinLeadTime")}: </span>
+                        <span>
+                            {(() => {
+                                const minutes = store.minTimeOrder;
+                                if (minutes < 60) {
+                                    return `${minutes} min`;
+                                } else if (minutes < 24 * 60) {
+                                    const hours = minutes / 60;
+                                    return `${hours} ${hours === 1 ? t("hour") : t("hours")}`;
+                                } else {
+                                    const days = Math.floor(minutes / (24 * 60));
+                                    const remainingHours = (minutes % (24 * 60)) / 60;
+                                    if (remainingHours === 0) {
+                                        return `${days} ${days === 1 ? t("day") : t("days")}`;
+                                    } else {
+                                        return `${days} ${days === 1 ? t("day") : t("days")} ${remainingHours} ${remainingHours === 1 ? t("hour") : t("hours") }`;
+                                    }
+                                }
+                            })()}
+                        </span>
+                      </div>
+                  </div>
+                )}
+
                 {/* Availability */}
                 <div className="flex items-center gap-3 mb-4">
                   <Icon

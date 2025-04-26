@@ -15,7 +15,7 @@ import {
 import * as React from "react";
 import {formatCurrency, formatDisplayDateTime, scheduledToCalendarDateTime} from "@/lib/utils";
 import {OrderProducts, PriceOrderData} from "@/lib/actions/order";
-import { AddressFormType } from "@/components/providers/delivery-provider";
+import { DeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
 
 export interface OrderPlacedEmailProps {
     orderId: string;
@@ -33,7 +33,7 @@ export interface OrderPlacedEmailProps {
     priceData: PriceOrderData;
     products: OrderProducts;
     isDelivery: boolean;
-    deliveryAddress?: AddressFormType;
+    deliveryAddress?: DeliveryAddress | null;
 }
 
 function formatDateForCalendar(dateString: string): string {

@@ -747,7 +747,7 @@ export interface NearbyStore extends StoreData {
     deliveryRegion?: MerchantDeliveryRegion;
 }
 
-export async function findNearbyStores(userLat: number, userLng: number, deliveryMode: 'pickup' | 'delivery'): Promise<NearbyStore[]> {
+export async function findNearbyStores(userLat: number, userLng: number, deliveryMode: 'pickup' | 'delivery', country?: string): Promise<NearbyStore[]> {
     try {
         // Fetch all active stores and their locations
         const storeResults = await connectionPool.query(
@@ -855,18 +855,40 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                     let deliveryRange: DeliveryRange | undefined = undefined;
                     let deliveryRegion: MerchantDeliveryRegion | undefined = undefined;
                     
-                    if (storeData.deliveryRegions && storeData.deliveryRegions && storeData.deliveryRegions.length > 0) {
+                    if (storeData.deliveryRegions && storeData.deliveryRegions.length > 0) {
                         // Check all ranges to find the closest one
                         for (const region of storeData.deliveryRegions) {
-                            const distanceDelivery = haversineDistance({ lat: userLat, lng: userLng }, { lat: region.coordinates.lat, lng: region.coordinates.lng });
-                            if(region.ranges && region.ranges.length > 0) {
-                                for (const range of region.ranges) {
-                                    if(distanceDelivery < range.range) {
-                                        if(distanceDelivery < closestRange) {
-                                            closestRange = distanceDelivery;
-                                            deliveryRange = range;
-                                            deliveryRegion = region;
-                                            regionFound = true;
+                            // Check for country-wide delivery if country is provided
+                            if (region.isCountry && country && 
+                                region.name.toLowerCase() === country.toLowerCase()) {
+                                // Country match found, prioritize this
+                                regionFound = true;
+                                deliveryRegion = region;
+                                // For country delivery, we don't use ranges but the direct price
+                                deliveryRange = {
+                                    range: Infinity, // No distance limit for country delivery
+                                    deliveryPriceInCents: region.deliveryPriceInCents || 0,
+                                    minOrderPriceInCents: region.minOrderPriceInCents || 0
+                                };
+                                break; // Country match takes precedence
+                            }
+                            
+                            // Check for city/region based delivery with coordinates
+                            if (region.coordinates) {
+                                const distanceDelivery = haversineDistance(
+                                    { lat: userLat, lng: userLng }, 
+                                    { lat: region.coordinates.lat, lng: region.coordinates.lng }
+                                );
+                                
+                                if(region.ranges && region.ranges.length > 0) {
+                                    for (const range of region.ranges) {
+                                        if(distanceDelivery < range.range) {
+                                            if(distanceDelivery < closestRange) {
+                                                closestRange = distanceDelivery;
+                                                deliveryRange = range;
+                                                deliveryRegion = region;
+                                                regionFound = true;
+                                            }
                                         }
                                     }
                                 }

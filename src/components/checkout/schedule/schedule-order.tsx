@@ -37,7 +37,8 @@ export function ScheduleOrder({
     const t = useTranslations("app/(store)/components/checkout");
     const {
         isDelivery,
-        selectedDate
+        selectedDate,
+        validationResult
     } = useDelivery();
 
 
@@ -119,9 +120,9 @@ export function ScheduleOrder({
             <div className={'flex flex-row w-full justify-center'}>
                 <Button
                     variant={'bordered'}
-                    isDisabled={!(selectedDate instanceof CalendarDateTime)}
+                    isDisabled={!(selectedDate instanceof CalendarDateTime || validationResult?.deliveryRegion?.isPostDelivery)}
                     className={`${
-                        !(selectedDate instanceof CalendarDateTime)
+                        !(selectedDate instanceof CalendarDateTime || validationResult?.deliveryRegion?.isPostDelivery)
                             ? ""
                             : "bg-gradient-primary text-white border-none"
                     }  w-full max-w-[440px]`}
@@ -129,7 +130,7 @@ export function ScheduleOrder({
                         <Icon icon={'solar:alt-arrow-right-linear'} width={24} />
                     }
                     onPress={() => {
-                        if (selectedDate instanceof CalendarDateTime) {
+                        if (selectedDate instanceof CalendarDateTime || validationResult?.deliveryRegion?.isPostDelivery) {
                             handleNext();
                         }
                     }}

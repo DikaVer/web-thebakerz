@@ -429,7 +429,20 @@
     "startTime": "Время начала",
     "startTimeError": "Ошибка времени начала",
     "updateError": "Не удалось обновить области доставки",
-    "updateSuccess": "Области доставки успешно обновлены"
+    "updateSuccess": "Области доставки успешно обновлены",
+    "selectCountry": "Выберите страну",
+    "selectCountryPlaceholder": "Выбирать...",
+    "cityDelivery": "Город",
+    "countryDelivery": "Страна",
+    "addCountry": "Добавить страну",
+    "countryDeliveryFor": "Доставка страны для",
+    "selectedCountries": "Избранные страны",
+    "postDelivery": "Почтовый",
+    "toggleDeliveryType": "Переключение доставки",
+    "ownDelivery": "Собственная доставка",
+    "noCountriesSelected": "Ни одна страна не выбрана",
+    "togglePostDelivery": "Переключайте почту",
+    "postalDelivery": "Почтовая доставка"
   },
   "app/(return_page)/settings/components/products-settings": {
     "addItem": "Добавить пункт",
@@ -565,7 +578,7 @@
     "pay": "Платить",
     "phone": "Телефон",
     "returnToCheckout": "Вернитесь к оформлению",
-    "saveDeliveryDetails": "Сохранить детали забрать",
+    "saveDeliveryDetails": "Сохранить детали доставки",
     "savePickUpDetails": "Сохранить детали забрать",
     "serviceFee": "Плата за обслуживание",
     "subtotal": "Подтотальный",
@@ -814,7 +827,14 @@
     "storeOpen": "Открыт сейчас",
     "street": "Улица",
     "typeToSearchAddress": "Введите на адрес поиска",
-    "zipCode": "Почтовый индекс"
+    "zipCode": "Почтовый индекс",
+    "MinLeadTime": "Мин время заказа",
+    "hour": "час",
+    "hours": "часы",
+    "day": "день",
+    "days": "дни",
+    "deliveryOptionsAlertTitle": "Почтовая доставка",
+    "deliveryOptionsAlertDescription": "{store} обеспечивает ваш заказ через почтовый сервис."
   },
   "app/(store)/components/store-top-next": {
     "alertDeliveryAndPickup": "Этот магазин предлагает заказы на получение и доставку",

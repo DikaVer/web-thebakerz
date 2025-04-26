@@ -13,7 +13,7 @@ import {
     ScrollShadow, CardBody
 } from "@heroui/react";
 import { ProductData } from "@/lib/actions/product";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, scheduledToCalendarDateTime } from "@/lib/utils";
 import { IconCopy } from "@/components/ui/icons";
 import { useTheme } from "next-themes";
 import { CopyText } from "@/components/ui/copy-text";
@@ -31,6 +31,12 @@ import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
 import VariantsUserSelection from "@/components/store/product/components/variants-user-selection";
 import {useRouter} from "next/navigation";
+import { removeDeliveryTime } from "@/app/(store)/[id]/actions";
+import { removeOrderTime } from "@/app/(store)/[id]/actions";
+import { getOrderTime } from "@/app/(store)/[id]/actions";
+import { getDeliveryTime } from "@/app/(store)/[id]/actions";
+import { useDelivery } from "@/components/providers/delivery-provider";
+import { getLocalTimeZone } from '@internationalized/date';
 
 type ProductDialogProps = {
     productData: ProductData;
@@ -78,6 +84,7 @@ export default function UserProductDialog({
         addItem,
         updateItem,
     } = useCart();
+    const {isDelivery, validationResult, setSelectedDate} = useDelivery();
     const isSmall = useMediaQuery("(max-width: 432px)");
 
     // This function calls the updateCart server action.
@@ -88,6 +95,21 @@ export default function UserProductDialog({
                 // We pass productData.id as product_id, productData.store_id as store_id, and the note and quantity.
                 const result = await updateCart(productData.id, productData.store_id, quantity, note, variants);
                 if (result.success) {
+                    const dateTime = isDelivery ? await getDeliveryTime(productData.store_id, validationResult?.deliveryRegion?.name || "") : await getOrderTime(productData.store_id);
+                    // Check if we have both date and time
+                    if (dateTime.date && dateTime.time) {
+                        // Check lead time validation
+                        const selectedDateTime = scheduledToCalendarDateTime({date: dateTime.date, time: dateTime.time});
+                        const currentDateTime = new Date();
+                        const minLeadTime = productData.min_lead_time || 0; // in minutes
+                        const minDateTime = new Date(currentDateTime.getTime() + minLeadTime * 60000);
+                        const selectedDate = selectedDateTime.toDate(getLocalTimeZone());
+                        if (selectedDate < minDateTime) {
+                            await removeOrderTime(productData.store_id);
+                            await removeDeliveryTime(productData.store_id, validationResult?.deliveryRegion?.name || "");
+                            setSelectedDate(undefined);
+                        }
+                    }
                     showSuccessMessage({success: t("cartUpdatedSuccess")});
                     result.itemCart && addItem(result.itemCart);
                     onClose();

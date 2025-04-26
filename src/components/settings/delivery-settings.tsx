@@ -1,24 +1,27 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
-import {updateMerchantDeliveryRegions } from "@/lib/actions/delivery-actions";
+import {MerchantDeliveryRegion, updateMerchantDeliveryRegions } from "@/lib/actions/delivery-actions";
 import { Card, CardBody, CardHeader, addToast, Button, useDisclosure, Switch } from "@heroui/react";
 import { useTranslations } from "next-intl";
-import { cityLatLngMap } from "@/lib/local-variables";
+import { cityLatLngMap, countryCityLatLngMap, EU_COUNTRIES_PLUS_SWISS } from "@/lib/local-variables";
 import { useSession } from "@/components/providers/session-provider";
 import { Time } from '@internationalized/date';
 import { WorkHours, WorkDay } from "@/lib/actions/calendar-actions";
 
 // Import separated components
 import CitySelector from "./delivery/CitySelector";
+import CountrySelector from "./delivery/CountrySelector";
+import CountryDeliverySettings from "./delivery/CountryDeliverySettings";
 import DeliveryRangeSettings from "./delivery/DeliveryRangeSettings";
 import CityList from "./delivery/CityList";
 import MapView from "./delivery/MapView";
 import DeliveryScheduleModal from "./delivery/DeliveryScheduleModal";
-import { DeliveryCity, DeliveryRange } from "./delivery/types";
+import { DeliveryCity, DeliveryRange, CountryDelivery } from "./delivery/types";
 import { eurosToCents } from "./delivery/utils";
 import { useStore } from "../providers/store-provider";
 import { StoreData } from "@/lib/actions/store";
+import CountryList from "./delivery/CountryList";
 
 // Create an empty WorkHours object with the right structure
 const defaultWorkDay: WorkDay = {
@@ -44,15 +47,27 @@ interface DeliveryManagerProps {
 const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
   const { session } = useSession();
   const [deliveryCities, setDeliveryCities] = useState<DeliveryCity[]>([]);
+  const [countryDeliveries, setCountryDeliveries] = useState<CountryDelivery[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+
+  // Country selection state
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [isCountryDelivery, setIsCountryDelivery] = useState(false);
+  const [countryDeliveryPrice, setCountryDeliveryPrice] = useState(500); // 5€ in cents
+  const [countryMinOrderPrice, setCountryMinOrderPrice] = useState(1000); // 10€ in cents
+
+  // City selection state
   const [selectedCityForRange, setSelectedCityForRange] = useState<string | null>(null);
   const [currentRanges, setCurrentRanges] = useState<DeliveryRange[]>([{
     range: 10,
     deliveryPriceInCents: 500,
     minOrderPriceInCents: 1000
   }]);
+  
+  // Schedule modal state
   const [currentCityForSchedule, setCurrentCityForSchedule] = useState<DeliveryCity | null>(null);
+  const [currentCountryForSchedule, setCurrentCountryForSchedule] = useState<CountryDelivery | null>(null);
   const [deliverySchedule, setDeliverySchedule] = useState<WorkHours>(emptyWorkHours);
   const {isOpen: isScheduleModalOpen, onOpen: openScheduleModal, onClose: closeScheduleModal} = useDisclosure();
   const { store } = storeData ? {store: storeData }: useStore(); 
@@ -62,34 +77,59 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
   }
   const t = useTranslations("app/(return_page)/settings/components/delivery-settings");
 
-  // Load cities on component mount
+  // Load delivery data on component mount
   useEffect(() => {
-    const loadCities = () => {
+    const loadDeliveryData = () => {
       try {
-        // Fetch merchant's delivery cities from the server
+        // Fetch merchant's delivery regions from the server
         const merchantDeliveryRegions = store.deliveryRegions;
+        
+        const cities: DeliveryCity[] = [];
+        const countries: CountryDelivery[] = [];
+        
         if (merchantDeliveryRegions && merchantDeliveryRegions.length > 0) {
-          const cities = merchantDeliveryRegions.map(region => {
-            // Convert legacy format to multi-range format if needed
-            let ranges: DeliveryRange[] = [];
-            if (Array.isArray(region.ranges) && region.ranges.length > 0) {
-              // New format with multiple ranges
-              ranges = region.ranges;
+          merchantDeliveryRegions.forEach(region => {
+            // Check if this is a country delivery (format: CC:CountryName)
+            if (region.isCountry) {
+              if(region.deliveryPriceInCents && region.minOrderPriceInCents) {
+                // This is a country delivery
+                countries.push({
+                    countryCode: region.name,
+                    deliveryPriceInCents: region.deliveryPriceInCents,
+                    minOrderPriceInCents: region.minOrderPriceInCents,
+                    deliverySchedule: region.deliverySchedule,
+                    isStoreDelivery: region.isStoreDelivery,
+                    isPostDelivery: region.isPostDelivery,
+                    minOrderTime: region.minOrderTime
+                  });
+              }
+            } else {
+              // This is a city delivery
+              let ranges: DeliveryRange[] = [];
+              if (Array.isArray(region.ranges) && region.ranges.length > 0) {
+                // New format with multiple ranges
+                ranges = region.ranges;
+              }
+              if (region.coordinates) {
+                cities.push({
+                  name: region.name,
+                  ranges: ranges.sort((a, b) => a.range - b.range), // Sort ranges by distance
+                  coordinates: region.coordinates,
+                  deliverySchedule: region.deliverySchedule,
+                  isStoreDelivery: region.isStoreDelivery,
+                  isPostDelivery: region.isPostDelivery,
+                  minOrderTime: region.minOrderTime
+                });
+              }
             }
-            
-            return {
-              name: region.name,
-              ranges: ranges.sort((a, b) => a.range - b.range), // Sort ranges by distance
-              coordinates: region.coordinates,
-              deliverySchedule: region.deliverySchedule || {...emptyWorkHours},
-              isStoreDelivery: region.isStoreDelivery,
-              minOrderTime: region.minOrderTime || 1440 // Default to 24 hours if not set
-            };
           });
+          
           setDeliveryCities(cities);
+          setCountryDeliveries(countries);
         } else {
-          // Initialize with empty array if no regions found
+          // Initialize with empty arrays if no regions found
           setDeliveryCities([]);
+          setCountryDeliveries([]);
         }
       } catch (error) {
         addToast({
@@ -103,22 +143,45 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
       }
     };
 
-    loadCities();
-  }, [t, session]);
+    loadDeliveryData();
+  }, [t, session, store]);
 
   const handleSave = async () => {
     try {
       setSaving(true);
       
-      // Convert delivery cities to the format expected by the API
-      const regions = deliveryCities.map(city => ({
-        name: city.name,
-        coordinates: city.coordinates,
-        deliverySchedule: city.deliverySchedule || {...emptyWorkHours},
-        isStoreDelivery: city.isStoreDelivery,
-        minOrderTime: city.minOrderTime || 1444,
-        ranges: city.ranges // Add the new ranges array
-      }));
+      // Convert delivery cities and countries to the format expected by the API
+      const regions: MerchantDeliveryRegion[] = [
+        // Add city regions
+        ...deliveryCities.map(city => ({
+          id: `${store.id}-${city.name}`,
+          storeId: store.id,
+          name: city.name,
+          coordinates: city.coordinates,
+          deliverySchedule: city.deliverySchedule,
+          isStoreDelivery: city.isStoreDelivery,
+          isPostDelivery: city.isPostDelivery,
+          minOrderTime: city.minOrderTime,
+          ranges: city.ranges, // Add the ranges array
+          isCountry: false
+        })),
+        
+        // Add country regions
+        ...countryDeliveries.map(country => {
+          return {
+            id: `${store.id}-${country.countryCode}`,
+            storeId: store.id,
+            name: country.countryCode,
+            deliverySchedule: country.deliverySchedule,
+            isStoreDelivery: country.isStoreDelivery,
+            isPostDelivery: country.isPostDelivery ,
+            minOrderTime: country.minOrderTime,
+            deliveryPriceInCents: country.deliveryPriceInCents,
+            minOrderPriceInCents: country.minOrderPriceInCents,
+            isCountry: true
+          };
+        })
+      ];
       
       // Update the merchant's delivery regions
       await updateMerchantDeliveryRegions(store.id, regions);
@@ -141,6 +204,43 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     }
   };
 
+  // Handle country selection
+  const handleCountrySelection = (countryCode: string) => {
+    setSelectedCountry(countryCode);
+    
+    // Check if country is already in our delivery countries
+    const existingCountry = countryDeliveries.find(country => country.countryCode === countryCode);
+    if (existingCountry && isCountryDelivery) {
+      setCountryDeliveryPrice(existingCountry.deliveryPriceInCents);
+      setCountryMinOrderPrice(existingCountry.minOrderPriceInCents);
+    } else {
+      // Initialize with default values
+      setCountryDeliveryPrice(500); // 5€
+      setCountryMinOrderPrice(1000); // 10€
+    }
+    
+    // Initialize city selection if country has cities and we're in city delivery mode
+    if (!isCountryDelivery && countryCityLatLngMap[countryCode]) {
+      const citiesInCountry = Object.keys(countryCityLatLngMap[countryCode]);
+      if (citiesInCountry.length > 0) {
+        setSelectedCityForRange(null); // Reset city selection
+      }
+    }
+  };
+
+  // Handle delivery type change (country/city)
+  const handleDeliveryTypeChange = (isCountry: boolean) => {
+    setIsCountryDelivery(isCountry);
+    
+    // Reset selections when changing modes
+    if (isCountry) {
+      setSelectedCityForRange(null);
+    } else {
+      setCountryDeliveryPrice(500);
+      setCountryMinOrderPrice(1000);
+    }
+  };
+
   // Handle selecting a city from the autocomplete
   const handleCitySelectionChange = (cityName: string) => {    
     setSelectedCityForRange(cityName);
@@ -159,6 +259,78 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     }
   };
 
+  // Handle country delivery price change
+  const handleCountryDeliveryPriceChange = (value: string) => {
+    const euros = parseFloat(value) || 0;
+    setCountryDeliveryPrice(eurosToCents(euros));
+  };
+  
+  // Handle country minimum order price change
+  const handleCountryMinOrderPriceChange = (value: string) => {
+    const euros = parseFloat(value) || 0;
+    setCountryMinOrderPrice(eurosToCents(euros));
+  };
+  
+  // Save country delivery settings
+  const handleSaveCountryDelivery = () => {
+    if (!selectedCountry) return;
+    
+    // Validate minimum order price
+    if (countryMinOrderPrice < 1000) {
+      addToast({
+        title: t("minOrderPriceError"),
+        color: "danger",
+        shouldShowTimeoutProgress: true,
+        timeout: 2000,
+      });
+      return;
+    }
+    
+    // Check if country is already in the list
+    const existingCountryIndex = countryDeliveries.findIndex(country => 
+      country.countryCode === selectedCountry
+    );
+    
+    if (existingCountryIndex >= 0) {
+      // Update existing country
+      const updatedCountries = [...countryDeliveries];
+        updatedCountries[existingCountryIndex] = {
+        ...updatedCountries[existingCountryIndex],
+        deliveryPriceInCents: countryDeliveryPrice,
+        minOrderPriceInCents: countryMinOrderPrice
+      };
+      setCountryDeliveries(updatedCountries);
+    } else {
+      // Add new country
+      setCountryDeliveries([...countryDeliveries, {
+        countryCode: selectedCountry,
+        deliveryPriceInCents: countryDeliveryPrice,
+        minOrderPriceInCents: countryMinOrderPrice,
+        deliverySchedule: emptyWorkHours,
+        isStoreDelivery: session?.user?.role !== "admin" ? true : false,
+        isPostDelivery: false, // Default to false for new countries
+        minOrderTime: 10080
+      }]);
+    }
+    
+    // Reset after adding
+    setSelectedCountry(null);
+    setCountryDeliveryPrice(500);
+    setCountryMinOrderPrice(1000);
+  };
+
+  // Handle removing a delivery country
+  const handleRemoveCountry = (countryCode: string) => {
+    setCountryDeliveries(countryDeliveries.filter(country => 
+      country.countryCode !== countryCode
+    ));
+    
+    // Clear the selection if needed
+    if (selectedCountry === countryCode) {
+      setSelectedCountry(null);
+    }
+  };
+
   // Handle removing a delivery city
   const handleRemoveCity = (cityName: string) => {
     setDeliveryCities(deliveryCities.filter(city => city.name !== cityName));
@@ -171,10 +343,11 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
 
   // Handle adding or updating a delivery city's ranges
   const handleSetDeliveryRange = () => {
-    if (!selectedCityForRange) return;
+    if (!selectedCityForRange || !selectedCountry) return;
     
-    // Validate the city exists in our predefined list
-    if (!(selectedCityForRange in cityLatLngMap)) {
+    // Validate the city exists in our predefined list for the selected country
+    if (!(selectedCountry in countryCityLatLngMap) || 
+        !(selectedCityForRange in countryCityLatLngMap[selectedCountry])) {
       addToast({
         title: t("invalidCity"),
         color: "danger",
@@ -226,10 +399,11 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
       setDeliveryCities([...deliveryCities, { 
         name: selectedCityForRange, 
         ranges: currentRanges,
-        coordinates: cityLatLngMap[selectedCityForRange],
-        deliverySchedule: undefined,
-        isStoreDelivery:  session?.user?.role !== "admin" ? true : false,
-        minOrderTime: 1440
+        coordinates: countryCityLatLngMap[selectedCountry][selectedCityForRange],
+        deliverySchedule: emptyWorkHours,
+        isStoreDelivery: session?.user?.role !== "admin" ? true : false,
+        isPostDelivery: false,
+        minOrderTime: 10080
       }]);
     }
     
@@ -289,10 +463,18 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     setCurrentRanges(newRanges);
   };
 
-  // Open modal for managing delivery schedule for a city
-  const handleManageSchedule = (city: DeliveryCity) => {
-    setCurrentCityForSchedule(city);
-    setDeliverySchedule(city.deliverySchedule || { ...emptyWorkHours });
+  // Open modal for managing delivery schedule
+  const handleManageSchedule = (item: DeliveryCity | CountryDelivery, isCountry: boolean = false) => {
+    if (isCountry) {
+      const country = item as CountryDelivery;
+      setCurrentCountryForSchedule(country);
+      setCurrentCityForSchedule(null);
+    } else {
+      setCurrentCityForSchedule(item as DeliveryCity);
+      setCurrentCountryForSchedule(null);
+    }
+    
+    setDeliverySchedule(item.deliverySchedule || emptyWorkHours);
     openScheduleModal();
   };
 
@@ -315,39 +497,67 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     }));
   };
 
-  // Save delivery schedule for the current city
+  // Save delivery schedule
   const handleSaveSchedule = () => {
-    if (!currentCityForSchedule) return;
-
-    const updatedCities = deliveryCities.map(city => 
-      city.name === currentCityForSchedule.name 
-        ? { ...city, deliverySchedule } 
-        : city
-    );
+    if (currentCityForSchedule) {
+      if (currentCountryForSchedule) {
+        // This was a country delivery being edited through a city stub
+        const updatedCountries = countryDeliveries.map(country => 
+          country.countryCode === currentCountryForSchedule.countryCode 
+            ? { ...country, deliverySchedule } 
+            : country
+        );
+        setCountryDeliveries(updatedCountries);
+      } else {
+        // This was a regular city delivery
+        const updatedCities = deliveryCities.map(city => 
+          city.name === currentCityForSchedule.name 
+            ? { ...city, deliverySchedule } 
+            : city
+        );
+        setDeliveryCities(updatedCities);
+      }
+    }
     
-    setDeliveryCities(updatedCities);
     closeScheduleModal();
   };
 
   // Handle min order time change from modal
   const handleMinOrderTimeChange = (minutes: number) => {
-    if (!currentCityForSchedule) return;
-    
-    const updatedCities = deliveryCities.map(city => 
-      city.name === currentCityForSchedule.name 
-        ? { ...city, minOrderTime: minutes } 
-        : city
+    if (currentCityForSchedule) {
+      if (currentCountryForSchedule) {
+        // This was a country delivery being edited through a city stub
+        const updatedCountries = countryDeliveries.map(country => 
+          country.countryCode === currentCountryForSchedule.countryCode 
+            ? { ...country, minOrderTime: minutes } 
+            : country
+        );
+        setCountryDeliveries(updatedCountries);
+      } else {
+        // This was a regular city delivery
+        const updatedCities = deliveryCities.map(city => 
+          city.name === currentCityForSchedule.name 
+            ? { ...city, minOrderTime: minutes } 
+            : city
+        );
+        setDeliveryCities(updatedCities);
+      }
+    }
+  };
+
+  // Add a new function to handle toggling post delivery
+  const handleTogglePostDelivery = (country: CountryDelivery, isPostDelivery: boolean) => {
+    const updatedCountries = countryDeliveries.map(c => 
+      c.countryCode === country.countryCode 
+        ? { ...c, isPostDelivery } 
+        : c
     );
-    
-    setDeliveryCities(updatedCities);
+    setCountryDeliveries(updatedCountries);
   };
 
   if (loading) {
     return <div className="p-4">{t("loadingMap")}</div>;
   }
-
-  // Create city options from cityLatLngMap for the Autocomplete component
-  const cityOptions = Object.keys(cityLatLngMap).sort();
 
   return (
     <div className="space-y-6">
@@ -358,14 +568,37 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
         </CardHeader>
         <CardBody>
           <div className="space-y-6">
-            {/* City selection with Autocomplete */}
-            <CitySelector 
-              cityOptions={cityOptions} 
-              onCitySelect={handleCitySelectionChange} 
+            {/* Country selection with Autocomplete */}
+            <CountrySelector 
+              selectedCountry={selectedCountry} 
+              isCountryDelivery={isCountryDelivery}
+              onCountrySelect={handleCountrySelection}
+              onDeliveryTypeChange={handleDeliveryTypeChange}
             />
             
+            {/* Country delivery settings - only show when a country is selected and country delivery is enabled */}
+            {selectedCountry && isCountryDelivery && (
+              <CountryDeliverySettings
+                countryCode={selectedCountry}
+                countryName={EU_COUNTRIES_PLUS_SWISS[selectedCountry]}
+                deliveryPrice={countryDeliveryPrice}
+                minOrderPrice={countryMinOrderPrice}
+                onDeliveryPriceChange={handleCountryDeliveryPriceChange}
+                onMinOrderPriceChange={handleCountryMinOrderPriceChange}
+                onSave={handleSaveCountryDelivery}
+              />
+            )}
+            
+            {/* City selection - only show when a country is selected and city delivery is enabled */}
+            {selectedCountry && !isCountryDelivery && (
+              <CitySelector 
+                cityOptions={Object.keys(countryCityLatLngMap[selectedCountry] || {}).sort()}
+                onCitySelect={handleCitySelectionChange} 
+              />
+            )}
+            
             {/* Range slider and price input - only show when a city is selected */}
-            {selectedCityForRange && (
+            {selectedCountry && !isCountryDelivery && selectedCityForRange && (
               <DeliveryRangeSettings
                 cityName={selectedCityForRange}
                 ranges={currentRanges}
@@ -378,25 +611,41 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
               />
             )}
             
-            {/* Selected cities with their ranges and prices */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium">
-                {t("selectedCities")}
-              </h3>
-              
-              <CityList
-                cities={deliveryCities}
-                onRemoveCity={handleRemoveCity}
-                onManageSchedule={handleManageSchedule}
-              />
-            </div>
+            {/* Selected countries list */}
+            {countryDeliveries.length > 0 && (
+              <div className="space-y-2 mt-6">
+                <h3 className="text-sm font-medium">
+                  {t("selectedCountries")}
+                </h3>
+                <CountryList
+                  countries={countryDeliveries}
+                  onRemoveCountry={handleRemoveCountry}
+                  onManageSchedule={(country) => handleManageSchedule(country, true)}
+                  onTogglePostDelivery={handleTogglePostDelivery}
+                />
+              </div>
+            )}
             
-            {/* Map component */}
+            {/* Selected cities with their ranges and prices */}
+            {deliveryCities.length > 0 && (
+              <div className="space-y-2 mt-6">
+                <h3 className="text-sm font-medium">
+                  {t("selectedCities")}
+                </h3>
+                <CityList
+                  cities={deliveryCities}
+                  onRemoveCity={handleRemoveCity}
+                  onManageSchedule={(city) => handleManageSchedule(city, false)}
+                />
+              </div>
+            )}
+            
+            {/* Map component - only show for city delivery */}
             <MapView
               cities={deliveryCities}
               selectedCity={selectedCityForRange}
               deliveryRanges={currentRanges}
-              cityCoordinates={cityLatLngMap}
+              cityCoordinates={selectedCountry ? countryCityLatLngMap[selectedCountry] || {} : cityLatLngMap}
             />
             
             <Button 
@@ -415,11 +664,12 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
           isOpen={isScheduleModalOpen}
           onClose={closeScheduleModal}
           onSave={handleSaveSchedule}
-          city={currentCityForSchedule}
+          name={currentCityForSchedule?.name || EU_COUNTRIES_PLUS_SWISS[currentCountryForSchedule?.countryCode || ""] || "Error"}
           deliverySchedule={deliverySchedule}
           setDeliveryTime={setDeliveryTime}
           saving={saving}
           onMinOrderTimeChange={handleMinOrderTimeChange}
+          minOrderTimeParam={currentCityForSchedule?.minOrderTime || currentCountryForSchedule?.minOrderTime || 10080}
         />
       </Card>
     </div>
