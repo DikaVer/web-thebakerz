@@ -214,7 +214,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                     </Card>
                 </div>
             )}
-            {(showDeliveryInfo && validationResult.isInRange && validationResult.validatedAddress && validationResult.deliveryRegion && !validationResult.deliveryRegion.isPostDelivery) ? (
+            {(showDeliveryInfo && validationResult?.isInRange && validationResult?.validatedAddress && validationResult?.deliveryRegion && !validationResult?.deliveryRegion?.isPostDelivery) ? (
                 <>
                     <ButtonGroup
                         fullWidth
@@ -256,17 +256,19 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                     </ButtonGroup>
                 </>
             ) : (
-                <Alert
-                    key={"Delivery Options Alert"}
-                    className={'bg-primary-400 mt-4'}
-                    classNames={{
-                        description: 'text-white dark:text-default-500',
-                        title: 'text-md'
-                    }}
-                    title={t("deliveryOptionsAlertTitle")}
-                    description={t("deliveryOptionsAlertDescription", {store: store.ownerName})}
-                    variant={"solid"}
-                />
+                validationResult.deliveryRegion?.isPostDelivery && (
+                    <Alert
+                        key={"Delivery Options Alert"}
+                        className={'bg-primary-400 mt-4'}
+                        classNames={{
+                            description: 'text-white dark:text-default-500',
+                            title: 'text-md'
+                        }}
+                        title={t("deliveryOptionsAlertTitle")}
+                        description={t("deliveryOptionsAlertDescription", {store: store.ownerName})}
+                        variant={"solid"}
+                    />
+                )
             )}
             
             {/* Address Modal */}
