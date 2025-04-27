@@ -1204,11 +1204,11 @@
     "updatingLocation": "Updating location..."
   },
   "lib/actions/delivery-address-actions": {
-    "AddressNotPreciseEnough": "",
-    "CouldNotVerifyAddressLocation": "",
+    "AddressNotPreciseEnough": "Address is not precise enough!",
+    "CouldNotVerifyAddressLocation": "Could not verify address location. Please check the details.",
     "FailedToVerifyAddressLocation": "Failed to verify address location.",
-    "InvalidCity": "",
-    "InvalidPostalCode": "",
+    "InvalidCity": "Invalid City",
+    "InvalidPostalCode": "Invalid Postal Code",
     "MissingRequiredFields": "Formatted address is required for delivery validation."
   },
   "search": {

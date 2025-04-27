@@ -3,8 +3,8 @@
 import React, { useState, useCallback, ReactNode } from 'react';
 import { SearchAddress } from './components/search-address';
 import { ToggleDelivery } from './components/toggle-delivery';
-import { Coordinates } from '@/lib/cookie';
 import { useRouter } from 'next/navigation';
+import {Coordinates} from "@/lib/delivery-cookie";
 
 interface SearchComponentProps {
     initialCoords: Coordinates;

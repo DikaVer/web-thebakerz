@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { Autocomplete, AutocompleteItem, Button, Spinner } from '@heroui/react';
+import { Autocomplete, AutocompleteItem, Spinner } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { useLoadScript } from '@react-google-maps/api';
-import { Coordinates } from '@/lib/cookie';
 import { storeCoordinatesInCookies } from '@/app/actions';
 import { useTranslations } from 'next-intl';
+import {Coordinates} from "@/lib/delivery-cookie";
 
 // Constants
 const GOOGLE_MAPS_LIBRARIES = ['places'];
