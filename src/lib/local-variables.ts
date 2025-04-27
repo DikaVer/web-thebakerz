@@ -237,12 +237,13 @@ export const categories: Readonly<{ [key: string]: { description: string } }> = 
     'Cupcakes': { description: 'Individual portion cakes with decorative frosting.' },
     'Donuts': { description: 'Ring-shaped fried dough with various glazes and fillings.' },
     'Eclairs': { description: 'Choux pastry filled with cream and topped with icing.' },
-    'Gluten-free': { description: 'Baked goods made without gluten-containing ingredients.' },
     'Macarons': { description: 'French almond meringue cookies with filling.' },
     'Pastries': { description: 'Flaky, buttery baked goods including croissants and danish.' },
     'Pies': { description: 'Traditional fruit or savory fillings in a pastry crust.' },
     'Vegan': { description: 'Plant-based baked goods made without animal products.' },
-    'Wedding Cakes': { description: 'Elegant multi-tiered cakes for wedding celebrations.' }
+    'Wedding Cakes': { description: 'Elegant multi-tiered cakes for wedding celebrations.' },
+    'Bonbon': { description: 'Other categories not listed above.' },
+    'Chocolate Bar': { description: 'Other categories not listed above.' }
 };
 
 export const EU_COUNTRIES_PLUS_SWISS: Readonly<{ [key: string]: string }> = {
