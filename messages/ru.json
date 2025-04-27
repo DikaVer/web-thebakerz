@@ -627,6 +627,8 @@
     "zoom": ""
   },
   "app/(store)/components/location-map": {
+    "errorLoadingMap": "",
+    "loadingMap": "",
     "storeLocation": "",
     "viewOnGoogleMaps": ""
   },

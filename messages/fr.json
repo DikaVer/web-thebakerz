@@ -633,6 +633,8 @@
     "zoom": "Zoom"
   },
   "app/(store)/components/location-map": {
+    "errorLoadingMap": "",
+    "loadingMap": "",
     "storeLocation": "Emplacement du magasin",
     "viewOnGoogleMaps": "Voir sur Google Maps"
   },

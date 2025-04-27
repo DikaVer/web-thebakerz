@@ -637,6 +637,8 @@
     "zoom": "Zoom"
   },
   "app/(store)/components/location-map": {
+    "errorLoadingMap": "",
+    "loadingMap": "",
     "storeLocation": "Winkellocatie",
     "viewOnGoogleMaps": "Bekijk op Google Maps"
   },

@@ -14,6 +14,7 @@ import { useTranslations } from 'next-intl';
 import { z } from 'zod';
 import { Icon } from '@iconify/react';
 import { useDelivery } from '@/components/providers/delivery-provider';
+import { useGoogleMaps } from '@/components/providers/google-maps-provider';
 import { 
     AddressZodSchema, 
     MAX_CHARS_ADDRESS, 
@@ -75,6 +76,7 @@ export function AddressForm({
 }: AddressFormProps) {
   const t = useTranslations('app/(store)/components/store-subheader');
   const { handleAddressSubmit } = useDelivery();
+  const { isLoaded: isMapsApiReady, loadError } = useGoogleMaps();
 
   // --- RHF Setup ---
   const form = useForm<AddressFormData>({
@@ -96,34 +98,19 @@ export function AddressForm({
   // --- State for Autocomplete & Google Maps --- (Keep these)
   const [autocompleteValue, setAutocompleteValue] = useState(initialAddress?.formattedAddress || '');
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
-  const [isSearchReady, setIsSearchReady] = useState(false);
-  
+
   // --- Refs --- (Keep these)
   const formRef = useRef<HTMLFormElement>(null);
   const sessionTokenRef = useRef<google.maps.places.AutocompleteSessionToken | null>(null);
   const geocoderRef = useRef<google.maps.Geocoder | null>(null);
 
+  // Local error state to supplement provider's loadError
+  const [localError, setLocalError] = useState<string | null>(null);
+
   // --- Effects for Google Maps initialization and suggestion fetching --- (Keep these)
   useEffect(() => {
-    const checkGoogleMapsReady = () => {
-      if (window.google?.maps?.places) {
-        setIsSearchReady(true);
-        sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
-        logger.debug('addressForm', 'Google Maps and Places API ready via window object');
-      } else {
-        // If not ready, check again shortly
-        setTimeout(checkGoogleMapsReady, 100); 
-      }
-    };
-    checkGoogleMapsReady();
-
-    // Cleanup function is not strictly necessary here as we're not initializing anything
-    // that needs explicit cleanup related to this effect's trigger.
-  }, []);
-
-  useEffect(() => {
     const fetchSuggestions = async () => {
-      if (!isSearchReady || !autocompleteValue.trim() || !window.google?.maps?.places || !sessionTokenRef.current) {
+      if (!isMapsApiReady || !autocompleteValue.trim() || !window.google?.maps?.places || !sessionTokenRef.current) {
         setSuggestions([]);
         return;
       }
@@ -162,25 +149,14 @@ export function AddressForm({
     }, 350);
 
     return () => clearTimeout(timeoutId);
-  }, [autocompleteValue, isSearchReady]);
-
-  // Log when relevant states change
-  useEffect(() => {
-    logger.debug('addressForm', 'Places API ready state:', { 
-      isSearchReady, 
-      windowGoogleExists: !!window.google,
-      googleMapsExists: !!window.google?.maps,
-      googleMapsPlacesExists: !!window.google?.maps?.places
-    });
-  }, [isSearchReady]); // Removed isLoaded dependency
+  }, [autocompleteValue, isMapsApiReady]);
 
   // Initialize autocomplete value when loaded
   useEffect(() => {
-    // Removed isLoaded check
-    if (isSearchReady && initialAddress?.formattedAddress) {
+    if (isMapsApiReady && initialAddress?.formattedAddress) {
       setAutocompleteValue(initialAddress.formattedAddress);
     }
-  }, [isSearchReady, initialAddress]); // Removed isLoaded dependency
+  }, [isMapsApiReady, initialAddress]);
 
   // Reset form when initialAddress changes
   useEffect(() => {
@@ -213,16 +189,26 @@ export function AddressForm({
 
   // Initialize Google Maps API
   useEffect(() => {
-    if (isSearchReady && window.google?.maps) {
+    if (isMapsApiReady && !loadError && window.google?.maps) {
       // Initialize session token for Places API
       sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
       // Initialize Geocoder
       geocoderRef.current = new google.maps.Geocoder();
     }
-  }, [isSearchReady]);
+  }, [isMapsApiReady, loadError]);
 
   // --- Handlers for places autocomplete - ADAPTED for RHF ---
   const handleAutocompleteSelect = async (description: string, placeId?: string) => {
+    if (!isMapsApiReady || !!loadError) {
+      setLocalError(loadError ? `Maps failed to load: ${loadError.message}` : "Address search is not ready.");
+      return;
+    }
+    if (!geocoderRef.current) {
+        setLocalError("Geocoder service not initialized.");
+        return;
+    }
+    setLocalError(null); // Clear previous errors
+
     try {
       logger.debug('addressForm', 'Handling selection for address:', { description });
       setSuggestions([]);
@@ -354,14 +340,23 @@ export function AddressForm({
           </div>
         )}
         
+        {/* Display Google Maps load error or local error */}
+        {(loadError || localError) && (
+          <div className="text-sm p-2 rounded mb-2 bg-danger-100 text-danger-700">
+            {localError || loadError?.message || "An error occurred with the address search."} 
+          </div>
+        )}
+        
         {/* HeroUI Autocomplete Component - Keep as is, but ensure it interacts with RHF state if needed */}
         <div className="relative">
           <Autocomplete 
             label={t('searchAddress') || "Search for an address"}
             placeholder={ 
-              !isSearchReady 
-                ? "Loading Google Maps..." 
-                : t('typeToSearchAddress') || "Type to search (e.g. Damstraat 1, Amsterdam)"
+              loadError 
+                ? `Error: ${loadError.message}`
+                : !isMapsApiReady 
+                  ? "Loading Google Maps..." 
+                  : t('typeToSearchAddress') || "Type to search (e.g. Damstraat 1, Amsterdam)"
             }
             value={autocompleteValue}
             onInputChange={setAutocompleteValue} // Still control the visual input directly
@@ -371,9 +366,9 @@ export function AddressForm({
                 handleAutocompleteSelect(selected.description, selected.place_id);
               }
             }}
-            isDisabled={!isSearchReady || isValidating || isRHFSubmitting}
+            isDisabled={!isMapsApiReady || !!loadError || isValidating || isRHFSubmitting}
             variant="bordered"
-            isLoading={!isSearchReady}
+            isLoading={!isMapsApiReady && !loadError}
             startContent={
               <Icon icon="solar:magnifer-linear" className="text-default-400" width={20} />
             }

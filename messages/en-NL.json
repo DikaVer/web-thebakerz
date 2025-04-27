@@ -631,6 +631,8 @@
     "zoom": "Zoom"
   },
   "app/(store)/components/location-map": {
+    "errorLoadingMap": "Error loading map",
+    "loadingMap": "Loading Map...",
     "storeLocation": "Store Location",
     "viewOnGoogleMaps": "View on Google Maps"
   },

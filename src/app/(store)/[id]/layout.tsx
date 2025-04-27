@@ -15,6 +15,7 @@ import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 import LayoutComp from "@/components/layout-comp";
 import NotFound from "@/app/(error_layout)/not-found";
 import Script from 'next/script';
+import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 
 type Params = Promise<{ id: string }>
 
@@ -214,18 +215,13 @@ export default async function Layout({
 
     return (
         <div className={'min-h-svh'}>
-            <Script
-                id="google-maps-script"
-                strategy="afterInteractive"
-                src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
-                async
-                defer
-            />
-            {(storeData?.storeName && id !== storeData?.storeName) && <StoreIdChecker storeId={id} storeName={storeData?.storeName}/>}
-            {await setupStoreProviders({
-                id,
-                children
-            })}
+            <GoogleMapsProvider>
+                {(storeData?.storeName && id !== storeData?.storeName) && <StoreIdChecker storeId={id} storeName={storeData?.storeName}/>}
+                {await setupStoreProviders({
+                    id,
+                    children
+                })}
+            </GoogleMapsProvider>
         </div>
     );
 }

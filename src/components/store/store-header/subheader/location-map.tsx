@@ -3,8 +3,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import Script from "next/script";
 import { Icon } from "@iconify/react";
+import { useGoogleMaps } from '@/components/providers/google-maps-provider';
+import { logger } from '@/lib/logger';
 
 interface LocationMapProps {
     latitude: number;
@@ -24,7 +25,7 @@ const LocationMap: React.FC<LocationMapProps> = ({
     className,
 }) => {
     const t = useTranslations("app/(store)/components/location-map");
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    const { isLoaded: isMapsApiReady, loadError } = useGoogleMaps();
     const mapRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<google.maps.Map | null>(null);
     const markerRef = useRef<google.maps.Marker | null>(null);
@@ -94,6 +95,11 @@ const LocationMap: React.FC<LocationMapProps> = ({
     const initializeMap = () => {
         if (!mapRef.current || mapInstanceRef.current) return;
 
+        if (!window.google || !window.google.maps) {
+            logger.error('LocationMap', 'Google Maps API not available for initialization');
+            return;
+        }
+
         const mapOptions = {
             center: { lat: latitude, lng: longitude },
             zoom: zoom,
@@ -133,16 +139,16 @@ const LocationMap: React.FC<LocationMapProps> = ({
 
     // Initialize map when Google Maps script is loaded
     useEffect(() => {
-        const checkGoogleMaps = () => {
-            if (window.google?.maps) {
-                initializeMap();
-            } else {
-                // If Google Maps isn't loaded yet, wait and check again
-                setTimeout(checkGoogleMaps, 100);
-            }
-        };
-
-        checkGoogleMaps();
+        // Initialize map only when API is loaded and no error occurred
+        if (isMapsApiReady && !loadError) {
+            logger.debug('LocationMap', 'Google Maps ready, initializing map.');
+            initializeMap();
+        } else if (loadError) {
+            logger.error('LocationMap', 'Cannot initialize map due to Google Maps loading error:', { loadError });
+        } else {
+            logger.debug('LocationMap', 'Google Maps not ready yet.');
+            // Optional: You could implement a timeout here if needed, but the provider handles loading.
+        }
         
         // Clean up map on unmount
         return () => {
@@ -153,7 +159,7 @@ const LocationMap: React.FC<LocationMapProps> = ({
                 URL.revokeObjectURL(iconUrlRef.current);
             }
         };
-    }, []);
+    }, [isMapsApiReady, loadError, latitude, longitude]);
 
 
     return (
@@ -169,10 +175,24 @@ const LocationMap: React.FC<LocationMapProps> = ({
                     ref={mapRef} 
                     className="w-full h-full rounded-xl rounded-t-none"
                 >
+                    {/* Show error if map failed to load */}    
+                    {loadError && (
+                         <div className="absolute inset-0 bg-danger-50 flex items-center justify-center text-center p-4">
+                            <Icon icon="solar:danger-triangle-bold-duotone" className="text-danger text-2xl mr-2"/>
+                            <span className="text-danger-700 text-sm">{t("errorLoadingMap")}</span>
+                         </div>
+                    )}
                     {/* Fallback content while map loads */}
-                    <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                    {!isMapsApiReady && !loadError && (
+                        <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                            <Icon icon="svg-spinners:ring-resize" className="text-gray-400 text-2xl mr-2" />
+                            <span className="text-gray-400 text-sm">{t("loadingMap")}</span>
+                        </div>
+                    )}
+                    {/* Map container - shown once loaded */} 
+                    {isMapsApiReady && !loadError && (
                         <span className="text-gray-400">{t("storeLocation")}</span>
-                    </div>
+                    )}
                 </div>
                 <div className="absolute inset-0 rounded-xl rounded-t-none border border-default-100 pointer-events-none"></div>
                 <div className="absolute top-3 right-3 bg-black/70 text-white text-xs font-medium px-3 py-1.5 rounded-lg backdrop-blur-sm transition-transform hover:scale-105 flex items-center">

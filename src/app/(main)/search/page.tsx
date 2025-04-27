@@ -8,6 +8,7 @@ import { getLocale, getTranslations } from 'next-intl/server'; // Import getLoca
 import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata utils
 import { logger } from '@/lib/logger';
 import { Coordinates, getSearchCity, getSearchCoordinates, getSearchCountry } from '@/lib/delivery-cookie';
+import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 
 // Define search page specific metadata translations
 const pageMetadataTranslations = {
@@ -215,22 +216,24 @@ export default async function Page(props : SearchPageProps) {
   }
 
   return (
-    <SearchComponent
-      initialCoords={initialCoords}
-      // Pass resolved initial values to the client component
-      initialDeliveryMode={initialMode}
-    >
-      {/* 
-         Use Suspense to show a loading state while StoreResults fetches data. 
-         The key ensures Suspense re-triggers when coords or mode change the data fetching.
-      */}
-      <Suspense key={`${initialCoords.lat}-${initialCoords.lng}-${initialMode}`} fallback={<StoresLoadingSkeleton />}>
+    <GoogleMapsProvider>
+      <SearchComponent
+        initialCoords={initialCoords}
+        // Pass resolved initial values to the client component
+        initialDeliveryMode={initialMode}
+      >
         {/* 
-           Pass coords and mode needed for fetching. 
-           Render this async component inside Suspense.
+          Use Suspense to show a loading state while StoreResults fetches data. 
+          The key ensures Suspense re-triggers when coords or mode change the data fetching.
         */}
-        <StoreResults coords={initialCoords} mode={initialMode} country={initialCountry || undefined} />
-      </Suspense>
-    </SearchComponent>
+        <Suspense key={`${initialCoords.lat}-${initialCoords.lng}-${initialMode}`} fallback={<StoresLoadingSkeleton />}>
+          {/* 
+            Pass coords and mode needed for fetching. 
+            Render this async component inside Suspense.
+          */}
+          <StoreResults coords={initialCoords} mode={initialMode} country={initialCountry || undefined} />
+        </Suspense>
+      </SearchComponent>
+    </GoogleMapsProvider>
   );
 } 

@@ -8,10 +8,10 @@ import Image from 'next/image';
 import BlurText from '@/components/ui/blur-text';
 import { storeCoordinatesInCookies } from '@/app/actions';
 import { pacifico } from '@/components/fonts';
-import { useLoadScript } from '@react-google-maps/api';
 import { LandingSigninButton } from '@/components/ui/landing-signin';
 import { useTranslations } from 'next-intl';
 import { logger } from '@/lib/logger';
+import { useGoogleMaps } from '@/components/providers/google-maps-provider';
 
 // Constants
 const GOOGLE_MAPS_LIBRARIES = ['places'];
@@ -26,6 +26,7 @@ interface PlaceSuggestion {
 // LandingSection component with the address search
 export const LandingHeroSection = () => {
   const router = useRouter();
+  const { isLoaded: isMapsApiReady, loadError } = useGoogleMaps();
   const [isLocating, setIsLocating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -33,79 +34,91 @@ export const LandingHeroSection = () => {
   const sessionTokenRef = useRef<google.maps.places.AutocompleteSessionToken | null>(null);
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
-  const [isSearchReady, setIsSearchReady] = useState(false);
   const t = useTranslations("app/landing/marketplace");
-
-  // Load Google Maps API
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
-    libraries: GOOGLE_MAPS_LIBRARIES as any,
-    language: 'nl', // Set Dutch language for suggestions
-    preventGoogleFontsLoading: true, // Optional: prevent font loading if handled elsewhere
-  });
 
   // Check if API key is missing and log error
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
       logger.error('googleMaps', 'NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set in environment variables!');
       logger.warn('googleMaps', 'You need to add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to your .env.local file');
+      setErrorMessage('Maps configuration error.'); // Show user-facing error
     }
-    
-    if (loadError) {
-      logger.error('googleMaps', 'Google Maps script loading error:', { error: loadError });
-    }
-  }, [loadError]);
+  }, []); // Run once on mount
+
+  // Set error message from provider if it exists
+  if (loadError && !errorMessage) {
+    setErrorMessage(`Maps failed to load: ${loadError.message}`);
+  }
 
   // Initialize services when Maps API is loaded
   useEffect(() => {
-    if (isLoaded && window.google?.maps) {
-      geocoderRef.current = new google.maps.Geocoder();
-      sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
-      setIsSearchReady(true);
-      logger.debug('googleMaps', 'Google Maps and Places API initialized');
-    }
-  }, [isLoaded]);
-
-  // Fetch suggestions when input changes
-  useEffect(() => {
-    const fetchSuggestions = async () => {
-      if (!isSearchReady || !value.trim() || !window.google?.maps?.places || !sessionTokenRef.current) {
-        setSuggestions([]);
-        return;
+    // Initialize only when the script is loaded successfully
+    if (isMapsApiReady && !loadError && window.google?.maps?.places) {
+      try {
+        geocoderRef.current = new google.maps.Geocoder();
+        sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
+        logger.debug('googleMaps', 'Google Maps services initialized via provider.');
+      } catch (error) {
+        logger.error('googleMaps', 'Error initializing Google Maps services:', { error });
+        setErrorMessage('Failed to initialize map services.');
       }
+    }
+  }, [isMapsApiReady, loadError]); // Depend on load status and error
 
+  // Fetch suggestions when input changes and API is ready
+  useEffect(() => {
+    // Ensure API is ready, value exists, AND session token is available
+    if (!isMapsApiReady || !value.trim() || !sessionTokenRef.current) {
+      setSuggestions([]);
+      return;
+    }
+    
+    // Capture the current token safely
+    const currentSessionToken = sessionTokenRef.current;
+
+    const fetchSuggestions = async () => {
       try {
         const request = {
           input: value,
           includedPrimaryTypes: ['geocode'],
           includedRegionCodes: COUNTRY_RESTRICTION,
           language: 'nl',
-          sessionToken: sessionTokenRef.current,
+          sessionToken: currentSessionToken, // Use the captured non-null token
         };
 
+        // Use the new API
         const result = await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions(request);
-        
+
         if (result && result.suggestions) {
           const formattedSuggestions: PlaceSuggestion[] = result.suggestions.map((suggestion: any) => ({
             place_id: suggestion.placePrediction.placeId,
             description: suggestion.placePrediction.text?.text || suggestion.placePrediction.description || ''
           }));
-          
+
           setSuggestions(formattedSuggestions);
+        } else {
+          logger.warn('fetchSuggestions', 'No suggestions returned from API');
+          setSuggestions([]);
         }
       } catch (error) {
-        logger.error('fetchSuggestions', 'Error fetching place suggestions:', { error });
+        // Check for specific API key errors if possible
+        if (error instanceof Error && error.message.includes('API_KEY_HTTP_REFERRER_BLOCKED')) {
+          logger.error('fetchSuggestions', 'API Key HTTP Referrer Blocked', { error });
+          setErrorMessage('Address lookup failed due to API key restriction.');
+        } else {
+          logger.error('fetchSuggestions', 'Error fetching place suggestions:', { error });
+          // Avoid showing generic errors if suggestions just fail silently
+          // setErrorMessage('Failed to fetch address suggestions.');
+        }
         setSuggestions([]);
       }
     };
 
     // Debounce the suggestions request
-    const timeoutId = setTimeout(() => {
-      fetchSuggestions();
-    }, 350);
+    const timeoutId = setTimeout(fetchSuggestions, 350);
 
     return () => clearTimeout(timeoutId);
-  }, [value, isSearchReady]);
+  }, [value, isMapsApiReady]); // Depend on value and API readiness
 
   // Clear suggestions
   const clearSuggestions = () => {
@@ -114,8 +127,10 @@ export const LandingHeroSection = () => {
 
   // Handle selection from autocomplete
   const handleAutocompleteSelect = async (selectedAddress: string, placeId?: string) => {
-    if (!isSearchReady || !geocoderRef.current) {
-      setErrorMessage("Address search is not ready yet.");
+    if (!isMapsApiReady || !geocoderRef.current) {
+      // Use a more specific error if loading failed
+      const errorMsg = loadError ? `Maps failed to load: ${loadError.message}` : "Address search is not ready yet.";
+      setErrorMessage(errorMsg);
       return;
     }
     
@@ -182,8 +197,11 @@ export const LandingHeroSection = () => {
 
   // Get coordinates from user's current location
   const handleLocationClick = async () => {
-    if (!isLoaded || !navigator.geolocation) {
-      setErrorMessage("Geolocation services are not available.");
+    if (!isMapsApiReady || !navigator.geolocation) {
+      const errorMsg = !isMapsApiReady 
+        ? (loadError ? `Maps failed to load: ${loadError.message}` : "Address search is not ready yet.")
+        : "Geolocation services are not available in your browser.";
+      setErrorMessage(errorMsg);
       return;
     }
     
@@ -265,12 +283,8 @@ export const LandingHeroSection = () => {
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
-      {/* Explicit check for Maps loading error */}
-      {loadError && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-red-100 text-red-700 p-4">
-          Error loading Google Maps. Please check your API key and network connection.
-        </div>
-      )}
+      {/* Show error message if API key is missing or initialization failed */}
+      {/* The general errorMessage state handles errors, including loadError */}
       
       {/* Full-screen background image */}
       <div className="absolute inset-0 w-full h-full">
@@ -344,9 +358,9 @@ export const LandingHeroSection = () => {
                     handleAutocompleteSelect(selected.description, selected.place_id);
                   }
                 }}
-                isDisabled={!isLoaded || !isSearchReady || isLocating || isSubmitting}
+                isDisabled={!isMapsApiReady || !!loadError || isLocating || isSubmitting}
                 variant="bordered"
-                isLoading={!isLoaded || !isSearchReady || isLocating || isSubmitting}
+                isLoading={!isMapsApiReady || isLocating || isSubmitting} // Show loading based on API readiness
                 startContent={
                   <Icon icon="solar:magnifer-linear" className="text-default-400" width={20} />
                 }
@@ -385,7 +399,7 @@ export const LandingHeroSection = () => {
                 )}
                 
                 {errorMessage && (
-                  <div className="text-red-500 p-2 rounded-md">
+                  <div className="text-red-500 p-2 rounded-md bg-red-100/80">
                     {errorMessage}
                   </div>
                 )}
