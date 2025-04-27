@@ -134,9 +134,7 @@ export async function validateAddress(
           }
           
           // Only validate that we have precise location and correct postal code and city
-          const isValidAddress = isPreciseLocation && 
-                                foundPostalCode && postalCodeMatches && 
-                                foundCity && cityMatches;
+          const isValidAddress = foundPostalCode && postalCodeMatches && foundCity && cityMatches;
           
           if (!isValidAddress) {
             logger.debug("validateAddress", "Address validation failed", { 
