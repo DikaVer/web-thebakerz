@@ -100,18 +100,20 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                         <div className="flex flex-col w-full">
                             <div className={'flex justify-between'}>
                                 <p className="font-medium truncate text-start">{productData.name}</p>
-                                <Button
-                                    size={'sm'}
-                                    variant={'ghost'}
-                                    isLoading={isLoading}
-                                    onPress={async () => {
-                                        setIsLoading(true);
-                                        await handleDelete();
-                                        setIsLoading(false);
-                                    }}
-                                >
-                                    {!isLoading && <Icon icon="solar:trash-bin-trash-broken" width={24} />}
-                                </Button>
+                                {item.quantity > 1 && (
+                                    <Button
+                                        size={'sm'}
+                                        variant={'ghost'}
+                                        isLoading={isLoading}
+                                        onPress={async () => {
+                                            setIsLoading(true);
+                                            await handleDelete();
+                                            setIsLoading(false);
+                                        }}
+                                    >
+                                        {!isLoading && <Icon icon="solar:trash-bin-trash-broken" width={24} />}
+                                    </Button>
+                                )}
                             </div>
 
                             {/* Display variants */}

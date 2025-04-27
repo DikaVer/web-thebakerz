@@ -41,6 +41,20 @@ export async function GET(request: Request): Promise<Response> {
 	const storedState = cookieStore.get("google_oauth_state")?.value ?? null;
 	const codeVerifier = cookieStore.get("google_code_verifier")?.value ?? null;
 	
+	// Enhanced logging to debug potential timing issues with fast redirects
+	log.debug('googleCallback', 'Retrieved OAuth parameters before validation', {
+		requestId: context.requestId,
+		clientIP: context.clientIP,
+		codeParam: code ? 'present' : 'null', // Avoid logging sensitive code itself
+		stateParam: state ? 'present' : 'null',
+		storedStateCookie: storedState ? 'present' : 'null',
+		codeVerifierCookie: codeVerifier ? 'present' : 'null',
+		hasCode: code !== null,
+		hasState: state !== null,
+		hasStoredState: storedState !== null,
+		hasCodeVerifier: codeVerifier !== null
+	});
+
 	// Check for missing parameters
 	if (code === null || state === null || storedState === null || codeVerifier === null) {
 		log.warn('googleCallback', 'Missing required OAuth parameters', {
