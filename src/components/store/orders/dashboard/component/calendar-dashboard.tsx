@@ -14,6 +14,7 @@ import { useTranslations } from "next-intl"
 import {useMediaQuery} from "usehooks-ts";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {OrderStatusByDate} from "@/components/store/orders/dashboard/order-dashboard";
+import { logger } from "@/lib/logger";
 
 /**
  * Interface for storing order status information by date.
@@ -119,11 +120,21 @@ function CalendarDashboard({
      * Fetches orders for the current month and processes them to update
      * the order status indicators on the calendar.
      */
-    React.useEffect(() => {
+    useEffect(() => {
 
         const fetchOrdersForMonth = async () => {
             const monthStart = startOfMonth(currentMonth);
             const monthEnd = endOfMonth(currentMonth);
+            
+            logger.debug(
+                'fetchOrdersForMonth',
+                'Fetching orders for month range',
+                { 
+                    storeId: store?.id || "X", 
+                    from: formatApiDate(monthStart), 
+                    to: formatApiDate(monthEnd) 
+                }
+            );
 
             try {
                 const orders = await getOrdersByDateRange(
@@ -132,8 +143,19 @@ function CalendarDashboard({
                     formatApiDate(monthEnd)
                 );
 
+                logger.debug(
+                    'fetchOrdersForMonth',
+                    'Successfully fetched orders',
+                    { ordersCount: orders?.length || 0 }
+                );
+
                 processOrderData(orders || []);
             } catch (error) {
+                logger.error(
+                    'fetchOrdersForMonth',
+                    'Error fetching monthly orders',
+                    { error: error instanceof Error ? error.message : String(error) }
+                );
                 console.error("Error fetching monthly orders:", error);
             }
         };
@@ -159,6 +181,16 @@ function CalendarDashboard({
 
         orders.forEach(order => {
             const orderDate = order.scheduled_time.date;
+            
+            logger.debug(
+                'processOrderData',
+                'Processing order',
+                { 
+                    orderDate, 
+                    orderStatus: order.order_status, 
+                    orderId: order.id 
+                }
+            );
 
             if (!statusMap[orderDate]) {
                 statusMap[orderDate] = {
@@ -185,6 +217,12 @@ function CalendarDashboard({
                 statusMap[orderDate].ready_count++;
             }
         });
+
+        logger.debug(
+            'processOrderData',
+            'Final status map created',
+            { statusMap }
+        );
 
         setOrderStatusByDate(statusMap);
     };
@@ -319,8 +357,15 @@ function CalendarDashboard({
         //@ts-ignore
         const dayRender = useDayRender(date, displayMonth, buttonRef);
 
-        // Format date key to match orderStatusByDate format
-        const dateKey = format(date, 'yyyy-M-dd');
+        // Format date key to match orderStatusByDate format from API (yyyy-M-d)
+        // The API uses a format without leading zeros for month and day
+        const dateKey = format(date, 'yyyy-M-d');
+        
+        logger.debug(
+            'CustomDay',
+            'Processing day cell',
+            { dateKey, dateInfo: orderStatusByDate[dateKey], activeModifiers }
+        );
 
         // Get status for this date
         const dateStatus = orderStatusByDate[dateKey];
@@ -369,7 +414,7 @@ function CalendarDashboard({
                             </span>
                             <span
                                 className={cn('bg-blue-500 rounded-full border-text border-1 text-xs sm:text-small px-0.5 text-white aspect-square',
-                                    (dateStatus?.ready_count <= 0 || !dateStatus?.ready) && 'bg-transparent border-transparent text-transparent'
+                                    (dateStatus?.ready_count <= 0 || !dateStatus?.ready_count) && 'bg-transparent border-transparent text-transparent'
                                 )}>
                                 {dateStatus?.ready_count || 0}
                             </span>

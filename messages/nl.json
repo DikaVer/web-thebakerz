@@ -1,38 +1,5 @@
 {
-  "HomePage": {
-    "title": "Meer bakken. Minder gedoe.",
-    "subtitle": "TheBakerz - alle bestellingen, klantberichten en recepten op één plek",
-    "learn more": "Meer informatie",
-    "get started": "Aan de slag"
-  },
-  "Shop": {},
-  "OrderStatus": {
-    "cancelled": "Geannuleerd",
-    "completed": "Voltooid",
-    "new": "Nieuw",
-    "ready": "Klaar",
-    "refunded": "Terugbetaald",
-    "started": "Koken",
-    "unknown": "Onbekend"
-  },
-  "ProductSettings": {
-    "ProductManager": "Productmanager",
-    "ManageProductsDescription": "Voeg uw producten toe en beheer ze"
-  },
-  "app/(error_layout)/not-found": {
-    "sorry": "Sorry, deze pagina is nog niet beschikbaar.",
-    "brokenLink": "Het kan zijn dat de link die u volgde, niet meer werkt of dat de pagina is verwijderd.",
-    "goBackToTheBakerz": "Ga terug naar TheBakerz",
-    "underConstruction": "In aanbouw!",
-    "subtitle": "Wij doen ons best om het zo snel mogelijk te leveren!"
-  },
-  "app/(error_layout)/error": {
-    "error": "Fout",
-    "somethingWentWrong": "Er is iets misgegaan!",
-    "goBackToTheBakerz": "Ga terug naar TheBakerz"
-  },
   "Allergies": {
-    "honey": "honing",
     "Add Allergy": "Voeg allergie toe",
     "abalone": "abalone",
     "apple": "appel",
@@ -46,6 +13,7 @@
     "fish": "vis",
     "gelatin": "gelatine",
     "gluten": "gluten",
+    "honey": "honing",
     "kiwi": "kiwi",
     "lupine": "lupine",
     "matsuke": "matsutake",
@@ -64,54 +32,42 @@
     "walnut": "okkernoot",
     "wheat": "tarwe"
   },
-  "app/(store)/components/variants-user-selection": {
-    "max": "Maximaal"
+  "Dietary": {
+    "AddDietaryRestriction": "Voeg dieet toe",
+    "Diet": "Speciaal",
+    "gluten-free": "Glutenvrij",
+    "halal": "Halal",
+    "lactose-free": "Lactosevrij",
+    "sugar-free": "Geen suiker",
+    "vegan": "Veganistisch"
   },
-  "app/(main)/page": {
-    "whyChooseTheBakerz": "Waarom kiezen voor TheBakerz?",
-    "transparentPricing": "Transparante prijzen",
-    "monthlySubscription": "Abonnement van € 9,99/maand",
-    "paymentFee": "Betalings- en servicekosten 8%",
-    "paymentFeeInfo": "8% van de omzet voor het hosten van website-, operationele en betalingsdiensten",
-    "freeTrial": "GRATIS PROEFVERSIE",
-    "exclusiveOffer": "Exclusief aanbod: start 3 maanden gratis!",
-    "getStarted": "Ga aan de slag met TheBakerz",
-    "loading": "Bezig met laden...",
-    "ownWebshop": "Je eigen webshop",
-    "professionalStore": "Professionele online winkel om uw gebakken creaties te presenteren en te verkopen",
-    "allMessagesInOnePlace": "Alle berichten op één plek",
-    "connectMessages": "Verbind uw WhatsApp-, Instagram- en Facebook-berichten in één overzicht",
-    "recipeOrderControl": "Recept & Bestelbeheer",
-    "easyToUseSystem": "Gebruiksvriendelijk systeem om uw recepten te beheren en alle bestellingen te volgen",
-    "smartCalendar": "Slimme kalender",
-    "planProduction": "Plan uw productie en houd dagelijkse taken bij",
-    "wantYouToSucceed": "Wij willen dat u slaagt",
-    "Tips": "Tips",
-    "Tips Info": "Tips Info"
+  "HomePage": {
+    "get started": "Aan de slag",
+    "learn more": "Meer informatie",
+    "subtitle": "TheBakerz - alle bestellingen, klantberichten en recepten op één plek",
+    "title": "Meer bakken. Minder gedoe."
   },
-  "app/(main)/about-us/page": {
-    "greetingTitle": "Aangenaam kennismaken",
-    "greeting": "Wij zijn David en Dumitru, wij hebben TheBakerz opgericht zodat thuisbakkers en hobbykoks hun producten eenvoudig kunnen verkopen. We zagen een groeiende markt van gepassioneerde bakkers en nog meer mensen die snakken naar iets beters dan supermarktgebak. Dus hebben we een platform gebouwd dat hen samenbrengt. Simpel: bakkers krijgen tools om te groeien, klanten krijgen toegang tot geweldige producten. Win Win! ",
-    "sloganTitle": "Meer bakken, minder gedoe",
-    "slogan": "TheBakerz zet alles wat bakkers nodig hebben op één plek. In plaats van heen en weer te springen tussen spreadsheets, e-mails en berichten, kunt u al uw bestellingen, schema's en klantgegevens vanaf één georganiseerde plek verwerken. Minder gedoe, minder hoofdpijn en meer energie om te doen waar u het beste in bent: bakken.",
-    "whyTitle": "Waarom we dit doen",
-    "why": "Voor ons is TheBakerz niet zomaar een idee, het is een direct antwoord op wat onze vrienden en familiebakkers ons vertelden dat ze nodig hebben. We zijn er om het makkelijker te maken, zodat jij je kunt richten op wat je het liefste doet. Volg ons op social media en laten we samen een betere toekomst vormgeven.",
-    "follow": "Volg ons"
+  "OrderStatus": {
+    "cancelled": "Geannuleerd",
+    "completed": "Voltooid",
+    "new": "Nieuw",
+    "ready": "Klaar",
+    "refunded": "Terugbetaald",
+    "started": "Koken",
+    "unknown": "Onbekend"
   },
-  "app/(return_page)/settings/page": {
-    "settingsTitle": "Instellingen",
-    "settingsDescription": "Pas uw instellingen en profiel aan."
+  "ProductAdd": {
+    "ManageProductsDescription": "Voeg product helemaal opnieuw toe of gebruik de sjabloon",
+    "ProductAdd": "Productmanager"
   },
-  "app/(return_page)/support/contact-us/page": {
-    "support": "Ondersteuning",
-    "contactUs": "Neem contact met ons op",
-    "contactUsDescription": "Wij zijn er om u te helpen tijdens onze kantooruren. Neem gerust contact met ons op voor vragen of problemen die u heeft."
+  "ProductSettings": {
+    "ManageProductsDescription": "Voeg uw producten toe en beheer ze",
+    "ProductManager": "Productmanager"
   },
-  "app/(return_page)/transit-login/page": {
-    "performingSignIn": "Aanmelden uitvoeren..."
+  "Shop": {
   },
-  "app/(return_page)/transit-exit/page": {
-    "performingSignOut": "Afmelden..."
+  "UsersDashboard": {
+    "Search User": "Zoek gebruiker"
   },
   "Working Hours": {
     "brandName": "TheBakerz",
@@ -123,663 +79,118 @@
     "tuesday": "Dinsdag",
     "wednesday": "Woensdag"
   },
-  "app/(return_page)/settings/components/profile-setting": {
-    "profile": "Profiel",
-    "displaysProfileStore": "Deze informatie wordt in uw winkel weergegeven",
-    "displaysProfile": "Deze informatie wordt weergegeven op uw profiel",
-    "customer": "Klant",
-    "storeName": "Winkelnaam",
-    "name": "Naam",
-    "editCurrentStoreName": "Bewerk uw huidige winkelnaam",
-    "editCurrentName": "Bewerk uw huidige naam",
-    "profileUpdated": "Profiel bijgewerkt",
-    "profileHasUpdated": "Je profiel is bijgewerkt",
-    "updating": "Bijwerken...",
-    "updateProfile": "Profiel bijwerken",
-    "bakerz": "TheBakerz Partner"
-  },
-  "app/(return_page)/settings/components/calendar-settings": {
-    "workingSchedule": "Werkschema",
-    "workingScheduleDescription": "Stel uw werkuren in voor elke dag van de week"
-  },
-  "app/(return_page)/settings/components/products-settings": {
-    "image": "Afbeelding",
-    "nameAndPrice": "Naam & Prijs",
-    "drag": "Slepen",
-    "updatingOrders": "Bestellingen bijwerken...",
-    "updateProductOrder": "Product- en categoriebestellingen bijwerken",
-    "noProductsYet": "De winkel heeft nog geen producten.",
-    "addItem": "Item toevoegen",
-    "productManager": "Productmanager",
-    "manageProductsDescription": "Voeg uw producten toe en beheer ze"
-  },
-  "app/(return_page)/settings/components/tabs-settings": {
-    "profile": "Profiel",
-    "information": "Info"
-  },
-  "app/(return_page)/settings/components/products/product-tab": {},
-  "app/(return_page)/settings/components/products/product-card": {
-    "productManager": "Productmanager"
-  },
-  "app/(return_page)/settings/components/calendar/day-picker": {
-    "specialWorkingHours": "Speciale werkuren",
-    "selectDaysWithDifferentHours": "Selecteer dagen met verschillende uren",
-    "stayDuration": "Verblijfsduur",
-    "editDay": "Dag bewerken",
-    "startTime": "Starttijd",
-    "endTime": "Eindtijd",
-    "pleaseEnterValidTime": "Voer een geldige tijd in"
-  },
-  "app/(return_page)/settings/components/calendar/min-time-order": {
-    "title": "Minimale besteltijd",
-    "description": "Selecteer hoeveel tijd van tevoren u nodig hebt voordat u een bestelling uitvoert",
-    "selectLabel": "Minimale pre-ordertijd",
-    "selectPlaceholder": "Selecteer een tijd",
-    "successMessage": "Minimale besteltijd succesvol bijgewerkt",
-    "errorMessage": "Het is niet gelukt om de minimale besteltijd bij te werken",
-    "minutes": "minuten",
-    "hour": "uur",
-    "hours": "uren",
-    "day": "dag",
-    "days": "dagen"
-  },
-  "app/(return_page)/settings/components/calendar/schedule-picker": {
-    "startTime": "Starttijd",
-    "startTimeError": "Starttijdfout",
-    "endTime": "Eindtijd",
-    "endTimeError": "Eindtijd fout",
-    "errorSomethingWentWrong": "Er ging iets mis!",
-    "errorTooManyRequests": "Te veel aanvragen!",
-    "errorInvalidTimeFields": "Ongeldige tijd",
-    "scheduleSavedSuccess": "Schema opgeslagen",
-    "errorFailedToSaveSchedule": "Kan schema niet opslaan",
-    "saving": "Opslaan...",
-    "saveWorkingHours": "Bespaar werkuren"
-  },
-  "app/(store)/components/store-header": {
-    "instagram": "Instagram",
-    "facebook": "Facebook",
-    "pickup": "Ophalen",
-    "delivery": "Levering"
-  },
-  "app/(store)/components/store-description": {
-    "pickUpOnly": "Alleen afhalen",
-    "pickUpDescription": "Deze winkel biedt alleen afhaalbestellingen aan. Selecteer een afhaaltijd tijdens het afrekenen.",
-    "workingHours": "Werkuren",
-    "phone": "Telefoon",
-    "close": "Sluit",
-    "deliveryOnly": "Alleen levering",
-    "deliveryOnlyDescription": "Deze winkel biedt alleen leveringsopdrachten aan. \nSelecteer een levertijd tijdens het afrekenen.",
-    "pickUpAndDelivery": "Ophalen en leveren",
-    "pickUpAndDeliveryDescription": "Deze winkel biedt alleen leverings- en ophaalopdrachten. \nSelecteer een tijdstip tijdens het afrekenen.",
-    "facebook": "Facebook",
-    "addressPlaceholder": "Adres Placeholder",
-    "locationPlaceholder": "Locatie Placeholder",
-    "instagram": "Instagram"
-  },
-  "app/(store)/components/product-search": {
-    "search": "Zoeken op productnaam of categorie..."
-  },
-  "app/(store)/components/product-tabs": {
-    "categoryNavigation": "Categorie Navigatie"
-  },
-  "app/(store)/components/orders": {
-    "backToOrderDashboard": "Terug naar het besteldashboard"
-  },
-  "app/(store)/components/smart-calendar": {
-    "time": "Tijd"
-  },
-  "app/(store)/components/store-top-next": {
-    "openingHours": "Openingstijden",
-    "phone": "Telefoon",
-    "alertPickupOnly": "Deze winkel biedt alleen pick-up orders.",
-    "alertDeliveryAndPickup": "Deze winkel biedt pick-up en leveringsopdrachten.",
-    "alertDeliveryOnly": "Deze winkel biedt alleen leveringsopdrachten aan.",
-    "alertHoverPickupOnly": "Selecteer een ophaaltijd tijdens het afrekenen",
-    "alertHoverDeliveryOnly": "Selecteer een levertijd tijdens het afrekenen",
-    "alertHoverDeliveryAndPickup": "Selecteer een leverings- of ophaaltijd tijdens het afrekenen"
-  },
-  "app/(store)/components/location-map": {
-    "viewOnGoogleMaps": "Bekijk op Google Maps",
-    "storeLocation": "Winkellocatie"
-  },
-  "app/(store)/components/working-hours": {
-    "noScheduleAvailable": "Geen schema beschikbaar",
-    "workingHours": "Werkuren",
-    "addressOutOfRange": "Adres buiten bereik",
-    "enterAddressPrompt": "Voer adres in",
-    "scheduleUnavailable": "Plan niet beschikbaar",
-    "checkingAddress": "Voer uw adres in",
-    "scheduleFormatError": "Schema format fout",
-    "closed": "Gesloten",
-    "noInfo": "Gesloten",
-    "friday": "Vrijdag",
-    "monday": "Maandag",
-    "saturday": "Zaterdag",
-    "sunday": "Zondag",
-    "thursday": "Donderdag",
-    "tuesday": "Dinsdag",
-    "wednesday": "Woensdag"
-  },
-  "app/(store)/components/three-dots": {
-    "storeLinkCopied": "Winkellink gekopieerd!",
-    "copyStoreLink": "Kopieer winkellink",
-    "editDelivery": "Bewerk bezorging",
-    "editProducts": "Producten bewerken",
-    "addOrder": "Bestelling toevoegen",
-    "getHelp": "Vraag om hulp",
-    "report": "Rapporteer",
-    "editPickup": "Bewerken pick-up",
-    "editStore": "Winkel bewerken"
-  },
-  "app/(store)/components/product-page": {
-    "noProductsAvailable": "Geen producten beschikbaar",
-    "productNotFound": "Product niet gevonden",
-    "productDeleted": "Product succesvol verwijderd",
-    "productLinkCopied": "Productlink gekopieerd!",
-    "itemName": "Artikelnaam",
-    "addDescriptionPlaceholder": "Voeg een beschrijving voor dit item toe...",
-    "selectCategory": "Selecteer categorie",
-    "addIngredientsPlaceholder": "Ingrediënten toevoegen... (Druk op Enter om toe te voegen)",
-    "addAllergiesPlaceholder": "Allergieën toevoegen... (Druk op Enter om toe te voegen)",
-    "itemOptions": "Itemopties",
-    "minimalOrder": "Minimale bestelling",
-    "minimalOrderDescription": "Wat is het minimale aantal artikelen dat een klant kan bestellen?",
-    "loading": "Bezig met laden...",
-    "updateItem": "Item bijwerken",
-    "addItem": "Item toevoegen",
-    "Update Item": "Update item bijwerken",
-    "Item Name": "Itemnaam",
-    "Add Description Placeholder": "Beschrijf uw item",
-    "Select Category": "Selecteer Categorie",
-    "Add Ingredients Placeholder": "Voeg ingrediënten toe",
-    "Add Allergies Placeholder": "Voeg allergieën toe",
-    "Item Options": "Itemopties",
-    "Loading": "Laden",
-    "Add Item": "Voeg item toe",
-    "cartUpdatedSuccess": "Winkelwagen is bijgewerkt",
-    "unexpectedError": "Onverwachte fout",
-    "ingredients": "Ingrediënten",
-    "allergies": "Allergieën",
-    "notes": "Opmerkingen",
-    "addNotesPlaceholder": "Schrijf notities naar het item",
-    "Add": "Toevoegen",
-    "to order": "bestellen",
-    "Updating Cart": "Bijwerken",
-    "Update": "Update",
-    "invalidImages": "Sommige afbeeldingen zijn niet goed geladen. \nProbeer ze opnieuw te uploaden.",
-    "invalidFile": "Ongeldig bestand geselecteerd. \nProbeer het opnieuw.",
-    "submitError": "Kan het formulier niet indienen. \nProbeer het opnieuw.",
-    "productDeleteFailed": "Het product niet verwijderen. \nProbeer het opnieuw.",
-    "unsupportedFormat": "Heic/Heif -afbeeldingen worden niet ondersteund. \nConverteer uw afbeelding naar JPEG of PNG met behulp van de foto -app van uw apparaat voordat u uploadt.",
-    "EditItem": "Item bewerken",
-    "Add Dietary Restrictions": "Voeg een dieetbeperking toe",
-    "Minimal Order": "Minimale volgorde",
-    "MinimalNumberDescription": "Wat is het minimum aantal items dat een klant kan bestellen?",
-    "MinimalLeadTime": "Minimale doorlooptijd",
-    "MinimalLeadTimeDescription": "Wat is de minimale doorlooptijd voor de bestelling?",
-    "MinLeadTime": "Min doorlooptijd",
-    "hour": "uur",
-    "hours": "uren",
-    "day": "dag",
-    "days": "dagen",
-    "specialCategory": "Specials"
-  },
-  "app/(store)/components/store-subheader": {
-    "delivery": "Bezorging",
-    "deliveryFee": "Bezorgkosten",
-    "minimumOrder": "Minimale bestellingswaarde",
-    "deliveryHours": "Bezorgtijden",
-    "enterDeliveryAddressPrompt": "Voer bezorgadres in",
-    "enterDeliveryAddress": "Voer afleveradres in",
-    "noDeliveryAddressYet": "Nog geen bezorgadres",
-    "enterAddressToSeeDeliveryOptions": "Voer je adres in om bezorgopties te zien",
-    "addressInRange": "Je adres ligt binnen het bezorggebied",
-    "loadingAddress": "Adres laden...",
-    "loadingDeliveryOptions": "Bezorgopties laden...",
-    "deliverAt": "Bezorgen om",
-    "selectDeliveryTime": "Selecteer bezorgtijd",
-    "scheduleDeliveryTime": "Plan bezorgtijd",
-    "additionalInfo": "Aanvullende info",
-    "storeOpen": "Nu open",
-    "storeClosed": "Nu gesloten",
-    "pickUp": "Ophalen",
-    "searchAddress": "Zoekadres",
-    "typeToSearchAddress": "Type om adres te zoeken",
-    "street": "Straat",
-    "enterStreet": "Voer de straatnaam in",
-    "houseNumber": "Huisnummer",
-    "enterHouseNumber": "Voer het huisnummer in",
-    "zipCode": "Postcode",
-    "enterZipCode": "Voer de postcode in",
-    "city": "Stad",
-    "enterCity": "Voer de stad in",
-    "enterAdditionalInfo": "Bijv. \nAppartementnummer, vloer, etc.",
-    "confirm": "Bevestigen",
-    "editDeliveryAddress": "Bewerk afleveradres",
-    "addressPlaceholder": "Adres Placeholder",
-    "locationPlaceholder": "Locatie Placeholder",
-    "pickUpAt": "Ophalen",
-    "scheduleOrderTime": "Plan de besteltijd",
-    "selectPickUpTime": "Selecteer Pick-up tijd",
-    "MinLeadTime": "Min doorlooptijd",
-    "hour": "uur",
-    "hours": "uren",
-    "day": "dag",
-    "days": "dagen",
-    "deliveryOptionsAlertTitle": "Postlevering",
-    "deliveryOptionsAlertDescription": "{store} levert uw bestelling via de postservice",
-    "selectDeliveryDate": "Selecteer Leverdatum"
-  },
-  "app/(store)/components/store-top": {
-    "addItem": "Item toevoegen"
-  },
-  "app/(store)/components/button-stepper": {
-    "deleteItem": "Item verwijderen",
-    "removeItem": "Item verwijderen",
-    "addItem": "Item toevoegen"
-  },
-  "app/(store)/components/user-product": {},
-  "app/(store)/components/product-dialog": {},
-  "app/(store)/components/product-list": {
-    "noProductsFound": "Geen producten gevonden"
-  },
-  "app/(store)/components/product": {},
-  "app/(store)/components/variants-form-field": {
-    "newOption": "Nieuwe optie",
-    "optionGroupName": "Optie Groepnaam",
-    "placeholder": "bijv. Grootte, Toppings, Extra's",
-    "singleChoice": "Enkele keuze",
-    "multipleChoices": "Meerdere keuzes",
-    "required": "Vereist",
-    "maxSelections": "Maximale selecties",
-    "options": "Opties",
-    "optionName": "Optie naam",
-    "addOption": "Optie toevoegen",
-    "addOptionGroup": "Optiegroep toevoegen"
-  },
-  "app/(store)/components/delete-confirmation": {
-    "deleteConfirmation": "Verwijder bevestiging",
-    "deleteProductWarning": "Nadat u het item hebt verwijderd, wordt het permanent verwijderd en kan het niet meer worden hersteld.",
-    "close": "Sluit",
-    "confirm": "Bevestigen"
-  },
-  "app/(store)/components/order-dashboard": {},
-  "app/(store)/components/status-select": {
-    "failedToUpdateStatus": "Status niet bijgewerkt",
-    "statusUpdatedSuccess": "Status wordt bijgewerkt",
-    "orderStatus": "Bestelstatus",
-    "order": "Bestelling",
-    "changeStatusAction": "Status wijzigen ",
-    "selectOneOption": "Selecteer een optie",
-    "changeStatus": "Status wijzigen"
-  },
-  "app/(store)/components/orders-list": {
-    "noOrdersFound": "Geen bestelling gevonden",
-    "order": "Bestelling",
-    "no": "Geen selectie",
-    "orderStatusFilter": "Bestelstatusfilter",
-    "addOrder": "Voeg bestelling toe",
-    "orders": "Bestellingen",
-    "delivery": "Levering",
-    "brandName": "TheBakerz"
-  },
-  "app/(store)/components/orders-bar-chart": {
-    "notFound": "Niet gevonden",
-    "title": "Besteloverzicht bestellen"
-  },
-  "app/(store)/components/calendar-dashboard": {
-    "today": "Vandaag",
-    "thisWeek": "Deze week",
-    "thisMonth": "Deze maand"
-  },
-  "app/(store)/components/orders/add": {
-    "orderCreated": "Bestelling gemaakt",
-    "orderCreatedSuccess": "Bestelling succesvol aangemaakt!",
-    "failedCreateOrder": "Het is niet gelukt om een bestelling te maken",
-    "failedInitCheckout": "Initialiseren van checkout mislukt",
-    "somethingWentWrong": "Er is iets fout gegaan",
-    "scheduleOrderTime": "Tijdschema voor bestelling",
-    "pickUpOptionSelected": "Ophaaloptie geselecteerd",
-    "pickUpAt": "Afhalen bij",
-    "selectPickUpTime": "Selecteer ophaaltijd",
-    "orderLink": "Bestellink",
-    "copyLinkInstructions": "Kopieer deze link en deel deze met de klant voor betaling.",
-    "close": "Sluit",
-    "copyLink": "Link kopiëren",
-    "orderLinkCopiedClient": "Bestellink gekopieerd naar klembord!",
-    "hasCustomerPaid": "Heeft de klant al betaald?",
-    "subtotal": "Subtotaal",
-    "vatExclusive": "BTW (9%)",
-    "total": "Totaal",
-    "saveCartDetails": "Winkelwagengegevens opslaan",
-    "cartEmpty": "Je winkelwagen is leeg",
-    "addItemsToStart": "Voeg items toe om te beginnen",
-    "noProductsAvailable": "De winkel heeft nog geen producten.",
-    "customerCart": "Klanten winkelwagen",
-    "addManageCart": "Klantenwinkelwagen toevoegen en beheren",
-    "image": "Afbeelding",
-    "namePrice": "Naam & Prijs",
-    "add": "Toevoegen",
-    "cartDetails": "Winkelwagengegevens",
-    "cartDetailsStep": "1. Winkelwagengegevens",
-    "pickUpDetails": "Ophaalgegevens",
-    "pickUpDetailsStep": "2. Ophaalgegevens",
-    "backToOrderDashboard": "Terug naar het besteldashboard",
-    "yes": "Ja",
-    "no": "Nee",
-    "customerDetails": "Klantgegevens",
-    "customerNameLabel": "Voer de naam van de klant in.",
-    "customerNamePlaceholder": "Voer de naam van de klant in",
-    "customerEmailLabel": "Voer het e-mailadres van de klant in.",
-    "customerEmailPlaceholder": "Voer het e-mailadres van de klant in",
-    "customerPhoneLabel": "Voer het telefoonnummer van de klant in. (Optioneel)",
-    "customerPhonePlaceholder": "Voer het telefoonnummer van de klant in",
-    "createOrderButton": "Bestelling aanmaken"
-  },
-  "app/(store)/components/orders/overview": {
-    "Order": "Volgorde",
-    "Order Status": "Bestelstatus",
-    "Order Items": "Bestel artikelen",
-    "Search Items": "Zoek items",
-    "Subtotal": "Subtotaal",
-    "VAT Exclusive": "BTW (9%)",
-    "Total": "Totaal",
-    "Customer Details": "Klantgegevens",
-    "Progress": "Voortgang",
-    "Failed to update status": "Status kan niet worden bijgewerkt",
-    "Status updated successfully": "Status succesvol bijgewerkt",
-    "Change Status Action": "Weet u zeker dat u de status van deze bestelling wilt wijzigen?",
-    "Select one option": "Selecteer één optie",
-    "Change Status": "Status wijzigen",
-    "Placed": "Geplaatst",
-    "Cooking": "Koken",
-    "Ready": "Klaar",
-    "Cancelled": "Geannuleerd",
-    "Print Invoice": "Factuur afdrukken",
-    "Something Went Wrong": "Er ging iets mis",
-    "delivery": "Levering",
-    "completed": "Voltooid",
-    "brandName": "TheBakerz"
+  "app/(auth)/auth/actions": {
+    "accountDoesNotExist": "Account bestaat niet",
+    "incorrectCode": "Onjuiste code.",
+    "invalidOrMissingField": "Ongeldig of ontbrekend veld",
+    "notAuthenticated": "Niet geverifieerd",
+    "problemSendingEmail": "Er is een probleem opgetreden bij het verzenden van de e-mail. Probeer het later opnieuw.",
+    "problemWithAccount": "Probleem met uw account",
+    "tooManyRequests": "Te veel verzoeken",
+    "verificationCodeExpired": "De verificatiecode is verlopen. We hebben een andere code naar uw e-mail gestuurd."
   },
   "app/(auth)/components/two-step-auth-form": {
+    "A new code was sent to your email": "Er is een nieuwe code naar uw e-mail verzonden",
+    "An unexpected error occurred": "Er is een onverwachte fout opgetreden",
+    "and": "En",
+    "byClickingContinue": "Door op Doorgaan te klikken, gaat u akkoord met onze",
+    "continueAsGuest": "Doorgaan als gast",
+    "continueWithEmail": "Doorgaan met e-mail",
     "email": "E-mail",
     "emailPlaceholder": "Voer uw e-mailadres in",
-    "continueWithEmail": "Doorgaan met e-mail",
-    "orContinueWith": "of doorgaan met",
-    "byClickingContinue": "Door op Doorgaan te klikken, gaat u akkoord met onze",
-    "termsOfService": "Servicevoorwaarden",
-    "and": "En",
-    "privacyPolicy": "Privacybeleid",
-    "continueAsGuest": "Doorgaan als gast",
-    "otp": "OTP",
     "enterOtp": "Voer eenmalig wachtwoord in",
     "enterOtpDescription": "Voer de 6-cijferige code in die naar u is verzonden",
     "goBack": "Ga terug",
-    "verify": "Verifiëren",
-    "An unexpected error occurred": "Er is een onverwachte fout opgetreden",
-    "A new code was sent to your email": "Er is een nieuwe code naar uw e-mail verzonden"
-  },
-  "app/(store)/components/cart": {
-    "yourCartFrom": "Uw winkelwagen van",
-    "continue": "Doorgaan",
-    "cartEmpty": "Winkelwagen leeg",
-    "addItemsToStart": "Voeg items toe om te beginnen",
-    "note": "Opmerking"
-  },
-  "app/(store)/components/checkout-steps": {
-    "signInOrSignUpText": "Meld u aan of registreer om een bestelling te plaatsen",
-    "signInOrSignUpStep": "1. Meld u aan of registreer u om een bestelling te plaatsen",
-    "pickUpDetails": "Ophaalgegevens",
-    "pickUpDetailsStep": "2. Ophaalgegevens",
-    "cartDetails": "Winkelwagengegevens",
-    "cartDetailsStep": "3. Winkelwagengegevens",
-    "failedToUpdateCart": "Het is niet gelukt om de winkelwagen bij te werken"
-  },
-  "app/(store)/components/checkout": {
-    "addItem": "Item toevoegen",
-    "subtotal": "Subtotaal",
-    "vatExclusive": "BTW (9%)",
-    "total": "Totaal",
-    "cartEmpty": "Winkelwagen leeg",
-    "addItemsToStart": "Voeg items toe om te beginnen",
-    "minimumAmount": "De minimale bestelhoeveelheid is € 10",
-    "pay": "Betalen",
-    "alert": "Winkel biedt alleen afhaalbestellingen aan",
-    "workingHours": "Werkuren",
-    "openingHours": "Openingstijden",
-    "phone": "Telefoon",
-    "savePickUpDetails": "Ophaalgegevens opslaan",
-    "loadingPaymentGateway": "Betalingsgateway wordt geladen...",
-    "unableToInitializePayment": "Kan betalingsgateway niet initialiseren",
-    "returnToCheckout": "Terug naar afrekenen",
-    "saveDeliveryDetails": "Bewaar leveringsgegevens",
-    "invalidDeliveryAddress": "Ongeldig afleveradres",
-    "deliveryFee": "Bezorgkosten",
-    "serviceFee": "Servicekosten",
-    "minimumOrderForDelivery": "Minimale bestelling is {amount}",
-    "addressOutOfRange": "Adres uit de afleverregio",
-    "vat21": "BTW (21%)",
-    "deliveryVat": "Levering BTW (21%)"
-  },
-  "app/(store)/components/image": {
-    "close": "Sluit",
-    "zoom": "Zoom",
-    "rotation": "Rotatie",
-    "uploading": "Uploaden...",
-    "uploadImage": "Afbeelding uploaden",
-    "failedToUploadImage": "Afbeelding uploaden mislukt. Probeer het opnieuw.",
-    "title": "Afbeelding uploaden",
-    "subtitle": "Uw afbeelding bijsnijden en aanpassen",
-    "unsupportedFormat": "Heic/Heif -afbeeldingen worden niet ondersteund. \nConverteer uw afbeelding naar JPEG of PNG met behulp van de foto -app van uw apparaat voordat u uploadt.",
-    "imageProcessingError": "Niet in staat om de afbeelding te verwerken. \nProbeer een ander beeldformaat (JPEG of PNG aanbevolen)."
-  },
-  "app/(landing)/components/scroll-triggered": {
-    "features": {
-      "online_store": {
-        "description": "We maken uw eigen online winkel om uw heerlijke creaties te presenteren en bestellingen vlot te accepteren.",
-        "key": "online-winkel",
-        "title": "Online winkel"
-      },
-      "order_management": {
-        "description": "Volg en beheer eenvoudig al uw bestellingen op één plek, waardoor het risico op fouten en gemiste bestellingen wordt verminderd.",
-        "key": "orderbeheer",
-        "title": "Orderbeheer"
-      },
-      "all_chats": {
-        "description": "Verbind klantchats van Instagram, Facebook en WhatsApp met bestellingen op één plek voor eenvoudige communicatie.",
-        "key": "All-chats-in-one-place",
-        "title": "Alle chats op één plek"
-      },
-      "support": {
-        "description": "Ons toegewijde team is hier om u te helpen tijdens onze beschikbare uren, zodat uw vragen onmiddellijk worden aangepakt.",
-        "key": "flexibele ondersteuning",
-        "title": "Flexibele ondersteuning"
-      }
-    }
-  },
-  "app/(landing)/components/support-card": {
-    "supportCardMessage": "Hulp nodig? Wij zijn er om u te helpen!"
-  },
-  "app/(landing)/components/navbar": {
-    "back": "Ga terug",
-    "backTo": "naar",
-    "brandName": "TheBakerz"
-  },
-  "app/(landing)/components/apply": {
-    "congratulations": "Gefeliciteerd!",
-    "applicationSuccess": "Uw aanvraag is succesvol ingediend. We nemen binnenkort contact met u op!"
-  },
-  "app/(landing)/components/apply-form": {
-    "startAndGrowBusiness": "Start en laat uw bedrijf groeien",
-    "cookingAndRest": "U concentreert zich op het bakken, wij regelen de rest",
-    "phone": "Telefoon",
-    "phonePlaceholder": "Voer uw telefoonnummer in",
-    "termsAgreement": "Ik ga akkoord met de",
-    "terms": "Servicevoorwaarden",
-    "and": "en",
+    "orContinueWith": "of doorgaan met",
+    "otp": "OTP",
     "privacyPolicy": "Privacybeleid",
-    "getStarted": "Aan de slag",
-    "name": "Naam",
-    "namePlaceholder": "Vul uw naam in",
-    "email": "E-mail",
-    "emailPlaceholder": "Voer uw e-mailadres in",
-    "goBack": "Ga terug",
-    "submitting": "Verzenden...",
-    "submit": "Indienen"
-  },
-  "app/(landing)/components/multistep-sidebar": {
-    "applyTitle": "Toepassen",
-    "applyDescription": "Vul een kort formulier in, dan nemen wij contact met u op om alles uit te leggen en uw account in te stellen.",
-    "setUpStoreTitle": "Wij richten uw winkel in",
-    "setUpStoreDescription": "Deel uw producten en prijzen, dan regelen wij de installatie voor u.",
-    "startSellingTitle": "Begin met verkopen",
-    "startSellingDescription": "Test uw winkel, voer aanpassingen door en begin met het aannemen van echte bestellingen!"
-  },
-  "app/(landing)/components/sidebar-menu": {
-    "appName": "TheBakerz",
-    "support": "Ondersteuning",
-    "getHelp": "Vraag om hulp",
-    "accountSettings": "Accountinstellingen",
-    "welcomedGuest": "Welkom, Gast",
-    "signIn": "Aanmelden",
-    "aboutTheBakerz": "Over TheBakerz",
-    "account": "Account",
-    "dashboard": "Dashboard",
-    "joinTheBakerz": "Word lid van TheBakerz",
-    "navigation": "Navigatie",
-    "orders": "Bestellingen",
-    "overview": "Overzicht",
-    "products": "Producten",
-    "search": "Zoek Bakkers",
-    "settings": "Instellingen",
-    "shop": "Winkel",
-    "signInButton": "Inloggen",
-    "stores": "Winkels",
-    "stripe": "Stripe",
-    "users": "Gebruikers"
-  },
-  "app/(support)/components/contact-us": {
-    "emailLabel": "E-mail",
-    "emailPlaceholder": "Voer uw e-mailadres in",
-    "subjectLabel": "Onderwerp",
-    "subjectPlaceholder": "Voer uw onderwerp in",
-    "contextLabel": "Welk probleem ondervindt u?",
-    "contextPlaceholder": "Help mij met...",
-    "buttonSending": "Verzenden...",
-    "buttonSubmit": "Ticket indienen",
-    "successMessage": "Uw ticket is succesvol ingediend. We sturen u automatisch door naar de hoofdpagina in:"
-  },
-  "app/(support)/components/payment-urgent": {
-    "requestSentSuccess": "Uw verzoek is succesvol verzonden.",
-    "sending": "Verzenden...",
-    "sendRequest": "Verzoek verzenden",
-    "supportTicket": "Ondersteuningsticket"
-  },
-  "app/(support)/components/support": {
-    "faqsTitleShort": "Stel vaak vragen",
-    "faqsTitleLong": "Stel vaak vragen",
-    "contactUs": "Neem contact met ons op",
-    "sectionCustomer": "Klanten"
-  },
-  "app/(support)/components/faq-baker": {
-    "answer1": "Thebakerz is een alles-in-één platform dat bakkers helpt hun bedrijven te beheren en meer klanten te bereiken. \nHet behandelt bestellingen, productieplanning, betalingen en klantcommunicatie op één plek. \nDit betekent minder tijd op admin en meer tijd om te doen waar je van houdt - bakken!",
-    "answer4": "Natuurlijk! \nJe hebt de controle over wat je verkoopt en hoeveel je in rekening brengt. \nU kunt uw menu en prijzen bijwerken wanneer u maar wilt.",
-    "answer5": "U bepaalt wat het beste werkt voor uw bakkerij. \nU kunt levering aanbieden of klanten toestaan ​​om bestellingen van uw locatie op te halen. \nStel uw eigen leveringsgebieden en pick -uptijden in om aan uw schema te passen.",
-    "answer6": "U betaalt alleen als u een verkoop doet. We nemen een commissie van 8%, die betrekking heeft op website -activiteiten, betalingsverwerkingskosten en advertenties.",
-    "answer7": "Klanten betalen vooraf via ons beveiligde betalingssysteem. \nWij dragen uw inkomsten, minus de Commissie, wekelijks naar uw bankrekening. \nBetalingen komen meestal binnen 1-2 werkdagen na maandag aan",
-    "answer8": "Absoluut! \nThebakerz is ontworpen om eenvoudig en gebruiksvriendelijk te zijn. \nAls je ooit hulp nodig hebt, is ons ondersteuningsteam slechts een e -mail of bel weg.",
-    "question1": "Wat is Thebakerz",
-    "question2": "Hoe begin ik te verkopen op Thebakerz?",
-    "question3": "Wat heb ik nodig om aan de slag te gaan?",
-    "question4": "Kan ik mijn eigen prijzen en menu kiezen?",
-    "question5": "Hoe werken bestellingen en bezorging?",
-    "question6": "Wat kost het om Thebakerz te gebruiken?",
-    "question7": "Hoe werken betalingen?",
-    "question8": "",
-    "answer2": "Aan de slag gaan is eenvoudig! \n[Vul dit formulier in](/become-partner#join-thebakerz), en we plannen een snelle oproep om alles in te stellen. \nWe helpen u uw online winkel te maken en u te laten zien hoe u deze stap voor stap kunt gebruiken.",
-    "answer3": "U hebt alleen een KVK-nummer, btw-nummer en voedselveiligheidscertificering nodig. \nAls je iets mist, maak je geen zorgen - we zullen je helpen erachter te komen."
-  },
-  "app/(support)/components/faq-customer": {},
-  "app/(components)/redirect-page": {
-    "success": "Succes!",
-    "seconds": "seconden",
-    "holdTight": "Houd even vast of klik op de onderstaande knop om nu verder te gaan:",
-    "redirectNow": "Nu omleiden"
-  },
-  "app/(components)/footer": {
-    "brandName": "TheBakerz",
-    "aboutTheBakerz": "Over TheBakerz",
-    "joinTheBakerz": "Sluit je aan bij TheBakerz",
-    "getHelp": "Vraag om hulp ",
-    "privacyPolicy": "Privacybeleid",
-    "termsOfUse": "Gebruiksvoorwaarden",
-    "refundPolicy": "Restitutiebeleid",
-    "linkedIn": "LinkedIn",
-    "instagram": "Instagram",
-    "twitter": "X",
-    "copyright": "TheBakerz. Alle rechten voorbehouden.",
-    "navigation": "Navigatie",
-    "support": "Support",
-    "legal": "Juridisch",
-    "search": "Zoek Bakkers"
-  },
-  "app/(components)/footer-store": {
-    "brandName": "TheBakerz",
-    "aboutTheBakerz": "Over TheBakerz",
-    "joinTheBakerz": "Sluit je aan bij TheBakerz",
-    "getHelp": "Krijg hulp",
-    "privacyPolicy": "Privacybeleid",
-    "termsOfUse": "Gebruiksvoorwaarden",
-    "refundPolicy": "Restitutiebeleid",
-    "linkedIn": "LinkedIn",
-    "instagram": "Instagram",
-    "twitter": "X",
-    "copyright": "TheBakerz. Alle rechten voorbehouden.",
-    "legal": "Juridisch",
-    "support": "Ondersteuning",
-    "contactUs": "Neem contact met ons op",
-    "phone": "Telefoon",
-    "addressPlaceholder": "Adres-plaatsaanduiding",
-    "locationPlaceholder": "Locatie Plaatsaanduiding",
-    "search": "Zoek Bakkers",
-    "Opening Hours": "Openingstijden"
-  },
-  "app/(components)/footer-simple": {
-    "brandName": "TheBakerz",
-    "aboutTheBakerz": "Over TheBakerz",
-    "joinTheBakerz": "Sluit je aan bij TheBakerz",
-    "getHelp": "Vraag om hulp",
-    "privacyPolicy": "Privacybeleid",
-    "termsOfUse": "Gebruiksvoorwaarden",
-    "refundPolicy": "Restitutiebeleid",
-    "copyright": "TheBakerz. Alle rechten voorbehouden.",
-    "support": "Ondersteuning",
-    "legal": "Juridisch",
-    "search": "Zoek Bakerz"
+    "termsOfService": "Servicevoorwaarden",
+    "verify": "Verifiëren"
   },
   "app/(auth)/page": {
     "authDescription": "Meld u aan om heerlijke lekkernijen te bestellen"
   },
   "app/(components)/cookie-consent": {
-    "yourPrivacy": "Uw privacy",
-    "privacyDescription": "Deze site maakt gebruik van trackingtechnologieën om uw ervaring te verbeteren. U kunt ervoor kiezen om deze technologieën te accepteren of te weigeren. Als u ervoor kiest om \"Alles te weigeren\", gebruiken we cookies alleen voor essentiële doeleinden. Bekijk onze",
-    "privacy": "Privacy",
-    "forMoreInfo": "voor meer informatie.",
-    "essential": "Essentieel",
-    "essentialDescription": "Essentieel voor het functioneren van de site",
-    "marketing": "Marketing",
-    "marketingDescription": "Om u relevante inhoud te tonen",
+    "acceptAll": "Alles accepteren",
+    "acceptSelected": "Accepteer geselecteerde",
     "analytics": "Analyse",
     "analyticsDescription": "Om te begrijpen hoe u de site gebruikt",
-    "acceptSelected": "Accepteer geselecteerde",
-    "rejectAll": "Alles afwijzen",
     "continueToTheBakerz": "Voordat u verdergaat naar TheBakerz",
-    "cookiesExplanation": "Wij gebruiken cookies op onze website om u de meest relevante ervaring te bieden door uw voorkeuren en herhaalde bezoeken te onthouden.",
-    "cookiesConsentText": "Door op \"Alles accepteren\" te klikken, stemt u in met het gebruik van ALLE cookies. Als u kiest voor \"Alles afwijzen\", gebruiken we cookies alleen voor essentiële doeleinden. U kunt echter \"Cookie-instellingen\" bezoeken om een gecontroleerde toestemming te geven. Lees voor meer informatie onze",
     "cookiePolicy": "Cookiebeleid",
-    "acceptAll": "Alles accepteren",
-    "cookieSettings": "Cookie-instellingen"
+    "cookieSettings": "Cookie-instellingen",
+    "cookiesConsentText": "Door op \"Alles accepteren\" te klikken, stemt u in met het gebruik van ALLE cookies. Als u kiest voor \"Alles afwijzen\", gebruiken we cookies alleen voor essentiële doeleinden. U kunt echter \"Cookie-instellingen\" bezoeken om een gecontroleerde toestemming te geven. Lees voor meer informatie onze",
+    "cookiesExplanation": "Wij gebruiken cookies op onze website om u de meest relevante ervaring te bieden door uw voorkeuren en herhaalde bezoeken te onthouden.",
+    "essential": "Essentieel",
+    "essentialDescription": "Essentieel voor het functioneren van de site",
+    "forMoreInfo": "voor meer informatie.",
+    "marketing": "Marketing",
+    "marketingDescription": "Om u relevante inhoud te tonen",
+    "privacy": "Privacy",
+    "privacyDescription": "Deze site maakt gebruik van trackingtechnologieën om uw ervaring te verbeteren. U kunt ervoor kiezen om deze technologieën te accepteren of te weigeren. Als u ervoor kiest om \"Alles te weigeren\", gebruiken we cookies alleen voor essentiële doeleinden. Bekijk onze",
+    "rejectAll": "Alles afwijzen",
+    "yourPrivacy": "Uw privacy"
+  },
+  "app/(components)/footer": {
+    "aboutTheBakerz": "Over TheBakerz",
+    "brandName": "TheBakerz",
+    "copyright": "TheBakerz. Alle rechten voorbehouden.",
+    "getHelp": "Vraag om hulp ",
+    "instagram": "Instagram",
+    "joinTheBakerz": "Sluit je aan bij TheBakerz",
+    "legal": "Juridisch",
+    "linkedIn": "LinkedIn",
+    "navigation": "Navigatie",
+    "privacyPolicy": "Privacybeleid",
+    "refundPolicy": "Restitutiebeleid",
+    "search": "Zoek Bakkers",
+    "support": "Support",
+    "termsOfUse": "Gebruiksvoorwaarden",
+    "twitter": "X"
+  },
+  "app/(components)/footer-simple": {
+    "aboutTheBakerz": "Over TheBakerz",
+    "brandName": "TheBakerz",
+    "copyright": "TheBakerz. Alle rechten voorbehouden.",
+    "getHelp": "Vraag om hulp",
+    "joinTheBakerz": "Sluit je aan bij TheBakerz",
+    "legal": "Juridisch",
+    "privacyPolicy": "Privacybeleid",
+    "refundPolicy": "Restitutiebeleid",
+    "search": "Zoek Bakerz",
+    "support": "Ondersteuning",
+    "termsOfUse": "Gebruiksvoorwaarden"
+  },
+  "app/(components)/footer-store": {
+    "Opening Hours": "Openingstijden",
+    "aboutTheBakerz": "Over TheBakerz",
+    "addressPlaceholder": "Adres-plaatsaanduiding",
+    "brandName": "TheBakerz",
+    "contactUs": "Neem contact met ons op",
+    "copyright": "TheBakerz. Alle rechten voorbehouden.",
+    "getHelp": "Krijg hulp",
+    "instagram": "Instagram",
+    "joinTheBakerz": "Sluit je aan bij TheBakerz",
+    "legal": "Juridisch",
+    "linkedIn": "LinkedIn",
+    "locationPlaceholder": "Locatie Plaatsaanduiding",
+    "phone": "Telefoon",
+    "privacyPolicy": "Privacybeleid",
+    "refundPolicy": "Restitutiebeleid",
+    "search": "Zoek Bakkers",
+    "support": "Ondersteuning",
+    "termsOfUse": "Gebruiksvoorwaarden",
+    "twitter": "X"
+  },
+  "app/(components)/join-button": {
+    "join": "Join TheBakerz",
+    "joinSmall": "Meedoen",
+    "loading": "Laden..."
+  },
+  "app/(components)/redirect-page": {
+    "holdTight": "Houd even vast of klik op de onderstaande knop om nu verder te gaan:",
+    "redirectNow": "Nu omleiden",
+    "seconds": "seconden",
+    "success": "Succes!"
   },
   "app/(components)/signin-button": {
     "loading": "Bezig met laden...",
@@ -790,246 +201,317 @@
     "logOut": "Uitloggen",
     "signOut": "Afmelden"
   },
-  "app/(auth)/auth/actions": {
-    "tooManyRequests": "Te veel verzoeken",
-    "invalidOrMissingField": "Ongeldig of ontbrekend veld",
-    "accountDoesNotExist": "Account bestaat niet",
-    "notAuthenticated": "Niet geverifieerd",
-    "verificationCodeExpired": "De verificatiecode is verlopen. We hebben een andere code naar uw e-mail gestuurd.",
-    "incorrectCode": "Onjuiste code.",
-    "problemWithAccount": "Probleem met uw account",
-    "problemSendingEmail": "Er is een probleem opgetreden bij het verzenden van de e-mail. Probeer het later opnieuw."
+  "app/(error_layout)/error": {
+    "error": "Fout",
+    "goBackToTheBakerz": "Ga terug naar TheBakerz",
+    "somethingWentWrong": "Er is iets misgegaan!"
   },
-  "app/actions": {
-    "tooManyRequests": "Te veel verzoeken",
-    "notAuthenticated": "Niet geverifieerd"
+  "app/(error_layout)/not-found": {
+    "brokenLink": "Het kan zijn dat de link die u volgde, niet meer werkt of dat de pagina is verwijderd.",
+    "goBackToTheBakerz": "Ga terug naar TheBakerz",
+    "sorry": "Sorry, deze pagina is nog niet beschikbaar.",
+    "subtitle": "Wij doen ons best om het zo snel mogelijk te leveren!",
+    "underConstruction": "In aanbouw!"
   },
-  "app/api/auth/google": {
-    "tooManyRequests": "Te veel verzoeken",
-    "pleaseRestartProcess": "Start het proces opnieuw."
+  "app/(landing)/components/apply": {
+    "applicationSuccess": "Uw aanvraag is succesvol ingediend. We nemen binnenkort contact met u op!",
+    "congratulations": "Gefeliciteerd!"
   },
-  "app/api/invoice/storeId/orderId": {
-    "tooManyRequests": "Te veel verzoeken",
-    "restrictedAccess": "Beperkte toegang",
-    "notAuthenticated": "Niet geverifieerd",
-    "storeNotFound": "Winkel is niet gevonden",
-    "orderNotFound": "Bestelling is niet gevonden",
-    "errorGeneratingPdf": "Fout bij het genereren van PDF"
+  "app/(landing)/components/apply-form": {
+    "and": "en",
+    "cookingAndRest": "U concentreert zich op het bakken, wij regelen de rest",
+    "email": "E-mail",
+    "emailPlaceholder": "Voer uw e-mailadres in",
+    "getStarted": "Aan de slag",
+    "goBack": "Ga terug",
+    "name": "Naam",
+    "namePlaceholder": "Vul uw naam in",
+    "phone": "Telefoon",
+    "phonePlaceholder": "Voer uw telefoonnummer in",
+    "privacyPolicy": "Privacybeleid",
+    "startAndGrowBusiness": "Start en laat uw bedrijf groeien",
+    "submit": "Indienen",
+    "submitting": "Verzenden...",
+    "terms": "Servicevoorwaarden",
+    "termsAgreement": "Ik ga akkoord met de"
   },
-  "app/api/pay": {
-    "tooManyRequests": "Te veel verzoeken",
-    "missingStoreId": "Ontbrekende winkel-ID",
-    "missingCosmosId": "Cosmos-ID ontbreekt",
-    "missingCartId": "Winkelwagen-ID ontbreekt",
-    "orderNotFound": "Bestelling niet gevonden",
-    "processingError": "Fout bij het verwerken van de betaling",
-    "orderDbFailed": "Bestel DB mislukt",
-    "userCreationFailed": "Gebruikerscreatie is mislukt",
-    "missingUserEmail": "Ontbrekende gebruikersmail"
+  "app/(landing)/components/multistep-sidebar": {
+    "applyDescription": "Vul een kort formulier in, dan nemen wij contact met u op om alles uit te leggen en uw account in te stellen.",
+    "applyTitle": "Toepassen",
+    "setUpStoreDescription": "Deel uw producten en prijzen, dan regelen wij de installatie voor u.",
+    "setUpStoreTitle": "Wij richten uw winkel in",
+    "startSellingDescription": "Test uw winkel, voer aanpassingen door en begin met het aannemen van echte bestellingen!",
+    "startSellingTitle": "Begin met verkopen"
   },
-  "app/api/store/cart": {
-    "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
-    "missingUserId": "Ontbrekende of ongeldige User-ID-header",
-    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
-    "notAuthorized": "Geen toegang verlenen",
-    "internalError": "Interne serverfout"
+  "app/(landing)/components/navbar": {
+    "back": "Ga terug",
+    "backTo": "naar",
+    "brandName": "TheBakerz"
   },
-  "app/api/store/order/updateStatus": {},
-  "app/api/store/order": {
-    "notAuthorized": "Geen toegang verlenen",
-    "internalError": "Interne serverfout"
+  "app/(landing)/components/partners": {
+    "description": "We werken samen met marktleiders om de beste oplossingen te leveren.",
+    "title": "Onze partners"
   },
-  "app/api/store/orders/range": {
-    "missingStoreId": "Ontbrekende Store-Id-header",
-    "missingFromDate": "Ontbrekende Van-Datum header",
-    "missingToDate": "Ontbrekende Tot-Datum header",
-    "missingAuth": "Autorisatieheader ontbreekt",
-    "notAuthorized": "Niet-geautoriseerde toegang",
-    "internalError": "Interne serverfout"
+  "app/(landing)/components/scroll-triggered": {
+    "features": {
+      "all_chats": {
+        "description": "Verbind klantchats van Instagram, Facebook en WhatsApp met bestellingen op één plek voor eenvoudige communicatie.",
+        "key": "All-chats-in-one-place",
+        "title": "Alle chats op één plek"
+      },
+      "online_store": {
+        "description": "We maken uw eigen online winkel om uw heerlijke creaties te presenteren en bestellingen vlot te accepteren.",
+        "key": "online-winkel",
+        "title": "Online winkel"
+      },
+      "order_management": {
+        "description": "Volg en beheer eenvoudig al uw bestellingen op één plek, waardoor het risico op fouten en gemiste bestellingen wordt verminderd.",
+        "key": "orderbeheer",
+        "title": "Orderbeheer"
+      },
+      "support": {
+        "description": "Ons toegewijde team is hier om u te helpen tijdens onze beschikbare uren, zodat uw vragen onmiddellijk worden aangepakt.",
+        "key": "flexibele ondersteuning",
+        "title": "Flexibele ondersteuning"
+      }
+    }
   },
-  "app/api/store/products": {
-    "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
-    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
-    "notAuthorized": "Geen toegang verlenen",
-    "internalError": "Interne serverfout"
+  "app/(landing)/components/sidebar-menu": {
+    "aboutTheBakerz": "Over TheBakerz",
+    "account": "Account",
+    "accountSettings": "Accountinstellingen",
+    "appName": "TheBakerz",
+    "dashboard": "Dashboard",
+    "getHelp": "Vraag om hulp",
+    "joinTheBakerz": "Word lid van TheBakerz",
+    "navigation": "Navigatie",
+    "orders": "Bestellingen",
+    "overview": "Overzicht",
+    "products": "Producten",
+    "search": "Zoek Bakkers",
+    "settings": "Instellingen",
+    "shop": "Winkel",
+    "signIn": "Aanmelden",
+    "signInButton": "Inloggen",
+    "stores": "Winkels",
+    "stripe": "Stripe",
+    "support": "Ondersteuning",
+    "users": "Gebruikers",
+    "welcomedGuest": "Welkom, Gast"
   },
-  "app/api/store/products-order": {
-    "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
-    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
-    "notAuthorized": "Geen toegang verlenen",
-    "internalError": "Interne serverfout"
+  "app/(landing)/components/support-card": {
+    "supportCardMessage": "Hulp nodig? Wij zijn er om u te helpen!"
   },
-  "app/api/store": {
-    "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
-    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
-    "notAuthorized": "Geen toegang verlenen",
-    "internalError": "Interne serverfout"
+  "app/(main)/about-us/page": {
+    "follow": "Volg ons",
+    "greeting": "Wij zijn David en Dumitru, wij hebben TheBakerz opgericht zodat thuisbakkers en hobbykoks hun producten eenvoudig kunnen verkopen. We zagen een groeiende markt van gepassioneerde bakkers en nog meer mensen die snakken naar iets beters dan supermarktgebak. Dus hebben we een platform gebouwd dat hen samenbrengt. Simpel: bakkers krijgen tools om te groeien, klanten krijgen toegang tot geweldige producten. Win Win! ",
+    "greetingTitle": "Aangenaam kennismaken",
+    "slogan": "TheBakerz zet alles wat bakkers nodig hebben op één plek. In plaats van heen en weer te springen tussen spreadsheets, e-mails en berichten, kunt u al uw bestellingen, schema's en klantgegevens vanaf één georganiseerde plek verwerken. Minder gedoe, minder hoofdpijn en meer energie om te doen waar u het beste in bent: bakken.",
+    "sloganTitle": "Meer bakken, minder gedoe",
+    "why": "Voor ons is TheBakerz niet zomaar een idee, het is een direct antwoord op wat onze vrienden en familiebakkers ons vertelden dat ze nodig hebben. We zijn er om het makkelijker te maken, zodat jij je kunt richten op wat je het liefste doet. Volg ons op social media en laten we samen een betere toekomst vormgeven.",
+    "whyTitle": "Waarom we dit doen"
   },
-  "app/api/update-schedule": {
-    "tooManyRequests": "Te veel verzoeken",
-    "invalidJson": "Ongeldige JSON",
-    "invalidPayload": "Ongeldige aanvraag-payload",
-    "invalidTimeFields": "Ongeldige tijdvelden",
-    "storeNotFound": "Winkel niet gevonden",
-    "updateFailed": "Het is niet gelukt om het schema bij te werken"
+  "app/(main)/page": {
+    "Tips": "Tips",
+    "Tips Info": "Tips Info",
+    "allMessagesInOnePlace": "Alle berichten op één plek",
+    "connectMessages": "Verbind uw WhatsApp-, Instagram- en Facebook-berichten in één overzicht",
+    "easyToUseSystem": "Gebruiksvriendelijk systeem om uw recepten te beheren en alle bestellingen te volgen",
+    "exclusiveOffer": "Exclusief aanbod: start 3 maanden gratis!",
+    "freeTrial": "GRATIS PROEFVERSIE",
+    "getStarted": "Ga aan de slag met TheBakerz",
+    "loading": "Bezig met laden...",
+    "monthlySubscription": "Abonnement van € 9,99/maand",
+    "ownWebshop": "Je eigen webshop",
+    "paymentFee": "Betalings- en servicekosten 8%",
+    "paymentFeeInfo": "8% van de omzet voor het hosten van website-, operationele en betalingsdiensten",
+    "planProduction": "Plan uw productie en houd dagelijkse taken bij",
+    "professionalStore": "Professionele online winkel om uw gebakken creaties te presenteren en te verkopen",
+    "recipeOrderControl": "Recept & Bestelbeheer",
+    "smartCalendar": "Slimme kalender",
+    "transparentPricing": "Transparante prijzen",
+    "wantYouToSucceed": "Wij willen dat u slaagt",
+    "whyChooseTheBakerz": "Waarom kiezen voor TheBakerz?"
   },
-  "app/api/upload-image": {
-    "tooManyRequests": "Te veel verzoeken",
-    "fileNotProvided": "Bestand niet verstrekt",
-    "notAuthorized": "Geen toegang verlenen",
-    "notAuthenticated": "Niet geverifieerd",
-    "invalidContainer": "Ongeldige containernaam",
-    "imageUpdated": "Afbeelding succesvol bijgewerkt!",
-    "internalError": "Interne serverfout",
-    "invalidImage": "Ongeldige afbeelding"
+  "app/(return_page)/settings/components/business-info": {
+    "accountInformation": "Accountinformatie",
+    "accountStatus": "Accountstatus",
+    "accountType": "Accounttype",
+    "bankAccount": "Bankrekening",
+    "businessInformation": "Zakelijke informatie",
+    "businessName": "Bedrijfsnaam",
+    "email": "E-mail",
+    "korDisabled": "Gehandicapt",
+    "korEnabled": "Ingeschakeld",
+    "korStatus": "KOR-status",
+    "kvkNumber": "Zakelijk nummer",
+    "memberSince": "Lid sinds",
+    "notAvailable": "Niet beschikbaar",
+    "region": "Regio",
+    "registeredAddress": "Geregistreerd adres",
+    "unverified": "Niet geverifieerd",
+    "vatNumber": "Belasting-ID",
+    "verified": "Geverifieerd"
   },
-  "app/api/validate-session": {
-    "internalError": "Interne serverfout",
-    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
-    "tokenNotProvided": "Token niet verstrekt"
+  "app/(return_page)/settings/components/calendar-settings": {
+    "workingSchedule": "Werkschema",
+    "workingScheduleDescription": "Stel uw werkuren in voor elke dag van de week"
   },
-  "app/lib/actions/profile-actions": {
-    "tooManyRequests": "Te veel verzoeken",
-    "invalidFields": "Ongeldige velden!",
-    "userNotFound": "Gebruiker niet gevonden!",
-    "profileUpdated": "Profiel succesvol bijgewerkt!"
+  "app/(return_page)/settings/components/calendar/day-picker": {
+    "editDay": "Dag bewerken",
+    "endTime": "Eindtijd",
+    "pleaseEnterValidTime": "Voer een geldige tijd in",
+    "selectDaysWithDifferentHours": "Selecteer dagen met verschillende uren",
+    "specialWorkingHours": "Speciale werkuren",
+    "startTime": "Starttijd",
+    "stayDuration": "Verblijfsduur"
   },
-  "app/lib/actions/auth/email-action": {
-    "invalidFields": "Ongeldige velden!",
-    "emailSentSuccess": "E-mail succesvol verzonden!",
-    "applicationSubmittedSuccess": "Aanvraag succesvol ingediend!",
-    "phoneCorrect": "Telefoonnummer klopt!"
-  },
-  "app/lib/actions/cart": {
-    "tooManyRequests": "Te veel verzoeken",
-    "noteTooLong": "Notitie is te lang!",
-    "requiredVariantMissing": "{variant} is verplicht",
-    "singleSelectionRequired": "{variant} moet precies één selectie hebben",
-    "maxSelectionsExceeded": "{variant} kan niet meer dan {max} selecties hebben",
-    "minSelectionsRequired": "{variant} moet {min} selecties hebben",
-    "invalidOption": "Ongeldige optie {option} voor {variant}",
-    "minOrderRequired": "Je moet minimaal {min} van dit product bestellen",
-    "userNotFound": "Gebruiker niet gevonden!",
-    "cartUpdatedSuccess": "Winkelwagen succesvol bijgewerkt!",
-    "failedUpdateCart": "Winkelwagen bijwerken mislukt.",
-    "itemRemovedSuccess": "Artikel succesvol verwijderd!",
-    "failedRemoveItem": "Artikel verwijderen uit winkelwagen mislukt.",
-    "sessionNotRecognized": "Sessie niet herkend",
-    "guestCartReplacedSuccess": "Gastwinkelwagen is succesvol vervangen door gebruikerswinkelwagen items!",
-    "failedReplaceGuestCart": "Gastwinkelwagen vervangen mislukt.",
-    "userIdStoreIdRequired": "Gebruikers-ID en Winkel-ID zijn verplicht",
-    "cartRemovedSuccess": "Winkelwagen succesvol verwijderd!",
-    "failedRemoveCart": "Winkelwagen verwijderen mislukt.",
-    "productNotFound": "Product niet gevonden!"
-  },
-  "app/lib/actions/product": {
-    "tooManyRequests": "Te veel verzoeken",
-    "invalidFields": "Ongeldige velden!",
-    "userNotFound": "Gebruiker niet gevonden!",
-    "failedUploadImage": "Het uploaden van de afbeelding is mislukt",
-    "productUpdated": "Product bijgewerkt!",
-    "productAdded": "Product toegevoegd!",
-    "failedUpdateProduct": "Het product kon niet worden bijgewerkt.",
-    "storeNotFound": "Winkel niet gevonden!"
-  },
-  "app/lib/actions/order": {
-    "tooManyRequests": "Te veel verzoeken",
-    "invalidFields": "Ongeldige velden!",
-    "storeNotFound": "Winkel niet gevonden!",
-    "cartEmpty": "Winkelwagen is leeg",
-    "orderTimeNotSet": "Besteltijd is niet ingesteld",
-    "pastDateOrder": "Kan geen bestellingen plaatsen voor eerdere data of de tijd is bijna verstreken",
-    "failedCreateCheckout": "Het is niet gelukt om een checkout-sessie te maken",
-    "failedFetchOrders": "Het is niet gelukt om bestellingen op te halen",
-    "failedFetchOrder": "Het ophalen van winkelgegevens is mislukt",
-    "failedUpdateOrderStatus": "Kan de bestelstatus niet bijwerken",
-    "orderNotFound": "Bestel niet gevonden",
-    "invalidData": "Ongeldige bestelgegevens",
-    "orderAlreadyCompleted": "Bestelling is al voltooid",
-    "invalidStatus": "Ongeldige status",
-    "cannotChangeStatus": "TheBakerz kan deze bestelling alleen voltooien",
-    "sessionExpired": "Sessie is niet geldig",
-    "userNotAuthorized": "Geen toegang"
-  },
-  "app/lib/actions/order-products": {
-    "tooManyRequests": "Te veel verzoeken",
-    "userNotFound": "Gebruiker niet gevonden!",
-    "orderUpdated": "Bestelling bijgewerkt!",
-    "failedUpdateProduct": "Het product kon niet worden bijgewerkt.",
-    "failedFetchStoreProducts": "Het ophalen van winkelproducten is mislukt",
-    "storeNotFound": "Winkel niet gevonden!"
-  },
-  "app/lib/schemas": {},
-  "app/(return_page)/settings/components/delivery-settings": {
-    "deliveryRegions": "Bezorggebieden",
-    "resetMap": "Zoom Resetten",
-    "saving": "Opslaan...",
-    "saveDeliveryRegions": "Bezorggebieden Opslaan",
-    "loadingMap": "Laden...",
-    "updateSuccess": "Bezorggebieden succesvol bijgewerkt",
-    "updateError": "Fout bij het bijwerken van bezorggebieden",
-    "loadError": "Fout bij het laden van bezorggebieden",
-    "selectDeliveryCity": "Selecteer Bezorgstad",
-    "selectCity": "Selecteer een stad",
-    "deliveryRange": "Bezorgafstand",
-    "deliveryPrice": "Bezorgkosten",
-    "priceLabel": "Prijs (€)",
-    "addCity": "Stad Toevoegen",
-    "selectedCities": "Geselecteerde Steden",
-    "noCitiesSelected": "Geen steden geselecteerd",
-    "mapView": "Kaartweergave",
-    "deliveryDescription": "Klanten toestaan bestellingen te laten bezorgen op hun adres",
-    "minOrderPrice": "Minimale Bestelwaarde",
-    "minPriceLabel": "Min waarde",
-    "minOrderPriceDescription": "Klanten moeten minimaal dit bedrag bestellen om in aanmerking te komen voor bezorging in dit gebied",
-    "deliverySchedule": "Bezorgtijden",
-    "manageDeliverySchedule": "Beheer Bezorgtijden",
-    "deliveryScheduleDescription": "Stel de tijden in waarop bezorging beschikbaar is voor dit gebied",
-    "deliveryTimes": "Bezorgtijden",
-    "noDeliveryDays": "Geen bezorgdagen ingesteld",
-    "deliveryAllWeek": "Bezorging beschikbaar de hele week",
-    "cancel": "Annuleren",
-    "save": "Opslaan",
-    "invalidCity": "Ongeldige stad geselecteerd",
-    "minOrderPriceError": "Minimale bestelwaarde moet minimaal 10€ zijn",
-    "minOrderTime": "Min besteltijd:",
-    "brandName": "TheBakerz",
-    "minutes": "minuten",
-    "hour": "uur",
-    "hours": "uren",
+  "app/(return_page)/settings/components/calendar/min-time-order": {
     "day": "dag",
     "days": "dagen",
-    "addRange": "Bereik toevoegen",
-    "rangeOrderError": "Maak het bereik groter dan de vorige",
-    "startTime": "Starttijd",
-    "startTimeError": "Starttijd fout",
+    "description": "Selecteer hoeveel tijd van tevoren u nodig hebt voordat u een bestelling uitvoert",
+    "errorMessage": "Het is niet gelukt om de minimale besteltijd bij te werken",
+    "hour": "uur",
+    "hours": "uren",
+    "minutes": "minuten",
+    "selectLabel": "Minimale pre-ordertijd",
+    "selectPlaceholder": "Selecteer een tijd",
+    "successMessage": "Minimale besteltijd succesvol bijgewerkt",
+    "title": "Minimale besteltijd"
+  },
+  "app/(return_page)/settings/components/calendar/schedule-picker": {
     "endTime": "Eindtijd",
     "endTimeError": "Eindtijd fout",
-    "selectCountry": "Selecteer land",
-    "selectCountryPlaceholder": "Selecteer ...",
+    "errorFailedToSaveSchedule": "Kan schema niet opslaan",
+    "errorInvalidTimeFields": "Ongeldige tijd",
+    "errorSomethingWentWrong": "Er ging iets mis!",
+    "errorTooManyRequests": "Te veel aanvragen!",
+    "saveWorkingHours": "Bespaar werkuren",
+    "saving": "Opslaan...",
+    "scheduleSavedSuccess": "Schema opgeslagen",
+    "startTime": "Starttijd",
+    "startTimeError": "Starttijdfout"
+  },
+  "app/(return_page)/settings/components/delivery-options": {
+    "deliveryDescription": "Sta klanten in staat om bestellingen aan hun adres te geven",
+    "deliveryOption": "Levering",
+    "deliveryOptions": "Leveringsopties",
+    "deliveryOptionsDescription": "Configureer hoe klanten hun bestellingen kunnen ontvangen.",
+    "optionsUpdateError": "Fout bij het bijwerken van leveringsopties",
+    "optionsUpdateSuccess": "Leveringsopties met succes bijgewerkt",
+    "pickupDescription": "Sta klanten toe om bestellingen uit uw winkel op te halen",
+    "pickupOption": "Ophalen",
+    "updateDeliveryOptions": "Update leveringsopties",
+    "updatingOptions": "Opties bijwerken..."
+  },
+  "app/(return_page)/settings/components/delivery-settings": {
+    "addCity": "Stad Toevoegen",
+    "addCountry": "Voeg land toe",
+    "addRange": "Bereik toevoegen",
+    "brandName": "TheBakerz",
+    "cancel": "Annuleren",
     "cityDelivery": "Stad",
     "countryDelivery": "Land",
-    "addCountry": "Voeg land toe",
     "countryDeliveryFor": "Landen levering voor",
-    "selectedCountries": "Geselecteerde landen",
-    "postDelivery": "Post",
-    "toggleDeliveryType": "Schakelafgifte",
-    "ownDelivery": "Mijn eigen",
+    "day": "dag",
+    "days": "dagen",
+    "deliveryAllWeek": "Bezorging beschikbaar de hele week",
+    "deliveryDescription": "Klanten toestaan bestellingen te laten bezorgen op hun adres",
+    "deliveryPrice": "Bezorgkosten",
+    "deliveryRange": "Bezorgafstand",
+    "deliveryRegions": "Bezorggebieden",
+    "deliverySchedule": "Bezorgtijden",
+    "deliveryScheduleDescription": "Stel de tijden in waarop bezorging beschikbaar is voor dit gebied",
+    "deliveryTimes": "Bezorgtijden",
+    "endTime": "Eindtijd",
+    "endTimeError": "Eindtijd fout",
+    "hour": "uur",
+    "hours": "uren",
+    "invalidCity": "Ongeldige stad geselecteerd",
+    "loadError": "Fout bij het laden van bezorggebieden",
+    "loadingMap": "Laden...",
+    "manageDeliverySchedule": "Beheer Bezorgtijden",
+    "mapView": "Kaartweergave",
+    "minOrderPrice": "Minimale Bestelwaarde",
+    "minOrderPriceDescription": "Klanten moeten minimaal dit bedrag bestellen om in aanmerking te komen voor bezorging in dit gebied",
+    "minOrderPriceError": "Minimale bestelwaarde moet minimaal 10€ zijn",
+    "minOrderTime": "Min besteltijd:",
+    "minPriceLabel": "Min waarde",
+    "minutes": "minuten",
+    "noCitiesSelected": "Geen steden geselecteerd",
     "noCountriesSelected": "Geen land geselecteerd",
+    "noDeliveryDays": "Geen bezorgdagen ingesteld",
+    "ownDelivery": "Mijn eigen",
+    "postDelivery": "Post",
+    "postalDelivery": "Postlevering",
+    "priceLabel": "Prijs (€)",
+    "rangeOrderError": "Maak het bereik groter dan de vorige",
+    "resetMap": "Zoom Resetten",
+    "save": "Opslaan",
+    "saveDeliveryRegions": "Bezorggebieden Opslaan",
+    "saving": "Opslaan...",
+    "selectCity": "Selecteer een stad",
+    "selectCountry": "Selecteer land",
+    "selectCountryPlaceholder": "Selecteer ...",
+    "selectDeliveryCity": "Selecteer Bezorgstad",
+    "selectedCities": "Geselecteerde Steden",
+    "selectedCountries": "Geselecteerde landen",
+    "startTime": "Starttijd",
+    "startTimeError": "Starttijd fout",
+    "toggleDeliveryType": "Schakelafgifte",
     "togglePostDelivery": "Schakel postafgifte in",
-    "postalDelivery": "Postlevering"
+    "updateError": "Fout bij het bijwerken van bezorggebieden",
+    "updateSuccess": "Bezorggebieden succesvol bijgewerkt"
   },
-  "app/(store)/components/delivery-map": {},
-  "app/(return_page)/settings/components/store-tabs-settings": {
-    "store": "Winkel",
-    "pickup": "Ophalen",
-    "delivery": "Levering"
+  "app/(return_page)/settings/components/item-add-manager": {
+    "addItem": "Voeg nieuw item toe",
+    "image": "Afbeelding",
+    "nameAndPrice": "Naam & prijs",
+    "noProductsYet": "Nog geen producten"
+  },
+  "app/(return_page)/settings/components/products-settings": {
+    "addItem": "Item toevoegen",
+    "drag": "Slepen",
+    "image": "Afbeelding",
+    "manageProductsDescription": "Voeg uw producten toe en beheer ze",
+    "nameAndPrice": "Naam & Prijs",
+    "noProductsYet": "De winkel heeft nog geen producten.",
+    "productManager": "Productmanager",
+    "updateProductOrder": "Product- en categoriebestellingen bijwerken",
+    "updatingOrders": "Bestellingen bijwerken..."
+  },
+  "app/(return_page)/settings/components/products/product-card": {
+    "productManager": "Productmanager"
+  },
+  "app/(return_page)/settings/components/products/product-tab": {
+  },
+  "app/(return_page)/settings/components/profile-setting": {
+    "bakerz": "TheBakerz Partner",
+    "customer": "Klant",
+    "displaysProfile": "Deze informatie wordt weergegeven op uw profiel",
+    "displaysProfileStore": "Deze informatie wordt in uw winkel weergegeven",
+    "editCurrentName": "Bewerk uw huidige naam",
+    "editCurrentStoreName": "Bewerk uw huidige winkelnaam",
+    "name": "Naam",
+    "profile": "Profiel",
+    "profileHasUpdated": "Je profiel is bijgewerkt",
+    "profileUpdated": "Profiel bijgewerkt",
+    "storeName": "Winkelnaam",
+    "updateProfile": "Profiel bijwerken",
+    "updating": "Bijwerken..."
+  },
+  "app/(return_page)/settings/components/store-info": {
+    "currencyText": "Munteenheid",
+    "deliveryOnly": "Alleen levering",
+    "deliveryOption": "Verzendopties",
+    "notConfigured": "Niet geconfigureerd",
+    "owner": "Eigenaar",
+    "pickupAndDelivery": "Ophalen & bezorging",
+    "pickupOnly": "Alleen ophalen",
+    "region": "Regio",
+    "storeInformation": "Informatie winkel"
   },
   "app/(return_page)/settings/components/store-setting": {
-    "storeUpdated": "Winkel bijgewerkt!",
-    "updateStore": "Winkel bijwerken",
-    "storeDescriptionPlaceholder": "Vertel ons over uw winkel ... (Max 200 tekens)",
-    "writeAboutStore": "Schrijf een korte beschrijving over uw winkel (max 200 tekens)",
     "contactUs": "Neem contact met ons op",
     "description": "Beschrijving",
     "editLocationPhoneBy": "U kunt deze bewerken door contact met ons op te nemen op",
@@ -1044,107 +526,424 @@
     "locationPhone": "Locatie & Telefoon",
     "locationPlaceholder": "Locatie Placeholder",
     "phoneNumberPlaceholder": "+31 6 12 34 56 78",
+    "storeDescriptionPlaceholder": "Vertel ons over uw winkel ... (Max 200 tekens)",
     "storeLink": "Winkellink",
     "storeSlug": "Winkel ondertitel",
+    "storeUpdated": "Winkel bijgewerkt!",
     "typeYourStoreName": "Typ uw winkelnaam",
     "typeYourStoreSlug": "Winkel sinds 2021",
-    "updating": "Bijwerken..."
+    "updateStore": "Winkel bijwerken",
+    "updating": "Bijwerken...",
+    "writeAboutStore": "Schrijf een korte beschrijving over uw winkel (max 200 tekens)"
   },
-  "app/lib/actions/store-actions": {
-    "tooManyRequests": "Te veel verzoeken!",
-    "invalidFields": "Ongeldige velden",
-    "userNotFound": "Gebruiker niet gevonden!",
-    "storeNameExists": "Winkelnaam bestaat al!",
-    "storeUpdated": "Winkelinformatie bijgewerkt!"
+  "app/(return_page)/settings/components/store-tabs-settings": {
+    "delivery": "Levering",
+    "pickup": "Ophalen",
+    "store": "Winkel"
   },
-  "app/(return_page)/settings/components/store-info": {
-    "pickupOnly": "Alleen ophalen",
-    "deliveryOnly": "Alleen levering",
-    "pickupAndDelivery": "Ophalen & bezorging",
-    "notConfigured": "Niet geconfigureerd",
-    "storeInformation": "Informatie winkel",
-    "owner": "Eigenaar",
-    "region": "Regio",
-    "deliveryOption": "Verzendopties",
-    "currencyText": "Munteenheid"
+  "app/(return_page)/settings/components/tabs-settings": {
+    "information": "Info",
+    "profile": "Profiel"
   },
-  "app/(return_page)/settings/components/business-info": {
-    "accountInformation": "Accountinformatie",
-    "accountType": "Accounttype",
-    "memberSince": "Lid sinds",
-    "accountStatus": "Accountstatus",
-    "verified": "Geverifieerd",
-    "unverified": "Niet geverifieerd",
-    "businessInformation": "Zakelijke informatie",
-    "businessName": "Bedrijfsnaam",
-    "notAvailable": "Niet beschikbaar",
-    "kvkNumber": "Zakelijk nummer",
-    "vatNumber": "Belasting-ID",
-    "region": "Regio",
-    "registeredAddress": "Geregistreerd adres",
-    "bankAccount": "Bankrekening",
-    "korStatus": "KOR-status",
-    "korEnabled": "Ingeschakeld",
-    "korDisabled": "Gehandicapt",
-    "email": "E-mail"
+  "app/(return_page)/settings/page": {
+    "settingsDescription": "Pas uw instellingen en profiel aan.",
+    "settingsTitle": "Instellingen"
   },
-  "UsersDashboard": {
-    "Search User": "Zoek gebruiker"
+  "app/(return_page)/support/contact-us/page": {
+    "contactUs": "Neem contact met ons op",
+    "contactUsDescription": "Wij zijn er om u te helpen tijdens onze kantooruren. Neem gerust contact met ons op voor vragen of problemen die u heeft.",
+    "support": "Ondersteuning"
   },
-  "app/(components)/join-button": {
-    "loading": "Laden...",
-    "join": "Join TheBakerz",
-    "joinSmall": "Meedoen"
+  "app/(return_page)/transit-exit/page": {
+    "performingSignOut": "Afmelden..."
   },
-  "search": {
-    "errors": {},
-    "noStoresFound": {},
-    "noLocation": {},
-    "components": {
-      "toggleDelivery": {
-        "pickup": "Ophalen",
-        "delivery": "Levering"
-      },
-      "storePanel": {
-        "deliveryFee": "Bezorgkosten",
-        "deliveryAvailable": "Lever nu",
-        "minOrder": "Min bestelling",
-        "deliveryUnavailable": "Geen levering nu",
-        "open": "Open",
-        "closed": "Gesloten",
-        "deliveryHours": "Leveringsuren",
-        "workingHours": "Openingstijden",
-        "MinLeadTime": "Min doorlooptijd",
-        "hour": "uur",
-        "hours": "uren",
-        "day": "dag",
-        "days": "dagen"
-      }
+  "app/(return_page)/transit-login/page": {
+    "performingSignIn": "Aanmelden uitvoeren..."
+  },
+  "app/(store)/": {
+    "id": {
     }
   },
-  "app/(store)/id/order/success": {
-    "verifyEmail": "Controleer e-mailafbeelding",
-    "checkEmail": "Controleer uw e-mail op de informatie over uw bestelling.",
-    "orderPlaced": "Uw bestelling is geplaatst!",
-    "returnToStore": "Ga terug naar de winkel"
+  "app/(store)/components/button-stepper": {
+    "addItem": "Item toevoegen",
+    "deleteItem": "Item verwijderen",
+    "removeItem": "Item verwijderen"
   },
-  "app/api/store/products/": {
-    "productId": {}
+  "app/(store)/components/calendar-dashboard": {
+    "thisMonth": "Deze maand",
+    "thisWeek": "Deze week",
+    "today": "Vandaag"
   },
-  "app/(return_page)/settings/components/delivery-options": {
-    "deliveryDescription": "Sta klanten in staat om bestellingen aan hun adres te geven",
-    "deliveryOption": "Levering",
-    "deliveryOptions": "Leveringsopties",
-    "deliveryOptionsDescription": "Configureer hoe klanten hun bestellingen kunnen ontvangen.",
-    "optionsUpdateError": "Fout bij het bijwerken van leveringsopties",
-    "optionsUpdateSuccess": "Leveringsopties met succes bijgewerkt",
-    "pickupDescription": "Sta klanten toe om bestellingen uit uw winkel op te halen",
-    "pickupOption": "Ophalen",
-    "updateDeliveryOptions": "Update leveringsopties",
-    "updatingOptions": "Opties bijwerken..."
+  "app/(store)/components/cart": {
+    "addItemsToStart": "Voeg items toe om te beginnen",
+    "cartEmpty": "Winkelwagen leeg",
+    "continue": "Doorgaan",
+    "note": "Opmerking",
+    "yourCartFrom": "Uw winkelwagen van"
+  },
+  "app/(store)/components/checkout": {
+    "addItem": "Item toevoegen",
+    "addItemsToStart": "Voeg items toe om te beginnen",
+    "addressOutOfRange": "Adres uit de afleverregio",
+    "alert": "Winkel biedt alleen afhaalbestellingen aan",
+    "cartEmpty": "Winkelwagen leeg",
+    "deliveryFee": "Bezorgkosten",
+    "deliveryVat": "Levering BTW (21%)",
+    "invalidDeliveryAddress": "Ongeldig afleveradres",
+    "loadingPaymentGateway": "Betalingsgateway wordt geladen...",
+    "minimumAmount": "De minimale bestelhoeveelheid is € 10",
+    "minimumOrderForDelivery": "Minimale bestelling is {amount}",
+    "openingHours": "Openingstijden",
+    "pay": "Betalen",
+    "phone": "Telefoon",
+    "returnToCheckout": "Terug naar afrekenen",
+    "saveDeliveryDetails": "Bewaar leveringsgegevens",
+    "savePickUpDetails": "Ophaalgegevens opslaan",
+    "serviceFee": "Servicekosten",
+    "subtotal": "Subtotaal",
+    "total": "Totaal",
+    "unableToInitializePayment": "Kan betalingsgateway niet initialiseren",
+    "vat21": "BTW (21%)",
+    "vatExclusive": "BTW (9%)",
+    "workingHours": "Werkuren"
+  },
+  "app/(store)/components/checkout-steps": {
+    "cartDetails": "Winkelwagengegevens",
+    "cartDetailsStep": "3. Winkelwagengegevens",
+    "failedToUpdateCart": "Het is niet gelukt om de winkelwagen bij te werken",
+    "pickUpDetails": "Ophaalgegevens",
+    "pickUpDetailsStep": "2. Ophaalgegevens",
+    "signInOrSignUpStep": "1. Meld u aan of registreer u om een bestelling te plaatsen",
+    "signInOrSignUpText": "Meld u aan of registreer om een bestelling te plaatsen"
+  },
+  "app/(store)/components/delete-confirmation": {
+    "close": "Sluit",
+    "confirm": "Bevestigen",
+    "deleteConfirmation": "Verwijder bevestiging",
+    "deleteProductWarning": "Nadat u het item hebt verwijderd, wordt het permanent verwijderd en kan het niet meer worden hersteld."
+  },
+  "app/(store)/components/delivery-map": {
+  },
+  "app/(store)/components/image": {
+    "close": "Sluit",
+    "failedToUploadImage": "Afbeelding uploaden mislukt. Probeer het opnieuw.",
+    "imageProcessingError": "Niet in staat om de afbeelding te verwerken. \nProbeer een ander beeldformaat (JPEG of PNG aanbevolen).",
+    "rotation": "Rotatie",
+    "subtitle": "Uw afbeelding bijsnijden en aanpassen",
+    "title": "Afbeelding uploaden",
+    "unsupportedFormat": "Heic/Heif -afbeeldingen worden niet ondersteund. \nConverteer uw afbeelding naar JPEG of PNG met behulp van de foto -app van uw apparaat voordat u uploadt.",
+    "uploadImage": "Afbeelding uploaden",
+    "uploading": "Uploaden...",
+    "zoom": "Zoom"
+  },
+  "app/(store)/components/location-map": {
+    "storeLocation": "Winkellocatie",
+    "viewOnGoogleMaps": "Bekijk op Google Maps"
+  },
+  "app/(store)/components/order-dashboard": {
+  },
+  "app/(store)/components/orders": {
+    "backToOrderDashboard": "Terug naar het besteldashboard"
+  },
+  "app/(store)/components/orders-bar-chart": {
+    "notFound": "Niet gevonden",
+    "title": "Besteloverzicht bestellen"
+  },
+  "app/(store)/components/orders-list": {
+    "addOrder": "Voeg bestelling toe",
+    "brandName": "TheBakerz",
+    "delivery": "Levering",
+    "no": "Geen selectie",
+    "noOrdersFound": "Geen bestelling gevonden",
+    "order": "Bestelling",
+    "orderStatusFilter": "Bestelstatusfilter",
+    "orders": "Bestellingen"
+  },
+  "app/(store)/components/orders/add": {
+    "add": "Toevoegen",
+    "addItemsToStart": "Voeg items toe om te beginnen",
+    "addManageCart": "Klantenwinkelwagen toevoegen en beheren",
+    "backToOrderDashboard": "Terug naar het besteldashboard",
+    "cartDetails": "Winkelwagengegevens",
+    "cartDetailsStep": "1. Winkelwagengegevens",
+    "cartEmpty": "Je winkelwagen is leeg",
+    "close": "Sluit",
+    "copyLink": "Link kopiëren",
+    "copyLinkInstructions": "Kopieer deze link en deel deze met de klant voor betaling.",
+    "createOrderButton": "Bestelling aanmaken",
+    "customerCart": "Klanten winkelwagen",
+    "customerDetails": "Klantgegevens",
+    "customerEmailLabel": "Voer het e-mailadres van de klant in.",
+    "customerEmailPlaceholder": "Voer het e-mailadres van de klant in",
+    "customerNameLabel": "Voer de naam van de klant in.",
+    "customerNamePlaceholder": "Voer de naam van de klant in",
+    "customerPhoneLabel": "Voer het telefoonnummer van de klant in. (Optioneel)",
+    "customerPhonePlaceholder": "Voer het telefoonnummer van de klant in",
+    "failedCreateOrder": "Het is niet gelukt om een bestelling te maken",
+    "failedInitCheckout": "Initialiseren van checkout mislukt",
+    "hasCustomerPaid": "Heeft de klant al betaald?",
+    "image": "Afbeelding",
+    "namePrice": "Naam & Prijs",
+    "no": "Nee",
+    "noProductsAvailable": "De winkel heeft nog geen producten.",
+    "orderCreated": "Bestelling gemaakt",
+    "orderCreatedSuccess": "Bestelling succesvol aangemaakt!",
+    "orderLink": "Bestellink",
+    "orderLinkCopiedClient": "Bestellink gekopieerd naar klembord!",
+    "pickUpAt": "Afhalen bij",
+    "pickUpDetails": "Ophaalgegevens",
+    "pickUpDetailsStep": "2. Ophaalgegevens",
+    "pickUpOptionSelected": "Ophaaloptie geselecteerd",
+    "saveCartDetails": "Winkelwagengegevens opslaan",
+    "scheduleOrderTime": "Tijdschema voor bestelling",
+    "selectPickUpTime": "Selecteer ophaaltijd",
+    "somethingWentWrong": "Er is iets fout gegaan",
+    "subtotal": "Subtotaal",
+    "total": "Totaal",
+    "vatExclusive": "BTW (9%)",
+    "yes": "Ja"
+  },
+  "app/(store)/components/orders/overview": {
+    "Cancelled": "Geannuleerd",
+    "Change Status": "Status wijzigen",
+    "Change Status Action": "Weet u zeker dat u de status van deze bestelling wilt wijzigen?",
+    "Cooking": "Koken",
+    "Customer Details": "Klantgegevens",
+    "Failed to update status": "Status kan niet worden bijgewerkt",
+    "Order": "Volgorde",
+    "Order Items": "Bestel artikelen",
+    "Order Status": "Bestelstatus",
+    "Placed": "Geplaatst",
+    "Print Invoice": "Factuur afdrukken",
+    "Progress": "Voortgang",
+    "Ready": "Klaar",
+    "Search Items": "Zoek items",
+    "Select one option": "Selecteer één optie",
+    "Something Went Wrong": "Er ging iets mis",
+    "Status updated successfully": "Status succesvol bijgewerkt",
+    "Subtotal": "Subtotaal",
+    "Total": "Totaal",
+    "VAT Exclusive": "BTW (9%)",
+    "brandName": "TheBakerz",
+    "completed": "Voltooid",
+    "delivery": "Levering"
+  },
+  "app/(store)/components/product": {
+  },
+  "app/(store)/components/product-dialog": {
+  },
+  "app/(store)/components/product-list": {
+    "noProductsFound": "Geen producten gevonden"
+  },
+  "app/(store)/components/product-page": {
+    "Add": "Toevoegen",
+    "Add Allergies Placeholder": "Voeg allergieën toe",
+    "Add Description Placeholder": "Beschrijf uw item",
+    "Add Dietary Restrictions": "Voeg een dieetbeperking toe",
+    "Add Ingredients Placeholder": "Voeg ingrediënten toe",
+    "Add Item": "Voeg item toe",
+    "EditItem": "Item bewerken",
+    "Item Name": "Itemnaam",
+    "Item Options": "Itemopties",
+    "Loading": "Laden",
+    "MinLeadTime": "",
+    "Minimal Order": "Minimale volgorde",
+    "MinimalLeadTime": "Minimale doorlooptijd",
+    "MinimalLeadTimeDescription": "Wat is de minimale doorlooptijd voor de bestelling?",
+    "MinimalNumberDescription": "Wat is het minimum aantal items dat een klant kan bestellen?",
+    "Select Category": "Selecteer Categorie",
+    "Update": "Update",
+    "Update Item": "Update item bijwerken",
+    "Updating Cart": "Bijwerken",
+    "addAllergiesPlaceholder": "Allergieën toevoegen... (Druk op Enter om toe te voegen)",
+    "addDescriptionPlaceholder": "Voeg een beschrijving voor dit item toe...",
+    "addIngredientsPlaceholder": "Ingrediënten toevoegen... (Druk op Enter om toe te voegen)",
+    "addItem": "Item toevoegen",
+    "addNotesPlaceholder": "Schrijf notities naar het item",
+    "allergies": "Allergieën",
+    "cartUpdatedSuccess": "Winkelwagen is bijgewerkt",
+    "day": "dag",
+    "days": "dagen",
+    "hour": "uur",
+    "hours": "uren",
+    "ingredients": "Ingrediënten",
+    "invalidFile": "Ongeldig bestand geselecteerd. \nProbeer het opnieuw.",
+    "invalidImages": "Sommige afbeeldingen zijn niet goed geladen. \nProbeer ze opnieuw te uploaden.",
+    "itemName": "Artikelnaam",
+    "itemOptions": "Itemopties",
+    "loading": "Bezig met laden...",
+    "minimalOrder": "Minimale bestelling",
+    "minimalOrderDescription": "Wat is het minimale aantal artikelen dat een klant kan bestellen?",
+    "noProductsAvailable": "Geen producten beschikbaar",
+    "notes": "Opmerkingen",
+    "productDeleteFailed": "Het product niet verwijderen. \nProbeer het opnieuw.",
+    "productDeleted": "Product succesvol verwijderd",
+    "productLinkCopied": "Productlink gekopieerd!",
+    "productNotFound": "Product niet gevonden",
+    "selectCategory": "Selecteer categorie",
+    "specialCategory": "Specials",
+    "submitError": "Kan het formulier niet indienen. \nProbeer het opnieuw.",
+    "to order": "bestellen",
+    "unexpectedError": "Onverwachte fout",
+    "unsupportedFormat": "Heic/Heif -afbeeldingen worden niet ondersteund. \nConverteer uw afbeelding naar JPEG of PNG met behulp van de foto -app van uw apparaat voordat u uploadt.",
+    "updateItem": "Item bijwerken"
+  },
+  "app/(store)/components/product-search": {
+    "search": "Zoeken op productnaam of categorie..."
+  },
+  "app/(store)/components/product-tabs": {
+    "categoryNavigation": "Categorie Navigatie"
+  },
+  "app/(store)/components/smart-calendar": {
+    "time": "Tijd"
+  },
+  "app/(store)/components/status-select": {
+    "changeStatus": "Status wijzigen",
+    "changeStatusAction": "Status wijzigen ",
+    "failedToUpdateStatus": "Status niet bijgewerkt",
+    "order": "Bestelling",
+    "orderStatus": "Bestelstatus",
+    "selectOneOption": "Selecteer een optie",
+    "statusUpdatedSuccess": "Status wordt bijgewerkt"
+  },
+  "app/(store)/components/store-description": {
+    "addressPlaceholder": "Adres Placeholder",
+    "close": "Sluit",
+    "deliveryOnly": "Alleen levering",
+    "deliveryOnlyDescription": "Deze winkel biedt alleen leveringsopdrachten aan. \nSelecteer een levertijd tijdens het afrekenen.",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "locationPlaceholder": "Locatie Placeholder",
+    "phone": "Telefoon",
+    "pickUpAndDelivery": "Ophalen en leveren",
+    "pickUpAndDeliveryDescription": "Deze winkel biedt alleen leverings- en ophaalopdrachten. \nSelecteer een tijdstip tijdens het afrekenen.",
+    "pickUpDescription": "Deze winkel biedt alleen afhaalbestellingen aan. Selecteer een afhaaltijd tijdens het afrekenen.",
+    "pickUpOnly": "Alleen afhalen",
+    "workingHours": "Werkuren"
+  },
+  "app/(store)/components/store-header": {
+    "delivery": "Levering",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "pickup": "Ophalen"
+  },
+  "app/(store)/components/store-subheader": {
+    "MinLeadTime": "Min doorlooptijd",
+    "additionalInfo": "Aanvullende info",
+    "addressInRange": "Je adres ligt binnen het bezorggebied",
+    "addressPlaceholder": "Adres Placeholder",
+    "city": "Stad",
+    "confirm": "Bevestigen",
+    "day": "dag",
+    "days": "dagen",
+    "deliverAt": "Bezorgen om",
+    "delivery": "Bezorging",
+    "deliveryFee": "Bezorgkosten",
+    "deliveryHours": "Bezorgtijden",
+    "deliveryOptionsAlertDescription": "{store} levert uw bestelling via de postservice",
+    "deliveryOptionsAlertTitle": "Postlevering",
+    "editDeliveryAddress": "Bewerk afleveradres",
+    "enterAdditionalInfo": "Bijv. \nAppartementnummer, vloer, etc.",
+    "enterAddressToSeeDeliveryOptions": "Voer je adres in om bezorgopties te zien",
+    "enterCity": "Voer de stad in",
+    "enterDeliveryAddress": "Voer afleveradres in",
+    "enterDeliveryAddressPrompt": "Voer bezorgadres in",
+    "enterHouseNumber": "Voer het huisnummer in",
+    "enterStreet": "Voer de straatnaam in",
+    "enterZipCode": "Voer de postcode in",
+    "hour": "uur",
+    "hours": "uren",
+    "houseNumber": "Huisnummer",
+    "loadingAddress": "Adres laden...",
+    "loadingDeliveryOptions": "Bezorgopties laden...",
+    "locationPlaceholder": "Locatie Placeholder",
+    "minimumOrder": "Minimale bestellingswaarde",
+    "noDeliveryAddressYet": "Nog geen bezorgadres",
+    "pickUp": "Ophalen",
+    "pickUpAt": "Ophalen",
+    "scheduleDeliveryTime": "Plan bezorgtijd",
+    "scheduleOrderTime": "Plan de besteltijd",
+    "searchAddress": "Zoekadres",
+    "selectDeliveryDate": "Selecteer Leverdatum",
+    "selectDeliveryTime": "Selecteer bezorgtijd",
+    "selectPickUpTime": "Selecteer Pick-up tijd",
+    "storeClosed": "Nu gesloten",
+    "storeOpen": "Nu open",
+    "street": "Straat",
+    "typeToSearchAddress": "Type om adres te zoeken",
+    "zipCode": "Postcode"
+  },
+  "app/(store)/components/store-top": {
+    "addItem": "Item toevoegen"
+  },
+  "app/(store)/components/store-top-next": {
+    "alertDeliveryAndPickup": "Deze winkel biedt pick-up en leveringsopdrachten.",
+    "alertDeliveryOnly": "Deze winkel biedt alleen leveringsopdrachten aan.",
+    "alertHoverDeliveryAndPickup": "Selecteer een leverings- of ophaaltijd tijdens het afrekenen",
+    "alertHoverDeliveryOnly": "Selecteer een levertijd tijdens het afrekenen",
+    "alertHoverPickupOnly": "Selecteer een ophaaltijd tijdens het afrekenen",
+    "alertPickupOnly": "Deze winkel biedt alleen pick-up orders.",
+    "openingHours": "Openingstijden",
+    "phone": "Telefoon"
+  },
+  "app/(store)/components/three-dots": {
+    "addOrder": "Bestelling toevoegen",
+    "copyStoreLink": "Kopieer winkellink",
+    "editDelivery": "Bewerk bezorging",
+    "editPickup": "Bewerken pick-up",
+    "editProducts": "Producten bewerken",
+    "editStore": "Winkel bewerken",
+    "getHelp": "Vraag om hulp",
+    "report": "Rapporteer",
+    "storeLinkCopied": "Winkellink gekopieerd!"
+  },
+  "app/(store)/components/user-product": {
+  },
+  "app/(store)/components/variants-form-field": {
+    "addOption": "Optie toevoegen",
+    "addOptionGroup": "Optiegroep toevoegen",
+    "maxSelections": "Maximale selecties",
+    "multipleChoices": "Meerdere keuzes",
+    "newOption": "Nieuwe optie",
+    "optionGroupName": "Optie Groepnaam",
+    "optionName": "Optie naam",
+    "options": "Opties",
+    "placeholder": "bijv. Grootte, Toppings, Extra's",
+    "required": "Vereist",
+    "singleChoice": "Enkele keuze"
+  },
+  "app/(store)/components/variants-user-selection": {
+    "max": "Maximaal"
+  },
+  "app/(store)/components/working-hours": {
+    "addressOutOfRange": "Adres buiten bereik",
+    "checkingAddress": "Voer uw adres in",
+    "closed": "Gesloten",
+    "enterAddressPrompt": "Voer adres in",
+    "friday": "Vrijdag",
+    "monday": "Maandag",
+    "noInfo": "Gesloten",
+    "noScheduleAvailable": "Geen schema beschikbaar",
+    "saturday": "Zaterdag",
+    "scheduleFormatError": "Schema format fout",
+    "scheduleUnavailable": "Plan niet beschikbaar",
+    "sunday": "Zondag",
+    "thursday": "Donderdag",
+    "tuesday": "Dinsdag",
+    "wednesday": "Woensdag",
+    "workingHours": "Werkuren"
+  },
+  "app/(store)/id": {
+    "example-store": "Dit is een voorbeeldwinkel. \nGetoonde producten en diensten zijn alleen voor demonstratiedoeleinden."
   },
   "app/(store)/id/order/failed": {
     "error": "Er is iets mis met de betaling"
+  },
+  "app/(store)/id/order/success": {
+    "checkEmail": "Controleer uw e-mail op de informatie over uw bestelling.",
+    "orderPlaced": "Uw bestelling is geplaatst!",
+    "returnToStore": "Ga terug naar de winkel",
+    "verifyEmail": "Controleer e-mailafbeelding"
   },
   "app/(store)/id/orders/add": {
     "addOrder": "Voeg bestelling toe",
@@ -1157,41 +956,156 @@
     "settingsDescription": "Pas uw winkel en instellingen aan",
     "settingsTitle": "Winkelinstellingen"
   },
+  "app/(support)/components/contact-us": {
+    "buttonSending": "Verzenden...",
+    "buttonSubmit": "Ticket indienen",
+    "contextLabel": "Welk probleem ondervindt u?",
+    "contextPlaceholder": "Help mij met...",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "Voer uw e-mailadres in",
+    "subjectLabel": "Onderwerp",
+    "subjectPlaceholder": "Voer uw onderwerp in",
+    "successMessage": "Uw ticket is succesvol ingediend. We sturen u automatisch door naar de hoofdpagina in:"
+  },
+  "app/(support)/components/faq-baker": {
+    "answer1": "Thebakerz is een alles-in-één platform dat bakkers helpt hun bedrijven te beheren en meer klanten te bereiken. \nHet behandelt bestellingen, productieplanning, betalingen en klantcommunicatie op één plek. \nDit betekent minder tijd op admin en meer tijd om te doen waar je van houdt - bakken!",
+    "answer2": "Aan de slag gaan is eenvoudig! \n[Vul dit formulier in](/become-partner#join-thebakerz), en we plannen een snelle oproep om alles in te stellen. \nWe helpen u uw online winkel te maken en u te laten zien hoe u deze stap voor stap kunt gebruiken.",
+    "answer3": "U hebt alleen een KVK-nummer, btw-nummer en voedselveiligheidscertificering nodig. \nAls je iets mist, maak je geen zorgen - we zullen je helpen erachter te komen.",
+    "answer4": "Natuurlijk! \nJe hebt de controle over wat je verkoopt en hoeveel je in rekening brengt. \nU kunt uw menu en prijzen bijwerken wanneer u maar wilt.",
+    "answer5": "U bepaalt wat het beste werkt voor uw bakkerij. \nU kunt levering aanbieden of klanten toestaan ​​om bestellingen van uw locatie op te halen. \nStel uw eigen leveringsgebieden en pick -uptijden in om aan uw schema te passen.",
+    "answer6": "U betaalt alleen als u een verkoop doet. We nemen een commissie van 8%, die betrekking heeft op website -activiteiten, betalingsverwerkingskosten en advertenties.",
+    "answer7": "Klanten betalen vooraf via ons beveiligde betalingssysteem. \nWij dragen uw inkomsten, minus de Commissie, wekelijks naar uw bankrekening. \nBetalingen komen meestal binnen 1-2 werkdagen na maandag aan",
+    "answer8": "Absoluut! \nThebakerz is ontworpen om eenvoudig en gebruiksvriendelijk te zijn. \nAls je ooit hulp nodig hebt, is ons ondersteuningsteam slechts een e -mail of bel weg.",
+    "question1": "Wat is Thebakerz",
+    "question2": "Hoe begin ik te verkopen op Thebakerz?",
+    "question3": "Wat heb ik nodig om aan de slag te gaan?",
+    "question4": "Kan ik mijn eigen prijzen en menu kiezen?",
+    "question5": "Hoe werken bestellingen en bezorging?",
+    "question6": "Wat kost het om Thebakerz te gebruiken?",
+    "question7": "Hoe werken betalingen?",
+    "question8": ""
+  },
+  "app/(support)/components/faq-customer": {
+  },
+  "app/(support)/components/payment-urgent": {
+    "requestSentSuccess": "Uw verzoek is succesvol verzonden.",
+    "sendRequest": "Verzoek verzenden",
+    "sending": "Verzenden...",
+    "supportTicket": "Ondersteuningsticket"
+  },
+  "app/(support)/components/support": {
+    "contactUs": "Neem contact met ons op",
+    "faqsTitleLong": "Stel vaak vragen",
+    "faqsTitleShort": "Stel vaak vragen",
+    "sectionCustomer": "Klanten"
+  },
+  "app/actions": {
+    "notAuthenticated": "Niet geverifieerd",
+    "tooManyRequests": "Te veel verzoeken"
+  },
+  "app/api/auth/google": {
+    "pleaseRestartProcess": "Start het proces opnieuw.",
+    "tooManyRequests": "Te veel verzoeken"
+  },
+  "app/api/invoice/storeId/orderId": {
+    "errorGeneratingPdf": "Fout bij het genereren van PDF",
+    "notAuthenticated": "Niet geverifieerd",
+    "orderNotFound": "Bestelling is niet gevonden",
+    "restrictedAccess": "Beperkte toegang",
+    "storeNotFound": "Winkel is niet gevonden",
+    "tooManyRequests": "Te veel verzoeken"
+  },
+  "app/api/pay": {
+    "missingCartId": "Winkelwagen-ID ontbreekt",
+    "missingCosmosId": "Cosmos-ID ontbreekt",
+    "missingStoreId": "Ontbrekende winkel-ID",
+    "missingUserEmail": "Ontbrekende gebruikersmail",
+    "orderDbFailed": "Bestel DB mislukt",
+    "orderNotFound": "Bestelling niet gevonden",
+    "processingError": "Fout bij het verwerken van de betaling",
+    "tooManyRequests": "Te veel verzoeken",
+    "userCreationFailed": "Gebruikerscreatie is mislukt"
+  },
+  "app/api/store": {
+    "internalError": "Interne serverfout",
+    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
+    "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
+    "notAuthorized": "Geen toegang verlenen"
+  },
+  "app/api/store/cart": {
+    "internalError": "Interne serverfout",
+    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
+    "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
+    "missingUserId": "Ontbrekende of ongeldige User-ID-header",
+    "notAuthorized": "Geen toegang verlenen"
+  },
+  "app/api/store/order": {
+    "internalError": "Interne serverfout",
+    "notAuthorized": "Geen toegang verlenen"
+  },
+  "app/api/store/order/updateStatus": {
+  },
+  "app/api/store/orders/new": {
+  },
+  "app/api/store/orders/range": {
+    "internalError": "Interne serverfout",
+    "missingAuth": "Autorisatieheader ontbreekt",
+    "missingFromDate": "Ontbrekende Van-Datum header",
+    "missingStoreId": "Ontbrekende Store-Id-header",
+    "missingToDate": "Ontbrekende Tot-Datum header",
+    "notAuthorized": "Niet-geautoriseerde toegang"
+  },
+  "app/api/store/products": {
+    "internalError": "Interne serverfout",
+    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
+    "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
+    "notAuthorized": "Geen toegang verlenen"
+  },
+  "app/api/store/products-order": {
+    "internalError": "Interne serverfout",
+    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
+    "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
+    "notAuthorized": "Geen toegang verlenen"
+  },
+  "app/api/store/products/": {
+    "productId": {
+    }
+  },
   "app/api/store/products/productId": {
     "internalError": "Interne serverfout",
     "missingAuth": "Ontbrekende of ongeldige autorisatiekop",
     "missingStoreId": "Ontbrekende of ongeldige winkel-ID-header",
     "notAuthorized": "Geen toegang toestaan"
   },
-  "app/api/store/orders/new": {},
-  "app/(store)/id": {
-    "example-store": "Dit is een voorbeeldwinkel. \nGetoonde producten en diensten zijn alleen voor demonstratiedoeleinden."
+  "app/api/update-schedule": {
+    "invalidJson": "Ongeldige JSON",
+    "invalidPayload": "Ongeldige aanvraag-payload",
+    "invalidTimeFields": "Ongeldige tijdvelden",
+    "storeNotFound": "Winkel niet gevonden",
+    "tooManyRequests": "Te veel verzoeken",
+    "updateFailed": "Het is niet gelukt om het schema bij te werken"
   },
-  "app/landing/marketplace": {
-    "heroSectionTitle": "Ontdek ambachtelijke bakkerijen bij jou in de buurt",
-    "heroSectionPlaceholder": "Voer uw adres in",
-    "heroSectionLoading": "Uw locatie vinden ...",
-    "heroSectionSubmitting": "Uw adres verwerken ...",
-    "bakersGrowthSectionTitle": "Laat uw bakkerijbedrijf groeien met Thebakerz",
-    "bakersGrowthSectionDescription": "Ons platform helpt ambachtelijke bakkers de omzet te vergroten door middel van promotionele orderbeheer, klantontdekkingstools en gestroomlijnde activiteiten - om u te richten op het creëren van heerlijke gebakken producten.",
-    "become": "Word een partner"
+  "app/api/upload-image": {
+    "fileNotProvided": "Bestand niet verstrekt",
+    "imageUpdated": "Afbeelding succesvol bijgewerkt!",
+    "internalError": "Interne serverfout",
+    "invalidContainer": "Ongeldige containernaam",
+    "invalidImage": "Ongeldige afbeelding",
+    "notAuthenticated": "Niet geverifieerd",
+    "notAuthorized": "Geen toegang verlenen",
+    "tooManyRequests": "Te veel verzoeken"
   },
-  "app/search": {
-    "noStoresFound": "Geen winkels gevonden",
-    "tryChangingLocationOrDeliveryMode": "Probeer uw locatie of aflevermodus te wijzigen.",
-    "errorCouldNotDetermineLocation": "Fout: kan de locatie niet bepalen.",
-    "errorLoadingAddressSearch": "Fout laden adres zoeken. \nProbeer de pagina te vernieuwen.",
-    "findingLocation": "Uw locatie vinden ...",
-    "updatingLocation": "Locatie bijwerken ...",
-    "searchAddressPlaceholder": "Straat, nummer, stad ...",
-    "searchAddressLabel": "\"Voer het afleveradres in\""
+  "app/api/validate-session": {
+    "internalError": "Interne serverfout",
+    "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
+    "tokenNotProvided": "Token niet verstrekt"
   },
   "app/become-partner": {
-    "title": "Ontgrendel uw potentieel met TheBakerz",
     "launchYourCustomWebShop": "Start uw aangepaste web-shop",
     "launchYourCustomWebShopDescription": "Toon uw producten met professionele fotografie op ons gebruiksvriendelijke platform met een soepele kassa voor maximale klanttevredenheid",
     "manageOrdersSmarter": "Beheer bestellingen slimmer",
     "manageOrdersSmarterDescription": "Volg elke bestelling van plaatsing naar ophalen met ons intuïtieve agenda -dashboard dat klantgegevens, bestelstatussen en financiële inzichten weergeeft - allemaal in één georganiseerde weergave",
+    "title": "Ontgrendel uw potentieel met TheBakerz",
     "weHaveMore": "Denk je dat dit alles is?",
     "weHaveMoreDescription": "We hebben meer!"
   },
@@ -1200,30 +1114,140 @@
     "marketing": "MARKETING",
     "support": "STEUN"
   },
-  "app/(store)/": {
-    "id": {}
+  "app/landing/marketplace": {
+    "bakersGrowthSectionDescription": "Ons platform helpt ambachtelijke bakkers de omzet te vergroten door middel van promotionele orderbeheer, klantontdekkingstools en gestroomlijnde activiteiten - om u te richten op het creëren van heerlijke gebakken producten.",
+    "bakersGrowthSectionTitle": "Laat uw bakkerijbedrijf groeien met Thebakerz",
+    "become": "Word een partner",
+    "heroSectionLoading": "Uw locatie vinden ...",
+    "heroSectionPlaceholder": "Voer uw adres in",
+    "heroSectionSubmitting": "Uw adres verwerken ...",
+    "heroSectionTitle": "Ontdek ambachtelijke bakkerijen bij jou in de buurt"
   },
-  "app/(landing)/components/partners": {
-    "title": "Onze partners",
-    "description": "We werken samen met marktleiders om de beste oplossingen te leveren."
+  "app/lib/actions/auth/email-action": {
+    "applicationSubmittedSuccess": "Aanvraag succesvol ingediend!",
+    "emailSentSuccess": "E-mail succesvol verzonden!",
+    "invalidFields": "Ongeldige velden!",
+    "phoneCorrect": "Telefoonnummer klopt!"
   },
-  "ProductAdd": {
-    "ProductAdd": "Productmanager",
-    "ManageProductsDescription": "Voeg product helemaal opnieuw toe of gebruik de sjabloon"
+  "app/lib/actions/cart": {
+    "cartRemovedSuccess": "Winkelwagen succesvol verwijderd!",
+    "cartUpdatedSuccess": "Winkelwagen succesvol bijgewerkt!",
+    "failedRemoveCart": "Winkelwagen verwijderen mislukt.",
+    "failedRemoveItem": "Artikel verwijderen uit winkelwagen mislukt.",
+    "failedReplaceGuestCart": "Gastwinkelwagen vervangen mislukt.",
+    "failedUpdateCart": "Winkelwagen bijwerken mislukt.",
+    "guestCartReplacedSuccess": "Gastwinkelwagen is succesvol vervangen door gebruikerswinkelwagen items!",
+    "invalidOption": "Ongeldige optie {option} voor {variant}",
+    "itemRemovedSuccess": "Artikel succesvol verwijderd!",
+    "maxSelectionsExceeded": "{variant} kan niet meer dan {max} selecties hebben",
+    "minOrderRequired": "Je moet minimaal {min} van dit product bestellen",
+    "minSelectionsRequired": "{variant} moet {min} selecties hebben",
+    "noteTooLong": "Notitie is te lang!",
+    "productNotFound": "Product niet gevonden!",
+    "requiredVariantMissing": "{variant} is verplicht",
+    "sessionNotRecognized": "Sessie niet herkend",
+    "singleSelectionRequired": "{variant} moet precies één selectie hebben",
+    "tooManyRequests": "Te veel verzoeken",
+    "userIdStoreIdRequired": "Gebruikers-ID en Winkel-ID zijn verplicht",
+    "userNotFound": "Gebruiker niet gevonden!"
   },
-  "app/(return_page)/settings/components/item-add-manager": {
-    "noProductsYet": "Nog geen producten",
-    "addItem": "Voeg nieuw item toe",
-    "image": "Afbeelding",
-    "nameAndPrice": "Naam & prijs"
+  "app/lib/actions/order": {
+    "cannotChangeStatus": "TheBakerz kan deze bestelling alleen voltooien",
+    "cartEmpty": "Winkelwagen is leeg",
+    "failedCreateCheckout": "Het is niet gelukt om een checkout-sessie te maken",
+    "failedFetchOrder": "Het ophalen van winkelgegevens is mislukt",
+    "failedFetchOrders": "Het is niet gelukt om bestellingen op te halen",
+    "failedUpdateOrderStatus": "Kan de bestelstatus niet bijwerken",
+    "invalidData": "Ongeldige bestelgegevens",
+    "invalidFields": "Ongeldige velden!",
+    "invalidStatus": "Ongeldige status",
+    "orderAlreadyCompleted": "Bestelling is al voltooid",
+    "orderNotFound": "Bestel niet gevonden",
+    "orderTimeNotSet": "Besteltijd is niet ingesteld",
+    "pastDateOrder": "Kan geen bestellingen plaatsen voor eerdere data of de tijd is bijna verstreken",
+    "sessionExpired": "Sessie is niet geldig",
+    "storeNotFound": "Winkel niet gevonden!",
+    "tooManyRequests": "Te veel verzoeken",
+    "userNotAuthorized": "Geen toegang"
   },
-  "Dietary": {
-    "AddDietaryRestriction": "Voeg dieet toe",
-    "gluten-free": "Glutenvrij",
-    "sugar-free": "Geen suiker",
-    "halal": "Halal",
-    "vegan": "Veganistisch",
-    "Diet": "Speciaal",
-    "lactose-free": "Lactosevrij"
+  "app/lib/actions/order-products": {
+    "failedFetchStoreProducts": "Het ophalen van winkelproducten is mislukt",
+    "failedUpdateProduct": "Het product kon niet worden bijgewerkt.",
+    "orderUpdated": "Bestelling bijgewerkt!",
+    "storeNotFound": "Winkel niet gevonden!",
+    "tooManyRequests": "Te veel verzoeken",
+    "userNotFound": "Gebruiker niet gevonden!"
+  },
+  "app/lib/actions/product": {
+    "failedUpdateProduct": "Het product kon niet worden bijgewerkt.",
+    "failedUploadImage": "Het uploaden van de afbeelding is mislukt",
+    "invalidFields": "Ongeldige velden!",
+    "productAdded": "Product toegevoegd!",
+    "productUpdated": "Product bijgewerkt!",
+    "storeNotFound": "Winkel niet gevonden!",
+    "tooManyRequests": "Te veel verzoeken",
+    "userNotFound": "Gebruiker niet gevonden!"
+  },
+  "app/lib/actions/profile-actions": {
+    "invalidFields": "Ongeldige velden!",
+    "profileUpdated": "Profiel succesvol bijgewerkt!",
+    "tooManyRequests": "Te veel verzoeken",
+    "userNotFound": "Gebruiker niet gevonden!"
+  },
+  "app/lib/actions/store-actions": {
+    "invalidFields": "Ongeldige velden",
+    "storeNameExists": "Winkelnaam bestaat al!",
+    "storeUpdated": "Winkelinformatie bijgewerkt!",
+    "tooManyRequests": "Te veel verzoeken!",
+    "userNotFound": "Gebruiker niet gevonden!"
+  },
+  "app/lib/schemas": {
+  },
+  "app/search": {
+    "errorCouldNotDetermineLocation": "Fout: kan de locatie niet bepalen.",
+    "errorLoadingAddressSearch": "Fout laden adres zoeken. \nProbeer de pagina te vernieuwen.",
+    "findingLocation": "Uw locatie vinden ...",
+    "noStoresFound": "Geen winkels gevonden",
+    "searchAddressLabel": "\"Voer het afleveradres in\"",
+    "searchAddressPlaceholder": "Straat, nummer, stad ...",
+    "tryChangingLocationOrDeliveryMode": "Probeer uw locatie of aflevermodus te wijzigen.",
+    "updatingLocation": "Locatie bijwerken ..."
+  },
+  "lib/actions/delivery-address-actions": {
+    "AddressNotPreciseEnough": "",
+    "CouldNotVerifyAddressLocation": "",
+    "FailedToVerifyAddressLocation": "",
+    "InvalidCity": "",
+    "InvalidPostalCode": "",
+    "MissingRequiredFields": ""
+  },
+  "search": {
+    "components": {
+      "storePanel": {
+        "MinLeadTime": "Min doorlooptijd",
+        "closed": "Gesloten",
+        "day": "dag",
+        "days": "dagen",
+        "deliveryAvailable": "Lever nu",
+        "deliveryFee": "Bezorgkosten",
+        "deliveryHours": "Leveringsuren",
+        "deliveryUnavailable": "Geen levering nu",
+        "hour": "uur",
+        "hours": "uren",
+        "minOrder": "Min bestelling",
+        "open": "Open",
+        "workingHours": "Openingstijden"
+      },
+      "toggleDelivery": {
+        "delivery": "Levering",
+        "pickup": "Ophalen"
+      }
+    },
+    "errors": {
+    },
+    "noLocation": {
+    },
+    "noStoresFound": {
+    }
   }
 }

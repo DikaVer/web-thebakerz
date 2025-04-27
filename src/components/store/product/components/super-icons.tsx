@@ -3,7 +3,8 @@ import {
     noSugar,
     noLactose,
     noGluten,
-    iconHalal
+    iconHalal,
+    iconVegan
 } from "@/components/store/product/components/super-icon"
 
 export const iconSuperMap: Record<string, React.FC<{ size?: number }>> = {
@@ -11,7 +12,7 @@ export const iconSuperMap: Record<string, React.FC<{ size?: number }>> = {
     'lactose-free': noLactose,
     'gluten-free': noGluten,
     'halal': iconHalal,
-    'vegan': iconHalal, // Temporarily using halal icon as placeholder for vegan
+    'vegan': iconVegan,
 }
 
 interface DietaryIconProps {

@@ -5,6 +5,7 @@ import { MerchantDeliveryRegion, getMerchantDeliveryRegions, DeliveryRange } fro
 import { updateDeliveryAddress as dbUpdateDeliveryAddress, DeliveryAddress, DeliveryAddressRaw } from '@/app/(store)/[id]/delivery-actions';
 import { haversineDistance } from '@/lib/utils';
 import { logger } from '@/lib/logger';
+import { getTranslations } from 'next-intl/server';
 
 /**
  * Validates an address on the server side
@@ -15,6 +16,7 @@ export async function validateAddress(
   storeId: string
 ): Promise<ValidationResult> {
   logger.debug("validateAddress", "Validating address...", { address: addressData.formattedAddress });
+  const t = await getTranslations('lib/actions/delivery-address-actions');
   
   try {
     // 1. Validate required fields
@@ -28,29 +30,166 @@ export async function validateAddress(
     }
 
     // 2. Ensure we have coordinates
-    let coords = addressData.coordinates;
+    let coords = undefined; // Don't use client-side coordinates
     
-    // Geocode if coordinates are missing
-    if (!coords && addressData.formattedAddress) {
+    // Always geocode if formattedAddress is available
+    if (addressData.formattedAddress) {
       try {
         logger.debug("validateAddress", "Geocoding address:", { address: addressData.formattedAddress });
         const geocodingResponse = await fetch(
           `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
             addressData.formattedAddress
-          )}&key=${process.env.GOOGLE_MAPS_API_KEY}`
+          )}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
         );
         
-        const geocodeData = await geocodingResponse.json();
-        
-        if (geocodeData.status === 'OK' && geocodeData.results && geocodeData.results.length > 0) {
-          const location = geocodeData.results[0].geometry.location;
-          coords = { lat: location.lat, lng: location.lng };
-          logger.debug("validateAddress", "Geocoded coordinates:", { coords });
-        } else {
+        // Check if the request itself was successful
+        if (!geocodingResponse.ok) {
+          logger.error("validateAddress", "Geocoding HTTP error:", { 
+            status: geocodingResponse.status,
+            statusText: geocodingResponse.statusText 
+          });
           return {
             isValid: false,
             isInRange: false,
-            message: "Could not verify address location. Please check the details.",
+            message: t('FailedToVerifyAddressLocation') || "Failed to verify address location.",
+            validatedAddress: addressData
+          };
+        }
+        
+        const geocodeData = await geocodingResponse.json();
+        
+        // Log the actual response data, not the Response object
+        logger.debug("validateAddress", "Geocoding response data:", { 
+          status: geocodeData.status,
+          resultCount: geocodeData.results?.length || 0
+        });
+        
+        if (geocodeData.status === 'OK' && geocodeData.results && geocodeData.results.length > 0) {
+          const result = geocodeData.results[0];
+          const location = result.geometry.location;
+          const locationType = result.geometry.location_type;
+          
+          // Check if the result is sufficiently precise - we want ROOFTOP or RANGE_INTERPOLATED
+          // GEOMETRIC_CENTER or APPROXIMATE are too imprecise and may be city centers
+          const isPreciseLocation = locationType === 'ROOFTOP' || locationType === 'RANGE_INTERPOLATED';
+          
+          // Extract address components to verify postal code and city
+          let foundStreet = false;
+          let foundHouseNumber = false;
+          let foundPostalCode = false;
+          let foundCity = false;
+          let postalCodeMatches = false;
+          let cityMatches = false;
+          
+          // Loop through address components to verify postal code and city
+          for (const component of result.address_components) {
+            const types = component.types;
+            
+            // Still identify all components but only validate postal code and city
+            if (types.includes('route')) {
+              foundStreet = true;
+              // Just log street info but don't validate it
+              logger.debug("validateAddress", "Street info:", { 
+                original: addressData.street, 
+                geocoded: component.long_name 
+              });
+            }
+            
+            if (types.includes('street_number')) {
+              foundHouseNumber = true;
+              // Just log house number info but don't validate it
+              logger.debug("validateAddress", "House number info:", { 
+                original: addressData.houseNumber, 
+                geocoded: component.long_name 
+              });
+            }
+            
+            if (types.includes('postal_code')) {
+              foundPostalCode = true;
+              // Normalize and compare postal codes (remove spaces)
+              const normalizedInput = addressData.zipCode.replace(/\s+/g, '').toUpperCase();
+              const normalizedGeocoded = component.long_name.replace(/\s+/g, '').toUpperCase();
+              postalCodeMatches = normalizedInput === normalizedGeocoded;
+              
+              if (!postalCodeMatches) {
+                logger.debug("validateAddress", "Postal code mismatch:", { 
+                  original: normalizedInput, 
+                  geocoded: normalizedGeocoded 
+                });
+              }
+            }
+            
+            if (types.includes('locality') || types.includes('postal_town')) {
+              foundCity = true;
+              // Case-insensitive city comparison
+              cityMatches = component.long_name.toLowerCase() === addressData.city.toLowerCase();
+              
+              if (!cityMatches) {
+                logger.debug("validateAddress", "City mismatch:", { 
+                  original: addressData.city, 
+                  geocoded: component.long_name 
+                });
+              }
+            }
+          }
+          
+          // Only validate that we have precise location and correct postal code and city
+          const isValidAddress = isPreciseLocation && 
+                                foundPostalCode && postalCodeMatches && 
+                                foundCity && cityMatches;
+          
+          if (!isValidAddress) {
+            logger.debug("validateAddress", "Address validation failed", { 
+              isPreciseLocation,
+              locationType,
+              foundPostalCode, postalCodeMatches,
+              foundCity, cityMatches 
+            });
+            
+            // Return more specific error message based on what's invalid
+            let errorMessage = t('CouldNotVerifyAddressLocation') || "Could not verify this address location.";
+            
+            // if (!isPreciseLocation) {
+            //   errorMessage = t('AddressNotPreciseEnough') || "This address is not precise enough. Please check the street and house number.";
+            // } else 
+            if (!foundPostalCode || !postalCodeMatches) {
+              errorMessage = t('InvalidPostalCode') || "The postal code appears to be invalid. Please check it and try again.";
+            } else if (!foundCity || !cityMatches) {
+              errorMessage = t('InvalidCity') || "The city does not match the postal code. Please check both fields.";
+            }
+
+            logger.debug("validateAddress", "Validation result:", { 
+              isValid: false,
+              isInRange: false,
+              message: errorMessage,
+              validatedAddress: addressData
+            });
+            
+            return {
+              isValid: false,
+              isInRange: false,
+              message: errorMessage,
+              validatedAddress: addressData
+            };
+          }
+          
+          coords = { lat: location.lat, lng: location.lng };
+          logger.debug("validateAddress", "Geocoded coordinates:", { 
+            coords,
+            locationType,
+            formattedAddress: result.formatted_address 
+          });
+        } else {
+          // Log more details about failed geocoding
+          logger.error("validateAddress", "Geocoding API error:", { 
+            status: geocodeData.status,
+            errorMessage: geocodeData.error_message || 'No error message provided' 
+          });
+          
+          return {
+            isValid: false,
+            isInRange: false,
+            message: t('CouldNotVerifyAddressLocation') || "Failed to verify address location.",
             validatedAddress: addressData
           };
         }
@@ -59,10 +198,17 @@ export async function validateAddress(
         return {
           isValid: false,
           isInRange: false,
-          message: "Failed to verify address location.",
+          message: t('FailedToVerifyAddressLocation') || "Failed to verify address location.",
           validatedAddress: addressData
         };
       }
+    } else {
+      return {
+        isValid: false,
+        isInRange: false,
+        message: t('MissingRequiredFields') || "Missing required fields.",
+        validatedAddress: addressData
+      };
     }
     
     // 3. Get delivery regions for the store
@@ -218,6 +364,9 @@ export async function validateAndSaveAddress(
   } else {
     saveResult = { error: "Address validation failed" };
   }
+
+  logger.debug("validateAndSaveAddress", "Validation result:", { validationResult });
+  logger.debug("validateAndSaveAddress", "Save result:", { saveResult });
   
   return {
     validationResult,

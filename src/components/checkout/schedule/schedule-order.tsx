@@ -46,7 +46,7 @@ export function ScheduleOrder({
         name: t("phone"),
         href: `https://wa.me/${store?.phone?.replace(/\D/g, '')}`,
         icon: (props: SocialIconProps) => (
-            <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24} />
+            <Icon {...props} icon="mdi:whatsapp" strokeWidth={1.5} width={24} />
         ),
     };
 

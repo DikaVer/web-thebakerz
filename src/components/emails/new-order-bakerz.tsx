@@ -35,6 +35,7 @@ interface NewOrderEmailProps {
     priceData: PriceOrderData;
     isDelivery: boolean;
     isStoreDelivery: boolean;
+    isPostDelivery: boolean;
     deliveryAddress?: DeliveryAddress | null; // Optional delivery address
 }
 
@@ -82,6 +83,7 @@ export default function NewOrderEmail({
     priceData, 
     isDelivery, 
     isStoreDelivery,
+    isPostDelivery,
     deliveryAddress
 }: NewOrderEmailProps) {
 
@@ -94,10 +96,15 @@ export default function NewOrderEmail({
         ? `https://maps.google.com/?q=${encodeURIComponent(addressToShow)}`
         : `https://maps.google.com/?q=${storeLocation.latitude},${storeLocation.longitude}`;
 
+    // Format date based on whether it's post delivery or not
+    const formattedDateTime = isPostDelivery
+        ? `${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year}`
+        : `${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year} at ${String(scheduledToCalendarDateTime(scheduledTime).hour).padStart(2, '0')}:${String(scheduledToCalendarDateTime(scheduledTime).minute).padStart(2, '0')}`;
+
     // Calendar link might be less relevant for the baker, but keep for now
     const calendarEventTitle = `${storeName} Order ${isDelivery ? 'Delivery' : 'Pickup'} #${orderId}`;
     const calendarLocation = isDelivery ? addressToShow : storeLocation.address;
-    const calendarDetails = `Order #${orderId} from ${storeName}. For: ${customer.name_customer}. Scheduled: ${formatDisplayDateTime(scheduledTime.date, 'en-NL')}. ${isDelivery ? `Delivery to: ${addressToShow}` : `Pickup at: ${storeLocation.address}`}`;
+    const calendarDetails = `Order #${orderId} from ${storeName}. For: ${customer.name_customer}. Scheduled: ${formattedDateTime}. ${isDelivery ? `Delivery to: ${addressToShow}` : `Pickup at: ${storeLocation.address}`}`;
     const calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calendarEventTitle)}&dates=${formatDateForCalendar(scheduledTime.date)}&location=${encodeURIComponent(calendarLocation)}&details=${encodeURIComponent(calendarDetails)}`;
 
     return (
@@ -151,8 +158,8 @@ export default function NewOrderEmail({
                             <Column style={textColumn}>
                                 <Text style={detailHeading}>{scheduledTimeLabel}</Text>
                                 <Text style={detailText}>
-                                    {`${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year} at ${String(scheduledToCalendarDateTime(scheduledTime).hour).padStart(2, '0')}:${String(scheduledToCalendarDateTime(scheduledTime).minute).padStart(2, '0')}`}
-                                    </Text>
+                                    {formattedDateTime}
+                                </Text>
                             </Column>
                         </Row>
                         

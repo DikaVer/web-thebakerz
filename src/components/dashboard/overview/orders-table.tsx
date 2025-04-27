@@ -99,6 +99,7 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
             case "createdAt":
                 return formatDisplayDateTime(order.createdAt, locale.locale);
             case "scheduled_time":
+                if (order.isPostDelivery) return order.scheduled_time.date;
                 return `${order.scheduled_time.date} ${order.scheduled_time.time}`;
             case "order_status":
                 return <OrderStatusChip status={order.order_status} />;

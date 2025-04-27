@@ -11,22 +11,14 @@ import { Icon } from '@iconify/react';
 
 export default function LanguageModal({handAction}: {handAction?: () => void}) {
     // get from server or browser
-    const router = useRouter();
     const [isOpen, setIsOpen] = useState(true);
-    const onClose = () => {
-        setIsOpen(false);
-        router.refresh();
-    }
-
-
 
     const handleSubmit = async (targetLanguage: Locale) => {
         // Call the server action to set cookie, then close modal
         await setLanguageCookie(targetLanguage);
         // Optionally, trigger a refresh or redirect handled in the action
         handAction && handAction();
-        onClose();
-
+        setIsOpen(false);
     };
 
     return (

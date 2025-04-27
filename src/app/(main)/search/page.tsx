@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import { SearchComponent } from '@/components/search/search-comp';
-import { getSearchCity, getSearchCoordinates, Coordinates } from '@/lib/cookie';
 import { findNearbyStores, NearbyStore } from '@/lib/actions/store';
 import { StorePanelSkeleton } from '@/components/search/components/store-panel-skeleton';
 import { StorePanel } from '@/components/search/components/store-panel';
@@ -8,6 +7,7 @@ import type { Metadata } from 'next'; // Import Metadata type
 import { getLocale, getTranslations } from 'next-intl/server'; // Import getLocale
 import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata utils
 import { logger } from '@/lib/logger';
+import { Coordinates, getSearchCity, getSearchCoordinates, getSearchCountry } from '@/lib/delivery-cookie';
 
 // Define search page specific metadata translations
 const pageMetadataTranslations = {
@@ -194,6 +194,7 @@ export default async function Page(props : SearchPageProps) {
     initialCoords = await getSearchCoordinates();
     if (initialCoords) {
       initialCity = await getSearchCity();
+      initialCountry = await getSearchCountry();
     } else {
       // 3. If no coords from cookies, use defaults
       initialCoords = { lat: DEFAULT_LAT, lng: DEFAULT_LNG };

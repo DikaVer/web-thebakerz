@@ -19,7 +19,6 @@ export default function CookieConsentComponent() {
         marketing: true,
     });
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,13 +30,13 @@ export default function CookieConsentComponent() {
     };
 
     const handleAcceptSelected = async () => {
-        await savePreferences(localPreferences);
         setIsLoading(true);
+        await savePreferences(localPreferences);
     };
 
     const handleRejectAll = async () => {
+        setIsLoading(true);
         await rejectAll();
-        setIsLoading(false);
     };
 
     if (isLoading) {

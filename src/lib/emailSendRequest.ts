@@ -121,6 +121,7 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
                 storePhone: storeData.phone || "", // Pass store phone
                 storeLocation: storeLocation, // Pass formatted store location
                 products: orderData.productsData,
+                isPostDelivery: orderData.isPostDelivery,
                 // Pass new pricing/delivery fields
                 priceData: orderData.priceData,
                 isDelivery: orderData.isDelivery,
@@ -151,6 +152,7 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
                 customer: orderData.customer, // Pass the whole customer object
                 products: orderData.productsData,
                 isStoreDelivery: orderData.isStoreDelivery,
+                isPostDelivery: orderData.isPostDelivery,
                 // Pass new pricing/delivery fields
                 priceData: orderData.priceData,
                 isDelivery: orderData.isDelivery,
@@ -187,6 +189,7 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
                     customer: orderData.customer, // Pass the whole customer object
                     products: orderData.productsData,
                     isStoreDelivery: true,
+                    isPostDelivery: orderData.isPostDelivery,
                     // Pass new pricing/delivery fields
                     priceData: orderData.priceData,
                     isDelivery: orderData.isDelivery,

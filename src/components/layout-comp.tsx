@@ -31,7 +31,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
     const isCheckout = pathname.includes(`/${store?.storeName}/checkout`);
     const isPartnerPage = pathname.includes("/become-partner");
     const isProductPage = pathname.includes(`/${store?.storeName || store?.id}/item`);
-    const isPay = pathname.includes(`/${store?.storeName}/pay`) || pathname.includes(`/${store?.storeName}/order/success`) || pathname.includes(`/${store?.storeName}/order/failed`);
+    const isPay = pathname.includes(`/${store?.storeName}/pay`);
 
     useEffect(() => {
         if (isMobile) {

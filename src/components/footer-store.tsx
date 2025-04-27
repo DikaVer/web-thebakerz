@@ -79,7 +79,7 @@ export function FooterStore() {
     const phone = {
         name: t("phone"),
         href: `https://wa.me/${store?.phone?.replace(/\D/g, '')}`,
-        icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={20} className={'text-default-600'}/>,
+        icon: (props: SocialIconProps) => <Icon {...props} icon="mdi:whatsapp" strokeWidth={1.5} width={20} className={'text-default-600'}/>,
     };
 
     return (

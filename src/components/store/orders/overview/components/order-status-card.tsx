@@ -41,7 +41,7 @@ export const OrderStatusCard: React.FC<OrderStatusProps> = ({orderData}) => {
     const completedTime = orderData.order_status !== "cancelled" ? (
         <>
             <div>{formatScheduledDate(orderData.scheduled_time, locale)}</div>
-            <div>at {formatScheduledTime(orderData.scheduled_time, locale)}</div>
+            {!orderData.isPostDelivery && <div>at {formatScheduledTime(orderData.scheduled_time, locale)}</div>}
         </>
     ) : orderData.cancelledAt && formatDisplayDate(orderData.cancelledAt, locale);
 

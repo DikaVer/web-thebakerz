@@ -25,7 +25,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
     const phone = {
         name: t("phone"),
         href: `https://wa.me/${store?.phone?.replace(/\D/g, '')}`,
-        icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24}/>,
+        icon: (props: SocialIconProps) => <Icon {...props} icon="mdi:whatsapp" strokeWidth={1.5} width={24}/>,
     };
 
     // Helper function to determine alert content based on delivery options

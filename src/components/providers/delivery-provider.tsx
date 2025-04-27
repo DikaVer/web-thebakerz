@@ -5,7 +5,7 @@ import { CalendarDateTime, CalendarDate } from "@internationalized/date";
 import { setDeliveryMode} from '@/lib/delivery-cookie';
 import { addToast } from "@heroui/react";
 import { useStore } from '@/components/providers/store-provider';
-import { updateOrderTime, getOrderTime, updateDeliveryTime, getDeliveryTime } from '@/app/(store)/[id]/actions';
+import { updateOrderTime, getOrderTime, updateDeliveryTime, getDeliveryTime, removeAllSchedules } from '@/app/(store)/[id]/actions';
 import { DeliveryAddress as DbDeliveryAddress, DeliveryAddress, DeliveryAddressRaw } from '@/app/(store)/[id]/delivery-actions';
 import { parseDateParams, parseDateTime } from "@/components/store/store-header/calendar/calendar-params";
 import { MerchantDeliveryRegion, DeliveryRange } from '@/lib/actions/delivery-actions';
@@ -111,6 +111,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
       if (initialAddress?.coordinates && store?.id) {
         try {
           setIsValidating(true);
+
           
           // 3. Calculate distances and find the closest region
           logger.debug("deliveryProvider", "Calculating distances to regions", { 
@@ -282,6 +283,8 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     if (isTogglingDelivery || value === isDelivery) return;
 
     setIsTogglingDelivery(true);
+    await removeAllSchedules();
+    setSelectedDate(undefined);
     setIsDelivery(value);
     await setDeliveryMode(value ? 'delivery' : 'pickup');
     setIsTogglingDelivery(false);
@@ -351,9 +354,12 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
       
       // Update the client-side validation result state
       setValidationResult(validationResult);
+
+      logger.debug("deliveryProvider", "Validation result:", { validationResult });
       
       // Handle validation and save results
       if (!validationResult.isValid) {
+
         addToast({ 
           description: validationResult.message || "Invalid address details.", 
           color: "danger" 

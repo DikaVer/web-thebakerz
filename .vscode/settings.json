@@ -3,6 +3,8 @@
         "messages",
         "src/i18n"
     ],
+    "i18n-ally.sortKeys": true,
+    "i18n-ally.keepFulfilled": true,
     "i18n-ally.keystyle": "nested",
     "i18n-ally.keysInUse": [
         "app/api/invoice/storeId/orderId.errorGeneratingPdf",
@@ -120,5 +122,13 @@
         "Dietary.sugar-free",
         "Dietary.gluten-free",
         "Dietary.vegan"
-    ]
+    ],
+
+     // ──────────────────────────────────────────────────────────────
+  // 2)  Review & collaboration settings  ← **add this block**
+  // ──────────────────────────────────────────────────────────────
+  "i18n-ally.review.enabled": true,          // show ✓/✗/⌛ status badges
+  "i18n-ally.review.gutters": true,          // paint gutter icons in editors
+  // optional – keeps machine-translated text in “candidate” layer
+  "i18n-ally.translate.saveAsCandidates": true
 }
