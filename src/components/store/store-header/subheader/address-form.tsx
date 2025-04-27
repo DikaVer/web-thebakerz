@@ -101,7 +101,7 @@ export function AddressForm({
   // --- Refs --- (Keep these)
   const formRef = useRef<HTMLFormElement>(null);
   const sessionTokenRef = useRef<google.maps.places.AutocompleteSessionToken | null>(null);
-  const isSelectingAutocomplete = useRef(false); // Ref to track autocomplete selection
+  const geocoderRef = useRef<google.maps.Geocoder | null>(null);
 
   // --- Effects for Google Maps initialization and suggestion fetching --- (Keep these)
   useEffect(() => {
@@ -131,28 +131,25 @@ export function AddressForm({
       try {
         const request = {
           input: autocompleteValue,
-          types: ['address'], // More specific than includedPrimaryTypes
-          componentRestrictions: { 
-            country: COUNTRY_RESTRICTION 
-          },
+          includedPrimaryTypes: ['geocode'],
+          includedRegionCodes: COUNTRY_RESTRICTION,
           language: 'nl',
           sessionToken: sessionTokenRef.current,
         };
 
-        const service = new window.google.maps.places.AutocompleteService();
-        service.getPlacePredictions(request, (predictions, status) => {
-          if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
-            const formattedSuggestions: PlaceSuggestion[] = predictions.map(p => ({
-              place_id: p.place_id,
-              description: p.description,
-            }));
-            
-            setSuggestions(formattedSuggestions);
-          } else {
-            logger.error('addressForm', 'Error fetching place suggestions:', { status });
-            setSuggestions([]);
-          }
-        });
+        const result = await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions(request);
+        
+        if (result && result.suggestions) {
+          const formattedSuggestions: PlaceSuggestion[] = result.suggestions.map((suggestion: any) => ({
+            place_id: suggestion.placePrediction.placeId,
+            description: suggestion.placePrediction.text?.text || suggestion.placePrediction.description || ''
+          }));
+          
+          setSuggestions(formattedSuggestions);
+        } else {
+          logger.error('addressForm', 'Error fetching place suggestions: no results');
+          setSuggestions([]);
+        }
       } catch (error) {
         logger.error('addressForm', 'Error fetching place suggestions:', { error });
         setSuggestions([]);
@@ -213,6 +210,16 @@ export function AddressForm({
         setAutocompleteValue('');
     }
   }, [initialAddress, reset]);
+
+  // Initialize Google Maps API
+  useEffect(() => {
+    if (isSearchReady && window.google?.maps) {
+      // Initialize session token for Places API
+      sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
+      // Initialize Geocoder
+      geocoderRef.current = new google.maps.Geocoder();
+    }
+  }, [isSearchReady]);
 
   // --- Handlers for places autocomplete - ADAPTED for RHF ---
   const handleAutocompleteSelect = async (description: string, placeId?: string) => {
@@ -325,6 +332,7 @@ export function AddressForm({
       addToast({ description: "An error occurred submitting the address.", color: "danger" });
     }
   };
+
 
   return (
     // Use FormProvider if needed, or just Form if context isn't passed down further
