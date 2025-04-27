@@ -38,7 +38,7 @@ const CountryDeliverySettings: React.FC<CountryDeliverySettingsProps> = ({
             </label>
             <NumberInput
             min={0}
-            step={0.5}
+            step={0.05}
             value={deliveryPrice / 100}
             onChange={(value) => {
                 if (typeof value === "number") {
@@ -66,7 +66,7 @@ const CountryDeliverySettings: React.FC<CountryDeliverySettingsProps> = ({
             </label>
             <NumberInput
             min={10}
-            step={0.5}
+            step={0.05}
             value={minOrderPrice / 100}
             onChange={(value) => {
                 if (typeof value === "number") {

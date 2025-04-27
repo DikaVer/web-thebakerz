@@ -128,19 +128,28 @@ export default function UserProductDialog({
                 <Button isIconOnly variant={'light'} radius={'full'} onPress={onClose}>
                     <Icon icon="iconamoon:close-bold" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
                 </Button>
-                <CopyText
-                    onClose={onClose}
-                    isIconOnly={true}
-                    copyText={
-                        origin + "/" +
-                        (productData?.store_name || productData?.store_id) +
-                        "/item/" +
-                        (productData?.web_name)
-                    }
-                    textNotify={t("productLinkCopied")}
-                >
-                    <Icon icon="mi:share" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
-                </CopyText>
+                {isBakerzStore && (
+                        <p
+                            className="text-xl font-medium"
+                        >
+                            {t("CustomerView")}
+                        </p>
+                    )}
+                <div className="flex items-center gap-2">
+                    <CopyText
+                        onClose={onClose}
+                        isIconOnly={true}
+                        copyText={
+                            origin + "/" +
+                            (productData?.store_name || productData?.store_id) +
+                            "/item/" +
+                            (productData?.web_name)
+                        }
+                        textNotify={t("productLinkCopied")}
+                    >
+                        <Icon icon="mi:share" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
+                    </CopyText>
+                </div>
             </ModalHeader>
             <ModalBody className={"p-0 justify-center items-center"}>
                 {productData && (

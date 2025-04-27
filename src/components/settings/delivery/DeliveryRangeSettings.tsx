@@ -72,7 +72,7 @@ const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
             </label>
             <NumberInput
               min={0}
-              step={0.5}
+              step={0.05}
               value={(rangeSettings.deliveryPriceInCents / 100)}
               onChange={(value) => {
                 if (typeof value === "number") {
@@ -100,7 +100,7 @@ const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
             </label>
             <NumberInput
               min={10}
-              step={0.5}
+              step={0.05}
               value={(rangeSettings.minOrderPriceInCents / 100)}
               onChange={(value) => {
                 if (typeof value === "number") {
