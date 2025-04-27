@@ -39,7 +39,7 @@ export async function validateAddress(
         const geocodingResponse = await fetch(
           `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
             addressData.formattedAddress
-          )}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+          )}&key=${process.env.NEXT_PRIVATE_GOOGLE_GEO_VALIDATION}`
         );
         
         // Check if the request itself was successful
