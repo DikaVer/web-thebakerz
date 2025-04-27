@@ -120,9 +120,9 @@ export function ScheduleOrder({
             <div className={'flex flex-row w-full justify-center'}>
                 <Button
                     variant={'bordered'}
-                    isDisabled={!(selectedDate instanceof CalendarDateTime || (validationResult?.deliveryRegion?.isPostDelivery && isDelivery))}
+                    isDisabled={!(selectedDate instanceof CalendarDateTime)}
                     className={`${
-                        !(selectedDate instanceof CalendarDateTime || (validationResult?.deliveryRegion?.isPostDelivery && isDelivery))
+                        !(selectedDate instanceof CalendarDateTime)
                             ? ""
                             : "bg-gradient-primary text-white border-none"
                     }  w-full max-w-[440px]`}
@@ -130,7 +130,7 @@ export function ScheduleOrder({
                         <Icon icon={'solar:alt-arrow-right-linear'} width={24} />
                     }
                     onPress={() => {
-                        if (selectedDate instanceof CalendarDateTime || (validationResult?.deliveryRegion?.isPostDelivery && isDelivery)) {
+                        if (selectedDate instanceof CalendarDateTime) {
                             handleNext();
                         }
                     }}
