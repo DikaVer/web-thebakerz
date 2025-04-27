@@ -149,11 +149,15 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
                   const sortedRanges = [...region.ranges].sort((a, b) => a.range - b.range);
 
                   for (const range of sortedRanges) {
-                    if (range.minOrderPriceInCents <= minPrice && minDistance <= range.range) {
+                    logger.debug("deliveryProvider", `Checking range: ${range.range} km with delivery price ${(range.deliveryPriceInCents / 100).toFixed(2)}€`);
+                    logger.debug("deliveryProvider", `Min order price: ${range.minOrderPriceInCents} and min distance: ${range.range}`);
+                    logger.debug("deliveryProvider", `Min price: ${minPrice} and min distance: ${minDistance}`);
+                    if (range.minOrderPriceInCents <= minPrice && distance <= range.range) {
                       minPrice = range.minOrderPriceInCents;
                       closestRegion = region;
                       minDistance = distance;
                       applicableRange = range;
+                      break;
                     }
                   }
                 }

@@ -37,6 +37,7 @@ import { getOrderTime } from "@/app/(store)/[id]/actions";
 import { getDeliveryTime } from "@/app/(store)/[id]/actions";
 import { useDelivery } from "@/components/providers/delivery-provider";
 import { getLocalTimeZone } from '@internationalized/date';
+import { DietaryIcon } from "../components/super-icons";
 
 type ProductDialogProps = {
     productData: ProductData;
@@ -292,9 +293,9 @@ export default function UserProductDialog({
                                             return (
                                                 <div
                                                     key={diet}
-                                                    className={`flex items-center gap-1 px-2 py-1 text-sm rounded-full text-success-700 bg-success-100`}
+                                                    className={`flex items-center flex- gap-1 px-2 py-1 text-sm rounded-full text-success-700 bg-success-100`}
                                                 >
-                                                    <Icon icon="mdi:food-certified" className="text-success-600" width={18} />
+                                                    <DietaryIcon dietary={diet} size={28} />
                                                     <span>
                                                         {c_T(`Dietary.${diet}`)}
                                                     </span>

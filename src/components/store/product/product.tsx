@@ -11,6 +11,8 @@ import {useSession} from "@/components/providers/session-provider";
 import { Icon } from "@iconify/react";
 import { useHoverPopover } from "@/hooks/use-hover-popover";
 import { useDelivery } from "@/components/providers/delivery-provider";
+import { DietaryIcon } from "@/components/store/product/components/super-icons";
+
 interface ProductBaseProps {
     productData: ProductData;
 }
@@ -117,12 +119,12 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                                     <div
                                                         key={attr}
                                                         className={`
-                                                            flex items-center gap-2 px-1 py-1.5 text-sm text-success-700 
+                                                            flex items-center gap-2 px-2 py-1.5 text-sm text-success-700 
                                                             bg-success-50 rounded-lg transition-colors duration-150
                                                             ${index === 0 ? 'animate-fade-in-down' : ''}
                                                         `}
                                                     >
-                                                        <Icon icon="mdi:food-certified" className="text-success-600" width={18} />
+                                                        <DietaryIcon dietary={attr} size={28} />
                                                         <span className="font-medium">{t2(attr)}</span>
                                                     </div>
                                                 ))}

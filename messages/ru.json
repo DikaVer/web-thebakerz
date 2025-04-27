@@ -439,7 +439,7 @@
     "selectedCountries": "Избранные страны",
     "postDelivery": "Почтовый",
     "toggleDeliveryType": "Переключение доставки",
-    "ownDelivery": "Собственная доставка",
+    "ownDelivery": "Мой собственный",
     "noCountriesSelected": "Ни одна страна не выбрана",
     "togglePostDelivery": "Переключайте почту",
     "postalDelivery": "Почтовая доставка"
@@ -834,7 +834,8 @@
     "day": "день",
     "days": "дни",
     "deliveryOptionsAlertTitle": "Почтовая доставка",
-    "deliveryOptionsAlertDescription": "{store} обеспечивает ваш заказ через почтовый сервис."
+    "deliveryOptionsAlertDescription": "{store} обеспечивает ваш заказ через почтовый сервис.",
+    "selectDeliveryDate": "Выберите дату доставки"
   },
   "app/(store)/components/store-top-next": {
     "alertDeliveryAndPickup": "Этот магазин предлагает заказы на получение и доставку",

@@ -465,13 +465,17 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
 
   // Open modal for managing delivery schedule
   const handleManageSchedule = (item: DeliveryCity | CountryDelivery, isCountry: boolean = false) => {
+    // Reset both states first
+    setCurrentCityForSchedule(null);
+    setCurrentCountryForSchedule(null);
+    
     if (isCountry) {
+      // Set only country state for country items
       const country = item as CountryDelivery;
       setCurrentCountryForSchedule(country);
-      setCurrentCityForSchedule(null);
     } else {
+      // Set only city state for city items
       setCurrentCityForSchedule(item as DeliveryCity);
-      setCurrentCountryForSchedule(null);
     }
     
     setDeliverySchedule(item.deliverySchedule || emptyWorkHours);
@@ -499,24 +503,22 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
 
   // Save delivery schedule
   const handleSaveSchedule = () => {
-    if (currentCityForSchedule) {
-      if (currentCountryForSchedule) {
-        // This was a country delivery being edited through a city stub
-        const updatedCountries = countryDeliveries.map(country => 
-          country.countryCode === currentCountryForSchedule.countryCode 
-            ? { ...country, deliverySchedule } 
-            : country
-        );
-        setCountryDeliveries(updatedCountries);
-      } else {
-        // This was a regular city delivery
-        const updatedCities = deliveryCities.map(city => 
-          city.name === currentCityForSchedule.name 
-            ? { ...city, deliverySchedule } 
-            : city
-        );
-        setDeliveryCities(updatedCities);
-      }
+    if (currentCountryForSchedule) {
+      // This is a country delivery
+      const updatedCountries = countryDeliveries.map(country => 
+        country.countryCode === currentCountryForSchedule.countryCode 
+          ? { ...country, deliverySchedule } 
+          : country
+      );
+      setCountryDeliveries(updatedCountries);
+    } else if (currentCityForSchedule) {
+      // This is a regular city delivery
+      const updatedCities = deliveryCities.map(city => 
+        city.name === currentCityForSchedule.name 
+          ? { ...city, deliverySchedule } 
+          : city
+      );
+      setDeliveryCities(updatedCities);
     }
     
     closeScheduleModal();
@@ -524,24 +526,34 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
 
   // Handle min order time change from modal
   const handleMinOrderTimeChange = (minutes: number) => {
-    if (currentCityForSchedule) {
-      if (currentCountryForSchedule) {
-        // This was a country delivery being edited through a city stub
-        const updatedCountries = countryDeliveries.map(country => 
-          country.countryCode === currentCountryForSchedule.countryCode 
-            ? { ...country, minOrderTime: minutes } 
-            : country
-        );
-        setCountryDeliveries(updatedCountries);
-      } else {
-        // This was a regular city delivery
-        const updatedCities = deliveryCities.map(city => 
-          city.name === currentCityForSchedule.name 
-            ? { ...city, minOrderTime: minutes } 
-            : city
-        );
-        setDeliveryCities(updatedCities);
-      }
+    if (currentCountryForSchedule) {
+      // Update country delivery
+      const updatedCountries = countryDeliveries.map(country => 
+        country.countryCode === currentCountryForSchedule.countryCode 
+          ? { ...country, minOrderTime: minutes } 
+          : country
+      );
+      setCountryDeliveries(updatedCountries);
+      
+      // Update the current country for schedule reference
+      setCurrentCountryForSchedule({
+        ...currentCountryForSchedule,
+        minOrderTime: minutes
+      });
+    } else if (currentCityForSchedule) {
+      // Update city delivery
+      const updatedCities = deliveryCities.map(city => 
+        city.name === currentCityForSchedule.name 
+          ? { ...city, minOrderTime: minutes } 
+          : city
+      );
+      setDeliveryCities(updatedCities);
+      
+      // Update the current city for schedule reference
+      setCurrentCityForSchedule({
+        ...currentCityForSchedule,
+        minOrderTime: minutes
+      });
     }
   };
 
@@ -669,7 +681,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
           setDeliveryTime={setDeliveryTime}
           saving={saving}
           onMinOrderTimeChange={handleMinOrderTimeChange}
-          minOrderTimeParam={currentCityForSchedule?.minOrderTime || currentCountryForSchedule?.minOrderTime || 10080}
+          minOrderTimeParam={currentCountryForSchedule ? currentCountryForSchedule.minOrderTime : (currentCityForSchedule ? currentCityForSchedule.minOrderTime : 10080)}
+          isPostDelivery={currentCountryForSchedule?.isPostDelivery || currentCityForSchedule?.isPostDelivery || false}
         />
       </Card>
     </div>

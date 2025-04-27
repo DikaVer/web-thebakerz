@@ -2,6 +2,7 @@
 import React, {useState, useRef, useEffect, useMemo} from 'react';
 import {Autocomplete, AutocompleteItem, Button, cn, Input, Select, SelectItem} from "@heroui/react";
 import {AllergenIcon, iconAllergyMap} from "@/components/store/product/components/allergy-icons";
+import {DietaryIcon, iconSuperMap} from "@/components/store/product/components/super-icons";
 import {useTranslations} from "next-intl";
 import { Icon } from '@iconify/react/dist/iconify.js';
 
@@ -345,6 +346,7 @@ export const DietarySelectInput: React.FC<TagsInputProps> = ({
                             "opacity-50": isLoading
                         })}
                     >
+                        <DietaryIcon dietary={tag} size={32} />
                         <span>{t(tag)}</span>
                         <span>&times;</span>
                     </button>
@@ -375,7 +377,7 @@ export const DietarySelectInput: React.FC<TagsInputProps> = ({
                 {Object.entries(DIETARY_OPTIONS).map(([key, label]) => (
                     <SelectItem
                         key={key}
-                        startContent={<Icon icon="mdi:food-certified" className="text-success-600" width={24}/>}
+                        startContent={<DietaryIcon dietary={key} size={32} />}
                     >
                         {t(key)}
                     </SelectItem>

@@ -116,7 +116,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             }
                             onPress={() => {
                                 setIsLoading(true);
-                                router.push("/settings?tab=delivery");
+                                router.push("/" + storeUrl + "/settings?tab=delivery");
                                 router.refresh();
                             }}
                         >

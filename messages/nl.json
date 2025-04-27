@@ -368,7 +368,8 @@
     "day": "dag",
     "days": "dagen",
     "deliveryOptionsAlertTitle": "Postlevering",
-    "deliveryOptionsAlertDescription": "{store} levert uw bestelling via de postservice."
+    "deliveryOptionsAlertDescription": "{store} levert uw bestelling via de postservice",
+    "selectDeliveryDate": "Selecteer Leverdatum"
   },
   "app/(store)/components/store-top": {
     "addItem": "Item toevoegen"
@@ -1013,7 +1014,7 @@
     "selectedCountries": "Geselecteerde landen",
     "postDelivery": "Post",
     "toggleDeliveryType": "Schakelafgifte",
-    "ownDelivery": "Eigen levering",
+    "ownDelivery": "Mijn eigen",
     "noCountriesSelected": "Geen land geselecteerd",
     "togglePostDelivery": "Schakel postafgifte in",
     "postalDelivery": "Postlevering"

@@ -221,7 +221,7 @@
     "selectedCountries": "Selected Countries",
     "postDelivery": "Postal",
     "toggleDeliveryType": "Toggle Delivery",
-    "ownDelivery": "Own Delivery",
+    "ownDelivery": "My Own",
     "noCountriesSelected": "No Country Selected",
     "togglePostDelivery": "Toggle Postal Delivery",
     "postalDelivery": "Postal Delivery"
@@ -349,9 +349,9 @@
     "Add Dietary Restrictions": "Add Dietary Restriction",
     "Minimal Order": "Minimal Order",
     "MinimalNumberDescription": "What is the minimum number of items a customer can order?",
-    "MinimalLeadTime": "Minimal Lead Time",
-    "MinimalLeadTimeDescription": "What is the minimum lead time for the order?",
-    "MinLeadTime": "Min Lead Time",
+    "MinimalLeadTime": "Pre-Order Time",
+    "MinimalLeadTimeDescription": "What is the minimum pre-order time for the order?",
+    "MinLeadTime": "Pre-Order Time",
     "hour": "hour",
     "hours": "hours",
     "day": "day",
@@ -395,13 +395,14 @@
     "searchAddress": "Search Address",
     "typeToSearchAddress": "Type to search address",
     "editDeliveryAddress": "Edit Delivery Address",
-    "MinLeadTime": "Min Lead Time",
+    "MinLeadTime": "Pre-Order Time",
     "hour": "hour",
     "hours": "hours",
     "day": "day",
     "days": "days",
     "deliveryOptionsAlertTitle": "Postal Delivery",
-    "deliveryOptionsAlertDescription": "{store} delivers your order via the postal service."
+    "deliveryOptionsAlertDescription": "{store} delivers your order via the postal service",
+    "selectDeliveryDate": "Select delivery date"
   },
   "app/(store)/components/store-top": {
     "addItem": "Add Item"
@@ -1103,7 +1104,7 @@
     "region": "Region",
     "registeredAddress": "Registered Address",
     "bankAccount": "Bank Account",
-    "korStatus": "KOR-Status",
+    "korStatus": "Kor Status",
     "korEnabled": "Enabled",
     "korDisabled": "Disabled"
   },
@@ -1133,7 +1134,7 @@
         "closed": "Closed",
         "deliveryHours": "Delivery Hours",
         "workingHours": "Opening Hours",
-        "MinLeadTime": "Min Lead Time",
+        "MinLeadTime": "Pre-Order Time",
         "hour": "hour",
         "hours": "hours",
         "day": "day",

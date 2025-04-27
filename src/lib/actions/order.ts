@@ -110,9 +110,9 @@ export interface OrderRaw {
     createdAt: Date;
     customer_email?: string;
     scheduled_time: {
-        date: string | null;
-        time: string | null;
-    } | null;
+        date: string;
+        time: string;
+    };
     productsData: OrderProducts;
 }
 

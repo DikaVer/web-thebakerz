@@ -79,7 +79,7 @@ const CountryList: React.FC<CountryListProps> = ({
   }
 
   return (
-    <div className="grid gap-2">
+    <div className="flex flex-col gap-2">
       {countries.map(country => {
         const countryName = EU_COUNTRIES_PLUS_SWISS[country.countryCode] || country.countryCode;
         
@@ -90,42 +90,42 @@ const CountryList: React.FC<CountryListProps> = ({
                 <span className="font-medium">{countryName}</span>
                 <span className="ml-2 text-sm text-gray-500">({country.countryCode})</span>
               </div>
-              <div className="flex gap-2 items-center">
-                
-                {country.isStoreDelivery && (
-                  <div className="flex items-center gap-2 mr-2">
-                    <span className="text-xs">{t("ownDelivery")}</span>
-                    <Switch
+              <div className="flex flex-col gap-2 items-end">
+                <div className="flex gap-2 items-center">    
+                  {country.isStoreDelivery && (
+                    <Button
                       size="sm"
-                      isSelected={country.isPostDelivery}
-                      onValueChange={(checked) => onTogglePostDelivery(country, checked)}
-                      aria-label={t("togglePostDelivery")}
-                    />
-                    <span className="text-xs">{t("postDelivery")}</span>
-                  </div>
-                )}
-                
-                {country.isStoreDelivery && !country.isPostDelivery && (
+                      color="primary"
+                      variant="light"
+                      onPress={() => onManageSchedule(country, true)}
+                      className="text-xs dark:text-white"
+                    >
+                      {t("deliverySchedule")}
+                    </Button>
+                  )}
+                  
                   <Button
                     size="sm"
-                    color="primary"
+                    color="danger"
                     variant="light"
-                    onPress={() => onManageSchedule(country, true)}
-                    className="text-xs dark:text-white"
+                    isIconOnly
+                    onPress={() => onRemoveCountry(country.countryCode)}
                   >
-                    {t("deliverySchedule")}
+                    x
                   </Button>
-                )}
-                
-                <Button
-                  size="sm"
-                  color="danger"
-                  variant="light"
-                  isIconOnly
-                  onPress={() => onRemoveCountry(country.countryCode)}
-                >
-                  x
-                </Button>
+                </div>
+                {country.isStoreDelivery && (
+                    <div className="flex items-center gap-2 mr-2">
+                      <span className="text-xs">{t("ownDelivery")}</span>
+                      <Switch
+                        size="sm"
+                        isSelected={country.isPostDelivery}
+                        onValueChange={(checked) => onTogglePostDelivery(country, checked)}
+                        aria-label={t("togglePostDelivery")}
+                      />
+                      <span className="text-xs">{t("postDelivery")}</span>
+                    </div>
+                  )}
               </div>
             </div>
 
@@ -167,6 +167,15 @@ const CountryList: React.FC<CountryListProps> = ({
                 </div>
                 <div className="mt-1 text-gray-600">
                   {getScheduleSummary(country.deliverySchedule)}
+                </div>
+              </div>
+            )}
+
+            {country.isPostDelivery && (
+              <div className="mt-1 text-xs">
+                <div className="flex flex-col">
+                  <span className="font-medium">{t("deliveryTimes")}:</span>
+                  <span className="text-xs font-light">{t("minOrderTime")} {formatMinOrderTime(country.minOrderTime)}</span>
                 </div>
               </div>
             )}

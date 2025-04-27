@@ -368,7 +368,8 @@
     "day": "jour",
     "days": "jours",
     "deliveryOptionsAlertTitle": "Livraison postale",
-    "deliveryOptionsAlertDescription": "{store} fournit votre commande via le service postal."
+    "deliveryOptionsAlertDescription": "{store} fournit votre commande via le service postal",
+    "selectDeliveryDate": "Sélectionnez la date de livraison"
   },
   "app/(store)/components/store-top": {
     "addItem": "Ajouter un élément"
@@ -1013,7 +1014,7 @@
     "selectedCountries": "Pays sélectionnés",
     "postDelivery": "Postal",
     "toggleDeliveryType": "Livraison à bascule",
-    "ownDelivery": "Propre livraison",
+    "ownDelivery": "Le mien",
     "noCountriesSelected": "Aucun pays sélectionné",
     "togglePostDelivery": "Basciller la livraison postale",
     "postalDelivery": "Livraison postale"

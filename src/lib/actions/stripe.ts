@@ -170,46 +170,43 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     }
 
     let fetchedTimeData: { date: string | null; time: string | null; } | null = null;
-    let scheduleToValidateAgainst: WorkHours | undefined;
-    let orderDateTime: CalendarDateTime | undefined;
     // 6. Order Time Validation
-    if(!selectedRegion?.isPostDelivery) {
-        // ------------------------
-        // Fetch selected time based on mode and potentially region
-        if (isDelivery && selectedRegion) {
-            fetchedTimeData = await getDeliveryTime(storeId, selectedRegion.name);
-        } else if (!isDelivery) {
-            fetchedTimeData = await getOrderTime(storeId);
-        }
-
-        // Ensure date and time are strings, not null
-        if (!fetchedTimeData?.date || !fetchedTimeData?.time) {
-            return {error: isDelivery ? 'Delivery time is not set.' : 'Pickup time is not set.'};
-        }
-        const selectedTime = {date: fetchedTimeData.date, time: fetchedTimeData.time};
-
-        // Validate against current time (prevent past orders)
-        const nowInAmsterdam: ZonedDateTime = now("Europe/Amsterdam");
-        const orderDateTime: CalendarDateTime = scheduledToCalendarDateTime(selectedTime);
-        // Compare using epoch milliseconds for safety
-        if (orderDateTime.toDate(nowInAmsterdam.timeZone).getTime() < nowInAmsterdam.toDate().getTime()) {
-            return {error: "Cannot place orders for past dates/times."};
-        }
-
-        // Validate against store schedule (operating hours, lead time)
-        // Get the correct schedule based on delivery mode
-        const relevantSchedule = isDelivery
-            ? selectedRegion?.deliverySchedule // Use region specific schedule if available
-            : storeData.schedule; // Use general store schedule for pickup
-
-        // If delivery is chosen but the specific region has no schedule, fall back to store schedule?
-        // Or maybe it should be an error? Let's assume fallback for now.
-        const scheduleToValidateAgainst = relevantSchedule || storeData.schedule;
-
-        if (!scheduleToValidateAgainst) {
-            return {error: isDelivery ? "Delivery/Store schedule not found." : "Store operating hours not found."};
-        }
+    // ------------------------
+    // Fetch selected time based on mode and potentially region
+    if (isDelivery && selectedRegion) {
+        fetchedTimeData = await getDeliveryTime(storeId, selectedRegion.name);
+    } else if (!isDelivery) {
+        fetchedTimeData = await getOrderTime(storeId);
     }
+
+    // Ensure date and time are strings, not null
+    if (!fetchedTimeData?.date || !fetchedTimeData?.time) {
+        return {error: isDelivery ? 'Delivery time is not set.' : 'Pickup time is not set.'};
+    }
+    const selectedTime = {date: fetchedTimeData.date, time: fetchedTimeData.time};
+
+    // Validate against current time (prevent past orders)
+    const nowInAmsterdam: ZonedDateTime = now("Europe/Amsterdam");
+    const orderDateTime: CalendarDateTime = scheduledToCalendarDateTime(selectedTime);
+    // Compare using epoch milliseconds for safety
+    if (orderDateTime.toDate(nowInAmsterdam.timeZone).getTime() < nowInAmsterdam.toDate().getTime()) {
+        return {error: "Cannot place orders for past dates/times."};
+    }
+
+    // Validate against store schedule (operating hours, lead time)
+    // Get the correct schedule based on delivery mode
+    const relevantSchedule = isDelivery
+        ? selectedRegion?.deliverySchedule // Use region specific schedule if available
+        : storeData.schedule; // Use general store schedule for pickup
+
+    // If delivery is chosen but the specific region has no schedule, fall back to store schedule?
+    // Or maybe it should be an error? Let's assume fallback for now.
+    const scheduleToValidateAgainst = relevantSchedule || storeData.schedule;
+
+    if (!scheduleToValidateAgainst) {
+        return {error: isDelivery ? "Delivery/Store schedule not found." : "Store operating hours not found."};
+    }
+    
 
     let leadTime = isDelivery ? selectedRegion?.minOrderTime : storeData.minTimeOrder// Use minTimeOrder from storeData
 
@@ -250,14 +247,14 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     
     // Validate against store schedule (operating hours, lead time)
     if (user?.role !== 'bakerz' && !selectedRegion?.isPostDelivery) {
-        if(!orderDateTime || !leadTime || !scheduleToValidateAgainst) {
+        if (!leadTime ) {
             return {error: 'Validation of order time failed. Please try again.'};
         }
 
         const timeValidation = await validateOrderTimeAgainstSchedule(
             orderDateTime,
             scheduleToValidateAgainst,
-            leadTime // Default to 7 days if not set
+            leadTime
         );
         if (!timeValidation.isValid) {
             return {error: `Invalid order time: ${timeValidation.message}`};
@@ -384,7 +381,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
         id: cosmosId,
         store_id: storeId,
         createdAt: new Date(),
-        scheduled_time: fetchedTimeData, // Use the validated time
+        scheduled_time: selectedTime, // Use the validated time
         customer_email: (user && user.role !== 'bakerz') ? user.email : undefined,
         productsData: cartItemsForOrder, // Use the detailed cart items
         // Add extra fields needed internally or for Stripe metadata

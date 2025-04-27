@@ -109,11 +109,13 @@ export async function validateAddress(
             const sortedRanges = [...region.ranges].sort((a, b) => a.range - b.range);
 
             for (const range of sortedRanges) {
-              if (range.minOrderPriceInCents <= minPrice && minDistance <= range.range) {
+              if (range.minOrderPriceInCents <= minPrice && distance <= range.range) {
+
                 minPrice = range.minOrderPriceInCents;
                 closestRegion = region;
                 minDistance = distance;
                 applicableRange = range;
+                break;
               }
             }
           }

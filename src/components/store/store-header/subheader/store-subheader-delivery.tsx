@@ -219,8 +219,21 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                     </Card>
                 </div>
             )}
-            {(showDeliveryInfo && validationResult?.isInRange && validationResult?.validatedAddress && validationResult?.deliveryRegion && !validationResult?.deliveryRegion?.isPostDelivery) ? (
+            {(showDeliveryInfo && validationResult?.isInRange && validationResult?.validatedAddress && validationResult?.deliveryRegion) && (
                 <>
+                    {validationResult.deliveryRegion?.isPostDelivery && (
+                        <Alert
+                            key={"Delivery Options Alert"}
+                            className={'bg-primary-400 mt-4'}
+                            classNames={{
+                                description: 'text-white dark:text-default-500',
+                                title: 'text-md'
+                            }}
+                            title={t("deliveryOptionsAlertTitle")}
+                            description={t("deliveryOptionsAlertDescription", {store: store.ownerName})}
+                            variant={"solid"}
+                        />
+                    )}
                     <ButtonGroup
                         fullWidth
                         size="sm"
@@ -235,6 +248,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                             value={selectedDate}
                             onValueChange={(newDate) => handleDateChange(newDate)}
                             placeholder={t("scheduleDeliveryTime")}
+                            isPostDelivery={validationResult.deliveryRegion.isPostDelivery}
                         >
                             <Button
                                 startContent={
@@ -252,28 +266,14 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                                 {isLoadingDate ? (
                                     <Skeleton className="h-4 w-32 rounded-lg" /> 
                                 ) : selectedDate instanceof CalendarDateTime ? (
-                                    `${t("deliverAt")} ${formatDate(selectedDate)}`
+                                    `${t("deliverAt")} ${formatDate(selectedDate, validationResult.deliveryRegion.isPostDelivery)}`
                                 ) : (
-                                    t("selectDeliveryTime")
+                                    validationResult.deliveryRegion.isPostDelivery ? t("selectDeliveryDate") : t("selectDeliveryTime")
                                 )}
                             </Button>
                         </SmartDatetimeInput>
                     </ButtonGroup>
                 </>
-            ) : (
-                validationResult.deliveryRegion?.isPostDelivery && (
-                    <Alert
-                        key={"Delivery Options Alert"}
-                        className={'bg-primary-400 mt-4'}
-                        classNames={{
-                            description: 'text-white dark:text-default-500',
-                            title: 'text-md'
-                        }}
-                        title={t("deliveryOptionsAlertTitle")}
-                        description={t("deliveryOptionsAlertDescription", {store: store.ownerName})}
-                        variant={"solid"}
-                    />
-                )
             )}
             
             {/* Address Modal */}

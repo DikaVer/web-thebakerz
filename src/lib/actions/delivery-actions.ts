@@ -67,9 +67,10 @@ export async function updateMerchantDeliveryRegions(
       }
     }
 
+
     // Get existing regions
     const { resources: existingRegions } = await containerDeliveryRegions.items
-      .query(`SELECT c.name, c.minOrderTime, c.coordinates, c.deliverySchedule, c.isStoreDelivery, c.isPostDelivery, c.ranges, c.deliveryPriceInCents, c.minOrderPriceInCents, c.isCountry FROM c WHERE c.storeId = "${storeId}"`)
+      .query(`SELECT c.id, c.name, c.minOrderTime, c.coordinates, c.deliverySchedule, c.isStoreDelivery, c.isPostDelivery, c.ranges, c.deliveryPriceInCents, c.minOrderPriceInCents, c.isCountry FROM c WHERE c.storeId = "${storeId}"`)
       .fetchAll();
     
     // Create a map of existing regions for quick lookup
