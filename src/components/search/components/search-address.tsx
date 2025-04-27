@@ -1,34 +1,37 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { Autocomplete, AutocompleteItem, Button, Spinner } from '@heroui/react';
+import { Autocomplete, AutocompleteItem, Spinner } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { useLoadScript } from '@react-google-maps/api';
-import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
-import { Coordinates } from '@/lib/cookie'; // Keep this for the type
 import { storeCoordinatesInCookies } from '@/app/actions';
 import { useTranslations } from 'next-intl';
+import {Coordinates} from "@/lib/delivery-cookie";
+
 // Constants
 const GOOGLE_MAPS_LIBRARIES = ['places'];
 const COUNTRY_RESTRICTION = ['nl']; // Netherlands
 
 interface SearchAddressProps {
-    initialAddress?: string;
-    initialCity?: string | null;
-    initialCoords?: Coordinates | null;
-    onLocationChange: (coords: Coordinates, city: string | null) => void;
+    onLocationChange: (coords: Coordinates, city?: string, country?: string) => void;
+}
+
+interface PlaceSuggestion {
+    place_id: string;
+    description: string;
 }
 
 export function SearchAddress({ 
-    initialAddress = '', 
-    initialCity = null,
-    initialCoords = null, 
     onLocationChange 
 }: SearchAddressProps) {
     const [isLocating, setIsLocating] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const geocoderRef = useRef<google.maps.Geocoder | null>(null);
+    const sessionTokenRef = useRef<google.maps.places.AutocompleteSessionToken | null>(null);
+    const [value, setValue] = useState('');
+    const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
+    const [isSearchReady, setIsSearchReady] = useState(false);
     const t = useTranslations("app/search");
 
     // Load Google Maps API
@@ -48,50 +51,62 @@ export function SearchAddress({
         }
     }, [loadError]);
 
-    const [isInitialized, setIsInitialized] = useState(false);
+    // Initialize services when Maps API is loaded
     useEffect(() => {
-        if (isLoaded && window.google?.maps?.places) {
-            setIsInitialized(true);
-        }
-    }, [isLoaded]);
-
-    // Places autocomplete hook
-    const {
-        ready,
-        value,
-        setValue,
-        suggestions: { status, data },
-        clearSuggestions,
-    } = usePlacesAutocomplete({
-        requestOptions: {
-            componentRestrictions: { country: COUNTRY_RESTRICTION },
-            types: ['address'],
-        },
-        debounce: 350,
-        cacheKey: 'search-location', // Different cache key from landing
-        initOnMount: isInitialized,
-        defaultValue: initialAddress, // Set initial value from props
-    });
-
-    // Initialize geocoder
-    useEffect(() => {
-        if (isLoaded && window.google?.maps && !geocoderRef.current) {
+        if (isLoaded && window.google?.maps) {
             geocoderRef.current = new google.maps.Geocoder();
+            sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
+            setIsSearchReady(true);
         }
     }, [isLoaded]);
-    
-    // Update local state if initial props change
+
+    // Fetch suggestions when input changes
     useEffect(() => {
-        setValue(initialAddress, false); // Set initial value without triggering suggestions
-    }, [initialAddress, setValue]);
+        const fetchSuggestions = async () => {
+            if (!isSearchReady || !value.trim() || !window.google?.maps?.places || !sessionTokenRef.current) {
+                setSuggestions([]);
+                return;
+            }
+
+            try {
+                const request = {
+                    input: value,
+                    includedPrimaryTypes: ['geocode'],
+                    includedRegionCodes: COUNTRY_RESTRICTION,
+                    language: 'nl',
+                    sessionToken: sessionTokenRef.current,
+                };
+
+                const result = await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions(request);
+                
+                if (result && result.suggestions) {
+                    const formattedSuggestions: PlaceSuggestion[] = result.suggestions.map((suggestion: any) => ({
+                        place_id: suggestion.placePrediction.placeId,
+                        description: suggestion.placePrediction.text?.text || suggestion.placePrediction.description || ''
+                    }));
+                    
+                    setSuggestions(formattedSuggestions);
+                }
+            } catch (error) {
+                console.error('Error fetching place suggestions:', error);
+                setSuggestions([]);
+            }
+        };
+
+        const timeoutId = setTimeout(() => {
+            fetchSuggestions();
+        }, 350);
+
+        return () => clearTimeout(timeoutId);
+    }, [value, isSearchReady]);
 
     const processLocationSelection = async (coords: Coordinates, addrValue: string) => {
         setIsSubmitting(true);
         setErrorMessage(null);
-        let city: string | null = null;
+        let city: string | undefined;
+        let country: string | undefined;
 
         try {
-             // Reverse geocode to get city, even if address was selected (autocomplete might lack city)
             if (geocoderRef.current) {
                 const results = await geocoderRef.current.geocode({ location: coords });
                 if (results.results && results.results.length > 0) {
@@ -99,79 +114,94 @@ export function SearchAddress({
                     for (const component of addressComponents) {
                         if (component.types.includes('locality')) {
                             city = component.long_name;
-                            break;
+                        }
+                        if (component.types.includes('country')) {
+                            country = component.short_name;
                         }
                     }
                 }
             }
 
-            // Update cookies using server action (this won't actually take effect until page refresh)
-            // We don't need to await this as the user will navigate anyway
             try {
-                await storeCoordinatesInCookies(coords, city || "Unknown City");
+                await storeCoordinatesInCookies(coords, city, country);
             } catch (e) {
                 console.error("Failed to save location cookies:", e);
-                // Non-blocking, continue with navigation
             }
 
-            // Call the callback - this will trigger navigation 
-            onLocationChange(coords, city);
-            setValue(addrValue, false); // Update the input field display
+            onLocationChange(coords, city, country);
+            setValue(addrValue);
+            sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
 
         } catch (error: any) {
             console.error("Error processing location:", error);
             setErrorMessage("Failed to process location.");
-            // Keep old cookies/state if processing failed
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    // Handle selection from autocomplete
-    const handleAutocompleteSelect = async (selectedAddress: string) => {
-        if (!ready) {
+    const handleAutocompleteSelect = async (selectedAddress: string, placeId?: string) => {
+        if (!isSearchReady || !geocoderRef.current) {
             setErrorMessage("Address search is not ready yet.");
             return;
         }
-        setValue(selectedAddress, false); // Update input value
-        clearSuggestions();
-
+        
         try {
-            const geocodeResults = await getGeocode({ address: selectedAddress });
-            if (!geocodeResults || geocodeResults.length === 0) {
+            setValue(selectedAddress);
+            setSuggestions([]);
+            
+            setIsSubmitting(true);
+            setErrorMessage(null);
+            
+            let geocodeResults;
+            if (placeId) {
+                geocodeResults = await geocoderRef.current.geocode({ placeId });
+            } else {
+                geocodeResults = await geocoderRef.current.geocode({ address: selectedAddress });
+            }
+            
+            if (!geocodeResults || geocodeResults.results.length === 0) {
                 throw new Error('No geocoding results found');
             }
-            const coordinates = await getLatLng(geocodeResults[0]);
+            
+            const coordinates = {
+                lat: geocodeResults.results[0].geometry.location.lat(),
+                lng: geocodeResults.results[0].geometry.location.lng()
+            };
+            
             await processLocationSelection(coordinates, selectedAddress);
         } catch (error: any) {
             console.error("Geocoding error:", error);
             setErrorMessage(error.message || "Failed to find this address");
-            setIsSubmitting(false); // Ensure loading state is reset
+            setIsSubmitting(false);
         }
     };
 
-    // Get coordinates from user's current location
     const handleLocationClick = async () => {
         if (!isLoaded || !navigator.geolocation) {
             setErrorMessage("Geolocation services are not available.");
             return;
         }
+        
         setIsLocating(true);
         setErrorMessage(null);
-        setValue('', false); // Clear address input
-
+        setValue('');
+        
         try {
             const position = await new Promise<GeolocationPosition>((resolve, reject) => {
                 navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 8000 });
             });
-            const coordinates = { lat: position.coords.latitude, lng: position.coords.longitude };
-
-             // Since we got coords directly, we need to reverse geocode to get an address string for display
-            let displayAddress = "Current Location"; // Fallback
+            
+            const coordinates = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            
+            let displayAddress = "Current Location";
             if (geocoderRef.current) {
                 const results = await geocoderRef.current.geocode({ location: coordinates });
                 if (results.results && results.results.length > 0) {
-                    displayAddress = results.results[0].formatted_address; // Use the formatted address
+                    displayAddress = results.results[0].formatted_address;
                 }
             }
 
@@ -183,83 +213,64 @@ export function SearchAddress({
             else if (error.code === 2) message = "Location unavailable.";
             else if (error.code === 3) message = "Location request timed out.";
             setErrorMessage(message);
-            setIsSubmitting(false); // Ensure loading state reset
         } finally {
             setIsLocating(false);
         }
     };
 
-    // Handle form submission (optional, if needed)
     const handleSubmit = async (e?: React.FormEvent) => {
         if (e) e.preventDefault();
         if (!value.trim()) {
             setErrorMessage("Please enter an address");
             return;
         }
-        // Trigger selection logic even on direct submit
         await handleAutocompleteSelect(value);
     };
 
     return (
-        <form onSubmit={handleSubmit} className="relative w-full ">
-             {loadError && (
+        <form onSubmit={handleSubmit} className="relative w-full">
+            {loadError && (
                 <div className="mb-2 text-red-600 bg-red-100 p-2 rounded-md text-sm">
                     {t("errorLoadingAddressSearch")}
                 </div>
             )}
             <Autocomplete
-                label={t("searchAddressLabel")} // More specific label
+                label={t("searchAddressLabel")}
                 aria-label="Delivery address search"
                 placeholder={t("searchAddressPlaceholder")}
                 value={value}
                 onInputChange={setValue}
                 onSelectionChange={(key) => {
-                    const selected = data.find(item => item.place_id === key);
+                    const selected = suggestions.find(item => item.place_id === key);
                     if (selected) {
-                        handleAutocompleteSelect(selected.description);
+                        handleAutocompleteSelect(selected.description, selected.place_id);
                     }
                 }}
-                isDisabled={!isLoaded || !ready || isLocating || isSubmitting}
+                isDisabled={!isLoaded || !isSearchReady || isLocating || isSubmitting}
                 variant="bordered"
-                isLoading={!isLoaded || !ready || isLocating || isSubmitting}
+                isLoading={!isLoaded || !isSearchReady || isLocating || isSubmitting}
                 startContent={
                     <Icon icon="solar:map-point-wave-linear" className="text-default-400" width={20} />
                 }
-                // endContent={
-                //     <Button
-                //         isIconOnly
-                //         variant="light"
-                //         size="sm"
-                //         onPress={handleLocationClick}
-                //         title="Use current location"
-                //         className={isLocating || isSubmitting ? "hidden" : ""}
-                //         isDisabled={!isLoaded || !ready || isLocating || isSubmitting}
-                //         type="button"
-                //     >
-                //         <Icon icon="solar:map-arrow-square-outline" width={20} className="text-primary-500 dark:text-secondary" />
-                //     </Button>
-                // }
                 classNames={{
-                    base: "w-full  rounded-xl border border-default-200", // Adjusted styling
-                    listbox: "max-h-[200px] ",
-                    popoverContent: "z-[1000]  rounded-xl shadow-lg border border-default-200", // Style popover
+                    base: "w-full rounded-xl border border-default-200",
+                    listbox: "max-h-[200px]",
+                    popoverContent: "z-[1000] rounded-xl shadow-lg border border-default-200",
                 }}
                 menuTrigger="input"
-                items={data}
-                disabledKeys={isSubmitting || isLocating ? data.map(item => item.place_id) : []} // Disable selection while processing
+                items={suggestions}
             >
-                {data.map((item) => (
+                {suggestions.map((item) => (
                     <AutocompleteItem key={item.place_id} textValue={item.description}>
                         <div className="flex items-center">
                             <Icon icon="solar:map-point-linear" className="text-primary-500 dark:text-secondary mr-2" width={16} />
-                            <span className=" text-sm">{item.description}</span>
+                            <span className="text-sm">{item.description}</span>
                         </div>
                     </AutocompleteItem>
                 ))}
             </Autocomplete>
 
-            {/* Status indicators below input */}
-            <div className="mt-1 h-6 text-sm flex items-center"> 
+            <div className="mt-1 h-6 text-sm flex items-center">
                 {isLocating && (
                     <div className="flex items-center gap-2 text-blue-600">
                         <Spinner size="sm" color="primary" />
@@ -279,7 +290,6 @@ export function SearchAddress({
                 )}
             </div>
             
-             {/* Hidden submit button to allow form submission via Enter key */}
             <button type="submit" className="hidden" aria-hidden="true" tabIndex={-1} />
         </form>
     );

@@ -15,7 +15,7 @@ import {
 import * as React from "react";
 import {formatCurrency, formatDisplayDateTime, scheduledToCalendarDateTime} from "@/lib/utils";
 import {OrderProducts, PriceOrderData} from "@/lib/actions/order";
-import { AddressFormType } from "@/components/providers/delivery-provider";
+import { DeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
 
 export interface OrderPlacedEmailProps {
     orderId: string;
@@ -32,8 +32,9 @@ export interface OrderPlacedEmailProps {
     }
     priceData: PriceOrderData;
     products: OrderProducts;
+    isPostDelivery: boolean;
     isDelivery: boolean;
-    deliveryAddress?: AddressFormType;
+    deliveryAddress?: DeliveryAddress | null;
 }
 
 function formatDateForCalendar(dateString: string): string {
@@ -64,6 +65,7 @@ export default function OrderPlacedEmail({
     scheduledTime, 
     storeLocation, 
     products, 
+    isPostDelivery,
     priceData,
     isDelivery, 
     deliveryAddress
@@ -77,6 +79,11 @@ export default function OrderPlacedEmail({
     const mapLink = isDelivery
         ? `https://maps.google.com/?q=${encodeURIComponent(addressToShow)}`
         : `https://maps.google.com/?q=${storeLocation.latitude},${storeLocation.longitude}`;
+        
+    // Format date based on whether it's post delivery or not
+    const formattedDateTime = isPostDelivery
+        ? `${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year}`
+        : `${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year} at ${String(scheduledToCalendarDateTime(scheduledTime).hour).padStart(2, '0')}:${String(scheduledToCalendarDateTime(scheduledTime).minute).padStart(2, '0')}`;
         
     const calendarEventTitle = `${storeName} Order ${isDelivery ? 'Delivery' : 'Pickup'} #${orderId}`;
     const calendarLocation = isDelivery ? addressToShow : storeLocation.address;
@@ -130,7 +137,7 @@ export default function OrderPlacedEmail({
                             <Column style={textColumn}>
                                 <Text style={detailHeading}>{scheduledTimeLabel}</Text>
                                 <Link href={calendarLink} style={linkStyle}>
-                                    {`${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year} at ${String(scheduledToCalendarDateTime(scheduledTime).hour).padStart(2, '0')}:${String(scheduledToCalendarDateTime(scheduledTime).minute).padStart(2, '0')}`}
+                                    {formattedDateTime}
                                 </Link>
                             </Column>
                         </Row>

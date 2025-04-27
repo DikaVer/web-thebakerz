@@ -23,7 +23,6 @@ interface StoreSubHeaderPickUpProps {
 export function StoreSubHeaderPickUp({ }: StoreSubHeaderPickUpProps) {
     const { store } = useStore();
     const t = useTranslations("app/(store)/components/store-subheader");
-    const { session } = useSession();
     
     const {
         selectedDate,

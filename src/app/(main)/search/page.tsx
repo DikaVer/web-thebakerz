@@ -1,12 +1,13 @@
 import { Suspense } from 'react';
 import { SearchComponent } from '@/components/search/search-comp';
-import { getSearchCity, getSearchCoordinates, Coordinates } from '@/lib/cookie';
 import { findNearbyStores, NearbyStore } from '@/lib/actions/store';
 import { StorePanelSkeleton } from '@/components/search/components/store-panel-skeleton';
 import { StorePanel } from '@/components/search/components/store-panel';
 import type { Metadata } from 'next'; // Import Metadata type
 import { getLocale, getTranslations } from 'next-intl/server'; // Import getLocale
 import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata utils
+import { logger } from '@/lib/logger';
+import { Coordinates, getSearchCity, getSearchCoordinates, getSearchCountry } from '@/lib/delivery-cookie';
 
 // Define search page specific metadata translations
 const pageMetadataTranslations = {
@@ -37,6 +38,7 @@ interface SearchPageProps {
     lng?: string;
     city?: string;
     mode?: 'pickup' | 'delivery';
+    country?: string;
   }>;
 }
 
@@ -117,6 +119,7 @@ const DEFAULT_LAT = 52.366989;
 const DEFAULT_LNG = 4.888490;
 const DEFAULT_CITY = 'Amsterdam';
 const DEFAULT_MODE = 'pickup';
+const DEFAULT_COUNTRY = 'NL';
 
 // Helper function to create the skeleton grid
 const StoresLoadingSkeleton = () => {
@@ -132,12 +135,12 @@ const StoresLoadingSkeleton = () => {
 };
 
 // Main component to fetch and render stores
-async function StoreResults({ coords, mode }: { coords: Coordinates, mode: 'pickup' | 'delivery' }) {
-  const stores = await findNearbyStores(coords.lat, coords.lng, mode);
+async function StoreResults({ coords, mode, country }: { coords: Coordinates, mode: 'pickup' | 'delivery', country?: string }) {
+  const stores = await findNearbyStores(coords.lat, coords.lng, mode, country);
   
   const t = await getTranslations("app/search");
   // Log to help debug duplicate IDs
-  if(process.env.NODE_ENV === 'development') console.log("Store IDs:", stores.map(store => store.id));
+  logger.debug("storeResults", "Store IDs:", { storeIds: stores.map(store => store.id) });
   
   return (
       <div className={'min-h-svh'}>
@@ -167,11 +170,13 @@ export default async function Page(props : SearchPageProps) {
   const latParam = searchParams?.lat;
   const lngParam = searchParams?.lng;
   const cityParam = searchParams?.city;
+  const countryParam = searchParams?.country;
   const modeParam = searchParams?.mode;
 
   let initialCoords: Coordinates | null = null;
   let initialCity: string | null = null;
   let initialMode: 'pickup' | 'delivery' = DEFAULT_MODE;
+  let initialCountry: string | null = null;
 
   // 1. Prioritize URL Search Params
   if (latParam && lngParam) {
@@ -180,6 +185,7 @@ export default async function Page(props : SearchPageProps) {
     if (!isNaN(lat) && !isNaN(lng)) {
       initialCoords = { lat, lng };
       initialCity = cityParam || null;
+      initialCountry = countryParam || null;
     }
   }
 
@@ -188,10 +194,12 @@ export default async function Page(props : SearchPageProps) {
     initialCoords = await getSearchCoordinates();
     if (initialCoords) {
       initialCity = await getSearchCity();
+      initialCountry = await getSearchCountry();
     } else {
       // 3. If no coords from cookies, use defaults
       initialCoords = { lat: DEFAULT_LAT, lng: DEFAULT_LNG };
       initialCity = DEFAULT_CITY;
+      initialCountry = DEFAULT_COUNTRY;
     }
   }
 
@@ -208,9 +216,8 @@ export default async function Page(props : SearchPageProps) {
 
   return (
     <SearchComponent
-      // Pass resolved initial values to the client component
       initialCoords={initialCoords}
-      initialCity={initialCity}
+      // Pass resolved initial values to the client component
       initialDeliveryMode={initialMode}
     >
       {/* 
@@ -222,7 +229,7 @@ export default async function Page(props : SearchPageProps) {
            Pass coords and mode needed for fetching. 
            Render this async component inside Suspense.
         */}
-        <StoreResults coords={initialCoords} mode={initialMode} />
+        <StoreResults coords={initialCoords} mode={initialMode} country={initialCountry || undefined} />
       </Suspense>
     </SearchComponent>
   );

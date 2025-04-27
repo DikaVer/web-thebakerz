@@ -21,6 +21,7 @@ interface SmartDatetimeInputProps {
     showCalendar?: boolean;
     showTimePicker?: boolean;
     isError?: boolean;
+    isPostDelivery?: boolean;
 }
 
 interface SmartDatetimeInputContextProps extends SmartDatetimeInputProps {
@@ -30,11 +31,15 @@ interface SmartDatetimeInputContextProps extends SmartDatetimeInputProps {
 
 const SmartDatetimeInputContext = React.createContext<SmartDatetimeInputContextProps | null>(null);
 
-export const formatDate = (date: CalendarDate | CalendarDateTime) => {
-    if (date instanceof CalendarDateTime)
+export const formatDate = (date: CalendarDate | CalendarDateTime, isPostDelivery?: boolean) => {
+    if (date instanceof CalendarDateTime) {
+        if (isPostDelivery) {
+            return `${date.day}-${date.month}-${date.year}`;
+        }
         return `${date.hour}:${date.minute === 0 ? "00" : date.minute} ${date.day}-${date.month}-${date.year}`;
-    else
+    } else {
         return `${date.day}-${date.month}-${date.year}`;
+    }
 }
 
 const useSmartDateInput = () => {
@@ -59,6 +64,7 @@ export const SmartDatetimeInput = React.forwardRef<
             schedule,
             minValue,
             isError = false,
+            isPostDelivery = false,
             children
         },
         ref
@@ -83,8 +89,9 @@ export const SmartDatetimeInput = React.forwardRef<
                     onTimeChange,
                     schedule,
                     minValue: minDate,
-                    showTimePicker: true,
+                    showTimePicker: !isPostDelivery,
                     showCalendar: true,
+                    isPostDelivery,
                 }}
             >
                 <DateTimeLocalInput
@@ -118,11 +125,22 @@ type DateTimeLocalInputProps = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 const DateTimeLocalInput = ({ children, className, ...props }: DateTimeLocalInputProps) => {
-    const { value, onValueChange, schedule, minValue, showCalendar, showTimePicker, isError } =
+    const { value, onValueChange, schedule, minValue, showCalendar, showTimePicker, isError, isPostDelivery } =
         useSmartDateInput();
 
     // Disable dates if they have no available time slots
     const isDateUnavailable = (date: CalendarDate) => {
+        // For postal delivery, all dates are available as long as they respect the minimum lead time
+        if (isPostDelivery) {
+            // Only check if the date is before minValue
+            if (minValue) {
+                const minDate = new CalendarDate(minValue.year, minValue.month, minValue.day);
+                return date.compare(minDate) < 0;
+            }
+            return false;
+        }
+
+        // For regular delivery, check schedule
         if (!schedule) return true;
 
         const jsDate = new Date(date.year, date.month - 1, date.day);
@@ -179,6 +197,8 @@ const DateTimeLocalInput = ({ children, className, ...props }: DateTimeLocalInpu
         return effectiveStartTime < endTime;
     };
 
+    const [isPopoverOpen, setPopoverOpen] = React.useState(false);
+
     // When a date is selected, preserve the existing time (if any) or default to midnight
     const handleCalendarChange = (selectedDate: CalendarDate) => {
         // If the selected date is the same as the current date, do nothing.
@@ -190,21 +210,37 @@ const DateTimeLocalInput = ({ children, className, ...props }: DateTimeLocalInpu
         ) {
             return;
         }
-        let newDateTime: CalendarDate;
-        if (showTimePicker && value) {
-            newDateTime = new CalendarDate(
+        
+        if (showTimePicker) {
+            // Regular delivery with time selection
+            let newDateTime: CalendarDate;
+            if (value) {
+                newDateTime = new CalendarDate(
+                    selectedDate.year,
+                    selectedDate.month,
+                    selectedDate.day
+                );
+            } else {
+                newDateTime = new CalendarDate(selectedDate.year, selectedDate.month, selectedDate.day);
+            }
+            onValueChange(newDateTime);
+        } else if (isPostDelivery) {
+            // Postal delivery - automatically set time to end of day (23:59)
+            const newDateTime = new CalendarDateTime(
                 selectedDate.year,
                 selectedDate.month,
-                selectedDate.day
+                selectedDate.day,
+                23,
+                59
             );
+            onValueChange(newDateTime);
+            setPopoverOpen(false); // Close the popover since no time selection is needed
         } else {
-            newDateTime = new CalendarDate(selectedDate.year, selectedDate.month, selectedDate.day);
+            // Default case
+            const newDateTime = new CalendarDate(selectedDate.year, selectedDate.month, selectedDate.day);
+            onValueChange(newDateTime);
         }
-
-        onValueChange(newDateTime);
     };
-
-    const [isPopoverOpen, setPopoverOpen] = React.useState(false);
 
     return (
         <Popover

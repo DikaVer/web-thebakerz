@@ -32,6 +32,7 @@ const config = {
     		}
     	},
     	extend: {
+
     		colors: {
     			text: 'hsl(var(--text))',
     			border: 'hsl(var(--border))',
@@ -101,6 +102,14 @@ const config = {
     			'heart-display': '1370px'
     		},
     		keyframes: {
+				"scrolling-banner": {
+					from: {transform: "translateX(0)"},
+					to: {transform: "translateX(calc(-50% - var(--gap)/2))"},
+				},
+				"scrolling-banner-vertical": {
+					from: {transform: "translateY(0)"},
+					to: {transform: "translateY(calc(-50% - var(--gap)/2))"},
+				},
     			'accordion-down': {
     				from: {
     					height: '0'
@@ -127,6 +136,8 @@ const config = {
     			}
     		},
     		animation: {
+				"scrolling-banner": "scrolling-banner var(--duration) linear infinite",
+				"scrolling-banner-vertical": "scrolling-banner-vertical var(--duration) linear infinite",
     			'accordion-down': 'accordion-down 0.5s ease-out',
     			'accordion-up': 'accordion-up 0.5s ease-out',
     			'caret-blink': 'caret-blink 1.25s ease-out infinite'

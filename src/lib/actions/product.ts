@@ -82,7 +82,6 @@ export const addProduct = async (
             }
       }
     }
-    // console.log(updatedAdditionalImages);
 
     let image_url;
     if (formData.file_picture) {
@@ -119,11 +118,13 @@ export const addProduct = async (
         name: formData.name,
         description: formData.description,
         min_order: formData.min_order,
+        min_lead_time: formData.min_lead_time,
         variants: formData.variants,
         price: formData.price,
         picture: image_url || formData.url,
         ingredients: formData.ingredients || [],
         allergies: formData.allergies || [],
+        dietary: formData.dietary || [],
         createdAt: oldProductData ? oldProductData.createdAt : now,
         updatedAt: now,
         historySnapshots: oldProductData
@@ -199,7 +200,7 @@ export const deleteProduct = async (
             return { error: "Store not found!" };
         }
 
-        console.log("Deleting product with ID:", productId, "from store with ID:", storeId);
+        // console.log("Deleting product with ID:", productId, "from store with ID:", storeId);
 
 
         // Update the product's archive status to true.
@@ -241,7 +242,7 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
         }
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.constId, c.additionalImages, c.variants, c.min_order FROM c WHERE c.store_id = @storeId AND c.archive = false",
+            query: "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.archive = false",
             parameters: [{ name: "@storeId", value: storeId }]
         };
 
@@ -370,16 +371,38 @@ export type ProductData = {
     category: string;
     name: string;
     web_name: string;
-    store_name: string;
+    store_name?: string;
     min_order: number;
+    min_lead_time: number;
     description?: string | null;
     variants?: ProductVariant[];
     price: number;
     picture: string;
     ingredients?: string[];
     allergies?: string[];
+    dietary?: string[];
     constId: string;
     additionalImages: string[];
+};
+
+export type ProductDataClean = {
+    store_id: string;
+    category: string;
+    name?: string;
+    web_name?: string;
+    store_name?: string;
+    min_order: number;
+    min_lead_time: number;
+    description?: string | null;
+    variants?: ProductVariant[];
+    price: number;
+    picture?: string;
+    ingredients?: string[];
+    allergies?: string[];
+    dietary?: string[];
+    id?: string;
+    constId?: string;
+    additionalImages?: string[];
 };
 
 export type ProductVariant = {

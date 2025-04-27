@@ -29,7 +29,7 @@ import {useStore} from "@/components/providers/store-provider";
 
 const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: Record<string, string[]>}> = ({ productsData, productsOrder }) => {
     const t = useTranslations("app/(return_page)/settings/components/products-settings");
-    const { handleOpen, setProductsDataLocal } = useProductDialog();
+    const { handleAddItem, setProductsDataLocal } = useProductDialog();
     const [isLoading, setIsLoading] = useState(false);
     const categoriesKeys = Object.keys(productsOrder);
     const { store } = useStore()
@@ -137,9 +137,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                     startContent={
                         <Icon icon="solar:add-square-broken" width={24} className="text-white" />
                     }
-                    onPress={() => {
-                        handleOpen();
-                    }}
+                    onPress={handleAddItem}
                 >
                     {t("addItem")}
                 </Button>

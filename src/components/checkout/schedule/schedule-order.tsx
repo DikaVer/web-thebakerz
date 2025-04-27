@@ -37,15 +37,16 @@ export function ScheduleOrder({
     const t = useTranslations("app/(store)/components/checkout");
     const {
         isDelivery,
-        selectedDate
+        selectedDate,
+        validationResult
     } = useDelivery();
 
 
     const phone = {
         name: t("phone"),
-        href: `tel:${store?.phone}`,
+        href: `https://wa.me/${store?.phone?.replace(/\D/g, '')}`,
         icon: (props: SocialIconProps) => (
-            <Icon {...props} icon="line-md:phone-call" strokeWidth={1.5} width={24} />
+            <Icon {...props} icon="mdi:whatsapp" strokeWidth={1.5} width={24} />
         ),
     };
 
@@ -96,7 +97,7 @@ export function ScheduleOrder({
                     <>
                         <Divider />
                         <Link
-                            key={"Phone"}
+                            key={"WhatsApp"}
                             isExternal
                             className="text-default-500 justify-between"
                             href={phone.href}
@@ -119,9 +120,9 @@ export function ScheduleOrder({
             <div className={'flex flex-row w-full justify-center'}>
                 <Button
                     variant={'bordered'}
-                    isDisabled={!(selectedDate instanceof CalendarDateTime)}
+                    isDisabled={!(selectedDate instanceof CalendarDateTime || (validationResult?.deliveryRegion?.isPostDelivery && isDelivery))}
                     className={`${
-                        !(selectedDate instanceof CalendarDateTime)
+                        !(selectedDate instanceof CalendarDateTime || (validationResult?.deliveryRegion?.isPostDelivery && isDelivery))
                             ? ""
                             : "bg-gradient-primary text-white border-none"
                     }  w-full max-w-[440px]`}
@@ -129,7 +130,7 @@ export function ScheduleOrder({
                         <Icon icon={'solar:alt-arrow-right-linear'} width={24} />
                     }
                     onPress={() => {
-                        if (selectedDate instanceof CalendarDateTime) {
+                        if (selectedDate instanceof CalendarDateTime || (validationResult?.deliveryRegion?.isPostDelivery && isDelivery)) {
                             handleNext();
                         }
                     }}

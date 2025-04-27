@@ -11,8 +11,11 @@ import { getTranslations } from "next-intl/server";
 // Ensure the API route runs in the Node.js runtime so we can use Sharp
 export const runtime = "nodejs";
 
-// Maximum file size limit (1MB)
-const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB in bytes
+// Maximum file size limit (2MB for regular images, 5MB for HEIC/HEIF)
+const MAX_FILE_SIZE = {
+    default: 2 * 1024 * 1024, // 2MB in bytes
+    heic: 5 * 1024 * 1024,    // 5MB for HEIC/HEIF formats
+};
 
 export async function POST(request: Request) {
     const t = await getTranslations("app/api/upload-image");
@@ -38,10 +41,16 @@ export async function POST(request: Request) {
             );
         }
 
-        // Check if file size exceeds 1MB limit
-        if (fileField.size > MAX_FILE_SIZE) {
+        // Check file size limit based on format
+        const isHeicFormat = fileField.type.toLowerCase().includes('heic') || 
+                           fileField.type.toLowerCase().includes('heif');
+        const sizeLimit = isHeicFormat ? MAX_FILE_SIZE.heic : MAX_FILE_SIZE.default;
+
+        if (fileField.size > sizeLimit) {
             return NextResponse.json(
-                { error: "File size exceeds the maximum limit of 1MB" },
+                { 
+                    error: `File size exceeds the maximum limit of ${sizeLimit / (1024 * 1024)}MB` 
+                },
                 { status: 400 }
             );
         }
@@ -105,9 +114,7 @@ export async function POST(request: Request) {
                 throw new Error(`Image dimensions too large (max: ${MAX_DIMENSION}px)`);
             }
         } catch (validationError) {
-            if (process.env.NODE_ENV !== 'production') {
-                console.error("Server-side image validation failed:", validationError);
-            }
+            console.error("Server-side image validation failed:", validationError);
             return NextResponse.json({ error: t("invalidImage") }, { status: 400 });
         }
 
@@ -146,9 +153,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ success: t("imageUpdated"), url: blobUrl }, { status: 200 });
     } catch (error) {
-        if (process.env.NODE_ENV !== 'production') {
-            console.error("Error during image upload:", error);
-        }
+        console.error("Error during image upload:", error);
         return NextResponse.json({ error: t("internalError") }, { status: 500 });
     }
 }

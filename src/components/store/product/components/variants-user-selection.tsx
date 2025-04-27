@@ -5,6 +5,7 @@ import { Variant } from "@/lib/actions/cart";
 import { ProductData } from "@/lib/actions/product";
 import { useTranslations } from "next-intl";
 import {formatCurrency} from "@/lib/utils";
+import { logger } from "@/lib/logger";
 
 const ListboxWrapper = ({children}: { children: React.ReactNode}) => (
     <div className="w-full border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100">
@@ -82,7 +83,7 @@ export default function VariantsUserSelection({
         }).filter(v => v.selectedItems.length > 0) as Variant[];
 
 
-        if(process.env.NODE_ENV === 'development') console.log("Updated variants:", updatedVariants);
+        logger.debug('variantsSelection', "Updated variants:", { updatedVariants });
         setVariants(updatedVariants);
     };
 

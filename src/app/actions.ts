@@ -68,14 +68,26 @@ export async function revalidateAndNavigate(path: string) {
 }
 
 /**
+ * LOCATION SEARCH COOKIE HANDLING
+ * 
+ * Purpose: Store user's location preferences for store and product searches
+ * Data stored: Geographic coordinates (latitude/longitude), city name, and country
+ * Retention: 24 hours
+ * Legal basis: Legitimate interest - providing location-based search functionality
+ * Note: This data is stored locally and not shared with third parties
+ */
+
+/**
  * Stores coordinates in secure HTTP-only cookies for search functionality
  * @param coordinates - The latitude and longitude coordinates
  * @param city - The city associated with the coordinates
+ * @param country - The country associated with the coordinates
  * @returns ActionResult indicating success or failure
  */
 export async function storeCoordinatesInCookies(
     coordinates: { lat: number; lng: number },
-    city?: string
+    city?: string,
+    country?: string
 ): Promise<ActionResult> {
     try {
         if (!await globalPOSTRateLimit()) {
@@ -123,12 +135,38 @@ export async function storeCoordinatesInCookies(
             });
         }
 
+        // Store country if provided
+        if (country) {
+            cookieStore.set('search_country', country, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 60 * 60 * 24, // 24 hours
+                path: '/',
+                sameSite: 'strict'
+            });
+        }
+
         return null; // Success
     } catch (error) {
         console.error("Error storing coordinates:", error);
         return {
             message: "Failed to store coordinates. Please try again."
         };
+    }
+}
+
+/**
+ * Removes all location search cookies
+ */
+export async function removeLocationCookies(): Promise<void> {
+    try {
+        const cookieStore = await cookies();
+        cookieStore.delete('search_lat');
+        cookieStore.delete('search_lng');
+        cookieStore.delete('search_city');
+        cookieStore.delete('search_country');
+    } catch (error) {
+        console.error("Error removing location cookies:", error);
     }
 }
 

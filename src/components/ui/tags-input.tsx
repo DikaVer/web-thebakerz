@@ -2,6 +2,7 @@
 import React, {useState, useRef, useEffect, useMemo} from 'react';
 import {Autocomplete, AutocompleteItem, Button, cn, Input, Select, SelectItem} from "@heroui/react";
 import {AllergenIcon, iconAllergyMap} from "@/components/store/product/components/allergy-icons";
+import {DietaryIcon, iconSuperMap} from "@/components/store/product/components/super-icons";
 import {useTranslations} from "next-intl";
 import { Icon } from '@iconify/react/dist/iconify.js';
 
@@ -294,6 +295,94 @@ export const TagsSelectInput: React.FC<TagsInputProps> = ({
                         );
                     })}
                 </Select>
+        </div>
+    );
+};
+
+// Add this constant after the imports
+const DIETARY_OPTIONS: Record<string, string> = {
+    'gluten-free': 'Gluten Free',
+    'sugar-free': 'No Sugar',
+    'lactose-free': 'Lactose Free',
+    'halal': 'Halal',
+    'vegan': 'Vegan',
+} as const;
+
+export const DietarySelectInput: React.FC<TagsInputProps> = ({
+    isLoading,
+    tags,
+    setTags,
+    placeholder = 'Select dietary restrictions...',
+}) => {
+
+    const t = useTranslations("Dietary");
+    const selectedKeys = useMemo(() => {
+        return new Set(tags);
+    }, [tags]);
+
+    const handleSelectionChange = (keys: "all" | Set<React.Key>) => {
+        if (keys === "all") {
+            setTags(Object.keys(DIETARY_OPTIONS));
+        } else {
+            setTags(Array.from(keys).map(key => String(key)));
+        }
+    };
+
+    const handleRemoveTag = (tag: string) => {
+        setTags(tags.filter((t) => t !== tag));
+    };
+
+    return (
+        <div className='flex flex-wrap items-center gap-2 py-2 rounded-md'>
+            {tags.map((tag) => (
+                <div key={tag} className='relative'>
+                    <button
+                        disabled={isLoading}
+                        onClick={() => {
+                            handleRemoveTag(tag)
+                        }}
+                        className={cn("flex items-center gap-1 px-2 pl-2 py-1 text-sm font-medium rounded-full cursor-pointer", {
+                            "bg-success-100 hover:bg-success-200 text-success-700": true,
+                            "opacity-50": isLoading
+                        })}
+                    >
+                        <DietaryIcon dietary={tag} size={32} />
+                        <span>{t(tag)}</span>
+                        <span>&times;</span>
+                    </button>
+                </div>
+            ))}
+
+            <Select
+                selectionMode="multiple"
+                selectedKeys={selectedKeys}
+                onSelectionChange={handleSelectionChange}
+                placeholder={placeholder}
+                disableSelectorIconRotation
+                selectorIcon={
+                    <div>
+                        {t("AddDietaryRestriction")}
+                        <Icon icon="material-symbols:add-rounded" width={16}/>
+                    </div>
+                }
+                classNames={{
+                    mainWrapper: 'items-end',
+                    innerWrapper: 'hidden',
+                    selectorIcon: 'w-fit flex end-0 gap-1 items-center static text-success-600 font-medium',
+                    trigger: 'rounded-full w-fit text-sm min-h-8 h-8 gap-1',
+                    popoverContent: 'min-w-[200px]',
+                }}
+                isDisabled={isLoading}
+            >
+                {Object.entries(DIETARY_OPTIONS).map(([key, label]) => (
+                    <SelectItem
+                        key={key}
+                        startContent={<DietaryIcon dietary={key} size={32} />}
+                    >
+                        {t(key)}
+                    </SelectItem>
+                ))}
+            </Select>
         </div>
     );
 };

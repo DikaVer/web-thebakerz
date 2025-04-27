@@ -1,9 +1,14 @@
 import * as z from 'zod';
-import validator from 'validator';
 
 // Regex patterns for validation
 const zipCodePattern = /^[0-9]{4}\s?[A-Za-z]{2}$/; // Dutch postal code format: 4 digits followed by 2 letters
-const houseNumberPattern = /^[0-9]{1,5}[a-zA-Z]{0,2}$/; // House number with optional letter suffix
+
+// Google Maps related constants
+export const GOOGLE_MAPS_LIBRARIES = ['places'] as const;
+export const COUNTRY_RESTRICTION = ['nl']; // Netherlands
+
+// Dutch postal code regex: 4 digits followed by 2 letters (with or without space)
+export const DUTCH_POSTAL_CODE_REGEX = /^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/;
 
 export const AddressZodSchema = z.object({
   street: z.string()
@@ -43,5 +48,15 @@ export const AddressZodSchema = z.object({
     .max(100, { message: 'Additional information is too long' })
     .optional()
 });
+
+// --- Constants ---
+export const MAX_CHARS_ADDRESS = {
+  street: 100,
+  houseNumber: 20,
+  city: 100,
+  zipCode: 20,
+  additionalInfo: 1000,
+  formattedAddress: 200,
+};
 
 export type ValidatedAddress = z.infer<typeof AddressZodSchema>; 

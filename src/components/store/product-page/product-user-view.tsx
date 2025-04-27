@@ -1,35 +1,28 @@
 'use client';
 import React, { useState} from "react";
 import {
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
     Button,
     Image,
     Card,
     Textarea,
     cn,
     CardFooter,
-    ScrollShadow, CardBody
+    CardBody
 } from "@heroui/react";
 import { ProductData } from "@/lib/actions/product";
 import { formatCurrency } from "@/lib/utils";
-import { IconCopy } from "@/components/ui/icons";
-import { useTheme } from "next-themes";
-import { CopyText } from "@/components/ui/copy-text";
 import { InputStepper } from "@/components/store/product/dialog/button-stepper";
-import { ItemCart, Variant } from "@/lib/actions/cart";
+import { Variant } from "@/lib/actions/cart";
 import { updateCart } from "@/lib/actions/cart";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
-import {useProductDialog} from "@/components/providers/product-provider";
 import CustomAlert from "@/components/ui/custom-alerts";
-import {Icon} from "@iconify/react";
 import {useMediaQuery} from "usehooks-ts";
 import {AllergenIcon} from "@/components/store/product/components/allergy-icons";
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
 import VariantsUserSelection from "@/components/store/product/components/variants-user-selection";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 type ProductViewProps = {
     productData: ProductData;
@@ -206,6 +199,34 @@ export default function UserProductView({
                                                         <AllergenIcon allergen={allergies} />
                                                         <span>
                                                             {c_T(`Allergies.${allergies}`)}
+                                                        </span>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </CustomAlert>
+                                )}
+
+                                {/* Special Category Alert: Success variant */}
+                                {productData.dietary && productData.dietary.length > 0 && (
+                                    <CustomAlert 
+                                        color="success" 
+                                        title={t("specialCategory")} 
+                                        hideIcon
+                                        classNames={{
+                                            title: "text-success-700 font-medium"
+                                        }}
+                                    >
+                                        <div className="flex flex-wrap gap-2 mt-4">
+                                            {productData.dietary.map((diet) => {
+                                                return (
+                                                    <div
+                                                        key={diet}
+                                                        className={`flex items-center gap-1 px-2 py-1 text-sm rounded-full text-success-700 bg-success-100`}
+                                                    >
+                                                        <Icon icon="mdi:food-certified" className="text-success-600" width={18} />
+                                                        <span>
+                                                            {c_T(`Dietary.${diet}`)}
                                                         </span>
                                                     </div>
                                                 );

@@ -29,7 +29,7 @@ import { logger } from "@/lib/logger";
 import {getRequestContext} from "@/lib/request-context";
 
 // Initialize logger for auth module
-const log = logger.child({ module: "totoro" });
+const log = logger.child({ module: "auth" });
 
 /**
  * Type definition for the standard action result

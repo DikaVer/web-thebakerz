@@ -307,7 +307,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                                                         color={'default'}
                                                                     >
                                                                         <div className={'flex gap-2 items-center'}>
-                                                                            {t("delivery")}
+                                                                            {t("delivery")} • {order.deliveryAddress?.city ? order.deliveryAddress.city : "Unknown"}
                                                                             {!order.isStoreDelivery && (
                                                                                 <Image
                                                                                     src="/images/TheBakerzLogo.svg"
@@ -391,7 +391,12 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                                 <div className="flex justify-between items-center">
                                                     <div className="flex flex-col">
                                                         <div className="text-sm text-default-500">
-                                                            {formatScheduledDate(order.scheduled_time, locale)} • {formatScheduledTime(order.scheduled_time, locale)}
+                                                            {
+                                                            order.isPostDelivery ? 
+                                                                formatScheduledDate(order.scheduled_time, locale) 
+                                                                : 
+                                                                `${formatScheduledDate(order.scheduled_time, locale)} • ${formatScheduledTime(order.scheduled_time, locale)}`
+                                                            }
                                                         </div>
 
                                                     </div>

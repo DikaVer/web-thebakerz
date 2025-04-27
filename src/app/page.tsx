@@ -1,11 +1,12 @@
 import { Footer } from '@/components/footer';
 import { LandingHeroSection } from '@/components/landing/marketplace/landing-hero-section';
 import { BakersGrowthSection } from '@/components/landing/marketplace/bakers-growth-section';
-import { getSearchCoordinates } from '@/lib/cookie';
+import { getSearchCoordinates } from '@/lib/delivery-cookie';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
 import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata function and translations
+import Partners from '@/components/landing/partners';
 
 // Define specific metadata overrides for the homepage
 const pageMetadataTranslations = {
@@ -78,6 +79,7 @@ export default async function Page() {
     <main className="min-h-screen">
       <LandingHeroSection />
       <BakersGrowthSection />
+      <Partners />  
       <Footer />
     </main>
   );

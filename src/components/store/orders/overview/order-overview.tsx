@@ -89,7 +89,7 @@ export const OrderOverview: React.FC<OrderOverviewProps> = ({orderData, from, to
             <Spacer y={8}/>
             <OrderCustomerDetails
                 customer={orderData.customer}
-                address={orderData.deliveryAddress}
+                address={orderData.deliveryAddress || undefined}
             />
             <Spacer y={8}/>
         </div>

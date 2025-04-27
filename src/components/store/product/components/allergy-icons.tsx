@@ -31,7 +31,6 @@ import {
     iconAbalone,
     iconHoney
 } from "@/components/store/product/components/allergy-icon"
-import { useTranslations } from 'next-intl'
 
 export const iconAllergyMap: Record<string, React.FC<{ size?: number }>> = {
     egg: iconEggs,

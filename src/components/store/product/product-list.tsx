@@ -31,23 +31,9 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const isSmall = useMediaQuery('(max-width: 768px)');
     const [isVisible, setVisible] = useState(false);
     const [selectedTab, setSelectedTab] = useState('');
-    const { setProductsDataLocal, handleOpenWithProduct, isUpdating, setIsUpdating } = useProductDialog();
+    const { setProductsDataLocal} = useProductDialog();
     const categoryRefs = useRef<Record<string, HTMLDivElement | null>>({});
-    const searchParams = useSearchParams();
-    const initialProductHandled = useRef(false);
     const t = useTranslations('app/(store)/components/product-list');
-
-    useEffect(() => {
-        let timeoutId: NodeJS.Timeout;
-        if (isUpdating) {
-            timeoutId = setTimeout(() => {
-                setIsUpdating(false);
-            }, 2500);
-        }
-        return () => {
-            if (timeoutId) clearTimeout(timeoutId);
-        };
-    }, [isUpdating, setIsUpdating]);
 
     // Update local product data
     useEffect(() => {
@@ -55,15 +41,6 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             setProductsDataLocal(productsData);
         }
     }, [productsData]);
-
-    // Handle initial product dialog
-    useEffect(() => {
-        const productId = searchParams.get('product');
-        if (!initialProductHandled.current && productId && productsData) {
-            handleOpenWithProduct(productsData[productId]);
-            initialProductHandled.current = true;
-        }
-    }, []);
 
     // Handle scroll event
     useEffect(() => {
@@ -115,9 +92,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
         categoryRefs.current[category] = el;
     };
 
-    return isUpdating ? (
-        <ProductListSkeleton />
-    ) : (
+    return (
         <div className="flex w-full flex-col">
             <div
                 className={`flex flex-col-reverse md:flex-row transition-all justify-between items-center w-full ${

@@ -80,10 +80,11 @@ export function ToggleDelivery({
                 {/* Animated background pill */}
                 <div
                     className={cn(
-                        "absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg bg-background shadow-md transition-transform duration-300 ease-in-out", // Use bg-background for better theme compatibility
-                        isDelivery ? "translate-x-[calc(100%+2px)]" : "translate-x-[2px]" // Adjusted translation slightly
+                        "absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg bg-default-50 dark:bg-default-700 shadow-md transition-transform duration-300 ease-in-out", // Use bg-background for better theme compatibility
+                        isDelivery ? "translate-x-[calc(100%)]" : "translate-x-[8px]" // Adjusted translation slightly
                     )}
                     style={{
+                        left: 0, // Align the pill with the buttons
                         // Using translate avoids potential layout shifts compared to `left`
                     }}
                 />

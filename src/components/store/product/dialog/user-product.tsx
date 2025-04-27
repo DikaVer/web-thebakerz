@@ -10,19 +10,16 @@ import {
     Textarea,
     cn,
     CardFooter,
-    ScrollShadow, CardBody
+    ScrollShadow
 } from "@heroui/react";
 import { ProductData } from "@/lib/actions/product";
-import { formatCurrency } from "@/lib/utils";
-import { IconCopy } from "@/components/ui/icons";
-import { useTheme } from "next-themes";
+import { formatCurrency, scheduledToCalendarDateTime } from "@/lib/utils";
 import { CopyText } from "@/components/ui/copy-text";
 import { InputStepper } from "@/components/store/product/dialog/button-stepper";
 import {ItemCart, Variant} from "@/lib/actions/cart";
 import { updateCart } from "@/lib/actions/cart";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
-import {useProductDialog} from "@/components/providers/product-provider";
 import CustomAlert from "@/components/ui/custom-alerts";
 import {Icon} from "@iconify/react";
 import {useMediaQuery} from "usehooks-ts";
@@ -30,23 +27,30 @@ import {AllergenIcon} from "@/components/store/product/components/allergy-icons"
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
 import VariantsUserSelection from "@/components/store/product/components/variants-user-selection";
-import {usePathname} from "next/navigation";
+import {useRouter} from "next/navigation";
+import { removeAllSchedules} from "@/app/(store)/[id]/actions";
+import { getOrderTime } from "@/app/(store)/[id]/actions";
+import { getDeliveryTime } from "@/app/(store)/[id]/actions";
+import { useDelivery } from "@/components/providers/delivery-provider";
+import { getLocalTimeZone } from '@internationalized/date';
+import { DietaryIcon } from "../components/super-icons";
 
 type ProductDialogProps = {
     productData: ProductData;
     onClose: () => void;
     itemCart?: ItemCart;
+    isBakerzStore: boolean;
 };
 
 export default function UserProductDialog({
                                               productData,
                                               onClose,
                                               itemCart,
+                                              isBakerzStore
                                           }: ProductDialogProps) 
                                           {
     const c_T = useTranslations();
     const t = useTranslations("app/(store)/components/product-page");
-
 
     const [charCount, setCharCount] = useState(itemCart?.note ? itemCart?.note.length : 0);
     const [quantity, setQuantity] = useState(itemCart?.quantity || productData?.min_order || 1);
@@ -58,6 +62,7 @@ export default function UserProductDialog({
     const [mainImage, setMainImage] = useState(productData.picture);
     // Get origin of the current page from window object
     const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const router = useRouter();
 
     // Function to handle image swapping
     const handleImageSwap = (additionalImage: string) => {
@@ -65,10 +70,18 @@ export default function UserProductDialog({
         setMainImage(additionalImage);
     };
 
+    const handleEditItem = () => {
+        setIsLoading(true);
+        router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`); 
+        onClose();
+        setIsLoading(false);
+    };
+
     const {
         addItem,
         updateItem,
     } = useCart();
+    const {isDelivery, validationResult, setSelectedDate} = useDelivery();
     const isSmall = useMediaQuery("(max-width: 432px)");
 
     // This function calls the updateCart server action.
@@ -79,6 +92,20 @@ export default function UserProductDialog({
                 // We pass productData.id as product_id, productData.store_id as store_id, and the note and quantity.
                 const result = await updateCart(productData.id, productData.store_id, quantity, note, variants);
                 if (result.success) {
+                    const dateTime = isDelivery ? await getDeliveryTime(productData.store_id, validationResult?.deliveryRegion?.name || "") : await getOrderTime(productData.store_id);
+                    // Check if we have both date and time
+                    if (dateTime.date && dateTime.time) {
+                        // Check lead time validation
+                        const selectedDateTime = scheduledToCalendarDateTime({date: dateTime.date, time: dateTime.time});
+                        const currentDateTime = new Date();
+                        const minLeadTime = productData.min_lead_time || 0; // in minutes
+                        const minDateTime = new Date(currentDateTime.getTime() + minLeadTime * 60000);
+                        const selectedDate = selectedDateTime.toDate(getLocalTimeZone());
+                        if (selectedDate < minDateTime) {
+                            await removeAllSchedules();
+                            setSelectedDate(undefined);
+                        }
+                    }
                     showSuccessMessage({success: t("cartUpdatedSuccess")});
                     result.itemCart && addItem(result.itemCart);
                     onClose();
@@ -106,9 +133,9 @@ export default function UserProductDialog({
                     isIconOnly={true}
                     copyText={
                         origin + "/" +
-                        productData?.store_name || productData?.store_id +
-                        "/" +
-                        productData?.web_name
+                        (productData?.store_name || productData?.store_id) +
+                        "/item/" +
+                        (productData?.web_name)
                     }
                     textNotify={t("productLinkCopied")}
                 >
@@ -246,6 +273,34 @@ export default function UserProductDialog({
                                 </CustomAlert>
                             )}
 
+                            {/* Special Category Alert: Success variant */}
+                            {productData.dietary && productData.dietary.length > 0 && (
+                                <CustomAlert 
+                                    color="success" 
+                                    title={t("specialCategory")} 
+                                    hideIcon
+                                    classNames={{
+                                        title: "text-success-700 font-medium"
+                                    }}
+                                >
+                                    <div className="flex flex-wrap gap-2 mt-4">
+                                        {productData.dietary.map((diet) => {
+                                            return (
+                                                <div
+                                                    key={diet}
+                                                    className={`flex items-center flex- gap-1 px-2 py-1 text-sm rounded-full text-success-700 bg-success-100`}
+                                                >
+                                                    <DietaryIcon dietary={diet} size={28} />
+                                                    <span>
+                                                        {c_T(`Dietary.${diet}`)}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </CustomAlert>
+                            )}
+
                             <VariantsUserSelection
                                 productData={productData}
                                 variants={variants}
@@ -278,20 +333,33 @@ export default function UserProductDialog({
                 )}
             </ModalBody>
             <ModalFooter className={"px-4 space-x-4"}>
-                <InputStepper
-                    min={productData?.min_order || 1}
-                    max={999}
-                    value={quantity}
-                    onChange={setQuantity}
-                />
-                <Button
-                    className={"w-full"}
-                    color="primary"
-                    onPress={handleUpdateCart}
-                    isLoading={isLoading}
-                >
-                    { !isLoading ? (`${itemCart ? t("Update") : t("Add")} ${quantity} ${t("to order")} • ${totalPrice}`) : t("Updating Cart") }
-                </Button>
+                {isBakerzStore ? (
+                    <Button
+                        className={"w-full bg-gradient-primary"}
+                        color="primary"
+                        onPress={handleEditItem}
+                        isLoading={isLoading}
+                    >
+                        {!isLoading && t("EditItem")}
+                    </Button>
+                ) : (
+                    <>
+                        <InputStepper
+                            min={productData?.min_order || 1}
+                            max={999}
+                            value={quantity}
+                            onChange={setQuantity}
+                        />
+                        <Button
+                            className={"w-full bg-gradient-primary"}
+                            color="primary"
+                            onPress={handleUpdateCart}
+                            isLoading={isLoading}
+                        >
+                            { !isLoading ? (`${itemCart ? t("Update") : t("Add")} ${quantity} ${t("to order")} • ${totalPrice}`) : t("Updating Cart") }
+                        </Button>
+                    </>
+                )}
             </ModalFooter>
         </>
     );

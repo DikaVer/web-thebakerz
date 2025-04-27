@@ -1,6 +1,6 @@
 "use client";
 import React, {useMemo, useState} from "react";
-import {Button, Divider, Spacer, useDisclosure,} from "@heroui/react";
+import {Button, Divider, Spacer} from "@heroui/react";
 import {useProductDialog} from "@/components/providers/product-provider";
 import {formatCurrency} from "@/lib/utils";
 import {useRouter, useSearchParams} from "next/navigation";
@@ -21,7 +21,6 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     } = useProductDialog();
 
     const { itemCount, cart, updateItem, removeItem } = useCart();
-    const { onOpen} = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
     const { store } = useStore();
     const { isDelivery, validationResult } = useDelivery();

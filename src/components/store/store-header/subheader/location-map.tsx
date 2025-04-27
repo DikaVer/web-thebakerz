@@ -133,51 +133,54 @@ const LocationMap: React.FC<LocationMapProps> = ({
 
     // Initialize map when Google Maps script is loaded
     useEffect(() => {
-        if (window.google?.maps) {
-            initializeMap();
-        }
+        const checkGoogleMaps = () => {
+            if (window.google?.maps) {
+                initializeMap();
+            } else {
+                // If Google Maps isn't loaded yet, wait and check again
+                setTimeout(checkGoogleMaps, 100);
+            }
+        };
+
+        checkGoogleMaps();
         
         // Clean up map on unmount
         return () => {
             if (mapInstanceRef.current) {
                 mapInstanceRef.current = null;
             }
+            if (iconUrlRef.current) {
+                URL.revokeObjectURL(iconUrlRef.current);
+            }
         };
     }, []);
 
 
     return (
-        <>
-            <Script 
-                src={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`}
-                onLoad={initializeMap}
-                strategy="lazyOnload"
-            />
-            <a 
-                href={`https://www.google.com/maps?q=${latitude},${longitude}`} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                aria-label={t("viewOnGoogleMaps")}
-                className={`block overflow-hidden rounded-xl rounded-t-none shadow-lg relative hover:shadow-xl transition-shadow duration-300 ${className}`}
-            >
-                <div className="relative" style={{ width: '100%', height: `${height}px` }}>
-                    <div 
-                        ref={mapRef} 
-                        className="w-full h-full rounded-xl rounded-t-none"
-                    >
-                        {/* Fallback content while map loads */}
-                        <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
-                            <span className="text-gray-400">{t("storeLocation")}</span>
-                        </div>
-                    </div>
-                    <div className="absolute inset-0 rounded-xl rounded-t-none border border-default-100 pointer-events-none"></div>
-                    <div className="absolute top-3 right-3 bg-black/70 text-white text-xs font-medium px-3 py-1.5 rounded-lg backdrop-blur-sm transition-transform hover:scale-105 flex items-center">
-                        <Icon icon="solar:map-arrow-right-bold" className="mr-1.5 text-secondary" />
-                        {t("viewOnGoogleMaps")}
+        <a 
+            href={`https://www.google.com/maps?q=${latitude},${longitude}`} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            aria-label={t("viewOnGoogleMaps")}
+            className={`block overflow-hidden rounded-xl rounded-t-none shadow-lg relative hover:shadow-xl transition-shadow duration-300 ${className}`}
+        >
+            <div className="relative" style={{ width: '100%', height: `${height}px` }}>
+                <div 
+                    ref={mapRef} 
+                    className="w-full h-full rounded-xl rounded-t-none"
+                >
+                    {/* Fallback content while map loads */}
+                    <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                        <span className="text-gray-400">{t("storeLocation")}</span>
                     </div>
                 </div>
-            </a>
-        </>
+                <div className="absolute inset-0 rounded-xl rounded-t-none border border-default-100 pointer-events-none"></div>
+                <div className="absolute top-3 right-3 bg-black/70 text-white text-xs font-medium px-3 py-1.5 rounded-lg backdrop-blur-sm transition-transform hover:scale-105 flex items-center">
+                    <Icon icon="solar:map-arrow-right-bold" className="mr-1.5 text-secondary" />
+                    {t("viewOnGoogleMaps")}
+                </div>
+            </div>
+        </a>
     );
 };
 

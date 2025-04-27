@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import { Icon } from "@iconify/react";
 import {Button, Chip, Image, Spacer} from "@heroui/react";
 import GradientText from "@/components/ui/gradient-text";
-import { formatScheduledDateTime } from "@/lib/utils";
+import { formatScheduledDate, formatScheduledDateTime, formatScheduledTime } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";
 import { OrderData } from "@/lib/actions/order";
 import {onDownloadInvoice} from "@/components/store/orders/overview/components/on-download";
@@ -33,7 +33,7 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) =
     const locale = useLocale();
     const t = useTranslations("app/(store)/components/orders/overview");
     const [isLoading, setIsLoading] = useState(false);
-    // console.log(orderData);
+
     return (
         <section id="Order Top Content" className="flex justify-between">
             <div className="flex flex-col w-full max-w-2xl">
@@ -68,7 +68,12 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) =
                 )}
                 </div>
                 <p className="text-sm font-light text-default-600">
-                    {formatScheduledDateTime(orderData.scheduled_time, locale)}
+                {
+                orderData.isPostDelivery ? 
+                    formatScheduledDate(orderData.scheduled_time, locale) 
+                    : 
+                    `${formatScheduledDate(orderData.scheduled_time, locale)} • ${formatScheduledTime(orderData.scheduled_time, locale)}`
+                }
                 </p>
             </div>
             <Button

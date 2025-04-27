@@ -6,11 +6,11 @@ import {Avatar, Card, CardBody, CardFooter, CardHeader, Divider, Spacer} from "@
 import {IconMail} from "@/components/ui/icons";
 import {Icon} from "@iconify/react";
 import {useTranslations} from "next-intl";
-import {AddressFormType} from "@/components/providers/delivery-provider";
+import {DeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 
 interface OrderCustomerDetailsProps {
     customer: Customer;
-    address?: AddressFormType;
+    address?: DeliveryAddress;
 }
 
 export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({customer, address}) => {

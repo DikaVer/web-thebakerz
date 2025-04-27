@@ -159,7 +159,7 @@ export const sectionItemsAdmin: SidebarItem[] = [
                     {
                         key: "dashboard",
                         icon: "solar:bomb-emoji-broken",
-                        href: "/dashboard",
+                        href: "/dashboard/overview",
                         titleKey: "overview"
                     },
                     {

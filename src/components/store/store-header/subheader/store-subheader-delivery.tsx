@@ -13,13 +13,12 @@ import {
     Card,
     CardBody,
     Spinner,
-    Tooltip,
-    Skeleton
+    Skeleton,
+    Alert
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { CalendarDateTime, CalendarDate, now } from "@internationalized/date";
 import { useStore } from "@/components/providers/store-provider";
-import { parseDateParams } from "@/components/store/store-header/calendar/calendar-params";
 import { IconLocation } from "@/components/ui/icons";
 import { useTheme } from "next-themes";
 import { formatDate, SmartDatetimeInput } from "@/components/store/store-header/calendar/smart-calendar";
@@ -27,6 +26,7 @@ import { useTranslations } from "next-intl";
 import { useDelivery } from "@/components/providers/delivery-provider";
 import DeliveryInfo from "@/components/store/store-header/subheader/delivery-info";
 import { AddressForm } from "@/components/store/store-header/subheader/address-form";
+import { logger } from "@/lib/logger";
 
 interface StoreSubHeaderDeliveryProps {
 }
@@ -48,7 +48,6 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
         handleDateChange,
         
         // Address management
-        address,
         showDeliveryInfo,
         modalSubmissionStatus,
         resetModalStatus,
@@ -105,7 +104,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
     // Handle autocomplete focus/blur events
     const handleAutocompleteFocus = () => {
         setIsAutocompleteFocused(true);
-        if(process.env.NODE_ENV === 'development') console.log('Address autocomplete focused');
+        logger.debug('storeSubheader', 'Address autocomplete focused');
     };
     
     const handleAutocompleteBlur = () => {
@@ -113,25 +112,29 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
         setTimeout(() => {
             if (!document.querySelector('.pac-container:hover')) {
                 setIsAutocompleteFocused(false);
-                if(process.env.NODE_ENV === 'development') console.log('Address autocomplete blurred');
+                logger.debug('storeSubheader', 'Address autocomplete blurred');
             }
         }, 200);
     };
 
     // --- Custom onOpenChange Handler ---
     const handleModalOpenChange = (open: boolean) => {
-        if(process.env.NODE_ENV === 'development')  console.log(`Modal handleModalOpenChange called with open: ${open}, isSubmitting: ${isSubmittingAddress}, isAutocompleteFocused: ${isAutocompleteFocused}`);
+        logger.debug('storeSubheader', `Modal handleModalOpenChange called`, {
+            open,
+            isSubmitting: isSubmittingAddress,
+            isAutocompleteFocused
+        });
         
         // Prevent closing if submitting or if autocomplete dropdown is focused
         if (!open && (isSubmittingAddress || isAutocompleteFocused)) {
-            if(process.env.NODE_ENV === 'development') console.log('Preventing modal close due to submission or autocomplete focus.');
+            logger.debug('storeSubheader', 'Preventing modal close due to submission or autocomplete focus.');
             return; // Prevent closing
         }
 
         // If closing is allowed, reset the autocomplete focus state
         if (!open) {
             setIsAutocompleteFocused(false); // Reset focus state on allowed close
-            if(process.env.NODE_ENV === 'development') console.log('Resetting isAutocompleteFocused state as modal closes.');
+            logger.debug('storeSubheader', 'Resetting isAutocompleteFocused state as modal closes.');
         }
 
         // Call original handlers
@@ -167,14 +170,14 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                 }
             >
                 <div className="flex flex-col items-start min-w-0 flex-1">
-                    {showDeliveryInfo && validationResult.isInRange && validationResult.formattedAddress ? (
+                    {showDeliveryInfo && validationResult.isInRange && validationResult.validatedAddress ? (
                         <>
                             <p className="text-sm truncate w-full text-left">
-                                {`${address.street}, ${address.houseNumber}, ${address.zipCode}`}
+                                {`${validationResult?.validatedAddress?.street}, ${validationResult?.validatedAddress?.houseNumber}, ${validationResult?.validatedAddress?.zipCode}`}
                             </p>
-                            {address.additionalInfo && (
+                            {validationResult?.validatedAddress?.additionalInfo && (
                                 <p className="text-xs truncate w-full text-left">
-                                    {address.additionalInfo}
+                                    {validationResult?.validatedAddress?.additionalInfo}
                                 </p>
                             )}
                         </>
@@ -216,8 +219,21 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                     </Card>
                 </div>
             )}
-            {(showDeliveryInfo && validationResult.isInRange && validationResult.validatedAddress && validationResult.deliveryRegion) && (
+            {(showDeliveryInfo && validationResult?.isInRange && validationResult?.validatedAddress && validationResult?.deliveryRegion) && (
                 <>
+                    {validationResult.deliveryRegion?.isPostDelivery && (
+                        <Alert
+                            key={"Delivery Options Alert"}
+                            className={'bg-primary-400 mt-4'}
+                            classNames={{
+                                description: 'text-white dark:text-default-500',
+                                title: 'text-md'
+                            }}
+                            title={t("deliveryOptionsAlertTitle")}
+                            description={t("deliveryOptionsAlertDescription", {store: store.ownerName})}
+                            variant={"solid"}
+                        />
+                    )}
                     <ButtonGroup
                         fullWidth
                         size="sm"
@@ -232,6 +248,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                             value={selectedDate}
                             onValueChange={(newDate) => handleDateChange(newDate)}
                             placeholder={t("scheduleDeliveryTime")}
+                            isPostDelivery={validationResult.deliveryRegion.isPostDelivery}
                         >
                             <Button
                                 startContent={
@@ -249,9 +266,9 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                                 {isLoadingDate ? (
                                     <Skeleton className="h-4 w-32 rounded-lg" /> 
                                 ) : selectedDate instanceof CalendarDateTime ? (
-                                    `${t("deliverAt")} ${formatDate(selectedDate)}`
+                                    `${t("deliverAt")} ${formatDate(selectedDate, validationResult.deliveryRegion.isPostDelivery)}`
                                 ) : (
-                                    t("selectDeliveryTime")
+                                    validationResult.deliveryRegion.isPostDelivery ? t("selectDeliveryDate") : t("selectDeliveryTime")
                                 )}
                             </Button>
                         </SmartDatetimeInput>
@@ -277,13 +294,13 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                             <ModalHeader>
                                 <div className="flex flex-col">
                                     <h3 className="text-lg font-semibold">
-                                        {address.formattedAddress ? t("editDeliveryAddress") : t("enterDeliveryAddress")}
+                                        {validationResult?.validatedAddress?.formattedAddress ? t("editDeliveryAddress") : t("enterDeliveryAddress")}
                                     </h3>
                                 </div>
                             </ModalHeader>
                             <ModalBody className="px-6 pb-6">
                                 <AddressForm 
-                                    initialAddress={address}
+                                    initialAddress={validationResult?.validatedAddress}
                                     isValidating={isValidating || isSubmittingAddress}
                                     validationError={validationResult.message}
                                     onAutocompleteFocus={handleAutocompleteFocus}

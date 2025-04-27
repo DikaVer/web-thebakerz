@@ -6,7 +6,6 @@ import {getCart, removeCartByUserIdAndStoreId, Variant} from "@/lib/actions/cart
 import {connectionPool, containerOrders, containerOrdersUnpaid} from "@/db";
 import Stripe from "stripe";
 import { getTranslations } from "next-intl/server";
-import { AddressFormType } from "@/components/providers/delivery-provider";
 import {getCurrentStoreByUserIdAndStoreId} from "@/lib/actions/store";
 import { revalidateTag } from "next/cache";
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
@@ -19,6 +18,7 @@ import { calculateTotals } from "@/lib/price/tax";
 import { getCurrentProducts } from "./product";
 import { v4 as uuidv4 } from 'uuid';
 import { sendOrderPlaced } from "../emailSendRequest";
+import { DeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
 // Order data interface
@@ -45,11 +45,48 @@ export interface OrderData {
     // Delivery details
     isDelivery: boolean;
     isStoreDelivery: boolean;
-    deliveryAddress?: AddressFormType; // Store the structured address
+    isPostDelivery: boolean;
+    isCountryDelivery: boolean;
+    deliveryAddress: DeliveryAddress | null; // Store the structured address
 
     // Timestamps
     cancelledAt?: Date;
     refundedAt?: Date;
+}
+
+export interface ExtendedOrderRaw extends OrderRaw {
+    // Added fields from stripe.ts
+    isDelivery: boolean;
+    isStoreDelivery: boolean;
+    isPostDelivery: boolean;
+    isCountryDelivery: boolean;
+    deliveryToAddress: DeliveryAddress | null;
+    deliveryFromAddress?: {
+        lat: number;
+        lng: number;
+    };
+    itemExclVat: number;
+    deliveryFeeExclVat: number;
+    serviceFeeExclVat: number;
+    itemInclVat: number;
+    deliveryFeeInclVat: number;
+    serviceFeeInclVat: number;
+    itemVat: number;
+    deliveryVat: number;
+    serviceVat: number;
+    totalInclVat: number;
+    totalVat: number;
+    totalExclVat: number;
+    region: string;
+    currency: string;
+    transfer_data: [
+        {
+            destination: string;
+            amount: number;
+            app_fee: number;
+        }
+    ];
+    status: string;
 }
 
 export interface PriceOrderData {
@@ -77,39 +114,6 @@ export interface OrderRaw {
         time: string;
     };
     productsData: OrderProducts;
-}
-
-export interface ExtendedOrderRaw extends OrderRaw {
-    // Added fields from stripe.ts
-    isDelivery: boolean;
-    isStoreDelivery: boolean;
-    deliveryToAddress?: AddressFormType;
-    deliveryFromAddress?: {
-        lat: number;
-        lng: number;
-    };
-    itemExclVat: number;
-    deliveryFeeExclVat: number;
-    serviceFeeExclVat: number;
-    itemInclVat: number;
-    deliveryFeeInclVat: number;
-    serviceFeeInclVat: number;
-    itemVat: number;
-    deliveryVat: number;
-    serviceVat: number;
-    totalInclVat: number;
-    totalVat: number;
-    totalExclVat: number;
-    region: string;
-    currency: string;
-    transfer_data: [
-        {
-            destination: string;
-            amount: number;
-            app_fee: number;
-        }
-    ];
-    status: string;
 }
 
 export type OrderStatus = "new" | "started" | "ready" | "completed" | "cancelled" | 'refunded';
@@ -344,7 +348,9 @@ export const createOrder = async (
             // Delivery information
             isDelivery: false,
             isStoreDelivery: true,
-            deliveryAddress: undefined
+            isPostDelivery: false,
+            isCountryDelivery: false,
+            deliveryAddress: null
         };
 
         // Store final order and clean up
@@ -537,7 +543,6 @@ export async function getOrder(storeId: string, orderId: string, email: string):
         if (!storeId || !orderId || !email) {return null;}
         const partitionKeyValue = [storeId, email];
         const { resource: order } = await containerOrders.item(orderId, partitionKeyValue).read();
-        // console.log(order);
         return order ? order : null;
     } catch (error) {
         console.error("Error fetching store data:", error);
@@ -582,6 +587,46 @@ export async function getNewOrderCount(storeId: string): Promise<number> {
     } catch (error) {
         console.error("Error fetching new orders:", error);
         return 0;
+    }
+}
+
+/**
+ * Fetches all orders from the database for admin users.
+ *
+ * @returns {Promise<OrderData[]>} A promise that resolves to an array of all orders.
+ */
+export async function getAllOrdersAdmin(): Promise<OrderData[]> {
+
+    try {
+        const { user } = await getCurrentSession();
+        if (!user) {
+            console.error("Admin order fetch: No user session found.");
+            return [];
+        }
+
+        if (user.role !== "admin") {
+            console.error(`Admin order fetch: User ${user.email} is not an admin.`);
+            return [];
+        }
+
+        // Query to select all order documents
+        const querySpec = {
+            query: "SELECT * FROM c"
+        };
+
+        const { resources: orders } = await containerOrders.items.query(querySpec).fetchAll();
+
+        if (!orders) {
+            console.log("Admin order fetch: No orders found.");
+            return [];
+        }
+
+        console.log(`Admin order fetch: Found ${orders.length} orders.`);
+        return orders;
+    } catch (error) {
+        console.error("Error fetching all admin orders:", error);
+        // Consider more specific error handling or logging
+        throw new Error("Failed to fetch orders"); // Use a generic error message for the client
     }
 }
 

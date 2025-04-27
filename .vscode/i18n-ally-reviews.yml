@@ -38,6 +38,16 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-04-18T18:07:20.217Z'
+      ru:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: bl8Nz-kPbAdoqByvKzLin
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-27T12:58:36.932Z'
   Allergies.abalone:
     locales:
       nl:
@@ -5397,6 +5407,7 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-04-18T22:08:07.959Z'
+            resolved: true
   app/(store)/components/checkout.savePickUpDetails:
     locales:
       nl:
@@ -8661,3 +8672,57 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-04-18T22:24:54.337Z'
+  app/(store)/components/product-page.MinimalLeadTime:
+    locales:
+      fr:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: qGqVKHgPpDa8ABiVUwAnP
+            comment: ''
+            suggestion: ''
+            type: request_change
+            time: '2025-04-27T12:42:16.697Z'
+            resolved: true
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: dorrToDrAZaQsCFMppK-t
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-27T12:42:54.167Z'
+            resolved: true
+  app/(support)/components/faq-baker.question8:
+    locales:
+      ru:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: s1J64S4cZaAT9V3BKL_3c
+            comment: ''
+            suggestion: ''
+            type: request_change
+            time: '2025-04-27T13:06:37.301Z'
+      nl:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: ARR2SCF3l5n4LbhnzER2M
+            comment: ''
+            suggestion: ''
+            type: request_change
+            time: '2025-04-27T13:04:39.607Z'
+      fr:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: uy0-JFPwQXWCwETFZm3Ml
+            comment: ''
+            suggestion: ''
+            type: request_change
+            time: '2025-04-27T13:06:28.602Z'

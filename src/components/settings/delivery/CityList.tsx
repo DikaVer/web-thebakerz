@@ -7,20 +7,8 @@ import { formatCurrency } from "@/lib/utils";
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import {formatTime} from "@/components/settings/delivery/utils";
 import { useSession } from "@/components/providers/session-provider";
-interface DeliveryRange {
-  range: number;
-  deliveryPriceInCents: number;
-  minOrderPriceInCents: number;
-}
+import { DeliveryCity } from "./types";
 
-interface DeliveryCity {
-  name: string;
-  ranges: DeliveryRange[];
-  coordinates: { lat: number, lng: number };
-  deliverySchedule?: WorkHours;
-  isStoreDelivery: boolean;
-  minOrderTime: number;
-}
 
 interface CityListProps {
   cities: DeliveryCity[];

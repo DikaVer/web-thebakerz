@@ -31,8 +31,6 @@ export const ProductComponentBase: React.FC<{ storeId: string }> = async ({ stor
         return acc;
     }, {} as Record<string, ProductData[]>);
 
-    // console.log(productsByCategories)
-
     Object.keys(productsOrder).forEach((category) => {
         const orderForCategory: string[] = productsOrder[category] || [];
         if(productsByCategories[category]) {

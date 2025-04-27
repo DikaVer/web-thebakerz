@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useRef, startTransition } from "react";
+import React, { useState, useRef, startTransition, useCallback } from "react";
 import {
     Button,
     Textarea,
@@ -13,7 +13,7 @@ import {
     CardFooter, Card,
     CardBody,
 } from "@heroui/react";
-import {addProduct, deleteProduct, ProductData, ProductVariant} from "@/lib/actions/product";
+import {addProduct, deleteProduct, ProductData, ProductDataClean, ProductVariant} from "@/lib/actions/product";
 import { Icon } from "@iconify/react";
 import { ImageUploader } from "@/components/image/image-upload";
 import { useForm } from "react-hook-form";
@@ -25,17 +25,18 @@ import showErrorMessage from "@/components/toast/toast-error";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import showSuccessMessage from "@/components/toast/toast-succes";
-import {TagsInput, TagsSelectInput} from "@/components/ui/tags-input";
+import {TagsInput, TagsSelectInput, DietarySelectInput} from "@/components/ui/tags-input";
 import { useMediaQuery } from "usehooks-ts";
 import { useTranslations } from "next-intl";
 import { useActionState } from "react";
 import {VariantsFormField} from "@/components/store/product/components/variants-form-field";
 import {DeleteConfirmationModal} from "@/components/store/product/components/delete-confirmation";
 import {ImageUploadSection} from "@/components/store/product/components/image-upload-section";
+import {MinLeadTime} from "@/components/store/product/components/min-lead-time";
 
 type ProductViewProps = {
     storeId: string;
-    productData: ProductData | undefined;
+    productData: ProductData | ProductDataClean | undefined;
 };
 
 export default function BakerzProductView({ storeId, productData }: ProductViewProps) {
@@ -66,6 +67,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
             file_picture: undefined,
             ingredients: productData?.ingredients || [],
             allergies: productData?.allergies || [],
+            dietary: productData?.dietary || [],
             additionalImages: productData?.additionalImages || [],
             file_additional_pictures: undefined,
             variants: (productData?.variants || []).map((variant: ProductVariant) => ({
@@ -76,52 +78,110 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                 }))
             })),
             min_order: productData?.min_order || 1,
+            min_lead_time: productData?.min_lead_time || 30,
         },
     });
 
     const [state, submitAction, isPending] = useActionState(
         async (prevState: any, formData: z.infer<typeof ProductSchema>) => {
-            const result = await addProduct(formData, storeId, productData?.id);
-            if (result?.success) {
-                showSuccessMessage({ success: result.success });
-                router.push(`/${result.product.store_id}/${result.product.id}`);
-                router.refresh();
-            } else if (result?.error) {
-                showErrorMessage({ error: result.error });
+            try {
+                const result = await addProduct(formData, storeId, productData?.id);
+                if (result?.success) {
+                    showSuccessMessage({ success: result.success });
+                    router.push(`/${result.product.store_name || result.product.store_id}`);
+                    router.refresh();
+                } else if (result?.error) {
+                    showErrorMessage({ error: result.error });
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+                showErrorMessage({ 
+                    error: t("submitError", {
+                        defaultValue: "Failed to submit the form. Please try again."
+                    })
+                });
             }
         },
         null
     );
 
     // Handlers
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
-        setFile(files ? files[0] : undefined);
-        if (fileRef.current) fileRef.current.value = "";
-        setPictureEdit(true);
-    };
+        if (!files || !files[0]) return;
+        
+        const file = files[0];
+        // Ensure the file is properly loaded before proceeding
+        if (file.size > 0) {
+            // Check if it's a HEIC/HEIF file before setting state
+            const isHeic = file.type.toLowerCase() === 'image/heic' || 
+                          file.type.toLowerCase() === 'image/heif' ||
+                          file.name.toLowerCase().endsWith('.heic') || 
+                          file.name.toLowerCase().endsWith('.heif');
 
-    const handleSubmit = (formData: z.infer<typeof ProductSchema>) => {
+            if (isHeic) {
+                showErrorMessage({ 
+                    error: t("unsupportedFormat")
+                });
+                if (fileRef.current) fileRef.current.value = "";
+                return;
+            }
+
+            setFile(file);
+            if (fileRef.current) fileRef.current.value = "";
+            setPictureEdit(true);
+        }
+    }, [t]);
+
+    const handleSubmit = useCallback((formData: z.infer<typeof ProductSchema>) => {
+        // Validate that all files are properly loaded
+        const mainFile = formData.file_picture;
+        const additionalFiles = formData.file_additional_pictures || [];
+        
+        const allFiles = [mainFile, ...additionalFiles].filter(Boolean);
+        const hasInvalidFiles = allFiles.some(file => !file || file.size === 0);
+        
+        if (hasInvalidFiles) {
+            showErrorMessage({ 
+                error: t("invalidImages", {
+                    defaultValue: "Some images are not properly loaded. Please try uploading them again."
+                })
+            });
+            return;
+        }
+
         startTransition(() => submitAction(formData));
-    };
+    }, [submitAction, t]);
 
     const handleDelete = async () => {
-        if (productData) {
+        if (productData?.id) {
             setIsLoadingDelete(true);
-            const response = await deleteProduct(productData.id, storeId);
-            if (response.success) {
-                showSuccessMessage({ success: t("productDeleted") });
-                setIsOpenDelete(false);
-                router.refresh();
-            } else if (response.error) {
-                showErrorMessage({error: response.error});
-            } else {
-                showErrorMessage({error: t("productDeleteFailed")});
+            try {
+                const response = await deleteProduct(productData.id, storeId);
+                if (response.success) {
+                    showSuccessMessage({ success: t("productDeleted") });
+                    setIsOpenDelete(false);
+                    router.push(`/${productData.store_name || productData.store_id}`);
+                    router.refresh();
+                } else if (response.error) {
+                    showErrorMessage({error: response.error});
+                } else {
+                    showErrorMessage({error: t("productDeleteFailed")});
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                showErrorMessage({ 
+                    error: t("productDeleteFailed", {
+                        defaultValue: "Failed to delete the product. Please try again."
+                    })
+                });
+            } finally {
+                setIsLoadingDelete(false);
             }
         }
     };
 
-    const setAsMainImage = (index: number) => {
+    const setAsMainImage = useCallback((index: number) => {
         if (index < 0 || index >= additionalImages.length) return;
         const newMainImage = additionalImages[index];
         const newMainFile = fileAdditional[index];
@@ -148,9 +208,9 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
         form.setValue("file_picture", newMainFile);
         form.setValue("additionalImages", updatedAdditionalImages);
         form.setValue("file_additional_pictures", updatedFileAdditional);
-    };
+    }, [additionalImages, fileAdditional, form, picture]);
 
-    const addNewImage = (file: File, url: string) => {
+    const addNewImage = useCallback((file: File, url: string) => {
         if (currentImageIndex !== null) {
             const updatedAdditionalImages = [...additionalImages];
             updatedAdditionalImages[currentImageIndex] = url;
@@ -175,9 +235,9 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
             setFileAdditional(updatedFileAdditional);
             form.setValue("file_additional_pictures", updatedFileAdditional);
         }
-    };
+    }, [additionalImages, currentImageIndex, fileAdditional, form, picture]);
 
-    const removeMainImage = (e: PressEvent) => {
+    const removeMainImage = useCallback((e: PressEvent) => {
         if (additionalImages.length > 0) {
             const newMainImage = additionalImages[0];
             const newMainFile = fileAdditional[0];
@@ -196,9 +256,9 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
             form.setValue("url", "");
             form.setValue("file_picture", undefined);
         }
-    };
+    }, [additionalImages, fileAdditional, form]);
 
-    const removeAdditionalImage = (index: number, e: PressEvent) => {
+    const removeAdditionalImage = useCallback((index: number, e: PressEvent) => {
         const updatedAdditionalImages = [...additionalImages];
         updatedAdditionalImages.splice(index, 1);
         setAdditionalImages(updatedAdditionalImages);
@@ -208,11 +268,11 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
         updatedFileAdditional.splice(index, 1);
         setFileAdditional(updatedFileAdditional);
         form.setValue("file_additional_pictures", updatedFileAdditional);
-    };
+    }, [additionalImages, fileAdditional, form]);
 
     return (
         <Card
-            className={'w-full max-w-full md:max-w-3xl'}
+            className={'w-full max-w-full md:max-w-3xl pt-4'}
         >
             <ImageUploader
                 type="square"
@@ -419,6 +479,23 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                         </FormItem>
                                     )}
                                 />
+                                <FormField
+                                    control={form.control}
+                                    name="dietary"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <DietarySelectInput
+                                                    isLoading={isPending}
+                                                    tags={field.value || []}
+                                                    setTags={(newTags) => field.onChange(newTags)}
+                                                    placeholder={t("Add Dietary Restrictions")}
+                                                />
+                                            </FormControl>
+                                            {fieldState.error && <p className="text-danger-400 text-sm">{fieldState.error.message}</p>}
+                                        </FormItem>
+                                    )}
+                                />
 
                                 <Spacer y={4} />
                                 <h3 className="text-lg font-medium mb-2">{t("Item Options")}</h3>
@@ -429,7 +506,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
 
                                 <Spacer y={4} />
                                 <div className="flex w-full justify-between">
-                                    <h3 className="text-lg font-medium">Minimal Order</h3>
+                                    <h3 className="text-lg font-medium">{t("Minimal Order")}</h3>
                                     <FormField
                                         control={form.control}
                                         name="min_order"
@@ -460,13 +537,16 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                         )}
                                     />
                                 </div>
-                                <h4 className="text-base text-default-400 font-medium mb-2">What is the minimum number of items a customer can order?</h4>
+                                <h4 className="text-base text-default-400 font-medium mb-2">{t("MinimalNumberDescription")}</h4>
+
+                                <Spacer y={4} />
+                                <MinLeadTime form={form} isPending={isPending} />
 
                             </div>
                         </div>
                     </CardBody>
                     <CardFooter className="px-4 space-x-4">
-                        {productData && (
+                        {productData?.id && (
                             <>
                                 <DeleteConfirmationModal
                                     isOpen={isOpenDelete}
@@ -486,12 +566,12 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                             </>
                         )}
                         <Button
-                            className={`w-2/3 ${!productData && "w-full"}`}
+                            className={`w-2/3 bg-gradient-primary ${!productData?.id && "w-full"}`}
                             color="primary"
                             type="submit"
                             isLoading={isPending}
                         >
-                            {isPending ? t("Loading") : productData ? t("Update Item") : t("Add Item")}
+                            {isPending ? t("Loading") : productData?.id ? t("Update Item") : t("Add Item")}
                         </Button>
                     </CardFooter>
                 </form>

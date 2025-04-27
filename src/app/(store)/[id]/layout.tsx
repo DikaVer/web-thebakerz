@@ -14,6 +14,7 @@ import {DeliveryProvider} from "@/components/providers/delivery-provider";
 import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 import LayoutComp from "@/components/layout-comp";
 import NotFound from "@/app/(error_layout)/not-found";
+import Script from 'next/script';
 
 type Params = Promise<{ id: string }>
 
@@ -175,10 +176,6 @@ async function setupStoreProviders({
             cart={cartData}
             storeId={storeData.id}
         >
-            <ProductDialogProvider
-                storeId={storeData.id}
-                storeOwnerId={storeData.user_id}
-            >
                 <StoreProvider
                     store={storeData}
                 >
@@ -186,15 +183,20 @@ async function setupStoreProviders({
                         initialDeliveryMode={initialDeliveryMode}
                         initialAddress={savedAddress}
                     >
-                        <LayoutComp
-                            store={storeData}
-                            {...layoutOptions}
+                        <ProductDialogProvider
+                            storeId={storeData.id}
+                            storeOwnerId={storeData.user_id}
+                            storeName={storeData?.storeName}
                         >
-                            {children}
-                        </LayoutComp>
+                            <LayoutComp
+                                store={storeData}
+                                {...layoutOptions}
+                            >
+                                {children}
+                            </LayoutComp>
+                        </ProductDialogProvider>
                     </DeliveryProvider>
                 </StoreProvider>
-            </ProductDialogProvider>
         </CartProvider>
     );
 }
@@ -212,6 +214,13 @@ export default async function Layout({
 
     return (
         <div className={'min-h-svh'}>
+            <Script
+                id="google-maps-script"
+                strategy="afterInteractive"
+                src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+                async
+                defer
+            />
             {(storeData?.storeName && id !== storeData?.storeName) && <StoreIdChecker storeId={id} storeName={storeData?.storeName}/>}
             {await setupStoreProviders({
                 id,

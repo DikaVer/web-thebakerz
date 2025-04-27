@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { cityLatLngMap } from '@/lib/local-variables';
+import { cityLatLngMap, EU_COUNTRIES_PLUS_SWISS } from '@/lib/local-variables';
 
 // Schema for delivery schedule time
 const DeliveryTimeSchema = z.object({
@@ -25,8 +25,16 @@ const DeliveryScheduleDaySchema = z.object({
   }
 );
 
-// Schema for delivery schedule
-const DeliveryScheduleSchema = z.record(z.string(), DeliveryScheduleDaySchema);
+// Schema for delivery schedule - updated to match WorkHours interface
+const DeliveryScheduleSchema = z.object({
+  monday: DeliveryScheduleDaySchema,
+  tuesday: DeliveryScheduleDaySchema,
+  wednesday: DeliveryScheduleDaySchema,
+  thursday: DeliveryScheduleDaySchema,
+  friday: DeliveryScheduleDaySchema,
+  saturday: DeliveryScheduleDaySchema,
+  sunday: DeliveryScheduleDaySchema
+});
 
 // Schema for coordinates
 const CoordinatesSchema = z.object({
@@ -43,20 +51,21 @@ const DeliveryRangeSchema = z.object({
 
 // Schema for a single delivery region
 const DeliveryRegionSchema = z.object({
-  name: z.string().refine(
-    (name) => name in cityLatLngMap,
-    { message: "City must be from the predefined list" }
-  ),
-  coordinates: CoordinatesSchema,
+  name: z.string()
+    .refine(
+      (val) => Object.keys(EU_COUNTRIES_PLUS_SWISS).includes(val) || Object.keys(cityLatLngMap).includes(val),
+      { message: "Name must be a valid 2-letter country code or city name" }
+    ),
+  coordinates: CoordinatesSchema.optional(),
   deliverySchedule: DeliveryScheduleSchema,
-  isStoreDelivery: z.boolean().default(false),
+  isStoreDelivery: z.boolean(), 
+  isPostDelivery: z.boolean(),  // New field for post delivery
   minOrderTime: z.number().min(0, { message: "Minimum order time must be greater than 0" }),
-  ranges: z.array(DeliveryRangeSchema).optional()
+  ranges: z.array(DeliveryRangeSchema).optional(),
+  isCountry: z.boolean(), // Whether this is a country-wide delivery region
+  deliveryPriceInCents: z.number().min(0).optional(),
+  minOrderPriceInCents: z.number().min(1000, { message: "Minimum order price must be at least 10€" }).optional()
 });
 
 // Schema for the array of delivery regions
 export const DeliveryRegionsSchema = z.array(DeliveryRegionSchema);
-
-// Type for the validated data
-export type ValidatedDeliveryRegion = z.infer<typeof DeliveryRegionSchema>;
-export type ValidatedDeliveryRegions = z.infer<typeof DeliveryRegionsSchema>; 

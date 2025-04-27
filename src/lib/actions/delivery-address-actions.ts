@@ -1,134 +1,282 @@
 'use server';
 
-import { AddressFormType, ValidationResult } from '@/components/providers/delivery-provider';
-import { MerchantDeliveryRegion } from '@/lib/actions/delivery-actions';
-import { containerDeliveryLocations, containerDeliveryRegions } from '@/db';
-import { updateDeliveryAddress as dbUpdateDeliveryAddress } from '@/app/(store)/[id]/delivery-actions';
+import { ValidationResult } from '@/components/providers/delivery-provider';
+import { MerchantDeliveryRegion, getMerchantDeliveryRegions, DeliveryRange } from '@/lib/actions/delivery-actions';
+import { updateDeliveryAddress as dbUpdateDeliveryAddress, DeliveryAddress, DeliveryAddressRaw } from '@/app/(store)/[id]/delivery-actions';
 import { haversineDistance } from '@/lib/utils';
+import { logger } from '@/lib/logger';
+import { getTranslations } from 'next-intl/server';
+
 /**
  * Validates an address on the server side
  * Performs both address validation and distance calculation
  */
 export async function validateAddress(
-  addressData: AddressFormType,
+  addressData: DeliveryAddressRaw,
   storeId: string
 ): Promise<ValidationResult> {
-  console.log("Server: Validating address...", addressData.formattedAddress);
+  logger.debug("validateAddress", "Validating address...", { address: addressData.formattedAddress });
+  const t = await getTranslations('lib/actions/delivery-address-actions');
   
   try {
-    // 1. Ensure we have coordinates
-    let coords = addressData.coordinates;
-    
-    // Geocode if coordinates are missing
-    if (!coords && addressData.formattedAddress) {
-      try {
-        console.log("Server: Geocoding address:", addressData.formattedAddress);
-        // Use Google Maps Geocoding API on the server
-        const geocodingResponse = await fetch(
-          `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-            addressData.formattedAddress
-          )}&key=${process.env.GOOGLE_MAPS_API_KEY}`
-        );
-        
-        const geocodeData = await geocodingResponse.json();
-        
-        if (geocodeData.status === 'OK' && geocodeData.results && geocodeData.results.length > 0) {
-          const location = geocodeData.results[0].geometry.location;
-          coords = { lat: location.lat, lng: location.lng };
-          console.log("Server: Geocoded coordinates:", coords);
-        } else {
-          return {
-            isValid: false,
-            isInRange: false,
-            message: "Could not geocode address. Please check the details."
-          };
-        }
-      } catch (error) {
-        console.error("Server: Geocoding error:", error);
-        return {
-          isValid: false,
-          isInRange: false,
-          message: "Failed to verify address location."
-        };
-      }
-    } else if (!coords) {
+    // 1. Validate required fields
+    if (!addressData.street || !addressData.houseNumber || !addressData.city || !addressData.zipCode) {
       return {
         isValid: false,
         isInRange: false,
-        message: "Address is incomplete, missing coordinates."
+        message: "Please fill in all required address fields.",
+        validatedAddress: addressData
+      };
+    }
+
+    // 2. Ensure we have coordinates
+    let coords = undefined; // Don't use client-side coordinates
+    
+    // Always geocode if formattedAddress is available
+    if (addressData.formattedAddress) {
+      try {
+        logger.debug("validateAddress", "Geocoding address:", { address: addressData.formattedAddress });
+        const geocodingResponse = await fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+            addressData.formattedAddress
+          )}&key=${process.env.NEXT_PRIVATE_GOOGLE_GEO_VALIDATION}`
+        );
+        
+        // Check if the request itself was successful
+        if (!geocodingResponse.ok) {
+          logger.error("validateAddress", "Geocoding HTTP error:", { 
+            status: geocodingResponse.status,
+            statusText: geocodingResponse.statusText 
+          });
+          return {
+            isValid: false,
+            isInRange: false,
+            message: t('FailedToVerifyAddressLocation') || "Failed to verify address location.",
+            validatedAddress: addressData
+          };
+        }
+        
+        const geocodeData = await geocodingResponse.json();
+        
+        // Log the actual response data, not the Response object
+        logger.debug("validateAddress", "Geocoding response data:", { 
+          status: geocodeData.status,
+          resultCount: geocodeData.results?.length || 0
+        });
+        
+        if (geocodeData.status === 'OK' && geocodeData.results && geocodeData.results.length > 0) {
+          const result = geocodeData.results[0];
+          const location = result.geometry.location;
+          const locationType = result.geometry.location_type;
+          
+          // Check if the result is sufficiently precise - we want ROOFTOP or RANGE_INTERPOLATED
+          // GEOMETRIC_CENTER or APPROXIMATE are too imprecise and may be city centers
+          const isPreciseLocation = locationType === 'ROOFTOP' || locationType === 'RANGE_INTERPOLATED';
+          
+          // Extract address components to verify postal code and city
+          let foundStreet = false;
+          let foundHouseNumber = false;
+          let foundPostalCode = false;
+          let foundCity = false;
+          let postalCodeMatches = false;
+          let cityMatches = false;
+          
+          // Loop through address components to verify postal code and city
+          for (const component of result.address_components) {
+            const types = component.types;
+            
+            // Still identify all components but only validate postal code and city
+            if (types.includes('route')) {
+              foundStreet = true;
+              // Just log street info but don't validate it
+              logger.debug("validateAddress", "Street info:", { 
+                original: addressData.street, 
+                geocoded: component.long_name 
+              });
+            }
+            
+            if (types.includes('street_number')) {
+              foundHouseNumber = true;
+              // Just log house number info but don't validate it
+              logger.debug("validateAddress", "House number info:", { 
+                original: addressData.houseNumber, 
+                geocoded: component.long_name 
+              });
+            }
+            
+            if (types.includes('postal_code')) {
+              foundPostalCode = true;
+              // Normalize and compare postal codes (remove spaces)
+              const normalizedInput = addressData.zipCode.replace(/\s+/g, '').toUpperCase();
+              const normalizedGeocoded = component.long_name.replace(/\s+/g, '').toUpperCase();
+              postalCodeMatches = normalizedInput === normalizedGeocoded;
+              
+              if (!postalCodeMatches) {
+                logger.debug("validateAddress", "Postal code mismatch:", { 
+                  original: normalizedInput, 
+                  geocoded: normalizedGeocoded 
+                });
+              }
+            }
+            
+            if (types.includes('locality') || types.includes('postal_town')) {
+              foundCity = true;
+              // Case-insensitive city comparison
+              cityMatches = component.long_name.toLowerCase() === addressData.city.toLowerCase();
+              
+              if (!cityMatches) {
+                logger.debug("validateAddress", "City mismatch:", { 
+                  original: addressData.city, 
+                  geocoded: component.long_name 
+                });
+              }
+            }
+          }
+          
+          // Only validate that we have precise location and correct postal code and city
+          const isValidAddress = foundPostalCode && postalCodeMatches && foundCity && cityMatches;
+          
+          if (!isValidAddress) {
+            logger.debug("validateAddress", "Address validation failed", { 
+              isPreciseLocation,
+              locationType,
+              foundPostalCode, postalCodeMatches,
+              foundCity, cityMatches 
+            });
+            
+            // Return more specific error message based on what's invalid
+            let errorMessage = t('CouldNotVerifyAddressLocation') || "Could not verify this address location.";
+            
+            // if (!isPreciseLocation) {
+            //   errorMessage = t('AddressNotPreciseEnough') || "This address is not precise enough. Please check the street and house number.";
+            // } else 
+            if (!foundPostalCode || !postalCodeMatches) {
+              errorMessage = t('InvalidPostalCode') || "The postal code appears to be invalid. Please check it and try again.";
+            } else if (!foundCity || !cityMatches) {
+              errorMessage = t('InvalidCity') || "The city does not match the postal code. Please check both fields.";
+            }
+
+            logger.debug("validateAddress", "Validation result:", { 
+              isValid: false,
+              isInRange: false,
+              message: errorMessage,
+              validatedAddress: addressData
+            });
+            
+            return {
+              isValid: false,
+              isInRange: false,
+              message: errorMessage,
+              validatedAddress: addressData
+            };
+          }
+          
+          coords = { lat: location.lat, lng: location.lng };
+          logger.debug("validateAddress", "Geocoded coordinates:", { 
+            coords,
+            locationType,
+            formattedAddress: result.formatted_address 
+          });
+        } else {
+          // Log more details about failed geocoding
+          logger.error("validateAddress", "Geocoding API error:", { 
+            status: geocodeData.status,
+            errorMessage: geocodeData.error_message || 'No error message provided' 
+          });
+          
+          return {
+            isValid: false,
+            isInRange: false,
+            message: t('CouldNotVerifyAddressLocation') || "Failed to verify address location.",
+            validatedAddress: addressData
+          };
+        }
+      } catch (error) {
+        logger.error("validateAddress", "Geocoding error:", { error });
+        return {
+          isValid: false,
+          isInRange: false,
+          message: t('FailedToVerifyAddressLocation') || "Failed to verify address location.",
+          validatedAddress: addressData
+        };
+      }
+    } else {
+      return {
+        isValid: false,
+        isInRange: false,
+        message: t('MissingRequiredFields') || "Missing required fields.",
+        validatedAddress: addressData
       };
     }
     
-    // 2. Get delivery regions for the store
-    console.log("Server: Fetching delivery regions for store:", storeId);
-    // Query the delivery regions from the database
-    const querySpec = {
-      query: "SELECT * FROM c WHERE c.storeId = @storeId",
-      parameters: [{ name: "@storeId", value: storeId }]
-    };
-
-    const { resources: deliveryRegions } = await containerDeliveryRegions.items
-      .query(querySpec)
-      .fetchAll();
-    
+    // 3. Get delivery regions for the store
+    logger.debug("validateAddress", "Fetching delivery regions for store:", { storeId });
+    const deliveryRegions = await getMerchantDeliveryRegions(storeId);
     if (!deliveryRegions || deliveryRegions.length === 0) {
       return { 
         isValid: true, 
         isInRange: false, 
         message: "No delivery regions defined by the merchant.", 
         validatedAddress: addressData, 
-        coordinates: coords, 
-        formattedAddress: addressData.formattedAddress 
       };
     }
     
-    // 3. Calculate distances and find the closest region
-    console.log("Server: Calculating distances to", deliveryRegions.length, "regions");
+    // 4. Calculate distances and find the closest region
+    logger.debug("validateAddress", "Calculating distances to regions", { regionCount: deliveryRegions.length });
     let closestRegion: MerchantDeliveryRegion | null = null;
+    let applicableRange: DeliveryRange | null = null;
     let minDistance = Infinity;
+    let minPrice = Infinity;
     
     for (const region of deliveryRegions) {
-      if (region.coordinates) {
-        const distance = haversineDistance(coords, region.coordinates);
-        console.log(`Server: Distance to ${region.name}: ${distance.toFixed(2)} km`);
-        if (distance < minDistance) {
-          minDistance = distance;
+      logger.debug("validateAddress", `Checking region: ${region.name}`);
+      // Check for country-wide delivery first
+      if (region.isCountry && addressData.country && 
+          region.minOrderPriceInCents && region.deliveryPriceInCents && 
+          minPrice > region.minOrderPriceInCents && 
+          region.name.toLowerCase() === addressData.country.toLowerCase()) {
+
+          logger.debug("validateAddress", `Found country-wide delivery region: ${region.name}`);
           closestRegion = region;
-        }
-      } else {
-        console.warn(`Server: Delivery region '${region.name}' is missing coordinates.`);
-      }
-    }
-    
-    // 4. Determine if the address is within range and find the applicable pricing tier
-    if (closestRegion) {
-      console.log(`Server: Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
-      
-      // First check if we have multi-range pricing 
-      let applicableRange = null;
-      
-      if (closestRegion.ranges && Array.isArray(closestRegion.ranges) && closestRegion.ranges.length > 0) {
-        // Sort ranges by distance (ascending)
-        const sortedRanges = [...closestRegion.ranges].sort((a, b) => a.range - b.range);
-        console.log(`Server: Region has ${sortedRanges.length} delivery ranges`);
-        
-        // Find the applicable range based on the distance
-        for (const range of sortedRanges) {
-          if (minDistance <= range.range) {
-            applicableRange = range;
-            console.log(`Server: Found applicable range: ${range.range} km with delivery price ${range.deliveryPriceInCents / 100}€`);
-            break;
+          minPrice = region.minOrderPriceInCents;
+          applicableRange = {
+            range: 0,
+            deliveryPriceInCents: region.deliveryPriceInCents,
+            minOrderPriceInCents: region.minOrderPriceInCents
+          };
+      } else  {
+        // Check for city/region based delivery
+        if (region.coordinates && coords) {
+          const distance = haversineDistance(coords, region.coordinates);
+          logger.debug("validateAddress", `Distance to ${region.name}: ${distance.toFixed(2)} km`);
+          if (distance < minDistance && region.ranges) {
+            const sortedRanges = [...region.ranges].sort((a, b) => a.range - b.range);
+
+            for (const range of sortedRanges) {
+              if (range.minOrderPriceInCents <= minPrice && distance <= range.range) {
+
+                minPrice = range.minOrderPriceInCents;
+                closestRegion = region;
+                minDistance = distance;
+                applicableRange = range;
+                break;
+              }
+            }
           }
         }
       }
+    }
+    
+    // 5. Determine if the address is within range and find the applicable pricing tier
+    if (closestRegion && applicableRange) {
+      logger.debug("validateAddress", `Found closest region: ${closestRegion.name} at ${minDistance.toFixed(2)} km`);
+      logger.debug("validateAddress", `Found applicable range: ${applicableRange?.range} km with delivery price ${(applicableRange?.deliveryPriceInCents / 100).toFixed(2)}€`);
 
-      if (applicableRange) {
-        // Address is within range - use the applicable range pricing or fall back to legacy pricing
-        const deliveryPriceInCents = applicableRange.deliveryPriceInCents;
-        
-        const minOrderPriceInCents = applicableRange.minOrderPriceInCents;
+      if (applicableRange || closestRegion.isCountry) {
+        const deliveryPriceInCents = applicableRange?.deliveryPriceInCents || closestRegion.deliveryPriceInCents || 100000;
+        const minOrderPriceInCents = applicableRange?.minOrderPriceInCents || closestRegion.minOrderPriceInCents || 100000;
 
-        console.log(`Server: Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
+        logger.debug("validateAddress", `Address is within delivery range. Using delivery price: ${deliveryPriceInCents / 100}€, min order: ${minOrderPriceInCents / 100}€`);
         return {
           isValid: true,
           isInRange: true,
@@ -137,38 +285,32 @@ export async function validateAddress(
             ...closestRegion,
             ranges: [applicableRange]
           },
-          formattedAddress: addressData.formattedAddress,
-          coordinates: coords,
           validatedAddress: { ...addressData, coordinates: coords },
         };
       } else {
-        console.log(`Server: Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
+        logger.debug("validateAddress", `Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
         return {
           isValid: true,
           isInRange: false,
           message: `Address is outside our delivery area. Nearest location is ${minDistance.toFixed(1)} km away.`,
-          formattedAddress: addressData.formattedAddress,
-          coordinates: coords,
           validatedAddress: { ...addressData, coordinates: coords },
         };
       }
     } else {
-      // Should not happen if deliveryRegions is not empty, but handle defensively
       return { 
         isValid: true, 
         isInRange: false, 
         message: "Could not determine delivery eligibility.", 
-        formattedAddress: addressData.formattedAddress, 
-        coordinates: coords, 
         validatedAddress: { ...addressData, coordinates: coords }
       };
     }
   } catch (error) {
-    console.error("Server: Error validating address:", error);
+    logger.error("validateAddress", "Error validating address:", { error });
     return {
       isValid: false,
       isInRange: false,
-      message: "An unexpected error occurred while validating the address."
+      message: "An unexpected error occurred while validating the address.",
+      validatedAddress: addressData
     };
   }
 }
@@ -178,14 +320,14 @@ export async function validateAddress(
  */
 export async function saveDeliveryAddress(
   storeId: string,
-  address: AddressFormType
+  address: Omit<DeliveryAddress, 'id' | 'storeId' | 'userId' | 'createdAt' | 'type'>
 ): Promise<{ success?: string; error?: string }> {
   try {
     // Use the existing updateDeliveryAddress implementation
-    console.log("Server: Saving address:", address);
+    logger.debug("saveDeliveryAddress", "Saving address:", { address });
     return await dbUpdateDeliveryAddress(storeId, address);
   } catch (error) {
-    console.error("Server: Error saving address:", error);
+    logger.error("saveDeliveryAddress", "Error saving address:", { error });
     return {
       error: "Failed to save address"
     };
@@ -197,12 +339,12 @@ export async function saveDeliveryAddress(
  */
 export async function validateAndSaveAddress(
   storeId: string,
-  addressData: AddressFormType
+  addressData: DeliveryAddressRaw
 ): Promise<{
   validationResult: ValidationResult;
   saveResult: { success?: string; error?: string };
 }> {
-  console.log("Server: Validating and saving address");
+  logger.debug("validateAndSaveAddress", "Validating and saving address");
   
   // 1. Validate the address
   const validationResult = await validateAddress(addressData, storeId);
@@ -211,10 +353,18 @@ export async function validateAndSaveAddress(
   let saveResult: { success?: string; error?: string } = {};
   
   if (validationResult.isValid && validationResult.validatedAddress && validationResult.isInRange) {
-    saveResult = await saveDeliveryAddress(storeId, validationResult.validatedAddress);
+
+    const deliveryAddress: DeliveryAddressRaw = {
+      ...validationResult.validatedAddress,
+    }
+
+    saveResult = await saveDeliveryAddress(storeId, deliveryAddress);
   } else {
     saveResult = { error: "Address validation failed" };
   }
+
+  logger.debug("validateAndSaveAddress", "Validation result:", { validationResult });
+  logger.debug("validateAndSaveAddress", "Save result:", { saveResult });
   
   return {
     validationResult,

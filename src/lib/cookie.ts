@@ -1,6 +1,15 @@
 "use server";
 import { cookies } from 'next/headers';
-import clarity from "@microsoft/clarity";
+
+/**
+ * COOKIE CONSENT AND PREFERENCES MANAGEMENT
+ * 
+ * Purpose: Store user consent preferences for different types of cookies 
+ * Data stored: Consent status (accepted/rejected/partial) and specific preferences for cookie categories
+ * Retention: 30 days
+ * Legal basis: Consent - GDPR Article 6(1)(a)
+ * Note: Only necessary cookies are enabled by default, others require explicit consent
+ */
 
 export interface CookiePreferences {
     necessary: boolean;
@@ -8,74 +17,44 @@ export interface CookiePreferences {
     marketing: boolean;
 }
 
-export interface Coordinates {
-    lat: number;
-    lng: number;
-}
-
 const MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 const COOKIE_CONSENT_KEY = "cookie_consent";
 const COOKIE_PREFERENCES_KEY = "cookie_preferences";
-const SEARCH_LAT_KEY = "search_lat";
-const SEARCH_LNG_KEY = "search_lng";
-const SEARCH_CITY_KEY = "search_city";
 
+/**
+ * Check if the user has provided cookie consent
+ * @returns boolean indicating whether consent has been given
+ */
 export async function isCookieConsentFromServer() {
-    const cookie = await cookies();
-    const consent = cookie.get(COOKIE_CONSENT_KEY)?.value ?? null;
-    const preferences = cookie.get(COOKIE_PREFERENCES_KEY)?.value ?? null;
+    const cookieStore = await cookies();
+    const consent = cookieStore.get(COOKIE_CONSENT_KEY)?.value ?? null;
+    const preferences = cookieStore.get(COOKIE_PREFERENCES_KEY)?.value ?? null;
     return !!(consent && preferences);
 }
 
+/**
+ * Get the user's cookie preferences
+ * @returns CookiePreferences object or null if not set
+ */
 export async function getCookiePreferences(): Promise<CookiePreferences | null> {
-    const cookie = await cookies();
-    const preferences = cookie.get(COOKIE_PREFERENCES_KEY)?.value ?? null;
+    const cookieStore = await cookies();
+    const preferences = cookieStore.get(COOKIE_PREFERENCES_KEY)?.value ?? null;
     return preferences ? JSON.parse(preferences) : null;
 }
 
 /**
- * Get saved search coordinates from cookies
- * @returns Coordinates if available, null otherwise
+ * Accept all cookie categories
  */
-export async function getSearchCoordinates(): Promise<Coordinates | null> {
-    const cookie = await cookies();
-    const lat = cookie.get(SEARCH_LAT_KEY)?.value;
-    const lng = cookie.get(SEARCH_LNG_KEY)?.value;
-    
-    if (!lat || !lng) {
-        return null;
-    }
-    
-    try {
-        return {
-            lat: parseFloat(lat),
-            lng: parseFloat(lng)
-        };
-    } catch (error) {
-        console.error("Error parsing coordinates from cookies:", error);
-        return null;
-    }
-}
-
-/**
- * Get saved search city from cookies
- * @returns City name if available, null otherwise
- */
-export async function getSearchCity(): Promise<string | null> {
-    const cookie = await cookies();
-    return cookie.get(SEARCH_CITY_KEY)?.value ?? null;
-}
-
 export async function acceptAll() {
-    const cookie = await cookies();
-    cookie.set(COOKIE_CONSENT_KEY, "accepted", {
-        path: '/', // makes the cookie available on the entire site
+    const cookieStore = await cookies();
+    cookieStore.set(COOKIE_CONSENT_KEY, "accepted", {
+        path: '/',
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        sameSite: 'strict',
         maxAge: MAX_AGE,
     });
-    cookie.set(
+    cookieStore.set(
         COOKIE_PREFERENCES_KEY,
         JSON.stringify({
             necessary: true,
@@ -83,27 +62,29 @@ export async function acceptAll() {
             marketing: true,
         }),
         {
-            path: '/', // makes the cookie available on the entire site
+            path: '/',
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
+            sameSite: 'strict',
             maxAge: MAX_AGE,
         }
     );
-    // Optionally, return a value or trigger a redirect
 }
 
+/**
+ * Reject all optional cookie categories (only necessary cookies remain enabled)
+ */
 export async function rejectAll() {
-    const cookie = await cookies();
-    cookie.set(COOKIE_CONSENT_KEY, "rejected",
+    const cookieStore = await cookies();
+    cookieStore.set(COOKIE_CONSENT_KEY, "rejected",
         {
-            path: '/', // makes the cookie available on the entire site
+            path: '/',
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
+            sameSite: 'strict',
             maxAge: MAX_AGE,
         });
-    cookie.set(
+    cookieStore.set(
         COOKIE_PREFERENCES_KEY,
         JSON.stringify({
             necessary: true,
@@ -111,74 +92,56 @@ export async function rejectAll() {
             marketing: false,
         }),
         {
-            path: '/', // makes the cookie available on the entire site
+            path: '/',
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
+            sameSite: 'strict',
             maxAge: MAX_AGE,
         }
     );
 }
 
+/**
+ * Save user's specific cookie preferences
+ * @param newPreferences - The user's selected preferences for each cookie category
+ */
 export async function savePreferences(newPreferences: CookiePreferences) {
-    const cookie = await cookies();
-    cookie.set(
+    const cookieStore = await cookies();
+    const { analytics, marketing } = newPreferences;
+    
+    // Set consent status based on preferences
+    const consentStatus = analytics || marketing ? "partial" : "rejected";
+    
+    cookieStore.set(COOKIE_CONSENT_KEY, consentStatus, {
+        path: '/',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: MAX_AGE,
+    });
+    
+    cookieStore.set(
         COOKIE_PREFERENCES_KEY,
-        JSON.stringify(newPreferences),
+        JSON.stringify({
+            necessary: true, // Necessary cookies are always enabled
+            analytics: analytics,
+            marketing: marketing,
+        }),
         {
-            path: '/', // makes the cookie available on the entire site
+            path: '/',
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
+            sameSite: 'strict',
             maxAge: MAX_AGE,
         }
     );
-    const { analytics, marketing } = newPreferences;
-    if (analytics || marketing) {
-        cookie.set(COOKIE_CONSENT_KEY, "partial", {
-            path: '/', // makes the cookie available on the entire site
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: MAX_AGE,
-        });
-        cookie.set(
-            COOKIE_PREFERENCES_KEY,
-            JSON.stringify({
-                necessary: true,
-                analytics: analytics,
-                marketing: marketing,
-            }),
-            {
-                path: '/', // makes the cookie available on the entire site
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax',
-                maxAge: MAX_AGE,
-            }
-        );
-    } else {
-        cookie.set(COOKIE_CONSENT_KEY, "rejected", {
-            path: '/', // makes the cookie available on the entire site
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: MAX_AGE,
-        });
-        cookie.set(
-            COOKIE_PREFERENCES_KEY,
-            JSON.stringify({
-                necessary: true,
-                analytics: analytics,
-                marketing: marketing,
-            }),
-            {
-                path: '/', // makes the cookie available on the entire site
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax',
-                maxAge: MAX_AGE,
-            }
-        );
-    }
+}
+
+/**
+ * Remove all cookie consent and preferences
+ */
+export async function removeCookieConsent() {
+    const cookieStore = await cookies();
+    cookieStore.delete(COOKIE_CONSENT_KEY);
+    cookieStore.delete(COOKIE_PREFERENCES_KEY);
 }

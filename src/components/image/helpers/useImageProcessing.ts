@@ -51,13 +51,15 @@ export function useImageProcessing() {
           compressionRatio,
           dimensions: result.dimensions
         });
-        
-        console.log(`Image processed successfully:
-          - Original: ${formatFileSize(result.originalSize)}
-          - Compressed: ${formatFileSize(result.compressedSize)}
-          - Reduction: ${compressionRatio.toFixed(1)}%
-          ${result.dimensions ? `- Dimensions: ${result.dimensions.width}x${result.dimensions.height}px` : ''}
-        `);
+
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`Image processed successfully:
+            - Original: ${formatFileSize(result.originalSize)}
+            - Compressed: ${formatFileSize(result.compressedSize)}
+            - Reduction: ${compressionRatio.toFixed(1)}%
+            ${result.dimensions ? `- Dimensions: ${result.dimensions.width}x${result.dimensions.height}px` : ''}
+          `);
+        }
       }
       
       return result.file;

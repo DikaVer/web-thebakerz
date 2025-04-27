@@ -66,7 +66,7 @@ export default function DeliveryInfo({
         <div className="p-4">
           <div className="grid grid-cols-2 gap-4 mb-3">
             <div className="flex flex-col gap-1 p-3 rounded-lg bg-default-50 dark:bg-default-100">
-              <div className="flex items-center gap-2 mb-1">
+              <div className="flex items-center gap-2 mb-1 h-10">
                 <Icon icon="solar:dollar-minimalistic-linear" className="h-4 w-4 text-success" />
                 <span className="text-xs text-default-600">{t("deliveryFee")}</span>
               </div>
@@ -76,7 +76,7 @@ export default function DeliveryInfo({
             </div>
             
             <div className="flex flex-col gap-1 p-3 rounded-lg bg-default-50 dark:bg-default-100">
-              <div className="flex items-center gap-2 mb-1">
+              <div className="flex items-center gap-2 mb-1 h-10">
                 <Icon icon="solar:cart-large-minimalistic-linear" className="h-4 w-4 text-primary" />
                 <span className="text-xs text-default-600">{t("minimumOrder")}</span>
               </div>
