@@ -21,7 +21,7 @@
     "@azure/storage-blob": "^12.27.0",
     "@eslint/config-array": "^0.19.2",
     "@heroui/framer-utils": "^2.1.12",
-    "@heroui/react": "^2.7.5",
+    "@heroui/react": "^2.7.8",
     "@heroui/system": "^2.4.12",
     "@heroui/theme": "^2.4.12",
     "@heroui/use-infinite-scroll": "^2.2.7",

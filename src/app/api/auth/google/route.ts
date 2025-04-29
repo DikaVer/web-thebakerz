@@ -31,13 +31,33 @@ export async function GET(request: Request): Promise<Response> {
 
 	const { searchParams } = new URL(request.url);
 
-	const state = generateState();
+	// Generate state with timestamp for better debugging
+	const timestamp = Date.now();
+	const state = `${generateState()}_${timestamp}`;
 	const codeVerifier = generateCodeVerifier();
 	const url = google.createAuthorizationURL(state, codeVerifier, ["openid", "profile", "email"]);
 
 	const next = searchParams.get("next");
 	const store_id = searchParams.get("store_id");
 	const cookieStore = await cookies();
+
+	// Clear any existing cookies first to prevent stale data
+	log.debug('googleAuth', 'Clearing existing OAuth cookies', {
+		requestId: context.requestId,
+		clientIP: context.clientIP
+	});
+	
+	cookieStore.delete("google_oauth_state");
+	cookieStore.delete("google_code_verifier");
+	cookieStore.delete("google_redirect");
+	cookieStore.delete("google_store_id");
+
+	// Set new cookies
+	log.debug('googleAuth', 'Setting new OAuth cookies', {
+		requestId: context.requestId,
+		clientIP: context.clientIP,
+		stateTimestamp: timestamp
+	});
 
 	cookieStore.set("google_oauth_state", state, {
 		path: "/",
@@ -73,73 +93,16 @@ export async function GET(request: Request): Promise<Response> {
 		});
 	}
 
-	// Instead of returning a 302 redirect response, return an HTML page
-	// with JavaScript that waits a short time to ensure cookies are stored
-	// before redirecting to Google
-	log.info('googleAuth', 'Returning intermediate page with delayed redirect', {
+	log.info('googleAuth', 'Redirecting to Google OAuth', {
 		requestId: context.requestId,
-		clientIP: context.clientIP
+		clientIP: context.clientIP,
+		stateTimestamp: timestamp
 	});
 
-	const googleAuthUrl = url.toString();
-	const html = `
-		<!DOCTYPE html>
-		<html>
-		<head>
-			<title>Redirecting to Google...</title>
-			<meta name="robots" content="noindex, nofollow">
-			<style>
-				body {
-					font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					height: 100vh;
-					margin: 0;
-					background-color: #f9f9f9;
-				}
-				.container {
-					text-align: center;
-				}
-				.spinner {
-					display: inline-block;
-					width: 50px;
-					height: 50px;
-					border: 3px solid rgba(0,0,0,.3);
-					border-radius: 50%;
-					border-top-color: #377DFF;
-					animation: spin 1s ease-in-out infinite;
-				}
-				@keyframes spin {
-					to { transform: rotate(360deg); }
-				}
-				h3 {
-					margin-top: 20px;
-					color: #333;
-				}
-			</style>
-		</head>
-		<body>
-			<div class="container">
-				<div class="spinner"></div>
-				<h3>Redirecting to Google login...</h3>
-			</div>
-			<script>
-				// Wait 300ms to ensure cookies are properly stored
-				// This prevents the "Invalid request" error when
-				// Google redirects back very quickly
-				setTimeout(function() {
-					window.location.href = "${googleAuthUrl}";
-				}, 2000);
-			</script>
-		</body>
-		</html>
-	`;
-
-	return new Response(html, {
-		status: 200,
+	return new Response(null, {
+		status: 302,
 		headers: {
-			"Content-Type": "text/html; charset=utf-8"
+			Location: url.toString()
 		}
 	});
 }
