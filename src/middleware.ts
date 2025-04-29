@@ -3,14 +3,6 @@ import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
 
-  // 1. Redirect root domain to www (if host is exactly "thebakerz.com")
-  const hostname = req.nextUrl.hostname;
-  if (hostname === 'thebakerz.com') {
-    // Construct target URL with www, preserving path and query
-    const targetUrl = new URL(`https://www.thebakerz.com${req.nextUrl.pathname}${req.nextUrl.search}`);
-    return NextResponse.redirect(targetUrl, 301);  // 301 Permanent Redirect to www
-  }
-
   const { pathname } = req.nextUrl;
 
   // Skip middleware for static files and API routes

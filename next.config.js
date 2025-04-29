@@ -69,6 +69,17 @@ const nextConfig = {
         // Ensure no aliases or modifications are breaking module resolution
         return config;
     },
+    async redirects() {
+        return [
+            {
+                // any path, but only when host is bare domain
+                source: '/:path*',
+                has: [{ type: 'host', value: 'thebakerz.com' }],
+                destination: 'https://www.thebakerz.com/:path*',
+                permanent: true,
+            },
+        ];
+    },
 };
 
 module.exports = withNextIntl(nextConfig);
