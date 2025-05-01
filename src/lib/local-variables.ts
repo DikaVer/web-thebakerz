@@ -233,6 +233,9 @@ export const categories: Readonly<{ [key: string]: { description: string } }> = 
     'Cakes': { description: 'Variety of cakes including sponge, layered, and specialty cakes.' },
     'Cheesecake': { description: 'Chocolate-based treats including truffles, bars, and bonbons.' },
     'Chocolate': { description: 'Chocolate-based treats including truffles, bars, and bonbons.' },
+    'Bonbon': { description: 'Other categories not listed above.' },
+    'Chocolate Bar': { description: 'Other categories not listed above.' },
+    'Marshmallow': { description: 'Other categories not listed above.' },
     'Cookies and Biscuits': { description: 'Various sweet and savory cookies and biscuits.' },
     'Cupcakes': { description: 'Individual portion cakes with decorative frosting.' },
     'Donuts': { description: 'Ring-shaped fried dough with various glazes and fillings.' },
@@ -242,8 +245,6 @@ export const categories: Readonly<{ [key: string]: { description: string } }> = 
     'Pies': { description: 'Traditional fruit or savory fillings in a pastry crust.' },
     'Vegan': { description: 'Plant-based baked goods made without animal products.' },
     'Wedding Cakes': { description: 'Elegant multi-tiered cakes for wedding celebrations.' },
-    'Bonbon': { description: 'Other categories not listed above.' },
-    'Chocolate Bar': { description: 'Other categories not listed above.' }
 };
 
 export const EU_COUNTRIES_PLUS_SWISS: Readonly<{ [key: string]: string }> = {
