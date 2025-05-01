@@ -1,17 +1,18 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import {Button, cn, Link, ResizablePanel, Spacer} from "@heroui/react";
 import {LazyMotion, domAnimation, AnimatePresence, m} from "framer-motion";
 import {Icon} from "@iconify/react";
-import { useTransition } from "react";
 import SwitchCell from "@/components/ui/switch-cell";
-import {useRouter} from "next/navigation";
+import {usePathname} from "next/navigation";
 import {acceptAll, CookiePreferences, rejectAll, savePreferences} from "@/lib/cookie";
 import { useTranslations } from "next-intl";
 
 export default function CookieConsentComponent() {
     const t = useTranslations("app/(components)/cookie-consent");
+    const pathname = usePathname();
+    const isMedia = pathname.includes('media');
 
     const [localPreferences, setLocalPreferences] = useState<CookiePreferences>({
         necessary: true,
@@ -193,6 +194,7 @@ export default function CookieConsentComponent() {
     );
 
     return (
+        isMedia ? null :
         <div className="pointer-events-none fixed inset-x-0 bottom-0 px-6 pb-6 z-50">
             <ResizablePanel>
                 <AnimatePresence initial={false} mode="wait">

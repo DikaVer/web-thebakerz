@@ -29,8 +29,6 @@ export async function generateMetadata() {
     return getLocalizedMetadata(locale);
 }
 
-export const revalidate = 300;
-
 
 export default async function RootLayout({
                                        children,

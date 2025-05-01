@@ -1,10 +1,11 @@
 import {pacifico} from "@/components/fonts";
 import Image from 'next/image';
 import React from "react";
-import {FollowUs} from "@/components/about-us/follow-us";
 import type {Metadata} from "next";
 import {getLocalizedMetadata, metadataTranslations} from "@/components/metadata";
 import {getLocale, getTranslations} from "next-intl/server";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import Link from "next/link";
 
 // Define page-specific metadata translations
 const pageMetadataTranslations = {
@@ -166,12 +167,30 @@ export default async function Page() {
                             <div
                                 className="justify-center max-w-[620px] flex flex-col h-full lg:text-left px-4 py-12 lg:px-12 mx-auto lg:mx-0">
 
-                                <h2 className={`text-4xl lg:text-6xl font-bold text-center mb-6 ${pacifico.className}`}>
-                                    {t("follow")}
+                                <h2 className={`text-4xl lg:text-6xl font-bold text-center mb-6`}>
+                                    Connect with us on our social channels
                                 </h2>
-                                <div className="flex space-x-6">
-                                    <FollowUs/>
-                                </div>
+                                {/* Social Links */}
+                                <div className="flex flex-wrap justify-center gap-5">
+                                    <Link href="https://www.instagram.com/thebakerz.official" target="_blank" className="bg-default-200 rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors">
+                                    <Icon icon="line-md:instagram" width="24" height="24" />
+                                    </Link>
+                                    <Link href="https://www.tiktok.com/@thebakerz.official" target="_blank" className="bg-default-200 rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors">
+                                    <Icon icon="line-md:tiktok" width="24" height="24" />
+                                    </Link>
+                                    <Link href="https://www.youtube.com/@thebakerz.official" target="_blank" className="bg-default-200 rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors">
+                                    <Icon icon="line-md:youtube" width="24" height="24" />
+                                    </Link>
+                                    <Link href="https://www.linkedin.com/company/thebakerz" target="_blank" className="bg-default-200 rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors">
+                                    <Icon icon="line-md:linkedin" width="24" height="24" />
+                                    </Link>
+                                    <Link href="https://www.facebook.com/thebakerz.official" target="_blank" className="bg-default-200 rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors">
+                                    <Icon icon="line-md:facebook" width="24" height="24" />
+                                    </Link>
+                                    <Link href="https://x.com/the_bakerz" target="_blank" className="bg-default-200 rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors">
+                                    <Icon icon="line-md:twitter-x" width="24" height="24" />
+                                    </Link>
+                                </div>    
                             </div>
                         </div>
                     </div>
