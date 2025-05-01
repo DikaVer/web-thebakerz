@@ -11,9 +11,9 @@ import { Icon } from '@iconify/react';
 
 export default function LanguageModal({handAction}: {handAction?: () => void}) {
     const pathname = usePathname();
-    const isMedia = pathname.includes('media');
+    const isSocials = pathname.includes('socials');
     // get from server or browser
-    const [isOpen, setIsOpen] = useState(!isMedia);
+    const [isOpen, setIsOpen] = useState(!isSocials);
 
     const handleSubmit = async (targetLanguage: Locale) => {
         // Call the server action to set cookie, then close modal

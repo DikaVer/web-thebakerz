@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 export default function CookieConsentComponent() {
     const t = useTranslations("app/(components)/cookie-consent");
     const pathname = usePathname();
-    const isMedia = pathname.includes('media');
+    const isSocials = pathname.includes('socials');
 
     const [localPreferences, setLocalPreferences] = useState<CookiePreferences>({
         necessary: true,
@@ -194,7 +194,7 @@ export default function CookieConsentComponent() {
     );
 
     return (
-        isMedia ? null :
+        isSocials ? null :
         <div className="pointer-events-none fixed inset-x-0 bottom-0 px-6 pb-6 z-50">
             <ResizablePanel>
                 <AnimatePresence initial={false} mode="wait">

@@ -55,12 +55,13 @@ export const Media = () => {
     }
   ];
 
-  // Handle social link click - try app URL first, then fallback to web URL
+  // Handle social link click
   const handleSocialClick = (link: SocialLink) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     
-    // Just open the URL - modern browsers and operating systems will
-    // automatically redirect to the app if installed or web version if not
+    // Use the current best practice for handling deep links
+    // Modern mobile operating systems will try to open the app if installed
+    // or fall back to the browser if not
     window.location.href = link.appUrl || link.url;
   };
 

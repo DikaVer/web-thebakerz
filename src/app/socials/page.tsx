@@ -1,10 +1,6 @@
-import { Footer } from '@/components/footer';
-import { getSearchCoordinates } from '@/lib/delivery-cookie';
-import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
 import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata function and translations
-import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 import Media from '@/components/media/media';
 
 // Define specific metadata overrides for the media page
@@ -68,11 +64,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 // Media Page component
 export default async function Page() {
-    // Check for search coordinates
-    const initialCoords = await getSearchCoordinates();
-    if (initialCoords) {
-        redirect(`/search`);
-    }
 
     return (
         <main className="min-h-screen">
