@@ -41,6 +41,9 @@ export const Media = () => {
         <Link href="https://www.youtube.com/@the_bakerz" target="_blank" className="bg-default-200 rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors">
           <Icon icon="line-md:youtube" width="24" height="24" />
         </Link>
+        <Link href="https://t.me/thebakerz" target="_blank" className="bg-default-200 rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors">
+          <Icon icon="line-md:telegram" width="24" height="24" />
+        </Link>
         <Link href="https://www.linkedin.com/company/thebakerz" target="_blank" className="bg-default-200 rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors">
           <Icon icon="line-md:linkedin" width="24" height="24" />
         </Link>
