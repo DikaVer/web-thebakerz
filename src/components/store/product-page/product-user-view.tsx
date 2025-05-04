@@ -160,7 +160,7 @@ export default function UserProductView({
                             </div>
 
                             <div className={"flex flex-col px-4 py-4 w-full text-default-400 gap-4"}>
-                                <p className={'font-light text-sm'}>{productData.description}</p>
+                                <p className={'font-light text-sm whitespace-pre-wrap'}>{productData.description}</p>
                                 {productData.ingredients && productData.ingredients.length > 0 && (
                                     <CustomAlert
                                         color="default"

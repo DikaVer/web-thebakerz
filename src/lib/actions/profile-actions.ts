@@ -32,6 +32,7 @@ export const updateProfile = async (
     // Update the user record (name)
     if (formData.name !== user.username) {
         await updateUserProfile(formData.name, user.id);
+        revalidateTag('store');
         revalidateTag('session');
     }
 

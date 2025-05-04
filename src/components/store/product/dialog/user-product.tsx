@@ -233,7 +233,7 @@ export default function UserProductDialog({
                         </div>
 
                         <div className={"flex flex-col px-4 py-2 w-full text-default-400 gap-4"}>
-                            <p className={'font-light text-sm'}>{productData.description}</p>
+                            <p className={'font-light text-sm whitespace-pre-wrap'}>{productData.description}</p>
                             {/* Ingredients Alert: Default variant */}
                             {productData.ingredients && productData.ingredients.length > 0 && (
                                 <CustomAlert

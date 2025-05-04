@@ -228,8 +228,6 @@ export const examppleStore = ['OrGoD8o3jQ', 'NwzUMel5X6']
 export const TOS_VERSION = '2.0';
 
 export const categories: Readonly<{ [key: string]: { description: string } }> = {
-    'Birthday Cakes': { description: 'Special decorated cakes for birthday celebrations.' },
-    'Bread': { description: 'Freshly baked bread varieties including sourdough, baguettes, and rolls.' },
     'Cakes': { description: 'Variety of cakes including sponge, layered, and specialty cakes.' },
     'Cheesecake': { description: 'Chocolate-based treats including truffles, bars, and bonbons.' },
     'Chocolate': { description: 'Chocolate-based treats including truffles, bars, and bonbons.' },
@@ -243,7 +241,7 @@ export const categories: Readonly<{ [key: string]: { description: string } }> = 
     'Macarons': { description: 'French almond meringue cookies with filling.' },
     'Pastries': { description: 'Flaky, buttery baked goods including croissants and danish.' },
     'Pies': { description: 'Traditional fruit or savory fillings in a pastry crust.' },
-    'Vegan': { description: 'Plant-based baked goods made without animal products.' },
+    'Birthday Cakes': { description: 'Special decorated cakes for birthday celebrations.' },
     'Wedding Cakes': { description: 'Elegant multi-tiered cakes for wedding celebrations.' },
 };
 

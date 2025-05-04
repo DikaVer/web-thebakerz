@@ -145,7 +145,7 @@ export const nicknameSchema = z
     ;
 
 export const descriptionSchema = z.string()
-    .max(500, { message: "Description must be less than 500 characters" });
+    .max(1000, { message: "Description must be less than 1000 characters" });
 
 
 // Schema for individual option items within a variant
