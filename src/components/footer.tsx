@@ -40,7 +40,7 @@ const Footer = () => {
             },
             {
                 name: "Youtube",
-                href: "https://www.youtube.com/@thebakerz.official", 
+                href: "https://www.youtube.com/@the_bakerz", 
                 icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:youtube" />,
             },
             {

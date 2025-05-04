@@ -41,19 +41,34 @@ export function FooterStore() {
         ],
         social: [
             {
-                name: t("linkedIn"),
-                href: "https://www.linkedin.com/company/thebakerz",
-                icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:linkedin" />,
-            },
-            {
-                name: t("instagram"),
+                name: "Instagram",
                 href: "https://www.instagram.com/thebakerz.official",
-                icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:instagram" />,
+                icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:instagram" />,
             },
             {
-                name: t("twitter"),
+                name: "TikTok",
+                href: "https://www.tiktok.com/@thebakerz.official",
+                icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:tiktok" />,
+            },
+            {
+                name: "Youtube",
+                href: "https://www.youtube.com/@the_bakerz", 
+                icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:youtube" />,
+            },
+            {
+                name: "LinkedIn",
+                href: "https://www.linkedin.com/company/thebakerz",
+                icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:linkedin" />,
+            },
+            {
+                name: "Facebook",
+                href: "https://www.facebook.com/thebakerz.official",
+                icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:facebook" />,
+            },
+            {
+                name: "Twitter",
                 href: "https://x.com/the_bakerz",
-                icon: (props: SocialIconProps) => <Icon {...props} icon="fontisto:twitter" />,
+                icon: (props: SocialIconProps) => <Icon {...props} icon="line-md:twitter-x" />,
             }
         ],
     };
