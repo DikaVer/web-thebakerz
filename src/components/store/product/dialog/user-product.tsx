@@ -81,7 +81,11 @@ export default function UserProductDialog({
         addItem,
         updateItem,
     } = useCart();
-    const {isDelivery, validationResult, setSelectedDate} = useDelivery();
+    const {
+        isDelivery, 
+        validationResult, 
+        setSelectedDate
+    } = useDelivery();
     const isSmall = useMediaQuery("(max-width: 432px)");
 
     // This function calls the updateCart server action.

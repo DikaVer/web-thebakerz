@@ -32,6 +32,8 @@ interface DeliveryContextProps {
     selectedDate: CalendarDateTime | CalendarDate | undefined;
     isLoadingDate: boolean;
     isDateUpdating: boolean;
+    minLeadTimeProduct: number | null;
+    setMinLeadTimeProduct: (minLeadTime: number | null) => void;
     handleDateChange: (newDate: CalendarDateTime | CalendarDate) => Promise<void>;
     setSelectedDate: (newDate: CalendarDateTime | CalendarDate | undefined) => void;
     
@@ -84,6 +86,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(undefined);
   const [isLoadingDate, setIsLoadingDate] = useState(true);
   const [isDateUpdating, setIsDateUpdating] = useState(false);
+  const [minLeadTimeProduct, setMinLeadTimeProduct] = useState<number | null>(null);
   
   // Address state
   const [address, setAddress] = useState<DeliveryAddressRaw | null>(initialAddress);
@@ -464,6 +467,8 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
         selectedDate,
         isLoadingDate,
         isDateUpdating,
+        minLeadTimeProduct,
+        setMinLeadTimeProduct,
         handleDateChange,
         setSelectedDate,
 

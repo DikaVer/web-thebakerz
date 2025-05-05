@@ -39,6 +39,7 @@ export interface ItemCart {
     store_id: string;
     product_id: string;
     note?: string;
+    min_lead_time: number;
     variants?: Variant[];
     quantity: number;
     createdAt: string;
@@ -108,6 +109,7 @@ export const updateCart = async (
             id: cartItemId,
             store_id: storeId,
             product_id: productId,
+            min_lead_time: productData.min_lead_time,
             note,
             quantity,
             variants,

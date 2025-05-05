@@ -1,11 +1,12 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode, useState } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import { CartData, ItemCart, updateCart, removeCartItem } from "@/lib/actions/cart";
+import { getProductByStoreIdAndProductId } from "@/lib/actions/product";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import {useDisclosure} from "@heroui/react";
-import { ValidationResult } from './delivery-provider';
+import { useDelivery } from './delivery-provider';
 
 interface CartContextProps {
     cart: CartData;
@@ -40,7 +41,30 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
     const initialItemCount = cartData[storeId] ? Object.keys(cartData[storeId]).length : 0;
     const [itemCount, setItemCount] = useState<number>(initialItemCount);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const { 
+        setMinLeadTimeProduct 
+    } = useDelivery();
 
+    // Find product with largest minLeadTime whenever cart changes
+    useEffect(() => {
+        const findLargestMinLeadTime = async () => {
+            if (!cartData[storeId]) return;
+            
+            let maxLeadTime = 0;
+            const cartItems = Object.values(cartData[storeId]);
+            
+            for (const item of cartItems) {
+                // Get product details to access min_lead_time
+                if (item.min_lead_time > maxLeadTime) {
+                    maxLeadTime = item.min_lead_time;
+                }
+            }
+            
+            setMinLeadTimeProduct(maxLeadTime);
+        };
+        
+        findLargestMinLeadTime();
+    }, [cartData, storeId, setMinLeadTimeProduct]);
 
     const addItem = (cart: ItemCart) => {
         setItemCount((prevCount) => prevCount + 1);
@@ -55,7 +79,6 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
 
     // Async update: calls server action updateCart and updates local state
     const updateItem = async (cart: ItemCart) => {
-
         const result = await updateCart(cart.product_id, cart.store_id, cart.quantity, cart.note, cart.variants, cart.id);
         if (result.success && result.itemCart) {
             setCart((prevCart) => {

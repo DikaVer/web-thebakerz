@@ -173,32 +173,34 @@ async function setupStoreProviders({
     }
     
     return (
-        <CartProvider
-            cart={cartData}
-            storeId={storeData.id}
+        
+        <StoreProvider
+            store={storeData}
         >
-                <StoreProvider
-                    store={storeData}
+            <DeliveryProvider
+                initialDeliveryMode={initialDeliveryMode}
+                initialAddress={savedAddress}
+            >   
+                <CartProvider
+                    cart={cartData}
+                    storeId={storeData.id}
                 >
-                    <DeliveryProvider
-                        initialDeliveryMode={initialDeliveryMode}
-                        initialAddress={savedAddress}
+                    <ProductDialogProvider
+                    storeId={storeData.id}
+                    storeOwnerId={storeData.user_id}
+                    storeName={storeData?.storeName}
                     >
-                        <ProductDialogProvider
-                            storeId={storeData.id}
-                            storeOwnerId={storeData.user_id}
-                            storeName={storeData?.storeName}
+                        <LayoutComp
+                            store={storeData}
+                            {...layoutOptions}
                         >
-                            <LayoutComp
-                                store={storeData}
-                                {...layoutOptions}
-                            >
-                                {children}
-                            </LayoutComp>
-                        </ProductDialogProvider>
-                    </DeliveryProvider>
-                </StoreProvider>
-        </CartProvider>
+                            {children}
+                        </LayoutComp>
+                    </ProductDialogProvider>
+        
+                </CartProvider>
+            </DeliveryProvider>
+        </StoreProvider>
     );
 }
 

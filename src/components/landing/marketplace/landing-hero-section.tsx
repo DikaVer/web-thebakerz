@@ -155,7 +155,7 @@ export const LandingHeroSection = () => {
     };
 
     // Debounce the suggestions request
-    const timeoutId = setTimeout(fetchSuggestions, 350);
+    const timeoutId = setTimeout(fetchSuggestions, 500);
 
     return () => clearTimeout(timeoutId);
   }, [value, isMapsApiReady, mapsApiStatus]); // Depend on value and API readiness
