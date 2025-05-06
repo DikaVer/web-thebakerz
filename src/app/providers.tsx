@@ -4,6 +4,8 @@ import {
     QueryClient,
     QueryClientProvider,
 } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import { applyDOMNodePatch } from '@/lib/utils/dom-patch'
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -44,7 +46,11 @@ export function Providers({session, children, locale}: {
     const router = useRouter();
     // const pathname = usePathname();
     // const { theme, setTheme } = useTheme();
-    
+
+    // Apply DOM patch to prevent Google Translate errors
+    useEffect(() => {
+        applyDOMNodePatch();
+    }, []);
 
     // const isBecomePartner = pathname.includes('become-partner');
     // if (isBecomePartner) {
@@ -53,27 +59,27 @@ export function Providers({session, children, locale}: {
 
 
     return (
-            <HeroUIProvider
-                locale={locale}
-                navigate={router.push}
+        <HeroUIProvider
+            locale={locale}
+            navigate={router.push}
 
-            >
-                <NextThemesProvider attribute="class" defaultTheme='light'>
-                    <QueryClientProvider client={queryClient}>
-                        <SessionProvider sessionData={session}>
-                            <div className={'relative z-60'}>
-                                <ToastProvider
-                                    toastProps={{
-                                        classNames: {
-                                            base: 'z-60',
-                                        }
-                                    }}
-                                />
-                            </div>
-                            {children}
-                        </SessionProvider>
-                    </QueryClientProvider>
-                </NextThemesProvider>
-            </HeroUIProvider>
+        >
+            <NextThemesProvider attribute="class" defaultTheme='light'>
+                <QueryClientProvider client={queryClient}>
+                    <SessionProvider sessionData={session}>
+                        <div className={'relative z-60'}>
+                            <ToastProvider
+                                toastProps={{
+                                    classNames: {
+                                        base: 'z-60',
+                                    }
+                                }}
+                            />
+                        </div>
+                        {children}
+                    </SessionProvider>
+                </QueryClientProvider>
+            </NextThemesProvider>
+        </HeroUIProvider>
     )
 }

@@ -47,7 +47,7 @@ export default async function RootLayout({
     const preferences = await getCookiePreferences();
 
     return (
-        <html lang={lang || locale} translate={'no'} >
+        <html lang={lang || locale} >
             <body className={`${lexendDeca.className} max-w-full `}>
                 <NextIntlClientProvider messages={messages}>
                     <Providers
