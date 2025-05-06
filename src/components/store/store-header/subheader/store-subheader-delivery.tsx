@@ -42,6 +42,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
     const { 
         // Date selection
         selectedDate,
+        minLeadTimeProduct,
         isLoadingDate,
         isDateUpdating,
         isSubheaderLoaded,
@@ -141,6 +142,14 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
         originalOnOpenChange(); // originalOnOpenChange doesn't take arguments
         resetModalStatus(open); // Reset delivery provider status
     };
+
+    const minValue = () => {
+        if (minLeadTimeProduct && minLeadTimeProduct > store.minTimeOrder) {
+            return now("Europe/Amsterdam").add({ minutes: minLeadTimeProduct });
+        } else {
+            return now("Europe/Amsterdam").add({ minutes: store.minTimeOrder || 10080 });
+        }
+    }
 
     return (
         <div className="flex flex-col w-full h-full justify-between max-w-[440px]">
@@ -242,9 +251,7 @@ export function StoreSubHeaderDelivery({ }: StoreSubHeaderDeliveryProps) {
                     >
                         <SmartDatetimeInput
                             schedule={getDeliverySchedule()}
-                            minValue={(() => {
-                                return now("Europe/Amsterdam").add({ minutes: validationResult.deliveryRegion.minOrderTime || 2880});
-                            })()}
+                            minValue={minValue()}
                             value={selectedDate}
                             onValueChange={(newDate) => handleDateChange(newDate)}
                             placeholder={t("scheduleDeliveryTime")}

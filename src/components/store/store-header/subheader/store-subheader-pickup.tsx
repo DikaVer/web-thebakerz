@@ -26,11 +26,21 @@ export function StoreSubHeaderPickUp({ }: StoreSubHeaderPickUpProps) {
     
     const {
         selectedDate,
+        minLeadTimeProduct,
         isLoadingDate,
         isDateUpdating,
         handleDateChange,
         setMapLoaded
     } = useDelivery();
+
+
+    const minValue = () => {
+        if (minLeadTimeProduct && minLeadTimeProduct > store.minTimeOrder) {
+            return now("Europe/Amsterdam").add({ minutes: minLeadTimeProduct });
+        } else {
+            return now("Europe/Amsterdam").add({ minutes: store.minTimeOrder || 10080 });
+        }
+    }
 
     return (
         <div className="flex flex-col w-full max-w-[440px]">
@@ -51,9 +61,7 @@ export function StoreSubHeaderPickUp({ }: StoreSubHeaderPickUpProps) {
             >
                 <SmartDatetimeInput
                     schedule={store.schedule}
-                    minValue={(() => {
-                        return now("Europe/Amsterdam").add({ minutes: store.minTimeOrder || 2880 });
-                    })()}
+                    minValue={minValue()}
                     value={selectedDate}
                     onValueChange={(newDate) => handleDateChange(newDate)}
                     placeholder={t("scheduleOrderTime")}
