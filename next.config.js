@@ -18,6 +18,9 @@ const nextConfig = {
             },
         },
         serverComponentsExternalPackages: ["pino", "pino-pretty"],
+        serverActions: {
+            bodySizeLimit: '5mb',
+        },
     },
     bundlePagesRouterDependencies: true,
     eslint: {
