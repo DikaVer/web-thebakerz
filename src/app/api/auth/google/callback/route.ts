@@ -107,11 +107,6 @@ export async function GET(request: Request): Promise<Response> {
 		requestId: context.requestId,
 		clientIP: context.clientIP
 	});
-	
-	cookieStore.delete("google_oauth_state");
-	cookieStore.delete("google_code_verifier");
-	cookieStore.delete("google_redirect");
-	cookieStore.delete("google_store_id");
 
 	const claims = decodeIdToken(tokens.idToken());
 	const claimsParser = new ObjectParser(claims);
@@ -161,6 +156,11 @@ export async function GET(request: Request): Promise<Response> {
 			userId: existingUser.id,
 			redirectTo
 		});
+
+		cookieStore.delete("google_oauth_state");
+		cookieStore.delete("google_code_verifier");
+		cookieStore.delete("google_redirect");
+		cookieStore.delete("google_store_id");
 		
 		return new Response(null, {
 			status: 302,
@@ -209,6 +209,11 @@ export async function GET(request: Request): Promise<Response> {
 		isNewUser: existingUser === null && await getUserFromEmail(email) === null,
 		redirectTo
 	});
+
+	cookieStore.delete("google_oauth_state");
+	cookieStore.delete("google_code_verifier");
+	cookieStore.delete("google_redirect");
+	cookieStore.delete("google_store_id");
 	
 	return new Response(null, {
 		status: 302,
