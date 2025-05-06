@@ -7,6 +7,7 @@ import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
 import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata function and translations
 import Partners from '@/components/landing/partners';
+import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 
 // Define specific metadata overrides for the homepage
 const pageMetadataTranslations = {
@@ -77,7 +78,9 @@ export default async function Page() {
 
   return (
     <main className="min-h-screen">
-      <LandingHeroSection />
+      <GoogleMapsProvider>
+        <LandingHeroSection />
+      </GoogleMapsProvider>
       <BakersGrowthSection />
       <Partners />  
       <Footer />

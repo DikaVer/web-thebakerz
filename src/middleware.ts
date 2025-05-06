@@ -1,30 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-
-// Rate limiting configuration
-const RATE_LIMIT = 100; // requests per minute
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute in milliseconds
-
-// Protected routes that require authentication
-const protectedRoutes = [
-  '/dashboard',
-  '/orders',
-  '/profile',
-  '/settings',
-  '/seller',
-];
-
-// Public routes that don't require authentication
-const publicRoutes = [
-  '/',
-  '/products',
-  '/categories',
-  '/about',
-  '/contact',
-];
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
+
   const { pathname } = req.nextUrl;
-  
+
   // Skip middleware for static files and API routes
   if (
     pathname.startsWith('/_next') ||
@@ -36,7 +16,7 @@ export async function middleware(req: NextRequest) {
 
   // Add security headers
   const response = NextResponse.next();
-  
+
   // Add security headers
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');

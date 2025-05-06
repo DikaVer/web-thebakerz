@@ -118,10 +118,10 @@ export const nameSchema = z
     .string()
     .min(4, "Minimum of 4 characters for name")
     .max(120, "Maximum of 120 characters for name")
-    // Allows letters, numbers, periods, underscores, hyphens, brackets, and any number of spaces
+    // Allows letters, numbers, periods, underscores, hyphens, brackets, and any number of spaces, and accented characters
     .regex(
-        /^[a-zA-Z0-9._\-&\[\]()'"‘\s]+$/,
-        "Name can only contain letters, numbers, periods, underscores, hyphens, brackets, and spaces"
+        /^[a-zA-Z0-9àáâäæçèéêëìíîïòóôöùúûüÿœÀÁÂÄÆÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜŸŒ._\-&\[\]()'"'\s]+$/,
+        "Name can only contain letters, numbers, accented characters, periods, underscores, hyphens, brackets, and spaces"
     )
     .regex(
         /^(?!.*\.\.)(?!.*\.\.\.)(?!.*\.\.\.\.)(?!.*\.\.\.\.\.)(?!.*\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.)(?!.*\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.)/,
@@ -145,7 +145,7 @@ export const nicknameSchema = z
     ;
 
 export const descriptionSchema = z.string()
-    .max(500, { message: "Description must be less than 500 characters" });
+    .max(1000, { message: "Description must be less than 1000 characters" });
 
 
 // Schema for individual option items within a variant

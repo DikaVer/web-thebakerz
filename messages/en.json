@@ -631,6 +631,8 @@
     "zoom": "Zoom"
   },
   "app/(store)/components/location-map": {
+    "errorLoadingMap": "Error loading map",
+    "loadingMap": "Loading Map...",
     "storeLocation": "Store Location",
     "viewOnGoogleMaps": "View on Google Maps"
   },
@@ -736,6 +738,7 @@
     "Add Dietary Restrictions": "Add Dietary Restriction",
     "Add Ingredients Placeholder": "Add Ingredients",
     "Add Item": "Add Item",
+    "CustomerView": "Customer View",
     "EditItem": "Edit Item",
     "Item Name": "Item Name",
     "Item Options": "Item Options",

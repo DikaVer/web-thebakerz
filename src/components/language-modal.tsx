@@ -3,15 +3,17 @@
 import {Modal, ModalContent, ModalHeader, ModalBody, Button} from '@heroui/react';
 import { useState, FormEvent } from 'react';
 import {setLanguageCookie} from "@/lib/actions/language";
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {Locale} from "@/lib/i18n";
 import { Icon } from '@iconify/react';
 
 
 
 export default function LanguageModal({handAction}: {handAction?: () => void}) {
+    const pathname = usePathname();
+    const isSocials = pathname.includes('socials');
     // get from server or browser
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(!isSocials);
 
     const handleSubmit = async (targetLanguage: Locale) => {
         // Call the server action to set cookie, then close modal

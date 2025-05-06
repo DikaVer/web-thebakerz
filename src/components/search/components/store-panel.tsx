@@ -157,7 +157,7 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                 </CardBody>
                 <CardFooter className="text-sm flex-col !items-start p-4 gap-1.5">
                     <div className="flex justify-between items-start w-full">
-                        <h4 className="font-bold text-large truncate mr-2">{store.storeName}</h4>
+                        <h4 className="font-bold text-large truncate mr-2">{store.ownerName || store.storeName}</h4>
                         {deliveryMode === 'pickup' ? (
                             <Chip 
                                 size="sm" 

@@ -8,10 +8,10 @@ import Image from 'next/image';
 import BlurText from '@/components/ui/blur-text';
 import { storeCoordinatesInCookies } from '@/app/actions';
 import { pacifico } from '@/components/fonts';
-import { useLoadScript } from '@react-google-maps/api';
 import { LandingSigninButton } from '@/components/ui/landing-signin';
 import { useTranslations } from 'next-intl';
 import { logger } from '@/lib/logger';
+import { useGoogleMaps } from '@/components/providers/google-maps-provider';
 
 // Constants
 const GOOGLE_MAPS_LIBRARIES = ['places'];
@@ -26,6 +26,7 @@ interface PlaceSuggestion {
 // LandingSection component with the address search
 export const LandingHeroSection = () => {
   const router = useRouter();
+  const { isLoaded: isMapsApiReady, loadError } = useGoogleMaps();
   const [isLocating, setIsLocating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -33,79 +34,131 @@ export const LandingHeroSection = () => {
   const sessionTokenRef = useRef<google.maps.places.AutocompleteSessionToken | null>(null);
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
-  const [isSearchReady, setIsSearchReady] = useState(false);
+  const [mapsApiStatus, setMapsApiStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const t = useTranslations("app/landing/marketplace");
-
-  // Load Google Maps API
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
-    libraries: GOOGLE_MAPS_LIBRARIES as any,
-    language: 'nl', // Set Dutch language for suggestions
-    preventGoogleFontsLoading: true, // Optional: prevent font loading if handled elsewhere
-  });
 
   // Check if API key is missing and log error
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
       logger.error('googleMaps', 'NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set in environment variables!');
       logger.warn('googleMaps', 'You need to add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to your .env.local file');
+      setErrorMessage('Maps configuration error.'); // Show user-facing error
+      setMapsApiStatus('error');
     }
-    
+  }, []); // Run once on mount
+
+  // Set error message from provider if it exists
+  useEffect(() => {
     if (loadError) {
-      logger.error('googleMaps', 'Google Maps script loading error:', { error: loadError });
+      logger.error('googleMaps', 'Maps API failed to load:', { error: loadError });
+      setErrorMessage(`Maps failed to load: ${loadError.message}`);
+      setMapsApiStatus('error');
     }
   }, [loadError]);
 
   // Initialize services when Maps API is loaded
   useEffect(() => {
-    if (isLoaded && window.google?.maps) {
-      geocoderRef.current = new google.maps.Geocoder();
-      sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
-      setIsSearchReady(true);
-      logger.debug('googleMaps', 'Google Maps and Places API initialized');
-    }
-  }, [isLoaded]);
-
-  // Fetch suggestions when input changes
-  useEffect(() => {
-    const fetchSuggestions = async () => {
-      if (!isSearchReady || !value.trim() || !window.google?.maps?.places || !sessionTokenRef.current) {
-        setSuggestions([]);
-        return;
-      }
-
+    // Initialize only when the script is loaded successfully
+    if (isMapsApiReady && !loadError && window.google?.maps?.places) {
       try {
+        geocoderRef.current = new google.maps.Geocoder();
+        sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
+        logger.debug('googleMaps', 'Google Maps services initialized via provider.');
+        setMapsApiStatus('ready');
+        
+        // Verify API key validity by making a test request
+        const testGeocodingRequest = async () => {
+          try {
+            await geocoderRef.current?.geocode({ address: 'Amsterdam' });
+            logger.info('googleMaps', 'Google Maps API connection verified successfully');
+          } catch (error: any) {
+            if (error.code === 'INVALID_REQUEST' || error.code === 'REQUEST_DENIED') {
+              logger.error('googleMaps', 'API key validation failed:', { error });
+              setErrorMessage('Maps API key is invalid or restricted.');
+              setMapsApiStatus('error');
+            }
+          }
+        };
+        
+        testGeocodingRequest();
+      } catch (error) {
+        logger.error('googleMaps', 'Error initializing Google Maps services:', { error });
+        setErrorMessage('Failed to initialize map services.');
+        setMapsApiStatus('error');
+      }
+    }
+  }, [isMapsApiReady, loadError]); // Depend on load status and error
+
+  // Fetch suggestions when input changes and API is ready
+  useEffect(() => {
+    // Ensure API is ready, value exists, AND session token is available
+    if (!isMapsApiReady || !value.trim() || !sessionTokenRef.current) {
+      setSuggestions([]);
+      return;
+    }
+    
+    // Capture the current token safely
+    const currentSessionToken = sessionTokenRef.current;
+
+    const fetchSuggestions = async () => {
+      try {
+        logger.debug('googleMaps', 'Attempting to fetch autocomplete suggestions', { input: value });
+        
         const request = {
           input: value,
           includedPrimaryTypes: ['geocode'],
           includedRegionCodes: COUNTRY_RESTRICTION,
           language: 'nl',
-          sessionToken: sessionTokenRef.current,
+          sessionToken: currentSessionToken, // Use the captured non-null token
         };
 
+        // Use the new API
         const result = await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions(request);
-        
+
         if (result && result.suggestions) {
           const formattedSuggestions: PlaceSuggestion[] = result.suggestions.map((suggestion: any) => ({
             place_id: suggestion.placePrediction.placeId,
             description: suggestion.placePrediction.text?.text || suggestion.placePrediction.description || ''
           }));
-          
+
           setSuggestions(formattedSuggestions);
+          logger.debug('googleMaps', 'Successfully retrieved suggestions', { count: formattedSuggestions.length });
+          
+          // If we got results, the API is definitely working
+          if (mapsApiStatus !== 'ready') {
+            setMapsApiStatus('ready');
+            logger.info('googleMaps', 'Google Maps API connection confirmed via successful autocomplete request');
+          }
+        } else {
+          logger.warn('fetchSuggestions', 'No suggestions returned from API');
+          setSuggestions([]);
         }
       } catch (error) {
-        logger.error('fetchSuggestions', 'Error fetching place suggestions:', { error });
+        // Check for specific API key errors if possible
+        if (error instanceof Error) {
+          if (error.message.includes('API_KEY_HTTP_REFERRER_BLOCKED')) {
+            logger.error('fetchSuggestions', 'API Key HTTP Referrer Blocked', { error });
+            setErrorMessage('Address lookup failed due to API key restriction.');
+            setMapsApiStatus('error');
+          } else if (error.message.includes('REQUEST_DENIED')) {
+            logger.error('fetchSuggestions', 'API request denied - likely invalid or restricted key', { error });
+            setErrorMessage('Address lookup service unavailable. Please try again later.');
+            setMapsApiStatus('error');
+          } else {
+            logger.error('fetchSuggestions', 'Error fetching place suggestions:', { error });
+          }
+        } else {
+          logger.error('fetchSuggestions', 'Unknown error fetching place suggestions');
+        }
         setSuggestions([]);
       }
     };
 
     // Debounce the suggestions request
-    const timeoutId = setTimeout(() => {
-      fetchSuggestions();
-    }, 350);
+    const timeoutId = setTimeout(fetchSuggestions, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [value, isSearchReady]);
+  }, [value, isMapsApiReady, mapsApiStatus]); // Depend on value and API readiness
 
   // Clear suggestions
   const clearSuggestions = () => {
@@ -114,8 +167,10 @@ export const LandingHeroSection = () => {
 
   // Handle selection from autocomplete
   const handleAutocompleteSelect = async (selectedAddress: string, placeId?: string) => {
-    if (!isSearchReady || !geocoderRef.current) {
-      setErrorMessage("Address search is not ready yet.");
+    if (!isMapsApiReady || !geocoderRef.current) {
+      // Use a more specific error if loading failed
+      const errorMsg = loadError ? `Maps failed to load: ${loadError.message}` : "Address search is not ready yet.";
+      setErrorMessage(errorMsg);
       return;
     }
     
@@ -180,77 +235,6 @@ export const LandingHeroSection = () => {
     } 
   };
 
-  // Get coordinates from user's current location
-  const handleLocationClick = async () => {
-    if (!isLoaded || !navigator.geolocation) {
-      setErrorMessage("Geolocation services are not available.");
-      return;
-    }
-    
-    setIsLocating(true);
-    setErrorMessage(null);
-    
-    try {
-      // Get current position with timeout
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(
-          resolve,
-          reject,
-          { enableHighAccuracy: true, timeout: 8000 }
-        );
-      });
-      
-      const coordinates = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-      
-      // Use reverse geocoding to get city
-      let city: string | undefined;
-      if (geocoderRef.current) {
-        const results = await geocoderRef.current.geocode({ location: coordinates });
-        if (results.results && results.results.length > 0) {
-          const addressComponents = results.results[0].address_components;
-          for (const component of addressComponents) {
-            if (component.types.includes('locality')) {
-              city = component.long_name;
-              break;
-            }
-          }
-        }
-      }
-      
-      // Store coordinates and city in server-side cookies
-      const result = await storeCoordinatesInCookies(coordinates, city);
-      
-      if (result?.message) {
-        throw new Error(result.message);
-      }
-      
-      // Navigate to search page with city if available
-      const searchParams = new URLSearchParams();
-      searchParams.append('lat', coordinates.lat.toString());
-      searchParams.append('lng', coordinates.lng.toString());
-      if (city) searchParams.append('city', city);
-      
-      router.push(`/search?${searchParams.toString()}`);
-    } catch (error: any) {
-      let message = "Could not determine your location. Please enter an address manually.";
-      
-      if (error.code === 1) { // PERMISSION_DENIED
-        message = "Location access was denied. Please enter an address manually.";
-      } else if (error.code === 2) { // POSITION_UNAVAILABLE
-        message = "Your location is unavailable. Please enter an address manually.";
-      } else if (error.code === 3) { // TIMEOUT
-        message = "Location request timed out. Please enter an address manually.";
-      }
-      
-      setErrorMessage(message);
-    } finally {
-      setIsLocating(false);
-    }
-  };
-
   // Handle form submission
   const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -265,12 +249,8 @@ export const LandingHeroSection = () => {
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
-      {/* Explicit check for Maps loading error */}
-      {loadError && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-red-100 text-red-700 p-4">
-          Error loading Google Maps. Please check your API key and network connection.
-        </div>
-      )}
+      {/* Show error message if API key is missing or initialization failed */}
+      {/* The general errorMessage state handles errors, including loadError */}
       
       {/* Full-screen background image */}
       <div className="absolute inset-0 w-full h-full">
@@ -336,7 +316,14 @@ export const LandingHeroSection = () => {
                 aria-label="Address search"
                 placeholder={t("heroSectionPlaceholder")}
                 value={value}
-                onInputChange={setValue}
+                onInputChange={(newValue) => {
+                  setValue(newValue);
+                  // Check Maps API status on first input
+                  if (newValue && mapsApiStatus === 'loading' && isMapsApiReady) {
+                    logger.debug('googleMaps', 'User input detected, verifying Maps API status');
+                    setMapsApiStatus('ready');
+                  }
+                }}
                 onSelectionChange={(key) => {
                   // Find the selected item from suggestions
                   const selected = suggestions.find(item => item.place_id === key);
@@ -344,9 +331,9 @@ export const LandingHeroSection = () => {
                     handleAutocompleteSelect(selected.description, selected.place_id);
                   }
                 }}
-                isDisabled={!isLoaded || !isSearchReady || isLocating || isSubmitting}
+                isDisabled={!isMapsApiReady || !!loadError || isLocating || isSubmitting}
                 variant="bordered"
-                isLoading={!isLoaded || !isSearchReady || isLocating || isSubmitting}
+                isLoading={!isMapsApiReady || isLocating || isSubmitting} // Show loading based on API readiness
                 startContent={
                   <Icon icon="solar:magnifer-linear" className="text-default-400" width={20} />
                 }
@@ -385,11 +372,21 @@ export const LandingHeroSection = () => {
                 )}
                 
                 {errorMessage && (
-                  <div className="text-red-500 p-2 rounded-md">
+                  <div className="text-red-500 p-2 rounded-md bg-red-100/80">
                     {errorMessage}
                   </div>
                 )}
                 
+                {/* New Maps API status indicator for debugging */}
+                {process.env.NODE_ENV === 'development' && (
+                  <div className={`text-xs p-1 text-center rounded ${
+                    mapsApiStatus === 'ready' ? 'text-green-700 bg-green-100/80' : 
+                    mapsApiStatus === 'error' ? 'text-red-700 bg-red-100/80' : 
+                    'text-blue-700 bg-blue-100/80'
+                  }`}>
+                    Google Maps API: {mapsApiStatus}
+                  </div>
+                )}
               </div>
             </div>
             

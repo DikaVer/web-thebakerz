@@ -3,10 +3,11 @@
 import { useEffect, useState, useRef } from 'react';
 import { Autocomplete, AutocompleteItem, Spinner } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { useLoadScript } from '@react-google-maps/api';
+import { useGoogleMaps } from '@/components/providers/google-maps-provider';
 import { storeCoordinatesInCookies } from '@/app/actions';
 import { useTranslations } from 'next-intl';
 import {Coordinates} from "@/lib/delivery-cookie";
+import { logger } from '@/lib/logger';
 
 // Constants
 const GOOGLE_MAPS_LIBRARIES = ['places'];
@@ -24,6 +25,7 @@ interface PlaceSuggestion {
 export function SearchAddress({ 
     onLocationChange 
 }: SearchAddressProps) {
+    const { isLoaded: isMapsApiReady, loadError } = useGoogleMaps();
     const [isLocating, setIsLocating] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -31,42 +33,43 @@ export function SearchAddress({
     const sessionTokenRef = useRef<google.maps.places.AutocompleteSessionToken | null>(null);
     const [value, setValue] = useState('');
     const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
-    const [isSearchReady, setIsSearchReady] = useState(false);
     const t = useTranslations("app/search");
-
-    // Load Google Maps API
-    const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
-        libraries: GOOGLE_MAPS_LIBRARIES as any,
-        language: 'nl',
-        preventGoogleFontsLoading: true,
-    });
 
     useEffect(() => {
         if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
-            console.error('ERROR: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set!');
+            logger.error('SearchAddress', 'NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set!');
         }
         if (loadError) {
-            console.error('Google Maps script loading error:', loadError);
+            logger.error('SearchAddress', 'Google Maps script loading error from provider:', { loadError });
+            if (!errorMessage) {
+                setErrorMessage(`${t("errorLoadingAddressSearch")}: ${loadError.message}`);
+            }
         }
-    }, [loadError]);
+    }, [loadError, errorMessage, t]);
 
     // Initialize services when Maps API is loaded
     useEffect(() => {
-        if (isLoaded && window.google?.maps) {
-            geocoderRef.current = new google.maps.Geocoder();
-            sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
-            setIsSearchReady(true);
+        if (isMapsApiReady && !loadError && window.google?.maps) {
+            try {
+                geocoderRef.current = new google.maps.Geocoder();
+                sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
+                logger.debug('SearchAddress', 'Google Maps services initialized.');
+            } catch (error) {
+                logger.error('SearchAddress', 'Error initializing Google Maps services:', { error });
+                setErrorMessage(t("errorInitializingServices"));
+            }
         }
-    }, [isLoaded]);
+    }, [isMapsApiReady, loadError, t]);
 
     // Fetch suggestions when input changes
     useEffect(() => {
         const fetchSuggestions = async () => {
-            if (!isSearchReady || !value.trim() || !window.google?.maps?.places || !sessionTokenRef.current) {
+            if (!isMapsApiReady || !!loadError || !value.trim() || !window.google?.maps?.places || !sessionTokenRef.current) {
                 setSuggestions([]);
                 return;
             }
+            
+            const currentSessionToken = sessionTokenRef.current;
 
             try {
                 const request = {
@@ -74,7 +77,7 @@ export function SearchAddress({
                     includedPrimaryTypes: ['geocode'],
                     includedRegionCodes: COUNTRY_RESTRICTION,
                     language: 'nl',
-                    sessionToken: sessionTokenRef.current,
+                    sessionToken: currentSessionToken,
                 };
 
                 const result = await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions(request);
@@ -86,9 +89,11 @@ export function SearchAddress({
                     }));
                     
                     setSuggestions(formattedSuggestions);
+                } else {
+                    setSuggestions([]);
                 }
             } catch (error) {
-                console.error('Error fetching place suggestions:', error);
+                logger.error('SearchAddress', 'Error fetching place suggestions:', { error });
                 setSuggestions([]);
             }
         };
@@ -98,7 +103,7 @@ export function SearchAddress({
         }, 350);
 
         return () => clearTimeout(timeoutId);
-    }, [value, isSearchReady]);
+    }, [value, isMapsApiReady, loadError]);
 
     const processLocationSelection = async (coords: Coordinates, addrValue: string) => {
         setIsSubmitting(true);
@@ -141,8 +146,9 @@ export function SearchAddress({
     };
 
     const handleAutocompleteSelect = async (selectedAddress: string, placeId?: string) => {
-        if (!isSearchReady || !geocoderRef.current) {
-            setErrorMessage("Address search is not ready yet.");
+        if (!isMapsApiReady || !!loadError || !geocoderRef.current) {
+            const errorMsg = loadError ? `${t("errorLoadingAddressSearch")}: ${loadError.message}` : t("addressSearchNotReady");
+            setErrorMessage(errorMsg);
             return;
         }
         
@@ -178,8 +184,11 @@ export function SearchAddress({
     };
 
     const handleLocationClick = async () => {
-        if (!isLoaded || !navigator.geolocation) {
-            setErrorMessage("Geolocation services are not available.");
+        if (!isMapsApiReady || !!loadError || !navigator.geolocation) {
+            const errorMsg = !isMapsApiReady 
+                ? (loadError ? `${t("errorLoadingAddressSearch")}: ${loadError.message}` : t("addressSearchNotReady"))
+                : t("geolocationNotAvailable");
+            setErrorMessage(errorMsg);
             return;
         }
         
@@ -230,8 +239,8 @@ export function SearchAddress({
     return (
         <form onSubmit={handleSubmit} className="relative w-full">
             {loadError && (
-                <div className="mb-2 text-red-600 bg-red-100 p-2 rounded-md text-sm">
-                    {t("errorLoadingAddressSearch")}
+                <div className="mb-2 text-danger-700 bg-danger-100 p-2 rounded-md text-sm">
+                    {t("errorLoadingAddressSearch")}: {loadError.message}
                 </div>
             )}
             <Autocomplete
@@ -246,9 +255,9 @@ export function SearchAddress({
                         handleAutocompleteSelect(selected.description, selected.place_id);
                     }
                 }}
-                isDisabled={!isLoaded || !isSearchReady || isLocating || isSubmitting}
+                isDisabled={!isMapsApiReady || !!loadError || isLocating || isSubmitting}
                 variant="bordered"
-                isLoading={!isLoaded || !isSearchReady || isLocating || isSubmitting}
+                isLoading={!isMapsApiReady && !loadError || isLocating || isSubmitting}
                 startContent={
                     <Icon icon="solar:map-point-wave-linear" className="text-default-400" width={20} />
                 }

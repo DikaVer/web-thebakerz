@@ -36,11 +36,26 @@ export async function GET(request: Request): Promise<Response> {
 	const url = new URL(request.url);
 	const code = url.searchParams.get("code");
 	const state = url.searchParams.get("state");
+	
 	const cookieStore = await cookies();
 
 	const storedState = cookieStore.get("google_oauth_state")?.value ?? null;
 	const codeVerifier = cookieStore.get("google_code_verifier")?.value ?? null;
 	
+	// Enhanced logging to debug potential timing issues with fast redirects
+	log.debug('googleCallback', 'Retrieved OAuth parameters before validation', {
+		requestId: context.requestId,
+		clientIP: context.clientIP,
+		codeParam: code ? 'present' : 'null', // Avoid logging sensitive code itself
+		stateParam: state ? 'present' : 'null',
+		storedStateCookie: storedState ? 'present' : 'null',
+		codeVerifierCookie: codeVerifier ? 'present' : 'null',
+		hasCode: code !== null,
+		hasState: state !== null,
+		hasStoredState: storedState !== null,
+		hasCodeVerifier: codeVerifier !== null
+	});
+
 	// Check for missing parameters
 	if (code === null || state === null || storedState === null || codeVerifier === null) {
 		log.warn('googleCallback', 'Missing required OAuth parameters', {
@@ -60,7 +75,9 @@ export async function GET(request: Request): Promise<Response> {
 	if (state !== storedState) {
 		log.warn('googleCallback', 'OAuth state mismatch', {
 			requestId: context.requestId,
-			clientIP: context.clientIP
+			clientIP: context.clientIP,
+			receivedState: state,
+			storedState: storedState
 		});
 		return new Response(t("pleaseRestartProcess"), {
 			status: 400
@@ -84,6 +101,12 @@ export async function GET(request: Request): Promise<Response> {
 			status: 400
 		});
 	}
+
+	// Clear OAuth cookies after successful validation
+	log.debug('googleCallback', 'Clearing OAuth cookies after successful validation', {
+		requestId: context.requestId,
+		clientIP: context.clientIP
+	});
 
 	const claims = decodeIdToken(tokens.idToken());
 	const claimsParser = new ObjectParser(claims);
@@ -133,6 +156,11 @@ export async function GET(request: Request): Promise<Response> {
 			userId: existingUser.id,
 			redirectTo
 		});
+
+		cookieStore.delete("google_oauth_state");
+		cookieStore.delete("google_code_verifier");
+		cookieStore.delete("google_redirect");
+		cookieStore.delete("google_store_id");
 		
 		return new Response(null, {
 			status: 302,
@@ -181,6 +209,11 @@ export async function GET(request: Request): Promise<Response> {
 		isNewUser: existingUser === null && await getUserFromEmail(email) === null,
 		redirectTo
 	});
+
+	cookieStore.delete("google_oauth_state");
+	cookieStore.delete("google_code_verifier");
+	cookieStore.delete("google_redirect");
+	cookieStore.delete("google_store_id");
 	
 	return new Response(null, {
 		status: 302,

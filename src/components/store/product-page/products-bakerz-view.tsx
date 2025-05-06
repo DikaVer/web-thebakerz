@@ -411,9 +411,9 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                                     value={field.value ?? ""}
                                                     placeholder={t("Add Description Placeholder")}
                                                     variant="underlined"
-                                                    style={{ resize: "none" }}
-                                                    className="text-default-400"
-                                                    classNames={{ input: "min-h-[40px] text-base text-default-400" }}
+                                                    style={{ resize: "none", whiteSpace: "pre-wrap" }}
+                                                    className="text-default-400 whitespace-pre-wrap"
+                                                    classNames={{ input: "min-h-[40px] text-base text-default-400 whitespace-pre-wrap" }}
                                                     validate={() => fieldState.error?.message}
                                                 />
                                             </FormControl>

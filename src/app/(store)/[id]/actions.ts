@@ -56,7 +56,7 @@ export async function removeDeliveryTime(storeId: string, location: string) {
 // Update pickup schedule
 export async function updateOrderTime(storeId: string, date: string, time: string) {
     const data = await getScheduleData();
-    
+
     if (!data.pickup) data.pickup = {};
     data.pickup[storeId] = { date, time };
     

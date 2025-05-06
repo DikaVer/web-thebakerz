@@ -8726,3 +8726,39 @@ reviews:
             suggestion: ''
             type: request_change
             time: '2025-04-27T13:06:28.602Z'
+  app/(store)/components/location-map.errorLoadingMap:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: IKqprdpFfmq2_-ks2UvSx
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-27T19:53:33.363Z'
+  app/(store)/components/location-map.loadingMap:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: TR21f2t-Hc5qkHStGOqo-
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-27T19:53:49.303Z'
+  app/(store)/components/product-page.CustomerView:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: 1tLhBp0ZQdGshOPXPEv1S
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-04-27T22:19:16.114Z'

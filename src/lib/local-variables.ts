@@ -228,21 +228,52 @@ export const examppleStore = ['OrGoD8o3jQ', 'NwzUMel5X6']
 export const TOS_VERSION = '2.0';
 
 export const categories: Readonly<{ [key: string]: { description: string } }> = {
-    'Birthday Cakes': { description: 'Special decorated cakes for birthday celebrations.' },
-    'Bread': { description: 'Freshly baked bread varieties including sourdough, baguettes, and rolls.' },
     'Cakes': { description: 'Variety of cakes including sponge, layered, and specialty cakes.' },
     'Cheesecake': { description: 'Chocolate-based treats including truffles, bars, and bonbons.' },
     'Chocolate': { description: 'Chocolate-based treats including truffles, bars, and bonbons.' },
+    'Bonbon': { description: 'Other categories not listed above.' },
+    'Chocolate Bar': { description: 'Other categories not listed above.' },
+    'Marshmallow': { description: 'Other categories not listed above.' },
     'Cookies and Biscuits': { description: 'Various sweet and savory cookies and biscuits.' },
     'Cupcakes': { description: 'Individual portion cakes with decorative frosting.' },
     'Donuts': { description: 'Ring-shaped fried dough with various glazes and fillings.' },
     'Eclairs': { description: 'Choux pastry filled with cream and topped with icing.' },
-    'Gluten-free': { description: 'Baked goods made without gluten-containing ingredients.' },
     'Macarons': { description: 'French almond meringue cookies with filling.' },
     'Pastries': { description: 'Flaky, buttery baked goods including croissants and danish.' },
     'Pies': { description: 'Traditional fruit or savory fillings in a pastry crust.' },
-    'Vegan': { description: 'Plant-based baked goods made without animal products.' },
-    'Wedding Cakes': { description: 'Elegant multi-tiered cakes for wedding celebrations.' }
+    'Birthday Cakes': { description: 'Special decorated cakes for birthday celebrations.' },
+    'Wedding Cakes': { description: 'Elegant multi-tiered cakes for wedding celebrations.' },
+};
+
+export const EU_COUNTRIES_PLUS_SWISS: Readonly<{ [key: string]: string }> = {
+    'AT': 'Austria',
+    'BE': 'Belgium',
+    'BG': 'Bulgaria',
+    'HR': 'Croatia',
+    'CY': 'Cyprus',
+    'CZ': 'Czech Republic',
+    'DK': 'Denmark',
+    'EE': 'Estonia',
+    'FI': 'Finland',
+    'FR': 'France',
+    'DE': 'Germany',
+    'GR': 'Greece',
+    'HU': 'Hungary',
+    'IE': 'Ireland',
+    'IT': 'Italy',
+    'LV': 'Latvia',
+    'LT': 'Lithuania',
+    'LU': 'Luxembourg',
+    'MT': 'Malta',
+    'NL': 'Netherlands',
+    'PL': 'Poland',
+    'PT': 'Portugal',
+    'RO': 'Romania',
+    'SK': 'Slovakia',
+    'SI': 'Slovenia',
+    'ES': 'Spain',
+    'SE': 'Sweden',
+    'CH': 'Switzerland'
 };
 
 export const EU_COUNTRIES_PLUS_SWISS: Readonly<{ [key: string]: string }> = {

@@ -81,7 +81,11 @@ export default function UserProductDialog({
         addItem,
         updateItem,
     } = useCart();
-    const {isDelivery, validationResult, setSelectedDate} = useDelivery();
+    const {
+        isDelivery, 
+        validationResult, 
+        setSelectedDate
+    } = useDelivery();
     const isSmall = useMediaQuery("(max-width: 432px)");
 
     // This function calls the updateCart server action.
@@ -128,19 +132,28 @@ export default function UserProductDialog({
                 <Button isIconOnly variant={'light'} radius={'full'} onPress={onClose}>
                     <Icon icon="iconamoon:close-bold" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
                 </Button>
-                <CopyText
-                    onClose={onClose}
-                    isIconOnly={true}
-                    copyText={
-                        origin + "/" +
-                        (productData?.store_name || productData?.store_id) +
-                        "/item/" +
-                        (productData?.web_name)
-                    }
-                    textNotify={t("productLinkCopied")}
-                >
-                    <Icon icon="mi:share" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
-                </CopyText>
+                {isBakerzStore && (
+                        <p
+                            className="text-xl font-medium"
+                        >
+                            {t("CustomerView")}
+                        </p>
+                    )}
+                <div className="flex items-center gap-2">
+                    <CopyText
+                        onClose={onClose}
+                        isIconOnly={true}
+                        copyText={
+                            origin + "/" +
+                            (productData?.store_name || productData?.store_id) +
+                            "/item/" +
+                            (productData?.web_name)
+                        }
+                        textNotify={t("productLinkCopied")}
+                    >
+                        <Icon icon="mi:share" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
+                    </CopyText>
+                </div>
             </ModalHeader>
             <ModalBody className={"p-0 justify-center items-center"}>
                 {productData && (
@@ -224,7 +237,7 @@ export default function UserProductDialog({
                         </div>
 
                         <div className={"flex flex-col px-4 py-2 w-full text-default-400 gap-4"}>
-                            <p className={'font-light text-sm'}>{productData.description}</p>
+                            <p className={'font-light text-sm whitespace-pre-wrap'}>{productData.description}</p>
                             {/* Ingredients Alert: Default variant */}
                             {productData.ingredients && productData.ingredients.length > 0 && (
                                 <CustomAlert

@@ -13,6 +13,7 @@ import LanguageModal from "@/components/language-modal";
 import {getCookiePreferences, isCookieConsentFromServer} from "@/lib/cookie";
 import ClarityScript from "@/components/clarity-script";
 import GoogleAnalytics from "@/components/google-analytics";
+import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 
 
 export const viewport: Viewport = {
@@ -27,8 +28,6 @@ export async function generateMetadata() {
     const locale = await getLocale();
     return getLocalizedMetadata(locale);
 }
-
-export const revalidate = 300;
 
 
 export default async function RootLayout({
@@ -48,24 +47,24 @@ export default async function RootLayout({
     const preferences = await getCookiePreferences();
 
     return (
-        <html lang={lang || locale} translate={'no'} >
+        <html lang={lang || locale} >
             <body className={`${lexendDeca.className} max-w-full `}>
                 <NextIntlClientProvider messages={messages}>
                     <Providers
                         locale={lang || locale}
                         session={session}
                     >
-                        <ClarityScript
-                            id={session.user?.id}
-                            preferences={preferences}
-                        />
-                        <GoogleAnalytics
-                            id={session.user?.id}
-                            preferences={preferences}
-                        />
-                        {children}
-                        {!lang && <LanguageModal/>}
-                        {!cookieConsent && <CookieConsentComponent/>}
+                            <ClarityScript
+                                id={session.user?.id}
+                                preferences={preferences}
+                            />
+                            <GoogleAnalytics
+                                id={session.user?.id}
+                                preferences={preferences}
+                            />
+                            {children}
+                            {!lang && <LanguageModal/>}
+                            {!cookieConsent && <CookieConsentComponent/>}
                     </Providers>
                 </NextIntlClientProvider>
             </body>
