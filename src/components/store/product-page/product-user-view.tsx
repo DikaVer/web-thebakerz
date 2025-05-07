@@ -78,7 +78,7 @@ export default function UserProductView({
 
     return (
         <>
-            <Card
+            <Card shadow="none"
                 className={'w-full max-w-full md:max-w-3xl'}
             >
                 <CardBody className={"p-0 py-4 justify-center items-center"}>
@@ -88,7 +88,7 @@ export default function UserProductView({
                                 <div className={cn('w-full md:w-[258px] aspect-square',
                                     isSmall ? "max-w-full" : "max-w-[400px]"
                                 )}>
-                                    <Card
+                                    <Card shadow="none"
                                         isFooterBlurred
                                         className={cn(`flex w-full justify-start items-start shadow-none rounded-none ml-4`,
                                             isSmall ? "ml-0" : "ml-4"

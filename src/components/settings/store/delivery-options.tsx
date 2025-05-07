@@ -72,7 +72,7 @@ const DeliveryOptions: React.FC<DeliveryOptionsProps> = ({ className }) => {
   };
 
   return (
-    <Card className={`w-full max-w-2xl mx-auto ${className}`}>
+    <Card shadow="none" className={`w-full max-w-2xl mx-auto ${className}`}>
       <CardHeader className="flex flex-col items-start">
         <h1>{t("deliveryOptions")}</h1>
         <p className="text-sm text-gray-600">{t("deliveryOptionsDescription")}</p>

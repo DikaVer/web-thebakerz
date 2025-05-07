@@ -16,7 +16,7 @@ interface StoreTopProps {}
 
 export function StoreTop() {
     const { session} = useSession();
-    const { store, sentinelRef} = useStore();
+    const { store} = useStore();
     const { handleAddItem } = useProductDialog();
     const isSmall = useMediaQuery("(max-width: 960px)");
     const t = useTranslations("app/(store)/components/store-top");
@@ -28,8 +28,7 @@ export function StoreTop() {
 
     return (
         <div className={'w-full flex flex-col'}>
-            <Card
-                shadow={'sm'}
+            <Card shadow="none"
                 className={`w-full ${isSmall ? 'max-w-[474px]' : 'max-w-[950px]'}`}
             >
                 <CardBody
@@ -66,7 +65,6 @@ export function StoreTop() {
                     <ThreeDotsDropdown/>
                 </div>
             )}
-            <div ref={sentinelRef} className="h-1"></div>
         </div>
     );
 }

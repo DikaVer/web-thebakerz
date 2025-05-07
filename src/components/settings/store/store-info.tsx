@@ -67,7 +67,7 @@ const StoreInfo: React.FC<StoreInfoProps> = ({ className }) => {
   };
 
   return (
-    <Card className={`w-full overflow-hidden transition-all duration-300 ${className}`} shadow="sm">
+    <Card shadow="none" className={`w-full overflow-hidden transition-all duration-300 ${className}`}>
       <CardBody className="p-0 w-full">
         <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-blue-200 dark:to-secondary-700">
           <div className="flex items-center justify-between">

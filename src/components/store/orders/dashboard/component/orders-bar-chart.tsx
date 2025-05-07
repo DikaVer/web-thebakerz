@@ -182,7 +182,7 @@ const CircleChartCard = React.forwardRef<
 
     if (isLoading) {
         return (
-            <Card
+            <Card shadow="none"
                 ref={ref}
                 className={cn("min-h-[280px] border border-transparent dark:border-default-100", className)}
                 {...props}
@@ -198,7 +198,7 @@ const CircleChartCard = React.forwardRef<
 
 
     return (
-        <Card
+        <Card shadow="none"
             ref={ref}
             className={cn("min-h-[280px] border border-transparent dark:border-default-100", className)}
             {...props}

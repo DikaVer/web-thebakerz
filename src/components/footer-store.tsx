@@ -76,7 +76,7 @@ export function FooterStore() {
     const renderList = React.useCallback(
         ({title, items}: {title: string; items: {name: string; href: string}[]}) => (
             <div>
-                <h3 className="text-small md:text-medium font-semibold text-default-600">{title}</h3>
+                <h3 className="text-small md:text-medium font-semibold">{title}</h3>
                 <ul className="mt-4 space-y-3">
                     {items.map((item) => (
                         <li key={item.name}>
@@ -94,19 +94,20 @@ export function FooterStore() {
     const phone = {
         name: t("phone"),
         href: `https://wa.me/${store?.phone?.replace(/\D/g, '')}`,
-        icon: (props: SocialIconProps) => <Icon {...props} icon="mdi:whatsapp" strokeWidth={1.5} width={20} className={'text-default-600'}/>,
+        icon: (props: SocialIconProps) => <Icon {...props} icon="mdi:whatsapp" strokeWidth={1.5} width={20} className={'text-default-700'}/>,
     };
 
     return (
-        <footer className="flex w-full flex-col bg-gradient-card rounded-xl drop-shadow">
+        <footer className="flex w-full flex-col bg-gradient-card drop-shadow">
             <div className="py-8 md:py-12 container mx-auto">
                 <div className="flex flex-col gap-y-8 items-start justify-between">
                     <div className="flex flex-col gap-y-8 gap-x-12 w-full md:flex-row md:items-start">
                         <div className="grid gap-y-4 md:my-0 w-full md:w-[40%]">
-                            <h3 className="md:small text-medium font-semibold text-default-600">{t("contactUs")}</h3>
+                            <h3 className="md:small text-medium font-semibold ">{t("contactUs")}</h3>
                             <Link
+                                isExternal
                                 href={`https://www.google.com/maps?q=${latitude},${longitude}`}
-                                className="flex flex-row hover:text-default-500 transition-colors"
+                                className="flex flex-row hover:text-default-700 transition-colors"
                             >
                                 <div className="flex gap-x-2 items-center">
                                     <IconLocation size={20}
@@ -115,16 +116,16 @@ export function FooterStore() {
                                                   strokeWidth={2}
                                     />
                                     <div className="flex flex-col gap-y-0">
-                                        <p className="text-sm text-default-500">
+                                        <p className="text-sm text-default-600">
                                             {location}
                                         </p>
-                                        <p className="text-xs font-light text-default-500">
+                                        <p className="text-xs font-light text-default-600">
                                             {subLocation}
                                         </p>
                                     </div>
                                 </div>
                             </Link>
-                            <Link key="WhatsApp" isExternal className="text-default-500 hover:text-default-400 transition-colors flex items-center"
+                            <Link key="WhatsApp" isExternal className="text-default-600 hover:text-default-700 transition-colors flex items-center"
                                   href={phone.href}>
                                 <div className="flex gap-x-2 items-center">
                                     <phone.icon aria-hidden="true"/>
@@ -137,7 +138,7 @@ export function FooterStore() {
                         </div>
                         <div className="flex justify-start gap-y-4 my-0 w-full md:w-[30%]">
                             <div className="w-full mr-4">
-                                <h3 className="md:small text-medium font-semibold text-default-600">{t("Opening Hours")}</h3>
+                                <h3 className="md:small text-medium font-semibold ">{t("Opening Hours")}</h3>
                                 <div className="mt-4">
                                     {renderCalendarContent()}
                                 </div>
@@ -156,7 +157,7 @@ export function FooterStore() {
                     <div className="w-full flex flex-col md:flex-row justify-between items-center gap-y-4">
                         <div className="flex items-center gap-x-4">
                             {footerNavigation.social.map((item) => (
-                                <Link key={item.name} href={item.href} isExternal className="text-default-500 hover:text-default-400 transition-colors">
+                                <Link key={item.name} href={item.href} isExternal className="text-foreground hover:text-default-700 transition-colors">
                                     <span className="sr-only">{item.name}</span>
                                     <item.icon aria-hidden="true" width={20} height={20} />
                                 </Link>

@@ -53,36 +53,6 @@ export function StoreSubHeaderPickUp({ }: StoreSubHeaderPickUpProps) {
             
             {/* Pickup time selector */}
         
-            <ButtonGroup
-                fullWidth
-                size="sm"
-                radius="md"
-                className="text-grayText mt-4"
-            >
-                <SmartDatetimeInput
-                    schedule={store.schedule}
-                    minValue={minValue()}
-                    value={selectedDate}
-                    onValueChange={(newDate) => handleDateChange(newDate)}
-                    placeholder={t("scheduleOrderTime")}
-                >
-                    <Button
-                        startContent={isDateUpdating || isLoadingDate ? <Spinner size="sm" color="current" /> : <Icon icon="solar:walking-round-linear" width={24}/>}
-                        variant={selectedDate instanceof CalendarDateTime ? "bordered" : 'solid'}
-                        className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600' : 'text-white bg-gradient-primary'} text-sm`}
-                        onPress={() => {}}
-                        isDisabled={isLoadingDate || isDateUpdating}
-                    >
-                        {isLoadingDate ? (
-                            <Skeleton className="h-4 w-32 rounded-lg" />
-                        ) : (selectedDate instanceof CalendarDateTime) ? (
-                            `${t("pickUpAt")} ${formatDate(selectedDate)}`
-                        ) : (
-                            t("selectPickUpTime")
-                        )}
-                    </Button>
-                </SmartDatetimeInput>
-            </ButtonGroup>
         
         </div>
     );

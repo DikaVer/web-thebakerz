@@ -10,8 +10,8 @@ import {
     DrawerHeader,
     Spacer,
     useDisclosure,
-    Badge,
-    ScrollShadow
+    ScrollShadow,
+    cn,
 } from "@heroui/react";
 import { useMediaQuery } from "usehooks-ts";
 import { useProductDialog } from "@/components/providers/product-provider";
@@ -20,9 +20,16 @@ import { useStore } from "@/components/providers/store-provider";
 import { CartItemRow } from "@/components/cart/cart-item";
 import { useCart } from "@/components/providers/cart-provider";
 import { useTranslations } from "next-intl";
-import {AnimatePresence, motion, useAnimation} from "framer-motion";
+import {motion, useAnimation} from "framer-motion";
+import { formatCurrency } from "@/lib/utils";
 
-const CartButton: React.FC = () => {
+interface CartButtonProps {
+    isMobileNavbar?: boolean;
+}
+
+const CartButton: React.FC<CartButtonProps> = ({
+    isMobileNavbar = false
+}) => {
     const {
         getProductDataById,
         handleOpen
@@ -32,7 +39,6 @@ const CartButton: React.FC = () => {
         isOpen,
         onOpen,
         onOpenChange,
-        itemCount,
         cart,
         updateItem,
         removeItem,
@@ -69,10 +75,42 @@ const CartButton: React.FC = () => {
         });
     };
 
+    // Calculate total price of all items in the cart
+    const calculateTotalPrice = (): number => {
+        let total = 0;
+        Object.values(cart).forEach(storeCart => {
+            Object.values(storeCart).forEach(item => {
+                const productData = getProductDataById(item.product_id);
+                if (productData) {
+                    // Base price of product
+                    let itemPrice = productData.price;
+                    
+                    // Add variant costs if any
+                    if (item.variants) {
+                        item.variants.forEach(variant => {
+                            if (variant.selectedItems) {
+                                variant.selectedItems.forEach(option => {
+                                    itemPrice += option.price || 0;
+                                });
+                            }
+                        });
+                    }
+                    
+                    // Multiply by quantity
+                    total += itemPrice * item.quantity;
+                }
+            });
+        });
+        return total;
+    };
+
+    const totalPrice = calculateTotalPrice();
+    const formattedTotalPrice = formatCurrency(totalPrice);
+
     const controls = useAnimation();
 
     useEffect(() => {
-        // Animate when itemCount changes
+        // Animate when totalPrice changes
         controls.start({
             scale: [1, 1.15, 1],
             transition: {
@@ -81,50 +119,40 @@ const CartButton: React.FC = () => {
                 ease: "easeInOut"
             }
         });
-    }, [itemCount, controls]);
+    }, [totalPrice, controls]);
 
     return (
-        <>
-            <motion.div animate={controls}>
-                <Badge
-                    color="secondary"
-                    content={
-                        <AnimatePresence
-                            mode="wait"
-                        >
-                            <motion.span
-                                key={itemCount}
-                                initial={{ opacity: 0, y: -5 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 5 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                {itemCount > 99 ? "99+" : itemCount}
-                            </motion.span>
-                        </AnimatePresence>
-                    }
-                    isInvisible={itemCount === 0}
-                    className={'w-7 aspect-square'}
-                    classNames={{
-                        badge: "border-text",
-                    }}
-                    shape="circle"
+        <div className="flex flex-col w-full md:w-fit">
+            <motion.div animate={controls} className="flex items-center w-full md:w-fit">
+                <Button
+                    className={cn("bg-gradient-primary text-white flex items-center justify-between gap-2 px-3 py-2 rounded-full", isMobileNavbar && "w-full")}
+                    onPress={handleOpenDrawer}
+                    endContent={
+                        isMobileNavbar && (
+                            <Icon
+                                icon={"solar:arrow-right-linear"}
+                                height={24}
+                                width={24}
+                                className={cn("text-white")}
+                            />
+                        )
+                    }   
                 >
-                    <Button
-                        isIconOnly
-                        radius={'full'}
-                        color={'primary'}
-                        className={'bg-gradient-primary'}
-                        onPress={handleOpenDrawer}
-                    >
-                        <Icon
-                            icon={"solar:cart-large-2-bold"}
-                            height={24}
-                            width={24}
-                            className="text-white"
-                        />
-                    </Button>
-                </Badge>
+                <>
+                    
+                    <Icon
+                        icon={"line-md:cookie-filled"}
+                        height={24}
+                        width={24}
+                        className={cn("text-white")}
+                    />
+                   
+                    <span className="text-base font-medium">
+                         {isMobileNavbar && "Next • "}{formattedTotalPrice}
+                    </span>
+                </>
+               
+                </Button>
             </motion.div>
             <Drawer
                 isOpen={isOpen}
@@ -137,7 +165,7 @@ const CartButton: React.FC = () => {
                 <DrawerContent>
                     {(onClose) => (
                         <>
-                            {itemCount > 0 ? (
+                            {totalPrice > 0 ? (
                                 <>
                                     <DrawerHeader className="flex flex-col">
                                         {!isMobile && <Spacer y={16} />}
@@ -182,7 +210,7 @@ const CartButton: React.FC = () => {
                     )}
                 </DrawerContent>
             </Drawer>
-        </>
+        </div>
     );
 };
 

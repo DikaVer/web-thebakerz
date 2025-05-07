@@ -162,7 +162,7 @@ export default function UserProductDialog({
                             <div className={cn('w-full md:w-[258px] aspect-square',
                                 isSmall ? "max-w-full" : "max-w-[400px]"
                             )}>
-                                <Card
+                                <Card shadow="none"
                                     isFooterBlurred
                                     className={cn(`flex w-full justify-start items-start shadow-none rounded-none ml-4`,
                                         isSmall ? "ml-0" : "ml-4"
@@ -326,7 +326,9 @@ export default function UserProductDialog({
                                 placeholder={t("addNotesPlaceholder")}
                                 style={{resize: "none"}}
                                 className="mt-2"
+
                                 classNames={{
+                                    inputWrapper: cn("bg-background group-data-[focus=true]:bg-background"),
                                     input: cn("min-h-[40px] "),
                                 }}
                                 value={note}
@@ -369,7 +371,8 @@ export default function UserProductDialog({
                             onPress={handleUpdateCart}
                             isLoading={isLoading}
                         >
-                            { !isLoading ? (`${itemCart ? t("Update") : t("Add")} ${quantity} ${t("to order")} • ${totalPrice}`) : t("Updating Cart") }
+                            { !isLoading ? (`${itemCart ? t("Update") : t("Add")} • ${totalPrice}`) : t("Updating Cart") }
+                            
                         </Button>
                     </>
                 )}
@@ -377,3 +380,5 @@ export default function UserProductDialog({
         </>
     );
 }
+
+// ${t("to order")}

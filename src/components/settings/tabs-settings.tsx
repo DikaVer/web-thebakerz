@@ -61,7 +61,8 @@ export const TabsSettings: React.FC<TabsSettingsProps> = ({
           fullWidth
           classNames={{
               base: "mt-6",
-              cursor: "bg-content1 dark:bg-content1 bg-gradient-card",
+              tabList: "bg-white",
+              cursor: " bg-gradient-card",
               panel: "w-full p-0 pt-4",
           }}
         >

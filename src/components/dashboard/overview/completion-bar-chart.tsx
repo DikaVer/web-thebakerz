@@ -24,7 +24,7 @@ const CompletionBarChart: React.FC<CompletionBarChartProps> = ({ completed, notC
     ];
 
     return (
-        <Card className="h-full">
+        <Card shadow="none" className="h-full">
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                  <p className="text-tiny uppercase font-bold">Completion</p>
                  <small className="text-default-500">Completed and not completed orders</small>

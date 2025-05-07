@@ -191,8 +191,8 @@
 //   }, [filterValue, rolesFilter, onSearchChange, onClear]);
 //
 //   return (
-//     <Card className={"border border-default-200 bg-transparent"} shadow="none">
-//       <CardBody>
+//     <Card shadow="none" shadow='''none' className={"border border-default-200 bg-transparent"} shadow="none">
+//       <Card shadow="none" shadow='''none'Body>
 //         <Table
 //           hideHeader
 //           isHeaderSticky

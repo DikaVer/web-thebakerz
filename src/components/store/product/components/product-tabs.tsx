@@ -16,8 +16,11 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({ categories, selectedTa
         <Tabs
             key="underlined_tabs"
             aria-label={t("categoryNavigation")}
-            variant="underlined"
             className="mx-0 px-0 w-full md:w-2/3"
+            classNames={{
+                tabList: 'bg-background',
+                cursor: 'bg-white shadow-none',
+            }}
             onSelectionChange={(index) => onTabSelect(index.toString())}
             selectedKey={selectedTab}
         >

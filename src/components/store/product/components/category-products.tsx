@@ -1,5 +1,5 @@
 'use client';
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { Spacer, Divider } from '@heroui/react';
 import {
     Carousel,
@@ -26,9 +26,24 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
                                                                   }) => {
 
     const constIds: Record<string, boolean> = {};
+    const topRef = useRef<HTMLDivElement>(null);
+    
+    // Use the top element as the category reference
+    useEffect(() => {
+        if (topRef.current) {
+            setCategoryRef(category, topRef.current);
+        }
+    }, [category, setCategoryRef]);
 
     return (
-        <div ref={(el) => setCategoryRef(category, el)}>
+        <div>
+            {/* Top observer target element */}
+            <div 
+                ref={topRef}
+                className="category-observer-target top"
+                style={{ height: '2px', marginTop: '-2px' }}
+                data-category-position="top"
+            />
             <Spacer y={8}/>
             <div className={'flex flex-row items-start justify-start w-full'}>
                 <GradientText
@@ -49,7 +64,7 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
                     constIds[product.constId] = true;
 
                     return (
-                        <div key={product.constId} className={'m-0.5'}>
+                        <div key={product.constId} className={'m-1'}>
                             <ProductBase productData={product}/>
                         </div>
                     );
@@ -57,6 +72,13 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
             </div>
             <Spacer y={8}/>
             <Divider/>
+            {/* Bottom observer target element */}
+            <div 
+                className="category-observer-target bottom"
+                style={{ height: '2px', marginBottom: '-2px' }}
+                data-category-position="bottom"
+                data-category={category}
+            />
         </div>
     )
 };

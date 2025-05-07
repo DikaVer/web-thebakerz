@@ -117,7 +117,7 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                 <p className="mt-1 text-sm font-normal text-default-400">
                     Update information for this Bakerz account.
                 </p>
-                <Card className="mt-4 bg-default-100" shadow="none">
+                <Card shadow="none" className="mt-4 bg-default-100">
                     <CardBody>
                         <div className="flex items-center gap-4">
                             <Avatar

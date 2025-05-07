@@ -868,6 +868,7 @@
     "storeOpen": "Open Now",
     "street": "Street",
     "typeToSearchAddress": "Type to search address",
+    "when": "When?",
     "zipCode": "Postal code"
   },
   "app/(store)/components/store-top": {

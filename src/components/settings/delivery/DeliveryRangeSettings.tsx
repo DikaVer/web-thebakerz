@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { Button, Slider, NumberInput, Card } from "@heroui/react";
 import { useTranslations } from "next-intl";
-import { Plus } from "lucide-react";
 import { DeliveryRange } from "./types";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface DeliveryRangeSettingsProps {
   cityName: string;
@@ -32,7 +32,7 @@ const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
   return (
     <div className="space-y-4">
       {ranges.map((rangeSettings, index) => (
-        <Card key={index} className="p-4 space-y-4">
+        <Card shadow="none" key={index} className="p-4 space-y-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium">
@@ -134,7 +134,7 @@ const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
           onPress={onAddRange}
           size="sm"
           className="mt-2 shadow-small"
-          startContent={<Plus size={16} />}
+          startContent={<Icon icon="solar:add-circle-bold" width={16} />}
           isDisabled={ranges.length === 0 || ranges.length >= 5}
         >
           {t("addRange")}

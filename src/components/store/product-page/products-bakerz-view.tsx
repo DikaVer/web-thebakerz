@@ -271,7 +271,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
     }, [additionalImages, fileAdditional, form]);
 
     return (
-        <Card
+        <Card shadow="none"
             className={'w-full max-w-full md:max-w-3xl pt-4'}
         >
             <ImageUploader

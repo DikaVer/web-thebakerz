@@ -11,6 +11,7 @@ import { useDelivery } from './delivery-provider';
 interface CartContextProps {
     cart: CartData;
     itemCount: number;
+    total: number;
     addItem: (cart: ItemCart) => void;
     updateItem: (cart: ItemCart) => Promise<boolean>;
     removeItem: (cart: ItemCart) => Promise<boolean>;
@@ -40,6 +41,19 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
 
     const initialItemCount = cartData[storeId] ? Object.keys(cartData[storeId]).length : 0;
     const [itemCount, setItemCount] = useState<number>(initialItemCount);
+    
+    // Calculate initial total quantity
+    const calculateTotalQuantity = (cartData: CartData): number => {
+        let totalQuantity = 0;
+        if (cartData[storeId]) {
+            Object.values(cartData[storeId]).forEach(item => {
+                totalQuantity += item.quantity;
+            });
+        }
+        return totalQuantity;
+    };
+    
+    const [total, setTotal] = useState<number>(calculateTotalQuantity(cart));
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { 
         setMinLeadTimeProduct 
@@ -68,6 +82,7 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
 
     const addItem = (cart: ItemCart) => {
         setItemCount((prevCount) => prevCount + 1);
+        setTotal((prevTotal) => prevTotal + cart.quantity);
         setCart((prevCart) => ({
             ...prevCart,
             [cart.store_id]: {
@@ -81,6 +96,10 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
     const updateItem = async (cart: ItemCart) => {
         const result = await updateCart(cart.product_id, cart.store_id, cart.quantity, cart.note, cart.variants, cart.id);
         if (result.success && result.itemCart) {
+            // Calculate the quantity difference to update total
+            const oldQuantity = cartData[cart.store_id]?.[cart.id]?.quantity || 0;
+            const quantityDiff = cart.quantity - oldQuantity;
+            
             setCart((prevCart) => {
                 return {
                     ...prevCart,
@@ -90,6 +109,8 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
                     },
                 };
             });
+            
+            setTotal((prevTotal) => prevTotal + quantityDiff);
             showSuccessMessage({success: "Item updated"});
             return true;
         } else {
@@ -103,6 +124,7 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
         const result = await removeCartItem(storeId, cart.id);
         if (result.success) {
             setItemCount((prevCount) => prevCount - 1);
+            setTotal((prevTotal) => prevTotal - cart.quantity);
             setCart((prevCart) => {
                 const newCart = { ...prevCart };
                 if (newCart[cart.store_id]) {
@@ -122,6 +144,7 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
     //Remove all items from cart
     const removeAllItems = async () => {
         setItemCount(0);
+        setTotal(0);
         setCart({});
     };
 
@@ -130,6 +153,7 @@ export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; store
             value={{
                 cart: cartData,
                 itemCount,
+                total,
                 removeItem,
                 updateItem,
                 addItem,

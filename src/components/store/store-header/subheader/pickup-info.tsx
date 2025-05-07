@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { formatCurrency } from "@/lib/utils";
-import { Card, CardBody, Skeleton } from "@heroui/react";
+import {Card, CardBody, Divider, Skeleton} from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { StoreData } from "@/lib/actions/store";
 import { useTheme } from "next-themes";
@@ -87,7 +87,7 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
   }, [store.schedule]);
 
   return (
-      <Card className="h-auto overflow-hidden transition-all duration-300 max-w-[440px]" shadow="sm">
+      <Card shadow="none" className="h-auto overflow-hidden transition-all duration-300 max-w-[440px]">
         <CardBody className="p-0 w-[440px] max-w-[100%]">
           {isLoading ? (
             <div className="space-y-3 p-4">
@@ -118,67 +118,71 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
                 </div>
 
 
-              <div className={'px-4 pt-2'}>
-                {/* Store address */}
-                <div className="mb-3 flex items-center gap-2">
-                  <IconLocation size={20}
-                                primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                  />
-                  <div>
-                    <p className="text-sm text-text">{location}</p>
-                    <p className="text-xs text-default-600">{subLocation}</p>
+              <div className={'flex flex-row'}>
+                {/*<Divider orientation="vertical" className={"h-[100%]]"}/>*/}
+                <div className={'px-4 pt-2 w-full'}>
+                  {/* Store address */}
+                  <div className="mb-3 flex items-center gap-2">
+                    <IconLocation size={20}
+                                  primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
+                                  secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
+                    />
+                    <div>
+                      <p className="text-sm text-text">{location}</p>
+                      <p className="text-xs text-default-600">{subLocation}</p>
+                    </div>
                   </div>
-                </div>
 
-                {/* Minimum order */}
-                <div className="flex items-center gap-3 mb-3">
-                  <Icon icon="solar:card-linear" className="text-default-600" width={16}/>
-                  <p className="text-xs text-default-600">
-                    {t("minimumOrder")}: {formatCurrency(minimumOrder)}
-                  </p>
-                </div>
+                  {/* Minimum order */}
+                  <div className="flex items-center gap-3 mb-3">
+                    <Icon icon="solar:card-linear" className="text-default-600" width={16}/>
+                    <p className="text-xs text-default-600">
+                      {t("minimumOrder")}: {formatCurrency(minimumOrder)}
+                    </p>
+                  </div>
 
-                {/* Min Lead Time */}
-                {(store.minTimeOrder !== undefined) && (
-                  <div className="flex items-center gap-3 text-xs text-warning-500 mb-3">
-                      <Icon icon="solar:clock-circle-linear" className="text-warning-500" width={16} />
-                      <div className="flex flex-row gap-1">
-                        <span>{t("MinLeadTime")}: </span>
-                        <span>
+                  {/* Min Lead Time */}
+                  {(store.minTimeOrder !== undefined) && (
+                      <div className="flex items-center gap-3 text-xs text-warning-500 mb-3">
+                        <Icon icon="solar:clock-circle-linear" className="text-warning-500" width={16}/>
+                        <div className="flex flex-row gap-1">
+                          <span>{t("MinLeadTime")}: </span>
+                          <span>
                             {(() => {
-                                const minutes = store.minTimeOrder;
-                                if (minutes < 60) {
-                                    return `${minutes} min`;
-                                } else if (minutes < 24 * 60) {
-                                    const hours = minutes / 60;
-                                    return `${hours} ${hours === 1 ? t("hour") : t("hours")}`;
+                              const minutes = store.minTimeOrder;
+                              if (minutes < 60) {
+                                return `${minutes} min`;
+                              } else if (minutes < 24 * 60) {
+                                const hours = minutes / 60;
+                                return `${hours} ${hours === 1 ? t("hour") : t("hours")}`;
+                              } else {
+                                const days = Math.floor(minutes / (24 * 60));
+                                const remainingHours = (minutes % (24 * 60)) / 60;
+                                if (remainingHours === 0) {
+                                  return `${days} ${days === 1 ? t("day") : t("days")}`;
                                 } else {
-                                    const days = Math.floor(minutes / (24 * 60));
-                                    const remainingHours = (minutes % (24 * 60)) / 60;
-                                    if (remainingHours === 0) {
-                                        return `${days} ${days === 1 ? t("day") : t("days")}`;
-                                    } else {
-                                        return `${days} ${days === 1 ? t("day") : t("days")} ${remainingHours} ${remainingHours === 1 ? t("hour") : t("hours") }`;
-                                    }
+                                  return `${days} ${days === 1 ? t("day") : t("days")} ${remainingHours} ${remainingHours === 1 ? t("hour") : t("hours")}`;
                                 }
+                              }
                             })()}
                         </span>
+                        </div>
                       </div>
-                  </div>
-                )}
+                  )}
 
-                {/* Availability */}
-                <div className="flex items-center gap-3 mb-4">
-                  <Icon
-                      icon="solar:clock-circle-linear"
-                      className={isStoreOpen ? "text-success" : "text-danger"}
-                      width={16}
-                  />
-                  <p className={`text-xs ${isStoreOpen ? "text-success" : "text-danger"}`}>
-                    {isStoreOpen ? t("storeOpen") : t("storeClosed")}
-                  </p>
+                  {/* Availability */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <Icon
+                        icon="solar:clock-circle-linear"
+                        className={isStoreOpen ? "text-success" : "text-danger"}
+                        width={16}
+                    />
+                    <p className={`text-xs ${isStoreOpen ? "text-success" : "text-danger"}`}>
+                      {isStoreOpen ? t("storeOpen") : t("storeClosed")}
+                    </p>
+                  </div>
                 </div>
+                {/*<Divider orientation="vertical" className={"h-[100%]]"}/>*/}
               </div>
               
               {/* Map */}

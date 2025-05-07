@@ -32,9 +32,8 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                         isIconOnly
                         size="lg"
                         color="default"
-                        variant="light"
                         isLoading={isLoading}
-                        className="h-12 border-2  shadow-sm"
+                        className="h-12"
                     >
                         {!isLoading && (
                             <IconDots

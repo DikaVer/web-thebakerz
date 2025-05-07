@@ -15,7 +15,7 @@ export default function DashboardContent({ overviewData }: DashboardContentProps
     if (overviewData.error) {
         return (
             <div className="p-4">
-                <Card>
+                <Card shadow="none">
                     <CardHeader>Error</CardHeader>
                     <CardBody>
                         <p className="text-danger">{overviewData.error}</p>
@@ -45,7 +45,7 @@ export default function DashboardContent({ overviewData }: DashboardContentProps
             </div>
 
             {/* Orders Table */}
-            <Card>
+            <Card shadow="none">
                 <CardHeader>All Orders</CardHeader>
                 <CardBody>
                     <OrdersTable orders={overviewData.allOrders} />

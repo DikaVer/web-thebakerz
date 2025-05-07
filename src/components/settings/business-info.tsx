@@ -93,7 +93,7 @@ const BusinessInfo: React.FC<BusinessInfoProps> = ({ className }) => {
   return (
     <div className="space-y-6">
       {/* Account Information Card */}
-      <Card className={`w-full overflow-hidden transition-all duration-300 ${className}`} shadow="sm">
+      <Card shadow="none" className={`w-full overflow-hidden transition-all duration-300 ${className}`}>
         <CardBody className="p-0 w-full">
           <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-blue-200 dark:to-secondary-700">
             <div className="flex items-center justify-between">
@@ -178,7 +178,7 @@ const BusinessInfo: React.FC<BusinessInfoProps> = ({ className }) => {
 
       {/* Business Information Card (only shown if business data exists) */}
       {(business || isLoadingBusiness) && (
-        <Card className={`w-full overflow-hidden transition-all duration-300 ${className}`} shadow="sm">
+        <Card shadow="none" className={`w-full overflow-hidden transition-all duration-300 ${className}`} >
           <CardBody className="p-0 w-full">
             <div className="p-4 bg-gradient-to-r from-warning-50 to-warning-100 dark:from-warning-900/30 dark:to-warning-800/20">
               <div className="flex items-center justify-between">
@@ -312,7 +312,7 @@ const BusinessInfo: React.FC<BusinessInfoProps> = ({ className }) => {
       
       {/* System Information Section */}
       
-      {/*<Card className={`w-full overflow-hidden transition-all duration-300 ${className}`} shadow="sm">*/}
+      {/*<Card shadow="none" className={`w-full overflow-hidden transition-all duration-300 ${className}`} shadow="sm">*/}
       {/*  <CardBody className="p-0 w-full">*/}
       {/*    <div className="p-4 bg-gradient-to-r from-success-50 to-success-100 dark:from-success-900/30 dark:to-success-800/20">*/}
       {/*      <div className="flex items-center justify-between">*/}

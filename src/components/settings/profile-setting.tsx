@@ -109,10 +109,10 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                         container={"avatars"}
                     />
                     <p className="text-base font-medium text-default-700">{t("profile")}</p>
-                    <p className="mt-1 text-sm font-normal text-default-400">
+                    <p className="mt-1 text-sm font-normal text-default-500">
                         {user.role === "bakerz" ? t("displaysProfileStore") : t("displaysProfile")}
                     </p>
-                    <Card className="mt-4 bg-default-100" shadow="none">
+                    <Card shadow="none" className="mt-4 ">
                         <CardBody>
                             <div className="flex items-center gap-4">
                                 <Badge
@@ -135,16 +135,16 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                         className="h-16 w-16 text-xl"
                                         name={user.username}
                                         isBordered
-                                        color="secondary"
+                                        color="primary"
                                         classNames={{ base: "bg-default text-text shadow-lg" }}
                                     />
                                 </Badge>
                                 <div>
                                     <p className="text-sm font-medium text-default-500">{user.username}</p>
-                                    <p className="text-xs text-default-400">
+                                    <p className="text-xs text-default-500">
                                         {user.role === "bakerz" ? t("bakerz") : t("customer")}
                                     </p>
-                                    <p className="mt-1 text-xs text-default-400">{user.email}</p>
+                                    <p className="mt-1 text-xs text-default-500">{user.email}</p>
                                 </div>
                             </div>
                         </CardBody>
@@ -161,7 +161,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                             <p className="text-base font-medium text-default-700">
                                 {user.role === "bakerz" ? t("storeName") : t("name")}
                             </p>
-                            <p className="mt-1 text-sm font-normal text-default-400">
+                            <p className="mt-1 text-sm font-normal text-default-500">
                                 {user.role === "bakerz" ? t("editCurrentStoreName") : t("editCurrentName")}
                             </p>
                             <FormField
@@ -190,7 +190,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                         <div className={`flex flex-row-reverse w-full`}>
                             <Button
                                 startContent={!isPending && <Icon icon="solar:settings-broken" width={24}/>}
-                                className="mt-4 text-black shadow"
+                                className="mt-4"
                                 color={'secondary'}
                                 type={'submit'}
                                 isDisabled={isPending}

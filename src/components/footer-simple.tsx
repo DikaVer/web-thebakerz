@@ -48,7 +48,7 @@ export function FooterSimple() {
     );
 
     return (
-        <footer className="flex w-full flex-col bg-gradient-card rounded-xl drop-shadow">
+        <footer className="flex w-full flex-col bg-gradient-card drop-shadow">
             <div className="py-16 container mx-auto">
                 <div className="flex flex-col gap-y-6 items-start justify-between">
                     <div>

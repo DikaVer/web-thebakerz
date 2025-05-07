@@ -144,7 +144,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
             </div>
             <Spacer y={4} />
 
-            <Card className="w-full" shadow={'sm'}>
+            <Card shadow="none" className="w-full" >
                 <CardHeader className={'pb-0'}>
                     <Reorder.Group
                         axis="x"

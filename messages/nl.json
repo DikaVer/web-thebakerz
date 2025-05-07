@@ -874,6 +874,7 @@
     "storeOpen": "Nu open",
     "street": "Straat",
     "typeToSearchAddress": "Type om adres te zoeken",
+    "when": "Wanneer?",
     "zipCode": "Postcode"
   },
   "app/(store)/components/store-top": {

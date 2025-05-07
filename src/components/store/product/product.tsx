@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useEffect, useState} from "react";
-import {Card, Image, CardFooter, Popover, PopoverTrigger, PopoverContent, CardBody} from "@heroui/react";
+import {Card, Image, CardFooter, Popover, PopoverTrigger, PopoverContent, CardBody, Button} from "@heroui/react";
 import {ProductData} from "@/lib/actions/product";
 import {useProductDialog} from "@/components/providers/product-provider";
 import {formatCurrency} from "@/lib/utils";
@@ -12,6 +12,13 @@ import { Icon } from "@iconify/react";
 import { useHoverPopover } from "@/hooks/use-hover-popover";
 import { useDelivery } from "@/components/providers/delivery-provider";
 import { DietaryIcon } from "@/components/store/product/components/super-icons";
+import { updateCart } from "@/lib/actions/cart";
+import { useCart } from "@/components/providers/cart-provider";
+import showSuccessMessage from "@/components/toast/toast-succes";
+import showErrorMessage from "@/components/toast/toast-error";
+import { getOrderTime, getDeliveryTime, removeAllSchedules } from "@/app/(store)/[id]/actions";
+import { scheduledToCalendarDateTime } from "@/lib/utils";
+import { getLocalTimeZone } from '@internationalized/date';
 
 interface ProductBaseProps {
     productData: ProductData;
@@ -21,6 +28,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     productData,
 }) => {
     const [isManualOpen, setIsManualOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const { isHovered, setIsHovered, triggerRef, popoverRef } = useHoverPopover();
     
     // Combine manual opening and hover state
@@ -31,7 +39,8 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const t = useTranslations("app/(store)/components/product-page");
     const { store } = useStore();
     const { session } = useSession();
-    const { isDelivery, validationResult } = useDelivery();
+    const { isDelivery, validationResult, setSelectedDate } = useDelivery();
+    const { addItem } = useCart();
     const storeMinTimeOrder = isDelivery ? validationResult?.deliveryRegion?.minOrderTime : store?.minTimeOrder;
 
     const handlePopoverOpenChange = (open: boolean) => {
@@ -45,10 +54,60 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     // Prevent product dialog when interacting with popover
     const preventProductDialog = isPopoverOpen;
 
+    const handleAddToCart = async () => {
+        
+        // If product has variants, open the dialog instead
+        if (productData.variants && productData.variants.length > 0) {
+            handleOpen(productData.id, store?.user_id === session?.user?.id);
+            return;
+        }
+        
+        setIsLoading(true);
+        try {
+            // Add item directly to cart without variants
+            const result = await updateCart(
+                productData.id, 
+                productData.store_id, 
+                productData.min_order || 1, 
+                "", 
+                []
+            );
+            
+            if (result.success) {
+                const dateTime = isDelivery 
+                    ? await getDeliveryTime(productData.store_id, validationResult?.deliveryRegion?.name || "") 
+                    : await getOrderTime(productData.store_id);
+                
+                // Check if we have both date and time
+                if (dateTime.date && dateTime.time) {
+                    // Check lead time validation
+                    const selectedDateTime = scheduledToCalendarDateTime({date: dateTime.date, time: dateTime.time});
+                    const currentDateTime = new Date();
+                    const minLeadTime = productData.min_lead_time || 0; // in minutes
+                    const minDateTime = new Date(currentDateTime.getTime() + minLeadTime * 60000);
+                    const selectedDate = selectedDateTime.toDate(getLocalTimeZone());
+                    if (selectedDate < minDateTime) {
+                        await removeAllSchedules();
+                        setSelectedDate(undefined);
+                    }
+                }
+                
+                showSuccessMessage({success: t("cartUpdatedSuccess")});
+                result.itemCart && addItem(result.itemCart);
+            } else if (result.error) {
+                showErrorMessage({ error: result.error });
+            }
+        } catch (error: any) {
+            showErrorMessage({ error: t("unexpectedError") });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div
             id={productData.id}
-            className={`cursor-pointer max-w-sm border-1 rounded-2xl overflow-hidden relative`}
+            className={`cursor-pointer max-w-sm rounded-2xl overflow-hidden relative`}
             onClick={() => {
                 if (!preventProductDialog) {
                     handleOpen(productData.id, store?.user_id === session?.user?.id);
@@ -142,9 +201,18 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                         />
                     </div>
                 </CardBody>
-                <CardFooter className={`px-2`}>
+                <CardFooter className={`p-1 px-3 pb-3`}>
                     <div className={`flex flex-col w-full gap-1 backdrop-blur-md`}>
-                        <p className={`text-xs sm:text-sm font-medium line-clamp-2 leading-tight h-8 sm:h-10`}>
+                        <div className="flex justify-between items-center w-full">
+                            {/* <div className="flex items-center gap-1"> */}
+                                {/* <span className="text-yellow-500">★★★★☆</span>
+                                <span className="text-xs text-default-600">4.0</span> */}
+                            {/* </div> */}
+                            <p className={`font-medium text-2xl`}>
+                                {formatCurrency(productData.price)}
+                            </p>
+                        </div>
+                        <p className={`text-sm font-normal line-clamp-2 leading-tight h-9`}>
                             {productData.name}
                         </p>
                         {(storeMinTimeOrder !== undefined) && (
@@ -172,15 +240,14 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                 </span>
                             </div>
                         )}
-                        <div className="flex justify-between items-center w-full">
-                            <div className="flex items-center gap-1">
-                                {/* <span className="text-yellow-500">★★★★☆</span>
-                                <span className="text-xs text-default-600">4.0</span> */}
-                            </div>
-                            <p className={`text-base sm:text-lg font-semibold`}>
-                                {formatCurrency(productData.price)}
-                            </p>
-                        </div>
+                        <Button 
+                            className="w-full bg-background text-base"
+                            startContent={!isLoading && <Icon icon="material-symbols:add" width={24} />}
+                            onPress={handleAddToCart}
+                            isLoading={isLoading}
+                        >
+                            Add
+                        </Button>
                     </div>
                 </CardFooter>
             </Card>

@@ -104,7 +104,7 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
             </div>
             <Spacer y={4} />
 
-            <Card className="w-full" shadow={'sm'}>
+            <Card shadow="none" className="w-full" >
                 <CardHeader className={'pb-0 space-x-4'}>
                     {tabs.map((category) => (
                         <motion.button

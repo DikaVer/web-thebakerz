@@ -148,7 +148,7 @@ const MessagingChatProfile = React.forwardRef<HTMLDivElement, MessagingChatProfi
                 <div className="overflow-y-hidden">
                   <div className="grid grid-cols-4 gap-2 sm:grid-cols-3">
                     {dummyImages.map((image, index) => (
-                      <Card key={index} isPressable radius="sm" shadow="sm">
+                      <Card shadow="none" key={index} isPressable radius="sm">
                         <CardBody className="p-0 sm:aspect-[2/1]">
                           <Image
                             removeWrapper

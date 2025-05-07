@@ -32,7 +32,7 @@ const SuccessRedirect: React.FC<SuccessRedirectProps> = ({ redirectPage, text })
     }, [countdown, redirectPage, router]);
 
     return (
-        <Card className='w-full max-w-xl'>
+        <Card shadow="none" className='w-full max-w-xl'>
             <CardBody className='w-full max-w-xl flex flex-col items-center gap-4'>
                 <h1 className="text-xl font-semibold">{t("success")}</h1>
                 <p className="text-center">{text}</p>

@@ -5,7 +5,7 @@ import { Card, CardBody, CardFooter } from '@heroui/react';
 
 export function StorePanelSkeleton() {
     return (
-        <Card shadow="sm" className="w-full h-full animate-pulse">
+        <Card shadow="none" className="w-full h-full animate-pulse">
             <CardBody className="overflow-visible p-0 relative h-48 bg-default-300 rounded-t-xl">
                 {/* Placeholder for Image */}
             </CardBody>

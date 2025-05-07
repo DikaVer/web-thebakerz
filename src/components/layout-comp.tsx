@@ -8,7 +8,7 @@ import {StoreData} from "@/lib/actions/store";
 import NavbarComponent from "@/components/navbar/navbar-comp";
 import {motion, useScroll} from "motion/react";
 import { usePathname } from "next/navigation";
-
+import NavbarAdvancedComponent from "@/components/navbar/navbar-advance-comp";      
 
 
 
@@ -45,7 +45,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
     const { scrollYProgress } = useScroll()
 
     return (
-        <div className="flex w-full">
+        <div className="flex flex-col min-h-screen w-full">
             <motion.div
                 id="scroll-indicator"
                 style={{
@@ -62,7 +62,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
             />
 
             {/* Sidebar */}
-            {!hideSideBar && !isPartnerPage && !isProductPage &&
+            {/* {!hideSideBar && !isPartnerPage && !isProductPage &&
                 <SidebarMenu
                 store={store}
                 isOpen={isOpen}
@@ -70,10 +70,10 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
                 isCollapsed={isCollapsed}
                 isMobile={isMobile}
             />
-            }
+            } */}
 
-            <div className="w-full flex-1 flex-col">
-                <NavbarComponent
+            <div className="flex flex-col flex-1 w-full">
+                <NavbarAdvancedComponent
                     store={store}
                     setIsCollapsed={setIsCollapsed}
                     onOpenChange={onOpenChange}
@@ -82,7 +82,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
                     isVisibleCart={isVisibleCart}
                     pay={pay || isPay}
                 />
-                <main className=" w-full overflow-visible">
+                <main className={`flex-1 w-full overflow-visible ${isMobile ? 'pb-24' : ''}`}>
                     {children}
                 </main>
             </div>

@@ -119,7 +119,7 @@
 //     return (
 //         <div style={container}>
 //             {food.map(([key, icon, title, description]) => (
-//                 <Card key={key} icon={icon} title={title} description={description} />
+//                 <Card shadow="none" key={key} icon={icon} title={title} description={description} />
 //             ))}
 //         </div>
 //     );

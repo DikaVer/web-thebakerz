@@ -60,7 +60,7 @@ const StoreTopNext: React.FC = () => {
             >
                 <Alert
                     key={"Delivery Options Alert"}
-                    className={'bg-default-100 items-center my-2 '}
+                    className={'bg-default-200 items-center my-2 '}
                     classNames={{
                         title: 'text-medium '
                     }}

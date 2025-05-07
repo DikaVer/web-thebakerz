@@ -18,7 +18,7 @@ export default async function Page() {
             <div className="w-full max-w-2xl justify-center flex-1 py-4">
                 {/* Title */}
                 <div className="flex items-center gap-x-3">
-                    <h1 className="text-3xl font-bold leading-9 text-default-foreground">{t("settingsTitle")}</h1>
+                    <h1 className="text-3xl font-bold leading-9 text-foreground">{t("settingsTitle")}</h1>
                 </div>
                 <h2 className="mt-2 text-small text-default-500">
                     {t("settingsDescription")}

@@ -26,7 +26,7 @@ const CountryDeliverySettings: React.FC<CountryDeliverySettingsProps> = ({
   const t = useTranslations("app/(return_page)/settings/components/delivery-settings");
 
   return (
-    <Card>
+    <Card shadow="none">
       <CardBody>
         <div className="text-md font-medium mb-4">
             {t("countryDeliveryFor")} {countryName} ({countryCode})

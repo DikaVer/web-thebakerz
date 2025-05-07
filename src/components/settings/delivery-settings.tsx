@@ -574,7 +574,7 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
   return (
     <div className="space-y-6">
       {/* Delivery Regions Card */}
-      <Card className="w-full max-w-2xl mx-auto">
+      <Card shadow="none" className="w-full max-w-2xl mx-auto">
         <CardHeader>
           {t("deliveryRegions")}
         </CardHeader>

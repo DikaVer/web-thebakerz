@@ -29,8 +29,7 @@ export const SigninButton = ({ className}: SigninButtonProps) => {
         <Button
             isLoading={isLoading}
             disabled={isLoading}
-            variant={'bordered'}
-            className={`${className} ${pacifico.className} text-black bg-secondary border-1`}
+            className={`bg-background-secondary rounded-full`}
             onPress={handleSignIn}
         >
             {isLoading ? t("loading") : t("signIn")}

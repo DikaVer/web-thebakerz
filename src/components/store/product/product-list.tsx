@@ -29,6 +29,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const { isSticky } = useStore();
     const [scroll, setScroll] = useState(window.scrollY);
     const isSmall = useMediaQuery('(max-width: 768px)');
+    const { sentinelRef } = useStore();
     const [isVisible, setVisible] = useState(false);
     const [selectedTab, setSelectedTab] = useState('');
     const { setProductsDataLocal} = useProductDialog();
@@ -94,10 +95,11 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
 
     return (
         <div className="flex w-full flex-col">
+            <div ref={sentinelRef} className="h-1"></div>
             <div
                 className={`flex flex-col-reverse md:flex-row transition-all justify-between items-center w-full ${
                     isSticky &&
-                    `sticky ${isVisible ? 'top-16' : 'top-4 pt-3 rounded-3xl'} z-50 p-4 bg-background rounded-b-3xl shadow-medium`
+                    `sticky ${isVisible ? 'top-[50px]' : 'top-[0px] pt-3'} z-50 p-4 bg-background`
                 }`}
             >
                 <ProductTabs
@@ -108,6 +110,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
                 <Spacer y={2} />
                 <ProductSearch searchTerm={searchTerm} onSearchChange={handleSearchChange} />
             </div>
+            <div className={`w-full  h-4 ${isSticky ? ' sticky top-[105px] z-40 shadow-xl' : ''} ${isVisible ? 'top-[0px]' : 'top-[98px]'}`}></div>
             <Spacer y={8} />
             {Object.keys(filteredProductsByCategories).map((category) => (
                 <CategoryProducts

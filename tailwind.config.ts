@@ -38,7 +38,10 @@ const config = {
     			border: 'hsl(var(--border))',
     			input: 'hsl(var(--input))',
     			ring: 'hsl(var(--ring))',
-    			background: 'hsl(var(--background))',
+    			background: {
+					DEFAULT: 'hsl(var(--background))',
+					secondary: 'hsl(var(--background-secondary))'
+				},
     			foreground: 'hsl(var(--foreground))',
     			outlineComp: 'hsl(var(--outline-component))',
     			primary: {
@@ -55,6 +58,11 @@ const config = {
     				hover: 'hsl(var(--primary-hover))',
     				foreground: 'hsl(var(--primary-foreground))'
     			},
+				default: {
+					DEFAULT: 'hsl(var(--default))',
+					foreground: 'hsl(var(--default-foreground))',
+					'100': 'hsl(var(--default-100))'
+				},
     			secondary: {
     				DEFAULT: 'hsl(var(--secondary))',
     				hover: 'hsl(var(--secondary-hover))',

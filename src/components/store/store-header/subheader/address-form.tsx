@@ -522,6 +522,7 @@ export function AddressForm({
           <div className="flex justify-end gap-2 mt-2">
             <Button
               type="submit"
+              className='bg-gradient-primary'
               color="primary"
               isLoading={isValidating || isRHFSubmitting} // Use RHF submitting state
               isDisabled={isValidating || isRHFSubmitting} // Disable during validation or RHF submission

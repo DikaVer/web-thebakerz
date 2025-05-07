@@ -196,7 +196,7 @@ const LocationMap: React.FC<LocationMapProps> = ({
                 </div>
                 <div className="absolute inset-0 rounded-xl rounded-t-none border border-default-100 pointer-events-none"></div>
                 <div className="absolute top-3 right-3 bg-black/70 text-white text-xs font-medium px-3 py-1.5 rounded-lg backdrop-blur-sm transition-transform hover:scale-105 flex items-center">
-                    <Icon icon="solar:map-arrow-right-bold" className="mr-1.5 text-secondary" />
+                    <Icon icon="solar:map-arrow-right-bold" className="mr-1.5 text-white" />
                     {t("viewOnGoogleMaps")}
                 </div>
             </div>

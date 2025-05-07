@@ -90,7 +90,7 @@ export const renderScheduleDisplay = (
                             {translations(day)}
                         </span>
                         {isOpen ? (
-                            <p className="text-default-600 text-xs font-medium bg-default-100 px-2 py-1 rounded-md">
+                            <p className="text-foreground text-xs font-medium bg-default-200 px-2 py-1 rounded-md">
                                 {displayText}
                             </p>
                         ) : (
@@ -178,7 +178,7 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
                 aria-label={t(isDelivery ? "deliveryHoursAriaLabel" : "workingHoursAriaLabel")}
                 className="p-3 min-w-[280px]"
             >
-                <Card className="border-none shadow-none">
+                <Card shadow="none" className="border-none shadow-none">
                     <CardBody className="p-0">
                         <h3 className="text-center text-default-700 font-medium mb-2 pb-2 border-b border-default-200/50">
                             {t(isDelivery ? "deliveryHoursTitle" : "workingHoursTitle")}

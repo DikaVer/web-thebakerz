@@ -8762,3 +8762,45 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-04-27T22:19:16.114Z'
+  app/(store)/components/store-subheader.when:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: 73RGWp3yGzdwrkzfX2LrK
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-07T23:26:55.632Z'
+      fr:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: meW_zxHxAcge2xX7EVUwk
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-07T23:26:58.586Z'
+      ru:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: 9KRL6wG8waK0JT6f4L6Nd
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-07T23:27:15.138Z'
+      nl:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: r3HKVOiBhaovHaY7sq0W6
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-07T23:27:19.108Z'

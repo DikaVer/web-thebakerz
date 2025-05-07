@@ -56,7 +56,7 @@ export default function ContactUsComponent() {
 
     return (
         <>
-            <Card className={'w-full max-w-xl bg-gradient-card'}>
+            <Card shadow="none" className={'w-full max-w-xl bg-gradient-card'}>
                 <CardBody className={'w-full max-w-xl'}>
                     <Form {...form}>
                         <form

@@ -870,6 +870,7 @@
     "storeOpen": "Ouvrir maintenant",
     "street": "Rue",
     "typeToSearchAddress": "Type à l'adresse de recherche",
+    "when": "When?",
     "zipCode": "Code Postal"
   },
   "app/(store)/components/store-top": {

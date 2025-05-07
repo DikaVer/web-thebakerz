@@ -266,8 +266,8 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                             router.refresh();
                                         }}
                                     >
-                                        <Card
-                                            shadow={'sm'}
+                                        <Card shadow="none"
+                    
                                             className={cn("p-4 hover:bg-default-100 cursor-pointer",
                                                 order.order_status === 'cancelled' && 'shadow-none border-1 opacity-50',
                                                 order.order_status === 'completed' && 'shadow-none border-1 opacity-50',

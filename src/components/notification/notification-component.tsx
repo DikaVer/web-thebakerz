@@ -42,7 +42,7 @@ const NotificationComponent: React.FC<NotificationComponentProps> = ({ onClose, 
             <div className={`absolute right-0 w-80 h-full bg-background shadow-lg transform transition-transform duration-700 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'} pl-2 pr-5`}>
                 <p className={`text-2xl flex justify-center items-center p-4 ${pacifico.className}`}>Notifications</p>
                 <hr/>
-                <Card className={'my-4'}>
+                <Card shadow="none" className={'my-4'}>
                     <CardBody>
                         <p className={'mb-4'}>
                             Psst… You’ve stumbled upon something special! 🍪 We’re quietly building the first marketplace

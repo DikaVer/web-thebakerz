@@ -137,7 +137,7 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                 }
             }}
         >
-            <Card shadow="sm" isPressable className="w-full h-full border border-transparent group-hover:border-primary transition-colors overflow-hidden">
+            <Card shadow="none" isPressable className="w-full h-full border border-transparent group-hover:border-primary transition-colors overflow-hidden">
                 <CardBody className="overflow-visible p-0 relative h-48"> 
                     {/* Main image with gradient overlay for better text visibility */}
                     <div className="relative h-full w-full">

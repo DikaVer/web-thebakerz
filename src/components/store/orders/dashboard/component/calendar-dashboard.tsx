@@ -441,7 +441,7 @@ function CalendarDashboard({
     };
 
     return (
-        <Card
+        <Card shadow="none"
             ref={containerRef}
             className="w-full px-0"
         >

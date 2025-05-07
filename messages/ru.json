@@ -858,6 +858,7 @@
     "storeOpen": "",
     "street": "",
     "typeToSearchAddress": "",
+    "when": "Когда?",
     "zipCode": ""
   },
   "app/(store)/components/store-top": {

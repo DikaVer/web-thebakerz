@@ -12,7 +12,7 @@ interface TotalAmountCardProps {
 const TotalAmountCard: React.FC<TotalAmountCardProps> = ({ totalAmount }) => {
 
     return (
-        <Card className="h-full">
+        <Card shadow="none" className="h-full">
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                 <p className="text-tiny uppercase font-bold">Total Amount</p>
                 <small className="text-default-500">Total amount of orders</small>

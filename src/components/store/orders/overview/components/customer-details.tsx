@@ -19,7 +19,7 @@ export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({custo
 
     return (
         <div className={'flex flex-col w-full max-w-2xl'}>
-            <Card>
+            <Card shadow="none">
                 <CardHeader
                     className={'flex flex-col items-start'}
                 >

@@ -154,7 +154,7 @@
 //                 </ModalContent>
 //             </Modal>
 
-//             <Card
+//             <Card shadow="none"
 //                 className={`w-full max-w-2xl h-fit py-4 px-2 desktop:px-10 opacity-0 bg-gradient-card
 //                 ${PricingInView ? 'animate-fadeInUp' : ''}`}
 //                 ref={pricingOut}
