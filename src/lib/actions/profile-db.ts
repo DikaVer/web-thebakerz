@@ -4,12 +4,25 @@ import { connectionPool } from "@/db";
 // Update the user record with the new name and picture
 export async function updateUserProfile(
     name: string,
-    id: string
+    id: string,
+    birth?: string,
+    sex?: string,
+    push_note?: boolean,
+    email_note?: boolean,
+    phone_note?: boolean
 ): Promise<any> {
     try {
         const result = await connectionPool.query(
-            `UPDATE users SET name = $1 WHERE id = $2 RETURNING id`,
-            [name, id]
+            `UPDATE users 
+             SET name = $1, 
+                 birth = $2,
+                 sex = $3,
+                 push_note = $4,
+                 email_note = $5,
+                 phone_note = $6
+             WHERE id = $7 
+             RETURNING id`,
+            [name, birth, sex, push_note, email_note, phone_note, id]
         );
         if (result.rows.length === 0) {
             throw new Error("User not found");
@@ -53,4 +66,14 @@ export async function updateStoreProfile(
         throw new Error("Failed to update store.");
     }
 }
+
+// SQL queries to add new fields to the users table
+/*
+ALTER TABLE users 
+ADD COLUMN birth VARCHAR(255),
+ADD COLUMN sex VARCHAR(50),
+ADD COLUMN push_note BOOLEAN DEFAULT false,
+ADD COLUMN email_note BOOLEAN DEFAULT false,
+ADD COLUMN phone_note BOOLEAN DEFAULT false;
+*/
 

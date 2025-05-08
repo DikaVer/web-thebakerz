@@ -3,7 +3,7 @@
 import type {IconProps} from "@iconify/react";
 
 import React from "react";
-import {Image, Link} from "@heroui/react";
+import {Divider, Image, Link, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {pacifico} from "@/components/fonts";
 import {useTranslations} from "next-intl";
@@ -80,7 +80,8 @@ const Footer = () => {
     );
 
     return (
-        <footer className="flex w-full flex-col bg-gradient-card drop-shadow">
+        <footer className="flex w-full flex-col">
+            <Divider/>
             <div className=" px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
                 <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     <div className="space-y-8 md:pr-8">

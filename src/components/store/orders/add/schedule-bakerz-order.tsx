@@ -21,7 +21,6 @@ import {formatDate, SmartDatetimeInput} from "@/components/store/store-header/ca
 import {updateOrderTime} from "@/app/(store)/[id]/actions";
 import {fetchClientSecret} from "@/lib/actions/stripe";
 import showErrorMessage from "@/components/toast/toast-error";
-import {CopyText} from "@/components/ui/copy-text";
 import {IconClose, IconMail} from "@/components/ui/icons";
 import {useTheme} from "next-themes";
 import showSuccessMessage from "@/components/toast/toast-succes";
@@ -224,8 +223,16 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                             </Button>
                                             <Button color="primary" variant="light" onPress={() => {
                                                 onClose();
-                                                navigator.clipboard.writeText(process.env.NEXT_PUBLIC_API_BASE_URL + "/" + storeUrl + "/pay/" + clientSecret);
-                                                showSuccessMessage({success: t("orderLinkCopiedClient")});
+                                                if(navigator.share) {   
+                                                    navigator.share({
+                                                        title: t("orderLink"),
+                                                        text: t("orderLinkText", {store: store?.ownerName}),
+                                                        url: process.env.NEXT_PUBLIC_API_BASE_URL + "/" + storeUrl + "/pay/" + clientSecret
+                                                    });
+                                                } else {
+                                                    navigator.clipboard.writeText(process.env.NEXT_PUBLIC_API_BASE_URL + "/" + storeUrl + "/pay/" + clientSecret);
+                                                    showSuccessMessage({success: t("orderLinkCopiedClient")});
+                                                }
                                             }}>
                                                 {t("copyLink")}
                                             </Button>

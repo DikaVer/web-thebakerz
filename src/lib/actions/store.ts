@@ -18,6 +18,7 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
                     s.description,
                     s.phone,
                     u.image AS picture,
+                    s.background,
                     u.name AS "ownerName",
                     u.email AS email,
                     s.facebook_url,
@@ -78,6 +79,7 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             phone: storeRow.phone,
             email: storeRow.email,
             picture: storeRow.picture,
+            background: storeRow.background,
             ownerName: storeRow.ownerName,
             instagram_url: storeRow.instagram_url,
             facebook_url: storeRow.facebook_url,
@@ -277,6 +279,7 @@ export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string
                 stores.phone AS store_phone,
                 stores.facebook_url AS store_facebook_url,
                 stores.instagram_url AS store_instagram_url,
+                stores.background AS store_background,
                 stores.slug AS slug,
                 stores.min_time_order AS min_time_order,
                 stores.delivery_option AS delivery_option,
@@ -327,7 +330,8 @@ export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string
             phone: rowS.store_phone,
             facebook_url: rowS.store_facebook_url,
             instagram_url: rowS.store_instagram_url,
-            slug: rowS.slug,
+            background: rowS.store_background,
+            slug: rowS.slug,    
             currency: rowS.currency,
             minTimeOrder: rowS.min_time_order,
             deliveryOption: rowS.delivery_option,
@@ -386,7 +390,8 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 stores.stripe_id,
                 stores.facebook_url AS store_facebook_url,
                 stores.instagram_url AS store_instagram_url,
-                stores.slug AS slug,
+                stores.background AS store_background,
+                stores.slug AS slug,    
                 stores.min_time_order AS min_time_order,
                 stores.delivery_option AS delivery_option,
                 store_locations.route AS store_route,
@@ -435,6 +440,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
             storeName: rowS.store_name,
             ownerName: rowS.ownerName,
             picture: rowS.picture,
+            background: rowS.store_background,
             description: rowS.store_description,
             phone: rowS.store_phone,
             email: rowS.email,
@@ -677,6 +683,7 @@ export interface StoreData {
     instagram_url?: string;
     facebook_url?: string;
     picture?: string;
+    background?: string;
     ownerName?: string;
     slug?: string;
     stripe_id?: string;
@@ -916,5 +923,30 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
     } catch (error) {
         console.error("Error finding nearby stores:", error);
         throw new Error("Failed to find nearby stores");
+    }
+}
+
+export async function updateStoreBackground(storeId: string, backgroundImage: string): Promise<boolean> {
+    try {
+        const {user} = await getCurrentSession();
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+        if (!store) {
+            throw new Error("Store not found");
+        }
+        // Update the store's background image in the database
+        await connectionPool.query(
+            `UPDATE stores SET background_image = $1 WHERE id = $2 AND user_id = $3`,
+            [backgroundImage, store.id, user.id]
+        );
+
+        revalidateTag('store');
+        return true;
+    } catch (error) {
+        console.error("Error updating store background image:", error);
+        throw new Error("Failed to update store background image");
     }
 }

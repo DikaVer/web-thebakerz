@@ -278,15 +278,6 @@ const IconCopy: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size = 
     </svg>
 );
 
-const IconDots: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size = 400, ...props}) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
-        <g fill="none" stroke={primaryColor} strokeWidth="1.2">
-            <path strokeLinecap="round" d="M5 14a2 2 0 1 0-2-2"/>
-            <circle cx="12" cy="12" r="2"/>
-            <path strokeLinecap="round" d="M21 12a2 2 0 1 1-2-2"/>
-        </g>
-    </svg>
-);
 
 
 const IconClose: React.FC<IconSvgProps> = ({primaryColor, secondaryColor, size = 400, ...props}) => (
@@ -316,7 +307,6 @@ export {
     IconBadgeCheck,
     IconLocation,
     IconPhone,
-    IconDots,
     IconHeart,
     IconSuccess,
     IconCopy,

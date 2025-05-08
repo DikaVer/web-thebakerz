@@ -25,7 +25,12 @@ export async function createUser(email: string): Promise<User> {
             username,
             email: normalizedEmail,
             emailVerified: false,
-            role: row.role
+            role: row.role,
+            birth: row.birth,
+            sex: row.sex,
+            push_note: row.push_note,
+            email_note: row.email_note,
+            phone_note: row.phone_note
         };
 
         return user;
@@ -65,7 +70,12 @@ export async function createUserGoogle(
             username: name,
             picture,
             role: row.role,
-            emailVerified: row.email_verified !== null
+            emailVerified: row.email_verified !== null,
+            birth: row.birth,
+            sex: row.sex,
+            push_note: row.push_note,
+            email_note: row.email_note,
+            phone_note: row.phone_note
         };
 
         return user;
@@ -79,7 +89,7 @@ export async function getUserFromGoogleId(googleId: string): Promise<User | null
     try {
         const result = await connectionPool.query(
             `
-      SELECT id, google_id, email, name, image AS picture, role
+      SELECT id, google_id, email, name, image AS picture, role, birth, sex, push_note, email_note, phone_note
       FROM users
       WHERE google_id = $1
       `,
@@ -99,7 +109,12 @@ export async function getUserFromGoogleId(googleId: string): Promise<User | null
             username: row.name,
             picture: row.picture,
             role: row.role,
-            emailVerified: row.email_verified !== null
+            emailVerified: row.email_verified !== null,
+            birth: row.birth,
+            sex: row.sex,
+            push_note: row.push_note,
+            email_note: row.email_note,
+            phone_note: row.phone_note
         };
 
         return user;
@@ -166,7 +181,7 @@ export async function getUserFromEmail(email: string): Promise<User | null> {
         const normalizedEmail = email.toLowerCase();
         const result = await connectionPool.query(
             `
-      SELECT id, email, name AS username, email_verified, role
+      SELECT id, email, name AS username, email_verified, role, birth, sex, push_note, email_note, phone_note
       FROM users
       WHERE email = $1
       `,
@@ -185,6 +200,11 @@ export async function getUserFromEmail(email: string): Promise<User | null> {
             username: row.username,
             emailVerified: row.email_verified !== null, // if a timestamp exists, the email is verified
             role: row.role,
+            birth: row.birth,
+            sex: row.sex,
+            push_note: row.push_note,
+            email_note: row.email_note,
+            phone_note: row.phone_note
         };
 
         return user;
@@ -265,4 +285,9 @@ export interface User {
     emailVerified: boolean;
     role: string;
     picture?: string;
+    birth: string;
+    sex: string;
+    push_note: boolean;
+    email_note: boolean;
+    phone_note: boolean;
 }

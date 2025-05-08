@@ -42,7 +42,7 @@ export function StoreTop() {
                     </div>
                 </CardBody>
             </Card>
-            {isOwner && (
+            {/* {isOwner && (
                 <div className={'flex flex-row  justify-end gap-x-4 mt-6'}>
                     <Button
                         className="w-[150px] h-12 justify-start bg-gradient-primary text-white font-medium"
@@ -64,7 +64,7 @@ export function StoreTop() {
                     </Button>
                     <ThreeDotsDropdown/>
                 </div>
-            )}
+            )} */}
         </div>
     );
 }

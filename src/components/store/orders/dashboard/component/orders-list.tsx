@@ -163,8 +163,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                     )}
                     {statusCategories.length > 0 && (
                         <Select
-                            variant="faded"
-                            color="default"
+                            variant="flat"
                             aria-label={t("orderStatusFilter")}
                             disableSelectorIconRotation
                             classNames={{
@@ -172,8 +171,8 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                                 trigger: "flex w-fit h-10 aspect-square",
                                 innerWrapper: "hidden",
                                 popoverContent: "min-w-[150px] transform -translate-x-28",
-                                selectorIcon: "text-text",
                                 mainWrapper: "pl-1 max-w-full justify-between items-center",
+                                label: "data-[hover=true]:bg-default-200"
                             }}
                             popoverProps={{
                                 placement: "bottom",

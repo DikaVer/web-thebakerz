@@ -19,7 +19,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import { getOrderTime, getDeliveryTime, removeAllSchedules } from "@/app/(store)/[id]/actions";
 import { scheduledToCalendarDateTime } from "@/lib/utils";
 import { getLocalTimeZone } from '@internationalized/date';
-
+import { useRouter } from "next/navigation";
 interface ProductBaseProps {
     productData: ProductData;
 }
@@ -30,6 +30,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const [isManualOpen, setIsManualOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const { isHovered, setIsHovered, triggerRef, popoverRef } = useHoverPopover();
+    const router = useRouter();
     
     // Combine manual opening and hover state
     const isPopoverOpen = isManualOpen || isHovered;
@@ -102,6 +103,11 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const handleEditItem = () => {
+        setIsLoading(true);
+        router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`); 
     };
 
     return (
@@ -240,14 +246,25 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                 </span>
                             </div>
                         )}
-                        <Button 
+                        {store?.user_id !== session?.user?.id ? (
+                            <Button 
+                                className="w-full bg-background text-base"
+                                startContent={!isLoading && <Icon icon="material-symbols:add" width={24} />}
+                                onPress={handleAddToCart}
+                                isLoading={isLoading}
+                            >
+                                Add
+                            </Button>
+                        ) : (
+                            <Button 
                             className="w-full bg-background text-base"
-                            startContent={!isLoading && <Icon icon="material-symbols:add" width={24} />}
-                            onPress={handleAddToCart}
+                            startContent={!isLoading && <Icon icon="solar:pen-linear" width={24} />}
+                            onPress={handleEditItem}
                             isLoading={isLoading}
                         >
-                            Add
-                        </Button>
+                            Edit
+                            </Button>
+                        )}
                     </div>
                 </CardFooter>
             </Card>

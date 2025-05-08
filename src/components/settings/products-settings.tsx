@@ -26,13 +26,15 @@ import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import { useTranslations } from "next-intl";
 import {useStore} from "@/components/providers/store-provider";
+import { logger } from "@/lib/logger";
 
 const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: Record<string, string[]>}> = ({ productsData, productsOrder }) => {
     const t = useTranslations("app/(return_page)/settings/components/products-settings");
     const { handleAddItem, setProductsDataLocal } = useProductDialog();
-    const [isLoading, setIsLoading] = useState(false);
+    const { isLoading, registerSaveHandler, setSaveOpen } = useSession();
+    const [orderChanged, setOrderChanged] = useState(false);
     const categoriesKeys = Object.keys(productsOrder);
-    const { store } = useStore()
+    const { store } = useStore();
 
     useEffect(() => {
         if (productsData) {
@@ -65,66 +67,143 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
         categoriesKeys,
         (category) => category,
         (a, b) => a.localeCompare(b)
-    )
-
-    // Sort each category's products (fallback to alphabetical)
-    categoriesKeys.forEach((category) => {
-        const orderForCategory: string[] = productsOrder[category] || [];
-        if(productsByCategories[category]) {
-            productsByCategories[category] = sortItems<ProductData>(
-                productsByCategories[category],
-                orderForCategory,
-                (product) => product.constId,
-                (a, b) => a.name.localeCompare(b.name)
-            );
-        }
-    });
+    );
 
     // State for product orders and tabs
     const [tabs, setTabs] = useState<string[]>(categories);
     const [selectedTab, setSelectedTab] = useState(tabs[0]);
+    
+    // Initialize orderPayload once with the initial productsOrder
+    const [orderPayload, setOrderPayload] = useState<Record<string, string[]>>(() => {
+        // Create a deep copy of the productsOrder to avoid reference issues
+        const initialOrderPayload = {...productsOrder};
+        
+        // Ensure all categories have an order array
+        categories.forEach(category => {
+            if (!initialOrderPayload[category]) {
+                initialOrderPayload[category] = [];
+            }
+            
+            // For each category, if there's no order defined or it's incomplete,
+            // initialize it with the product IDs in that category
+            if (productsByCategories[category]) {
+                const productIds = productsByCategories[category].map(product => product.constId);
+                
+                // If the order array is empty or doesn't contain all product IDs,
+                // initialize it with the current product order
+                if (!initialOrderPayload[category].length || 
+                    !productIds.every(id => initialOrderPayload[category].includes(id))) {
+                    // Keep existing order and add any missing products
+                    const existingOrderedIds = initialOrderPayload[category] || [];
+                    const missingIds = productIds.filter(id => !existingOrderedIds.includes(id));
+                    initialOrderPayload[category] = [...existingOrderedIds, ...missingIds];
+                }
+            }
+        });
+        
+        return initialOrderPayload;
+    });
 
-    // Memoize the productsData for the selected tab so that it recomputes when selectedTab or productOrders change
+    // Apply the current order to products for each category
+    useEffect(() => {
+        // This effect runs when orderPayload or categoriesKeys change
+        logger.debug('productsSettings', 'applying product order to categories', { 
+            categories: Object.keys(orderPayload) 
+        });
+    }, [orderPayload, categoriesKeys]);
+
+    // Memoize the productsData for the selected tab based on our orderPayload
     const computedProductsData: ProductDataFull = useMemo(() => {
-        return productsByCategories[selectedTab]?.reduce((acc, product) => {
+        if (!productsByCategories[selectedTab]) {
+            return {};
+        }
+        
+        // Sort the products based on our current orderPayload
+        const sortedProducts = sortItems<ProductData>(
+            productsByCategories[selectedTab],
+            orderPayload[selectedTab] || [],
+            (product) => product.constId,
+            (a, b) => a.name.localeCompare(b.name)
+        );
+        
+        // Convert back to the ProductDataFull format
+        return sortedProducts.reduce((acc, product) => {
             acc[product.constId] = product;
             return acc;
-        }, {} as ProductDataFull) || {};
-    }, [productsByCategories, selectedTab]);
-
-    const [orderPayload, setOrderPayload] = useState<Record<string, string[]>>(productsOrder);
+        }, {} as ProductDataFull);
+    }, [productsByCategories, selectedTab, orderPayload]);
 
     const updateOrder = (category: string, order: string[]) => {
-        setOrderPayload(prev => ({...prev, [category]: order}));
-    };
-
-    // Function to save the current order (unchanged here)
-    const handleSaveOrder = async () => {
-        setIsLoading(true);
-        const tabOrder = [...tabs];
-        const finalOrderPayload = tabOrder.reduce((acc, tab) => {
-            acc[tab] = orderPayload[tab] || [];
-            return acc;
-        }, {} as Record<string, string[]>);
-
-        try {
-            const res = await updateProductsOrder(store.id, finalOrderPayload);
-
-            if (res.error) {
-                showErrorMessage({error: res.error});
-            } else if (res.success) {
-                showSuccessMessage({success: res.success});
-            }
-        } catch (error) {
-            console.error('Failed to update order:', error);
+        logger.debug('productsSettings', 'updating order for category', { 
+            category, 
+            orderLength: order.length 
+        });
+        
+        // Mark as changed when order updates
+        if (!orderChanged) {
+            setOrderChanged(true);
+            setSaveOpen(true);
         }
-
-        setIsLoading(false);
+        
+        // Update the order for this specific category
+        setOrderPayload(prev => ({
+            ...prev, 
+            [category]: order
+        }));
     };
+
+    // Register save handler for product order
+    useEffect(() => {
+        // Function to save the current order
+        const handleSaveOrder = async () => {
+            logger.debug('productsSettings', 'save handler called', { orderChanged });
+            
+            if (!orderChanged) {
+                logger.debug('productsSettings', 'no changes to save');
+                return false;
+            }
+            
+            logger.debug('productsSettings', 'saving product order', { 
+                categories: Object.keys(orderPayload),
+                tabCount: tabs.length
+            });
+            
+            // Ensure all tabs are included in the final payload
+            const finalOrderPayload = tabs.reduce((acc, tab) => {
+                acc[tab] = orderPayload[tab] || [];
+                return acc;
+            }, {} as Record<string, string[]>);
+
+            try {
+                const res = await updateProductsOrder(store.id, finalOrderPayload);
+
+                if (res.error) {
+                    showErrorMessage({error: res.error});
+                    logger.error('productsSettings', 'Failed to update order', { error: res.error });
+                    return false;
+                } else if (res.success) {
+                    setOrderChanged(false);
+                    logger.debug('productsSettings', 'Order updated successfully');
+                    return true;
+                }
+            } catch (error) {
+                logger.error('productsSettings', 'Failed to update order', { error });
+                return false;
+            }
+            
+            return false;
+        };
+        
+        logger.debug('productsSettings', 'registering save handler');
+        registerSaveHandler('product-order', handleSaveOrder);
+        
+        return () => {
+            logger.debug('productsSettings', 'cleanup - component unmounting');
+        };
+    }, [registerSaveHandler, orderChanged, tabs, orderPayload, store.id]);
 
     return (
         <div>
-            <Spacer y={8} />
             <div className={'flex justify-between'}>
                 <div>
                     <p className="text-base font-medium text-default-700">{t("productManager")}</p>
@@ -132,15 +211,6 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                         {t("manageProductsDescription")}
                     </p>
                 </div>
-                <Button
-                    className="w-[150px] h-12 justify-start bg-gradient-primary text-white font-medium"
-                    startContent={
-                        <Icon icon="solar:add-square-broken" width={24} className="text-white" />
-                    }
-                    onPress={handleAddItem}
-                >
-                    {t("addItem")}
-                </Button>
             </div>
             <Spacer y={4} />
 
@@ -148,7 +218,13 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                 <CardHeader className={'pb-0'}>
                     <Reorder.Group
                         axis="x"
-                        onReorder={setTabs}
+                        onReorder={(newOrder) => {
+                            setTabs(newOrder);
+                            if (!orderChanged) {
+                                setOrderChanged(true);
+                                setSaveOpen(true);
+                            }
+                        }}
                         className='flex-grow flex justify-start items-end space-x-2 w-full'
                         values={tabs}
                     >
@@ -210,17 +286,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
                         </motion.div>
                     </AnimatePresence>
                 </CardBody>
-                <CardFooter>
-                    <Button
-                        isLoading={isLoading}
-                        fullWidth
-                        startContent={<Icon icon={"solar:reorder-linear"} width={24} />}
-                        onPress={handleSaveOrder}
-                        color={'secondary'}
-                    >
-                        {!isLoading ? t("updateProductOrder") : t("updatingOrders")}
-                    </Button>
-                </CardFooter>
+            
             </Card>
             <Spacer y={8} />
         </div>

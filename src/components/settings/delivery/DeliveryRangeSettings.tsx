@@ -144,7 +144,7 @@ const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
           color="secondary"
           onPress={onSave}
           size="sm"
-          className="mt-2 shadow-small text-text"
+          className="mt-2 shadow-small text-white"
         >
           {t("addCity")}
         </Button>

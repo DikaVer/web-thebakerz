@@ -231,11 +231,17 @@ export const CustomerOrderSchema = z.object({
 
 
 
-export const ProfileSettingsSchema = z
-    .object({
-        role: z.string(), // e.g., "bakerz" or "user"
-        name: z.string().nonempty("Name is required"),
-    });
+export const ProfileSettingsSchema = z.object({
+    role: z.string().optional(),
+    name: z.string().min(2, {
+        message: "Name must be at least 2 characters.",
+    }),
+    birth: z.string().optional(),
+    sex: z.string().optional(),
+    push_note: z.boolean().optional(),
+    email_note: z.boolean().optional(),
+    phone_note: z.boolean().optional(),
+});
 
     // Store settings schema with store-specific fields
 export const StoreSettingsSchema = z

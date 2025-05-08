@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useEffect} from "react";
-import {useDisclosure} from "@heroui/react";
+import {Spacer, useDisclosure} from "@heroui/react";
 import {useMediaQuery} from "usehooks-ts";
 import SidebarMenu from "@/components/sidebar/sidebar-menu";
 import {StoreData} from "@/lib/actions/store";
@@ -22,15 +22,12 @@ interface LayoutCompProps {
 }
 
 export default function LayoutComp({ children, store, hideSideBar, pay, isVisibleCart }: LayoutCompProps) {
-    const { isOpen, onOpenChange } = useDisclosure();
-    const [isCollapsed, setIsCollapsed] = React.useState(true);
     const isMobile = useMediaQuery("(max-width: 768px)");
 
     // Check if path is checkout using pathname
     const pathname = usePathname();
     const isCheckout = pathname.includes(`/${store?.storeName}/checkout`);
     const isPartnerPage = pathname.includes("/become-partner");
-    const isProductPage = pathname.includes(`/${store?.storeName || store?.id}/item`);
     const isPay = pathname.includes(`/${store?.storeName}/pay`);
 
     useEffect(() => {
@@ -39,9 +36,6 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
         }
     }, [isMobile]);
 
-    const onToggle = React.useCallback(() => {
-        setIsCollapsed((prev) => !prev);
-    }, []);
     const { scrollYProgress } = useScroll()
 
     return (
@@ -75,15 +69,13 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
             <div className="flex flex-col flex-1 w-full">
                 <NavbarAdvancedComponent
                     store={store}
-                    setIsCollapsed={setIsCollapsed}
-                    onOpenChange={onOpenChange}
-                    onToggle={onToggle} 
-                    hideSideBar={isPay ? true : hideSideBar || isCheckout || isPartnerPage}
+                    isReturnPage={isPay ? true : hideSideBar || isCheckout || isPartnerPage}
                     isVisibleCart={isVisibleCart}
                     pay={pay || isPay}
                 />
                 <main className={`flex-1 w-full overflow-visible ${isMobile ? 'pb-24' : ''}`}>
                     {children}
+                    <Spacer y={36}/>
                 </main>
             </div>
         </div>

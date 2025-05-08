@@ -35,7 +35,7 @@ export default async function Page(props: StorePageProps) {
         <>
             <div className="flex flex-col min-h-screen relative z-10 items-center">
                 <div className="flex flex-col container mx-auto items-center justify-center">
-                    <Spacer y={8}/>
+                    <Spacer y={2}/>
                     <StoreTop />
                     {examppleStore.includes(storeData.id) && (
                         <>

@@ -8,6 +8,7 @@ import { cityLatLngMap, countryCityLatLngMap, EU_COUNTRIES_PLUS_SWISS } from "@/
 import { useSession } from "@/components/providers/session-provider";
 import { Time } from '@internationalized/date';
 import { WorkHours, WorkDay } from "@/lib/actions/calendar-actions";
+import { logger } from '@/lib/logger';
 
 // Import separated components
 import CitySelector from "./delivery/CitySelector";
@@ -45,11 +46,12 @@ interface DeliveryManagerProps {
 }
 
 const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
-  const { session } = useSession();
+  const { session, registerSaveHandler, setSaveOpen } = useSession();
   const [deliveryCities, setDeliveryCities] = useState<DeliveryCity[]>([]);
   const [countryDeliveries, setCountryDeliveries] = useState<CountryDelivery[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
 
   // Country selection state
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
@@ -146,61 +148,78 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     loadDeliveryData();
   }, [t, session, store]);
 
-  const handleSave = async () => {
-    try {
-      setSaving(true);
+  // Register save handler
+  useEffect(() => {
+    const handleSaveDelivery = async () => {
+      logger.debug('deliverySettings', 'save handler called', { hasChanges });
+      if (!hasChanges) {
+        logger.debug('deliverySettings', 'no changes to save');
+        return false;
+      }
       
-      // Convert delivery cities and countries to the format expected by the API
-      const regions: MerchantDeliveryRegion[] = [
-        // Add city regions
-        ...deliveryCities.map(city => ({
-          id: `${store.id}-${city.name}`,
-          storeId: store.id,
-          name: city.name,
-          coordinates: city.coordinates,
-          deliverySchedule: city.deliverySchedule,
-          isStoreDelivery: city.isStoreDelivery,
-          isPostDelivery: city.isPostDelivery,
-          minOrderTime: city.minOrderTime,
-          ranges: city.ranges, // Add the ranges array
-          isCountry: false
-        })),
+      try {
+        setSaving(true);
         
-        // Add country regions
-        ...countryDeliveries.map(country => {
-          return {
-            id: `${store.id}-${country.countryCode}`,
+        // Convert delivery cities and countries to the format expected by the API
+        const regions: MerchantDeliveryRegion[] = [
+          // Add city regions
+          ...deliveryCities.map(city => ({
+            id: `${store.id}-${city.name}`,
             storeId: store.id,
-            name: country.countryCode,
-            deliverySchedule: country.deliverySchedule,
-            isStoreDelivery: country.isStoreDelivery,
-            isPostDelivery: country.isPostDelivery ,
-            minOrderTime: country.minOrderTime,
-            deliveryPriceInCents: country.deliveryPriceInCents,
-            minOrderPriceInCents: country.minOrderPriceInCents,
-            isCountry: true
-          };
-        })
-      ];
-      
-      // Update the merchant's delivery regions
-      await updateMerchantDeliveryRegions(store.id, regions);
-      
-      addToast({
-        title: t("updateSuccess"),
-        color: "success",
-        shouldShowTimeoutProgress: true,
-        timeout: 2000,
-      });
-    } catch (error) {
-      addToast({
-        title: t("updateError"),
-        color: "danger",
-        shouldShowTimeoutProgress: true,
-        timeout: 2000,
-      });
-    } finally {
-      setSaving(false);
+            name: city.name,
+            coordinates: city.coordinates,
+            deliverySchedule: city.deliverySchedule,
+            isStoreDelivery: city.isStoreDelivery,
+            isPostDelivery: city.isPostDelivery,
+            minOrderTime: city.minOrderTime,
+            ranges: city.ranges, // Add the ranges array
+            isCountry: false
+          })),
+          
+          // Add country regions
+          ...countryDeliveries.map(country => {
+            return {
+              id: `${store.id}-${country.countryCode}`,
+              storeId: store.id,
+              name: country.countryCode,
+              deliverySchedule: country.deliverySchedule,
+              isStoreDelivery: country.isStoreDelivery,
+              isPostDelivery: country.isPostDelivery ,
+              minOrderTime: country.minOrderTime,
+              deliveryPriceInCents: country.deliveryPriceInCents,
+              minOrderPriceInCents: country.minOrderPriceInCents,
+              isCountry: true
+            };
+          })
+        ];
+        
+        // Update the merchant's delivery regions
+        logger.debug('deliverySettings', 'updating delivery regions', { storeId: store.id, regionsCount: regions.length });
+        await updateMerchantDeliveryRegions(store.id, regions);
+        logger.debug('deliverySettings', 'update successful');
+        
+        setHasChanges(false);
+        return true;
+      } catch (error) {
+        logger.error('deliverySettings', 'Error updating delivery regions', { error });
+        return false;
+      } finally {
+        setSaving(false);
+      }
+    };
+    
+    logger.debug('deliverySettings', 'registering save handler');
+    registerSaveHandler('delivery-settings', handleSaveDelivery);
+    
+    // No need to unregister as the session provider will handle this on pathname change
+  }, [registerSaveHandler, deliveryCities, countryDeliveries, hasChanges, store.id]);
+
+  // Helper to mark changes in the component
+  const markChanges = () => {
+    if (!hasChanges) {
+      setHasChanges(true);
+      setSaveOpen(true);
+      logger.debug('deliverySettings', 'changes detected, enabling save button');
     }
   };
 
@@ -313,7 +332,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
       }]);
     }
     
-    // Reset after adding
+    // Mark changes and reset after adding
+    markChanges();
     setSelectedCountry(null);
     setCountryDeliveryPrice(500);
     setCountryMinOrderPrice(1000);
@@ -329,6 +349,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     if (selectedCountry === countryCode) {
       setSelectedCountry(null);
     }
+    
+    markChanges();
   };
 
   // Handle removing a delivery city
@@ -339,6 +361,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     if (selectedCityForRange === cityName) {
       setSelectedCityForRange(null);
     }
+    
+    markChanges();
   };
 
   // Handle adding or updating a delivery city's ranges
@@ -407,7 +431,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
       }]);
     }
     
-    // Reset after adding
+    // Mark changes and reset after adding
+    markChanges();
     setSelectedCityForRange(null);
     setCurrentRanges([{
       range: 10,
@@ -521,6 +546,7 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
       setDeliveryCities(updatedCities);
     }
     
+    markChanges();
     closeScheduleModal();
   };
 
@@ -555,6 +581,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
         minOrderTime: minutes
       });
     }
+    
+    markChanges();
   };
 
   // Add a new function to handle toggling post delivery
@@ -565,6 +593,7 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
         : c
     );
     setCountryDeliveries(updatedCountries);
+    markChanges();
   };
 
   if (loading) {
@@ -573,11 +602,13 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
 
   return (
     <div className="space-y-6">
+
+      <h1 className="text-2xl font-bold">
+          {t("deliveryRegions")}
+        </h1>
       {/* Delivery Regions Card */}
       <Card shadow="none" className="w-full max-w-2xl mx-auto">
-        <CardHeader>
-          {t("deliveryRegions")}
-        </CardHeader>
+      
         <CardBody>
           <div className="space-y-6">
             {/* Country selection with Autocomplete */}
@@ -622,21 +653,34 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
                 onRemoveRange={handleRemoveRange}
               />
             )}
-            
-            {/* Selected countries list */}
-            {countryDeliveries.length > 0 && (
-              <div className="space-y-2 mt-6">
-                <h3 className="text-sm font-medium">
-                  {t("selectedCountries")}
-                </h3>
-                <CountryList
-                  countries={countryDeliveries}
-                  onRemoveCountry={handleRemoveCountry}
-                  onManageSchedule={(country) => handleManageSchedule(country, true)}
-                  onTogglePostDelivery={handleTogglePostDelivery}
-                />
-              </div>
-            )}
+           
+          </div>
+        </CardBody>
+      </Card>
+
+      <Card shadow="none" className="w-full max-w-2xl mx-auto">
+        <CardBody>
+            <>
+              {/* Selected countries list */}
+              {countryDeliveries.length > 0 && (
+                <div className="space-y-2 mt-6">
+                  <h3 className="text-sm font-medium">
+                    {t("selectedCountries")}
+                  </h3>
+                  <CountryList
+                    countries={countryDeliveries}
+                    onRemoveCountry={handleRemoveCountry}
+                    onManageSchedule={(country) => handleManageSchedule(country, true)}
+                    onTogglePostDelivery={handleTogglePostDelivery}
+                  />
+                </div>
+              )}
+            </>
+          </CardBody>
+        </Card>
+
+        <Card shadow="none" className="w-full max-w-2xl mx-auto">
+          <CardBody>
             
             {/* Selected cities with their ranges and prices */}
             {deliveryCities.length > 0 && (
@@ -651,6 +695,11 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
                 />
               </div>
             )}
+          </CardBody>
+        </Card>
+
+        <Card shadow="none" className="w-full max-w-2xl mx-auto">
+          <CardBody> 
             
             {/* Map component - only show for city delivery */}
             <MapView
@@ -659,20 +708,11 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
               deliveryRanges={currentRanges}
               cityCoordinates={selectedCountry ? countryCityLatLngMap[selectedCountry] || {} : cityLatLngMap}
             />
-            
-            <Button 
-              onPress={handleSave}
-              isDisabled={saving}
-              className="w-full shadow-small text-black"
-              color={'secondary'}
-            >
-              {saving ? t("saving") : t("saveDeliveryRegions")}
-            </Button>
-          </div>
-        </CardBody>
+          </CardBody>
+        </Card>
 
-        {/* Delivery Schedule Modal */}
-        <DeliveryScheduleModal
+      {/* Delivery Schedule Modal */}
+      <DeliveryScheduleModal
           isOpen={isScheduleModalOpen}
           onClose={closeScheduleModal}
           onSave={handleSaveSchedule}
@@ -684,7 +724,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
           minOrderTimeParam={currentCountryForSchedule ? currentCountryForSchedule.minOrderTime : (currentCityForSchedule ? currentCityForSchedule.minOrderTime : 10080)}
           isPostDelivery={currentCountryForSchedule?.isPostDelivery || currentCityForSchedule?.isPostDelivery || false}
         />
-      </Card>
+    
+      
     </div>
   );
 };

@@ -14,7 +14,6 @@ import {
 } from "@heroui/react";
 import { ProductData } from "@/lib/actions/product";
 import { formatCurrency, scheduledToCalendarDateTime } from "@/lib/utils";
-import { CopyText } from "@/components/ui/copy-text";
 import { InputStepper } from "@/components/store/product/dialog/button-stepper";
 import {ItemCart, Variant} from "@/lib/actions/cart";
 import { updateCart } from "@/lib/actions/cart";
@@ -140,19 +139,23 @@ export default function UserProductDialog({
                         </p>
                     )}
                 <div className="flex items-center gap-2">
-                    <CopyText
-                        onClose={onClose}
+                    <Button
+                        onPress={() => {
+                            if (navigator.share) {
+                                navigator.share({
+                                    title: productData.name,
+                                    text: "Check out this product on TheBakerz!",
+                                    url: origin + "/" + (productData?.store_name || productData?.store_id) + "/item/" + (productData?.web_name)
+                                });
+                            } else {
+                                navigator.clipboard.writeText(origin + "/" + (productData?.store_name || productData?.store_id) + "/item/" + (productData?.web_name));
+                                showSuccessMessage({success: t("productLinkCopied")});
+                            }
+                        }}
                         isIconOnly={true}
-                        copyText={
-                            origin + "/" +
-                            (productData?.store_name || productData?.store_id) +
-                            "/item/" +
-                            (productData?.web_name)
-                        }
-                        textNotify={t("productLinkCopied")}
                     >
                         <Icon icon="mi:share" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
-                    </CopyText>
+                    </Button>
                 </div>
             </ModalHeader>
             <ModalBody className={"p-0 justify-center items-center"}>

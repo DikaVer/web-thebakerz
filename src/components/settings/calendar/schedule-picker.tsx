@@ -10,6 +10,7 @@ import {useSession} from "@/components/providers/session-provider";
 import {IconLoadingCircle} from "@/components/ui/icons";
 import {useTranslations} from "next-intl";
 import { useStore } from '@/components/providers/store-provider';
+import { logger } from '@/lib/logger';
 
 interface DayWorkingHoursProps {
     day: string;
@@ -138,62 +139,108 @@ const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'sat
 
 export const WorkingHoursComp: React.FC = () => {
     const t = useTranslations("app/(return_page)/settings/components/calendar/schedule-picker");
-    const {session} = useSession();
-
-    if (!session) {
-        return null;    
-    }
+    const { session, registerSaveHandler, setSaveOpen } = useSession();
     const { store } = useStore();
+    
+    // Track if schedule has changed
+    const [scheduleChanged, setScheduleChanged] = useState(false);
+    
     // Use Partial<WorkHours> as some days might not be set initially.
     const [workingHours, setWorkingHoursState] = useState<Partial<WorkHours>>(store?.schedule ? store?.schedule : {});
     const [isLoading, setIsLoading] = useState(false);
+    
+    // Store the initial schedule for comparison
+    const [initialSchedule, setInitialSchedule] = useState<Partial<WorkHours>>(store?.schedule ? JSON.parse(JSON.stringify(store.schedule)) : {});
 
     const setWorkingHours = (
         day: string,
         data: { isEnabled: boolean; startTime: Time | null; endTime: Time | null }
     ) => {
-        setWorkingHoursState((prev) => ({
-            ...prev,
-            [day]: {
-                isEnabled: data.isEnabled,
-                start: data.startTime
-                    ? { hour: data.startTime.hour, minute: data.startTime.minute }
-                    : { hour: 0, minute: 0 },
-                end: data.endTime
-                    ? { hour: data.endTime.hour, minute: data.endTime.minute }
-                    : { hour: 0, minute: 0 },
-            },
-        }));
+        setWorkingHoursState((prev) => {
+            const newHours = {
+                ...prev,
+                [day]: {
+                    isEnabled: data.isEnabled,
+                    start: data.startTime
+                        ? { hour: data.startTime.hour, minute: data.startTime.minute }
+                        : { hour: 0, minute: 0 },
+                    end: data.endTime
+                        ? { hour: data.endTime.hour, minute: data.endTime.minute }
+                        : { hour: 0, minute: 0 },
+                },
+            };
+            
+            // Check if schedule has changed
+            const hasChanged = JSON.stringify(newHours) !== JSON.stringify(initialSchedule);
+            if (hasChanged && !scheduleChanged) {
+                setScheduleChanged(true);
+                setSaveOpen(true);
+                logger.debug('scheduleSettings', 'schedule changed, showing save button');
+            }
+            
+            return newHours;
+        });
     };
 
-    const handleSave = async () => {
-        setIsLoading(true);
-        try {
-            const res = await fetch('/api/update-schedule', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    workHours: workingHours,
-                    storeId: store.id,
-                }),
-            });
-            if (!res.ok) {
-                if (res.status === 500) {
-                    showErrorMessage({ error: t("errorSomethingWentWrong") });
-                } else if (res.status === 429) {
-                    showErrorMessage({ error: t("errorTooManyRequests") });
-                } else {
-                    showErrorMessage({ error: t("errorInvalidTimeFields") });
-                }
-            } else {
-                showSuccessMessage({success: t("scheduleSavedSuccess")});
+    // Register save handler
+    useEffect(() => {
+        const handleSaveSchedule = async () => {
+            logger.debug('scheduleSettings', 'save handler called', { scheduleChanged });
+            
+            if (!scheduleChanged) {
+                logger.debug('scheduleSettings', 'no changes to save');
+                return false;
             }
-        } catch (error) {
-            console.error('Error saving schedule:', error);
-            showErrorMessage({ error: t("errorFailedToSaveSchedule") });
-        }
-        setIsLoading(false);
-    };
+            
+            setIsLoading(true);
+            try {
+                logger.debug('scheduleSettings', 'saving schedule changes');
+                const res = await fetch('/api/update-schedule', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        workHours: workingHours,
+                        storeId: store.id,
+                    }),
+                });
+                
+                if (!res.ok) {
+                    if (res.status === 500) {
+                        showErrorMessage({ error: t("errorSomethingWentWrong") });
+                    } else if (res.status === 429) {
+                        showErrorMessage({ error: t("errorTooManyRequests") });
+                    } else {
+                        showErrorMessage({ error: t("errorInvalidTimeFields") });
+                    }
+                    logger.error('scheduleSettings', 'failed to save schedule', { status: res.status });
+                    setIsLoading(false);
+                    return false;
+                } else {
+                    logger.debug('scheduleSettings', 'schedule saved successfully');
+                    setInitialSchedule(JSON.parse(JSON.stringify(workingHours)));
+                    setScheduleChanged(false);
+                    setIsLoading(false);
+                    return true;
+                }
+            } catch (error) {
+                logger.error('scheduleSettings', 'error saving schedule', { error });
+                showErrorMessage({ error: t("errorFailedToSaveSchedule") });
+                setIsLoading(false);
+                return false;
+            }
+        };
+        
+        logger.debug('scheduleSettings', 'registering save handler');
+        registerSaveHandler('working-hours', handleSaveSchedule);
+        
+        return () => {
+            logger.debug('scheduleSettings', 'cleanup - component unmounting');
+        };
+    }, [registerSaveHandler, scheduleChanged, workingHours, store.id, t, setSaveOpen]);
+
+    if (!session) {
+        return null;    
+    }
 
     return (
         <div>
@@ -230,17 +277,6 @@ export const WorkingHoursComp: React.FC = () => {
                     </div>
                 ))
             )}
-            <div className="w-full flex flex-row-reverse">
-                <Button
-                    color={'secondary'}
-                    className={'shadow'}
-                    startContent={!isLoading && <Icon icon="solar:pen-new-square-broken" width={24} />}
-                    onPress={handleSave}
-                    isLoading={isLoading}
-                >
-                    {isLoading ? t("saving") : t("saveWorkingHours")}
-                </Button>
-            </div>
         </div>
     );
 };

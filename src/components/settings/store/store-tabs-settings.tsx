@@ -4,7 +4,7 @@ import { Tab, Tabs } from "@heroui/react";
 import WorkingHoursManager from "@/components/settings/calendar-settings";
 import {useTranslations} from "next-intl";
 import {useSession} from "@/components/providers/session-provider";
-import {redirect, useSearchParams} from "next/navigation";
+import {redirect, useRouter, useSearchParams} from "next/navigation";
 import DeliveryManager from "@/components/settings/delivery-settings";
 import {useStore} from "@/components/providers/store-provider";
 import StoreSetting from "@/components/settings/store/store-settings";
@@ -19,9 +19,9 @@ export const StoreTabsSettings: React.FC<TabsSettingsProps> = ({
                                                           }) => {
 
     const t = useTranslations("app/(return_page)/settings/components/store-tabs-settings");
-    const { session } = useSession();
-    const { store } = useStore();
+    const { session, clearSaveHandlers } = useSession();
     const searchParams = useSearchParams();
+    const router = useRouter();
 
     if (!session) {
         redirect('/auth?next=' + window.location.pathname);
@@ -38,6 +38,11 @@ export const StoreTabsSettings: React.FC<TabsSettingsProps> = ({
             
             <Tabs
                 defaultSelectedKey={selectedTab}
+                onSelectionChange={(value) => {
+                    // Update URL with the selected tab
+                    router.push(`?tab=${value}`);
+                    clearSaveHandlers();
+                }}  
                 // onValueChange will update the URL query parameter to reflect the selected tab.
                 //@ts-ignore
                 fullWidth

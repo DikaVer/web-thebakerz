@@ -26,6 +26,8 @@ export const containerClientAvatar = blobClient.getContainerClient(process.env.N
 
 export const containerClientProduct = blobClient.getContainerClient(process.env.NEXT_PRIVATE_BLOB_PRODUCTS_CONTAINER!);
 
+export const containerClientBackground = blobClient.getContainerClient(process.env.NEXT_PRIVATE_BLOB_BACKGROUND_CONTAINER!);
+
 
 import { CosmosClient } from "@azure/cosmos";
 

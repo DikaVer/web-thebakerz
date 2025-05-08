@@ -20,8 +20,10 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
     const [currentStep, setCurrentStep] = useState(1);
     const router = useRouter();
     const { store } = useStore();
+    const additionalT = useTranslations("app/(store)/id/orders/add")
     const t = useTranslations("app/(store)/components/orders/add");
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
+    const [isLoading, setIsLoading] = useState(false);
 
     return (
         <>
@@ -30,7 +32,9 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
                 size="md"
                 variant="light"
                 className="text-default-500 max-w-fit px-0 pr-1"
+                isLoading={isLoading}
                 onPress={() => {
+                    setIsLoading(true);
                     router.push(`/${storeUrl}/orders`);
                     router.refresh();
                 }}
@@ -43,8 +47,16 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
                     />
                 }
             >
-                {t("backToOrderDashboard")}
+                {!isLoading && t("backToOrderDashboard")}
             </Button>
+            <Spacer y={4}/>
+                {/* Title */}
+                <div className="flex items-center gap-x-3">
+                    <h1 className="text-3xl font-bold leading-9 text-default-foreground">{additionalT('addOrder')}</h1>
+                </div>
+                <h2 className="mt-2 text-small text-default-500">
+                    {additionalT('addOrderDescription')}
+                </h2>
             <Spacer y={4}/>
             <ProductList
                 currentStep={currentStep}

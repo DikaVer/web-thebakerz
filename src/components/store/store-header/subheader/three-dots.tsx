@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@heroui/react";
-import {IconCopy, IconDots} from "@/components/ui/icons";
+import {IconCopy} from "@/components/ui/icons";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import {Icon} from "@iconify/react";
 import {useTheme} from "next-themes";
@@ -33,14 +33,12 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                         size="lg"
                         color="default"
                         isLoading={isLoading}
-                        className="h-12"
+                        className="h-12 "
                     >
                         {!isLoading && (
-                            <IconDots
-                                size={44}
-                                primaryColor={
-                                    theme === "light" ? "#5d5d5b" : "#faf4d1"
-                                }
+                            <Icon
+                                icon="solar:settings-broken"
+                                width={32}
                             />
                         )}
                     </Button>
@@ -56,16 +54,24 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                                 <IconCopy
                                     size={24}
                                     primaryColor={
-                                        theme === "light" ? "#730c70" : "#a3a3a3"
+                                        theme === "light" ? "#730c70" : "#f7f6f5"
                                     }
                                     secondaryColor={
-                                        theme === "light" ? "#5d5d5b" : "#faf4d1"
+                                        theme === "light" ? "#131316" : "#f7f6f5"
                                     }
                                 />
                             }
                             onPress={() => {
-                                navigator.clipboard.writeText(origin + '/' + storeUrl);
-                                showSuccessMessage({ success: t("storeLinkCopied") });
+                                if (navigator.share) {
+                                    navigator.share({   
+                                        title: store?.storeName || "Check out this store",
+                                        text: `Check out ${store?.storeName || "this store"} on TheBakerz!`,
+                                        url: origin + '/' + storeUrl
+                                    }).catch(err => console.log("Share failed:", err));
+                                } else {
+                                    navigator.clipboard.writeText(origin + '/' + storeUrl);
+                                    showSuccessMessage({ success: t("storeLinkCopied") });
+                                }
                             }}
                         >
                             {t("copyStoreLink")}
@@ -74,7 +80,6 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             key="profile"
                             endContent={
                                 <Icon
-                                    className="text-default-500"
                                     icon="solar:settings-broken"
                                     width={24}
                                 />
@@ -91,7 +96,6 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             key="Pickup"
                             endContent={
                                 <Icon
-                                    className="text-default-500"
                                     icon="solar:calendar-broken"
                                     width={24}
                                 />
@@ -108,7 +112,6 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             key="delivery"
                             endContent={
                                 <Icon
-                                    className="text-default-500"
                                     icon="solar:scooter-linear"
                                     width={24}
                                 />
@@ -125,7 +128,6 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             key="products"
                             endContent={
                                 <Icon
-                                    className="text-default-500"
                                     icon="solar:bag-5-broken"
                                     width={24}
                                 />
@@ -142,7 +144,6 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             key="order"
                             endContent={
                                 <Icon
-                                    className="text-default-500"
                                     icon="solar:document-add-linear"
                                     width={24}
                                 />
@@ -159,8 +160,8 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             key="support"
                             endContent={
                                 <Icon
-                                    className="text-default-500"
-                                    icon="solar:info-circle-line-duotone"
+                                    className="text-foreground"
+                                    icon="solar:info-circle-linear"
                                     width={24}
                                 />
                             }
@@ -199,8 +200,8 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             key="support"
                             endContent={
                                 <Icon
-                                    className="text-default-900"
-                                    icon="solar:info-circle-line-duotone"
+                                    className="text-foreground"
+                                    icon="solar:info-circle-linear"
                                     width={24}
                                 />
                             }
@@ -216,7 +217,6 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             key="report"
                             endContent={
                                 <Icon
-                                    className="text-default-500"
                                     icon="solar:danger-broken"
                                     width={24}
                                 />

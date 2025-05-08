@@ -28,7 +28,12 @@ export async function validateSessionToken(
       users.name AS username,
       users.email_verified as emailVerified,
       users.image as picture,
-      users.role
+      users.role,
+      users.birth,
+      users.sex,
+      users.push_note,
+      users.email_note,
+      users.phone_note
     FROM sessions
     INNER JOIN users ON sessions.user_id = users.id
     WHERE sessions.session_token = $1
@@ -58,7 +63,12 @@ export async function validateSessionToken(
         username: row.username,
         emailVerified: Boolean(row.emailVerified !== null), // ensure proper casing
         role: row.role,
-        picture: row.picture
+        picture: row.picture,
+        birth: row.birth,
+        sex: row.sex,
+        push_note: row.push_note,
+        email_note: row.email_note,
+        phone_note: row.phone_note
     };
 
     const stores = await connectionPool.query(

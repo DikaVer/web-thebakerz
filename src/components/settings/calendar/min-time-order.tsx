@@ -9,6 +9,7 @@ import showSuccessMessage from "@/components/toast/toast-succes";
 import {useTranslations} from "next-intl";
 import {useStore} from "@/components/providers/store-provider";
 import {useSession} from "@/components/providers/session-provider";
+import { logger } from "@/lib/logger";
 
 interface MinTimeOrderProps {
     storeId?: string;
@@ -17,15 +18,19 @@ interface MinTimeOrderProps {
 
 export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
     const t = useTranslations("app/(return_page)/settings/components/calendar/min-time-order");
-    const { session } = useSession();
+    const { session, registerSaveHandler, setSaveOpen } = useSession();
     const { store } = useStore();
     const [isVisible, setIsVisible] = useState(false);
     const [minOrderTime, setMinOrderTime] = useState<string>("30");
+    const [initialMinOrderTime, setInitialMinOrderTime] = useState<string>("30");
+    const [timeChanged, setTimeChanged] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (store?.minTimeOrder) {
-            setMinOrderTime(store.minTimeOrder.toString());
+            const timeValue = store.minTimeOrder.toString();
+            setMinOrderTime(timeValue);
+            setInitialMinOrderTime(timeValue);
             setIsVisible(true);
         }
     }, [store?.minTimeOrder]);
@@ -56,18 +61,57 @@ export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
         return options;
     }, [t]);
 
-    const handleSave = async () => {
-        setIsLoading(true);
-        try {
-            await updateMinOrderTime(store?.id, parseInt(minOrderTime));
-            showSuccessMessage({ success: t("successMessage") });
-        } catch (error) {
-            showErrorMessage({ error: t("errorMessage") });
-            console.error("Failed to update minimum order time:", error);
-        } finally {
-            setIsLoading(false);
+    // Handle changes to min order time
+    const handleTimeChange = (newTime: string) => {
+        setMinOrderTime(newTime);
+        
+        // Check if the value has changed from the initial value
+        if (newTime !== initialMinOrderTime && !timeChanged) {
+            setTimeChanged(true);
+            setSaveOpen(true);
+            logger.debug('minTimeOrder', 'value changed, showing save button');
+        } else if (newTime === initialMinOrderTime && timeChanged) {
+            setTimeChanged(false);
+            logger.debug('minTimeOrder', 'value reverted to original');
         }
     };
+
+    // Register save handler
+    useEffect(() => {
+        const handleSaveMinTime = async () => {
+            logger.debug('minTimeOrder', 'save handler called', { timeChanged });
+            
+            if (!timeChanged) {
+                logger.debug('minTimeOrder', 'no changes to save');
+                return false;
+            }
+            
+            setIsLoading(true);
+            try {
+                logger.debug('minTimeOrder', 'saving min order time', { minOrderTime });
+                await updateMinOrderTime(store?.id, parseInt(minOrderTime));
+                
+                // Update the initial value to the new value
+                setInitialMinOrderTime(minOrderTime);
+                setTimeChanged(false);
+                setIsLoading(false);
+                logger.debug('minTimeOrder', 'saved successfully');
+                return true;
+            } catch (error) {
+                logger.error('minTimeOrder', 'failed to update minimum order time', { error });
+                showErrorMessage({ error: t("errorMessage") });
+                setIsLoading(false);
+                return false;
+            }
+        };
+        
+        logger.debug('minTimeOrder', 'registering save handler');
+        registerSaveHandler('min-order-time', handleSaveMinTime);
+        
+        return () => {
+            logger.debug('minTimeOrder', 'cleanup - component unmounting');
+        };
+    }, [registerSaveHandler, timeChanged, minOrderTime, store?.id, t]);
 
     if (!isVisible) {
         return null;
@@ -89,21 +133,13 @@ export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
                         label={t("selectLabel")}
                         placeholder={t("selectPlaceholder")}
                         selectedKeys={[minOrderTime]}
-                        onChange={(e) => setMinOrderTime(e.target.value)}
+                        onChange={(e) => handleTimeChange(e.target.value)}
+                        isDisabled={isLoading}
                     >
                         {timeOptions.map((option) => (
                             <SelectItem key={option.key}>{option.label}</SelectItem>
                         ))}
                     </Select>
-                    <Button
-                        color="secondary"
-                        isIconOnly
-                        className={"h-14 px-0 w-14 shadow-small text-black"}
-                        onPress={handleSave}
-                        isLoading={isLoading}
-                    >
-                        <Icon icon="solar:clipboard-add-linear" width={24} />
-                    </Button>
                 </div>
             </div>
         </div>

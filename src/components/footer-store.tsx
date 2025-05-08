@@ -3,7 +3,7 @@
 import type {IconProps} from "@iconify/react";
 
 import React from "react";
-import {Divider, Image, Link} from "@heroui/react";
+import {Divider, Image, Link, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {pacifico} from "@/components/fonts";
 import {useStore} from "@/components/providers/store-provider";
@@ -98,7 +98,8 @@ export function FooterStore() {
     };
 
     return (
-        <footer className="flex w-full flex-col bg-gradient-card drop-shadow">
+        <footer className="flex w-full flex-col">
+            <Divider/>
             <div className="py-8 md:py-12 container mx-auto">
                 <div className="flex flex-col gap-y-8 items-start justify-between">
                     <div className="flex flex-col gap-y-8 gap-x-12 w-full md:flex-row md:items-start">

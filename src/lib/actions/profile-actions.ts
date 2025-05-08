@@ -29,12 +29,18 @@ export const updateProfile = async (
         return { error: t("userNotFound") };
     }
 
-    // Update the user record (name)
-    if (formData.name !== user.username) {
-        await updateUserProfile(formData.name, user.id);
-        revalidateTag('store');
-        revalidateTag('session');
-    }
+    // Update the user record with all profile data
+    await updateUserProfile(
+        formData.name,
+        user.id,
+        formData.birth,
+        formData.sex,
+        formData.push_note,
+        formData.email_note,
+        formData.phone_note
+    );
+    revalidateTag('store');
+    revalidateTag('session');
 
     return { success: t("profileUpdated") };
 };

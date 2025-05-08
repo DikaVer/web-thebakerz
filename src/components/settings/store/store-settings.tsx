@@ -21,6 +21,7 @@ import { useTranslations } from "next-intl";
 import { useStore } from "@/components/providers/store-provider";
 import { useRouter } from "next/navigation";
 import DeliveryOptions from "./delivery-options";
+import { logger } from "@/lib/logger";
 
 interface StoreSettingCardProps {
     className?: string;
@@ -31,7 +32,7 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
 
         const t = useTranslations("app/(return_page)/settings/components/store-setting");
 
-        const { session } = useSession();
+        const { session, registerSaveHandler, setSaveOpen, isLoading } = useSession();
         const { store } = useStore();
         const router = useRouter();     
 
@@ -45,10 +46,12 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
 
         // Set up a character counter for the description field (max 200 characters)
         const [charCount, setCharCount] = useState(store?.description?.length || 0);
+        const [formIsDirty, setFormIsDirty] = useState(false);
 
         // Initialize the form using the StoreSchema with default values from store
         const form = useForm<z.infer<typeof StoreSettingsSchema>>({
             resolver: zodResolver(StoreSettingsSchema),
+            mode: 'onChange',
             defaultValues: {
                 role: user.role,
                 storeName: store.storeName || undefined,
@@ -59,42 +62,84 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
             },
         });
 
+        // Watch form for changes to enable the save indicator
+        useEffect(() => {
+            const subscription = form.watch(() => {
+                if (!formIsDirty) {
+                    setFormIsDirty(true);
+                    setSaveOpen(true);
+                }
+            });
+            return () => subscription.unsubscribe();
+        }, [form, formIsDirty, setSaveOpen]);
+
         // useActionState to call our updateStore action
         const [state, submitAction, isPending] = useActionState(
             async (previousState: any, formData: z.infer<typeof StoreSettingsSchema>) => {
                 const result = await updateStore(formData, store.id);
 
                 if (result?.success) {
-                    addToast({
-                        title: t("storeUpdated"),
-                        color: "success",
-                        shouldShowTimeoutProgress: true,
-                        timeout: 2000,
-                    });
-                    router.push(`/${store.id}/settings`);
-
-                    // Update local store state
-                    // setStore({
-                    //     ...store,
-                    //     storeName: formData.storeName,
-                    //     slug: formData.storeSlug,
-                    //     description: formData.description,
-                    //     facebook_url: formData.facebook_url,
-                    //     instagram_url: formData.instagram_url,
-                    // });
-
+                    setFormIsDirty(false);
+                    router.push(`/${formData.storeName || store.id}/settings`);
                 } else if (result?.error) {
                     showErrorMessage({error: result.error});
                 }
+
+                return result;
             },
             null
         );
 
-        // Handle the form submission with startTransition
-        const handleSubmit = (formData: z.infer<typeof StoreSettingsSchema>) => {
-            startTransition(() => {
-                submitAction(formData);
-            });
+        // Add logging to the save handler
+        useEffect(() => {
+            // Define the save handler function
+            const handleStoreSettingsSave = () => {
+                logger.debug('storeSettings', 'save handler called', { formIsDirty, isValid: form.formState.isValid });
+                if (formIsDirty && form.formState.isValid) {
+                    const formData = form.getValues();
+                    logger.debug('storeSettings', 'submitting form data');
+                    startTransition(() => {
+                        submitAction(formData);
+                    });
+                    return true;
+                } else {
+                    logger.debug('storeSettings', 'not saving - form not dirty or not valid');
+                    const errors = form.formState.errors;
+                    for (const error of Object.values(errors)) {
+                        showErrorMessage({error: error.message || 'An error occurred'});
+                    }
+                    return false;
+                }
+            };
+
+            // Register the save handler
+            logger.debug('storeSettings', 'registering save handler');
+            registerSaveHandler('store-settings', handleStoreSettingsSave);
+
+            // Clean up on unmount
+            return () => {
+                logger.debug('storeSettings', 'cleanup - component unmounting');
+                // No need to unregister as the session provider will handle this on pathname change
+            };
+        }, [registerSaveHandler, form, formIsDirty, submitAction]);
+
+        // Add state to track form validation status display
+        const [showValidationStatus, setShowValidationStatus] = useState(false);
+
+        // Check for form errors whenever form state changes
+        useEffect(() => {
+            if (form.formState.isSubmitted || formIsDirty) {
+                setShowValidationStatus(true);
+            }
+        }, [form.formState, formIsDirty]);
+
+        // Helper to get all form validation errors
+        const getFormErrors = () => {
+            const errors = form.formState.errors;
+            return Object.entries(errors).map(([field, error]) => ({
+                field,
+                message: error.message || `Invalid ${field}`,
+            }));
         };
 
         return (
@@ -106,7 +151,11 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
                 {/* Title */}
                 <Form {...form}>
                     <form
-                        onSubmit={form.handleSubmit(handleSubmit)}
+                        onSubmit={(e) => { 
+                            e.preventDefault(); 
+                            setSaveOpen(true);
+                            setShowValidationStatus(true);
+                        }}
                         className={'grid gap-y-1'}
                     >
                         <div>
@@ -121,14 +170,13 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                isDisabled={isPending}
+                                                isDisabled={isLoading || isPending}
                                                 isRequired
                                                 className={'mt-2'}
                                                 placeholder={t("typeYourStoreName")}
                                                 type="text"
-                                                validate={() => {
-                                                    return fieldState.error?.message;
-                                                }}
+                                                isInvalid={!!fieldState.error}
+                                                errorMessage={fieldState.error?.message}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -148,13 +196,12 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                isDisabled={isPending}
+                                                isDisabled={isLoading || isPending}
                                                 className={'mt-2'}
                                                 placeholder={t("typeYourStoreSlug")}
                                                 type="text"
-                                                validate={() => {
-                                                    return fieldState.error?.message;
-                                                }}
+                                                isInvalid={!!fieldState.error}
+                                                errorMessage={fieldState.error?.message}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -216,11 +263,12 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                isDisabled={isPending}
+                                                isDisabled={isLoading || isPending}
                                                 className="mt-2"
                                                 placeholder={t("facebookURLPlaceholder")}
                                                 type="text"
-                                                validate={() => fieldState.error?.message}
+                                                isInvalid={!!fieldState.error}
+                                                errorMessage={fieldState.error?.message}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -242,11 +290,12 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                isDisabled={isPending}
+                                                isDisabled={isLoading || isPending}
                                                 className="mt-2"
                                                 placeholder={t("instagramURLPlaceholder")}
                                                 type="text"
-                                                validate={() => fieldState.error?.message}
+                                                isInvalid={!!fieldState.error}
+                                                errorMessage={fieldState.error?.message}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -268,7 +317,7 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
                                         <FormControl>
                                             <Textarea
                                                 {...field}
-                                                isDisabled={isPending}
+                                                isDisabled={isLoading || isPending}
                                                 placeholder={t("storeDescriptionPlaceholder")}
                                                 style={{resize: "none"}}
                                                 className="mt-2"
@@ -280,9 +329,8 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
                                                 onValueChange={(value) => {
                                                     setCharCount(value.length);
                                                 }}
-                                                validate={() => {
-                                                    return fieldState.error?.message;
-                                                }}
+                                                isInvalid={!!fieldState.error}
+                                                errorMessage={fieldState.error?.message}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -291,20 +339,55 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
                             <p className="text-right text-grayText text-small px-2">{charCount}/200</p>
                         </div>
                           
-                        <div className={`flex flex-row-reverse w-full`}>
-                            <Button
-                                startContent={!isPending && <Icon icon="solar:settings-broken" width={24}/>}
-                                className="mt-4 text-black shadow"
-                                color={'secondary'}
-                                type={'submit'}
-                                isDisabled={isPending}
-                                isLoading={isPending}
-                            >
-                                {
-                                    isPending ? t('updating') : t('updateStore')
-                                }
-                            </Button>
-                        </div>
+                        {/* Validation Status Indicator */}
+                        {/* {showValidationStatus && (
+                            <div className="mt-4 w-full">
+                                {!form.formState.isValid ? (
+                                    <div className="rounded-md bg-red-50 p-3">
+                                        <div className="flex">
+                                            <div className="flex-shrink-0">
+                                                <Icon 
+                                                    icon="heroicons:exclamation-circle" 
+                                                    className="text-red-500" 
+                                                    width={24} 
+                                                />
+                                            </div>
+                                            <div className="ml-3">
+                                                <h3 className="text-sm font-medium text-red-800">
+                                                    {t("formHasErrors")}
+                                                </h3>
+                                                <div className="mt-2 text-sm text-red-700">
+                                                    <ul className="list-disc pl-5 space-y-1">
+                                                        {getFormErrors().map((error, index) => (
+                                                            <li key={index}>
+                                                                {error.message}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="rounded-md bg-green-50 p-3">
+                                        <div className="flex">
+                                            <div className="flex-shrink-0 items-center">
+                                                <Icon 
+                                                    icon="heroicons:check-circle" 
+                                                    className="text-green-500" 
+                                                    width={24} 
+                                                />
+                                            </div>
+                                            <div className="flex items-center  ml-3">
+                                                <h3 className="text-sm font-medium text-foreground">
+                                                    {t("formIsValid")}
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )} */}
                     </form>
                 </Form>
             </div>

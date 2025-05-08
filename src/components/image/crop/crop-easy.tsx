@@ -166,7 +166,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                 <Button
                     color="secondary"
                     onPress={cropImage}
-                    className="text-black shadow"
+                    className="text-white shadow"
                     type="submit"
                     startContent={
                         !isPending && <Icon icon="solar:gallery-edit-broken" width={24} />

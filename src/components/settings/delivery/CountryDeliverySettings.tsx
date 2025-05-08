@@ -95,7 +95,7 @@ const CountryDeliverySettings: React.FC<CountryDeliverySettingsProps> = ({
             color="secondary"
             onPress={onSave}
             size="sm"
-            className="mt-2 shadow-small text-text"
+            className="mt-2 shadow-small text-white"
         >
             {t("addCountry")}
         </Button>

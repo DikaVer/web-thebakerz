@@ -1,14 +1,15 @@
 'use client';
 
-import React, {startTransition, useState} from "react";
+import React, {startTransition, useState, useEffect} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import {Card, CardBody, Input, Textarea, Button, cn, Avatar, Spacer, Link, Badge, addToast} from "@heroui/react";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import {Card, CardBody, Input, Textarea, Button, cn, Avatar, Spacer, Link, Badge, addToast, Select, SelectItem, Switch, DatePicker} from "@heroui/react";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { useActionState } from "react";
 import { updateProfile} from "@/lib/actions/profile-actions";
 import { Icon } from "@iconify/react";
+import { CalendarDate, getLocalTimeZone } from "@internationalized/date";
 
 // Import the ProfileSchema we created above
 import { ProfileSettingsSchema } from "@/lib/schemas/index";
@@ -21,6 +22,7 @@ import {useSession} from "@/components/providers/session-provider";
 import NotFound from "@/app/(error_layout)/not-found";
 import {SessionValidationResult} from "@/lib/actions/session";
 import {useTranslations} from "next-intl";
+import { logger } from '@/lib/logger';
 
 interface ProfileSettingCardProps {
     className?: string;
@@ -30,7 +32,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
     ({ className, ...props }, ref) => {
         const t = useTranslations("app/(return_page)/settings/components/profile-setting");
 
-        const { session, setSession } = useSession();
+        const { session, setSession, registerSaveHandler, setSaveOpen, isLoading } = useSession();
 
         const { user } = session;
 
@@ -42,6 +44,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
 
         const [avatarEdit, setAvatarEdit] = useState(false);
         const [file, setFile] = useState<File | undefined>();
+        const [formIsDirty, setFormIsDirty] = useState(false);
 
         // Initialize the form using the ProfileSchema with default values from props
         const form = useForm<z.infer<typeof ProfileSettingsSchema>>({
@@ -49,8 +52,106 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
             defaultValues: {
                 role: user.role,
                 name: user.username,
+                birth: user.birth || "",
+                sex: user.sex || "",
+                push_note: user.push_note || false,
+                email_note: user.email_note || false,
+                phone_note: user.phone_note || false,
             },
         });
+
+        // Track form changes
+        useEffect(() => {
+            const subscription = form.watch((value, { name, type }) => {
+                if (name && type) {
+                    // Check if any value has changed
+                    const isDirty = 
+                        user.username !== value.name ||
+                        user.birth !== value.birth ||
+                        user.sex !== value.sex ||
+                        user.push_note !== value.push_note ||
+                        user.email_note !== value.email_note ||
+                        user.phone_note !== value.phone_note;
+                        
+                    if (isDirty && !formIsDirty) {
+                        logger.debug('profileSetting', 'form changed, enabling save button');
+                        setFormIsDirty(true);
+                        setSaveOpen(true);
+                    } else if (!isDirty && formIsDirty) {
+                        setFormIsDirty(false);
+                        setSaveOpen(false);
+                    }
+                }
+            });
+            
+            return () => subscription.unsubscribe();
+        }, [form, user, formIsDirty, setSaveOpen]);
+
+        // Register save handler
+        useEffect(() => {
+            const handleSaveProfile = async () => {
+                logger.debug('profileSetting', 'save handler called', { formIsDirty });
+                if (!formIsDirty) {
+                    logger.debug('profileSetting', 'no changes to save');
+                    return true;
+                }
+                
+                try {
+                    const formData = form.getValues();
+                    
+                    logger.debug('profileSetting', 'saving profile changes', { formData });
+                    const result = await updateProfile(formData);
+
+                    if (result?.success) {
+                        addToast({
+                            title: t("profileUpdated"),
+                            description: t("profileHasUpdated"),
+                            color: "success",
+                            shouldShowTimeoutProgress: true,
+                            timeout: 2000,
+                        });
+
+                        setSession((prevSession): SessionValidationResult => {
+                            if (!prevSession) return prevSession;
+
+                            if (prevSession.user) {
+                                return {
+                                    ...prevSession,
+                                    user: {
+                                        ...prevSession.user,
+                                        username: formData.name,
+                                        birth: formData.birth,
+                                        sex: formData.sex,
+                                        push_note: formData.push_note,
+                                        email_note: formData.email_note,
+                                        phone_note: formData.phone_note,
+                                    } as User
+                                }
+                            }
+
+                            return prevSession;
+                        });
+                        
+                        setFormIsDirty(false);
+                        return true;
+                    } else if (result?.error) {
+                        logger.error('profileSetting', 'error saving profile', { error: result.error });
+                        showErrorMessage({error: result.error});
+                        return false;
+                    }
+                    
+                    return false;
+                } catch (error) {
+                    logger.error('profileSetting', 'exception while saving profile', { error });
+                    return false;
+                }
+            };
+            
+            logger.debug('profileSetting', 'registering save handler');
+            registerSaveHandler('profile-setting', handleSaveProfile);
+            
+            // No need to unregister as the session provider will handle this on pathname change
+        }, [registerSaveHandler, form, formIsDirty, t, setSession]);
 
         // useActionState similar to your ContactUs example – it will call our updateProfile action.
         const [state, submitAction, isPending] = useActionState(
@@ -75,13 +176,20 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                 ...prevSession,
                                 user: {
                                     ...prevSession.user,
-                                    username: formData.name
+                                    username: formData.name,
+                                    birth: formData.birth,
+                                    sex: formData.sex,
+                                    push_note: formData.push_note,
+                                    email_note: formData.email_note,
+                                    phone_note: formData.phone_note,
                                 } as User
                             }
                         }
 
                         return prevSession;
                     });
+                    
+                    setFormIsDirty(false);
 
                 } else if (result?.error) {
                     showErrorMessage({error: result.error});
@@ -172,7 +280,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                isDisabled={isPending}
+                                                isDisabled={isPending || isLoading}
                                                 isRequired
                                                 className={'mt-2'}
                                                 placeholder={`${user?.username}`}
@@ -186,20 +294,153 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                                 )}
                             />
                         </div>
-                        <Spacer y={2} />
-                        <div className={`flex flex-row-reverse w-full`}>
-                            <Button
-                                startContent={!isPending && <Icon icon="solar:settings-broken" width={24}/>}
-                                className="mt-4"
-                                color={'secondary'}
-                                type={'submit'}
-                                isDisabled={isPending}
-                                isLoading={isPending}
-                            >
-                                {
-                                    isPending ? t('updating') : t('updateProfile')
-                                }
-                            </Button>
+                        
+                        {/* Date of birth */}
+                        <div className="mt-4">
+                            <p className="text-base font-medium text-default-700">
+                                {t("dateOfBirth") || "Date of birth"}
+                            </p>
+                            <FormField
+                                control={form.control}
+                                name="birth"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <DatePicker
+                                                isDisabled={isPending || isLoading}
+                                                className="mt-2 w-full"
+                                                // @ts-ignore
+                                                value={field.value ? new CalendarDate(
+                                                    new Date(field.value).getFullYear(),
+                                                    new Date(field.value).getMonth() + 1,
+                                                    new Date(field.value).getDate()
+                                                ) : null}
+                                                // @ts-ignore
+                                                maxValue={new CalendarDate(
+                                                    new Date().getFullYear() - 18,
+                                                    new Date().getMonth() + 1,
+                                                    new Date().getDate()
+                                                )}
+                                                onChange={(date) => {
+                                                    if (date) {
+                                                        // Convert from CalendarDate to ISO string format
+                                                        const jsDate = new Date(date.year, date.month - 1, date.day + 1);
+                                                        const formattedDate = jsDate.toISOString().split('T')[0];
+                                                        field.onChange(formattedDate);
+                                                    } else {
+                                                        field.onChange("");
+                                                    }
+                                                }}
+                                                placeholder={t("selectDate") || "Select date"}
+                                                variant="flat"
+                                                color="default"
+                                                showMonthAndYearPickers
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        
+                        {/* Sex/Gender */}
+                        <div className="mt-4">
+                            <p className="text-base font-medium text-default-700">
+                                {t("sex") || "Sex"}
+                            </p>
+                            <FormField
+                                control={form.control}
+                                name="sex"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Select
+                                                {...field}
+                                                defaultSelectedKeys={field.value ? [field.value] : []}
+                                                selectedKeys={field.value ? [field.value] : []}
+                                                isDisabled={isPending || isLoading}
+                                                placeholder={t("selectSex") || "Select gender"}
+                                                className="mt-2"
+                                            >
+                                                <SelectItem key="male">
+                                                    {t("male") || "Male"}
+                                                </SelectItem>
+                                                <SelectItem key="female">
+                                                    {t("female") || "Female"}
+                                                </SelectItem>
+                                            </Select>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        
+                        {/* Ads and Promos */}
+                        <div className="mt-6">
+                            <p className="text-base font-medium text-default-700 mb-3">
+                                {t("adsAndPromos") || "Ads and promos"}
+                            </p>
+                            
+                            {/* Email notifications */}
+                            <FormField
+                                control={form.control}
+                                name="email_note"
+                                render={({ field }) => (
+                                    <FormItem className="flex justify-between items-center my-4 py-2 border-b">
+                                        <FormLabel className="cursor-pointer">{t("email") || "Email"}</FormLabel>
+                                        <FormControl>
+                                            <Switch
+                                                isSelected={field.value}
+                                                onValueChange={field.onChange}
+                                                isDisabled={isPending || isLoading}
+                                                color="warning"
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            
+                            {/* SMS notifications */}
+                            <FormField
+                                control={form.control}
+                                name="phone_note"
+                                render={({ field }) => (
+                                    <FormItem className="flex justify-between items-center my-4 py-2 border-b">
+                                        <FormLabel className="cursor-pointer">{t("smsWithDiscounts") || "SMS with discounts and promo codes"}</FormLabel>
+                                        <FormControl>
+                                            <Switch
+                                                isSelected={field.value}
+                                                onValueChange={field.onChange}
+                                                isDisabled={isPending || isLoading}
+                                                color="warning"
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            
+                            {/* Push notifications */}
+                            <FormField
+                                control={form.control}
+                                name="push_note"
+                                render={({ field }) => (
+                                    <FormItem className="flex justify-between items-center my-4 py-2 border-b">
+                                        <div>
+                                            <FormLabel className="cursor-pointer">{t("pushNotifications") || "Push notifications with discounts and promo codes"}</FormLabel>
+                                            <p className="text-xs text-default-500 mt-1">
+                                                {t("pushNotificationsNote") || "We will turn off the marketing push, and we will continue to send the order statuses"}
+                                            </p>
+                                        </div>
+                                        <FormControl>
+                                            <Switch
+                                                isSelected={field.value}
+                                                onValueChange={field.onChange}
+                                                isDisabled={isPending || isLoading}
+                                                color="warning"
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
                         </div>
                     </form>
                 </Form>
