@@ -791,6 +791,8 @@
     "itemName": "Item Name",
     "itemOptions": "Item Options",
     "loading": "Loading...",
+    "maxSelectionsExceeded": "Exceed maximum: {max}",
+    "minSelectionsRequired": "Minimun required: {min}",
     "minimalOrder": "Minimal Order",
     "minimalOrderDescription": "What is the minimum number of items a customer can order?",
     "noProductsAvailable": "No products available",
@@ -799,6 +801,7 @@
     "productDeleted": "Product deleted successfully",
     "productLinkCopied": "Product Link Copied!",
     "productNotFound": "Product not found",
+    "requiredVariant": "Required",
     "selectCategory": "Select Category",
     "specialCategory": "Specials",
     "submitError": "Failed to submit the form. Please try again.",
@@ -924,6 +927,7 @@
     "addOption": "Add Option",
     "addOptionGroup": "Add Option Group",
     "maxSelections": "Max selections",
+    "minSelections": "Min Selections",
     "multipleChoices": "Multiple choices",
     "newOption": "New Option",
     "optionGroupName": "Option Group Name",
@@ -934,7 +938,8 @@
     "singleChoice": "Single choice"
   },
   "app/(store)/components/variants-user-selection": {
-    "max": "Maximum"
+    "max": "Maximum",
+    "min": "Minimum"
   },
   "app/(store)/components/working-hours": {
     "addressOutOfRange": "Address Out of Range",

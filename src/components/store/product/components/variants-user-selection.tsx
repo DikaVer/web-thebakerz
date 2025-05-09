@@ -7,8 +7,8 @@ import { useTranslations } from "next-intl";
 import {formatCurrency} from "@/lib/utils";
 import { logger } from "@/lib/logger";
 
-const ListboxWrapper = ({children}: { children: React.ReactNode}) => (
-    <div className="w-full border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100">
+const ListboxWrapper = ({children, hasError}: { children: React.ReactNode, hasError?: boolean}) => (
+    <div className={cn("w-full rounded-small", hasError && "border border-danger p-1 rounded-md")}>
         {children}
     </div>
 );
@@ -19,12 +19,14 @@ interface VariantsUserSelectionProps {
     productData?: ProductData;
     variants?: Variant[];
     setVariants: (variants: Variant[]) => void;
+    errors?: {[label: string]: string};
 }
 
 export default function VariantsUserSelection({
                                                   productData,
                                                   variants = [],
-                                                  setVariants
+                                                  setVariants,
+                                                  errors = {}
                                               }: VariantsUserSelectionProps) {
     const t = useTranslations("app/(store)/components/variants-user-selection");
 
@@ -107,32 +109,89 @@ export default function VariantsUserSelection({
             {productData.variants.map((variant, index) => (
                 <div key={`${variant.label}-${index}`} className="flex flex-col gap-2">
                     <div className="flex justify-between items-center">
-                        <span className="text-medium font-medium text-text">
+                        <span className="text-lg font-medium text-text">
                             {variant.label}
                             {variant.required && <span className="text-danger ml-1">*</span>}
                         </span>
-                        {variant.maxSelections && !variant.isSingle && (
-                            <span className={cn("text-small text-default-500",
-                                getDefaultKeys(variant).size > variant.maxSelections ? "text-danger" : "text-default-500"
-                            )}>
-                                {t("max")}: {variant.maxSelections}
-                            </span>
-                        )}
+                        <div className="flex items-center gap-2">
+                            {variant.minSelections && !variant.isSingle && (
+                                <span className={cn("text-small", 
+                                    (selectedVariantsMap[variant.label]?.size || 0) < variant.minSelections ? "text-danger" : "text-default-500"
+                                )}>
+                                    {t("min")}: {variant.minSelections}
+                                </span>
+                            )}
+                            {variant.maxSelections && !variant.isSingle && (
+                                <span className={cn("text-small",
+                                    getDefaultKeys(variant).size > variant.maxSelections ? "text-danger" : "text-default-500"
+                                )}>
+                                    {t("max")}: {variant.maxSelections}
+                                </span>
+                            )}
+                        </div>
                     </div>
+                    
+                    {errors[variant.label] && (
+                        <div className="text-danger text-sm mt-1 mb-1 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            {errors[variant.label]}
+                        </div>
+                    )}
 
-                    <ListboxWrapper>
+                    <ListboxWrapper
+                        hasError={!!errors[variant.label]}
+                    >
                         <Listbox
                             aria-label={variant.label}
                             disallowEmptySelection={variant.required}
                             selectedKeys={getDefaultKeys(variant)}
                             selectionMode={getSelectionMode(variant)}
-                            variant="flat"
+                            hideSelectedIcon
                             //@ts-ignore
                             onSelectionChange={handleSelectionChange(variant.label, variant)}
+                            itemClasses={{
+                                base: "data-[hover=true]:bg-default-100 p-0",
+                                title: "text-medium",
+                            }}
+                            classNames={{
+                                base: "p-0",
+                                list: "gap-0",
+                            }}
                         >
                             {variant.options.map((option) => (
-                                <ListboxItem key={option.label} textValue={option.label}>
-                                    <div className="flex justify-between items-center">
+                                <ListboxItem 
+                                    key={option.label} 
+                                    textValue={option.label}
+                                    classNames={{
+                                        base: "py-2",
+                                    }}
+                                    endContent={
+                                        variant.isSingle ? 
+                                        <div className="flex items-center justify-center">
+                                            <div className={cn("w-6 h-6 rounded-full border-default-300 flex items-center justify-center data-[selected=true]:border-primary bg-default-200", 
+                                                getDefaultKeys(variant).has(option.label) ? "border-2" : "shadow-inner border")} 
+                                                data-selected={getDefaultKeys(variant).has(option.label)}>
+                                                {getDefaultKeys(variant).has(option.label) && <div className="w-3 h-3 rounded-full bg-primary" />}
+                                            </div>
+                                        </div> :
+                                        <div className="flex items-center justify-center">
+                                            <div className={cn("w-6 h-6 rounded-sm bg-default-200 flex items-center justify-center data-[selected=true]:bg-primary data-[selected=true]:border-primary transition-all duration-200", 
+                                                !getDefaultKeys(variant).has(option.label) ? "shadow-inner border border-default-300" : "")} 
+                                                data-selected={getDefaultKeys(variant).has(option.label)}>
+                                                {getDefaultKeys(variant).has(option.label) && (
+                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
+                                                        <path d="M16 7L9 14L5 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-draw-checkmark"/>
+                                                    </svg>
+                                                )}
+                                            </div>
+                                        </div>
+                                    }
+                                >
+                                    <div className="flex font-light text-md items-center w-full gap-3">
                                         <span>{option.label}</span>
                                         {option.price > 0 && (
                                             <span className="text-small text-default-500">

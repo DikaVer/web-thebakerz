@@ -4,9 +4,9 @@ import { useStore } from '@/components/providers/store-provider';
 import { useProductDialog } from '@/components/providers/product-provider';
 import { ProductDataFull } from '@/lib/actions/product';
 import {useTranslations} from "next-intl";
-import UserProductView from "@/components/store/product-page/product-user-view";
 import {useSession} from "@/components/providers/session-provider";
 import BakerzProductView from "@/components/store/product-page/products-bakerz-view";
+import { ProductPageView } from '../user-view/ProductPageView';
 
 interface ProductViewProps {
     productsData: ProductDataFull;
@@ -49,7 +49,9 @@ export const ProductView: React.FC<ProductViewProps> = ({
         />
     ) : (
         product ? (
-            <UserProductView productData={product} />
+            <ProductPageView
+                productData={product} 
+             />
         ) : (
             <div className="text-center">
                 <p className="text-2xl my-10">{t("productNotFound")}</p>

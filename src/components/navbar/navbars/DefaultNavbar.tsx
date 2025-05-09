@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, NavbarBrand, NavbarContent, NavbarItem, Avatar, Image, ButtonGroup } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
 import { StoreData } from "@/lib/actions/store";
 import { SessionValidationResult } from "@/lib/actions/session";
@@ -36,6 +36,16 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
     const router = useRouter();
     const { isDelivery, toggleDeliveryMode, isTogglingDelivery, isSubheaderLoaded } = useDelivery();
     const cT = useTranslations("app/(store)/components/store-header");
+    const pathname = usePathname();
+    const isProductPage = pathname.includes("item");
+
+    const handleBack = () => {
+        if (isProductPage) {
+            router.push(`/${store?.storeName}`);
+        } else {
+            router.push("/");
+        }
+    }
 
     return (
         <>
@@ -44,16 +54,12 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         <>
                         <Button
                         size="md"
-                        variant="flat"
-                        className="text-foreground"
-                        //Use back if no back, then push to "/"
-                        onPress={() => {
-                                // Check if coming from a transit-exit page
-                                router.push("/");
-                        }}
-                        isIconOnly
-                    >
-                        <Icon
+                            variant="flat"
+                            className="text-foreground"
+                            onPress={handleBack}
+                            isIconOnly
+                        >
+                            <Icon
                                 height={24}
                                 icon="solar:alt-arrow-left-linear"
                                 width={24}
@@ -161,9 +167,6 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         />
                     }
                 />
-                {(store && !isMobile && session?.user?.id !== store?.user_id) && (
-                    <CartButton />
-                )}
                 <Button
                     isIconOnly
                     variant="light"

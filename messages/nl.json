@@ -797,6 +797,8 @@
     "itemName": "Artikelnaam",
     "itemOptions": "Itemopties",
     "loading": "Bezig met laden...",
+    "maxSelectionsExceeded": "",
+    "minSelectionsRequired": "",
     "minimalOrder": "Minimale bestelling",
     "minimalOrderDescription": "Wat is het minimale aantal artikelen dat een klant kan bestellen?",
     "noProductsAvailable": "Geen producten beschikbaar",
@@ -805,6 +807,7 @@
     "productDeleted": "Product succesvol verwijderd",
     "productLinkCopied": "Productlink gekopieerd!",
     "productNotFound": "Product niet gevonden",
+    "requiredVariant": "",
     "selectCategory": "Selecteer categorie",
     "specialCategory": "Specials",
     "submitError": "Kan het formulier niet indienen. \nProbeer het opnieuw.",
@@ -930,6 +933,7 @@
     "addOption": "Optie toevoegen",
     "addOptionGroup": "Optiegroep toevoegen",
     "maxSelections": "Maximale selecties",
+    "minSelections": "",
     "multipleChoices": "Meerdere keuzes",
     "newOption": "Nieuwe optie",
     "optionGroupName": "Optie Groepnaam",
@@ -940,7 +944,8 @@
     "singleChoice": "Enkele keuze"
   },
   "app/(store)/components/variants-user-selection": {
-    "max": "Maximaal"
+    "max": "Maximaal",
+    "min": ""
   },
   "app/(store)/components/working-hours": {
     "addressOutOfRange": "Adres buiten bereik",

@@ -781,6 +781,8 @@
     "itemName": "",
     "itemOptions": "",
     "loading": "",
+    "maxSelectionsExceeded": "",
+    "minSelectionsRequired": "",
     "minimalOrder": "",
     "minimalOrderDescription": "",
     "noProductsAvailable": "",
@@ -789,6 +791,7 @@
     "productDeleted": "",
     "productLinkCopied": "",
     "productNotFound": "",
+    "requiredVariant": "",
     "selectCategory": "",
     "specialCategory": "",
     "submitError": "",
@@ -912,6 +915,7 @@
     "addOption": "",
     "addOptionGroup": "",
     "maxSelections": "",
+    "minSelections": "",
     "multipleChoices": "",
     "newOption": "",
     "optionGroupName": "",
@@ -922,7 +926,8 @@
     "singleChoice": ""
   },
   "app/(store)/components/variants-user-selection": {
-    "max": ""
+    "max": "",
+    "min": ""
   },
   "app/(store)/components/working-hours": {
     "addressOutOfRange": "",

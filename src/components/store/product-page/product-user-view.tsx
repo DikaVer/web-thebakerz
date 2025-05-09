@@ -103,18 +103,6 @@ export default function UserProductView({
                                             )}
                                             src={mainImage}
                                         />
-                                        <CardFooter
-                                            className={cn(`text-black justify-between items-end bg-white/40 border-white/20 border-1  overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 shadow-small ml-1 z-10`,
-                                                isSmall ? "w-[calc(100%_-_16px)]" : "w-[calc(100%_-_8px)]"
-                                            )}
-                                        >
-                                            <p className={`w-full text-xl truncate mr-6 font-medium`}>
-                                                {productData.name}
-                                            </p>
-                                            <p className={`text-lg cm:text-xl font-light`}>
-                                                {formatCurrency(productData.price)}
-                                            </p>
-                                        </CardFooter>
                                     </Card>
                                 </div>
                                 <div className="flex flex-row gap-2 mt-2 justify-start w-full px-4">
@@ -159,7 +147,19 @@ export default function UserProductView({
                                 </div>
                             </div>
 
-                            <div className={"flex flex-col px-4 py-4 w-full text-default-400 gap-4"}>
+                            <div className={"flex flex-col px-4 py-4 w-full  gap-4"}>
+                                <div className="flex justify-between items-center w-full">
+                                    {/* <div className="flex items-center gap-1"> */}
+                                        {/* <span className="text-yellow-500">★★★★☆</span>
+                                        <span className="text-xs text-default-600">4.0</span> */}
+                                    {/* </div> */}
+                                    <p className={`font-semibold text-2xl`}>
+                                        {formatCurrency(productData.price)}
+                                    </p>
+                                </div>
+                                <p className={`text-base font-medium`}>
+                                    {productData.name}
+                                </p>
                                 <p className={'font-light text-sm whitespace-pre-wrap'}>{productData.description}</p>
                                 {productData.ingredients && productData.ingredients.length > 0 && (
                                     <CustomAlert
@@ -248,6 +248,7 @@ export default function UserProductView({
                                     style={{resize: "none"}}
                                     className="mt-2"
                                     classNames={{
+                                        inputWrapper: cn("bg-background group-data-[focus=true]:bg-background"),
                                         input: cn("min-h-[40px] "),
                                     }}
                                     value={note}

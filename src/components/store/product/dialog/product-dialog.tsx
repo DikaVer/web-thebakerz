@@ -8,6 +8,7 @@ import {ProductData} from "@/lib/actions/product";
 import {ItemCart} from "@/lib/actions/cart";
 import UserProductDialog from "@/components/store/product/dialog/user-product";
 import {useMediaQuery} from "usehooks-ts";
+import ProductDialogView from "../../user-view/ProductDialogView";
 
 type ProductDialogProps = {
     productData?: ProductData;
@@ -36,9 +37,9 @@ export default function ProductDialog({productData, itemCart, isOpen, onClose, i
                     {(onClose) => (
                         <>
                             { productData && (
-                                <UserProductDialog 
-                                    productData={productData} 
-                                    onClose={onClose} 
+                                <ProductDialogView
+                                    productData={productData}
+                                    onClose={onClose}
                                     itemCart={itemCart}
                                     isBakerzStore={isBakerzStore}
                                 />

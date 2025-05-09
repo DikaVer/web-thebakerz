@@ -207,7 +207,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                         />
                     </div>
                 </CardBody>
-                <CardFooter className={`p-1 px-3 pb-3`}>
+                <CardFooter className={`p-1 px-3 pb-3 bg-default`}>
                     <div className={`flex flex-col w-full gap-1 backdrop-blur-md`}>
                         <div className="flex justify-between items-center w-full">
                             {/* <div className="flex items-center gap-1"> */}

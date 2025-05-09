@@ -5,7 +5,6 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Icon } from "@iconify/react";
 import { useGoogleMaps } from '@/components/providers/google-maps-provider';
-import { logger } from '@/lib/logger';
 
 interface LocationMapProps {
     latitude: number;
@@ -32,30 +31,19 @@ const LocationMap: React.FC<LocationMapProps> = ({
     const circlesRef = useRef<google.maps.Circle[]>([]);
     const iconUrlRef = useRef<string | null>(null);
 
-    // Add resize handler to ensure map stays visible after screen changes
-    const handleResize = useCallback(() => {
-        if (mapInstanceRef.current) {
-            logger.debug('LocationMap', 'Window resize detected, triggering map resize');
-            google.maps.event.trigger(mapInstanceRef.current, 'resize');
-            // Re-center map after resize to ensure marker is visible
-            mapInstanceRef.current.setCenter({ lat: latitude, lng: longitude });
-        }
-    }, [latitude, longitude]);
-
     // Memoize createCustomMarker
     const createCustomMarker = useCallback(() => {
-        if (!mapInstanceRef.current) {
-            logger.warn('LocationMap', 'createCustomMarker called with no map instance.');
-            return;
-        }
+        if (!mapInstanceRef.current) return;
         
         // Clear previous marker and circles if any
         if (markerRef.current) {
             markerRef.current.setMap(null);
             markerRef.current = null;
         }
+        
         circlesRef.current.forEach(circle => circle.setMap(null));
         circlesRef.current = [];
+        
         if (iconUrlRef.current) {
             URL.revokeObjectURL(iconUrlRef.current);
             iconUrlRef.current = null;
@@ -108,31 +96,20 @@ const LocationMap: React.FC<LocationMapProps> = ({
         createCircle(120, 0.2, 4);
         createCircle(160, 0.1, 3);
         createCircle(200, 0.05, 2);
-        logger.debug('LocationMap', 'Custom marker and circles created.');
-    }, [latitude, longitude]); // Dependencies for createCustomMarker
+    }, [latitude, longitude]);
 
     // Memoize initializeMap
     const initializeMap = useCallback(() => {
-        if (!mapRef.current) {
-            logger.warn('LocationMap', 'initializeMap called but mapRef is not current.');
-            return;
-        }
-        if (mapInstanceRef.current) { // Avoid re-initializing if map instance already exists
-            logger.debug('LocationMap', 'Map instance already exists. Re-centering and refreshing marker.');
+        if (!mapRef.current || !window.google || !window.google.maps) return;
+        
+        if (mapInstanceRef.current) {
             mapInstanceRef.current.setCenter({ lat: latitude, lng: longitude });
             mapInstanceRef.current.setZoom(zoom);
-            createCustomMarker(); // Recreate marker for new lat/lng if applicable
-             google.maps.event.trigger(mapInstanceRef.current, 'resize');
+            createCustomMarker();
+            google.maps.event.trigger(mapInstanceRef.current, 'resize');
             onMapLoaded?.();
             return;
         }
-
-        if (!window.google || !window.google.maps) {
-            logger.error('LocationMap', 'Google Maps API not available for initialization');
-            return;
-        }
-
-        logger.debug('LocationMap', `Initializing map with lat: ${latitude}, lng: ${longitude}, zoom: ${zoom}`);
 
         const mapOptions = {
             center: { lat: latitude, lng: longitude },
@@ -156,101 +133,64 @@ const LocationMap: React.FC<LocationMapProps> = ({
         };
 
         const map = new google.maps.Map(mapRef.current, mapOptions);
-        mapInstanceRef.current = map; // Set instance ref immediately
+        mapInstanceRef.current = map;
         
         google.maps.event.addListenerOnce(map, 'idle', () => {
-            if (mapInstanceRef.current && mapInstanceRef.current === map) { // Ensure it's the same map instance
-                logger.debug('LocationMap', 'Map idle event fired.');
+            if (mapInstanceRef.current) {
                 mapInstanceRef.current.setCenter({ lat: latitude, lng: longitude });
                 createCustomMarker();
-                // Crucial step for responsive layouts / ensuring map renders correctly
-                google.maps.event.trigger(mapInstanceRef.current, 'resize'); 
-                logger.debug('LocationMap', 'Map resize event triggered.');
+                google.maps.event.trigger(mapInstanceRef.current, 'resize');
                 onMapLoaded?.();
-                logger.debug('LocationMap', 'onMapLoaded callback executed.');
-            } else {
-                logger.warn('LocationMap', 'Map idle event fired but map instance changed or nullified.')
             }
         });
-    }, [latitude, longitude, zoom, onMapLoaded, createCustomMarker]); // Dependencies for initializeMap
+    }, [latitude, longitude, zoom, onMapLoaded, createCustomMarker]);
 
-    // Listen for window resize events
-    useEffect(() => {
-        window.addEventListener('resize', handleResize);
-        
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [handleResize]);
-
+    // Initialize map when API is ready
     useEffect(() => {
         if (isMapsApiReady && !loadError) {
-            logger.debug('LocationMap', 'Google Maps API is ready, calling initializeMap.');
             initializeMap();
-        } else if (loadError) {
-            logger.error('LocationMap', 'Cannot initialize map due to Google Maps loading error:', { loadError });
-        } else {
-            logger.debug('LocationMap', 'Google Maps not ready yet.');
         }
         
-        // Clean up map and icon URL on unmount
         return () => {
-            logger.debug('LocationMap', 'Component unmounting, cleaning up map instance and icon URL.');
-            // Remove all listeners from the map instance to prevent memory leaks
+            // Clean up map and resources on unmount
             if (mapInstanceRef.current) {
                 google.maps.event.clearInstanceListeners(mapInstanceRef.current);
             }
-            mapInstanceRef.current = null; // Nullify the map instance
             
-            // Marker and circles are tied to the map instance, setting map to null on them is handled by createCustomMarker if map re-initializes
-            // or they are implicitly removed if the map instance is destroyed/nulled.
-            // For explicit cleanup if needed (e.g. if marker/circles could outlive mapInstanceRef becoming null before full re-init):
             if (markerRef.current) {
                 markerRef.current.setMap(null);
                 markerRef.current = null;
             }
+            
             circlesRef.current.forEach(circle => circle.setMap(null));
             circlesRef.current = [];
-
+            
             if (iconUrlRef.current) {
                 URL.revokeObjectURL(iconUrlRef.current);
                 iconUrlRef.current = null;
             }
+            
+            mapInstanceRef.current = null;
         };
-    }, [isMapsApiReady, loadError, initializeMap]); // initializeMap is now memoized
+    }, [isMapsApiReady, loadError, initializeMap]);
 
-    // Force a size check after the component mounts
-    useEffect(() => {
-        // Short delay to ensure container layout is complete
-        const timer = setTimeout(() => {
-            handleResize();
-        }, 100);
-        
-        return () => clearTimeout(timer);
-    }, [handleResize]);
-
-    // Add ResizeObserver to monitor container size changes
+    // Use ResizeObserver to monitor container size changes
     useEffect(() => {
         if (!mapRef.current) return;
         
-        // Create a ResizeObserver to detect container size changes
-        const resizeObserver = new ResizeObserver((entries) => {
-            for (const entry of entries) {
-                if (entry.target === mapRef.current) {
-                    logger.debug('LocationMap', 'Container size changed, triggering map resize');
-                    handleResize();
-                }
+        const resizeObserver = new ResizeObserver(() => {
+            if (mapInstanceRef.current) {
+                google.maps.event.trigger(mapInstanceRef.current, 'resize');
+                mapInstanceRef.current.setCenter({ lat: latitude, lng: longitude });
             }
         });
         
-        // Start observing the map container
         resizeObserver.observe(mapRef.current);
         
-        // Clean up observer on unmount
         return () => {
             resizeObserver.disconnect();
         };
-    }, [handleResize]);
+    }, [latitude, longitude]);
 
     return (
         <a 
@@ -258,13 +198,13 @@ const LocationMap: React.FC<LocationMapProps> = ({
             target="_blank" 
             rel="noopener noreferrer" 
             aria-label={t("viewOnGoogleMaps")}
-            className={`block overflow-hidden shadow-lg relative hover:shadow-xl transition-shadow duration-300 h-full ${className || ''}`}
-            style={{ minHeight: '200px' }} /* Add explicit minimum height */
+            className={`block overflow-hidden shadow-lg relative hover:shadow-xl transition-shadow duration-300 ${className || ''}`}
+            style={{ height, minHeight: '200px' }}
         >
             <div className="relative w-full h-full" style={{ minHeight: 'inherit' }}>
                 <div 
                     ref={mapRef} 
-                    className="w-full h-full "
+                    className="w-full h-full"
                     style={{ minHeight: 'inherit' }}
                 >
                     {/* Show error if map failed to load */}    
@@ -281,12 +221,8 @@ const LocationMap: React.FC<LocationMapProps> = ({
                             <span className="text-gray-400 text-sm">{t("loadingMap")}</span>
                         </div>
                     )}
-                    {/* Map container - shown once loaded */} 
-                    {isMapsApiReady && !loadError && (
-                        <span className="text-gray-400">{t("storeLocation")}</span>
-                    )}
                 </div>
-                <div className="absolute inset-0  border border-default-100 pointer-events-none"></div>
+                <div className="absolute inset-0 border border-default-100 pointer-events-none"></div>
                 <div className="absolute top-3 right-3 bg-black/70 text-white text-xs font-medium px-3 py-1.5 rounded-lg backdrop-blur-sm transition-transform hover:scale-105 flex items-center">
                     <Icon icon="solar:map-arrow-right-bold" className="mr-1.5 text-white" />
                     {t("viewOnGoogleMaps")}

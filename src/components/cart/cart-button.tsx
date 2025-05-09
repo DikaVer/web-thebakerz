@@ -122,8 +122,9 @@ const CartButton: React.FC<CartButtonProps> = ({
     }, [totalPrice, controls]);
 
     return (
-        <div className="flex flex-col w-full md:w-fit">
-            <motion.div animate={controls} className="flex items-center w-full md:w-fit">
+        <div className="flex flex-col w-full">
+            {totalPrice > 0 && (
+            <motion.div animate={controls} className="flex items-center w-full">
                 <Button
                     className={cn("bg-gradient-primary text-white flex items-center justify-between gap-2 px-3 py-2 rounded-full", isMobileNavbar && "w-full")}
                     onPress={handleOpenDrawer}
@@ -154,6 +155,7 @@ const CartButton: React.FC<CartButtonProps> = ({
                
                 </Button>
             </motion.div>
+            )}
             <Drawer
                 isOpen={isOpen}
                 placement={isMobile ? "bottom" : "right"}

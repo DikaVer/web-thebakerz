@@ -9174,3 +9174,63 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-05-09T00:02:29.010Z'
+  app/(store)/components/product-page.requiredVariant:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: IzzmUtdehifdDAqRtlYYo
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-09T10:57:04.400Z'
+  app/(store)/components/product-page.maxSelectionsExceeded:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: 9-TpC7M2p6i_AUOg89JSG
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-09T10:57:18.842Z'
+  app/(store)/components/product-page.minSelectionsRequired:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: jUH-B-qTfLD18DMWxC4qi
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-09T11:02:53.387Z'
+  app/(store)/components/variants-user-selection.min:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: KeFiVvDHBL4HFMJ18WCS0
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-09T12:46:48.494Z'
+  app/(store)/components/variants-form-field.minSelections:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: EGrWxRsiLJ74AJkehQiL_
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-09T12:48:39.567Z'

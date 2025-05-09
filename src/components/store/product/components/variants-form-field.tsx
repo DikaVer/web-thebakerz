@@ -109,7 +109,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                 <p className="text-danger-500 text-lg mt-1">{fieldState.error.message}</p>
                             )}
                             <AnimatePresence>
-                                {(Array.isArray(field.value) ? field.value : []).map((variant: { label: string; isSingle: boolean; required: boolean; options: any[]; maxSelections?: number }, variantIndex: number) => (
+                                {(Array.isArray(field.value) ? field.value : []).map((variant: { label: string; isSingle: boolean; required: boolean; options: any[]; maxSelections?: number; minSelections?: number }, variantIndex: number) => (
                                     <motion.div
                                         key={variantIndex}
                                         className="border-default-200 box-border border-b-medium shadow-[0_1px_0px_0_rgba(0,0,0,0.05)] hover:border-default-300 py-3 overflow-hidden"
@@ -247,6 +247,35 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                             />
                                                             <span className="text-sm">{t("required")}</span>
                                                         </div>
+                                                        
+                                                        {(!variant.isSingle && variant.required) && (
+                                                            <Select
+                                                                label={t("minSelections")}
+                                                                className="max-w-xs"
+                                                                size="sm"
+                                                                variant={'underlined'}
+                                                                // defaultSelectedKeys={["cat"]}
+                                                                selectedKeys={[`${variant.minSelections}`]}
+                                                                onChange={(e) => {
+                                                                    //@ts-ignore
+                                                                    const updatedVariants = [...field.value];
+                                                                    updatedVariants[variantIndex].minSelections = Number(e.target.value);
+                                                                    field.onChange(updatedVariants);
+                                                                }}
+                                                                isDisabled={isPending}
+                                                                validate={()=> {
+                                                                    //@ts-ignore
+                                                                    if(fieldState?.error && fieldState.error[variantIndex] !== undefined) {
+                                                                        //@ts-ignore
+                                                                        return fieldState?.error[variantIndex].maxSelections?.message
+                                                                    }
+                                                                }}
+                                                            >
+                                                                {animals.map((animal) => (
+                                                                    <SelectItem key={animal.key}>{animal.label}</SelectItem>
+                                                                ))}
+                                                            </Select>
+                                                        )}
 
                                                         {!variant.isSingle && (
                                                             <Select
