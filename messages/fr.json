@@ -331,6 +331,12 @@
     "wantYouToSucceed": "",
     "whyChooseTheBakerz": ""
   },
+  "app/(return_page)/profile": {
+    "login": "",
+    "loginDescription": "",
+    "loginTitle": "",
+    "profileSettings": ""
+  },
   "app/(return_page)/settings/components/business-info": {
     "accountInformation": "",
     "accountStatus": "",
@@ -827,6 +833,7 @@
   "app/(store)/components/store-header": {
     "delivery": "",
     "facebook": "",
+    "failedToUploadImage": "",
     "instagram": "",
     "pickup": ""
   },

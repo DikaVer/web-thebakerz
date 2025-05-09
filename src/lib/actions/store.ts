@@ -6,7 +6,7 @@ import { DeliveryRange, getMerchantDeliveryRegions, MerchantDeliveryRegion } fro
 import {revalidateTag} from "next/cache";
 import { haversineDistance } from "../utils";
 import { stripe } from "@/stripe";
-
+import { logger } from "../logger";
 export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData | null> {
     try {
         // Query the stores table for the store profile, joining with the users table
@@ -926,7 +926,7 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
     }
 }
 
-export async function updateStoreBackground(storeId: string, backgroundImage: string): Promise<boolean> {
+export async function updateStoreBackground(storeId: string, file: File): Promise<boolean> {
     try {
         const {user} = await getCurrentSession();
         if (!user) {
@@ -937,10 +937,33 @@ export async function updateStoreBackground(storeId: string, backgroundImage: st
         if (!store) {
             throw new Error("Store not found");
         }
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("container", "background");
+        
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload-image`, {
+            method: "POST",
+            body: formData,
+            headers: {
+                'Store-Id': store.id,
+                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+            },
+        });
+        
+        if (!response.ok) {
+            throw new Error("Failed to upload image");
+        }
+        
+        const data = await response.json();
+
+        logger.debug("store", store.id);
+        logger.debug("user", user.id);
+
         // Update the store's background image in the database
         await connectionPool.query(
-            `UPDATE stores SET background_image = $1 WHERE id = $2 AND user_id = $3`,
-            [backgroundImage, store.id, user.id]
+            `UPDATE stores SET background = $1 WHERE id = $2 AND user_id = $3`,
+            [data.url, store.id, user.id]
         );
 
         revalidateTag('store');

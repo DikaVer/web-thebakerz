@@ -43,8 +43,8 @@ export function StoreSubHeaderPickUp({ }: StoreSubHeaderPickUpProps) {
     }
 
     return (
-        <div className="flex flex-col w-full max-w-[440px]">
-            
+        <div className="flex flex-col w-full">
+            <Spacer y={4}/>
             {/* Display store pickup info */}
             <PickupInfo 
                 store={store} 

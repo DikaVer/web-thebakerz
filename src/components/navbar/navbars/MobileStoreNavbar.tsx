@@ -61,7 +61,7 @@ const MobileStoreNavbar: React.FC = () => {
                     key={storeItem.id}
                     size="sm"
                     variant={storeItem.id === store?.id ? "solid" : "light"}
-                    className={cn("justify-start w-full", storeItem.id === store?.id && "bg-default-200")}
+                    className={cn("justify-between w-full", storeItem.id === store?.id && "bg-default-200")}
                     onPress={() => {
                       handleNavigation(`/${storeItem.name}`, `shop-${storeItem.id}`);
                       setIsStorePopoverOpen(false);
@@ -69,6 +69,10 @@ const MobileStoreNavbar: React.FC = () => {
                     isLoading={isLoading === `shop-${storeItem.id}`}
                   >
                     {storeItem.name}
+                    {/* Show how many orders are in the store */}
+                    {storeItem.newOrdersCount > 0 && (
+                      <p className="text-xs text-default-400 text-white rounded-full bg-danger-500 p-1 px-2">{storeItem.newOrdersCount}</p>
+                    )}
                   </Button>
                 ))
               ) : (

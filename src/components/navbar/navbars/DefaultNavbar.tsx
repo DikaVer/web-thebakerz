@@ -13,6 +13,7 @@ import GradientText from "@/components/ui/gradient-text";
 import LanguageModal from "@/components/language-modal";
 import CartButton from "@/components/cart/cart-button";
 import { useTranslations } from "next-intl";
+import ProfilePopover from "@/components/navbar/profile/profile-popover";
 
 interface NavbarTranslationProps {
     t: (key: string) => string;
@@ -47,11 +48,8 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         className="text-foreground"
                         //Use back if no back, then push to "/"
                         onPress={() => {
-                            if (window.history.length > 1) {
-                                router.back();
-                            } else {
+                                // Check if coming from a transit-exit page
                                 router.push("/");
-                            }
                         }}
                         isIconOnly
                     >
@@ -147,19 +145,22 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
             </NavbarBrand>
 
             <NavbarContent className="flex flex-row-reverse gap-4 justify-end">
-                {session?.user ? (
-                    <Avatar 
-                        isBordered
-                        size="sm"
-                        src={session.user.picture || ""} 
-                        name={session.user.username || "User"}
-                        color="primary"
-                        className="cursor-pointer"
-                        onClick={() => router.push("/profile")}
-                    />
-                ) : (
-                    <SigninButton className="min-w-0" />
-                )}
+                <ProfilePopover
+                    session={session}
+                    trigger={
+                        <Avatar 
+                            isBordered
+                            size="sm"
+                            src={session?.user?.picture || "/profile/profile_1.png"} 
+                            name={session?.user?.username || "User"}
+                            color="primary"
+                            classNames={{
+                                base: "bg-white"
+                            }}
+                            className="cursor-pointer"
+                        />
+                    }
+                />
                 {(store && !isMobile && session?.user?.id !== store?.user_id) && (
                     <CartButton />
                 )}

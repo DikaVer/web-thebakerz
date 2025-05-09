@@ -10,7 +10,7 @@ import { IconClose } from "@/components/ui/icons";
 import { useTranslations } from "next-intl";
 
 export interface AvatarImageUploaderProps {
-    type: "square" | "circle";
+    type: "square" | "circle" | "background";
     isOpen: boolean;
     onClose: () => void;
     file: File | undefined;

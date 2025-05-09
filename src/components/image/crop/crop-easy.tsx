@@ -18,7 +18,7 @@ interface Area {
 }
 
 interface CropEasyProps {
-    type: "square" | "circle";
+    type: "square" | "circle" | "background";
     photoURL: string | undefined;
     setOpenCrop: (open: boolean) => void;
     container: string;
@@ -40,6 +40,18 @@ const CropEasy: React.FC<CropEasyProps> = ({
     const [rotation, setRotation] = useState<number>(0);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
     const [isPending, setIsPending] = useState<boolean>(false);
+
+    // Calculate aspect ratio based on type
+    const getAspectRatio = () => {
+        switch (type) {
+            case "background":
+                return 16/9;
+            case "square":
+            case "circle":
+            default:
+                return 1;
+        }
+    };
 
     const cropComplete = (croppedArea: Area, croppedAreaPixels: Area) => {
         setCroppedAreaPixels(croppedAreaPixels);
@@ -121,7 +133,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                         crop={crop}
                         zoom={zoom}
                         rotation={rotation}
-                        aspect={1}
+                        aspect={getAspectRatio()}
                         classes={{
                             cropAreaClassName: `${type === "circle" && "rounded-full"}`,
                         }}

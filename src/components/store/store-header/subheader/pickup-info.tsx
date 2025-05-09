@@ -87,8 +87,9 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
   }, [store.schedule]);
 
   return (
-      <Card shadow="none" className="h-auto overflow-hidden transition-all duration-300 max-w-[440px]">
-        <CardBody className="p-0 w-[440px] max-w-[100%]">
+    <>
+      <Card shadow="none" className="h-auto overflow-hidden transition-all duration-300">
+        <CardBody className="p-0">
           {isLoading ? (
             <div className="space-y-3 p-4">
               <Skeleton className="h-4 w-1/3 rounded-lg" />
@@ -100,105 +101,148 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
             <>
               {/* Title with icon */}
             
-              <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100  dark:from-blue-200 dark:to-secondary-700">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-full bg-primary/10">
-                        <Icon icon="solar:shop-2-linear" className="h-5 w-5 text-primary" />
+              <div className="flex flex-col md:flex-row h-full">
+                <div className="flex flex-col gap-2 w-full md:max-w-[440px]">
+                  <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100  dark:from-blue-200 dark:to-secondary-700">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                        <div className="p-2 rounded-full bg-primary/10">
+                            <Icon icon="solar:shop-2-linear" className="h-5 w-5 text-primary" />
+                        </div>
+                        <Skeleton isLoaded={!isLoading} className="rounded-full w-40">
+                            <span className="text-sm font-medium dark:text-black">{t("pickUp")}</span>
+                        </Skeleton>
+                        </div>
+                        {/*<div className="flex items-center gap-1">*/}
+                        {/*<Icon icon="solar:star-linear" className="h-4 w-4 text-yellow-500" />*/}
+                        {/*<span className="text-xs font-medium">Premium</span>*/}
+                        {/*</div>*/}
                     </div>
-                    <Skeleton isLoaded={!isLoading} className="rounded-full w-40">
-                        <span className="text-sm font-medium dark:text-black">{t("pickUp")}</span>
-                    </Skeleton>
                     </div>
-                    {/*<div className="flex items-center gap-1">*/}
-                    {/*<Icon icon="solar:star-linear" className="h-4 w-4 text-yellow-500" />*/}
-                    {/*<span className="text-xs font-medium">Premium</span>*/}
-                    {/*</div>*/}
-                </div>
-                </div>
 
 
-              <div className={'flex flex-row'}>
-                {/*<Divider orientation="vertical" className={"h-[100%]]"}/>*/}
-                <div className={'px-4 pt-2 w-full'}>
-                  {/* Store address */}
-                  <div className="mb-3 flex items-center gap-2">
-                    <IconLocation size={20}
-                                  primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
-                                  secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
-                    />
-                    <div>
-                      <p className="text-sm text-text">{location}</p>
-                      <p className="text-xs text-default-600">{subLocation}</p>
-                    </div>
-                  </div>
-
-                  {/* Minimum order */}
-                  <div className="flex items-center gap-3 mb-3">
-                    <Icon icon="solar:card-linear" className="text-default-600" width={16}/>
-                    <p className="text-xs text-default-600">
-                      {t("minimumOrder")}: {formatCurrency(minimumOrder)}
-                    </p>
-                  </div>
-
-                  {/* Min Lead Time */}
-                  {(store.minTimeOrder !== undefined) && (
-                      <div className="flex items-center gap-3 text-xs text-warning-500 mb-3">
-                        <Icon icon="solar:clock-circle-linear" className="text-warning-500" width={16}/>
-                        <div className="flex flex-row gap-1">
-                          <span>{t("MinLeadTime")}: </span>
-                          <span>
-                            {(() => {
-                              const minutes = store.minTimeOrder;
-                              if (minutes < 60) {
-                                return `${minutes} min`;
-                              } else if (minutes < 24 * 60) {
-                                const hours = minutes / 60;
-                                return `${hours} ${hours === 1 ? t("hour") : t("hours")}`;
-                              } else {
-                                const days = Math.floor(minutes / (24 * 60));
-                                const remainingHours = (minutes % (24 * 60)) / 60;
-                                if (remainingHours === 0) {
-                                  return `${days} ${days === 1 ? t("day") : t("days")}`;
-                                } else {
-                                  return `${days} ${days === 1 ? t("day") : t("days")} ${remainingHours} ${remainingHours === 1 ? t("hour") : t("hours")}`;
-                                }
-                              }
-                            })()}
-                        </span>
+                  <div className={'flex flex-row'}>
+                    {/*<Divider orientation="vertical" className={"h-[100%]]"}/>*/}
+                    <div className={'px-4 pt-2 w-full'}>
+                      {/* Store address */}
+                      <div className="mb-3 flex items-center gap-2">
+                        <IconLocation size={20}
+                                      primaryColor={`${theme === 'light' ? '#730c70' : '#a3a3a3'}`}
+                                      secondaryColor={`${theme === 'light' ? '#5d5d5b' : '#faf4d1'}`}
+                        />
+                        <div>
+                          <p className="text-sm text-text">{location}</p>
+                          <p className="text-xs text-default-600">{subLocation}</p>
                         </div>
                       </div>
-                  )}
 
-                  {/* Availability */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <Icon
-                        icon="solar:clock-circle-linear"
-                        className={isStoreOpen ? "text-success" : "text-danger"}
-                        width={16}
-                    />
-                    <p className={`text-xs ${isStoreOpen ? "text-success" : "text-danger"}`}>
-                      {isStoreOpen ? t("storeOpen") : t("storeClosed")}
-                    </p>
+                      {/* Minimum order */}
+                      <div className="flex items-center gap-3 mb-3">
+                        <Icon icon="solar:card-linear" className="text-default-600" width={16}/>
+                        <p className="text-xs text-default-600">
+                          {t("minimumOrder")}: {formatCurrency(minimumOrder)}
+                        </p>
+                      </div>
+
+                      {/* Min Lead Time */}
+                      {(store.minTimeOrder !== undefined) && (
+                          <div className="flex items-center gap-3 text-xs text-warning-500 mb-3">
+                            <Icon icon="solar:clock-circle-linear" className="text-warning-500" width={16}/>
+                            <div className="flex flex-row gap-1">
+                              <span>{t("MinLeadTime")}: </span>
+                              <span>
+                                {(() => {
+                                  const minutes = store.minTimeOrder;
+                                  if (minutes < 60) {
+                                    return `${minutes} min`;
+                                  } else if (minutes < 24 * 60) {
+                                    const hours = minutes / 60;
+                                    return `${hours} ${hours === 1 ? t("hour") : t("hours")}`;
+                                  } else {
+                                    const days = Math.floor(minutes / (24 * 60));
+                                    const remainingHours = (minutes % (24 * 60)) / 60;
+                                    if (remainingHours === 0) {
+                                      return `${days} ${days === 1 ? t("day") : t("days")}`;
+                                    } else {
+                                      return `${days} ${days === 1 ? t("day") : t("days")} ${remainingHours} ${remainingHours === 1 ? t("hour") : t("hours")}`;
+                                    }
+                                  }
+                                })()}
+                            </span>
+                            </div>
+                          </div>
+                      )}
+
+                      {/* Availability */}
+                      <div className="flex items-center gap-3 mb-4">
+                        <Icon
+                            icon="solar:clock-circle-linear"
+                            className={isStoreOpen ? "text-success" : "text-danger"}
+                            width={16}
+                        />
+                        <p className={`text-xs ${isStoreOpen ? "text-success" : "text-danger"}`}>
+                          {isStoreOpen ? t("storeOpen") : t("storeClosed")}
+                        </p>
+                      </div>
+
+                       {/* Buyer Protection */}
+                      <div className="flex flex-col gap-2 p-3 rounded-lg bg-default-50 dark:bg-default-100 mb-4">
+                        <div className="flex items-start gap-2">
+                          <div className="p-1">
+                            <Icon icon="solar:shield-check-linear" className="h-5 w-5 text-foreground" />
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-semibold">Buyer protection</h4>
+                            <p className="text-xs text-default-600 mt-1">
+                              If the actual item doesn't match the listed composition, 
+                              you can return it or get a refund.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Cancellation Rules */}
+                      <div className="flex flex-col gap-2 p-3 rounded-lg bg-default-50 dark:bg-default-100 mb-4">
+                        <div className="flex items-start gap-2">
+                          <div className="p-1">
+                            <Icon icon="solar:close-circle-linear" className="h-5 w-5 text-foreground" />
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-semibold">Cancellation rules</h4>
+                            <p className="text-xs text-default-600 mt-1">
+                              You can cancel the order before preparation, the 
+                              money will be fully refunded to you.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/*<Divider orientation="vertical" className={"h-[100%]]"}/>*/}
                   </div>
                 </div>
-                {/*<Divider orientation="vertical" className={"h-[100%]]"}/>*/}
-              </div>
-              
-              {/* Map */}
-              <div className="h-36 w-full rounded-medium rounded-t-none overflow-hidden" ref={mapContainerRef}>
-                {store?.location?.latitude && store?.location?.longitude && (
-                  <LocationMap 
-                    key={mapId}
-                    latitude={Number(store.location.latitude)} 
-                    longitude={Number(store.location.longitude)}
-                    onMapLoaded={handleMapLoaded}
-                  />
-                )}
+                
+                {/* Map */}
+                <div className="flex-1 min-h-[200px] md:min-h-[300px] w-full rounded-medium rounded-t-none md:rounded-medium md:rounded-l-none overflow-hidden" ref={mapContainerRef}>
+                  {(store?.location?.latitude && store?.location?.longitude) ? (
+                    <LocationMap 
+                      key={mapId}
+                      latitude={Number(store.location.latitude)} 
+                      longitude={Number(store.location.longitude)}
+                      onMapLoaded={handleMapLoaded}
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <Icon icon="solar:danger-triangle-bold-duotone" className="text-danger text-2xl mr-2"/>
+                      <span className="text-danger-700 text-sm">Error loading map</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </>
           )}
         </CardBody>
       </Card>
+      
+      </>
   );
 } 

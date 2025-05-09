@@ -194,7 +194,7 @@
   },
   "app/(components)/signin-button": {
     "loading": "Loading...",
-    "signIn": "Sign In",
+    "signIn": "Login",
     "storeRedirect": "Store"
   },
   "app/(components)/signout-button": {
@@ -332,6 +332,12 @@
     "transparentPricing": "Transparent pricing",
     "wantYouToSucceed": "We want you to succeed",
     "whyChooseTheBakerz": "Why Choose TheBakerz?"
+  },
+  "app/(return_page)/profile": {
+    "login": "Login",
+    "loginDescription": "To order cakes, chocolates, cookies and more",
+    "loginTitle": "Log in to your account",
+    "profileSettings": "Profile Settings"
   },
   "app/(return_page)/settings/components/business-info": {
     "accountInformation": "Account Information",
@@ -802,7 +808,7 @@
     "updateItem": "Update Item"
   },
   "app/(store)/components/product-search": {
-    "search": "Search by product name or category..."
+    "search": "Find in store"
   },
   "app/(store)/components/product-tabs": {
     "categoryNavigation": "Category Navigation"
@@ -837,6 +843,7 @@
   "app/(store)/components/store-header": {
     "delivery": "Delivery",
     "facebook": "Facebook",
+    "failedToUploadImage": "Failed Upload",
     "instagram": "Instagram",
     "pickup": "Pick up"
   },

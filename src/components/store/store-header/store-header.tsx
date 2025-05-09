@@ -1,20 +1,22 @@
 "use client";
 
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState} from "react";
 import {useStore} from "@/components/providers/store-provider";
-import {Link, Avatar, Spacer, Divider, Button, useDisclosure, cn, Switch, ButtonGroup, Spinner, Badge} from "@heroui/react";
+import {Link, Divider, Button, useDisclosure, Spinner, Badge} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {pacifico} from "@/components/fonts";
 import {DeliverySubheader} from "@/components/store/store-header/delivery-subheader";
-import {useMediaQuery} from "usehooks-ts";
 import {useSession} from "@/components/providers/session-provider";
 import StoreDescription from "@/components/store/store-header/description/store-description";
 import {useTranslations} from "next-intl";
 import {useRouter} from "next/navigation";
-import { useDelivery } from "@/components/providers/delivery-provider";
 import Image from "next/image";
 import ImageForm from "@/components/image/image-form";
 import { updateStoreBackground } from "@/lib/actions/store";
+import { logger } from "@/lib/logger";
+import { ImageUploader } from "@/components/image/image-upload";
+import { ImageSchema } from "@/lib/schemas";
+import showErrorMessage from "@/components/toast/toast-error";
 
 interface StoreHeaderProps {
 
@@ -24,7 +26,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
     const { store } = useStore();
     const { session } = useSession();
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
-    const isSmall = useMediaQuery("(max-width: 960px)");
+    const { isOpen: isBackgroundUpload, onOpen: onBackgroundUpload, onOpenChange: onBackgroundChange } = useDisclosure();
     const t = useTranslations("app/(store)/components/store-header");
     const router = useRouter();
     const [file, setFile] = useState<File | undefined>();
@@ -33,63 +35,56 @@ export function StoreHeader( {  }: StoreHeaderProps) {
     
     // Check if user is a baker and owns this store
     const isOwner = session?.user?.role === "bakerz" && session.user.id === store.user_id;
-    
-    // Determine if clicking on the header should trigger the cursor pointer style
-    const showCursorPointer = session?.user?.role === "bakerz";
 
-    const handleUploadBackground = async () => {
-        if (!file || !isOwner) return;
+    const handleUploadBackground = async (file: File) => {
+        if (!isOwner) return;
         
         setIsUploading(true);
         
         try {
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("container", "background");
-            
-            const response = await fetch(`/api/upload-image`, {
-                method: "POST",
-                body: formData,
-            });
-            
-            if (!response.ok) {
-                throw new Error("Failed to upload image");
+            // Validate the file
+            const validateFile = ImageSchema.safeParse(file);
+            if (!validateFile.success) {
+                showErrorMessage({ error: validateFile.error.errors[0].message });
+                return;
             }
-            
-            const data = await response.json();
-            
-            if (data.url) {
-                // Update the store background in the database
-                await updateStoreBackground(store.id, data.url);
-                
-                setBackgroundUrl(data.url);
-                // Force refresh to update the store data
-                router.refresh();
-            }
+
+            // Update the store background in the database
+            await updateStoreBackground(store.id, file);
+
+            // Force refresh to update the store data
+            router.refresh();     
         } catch (error) {
             console.error("Error uploading background:", error);
+            showErrorMessage({ error: t("failedToUploadImage") });
         } finally {
             setIsUploading(false);
             setFile(undefined);
         }
     };
     
-    // When file is selected, trigger upload
-    useEffect(() => {
-        if (file) {
-            handleUploadBackground();
-        }
-    }, [file]);
+    
 
     return (
-        <div className="w-full max-w-screen-xl mx-auto flex flex-col">
-            <div className="relative w-full h-[200px] rounded-lg overflow-hidden mb-4">
+        <div className="flex flex-col w-full h-full">
+            <ImageUploader
+                type={"background"}
+                file={file}
+                isOpen={isBackgroundUpload}
+                onClose={onBackgroundChange}
+                container={"background"}
+                setImageURL={(file, url) => {
+                    setBackgroundUrl(url);
+                    handleUploadBackground(file);
+                }}
+            />
+            <div className="relative w-full  h-[200px] max-h-[200px] rounded-lg overflow-hidden mb-4">
                 <Image 
                     src={backgroundUrl || "/search/store_front_clean.webp"} 
                     alt={store.storeName || "Store"} 
                     fill
                     priority
-                    className="object-cover"
+                    className="object-cover w-full"
                 />
                 
                 {isOwner && (
@@ -105,7 +100,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                 ) : (
                                     <ImageForm
                                         setFile={setFile}
-                                        onUpload={() => {}}
+                                        onUpload={onBackgroundUpload}
                                     />
                                 )
                             }
@@ -170,16 +165,16 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                 </Button>
                             </div>
                             {store?.ownerName && (
-                                <div className="flex items-center gap-x-3">
+                                <div className="flex flex-col justify-start items-start gap-x-3">
                                     <p className={`text-4xl whitespace-pre-wrap font-medium text-white ${pacifico.className}`}>
                                         {store.ownerName}
                                     </p>
-                                </div>
-                            )}
-                            {store?.slug && (
-                                <p className="text-xs md:text-sm whitespace-pre-wrap font-light text-white/90">
+                                    {store?.slug && (
+                                        <p className="text-xs md:text-sm whitespace-pre-wrap font-light text-white/90">
                                     {store.slug}
                                 </p>
+                            )}
+                                </div>
                             )}
                             <Button
                                 variant="light"

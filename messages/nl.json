@@ -333,6 +333,12 @@
     "wantYouToSucceed": "Wij willen dat u slaagt",
     "whyChooseTheBakerz": "Waarom kiezen voor TheBakerz?"
   },
+  "app/(return_page)/profile": {
+    "login": "",
+    "loginDescription": "",
+    "loginTitle": "",
+    "profileSettings": ""
+  },
   "app/(return_page)/settings/components/business-info": {
     "accountInformation": "Accountinformatie",
     "accountStatus": "Accountstatus",
@@ -808,7 +814,7 @@
     "updateItem": "Item bijwerken"
   },
   "app/(store)/components/product-search": {
-    "search": "Zoeken op productnaam of categorie..."
+    "search": "Vind in de winkel"
   },
   "app/(store)/components/product-tabs": {
     "categoryNavigation": "Categorie Navigatie"
@@ -843,6 +849,7 @@
   "app/(store)/components/store-header": {
     "delivery": "Levering",
     "facebook": "Facebook",
+    "failedToUploadImage": "",
     "instagram": "Instagram",
     "pickup": "Ophalen"
   },

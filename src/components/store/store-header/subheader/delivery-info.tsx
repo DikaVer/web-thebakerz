@@ -44,8 +44,8 @@ export default function DeliveryInfo({
   }, [deliveryRegion]);
 
   return (
-    <Card shadow="none" className="h-auto overflow-hidden transition-all duration-300 max-w-[440px]" >
-      <CardBody className="p-0 w-[440px] max-w-[100%]">
+    <Card shadow="none" className="h-auto overflow-hidden w-full transition-all duration-300" >
+      <CardBody className="p-0 w-full">
         <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-blue-200 dark:to-secondary-700">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -64,7 +64,7 @@ export default function DeliveryInfo({
         </div>
 
         <div className="p-4">
-          <div className="grid grid-cols-2 gap-4 mb-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3">
             <div className="flex flex-col gap-1 p-3 rounded-lg bg-default-50 dark:bg-default-100">
               <div className="flex items-center gap-2 mb-1 h-10">
                 <Icon icon="solar:dollar-minimalistic-linear" className="h-4 w-4 text-success" />
@@ -84,7 +84,40 @@ export default function DeliveryInfo({
                 <span className="text-lg font-semibold">{formattedMinOrderValue}</span>
               </Skeleton>
             </div>
+
+             {/* Buyer Protection */}
+             <div className="flex flex-col gap-2 p-3 rounded-lg bg-default-50 dark:bg-default-100">
+              <div className="flex items-start gap-2">
+                <div className="p-1 rounded-full">
+                  <Icon icon="solar:shield-check-linear" className="h-5 w-5 text-foreground" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold">Buyer protection</h4>
+                  <p className="text-xs text-default-600 mt-1">
+                    If the actual item doesn't match the listed composition, 
+                    you can return it or get a refund.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+             {/* Cancellation Rules */}
+             <div className="flex flex-col gap-2 p-3 rounded-lg bg-default-50 dark:bg-default-100">
+              <div className="flex items-start gap-2">
+                <div className="p-1">
+                  <Icon icon="solar:close-circle-linear" className="h-5 w-5 text-foreground" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold">Cancellation rules</h4>
+                  <p className="text-xs text-default-600 mt-1">
+                    You can cancel the order before preparation, the 
+                    money will be fully refunded to you.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
+
 
           {/*{deliverySchedule && enabledDays.length > 0 && (*/}
           {/*  <div className="mt-3">*/}
