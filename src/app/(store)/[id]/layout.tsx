@@ -14,7 +14,6 @@ import {DeliveryProvider} from "@/components/providers/delivery-provider";
 import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 import LayoutComp from "@/components/layout-comp";
 import NotFound from "@/app/(error_layout)/not-found";
-import Script from 'next/script';
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 
 type Params = Promise<{ id: string }>

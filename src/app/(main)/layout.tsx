@@ -9,6 +9,7 @@ import { DeliveryProvider } from '@/components/providers/delivery-provider';
 import { getCurrentDeliveryAddress } from '../(store)/[id]/delivery-actions';
 import { getDeliveryMode } from '@/lib/delivery-cookie';
 import { getCurrentCart } from '@/lib/actions/cart';
+import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 
 
 export default async function Layout(
@@ -31,10 +32,12 @@ export default async function Layout(
                     initialDeliveryMode={initialDeliveryMode}
                     initialAddress={savedAddress}
                 >   
+                    <GoogleMapsProvider>
                         <LayoutComp>
                             {children}
                             <Footer/>
                         </LayoutComp>
+                    </GoogleMapsProvider>
                 </DeliveryProvider>
             </>
     );
