@@ -54,7 +54,7 @@ export async function getUserFromId(id: string): Promise<User | null> {
     try {
         const result = await connectionPool.query(
             `
-      SELECT id, email, name AS username, email_verified, role
+      SELECT id, email, name AS username, email_verified, role, birth, sex, push_note, email_note, phone_note
       FROM users
       WHERE id = $1
       `,
@@ -73,6 +73,11 @@ export async function getUserFromId(id: string): Promise<User | null> {
             username: row.username,
             emailVerified: row.email_verified !== null, // if a timestamp exists, the email is verified
             role: row.role,
+            birth: row.birth,
+            sex: row.sex,
+            push_note: row.push_note,
+            email_note: row.email_note,
+            phone_note: row.phone_note,
         };
 
         return user;

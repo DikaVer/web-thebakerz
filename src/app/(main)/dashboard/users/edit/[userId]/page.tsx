@@ -1,9 +1,7 @@
 import React from "react";
-import { Tabs, Tab } from "@heroui/react";
+
 import { getCurrentStoreByUserId,  getCurrentBusinessStore } from "@/lib/actions/store";
-import { getUserFromId } from "@/lib/dashboard/user-dash";
-import EditBakerzForm from "@/components/dashboard/onboard/edit-bakerz-form";
-import DeliveryManager from "@/components/settings/delivery-settings";
+
 import {getCurrentSession} from "@/lib/actions/session";
 import {redirect} from "next/navigation";
 import { BakerzEditTabs } from "@/components/dashboard/onboard/edit/tabs-bakerz-edit";
