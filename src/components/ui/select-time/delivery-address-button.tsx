@@ -1,85 +1,139 @@
 import React from "react";
-import { Button, Spinner } from "@heroui/react";
+import { Button, ModalHeader, ModalBody, ModalContent, Modal, cn } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { useTheme } from "next-themes";
-import { IconLocation } from "../icons";
+import { useDeliveryAddressModal } from "./use-delivery-address-modal";
+import { AddressForm } from "@/components/store/store-header/subheader/address-form";
+import { useDelivery } from "@/components/providers/delivery-provider";
+import { useTranslations } from "next-intl";
+import { useMediaQuery } from "usehooks-ts";
+import { usePathname } from "next/navigation";
 
-interface DeliveryAddressButtonProps {
-    showDeliveryInfo: boolean;
-    validationResult: any;
-    isSubheaderLoaded: boolean;
-    onOpen: () => void;
-    t: (key: string) => string;
-}
 
-export const DeliveryAddressButton: React.FC<DeliveryAddressButtonProps> = ({
-    showDeliveryInfo,
-    validationResult,
-    isSubheaderLoaded,
-    onOpen,
-    t
-}) => {
-    const { theme } = useTheme();
+export const DeliveryAddressButton: React.FC = () => {
+
+    // Use media queries for consistent responsive behavior with the rest of the app
+    const isSmallMobile = useMediaQuery("(max-width: 460px)");
+    const fullMap = useMediaQuery("(max-width: 640px)");
+
+    const t = useTranslations("delivery-button");
+    const pathname = usePathname(); 
+    const isCheckout = pathname.includes("/checkout");
+
+    const { 
+        isValidating,
+        address,
+        deliveryAddressModal
+    } = useDelivery();
+
     
-    const getIconColors = () => {
-        const isActive = showDeliveryInfo && validationResult.isInRange;
+ 
+
+    // Determine display mode based on screen size
+    const getButtonProps = () => {
         
-        if (theme === 'light') {
+        const startIcon = (
+            <Icon
+                icon="pepicons-print:map"
+                width={24}
+                className={cn(address ? "text-foreground " : "text-white",
+                    ""
+                )}
+            />
+        );
+        
+        const endIcon = (
+            <Icon 
+                icon={address ? "solar:alt-arrow-down-linear" : ""} 
+                width={16} 
+                className={address ? "text-text" : "text-white"}
+            />
+        );
+        
+        const textContent = (
+            <div className="flex flex-col items-start min-w-0 flex-1">
+                {address ? (
+                    <>
+                        <p className="text-sm truncate w-full text-left">
+                            {isCheckout ? `${address.formattedAddress}` : `${address.city}`}
+                        </p>
+                    </>
+                ) : (
+                    <p className="text-sm truncate w-full text-left">
+                        {t("enterDeliveryAddressPrompt")}
+                    </p>
+                )}
+            </div>
+        );
+        
+        if (isSmallMobile) {
+            // Icon only on very small screens
             return {
-                primary: isActive ? '#000' : '#fff',
-                secondary: isActive ? '#000' : '#fff'
+                content: undefined,
+                startContent: startIcon,
+                endContent: undefined,
+                isIconOnly: true,
+                className: `mx-4 ${address ? "bg-background-secondary text-foreground" : "bg-gradient-primary text-white"}`
             };
         } else {
+            // Full button on larger screens
             return {
-                primary: isActive ? '#ffffff' : '#ffffff',
-                secondary: isActive ? '#ffffff' : '#ffffff'
+                content: textContent,
+                startContent: startIcon,
+                endContent: endIcon,
+                isIconOnly: false,
+                className: `${isCheckout ? "" : "ml-2"} w-fit px-2 justify-between ${address ? "bg-background-secondary text-foreground" : "bg-gradient-primary text-white"}`
             };
         }
     };
 
+    const buttonProps = getButtonProps();
+
     return (
+        <>
         <Button
-            className={`w-full justify-between ${showDeliveryInfo && validationResult.isInRange ? "bg-transparent text-text" : "bg-gradient-primary text-white"}`}
+            className={buttonProps.className}
             variant="solid"
-            startContent={
-                !isSubheaderLoaded ? (
-                    <Spinner size="sm" color="current" />
-                ) : (
-                    <IconLocation
-                        size={24}
-                        primaryColor={getIconColors().primary}
-                        secondaryColor={getIconColors().secondary}
-                        className="flex-shrink-0"
-                    />
-                )
-            }
-            endContent={
-                <Icon 
-                    icon={showDeliveryInfo ? "solar:pen-linear" : "solar:add-square-linear"} 
-                    width={24} 
-                    className={showDeliveryInfo && validationResult.isInRange ? "text-text" : "text-white"}
-                />
-            }
-            onPress={onOpen}
+            startContent={buttonProps.startContent}
+            endContent={buttonProps.endContent}
+            isIconOnly={buttonProps.isIconOnly}
+            onPress={deliveryAddressModal.onOpen}
         >
-            <div className="flex flex-col items-start min-w-0 flex-1">
-                {showDeliveryInfo && validationResult.isInRange && validationResult.validatedAddress ? (
-                    <>
-                        <p className="text-sm truncate w-full text-left">
-                            {`${validationResult?.validatedAddress?.street}, ${validationResult?.validatedAddress?.houseNumber}, ${validationResult?.validatedAddress?.zipCode}`}
-                        </p>
-                        {validationResult?.validatedAddress?.additionalInfo && (
-                            <p className="text-xs truncate w-full text-left">
-                                {validationResult?.validatedAddress?.additionalInfo}
-                            </p>
-                        )}
-                    </>
-                ) : (
-                    <p className="text-sm truncate w-full text-left">
-                        {!isSubheaderLoaded ? t("loadingAddress") : t("enterDeliveryAddressPrompt")}
-                    </p>
-                )}
-            </div>
+            {buttonProps.content}
         </Button>
+
+        <Modal 
+                    isOpen={deliveryAddressModal.isOpen} 
+                    onOpenChange={deliveryAddressModal.handleModalOpenChange}
+                    placement="center"
+                    backdrop="blur"
+                    scrollBehavior="inside"
+                    size={fullMap ? "full" : "3xl"}
+                >
+                    <ModalContent>
+                        {(onClose) => (
+                            <>
+                                <ModalHeader>
+                                    <div className="flex flex-col">
+                                        <h3 className="text-lg font-semibold">
+                                            {t("whereToDeliver")}
+                                        </h3>
+                                    </div>
+                                </ModalHeader>
+                                <ModalBody className="p-0 p-2">
+                                    <AddressForm 
+                                        initialAddress={address ?? undefined}
+                                        isValidating={isValidating}
+                                        onAutocompleteFocus={deliveryAddressModal.handleAutocompleteFocus}
+                                        onAutocompleteBlur={deliveryAddressModal.handleAutocompleteBlur}
+                                        onSubmitStart={deliveryAddressModal.handleSubmitStart}
+                                        onSubmitEnd={deliveryAddressModal.handleSubmitEnd}
+                                        onClose={onClose}
+                                    />
+                                </ModalBody>
+                            </>
+                        )}
+                    </ModalContent>
+                </Modal>
+        </>
     );
 }; 

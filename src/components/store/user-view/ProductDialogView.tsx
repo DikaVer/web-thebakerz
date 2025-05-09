@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
     ModalHeader,
     ModalBody,
@@ -18,7 +18,7 @@ import { useMediaQuery } from "usehooks-ts";
 import { useCart } from "@/components/providers/cart-provider";
 import { useTranslations } from "next-intl";
 import VariantsUserSelection from "@/components/store/product/components/variants-user-selection";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { removeAllSchedules } from "@/app/(store)/[id]/actions";
 import { getOrderTime } from "@/app/(store)/[id]/actions";
 import { getDeliveryTime } from "@/app/(store)/[id]/actions";
@@ -56,6 +56,14 @@ export default function ProductDialogView({
     const isSmall = useMediaQuery("(max-width: 432px)");
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     const router = useRouter();
+    const pathname = usePathname();
+
+    useEffect(() => {
+        if (pathname.includes("item")) {
+            onClose();
+            setIsLoading(false);
+        }
+    }, [pathname]);
 
     const {
         addItem,
@@ -83,8 +91,6 @@ export default function ProductDialogView({
     const handleEditItem = () => {
         setIsLoading(true);
         router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`); 
-        onClose();
-        setIsLoading(false);
     };
 
     // This function calls the updateCart server action.

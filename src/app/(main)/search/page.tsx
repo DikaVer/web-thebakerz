@@ -7,8 +7,10 @@ import type { Metadata } from 'next'; // Import Metadata type
 import { getLocale, getTranslations } from 'next-intl/server'; // Import getLocale
 import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata utils
 import { logger } from '@/lib/logger';
-import { Coordinates, getSearchCity, getSearchCoordinates, getSearchCountry } from '@/lib/delivery-cookie';
+import { Coordinates, getDeliveryMode, getSearchCity, getSearchCoordinates, getSearchCountry } from '@/lib/delivery-cookie';
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
+import { getCurrentDeliveryAddress } from '@/app/(store)/[id]/delivery-actions';
+import { Spacer } from '@heroui/react';
 
 // Define search page specific metadata translations
 const pageMetadataTranslations = {
@@ -118,9 +120,6 @@ export async function generateMetadata(
 // Default location (Amsterdam)
 const DEFAULT_LAT = 52.366989;
 const DEFAULT_LNG = 4.888490;
-const DEFAULT_CITY = 'Amsterdam';
-const DEFAULT_MODE = 'pickup';
-const DEFAULT_COUNTRY = 'NL';
 
 // Helper function to create the skeleton grid
 const StoresLoadingSkeleton = () => {
@@ -161,77 +160,31 @@ async function StoreResults({ coords, mode, country }: { coords: Coordinates, mo
                   </div>
               )}
           </div>
+          <Spacer y={8}/>
       </div>
   );
 }
 
+
 export default async function Page(props : SearchPageProps) {
-  // Get search parameters (no await needed as searchParams is already available)
-  const searchParams = await props.searchParams; // Use the props directly
-  const latParam = searchParams?.lat;
-  const lngParam = searchParams?.lng;
-  const cityParam = searchParams?.city;
-  const countryParam = searchParams?.country;
-  const modeParam = searchParams?.mode;
-
-  let initialCoords: Coordinates | null = null;
-  let initialCity: string | null = null;
-  let initialMode: 'pickup' | 'delivery' = DEFAULT_MODE;
-  let initialCountry: string | null = null;
-
-  // 1. Prioritize URL Search Params
-  if (latParam && lngParam) {
-    const lat = parseFloat(latParam);
-    const lng = parseFloat(lngParam);
-    if (!isNaN(lat) && !isNaN(lng)) {
-      initialCoords = { lat, lng };
-      initialCity = cityParam || null;
-      initialCountry = countryParam || null;
-    }
-  }
-
-  // 2. If no valid coords from params, try cookies
-  if (!initialCoords) {
-    initialCoords = await getSearchCoordinates();
-    if (initialCoords) {
-      initialCity = await getSearchCity();
-      initialCountry = await getSearchCountry();
-    } else {
-      // 3. If no coords from cookies, use defaults
-      initialCoords = { lat: DEFAULT_LAT, lng: DEFAULT_LNG };
-      initialCity = DEFAULT_CITY;
-      initialCountry = DEFAULT_COUNTRY;
-    }
-  }
-
-  // Determine initial mode: Param > Default
-  if (modeParam === 'pickup' || modeParam === 'delivery') {
-    initialMode = modeParam;
-  }
-
-  // We must have coordinates to proceed
-  if (!initialCoords) {
-    const t = await getTranslations("app/search");
-    return <div>{t("errorCouldNotDetermineLocation")}</div>;
-  }
+ 
+  const deliveryMode = await getDeliveryMode();
+  const savedAddress = await getCurrentDeliveryAddress();
 
   return (
     <GoogleMapsProvider>
       <SearchComponent
-        initialCoords={initialCoords}
-        // Pass resolved initial values to the client component
-        initialDeliveryMode={initialMode}
       >
         {/* 
           Use Suspense to show a loading state while StoreResults fetches data. 
           The key ensures Suspense re-triggers when coords or mode change the data fetching.
         */}
-        <Suspense key={`${initialCoords.lat}-${initialCoords.lng}-${initialMode}`} fallback={<StoresLoadingSkeleton />}>
+        <Suspense key={`${savedAddress?.coordinates?.lat}-${savedAddress?.coordinates?.lng}-${deliveryMode}`} fallback={<StoresLoadingSkeleton />}>
           {/* 
             Pass coords and mode needed for fetching. 
             Render this async component inside Suspense.
           */}
-          <StoreResults coords={initialCoords} mode={initialMode} country={initialCountry || undefined} />
+          <StoreResults coords={savedAddress?.coordinates || { lat: DEFAULT_LAT, lng: DEFAULT_LNG }} mode={deliveryMode} country={savedAddress?.country || undefined} />
         </Suspense>
       </SearchComponent>
     </GoogleMapsProvider>

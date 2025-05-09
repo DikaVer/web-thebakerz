@@ -1,10 +1,10 @@
 'use server'
 
 import { stripe } from "@/stripe";
-import {getCartSessionCookieOrCreate, getCurrentSession} from "@/lib/actions/session";
+import { getCurrentSession, getSessionCookie} from "@/lib/actions/session";
 import { globalPOSTRateLimit } from "@/lib/actions/requests";
 import { getCart } from "@/lib/actions/cart";
-import {getCurrentProducts, getProductsByStoreId} from "@/lib/actions/product";
+import {getCurrentProducts} from "@/lib/actions/product";
 import { getDeliveryTime, getOrderTime} from "@/app/(store)/[id]/actions";
 import {OrderRaw, ExtendedOrderRaw} from "@/lib/actions/order";
 import {v4 as uuidv4} from "uuid";
@@ -115,7 +115,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     // 2. User & Session Info
     // ----------------------
     const {user} = await getCurrentSession();
-    let userId = user?.id || await getCartSessionCookieOrCreate();
+    let userId = user?.id || await getSessionCookie();
     if (!userId) return {error: "User identifier could not be determined."};
 
     // 3. Cart Validation
@@ -145,7 +145,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     let selectedRegion: MerchantDeliveryRegion | undefined;
 
     if (isDelivery) {
-        currentAddress = await getCurrentDeliveryAddress(storeId); // Fetch from DB
+        currentAddress = await getCurrentDeliveryAddress(); // Fetch from DB
         if (!currentAddress || !currentAddress.coordinates) {
             return {error: 'Delivery address is missing or incomplete.'};
         } // Map DB structure if needed

@@ -1,6 +1,6 @@
 'use server';
 import {globalGETRateLimit, globalPOSTRateLimit} from "@/lib/actions/requests";
-import {getCartSessionCookie, getCartSessionCookieOrCreate, getCurrentSession} from "@/lib/actions/session";
+import {getCurrentSession, getSessionCookie, getSessionCookieOrCreate} from "@/lib/actions/session";
 import { v4 as uuidv4 } from "uuid";
 import {containerCart, containerProducts} from "@/db";
 import {revalidateTag} from "next/cache";
@@ -92,7 +92,7 @@ export const updateCart = async (
         const session = await getCurrentSession();
         let userId;
         if (!session || !session.user) {
-            userId = await getCartSessionCookieOrCreate();
+            userId = await getSessionCookieOrCreate();
         } else {
             userId = session.user.id;
         }
@@ -210,7 +210,7 @@ export const removeCartItem = async (
         const session = await getCurrentSession();
         let userId;
         if (!session || !session.user) {
-            userId = await getCartSessionCookieOrCreate();
+            userId = await getSessionCookieOrCreate();
         } else {
             userId = session.user.id;
         }
@@ -251,7 +251,10 @@ export const replaceGuestCart = async (
         }
 
         const userId = session.user.id;
-        const guestId = await getCartSessionCookie();
+        const guestId = await getSessionCookie();
+        if (!guestId) {
+            return { error: t("guestIdNotFound") };
+        }
 
         const guestPartitionKey = [storeId, guestId];
         const userPartitionKey = [storeId, userId];
@@ -413,7 +416,7 @@ export const getCurrentCart = async (
     const session = await getCurrentSession();
     let userId;
     if (!session || !session.user) {
-        userId = await getCartSessionCookie();
+        userId = await getSessionCookie();
     } else {
         userId = session.user.id;
     }

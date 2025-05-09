@@ -196,9 +196,9 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                         {/* Main image with gradient overlay for better text visibility */}
                         <div className="relative h-full w-full">
                             <Image
-                                alt={store.storeName || 'Bakery image'}
+                                alt={store?.storeName || 'Bakery image'}
                                 className="object-cover w-full h-full"
-                                src={store.picture || "/search/store_front_clean.webp"}
+                                src={store?.background || "/search/store_front_clean.webp"}
                                 fill
                                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                                 onError={(e) => {
@@ -211,7 +211,7 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                     </CardBody>
                     <CardFooter className="text-sm flex-col !items-start p-4 gap-1.5">
                         <div className="flex justify-between items-start w-full">
-                            <h4 className="font-bold text-large truncate mr-2">{store.ownerName || store.storeName}</h4>
+                            <h4 className="font-bold text-large truncate mr-2">{store?.ownerName || store?.storeName}</h4>
                             {deliveryMode === 'pickup' ? (
                                 <Chip 
                                     size="sm" 
@@ -231,7 +231,7 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                             )}
                         </div>
                         
-                        <p className="text-default-600 text-xs line-clamp-2">{store.slug || 'Artisanal baked goods'}</p>
+                        <p className="text-default-600 text-xs line-clamp-2">{store?.slug || 'Artisanal baked goods'}</p>
                         
                         <div className="flex flex-col flex-wrap items-start gap-y-1 gap-x-2 text-default-500 text-xs mt-1 w-full">
                             <div className="flex w-full items-end justify-between gap-1">

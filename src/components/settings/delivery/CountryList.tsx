@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import { Button, Chip, Switch } from "@heroui/react";
+import { Button, Chip, Divider, Switch } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { formatCurrency } from "@/lib/utils";
 import { WorkHours } from "@/lib/actions/calendar-actions";
@@ -85,6 +85,7 @@ const CountryList: React.FC<CountryListProps> = ({
         
         return (
           <div key={country.countryCode} className="flex flex-col bg-default-100 p-3 rounded-md">
+            <Divider/>
             <div className="flex items-center justify-between mb-2">
               <div>
                 <span className="font-medium">{countryName}</span>

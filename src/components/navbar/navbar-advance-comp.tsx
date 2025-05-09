@@ -97,7 +97,7 @@ export default function NavbarAdvancedComponent({
                 height="28px"
             >
                 <NavbarContent
-                    className={cn(`flex w-full data-[justify=center]:justify-between gap-8`)}
+                    className={cn(`flex w-full data-[justify=center]:justify-between`)}
                     justify="center"
                 >
                     {isReturnPage ? (

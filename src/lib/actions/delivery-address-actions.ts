@@ -2,7 +2,7 @@
 
 import { ValidationResult } from '@/components/providers/delivery-provider';
 import { MerchantDeliveryRegion, getMerchantDeliveryRegions, DeliveryRange } from '@/lib/actions/delivery-actions';
-import { updateDeliveryAddress as dbUpdateDeliveryAddress, DeliveryAddress, DeliveryAddressRaw } from '@/app/(store)/[id]/delivery-actions';
+import { updateDeliveryAddress as dbUpdateDeliveryAddress, DeliveryAddress, DeliveryAddressRaw, ExtendedDeliveryAddressRaw } from '@/app/(store)/[id]/delivery-actions';
 import { haversineDistance } from '@/lib/utils';
 import { logger } from '@/lib/logger';
 import { getTranslations } from 'next-intl/server';
@@ -319,13 +319,12 @@ export async function validateAddress(
  * Saves a validated address to the database
  */
 export async function saveDeliveryAddress(
-  storeId: string,
-  address: Omit<DeliveryAddress, 'id' | 'storeId' | 'userId' | 'createdAt' | 'type'>
+  address: ExtendedDeliveryAddressRaw
 ): Promise<{ success?: string; error?: string }> {
   try {
     // Use the existing updateDeliveryAddress implementation
     logger.debug("saveDeliveryAddress", "Saving address:", { address });
-    return await dbUpdateDeliveryAddress(storeId, address);
+    return await dbUpdateDeliveryAddress(address);
   } catch (error) {
     logger.error("saveDeliveryAddress", "Error saving address:", { error });
     return {
@@ -334,41 +333,4 @@ export async function saveDeliveryAddress(
   }
 }
 
-/**
- * Handles both validation and saving in one server action
- */
-export async function validateAndSaveAddress(
-  storeId: string,
-  addressData: DeliveryAddressRaw
-): Promise<{
-  validationResult: ValidationResult;
-  saveResult: { success?: string; error?: string };
-}> {
-  logger.debug("validateAndSaveAddress", "Validating and saving address");
-  
-  // 1. Validate the address
-  const validationResult = await validateAddress(addressData, storeId);
-  
-  // 2. If valid (even if out of range), save it
-  let saveResult: { success?: string; error?: string } = {};
-  
-  if (validationResult.isValid && validationResult.validatedAddress && validationResult.isInRange) {
-
-    const deliveryAddress: DeliveryAddressRaw = {
-      ...validationResult.validatedAddress,
-    }
-
-    saveResult = await saveDeliveryAddress(storeId, deliveryAddress);
-  } else {
-    saveResult = { error: "Address validation failed" };
-  }
-
-  logger.debug("validateAndSaveAddress", "Validation result:", { validationResult });
-  logger.debug("validateAndSaveAddress", "Save result:", { saveResult });
-  
-  return {
-    validationResult,
-    saveResult
-  };
-}
 

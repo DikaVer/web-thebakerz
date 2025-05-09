@@ -5,7 +5,7 @@ const zipCodePattern = /^[0-9]{4}\s?[A-Za-z]{2}$/; // Dutch postal code format: 
 
 // Google Maps related constants
 export const GOOGLE_MAPS_LIBRARIES = ['places'] as const;
-export const COUNTRY_RESTRICTION = ['nl']; // Netherlands
+export const COUNTRY_RESTRICTION = ['nl'] as const; // Netherlands
 
 // Dutch postal code regex: 4 digits followed by 2 letters (with or without space)
 export const DUTCH_POSTAL_CODE_REGEX = /^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/;
@@ -46,7 +46,24 @@ export const AddressZodSchema = z.object({
   
   additionalInfo: z.string()
     .max(100, { message: 'Additional information is too long' })
-    .optional()
+    .optional(),
+    
+  // Required fields
+  coordinates: z.object({
+    lat: z.number(),
+    lng: z.number()
+  }),
+  
+  country: z.string().min(1, { message: 'Country is required' }),
+  
+  // Optional fields
+  formattedAddress: z.string().optional(),
+  placeId: z.string().optional(),
+  administrativeAreas: z.array(z.string()).optional(),
+  neighborhood: z.string().optional(),
+  premise: z.string().optional(),
+  subpremise: z.string().optional(),
+  addressComponents: z.array(z.any()).optional()
 });
 
 // --- Constants ---

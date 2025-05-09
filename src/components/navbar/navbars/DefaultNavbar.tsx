@@ -1,19 +1,18 @@
 import { useState } from "react";
-import { Button, NavbarBrand, NavbarContent, NavbarItem, Avatar, Image, ButtonGroup } from "@heroui/react";
+import { Button, NavbarBrand, NavbarContent, Avatar, ButtonGroup } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
 import { StoreData } from "@/lib/actions/store";
 import { SessionValidationResult } from "@/lib/actions/session";
-import { SigninButton } from "@/components/ui/signin-button";
 import { useDelivery } from "@/components/providers/delivery-provider";
 import { cn } from "@heroui/react";
 import { pacifico } from "@/components/fonts";
 import GradientText from "@/components/ui/gradient-text";
 import LanguageModal from "@/components/language-modal";
-import CartButton from "@/components/cart/cart-button";
 import { useTranslations } from "next-intl";
 import ProfilePopover from "@/components/navbar/profile/profile-popover";
+import { DeliveryAddressButton } from "@/components/ui/select-time/delivery-address-button";
 
 interface NavbarTranslationProps {
     t: (key: string) => string;
@@ -28,15 +27,15 @@ interface DefaultNavbarProps extends NavbarTranslationProps {
 export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
     store,
     session,
-    navigateToStore,
-    t
+    navigateToStore
 }) => {
     const [isLanguageOpen, setIsLanguageOpen] = useState(false);
     const isMobile = useMediaQuery("(max-width: 768px)");
     const router = useRouter();
-    const { isDelivery, toggleDeliveryMode, isTogglingDelivery, isSubheaderLoaded } = useDelivery();
-    const cT = useTranslations("app/(store)/components/store-header");
+    const { isDelivery, toggleDeliveryMode, isTogglingDelivery } = useDelivery();
+    const t = useTranslations("app/(store)/components/store-header");
     const pathname = usePathname();
+    
     const isProductPage = pathname.includes("item");
 
     const handleBack = () => {
@@ -49,7 +48,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
 
     return (
         <>
-            <NavbarBrand className="flex items-center gap-3">
+            <NavbarBrand className="flex items-center gap-1">
                     {store ? (
                         <>
                         <Button
@@ -80,12 +79,13 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         </GradientText>
                     </div>
                 )}
-                <div className="flex items-center justify-start w-full py-4">
+                {/* Toggle Delivery Button */}
+                <div className="flex items-center justify-start py-4">
                     <div className="relative p-1 rounded-xl bg-background">
                         <ButtonGroup
                             isIconOnly
                             className="relative z-10 overflow-hidden"
-                            isDisabled={isTogglingDelivery || !isSubheaderLoaded}
+                            isDisabled={isTogglingDelivery}
                         >
                             <Button
                                 disableRipple
@@ -94,10 +94,10 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                                 className={cn(
                                     "md:min-w-32 transition-all duration-300 data-[hover=true]:bg-transparent",
                                     !isDelivery ? "text-foreground-secondary font-medium" : "text-default-500 font-normal",
-                                    isTogglingDelivery || !isSubheaderLoaded ? "opacity-50" : "opacity-100"
+                                    isTogglingDelivery ? "opacity-50" : "opacity-100"
                                 )}
                                 variant="light"
-                                isDisabled={isTogglingDelivery || !isSubheaderLoaded}
+                                isDisabled={isTogglingDelivery}
                             >
                                 <div className="flex items-center gap-2">
                                     <Icon
@@ -109,7 +109,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                                             !isDelivery ? "text-primary" : "text-default-500"
                                         )}
                                     />
-                                    <span className={cn("text-sm hidden md:block", isDelivery ? "text-default-500" : "text-foreground-secondary")}>{cT('pickup')}</span>
+                                    <span className={cn("text-sm hidden md:block", isDelivery ? "text-default-500" : "text-foreground-secondary")}>{t('pickup')}</span>
                                 </div>
                             </Button>
                             <Button
@@ -118,10 +118,10 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                                 className={cn(
                                     "md:min-w-32 transition-all duration-300 data-[hover=true]:bg-transparent",
                                     isDelivery ? "text-foreground-secondary font-medium" : "text-default-500 font-normal",
-                                    isTogglingDelivery || !isSubheaderLoaded ? "opacity-50" : "opacity-100"
+                                    isTogglingDelivery ? "opacity-50" : "opacity-100"
                                 )}
                                 variant="light"
-                                isDisabled={isTogglingDelivery || !isSubheaderLoaded}
+                                isDisabled={isTogglingDelivery}
                             >
                                 <div className="flex items-center gap-2">
                                     <Icon
@@ -133,7 +133,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                                             isDelivery ? "text-primary" : "text-default-500"
                                         )}
                                     />
-                                    <span className={cn("text-sm hidden md:block", isDelivery ? "text-foreground-secondary" : "text-default-500")}>{cT('delivery')}</span>
+                                    <span className={cn("text-sm hidden md:block", isDelivery ? "text-foreground-secondary" : "text-default-500")}>{t('delivery')}</span>
                                 </div>
                             </Button>
                         </ButtonGroup>
@@ -148,6 +148,11 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         />
                     </div>
                 </div>
+
+                {/* Enter Delivery Address Button */}
+                {isDelivery && (
+                    <DeliveryAddressButton/>
+                )}
             </NavbarBrand>
 
             <NavbarContent className="flex flex-row-reverse gap-4 justify-end">

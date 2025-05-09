@@ -781,7 +781,8 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                 sl.country,
                 sl.latitude,
                 sl.longitude,
-                sl.zip_code
+                sl.zip_code,
+                s.background
              FROM stores s
              JOIN users u ON s.user_id = u.id
              JOIN store_locations sl ON s.id = sl.store_id
@@ -845,6 +846,7 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                 }, 
                 deliveryRegions: deliveryRegions,
                 schedule: schedule,
+                background: storeRow.background
             };
 
             // Filter based on delivery mode

@@ -197,12 +197,11 @@ export const renderCalendarContent = () => {
         isDelivery,
         validationResult,
         isValidating,
-        isAddressLoading
     } = useDelivery();
     const t = useTranslations("app/(store)/components/working-hours");
 
     // Loading state
-    if (isDelivery && (isValidating || isAddressLoading)) {
+    if (isDelivery && (isValidating)) {
         return (
             <div className="w-full flex justify-center items-center py-4">
                 <Spinner size="sm" color="current" />

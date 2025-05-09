@@ -27,7 +27,7 @@ export const PickupTimeSelection: React.FC<PickupTimeSelectionProps> = ({
         fullWidth
         size="sm"
         radius="md"
-        className="text-grayText mt-4"
+        className="text-grayText"
     >
         <SmartDatetimeInput
             schedule={schedule}
@@ -38,7 +38,7 @@ export const PickupTimeSelection: React.FC<PickupTimeSelectionProps> = ({
         >
             <Button
                 startContent={isDateUpdating || isLoadingDate ? <Spinner size="sm" color="current" /> : <Icon icon="solar:walking-round-linear" width={24}/>}
-                className={`${selectedDate instanceof CalendarDateTime && 'text-default-600 bg-background-secondary'} text-sm`}
+                className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600 bg-background-secondary' : 'border-2 border-primary'} text-sm`}
                 onPress={() => {}}
                 isDisabled={isLoadingDate || isDateUpdating}
             >

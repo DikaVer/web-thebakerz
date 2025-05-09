@@ -1,7 +1,6 @@
 'use client';
 
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
-import Script from 'next/script';
+import React, { createContext, useState, useContext, useEffect, ReactNode, useRef, useMemo } from 'react';
 import { logger } from '@/lib/logger';
 
 interface GoogleMapsContextProps {
@@ -23,66 +22,131 @@ interface GoogleMapsProviderProps {
   children: ReactNode;
 }
 
-// Include Places library and set language to Dutch
-const GOOGLE_MAPS_LIBRARIES = 'places';
-const GOOGLE_MAPS_LANGUAGE = 'nl';
+// Default location for Amsterdam
+export const DEFAULT_CENTER = { lat: 52.3676, lng: 4.9041 };
 
 export const GoogleMapsProvider = ({ children }: GoogleMapsProviderProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [loadError, setLoadError] = useState<Error | null>(null);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  const isLoadingRef = useRef(false);
 
   useEffect(() => {
-    // Check if the script is already loaded (e.g., by another instance or SSR)
-    if (window.google && window.google.maps) {
-         logger.debug('GoogleMapsProvider', 'Google Maps script already seems loaded.');
-         setIsLoaded(true);
+    // Prevent multiple initialization attempts
+    if (isLoadingRef.current) {
+      logger.debug('GoogleMapsProvider', 'Google Maps loading already in progress.');
+      return;
     }
-  }, []);
 
+    // Skip if already loaded
+    if (window.google && window.google.maps) {
+      logger.debug('GoogleMapsProvider', 'Google Maps already loaded, skipping initialization.');
+      setIsLoaded(true);
+      return;
+    }
 
-  const handleScriptLoad = () => {
-    logger.debug('GoogleMapsProvider', 'Google Maps script loaded successfully.');
-    setIsLoaded(true);
-  };
+    // Skip if no API key
+    if (!apiKey) {
+      const error = new Error('Google Maps API key is missing.');
+      setLoadError(error);
+      logger.error('GoogleMapsProvider', 'NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is missing.');
+      return;
+    }
 
-  const handleScriptError = (e: any) => { // The event type might be generic
-    const error = new Error('Google Maps script failed to load.');
-    logger.error('GoogleMapsProvider', 'Google Maps script loading error:', { originalError: e, message: error.message });
-    setLoadError(error);
-    // Optionally, report this error to an error tracking service
-  };
+    // Mark as loading to prevent multiple attempts
+    isLoadingRef.current = true;
 
-  // Only render the script if the API key is available
-  if (!apiKey) {
-      logger.error('GoogleMapsProvider', 'NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is missing. Google Maps script will not be loaded.');
-      // Render children without the context value signalling an error,
-      // or provide a context value indicating the configuration error.
-      // For simplicity, we'll provide a context value indicating not loaded and an error.
-      if (!loadError) { // Avoid setting error state twice if already set
-          setLoadError(new Error('Google Maps API key is missing.'));
+    // Load the Maps JavaScript API directly instead of on window load
+    const loadGoogleMaps = async () => {
+      try {
+        logger.debug('GoogleMapsProvider', 'Starting Google Maps initialization');
+        
+        // Insert the script element to load Google Maps API
+        const script = document.createElement('script');
+        script.innerHTML = `
+          (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=\`https://maps.\${c}apis.com/maps/api/js?\`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+            key: "${apiKey}",
+            v: "weekly",
+            language: "nl"
+          });
+        `;
+        document.head.appendChild(script);
+
+        // Create a promise that resolves when script is loaded with a timeout
+        const scriptLoadPromise = new Promise<void>((resolve, reject) => {
+          const timeout = setTimeout(() => {
+            reject(new Error('Google Maps script load timeout after 10 seconds'));
+          }, 10000); // 10 second timeout
+
+          // Check periodically if window.google.maps exists
+          const checkInterval = setInterval(() => {
+            if (window.google && window.google.maps) {
+              clearInterval(checkInterval);
+              clearTimeout(timeout);
+              resolve();
+            }
+          }, 100);
+        });
+
+        // Wait for script to load
+        await scriptLoadPromise;
+        
+        // Pre-load needed libraries one at a time to avoid race conditions
+        logger.debug('GoogleMapsProvider', 'Loading Maps library');
+        await window.google.maps.importLibrary("maps");
+        logger.debug('GoogleMapsProvider', 'Loading Places library');
+        await window.google.maps.importLibrary("places");
+        logger.debug('GoogleMapsProvider', 'Loading Marker library');
+        await window.google.maps.importLibrary("marker");
+        
+        logger.debug('GoogleMapsProvider', 'Google Maps initialization complete');
+        setIsLoaded(true);
+        isLoadingRef.current = false;
+      } catch (error) {
+        const mapError = error instanceof Error ? error : new Error('Failed to load Google Maps');
+        setLoadError(mapError);
+        isLoadingRef.current = false;
+        logger.error('GoogleMapsProvider', 'Error loading Google Maps:', { error });
       }
-       return (
-          <GoogleMapsContext.Provider value={{ isLoaded: false, loadError }}>
-              {children}
-          </GoogleMapsContext.Provider>
-      );
-  }
+    };
+
+    loadGoogleMaps();
+
+    // Cleanup function (if needed)
+    return () => {
+      isLoadingRef.current = false;
+    };
+  }, [apiKey]);
+
+  const contextValue = useMemo(() => ({
+    isLoaded,
+    loadError
+  }), [isLoaded, loadError]);
 
   return (
-    <GoogleMapsContext.Provider value={{ isLoaded, loadError }}>
-      {!isLoaded && !loadError && ( // Avoid rendering script if already loaded or error occurred
-         <Script
-           id="google-maps-provider-script"
-           strategy="afterInteractive" // Load after the page is interactive
-           src={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=${GOOGLE_MAPS_LIBRARIES}&language=${GOOGLE_MAPS_LANGUAGE}`}
-           onLoad={handleScriptLoad}
-           onError={handleScriptError}
-           async
-           defer
-         />
-      )}
+    <GoogleMapsContext.Provider value={contextValue}>
       {children}
     </GoogleMapsContext.Provider>
   );
-}; 
+};
+
+// Add global type definitions for TypeScript
+declare global {
+  interface Window {
+    google: {
+      maps: {
+        importLibrary: (libraryName: string) => Promise<any>;
+        Map: any;
+        LatLng: any;
+        MapTypeId: any;
+        event: {
+          trigger: (instance: any, eventName: string) => void;
+        };
+        RenderingType: {
+          VECTOR: string;
+          RASTER: string;
+        };
+      };
+    };
+  }
+} 

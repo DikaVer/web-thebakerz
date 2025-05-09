@@ -63,19 +63,11 @@ export const ReturnNavbar: React.FC<ReturnNavbarProps> = ({
             </NavbarItem>
             <NavbarItem className="ml-1 !flex">
                 {store ? !isVisibleCart ? (
-                    <Avatar
-                        alt="Avatar"
-                        isBordered
-                        onClick={navigateToStore}
-                        showFallback={!!store?.picture}
-                        size="sm"
-                        name={store?.ownerName}
-                        src={store?.picture}
-                        color="secondary"
-                        classNames={{
-                            base: "bg-default text-text shadow-lg cursor-pointer",
-                        }}
-                    />
+                    <div className="flex items-center gap-2 cursor-pointer" onClick={navigateToStore}>
+                        <GradientText className={cn("text-xl md:text-2xl font-medium", pacifico.className)}>
+                            {store.ownerName}
+                        </GradientText>
+                    </div>
                 ) : (session?.user && store?.user_id === session?.user.id) ? (
                     <div className="flex items-center cursor-pointer" onClick={() => router.push("/")}>
                         <GradientText className={cn("text-xl md:text-2xl font-medium ml-2", pacifico.className)}>

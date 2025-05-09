@@ -165,7 +165,7 @@ async function setupStoreProviders({
     
     const cartData = await getCurrentCart(storeData.id);
     const deliveryMode = await getDeliveryMode();
-    const savedAddress = await getCurrentDeliveryAddress(storeData.id);
+    const savedAddress = await getCurrentDeliveryAddress();
     
     let initialDeliveryMode = deliveryMode === 'delivery';
     if (storeData.deliveryOption !== "multi") {

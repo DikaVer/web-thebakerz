@@ -884,16 +884,18 @@
     "noDeliveryAddressYet": "No delivery address yet",
     "pickUp": "Pick Up",
     "pickUpAt": "Pick Up at",
+    "please_enter_address_to_check_delivery": "Please enter your address to see if the store delivers to you",
+    "address_not_in_delivery_range": "Your address is not within the store's delivery range",
     "scheduleDeliveryTime": "Schedule delivery time",
     "scheduleOrderTime": "Schedule Order Time",
-    "searchAddress": "Search Address",
+    "searchAddress": "My Address",
     "selectDeliveryDate": "Select delivery date",
     "selectDeliveryTime": "Select delivery time",
     "selectPickUpTime": "Select Pick Up Time",
     "storeClosed": "Closed Now",
     "storeOpen": "Open Now",
     "street": "Street",
-    "typeToSearchAddress": "Type to search address",
+    "typeToSearchAddress": "Enter street and address number",
     "when": "When?",
     "zipCode": "Postal code"
   },
@@ -1159,6 +1161,7 @@
     "failedReplaceGuestCart": "Failed to replace guest cart.",
     "failedUpdateCart": "Failed to update cart.",
     "guestCartReplacedSuccess": "Guest cart has been successfully replaced with user cart items!",
+    "guestIdNotFound": "Guest ID not found",
     "invalidOption": "Invalid option {option} for {variant}",
     "itemRemovedSuccess": "Item removed successfully!",
     "maxSelectionsExceeded": "{variant} cannot have more than {max} selections",
@@ -1239,6 +1242,13 @@
     "changesSaved": "Saved!",
     "unsavedChanges": "Unsaved Changes",
     "unsavedChangesMessage": "You have unsaved changes. Do you want to save them before leaving?"
+  },
+  "delivery-button": {
+    "editDeliveryAddress": "Edit Delivery Address",
+    "enterDeliveryAddress": "Enter Delivery Address",
+    "enterDeliveryAddressPrompt": "Enter Address",
+    "loadingAddress": "Loading...",
+    "whereToDeliver": "Where to deliver your order?"
   },
   "lib/actions/delivery-address-actions": {
     "AddressNotPreciseEnough": "Address is not precise enough!",

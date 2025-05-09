@@ -6,7 +6,6 @@ import {
 } from "@heroui/react";
 import {ProductData} from "@/lib/actions/product";
 import {ItemCart} from "@/lib/actions/cart";
-import UserProductDialog from "@/components/store/product/dialog/user-product";
 import {useMediaQuery} from "usehooks-ts";
 import ProductDialogView from "../../user-view/ProductDialogView";
 

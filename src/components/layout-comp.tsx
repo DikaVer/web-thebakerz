@@ -1,11 +1,9 @@
 "use client";
 
 import React, {useEffect} from "react";
-import {Spacer, useDisclosure} from "@heroui/react";
+import {Spacer, } from "@heroui/react";
 import {useMediaQuery} from "usehooks-ts";
-import SidebarMenu from "@/components/sidebar/sidebar-menu";
 import {StoreData} from "@/lib/actions/store";
-import NavbarComponent from "@/components/navbar/navbar-comp";
 import {motion, useScroll} from "motion/react";
 import { usePathname } from "next/navigation";
 import NavbarAdvancedComponent from "@/components/navbar/navbar-advance-comp";      

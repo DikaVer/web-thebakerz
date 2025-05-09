@@ -29,7 +29,7 @@ export const DeliveryTimeSelection: React.FC<DeliveryTimeSelectionProps> = ({
         fullWidth
         size="sm"
         radius="md"
-        className="text-grayText mt-4"
+        className="text-grayText"
     >
         <SmartDatetimeInput
             schedule={schedule}
@@ -45,11 +45,7 @@ export const DeliveryTimeSelection: React.FC<DeliveryTimeSelectionProps> = ({
                     <Spinner size="sm" color="current" /> : 
                     <Icon icon="solar:scooter-linear" width={24} />
                 }
-                radius="md"
-                variant={selectedDate instanceof CalendarDateTime ? "bordered" : "solid"}
-                className={`${
-                    selectedDate instanceof CalendarDateTime ? "text-default-600" : "text-white bg-gradient-primary"
-                } text-sm transition-all duration-300`}
+                className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600 bg-background-secondary' : 'border-2 border-primary'} text-sm`}
                 onPress={() => {}}
                 isDisabled={isDateUpdating || isLoadingDate}
             >
@@ -58,7 +54,7 @@ export const DeliveryTimeSelection: React.FC<DeliveryTimeSelectionProps> = ({
                 ) : selectedDate instanceof CalendarDateTime ? (
                     `${t("deliverAt")} ${formatDate(selectedDate, isPostDelivery)}`
                 ) : (
-                    isPostDelivery ? t("selectDeliveryDate") : t("selectDeliveryTime")
+                    t("when")
                 )}
             </Button>
         </SmartDatetimeInput>

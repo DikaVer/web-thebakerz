@@ -40,7 +40,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const t = useTranslations("app/(store)/components/product-page");
     const { store } = useStore();
     const { session } = useSession();
-    const { isDelivery, validationResult, setSelectedDate } = useDelivery();
+    const { isDelivery, deliveryAddressModal, validationResult, setSelectedDate } = useDelivery();
     const { addItem } = useCart();
     const storeMinTimeOrder = isDelivery ? validationResult?.deliveryRegion?.minOrderTime : store?.minTimeOrder;
 
@@ -56,6 +56,11 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const preventProductDialog = isPopoverOpen;
 
     const handleAddToCart = async () => {
+
+        if (isDelivery && (!validationResult?.isValid || !validationResult?.isInRange)) {
+            deliveryAddressModal.onOpen();
+            return;
+        }
         
         // If product has variants, open the dialog instead
         if (productData.variants && productData.variants.length > 0) {
@@ -115,8 +120,12 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
             id={productData.id}
             className={`cursor-pointer max-w-sm rounded-2xl overflow-hidden relative`}
             onClick={() => {
-                if (!preventProductDialog) {
+                if (!preventProductDialog && validationResult?.isInRange) {
                     handleOpen(productData.id, store?.user_id === session?.user?.id);
+                }
+
+                if (isDelivery && (!validationResult?.isValid || !validationResult?.isInRange)) {
+                    deliveryAddressModal.onOpen();
                 }
             }}
         >

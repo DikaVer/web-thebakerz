@@ -872,9 +872,11 @@
     "locationPlaceholder": "",
     "minimumOrder": "",
     "noDeliveryAddressYet": "",
-    "pickUp": "",
-    "pickUpAt": "",
-    "scheduleDeliveryTime": "",
+    "pickUp": "Récupérer",
+    "pickUpAt": "Récupérer à",
+    "please_enter_address_to_check_delivery": "Veuillez entrer votre adresse pour voir si le magasin livre chez vous",
+    "address_not_in_delivery_range": "Votre adresse n'est pas dans la zone de livraison du magasin",
+    "scheduleDeliveryTime": "Planifier l'heure de livraison",
     "scheduleOrderTime": "",
     "searchAddress": "",
     "selectDeliveryDate": "",
@@ -1141,6 +1143,7 @@
     "failedReplaceGuestCart": "",
     "failedUpdateCart": "",
     "guestCartReplacedSuccess": "",
+    "guestIdNotFound": "",
     "invalidOption": "",
     "itemRemovedSuccess": "",
     "maxSelectionsExceeded": "",
@@ -1219,6 +1222,13 @@
     "changesSaved": "",
     "unsavedChanges": "",
     "unsavedChangesMessage": ""
+  },
+  "delivery-button": {
+    "editDeliveryAddress": "",
+    "enterDeliveryAddress": "",
+    "enterDeliveryAddressPrompt": "",
+    "loadingAddress": "",
+    "whereToDeliver": ""
   },
   "lib/actions/delivery-address-actions": {
     "AddressNotPreciseEnough": "",

@@ -304,7 +304,7 @@
   },
   "app/(main)/about-us/page": {
     "follow": "Follow Us",
-    "greeting": "We're David and Dumitru, we founded TheBakerz to make it easy for home bakers and artisan chefs to sell their products. We saw a growing market of passionate bakers and even more people hungry for something better than supermarket desserts. So we created a platform that brings them together. It’s simple: bakers get tools to grow, customers get access to amazing goods. Win Win! ",
+    "greeting": "We're David and Dumitru, we founded TheBakerz to make it easy for home bakers and artisan chefs to sell their products. We saw a growing market of passionate bakers and even more people hungry for something better than supermarket desserts. So we created a platform that brings them together. It's simple: bakers get tools to grow, customers get access to amazing goods. Win Win! ",
     "greetingTitle": "Nice to meet you",
     "slogan": "TheBakerz puts everything bakers need in one place. Instead of bouncing between spreadsheets, emails, and messages, you can handle all your orders, schedules, and customer details from a single, organized spot. Less hassle, fewer headaches, and more energy for doing what you do best—baking.",
     "sloganTitle": "Bake More, Stress Less",
@@ -884,16 +884,18 @@
     "noDeliveryAddressYet": "No delivery address yet",
     "pickUp": "Pick Up",
     "pickUpAt": "Pick Up at",
+    "please_enter_address_to_check_delivery": "Please enter your address to see if the store delivers to you",
+    "address_not_in_delivery_range": "Your address is not within the store's delivery range",
     "scheduleDeliveryTime": "Schedule delivery time",
     "scheduleOrderTime": "Schedule Order Time",
-    "searchAddress": "Search Address",
+    "searchAddress": "My Address",
     "selectDeliveryDate": "Select delivery date",
     "selectDeliveryTime": "Select delivery time",
     "selectPickUpTime": "Select Pick Up Time",
     "storeClosed": "Closed Now",
     "storeOpen": "Open Now",
     "street": "Street",
-    "typeToSearchAddress": "Type to search address",
+    "typeToSearchAddress": "Enter street and address number",
     "when": "When?",
     "zipCode": "Postal code"
   },
@@ -1159,6 +1161,7 @@
     "failedReplaceGuestCart": "Failed to replace guest cart.",
     "failedUpdateCart": "Failed to update cart.",
     "guestCartReplacedSuccess": "Guest cart has been successfully replaced with user cart items!",
+    "guestIdNotFound": "Guest ID not found",
     "invalidOption": "Invalid option {option} for {variant}",
     "itemRemovedSuccess": "Item removed successfully!",
     "maxSelectionsExceeded": "{variant} cannot have more than {max} selections",
@@ -1239,6 +1242,13 @@
     "changesSaved": "Saved!",
     "unsavedChanges": "Unsaved Changes",
     "unsavedChangesMessage": "You have unsaved changes. Do you want to save them before leaving?"
+  },
+  "delivery-button": {
+    "editDeliveryAddress": "Edit Delivery Address",
+    "enterDeliveryAddress": "Enter Delivery Address",
+    "enterDeliveryAddressPrompt": "Enter Address",
+    "loadingAddress": "Loading...",
+    "whereToDeliver": "Where to deliver your order?"
   },
   "lib/actions/delivery-address-actions": {
     "AddressNotPreciseEnough": "Address is not precise enough!",

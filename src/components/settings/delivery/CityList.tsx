@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import { Button, Image, Chip } from "@heroui/react";
+import { Button, Image, Chip, Divider } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { formatCurrency } from "@/lib/utils";
 import { WorkHours } from "@/lib/actions/calendar-actions";
@@ -83,6 +83,7 @@ const CityList: React.FC<CityListProps> = ({
     <div className="grid gap-2">
       {cities.map(city => (
         <div key={city.name} className="flex flex-col bg-default-100 p-3 rounded-md">
+          <Divider/>
           <div className="flex items-center justify-between mb-2">
             <div>
               <span className="font-medium">{city.name}</span>

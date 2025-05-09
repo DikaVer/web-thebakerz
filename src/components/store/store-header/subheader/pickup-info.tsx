@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { formatCurrency } from "@/lib/utils";
-import {Card, CardBody, Divider, Skeleton} from "@heroui/react";
+import {Card, CardBody, cn, Divider, Skeleton} from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { StoreData } from "@/lib/actions/store";
 import { useTheme } from "next-themes";
@@ -12,17 +12,19 @@ import { IconLocation } from "@/components/ui/icons";
 
 // Import LocationMap directly for better performance
 import LocationMap from "@/components/store/store-header/subheader/location-map";
+import { usePathname } from "next/navigation";
 
 interface PickupInfoProps {
   store: StoreData;
-  onMapLoaded?: () => void;
 }
 
-export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
+export default function PickupInfo({ store}: PickupInfoProps) {
   const t = useTranslations("app/(store)/components/store-subheader");
   const [isLoading, setIsLoading] = useState(true);
   const { theme } = useTheme();
   const mapContainerRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const isCheckout = pathname.includes("/checkout");
   
   // Generate a stable map ID for the current store
   const mapId = React.useMemo(() => 
@@ -39,12 +41,6 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
     return () => clearTimeout(timer);
   }, []);
 
-  // Notify parent when map is ready to be shown
-  const handleMapLoaded = () => {
-    if (onMapLoaded) {
-      onMapLoaded();
-    }
-  };
 
   // Set minimum order to 10 euro (1000 cents)
   const minimumOrder = 1000;
@@ -101,8 +97,8 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
             <>
               {/* Title with icon */}
             
-              <div className="flex flex-col md:flex-row h-full">
-                <div className="flex flex-col gap-2 w-full md:max-w-[440px]">
+              <div className={cn("flex h-full", isCheckout ? "flex-col" : "flex-col md:flex-row")}>
+                <div className={cn("flex flex-col gap-2 w-full", isCheckout ? "w-full" : "w-full md:max-w-[440px]")}>
                   <div className="p-4 bg-gradient-to-r from-primary-50 to-primary-100  dark:from-blue-200 dark:to-secondary-700">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
@@ -220,15 +216,13 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
                     {/*<Divider orientation="vertical" className={"h-[100%]]"}/>*/}
                   </div>
                 </div>
-                
-                {/* Map */}
-                <div className="flex-1 min-h-[200px] md:min-h-[300px] w-full rounded-medium rounded-t-none md:rounded-medium md:rounded-l-none overflow-hidden" ref={mapContainerRef}>
+                {!isCheckout && (
+                  <div className="flex-1 min-h-[200px] md:min-h-[300px] w-full rounded-medium rounded-t-none md:rounded-medium md:rounded-l-none overflow-hidden" ref={mapContainerRef}>
                   {(store?.location?.latitude && store?.location?.longitude) ? (
                     <LocationMap 
                       key={mapId}
                       latitude={Number(store.location.latitude)} 
                       longitude={Number(store.location.longitude)}
-                      onMapLoaded={handleMapLoaded}
                     />
                   ) : (
                     <div className="flex items-center justify-center h-full">
@@ -237,6 +231,7 @@ export default function PickupInfo({ store, onMapLoaded }: PickupInfoProps) {
                     </div>
                   )}
                 </div>
+                )}
               </div>
             </>
           )}

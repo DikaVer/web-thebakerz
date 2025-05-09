@@ -78,9 +78,7 @@ export default async function Page() {
 
   return (
     <main className="min-h-screen">
-      <GoogleMapsProvider>
-        <LandingHeroSection />
-      </GoogleMapsProvider>
+     <LandingHeroSection />
       <BakersGrowthSection />
       <Partners />  
       <Footer />

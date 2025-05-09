@@ -17,6 +17,7 @@ import { logger } from "@/lib/logger";
 import { ImageUploader } from "@/components/image/image-upload";
 import { ImageSchema } from "@/lib/schemas";
 import showErrorMessage from "@/components/toast/toast-error";
+import { useSignInModal } from "@/components/ui/modal-signin";
 
 interface StoreHeaderProps {
 
@@ -32,6 +33,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
     const [file, setFile] = useState<File | undefined>();
     const [isUploading, setIsUploading] = useState(false);
     const [backgroundUrl, setBackgroundUrl] = useState<string | undefined>(store.background || undefined);
+    const { openModal, ModalSign } = useSignInModal();
     
     // Check if user is a baker and owns this store
     const isOwner = session?.user?.role === "bakerz" && session.user.id === store.user_id;
@@ -67,6 +69,10 @@ export function StoreHeader( {  }: StoreHeaderProps) {
 
     return (
         <div className="flex flex-col w-full h-full">
+            {/* Sign-in modal */}
+            <ModalSign 
+                message="And you can access social media profiles"
+            />
             <ImageUploader
                 type={"background"}
                 file={file}
@@ -118,25 +124,41 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                 <div className="flex items-center gap-x-2">
                                     {store?.instagram_url && (
                                         <Link key="Instagram" isExternal className="text-white h-6"
-                                            href={store.instagram_url}>
-                                                        <span className="sr-only">{t("instagram")}</span>
-                                                        <Icon 
-                                                            icon="line-md:instagram" 
-                                                            width={22} 
-                                                            className="w-6" 
-                                                        />
-                                                    </Link>
-                                                )}
-                                                {store?.facebook_url && (
-                                                    <Link key="Facebook" isExternal className="text-white h-6"
-                                                        href={store.facebook_url}>
-                                                        <span className="sr-only">{t("facebook")}</span>
-                                                        <Icon 
-                                                            icon="line-md:facebook" 
-                                                            width={22} 
-                                                            className="w-6" 
-                                                        />
-                                                    </Link>
+                                            href="#"
+                                            onClick={(e) => {
+                                                if (!session?.user) {
+                                                    e.preventDefault();
+                                                    openModal();
+                                                } else {
+                                                    window.open(store.instagram_url, '_blank', 'noopener,noreferrer');
+                                                }
+                                            }}>
+                                            <span className="sr-only">{t("instagram")}</span>
+                                            <Icon 
+                                                icon="line-md:instagram" 
+                                                width={22} 
+                                                className="w-6" 
+                                            />
+                                        </Link>
+                                    )}
+                                    {store?.facebook_url && (
+                                        <Link key="Facebook" isExternal className="text-white h-6"
+                                            href="#"
+                                            onClick={(e) => {
+                                                if (!session?.user) {
+                                                    e.preventDefault();
+                                                    openModal();
+                                                } else {
+                                                    window.open(store.facebook_url, '_blank', 'noopener,noreferrer');
+                                                }
+                                            }}>
+                                            <span className="sr-only">{t("facebook")}</span>
+                                            <Icon 
+                                                icon="line-md:facebook" 
+                                                width={22} 
+                                                className="w-6" 
+                                            />
+                                        </Link>
                                     )}  
                                 </div>
                                 <Button 

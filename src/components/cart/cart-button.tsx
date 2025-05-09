@@ -15,7 +15,7 @@ import {
 } from "@heroui/react";
 import { useMediaQuery } from "usehooks-ts";
 import { useProductDialog } from "@/components/providers/product-provider";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useStore } from "@/components/providers/store-provider";
 import { CartItemRow } from "@/components/cart/cart-item";
 import { useCart } from "@/components/providers/cart-provider";
@@ -49,8 +49,15 @@ const CartButton: React.FC<CartButtonProps> = ({
     const router = useRouter();
     const t = useTranslations("app/(store)/components/cart");
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
+    const pathname = usePathname();
 
     const handleOpenDrawer = () => onOpen();
+
+    useEffect(() => {
+        if (isOpen && pathname.includes("/checkout")) {
+            onOpenChange();
+        }
+    }, [ pathname]);
 
     const renderCartItems = (isLoading: boolean, setIsLoading: (value: boolean) => void) => {
         const itemsArray = Object.values(cart).flatMap(
@@ -121,9 +128,8 @@ const CartButton: React.FC<CartButtonProps> = ({
         });
     }, [totalPrice, controls]);
 
-    return (
+    return totalPrice > 0 ? (
         <div className="flex flex-col w-full">
-            {totalPrice > 0 && (
             <motion.div animate={controls} className="flex items-center w-full">
                 <Button
                     className={cn("bg-gradient-primary text-white flex items-center justify-between gap-2 px-3 py-2 rounded-full", isMobileNavbar && "w-full")}
@@ -155,7 +161,6 @@ const CartButton: React.FC<CartButtonProps> = ({
                
                 </Button>
             </motion.div>
-            )}
             <Drawer
                 isOpen={isOpen}
                 placement={isMobile ? "bottom" : "right"}
@@ -184,10 +189,6 @@ const CartButton: React.FC<CartButtonProps> = ({
                                                 router.push(`${storeUrl}/checkout`);
                                                 router.refresh();
                                                 // Set a timer on two seconds to refresh the page
-                                                setTimeout(() => {
-                                                    onClose();
-                                                    setIsLoading(false);
-                                                }, 1000);
                                             }}
                                         >
                                             {t("continue")}
@@ -213,6 +214,8 @@ const CartButton: React.FC<CartButtonProps> = ({
                 </DrawerContent>
             </Drawer>
         </div>
+    ) : (
+        null
     );
 };
 

@@ -6,11 +6,13 @@ import { setDeliveryMode} from '@/lib/delivery-cookie';
 import { addToast } from "@heroui/react";
 import { useStore } from '@/components/providers/store-provider';
 import { updateOrderTime, getOrderTime, updateDeliveryTime, getDeliveryTime, removeAllSchedules } from '@/app/(store)/[id]/actions';
-import { DeliveryAddress as DbDeliveryAddress, DeliveryAddress, DeliveryAddressRaw } from '@/app/(store)/[id]/delivery-actions';
+import { DeliveryAddress as DbDeliveryAddress, DeliveryAddress, DeliveryAddressRaw, ExtendedDeliveryAddressRaw } from '@/app/(store)/[id]/delivery-actions';
 import { parseDateParams, parseDateTime } from "@/components/store/store-header/calendar/calendar-params";
 import { MerchantDeliveryRegion, DeliveryRange } from '@/lib/actions/delivery-actions';
 import { haversineDistance } from '@/lib/utils';
 import { logger } from '@/lib/logger';
+import { saveDeliveryAddress } from '@/lib/actions/delivery-address-actions';
+import { useDeliveryAddressModal } from '../ui/select-time/use-delivery-address-modal';
 
 export interface ValidationResult {
     isValid: boolean;
@@ -25,8 +27,6 @@ interface DeliveryContextProps {
     isDelivery: boolean;
     isTogglingDelivery: boolean;
     toggleDeliveryMode: (value: boolean) => Promise<void>;
-    isSubheaderLoaded: boolean;
-    setSubheaderLoaded: (loaded: boolean) => void;
     
     // Date selection
     selectedDate: CalendarDateTime | CalendarDate | undefined;
@@ -38,20 +38,16 @@ interface DeliveryContextProps {
     setSelectedDate: (newDate: CalendarDateTime | CalendarDate | undefined) => void;
     
     // Address management
-    address: DeliveryAddressRaw | null;
-    isAddressLoading: boolean;
-    showDeliveryInfo: boolean;
-    handleAddressSubmit: (addressData: DeliveryAddressRaw) => Promise<boolean>;
-    modalSubmissionStatus: 'idle' | 'validating' | 'saving' | 'success' | 'error';
-    resetModalStatus: (open: boolean) => void;
+    address: ExtendedDeliveryAddressRaw | null;
+    handleAddressSubmit: (addressData: ExtendedDeliveryAddressRaw) => Promise<void>;
     
     // Address validation
     validationResult: ValidationResult;
     isValidating: boolean;
+
+    // Delivery address modal
+    deliveryAddressModal: ReturnType<typeof useDeliveryAddressModal>;
     
-    // Map state
-    isMapLoaded: boolean;
-    setMapLoaded: (loaded: boolean) => void;
 }
 
 export const useDelivery = () => {
@@ -80,7 +76,6 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   const { store } =  isStore ? useStore() : { store: null };
   const [isDelivery, setIsDelivery] = useState(initialDeliveryMode);
   const [isTogglingDelivery, setIsTogglingDelivery] = useState(false);
-  const [isSubheaderLoaded, setIsSubheaderLoaded] = useState(true);
   
   // Date selection state
   const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(undefined);
@@ -90,28 +85,30 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   
   // Address state
   const [address, setAddress] = useState<DeliveryAddressRaw | null>(initialAddress);
-  const [isAddressLoading, setIsAddressLoading] = useState(!initialAddress);
-  const [showDeliveryInfo, setShowDeliveryInfo] = useState(!!initialAddress?.coordinates);
-  const [modalSubmissionStatus, setModalSubmissionStatus] = useState<'idle' | 'validating' | 'saving' | 'success' | 'error'>('idle');
-  
-  // Map state
-  const [isMapLoaded, setIsMapLoaded] = useState(false);
-  
+
   // Validation state - set initial validation for pre-loaded address
   const [isValidating, setIsValidating] = useState(false);
   const [validationResult, setValidationResult] = useState<ValidationResult>({
-    isValid: !!initialAddress?.coordinates,
-    isInRange: !!initialAddress?.coordinates, // We assume a server-provided address is valid and in range
-    message: initialAddress?.coordinates 
-      ? "Delivery address loaded from your saved profile." 
-      : "Please enter your delivery address.",
-    validatedAddress: initialAddress ? initialAddress : undefined
+    isValid: false,
+    isInRange: false,
+    message: "Please enter your delivery address.",
+    validatedAddress: undefined
   });
+
+  // Delivery address modal state
+  const deliveryAddressModal = useDeliveryAddressModal({
+    onSubmitSuccess: () => {
+      // Optional callback for when address is successfully submitted
+      logger.debug("deliveryProvider", "Address submitted successfully");
+    }
+  });
+
+  logger.debug("deliveryProvider", "Initial address:", { address });
   
   // Validate initial address when component mounts
   useEffect(() => {
     const validateInitialAddress = async () => {
-      if (initialAddress?.coordinates && store?.id) {
+      if (address && store?.id) {
         try {
           setIsValidating(true);
 
@@ -130,10 +127,10 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
             logger.debug("deliveryProvider", `Checking region: ${region.name}`);
             
             // Check for country-wide delivery first
-            if (region.isCountry && initialAddress.country && 
+            if (region.isCountry && address.country && 
                 region.minOrderPriceInCents && region.deliveryPriceInCents &&
                 minPrice > region.minOrderPriceInCents &&
-                region.name.toLowerCase() === initialAddress.country.toLowerCase()) {
+                region.name.toLowerCase() === address.country.toLowerCase()) {
 
                 logger.debug("deliveryProvider", `Found country-wide delivery region: ${region.name}`);
                 closestRegion = region;
@@ -145,8 +142,8 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
                 };
             } else {
               // Check for city/region based delivery
-              if (region.coordinates && initialAddress.coordinates) {
-                const distance = haversineDistance(initialAddress.coordinates, region.coordinates);
+              if (region.coordinates && address.coordinates) {
+                const distance = haversineDistance(address.coordinates, region.coordinates);
                 logger.debug("deliveryProvider", `Distance to ${region.name}: ${distance.toFixed(2)} km`);
                 
                 if (distance < minDistance && region.ranges) {
@@ -188,7 +185,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
                   ...closestRegion,
                   ranges: [applicableRange]
                 },
-                validatedAddress: initialAddress,
+                validatedAddress: address,
               });
             } else {
               logger.debug("deliveryProvider", `Address is outside the nearest delivery zone (${minDistance.toFixed(2)} km away).`);
@@ -197,7 +194,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
                 isValid: true,
                 isInRange: false,
                 message: `Address is outside our delivery area. Nearest location is ${minDistance.toFixed(1)} km away.`,
-                validatedAddress: initialAddress,
+                validatedAddress: address,
               });
             }
           } else {
@@ -205,7 +202,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
               isValid: false,
               isInRange: false,
               message: "No delivery regions found for this store.",
-              validatedAddress: initialAddress,
+              validatedAddress: address,
             });
           }
         } catch (error) {
@@ -213,7 +210,6 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
           // Keep the default validation result if validation fails
         } finally {
           setIsValidating(false);
-          setIsAddressLoading(false);
         }
       }
     };
@@ -221,8 +217,9 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     if (initialAddress?.coordinates && store?.id) {
       validateInitialAddress();
     }
-  }, [initialAddress as DbDeliveryAddress | null, store?.id]);
+  }, [store?.id, address, isDelivery]);
   
+
   // Initialize delivery mode
   useEffect(() => {
     const initDeliveryMode = async () => {
@@ -339,119 +336,29 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
 
   // Function to save delivery address (UPDATED IMPLEMENTATION USING SERVER-SIDE VALIDATION)
   const handleAddressSubmit = async (
-      addressData: DeliveryAddressRaw
-  ): Promise<boolean> => {
-    if (!store) return false;
-
-    setModalSubmissionStatus('validating');
+      addressData: ExtendedDeliveryAddressRaw
+  ): Promise<void> => {
+    
+    deliveryAddressModal.handleSubmitStart();
     setIsValidating(true);
 
     try {
-      logger.debug("deliveryProvider", "Using server-side validation for address:", { address: addressData.formattedAddress });
-      
-      // Import the server action dynamically to prevent it from being included in the client bundle
-      const { validateAndSaveAddress } = await import('@/lib/actions/delivery-address-actions');
-      
-      // Call the server action to validate and save the address
-      const { validationResult, saveResult } = await validateAndSaveAddress(store.id, addressData);
-      
-      // Update the client-side validation result state
-      setValidationResult(validationResult);
-
-      logger.debug("deliveryProvider", "Validation result:", { validationResult });
-      
-      // Handle validation and save results
-      if (!validationResult.isValid) {
-
-        addToast({ 
-          description: validationResult.message || "Invalid address details.", 
-          color: "danger" 
-        });
-        setModalSubmissionStatus('error');
-        setIsValidating(false);
-        return false;
-      }
-
-      if (!validationResult.isInRange) {
-        addToast({ 
-          description: validationResult.message || "Address is outside our delivery area.", 
-          color: "warning", 
-          timeout: 4000 
-        });
-        // Still show delivery info if address is valid but out of range
-        setShowDeliveryInfo(true);
-      } else {
-        setShowDeliveryInfo(true);
-        addToast({ 
-          description: "Delivery address confirmed!", 
-          color: "success", 
-          timeout: 2000 
-        });
-      }
-      
-      // Check for save errors
-      if (saveResult.error) {
-        logger.error("deliveryProvider", "Error saving address:", { error: saveResult.error });
-        addToast({ 
-          description: `Error saving address: ${saveResult.error}`, 
-          color: "danger" 
-        });
-        setModalSubmissionStatus('error');
-        setIsValidating(false);
-        return false;
-      }
-      
-      // If we got here, address is at least valid (even if out of range)
-      // Update the address state with the validated address
-      if (validationResult.validatedAddress) {
-        setAddress(validationResult.validatedAddress);
-      } else {
-        // Fallback to the original address if validation didn't provide a validated version
-        // This should rarely happen
+      const response = await saveDeliveryAddress(addressData);
+      if (response.success) {
         setAddress(addressData);
+        deliveryAddressModal.handleSubmitEnd(true);
+      } else {
+        logger.error('deliveryProvider', 'Error saving delivery address:', { error: response.error });
+        deliveryAddressModal.handleSubmitEnd(false);
       }
-
-      // Success!
-      setModalSubmissionStatus('success');
-      setIsValidating(false);
-      return validationResult.isValid; // Return validation status
-      
     } catch (error) {
-      logger.error("deliveryProvider", "Error in handleAddressSubmit:", { error });
-      addToast({ 
-        description: "An unexpected error occurred while validating the address.", 
-        color: "danger" 
-      });
-      setModalSubmissionStatus('error');
+      logger.error('deliveryProvider', 'Error saving delivery address:', { error });
+      deliveryAddressModal.handleSubmitEnd(false);
+    } finally {
       setIsValidating(false);
-      return false;
     }
   };
-  
-  // Reset modal status when it's closed or opened
-  const resetModalStatus = useCallback((open: boolean) => {
-    if (!open) {
-      // Delay resetting only if submission was in progress, allowing UI to settle
-      const delay = modalSubmissionStatus !== 'idle' ? 300 : 0;
-      setTimeout(() => {
-        setModalSubmissionStatus('idle');
-      }, delay);
-    } else {
-      setModalSubmissionStatus('idle'); // Reset immediately on open
-    }
-  }, [modalSubmissionStatus]);
-  
-  // Set subheader loaded state
-  const setSubheaderLoaded = (loaded: boolean) => {
-    if (loaded !== isSubheaderLoaded) {
-      setIsSubheaderLoaded(loaded);
-    }
-  };
-  
-  // Set map loaded state
-  const setMapLoaded = (loaded: boolean) => {
-    setIsMapLoaded(loaded);
-  };
+
 
   return (
     <DeliveryContext.Provider
@@ -460,8 +367,6 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
         isDelivery,
         isTogglingDelivery,
         toggleDeliveryMode,
-        isSubheaderLoaded,
-        setSubheaderLoaded,
         
         // Date selection
         selectedDate,
@@ -474,19 +379,15 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
 
         // Address management
         address,
-        isAddressLoading,
-        showDeliveryInfo,
         handleAddressSubmit,
-        modalSubmissionStatus,
-        resetModalStatus,
         
         // Address validation
         validationResult,
         isValidating,
-        
-        // Map state
-        isMapLoaded,
-        setMapLoaded
+
+        // Delivery address modal
+        deliveryAddressModal,
+
       }}
     >
       {children}

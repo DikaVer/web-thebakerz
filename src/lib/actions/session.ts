@@ -192,25 +192,25 @@ export async function deleteSessionTokenCookie(): Promise<void> {
     });
 }
 
-export async function getCartSessionCookieOrCreate(): Promise<string> {
+export async function getSessionCookieOrCreate(): Promise<string> {
     const cookieStore = await cookies();
-    let userId = cookieStore.get("cart-session")?.value ?? null;
+    let userId = cookieStore.get("thebakerz-session")?.value ?? null;
     if (userId === null) {
         userId = uuidv4();
-        cookieStore.set("cart-session", userId, {
+        cookieStore.set("thebakerz-session", userId, {
             path: '/', // makes the cookie available on the entire site
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 5, // 5 days
+            maxAge: 60 * 60 * 24 * 1, // 1 days
         });
     }
     return userId;
 }
 
-export async function getCartSessionCookie(): Promise<string | null> {
+export async function getSessionCookie(): Promise<string | null> {
     const cookieStore = await cookies();
-    return cookieStore.get("cart-session")?.value ?? null;
+    return cookieStore.get("thebakerz-session")?.value ?? null;
 }
 
 export function generateSessionToken(): string {

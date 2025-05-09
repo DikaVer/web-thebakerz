@@ -664,7 +664,7 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
               {/* Selected countries list */}
               {countryDeliveries.length > 0 && (
                 <div className="space-y-2 mt-6">
-                  <h3 className="text-sm font-medium">
+                  <h3 className="text-sm font-medium px-3">
                     {t("selectedCountries")}
                   </h3>
                   <CountryList
@@ -685,7 +685,7 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
             {/* Selected cities with their ranges and prices */}
             {deliveryCities.length > 0 && (
               <div className="space-y-2 mt-6">
-                <h3 className="text-sm font-medium">
+                <h3 className="text-sm font-medium px-3">
                   {t("selectedCities")}
                 </h3>
                 <CityList

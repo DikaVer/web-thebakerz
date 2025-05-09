@@ -18,9 +18,9 @@ export default async function Layout(
     children: React.ReactNode
 }) {
 
-    const cartData = await getCurrentCart("11");
+    // const cartData = await getCurrentCart("11");
     const deliveryMode = await getDeliveryMode();
-    const savedAddress = await getCurrentDeliveryAddress("11");
+    const savedAddress = await getCurrentDeliveryAddress();
     
     let initialDeliveryMode = deliveryMode === 'delivery';
 
@@ -31,15 +31,10 @@ export default async function Layout(
                     initialDeliveryMode={initialDeliveryMode}
                     initialAddress={savedAddress}
                 >   
-                    <CartProvider
-                        cart={cartData}
-                        storeId={"11"}
-                    >
                         <LayoutComp>
                             {children}
                             <Footer/>
                         </LayoutComp>
-                    </CartProvider>
                 </DeliveryProvider>
             </>
     );

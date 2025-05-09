@@ -7,7 +7,8 @@ import { Card, CardBody, Divider, Skeleton } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import { useState, useEffect } from "react";
-
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 interface DeliveryInfoProps {
   deliveryRegion: MerchantDeliveryRegion;
 }
@@ -17,6 +18,8 @@ export default function DeliveryInfo({
 }: DeliveryInfoProps) {
   const t = useTranslations("app/(store)/components/store-subheader");
   const [isLoading, setIsLoading] = useState(true);
+  const pathname = usePathname();
+  const isCheckout = pathname.includes("/checkout");
 
   // Get delivery price
   const deliveryPrice = deliveryRegion.ranges?.[0]?.deliveryPriceInCents || 100000;
@@ -64,7 +67,7 @@ export default function DeliveryInfo({
         </div>
 
         <div className="p-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3">
+          <div className={cn("grid gap-4 mb-3", isCheckout ? "grid-cols-2" : "grid-cols-2 md:grid-cols-4")}>
             <div className="flex flex-col gap-1 p-3 rounded-lg bg-default-50 dark:bg-default-100">
               <div className="flex items-center gap-2 mb-1 h-10">
                 <Icon icon="solar:dollar-minimalistic-linear" className="h-4 w-4 text-success" />

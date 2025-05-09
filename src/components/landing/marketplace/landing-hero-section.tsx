@@ -1,250 +1,31 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-import { Button, Input, Spinner, Autocomplete, AutocompleteItem } from '@heroui/react';
+import { Button} from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@iconify/react';
 import Image from 'next/image';
 import BlurText from '@/components/ui/blur-text';
-import { storeCoordinatesInCookies } from '@/app/actions';
 import { pacifico } from '@/components/fonts';
 import { LandingSigninButton } from '@/components/ui/landing-signin';
 import { useTranslations } from 'next-intl';
-import { logger } from '@/lib/logger';
-import { useGoogleMaps } from '@/components/providers/google-maps-provider';
+import { motion } from 'framer-motion';
 
-// Constants
-const GOOGLE_MAPS_LIBRARIES = ['places'];
-const COUNTRY_RESTRICTION = ['nl']; // Netherlands
 
-// Interface for autocomplete suggestions
-interface PlaceSuggestion {
-  place_id: string;
-  description: string;
-}
 
 // LandingSection component with the address search
 export const LandingHeroSection = () => {
-  const router = useRouter();
-  const { isLoaded: isMapsApiReady, loadError } = useGoogleMaps();
-  const [isLocating, setIsLocating] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const geocoderRef = useRef<google.maps.Geocoder | null>(null);
-  const sessionTokenRef = useRef<google.maps.places.AutocompleteSessionToken | null>(null);
-  const [value, setValue] = useState('');
-  const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
-  const [mapsApiStatus, setMapsApiStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const t = useTranslations("app/landing/marketplace");
+  const router = useRouter();
 
-  // Check if API key is missing and log error
-  useEffect(() => {
-    if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
-      logger.error('googleMaps', 'NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set in environment variables!');
-      logger.warn('googleMaps', 'You need to add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to your .env.local file');
-      setErrorMessage('Maps configuration error.'); // Show user-facing error
-      setMapsApiStatus('error');
+  // Animation for the pulsate heart effect
+  const heartPulsate = {
+    scale: [1, 1.1, 1],
+    transition: {
+      duration: 1.2,
+      repeat: Infinity,
+      repeatType: "reverse" as const,
+      ease: "easeInOut"
     }
-  }, []); // Run once on mount
-
-  // Set error message from provider if it exists
-  useEffect(() => {
-    if (loadError) {
-      logger.error('googleMaps', 'Maps API failed to load:', { error: loadError });
-      setErrorMessage(`Maps failed to load: ${loadError.message}`);
-      setMapsApiStatus('error');
-    }
-  }, [loadError]);
-
-  // Initialize services when Maps API is loaded
-  useEffect(() => {
-    // Initialize only when the script is loaded successfully
-    if (isMapsApiReady && !loadError && window.google?.maps?.places) {
-      try {
-        geocoderRef.current = new google.maps.Geocoder();
-        sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
-        logger.debug('googleMaps', 'Google Maps services initialized via provider.');
-        setMapsApiStatus('ready');
-        
-        // Verify API key validity by making a test request
-        const testGeocodingRequest = async () => {
-          try {
-            await geocoderRef.current?.geocode({ address: 'Amsterdam' });
-            logger.info('googleMaps', 'Google Maps API connection verified successfully');
-          } catch (error: any) {
-            if (error.code === 'INVALID_REQUEST' || error.code === 'REQUEST_DENIED') {
-              logger.error('googleMaps', 'API key validation failed:', { error });
-              setErrorMessage('Maps API key is invalid or restricted.');
-              setMapsApiStatus('error');
-            }
-          }
-        };
-        
-        testGeocodingRequest();
-      } catch (error) {
-        logger.error('googleMaps', 'Error initializing Google Maps services:', { error });
-        setErrorMessage('Failed to initialize map services.');
-        setMapsApiStatus('error');
-      }
-    }
-  }, [isMapsApiReady, loadError]); // Depend on load status and error
-
-  // Fetch suggestions when input changes and API is ready
-  useEffect(() => {
-    // Ensure API is ready, value exists, AND session token is available
-    if (!isMapsApiReady || !value.trim() || !sessionTokenRef.current) {
-      setSuggestions([]);
-      return;
-    }
-    
-    // Capture the current token safely
-    const currentSessionToken = sessionTokenRef.current;
-
-    const fetchSuggestions = async () => {
-      try {
-        logger.debug('googleMaps', 'Attempting to fetch autocomplete suggestions', { input: value });
-        
-        const request = {
-          input: value,
-          includedPrimaryTypes: ['geocode'],
-          includedRegionCodes: COUNTRY_RESTRICTION,
-          language: 'nl',
-          sessionToken: currentSessionToken, // Use the captured non-null token
-        };
-
-        // Use the new API
-        const result = await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions(request);
-
-        if (result && result.suggestions) {
-          const formattedSuggestions: PlaceSuggestion[] = result.suggestions.map((suggestion: any) => ({
-            place_id: suggestion.placePrediction.placeId,
-            description: suggestion.placePrediction.text?.text || suggestion.placePrediction.description || ''
-          }));
-
-          setSuggestions(formattedSuggestions);
-          logger.debug('googleMaps', 'Successfully retrieved suggestions', { count: formattedSuggestions.length });
-          
-          // If we got results, the API is definitely working
-          if (mapsApiStatus !== 'ready') {
-            setMapsApiStatus('ready');
-            logger.info('googleMaps', 'Google Maps API connection confirmed via successful autocomplete request');
-          }
-        } else {
-          logger.warn('fetchSuggestions', 'No suggestions returned from API');
-          setSuggestions([]);
-        }
-      } catch (error) {
-        // Check for specific API key errors if possible
-        if (error instanceof Error) {
-          if (error.message.includes('API_KEY_HTTP_REFERRER_BLOCKED')) {
-            logger.error('fetchSuggestions', 'API Key HTTP Referrer Blocked', { error });
-            setErrorMessage('Address lookup failed due to API key restriction.');
-            setMapsApiStatus('error');
-          } else if (error.message.includes('REQUEST_DENIED')) {
-            logger.error('fetchSuggestions', 'API request denied - likely invalid or restricted key', { error });
-            setErrorMessage('Address lookup service unavailable. Please try again later.');
-            setMapsApiStatus('error');
-          } else {
-            logger.error('fetchSuggestions', 'Error fetching place suggestions:', { error });
-          }
-        } else {
-          logger.error('fetchSuggestions', 'Unknown error fetching place suggestions');
-        }
-        setSuggestions([]);
-      }
-    };
-
-    // Debounce the suggestions request
-    const timeoutId = setTimeout(fetchSuggestions, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [value, isMapsApiReady, mapsApiStatus]); // Depend on value and API readiness
-
-  // Clear suggestions
-  const clearSuggestions = () => {
-    setSuggestions([]);
-  };
-
-  // Handle selection from autocomplete
-  const handleAutocompleteSelect = async (selectedAddress: string, placeId?: string) => {
-    if (!isMapsApiReady || !geocoderRef.current) {
-      // Use a more specific error if loading failed
-      const errorMsg = loadError ? `Maps failed to load: ${loadError.message}` : "Address search is not ready yet.";
-      setErrorMessage(errorMsg);
-      return;
-    }
-    
-    try {
-      clearSuggestions();
-      setValue(selectedAddress);
-      
-      setIsSubmitting(true);
-      setErrorMessage(null);
-      
-      let geocodeResults;
-      // Use place_id for more accurate geocoding if available
-      if (placeId) {
-        geocodeResults = await geocoderRef.current.geocode({ placeId });
-      } else {
-        geocodeResults = await geocoderRef.current.geocode({ address: selectedAddress });
-      }
-      
-      if (!geocodeResults || geocodeResults.results.length === 0) {
-        throw new Error('No geocoding results found');
-      }
-      
-      // Extract coordinates
-      const coordinates = {
-        lat: geocodeResults.results[0].geometry.location.lat(),
-        lng: geocodeResults.results[0].geometry.location.lng()
-      };
-      
-      // Extract city from address components
-      let city: string | undefined;
-      let country: string | undefined;
-      geocodeResults.results[0].address_components.forEach((component) => {
-        if (component.types.includes('locality')) {
-          city = component.long_name;
-        }
-        if (component.types.includes('country')) {
-          country = component.short_name;
-        }
-      });
-      
-      // Store the coordinates and city in cookies
-      const result = await storeCoordinatesInCookies(coordinates, city);
-      
-      if (result?.message) {
-        throw new Error(result.message);
-      }
-      
-      // Create a new session token for the next search
-      sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
-      
-      // Redirect to search page with both coordinates and city if available
-      const searchParams = new URLSearchParams();
-      searchParams.append('lat', coordinates.lat.toString());
-      searchParams.append('lng', coordinates.lng.toString());
-      if (city) searchParams.append('city', city);
-      if (country) searchParams.append('country', country);
-      
-      router.push(`/search?${searchParams.toString()}`);
-    } catch (error: any) {
-      setErrorMessage(error.message || "Failed to find this address");
-      setIsSubmitting(false);
-    } 
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    
-    if (!value.trim()) {
-      setErrorMessage("Please enter an address");
-      return;
-    }
-    
-    await handleAutocompleteSelect(value);
   };
 
   return (
@@ -305,98 +86,21 @@ export const LandingHeroSection = () => {
             direction="top"
             className="text-3xl sm:text-5xl font-bold text-[#0E0205] mb-8 drop-shadow-xl justify-center items-center"
           />
-          
-          <form 
-            onSubmit={handleSubmit}
-            className="relative w-full max-w-md mx-auto"
+
+          {/* All Desserts Button */}
+          <motion.div
+            animate={heartPulsate}
+            className="mt-8"
           >
-            <div className="relative">
-              <Autocomplete
-                label="Address"
-                aria-label="Address search"
-                placeholder={t("heroSectionPlaceholder")}
-                value={value}
-                onInputChange={(newValue) => {
-                  setValue(newValue);
-                  // Check Maps API status on first input
-                  if (newValue && mapsApiStatus === 'loading' && isMapsApiReady) {
-                    logger.debug('googleMaps', 'User input detected, verifying Maps API status');
-                    setMapsApiStatus('ready');
-                  }
-                }}
-                onSelectionChange={(key) => {
-                  // Find the selected item from suggestions
-                  const selected = suggestions.find(item => item.place_id === key);
-                  if (selected) {
-                    handleAutocompleteSelect(selected.description, selected.place_id);
-                  }
-                }}
-                isDisabled={!isMapsApiReady || !!loadError || isLocating || isSubmitting}
-                variant="bordered"
-                isLoading={!isMapsApiReady || isLocating || isSubmitting} // Show loading based on API readiness
-                startContent={
-                  <Icon icon="solar:magnifer-linear" className="text-default-400" width={20} />
-                }
-                classNames={{
-                  base: "w-full bg-gradient-card rounded-2xl backdrop-blur-sm border-hidden shadow-lg",
-                  listbox: "max-h-[200px] bg-gradient-card backdrop-blur-sm",
-                  popoverContent: "z-[1000]"
-                }}
-                menuTrigger="input"
-                items={suggestions}
-              >
-                {suggestions.map((item) => (
-                  <AutocompleteItem key={item.place_id} textValue={item.description}>
-                    <div className="flex items-center">
-                      <Icon icon="solar:map-point-linear" className="text-primary-500 dark:text-secondary mr-2" width={16} />
-                      <span className="">{item.description}</span>
-                    </div>
-                  </AutocompleteItem>
-                ))}
-              </Autocomplete>
-              
-              {/* Status indicators below input */}
-              <div className="mt-2 text-sm" aria-live="polite"> 
-                {isLocating && (
-                  <div className="flex items-center justify-center gap-2 text-blue-700 p-2 rounded-md">
-                    <Spinner size="sm" color="primary" />
-                    <span>{t("heroSectionLoading")}</span>
-                  </div>
-                )}
-                
-                {isSubmitting && (
-                  <div className="flex items-center justify-center gap-2 text-warning-700 p-2 rounded-md">
-                    <Spinner size="sm" color="primary" />
-                    <span>{t("heroSectionSubmitting")}</span>
-                  </div>
-                )}
-                
-                {errorMessage && (
-                  <div className="text-red-500 p-2 rounded-md bg-red-100/80">
-                    {errorMessage}
-                  </div>
-                )}
-                
-                {/* New Maps API status indicator for debugging */}
-                {process.env.NODE_ENV === 'development' && (
-                  <div className={`text-xs p-1 text-center rounded ${
-                    mapsApiStatus === 'ready' ? 'text-green-700 bg-green-100/80' : 
-                    mapsApiStatus === 'error' ? 'text-red-700 bg-red-100/80' : 
-                    'text-blue-700 bg-blue-100/80'
-                  }`}>
-                    Google Maps API: {mapsApiStatus}
-                  </div>
-                )}
-              </div>
-            </div>
-            
             <Button 
-              type="submit"
-              className="hidden"
-              aria-hidden="true"
-              tabIndex={-1}
-            />
-          </form>
+              onClick={() => router.push('/search')}
+              size="lg"
+              className="bg-gradient-primary text-white font-semibold text-lg px-8 py-3 rounded-full shadow-xl"
+              endContent={<Icon icon="mdi:arrow-right" width={24} />}
+            >
+              All Desserts
+            </Button>
+          </motion.div>
         </div>
       </div>
     </div>
