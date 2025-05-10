@@ -135,7 +135,7 @@ export function AddressForm({
           fullscreenControl: false,
           zoomControl: true,
           tiltInteractionEnabled: false, // Disable tilt for ease of use
-          gestureHandling: 'cooperative',
+          gestureHandling: 'greedy',
         });
         
         googleMapRef.current = map;
@@ -609,7 +609,7 @@ export function AddressForm({
         {/* Google Map */}
         {isMapsApiReady && (
           <div 
-            className={`mt-2 w-full h-[80vh] sm:h-[400px] rounded-lg overflow-hidden transition-all duration-300 ${isMapVisible ? 'opacity-100' : 'opacity-0'}`}
+            className={`mt-2 w-full h-[70vh] sm:h-[400px] rounded-lg overflow-hidden transition-all duration-300 ${isMapVisible ? 'opacity-100' : 'opacity-0'}`}
           >
             <div 
               ref={mapRef} 
