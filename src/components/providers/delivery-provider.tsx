@@ -214,7 +214,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
       }
     };
     
-    if (initialAddress?.coordinates && store?.id) {
+    if (address && store?.id) {
       validateInitialAddress();
     }
   }, [store?.id, address, isDelivery]);
