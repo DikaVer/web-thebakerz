@@ -148,11 +148,6 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         />
                     </div>
                 </div>
-
-                {/* Enter Delivery Address Button */}
-                {isDelivery && (
-                    <DeliveryAddressButton/>
-                )}
             </NavbarBrand>
 
             <NavbarContent className="flex flex-row-reverse gap-4 justify-end">

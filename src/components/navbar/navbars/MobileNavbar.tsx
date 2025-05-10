@@ -5,6 +5,7 @@ import { Spacer } from "@heroui/react";
 import { Alert } from "@heroui/react";
 import { useDelivery } from "@/components/providers/delivery-provider";
 import { useTranslations } from "next-intl";
+import { DeliveryAddressButton } from "@/components/ui/select-time/delivery-address-button";
 
 export const MobileNavbar: React.FC = () => {
 
@@ -19,6 +20,7 @@ export const MobileNavbar: React.FC = () => {
                     isMobileNavbar={true}
                 />
             )}
+             <DeliveryAddressButton/>
             {(!validationResult.isInRange && address) && (
                 <div className="flex flex-col w-full h-full justify-between">
                     <Alert 

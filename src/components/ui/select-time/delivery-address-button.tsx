@@ -65,25 +65,16 @@ export const DeliveryAddressButton: React.FC = () => {
             </div>
         );
         
-        if (isSmallMobile) {
-            // Icon only on very small screens
-            return {
-                content: undefined,
-                startContent: startIcon,
-                endContent: undefined,
-                isIconOnly: true,
-                className: `mx-4 ${address ? "bg-background-secondary text-foreground" : "bg-gradient-primary text-white"}`
-            };
-        } else {
-            // Full button on larger screens
-            return {
-                content: textContent,
-                startContent: startIcon,
-                endContent: endIcon,
-                isIconOnly: false,
-                className: `${isCheckout ? "" : "ml-2"} w-fit px-2 justify-between ${address ? "bg-background-secondary text-foreground" : "bg-gradient-primary text-white"}`
-            };
-        }
+        
+        // Full button on larger screens
+        return {
+            content: textContent,
+            startContent: startIcon,
+            endContent: endIcon,
+            isIconOnly: false,
+            className: `${isCheckout ? "" : "ml-2"} w-full px-2 justify-between ${address ? "bg-background-secondary text-foreground" : "bg-gradient-primary text-white"}`
+        };
+        
     };
 
     const buttonProps = getButtonProps();
@@ -98,7 +89,9 @@ export const DeliveryAddressButton: React.FC = () => {
             isIconOnly={buttonProps.isIconOnly}
             onPress={deliveryAddressModal.onOpen}
         >
-            {buttonProps.content}
+            <div className="flex flex-col items-center justify-center">
+                {buttonProps.content}
+            </div>
         </Button>
 
         <Modal 

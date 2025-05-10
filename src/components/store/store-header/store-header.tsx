@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {useStore} from "@/components/providers/store-provider";
-import {Link, Divider, Button, useDisclosure, Spinner, Badge} from "@heroui/react";
+import {Link, Divider, Button, useDisclosure, Spinner, Badge, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {pacifico} from "@/components/fonts";
 import {DeliverySubheader} from "@/components/store/store-header/delivery-subheader";
@@ -84,7 +84,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                     handleUploadBackground(file);
                 }}
             />
-            <div className="relative w-full  h-[200px] max-h-[200px] rounded-lg overflow-hidden mb-4">
+            <div className="relative w-full  h-[400px] max-h-[400px] rounded-lg overflow-hidden mb-4">
                 <Image 
                     src={backgroundUrl || "/search/store_front_clean.webp"} 
                     alt={store.storeName || "Store"} 
@@ -119,7 +119,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                 )}
                 <div className="absolute top-0 left-0 right-0 flex justify-between items- h-full p-4 bg-gradient-to-r from-black/80 to-black/20">
                     <div className="flex items-start gap-x-4 w-full">
-                        <div className="flex flex-col justify-center gap-5 w-full">
+                        <div className="flex flex-col justify-center gap-8 w-full">
                             <div className="flex items-center justify-between gap-x-2 w-full">
                                 <div className="flex items-center gap-x-2">
                                     {store?.instagram_url && (
@@ -136,8 +136,8 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                             <span className="sr-only">{t("instagram")}</span>
                                             <Icon 
                                                 icon="line-md:instagram" 
-                                                width={22} 
-                                                className="w-6" 
+                                                width={64} 
+                                                className="w-10" 
                                             />
                                         </Link>
                                     )}
@@ -155,8 +155,8 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                             <span className="sr-only">{t("facebook")}</span>
                                             <Icon 
                                                 icon="line-md:facebook" 
-                                                width={22} 
-                                                className="w-6" 
+                                                width={64} 
+                                                className="w-10" 
                                             />
                                         </Link>
                                     )}  
@@ -164,7 +164,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                 <Button 
                                     isIconOnly
                                     variant="light"
-                                    className="text-white h-6 min-w-6 p-0"
+                                    className="text-white h-10 min-w-10 p-0"
                                     onPress={() => {
                                         if (navigator.share) {
                                             navigator.share({
@@ -181,14 +181,15 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                     <span className="sr-only">Share</span>
                                     <Icon 
                                         icon="icon-park-outline:share" 
-                                        width={22} 
-                                        className="w-6" 
+                                        width={64} 
+                                        className="w-8" 
                                     />
                                 </Button>
                             </div>
+                            <Spacer y={10}/>
                             {store?.ownerName && (
                                 <div className="flex flex-col justify-start items-start gap-x-3">
-                                    <p className={`text-4xl whitespace-pre-wrap font-medium text-white ${pacifico.className}`}>
+                                    <p className={`text-5xl whitespace-pre-wrap font-medium text-white ${pacifico.className}`}>
                                         {store.ownerName}
                                     </p>
                                     {store?.slug && (
@@ -200,12 +201,12 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                             )}
                             <Button
                                 variant="light"
-                                className="text-white aspect-square w-9 h-9 min-w-0 p-0 bg-white/70 text-foreground"
+                                className="text-white aspect-square w-12 h-12 min-w-0 p-0 bg-white/70 text-foreground"
                                 onPress={onOpen}
                             >
                                 <Icon 
                                     icon="solar:info-circle-linear" 
-                                    width={24} 
+                                    width={36} 
                                 />
                             </Button>
                         </div>

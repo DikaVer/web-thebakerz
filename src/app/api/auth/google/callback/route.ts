@@ -9,6 +9,7 @@ import {replaceGuestCart} from "@/lib/actions/cart";
 import {getTranslations} from "next-intl/server";
 import { logger } from "@/lib/logger";
 import { getRequestContext } from "@/lib/request-context";
+import { replaceGuestAddress } from "@/lib/actions/delivery-actions";
 
 // Initialize logger for Google OAuth callback
 const log = logger.child({ module: "google-oauth-callback" });
@@ -148,6 +149,7 @@ export async function GET(request: Request): Promise<Response> {
 				storeId
 			});
 			await replaceGuestCart(storeId);
+			await replaceGuestAddress();
 		}
 		
 		log.info('googleCallback', 'Authentication successful, redirecting existing user', {
@@ -200,6 +202,7 @@ export async function GET(request: Request): Promise<Response> {
 			storeId
 		});
 		await replaceGuestCart(storeId);
+		await replaceGuestAddress();
 	}
 	
 	log.info('googleCallback', 'Authentication successful, redirecting user', {

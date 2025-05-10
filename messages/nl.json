@@ -503,6 +503,7 @@
     "editCurrentStoreName": "Bewerk uw huidige winkelnaam",
     "email": "Email",
     "female": "",
+    "gender": "",
     "male": "",
     "name": "Naam",
     "profile": "Profiel",
@@ -631,7 +632,7 @@
   "app/(store)/components/checkout-steps": {
     "cartDetails": "Winkelwagengegevens",
     "cartDetailsStep": "3. Winkelwagengegevens",
-    "failedToUpdateCart": "Het is niet gelukt om de winkelwagen bij te werken",
+    "failedToUpdateCart": "",
     "pickUpDetails": "Ophaalgegevens",
     "pickUpDetailsStep": "2. Ophaalgegevens",
     "signInOrSignUpStep": "1. Meld u aan of registreer u om een bestelling te plaatsen",
@@ -861,6 +862,7 @@
     "additionalInfo": "Aanvullende info",
     "addressInRange": "Je adres ligt binnen het bezorggebied",
     "addressPlaceholder": "Adres Placeholder",
+    "address_not_in_delivery_range": "Je adres valt buiten het bezorggebied van de winkel",
     "city": "Stad",
     "confirm": "Bevestigen",
     "day": "dag",
@@ -891,8 +893,9 @@
     "pickUp": "Afhalen",
     "pickUpAt": "Afhalen op",
     "please_enter_address_to_check_delivery": "Voer je adres in om te zien of de winkel bij jou bezorgt",
-    "address_not_in_delivery_range": "Je adres valt buiten het bezorggebied van de winkel",
     "scheduleDeliveryTime": "Plan bezorgtijd",
+    "scheduleOrderTime": "",
+    "searchAddress": "",
     "selectDeliveryDate": "Selecteer Leverdatum",
     "selectDeliveryTime": "Selecteer bezorgtijd",
     "selectPickUpTime": "Selecteer Pick-up tijd",
@@ -1183,6 +1186,13 @@
     "tooManyRequests": "Te veel verzoeken",
     "userIdStoreIdRequired": "Gebruikers-ID en Winkel-ID zijn verplicht",
     "userNotFound": "Gebruiker niet gevonden!"
+  },
+  "app/lib/actions/delivery": {
+    "failedReplaceGuestAddress": "",
+    "guestAddressReplacedSuccess": "",
+    "guestIdNotFound": "",
+    "sessionNotRecognized": "",
+    "tooManyRequests": ""
   },
   "app/lib/actions/order": {
     "cannotChangeStatus": "TheBakerz kan deze bestelling alleen voltooien",

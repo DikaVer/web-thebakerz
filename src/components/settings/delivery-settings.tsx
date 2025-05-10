@@ -596,6 +596,41 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     markChanges();
   };
 
+  // Handle editing a city
+  const handleEditCity = (city: DeliveryCity) => {
+    // Set the country for this city (need to search through the countryCityLatLngMap to find it)
+    let foundCountry = null;
+    for (const countryCode in countryCityLatLngMap) {
+      if (city.name in countryCityLatLngMap[countryCode]) {
+        foundCountry = countryCode;
+        break;
+      }
+    }
+    
+    if (foundCountry) {
+      setSelectedCountry(foundCountry);
+      setIsCountryDelivery(false);
+      setSelectedCityForRange(city.name);
+      setCurrentRanges([...city.ranges]);
+    } else {
+      // Handle case where country isn't found
+      addToast({
+        title: t("cityEditError"),
+        color: "danger",
+        shouldShowTimeoutProgress: true,
+        timeout: 2000,
+      });
+    }
+  };
+  
+  // Handle editing a country
+  const handleEditCountry = (country: CountryDelivery) => {
+    setSelectedCountry(country.countryCode);
+    setIsCountryDelivery(true);
+    setCountryDeliveryPrice(country.deliveryPriceInCents);
+    setCountryMinOrderPrice(country.minOrderPriceInCents);
+  };
+
   if (loading) {
     return <div className="p-4">{t("loadingMap")}</div>;
   }
@@ -672,6 +707,7 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
                     onRemoveCountry={handleRemoveCountry}
                     onManageSchedule={(country) => handleManageSchedule(country, true)}
                     onTogglePostDelivery={handleTogglePostDelivery}
+                    onEditCountry={handleEditCountry}
                   />
                 </div>
               )}
@@ -692,6 +728,7 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
                   cities={deliveryCities}
                   onRemoveCity={handleRemoveCity}
                   onManageSchedule={(city) => handleManageSchedule(city, false)}
+                  onEditCity={handleEditCity}
                 />
               </div>
             )}

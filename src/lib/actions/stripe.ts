@@ -369,8 +369,9 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     if (isDelivery && deliveryFeeInclVat > 0 && selectedRegion?.isStoreDelivery) {
         transferAmount += deliveryFeeInclVat; // Include delivery fee in the transfer amount
     }
-    const applicationFee = calculateApplicationFee(totalInclVat, selectedRegion?.isStoreDelivery || true, storeData.custom_app_fee, storeData.custom_delivery_fee);
-    transferAmount -= applicationFee; // Subtract application fee
+    const totalTransferAmount = transferAmount;
+    const applicationFee = calculateApplicationFee(totalTransferAmount, selectedRegion?.isStoreDelivery || true, storeData.custom_app_fee, storeData.custom_delivery_fee);
+    const transferAmountAfterFee = totalTransferAmount - applicationFee;
 
 
     // 9. Create Unpaid Order Record
@@ -446,7 +447,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
             payment_intent_data: {
                 transfer_data: {
                     destination: storeStripeAccountId,
-                    amount: transferAmount // Amount to transfer to the connected account
+                    amount: transferAmountAfterFee // Amount to transfer to the connected account
                 },
             },
             metadata: {

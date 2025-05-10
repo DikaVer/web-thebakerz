@@ -8,18 +8,21 @@ import { WorkHours } from "@/lib/actions/calendar-actions";
 import {formatTime} from "@/components/settings/delivery/utils";
 import { useSession } from "@/components/providers/session-provider";
 import { DeliveryCity } from "./types";
+import { Icon } from "@iconify/react";
 
 
 interface CityListProps {
   cities: DeliveryCity[];
   onRemoveCity: (cityName: string) => void;
   onManageSchedule: (city: DeliveryCity) => void;
+  onEditCity?: (city: DeliveryCity) => void;
 }
 
 const CityList: React.FC<CityListProps> = ({ 
   cities, 
   onRemoveCity, 
-  onManageSchedule
+  onManageSchedule,
+  onEditCity
 }) => {
 
   const whT = useTranslations("Working Hours");
@@ -97,6 +100,18 @@ const CityList: React.FC<CityListProps> = ({
             <div className="flex gap-2">
               {city.isStoreDelivery ? (
                 <>
+                  {onEditCity && (
+                    <Button
+                      size="sm"
+                      color="primary"
+                      variant="light"
+                      isIconOnly
+                      onPress={() => onEditCity(city)}
+                      className="text-xs dark:text-white"
+                    >
+                      <Icon icon="solar:pen-linear" width={18} />
+                    </Button>
+                  )}
                   <Button
                     size="sm"
                     color="primary"
@@ -121,6 +136,18 @@ const CityList: React.FC<CityListProps> = ({
               <>
                {session?.user?.role === "admin" && (
                   <>
+                    {onEditCity && (
+                      <Button
+                        size="sm"
+                        color="primary"
+                        variant="light"
+                        isIconOnly
+                        onPress={() => onEditCity(city)}
+                        className="text-xs"
+                      >
+                        <Icon icon="solar:pen-linear" width={18} />
+                      </Button>
+                    )}
                     <Button
                       size="sm"
                       color="primary"

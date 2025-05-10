@@ -499,6 +499,7 @@
     "editCurrentStoreName": "",
     "email": "",
     "female": "",
+    "gender": "",
     "male": "",
     "name": "",
     "profile": "",
@@ -845,6 +846,7 @@
     "additionalInfo": "",
     "addressInRange": "",
     "addressPlaceholder": "",
+    "address_not_in_delivery_range": "Votre adresse n'est pas dans la zone de livraison du magasin",
     "city": "",
     "confirm": "",
     "day": "",
@@ -875,7 +877,6 @@
     "pickUp": "Récupérer",
     "pickUpAt": "Récupérer à",
     "please_enter_address_to_check_delivery": "Veuillez entrer votre adresse pour voir si le magasin livre chez vous",
-    "address_not_in_delivery_range": "Votre adresse n'est pas dans la zone de livraison du magasin",
     "scheduleDeliveryTime": "Planifier l'heure de livraison",
     "scheduleOrderTime": "",
     "searchAddress": "",
@@ -1157,6 +1158,13 @@
     "tooManyRequests": "",
     "userIdStoreIdRequired": "",
     "userNotFound": ""
+  },
+  "app/lib/actions/delivery": {
+    "failedReplaceGuestAddress": "",
+    "guestAddressReplacedSuccess": "",
+    "guestIdNotFound": "",
+    "sessionNotRecognized": "",
+    "tooManyRequests": ""
   },
   "app/lib/actions/order": {
     "cannotChangeStatus": "",

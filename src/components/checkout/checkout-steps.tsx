@@ -11,6 +11,7 @@ import { replaceGuestCart } from "@/lib/actions/cart";
 import { useStore } from "@/components/providers/store-provider";
 import showErrorMessage from "@/components/toast/toast-error";
 import { useTranslations } from "next-intl";
+import { replaceGuestAddress } from "@/lib/actions/delivery-actions";
 
 export default function CheckoutSteps({ }: {}) {
     const { session } = useSession();
@@ -28,7 +29,8 @@ export default function CheckoutSteps({ }: {}) {
 
     const handleLogin = async (value: boolean) => {
         const result = await replaceGuestCart(store.id);
-        if (result.success) {
+        const result_address = await replaceGuestAddress();
+        if (result.success && result_address.success) {
             handleNext(2);
         } else {
             showErrorMessage({ error: t("failedToUpdateCart") });

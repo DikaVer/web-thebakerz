@@ -84,7 +84,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
 
     const [stateOTP, submitActionOTP, isPendingOTP] = useActionState(
         async (previousState: any, formData: z.infer<typeof OTPSchema>) => {
-            const state = await verifyEmailAction(previousState, formData);
+            const state = await verifyEmailAction(previousState, formData, storeId);
             if (state.session) {
                 if (!setIsLogin) {
                     router.refresh();

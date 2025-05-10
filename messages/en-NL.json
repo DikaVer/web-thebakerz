@@ -501,6 +501,7 @@
     "editCurrentStoreName": "Edit your current store name",
     "email": "Email",
     "female": "Female",
+    "gender": "Gender",
     "male": "Male",
     "name": "Name",
     "profile": "Profile",
@@ -625,7 +626,7 @@
   "app/(store)/components/checkout-steps": {
     "cartDetails": "Cart Details",
     "cartDetailsStep": "3. Cart Details",
-    "failedToUpdateCart": "Failed to update cart",
+    "failedToUpdateCart": "Failed to update cart or address",
     "pickUpDetails": "Pick Up Details",
     "pickUpDetailsStep": "2. Pick Up Details",
     "signInOrSignUpStep": "1. Sign in or sign up to place order",
@@ -855,6 +856,7 @@
     "additionalInfo": "Additional Info",
     "addressInRange": "Your address is within delivery range",
     "addressPlaceholder": "Address Placeholder",
+    "address_not_in_delivery_range": "Your address is not within the store's delivery range",
     "city": "City",
     "confirm": "Confirm",
     "day": "day",
@@ -885,7 +887,6 @@
     "pickUp": "Pick Up",
     "pickUpAt": "Pick Up at",
     "please_enter_address_to_check_delivery": "Please enter your address to see if the store delivers to you",
-    "address_not_in_delivery_range": "Your address is not within the store's delivery range",
     "scheduleDeliveryTime": "Schedule delivery time",
     "scheduleOrderTime": "Schedule Order Time",
     "searchAddress": "My Address",
@@ -1175,6 +1176,13 @@
     "tooManyRequests": "Too many requests",
     "userIdStoreIdRequired": "User ID and Store ID are required",
     "userNotFound": "User not found!"
+  },
+  "app/lib/actions/delivery": {
+    "failedReplaceGuestAddress": "Failed Address",
+    "guestAddressReplacedSuccess": "Success",
+    "guestIdNotFound": "Guest not Found",
+    "sessionNotRecognized": "Session",
+    "tooManyRequests": "Too many request!"
   },
   "app/lib/actions/order": {
     "cannotChangeStatus": "TheBakerz can only complete this order",

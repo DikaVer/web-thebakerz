@@ -104,7 +104,10 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({sessionData, ch
                 }
             });
             
-           
+            // Wait for all promises to complete
+            const results = await Promise.all(savePromises);
+            
+            
             setSaveOpen(false);
             
             

@@ -5,6 +5,7 @@ import {
     createSession,
     generateSessionToken,
     getCurrentSession,
+    getSessionCookie,
     SessionValidationResult,
     setSessionTokenCookie
 } from "@/lib/actions/session";
@@ -27,6 +28,8 @@ import {TOS_VERSION} from "@/lib/local-variables";
 import {getTranslations} from "next-intl/server";
 import { logger } from "@/lib/logger";
 import {getRequestContext} from "@/lib/request-context";
+import { replaceGuestAddress } from "@/lib/actions/delivery-actions";
+import { replaceGuestCart } from "@/lib/actions/cart";
 
 // Initialize logger for auth module
 const log = logger.child({ module: "auth" });
@@ -154,10 +157,19 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
 /**
  * Verifies the email using the OTP code provided
  */
-export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<typeof OTPSchema>): Promise<ActionLogin> {
+export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<typeof OTPSchema>, storeId?: string): Promise<ActionLogin> {
     const t = await getTranslations("app/(auth)/auth/actions");
     const context = await getRequestContext();
     const clientIP = context.clientIP || undefined;
+
+
+    const sessionGuest = await getSessionCookie();
+    if (sessionGuest) {
+        log.info('verifyEmailAction', 'Session found', { 
+            requestId: context.requestId,
+            clientIP
+        })
+    }
 
     log.info('verifyEmailAction', 'Email verification attempt started', { 
         requestId: context.requestId,
@@ -264,6 +276,18 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
     }
 
     try {
+
+        if (sessionGuest) {
+            log.info('verifyEmailAction', 'Session found', { 
+                requestId: context.requestId,
+                clientIP
+            });
+            if (storeId) {
+                await replaceGuestCart(storeId);
+            }
+            await replaceGuestAddress();
+        }
+        
         // Create session on successful verification
         const sessionToken = generateSessionToken();
         const session = await createSession(sessionToken, user.id);

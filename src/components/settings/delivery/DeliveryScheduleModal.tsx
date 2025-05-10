@@ -48,26 +48,26 @@ const DeliveryScheduleModal: React.FC<DeliveryScheduleModalProps> = ({
   const timeOptions = useMemo(() => {
     const options = [];
     const minutesInDay = 24 * 60;
-    const maxMinutes = 7 * minutesInDay; // 7 days
-
-    for (let minutes = 30; minutes <= maxMinutes; minutes += 30) {
+    
+    // Add options from 30 minutes to 23.5 hours in 30-minute increments
+    for (let minutes = 30; minutes <= 1410; minutes += 30) {
       let label;
       if (minutes < 60) {
         label = `${minutes} ${minTimeT("minutes")}`;
-      } else if (minutes < minutesInDay) {
+      } else {
         const hours = minutes / 60;
         label = `${hours} ${hours === 1 ? minTimeT("hour") : minTimeT("hours")}`;
-      } else {
-        const days = Math.floor(minutes / minutesInDay);
-        const remainingHours = (minutes % minutesInDay) / 60;
-        if (remainingHours === 0) {
-          label = `${days} ${days === 1 ? minTimeT("day") : minTimeT("days")}`;
-        } else {
-          label = `${days} ${days === 1 ? minTimeT("day") : minTimeT("days")} ${remainingHours} ${remainingHours === 1 ? minTimeT("hour") : minTimeT("hours")}`;
-        }
       }
       options.push({ key: minutes.toString(), label });
     }
+    
+    // Add 1 to 30 days options
+    for (let days = 1; days <= 30; days++) {
+      const minutes = days * minutesInDay;
+      const label = `${days} ${days === 1 ? minTimeT("day") : minTimeT("days")}`;
+      options.push({ key: minutes.toString(), label });
+    }
+    
     return options;
   }, [minTimeT]);
 

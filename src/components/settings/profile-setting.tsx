@@ -345,7 +345,7 @@ const ProfileSetting = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>
                         {/* Sex/Gender */}
                         <div className="mt-4">
                             <p className="text-base font-medium text-default-700">
-                                {t("sex") || "Sex"}
+                                {t("gender") || "Gender"}
                             </p>
                             <FormField
                                 control={form.control}

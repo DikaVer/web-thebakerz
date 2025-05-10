@@ -499,6 +499,7 @@
     "editCurrentStoreName": "",
     "email": "Email",
     "female": "",
+    "gender": "",
     "male": "",
     "name": "",
     "profile": "",
@@ -845,6 +846,7 @@
     "additionalInfo": "",
     "addressInRange": "",
     "addressPlaceholder": "",
+    "address_not_in_delivery_range": "Ваш адрес находится вне зоны доставки магазина",
     "city": "",
     "confirm": "",
     "day": "",
@@ -875,7 +877,6 @@
     "pickUp": "Самовывоз",
     "pickUpAt": "Самовывоз в",
     "please_enter_address_to_check_delivery": "Пожалуйста, введите ваш адрес, чтобы узнать, доставляет ли магазин по вашему адресу",
-    "address_not_in_delivery_range": "Ваш адрес находится вне зоны доставки магазина",
     "scheduleDeliveryTime": "Запланировать время доставки",
     "scheduleOrderTime": "",
     "searchAddress": "",
@@ -1157,6 +1158,13 @@
     "tooManyRequests": "",
     "userIdStoreIdRequired": "",
     "userNotFound": ""
+  },
+  "app/lib/actions/delivery": {
+    "failedReplaceGuestAddress": "",
+    "guestAddressReplacedSuccess": "",
+    "guestIdNotFound": "",
+    "sessionNotRecognized": "",
+    "tooManyRequests": ""
   },
   "app/lib/actions/order": {
     "cannotChangeStatus": "",

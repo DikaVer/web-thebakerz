@@ -10,12 +10,13 @@ import { useMediaQuery } from "usehooks-ts";
 import { StoreData } from "@/lib/actions/store";
 import { useStore } from "@/components/providers/store-provider";
 import { useSession } from "@/components/providers/session-provider";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ReturnNavbar } from "./navbars/ReturnNavbar";
 import { DefaultNavbar } from "./navbars/DefaultNavbar";
 import { MobileNavbar } from "./navbars/MobileNavbar";
 import MobileStoreNavbar from "./navbars/MobileStoreNavbar";
+import { MobileSearchNavbar } from "./navbars/MobileSearchNavbar";
 
 interface LayoutProps {
     store?: StoreData;
@@ -65,6 +66,8 @@ export default function NavbarAdvancedComponent({
     const router = useRouter();
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
     const [scrolled, setScrolled] = useState(false);
+    const pathname = usePathname();
+    const isSearch = pathname.includes("/search");
 
     // Track scroll position
     useEffect(() => {
@@ -124,6 +127,11 @@ export default function NavbarAdvancedComponent({
                             {(!(store?.user_id === session?.user?.id) && store) && (
                                 <div className="bg-background rounded-t-xl fixed bottom-0 left-0 right-0 z-50 p-4 shadow-[0_-4px_12px_-1px_rgba(0,0,0,0.1)]">
                                     <MobileNavbar />
+                                </div>
+                            )}
+                            {isSearch && (
+                                <div className="bg-background rounded-t-xl fixed bottom-0 left-0 right-0 z-50 p-4 shadow-[0_-4px_12px_-1px_rgba(0,0,0,0.1)]">
+                                    <MobileSearchNavbar/>
                                 </div>
                             )}
                         </>

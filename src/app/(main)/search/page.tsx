@@ -154,7 +154,7 @@ async function StoreResults({ coords, mode, country }: { coords: Coordinates, mo
                   />
               ))}
               {stores.length === 0 && (
-                  <div className="col-span-full text-center py-10 text-default-600 min-h-svh">
+                  <div className="col-span-full flex flex-col justify-center items-center text-center py-10 text-default-600 min-h-svh">
                       <p className="text-lg font-medium">{t("noStoresFound")}</p> {/* Add translations later if needed */}
                       <p className="text-sm">{t("tryChangingLocationOrDeliveryMode")}</p>
                   </div>

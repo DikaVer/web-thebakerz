@@ -2,6 +2,7 @@ import {calculateTax} from "@/lib/utils";
 const SERVICE_FEE_CENTS = 0; // Example service fee in cents
 const DEFAULT_VAT_RATE = 0.09; // Default VAT rate (e.g., 9% for food in NL)
 const SERVICE_VAT_RATE = 0.21; // Service fee VAT rate (e.g., 21% for non-food in NL)
+const APPLICATION_FEE_RATE = 0.21; // Application fee rate (e.g., 8% for food in NL)
 
 /**
  * Calculates various totals based on item subtotal, tax applicability, and delivery fee.
@@ -49,7 +50,7 @@ export const calculateTotals = (
 };
 
 export const calculateApplicationFee = (totalInclVat: number, isStoreDelivery: boolean, custom_app_fee: number, custom_delivery_fee: number) => {
-    const applicationFeeRate = isStoreDelivery ? custom_app_fee / 100 : custom_delivery_fee / 100; // 8% fee and if store does not deliver then 25%
+    const applicationFeeRate = isStoreDelivery ? (custom_app_fee * (1 + APPLICATION_FEE_RATE)) / 100 : (custom_delivery_fee * (1 + APPLICATION_FEE_RATE)) / 100; // 8% fee and if store does not deliver then 20% including VAT
     const applicationFee = totalInclVat * applicationFeeRate;
     return Math.round(applicationFee);
 };

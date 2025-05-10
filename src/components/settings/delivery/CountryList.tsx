@@ -9,19 +9,22 @@ import { formatTime } from "@/components/settings/delivery/utils";
 import { useSession } from "@/components/providers/session-provider";
 import { CountryDelivery } from "./types";
 import { EU_COUNTRIES_PLUS_SWISS } from "@/lib/local-variables";
+import { Icon } from "@iconify/react";
 
 interface CountryListProps {
   countries: CountryDelivery[];
   onRemoveCountry: (countryCode: string) => void;
   onManageSchedule: (country: CountryDelivery, isCountry: boolean) => void;
   onTogglePostDelivery: (country: CountryDelivery, isPostDelivery: boolean) => void;
+  onEditCountry?: (country: CountryDelivery) => void;
 }
 
 const CountryList: React.FC<CountryListProps> = ({
   countries,
   onRemoveCountry,
   onManageSchedule,
-  onTogglePostDelivery
+  onTogglePostDelivery,
+  onEditCountry
 }) => {
   const whT = useTranslations("Working Hours");
   const t = useTranslations("app/(return_page)/settings/components/delivery-settings");
@@ -92,7 +95,19 @@ const CountryList: React.FC<CountryListProps> = ({
                 <span className="ml-2 text-sm text-gray-500">({country.countryCode})</span>
               </div>
               <div className="flex flex-col gap-2 items-end">
-                <div className="flex gap-2 items-center">    
+                <div className="flex gap-2 items-center">
+                  {onEditCountry && (
+                    <Button
+                      size="sm"
+                      color="primary"
+                      variant="light"
+                      isIconOnly
+                      onPress={() => onEditCountry(country)}
+                      className="text-xs dark:text-white"
+                    >
+                      <Icon icon="solar:pen-linear" width={18} />
+                    </Button>
+                  )}    
                   {country.isStoreDelivery && (
                     <Button
                       size="sm"

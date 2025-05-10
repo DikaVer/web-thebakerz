@@ -294,11 +294,21 @@
 /* Reduced Motion for Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .animate-fadeInUp,
+  .animate-fadeInDown,
   .animate-fadeInUpDelay1,
-  .animate-fadeInDown {
-    animation: none;
-    opacity: 1 !important;
-    transform: none !important;
+  .animate-fadeInUpDelay2,
+  .animate-fadeInUpDelay3,
+  .animate-fadeInUpDelay4,
+  .animate-fadeInUpDelay5 {
+    animation: none !important;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  body {
+    animation: none !important;
   }
 }
 
@@ -308,5 +318,18 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Responsive scaling for larger screens */
+@media screen and (min-width: 1920px) {
+  html.responsive-scaling {
+    font-size: calc(100% + 0.2vw); /* Gradually increase base font size on larger screens */
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  html.responsive-scaling {
+    font-size: calc(100% + 0.4vw); /* Further increase for 4K displays */
   }
 }
