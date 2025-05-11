@@ -77,7 +77,7 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData, isU
                 }
                 </p>
             </div>
-            {isUser && (
+            {!isUser && (
                 <Button
                     startContent={
                         <div className="w-[24px]">
