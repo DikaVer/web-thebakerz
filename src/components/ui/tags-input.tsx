@@ -275,7 +275,7 @@ export const TagsSelectInput: React.FC<TagsInputProps> = ({
                         </div>
                     }
                     classNames={{
-                        mainWrapper: 'items-end',
+                        mainWrapper: 'items-end mt-8',
                         innerWrapper: 'hidden',
                         selectorIcon: 'w-fit flex end-0 gap-1 items-center static text-warning-600 font-medium',
                         trigger: 'rounded-full w-fit text-sm min-h-8 h-8 gap-1',
@@ -355,6 +355,7 @@ export const DietarySelectInput: React.FC<TagsInputProps> = ({
 
             <Select
                 selectionMode="multiple"
+                color={'success'}
                 selectedKeys={selectedKeys}
                 onSelectionChange={handleSelectionChange}
                 placeholder={placeholder}
@@ -366,10 +367,10 @@ export const DietarySelectInput: React.FC<TagsInputProps> = ({
                     </div>
                 }
                 classNames={{
-                    mainWrapper: 'items-end',
+                    mainWrapper: 'items-end mt-8',
                     innerWrapper: 'hidden',
                     selectorIcon: 'w-fit flex end-0 gap-1 items-center static text-success-600 font-medium',
-                    trigger: 'rounded-full w-fit text-sm min-h-8 h-8 gap-1',
+                    trigger: 'rounded-full w-fit text-sm min-h-8 h-8 gap-1 bg-success-50',
                     popoverContent: 'min-w-[200px]',
                 }}
                 isDisabled={isLoading}

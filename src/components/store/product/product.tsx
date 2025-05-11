@@ -70,11 +70,13 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
         
         setIsLoading(true);
         try {
+            console.log("isDelivery", isDelivery);
             // Add item directly to cart without variants
             const result = await updateCart(
                 productData.id, 
                 productData.store_id, 
                 productData.min_order || 1, 
+                isDelivery ? "delivery" : "pickup", 
                 "", 
                 []
             );
@@ -98,7 +100,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                     }
                 }
                 
-                showSuccessMessage({success: t("cartUpdatedSuccess")});
+                // showSuccessMessage({success: t("cartUpdatedSuccess")});
                 result.itemCart && addItem(result.itemCart);
             } else if (result.error) {
                 showErrorMessage({ error: result.error });

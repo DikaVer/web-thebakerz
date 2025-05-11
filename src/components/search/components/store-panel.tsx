@@ -16,9 +16,10 @@ import { useMediaQuery } from 'usehooks-ts';
 interface StorePanelProps {
     store: NearbyStore;
     deliveryMode: 'pickup' | 'delivery';
+    isUserCord: boolean;
 }
 
-export function StorePanel({ store, deliveryMode }: StorePanelProps) {
+export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps) {
     const wH = useTranslations("app/(store)/components/working-hours");
     const t = useTranslations("search.components.storePanel");
     const [isManualOpen, setIsManualOpen] = React.useState(false);
@@ -211,7 +212,7 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                     </CardBody>
                     <CardFooter className="text-sm flex-col !items-start p-4 gap-1.5">
                         <div className="flex justify-between items-start w-full">
-                            <h4 className="font-bold text-large truncate mr-2">{store?.ownerName || store?.storeName}</h4>
+                            <h4 className="font-bold text-2xl truncate mr-2">{store?.ownerName || store?.storeName}</h4>
                             {deliveryMode === 'pickup' ? (
                                 <Chip 
                                     size="sm" 
@@ -221,23 +222,29 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                                     {isStoreOpen ? t('open') : t('closed')}
                                 </Chip>
                             ) : (
-                                <Chip 
-                                    size="sm" 
-                                    color={isDeliveryAvailable ? "success" : "danger"}
-                                    variant="flat"
-                                >
-                                    {isDeliveryAvailable ? t('deliveryAvailable') : t('deliveryUnavailable')}
-                                </Chip>
+                                isUserCord && (
+                                    <Chip 
+                                        size="sm" 
+                                        color={isDeliveryAvailable ? "success" : "danger"}
+                                        variant="flat"
+                                    >
+                                        {isDeliveryAvailable ? t('deliveryAvailable') : t('deliveryUnavailable')}
+                                    </Chip>
+                                )
                             )}
                         </div>
                         
                         <p className="text-default-600 text-xs line-clamp-2">{store?.slug || 'Artisanal baked goods'}</p>
                         
-                        <div className="flex flex-col flex-wrap items-start gap-y-1 gap-x-2 text-default-500 text-xs mt-1 w-full">
+                        <div className="flex flex-col flex-wrap items-start gap-y-1 gap-x-2 font-light text-xs mt-1 w-full">
                             <div className="flex w-full items-end justify-between gap-1">
                                 <div className="flex gap-1 items-center">
-                                    <Icon icon="solar:routing-3-linear" width={14} className="flex-shrink-0" />
-                                    <span>{distanceString}</span>
+                                    {isUserCord && (
+                                        <>
+                                            <Icon icon="solar:routing-3-linear" width={14} className="flex-shrink-0" />
+                                            <span>{distanceString}</span>
+                                        </>
+                                    )}
                                 </div>
                                 <div onClick={(e) => {
                                     if (isMobile) {
@@ -255,7 +262,7 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                                         <PopoverTrigger>
                                             <div 
                                                 ref={triggerRef}
-                                                className={`flex items-center justify-between border-1 gap-2 p-1 px-2 rounded-full hover:bg-default-100 cursor-pointer ${examppleStore.includes(store.id) && "hidden"}`}
+                                                className={`flex ${(deliveryMode === 'delivery' && !isUserCord) && 'hidden'} items-center justify-between border-1 gap-2 p-1 px-2 rounded-full hover:bg-default-100 cursor-pointer ${examppleStore.includes(store.id) && "hidden"}`}
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     e.stopPropagation();
@@ -305,7 +312,7 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                                                         e.preventDefault();
                                                     }}
                                                 >
-                                                    {isMobile && (
+                                                    {/* {isMobile && (
                                                         <div className="flex justify-end mb-2">
                                                             <Button
                                                                 isIconOnly
@@ -317,8 +324,8 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                                                                 <Icon icon="solar:close-circle-bold" width={20} height={20} />
                                                             </Button>
                                                         </div>
-                                                    )}
-                                                    {deliveryMode === 'delivery' && store.deliveryRegion && store.deliveryRegion.deliverySchedule 
+                                                    )} */}
+                                                    {deliveryMode === 'delivery' && store.deliveryRegion && store.deliveryRegion.deliverySchedule
                                                         ? renderScheduleDisplay(store.deliveryRegion.deliverySchedule, wH)
                                                         : renderScheduleDisplay(store.schedule, wH)}
                                                 </div>
@@ -337,12 +344,15 @@ export function StorePanel({ store, deliveryMode }: StorePanelProps) {
                             </div>
                             
                             <div className="flex items-center gap-1 flex-1">
-                                {deliveryMode === 'delivery' ? (
-                                    <Icon icon="solar:delivery-linear" width={14} className="flex-shrink-0" />
+                                {(deliveryMode === 'delivery' && isUserCord) ? (
+                                    <>
+                                        <Icon icon="solar:delivery-linear" width={14} className="flex-shrink-0" />
+                                        <span className="truncate">{deliveryInfo}</span>
+                                    </>
                                 ) : (
                                     <></>
                                 )}
-                                <span className="truncate">{deliveryInfo}</span>
+
                             </div>
                             {(deliveryMode === 'pickup' ? store.minTimeOrder : store.deliveryRegion?.minOrderTime) && (
                                 <div className="flex items-center gap-1 flex-1">

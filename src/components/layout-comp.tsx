@@ -73,7 +73,7 @@ export default function LayoutComp({ children, store, hideSideBar, pay, isVisibl
                 />
                 <main className={`flex-1 w-full overflow-visible ${isMobile ? 'pb-24' : ''}`}>
                     {children}
-                    <Spacer y={36}/>
+                    <Spacer y={20}/>
                 </main>
             </div>
         </div>

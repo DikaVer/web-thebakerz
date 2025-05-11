@@ -20,6 +20,7 @@ export function DeleteConfirmationModal({ isOpen, isLoadingDelete, onClose, onCo
             isDismissable={!isLoadingDelete}
             backdrop="blur"
             isOpen={isOpen}
+            placement="center"
             size="sm"
             hideCloseButton={isLoadingDelete}
             onClose={onClose}
@@ -42,7 +43,7 @@ export function DeleteConfirmationModal({ isOpen, isLoadingDelete, onClose, onCo
                             <p>{t("deleteProductWarning")}</p>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" isDisabled={isLoadingDelete} onPress={() => onCloseModal()}>
+                            <Button className="bg-gradient-primary" color="primary" isDisabled={isLoadingDelete} onPress={() => onCloseModal()}>
                                 {t("close")}
                             </Button>
                             <Button color="danger" isLoading={isLoadingDelete} variant="light" onPress={onConfirm}>

@@ -68,7 +68,7 @@ export default function DeliveryInfo({
 
         <div className="p-4">
           <div className={cn("grid gap-4 mb-3", isCheckout ? "grid-cols-2" : "grid-cols-2 md:grid-cols-4")}>
-            <div className="flex flex-col gap-1 p-3 rounded-lg bg-default-50 dark:bg-default-100">
+            <div className="flex flex-col gap-1 p-3 rounded-lg bg-background">
               <div className="flex items-center gap-2 mb-1 h-10">
                 <Icon icon="solar:dollar-minimalistic-linear" className="h-4 w-4 text-success" />
                 <span className="text-xs text-default-600">{t("deliveryFee")}</span>
@@ -78,7 +78,7 @@ export default function DeliveryInfo({
               </Skeleton>
             </div>
             
-            <div className="flex flex-col gap-1 p-3 rounded-lg bg-default-50 dark:bg-default-100">
+            <div className="flex flex-col gap-1 p-3 rounded-lg bg-background">
               <div className="flex items-center gap-2 mb-1 h-10">
                 <Icon icon="solar:cart-large-minimalistic-linear" className="h-4 w-4 text-primary" />
                 <span className="text-xs text-default-600">{t("minimumOrder")}</span>
@@ -89,35 +89,31 @@ export default function DeliveryInfo({
             </div>
 
              {/* Buyer Protection */}
-             <div className="flex flex-col gap-2 p-3 rounded-lg bg-default-50 dark:bg-default-100">
-              <div className="flex items-start gap-2">
-                <div className="p-1 rounded-full">
-                  <Icon icon="solar:shield-check-linear" className="h-5 w-5 text-foreground" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold">Buyer protection</h4>
-                  <p className="text-xs text-default-600 mt-1">
-                    If the actual item doesn't match the listed composition, 
-                    you can return it or get a refund.
-                  </p>
-                </div>
+             <div className="flex flex-col gap-1 p-3 rounded-lg bg-background">
+              <div className="flex items-center gap-2 mb-1 h-10">
+                <Icon icon="solar:shield-check-linear" className="h-5 w-5 text-foreground" />
+                <span className="text-sm font-semibold">Buyer protection</span>
               </div>
+              <Skeleton isLoaded={!isLoading} className="rounded-full">
+                <span className="text-sm text-default-600">
+                  If the actual item doesn't match the listed composition, 
+                  you can return it or get a refund.
+                </span>
+              </Skeleton>
             </div>
 
              {/* Cancellation Rules */}
-             <div className="flex flex-col gap-2 p-3 rounded-lg bg-default-50 dark:bg-default-100">
-              <div className="flex items-start gap-2">
-                <div className="p-1">
-                  <Icon icon="solar:close-circle-linear" className="h-5 w-5 text-foreground" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold">Cancellation rules</h4>
-                  <p className="text-xs text-default-600 mt-1">
-                    You can cancel the order before preparation, the 
-                    money will be fully refunded to you.
-                  </p>
-                </div>
+             <div className="flex flex-col gap-1 p-3 rounded-lg bg-background">
+              <div className="flex items-center gap-2 mb-1 h-10">
+                <Icon icon="solar:close-circle-linear" className="h-5 w-5 text-foreground" />
+                <span className="text-sm font-semibold">Cancellation rules</span>
               </div>
+              <Skeleton isLoaded={!isLoading} className="rounded-full">
+                <span className="text-sm text-default-600">
+                  You can cancel the order before preparation, the 
+                  money will be fully refunded to you.
+                </span>
+              </Skeleton>
             </div>
           </div>
 

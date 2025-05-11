@@ -64,7 +64,7 @@ export function Providers({session, children, locale}: {
             navigate={router.push}
 
         >
-            <NextThemesProvider attribute="class" defaultTheme='light'>
+            <NextThemesProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem={false}>
                 <QueryClientProvider client={queryClient}>
                     <SessionProvider sessionData={session}>
                         <div className={'relative z-60'}>

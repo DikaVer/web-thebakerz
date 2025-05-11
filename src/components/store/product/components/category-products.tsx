@@ -1,17 +1,11 @@
 'use client';
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useRef, useEffect} from 'react';
 import { Spacer, Divider } from '@heroui/react';
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-    SliderDotButton,
-} from '@/components/ui/carousel';
 import { ProductBase } from '@/components/store/product/product';
 import { ProductData } from '@/lib/actions/product';
 import GradientText from "@/components/ui/gradient-text";
+import { useStore } from '@/components/providers/store-provider';
+import { useSession } from '@/components/providers/session-provider';
 
 interface CategoryProductsProps {
     category: string;
@@ -27,6 +21,8 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
 
     const constIds: Record<string, boolean> = {};
     const topRef = useRef<HTMLDivElement>(null);
+    const { store } = useStore();
+    const { session } = useSession();
     
     // Use the top element as the category reference
     useEffect(() => {
@@ -64,7 +60,7 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
                     constIds[product.constId] = true;
 
                     return (
-                        <div key={product.constId} className={'m-1'}>
+                        <div key={product.constId} className={`m-1 ${(store?.user_id === session?.user?.id && product.hide_product) ? "opacity-50" : product.hide_product && "hidden"}`}>
                             <ProductBase productData={product}/>
                         </div>
                     );

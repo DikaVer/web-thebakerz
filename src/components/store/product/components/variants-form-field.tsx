@@ -37,16 +37,12 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
             options: [{ label: "", price: 0 }]
         };
         form.setValue("variants", [...currentVariants, newVariant]);
-
-        // Expand the newly added variant
         setExpandedVariants([...expandedVariants, currentVariants.length]);
     };
 
     const removeVariant = (index: number) => {
         const currentVariants = form.getValues("variants") || [];
         form.setValue("variants", currentVariants.filter((_: any, i: number) => i !== index));
-
-        // Update expanded variants after removal
         setExpandedVariants(expandedVariants
             .filter(i => i !== index)
             .map(i => i > index ? i - 1 : i));
@@ -55,13 +51,11 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
     const addOption = (variantIndex: number) => {
         const currentVariants = form.getValues("variants") || [];
         if (!currentVariants[variantIndex]) return;
-
         const currentOptions = currentVariants[variantIndex].options || [];
         const updatedVariant = {
             ...currentVariants[variantIndex],
             options: [...currentOptions, { label: "", price: 0 }]
         };
-
         const updatedVariants = [...currentVariants];
         updatedVariants[variantIndex] = updatedVariant;
         form.setValue("variants", updatedVariants);
@@ -70,15 +64,12 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
     const removeOption = (variantIndex: number, optionIndex: number) => {
         const currentVariants = form.getValues("variants") || [];
         if (!currentVariants[variantIndex]) return;
-
         const currentOptions = currentVariants[variantIndex].options || [];
         const updatedOptions = currentOptions.filter((_: any, i: number) => i !== optionIndex);
-
         const updatedVariant = {
             ...currentVariants[variantIndex],
             options: updatedOptions
         };
-
         const updatedVariants = [...currentVariants];
         updatedVariants[variantIndex] = updatedVariant;
         form.setValue("variants", updatedVariants);
@@ -98,36 +89,33 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
     ];
 
     return (
-        <FormField
-            control={form.control}
-            name="variants"
-            render={({ field, fieldState }) => (
-                <FormItem>
-                    <FormControl>
-                        <div className="space-y-4">
-                            {fieldState.error && (
-                                <p className="text-danger-500 text-lg mt-1">{fieldState.error.message}</p>
-                            )}
-                            <AnimatePresence>
+        <div>
+            <FormField
+                control={form.control}
+                name="variants"
+                render={({ field, fieldState }) => (
+                    <FormItem>
+                        <FormControl>
+                            <div className="space-y-6">
+                                {fieldState.error && (
+                                    <p className="text-danger-500 text-lg mt-1">{fieldState.error.message}</p>
+                                )}
+                                {/* Option Groups */}
                                 {(Array.isArray(field.value) ? field.value : []).map((variant: { label: string; isSingle: boolean; required: boolean; options: any[]; maxSelections?: number; minSelections?: number }, variantIndex: number) => (
                                     <motion.div
                                         key={variantIndex}
-                                        className="border-default-200 box-border border-b-medium shadow-[0_1px_0px_0_rgba(0,0,0,0.05)] hover:border-default-300 py-3 overflow-hidden"
-                                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                                        className="border border-default-200 rounded-lg bg-default-100/50 mb-6 bg-white"
+                                        initial={{ opacity: 0, y: -10, scale: 0.97 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                                        transition={{
-                                            type: "spring",
-                                            damping: 15,
-                                            stiffness: 200
-                                        }}
+                                        exit={{ opacity: 0, y: -10, scale: 0.97 }}
+                                        transition={{ type: "spring", damping: 15, stiffness: 200 }}
                                         layout
                                     >
-                                        <div
-                                            className="flex justify-between items-center cursor-pointer"
-                                            onClick={() => toggleVariantExpand(variantIndex)}
-                                        >
-                                            <h3 className="font-medium">{variant.label || t("newOption")}</h3>
+                                        <div className="flex justify-between items-center px-4 py-3 cursor-pointer border-b border-default-200 rounded-t-lg bg-default-100/80">
+                                            <div>
+                                                <h3 className="font-extrabold text-lg">{variant.label || t("newOption")}</h3>
+                                                
+                                            </div>
                                             <div className="flex space-x-2">
                                                 <motion.div
                                                     initial={false}
@@ -143,80 +131,51 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                         }}
                                                         isDisabled={isPending}
                                                     >
-                                                        <Icon
-                                                            icon="mdi:chevron-down"
-                                                            width={20}
-                                                        />
+                                                        <Icon icon="mdi:chevron-down" width={20} />
                                                     </Button>
                                                 </motion.div>
-                                                {variantIndex >= 0 && (
-                                                    <Button
-                                                        isIconOnly
-                                                        size="sm"
-                                                        color="danger"
-                                                        variant="light"
-                                                        onPress={(e) => {
-                                                            removeVariant(variantIndex);
-                                                        }}
-                                                        isDisabled={isPending}
-                                                    >
-                                                        <Icon icon="mdi:close" width={20} />
-                                                    </Button>
-                                                )}
+                                                <Button
+                                                    isIconOnly
+                                                    size="sm"
+                                                    color="danger"
+                                                    variant="light"
+                                                    onPress={() => removeVariant(variantIndex)}
+                                                    isDisabled={isPending}
+                                                >
+                                                    <Icon icon="mdi:close" width={20} />
+                                                </Button>
                                             </div>
                                         </div>
-
                                         <AnimatePresence>
                                             {expandedVariants.includes(variantIndex) && (
-                                                <div
-                                                    className="mt-3 space-y-3"
-                                                    // initial={{ opacity: 0, height: 0 }}
-                                                    // animate={{
-                                                    //     opacity: 1,
-                                                    //     height: "auto",
-                                                    //     transition: {
-                                                    //         height: {
-                                                    //             type: "spring",
-                                                    //             stiffness: 300,
-                                                    //             damping: 30
-                                                    //         },
-                                                    //         opacity: { duration: 0.2 }
-                                                    //     }
-                                                    // }}
-                                                    // exit={{
-                                                    //     opacity: 0,
-                                                    //     height: 0,
-                                                    //     transition: {
-                                                    //         height: { duration: 0.3 },
-                                                    //         opacity: { duration: 0.2 }
-                                                    //     }
-                                                    // }}
-                                                >
-                                                    {/* Variant Label */}
-                                                    <Input
-                                                        label={t("optionGroupName")}
-                                                        placeholder={t("placeholder")}
-                                                        value={variant.label}
-                                                        onChange={(e) => {
-                                                            //@ts-ignore
-                                                            const updatedVariants = [...field.value];
-                                                            updatedVariants[variantIndex].label = e.target.value;
-                                                            field.onChange(updatedVariants);
-                                                        }}
-                                                        isRequired
-                                                        validate={()=> {
-                                                            //@ts-ignore
-                                                            if(fieldState?.error && fieldState.error[variantIndex] !== undefined) {
+                                                <div className="p-4 space-y-4">
+                                                    {/* Option Group Name */}
+                                                    <div>
+                                                        <Input
+                                                            label={t("optionGroupName")}
+                                                            placeholder={t("placeholder")}
+                                                            value={variant.label}
+                                                            onChange={(e) => {
                                                                 //@ts-ignore
-                                                                return fieldState?.error[variantIndex].label?.message
-                                                            }
-                                                        }}
-                                                        variant={'underlined'}
-                                                        isDisabled={isPending}
-                                                    />
-
+                                                                const updatedVariants = [...field.value];
+                                                                updatedVariants[variantIndex].label = e.target.value;
+                                                                field.onChange(updatedVariants);
+                                                            }}
+                                                            isRequired
+                                                            validate={()=> {
+                                                                //@ts-ignore
+                                                                if(fieldState?.error && fieldState.error[variantIndex] !== undefined) {
+                                                                    //@ts-ignore
+                                                                    return fieldState?.error[variantIndex].label?.message
+                                                                }
+                                                            }}
+                                                            variant={'underlined'}
+                                                            isDisabled={isPending}
+                                                        />
+                                                        <p className="text-xs text-default-400 mt-1">{t("optionGroupNameHelp")}</p>
+                                                    </div>
                                                     {/* Variant Configuration */}
-                                                    <div className="flex flex-wrap items-center gap-4">
+                                                    <div className="flex flex-wrap items-center gap-6 bg-default-50 rounded-md p-3">
                                                         <div className="flex items-center space-x-2">
                                                             <Switch
                                                                 isSelected={!variant.isSingle}
@@ -229,11 +188,11 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                 size="sm"
                                                                 isDisabled={isPending}
                                                             />
-                                                            <span className="text-sm">
+                                                            <span className="text-sm font-medium">
                                                                 {variant.isSingle ? t("singleChoice") : t("multipleChoices")}
                                                             </span>
+                                                            <span className="text-xs text-default-400 ml-2">{variant.isSingle ? t("singleChoiceHelp") : t("multipleChoicesHelp")}</span>
                                                         </div>
-
                                                         <div className="flex items-center space-x-2">
                                                             <Switch
                                                                 isSelected={variant.required}
@@ -245,16 +204,15 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                 size="sm"
                                                                 isDisabled={isPending}
                                                             />
-                                                            <span className="text-sm">{t("required")}</span>
+                                                            <span className="text-sm font-medium">{t("required")}</span>
+                                                            <span className="text-xs text-default-400 ml-2">{t("requiredHelp")}</span>
                                                         </div>
-                                                        
                                                         {(!variant.isSingle && variant.required) && (
                                                             <Select
                                                                 label={t("minSelections")}
                                                                 className="max-w-xs"
                                                                 size="sm"
                                                                 variant={'underlined'}
-                                                                // defaultSelectedKeys={["cat"]}
                                                                 selectedKeys={[`${variant.minSelections}`]}
                                                                 onChange={(e) => {
                                                                     //@ts-ignore
@@ -276,14 +234,12 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                 ))}
                                                             </Select>
                                                         )}
-
                                                         {!variant.isSingle && (
                                                             <Select
                                                                 label={t("maxSelections")}
                                                                 className="max-w-xs"
                                                                 size="sm"
                                                                 variant={'underlined'}
-                                                                // defaultSelectedKeys={["cat"]}
                                                                 selectedKeys={[`${variant.maxSelections}`]}
                                                                 onChange={(e) => {
                                                                     //@ts-ignore
@@ -306,16 +262,15 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                             </Select>
                                                         )}
                                                     </div>
-
                                                     {/* Options */}
                                                     <div className="space-y-2 mt-4 pr-2">
-                                                        <h4 className="text-sm font-medium">{t("options")}</h4>
-
+                                                        <h4 className="text-sm font-medium mb-1">{t("options")}</h4>
+                                                        <p className="text-xs text-default-400 mb-2">{t("optionsHelp")}</p>
                                                         <AnimatePresence>
                                                             {variant.options.map((option: { label: string; price: number }, optionIndex: number) => (
                                                                 <motion.div
                                                                     key={optionIndex}
-                                                                    className="flex items-center"
+                                                                    className="flex items-center gap-2 bg-white border border-default-200 rounded-md p-2 mb-2"
                                                                     initial={{ opacity: 0, y: -10 }}
                                                                     animate={{ opacity: 1, y: 0 }}
                                                                     exit={{ opacity: 0, y: 10, transition: { duration: 0.2 } }}
@@ -345,10 +300,9 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                         size="sm"
                                                                         isDisabled={isPending}
                                                                     />
-
                                                                     <NumberInput
                                                                         placeholder="0.00"
-                                                                        value={option.price} // Convert from cents back to display value
+                                                                        value={option.price}
                                                                         onChange={(val) => {
                                                                             const updatedVariants = [...field.value];
                                                                             const price = typeof val === 'number' ? val : parseFloat(val.target.value);
@@ -372,7 +326,6 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                         className="w-24"
                                                                         isDisabled={isPending}
                                                                     />
-
                                                                     {optionIndex > 0 && (
                                                                         <motion.div
                                                                             whileHover={{ scale: 1.1 }}
@@ -393,7 +346,6 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                 </motion.div>
                                                             ))}
                                                         </AnimatePresence>
-
                                                         <motion.div
                                                             whileHover={{ scale: 1.02 }}
                                                             whileTap={{ scale: 0.98 }}
@@ -415,31 +367,29 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                         </AnimatePresence>
                                     </motion.div>
                                 ))}
-                            </AnimatePresence>
-
-                            <div className="flex justify-end">
-                                <motion.div
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    <Button
-                                        variant="flat"
-                                        color="primary"
-                                        onPress={addVariant}
-                                        className="text-black dark:text-white"
-                                        isDisabled={isPending}
-                                        endContent={<Icon icon="material-symbols:add-rounded" width={24}/>}
+                                {/* Add Option Group Button */}
+                                <div className="flex justify-end">
+                                    <motion.div
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
                                     >
-                                        {t("addOptionGroup")}
-                                    </Button>
-                                </motion.div>
+                                        <Button
+                                            variant="flat"
+                                            color="primary"
+                                            onPress={addVariant}
+                                            className="text-black dark:text-white"
+                                            isDisabled={isPending}
+                                            endContent={<Icon icon="material-symbols:add-rounded" width={24}/>}>
+                                            {t("addOptionGroup")}
+                                        </Button>
+                                    </motion.div>
+                                </div>
                             </div>
-                        </div>
-                    </FormControl>
-
-                </FormItem>
-            )}
-        />
+                        </FormControl>
+                    </FormItem>
+                )}
+            />
+        </div>
     );
 };
 

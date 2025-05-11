@@ -83,7 +83,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
         setIsLoading(true);
         try {
             // Call our server action to add the item to cart
-            const result = await updateCart(product.id, product.store_id, quantity, note, variants);
+            const result = await updateCart(product.id, product.store_id, quantity, isDelivery ? "delivery" : "pickup", note, variants);
             if (result.success) {
                 const dateTime = isDelivery ? 
                     await getDeliveryTime(product.store_id, validationResult?.deliveryRegion?.name || "") : 
@@ -103,7 +103,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                     }
                 }
                 
-                showSuccessMessage({success: t("cartUpdatedSuccess")});
+                // showSuccessMessage({success: t("cartUpdatedSuccess")});
                 result.itemCart && addItem(result.itemCart);
             } else if (result.error) {
                 showErrorMessage({ error: result.error });

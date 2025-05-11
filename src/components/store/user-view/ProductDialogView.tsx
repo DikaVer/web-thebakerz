@@ -141,7 +141,7 @@ export default function ProductDialogView({
         try {
             if (!itemCart) {
                 // Call our server action to update (or add) the cart item.
-                const result = await updateCart(productData.id, productData.store_id, quantity, note, variants);
+                const result = await updateCart(productData.id, productData.store_id, quantity, isDelivery ? "delivery" : "pickup", note, variants);
                 if (result.success) {
                     const dateTime = isDelivery ? 
                         await getDeliveryTime(productData.store_id, validationResult?.deliveryRegion?.name || "") : 
@@ -159,7 +159,7 @@ export default function ProductDialogView({
                             setSelectedDate(undefined);
                         }
                     }
-                    showSuccessMessage({success: t("cartUpdatedSuccess")});
+                    // showSuccessMessage({success: t("cartUpdatedSuccess")});
                     result.itemCart && addItem(result.itemCart);
                     onClose();
                 } else if (result.error) {

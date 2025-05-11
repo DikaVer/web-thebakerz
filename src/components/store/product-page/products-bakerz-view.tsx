@@ -33,6 +33,9 @@ import {VariantsFormField} from "@/components/store/product/components/variants-
 import {DeleteConfirmationModal} from "@/components/store/product/components/delete-confirmation";
 import {ImageUploadSection} from "@/components/store/product/components/image-upload-section";
 import {MinLeadTime} from "@/components/store/product/components/min-lead-time";
+import { DescriptionTitleSection, ProductTitleSection, IngredientsTitleSection, AllergiesTitleSection, DietaryTitleSection, VariantsTitleSection, VariantsInstructionSection } from "@/components/store/product/components/product-title-section";
+import { DescriptionHelpModal, VariantsHelpModal } from "@/components/store/product/components/product-help-modal";
+import SwitchCell from "@/components/ui/switch-cell";
 
 type ProductViewProps = {
     storeId: string;
@@ -54,6 +57,8 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(null);
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+    const [showDescriptionHelp, setShowDescriptionHelp] = useState(false);
+    const [showVariantsHelp, setShowVariantsHelp] = useState(false);
 
     // Form setup with zod validation
     const form = useForm<z.infer<typeof ProductSchema>>({
@@ -79,6 +84,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
             })),
             min_order: productData?.min_order || 1,
             min_lead_time: productData?.min_lead_time || 30,
+            hide_product: productData?.hide_product ?? false,
         },
     });
 
@@ -271,7 +277,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
     }, [additionalImages, fileAdditional, form]);
 
     return (
-        <Card shadow="none"
+        <div
             className={'w-full max-w-full md:max-w-3xl pt-4'}
         >
             <ImageUploader
@@ -290,7 +296,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-y-1">
-                    <CardBody className={`px-0 ${picture ? "" : "pt-0"}`}>
+                    <div className={`px-0 ${picture ? "" : "pt-0"}`}>
                         <div className="md:flex w-full space-x-0">
                             <FormField
                                 control={form.control}
@@ -343,220 +349,271 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                     </FormItem>
                                 )}
                             />
-                            <div className="flex flex-col px-4 my-4">
-                                <div className="flex flex-row">
+                            <div className="flex flex-col my-4">
+                                
+                                <ProductTitleSection isPending={isPending} />
+                                <div className="flex flex-col bg-white rounded-lg p-4">
+                                    <div className="flex flex-row">
+                                        <FormField
+                                            control={form.control}
+                                            name="name"
+                                            render={({ field, fieldState }) => (
+                                                <FormItem className="w-2/3">
+                                                    <FormControl>
+                                                        <Input
+                                                            {...field}
+                                                            isDisabled={isPending}
+                                                            variant="underlined"
+                                                            placeholder={t("Item Name")}
+                                                            classNames={{ input: "text-xl sm:text-2xl truncate font-medium" }}
+                                                            validate={() => fieldState.error?.message}
+                                                        />
+                                                    </FormControl>
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="price"
+                                            render={({ field, fieldState }) => (
+                                                <FormItem className="w-1/3">
+                                                    <FormControl>
+                                                        <NumberInput
+                                                            {...field}
+                                                            isRequired
+                                                            isDisabled={isPending}
+                                                            placeholder="0.00"
+                                                            variant="underlined"
+                                                            classNames={{
+                                                                input: "text-lg cm:text-xl font-light",
+                                                                inputWrapper: "h-8",
+                                                            }}
+                                                            startContent={
+                                                                <div className="pointer-events-none flex items-center">
+                                                                    <span className="text-default-400 text-3xl">€</span>
+                                                                </div>
+                                                            }
+                                                            validate={() => fieldState.error?.message}
+                                                            onChange={(value) => {
+                                                                if (typeof value === "number") {
+                                                                    field.onChange(value);
+                                                                } else {
+                                                                    field.onChange(parseFloat(value.target.value));
+                                                                }
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                    <Spacer y={8} />
                                     <FormField
                                         control={form.control}
-                                        name="name"
+                                        name="category"
                                         render={({ field, fieldState }) => (
-                                            <FormItem className="w-2/3">
+                                            <FormItem className="flex w-full justify-end">
                                                 <FormControl>
-                                                    <Input
+                                                    <Select
                                                         {...field}
                                                         isDisabled={isPending}
+                                                        placeholder={t("Select Category")}
                                                         variant="underlined"
-                                                        placeholder={t("Item Name")}
-                                                        classNames={{ input: "text-xl sm:text-2xl truncate font-medium" }}
+                                                        className="w-1/2"
                                                         validate={() => fieldState.error?.message}
-                                                    />
+                                                        defaultSelectedKeys={[field.value]}
+                                                    >
+                                                        {Object.keys(categories).map((key) => (
+                                                            <SelectItem key={key}>{key}</SelectItem>
+                                                        ))}
+                                                    </Select>
                                                 </FormControl>
                                             </FormItem>
                                         )}
                                     />
+                                </div>
+                                <Spacer y={8} />
+                                <DescriptionTitleSection/>
+                                <div className="flex flex-col bg-white rounded-lg p-4">
                                     <FormField
                                         control={form.control}
-                                        name="price"
+                                        name="description"
                                         render={({ field, fieldState }) => (
-                                            <FormItem className="w-1/3">
+                                            <FormItem>
                                                 <FormControl>
-                                                    <NumberInput
+                                                    <Textarea
                                                         {...field}
-                                                        isRequired
                                                         isDisabled={isPending}
-                                                        placeholder="0.00"
+                                                        value={field.value ?? ""}
+                                                        placeholder={t("Add Description Placeholder")}
                                                         variant="underlined"
-                                                        classNames={{
-                                                            input: "text-lg cm:text-xl font-light",
-                                                            inputWrapper: "h-8",
-                                                        }}
-                                                        startContent={
-                                                            <div className="pointer-events-none flex items-center">
-                                                                <span className="text-default-400 text-3xl">€</span>
-                                                            </div>
-                                                        }
+                                                        style={{ resize: "none", whiteSpace: "pre-wrap" }}
+                                                        className="text-default-400 whitespace-pre-wrap"
+                                                        classNames={{ input: "min-h-[40px] text-base text-default-400 whitespace-pre-wrap" }}
                                                         validate={() => fieldState.error?.message}
-                                                        onChange={(value) => {
-                                                            if (typeof value === "number") {
-                                                                field.onChange(value);
-                                                            } else {
-                                                                field.onChange(parseFloat(value.target.value));
-                                                            }
-                                                        }}
                                                     />
                                                 </FormControl>
                                             </FormItem>
                                         )}
                                     />
                                 </div>
-                                <Spacer y={2} />
-                                <FormField
-                                    control={form.control}
-                                    name="description"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <Textarea
-                                                    {...field}
-                                                    isDisabled={isPending}
-                                                    value={field.value ?? ""}
-                                                    placeholder={t("Add Description Placeholder")}
-                                                    variant="underlined"
-                                                    style={{ resize: "none", whiteSpace: "pre-wrap" }}
-                                                    className="text-default-400 whitespace-pre-wrap"
-                                                    classNames={{ input: "min-h-[40px] text-base text-default-400 whitespace-pre-wrap" }}
-                                                    validate={() => fieldState.error?.message}
-                                                />
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-                                <Spacer y={2} />
-                                <FormField
-                                    control={form.control}
-                                    name="category"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem className="flex w-full justify-end">
-                                            <FormControl>
-                                                <Select
-                                                    {...field}
-                                                    isDisabled={isPending}
-                                                    placeholder={t("Select Category")}
-                                                    variant="underlined"
-                                                    className="w-1/2"
-                                                    validate={() => fieldState.error?.message}
-                                                    defaultSelectedKeys={[field.value]}
-                                                >
-                                                    {Object.keys(categories).map((key) => (
-                                                        <SelectItem key={key}>{key}</SelectItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="ingredients"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <TagsInput
-                                                    isLoading={isPending}
-                                                    tags={field.value || []}
-                                                    setTags={(newTags) => field.onChange(newTags)}
-                                                    placeholder={t("Add Ingredients Placeholder")}
-                                                />
-                                            </FormControl>
-                                            {fieldState.error && <p className="text-danger-400 text-sm">{fieldState.error.message}</p>}
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="allergies"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <TagsSelectInput
-                                                    isLoading={isPending}
-                                                    tags={field.value || []}
-                                                    setTags={(newTags) => field.onChange(newTags)}
-                                                    type="warning"
-                                                    placeholder={t("Add Allergies Placeholder")}
-                                                />
-                                            </FormControl>
-                                            {fieldState.error && <p className="text-danger-400 text-sm">{fieldState.error.message}</p>}
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="dietary"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <DietarySelectInput
-                                                    isLoading={isPending}
-                                                    tags={field.value || []}
-                                                    setTags={(newTags) => field.onChange(newTags)}
-                                                    placeholder={t("Add Dietary Restrictions")}
-                                                />
-                                            </FormControl>
-                                            {fieldState.error && <p className="text-danger-400 text-sm">{fieldState.error.message}</p>}
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <Spacer y={4} />
-                                <h3 className="text-lg font-medium mb-2">{t("Item Options")}</h3>
-                                <VariantsFormField
-                                    form={form}
-                                    isPending={isPending}
-                                />
-
-                                <Spacer y={4} />
-                                <div className="flex w-full justify-between">
-                                    <h3 className="text-lg font-medium">{t("Minimal Order")}</h3>
+                                <Spacer y={8} />
+                                <IngredientsTitleSection />
+                                <div className="flex flex-col bg-white rounded-lg p-4">
                                     <FormField
                                         control={form.control}
-                                        name="min_order"
+                                        name="ingredients"
                                         render={({ field, fieldState }) => (
-                                            <FormItem className="w-1/3">
+                                            <FormItem>
                                                 <FormControl>
-                                                    <NumberInput
-                                                        {...field}
-                                                        isRequired
-                                                        isDisabled={isPending}
-                                                        placeholder="1"
-                                                        variant="underlined"
-                                                        classNames={{
-                                                            input: "text-lg cm:text-xl font-light",
-                                                            inputWrapper: "h-8",
-                                                        }}
-                                                        validate={() => fieldState.error?.message}
-                                                        onChange={(value) => {
-                                                            if (typeof value === "number") {
-                                                                field.onChange(value);
-                                                            } else {
-                                                                field.onChange(parseFloat(value.target.value));
-                                                            }
-                                                        }}
+                                                    <TagsInput
+                                                        isLoading={isPending}
+                                                        tags={field.value || []}
+                                                        setTags={(newTags) => field.onChange(newTags)}
+                                                        placeholder={t("Add Ingredients Placeholder")}
                                                     />
                                                 </FormControl>
+                                                {fieldState.error && <p className="text-danger-400 text-sm">{fieldState.error.message}</p>}
                                             </FormItem>
                                         )}
                                     />
                                 </div>
-                                <h4 className="text-base text-default-400 font-medium mb-2">{t("MinimalNumberDescription")}</h4>
+                                <Spacer y={8} />
+                                <AllergiesTitleSection />
+                                <div className="flex flex-col bg-white rounded-lg p-4">
+                                    <FormField
+                                        control={form.control}
+                                        name="allergies"
+                                        render={({ field, fieldState }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <TagsSelectInput
+                                                        isLoading={isPending}
+                                                        tags={field.value || []}
+                                                        setTags={(newTags) => field.onChange(newTags)}
+                                                        type="warning"
+                                                        placeholder={t("Add Allergies Placeholder")}
+                                                    />
+                                                </FormControl>
+                                                {fieldState.error && <p className="text-danger-400 text-sm">{fieldState.error.message}</p>}
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <Spacer y={8} />
+                                <DietaryTitleSection />
+                                <div className="flex flex-col bg-white rounded-lg p-4">
+                                    <FormField
+                                        control={form.control}
+                                        name="dietary"
+                                        render={({ field, fieldState }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <DietarySelectInput
+                                                        isLoading={isPending}
+                                                        tags={field.value || []}
+                                                        setTags={(newTags) => field.onChange(newTags)}
+                                                        placeholder={t("Add Dietary Restrictions")}
+                                                    />
+                                                </FormControl>
+                                                {fieldState.error && <p className="text-danger-400 text-sm">{fieldState.error.message}</p>}
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
 
-                                <Spacer y={4} />
-                                <MinLeadTime form={form} isPending={isPending} />
+                                <Spacer y={8} />
+                                <VariantsTitleSection />
+                                <VariantsInstructionSection />
+                                <div className="flex flex-col rounded-lg">
+                                    <VariantsFormField
+                                        form={form}
+                                        isPending={isPending}
+                                    />
+                                </div>
+
+                                <Spacer y={8} />
+                                <div className="flex flex-col bg-white rounded-lg p-4">
+                                    <div className="flex w-full justify-between">
+                                        <h3 className="text-lg font-medium">{t("Minimal Order")}</h3>
+                                        <FormField
+                                            control={form.control}
+                                            name="min_order"
+                                            render={({ field, fieldState }) => (
+                                                <FormItem className="w-1/3">
+                                                    <FormControl>
+                                                        <NumberInput
+                                                            {...field}
+                                                            isRequired
+                                                            isDisabled={isPending}
+                                                            placeholder="1"
+                                                            variant="underlined"
+                                                            classNames={{
+                                                                input: "text-lg cm:text-xl font-light",
+                                                                inputWrapper: "h-8",
+                                                            }}
+                                                            validate={() => fieldState.error?.message}
+                                                            onChange={(value) => {
+                                                                if (typeof value === "number") {
+                                                                    field.onChange(value);
+                                                                } else {
+                                                                    field.onChange(parseFloat(value.target.value));
+                                                                }
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                    <Spacer y={4} />
+                                    <h4 className="text-base font-light text-default-700 mb-2">{t("MinimalNumberDescription")}</h4>
+                                </div>
+                                <Spacer y={8} />
+                                <div className="flex flex-col bg-white rounded-lg p-4">
+                                    <MinLeadTime form={form} isPending={isPending} />
+                                </div>
+                                <Spacer y={8} />
+
+                                <FormField
+                                    control={form.control}
+                                    name="hide_product"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <SwitchCell
+                                                    checked={field.value}
+                                                    onChange={e => field.onChange(e.target.checked)}
+                                                    disabled={isPending}
+                                                    label={t("Hide Product")}
+                                                    description={t("Hide Product Helper", { defaultValue: "If enabled, this product will be hidden from customers but still available for editing." })}
+                                                    classNames={{
+                                                        base: "bg-white",
+                                                        label: "text-base font-medium",
+                                                        description: "font-light text-default-700",
+                                                    }}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                              
 
                             </div>
                         </div>
-                    </CardBody>
-                    <CardFooter className="px-4 space-x-4">
+                    </div>
+                    <div className="flex flex-row space-x-4 mt-8">
                         {productData?.id && (
                             <>
                                 <DeleteConfirmationModal
                                     isOpen={isOpenDelete}
                                     isLoadingDelete={isLoadingDelete}
-                                    onClose={() => {}}
+                                    onClose={() => setIsOpenDelete(false)}
                                     onConfirm={handleDelete}
                                 />
                                 <Button
                                     variant="bordered"
-                                    className="w-1/3"
+                                    className="w-1/3 bg-white text-foreground"
                                     isDisabled={isPending}
                                     onPress={() => setIsOpenDelete(true)}
                                     type="button"
@@ -573,9 +630,9 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                         >
                             {isPending ? t("Loading") : productData?.id ? t("Update Item") : t("Add Item")}
                         </Button>
-                    </CardFooter>
+                    </div>
                 </form>
             </Form>
-        </Card>
+        </div>
     );
 }

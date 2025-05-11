@@ -23,6 +23,7 @@ import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
 import VariantsUserSelection from "@/components/store/product/components/variants-user-selection";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useDelivery } from "@/components/providers/delivery-provider";
 
 type ProductViewProps = {
     productData: ProductData;
@@ -36,6 +37,7 @@ export default function UserProductView({
 
 
     const [charCount, setCharCount] = useState(0);
+    const { isDelivery } = useDelivery();
     const [quantity, setQuantity] = useState(productData?.min_order || 1);
     const [note, setNote] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -61,9 +63,9 @@ export default function UserProductView({
         setIsLoading(true);
         try {
             // We pass productData.id as product_id, productData.store_id as store_id, and the note and quantity.
-            const result = await updateCart(productData.id, productData.store_id, quantity, note, variants);
+            const result = await updateCart(productData.id, productData.store_id, quantity, isDelivery ? "delivery" : "pickup", note, variants);
             if (result.success) {
-                showSuccessMessage({success: t("cartUpdatedSuccess")});
+                // showSuccessMessage({success: t("cartUpdatedSuccess")});
                 result.itemCart && addItem(result.itemCart);
                 onOpen();
             } else if (result.error) {

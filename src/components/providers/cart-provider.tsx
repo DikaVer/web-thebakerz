@@ -1,12 +1,14 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { CartData, ItemCart, updateCart, removeCartItem } from "@/lib/actions/cart";
+import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';
+import { CartData, ItemCart, updateCart, removeCartItem, TypedCartData } from "@/lib/actions/cart";
 import { getProductByStoreIdAndProductId } from "@/lib/actions/product";
 import showErrorMessage from "@/components/toast/toast-error";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import {useDisclosure} from "@heroui/react";
 import { useDelivery } from './delivery-provider';
+
+type CartType = 'delivery' | 'pickup';
 
 interface CartContextProps {
     cart: CartData;
@@ -19,7 +21,11 @@ interface CartContextProps {
     isOpen: boolean;
     onOpen: () => void;
     onOpenChange: () => void;
+    currentCartType: CartType;
+    setCurrentCartType: (type: CartType) => void;
 }
+
+const CartContext = createContext<CartContextProps | undefined>(undefined);
 
 export const useCart = () => {
     const context = useContext(CartContext);
@@ -29,140 +35,147 @@ export const useCart = () => {
     return context;
 };
 
-const CartContext = createContext<CartContextProps | undefined>(undefined);
-
-export const CartProvider: React.FC<{ children: ReactNode; cart: CartData; storeId: string;}> = ({
-                                                                                                children,
-                                                                                                cart,
-                                                                                                storeId
-                                                                                            }) => {
-
-    const [cartData, setCart] = useState<CartData>(cart);
-
-    const initialItemCount = cartData[storeId] ? Object.keys(cartData[storeId]).length : 0;
-    const [itemCount, setItemCount] = useState<number>(initialItemCount);
-    
-    // Calculate initial total quantity
-    const calculateTotalQuantity = (cartData: CartData): number => {
-        let totalQuantity = 0;
-        if (cartData[storeId]) {
-            Object.values(cartData[storeId]).forEach(item => {
-                totalQuantity += item.quantity;
-            });
-        }
-        return totalQuantity;
-    };
-    
-    const [total, setTotal] = useState<number>(calculateTotalQuantity(cart));
+export const CartProvider: React.FC<{ 
+    children: ReactNode; 
+    cart: TypedCartData; 
+    storeId: string; 
+    initialDeliveryMode: boolean;
+}> = ({
+    children,
+    cart,
+    storeId,
+    initialDeliveryMode
+}) => {
+    // State management
+    const [typedCarts, setTypedCarts] = useState<TypedCartData>(cart);
+    const [currentCartType, setCurrentCartType] = useState<CartType>(initialDeliveryMode ? 'delivery' : 'pickup');
+    const [cartData, setCart] = useState<CartData>(cart[currentCartType]);
+    const [itemCount, setItemCount] = useState<number>(0);
+    const [total, setTotal] = useState<number>(0);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { 
-        setMinLeadTimeProduct 
-    } = useDelivery();
+    const { setMinLeadTimeProduct } = useDelivery();
+
+    // Calculate cart metrics
+    const calculateCartMetrics = useCallback((cart: CartData) => {
+        const count = cart[storeId] ? Object.keys(cart[storeId]).length : 0;
+        const totalQuantity = cart[storeId] 
+            ? Object.values(cart[storeId]).reduce((sum, item) => sum + item.quantity, 0)
+            : 0;
+        return { count, totalQuantity };
+    }, [storeId]);
+
+    // Update cart data when currentCartType changes
+    useEffect(() => {
+        const newCartData = typedCarts[currentCartType];
+        setCart(newCartData);
+        const { count, totalQuantity } = calculateCartMetrics(newCartData);
+        setItemCount(count);
+        setTotal(totalQuantity);
+    }, [currentCartType, typedCarts, calculateCartMetrics]);
 
     // Find product with largest minLeadTime whenever cart changes
     useEffect(() => {
-        const findLargestMinLeadTime = async () => {
-            if (!cartData[storeId]) return;
-            
-            let maxLeadTime = 0;
-            const cartItems = Object.values(cartData[storeId]);
-            
-            for (const item of cartItems) {
-                // Get product details to access min_lead_time
-                if (item.min_lead_time > maxLeadTime) {
-                    maxLeadTime = item.min_lead_time;
-                }
-            }
-            
-            setMinLeadTimeProduct(maxLeadTime);
-        };
+        if (!cartData[storeId]) return;
         
-        findLargestMinLeadTime();
+        const maxLeadTime = Object.values(cartData[storeId])
+            .reduce((max, item) => Math.max(max, item.min_lead_time), 0);
+        
+        setMinLeadTimeProduct(maxLeadTime);
     }, [cartData, storeId, setMinLeadTimeProduct]);
 
-    const addItem = (cart: ItemCart) => {
-        setItemCount((prevCount) => prevCount + 1);
-        setTotal((prevTotal) => prevTotal + cart.quantity);
-        setCart((prevCart) => ({
-            ...prevCart,
-            [cart.store_id]: {
-                ...prevCart[cart.store_id],
-                [cart.id]: cart,
-            },
-        }));
-    };
+    // Cart operations
+    const addItem = useCallback((item: ItemCart) => {
+        setTypedCarts((prevTypedCarts) => {
+            const newTypedCarts = { ...prevTypedCarts };
+            const type = item.type as CartType;
+            
+            if (!newTypedCarts[type][item.store_id]) {
+                newTypedCarts[type][item.store_id] = {};
+            }
+            
+            newTypedCarts[type][item.store_id][item.id] = item;
+            return newTypedCarts;
+        });
+    }, []);
 
-    // Async update: calls server action updateCart and updates local state
-    const updateItem = async (cart: ItemCart) => {
-        const result = await updateCart(cart.product_id, cart.store_id, cart.quantity, cart.note, cart.variants, cart.id);
+    const updateItem = useCallback(async (item: ItemCart) => {
+        const result = await updateCart(
+            item.product_id, 
+            item.store_id, 
+            item.quantity, 
+            item.type, 
+            item.note, 
+            item.variants, 
+            item.id
+        );
+
         if (result.success && result.itemCart) {
-            // Calculate the quantity difference to update total
-            const oldQuantity = cartData[cart.store_id]?.[cart.id]?.quantity || 0;
-            const quantityDiff = cart.quantity - oldQuantity;
-            
-            setCart((prevCart) => {
-                return {
-                    ...prevCart,
-                    [cart.store_id]: {
-                        ...prevCart[cart.store_id],
-                        [cart.id]: cart,
-                    },
-                };
+            setTypedCarts((prevTypedCarts) => {
+                const newTypedCarts = { ...prevTypedCarts };
+                const type = item.type as CartType;
+                
+                if (!newTypedCarts[type][item.store_id]) {
+                    newTypedCarts[type][item.store_id] = {};
+                }
+                
+                newTypedCarts[type][item.store_id][item.id] = item;
+                return newTypedCarts;
             });
-            
-            setTotal((prevTotal) => prevTotal + quantityDiff);
-            showSuccessMessage({success: "Item updated"});
             return true;
         } else {
-            showErrorMessage({ error: result.error ? result.error : "Error updating cart item" });
+            showErrorMessage({ error: result.error || "Error updating cart item" });
             return false;
         }
-    };
+    }, []);
 
-    // Async remove: calls server action removeCartItem and updates local state
-    const removeItem = async (cart: ItemCart) => {
-        const result = await removeCartItem(storeId, cart.id);
+    const removeItem = useCallback(async (item: ItemCart) => {
+        const result = await removeCartItem(storeId, item.id);
+        
         if (result.success) {
-            setItemCount((prevCount) => prevCount - 1);
-            setTotal((prevTotal) => prevTotal - cart.quantity);
-            setCart((prevCart) => {
-                const newCart = { ...prevCart };
-                if (newCart[cart.store_id]) {
-                    delete newCart[cart.store_id][cart.id];
+            setTypedCarts((prevTypedCarts) => {
+                const newTypedCarts = { ...prevTypedCarts };
+                const type = item.type as CartType;
+                
+                if (newTypedCarts[type][item.store_id]) {
+                    delete newTypedCarts[type][item.store_id][item.id];
                 }
-                return newCart;
+                
+                return newTypedCarts;
             });
+            
             showSuccessMessage({success: "Item deleted"});
             return true;
         } else {
             console.error("Error removing cart item", result.error);
-            showErrorMessage({ error: result.error ? result.error : "Error removing cart item" });
+            showErrorMessage({ error: result.error || "Error removing cart item" });
             return false;
         }
-    };
+    }, [storeId]);
 
-    //Remove all items from cart
-    const removeAllItems = async () => {
-        setItemCount(0);
-        setTotal(0);
-        setCart({});
+    const removeAllItems = useCallback(async () => {
+        setTypedCarts({
+            delivery: {},
+            pickup: {}
+        });
+    }, []);
+
+    const contextValue: CartContextProps = {
+        cart: cartData,
+        itemCount,
+        total,
+        addItem,
+        updateItem,
+        removeItem,
+        removeAllItems,
+        isOpen,
+        onOpen,
+        onOpenChange,
+        currentCartType,
+        setCurrentCartType
     };
 
     return (
-        <CartContext.Provider
-            value={{
-                cart: cartData,
-                itemCount,
-                total,
-                removeItem,
-                updateItem,
-                addItem,
-                removeAllItems,
-                isOpen,
-                onOpen,
-                onOpenChange
-            }}
-        >
+        <CartContext.Provider value={contextValue}>
             {children}
         </CartContext.Provider>
     );

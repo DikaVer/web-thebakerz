@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Select, SelectItem } from "@heroui/react";
+import { Select, SelectItem, Spacer } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { UseFormReturn } from "react-hook-form";
 import { ProductSchema } from "@/lib/schemas/index";
@@ -72,7 +72,8 @@ export const MinLeadTime: React.FC<MinLeadTimeProps> = ({ form, isPending }) => 
                         )}
                     />
                 </div>
-                <h4 className="text-base text-default-400 font-medium mb-2">{t("MinimalLeadTimeDescription")}</h4>
+                <Spacer y={4} />
+                <h4 className="text-base font-light text-default-700 mb-2">{t("MinimalLeadTimeDescription")}</h4>
             </div>
         </div>
     );

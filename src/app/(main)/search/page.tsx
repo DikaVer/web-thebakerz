@@ -135,8 +135,8 @@ const StoresLoadingSkeleton = () => {
 };
 
 // Main component to fetch and render stores
-async function StoreResults({ coords, mode, country }: { coords: Coordinates, mode: 'pickup' | 'delivery', country?: string }) {
-  const stores = await findNearbyStores(coords.lat, coords.lng, mode, country);
+async function StoreResults({ coords, mode, country, isUserCord }: { coords: Coordinates, mode: 'pickup' | 'delivery', country?: string, isUserCord: boolean }) {
+  const stores = await findNearbyStores(coords.lat, coords.lng, mode, isUserCord, country);
   
   const t = await getTranslations("app/search");
   // Log to help debug duplicate IDs
@@ -151,6 +151,7 @@ async function StoreResults({ coords, mode, country }: { coords: Coordinates, mo
                       key={`${store.id}-${index}`}
                       store={store}
                       deliveryMode={mode}
+                      isUserCord={isUserCord}
                   />
               ))}
               {stores.length === 0 && (
@@ -184,7 +185,7 @@ export default async function Page(props : SearchPageProps) {
             Pass coords and mode needed for fetching. 
             Render this async component inside Suspense.
           */}
-          <StoreResults coords={savedAddress?.coordinates || { lat: DEFAULT_LAT, lng: DEFAULT_LNG }} mode={deliveryMode} country={savedAddress?.country || undefined} />
+          <StoreResults coords={savedAddress?.coordinates || { lat: DEFAULT_LAT, lng: DEFAULT_LNG }} mode={deliveryMode} country={savedAddress?.country || undefined} isUserCord={savedAddress?.coordinates ? true : false}/>
         </Suspense>
       </SearchComponent>
     </GoogleMapsProvider>

@@ -162,14 +162,16 @@ async function setupStoreProviders({
         return NotFound();
     }
     
-    const cartData = await getCurrentCart(storeData.id);
     const deliveryMode = await getDeliveryMode();
     const savedAddress = await getCurrentDeliveryAddress();
-    
     let initialDeliveryMode = deliveryMode === 'delivery';
+
     if (storeData.deliveryOption !== "multi") {
         initialDeliveryMode = storeData.deliveryOption === 'delivery';
     }
+
+    
+    const cartData = await getCurrentCart(storeData.id);
     
     return (
         
@@ -183,6 +185,7 @@ async function setupStoreProviders({
                 <CartProvider
                     cart={cartData}
                     storeId={storeData.id}
+                    initialDeliveryMode={initialDeliveryMode}
                 >
                     <ProductDialogProvider
                         storeId={storeData.id}

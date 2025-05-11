@@ -44,6 +44,7 @@ export interface ItemCart {
     quantity: number;
     createdAt: string;
     user_id: string;
+    type: string;
 }
 
 /**
@@ -53,12 +54,12 @@ export const updateCart = async (
     productId: string,
     storeId: string,
     quantity: number,
+    type: string,
     note?: string,
     variants?: Variant[],
-    itemId?: string
+    itemId?: string,
 ): Promise<{ success?: string; error?: string; itemCart?: ItemCart }> => {
     const t = await getTranslations("app/lib/actions/cart") as TranslationFunction;
-    const context = await getRequestContext();
     
     try {
         if (!(await globalPOSTRateLimit())) {
@@ -103,6 +104,46 @@ export const updateCart = async (
 
         const partitionKeyValue = [storeId, userId];
         const now = new Date().toISOString();
+        
+        // Check for existing item without notes
+        const querySpec = {
+            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type  FROM c WHERE c.store_id = @storeId AND c.user_id = @userId AND c.product_id = @productId AND c.type = @type",
+            parameters: [
+                { name: "@storeId", value: storeId },
+                { name: "@userId", value: userId },
+                { name: "@productId", value: productId },
+                { name: "@type", value: type }
+            ],
+        };
+
+        const { resources: existingItems } = await containerCart.items
+            .query(querySpec, { partitionKey: partitionKeyValue })
+            .fetchAll();
+
+        // Find an item without notes and with matching variants
+        const existingItem = existingItems.find(item => 
+            !item.note && 
+            (!item.variants && !variants || 
+             JSON.stringify(item.variants) === JSON.stringify(variants))
+        );
+
+        if (existingItem && !note) {
+            // Update quantity of existing item
+            await containerCart.item(existingItem.id, partitionKeyValue).patch({
+                operations: [
+                    { op: "set", path: "/quantity", value: existingItem.quantity + quantity }
+                ],
+            });
+            
+            const updatedItem = {
+                ...existingItem,
+                quantity: existingItem.quantity + quantity
+            };
+            
+            revalidateTag('cart');
+            return { success: t("cartUpdatedSuccess"), itemCart: updatedItem };
+        }
+
         const cartItemId = itemId || uuidv4();
         
         const newItemCart: ItemCart = {
@@ -115,6 +156,7 @@ export const updateCart = async (
             variants,
             createdAt: now,
             user_id: userId,
+            type: type,
         };
 
         if (itemId) {
@@ -260,7 +302,7 @@ export const replaceGuestCart = async (
         const userPartitionKey = [storeId, userId];
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id FROM c WHERE c.store_id = @storeId AND c.user_id = @guestId",
+            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type FROM c WHERE c.store_id = @storeId AND c.user_id = @guestId",
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@guestId", value: guestId },
@@ -272,7 +314,7 @@ export const replaceGuestCart = async (
             .fetchAll();
 
         const userQuerySpec = {
-            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
+            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type  FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@userId", value: userId },
@@ -336,7 +378,8 @@ export const replaceGuestCart = async (
  */
 export const removeCartByUserIdAndStoreId = async (
     userId: string,
-    storeId: string
+    storeId: string,
+    type: string
 ): Promise<{ cartData?: CartData; success?: string; error?: string }> => {
     const t = await getTranslations("app/lib/actions/cart") as TranslationFunction;
     
@@ -349,7 +392,7 @@ export const removeCartByUserIdAndStoreId = async (
             return { error: t("userIdStoreIdRequired") };
         }
 
-        const cartData = await getCart(userId, storeId);
+        const cartData = await getCart(userId, storeId, type);
         const partitionKeyValue = [storeId, userId];
 
         if (cartData[storeId]) {
@@ -380,16 +423,18 @@ export const removeCartByUserIdAndStoreId = async (
  *
  * @param userId
  * @param storeId - The store's ID.
+ * @param type - The type of cart to retrieve.
  * @returns A Promise that resolves to a CartData object.
  */
 export const getCart = async (
     userId: string,
-    storeId: string
+    storeId: string,
+    type: string
 ): Promise<CartData> => {
 
     const querySpec = {
-        query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
-        parameters: [{ name: "@storeId", value: storeId }, { name: "@userId", value: userId }],
+        query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type FROM c WHERE c.store_id = @storeId AND c.user_id = @userId AND c.type = @type",
+        parameters: [{ name: "@storeId", value: storeId }, { name: "@userId", value: userId }, { name: "@type", value: type }],
     };
 
     const partitionKeyValue = [storeId, userId];
@@ -409,9 +454,58 @@ export const getCart = async (
     return { [storeId]: cartItems };
 };
 
+// Add TypedCartData interface
+export interface TypedCartData {
+    delivery: CartData;
+    pickup: CartData;
+}
+
+/**
+ * Retrieves the full cart for a given store and user, separated by delivery and pickup types.
+ *
+ * @param userId - The user's ID.
+ * @param storeId - The store's ID.
+ * @returns A Promise that resolves to a TypedCartData object containing separate delivery and pickup carts.
+ */
+export const getAllCart = async (
+    userId: string,
+    storeId: string,
+): Promise<TypedCartData> => {
+    const querySpec = {
+        query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
+        parameters: [{ name: "@storeId", value: storeId }, { name: "@userId", value: userId }],
+    };
+
+    const partitionKeyValue = [storeId, userId];
+
+    // Query using the partition key.
+    const { resources: items } = await containerCart.items
+        .query(querySpec, { partitionKey: partitionKeyValue })
+        .fetchAll();
+
+    // Initialize separate cart items for delivery and pickup
+    const deliveryCartItems: CartItem = {};
+    const pickupCartItems: CartItem = {};
+
+    // Separate items by type
+    items.forEach((item: ItemCart) => {
+        if (item.type === 'delivery') {
+            deliveryCartItems[item.id] = item;
+        } else {
+            pickupCartItems[item.id] = item;
+        }
+    });
+
+    // Return the TypedCartData object with separate delivery and pickup carts
+    return {
+        delivery: { [storeId]: deliveryCartItems },
+        pickup: { [storeId]: pickupCartItems }
+    };
+};
+
 export const getCurrentCart = async (
     storeId: string
-): Promise<CartData> => {
+): Promise<TypedCartData> => {
 
     const session = await getCurrentSession();
     let userId;
@@ -422,7 +516,7 @@ export const getCurrentCart = async (
     }
 
 
-    if (!userId) return {};
+    if (!userId) return {delivery: {}, pickup: {}};
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/cart`, {
         headers: {
@@ -451,7 +545,7 @@ export const getCartItemsByProductId = async (
 ): Promise<ItemCart[]> => {
     try {
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id FROM c WHERE c.store_id = @storeId AND c.product_id = @productId",
+            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type FROM c WHERE c.store_id = @storeId AND c.product_id = @productId",
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@productId", value: productId }

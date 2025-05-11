@@ -130,5 +130,5 @@
   "i18n-ally.review.enabled": true,          // show ✓/✗/⌛ status badges
   "i18n-ally.review.gutters": true,          // paint gutter icons in editors
   // optional – keeps machine-translated text in “candidate” layer
-  "i18n-ally.translate.saveAsCandidates": true
+//   "i18n-ally.translate.saveAsCandidates": true
 }

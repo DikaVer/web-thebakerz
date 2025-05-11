@@ -412,7 +412,7 @@ export async function GET(req: NextRequest) {
 
         // Store final order and clean up
         await containerOrders.items.create(orderData);
-        await removeCartByUserIdAndStoreId(cartId, storeId);
+        await removeCartByUserIdAndStoreId(cartId, storeId, orderRaw.isDelivery ? "delivery" : "pickup");
         await containerOrdersUnpaid.item(cosmosId, storeId).delete();
 
         // Commit transaction

@@ -229,7 +229,7 @@ export const createOrder = async (
     }
 
     // Retrieve the user's cart data for the current store
-    const cartData = await getCart(user.id, store.id);
+    const cartData = await getCart(user.id, store.id, 'pickup');
 
     if (!cartData || !cartData[store.id] || Object.keys(cartData[store.id]).length === 0) {
         return { error: t("cartEmpty") };
@@ -355,7 +355,7 @@ export const createOrder = async (
 
         // Store final order and clean up
         await containerOrders.items.create(orderData);
-        await removeCartByUserIdAndStoreId(user.id, storeId);
+        await removeCartByUserIdAndStoreId(user.id, storeId, orderData.isDelivery ? "delivery" : "pickup");
 
          // Send confirmation email and invalidate cache
          sendOrderPlaced({

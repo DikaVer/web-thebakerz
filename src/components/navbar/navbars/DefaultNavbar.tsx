@@ -12,7 +12,8 @@ import GradientText from "@/components/ui/gradient-text";
 import LanguageModal from "@/components/language-modal";
 import { useTranslations } from "next-intl";
 import ProfilePopover from "@/components/navbar/profile/profile-popover";
-import { DeliveryAddressButton } from "@/components/ui/select-time/delivery-address-button";
+import { logger } from "@/lib/logger";
+import { useCart } from "@/components/providers/cart-provider";
 
 interface NavbarTranslationProps {
     t: (key: string) => string;
@@ -33,8 +34,16 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
     const isMobile = useMediaQuery("(max-width: 768px)");
     const router = useRouter();
     const { isDelivery, toggleDeliveryMode, isTogglingDelivery } = useDelivery();
+    const { setCurrentCartType } = store ? useCart() : { setCurrentCartType: () => {} };
     const t = useTranslations("app/(store)/components/store-header");
     const pathname = usePathname();
+
+    let deliveryOption = store?.deliveryOption || "undefined";
+
+    if (deliveryOption === "undefined") {
+        deliveryOption = "multi";
+    }
+
     
     const isProductPage = pathname.includes("item");
 
@@ -87,63 +96,75 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                             className="relative z-10 overflow-hidden"
                             isDisabled={isTogglingDelivery}
                         >
-                            <Button
-                                disableRipple
-                                onPress={() => toggleDeliveryMode(false)}
-                                isIconOnly
-                                className={cn(
-                                    "md:min-w-32 transition-all duration-300 data-[hover=true]:bg-transparent",
-                                    !isDelivery ? "text-foreground-secondary font-medium" : "text-default-500 font-normal",
-                                    isTogglingDelivery ? "opacity-50" : "opacity-100"
-                                )}
-                                variant="light"
-                                isDisabled={isTogglingDelivery}
-                            >
-                                <div className="flex items-center gap-2">
-                                    <Icon
-                                        icon="solar:shop-2-bold"
-                                        width={20}
-                                        height={20}
-                                        className={cn(
-                                            "transition-all duration-300",
-                                            !isDelivery ? "text-primary" : "text-default-500"
-                                        )}
-                                    />
-                                    <span className={cn("text-sm hidden md:block", isDelivery ? "text-default-500" : "text-foreground-secondary")}>{t('pickup')}</span>
-                                </div>
-                            </Button>
-                            <Button
-                                disableRipple
-                                onPress={() => toggleDeliveryMode(true)}
-                                className={cn(
-                                    "md:min-w-32 transition-all duration-300 data-[hover=true]:bg-transparent",
-                                    isDelivery ? "text-foreground-secondary font-medium" : "text-default-500 font-normal",
-                                    isTogglingDelivery ? "opacity-50" : "opacity-100"
-                                )}
-                                variant="light"
-                                isDisabled={isTogglingDelivery}
-                            >
-                                <div className="flex items-center gap-2">
-                                    <Icon
-                                        icon="solar:scooter-bold"
-                                        width={20}
-                                        height={20}
-                                        className={cn(
-                                            "transition-all duration-300",
-                                            isDelivery ? "text-primary" : "text-default-500"
-                                        )}
-                                    />
-                                    <span className={cn("text-sm hidden md:block", isDelivery ? "text-foreground-secondary" : "text-default-500")}>{t('delivery')}</span>
-                                </div>
-                            </Button>
+                            {(deliveryOption === "pickup" || deliveryOption === 'multi') && (
+                                <Button
+                                    disableRipple
+                                    onPress={() => {
+                                        setCurrentCartType('pickup');
+                                        toggleDeliveryMode(false);
+                                    }}
+                                    isIconOnly
+                                    className={cn(
+                                        "md:min-w-32 transition-all duration-300 data-[hover=true]:bg-transparent",
+                                        !isDelivery ? "text-foreground-secondary font-medium" : "text-default-500 font-normal",
+                                        isTogglingDelivery ? "opacity-50" : "opacity-100"
+                                    )}
+                                    variant="light"
+                                    isDisabled={isTogglingDelivery}
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <Icon
+                                            icon="solar:shop-2-bold"
+                                            width={20}
+                                            height={20}
+                                            className={cn(
+                                                "transition-all duration-300",
+                                                !isDelivery ? "text-primary" : "text-default-500"
+                                            )}
+                                        />
+                                        <span className={cn("text-sm hidden md:block", isDelivery ? "text-default-500" : "text-foreground-secondary")}>{t('pickup')}</span>
+                                    </div>
+                                </Button>
+                            )}
+                            {(deliveryOption === "delivery" || deliveryOption === "multi") && (
+                                <Button
+                                    disableRipple
+                                    onPress={() => {
+                                        setCurrentCartType('delivery');
+                                        toggleDeliveryMode(true);
+                                    }}
+                                    className={cn(
+                                        "md:min-w-32 transition-all duration-300 data-[hover=true]:bg-transparent",
+                                        isDelivery ? "text-foreground-secondary font-medium" : "text-default-500 font-normal",
+                                        isTogglingDelivery ? "opacity-50" : "opacity-100"
+                                    )}
+                                    variant="light"
+                                    isDisabled={isTogglingDelivery}
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <Icon
+                                            icon="solar:scooter-bold"
+                                            width={20}
+                                            height={20}
+                                            className={cn(
+                                                "transition-all duration-300",
+                                                isDelivery ? "text-primary" : "text-default-500"
+                                            )}
+                                        />
+                                        <span className={cn("text-sm hidden md:block", isDelivery ? "text-foreground-secondary" : "text-default-500")}>{t('delivery')}</span>
+                                    </div>
+                                </Button>
+                            )}
                         </ButtonGroup>
                         <div
                             className={cn(
-                                "absolute top-1 bottom-1 w-[calc(50%)] rounded-full bg-white dark:bg-default-700 transition-all duration-300",
-                                isDelivery ? "translate-x-[calc(100%)]" : "translate-x-[1px]"
+                                "absolute top-1 bottom-1 rounded-full bg-white dark:bg-default-700 transition-all duration-300",
+                                isDelivery ? "translate-x-[calc(100%)]" : "translate-x-[1px]",
+                                (deliveryOption === "multi") ? "w-[calc(50%)]" : "w-[calc(100%)]",
+                                (deliveryOption === "delivery") && "translate-x-[1px]"
                             )}
                             style={{
-                                left: 0
+                                left: deliveryOption === "delivery" ? "1px" : 0
                             }}
                         />
                     </div>
@@ -167,7 +188,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         />
                     }
                 />
-                <Button
+                {/* <Button
                     isIconOnly
                     variant="light"
                     size="sm"
@@ -175,7 +196,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                     onPress={() => setIsLanguageOpen(true)}
                 >
                     <Icon icon="material-symbols-light:language" width={32} height={32} />
-                </Button>
+                </Button> */}
             </NavbarContent>
             {isLanguageOpen && <LanguageModal handAction={() => setIsLanguageOpen(false)}/>}
         </>

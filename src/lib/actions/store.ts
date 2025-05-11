@@ -752,9 +752,10 @@ export interface NearbyStore extends StoreData {
     distance: number; // Distance in kilometers from the search location
     deliveryRange?: DeliveryRange;
     deliveryRegion?: MerchantDeliveryRegion;
+    isUserCord: boolean;
 }
 
-export async function findNearbyStores(userLat: number, userLng: number, deliveryMode: 'pickup' | 'delivery', country?: string): Promise<NearbyStore[]> {
+export async function findNearbyStores(userLat: number, userLng: number, deliveryMode: 'pickup' | 'delivery', isUserCord: boolean, country?: string): Promise<NearbyStore[]> {
     try {
         // Fetch all active stores and their locations
         const storeResults = await connectionPool.query(
@@ -850,10 +851,10 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
             };
 
             // Filter based on delivery mode
-            if (deliveryMode === 'pickup') {
+            if (deliveryMode === 'pickup' || !isUserCord) {
                 // Include if store offers pickup or multi
                 if (storeData.deliveryOption === 'pickup' || storeData.deliveryOption === 'multi') {
-                    nearbyStores.push({ ...storeData, distance });
+                    nearbyStores.push({ ...storeData, distance, isUserCord });
                 }
             } else { // deliveryMode === 'delivery'
                 // Include if store offers delivery or multi AND user is within a delivery range
@@ -910,7 +911,8 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                             ...storeData, 
                             distance: distance,
                             deliveryRegion: deliveryRegion,
-                            deliveryRange: deliveryRange
+                            deliveryRange: deliveryRange,
+                            isUserCord: isUserCord
                         });
                     }
                 }

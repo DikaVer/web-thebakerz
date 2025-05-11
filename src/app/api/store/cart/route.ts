@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getCart } from "@/lib/actions/cart";
+import { getAllCart, } from "@/lib/actions/cart";
 import { getTranslations } from "next-intl/server";
 
 /**
@@ -20,6 +20,7 @@ export async function GET(request: Request) {
     // Extract and validate required headers
     const storeId = request.headers.get('Store-Id');
     const userId = request.headers.get('User-Id');
+    const type = request.headers.get('Type');
     const authHeader = request.headers.get('Authorization');
 
     // Check for missing headers and return appropriate errors
@@ -35,6 +36,7 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: t("missingAuth") }, { status: 401 });
     }
 
+
     // Validate bearer token
     const token = authHeader.replace('Bearer ', '').trim();
     if (token !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
@@ -43,7 +45,7 @@ export async function GET(request: Request) {
 
     try {
         // Fetch and return cart data
-        const cartData = await getCart(userId, storeId);
+        const cartData = await getAllCart(userId, storeId);
         return NextResponse.json(cartData, { status: 200 });
     } catch (error) {
         console.error('Error validating session:', error);

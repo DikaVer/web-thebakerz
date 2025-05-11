@@ -118,14 +118,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     let userId = user?.id || await getSessionCookie();
     if (!userId) return {error: "User identifier could not be determined."};
 
-    // 3. Cart Validation
-    // ------------------
-    const cartData = await getCart(userId, storeId);
-    if (!cartData || !cartData[storeId] || Object.keys(cartData[storeId]).length === 0) {
-        return {error: 'Your cart is empty.'};
-    }
-
-    // 4. Determine Delivery/Pickup Mode
+    // 3. Determine Delivery/Pickup Mode
     // ---------------------------------
     const deliveryMode = await getDeliveryMode(); // 'delivery' or 'pickup'
     const isDelivery = deliveryMode === 'delivery';
@@ -134,6 +127,13 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     const storeData = await getCurrentStorePayment(storeId);
     if (!storeData) {
         return {error: 'Store data could not be found.'};
+    }
+
+    // 4. Cart Validation
+    // ------------------
+    const cartData = await getCart(userId, storeId, isDelivery ? "delivery" : "pickup");
+    if (!cartData || !cartData[storeId] || Object.keys(cartData[storeId]).length === 0) {
+        return {error: 'Your cart is empty.'};
     }
 
     // 5. Address & Delivery Region Validation (if delivery)

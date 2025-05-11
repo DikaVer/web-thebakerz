@@ -198,6 +198,7 @@ export const ProductSchema = z.object({
     variants: z.array(VariantSchema).optional(),
     min_order: z.number().min(1, { message: "Minimum order must be at least 1" }).default(1),
     min_lead_time: z.number().min(30, { message: "Minimum lead time must be at least 30 minutes" }).default(30),
+    hide_product: z.boolean().default(false),
 });
 
 

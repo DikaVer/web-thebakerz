@@ -133,6 +133,7 @@ export const addProduct = async (
         archive: false,
         constId: oldProductData ? oldProductData.constId : uuidv4(),
         additionalImages: updatedAdditionalImages,
+        hide_product: formData.hide_product,
     };
 
     try {
@@ -242,7 +243,7 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
         }
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.archive = false",
+            query: "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product FROM c WHERE c.store_id = @storeId AND c.archive = false",
             parameters: [{ name: "@storeId", value: storeId }]
         };
 
@@ -295,7 +296,7 @@ export async function getProductByStoreIdAndWebName(storeId: string, webName: st
         }
 
         const querySpec = {
-            query: "SELECT * FROM c WHERE c.store_id = @storeId AND (c.web_name = @webName OR c.id = @webName) AND c.archive = false",
+            query: "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product FROM c WHERE c.store_id = @storeId AND (c.web_name = @webName OR c.id = @webName) AND c.archive = false",
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@webName", value: webName }
@@ -383,6 +384,7 @@ export type ProductData = {
     dietary?: string[];
     constId: string;
     additionalImages: string[];
+    hide_product?: boolean;
 };
 
 export type ProductDataClean = {
@@ -403,6 +405,7 @@ export type ProductDataClean = {
     id?: string;
     constId?: string;
     additionalImages?: string[];
+    hide_product?: boolean;
 };
 
 export type ProductVariant = {

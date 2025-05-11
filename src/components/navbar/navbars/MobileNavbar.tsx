@@ -16,7 +16,9 @@ export const MobileNavbar: React.FC = () => {
         <div className="flex flex-col w-full items-center px-2">
             <div className="flex flex-col w-full max-w-2xl gap-4 justify-start items-center">
                 <div className={'flex flex-row w-full gap-4'}>
-                    <DeliveryAddressButton/>
+                    {isDelivery && (
+                        <DeliveryAddressButton/>
+                    )}
                     {((validationResult.isInRange && address) || !isDelivery) && (
                         <CartButton
                             isMobileNavbar={true}
