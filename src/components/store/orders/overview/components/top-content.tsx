@@ -15,6 +15,7 @@ import {onDownloadInvoice} from "@/components/store/orders/overview/components/o
  */
 interface OrderTopContentProps {
     orderData: OrderData;
+    isUser?: boolean;
 }
 
 /**
@@ -29,7 +30,7 @@ interface OrderTopContentProps {
  * @param {OrderData} props.orderData - Data for the current order
  * @returns {JSX.Element} Rendered component
  */
-export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) => {
+export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData, isUser }) => {
     const locale = useLocale();
     const t = useTranslations("app/(store)/components/orders/overview");
     const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +38,7 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) =
     return (
         <section id="Order Top Content" className="flex justify-between">
             <div className="flex flex-col w-full max-w-2xl">
-                <div className="flex">
+                <div className="flex items-center">
                     <p>{t("Order")}</p>
                     <Spacer x={1} />
                     <GradientText>#{orderData.store_order_id}</GradientText>
@@ -76,23 +77,25 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData }) =
                 }
                 </p>
             </div>
-            <Button
-                startContent={
-                    <div className="w-[24px]">
-                        <Icon icon="solar:printer-minimalistic-bold" width={24} height={24}/>
-                    </div>
-                }
-                color="primary"
-                isLoading={isLoading}
-                className="bg-gradient-primary px-8"
-                onPress={async () => {
-                    setIsLoading(true);
-                    await onDownloadInvoice(orderData.store_id, orderData.id, orderData.store_order_id, orderData.customer_email);
-                    setIsLoading(false);
-                }}
-            >
-                {t("Print Invoice")}
-            </Button>
+            {isUser && (
+                <Button
+                    startContent={
+                        <div className="w-[24px]">
+                            <Icon icon="solar:printer-minimalistic-bold" width={24} height={24}/>
+                        </div>
+                    }
+                    color="primary"
+                    isLoading={isLoading}
+                    className="bg-gradient-primary px-8"
+                    onPress={async () => {
+                        setIsLoading(true);
+                        await onDownloadInvoice(orderData.store_id, orderData.id, orderData.store_order_id, orderData.customer_email);
+                        setIsLoading(false);
+                    }}
+                >
+                    {t("Print Invoice")}
+                </Button>
+            )}
         </section>
     );
 };

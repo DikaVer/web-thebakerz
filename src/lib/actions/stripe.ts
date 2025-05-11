@@ -381,6 +381,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     const orderRecordForDb: ExtendedOrderRaw = {
         id: cosmosId,
         store_id: storeId,
+        store_name: storeData.ownerName || "Bakery",
         createdAt: new Date(),
         scheduled_time: selectedTime, // Use the validated time
         customer_email: (user && user.role !== 'bakerz') ? user.email : undefined,

@@ -36,6 +36,7 @@ import {MinLeadTime} from "@/components/store/product/components/min-lead-time";
 import { DescriptionTitleSection, ProductTitleSection, IngredientsTitleSection, AllergiesTitleSection, DietaryTitleSection, VariantsTitleSection, VariantsInstructionSection } from "@/components/store/product/components/product-title-section";
 import { DescriptionHelpModal, VariantsHelpModal } from "@/components/store/product/components/product-help-modal";
 import SwitchCell from "@/components/ui/switch-cell";
+import { logger } from "@/lib/logger";
 
 type ProductViewProps = {
     storeId: string;
@@ -59,6 +60,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
     const [showDescriptionHelp, setShowDescriptionHelp] = useState(false);
     const [showVariantsHelp, setShowVariantsHelp] = useState(false);
+    console.log(productData);
 
     // Form setup with zod validation
     const form = useForm<z.infer<typeof ProductSchema>>({
@@ -84,7 +86,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
             })),
             min_order: productData?.min_order || 1,
             min_lead_time: productData?.min_lead_time || 30,
-            hide_product: productData?.hide_product ?? false,
+            hide_product: productData?.hide_product,
         },
     });
 
@@ -582,7 +584,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                         <FormItem>
                                             <FormControl>
                                                 <SwitchCell
-                                                    checked={field.value}
+                                                    isSelected={field.value}
                                                     onChange={e => field.onChange(e.target.checked)}
                                                     disabled={isPending}
                                                     label={t("Hide Product")}

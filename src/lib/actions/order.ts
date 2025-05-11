@@ -27,6 +27,7 @@ export interface OrderData {
     seq_id: number;
     store_order_id: string;
     store_id: string;
+    store_name: string;
     customer_email: string;
     customer: Customer;
     createdAt: Date;
@@ -57,6 +58,7 @@ export interface OrderData {
 export interface ExtendedOrderRaw extends OrderRaw {
     // Added fields from stripe.ts
     isDelivery: boolean;
+    store_name: string;
     isStoreDelivery: boolean;
     isPostDelivery: boolean;
     isCountryDelivery: boolean;
@@ -308,6 +310,7 @@ export const createOrder = async (
             seq_id: -1,
             store_order_id: "Manual Order",
             store_id: storeId,
+            store_name: store.ownerName || "Bakery",
             customer_email: normalizedEmail,
             customer: {
                 email_customer: normalizedEmail,

@@ -722,6 +722,8 @@
     "Change Status Action": "",
     "Cooking": "",
     "Customer Details": "",
+    "Delivery Fee": "",
+    "Delivery VAT": "",
     "Failed to update status": "",
     "Order": "",
     "Order Items": "",
@@ -732,6 +734,8 @@
     "Ready": "",
     "Search Items": "",
     "Select one option": "",
+    "Service Fee": "",
+    "Service VAT": "",
     "Something Went Wrong": "",
     "Status updated successfully": "",
     "Subtotal": "",
@@ -1157,6 +1161,20 @@
     "weHaveMore": "",
     "weHaveMoreDescription": ""
   },
+  "app/components/order-user": {
+    "close": "",
+    "item": "",
+    "items": "",
+    "myOrders": "",
+    "noOrdersFound": "",
+    "noOrdersMatchSearch": "",
+    "noOrdersYet": "",
+    "order": "",
+    "orderDetails": "",
+    "orders": "",
+    "searchOrders": "",
+    "view": ""
+  },
   "app/landing/horizontal-scroll": {
     "deliveries": "",
     "marketing": "",
@@ -1256,6 +1274,9 @@
     "storeUpdated": "",
     "tooManyRequests": "",
     "userNotFound": ""
+  },
+  "app/lib/actions/user-orders": {
+    "failedFetchOrders": ""
   },
   "app/search": {
     "errorCouldNotDetermineLocation": "",

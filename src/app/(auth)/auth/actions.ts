@@ -131,7 +131,7 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
     // Create and send verification email
     try {
         const emailVerificationRequest = await createEmailVerificationRequest(user.id, user.email);
-        await sendVerificationEmail(emailVerificationRequest.email, emailVerificationRequest.code);
+        sendVerificationEmail(emailVerificationRequest.email, emailVerificationRequest.code);
         await setEmailVerificationRequestCookie(emailVerificationRequest);
         
         log.info('loginAction', 'Verification email sent successfully', { 

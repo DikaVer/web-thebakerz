@@ -25,7 +25,13 @@ export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({custo
                 >
                     <Spacer y={2}/>
                     <div className={'flex justify-center items-center'}>
-                        <Avatar size={'sm'} className={'bg-background'}/>
+                        <Avatar 
+                            size={'sm'} 
+                            className={'bg-white'}
+                            color={'primary'}
+                            isBordered
+                            src={"/profile/profile_1.png"}
+                        />
                         <Spacer x={2}/> 
                         <p>{t("Customer Details")}</p>
                     </div>

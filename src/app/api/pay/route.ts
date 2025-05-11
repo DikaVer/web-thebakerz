@@ -361,6 +361,7 @@ export async function GET(req: NextRequest) {
             seq_id: result.rows[0].id,
             store_order_id: result.rows[0].store_order_id,
             store_id: storeId,
+            store_name: orderRaw.store_name,
             customer_email: email,
             customer: {
                 email_customer: email,

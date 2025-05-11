@@ -728,6 +728,8 @@
     "Change Status Action": "Are you sure you want to change the status of this order?",
     "Cooking": "Cooking",
     "Customer Details": "Customer Details",
+    "Delivery Fee": "Delivery Fee",
+    "Delivery VAT": "Delivery VAT",
     "Failed to update status": "Failed to update status",
     "Order": "Order",
     "Order Items": "Order Items",
@@ -738,6 +740,8 @@
     "Ready": "Ready",
     "Search Items": "Search items",
     "Select one option": "Select one option",
+    "Service Fee": "Service Fee",
+    "Service VAT": "Service VAT",
     "Something Went Wrong": "Something went wrong",
     "Status updated successfully": "Status updated successfully",
     "Subtotal": "Subtotal",
@@ -1175,6 +1179,20 @@
     "weHaveMore": "You think this is all?",
     "weHaveMoreDescription": "We have more!"
   },
+  "app/components/order-user": {
+    "close": "Close",
+    "item": "Item",
+    "items": "Items",
+    "myOrders": "Your Orders",
+    "noOrdersFound": "No Orders. Order on TheBakerz",
+    "noOrdersMatchSearch": "Orders not found",
+    "noOrdersYet": "No Orders Yet",
+    "order": "Order",
+    "orderDetails": "Order Details",
+    "orders": "Orders",
+    "searchOrders": "Find order",
+    "view": "View"
+  },
   "app/landing/horizontal-scroll": {
     "deliveries": "DELIVERIES",
     "marketing": "MARKETING",
@@ -1274,6 +1292,9 @@
     "storeUpdated": "Store Info Updated!",
     "tooManyRequests": "Too Many Requests!",
     "userNotFound": "User not Found!"
+  },
+  "app/lib/actions/user-orders": {
+    "failedFetchOrders": "Failed fetch orders"
   },
   "app/lib/schemas": {
   },

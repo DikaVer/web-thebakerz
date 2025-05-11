@@ -9567,3 +9567,207 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-05-11T00:46:59.775Z'
+  app/components/order-user.myOrders:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: juBf3BOfxIumlNAG1bIDt
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:24:49.279Z'
+  app/components/order-user.searchOrders:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: '-adSFAQ_owmAd6Ke9WC2D'
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:24:59.249Z'
+  app/components/order-user.order:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: Uzi6FIiTEZDJ_ncp3cu0a
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:25:22.726Z'
+  app/components/order-user.orders:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: kfdOHBSePg36k89O1bNth
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:25:31.205Z'
+  app/components/order-user.noOrdersFound:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: yGa0SfGew9q6cVY5N1DPO
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:25:44.096Z'
+  app/components/order-user.noOrdersMatchSearch:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: 2yR5jeL1RGEeRUs9Tqi7p
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:26:37.744Z'
+  app/components/order-user.noOrdersYet:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: pjjaKNeB-qs1e4MZS_LDL
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:26:52.557Z'
+  app/components/order-user.close:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: qYZK-3bhxh7-sO_3Hvai8
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:27:05.165Z'
+  app/components/order-user.item:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: 4Dh0XttuN510CiQ-tGd4Z
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:27:19.372Z'
+  app/components/order-user.items:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: tIOE8ZNfYHkOHe9wehe4Y
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:27:31.778Z'
+  app/components/order-user.view:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: YCyTB85zXxrPZRe-HzlRk
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:28:17.303Z'
+  app/components/order-user.orderDetails:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: gJx3Tq2KqfQzVVwF7KSdN
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:29:40.690Z'
+  app/lib/actions/user-orders.failedFetchOrders:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: ltrnlvcE9udXbhpgXbVRd
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:44:11.945Z'
+  app/(store)/components/orders/overview.Service Fee:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: eJgfWE6wfiZyuyDwnZWgi
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:52:31.485Z'
+  app/(store)/components/orders/overview.Delivery VAT:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: 66897YWB_nZSKCKTog3dX
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:52:43.816Z'
+  app/(store)/components/orders/overview.Delivery Fee:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: XOw318hOrcO9d6p6XU8B3
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:52:56.304Z'
+  app/(store)/components/orders/overview.Service VAT:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: CwrWK3LokzugQwE3ZOhuS
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-11T01:53:31.605Z'

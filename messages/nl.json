@@ -734,6 +734,8 @@
     "Change Status Action": "Weet u zeker dat u de status van deze bestelling wilt wijzigen?",
     "Cooking": "Koken",
     "Customer Details": "Klantgegevens",
+    "Delivery Fee": "",
+    "Delivery VAT": "",
     "Failed to update status": "Status kan niet worden bijgewerkt",
     "Order": "Volgorde",
     "Order Items": "Bestel artikelen",
@@ -744,6 +746,8 @@
     "Ready": "Klaar",
     "Search Items": "Zoek items",
     "Select one option": "Selecteer één optie",
+    "Service Fee": "",
+    "Service VAT": "",
     "Something Went Wrong": "Er ging iets mis",
     "Status updated successfully": "Status succesvol bijgewerkt",
     "Subtotal": "Subtotaal",
@@ -1185,6 +1189,20 @@
     "weHaveMore": "Denk je dat dit alles is?",
     "weHaveMoreDescription": "We hebben meer!"
   },
+  "app/components/order-user": {
+    "close": "",
+    "item": "",
+    "items": "",
+    "myOrders": "",
+    "noOrdersFound": "",
+    "noOrdersMatchSearch": "",
+    "noOrdersYet": "",
+    "order": "",
+    "orderDetails": "",
+    "orders": "",
+    "searchOrders": "",
+    "view": ""
+  },
   "app/landing/horizontal-scroll": {
     "deliveries": "LEVERINGEN",
     "marketing": "MARKETING",
@@ -1284,6 +1302,9 @@
     "storeUpdated": "Winkelinformatie bijgewerkt!",
     "tooManyRequests": "Te veel verzoeken!",
     "userNotFound": "Gebruiker niet gevonden!"
+  },
+  "app/lib/actions/user-orders": {
+    "failedFetchOrders": ""
   },
   "app/lib/schemas": {
   },
