@@ -326,7 +326,7 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
                                     width={24} 
                                 />
                                 <p className="text-xs md:text-sm whitespace-pre-wrap font-light text-foreground">
-                                    {store.totalLikesProduct} products' likes
+                                    {store.totalLikesProduct} total products liked
                                 </p>
                             </div>
                         )}
