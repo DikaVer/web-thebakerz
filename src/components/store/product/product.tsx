@@ -108,7 +108,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     
     // Initialize favorite state with the product ID - ensure productData has all required properties
     const [isFavorite, setIsFavorite] = useState(isProductFavorite(productData.store_id, productData.constId));
-    const [likeCount, setLikeCount] = useState(productData.totalLikes ?? 0);
+    const [likeCount, setLikeCount] = useState(isFavorite ? productData.totalLikes + 1 : productData.totalLikes);
     const [isAnimating, setIsAnimating] = useState(false);
 
     const handlePopoverOpenChange = (open: boolean) => {

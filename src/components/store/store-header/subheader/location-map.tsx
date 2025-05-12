@@ -286,7 +286,7 @@ const LocationMap: React.FC<LocationMapProps> = ({
                         </div>
                     )}
                     {/* Border overlay */}
-                    <div className="absolute inset-0 border border-default-200 pointer-events-none rounded-lg"></div>
+                    <div className="absolute inset-0 border border-default-200 pointer-events-none "></div>
                     {/* "View on Google Maps" button */}
                     <div className="absolute top-3 right-3 bg-black/75 text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm transition-all hover:scale-105 hover:bg-black/90 flex items-center shadow-md">
                         <Icon icon="solar:map-arrow-right-bold-duotone" className="mr-1.5 text-white" width="14" height="14" />

@@ -87,7 +87,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
     const { openModal } = useSignInModal();
     
     const [isFavorite, setIsFavorite] = useState(isProductFavorite(storeId, constId));
-    const [likeCount, setLikeCount] = useState(totalLikes);
+    const [likeCount, setLikeCount] = useState(isFavorite ? totalLikes + 1 : totalLikes);
     const [isAnimating, setIsAnimating] = useState(false);
 
     const handleFavoriteToggle = async () => {
