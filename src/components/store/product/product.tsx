@@ -104,7 +104,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const { addItem } = useCart();
     const storeMinTimeOrder = isDelivery ? validationResult?.deliveryRegion?.minOrderTime : store?.minTimeOrder;
     const { isProductFavorite, addProductToFavorites, removeProductFromFavorites } = useFavorites();
-    const { openModal } = useSignInModal();
+    const { openModal, ModalSign } = useSignInModal();
     
     // Initialize favorite state with the product ID - ensure productData has all required properties
     const [isFavorite, setIsFavorite] = useState(isProductFavorite(productData.store_id, productData.constId));
@@ -219,6 +219,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                 }
             }}
         >
+            <ModalSign message={"And you add this product to your favorites"} />
             <Card
                 isFooterBlurred
                 radius="lg"

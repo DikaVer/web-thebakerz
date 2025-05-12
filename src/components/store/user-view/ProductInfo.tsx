@@ -84,7 +84,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
 }) => {
     const { session } = useSession();
     const { isProductFavorite, addProductToFavorites, removeProductFromFavorites } = useFavorites();
-    const { openModal } = useSignInModal();
+    const { openModal, ModalSign } = useSignInModal();
     
     const [isFavorite, setIsFavorite] = useState(isProductFavorite(storeId, constId));
     const [likeCount, setLikeCount] = useState(isFavorite ? totalLikes + 1 : totalLikes);
@@ -111,6 +111,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
 
     return (
         <div className="flex flex-col gap-2 relative">
+            <ModalSign message={"And you add this product to your favorites"} />
             <Button
                 radius="full"
                 variant="light"

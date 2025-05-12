@@ -294,7 +294,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                                 width={24} 
                                             />
                                             <p className="text-xs md:text-sm whitespace-pre-wrap font-light text-white/90">
-                                                {store.totalLikesProduct} products' likes
+                                                {store.totalLikesProduct} total products liked
                                             </p>
                                         </div>
                                     )}
