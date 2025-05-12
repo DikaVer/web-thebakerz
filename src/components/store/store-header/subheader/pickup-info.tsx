@@ -235,6 +235,7 @@ export default function PickupInfo({ store}: PickupInfoProps) {
                       key={mapId}
                       latitude={Number(store.location.latitude)} 
                       longitude={Number(store.location.longitude)}
+                      useStaticMap={true}
                     />
                   ) : (
                     <div className="flex items-center justify-center h-full">

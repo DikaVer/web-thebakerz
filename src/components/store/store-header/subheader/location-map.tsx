@@ -9,6 +9,7 @@ import { logger } from "@/lib/logger"; // Import logger
 import { Link } from "@heroui/react";
 import { useSignInModal } from "@/components/ui/modal-signin";
 import { useSession } from "@/components/providers/session-provider";
+import Image from "next/image";
 
 interface LocationMapProps {
     latitude: number;
@@ -18,6 +19,9 @@ interface LocationMapProps {
     className?: string;
     onMapLoaded?: () => void;
     interactive?: boolean;
+    useStaticMap?: boolean;
+    staticMapWidth?: number;
+    staticMapHeight?: number;
 }
 
 const LocationMap: React.FC<LocationMapProps> = ({
@@ -28,6 +32,9 @@ const LocationMap: React.FC<LocationMapProps> = ({
     onMapLoaded,
     className,
     interactive = false,
+    useStaticMap = false,
+    staticMapWidth = 2000,
+    staticMapHeight = 2000,
 }) => {
     const t = useTranslations("app/(store)/components/location-map");
     const { isLoaded: isMapsApiReady, loadError } = useGoogleMaps();
@@ -37,6 +44,7 @@ const LocationMap: React.FC<LocationMapProps> = ({
     const [isMapVisible, setIsMapVisible] = useState(false);
     const { openModal, ModalSign } = useSignInModal();
     const { session } = useSession();
+    const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
     
     // Memoize position to prevent unnecessary updates, handle 0 as valid coordinate
     const position = useMemo(() => ({
@@ -56,6 +64,7 @@ const LocationMap: React.FC<LocationMapProps> = ({
     
     // Initialize map when API is ready
     const initializeMap = useCallback(async () => {
+        if (useStaticMap) return; // Skip map initialization if using static map
         if (mapInstanceRef.current) return; // Guard: Do not re-initialize if map already exists
         if (!mapRef.current || !isMapsApiReady || loadError) return;
         if (!window.google || !window.google.maps) {
@@ -107,12 +116,17 @@ const LocationMap: React.FC<LocationMapProps> = ({
         } catch (error) {
             logger.error('LocationMap', 'Error initializing map:', { error });
         }
-    }, [isMapsApiReady, loadError, zoom, t, interactive, onMapLoaded]); // currentPositionRef is stable
+    }, [isMapsApiReady, loadError, zoom, t, interactive, onMapLoaded, useStaticMap]); // currentPositionRef is stable
 
     // Initialize map effect
     useEffect(() => {
-
-        initializeMap();
+        if (!useStaticMap) {
+            initializeMap();
+        } else {
+            // For static map, just set visibility
+            setIsMapVisible(true);
+            if (onMapLoaded) onMapLoaded();
+        }
         
         return () => {
             // Clean up resources on unmount
@@ -136,10 +150,11 @@ const LocationMap: React.FC<LocationMapProps> = ({
             // or could lead to issues. If issues persist, consult Google Maps API documentation on cleanup.
             mapInstanceRef.current = null;
         };
-    }, []);
+    }, [useStaticMap, initializeMap, onMapLoaded]);
 
     // Handle resize events with debouncing
     useEffect(() => {
+        if (useStaticMap) return; // Skip resize handling for static maps
         if (!mapRef.current || !isMapsApiReady || !mapInstanceRef.current) return; // Ensure map is ready for resize observation
         
         const handleResize = () => {
@@ -169,7 +184,7 @@ const LocationMap: React.FC<LocationMapProps> = ({
                 resizeDebounceTimerRef.current = null;
             }
         };
-    }, [isMapsApiReady]); // Only depends on isMapsApiReady to setup/teardown observer
+    }, [isMapsApiReady, useStaticMap]); // Only depends on isMapsApiReady to setup/teardown observer
 
     // Generate the Google Maps URL
     const mapUrl = useMemo(() => {
@@ -177,6 +192,36 @@ const LocationMap: React.FC<LocationMapProps> = ({
       const lng = typeof longitude === 'number' ? longitude : DEFAULT_CENTER.lng;
       return `https://www.google.com/maps?q=${lat},${lng}`;
     }, [latitude, longitude]);
+
+    // Generate static map URL with size constraints for API limits
+    const staticMapUrl = useMemo(() => {
+        const lat = typeof latitude === 'number' ? latitude : DEFAULT_CENTER.lat;
+        const lng = typeof longitude === 'number' ? longitude : DEFAULT_CENTER.lng;
+        
+        // Google Maps Static API has size limits: max 640x640 for free tier, max 2048x2048 for premium
+        // The scale=2 doubles the pixel density, making 640x640 effective 1280x1280
+        const maxSize = 640; // Maximum size for free usage with scale=2
+        
+        // Constrain dimensions to API limits while maintaining aspect ratio
+        let width = Math.min(staticMapWidth, maxSize);
+        let height = Math.min(staticMapHeight, maxSize);
+        
+        // If dimensions exceed the maximum allowed, calculate the largest possible size
+        // that maintains the original aspect ratio
+        if (staticMapWidth > maxSize || staticMapHeight > maxSize) {
+            const aspectRatio = staticMapWidth / staticMapHeight;
+            
+            if (aspectRatio >= 1) { // Width > Height
+                width = maxSize;
+                height = Math.floor(width / aspectRatio);
+            } else { // Height > Width
+                height = maxSize;
+                width = Math.floor(height * aspectRatio);
+            }
+        }
+        
+        return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${width}x${height}&scale=2&format=png&maptype=roadmap&markers=color:red%7C${lat},${lng}&style=feature:all|element:labels|visibility:on&style=feature:landscape|element:all|color:0xf2f2f2&style=feature:poi|element:all|visibility:off&style=feature:road|element:all|saturation:-100|lightness:45&style=feature:road.highway|element:all|visibility:simplified&style=feature:road.arterial|element:labels.icon|visibility:off&style=feature:transit|element:all|visibility:off&style=feature:water|element:all|color:0x8AACC8|visibility:on&key=${googleMapsApiKey}`;
+    }, [latitude, longitude, zoom, staticMapWidth, staticMapHeight, googleMapsApiKey]);
 
     // Handle map click with authentication check
     const handleMapClick = (e: React.MouseEvent) => {
@@ -204,28 +249,42 @@ const LocationMap: React.FC<LocationMapProps> = ({
                 style={{ height, minHeight: '200px' }}
             >
                 <div className="relative w-full h-full" style={{ minHeight: 'inherit' }}>
-                    <div 
-                        ref={mapRef} 
-                        className={`w-full h-full transition-opacity duration-300 ${isMapVisible ? 'opacity-100' : 'opacity-0'}`}
-                        style={{ minHeight: 'inherit' }}
-                        aria-label={"Store location map"} // More specific ARIA label
-                    >
-                        {/* Error state */}
-                        {loadError && (
-                             <div className="absolute inset-0 bg-danger-50 flex flex-col items-center justify-center text-center p-4">
-                                <Icon icon="solar:danger-triangle-bold-duotone" className="text-danger text-3xl mb-2"/>
-                                <span className="text-danger-700 text-sm font-medium">{t("errorLoadingMap")}</span>
-                                <span className="text-danger-500 text-xs mt-1">{loadError.message}</span>
-                             </div>
-                        )}
-                        {/* Loading state */}
-                        {!isMapsApiReady && !loadError && (
-                            <div className="absolute inset-0 bg-gray-100 flex flex-col items-center justify-center">
-                                <Icon icon="svg-spinners:ring-resize" className="text-gray-400 text-3xl mb-2" />
-                                <span className="text-gray-500 text-sm">{t("loadingMap")}</span>
-                            </div>
-                        )}
-                    </div>
+                    {useStaticMap ? (
+                        // Static map image
+                        <div className={`w-full h-full transition-opacity duration-300 ${isMapVisible ? 'opacity-100' : 'opacity-0'}`}>
+                            <Image 
+                                src={staticMapUrl}
+                                alt={t('storeLocation') || 'Store Location'}
+                                fill
+                                style={{ objectFit: 'cover' }}
+                                priority
+                            />
+                        </div>
+                    ) : (
+                        // Interactive map
+                        <div 
+                            ref={mapRef} 
+                            className={`w-full h-full transition-opacity duration-300 ${isMapVisible ? 'opacity-100' : 'opacity-0'}`}
+                            style={{ minHeight: 'inherit' }}
+                            aria-label={"Store location map"} // More specific ARIA label
+                        >
+                            {/* Error state */}
+                            {loadError && (
+                                <div className="absolute inset-0 bg-danger-50 flex flex-col items-center justify-center text-center p-4">
+                                    <Icon icon="solar:danger-triangle-bold-duotone" className="text-danger text-3xl mb-2"/>
+                                    <span className="text-danger-700 text-sm font-medium">{t("errorLoadingMap")}</span>
+                                    <span className="text-danger-500 text-xs mt-1">{loadError.message}</span>
+                                </div>
+                            )}
+                            {/* Loading state */}
+                            {!isMapsApiReady && !loadError && (
+                                <div className="absolute inset-0 bg-gray-100 flex flex-col items-center justify-center">
+                                    <Icon icon="svg-spinners:ring-resize" className="text-gray-400 text-3xl mb-2" />
+                                    <span className="text-gray-500 text-sm">{t("loadingMap")}</span>
+                                </div>
+                            )}
+                        </div>
+                    )}
                     {/* Border overlay */}
                     <div className="absolute inset-0 border border-default-200 pointer-events-none rounded-lg"></div>
                     {/* "View on Google Maps" button */}
