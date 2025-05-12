@@ -18,22 +18,83 @@ import { ImageUploader } from "@/components/image/image-upload";
 import { ImageSchema } from "@/lib/schemas";
 import showErrorMessage from "@/components/toast/toast-error";
 import { useSignInModal } from "@/components/ui/modal-signin";
+import { useFavorites } from "@/components/providers/favorites-provider";
+import { ReportStoreModal } from "./report-store-modal";
 
 interface StoreHeaderProps {
 
 }
+
+const AnimatedHeart = ({ isFavorite }: { isFavorite: boolean }) => {
+    return (
+        <Icon 
+            icon="solar:heart-bold" 
+            width={36} 
+            className={`transition-all duration-300 transform ${
+                isFavorite 
+                    ? "text-danger-500 scale-110" 
+                    : "text-foreground scale-100"
+            }`} 
+        />
+    );
+};
+
+const AnimatedNumber = ({ value }: { value: number }) => {
+    const [displayValue, setDisplayValue] = useState(value);
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    useEffect(() => {
+        if (value !== displayValue) {
+            setIsAnimating(true);
+            const startValue = displayValue;
+            const endValue = value;
+            const duration = 500; // Animation duration in ms
+            const startTime = performance.now();
+
+            const animate = (currentTime: number) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Easing function for smooth animation
+                const easeOutQuad = (t: number) => t * (2 - t);
+                const currentValue = Math.round(startValue + (endValue - startValue) * easeOutQuad(progress));
+
+                setDisplayValue(currentValue);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    setIsAnimating(false);
+                }
+            };
+
+            requestAnimationFrame(animate);
+        }
+    }, [value]);
+
+    return (
+        <span className={`transition-all duration-300 ${isAnimating ? 'scale-110' : 'scale-100'}`}>
+            {displayValue}
+        </span>
+    );
+};
 
 export function StoreHeader( {  }: StoreHeaderProps) {
     const { store } = useStore();
     const { session } = useSession();
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const { isOpen: isBackgroundUpload, onOpen: onBackgroundUpload, onOpenChange: onBackgroundChange } = useDisclosure();
+    const { isOpen: isReportOpen, onOpen: onReportOpen, onOpenChange: onReportChange } = useDisclosure();
     const t = useTranslations("app/(store)/components/store-header");
     const router = useRouter();
     const [file, setFile] = useState<File | undefined>();
     const [isUploading, setIsUploading] = useState(false);
     const [backgroundUrl, setBackgroundUrl] = useState<string | undefined>(store.background || undefined);
     const { openModal, ModalSign } = useSignInModal();
+    const { isStoreFavorite, addStoreToFavorites, removeStoreFromFavorites } = useFavorites();
+    const [isAnimating, setIsAnimating] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(isStoreFavorite(store.id));
+    const [likeCount, setLikeCount] = useState(isStoreFavorite(store.id) ? store.totalLikes + 1 : store.totalLikes);
     
     // Check if user is a baker and owns this store
     const isOwner = session?.user?.role === "bakerz" && session.user.id === store.user_id;
@@ -65,13 +126,35 @@ export function StoreHeader( {  }: StoreHeaderProps) {
         }
     };
     
-    
+    const handleFavoriteToggle = async () => {
+        if(!session?.user) {
+            openModal();
+            return;
+        }
+
+        setIsAnimating(true);
+        if (isFavorite) {
+            setIsFavorite(false);
+            setLikeCount((prev: number) => prev - 1);
+            await removeStoreFromFavorites(store.id);
+        } else {
+            setIsFavorite(true);
+            setLikeCount((prev: number) => prev + 1);
+            await addStoreToFavorites(store.id);
+        }
+        setTimeout(() => setIsAnimating(false), 300);
+    };
 
     return (
         <div className="flex flex-col w-full h-full">
             {/* Sign-in modal */}
             <ModalSign 
-                message="And you can access social media profiles"
+                message="And you can access social media profiles and like the store and their products"
+            />
+            <ReportStoreModal 
+                isOpen={isReportOpen}
+                onOpenChange={onReportChange}
+                storeName={store.storeName || ""}
             />
             <ImageUploader
                 type={"background"}
@@ -189,26 +272,77 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                             <Spacer y={10}/>
                             {store?.ownerName && (
                                 <div className="flex flex-col justify-start items-start gap-x-3">
-                                    <p className={`text-5xl whitespace-pre-wrap font-medium text-white ${pacifico.className}`}>
-                                        {store.ownerName}
-                                    </p>
+                                    <div className="flex items-center gap-x-4">
+                                        <p className={`text-5xl whitespace-pre-wrap font-medium text-white ${pacifico.className}`}>
+                                            {store.ownerName}
+                                        </p>
+                
+                                    </div>
                                     {store?.slug && (
                                         <p className="text-xs md:text-sm whitespace-pre-wrap font-light text-white/90">
-                                    {store.slug}
-                                </p>
+                                            {store.slug}
+                                        </p>
+                                    )}
+                                 </div>
                             )}
+                            <div className="flex flex-col justify-start items-start gap-2">
+                                    {store.totalLikesProduct > 0 && (
+                                        <div className="flex items-end gap-2">
+                                            <Icon 
+                                                icon="tabler:user-heart" 
+                                                className="text-white/90"
+                                                width={24} 
+                                            />
+                                            <p className="text-xs md:text-sm whitespace-pre-wrap font-light text-white/90">
+                                                {store.totalLikesProduct} products' likes
+                                            </p>
+                                        </div>
+                                    )}
+                                <div className="flex items-center gap-2">  
+                                    <Button
+                                        variant="light"
+                                        className="aspect-square w-12 h-12 min-w-0 p-0 bg-white/70 text-foreground"
+                                        onPress={onOpen}
+                                    >
+                                        <Icon 
+                                            icon="solar:info-circle-linear" 
+                                            width={36} 
+                                        />
+                                    </Button>
+                                    <Button
+                                        variant="light"
+                                        className={`text-3xl font-medium w-fit h-12 min-w-0 p-0 px-2 bg-white/70 text-foreground transition-all duration-300 ${
+                                            isAnimating ? 'scale-105' : 'scale-100'
+                                        }`}
+                                        onPress={handleFavoriteToggle}
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <AnimatedHeart isFavorite={isFavorite} />
+                                            {likeCount > 0 && (
+                                                <AnimatedNumber value={likeCount} />
+                                            )}
+                                        </div>
+                                    </Button>
                                 </div>
-                            )}
+                            </div>
+
                             <Button
-                                variant="light"
-                                className="text-white aspect-square w-12 h-12 min-w-0 p-0 bg-white/70 text-foreground"
-                                onPress={onOpen}
-                            >
-                                <Icon 
-                                    icon="solar:info-circle-linear" 
-                                    width={36} 
-                                />
-                            </Button>
+                                    variant="light"
+                                    className="aspect-square w-12 h-12 min-w-0 p-0 text-white"
+                                    onPress={() => {
+                                        if (!session?.user) {
+                                            openModal();
+                                            return;
+                                        }
+                                        onReportOpen();
+                                    }}
+                                >
+                                    <Icon 
+                                        icon="solar:flag-linear" 
+                                        width={36} 
+                                    />
+                                </Button>
+
                         </div>
                     </div>
                     

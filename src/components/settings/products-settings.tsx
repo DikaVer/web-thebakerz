@@ -1,37 +1,30 @@
 'use client';
 
 import React, { useEffect, useState, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getCurrentProducts, ProductData, ProductDataFull } from "@/lib/actions/product";
+
+import { ProductData, ProductDataFull } from "@/lib/actions/product";
 import { useSession } from "@/components/providers/session-provider";
-import NotFound from "@/app/not-found";
 import {
-    Button,
     Card,
     CardBody,
-    CardFooter,
     CardHeader,
     Spacer,
-    Tab,
-    Tabs
 } from "@heroui/react";
 import { ProductTable } from "@/components/settings/products/product-tab";
 import { sortItems } from "@/lib/helper/sort-items-with-order";
-import { Icon } from "@iconify/react";
 import { useProductDialog } from "@/components/providers/product-provider";
 import {AnimatePresence, motion, Reorder } from "framer-motion";
 import { ItemCategory } from "../ui/drag-item";
 import {updateProductsOrder} from "@/lib/actions/order-products";
 import showErrorMessage from "@/components/toast/toast-error";
-import showSuccessMessage from "@/components/toast/toast-succes";
 import { useTranslations } from "next-intl";
 import {useStore} from "@/components/providers/store-provider";
 import { logger } from "@/lib/logger";
 
 const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: Record<string, string[]>}> = ({ productsData, productsOrder }) => {
     const t = useTranslations("app/(return_page)/settings/components/products-settings");
-    const { handleAddItem, setProductsDataLocal } = useProductDialog();
-    const { isLoading, registerSaveHandler, setSaveOpen } = useSession();
+    const { setProductsDataLocal } = useProductDialog();
+    const { registerSaveHandler, setSaveOpen } = useSession();
     const [orderChanged, setOrderChanged] = useState(false);
     const categoriesKeys = Object.keys(productsOrder);
     const { store } = useStore();

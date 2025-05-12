@@ -46,7 +46,7 @@ export async function setDeliveryMode(mode: DeliveryMode) {
  */
 export async function getDeliveryMode(): Promise<DeliveryMode> {
     const cookieStore = await cookies();
-    return (cookieStore.get(DELIVERY_MODE_COOKIE)?.value as DeliveryMode) || 'pickup';
+    return (cookieStore.get(DELIVERY_MODE_COOKIE)?.value as DeliveryMode) || 'delivery';
 }
 
 /**

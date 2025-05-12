@@ -2,9 +2,17 @@
 import { NextResponse } from 'next/server';
 import { containerOrders } from "@/db";
 import { getTranslations } from "next-intl/server";
+import { globalGETRateLimit } from '@/lib/actions/requests';
 
 export async function GET(request: Request) {
     const t = await getTranslations("app/api/store/orders/range");
+
+    if (!(await globalGETRateLimit())) {
+        return NextResponse.json(
+            { error: "Too many requests" },
+            { status: 429 }
+        );
+    }
     
     // Retrieve headers
     const storeId = request.headers.get('Store-Id');

@@ -2,11 +2,18 @@
 import { NextResponse } from 'next/server';
 import {getStoreDataPaymentByStoreNameOrId} from "@/lib/actions/store";
 import { getTranslations } from "next-intl/server";
+import { globalGETRateLimit } from '@/lib/actions/requests';    
 
 // This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(request: Request) {
     const t = await getTranslations("app/api/store");
-    
+
+    if (!(await globalGETRateLimit())) {
+        return NextResponse.json(
+            { error: "Too many requests" },
+            { status: 429 }
+        );
+    }
     // Retrieve the Authorization header
     const id = request.headers.get('Store-Id');
     if (!id) {

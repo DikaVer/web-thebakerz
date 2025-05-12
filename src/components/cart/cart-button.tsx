@@ -22,7 +22,7 @@ import { useCart } from "@/components/providers/cart-provider";
 import { useDelivery } from "@/components/providers/delivery-provider";
 import { useTranslations } from "next-intl";
 import {motion, useAnimation} from "framer-motion";
-import { formatCurrency } from "@/lib/utils";
+import { convertMinutesToTimeComponents, formatCurrency } from "@/lib/utils";
 
 interface CartButtonProps {
     isMobileNavbar?: boolean;
@@ -50,6 +50,7 @@ const CartButton: React.FC<CartButtonProps> = ({
     const isMobile = useMediaQuery("(max-width: 768px)");
     const [isLoading, setIsLoading] = useState(false);
     const { store } = useStore();
+    const { minLeadTimeProduct } = useDelivery();
     const router = useRouter();
     const t = useTranslations("app/(store)/components/cart");
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
@@ -85,6 +86,19 @@ const CartButton: React.FC<CartButtonProps> = ({
             );
         });
     };
+
+
+    const preOrderTime = useMemo(() => {
+        if(isDelivery && validationResult.deliveryRegion?.minOrderTime) {
+            const minLeadTime = minLeadTimeProduct || 0;
+            const final = validationResult.deliveryRegion?.minOrderTime > minLeadTime ? validationResult.deliveryRegion?.minOrderTime : minLeadTime;
+            return convertMinutesToTimeComponents(final);
+        } else {
+            const minLeadTime = minLeadTimeProduct || 0;
+            const final = store.minTimeOrder > minLeadTime ? store.minTimeOrder : minLeadTime;
+            return convertMinutesToTimeComponents(final);
+        }
+    }, [isDelivery, validationResult, minLeadTimeProduct, store]);
 
     // Calculate total price of all items in the cart
     const calculateTotalPrice = (): number => {
@@ -206,6 +220,10 @@ const CartButton: React.FC<CartButtonProps> = ({
                                                 {t("minimumOrderForDelivery", { amount: formatCurrency(minimumOrderAmount) })}
                                             </div>
                                         )}
+                                        {/* Pre-order time */}
+                                        <p className="mb-2 text-warning text-sm">
+                                            {t("preOrderTime", { time: preOrderTime.formatted })}
+                                        </p>
                                         <Button
                                             isLoading={isLoading}
                                             isDisabled={!canProceedToCheckout}

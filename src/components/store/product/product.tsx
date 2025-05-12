@@ -14,15 +14,75 @@ import { useDelivery } from "@/components/providers/delivery-provider";
 import { DietaryIcon } from "@/components/store/product/components/super-icons";
 import { updateCart } from "@/lib/actions/cart";
 import { useCart } from "@/components/providers/cart-provider";
-import showSuccessMessage from "@/components/toast/toast-succes";
 import showErrorMessage from "@/components/toast/toast-error";
 import { getOrderTime, getDeliveryTime, removeAllSchedules } from "@/app/(store)/[id]/actions";
 import { scheduledToCalendarDateTime } from "@/lib/utils";
 import { getLocalTimeZone } from '@internationalized/date';
 import { useRouter } from "next/navigation";
+import { useFavorites } from "@/components/providers/favorites-provider";
+import { useSignInModal } from "@/components/ui/modal-signin";
+
 interface ProductBaseProps {
-    productData: ProductData;
+    productData: ProductData & {
+        totalLikes?: number;
+    };
 }
+
+// Add AnimatedHeart component
+const AnimatedHeart = ({ isFavorite }: { isFavorite: boolean }) => {
+    return (
+        <Icon 
+            icon="solar:heart-bold" 
+            width={20} 
+            className={`transition-all duration-300 transform ${
+                isFavorite 
+                    ? "text-danger-500 scale-110" 
+                    : "text-white scale-100"
+            }`} 
+        />
+    );
+};
+
+// Add AnimatedNumber component
+const AnimatedNumber = ({ value }: { value: number }) => {
+    const [displayValue, setDisplayValue] = useState(value);
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    useEffect(() => {
+        if (value !== displayValue) {
+            setIsAnimating(true);
+            const startValue = displayValue;
+            const endValue = value;
+            const duration = 500; // Animation duration in ms
+            const startTime = performance.now();
+
+            const animate = (currentTime: number) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Easing function for smooth animation
+                const easeOutQuad = (t: number) => t * (2 - t);
+                const currentValue = Math.round(startValue + (endValue - startValue) * easeOutQuad(progress));
+
+                setDisplayValue(currentValue);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    setIsAnimating(false);
+                }
+            };
+
+            requestAnimationFrame(animate);
+        }
+    }, [value]);
+
+    return (
+        <span className={`transition-all duration-300 ${isAnimating ? 'scale-110' : 'scale-100'}`}>
+            {displayValue}
+        </span>
+    );
+};
 
 export const ProductBase: React.FC<ProductBaseProps> = ({
     productData,
@@ -43,6 +103,13 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const { isDelivery, deliveryAddressModal, validationResult, setSelectedDate } = useDelivery();
     const { addItem } = useCart();
     const storeMinTimeOrder = isDelivery ? validationResult?.deliveryRegion?.minOrderTime : store?.minTimeOrder;
+    const { isProductFavorite, addProductToFavorites, removeProductFromFavorites } = useFavorites();
+    const { openModal } = useSignInModal();
+    
+    // Initialize favorite state with the product ID - ensure productData has all required properties
+    const [isFavorite, setIsFavorite] = useState(isProductFavorite(productData.store_id, productData.constId));
+    const [likeCount, setLikeCount] = useState(productData.totalLikes ?? 0);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     const handlePopoverOpenChange = (open: boolean) => {
         setIsManualOpen(open);
@@ -117,6 +184,25 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
         router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`); 
     };
 
+    const handleFavoriteToggle = async () => {
+        if(!session?.user) {
+            openModal();
+            return;
+        }
+
+        setIsAnimating(true);
+        if (isFavorite) {
+            setIsFavorite(false);
+            setLikeCount((prev: number) => prev - 1);
+            await removeProductFromFavorites(productData.store_id, productData.constId);
+        } else {
+            setIsFavorite(true);
+            setLikeCount((prev: number) => prev + 1);
+            await addProductToFavorites(productData.store_id, productData.constId);
+        }
+        setTimeout(() => setIsAnimating(false), 300);
+    };
+
     return (
         <div
             id={productData.id}
@@ -140,6 +226,21 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
             >
                 <CardBody className="p-0">
                     <div className={`w-full aspect-square`}>
+                        <Button
+                            radius="full"
+                            variant="light"
+                            color="secondary"
+                            size="sm"
+                            className={`absolute top-2 right-2 z-30 bg-black/60 font-bold text-lg text-white transition-all duration-300 ${
+                                isAnimating ? 'scale-105' : 'scale-100'
+                            }`}
+                            onPress={() => handleFavoriteToggle()}
+                        >
+                            {likeCount > 0 && (  
+                                <AnimatedNumber value={likeCount} />
+                            )}
+                            <AnimatedHeart isFavorite={isFavorite} />
+                        </Button>
                         {Array.isArray(productData.dietary) && productData.dietary.length > 0 && (
                             <div className="absolute bottom-2 right-2 z-20">
                                 <Popover 

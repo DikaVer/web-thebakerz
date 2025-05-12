@@ -15,6 +15,8 @@ import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 import LayoutComp from "@/components/layout-comp";
 import NotFound from "@/app/(error_layout)/not-found";
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
+import { FavoritesProvider } from '@/components/providers/favorites-provider';
+import { getCurrentFavorites, getProductFavorites } from '@/lib/actions/favorites';
 
 type Params = Promise<{ id: string }>
 
@@ -172,6 +174,8 @@ async function setupStoreProviders({
 
     
     const cartData = await getCurrentCart(storeData.id);
+    const initialStoreFavorites = await getCurrentFavorites("getStoreFavorites", storeData.id);
+    const initialProductFavorites = await getCurrentFavorites("getProductFavorites", storeData.id);
     
     return (
         
@@ -187,19 +191,23 @@ async function setupStoreProviders({
                     storeId={storeData.id}
                     initialDeliveryMode={initialDeliveryMode}
                 >
-                    <ProductDialogProvider
-                        storeId={storeData.id}
-                        storeOwnerId={storeData.user_id}
-                        storeName={storeData?.storeName}
-                    >
-                        <LayoutComp
-                            store={storeData}
-                            {...layoutOptions}
+                    <FavoritesProvider
+                            initialStoreFavorites={initialStoreFavorites}
+                            initialProductFavorites={initialProductFavorites}
                         >
-                            {children}
-                        </LayoutComp>
-                    </ProductDialogProvider>
-        
+                        <ProductDialogProvider
+                            storeId={storeData.id}
+                            storeOwnerId={storeData.user_id}
+                            storeName={storeData?.storeName}
+                        >
+                            <LayoutComp
+                                store={storeData}
+                                {...layoutOptions}
+                            >
+                                {children}
+                            </LayoutComp>
+                        </ProductDialogProvider>
+                    </FavoritesProvider>
                 </CartProvider>
             </DeliveryProvider>
         </StoreProvider>

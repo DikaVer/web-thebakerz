@@ -610,6 +610,7 @@
     "continue": "Doorgaan",
     "minimumOrderForDelivery": "",
     "note": "Opmerking",
+    "preOrderTime": "",
     "yourCartFrom": "Uw winkelwagen van"
   },
   "app/(store)/components/checkout": {
@@ -668,6 +669,14 @@
     "uploadImage": "Afbeelding uploaden",
     "uploading": "Uploaden...",
     "zoom": "Zoom"
+  },
+  "app/(store)/components/info-popovers": {
+    "deliveryWindowDescription": "",
+    "deliveryWindowTitle": "",
+    "pickupWindowDescription": "",
+    "pickupWindowTitle": "",
+    "preOrderTimeDescription": "",
+    "preOrderTimeTitle": ""
   },
   "app/(store)/components/location-map": {
     "errorLoadingMap": "",
@@ -861,6 +870,16 @@
   },
   "app/(store)/components/product-tabs": {
     "categoryNavigation": "Categorie Navigatie"
+  },
+  "app/(store)/components/report-store": {
+    "cancel": "",
+    "descriptionLabel": "",
+    "descriptionPlaceholder": "",
+    "reportStore": "",
+    "sending": "",
+    "subjectLabel": "",
+    "subjectPlaceholder": "",
+    "submit": ""
   },
   "app/(store)/components/smart-calendar": {
     "time": "Tijd"
@@ -1124,7 +1143,8 @@
     "internalError": "Interne serverfout",
     "missingAuth": "Ontbrekende of ongeldige autorisatieheader",
     "missingStoreId": "Ontbrekende of ongeldige Store-Id-header",
-    "notAuthorized": "Geen toegang verlenen"
+    "notAuthorized": "Geen toegang verlenen",
+    "tooManyRequests": ""
   },
   "app/api/store/cart": {
     "internalError": "Interne serverfout",

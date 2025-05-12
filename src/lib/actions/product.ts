@@ -9,6 +9,7 @@ import {revalidateTag} from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { getCartItemsByProductId } from "@/lib/actions/cart";
 import {getCurrentStoreByUserIdAndStoreId} from "@/lib/actions/store";
+import { getTotalFavoritesProduct, getTotalFavoritesStoreProduct, getProductFavoritesCountsByStore } from "./favorites";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -84,11 +85,10 @@ export const addProduct = async (
     }
 
     let image_url;
-    if (formData.file_picture) {
+    if (formData.file_picture && !productId) {
         const fd = new FormData();
         fd.append("file", formData.file_picture, "image.webp");
         fd.append("container", "products");
-
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload-image`,
             {
@@ -251,9 +251,13 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
             .query(querySpec, { partitionKey: storeId })
             .fetchAll();
 
+        // Get likes counts for all products in the store
+        const productFavoriteCounts = await getProductFavoritesCountsByStore(storeId);
 
         const productDataFull: ProductDataFull = {};
         products.forEach((product: ProductData) => {
+            // Assign the like count to each product, defaulting to 0 if not found
+            product.totalLikes = productFavoriteCounts[product.constId] || 0;
             productDataFull[product.id] = product;
         });
 
@@ -261,31 +265,6 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
     } catch (error) {
         console.error("Error fetching store products:", error);
         throw new Error("Failed to fetch store products");
-    }
-}
-
-export async function getProductByStoreIdAndProductId(storeId: string, productId: string): Promise<ProductData | null> {
-    try {
-        if (!storeId || !productId) {
-            return null;
-        }
-
-        // Directly retrieve the item by ID and partition key
-        const { resource } = await containerProducts.item(productId, storeId).read();
-
-        // Return null if product is archived
-        if (resource && resource.archive === true) {
-            return null;
-        }
-
-        return resource;
-    } catch (error) {
-        // If item not found, CosmosDB will throw a 404 error
-        if ((error as any).code === 404) {
-            return null;
-        }
-        console.error("Error fetching product:", error);
-        throw new Error("Failed to fetch product");
     }
 }
 
@@ -311,7 +290,12 @@ export async function getProductByStoreIdAndWebName(storeId: string, webName: st
             return null;
         }
 
-        return resources[0];
+        const product = resources[0];
+        
+        // Get the like count for this product
+        product.totalLikes = await getTotalFavoritesProduct(product.constId);
+        
+        return product;
     } catch (error) {
         console.error("Error fetching product by web name:", error);
         throw new Error("Failed to fetch product by web name");
@@ -320,12 +304,11 @@ export async function getProductByStoreIdAndWebName(storeId: string, webName: st
 
 export async function getCurrentProduct(storeId: string, productId: string): Promise<ProductData | null> {
     try {
-
         if (!storeId) {
             return null;
         }
 
-        return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/products/${productId}`, {
+        const product = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/products/${productId}`, {
             headers: {
                 'Store-Id': storeId,
                 'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
@@ -336,6 +319,8 @@ export async function getCurrentProduct(storeId: string, productId: string): Pro
             }
         }).then(res => res.json());
 
+
+        return product;
     } catch (error) {
         console.error("Error fetching store products:", error);
         throw new Error("Failed to fetch store products");
@@ -344,12 +329,11 @@ export async function getCurrentProduct(storeId: string, productId: string): Pro
 
 export async function getCurrentProducts(storeId: string): Promise<ProductDataFull> {
     try {
-
         if (!storeId) {
             return {};
         }
 
-        return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/products`, {
+        const products = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/products`, {
             headers: {
                 'Store-Id': storeId,
                 'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
@@ -360,6 +344,8 @@ export async function getCurrentProducts(storeId: string): Promise<ProductDataFu
             }
         }).then(res => res.json());
 
+
+        return products;
     } catch (error) {
         console.error("Error fetching store products:", error);
         throw new Error("Failed to fetch store products");
@@ -385,6 +371,7 @@ export type ProductData = {
     constId: string;
     additionalImages: string[];
     hide_product?: boolean;
+    totalLikes: number;
 };
 
 export type ProductDataClean = {

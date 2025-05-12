@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 import {connectionPool, containerClientAvatar, containerClientProduct, containerClientBackground} from "@/db";
-import {globalGETRateLimit} from "@/lib/actions/requests";
+import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {getCurrentSession} from "@/lib/actions/session";
 import {ImageSchema} from "@/lib/schemas";
 import { getTranslations } from "next-intl/server";
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     const t = await getTranslations("app/api/upload-image");
     
     try {
-        if (!await globalGETRateLimit()) {
+        if (!await globalPOSTRateLimit()) {
             return NextResponse.json({
                 error: t("tooManyRequests")
             }, {

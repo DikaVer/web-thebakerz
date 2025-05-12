@@ -208,9 +208,12 @@ export default function ProductDialogView({
 
                         <div className={"flex flex-col px-4 py-2 w-full gap-4"}>
                             <ProductInfo
+                                constId={productData.constId}
+                                storeId={productData.store_id}
                                 name={productData.name}
                                 price={productData.price}
                                 description={productData.description || ""}
+                                totalLikes={productData.totalLikes}
                             />
                             
                             <ProductDetails

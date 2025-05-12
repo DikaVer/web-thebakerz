@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { RefillingTokenBucket } from "@/lib/actions/rate-limits";
 
-export const globalBucket = new RefillingTokenBucket<string>(10, 1);
+export const globalBucket = new RefillingTokenBucket<string>(100, 1);
 
 // Return a promise that resolves to a boolean.
 export async function globalGETRateLimit(): Promise<boolean> {
@@ -29,5 +29,5 @@ export async function globalLargeRateLimit(): Promise<boolean> {
     if (clientIP === null) {
         return true;
     }
-    return globalBucket.consume(clientIP, 10);
+    return globalBucket.consume(clientIP, 80);
 }

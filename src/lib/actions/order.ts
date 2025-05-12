@@ -450,7 +450,7 @@ export async function getOrdersByDateRange(storeId: string, fromDate: string, to
             },
             next: {
                 tags: ['orders'],
-                revalidate: 0
+                revalidate: 300
             }
         });
 

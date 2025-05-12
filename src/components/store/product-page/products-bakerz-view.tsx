@@ -10,8 +10,6 @@ import {
     NumberInput,
     Alert,
     PressEvent,
-    CardFooter, Card,
-    CardBody,
 } from "@heroui/react";
 import {addProduct, deleteProduct, ProductData, ProductDataClean, ProductVariant} from "@/lib/actions/product";
 import { Icon } from "@iconify/react";
@@ -34,9 +32,7 @@ import {DeleteConfirmationModal} from "@/components/store/product/components/del
 import {ImageUploadSection} from "@/components/store/product/components/image-upload-section";
 import {MinLeadTime} from "@/components/store/product/components/min-lead-time";
 import { DescriptionTitleSection, ProductTitleSection, IngredientsTitleSection, AllergiesTitleSection, DietaryTitleSection, VariantsTitleSection, VariantsInstructionSection } from "@/components/store/product/components/product-title-section";
-import { DescriptionHelpModal, VariantsHelpModal } from "@/components/store/product/components/product-help-modal";
 import SwitchCell from "@/components/ui/switch-cell";
-import { logger } from "@/lib/logger";
 
 type ProductViewProps = {
     storeId: string;
@@ -58,9 +54,6 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(null);
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
-    const [showDescriptionHelp, setShowDescriptionHelp] = useState(false);
-    const [showVariantsHelp, setShowVariantsHelp] = useState(false);
-    console.log(productData);
 
     // Form setup with zod validation
     const form = useForm<z.infer<typeof ProductSchema>>({
@@ -246,25 +239,27 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
     }, [additionalImages, currentImageIndex, fileAdditional, form, picture]);
 
     const removeMainImage = useCallback((e: PressEvent) => {
-        if (additionalImages.length > 0) {
-            const newMainImage = additionalImages[0];
-            const newMainFile = fileAdditional[0];
-            const updatedAdditionalImages = additionalImages.slice(1);
-            const updatedFileAdditional = fileAdditional.slice(1);
+        if (productData?.id) {
+            if (additionalImages.length > 0) {
+                const newMainImage = additionalImages[0];
+                const newMainFile = fileAdditional[0];
+                const updatedAdditionalImages = additionalImages.slice(1);
+                const updatedFileAdditional = fileAdditional.slice(1);
 
-            setPicture(newMainImage);
-            form.setValue("url", newMainImage);
-            form.setValue("file_picture", newMainFile);
-            setAdditionalImages(updatedAdditionalImages);
-            setFileAdditional(updatedFileAdditional);
-            form.setValue("additionalImages", updatedAdditionalImages);
-            form.setValue("file_additional_pictures", updatedFileAdditional);
-        } else {
-            setPicture(undefined);
-            form.setValue("url", "");
-            form.setValue("file_picture", undefined);
+                setPicture(newMainImage);
+                form.setValue("url", newMainImage);
+                form.setValue("file_picture", newMainFile);
+                setAdditionalImages(updatedAdditionalImages);
+                setFileAdditional(updatedFileAdditional);
+                form.setValue("additionalImages", updatedAdditionalImages);
+                form.setValue("file_additional_pictures", updatedFileAdditional);
+            } else {
+                setPicture(undefined);
+                form.setValue("url", "");
+                form.setValue("file_picture", undefined);
+            }
         }
-    }, [additionalImages, fileAdditional, form]);
+    }, [additionalImages, fileAdditional, form, productData?.id]);
 
     const removeAdditionalImage = useCallback((index: number, e: PressEvent) => {
         const updatedAdditionalImages = [...additionalImages];
@@ -307,6 +302,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                     <FormItem>
                                         <FormControl>
                                             <ImageUploadSection
+                                                isProductExisting={!!productData?.id}
                                                 picture={picture}
                                                 additionalImages={additionalImages}
                                                 isPending={isPending}
@@ -314,7 +310,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                                 fileRef={fileRef}
                                                 onFileChange={handleFileChange}
                                                 onMainClick={() => {
-                                                    if (!isPending) fileRef.current?.click();
+                                                    if (!isPending && !productData?.id) fileRef.current?.click();
                                                 }}
                                                 onAdditionalClick={(index?: number) => {
                                                     if (!isPending) {

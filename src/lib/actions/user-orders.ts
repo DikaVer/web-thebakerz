@@ -67,7 +67,7 @@ export async function getUserOrder(storeId: string, orderId: string): Promise<Or
             },
             next: {
                 tags: ['orders'],
-                revalidate: 0 
+                revalidate: 300
             }
         });
 

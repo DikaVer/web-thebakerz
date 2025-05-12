@@ -1,28 +1,13 @@
 'use client'
 
-import {
-    QueryClient,
-    QueryClientProvider,
-} from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { applyDOMNodePatch } from '@/lib/utils/dom-patch'
-
-const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            //@ts-ignore
-            suspense: true,
-        },
-    },
-})
 
 import {HeroUIProvider, ToastProvider} from "@heroui/react";
 import dynamic from 'next/dynamic'
 import {useRouter} from "next/navigation";
-import {usePathname} from "next/navigation";
 import {SessionProvider} from "@/components/providers/session-provider";
 import {SessionValidationResult} from "@/lib/actions/session";
-import { useTheme } from 'next-themes';
 const NextThemesProvider = dynamic(
     () => import('next-themes').then((e) => e.ThemeProvider),
     {
@@ -65,7 +50,6 @@ export function Providers({session, children, locale}: {
 
         >
             <NextThemesProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem={false}>
-                <QueryClientProvider client={queryClient}>
                     <SessionProvider sessionData={session}>
                         <div className={'relative z-60'}>
                             <ToastProvider
@@ -78,7 +62,6 @@ export function Providers({session, children, locale}: {
                         </div>
                         {children}
                     </SessionProvider>
-                </QueryClientProvider>
             </NextThemesProvider>
         </HeroUIProvider>
     )

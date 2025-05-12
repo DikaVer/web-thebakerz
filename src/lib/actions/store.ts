@@ -7,6 +7,8 @@ import {revalidateTag} from "next/cache";
 import { haversineDistance } from "../utils";
 import { stripe } from "@/stripe";
 import { logger } from "../logger";
+import { getTotalFavoritesStore, getTotalFavoritesStoreProduct } from "./favorites";
+
 export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData | null> {
     try {
         // Query the stores table for the store profile, joining with the users table
@@ -69,6 +71,10 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
 
         const isStripeValid = await validateStripeAccount(storeRow.stripe_id);
 
+        const totalLikes = await getTotalFavoritesStore(storeRow.id);
+
+        const totalLikesProduct = await getTotalFavoritesStoreProduct(storeRow.id);
+
         return {
             id: storeRow.id,
             user_id: storeRow.user_id,
@@ -93,6 +99,8 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             location,  // This is of type LocationData
             schedule,
             deliveryRegions,
+            totalLikes: totalLikes,
+            totalLikesProduct: totalLikesProduct
         };
     } catch (error) {
         console.error("Error fetching store data:", error);
@@ -323,6 +331,10 @@ export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string
 
         const isStripeValid = await validateStripeAccount(rowS.stripe_id);
 
+        const totalLikes = await getTotalFavoritesStore(rowS.store_id);
+        const totalLikesProduct = await getTotalFavoritesStoreProduct(rowS.store_id);
+
+
         store = {
             id: rowS.store_id,
             user_id: rowS.user_id,
@@ -348,7 +360,9 @@ export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string
                 latitude: rowS.store_latitude,
                 longitude: rowS.store_longitude
             },
-            deliveryRegions
+            deliveryRegions,
+            totalLikes: totalLikes,
+            totalLikesProduct: totalLikesProduct
         };
 
         await getScheduleById(store.id, store.id)
@@ -437,6 +451,9 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
 
         const isStripeValid = await validateStripeAccount(rowS.stripe_id);
 
+        const totalLikes = await getTotalFavoritesStore(rowS.store_id);
+        const totalLikesProduct = await getTotalFavoritesStoreProduct(rowS.store_id);
+
         store = {
             id: rowS.store_id,
             user_id: rowS.user_id,
@@ -468,7 +485,9 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 latitude: rowS.store_latitude,
                 longitude: rowS.store_longitude
             },
-            deliveryRegions
+            deliveryRegions,
+            totalLikes: totalLikes,
+            totalLikesProduct: totalLikesProduct
         };
 
         await getScheduleById(store.id, store.id)
@@ -491,7 +510,7 @@ export const getCurrentStoreByUserId = async (userId: string): Promise<{store: S
         },
         next: {
             tags: ['store'],
-            revalidate: 0
+            revalidate: 300
         }
     }).then(res => res.json());
 }
@@ -702,6 +721,8 @@ export interface StoreData {
     deliveryRegions: MerchantDeliveryRegion[];
     deliveryOption?: 'pickup' | 'delivery' | 'multi';
     isStripeValid?: boolean;
+    totalLikes: number;
+    totalLikesProduct: number;
 }
 
 export interface StoreDataPayment {
@@ -817,6 +838,9 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                 }
             }
 
+            const totalLikes = await getTotalFavoritesStore(storeRow.id);
+            const totalLikesProduct = await getTotalFavoritesStoreProduct(storeRow.id);
+
             let schedule: WorkHours | undefined = undefined;
             await getScheduleById(storeRow.id, storeRow.id)
                 .then((item) => {
@@ -856,7 +880,9 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                 }, 
                 deliveryRegions: deliveryRegions,
                 schedule: schedule,
-                background: storeRow.background
+                background: storeRow.background,
+                totalLikes: totalLikes,
+                totalLikesProduct: totalLikesProduct
             };
 
             // Filter based on delivery mode

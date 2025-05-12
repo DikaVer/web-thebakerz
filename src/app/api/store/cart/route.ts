@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAllCart, } from "@/lib/actions/cart";
 import { getTranslations } from "next-intl/server";
-
+import { globalGETRateLimit } from '@/lib/actions/requests';
 /**
  * API Route: GET /api/store/cart
  * -----------------------------------------------------------------------------------
@@ -16,7 +16,13 @@ import { getTranslations } from "next-intl/server";
  */
 export async function GET(request: Request) {
     const t = await getTranslations("app/api/store/cart");
-    
+
+    if (!(await globalGETRateLimit())) {
+        return NextResponse.json(
+            { error: "Too many requests" },
+            { status: 429 }
+        );
+    }
     // Extract and validate required headers
     const storeId = request.headers.get('Store-Id');
     const userId = request.headers.get('User-Id');

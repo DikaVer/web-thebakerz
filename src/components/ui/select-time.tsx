@@ -31,14 +31,14 @@ export function SelectTime() {
     };
 
     const minValue = () => {
-        if (minLeadTimeProduct && minLeadTimeProduct > store.minTimeOrder) {
-            return now("Europe/Amsterdam").add({ minutes: minLeadTimeProduct });
+        if (isDelivery && validationResult.deliveryRegion?.minOrderTime) {
+            const minLeadTime = minLeadTimeProduct || 0;
+            const final = validationResult.deliveryRegion?.minOrderTime > minLeadTime ? validationResult.deliveryRegion?.minOrderTime : minLeadTime;
+            return now("Europe/Amsterdam").add({ minutes: final }); 
         } else {
-            if (isDelivery) {
-                return now("Europe/Amsterdam").add({ minutes: validationResult.deliveryRegion?.minOrderTime || 10080 }); 
-            } else {
-                return now("Europe/Amsterdam").add({ minutes: store.minTimeOrder || 10080 });
-            }
+            const minLeadTime = minLeadTimeProduct || 0;
+            const final = store.minTimeOrder > minLeadTime ? store.minTimeOrder : minLeadTime;
+            return now("Europe/Amsterdam").add({ minutes: final});
         }
     };
 

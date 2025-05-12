@@ -6,6 +6,8 @@ import { DeliveryProvider } from '@/components/providers/delivery-provider';
 import { getCurrentDeliveryAddress } from '../(store)/[id]/delivery-actions';
 import { getDeliveryMode } from '@/lib/delivery-cookie';
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
+import { getCurrentFavorites } from '@/lib/actions/favorites';
+import { FavoritesProvider } from '@/components/providers/favorites-provider';
 
 
 export default async function Layout(
@@ -21,6 +23,10 @@ export default async function Layout(
     
     let initialDeliveryMode = deliveryMode === 'delivery';
 
+    const initialStoreFavorites = await getCurrentFavorites("getStoreFavorites");
+
+    console.log(initialStoreFavorites);
+
 
     return (
             <>
@@ -28,12 +34,16 @@ export default async function Layout(
                     initialDeliveryMode={initialDeliveryMode}
                     initialAddress={savedAddress}
                 >   
-                    <GoogleMapsProvider>
-                        <LayoutComp>
-                            {children}
-                            <Footer/>
-                        </LayoutComp>
-                    </GoogleMapsProvider>
+                    <FavoritesProvider
+                        initialStoreFavorites={initialStoreFavorites}
+                    >
+                        <GoogleMapsProvider>
+                            <LayoutComp>
+                                {children}
+                                <Footer/>
+                            </LayoutComp>
+                        </GoogleMapsProvider>
+                    </FavoritesProvider>
                 </DeliveryProvider>
             </>
     );

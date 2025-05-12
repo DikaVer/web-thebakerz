@@ -3,7 +3,7 @@
 import React, { useMemo, useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Badge, Card, CardBody, CardFooter, Chip, Popover, PopoverContent, PopoverTrigger, Button } from '@heroui/react';
+import { Card, CardBody, CardFooter, Chip, Popover, PopoverContent, PopoverTrigger, Button } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { NearbyStore } from '@/lib/actions/store'; // Assuming NearbyStore is exported
 import { formatCurrency } from '@/lib/utils'; // Assuming a currency formatting util
@@ -12,6 +12,9 @@ import { examppleStore } from '@/lib/local-variables';
 import { renderScheduleDisplay } from '@/components/store/store-header/subheader/working-hours';
 import { useHoverPopover } from '@/hooks/use-hover-popover';
 import { useMediaQuery } from 'usehooks-ts';
+import { useSignInModal } from '@/components/ui/modal-signin';
+import { useSession } from '@/components/providers/session-provider';
+import { useFavorites } from '@/components/providers/favorites-provider';
 
 interface StorePanelProps {
     store: NearbyStore;
@@ -19,12 +22,75 @@ interface StorePanelProps {
     isUserCord: boolean;
 }
 
+// Add AnimatedNumber component
+const AnimatedNumber = ({ value }: { value: number }) => {
+    const [displayValue, setDisplayValue] = useState(value);
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    useEffect(() => {
+        if (value !== displayValue) {
+            setIsAnimating(true);
+            const startValue = displayValue;
+            const endValue = value;
+            const duration = 500; // Animation duration in ms
+            const startTime = performance.now();
+
+            const animate = (currentTime: number) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Easing function for smooth animation
+                const easeOutQuad = (t: number) => t * (2 - t);
+                const currentValue = Math.round(startValue + (endValue - startValue) * easeOutQuad(progress));
+
+                setDisplayValue(currentValue);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    setIsAnimating(false);
+                }
+            };
+
+            requestAnimationFrame(animate);
+        }
+    }, [value]);
+
+    return (
+        <span className={`transition-all duration-300 ${isAnimating ? 'scale-110' : 'scale-100'}`}>
+            {displayValue}
+        </span>
+    );
+};
+
+// Add AnimatedHeart component
+const AnimatedHeart = ({ isFavorite }: { isFavorite: boolean }) => {
+    return (
+        <Icon 
+            icon="solar:heart-bold" 
+            width={20} 
+            className={`transition-all duration-300 transform ${
+                isFavorite 
+                    ? "text-danger-500 scale-110" 
+                    : "text-white scale-100"
+            }`} 
+        />
+    );
+};
+
 export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps) {
     const wH = useTranslations("app/(store)/components/working-hours");
     const t = useTranslations("search.components.storePanel");
     const [isManualOpen, setIsManualOpen] = React.useState(false);
     const { isHovered, setIsHovered, triggerRef, popoverRef } = useHoverPopover();
     const isMobile = useMediaQuery('(max-width: 768px)');
+    const { openModal, ModalSign } = useSignInModal();
+    const { session } = useSession();
+    const { isStoreFavorite, addStoreToFavorites, removeStoreFromFavorites } = useFavorites();
+
+    const [isFavorite, setIsFavorite] = useState(isStoreFavorite(store.id));
+    const [likeCount, setLikeCount] = useState(isFavorite ? store.totalLikes + 1 : store.totalLikes);
+    const [isAnimating, setIsAnimating] = useState(false);
     
     // Create ref for the popover component
     const componentRef = useRef<HTMLDivElement>(null);
@@ -33,18 +99,6 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
     // Combine manual opening and hover state
     // On mobile, we only use manual open state
     const isPopoverOpen = isMobile ? isManualOpen : (isManualOpen || isHovered);
-
-    // Handle closing on backdrop click for mobile
-    const handleBackdropClick = (e: React.MouseEvent) => {
-        if (isMobile) {
-            // Check if we're clicking outside of the popover content
-            if (popoverWrapperRef.current && !popoverWrapperRef.current.contains(e.target as Node)) {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsManualOpen(false);
-            }
-        }
-    };
     
     const handlePopoverOpenChange = (open: boolean) => {
         setIsManualOpen(open);
@@ -80,12 +134,6 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
             document.removeEventListener('touchstart', handleClickOutside);
         };
     }, [isMobile]);
-    
-    // Close popover when route changes
-    const closePopover = () => {
-        setIsManualOpen(false);
-        setIsHovered(false);
-    };
     
     // Prevent link activation when interacting with popover
     const preventLinkAction = isPopoverOpen;
@@ -180,8 +228,45 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
         return currentTimeInMinutes >= openingTimeInMinutes && currentTimeInMinutes < closingTimeInMinutes;
     }, [store.deliveryRegions, store.distance, isStoreOpen, deliveryMode]);
 
+    const handleFavoriteToggle = async () => {
+        if(!session?.user) {
+            openModal();
+            return;
+        }
+
+        setIsAnimating(true);
+        if (isFavorite) {
+            setIsFavorite(false);
+            setLikeCount(prev => prev - 1);
+            await removeStoreFromFavorites(store.id);
+        } else {
+            setIsFavorite(true);
+            setLikeCount(prev => prev + 1);
+            await addStoreToFavorites(store.id);
+        }
+        setTimeout(() => setIsAnimating(false), 300);
+    };
+
     return (
         <div ref={componentRef} className="relative">
+            <ModalSign 
+                message="And you add store to your favorites"
+            />
+            <Button
+                radius="full"
+                variant="light"
+                color="secondary"
+                size="sm"
+                className={`absolute top-2 right-2 z-10 bg-black/60 font-bold text-lg text-white transition-all duration-300 ${
+                    isAnimating ? 'scale-105' : 'scale-100'
+                }`}
+                onPress={handleFavoriteToggle}
+            >
+                {likeCount > 0 && (  
+                    <AnimatedNumber value={likeCount} />
+                )}
+                <AnimatedHeart isFavorite={isFavorite} />
+            </Button>
             <Link 
                 href={`/${store.storeName || store.id}`} 
                 className="block group"
@@ -233,6 +318,18 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
                                 )
                             )}
                         </div>
+                        {store.totalLikesProduct > 0 && (
+                            <div className="flex items-end gap-2">
+                                <Icon 
+                                    icon="tabler:user-heart" 
+                                    className="text-foreground"
+                                    width={24} 
+                                />
+                                <p className="text-xs md:text-sm whitespace-pre-wrap font-light text-foreground">
+                                    {store.totalLikesProduct} products' likes
+                                </p>
+                            </div>
+                        )}
                         
                         <p className="text-default-600 text-xs line-clamp-2">{store?.slug || 'Artisanal baked goods'}</p>
                         

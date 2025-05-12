@@ -2,9 +2,7 @@
 
 import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';
 import { CartData, ItemCart, updateCart, removeCartItem, TypedCartData } from "@/lib/actions/cart";
-import { getProductByStoreIdAndProductId } from "@/lib/actions/product";
 import showErrorMessage from "@/components/toast/toast-error";
-import showSuccessMessage from "@/components/toast/toast-succes";
 import {useDisclosure} from "@heroui/react";
 import { useDelivery } from './delivery-provider';
 
@@ -78,7 +76,11 @@ export const CartProvider: React.FC<{
         if (!cartData[storeId]) return;
         
         const maxLeadTime = Object.values(cartData[storeId])
-            .reduce((max, item) => Math.max(max, item.min_lead_time), 0);
+            .reduce((max, item) => {
+                // Skip items without min_lead_time or if it's undefined/null
+                if (!item.min_lead_time) return max;
+                return Math.max(max, item.min_lead_time);
+            }, 0);
         
         setMinLeadTimeProduct(maxLeadTime);
     }, [cartData, storeId, setMinLeadTimeProduct]);
@@ -142,8 +144,6 @@ export const CartProvider: React.FC<{
                 
                 return newTypedCarts;
             });
-            
-            showSuccessMessage({success: "Item deleted"});
             return true;
         } else {
             console.error("Error removing cart item", result.error);

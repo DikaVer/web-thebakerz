@@ -102,7 +102,7 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
         showArrow 
         offset={10}
         classNames={{
-            content: 'p-0 bg-white/10 backdrop-blur-md',
+            content: 'p-1 bg-white/40 backdrop-blur-xl',
         }}
         isOpen={isPopoverOpen}
         onOpenChange={handlePopoverOpenChange}

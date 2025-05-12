@@ -1,11 +1,19 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import {getStoreByUserIdAndStoreId} from "@/lib/actions/store";
-
+import { globalGETRateLimit } from "@/lib/actions/requests";
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ storeId: string, userId: string }> }
 ) {
+
+    if (!(await globalGETRateLimit())) {
+        return NextResponse.json(
+            { error: "Too many requests" },
+            { status: 429 }
+        );
+    }
+
     try {
         const { storeId, userId } = await params;
 

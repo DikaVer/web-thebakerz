@@ -4,20 +4,20 @@ const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     // cacheHandler: require.resolve("./cache-handler.mjs"),
-    experimental: {
-        turbo: {
-            rules: {
-                '*.svg': {
-                    loaders: ['@svgr/webpack'],
-                    as: '*.js',
-                },
-                '*.webp': {
-                    loaders: ['@webpr/webpack'],
-                    as: '*.js',
-                },
+    turbopack: {
+        rules: {
+            '*.svg': {
+                loaders: ['@svgr/webpack'],
+                as: '*.js',
+            },
+            '*.webp': {
+                loaders: ['@webpr/webpack'],
+                as: '*.js',
             },
         },
-        serverComponentsExternalPackages: ["pino", "pino-pretty"],
+    },
+    serverExternalPackages: ["pino", "pino-pretty"],
+    experimental: {
         serverActions: {
             bodySizeLimit: '5mb',
         },

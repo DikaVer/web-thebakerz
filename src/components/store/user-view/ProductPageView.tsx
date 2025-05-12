@@ -155,9 +155,12 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                     <div className="p-4 md:p-0md:flex gap-8">  
                         <div className="md:w-fit space-y-6">
                             <ProductInfo
+                                constId={product.constId}
+                                storeId={product.store_id}
                                 name={product.name}
                                 price={product.price}
                                 description={product.description || ""}
+                                totalLikes={product.totalLikes}
                             />
                             
                             <Divider className="my-4" />

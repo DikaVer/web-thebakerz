@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getOrder } from "@/lib/actions/order";
 import { getTranslations } from "next-intl/server";
-
+import { globalGETRateLimit } from '@/lib/actions/requests';
 /**
  * API Route: GET Order Information
  *
@@ -19,6 +19,13 @@ import { getTranslations } from "next-intl/server";
  */
 export async function GET(request: Request) {
     const t = await getTranslations("app/api/store/order");
+
+    if (!(await globalGETRateLimit())) {
+        return NextResponse.json(
+            { error: "Too many requests" },
+            { status: 429 }
+        );
+    }
     
     // Validate required headers
     const headers = {

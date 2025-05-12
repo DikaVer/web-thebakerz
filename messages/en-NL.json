@@ -604,6 +604,7 @@
     "continue": "Continue",
     "minimumOrderForDelivery": "Minimum Order: {amount}",
     "note": "Note",
+    "preOrderTime": "Pre-order Time: {time}",
     "yourCartFrom": "Your cart from"
   },
   "app/(store)/components/checkout": {
@@ -662,6 +663,14 @@
     "uploadImage": "Upload Image",
     "uploading": "Uploading...",
     "zoom": "Zoom"
+  },
+  "app/(store)/components/info-popovers": {
+    "deliveryWindowDescription": "This is the timeframe during which your order will be delivered. The delivery service will make sure your order arrives within this window.",
+    "deliveryWindowTitle": "Delivery Window",
+    "pickupWindowDescription": "This is the timeframe during which you can pick up your order. Please arrive within this window to collect your freshly prepared items.",
+    "pickupWindowTitle": "Pickup Window",
+    "preOrderTimeDescription": "This is the minimum time required before your order can be fulfilled. Orders must be placed at least this far in advance to allow for preparation time.",
+    "preOrderTimeTitle": "Pre-Order Time"
   },
   "app/(store)/components/location-map": {
     "errorLoadingMap": "Error loading map",
@@ -855,6 +864,16 @@
   },
   "app/(store)/components/product-tabs": {
     "categoryNavigation": "Category Navigation"
+  },
+  "app/(store)/components/report-store": {
+    "cancel": "Cancel",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Please describe the issue in detail",
+    "reportStore": "Report Store",
+    "sending": "Sending...",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Enter the subject of your report",
+    "submit": "Submit Report"
   },
   "app/(store)/components/smart-calendar": {
     "time": "Time"
@@ -1118,7 +1137,8 @@
     "internalError": "Internal Server Error",
     "missingAuth": "Missing or invalid Authorization header",
     "missingStoreId": "Missing or invalid Store-Id header",
-    "notAuthorized": "Not Authorize Access"
+    "notAuthorized": "Not Authorize Access",
+    "tooManyRequests": "Too many request!"
   },
   "app/api/store/cart": {
     "internalError": "Internal Server Error",
@@ -1379,13 +1399,5 @@
     "hours": "hours",
     "minute": "minute",
     "minutes": "minutes"
-  },
-  "app/(store)/components/info-popovers": {
-    "preOrderTimeTitle": "Pre-Order Time",
-    "preOrderTimeDescription": "This is the minimum time required before your order can be fulfilled. Orders must be placed at least this far in advance to allow for preparation time.",
-    "deliveryWindowTitle": "Delivery Window",
-    "deliveryWindowDescription": "This is the timeframe during which your order will be delivered. The delivery service will make sure your order arrives within this window.",
-    "pickupWindowTitle": "Pickup Window",
-    "pickupWindowDescription": "This is the timeframe during which you can pick up your order. Please arrive within this window to collect your freshly prepared items."
   }
 }

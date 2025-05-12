@@ -4,6 +4,7 @@ import {FormControl} from "@/components/ui/form";
 import {Icon} from "@iconify/react";
 
 type ImageUploadSectionProps = {
+    isProductExisting: boolean;
     picture?: string;
     additionalImages: string[];
     isPending: boolean;
@@ -17,6 +18,7 @@ type ImageUploadSectionProps = {
 };
 
 export function ImageUploadSection({
+                                isProductExisting,
                                 picture,
                                 additionalImages,
                                 isPending,
@@ -31,7 +33,7 @@ export function ImageUploadSection({
     return (
         <div className="md:pl-4">
             <FormControl>
-                <div className="flex w-full justify-center cursor-pointer items-center">
+                <div className={cn("flex w-full justify-center items-center", isProductExisting ? "cursor-default" : "cursor-pointer")}>
                     <input type="file" className="hidden" ref={fileRef} onChange={onFileChange} />
                     {picture ? (
                         <div
@@ -41,18 +43,20 @@ export function ImageUploadSection({
                             )}
                             onClick={!isPending ? onMainClick : undefined}
                         >
-                            <Button
-                                isIconOnly
-                                isDisabled={isPending}
-                                size="sm"
-                                color="danger"
-                                variant="flat"
-                                radius="full"
-                                className="absolute top-2 right-2 z-50 opacity-90"
-                                onPress={onRemoveMain}
-                            >
-                                <Icon icon="solar:close-circle-bold" width={20} />
-                            </Button>
+                            {!isProductExisting && (
+                                <Button
+                                    isIconOnly
+                                    isDisabled={isPending}
+                                    size="sm"
+                                    color="danger"
+                                    variant="flat"
+                                    radius="full"
+                                    className="absolute top-2 right-2 z-50 opacity-90"
+                                    onPress={onRemoveMain}
+                                >
+                                    <Icon icon="solar:close-circle-bold" width={20} />
+                                </Button>
+                            )}
                             <Image
                                 removeWrapper
                                 alt="Main image"

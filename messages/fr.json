@@ -602,6 +602,7 @@
     "continue": "",
     "minimumOrderForDelivery": "",
     "note": "",
+    "preOrderTime": "",
     "yourCartFrom": ""
   },
   "app/(store)/components/checkout": {
@@ -658,6 +659,14 @@
     "uploadImage": "",
     "uploading": "",
     "zoom": ""
+  },
+  "app/(store)/components/info-popovers": {
+    "deliveryWindowDescription": "",
+    "deliveryWindowTitle": "",
+    "pickupWindowDescription": "",
+    "pickupWindowTitle": "",
+    "preOrderTimeDescription": "",
+    "preOrderTimeTitle": ""
   },
   "app/(store)/components/location-map": {
     "errorLoadingMap": "",
@@ -845,6 +854,16 @@
   },
   "app/(store)/components/product-tabs": {
     "categoryNavigation": ""
+  },
+  "app/(store)/components/report-store": {
+    "cancel": "",
+    "descriptionLabel": "",
+    "descriptionPlaceholder": "",
+    "reportStore": "",
+    "sending": "",
+    "subjectLabel": "",
+    "subjectPlaceholder": "",
+    "submit": ""
   },
   "app/(store)/components/smart-calendar": {
     "time": ""
@@ -1104,7 +1123,8 @@
     "internalError": "",
     "missingAuth": "",
     "missingStoreId": "",
-    "notAuthorized": ""
+    "notAuthorized": "",
+    "tooManyRequests": ""
   },
   "app/api/store/cart": {
     "internalError": "",

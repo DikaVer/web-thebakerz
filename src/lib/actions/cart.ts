@@ -107,7 +107,7 @@ export const updateCart = async (
         
         // Check for existing item without notes
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type  FROM c WHERE c.store_id = @storeId AND c.user_id = @userId AND c.product_id = @productId AND c.type = @type",
+            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.user_id = @userId AND c.product_id = @productId AND c.type = @type",
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@userId", value: userId },
@@ -302,7 +302,7 @@ export const replaceGuestCart = async (
         const userPartitionKey = [storeId, userId];
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type FROM c WHERE c.store_id = @storeId AND c.user_id = @guestId",
+            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.user_id = @guestId",
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@guestId", value: guestId },
@@ -314,7 +314,7 @@ export const replaceGuestCart = async (
             .fetchAll();
 
         const userQuerySpec = {
-            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type  FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
+            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@userId", value: userId },
@@ -433,7 +433,7 @@ export const getCart = async (
 ): Promise<CartData> => {
 
     const querySpec = {
-        query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type FROM c WHERE c.store_id = @storeId AND c.user_id = @userId AND c.type = @type",
+        query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.user_id = @userId AND c.type = @type",
         parameters: [{ name: "@storeId", value: storeId }, { name: "@userId", value: userId }, { name: "@type", value: type }],
     };
 
@@ -472,7 +472,7 @@ export const getAllCart = async (
     storeId: string,
 ): Promise<TypedCartData> => {
     const querySpec = {
-        query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
+        query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
         parameters: [{ name: "@storeId", value: storeId }, { name: "@userId", value: userId }],
     };
 
@@ -545,7 +545,7 @@ export const getCartItemsByProductId = async (
 ): Promise<ItemCart[]> => {
     try {
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type FROM c WHERE c.store_id = @storeId AND c.product_id = @productId",
+            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.product_id = @productId",
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@productId", value: productId }

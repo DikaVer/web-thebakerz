@@ -40,7 +40,7 @@ export const DeliveryNavbar: React.FC<DeliveryNavbarProps> = ({
                 </div>
                 <div className={cn(
                     "w-2/3",
-                    !isDelivery && "hidden"
+                    (!isDelivery && !isSearchPage) && "hidden"
                 )}>
                     <DeliveryAddressButton />
                 </div>

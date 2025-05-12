@@ -64,7 +64,6 @@
     "@stripe/stripe-js": "^5.10.0",
     "@tabler/icons-react": "^3.31.0",
     "@tailwindcss/typography": "^0.5.16",
-    "@tanstack/react-query": "^5.69.0",
     "@types/canvas-confetti": "^1.9.0",
     "@types/google.maps": "^3.58.1",
     "@types/js-cookie": "^3.0.6",
@@ -141,7 +140,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
-    "@tanstack/eslint-plugin-query": "^5.68.0",
     "@types/node": "^22.13.11",
     "@types/react": "19.0.1",
     "@types/react-dom": "19.0.2",
