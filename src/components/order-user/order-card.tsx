@@ -43,7 +43,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, onClick }) => {
                                     {order.store_name || "Bakery"}
                                 </h3>
                                 <Chip size="sm" color="primary" variant="flat">
-                                    #{order.store_order_id}
+                                    #{order.seq_id}
                                 </Chip>
                             </div>
                             

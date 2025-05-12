@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { containerOrders } from "@/db";
-import { getTranslations } from "next-intl/server";
 import { globalGETRateLimit } from '@/lib/actions/requests';
 /**
  * API Route: GET User Orders
@@ -16,7 +15,6 @@ import { globalGETRateLimit } from '@/lib/actions/requests';
  * @returns {Promise<NextResponse>} Orders data or error response
  */
 export async function GET(request: Request) {
-    const t = await getTranslations("app/api/user/orders");
 
     if (!(await globalGETRateLimit())) {
         return NextResponse.json(

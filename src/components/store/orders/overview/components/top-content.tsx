@@ -41,7 +41,7 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData, isU
                 <div className="flex items-center">
                     <p>{t("Order")}</p>
                     <Spacer x={1} />
-                    <GradientText>#{orderData.store_order_id}</GradientText>
+                    <GradientText>#{orderData.seq_id}</GradientText>
                     {orderData.isDelivery && (
                     <>
                         <Spacer x={2}/>
