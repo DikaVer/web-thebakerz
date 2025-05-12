@@ -33,10 +33,10 @@ export const DeliveryAddressButton: React.FC = () => {
         
         const startIcon = (
 
-            <div className={'flex w-10 h-10 items-center'}>
+            <div className={'flex w-8 h-8 items-center'}>
                 <Icon
                     icon="pepicons-print:map"
-                    width={32}
+                    width={24}
                     className={cn(address ? "text-foreground " : "text-white",
                         ""
                     )}
@@ -53,17 +53,15 @@ export const DeliveryAddressButton: React.FC = () => {
         );
         
         const textContent = (
-            <div className="flex flex-col items-start min-w-0 flex-1">
+            <div className="w-full overflow-hidden">
                 {address ? (
-                    <>
-                        <p className="text-sm truncate w-full text-left">
-                            {isCheckout ? `${address.formattedAddress}` : `${address.formattedAddress}`}
-                        </p>
-                    </>
+                    <span className="text-sm text-left overflow-hidden text-ellipsis whitespace-nowrap block">
+                        {isCheckout ? `${address.formattedAddress}` : `${address.formattedAddress}`}
+                    </span>
                 ) : (
-                    <p className="text-sm truncate w-full text-left">
+                    <span className="text-sm text-left overflow-hidden text-ellipsis whitespace-nowrap block">
                         {t("enterDeliveryAddressPrompt")}
-                    </p>
+                    </span>
                 )}
             </div>
         );
@@ -75,7 +73,7 @@ export const DeliveryAddressButton: React.FC = () => {
             startContent: startIcon,
             endContent: endIcon,
             isIconOnly: false,
-            className: `w-full px-2 justify-between ${address ? "bg-background-secondary text-foreground" : "bg-gradient-primary text-white"}`
+            className: `w-full px-2 py-0 justify-between h-fit ${address ? "bg-background-secondary text-foreground" : "bg-gradient-primary text-white"}`
         };
         
     };
@@ -85,14 +83,14 @@ export const DeliveryAddressButton: React.FC = () => {
     return (
         <>
         <Button
-            className={buttonProps.className}
+            className={cn(buttonProps.className, "max-w-full")}
             variant="solid"
             startContent={buttonProps.startContent}
             endContent={buttonProps.endContent}
             isIconOnly={buttonProps.isIconOnly}
             onPress={deliveryAddressModal.onOpen}
         >
-            <div className="flex flex-col items-center justify-center break-words">
+            <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
                 {buttonProps.content}
             </div>
         </Button>
@@ -100,7 +98,7 @@ export const DeliveryAddressButton: React.FC = () => {
         <Modal 
                     isOpen={deliveryAddressModal.isOpen} 
                     onOpenChange={deliveryAddressModal.handleModalOpenChange}
-                    placement={fullMap ? "bottom" : "center"}
+                    placement={fullMap ? "top" : "center"}
                     backdrop="blur"
                     scrollBehavior="inside"
                     size={fullMap ? "5xl" : "3xl"}

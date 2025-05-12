@@ -9,6 +9,8 @@ import { WorkHours } from "@/lib/actions/calendar-actions";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { InfoPopover } from "@/components/ui/info-popovers";
+
 interface DeliveryInfoProps {
   deliveryRegion: MerchantDeliveryRegion;
 }
@@ -28,6 +30,41 @@ export default function DeliveryInfo({
   // Get minimum order value
   const minOrderValue = deliveryRegion.ranges?.[0]?.minOrderPriceInCents || 100000;
   const formattedMinOrderValue = formatCurrency(minOrderValue);
+
+  // Pre-order time (in minutes)
+  const preOrderTimeMinutes = deliveryRegion.minOrderTime;
+  
+  // Convert minutes to days, hours, and minutes
+  const formatTime = (minutes: number): string => {
+    const days = Math.floor(minutes / 1440); // 1440 minutes in a day
+    const hoursRemaining = minutes % 1440;
+    const hours = Math.floor(hoursRemaining / 60);
+    const mins = hoursRemaining % 60;
+    
+    if (days > 0) {
+      if (hours === 0 && mins === 0) {
+        return `${days} ${days === 1 ? 'day' : 'days'}`;
+      } else if (mins === 0) {
+        return `${days}d ${hours}h`;
+      } else if (hours === 0) {
+        return `${days}d ${mins}m`;
+      } else {
+        return `${days}d ${hours}h ${mins}m`;
+      }
+    } else if (hours > 0) {
+      if (mins === 0) {
+        return `${hours} ${hours === 1 ? 'hour' : 'hours'}`;
+      } else {
+        return `${hours}h ${mins}m`;
+      }
+    } else {
+      return `${mins} ${mins === 1 ? 'minute' : 'minutes'}`;
+    }
+  };
+
+  const formattedDeliveryWindow = formatTime(deliveryRegion.ranges?.[0]?.deliveryWindow || (24 * 60 * 3));
+
+  const formattedPreOrderTime = formatTime(preOrderTimeMinutes);
 
   // Show delivery schedule information if available
   // const deliverySchedule = deliveryRegion.deliverySchedule as WorkHours | undefined;
@@ -67,7 +104,7 @@ export default function DeliveryInfo({
         </div>
 
         <div className="p-4">
-          <div className={cn("grid gap-4 mb-3", isCheckout ? "grid-cols-2" : "grid-cols-2 md:grid-cols-4")}>
+          <div className={cn("grid gap-4 mb-3", isCheckout ? "grid-cols-2" : "grid-cols-1 md:grid-cols-4")}>
             <div className="flex flex-col gap-1 p-3 rounded-lg bg-background">
               <div className="flex items-center gap-2 mb-1 h-10">
                 <Icon icon="solar:dollar-minimalistic-linear" className="h-4 w-4 text-success" />
@@ -88,6 +125,34 @@ export default function DeliveryInfo({
               </Skeleton>
             </div>
 
+            <div className="flex flex-col gap-1 p-3 rounded-lg bg-background">
+              <div className="flex items-center gap-2 mb-1 h-10">
+                <Icon icon="solar:clock-circle-linear" className="h-4 w-4 text-warning" />
+                <span className="text-xs text-default-600">{t("preOrderTime") || "Pre-order Time"}</span>
+              </div>
+              <Skeleton isLoaded={!isLoading} className="rounded-full">
+                <div className="flex items-center gap-1">
+                  <span className="text-lg font-semibold">{formattedPreOrderTime}</span>
+                  <InfoPopover type="preOrderTime" />
+                </div>
+              </Skeleton>
+            </div>
+
+            <div className="flex flex-col gap-1 p-3 rounded-lg bg-background">
+              <div className="flex items-center gap-2 mb-1 h-10">
+                <Icon icon="solar:sort-by-time-linear" className="h-4 w-4 text-foreground" />
+                <span className="text-xs text-default-600">{t("deliveryWindow") || "Delivery Window"}</span>
+              </div>
+              <Skeleton isLoaded={!isLoading} className="rounded-full">
+                <div className="flex items-center gap-1">
+                  <span className="text-lg font-semibold">{formattedDeliveryWindow}</span>
+                  <InfoPopover type="deliveryWindow" />
+                </div>
+              </Skeleton>
+            </div>
+          </div>
+
+          <div className={cn("grid gap-4 mb-3", isCheckout ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2")}>
              {/* Buyer Protection */}
              <div className="flex flex-col gap-1 p-3 rounded-lg bg-background">
               <div className="flex items-center gap-2 mb-1 h-10">
@@ -116,32 +181,6 @@ export default function DeliveryInfo({
               </Skeleton>
             </div>
           </div>
-
-
-          {/*{deliverySchedule && enabledDays.length > 0 && (*/}
-          {/*  <div className="mt-3">*/}
-          {/*    <div className="flex items-center gap-2 mb-2">*/}
-          {/*      <Icon icon="solar:clock-circle-linear" className="h-4 w-4 text-warning" />*/}
-          {/*      <span className="text-sm font-medium">{t("deliveryHours")}</span>*/}
-          {/*    </div>*/}
-          {/*    <div className="grid grid-cols-2 gap-2 text-xs">*/}
-          {/*      {enabledDays.map(day => {*/}
-          {/*        const daySchedule = deliverySchedule[day as keyof WorkHours];*/}
-          {/*        if (!daySchedule) return null;*/}
-          {/*        */}
-          {/*        return (*/}
-          {/*          <div key={day} className="flex items-center justify-between p-2 rounded bg-default-50 dark:bg-default-100/5">*/}
-          {/*            <span className="capitalize font-medium">{t(day)}</span>*/}
-          {/*            <span className="text-default-600">*/}
-          {/*              {`${daySchedule.start.hour}:${String(daySchedule.start.minute).padStart(2, '0')} - */}
-          {/*               ${daySchedule.end.hour}:${String(daySchedule.end.minute).padStart(2, '0')}`}*/}
-          {/*            </span>*/}
-          {/*          </div>*/}
-          {/*        );*/}
-          {/*      })}*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-          {/*)}*/}
           
           <div className="mt-4 p-3 rounded-lg bg-success-50 dark:bg-success-900/10 border border-success/10 transform transition-all duration-300">
             <div className="flex items-center gap-2">

@@ -96,11 +96,12 @@ interface FetchClientSecretInput {
     storeStripeAccountId: string;
     promotionCode?: string; // Optional promotion code
     referralCode?: string; // Optional referral code
+    orderNote?: string; // Optional order note
     // Add addressData if needed for server-side validation
     // addressData?: AddressFormType;
 }
 
-export async function fetchClientSecret({ storeId, storeStripeAccountId, promotionCode, referralCode }: FetchClientSecretInput) {
+export async function fetchClientSecret({ storeId, storeStripeAccountId, promotionCode, referralCode, orderNote }: FetchClientSecretInput) {
     // 1. Basic Checks & Rate Limiting
     // ---------------------------------
     if (!(await globalPOSTRateLimit())) {
@@ -386,6 +387,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
         scheduled_time: selectedTime, // Use the validated time
         customer_email: (user && user.role !== 'bakerz') ? user.email : undefined,
         productsData: cartItemsForOrder, // Use the detailed cart items
+        orderNote: orderNote, // Add the order note
         // Add extra fields needed internally or for Stripe metadata
         isDelivery: isDelivery,
         isStoreDelivery: selectedRegion?.isStoreDelivery || false,

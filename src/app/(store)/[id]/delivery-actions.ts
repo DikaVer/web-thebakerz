@@ -18,8 +18,8 @@ export interface ExtendedDeliveryAddressRaw extends DeliveryAddressRaw {
 }
 
 export interface DeliveryAddressRaw {
-  street: string;
-  houseNumber: string;
+  street?: string;
+  houseNumber?: string;
   city: string;
   zipCode: string;
   country: string;

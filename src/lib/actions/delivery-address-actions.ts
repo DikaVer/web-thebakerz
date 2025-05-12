@@ -232,7 +232,7 @@ export async function validateAddress(
       logger.debug("validateAddress", `Checking region: ${region.name}`);
       // Check for country-wide delivery first
       if (region.isCountry && addressData.country && 
-          region.minOrderPriceInCents && region.deliveryPriceInCents && 
+          region.minOrderPriceInCents && region.deliveryPriceInCents && region.deliveryWindow &&
           minPrice > region.minOrderPriceInCents && 
           region.name.toLowerCase() === addressData.country.toLowerCase()) {
 
@@ -242,7 +242,8 @@ export async function validateAddress(
           applicableRange = {
             range: 0,
             deliveryPriceInCents: region.deliveryPriceInCents,
-            minOrderPriceInCents: region.minOrderPriceInCents
+            minOrderPriceInCents: region.minOrderPriceInCents,
+            deliveryWindow: region.deliveryWindow
           };
       } else  {
         // Check for city/region based delivery

@@ -7,6 +7,7 @@ import { formatCurrency } from "@/lib/utils";
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import { formatTime } from "@/components/settings/delivery/utils";
 import { useSession } from "@/components/providers/session-provider";
+import { convertMinutesToTimeComponents } from "@/lib/utils";
 import { CountryDelivery } from "./types";
 import { EU_COUNTRIES_PLUS_SWISS } from "@/lib/local-variables";
 import { Icon } from "@iconify/react";
@@ -171,6 +172,16 @@ const CountryList: React.FC<CountryListProps> = ({
                   className="text-xs dark:text-secondary"
                 >
                   {t("postalDelivery")}
+                </Chip>
+              )}
+              {country.deliveryWindow && (
+                <Chip
+                  size="sm"
+                  variant="flat"
+                  color={"primary"}
+                  className="text-xs dark:text-secondary"
+                >
+                  {t("deliveryWindow")}: {convertMinutesToTimeComponents(country.deliveryWindow).formatted}
                 </Chip>
               )}
             </div>

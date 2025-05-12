@@ -17,6 +17,9 @@ import { DefaultNavbar } from "./navbars/DefaultNavbar";
 import { MobileNavbar } from "./navbars/MobileNavbar";
 import MobileStoreNavbar from "./navbars/MobileStoreNavbar";
 import { MobileSearchNavbar } from "./navbars/MobileSearchNavbar";
+import { DeliveryAddressButton } from "../ui/select-time/delivery-address-button";
+import { SelectTime } from "../ui/select-time";
+import { DeliveryNavbar } from "./navbars/DeliveryNavbar";
 
 interface LayoutProps {
     store?: StoreData;
@@ -66,13 +69,38 @@ export default function NavbarAdvancedComponent({
     const router = useRouter();
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
     const [scrolled, setScrolled] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+    const prevScrollY = React.useRef(0);
+    const blocking = React.useRef(false);
+    const SCROLL_THRESHOLD = 10;
     const pathname = usePathname();
-    const isSearch = pathname.includes("/search");
+    const isShowDelivery = useMediaQuery(store ? "(max-width: 1200px)" : "(max-width: 948px)");
 
-    // Track scroll position
+    // Track scroll position and direction with improved performance
     useEffect(() => {
+        const updateScrollDirection = () => {
+            const currentScrollY = window.scrollY;
+            
+            // Determine if scrolled
+            setScrolled(currentScrollY > 10);
+            
+            // Only update direction if we've scrolled past threshold
+            if (Math.abs(currentScrollY - prevScrollY.current) > SCROLL_THRESHOLD) {
+                // Determine scroll direction
+                setIsVisible(currentScrollY < prevScrollY.current);
+                
+                // Update previous scroll position
+                prevScrollY.current = currentScrollY > 0 ? currentScrollY : 0;
+            }
+            
+            blocking.current = false;
+        };
+        
         const handleScroll = () => {
-            setScrolled(window.scrollY > 10);
+            if (!blocking.current) {
+                blocking.current = true;
+                window.requestAnimationFrame(updateScrollDirection);
+            }
         };
         
         window.addEventListener("scroll", handleScroll);
@@ -91,7 +119,7 @@ export default function NavbarAdvancedComponent({
             <Navbar
                 {...props}
                 classNames={{
-                    base: cn("sticky py-4 w-full backdrop-filter-none bg-background w-full", scrolled ? `shadow-lg ${isSticky && 'shadow-none'}` : ""),
+                    base: cn("sticky py-4 w-full backdrop-filter-none bg-background w-full", scrolled ? `shadow-lg ${(isSticky || isVisible) && 'shadow-none'}` : ""),
                     wrapper:
                         "px-4 max-w-full justify-center bg-background",
                     item: "hidden md:flex",
@@ -120,25 +148,26 @@ export default function NavbarAdvancedComponent({
                             t={t}
                         />
                             {(session?.user?.role === "bakerz" && store?.user_id === session?.user.id) && (
-                                <div className="bg-background rounded-t-xl fixed bottom-0 left-0 right-0 z-50 p-4 shadow-[0_-4px_12px_-1px_rgba(0,0,0,0.1)]">
+                                <div className="bg-background rounded-t-xl fixed bottom-0 left-0 right-0 z-50 p-2 shadow-[0_-4px_12px_-1px_rgba(0,0,0,0.1)]">
                                     <MobileStoreNavbar />
                                 </div>
                             )}
                             {(!(store?.user_id === session?.user?.id) && store) && (
-                                <div className="bg-background rounded-t-xl fixed bottom-0 left-0 right-0 z-50 p-4 shadow-[0_-4px_12px_-1px_rgba(0,0,0,0.1)]">
+                                <div className="bg-background rounded-t-xl fixed bottom-0 left-0 right-0 z-50 p-2 shadow-[0_-4px_12px_-1px_rgba(0,0,0,0.1)]">
                                     <MobileNavbar />
-                                </div>
-                            )}
-                            {isSearch && (
-                                <div className="bg-background rounded-t-xl fixed bottom-0 left-0 right-0 z-50 p-4 shadow-[0_-4px_12px_-1px_rgba(0,0,0,0.1)]">
-                                    <MobileSearchNavbar/>
                                 </div>
                             )}
                         </>
                     )}
                 </NavbarContent>
             </Navbar>
-            
+
+            {(isShowDelivery && !pay) && (
+                <DeliveryNavbar
+                    isVisible={isVisible || !isMobile}
+                />
+            )}
+           
             {/* Save Changes Button - Memoized component */}
             <SaveButton 
                 isMobile={isMobile} handleSave={handleSave} 

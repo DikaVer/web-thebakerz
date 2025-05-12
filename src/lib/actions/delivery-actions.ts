@@ -14,6 +14,7 @@ export interface DeliveryRange {
   range: number;
   deliveryPriceInCents: number;
   minOrderPriceInCents: number;
+  deliveryWindow: number; // Delivery window duration in minutes
 }
 
 // Add DeliveryAddressRaw interface
@@ -29,6 +30,7 @@ export interface DeliveryAddressRaw {
     lng: number;
   };
   formattedAddress: string;
+
 }
 
 // Add DeliveryAddress interface
@@ -37,6 +39,7 @@ export interface DeliveryAddress extends DeliveryAddressRaw {
   userId: string;
   createdAt: string;
   updatedAt?: string;
+
 }
 
 export interface MerchantDeliveryRegion {
@@ -51,13 +54,14 @@ export interface MerchantDeliveryRegion {
   ranges?: DeliveryRange[]; // For multiple city ranges
   deliveryPriceInCents?: number; // Country delivery price
   minOrderPriceInCents?: number; // Country minimum order price
+  deliveryWindow?: number; // Delivery window duration in minutes
   isCountry: boolean; // New field to identify if it's a country-wide delivery
 }
 
 export async function getMerchantDeliveryRegions(storeId: string) {
   try {
     const { resources } = await containerDeliveryRegions.items
-      .query(`SELECT c.name, c.minOrderTime, c.coordinates, c.deliverySchedule, c.isStoreDelivery, c.isPostDelivery, c.ranges, c.deliveryPriceInCents, c.minOrderPriceInCents, c.isCountry FROM c WHERE c.storeId = "${storeId}"`)
+      .query(`SELECT c.name, c.minOrderTime, c.coordinates, c.deliverySchedule, c.isStoreDelivery, c.isPostDelivery, c.ranges, c.deliveryPriceInCents, c.minOrderPriceInCents, c.isCountry, c.deliveryWindow FROM c WHERE c.storeId = "${storeId}"`)
       .fetchAll();
     
     return resources as MerchantDeliveryRegion[];
@@ -72,6 +76,8 @@ export async function updateMerchantDeliveryRegions(
     regions: MerchantDeliveryRegion[]
 ) {
   try {
+
+    console.log("Updating merchant delivery regions:", regions);
     // Validate the input data
     const validationResult = DeliveryRegionsSchema.safeParse(regions);
     
@@ -96,7 +102,7 @@ export async function updateMerchantDeliveryRegions(
 
     // Get existing regions
     const { resources: existingRegions } = await containerDeliveryRegions.items
-      .query(`SELECT c.id, c.name, c.minOrderTime, c.coordinates, c.deliverySchedule, c.isStoreDelivery, c.isPostDelivery, c.ranges, c.deliveryPriceInCents, c.minOrderPriceInCents, c.isCountry FROM c WHERE c.storeId = "${storeId}"`)
+      .query(`SELECT c.id, c.name, c.minOrderTime, c.coordinates, c.deliverySchedule, c.isStoreDelivery, c.isPostDelivery, c.ranges, c.deliveryPriceInCents, c.minOrderPriceInCents, c.isCountry, c.deliveryWindow FROM c WHERE c.storeId = "${storeId}"`)
       .fetchAll();
     
     // Create a map of existing regions for quick lookup
@@ -137,6 +143,7 @@ export async function updateMerchantDeliveryRegions(
         minOrderTime: region.minOrderTime,
         deliveryPriceInCents: region.deliveryPriceInCents,
         minOrderPriceInCents: region.minOrderPriceInCents,
+        deliveryWindow: region.deliveryWindow,
       }
 
       await containerDeliveryRegions.items.create(regionData);

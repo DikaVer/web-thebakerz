@@ -2,12 +2,18 @@
 
 import React, { useEffect, useState } from "react";
 import {
-
     Button,
     cn,
     ButtonGroup,
     Spacer,
     Alert,
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Textarea,
+    useDisclosure,
 } from "@heroui/react";
 
 import { Icon, IconProps } from "@iconify/react";
@@ -38,6 +44,22 @@ export function ScheduleOrder({
         validationResult,
         isTogglingDelivery,
     } = useDelivery();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [note, setNote] = useState<string>("");
+    const [tempNote, setTempNote] = useState<string>("");
+
+    useEffect(() => {
+        const savedNote = localStorage.getItem("orderNote");
+        if (savedNote) {
+            setNote(savedNote);
+        }
+    }, []);
+
+    const handleSaveNote = () => {
+        localStorage.setItem("orderNote", tempNote);
+        setNote(tempNote);
+        onClose();
+    };
 
     const isNext = isDelivery ? (selectedDate instanceof CalendarDateTime && validationResult?.isInRange) : (selectedDate instanceof CalendarDateTime)
 
@@ -56,6 +78,21 @@ export function ScheduleOrder({
             <Spacer y={4} />
             <SelectTime />
             <Spacer y={4} />
+            {/* Note Section */}
+            <div className="flex flex-col w-full mx-auto">
+                <p className="font-medium">Notes</p>
+                <div 
+                    onClick={onOpen}
+                    className={cn("cursor-pointer text-gray-500 font-light hover:underline", {
+                        "text-gray-500": !note,
+                        "text-gray-700": note,
+                    })}
+                >
+                    {note ? note : "Leave instructions"}
+                </div>
+            </div>
+            
+            <Spacer y={4} />
             <div className={'flex flex-row w-full justify-center'}>
                 <Button
                     variant={'bordered'}
@@ -64,7 +101,7 @@ export function ScheduleOrder({
                         !isNext
                             ? ""
                             : "bg-gradient-primary text-white border-none"
-                    }  w-full max-w-[440px]`}
+                    }  w-full`}
                     endContent={
                         <Icon icon={'solar:alt-arrow-right-linear'} width={24} />
                     }
@@ -77,6 +114,24 @@ export function ScheduleOrder({
                     {isDelivery ? t("saveDeliveryDetails") : t("savePickUpDetails")}
                 </Button>
             </div>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalContent>
+                    <ModalBody>
+                        <Textarea
+                            label="Special instructions"
+                            placeholder="Enter any special instructions for your order"
+                            value={tempNote}
+                            variant="underlined"
+                            onChange={(e) => setTempNote(e.target.value)}
+                            minRows={4}
+                        />
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button variant="flat" onPress={onClose}>Cancel</Button>
+                        <Button color="primary" onPress={handleSaveNote}>Save</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </div>
     );
 }

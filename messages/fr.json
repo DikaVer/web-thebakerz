@@ -378,6 +378,10 @@
     "hour": "",
     "hours": "",
     "minutes": "",
+    "pickupWindowDescription": "",
+    "pickupWindowLabel": "",
+    "pickupWindowPlaceholder": "",
+    "pickupWindowTitle": "",
     "selectLabel": "",
     "selectPlaceholder": "",
     "successMessage": "",
@@ -416,6 +420,7 @@
     "brandName": "",
     "cancel": "",
     "cityDelivery": "",
+    "cityEditError": "",
     "countryDelivery": "",
     "countryDeliveryFor": "",
     "day": "",
@@ -428,6 +433,8 @@
     "deliverySchedule": "",
     "deliveryScheduleDescription": "",
     "deliveryTimes": "",
+    "deliveryWindow": "",
+    "deliveryWindowDescription": "",
     "endTime": "",
     "endTimeError": "",
     "hour": "",
@@ -459,6 +466,7 @@
     "selectCountry": "",
     "selectCountryPlaceholder": "",
     "selectDeliveryCity": "",
+    "selectDeliveryWindow": "",
     "selectedCities": "",
     "selectedCountries": "",
     "startTime": "",
@@ -592,6 +600,7 @@
     "addItemsToStart": "",
     "cartEmpty": "",
     "continue": "",
+    "minimumOrderForDelivery": "",
     "note": "",
     "yourCartFrom": ""
   },
@@ -625,6 +634,8 @@
     "cartDetails": "",
     "cartDetailsStep": "",
     "failedToUpdateCart": "",
+    "orderDetails": "",
+    "orderDetailsStep": "",
     "pickUpDetails": "",
     "pickUpDetailsStep": "",
     "signInOrSignUpStep": "",
@@ -885,6 +896,7 @@
     "deliveryHours": "",
     "deliveryOptionsAlertDescription": "",
     "deliveryOptionsAlertTitle": "",
+    "deliveryWindow": "",
     "editDeliveryAddress": "",
     "enterAdditionalInfo": "",
     "enterAddressToSeeDeliveryOptions": "",
@@ -901,10 +913,13 @@
     "loadingDeliveryOptions": "",
     "locationPlaceholder": "",
     "minimumOrder": "",
+    "minutes": "",
     "noDeliveryAddressYet": "",
     "pickUp": "Récupérer",
     "pickUpAt": "Récupérer à",
+    "pickupWindowTitle": "",
     "please_enter_address_to_check_delivery": "Veuillez entrer votre adresse pour voir si le magasin livre chez vous",
+    "preOrderTime": "",
     "scheduleDeliveryTime": "Planifier l'heure de livraison",
     "scheduleOrderTime": "",
     "searchAddress": "",
@@ -1330,5 +1345,13 @@
         "pickup": ""
       }
     }
+  },
+  "time": {
+    "day": "",
+    "days": "",
+    "hour": "",
+    "hours": "",
+    "minute": "",
+    "minutes": ""
   }
 }

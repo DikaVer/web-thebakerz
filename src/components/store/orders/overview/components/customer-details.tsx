@@ -11,9 +11,10 @@ import {DeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 interface OrderCustomerDetailsProps {
     customer: Customer;
     address?: DeliveryAddress;
+    orderNote?: string;
 }
 
-export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({customer, address}) => {
+export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({customer, address, orderNote}) => {
     const router = useRouter();
     const t = useTranslations("app/(store)/components/orders/overview");
 
@@ -91,6 +92,18 @@ export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({custo
                                 <Spacer x={2}/>
                                 <p className={'text-default-500'}>
                                     {address.additionalInfo}
+                                </p>
+                            </div>
+                        </>
+                    )}
+                    {orderNote && (
+                        <>
+                            <Spacer y={4}/>
+                            <div className={'flex justify-center items-start'}>
+                                <Icon icon={"solar:notebook-bold"} className="text-default-400 pointer-events-none flex-shrink-0 mt-1" width={24}/>
+                                <Spacer x={2}/>
+                                <p className={'text-default-500'}>
+                                    {orderNote}
                                 </p>
                             </div>
                         </>

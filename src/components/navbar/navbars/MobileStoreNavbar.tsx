@@ -36,7 +36,7 @@ const MobileStoreNavbar: React.FC = () => {
   
   return (
     <>
-      <div className="flex justify-around items-center h-12">
+      <div className="flex justify-around items-center">
         {/* Shop Button */}
         <Popover 
           isOpen={isStorePopoverOpen} 

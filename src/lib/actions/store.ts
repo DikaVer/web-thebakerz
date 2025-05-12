@@ -29,7 +29,8 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
                     s.delivery_option,
                     COALESCE(bs.kor, false) AS kor,
                     s.region as region,
-                    s.currency as currency
+                    s.currency as currency,
+                    s.pickup_window as pickup_window
              FROM stores s
                       JOIN users u ON s.user_id = u.id
                       LEFT JOIN business_acc bs ON bs.user_id = s.user_id
@@ -86,6 +87,7 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             slug: storeRow.slug,
             stripe_id: storeRow.stripe_id,
             minTimeOrder: storeRow.min_time_order,
+            pickupWindow: storeRow.pickup_window,
             deliveryOption: storeRow.delivery_option,
             isStripeValid: isStripeValid,
             location,  // This is of type LocationData
@@ -291,7 +293,8 @@ export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string
                 store_locations.longitude AS store_longitude,
                 bs.kor AS kor,
                 stores.region as region,
-                stores.currency as currency
+                stores.currency as currency,
+                stores.pickup_window as pickup_window
             FROM stores
                      INNER JOIN store_locations ON store_locations.store_id = stores.id
                      LEFT JOIN business_acc bs ON bs.user_id = stores.user_id
@@ -336,6 +339,7 @@ export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string
             minTimeOrder: rowS.min_time_order,
             deliveryOption: rowS.delivery_option,
             isStripeValid: isStripeValid,
+            pickupWindow: rowS.pickup_window,
             location: {
                 route: rowS.store_route,
                 city: rowS.store_city,
@@ -402,7 +406,8 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 store_locations.longitude AS store_longitude,
                 bs.kor AS kor,
                 stores.region as region,
-                stores.currency as currency
+                stores.currency as currency,
+                stores.pickup_window as pickup_window
             FROM stores
                      INNER JOIN store_locations ON store_locations.store_id = stores.id
                      LEFT JOIN business_acc bs ON bs.user_id = stores.user_id
@@ -453,6 +458,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
             slug: rowS.slug,
             currency: rowS.currency,
             minTimeOrder: rowS.min_time_order,
+            pickupWindow: rowS.pickup_window,
             deliveryOption: rowS.delivery_option,
             location: {
                 route: rowS.store_route,
@@ -688,6 +694,7 @@ export interface StoreData {
     slug?: string;
     stripe_id?: string;
     minTimeOrder: number;
+    pickupWindow: number;
     deleted?: boolean;
     hidden?: boolean;
     location: LocationData;
@@ -773,6 +780,7 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                 s.slug,
                 s.stripe_id,
                 s.min_time_order,
+                s.pickup_window,
                 s.delivery_option,
                 COALESCE(bs.kor, false) AS kor,
                 s.region as region,
@@ -836,6 +844,7 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                 slug: storeRow.slug,
                 stripe_id: storeRow.stripe_id,
                 minTimeOrder: storeRow.min_time_order,
+                pickupWindow: storeRow.pickup_window,
                 deliveryOption: storeRow.delivery_option,
                 location: {
                     route: storeRow.route,
@@ -878,7 +887,8 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                                 deliveryRange = {
                                     range: Infinity, // No distance limit for country delivery
                                     deliveryPriceInCents: region.deliveryPriceInCents || 0,
-                                    minOrderPriceInCents: region.minOrderPriceInCents || 0
+                                    minOrderPriceInCents: region.minOrderPriceInCents || 0,
+                                    deliveryWindow: region.deliveryWindow || 0
                                 };
                                 break; // Country match takes precedence
                             }
@@ -975,5 +985,30 @@ export async function updateStoreBackground(storeId: string, file: File): Promis
     } catch (error) {
         console.error("Error updating store background image:", error);
         throw new Error("Failed to update store background image");
+    }
+}
+
+export async function updatePickupWindow(storeId: string, minutes: number): Promise<boolean> {
+    try {
+        const {user} = await getCurrentSession();
+        if (!user) {
+            throw new Error("Store not found");
+        }
+
+        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+        if (!store) {
+            throw new Error("Store not found");
+        }
+
+        await connectionPool.query(
+            `UPDATE stores SET pickup_window = $1 WHERE id = $2 AND user_id = $3`,
+            [minutes, store.id, user.id]
+        );
+
+        revalidateTag('store');
+        return true;
+    } catch (error) {
+        logger.error("Error updating pickup window:", error instanceof Error ? error.message : String(error));
+        throw new Error("Failed to update pickup window");
     }
 }

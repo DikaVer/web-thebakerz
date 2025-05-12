@@ -128,7 +128,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
             
             // Check for country-wide delivery first
             if (region.isCountry && address.country && 
-                region.minOrderPriceInCents && region.deliveryPriceInCents &&
+                region.minOrderPriceInCents && region.deliveryPriceInCents && region.deliveryWindow &&
                 minPrice > region.minOrderPriceInCents &&
                 region.name.toLowerCase() === address.country.toLowerCase()) {
 
@@ -138,7 +138,8 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
                 applicableRange = {
                   range: 0,
                   deliveryPriceInCents: region.deliveryPriceInCents,
-                  minOrderPriceInCents: region.minOrderPriceInCents
+                  minOrderPriceInCents: region.minOrderPriceInCents,
+                  deliveryWindow: region.deliveryWindow
                 };
             } else {
               // Check for city/region based delivery

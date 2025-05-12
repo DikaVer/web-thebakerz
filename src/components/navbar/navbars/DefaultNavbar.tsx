@@ -14,7 +14,8 @@ import { useTranslations } from "next-intl";
 import ProfilePopover from "@/components/navbar/profile/profile-popover";
 import { logger } from "@/lib/logger";
 import { useCart } from "@/components/providers/cart-provider";
-
+import Image from "next/image";
+import { DeliveryNavbar } from "./DeliveryNavbar";
 interface NavbarTranslationProps {
     t: (key: string) => string;
 }
@@ -32,6 +33,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
 }) => {
     const [isLanguageOpen, setIsLanguageOpen] = useState(false);
     const isMobile = useMediaQuery("(max-width: 768px)");
+    const isHideDelivery = useMediaQuery(store ? "(max-width: 1200px)" : "(max-width: 948px)");
     const router = useRouter();
     const { isDelivery, toggleDeliveryMode, isTogglingDelivery } = useDelivery();
     const { setCurrentCartType } = store ? useCart() : { setCurrentCartType: () => {} };
@@ -46,18 +48,20 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
 
     
     const isProductPage = pathname.includes("item");
+    const isSearchPage = pathname.includes("settings");
+    const isOrdersPage = pathname.includes("orders");
 
     const handleBack = () => {
-        if (isProductPage) {
+        if (isProductPage || isOrdersPage || isSearchPage) {
             router.push(`/${store?.storeName}`);
         } else {
-            router.push("/");
+            router.push("/search");
         }
     }
 
     return (
         <>
-            <NavbarBrand className="flex items-center gap-1">
+            <NavbarBrand className="flex items-center space-x-8">
                     {store ? (
                         <>
                         <Button
@@ -83,50 +87,29 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                     </>
                 ) : (
                     <div className="flex items-center cursor-pointer" onClick={() => router.push("/")}>
-                        <GradientText className={cn("text-xl md:text-2xl font-medium ml-2", pacifico.className)}>
-                            TheBakerz
-                        </GradientText>
+                        <a
+                            className="flex items-center justify-end w-8 h-8"
+                            href="/"
+                        >
+                            <Image
+                                src="/images/TheBakerzLogo.svg"
+                                width={32}
+                                height={32}
+                                alt={"TheBakerz Logo"}
+                            />
+                            {/* <span className={`text-2xl ml-2 ${pacifico.className}`}>TheBakerz</span> */}
+                        </a>
                     </div>
                 )}
                 {/* Toggle Delivery Button */}
                 <div className="flex items-center justify-start py-4">
-                    <div className="relative p-1 rounded-xl bg-background">
+                    <div className="relative rounded-xl p-0.5 bg-background">
                         <ButtonGroup
                             isIconOnly
                             className="relative z-10 overflow-hidden"
                             isDisabled={isTogglingDelivery}
                         >
-                            {(deliveryOption === "pickup" || deliveryOption === 'multi') && (
-                                <Button
-                                    disableRipple
-                                    onPress={() => {
-                                        setCurrentCartType('pickup');
-                                        toggleDeliveryMode(false);
-                                    }}
-                                    isIconOnly
-                                    className={cn(
-                                        "md:min-w-32 transition-all duration-300 data-[hover=true]:bg-transparent",
-                                        !isDelivery ? "text-foreground-secondary font-medium" : "text-default-500 font-normal",
-                                        isTogglingDelivery ? "opacity-50" : "opacity-100"
-                                    )}
-                                    variant="light"
-                                    isDisabled={isTogglingDelivery}
-                                >
-                                    <div className="flex items-center gap-2">
-                                        <Icon
-                                            icon="solar:shop-2-bold"
-                                            width={20}
-                                            height={20}
-                                            className={cn(
-                                                "transition-all duration-300",
-                                                !isDelivery ? "text-primary" : "text-default-500"
-                                            )}
-                                        />
-                                        <span className={cn("text-sm hidden md:block", isDelivery ? "text-default-500" : "text-foreground-secondary")}>{t('pickup')}</span>
-                                    </div>
-                                </Button>
-                            )}
-                            {(deliveryOption === "delivery" || deliveryOption === "multi") && (
+                             {(deliveryOption === "delivery" || deliveryOption === "multi") && (
                                 <Button
                                     disableRipple
                                     onPress={() => {
@@ -134,7 +117,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                                         toggleDeliveryMode(true);
                                     }}
                                     className={cn(
-                                        "md:min-w-32 transition-all duration-300 data-[hover=true]:bg-transparent",
+                                        "min-w-24 transition-all duration-300 data-[hover=true]:bg-transparent",
                                         isDelivery ? "text-foreground-secondary font-medium" : "text-default-500 font-normal",
                                         isTogglingDelivery ? "opacity-50" : "opacity-100"
                                     )}
@@ -151,7 +134,37 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                                                 isDelivery ? "text-primary" : "text-default-500"
                                             )}
                                         />
-                                        <span className={cn("text-sm hidden md:block", isDelivery ? "text-foreground-secondary" : "text-default-500")}>{t('delivery')}</span>
+                                        <span className={cn("text-sm", isDelivery ? "text-foreground-secondary" : "text-default-500")}>{t('delivery')}</span>
+                                    </div>
+                                </Button>
+                            )}
+                            {(deliveryOption === "pickup" || deliveryOption === 'multi') && (
+                                <Button
+                                    disableRipple
+                                    onPress={() => {
+                                        setCurrentCartType('pickup');
+                                        toggleDeliveryMode(false);
+                                    }}
+                                    isIconOnly
+                                    className={cn(
+                                        "min-w-24 transition-all duration-300 data-[hover=true]:bg-transparent",
+                                        !isDelivery ? "text-foreground-secondary font-medium" : "text-default-500 font-normal",
+                                        isTogglingDelivery ? "opacity-50" : "opacity-100"
+                                    )}
+                                    variant="light"
+                                    isDisabled={isTogglingDelivery}
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <Icon
+                                            icon="solar:shop-2-bold"
+                                            width={20}
+                                            height={20}
+                                            className={cn(
+                                                "transition-all duration-300",
+                                                !isDelivery ? "text-primary" : "text-default-500"
+                                            )}
+                                        />
+                                        <span className={cn("text-sm", isDelivery ? "text-default-500" : "text-foreground-secondary")}>{t('pickup')}</span>
                                     </div>
                                 </Button>
                             )}
@@ -159,16 +172,23 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         <div
                             className={cn(
                                 "absolute top-1 bottom-1 rounded-full bg-white dark:bg-default-700 transition-all duration-300",
-                                isDelivery ? "translate-x-[calc(100%)]" : "translate-x-[1px]",
+                                !isDelivery ? "translate-x-[calc(100%)]" : "translate-x-[1px]",
                                 (deliveryOption === "multi") ? "w-[calc(50%)]" : "w-[calc(100%)]",
-                                (deliveryOption === "delivery") && "translate-x-[1px]"
+                                (deliveryOption === "pickup") && "translate-x-[1px]"
                             )}
                             style={{
-                                left: deliveryOption === "delivery" ? "1px" : 0
+                                left: deliveryOption === "pickup" ? "1px" : 0
                             }}
                         />
                     </div>
                 </div>
+                {!isHideDelivery && (
+                    <DeliveryNavbar
+                        isVisible={true}
+                        level="top-0"
+                        isComponent={true}
+                    />
+                )}
             </NavbarBrand>
 
             <NavbarContent className="flex flex-row-reverse gap-4 justify-end">

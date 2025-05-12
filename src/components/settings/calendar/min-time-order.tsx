@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
-import { Spacer, Select, SelectItem, Button } from "@heroui/react";
-import { updateMinOrderTime } from "@/lib/actions/store";
+import { Spacer, Select, SelectItem, Button, Divider } from "@heroui/react";
+import { updateMinOrderTime, updatePickupWindow } from "@/lib/actions/store";
 import showErrorMessage from "@/components/toast/toast-error";
 import { Icon } from "@iconify/react";
 import showSuccessMessage from "@/components/toast/toast-succes";
@@ -14,6 +14,7 @@ import { logger } from "@/lib/logger";
 interface MinTimeOrderProps {
     storeId?: string;
     initialValue?: number;
+    initialPickupWindow?: number;
 }
 
 export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
@@ -23,17 +24,29 @@ export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [minOrderTime, setMinOrderTime] = useState<string>("30");
     const [initialMinOrderTime, setInitialMinOrderTime] = useState<string>("30");
+    const [pickupWindow, setPickupWindow] = useState<string>("15");
+    const [initialPickupWindow, setInitialPickupWindow] = useState<string>("15");
     const [timeChanged, setTimeChanged] = useState(false);
+    const [pickupWindowChanged, setPickupWindowChanged] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        if (store?.minTimeOrder) {
-            const timeValue = store.minTimeOrder.toString();
-            setMinOrderTime(timeValue);
-            setInitialMinOrderTime(timeValue);
+        if (store) {
+            if (store.minTimeOrder) {
+                const timeValue = store.minTimeOrder.toString();
+                setMinOrderTime(timeValue);
+                setInitialMinOrderTime(timeValue);
+            }
+            
+            if (store.pickupWindow) {
+                const windowValue = store.pickupWindow.toString();
+                setPickupWindow(windowValue);
+                setInitialPickupWindow(windowValue);
+            }
+            
             setIsVisible(true);
         }
-    }, [store?.minTimeOrder]);
+    }, [store]);
 
     const timeOptions = useMemo(() => {
         const options = [];
@@ -61,6 +74,11 @@ export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
         return options;
     }, [t]);
 
+    const pickupWindowOptions = useMemo(() => [
+        { key: "15", label: `15 ${t("minutes")}` },
+        { key: "30", label: `30 ${t("minutes")}` }
+    ], [t]);
+
     // Handle changes to min order time
     const handleTimeChange = (newTime: string) => {
         setMinOrderTime(newTime);
@@ -76,42 +94,68 @@ export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
         }
     };
 
+    // Handle changes to pickup window
+    const handlePickupWindowChange = (newWindow: string) => {
+        setPickupWindow(newWindow);
+        
+        // Check if the value has changed from the initial value
+        if (newWindow !== initialPickupWindow && !pickupWindowChanged) {
+            setPickupWindowChanged(true);
+            setSaveOpen(true);
+            logger.debug('pickupWindow', 'value changed, showing save button');
+        } else if (newWindow === initialPickupWindow && pickupWindowChanged) {
+            setPickupWindowChanged(false);
+            logger.debug('pickupWindow', 'value reverted to original');
+        }
+    };
+
     // Register save handler
     useEffect(() => {
-        const handleSaveMinTime = async () => {
-            logger.debug('minTimeOrder', 'save handler called', { timeChanged });
+        const handleSave = async () => {
+            logger.debug('timeSettings', 'save handler called', { timeChanged, pickupWindowChanged });
             
-            if (!timeChanged) {
-                logger.debug('minTimeOrder', 'no changes to save');
+            if (!timeChanged && !pickupWindowChanged) {
+                logger.debug('timeSettings', 'no changes to save');
                 return false;
             }
             
             setIsLoading(true);
+            let success = true;
+            
             try {
-                logger.debug('minTimeOrder', 'saving min order time', { minOrderTime });
-                await updateMinOrderTime(store?.id, parseInt(minOrderTime));
+                if (timeChanged) {
+                    logger.debug('minTimeOrder', 'saving min order time', { minOrderTime });
+                    await updateMinOrderTime(store?.id, parseInt(minOrderTime));
+                    setInitialMinOrderTime(minOrderTime);
+                    setTimeChanged(false);
+                }
                 
-                // Update the initial value to the new value
-                setInitialMinOrderTime(minOrderTime);
-                setTimeChanged(false);
-                setIsLoading(false);
-                logger.debug('minTimeOrder', 'saved successfully');
-                return true;
+                if (pickupWindowChanged) {
+                    logger.debug('pickupWindow', 'saving pickup window', { pickupWindow });
+                    await updatePickupWindow(store?.id, parseInt(pickupWindow));
+                    setInitialPickupWindow(pickupWindow);
+                    setPickupWindowChanged(false);
+                }
+                
+                logger.debug('timeSettings', 'saved successfully');
             } catch (error) {
-                logger.error('minTimeOrder', 'failed to update minimum order time', { error });
+                logger.error('timeSettings', 'failed to update settings', { error });
                 showErrorMessage({ error: t("errorMessage") });
+                success = false;
+            } finally {
                 setIsLoading(false);
-                return false;
             }
+            
+            return success;
         };
         
-        logger.debug('minTimeOrder', 'registering save handler');
-        registerSaveHandler('min-order-time', handleSaveMinTime);
+        logger.debug('timeSettings', 'registering save handler');
+        registerSaveHandler('time-settings', handleSave);
         
         return () => {
-            logger.debug('minTimeOrder', 'cleanup - component unmounting');
+            logger.debug('timeSettings', 'cleanup - component unmounting');
         };
-    }, [registerSaveHandler, timeChanged, minOrderTime, store?.id, t]);
+    }, [registerSaveHandler, timeChanged, pickupWindowChanged, minOrderTime, pickupWindow, store?.id, t]);
 
     if (!isVisible) {
         return null;
@@ -137,6 +181,32 @@ export const MinTimeOrder: React.FC<MinTimeOrderProps> = () => {
                         isDisabled={isLoading}
                     >
                         {timeOptions.map((option) => (
+                            <SelectItem key={option.key}>{option.label}</SelectItem>
+                        ))}
+                    </Select>
+                </div>
+                
+                <Spacer y={8} />
+                <Divider />
+                <Spacer y={4} />
+                
+                <div>
+                    <p className="text-base font-medium text-default-700">{t("pickupWindowTitle") || "Pickup Window"}</p>
+                    <p className="mt-1 text-sm font-normal text-default-400">
+                        {t("pickupWindowDescription") || "Define how long the customer has to pick up their order."}
+                    </p>
+                </div>
+                <Spacer y={4} />
+                <div className="flex flex-row gap-4">
+                    <Select
+                        className="max-w-xs"
+                        label={t("pickupWindowLabel") || "Pickup Window"}
+                        placeholder={t("pickupWindowPlaceholder") || "Select pickup window"}
+                        selectedKeys={[pickupWindow]}
+                        onChange={(e) => handlePickupWindowChange(e.target.value)}
+                        isDisabled={isLoading}
+                    >
+                        {pickupWindowOptions.map((option) => (
                             <SelectItem key={option.key}>{option.label}</SelectItem>
                         ))}
                     </Select>

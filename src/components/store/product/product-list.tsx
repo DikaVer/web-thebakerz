@@ -29,6 +29,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const { isSticky } = useStore();
     const [scroll, setScroll] = useState(window.scrollY);
     const isSmall = useMediaQuery('(max-width: 768px)');
+    const isShowDelivery = useMediaQuery("(max-width: 1200px)");
     const { sentinelRef } = useStore();
     const [isVisible, setVisible] = useState(false);
     const [selectedTab, setSelectedTab] = useState('');
@@ -99,7 +100,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             <div
                 className={`flex flex-col-reverse md:flex-row transition-all justify-between items-center w-full ${
                     isSticky &&
-                    `sticky ${isVisible ? 'top-[50px]' : 'top-[0px] pt-3'} z-50 p-4 bg-background`
+                    `sticky ${isVisible ? isShowDelivery ? 'top-[93px] ' : 'top-[50px]' : 'top-[0px] pt-3'} z-50 py-4 bg-background`
                 }`}
             >
                 <ProductTabs

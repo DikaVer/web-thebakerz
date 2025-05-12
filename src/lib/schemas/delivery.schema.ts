@@ -47,6 +47,7 @@ const DeliveryRangeSchema = z.object({
   range: z.number().min(1).max(100),
   deliveryPriceInCents: z.number().min(0),
   minOrderPriceInCents: z.number().min(1000, { message: "Minimum order price must be at least 10€" }),
+  deliveryWindow: z.number().min(0),
 });
 
 // Schema for a single delivery region
@@ -64,7 +65,8 @@ const DeliveryRegionSchema = z.object({
   ranges: z.array(DeliveryRangeSchema).optional(),
   isCountry: z.boolean(), // Whether this is a country-wide delivery region
   deliveryPriceInCents: z.number().min(0).optional(),
-  minOrderPriceInCents: z.number().min(1000, { message: "Minimum order price must be at least 10€" }).optional()
+  minOrderPriceInCents: z.number().min(1000, { message: "Minimum order price must be at least 10€" }).optional(),
+  deliveryWindow: z.number().min(0).optional(),
 });
 
 // Schema for the array of delivery regions

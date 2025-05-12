@@ -3,7 +3,7 @@
 import React from "react";
 import { Button, Image, Chip, Divider } from "@heroui/react";
 import { useTranslations } from "next-intl";
-import { formatCurrency } from "@/lib/utils";
+import { convertMinutesToTimeComponents, formatCurrency } from "@/lib/utils";
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import {formatTime} from "@/components/settings/delivery/utils";
 import { useSession } from "@/components/providers/session-provider";
@@ -190,7 +190,7 @@ const CityList: React.FC<CityListProps> = ({
                 color={"primary"}
                 className="text-xs dark:text-secondary"
               >
-                {range.range} km: {formatCurrency(range.deliveryPriceInCents)} / min: {formatCurrency(range.minOrderPriceInCents)}
+                {range.range} km: {formatCurrency(range.deliveryPriceInCents)} / min: {formatCurrency(range.minOrderPriceInCents)} / window: {range.deliveryWindow ? convertMinutesToTimeComponents(range.deliveryWindow).formatted : ""}
               </Chip>
             ))}
           </div>

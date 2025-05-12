@@ -39,6 +39,7 @@ export interface OrderData {
     order_status: OrderStatus;
     completed: boolean;
     productsData: OrderProducts;
+    orderNote?: string; // Order special instructions
     
     // Pricing details
     priceData: PriceOrderData;
@@ -67,6 +68,7 @@ export interface ExtendedOrderRaw extends OrderRaw {
         lat: number;
         lng: number;
     };
+    orderNote?: string; // Order special instructions
     itemExclVat: number;
     deliveryFeeExclVat: number;
     serviceFeeExclVat: number;

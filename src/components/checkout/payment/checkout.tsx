@@ -34,10 +34,14 @@ export default function Checkout({ id, storeId, clientSecretParam, storeStripeAc
             try {
                 setIsLoading(true)
                 setError(null)
+                
+                // Get the order note from localStorage
+                const orderNote = localStorage.getItem("orderNote") || "";
 
                 const response = await fetchClientSecret({
                     storeId,
                     storeStripeAccountId,
+                    orderNote, // Include the order note in the request
                 }) as ClientSecretResponse
 
                 if (typeof response === 'object' && 'error' in response) {

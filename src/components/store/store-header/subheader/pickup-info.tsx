@@ -9,6 +9,7 @@ import { StoreData } from "@/lib/actions/store";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { IconLocation } from "@/components/ui/icons";
+import { InfoPopover } from "@/components/ui/info-popovers";
 
 // Import LocationMap directly for better performance
 import LocationMap from "@/components/store/store-header/subheader/location-map";
@@ -143,8 +144,8 @@ export default function PickupInfo({ store}: PickupInfoProps) {
                       {/* Min Lead Time */}
                       {(store.minTimeOrder !== undefined) && (
                           <div className="flex items-center gap-3 text-xs text-warning-500 mb-3">
-                            <Icon icon="solar:clock-circle-linear" className="text-warning-500" width={16}/>
-                            <div className="flex flex-row gap-1">
+                            <Icon icon="solar:clock-square-linear" className="text-warning-500" width={16}/>
+                            <div className="flex flex-row gap-1 items-center">
                               <span>{t("MinLeadTime")}: </span>
                               <span>
                                 {(() => {
@@ -164,7 +165,22 @@ export default function PickupInfo({ store}: PickupInfoProps) {
                                     }
                                   }
                                 })()}
-                            </span>
+                              </span>
+                              <InfoPopover type="preOrderTime" />
+                            </div>
+                          </div>
+                      )}
+
+                      {/* Pickup Window */}
+                      {(store.pickupWindow !== undefined) && (
+                          <div className="flex items-center gap-3 text-xs text-info-500 mb-3">
+                            <Icon icon="solar:sort-by-time-linear" className="text-info-500" width={16}/>
+                            <div className="flex flex-row gap-1 items-center">
+                              <span>{t("pickupWindowTitle") || "Pickup Window"}: </span>
+                              <span>
+                                {`${store.pickupWindow} ${t("minutes")}`}
+                              </span>
+                              <InfoPopover type="pickupWindow" />
                             </div>
                           </div>
                       )}

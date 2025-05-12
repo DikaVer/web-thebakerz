@@ -299,7 +299,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-y-1">
                     <div className={`px-0 ${picture ? "" : "pt-0"}`}>
-                        <div className="md:flex w-full space-x-0">
+                        <div className="md:flex w-full md:space-x-2">
                             <FormField
                                 control={form.control}
                                 name="url"

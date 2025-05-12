@@ -33,6 +33,50 @@ export const formatCurrency = (amount: number) => {
   });
 };
 
+/**
+ * Converts total minutes to an object with days, hours, and minutes components
+ * @param totalMinutes - Total number of minutes to convert
+ * @returns An object with days, hours, minutes, and a formatted string representation
+ */
+export const convertMinutesToTimeComponents = (totalMinutes: number) => {
+  const days = Math.floor(totalMinutes / (24 * 60));
+  const remainingMinutes = totalMinutes % (24 * 60);
+  const hours = Math.floor(remainingMinutes / 60);
+  const minutes = remainingMinutes % 60;
+  
+  return {
+    days,
+    hours,
+    minutes,
+    formatted: formatTimeComponents(days, hours, minutes)
+  };
+};
+
+/**
+ * Formats days, hours, and minutes into a readable string
+ * @param days - Number of days
+ * @param hours - Number of hours
+ * @param minutes - Number of minutes
+ * @returns Formatted string (e.g., "2 days 5 hours", "1 day", "3 hours 30 minutes")
+ */
+export const formatTimeComponents = (days: number, hours: number, minutes: number): string => {
+  const parts: string[] = [];
+  
+  if (days > 0) {
+    parts.push(`${days} ${days === 1 ? 'day' : 'days'}`);
+  }
+  
+  if (hours > 0) {
+    parts.push(`${hours} ${hours === 1 ? 'hour' : 'hours'}`);
+  }
+  
+  if (minutes > 0 && days === 0) { // Only show minutes if less than a day
+    parts.push(`${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`);
+  }
+  
+  return parts.join(' ');
+};
+
 // Convert scheduled_time object to CalendarDateTime
 export function scheduledToCalendarDateTime(scheduled: { date: string, time: string }): CalendarDateTime {
   try {
@@ -44,7 +88,6 @@ export function scheduledToCalendarDateTime(scheduled: { date: string, time: str
     return new CalendarDateTime(1970, 1, 1, 0, 0);
   }
 }
-
 
 export function formatDisplayDateTime(dateInput: string | Date | CalendarDate | CalendarDateTime, locale: string): string {
   try {
@@ -154,8 +197,6 @@ export function formatScheduledTime(scheduled: { date: string, time: string }, l
   const dateTime = scheduledToCalendarDateTime(scheduled);
   return formatDisplayTime(dateTime, locale);
 }
-
-
 
 export function generateRandomOTP(): string {
     const randomValues = new Uint8Array(6);

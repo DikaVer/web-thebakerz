@@ -88,8 +88,8 @@ export default function CheckoutSteps({ }: {}) {
                 <AccordionItem
                     key="2"
                     className={'shadow-none border-1'}
-                    aria-label={t("pickUpDetails")}
-                    title={t("pickUpDetailsStep")}
+                    aria-label={t("orderDetails")}
+                    title={t("orderDetailsStep")}
                     disableIndicatorAnimation
                     indicator={
                         2 < currentStep

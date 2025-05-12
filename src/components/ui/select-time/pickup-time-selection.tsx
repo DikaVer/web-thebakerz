@@ -37,18 +37,25 @@ export const PickupTimeSelection: React.FC<PickupTimeSelectionProps> = ({
             placeholder={t("scheduleOrderTime")}
         >
             <Button
-                startContent={isDateUpdating || isLoadingDate ? <Spinner size="sm" color="current" /> : <Icon icon="solar:walking-round-linear" width={24}/>}
+                startContent={
+                    <div className="flex items-center justify-center w-6 h-6">
+                        {isDateUpdating || isLoadingDate ? <Spinner size="sm" color="current" /> : <Icon icon="solar:walking-round-linear" width={24}/>}
+                    </div>
+                }
                 className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600 bg-background-secondary' : 'border-2 border-primary'} text-sm`}
                 onPress={() => {}}
                 isDisabled={isLoadingDate || isDateUpdating}
             >
-                {isLoadingDate ? (
-                    <Skeleton className="h-4 w-32 rounded-lg" />
-                ) : (selectedDate instanceof CalendarDateTime) ? (
-                    `${t("pickUpAt")} ${formatDate(selectedDate)}`
-                ) : (
-                    t("when")
-                )}
+                <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                    {isLoadingDate ? (
+                        <Skeleton className="h-4 w-32 rounded-lg" />
+                    ) : (selectedDate instanceof CalendarDateTime) ? (
+                        // `${t("pickUpAt")} ${formatDate(selectedDate)}`
+                        `${formatDate(selectedDate)}`
+                    ) : (
+                        t("when")
+                    )}
+                </div>
             </Button>
         </SmartDatetimeInput>
     </ButtonGroup>

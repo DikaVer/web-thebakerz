@@ -99,7 +99,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                     <div className="flex justify-between w-[100%]">
                         <div className="flex flex-col w-full">
                             <div className={'flex justify-between'}>
-                                <p className="font-medium truncate text-start">{productData.name}</p>
+                                <p className="font-medium overflow-hidden text-ellipsis text-start">{productData.name}</p>
                                 {item.quantity > 1 && (
                                     <Button
                                         size={'sm'}
@@ -143,7 +143,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                             )}
 
                             {productData.ingredients && productData.ingredients.length > 0 && (
-                                <p className="text-xs text-default-400 font-medium break-words">
+                                <p className="text-xs text-default-700 font-light break-words">
                                     {productData.ingredients.join(", ")}
                                 </p>
                             )}

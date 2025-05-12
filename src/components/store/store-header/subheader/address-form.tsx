@@ -23,15 +23,17 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from "@/components/ui/form";
 
-// --- Normalize a Dutch postal code to the format "1234 AB" ---
-const formatDutchPostalCode = (code: string): string => {
+// --- Format postal code based on country format ---
+const formatPostalCode = (code: string, countryCode?: string): string => {
   const cleanCode = code.replace(/\s+/g, '');
   
+  // Format Dutch postal code (if it matches the pattern)
   if (DUTCH_POSTAL_CODE_REGEX.test(cleanCode)) {
     return `${cleanCode.substring(0, 4)} ${cleanCode.substring(4).toUpperCase()}`;
   }
   
-  return code;
+  // For other countries, just return the cleaned code in uppercase
+  return cleanCode.toUpperCase();
 };
 
 // Create a mutable copy of the country restriction for the Google API
@@ -225,7 +227,7 @@ export function AddressForm({
           input: autocompleteValue,
           includedPrimaryTypes: ['geocode'],
           includedRegionCodes: MUTABLE_COUNTRY_RESTRICTION,
-          language: 'nl',
+          language: 'en',
           sessionToken: sessionTokenRef.current,
         };
 
@@ -328,7 +330,7 @@ export function AddressForm({
           if (types.includes('route')) street = component.long_name;
           if (types.includes('street_number')) houseNumber = component.long_name;
           if (types.includes('locality') || types.includes('postal_town')) city = component.long_name;
-          if (types.includes('postal_code')) zipCode = formatDutchPostalCode(component.long_name);
+          if (types.includes('postal_code')) zipCode = formatPostalCode(component.long_name, result.address_components[0].short_name);
           if (types.includes('country')) country = component.short_name;
           
           // Additional components
@@ -440,7 +442,7 @@ export function AddressForm({
         if (types.includes('route')) street = component.long_name;
         if (types.includes('street_number')) houseNumber = component.long_name;
         if (types.includes('locality') || types.includes('postal_town')) city = component.long_name;
-        if (types.includes('postal_code')) zipCode = formatDutchPostalCode(component.long_name);
+        if (types.includes('postal_code')) zipCode = formatPostalCode(component.long_name, result.address_components[0].short_name);
         if (types.includes('country')) country = component.short_name;
         
         // Additional components

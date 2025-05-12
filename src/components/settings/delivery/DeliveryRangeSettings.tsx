@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from "react";
-import { Button, Slider, NumberInput, Card } from "@heroui/react";
+import { Button, Slider, NumberInput, Card, Select, SelectItem } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { DeliveryRange } from "./types";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -9,9 +9,11 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 interface DeliveryRangeSettingsProps {
   cityName: string;
   ranges: DeliveryRange[];
+  isPostDelivery: boolean;
   onRangeChange: (index: number, value: number) => void;
   onPriceChange: (index: number, value: string) => void;
   onMinOrderPriceChange: (index: number, value: string) => void;
+  onDeliveryWindowChange: (index: number, value: number) => void;
   onSave: () => void;
   onAddRange: () => void;
   onRemoveRange: (index: number) => void;
@@ -20,14 +22,49 @@ interface DeliveryRangeSettingsProps {
 const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
   cityName,
   ranges,
+  isPostDelivery,
   onRangeChange,
   onPriceChange,
   onMinOrderPriceChange,
+  onDeliveryWindowChange,
   onSave,
   onAddRange,
   onRemoveRange
 }) => {
   const t = useTranslations("app/(return_page)/settings/components/delivery-settings");
+
+  // Generate delivery window options based on isPostDelivery
+  const getDeliveryWindowOptions = () => {
+    if (isPostDelivery) {
+      // For postal delivery: 1-15 days
+      return Array.from({ length: 15 }, (_, i) => {
+        const days = i + 1;
+        return {
+          value: days * 24 * 60, // Convert to minutes
+          label: `${days} ${days === 1 ? t("day") : t("days")}`
+        };
+      });
+    } else {
+      // For regular delivery: 15 minutes to 3 hours in 15-minute increments
+      return Array.from({ length: 12 }, (_, i) => {
+        const minutes = (i + 1) * 15;
+        if (minutes < 60) {
+          return {
+            value: minutes,
+            label: `${minutes} ${t("minutes")}`
+          };
+        } else {
+          const hours = minutes / 60;
+          return {
+            value: minutes,
+            label: `${hours} ${hours === 1 ? t("hour") : t("hours")}`
+          };
+        }
+      });
+    }
+  };
+
+  const deliveryWindowOptions = getDeliveryWindowOptions();
 
   return (
     <div className="space-y-4">
@@ -122,6 +159,28 @@ const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
             />
             <p className="text-xs text-gray-500 mt-1">
               {t("minOrderPriceDescription")}
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              {t("deliveryWindow") || "Delivery Window"}
+            </label>
+            <Select
+              placeholder={t("selectDeliveryWindow") || "Select Delivery Window"}
+              selectedKeys={[rangeSettings.deliveryWindow?.toString() || deliveryWindowOptions[0].value.toString()]}
+              onChange={(e) => onDeliveryWindowChange(index, parseInt(e.target.value))}
+              className="max-w-xs"
+              size="sm"
+            >
+              {deliveryWindowOptions.map((option) => (
+                <SelectItem key={option.value.toString()}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </Select>
+            <p className="text-xs text-gray-500 mt-1">
+              {t("deliveryWindowDescription") || "How long the customer has to receive their delivery"}
             </p>
           </div>
         </Card>

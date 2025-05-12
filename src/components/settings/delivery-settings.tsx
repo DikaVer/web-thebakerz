@@ -64,7 +64,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
   const [currentRanges, setCurrentRanges] = useState<DeliveryRange[]>([{
     range: 10,
     deliveryPriceInCents: 500,
-    minOrderPriceInCents: 1000
+    minOrderPriceInCents: 1000,
+    deliveryWindow: 15 // Default to 15 minutes
   }]);
   
   // Schedule modal state
@@ -73,6 +74,9 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
   const [deliverySchedule, setDeliverySchedule] = useState<WorkHours>(emptyWorkHours);
   const {isOpen: isScheduleModalOpen, onOpen: openScheduleModal, onClose: closeScheduleModal} = useDisclosure();
   const { store } = storeData ? {store: storeData }: useStore(); 
+
+  // Add state for country delivery window
+  const [countryDeliveryWindow, setCountryDeliveryWindow] = useState<number>(24 * 60); // Default to 1 day
 
   if (!store) {
     return;
@@ -93,7 +97,7 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
           merchantDeliveryRegions.forEach(region => {
             // Check if this is a country delivery (format: CC:CountryName)
             if (region.isCountry) {
-              if(region.deliveryPriceInCents && region.minOrderPriceInCents) {
+              if(region.deliveryPriceInCents && region.minOrderPriceInCents && region.deliveryWindow) {
                 // This is a country delivery
                 countries.push({
                     countryCode: region.name,
@@ -102,7 +106,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
                     deliverySchedule: region.deliverySchedule,
                     isStoreDelivery: region.isStoreDelivery,
                     isPostDelivery: region.isPostDelivery,
-                    minOrderTime: region.minOrderTime
+                    minOrderTime: region.minOrderTime,
+                    deliveryWindow: region.deliveryWindow
                   });
               }
             } else {
@@ -188,6 +193,7 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
               minOrderTime: country.minOrderTime,
               deliveryPriceInCents: country.deliveryPriceInCents,
               minOrderPriceInCents: country.minOrderPriceInCents,
+              deliveryWindow: country.deliveryWindow,
               isCountry: true
             };
           })
@@ -232,10 +238,12 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     if (existingCountry && isCountryDelivery) {
       setCountryDeliveryPrice(existingCountry.deliveryPriceInCents);
       setCountryMinOrderPrice(existingCountry.minOrderPriceInCents);
+      setCountryDeliveryWindow(existingCountry.deliveryWindow);
     } else {
       // Initialize with default values
       setCountryDeliveryPrice(500); // 5€
       setCountryMinOrderPrice(1000); // 10€
+      setCountryDeliveryWindow(24 * 60); // Default to 1 day
     }
     
     // Initialize city selection if country has cities and we're in city delivery mode
@@ -257,6 +265,7 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     } else {
       setCountryDeliveryPrice(500);
       setCountryMinOrderPrice(1000);
+      setCountryDeliveryWindow(24 * 60); // Default to 1 day
     }
   };
 
@@ -273,7 +282,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
       setCurrentRanges([{
         range: 10,
         deliveryPriceInCents: 500,
-        minOrderPriceInCents: 1000
+        minOrderPriceInCents: 1000,
+        deliveryWindow: 15 // Default to 15 minutes
       }]);
     }
   };
@@ -288,6 +298,11 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
   const handleCountryMinOrderPriceChange = (value: string) => {
     const euros = parseFloat(value) || 0;
     setCountryMinOrderPrice(eurosToCents(euros));
+  };
+  
+  // Handle country delivery window change
+  const handleCountryDeliveryWindowChange = (value: number) => {
+    setCountryDeliveryWindow(value);
   };
   
   // Save country delivery settings
@@ -316,7 +331,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
         updatedCountries[existingCountryIndex] = {
         ...updatedCountries[existingCountryIndex],
         deliveryPriceInCents: countryDeliveryPrice,
-        minOrderPriceInCents: countryMinOrderPrice
+        minOrderPriceInCents: countryMinOrderPrice,
+        deliveryWindow: countryDeliveryWindow
       };
       setCountryDeliveries(updatedCountries);
     } else {
@@ -328,7 +344,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
         deliverySchedule: emptyWorkHours,
         isStoreDelivery: session?.user?.role !== "admin" ? true : false,
         isPostDelivery: false, // Default to false for new countries
-        minOrderTime: 10080
+        minOrderTime:  10080,
+        deliveryWindow: countryDeliveryWindow
       }]);
     }
     
@@ -337,6 +354,7 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     setSelectedCountry(null);
     setCountryDeliveryPrice(500);
     setCountryMinOrderPrice(1000);
+    setCountryDeliveryWindow(24 * 60); // Default to 1 day
   };
 
   // Handle removing a delivery country
@@ -437,7 +455,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     setCurrentRanges([{
       range: 10,
       deliveryPriceInCents: 500,
-      minOrderPriceInCents: 1000
+      minOrderPriceInCents: 1000,
+      deliveryWindow: 15 // Default to 15 minutes
     }]);
   };
 
@@ -475,7 +494,8 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     setCurrentRanges([...currentRanges, {
       range: lastRange.range + 5,
       deliveryPriceInCents: lastRange.deliveryPriceInCents + 100, // Add 1€ to previous range price
-      minOrderPriceInCents: lastRange.minOrderPriceInCents
+      minOrderPriceInCents: lastRange.minOrderPriceInCents,
+      deliveryWindow: lastRange.deliveryWindow || 15 // Copy delivery window from previous range or use default
     }]);
   };
 
@@ -629,6 +649,14 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
     setIsCountryDelivery(true);
     setCountryDeliveryPrice(country.deliveryPriceInCents);
     setCountryMinOrderPrice(country.minOrderPriceInCents);
+    setCountryDeliveryWindow(country.deliveryWindow || (country.isPostDelivery ? 24 * 60 : 15));
+  };
+
+  // Handle delivery window change for a specific range index
+  const handleDeliveryWindowChange = (index: number, value: number) => {
+    const newRanges = [...currentRanges];
+    newRanges[index].deliveryWindow = value;
+    setCurrentRanges(newRanges);
   };
 
   if (loading) {
@@ -660,9 +688,11 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
                 countryCode={selectedCountry}
                 countryName={EU_COUNTRIES_PLUS_SWISS[selectedCountry]}
                 deliveryPrice={countryDeliveryPrice}
-                minOrderPrice={countryMinOrderPrice}
+                minOrderPrice={countryMinOrderPrice}                
+                deliveryWindow={countryDeliveryWindow}
                 onDeliveryPriceChange={handleCountryDeliveryPriceChange}
                 onMinOrderPriceChange={handleCountryMinOrderPriceChange}
+                onDeliveryWindowChange={handleCountryDeliveryWindowChange}
                 onSave={handleSaveCountryDelivery}
               />
             )}
@@ -680,9 +710,11 @@ const DeliveryManager: React.FC<DeliveryManagerProps> = ({ storeData }) => {
               <DeliveryRangeSettings
                 cityName={selectedCityForRange}
                 ranges={currentRanges}
+                isPostDelivery={false} // City delivery is never postal delivery
                 onRangeChange={handleRangeChange}
                 onPriceChange={handlePriceChange}
                 onMinOrderPriceChange={handleMinOrderPriceChange}
+                onDeliveryWindowChange={handleDeliveryWindowChange}
                 onSave={handleSetDeliveryRange}
                 onAddRange={handleAddRange}
                 onRemoveRange={handleRemoveRange}

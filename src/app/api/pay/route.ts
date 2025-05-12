@@ -379,6 +379,7 @@ export async function GET(req: NextRequest) {
             order_status: 'new',
             completed: false,
             productsData: orderRaw.productsData || [],
+            orderNote: orderRaw.orderNote,
             
             // Price information
             priceData: {

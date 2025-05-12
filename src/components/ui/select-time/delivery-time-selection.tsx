@@ -36,26 +36,31 @@ export const DeliveryTimeSelection: React.FC<DeliveryTimeSelectionProps> = ({
             minValue={minValue()}
             value={selectedDate}
             onValueChange={onValueChange}
-            placeholder={t("scheduleDeliveryTime")}
             isPostDelivery={isPostDelivery}
         >
             <Button
                 startContent={
-                    isDateUpdating || isLoadingDate ? 
-                    <Spinner size="sm" color="current" /> : 
-                    <Icon icon="solar:scooter-linear" width={24} />
+                    <div className="flex items-center justify-center w-6 h-6">
+                        {isDateUpdating || isLoadingDate ? 
+                            <Spinner size="sm" color="current" /> : 
+                            <Icon icon="solar:scooter-linear" width={24} />
+                        }
+                    </div>
                 }
                 className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600 bg-background-secondary' : 'border-2 border-primary'} text-sm`}
                 onPress={() => {}}
                 isDisabled={isDateUpdating || isLoadingDate}
             >
-                {isLoadingDate ? (
-                    <Skeleton className="h-4 w-32 rounded-lg" /> 
-                ) : selectedDate instanceof CalendarDateTime ? (
-                    `${t("deliverAt")} ${formatDate(selectedDate, isPostDelivery)}`
-                ) : (
-                    t("when")
-                )}
+                <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                    {isLoadingDate ? (
+                        <Skeleton className="h-4 w-32 rounded-lg" /> 
+                    ) : selectedDate instanceof CalendarDateTime ? (
+                    // `${t("deliverAt")} ${formatDate(selectedDate, isPostDelivery)}`
+                    `${formatDate(selectedDate, isPostDelivery)}`
+                    ) : (
+                            t("when")
+                        )}
+                </div>
             </Button>
         </SmartDatetimeInput>
     </ButtonGroup>

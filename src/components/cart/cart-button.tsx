@@ -1,6 +1,6 @@
 "use client";
 import { Icon } from "@iconify/react";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useMemo} from "react";
 import {
     Button,
     Divider,
@@ -19,6 +19,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useStore } from "@/components/providers/store-provider";
 import { CartItemRow } from "@/components/cart/cart-item";
 import { useCart } from "@/components/providers/cart-provider";
+import { useDelivery } from "@/components/providers/delivery-provider";
 import { useTranslations } from "next-intl";
 import {motion, useAnimation} from "framer-motion";
 import { formatCurrency } from "@/lib/utils";
@@ -43,6 +44,9 @@ const CartButton: React.FC<CartButtonProps> = ({
         updateItem,
         removeItem,
     } = useCart();
+    
+    const { isDelivery, validationResult } = useDelivery();
+    
     const isMobile = useMediaQuery("(max-width: 768px)");
     const [isLoading, setIsLoading] = useState(false);
     const { store } = useStore();
@@ -113,6 +117,23 @@ const CartButton: React.FC<CartButtonProps> = ({
 
     const totalPrice = calculateTotalPrice();
     const formattedTotalPrice = formatCurrency(totalPrice);
+    
+    // Calculate minimum order amount based on delivery region if applicable
+    const minimumOrderAmount = useMemo(() => {
+        if (isDelivery && validationResult.deliveryRegion?.ranges?.[0]?.minOrderPriceInCents) {
+            return validationResult.deliveryRegion.ranges[0].minOrderPriceInCents;
+        }
+        return 1000; // Default minimum 10€ (in cents)
+    }, [isDelivery, validationResult]);
+    
+    // Check if we can proceed to checkout
+    const canProceedToCheckout = useMemo(() => {
+        if (isDelivery) {
+            return totalPrice >= minimumOrderAmount && validationResult.isValid && validationResult.isInRange;
+        } else {
+            return totalPrice >= minimumOrderAmount
+        }
+    }, [totalPrice, minimumOrderAmount, isDelivery, validationResult]);
 
     const controls = useAnimation();
 
@@ -146,9 +167,8 @@ const CartButton: React.FC<CartButtonProps> = ({
                     }   
                 >
                 <>
-                    
                     <Icon
-                        icon={"line-md:cookie-filled"}
+                        icon={"solar:cart-linear"}
                         height={24}
                         width={24}
                         className={cn("text-white")}
@@ -181,14 +201,19 @@ const CartButton: React.FC<CartButtonProps> = ({
                                         </p>
                                         <p className="text-xl">{store.ownerName}</p>
                                         <Spacer y={4} />
+                                        {totalPrice < minimumOrderAmount && (
+                                            <div className="mb-2 text-danger text-sm">
+                                                {t("minimumOrderForDelivery", { amount: formatCurrency(minimumOrderAmount) })}
+                                            </div>
+                                        )}
                                         <Button
                                             isLoading={isLoading}
+                                            isDisabled={!canProceedToCheckout}
                                             className="w-full bg-gradient-primary text-2xl rounded-full text-white"
                                             onPress={() => {
                                                 setIsLoading(true);
                                                 router.push(`${storeUrl}/checkout`);
                                                 router.refresh();
-                                                // Set a timer on two seconds to refresh the page
                                             }}
                                         >
                                             {t("continue")}

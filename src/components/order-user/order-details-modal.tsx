@@ -102,6 +102,7 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
                             <OrderCustomerDetails
                                 customer={order.customer}
                                 address={order.deliveryAddress || undefined}
+                                orderNote={order.orderNote}
                             />
                         </ModalBody>
 
