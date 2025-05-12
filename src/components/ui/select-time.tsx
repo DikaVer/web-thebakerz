@@ -34,7 +34,11 @@ export function SelectTime() {
         if (minLeadTimeProduct && minLeadTimeProduct > store.minTimeOrder) {
             return now("Europe/Amsterdam").add({ minutes: minLeadTimeProduct });
         } else {
-            return now("Europe/Amsterdam").add({ minutes: store.minTimeOrder || 10080 });
+            if (isDelivery) {
+                return now("Europe/Amsterdam").add({ minutes: validationResult.deliveryRegion?.minOrderTime || 10080 }); 
+            } else {
+                return now("Europe/Amsterdam").add({ minutes: store.minTimeOrder || 10080 });
+            }
         }
     };
 
@@ -56,17 +60,18 @@ export function SelectTime() {
                         variant={"solid"}
                     />
                 )}
-
-                <DeliveryTimeSelection
-                    schedule={getDeliverySchedule()}
-                    minValue={minValue}
-                    selectedDate={selectedDate}
-                    onValueChange={handleDateChange}
-                    isDateUpdating={isDateUpdating}
-                    isLoadingDate={isLoadingDate}
-                    isPostDelivery={validationResult?.deliveryRegion?.isPostDelivery || false}
-                    t={t}
-                />
+                {(validationResult?.isInRange && validationResult?.isValid) && (
+                    <DeliveryTimeSelection
+                        schedule={getDeliverySchedule()}
+                        minValue={minValue}
+                        selectedDate={selectedDate}
+                        onValueChange={handleDateChange}
+                        isDateUpdating={isDateUpdating}
+                        isLoadingDate={isLoadingDate}
+                        isPostDelivery={validationResult?.deliveryRegion?.isPostDelivery || false}
+                        t={t}
+                    />
+                )}
             </>
     ) : (
         <PickupTimeSelection
