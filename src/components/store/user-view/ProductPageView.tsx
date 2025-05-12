@@ -161,6 +161,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                                 price={product.price}
                                 description={product.description || ""}
                                 totalLikes={product.totalLikes}
+                                image={product.picture}
                             />
                             
                             <Divider className="my-4" />

@@ -198,7 +198,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
         } else {
             setIsFavorite(true);
             setLikeCount((prev: number) => prev + 1);
-            await addProductToFavorites(productData.store_id, productData.constId);
+            await addProductToFavorites(productData.store_id, productData.constId, productData.name, productData.picture);
         }
         setTimeout(() => setIsAnimating(false), 300);
     };

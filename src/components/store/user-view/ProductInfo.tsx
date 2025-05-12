@@ -70,6 +70,7 @@ interface ProductInfoProps {
     constId: string;
     storeId: string;
     totalLikes: number;
+    image: string;
 }
 
 export const ProductInfo: React.FC<ProductInfoProps> = ({
@@ -78,7 +79,8 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
     description,
     constId,
     storeId,
-    totalLikes
+    totalLikes,
+    image
 }) => {
     const { session } = useSession();
     const { isProductFavorite, addProductToFavorites, removeProductFromFavorites } = useFavorites();
@@ -102,7 +104,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
         } else {
             setIsFavorite(true);
             setLikeCount((prev: number) => prev + 1);
-            await addProductToFavorites(storeId, constId);
+            await addProductToFavorites(storeId, constId, name, image);
         }
         setTimeout(() => setIsAnimating(false), 300);
     };

@@ -140,7 +140,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
         } else {
             setIsFavorite(true);
             setLikeCount((prev: number) => prev + 1);
-            await addStoreToFavorites(store.id);
+            await addStoreToFavorites(store.id, store.ownerName || "Undefined", store.background || "/search/store_front_clean.webp");
         }
         setTimeout(() => setIsAnimating(false), 300);
     };

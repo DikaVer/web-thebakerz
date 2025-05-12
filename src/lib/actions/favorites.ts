@@ -10,10 +10,16 @@ export interface FavoriteData {
     storeId: string;
     createdAt: string;
     productId?: string;
+    metadata: {
+        storeName?: string;
+        productName?: string;
+        productImage?: string;
+        storeBackground?: string;
+    }
     type: "store" | "product";
 }
 
-export const addStoreFavorite = async (storeId: string) => {
+export const addStoreFavorite = async (storeId: string, storeName: string, storeBackground: string) => {
 
     if (!(await globalPOSTRateLimit())) {
         return false;
@@ -31,6 +37,10 @@ export const addStoreFavorite = async (storeId: string) => {
             storeId: storeId,
             createdAt: new Date().toISOString(),
             type: "store",
+            metadata: {
+                storeName: storeName,
+                storeBackground: storeBackground,
+            }
         };
 
         const response = await containerFavorites.items.create(favoriteData);
@@ -65,7 +75,7 @@ export const removeStoreFavorite = async (storeId: string) => {
     }
 }
 
-export const addProductFavorite = async (storeId: string, productId: string) => {
+export const addProductFavorite = async (storeId: string, productId: string, productName: string, productImage: string) => {
 
     if (!(await globalPOSTRateLimit())) {
         return false;
@@ -84,6 +94,10 @@ export const addProductFavorite = async (storeId: string, productId: string) => 
             productId: productId,
             createdAt: new Date().toISOString(),
             type: "product",
+            metadata: {
+                productName: productName,
+                productImage: productImage,
+            }
         };
 
         const response = await containerFavorites.items.create(favoriteData);

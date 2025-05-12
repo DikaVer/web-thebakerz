@@ -214,6 +214,7 @@ export default function ProductDialogView({
                                 price={productData.price}
                                 description={productData.description || ""}
                                 totalLikes={productData.totalLikes}
+                                image={productData.picture}
                             />
                             
                             <ProductDetails

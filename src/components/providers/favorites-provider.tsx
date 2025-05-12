@@ -1,14 +1,14 @@
 'use client';
 
 import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';
-import { FavoriteData, addStoreFavorite, removeStoreFavorite, addProductFavorite, removeProductFavorite, getCurrentFavorites } from "@/lib/actions/favorites";
+import { FavoriteData, addStoreFavorite, removeStoreFavorite, addProductFavorite, removeProductFavorite} from "@/lib/actions/favorites";
 
 interface FavoritesContextProps {
     storeFavorites: FavoriteData[];
     productFavorites: FavoriteData[];
-    addStoreToFavorites: (storeId: string) => Promise<boolean>;
+    addStoreToFavorites: (storeId: string, storeName: string, storeBackground: string) => Promise<boolean>;
     removeStoreFromFavorites: (storeId: string) => Promise<boolean>;
-    addProductToFavorites: (storeId: string, productId: string) => Promise<boolean>;
+    addProductToFavorites: (storeId: string, productId: string, productName: string, productImage: string) => Promise<boolean>;
     removeProductFromFavorites: (storeId: string, productId: string) => Promise<boolean>;
     isStoreFavorite: (storeId: string) => boolean;
     isProductFavorite: (storeId: string, productId: string) => boolean;
@@ -38,10 +38,10 @@ export const FavoritesProvider: React.FC<{
     const [productFavorites, setProductFavorites] = useState<FavoriteData[]>(initialProductFavorites);
 
     // Favorite operations
-    const addStoreToFavorites = useCallback(async (storeId: string) => {
-        const success = await addStoreFavorite(storeId);
+    const addStoreToFavorites = useCallback(async (storeId: string, storeName: string, storeBackground: string) => {
+        const success = await addStoreFavorite(storeId, storeName, storeBackground);
         if (success) {
-            setStoreFavorites(prev => [...prev, { id: `${storeId}`, storeId, type: "store", userId: "", createdAt: "" }]);
+            setStoreFavorites(prev => [...prev, { id: `${storeId}`, storeId, type: "store", userId: "", createdAt: "", metadata: { storeName, storeBackground } }]);
             return true;
         } else {
             return false;
@@ -58,10 +58,10 @@ export const FavoritesProvider: React.FC<{
         }
     }, []);
 
-    const addProductToFavorites = useCallback(async (storeId: string, productId: string) => {
-        const success = await addProductFavorite(storeId, productId);
+    const addProductToFavorites = useCallback(async (storeId: string, productId: string, productName: string, productImage: string) => {
+        const success = await addProductFavorite(storeId, productId, productName, productImage);
         if (success) {
-            setProductFavorites(prev => [...prev, { id: `${storeId}-${productId}`, storeId, productId, type: "product", userId: "", createdAt: "" }]);
+            setProductFavorites(prev => [...prev, { id: `${storeId}-${productId}`, storeId, productId, type: "product", userId: "", createdAt: "", metadata: { productName, productImage } }]);
             return true;
         } else {
             return false;
