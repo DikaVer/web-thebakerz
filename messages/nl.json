@@ -758,8 +758,11 @@
     "Delivery VAT": "",
     "Failed to update status": "Status kan niet worden bijgewerkt",
     "Order": "Volgorde",
+    "Order Again": "",
+    "Order From": "",
     "Order Items": "Bestel artikelen",
     "Order Status": "Bestelstatus",
+    "OrderFrom": "",
     "Placed": "Geplaatst",
     "Print Invoice": "Factuur afdrukken",
     "Progress": "Voortgang",
@@ -870,6 +873,16 @@
   },
   "app/(store)/components/product-tabs": {
     "categoryNavigation": "Categorie Navigatie"
+  },
+  "app/(store)/components/report-product": {
+    "cancel": "",
+    "descriptionLabel": "",
+    "descriptionPlaceholder": "",
+    "reportProduct": "",
+    "sending": "",
+    "subjectLabel": "",
+    "subjectPlaceholder": "",
+    "submit": ""
   },
   "app/(store)/components/report-store": {
     "cancel": "",

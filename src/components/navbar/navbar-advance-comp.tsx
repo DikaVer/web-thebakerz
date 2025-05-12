@@ -162,7 +162,7 @@ export default function NavbarAdvancedComponent({
                 </NavbarContent>
             </Navbar>
 
-            {(isShowDelivery && !pay) && (
+            {(!isReturnPage && isShowDelivery && !pay) && (
                 <DeliveryNavbar
                     isVisible={isVisible || !isMobile}
                 />

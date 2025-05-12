@@ -31,7 +31,7 @@ export const ProductView: React.FC<ProductViewProps> = ({
 
     // Find product by either web_name or id
     const product = Object.values(productsData).find(p => 
-        p.id === productId || p.web_name === productId
+        p.constId === productId || p.web_name === productId
     );
 
     if (!product && store.user_id !== session?.user?.id) {

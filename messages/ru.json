@@ -746,8 +746,11 @@
     "Delivery VAT": "",
     "Failed to update status": "",
     "Order": "",
+    "Order Again": "",
+    "Order From": "",
     "Order Items": "",
     "Order Status": "",
+    "OrderFrom": "",
     "Placed": "",
     "Print Invoice": "",
     "Progress": "",
@@ -854,6 +857,16 @@
   },
   "app/(store)/components/product-tabs": {
     "categoryNavigation": ""
+  },
+  "app/(store)/components/report-product": {
+    "cancel": "",
+    "descriptionLabel": "",
+    "descriptionPlaceholder": "",
+    "reportProduct": "",
+    "sending": "",
+    "subjectLabel": "",
+    "subjectPlaceholder": "",
+    "submit": ""
   },
   "app/(store)/components/report-store": {
     "cancel": "",

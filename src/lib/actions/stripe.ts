@@ -241,6 +241,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
             const_id: product.constId,
             ingredients: product.ingredients,
             allergies: product.allergies,
+            image: product.picture,
             unitAmount: calculateItemTotalPrice(cartItem.variants, product.price), // Price per unit incl VAT
             itemTotalInclVat: itemTotalInclVat // Total for this line incl VAT
         });

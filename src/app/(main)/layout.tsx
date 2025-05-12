@@ -25,9 +25,6 @@ export default async function Layout(
 
     const initialStoreFavorites = await getCurrentFavorites("getStoreFavorites");
 
-    console.log(initialStoreFavorites);
-
-
     return (
             <>
                 <DeliveryProvider

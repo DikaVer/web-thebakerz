@@ -248,7 +248,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                         {(onClose) => (
                             <>
                                 <ModalHeader className="flex flex-col gap-1">
-                                    <div className={'flex'}>
+                                    <div className={'flex items-center'}>
                                         <p className={'text-xl'}>
                                             {t("Order")}
                                         </p>

@@ -11,7 +11,9 @@ export interface FavoriteData {
     createdAt: string;
     productId?: string;
     metadata: {
+        storeId?: string;
         storeName?: string;
+        productId?: string;
         productName?: string;
         productImage?: string;
         storeBackground?: string;
@@ -136,7 +138,7 @@ export const getStoreFavorites = async (userId: string): Promise<FavoriteData[]>
 
     // Query to get all favorites for the user
     const querySpec = {
-        query: "SELECT c.storeId FROM c WHERE c.userId = @userId AND c.type = 'store' ORDER BY c.createdAt DESC",
+        query: "SELECT c.storeId, c.metadata FROM c WHERE c.userId = @userId AND c.type = 'store' ORDER BY c.createdAt DESC",
         parameters: [
             { name: "@userId", value: userId }
         ]
@@ -149,7 +151,7 @@ export const getStoreFavorites = async (userId: string): Promise<FavoriteData[]>
 export const getProductFavorites = async (userId: string): Promise<FavoriteData[]> => {
     
     const querySpec = {
-        query: "SELECT c.productId, c.storeId FROM c WHERE c.userId = @userId AND c.type = 'product' ORDER BY c.createdAt DESC",
+        query: "SELECT c.productId, c.storeId, c.metadata FROM c WHERE c.userId = @userId AND c.type = 'product' ORDER BY c.createdAt DESC",
         parameters: [
             { name: "@userId", value: userId }
         ]
@@ -248,7 +250,7 @@ export const getCurrentFavorites = async (purpose: "getStoreFavorites" | "getPro
         },
         next: {
             tags: ['favorites'],
-            revalidate: 300
+            revalidate: 0
         }
     }).then(res => res.json());
 }

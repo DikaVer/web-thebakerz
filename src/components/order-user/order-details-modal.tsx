@@ -70,7 +70,7 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
             <ModalContent>
                 {(onClose) => (
                     <>
-                        <ModalHeader className="flex flex-col gap-1">
+                        <ModalHeader className="flex flex-col gap-1 px-5">
                             <div className="flex items-center justify-between">
                                 <span className="text-xl">{t('orderDetails')}</span>
                                 <Button
@@ -83,13 +83,17 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
                             </div>
                         </ModalHeader>
 
-                        <ModalBody>
+                        <ModalBody
+                            className='px-2'
+                        >
 
                             {/* Order Top Content */}
-                            <OrderTopContent 
-                                orderData={order} 
-                                isUser={true}
-                            />
+                            <div className="px-4">
+                                <OrderTopContent 
+                                    orderData={order} 
+                                    isUser={true}
+                                />
+                            </div>
                             <Spacer y={4} />
 
                             {/* Order Status */}

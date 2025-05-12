@@ -140,6 +140,7 @@ export type OrderProduct = {
     name: string;
     note?: string;
     variants?: Variant[];
+    image: string;
     qty: number;
     price: number;
     unitAmount: number;
@@ -283,6 +284,7 @@ export const createOrder = async (
             const_id: product.constId,
             ingredients: product.ingredients,
             allergies: product.allergies,
+            image: product.picture,
             unitAmount: calculateItemTotalPrice(cartItem.variants, product.price), // Price per unit incl VAT
             itemTotalInclVat: itemTotalInclVat // Total for this line incl VAT
         });

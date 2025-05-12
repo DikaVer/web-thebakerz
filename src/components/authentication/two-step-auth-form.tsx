@@ -24,6 +24,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
     const t = useTranslations("app/(auth)/components/two-step-auth-form");
     const nextParams = useSearchParams();
     const next = nextParams.get("next") as string;
+    const sendVerification = nextParams.get("sendVerification") === "true";
     const { setSession } = useSession();
     const inputRef = useRef(null);
 
@@ -69,7 +70,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
 
     const [stateEmail, submitActionEmail, isPendingEmail] = useActionState(
         async (previousState: any, formData: z.infer<typeof EmailSchema>) => {
-            const state = await loginAction(previousState, formData);
+            const state = await loginAction(previousState, formData, sendVerification);
             if (state === null) {
                 setEmail(formData.email);
                 setPage(1);

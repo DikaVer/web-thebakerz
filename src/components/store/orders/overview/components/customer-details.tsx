@@ -75,12 +75,12 @@ export const OrderCustomerDetails: React.FC<OrderCustomerDetailsProps> = ({custo
                             <Icon icon={"solar:map-point-bold"} className="text-default-400 pointer-events-none flex-shrink-0" width={24}/>
                             <Spacer x={2}/>
                             <a 
-                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${address.street}, ${address.city}, ${address.zipCode}`)}`}
+                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${address.coordinates.lat}, ${address.coordinates.lng}`)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={'text-default-500 hover:underline'}
                             >
-                                {address.street}, {address.city}, {address.zipCode}
+                                {address.formattedAddress}
                             </a>
                         </div>
                     }

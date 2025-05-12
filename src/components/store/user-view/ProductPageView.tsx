@@ -19,6 +19,10 @@ import { getLocalTimeZone } from '@internationalized/date';
 import showSuccessMessage from "@/components/toast/toast-succes";
 import showErrorMessage from "@/components/toast/toast-error";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useSignInModal } from "@/components/ui/modal-signin";
+import { ReportProductModal } from "./report-product-modal";
+import { useDisclosure } from "@heroui/react";
+import { useSession } from "@/components/providers/session-provider";
 
 interface ProductPageViewProps {
     productData: ProductData;
@@ -29,6 +33,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
 }) => {
     const t = useTranslations("app/(store)/components/product-page");
     const product = productData;
+    const { session } = useSession();
 
     // State for user interactions
     const [quantity, setQuantity] = useState(product?.min_order || 1);
@@ -36,7 +41,9 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
     const [variants, setVariants] = useState<Variant[]>([]);
     const [variantErrors, setVariantErrors] = useState<{[label: string]: string}>({});
     const [isLoading, setIsLoading] = useState(false);
-
+    const { isOpen: isReportOpen, onOpen: onReportOpen, onOpenChange: onReportChange } = useDisclosure();
+    const { openModal, ModalSign } = useSignInModal();
+    
     const { addItem } = useCart();
     const { isDelivery, validationResult, setSelectedDate } = useDelivery();
 
@@ -132,9 +139,20 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
 
     return (
         <div className=" py-8">
+            {/* Sign-in modal */}
+            <ModalSign 
+                message="You need to sign in to report products"
+            />
+            <ReportProductModal 
+                isOpen={isReportOpen}
+                onOpenChange={onReportChange}
+                productName={product.name}
+                storeName={product.store_name || ""}
+                productId={product.id}
+            />
             <Card className=" md:p-6">
                 <CardHeader
-                    className="justify-end p-4 md:p-0"
+                    className="justify-end items-center gap-2 p-4 md:p-0"
                 >
                     
                     <Button
@@ -187,6 +205,24 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                                 initialNote={note}
                                 onChange={setNote}
                             />
+
+                            <div className="flex w-full justify-end gap-2">
+                                <Button
+                                    className="aspect-square w-12 h-12 min-w-0 p-0 text-foreground border-small border-foreground"
+                                    onPress={() => {
+                                        if (!session?.user) {
+                                            openModal();
+                                            return;
+                                        }
+                                        onReportOpen();
+                                    }}
+                                >
+                                    <Icon 
+                                        icon="solar:flag-linear" 
+                                        width={24} 
+                                    />
+                                </Button>
+                            </div>
                             
                             <div className="flex items-center gap-4 pt-4">
                                 <ProductActions

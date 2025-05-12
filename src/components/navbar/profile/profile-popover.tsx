@@ -224,6 +224,18 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
                         <span className="text-sm">Orders</span>
                         </div>
 
+                        <div 
+                        key={"orders"}
+                        className="flex items-center gap-2 cursor-pointer hover:bg-background-secondary rounded-md p-2 py-3"
+                        onClick={() => {
+                            router.push('/favorites');
+                            setIsManualOpen(false);
+                        }}
+                        >
+                        <Icon icon="solar:heart-bold" width={20} height={20} />
+                        <span className="text-sm">Favorites</span>
+                        </div>
+
                     </div>
                 )}
               

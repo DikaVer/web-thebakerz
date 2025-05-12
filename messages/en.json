@@ -752,8 +752,11 @@
     "Delivery VAT": "Delivery VAT",
     "Failed to update status": "Failed to update status",
     "Order": "Order",
+    "Order Again": "Order Again",
+    "Order From": "Order from",
     "Order Items": "Order Items",
     "Order Status": "Order Status",
+    "OrderFrom": "Order from",
     "Placed": "Placed",
     "Print Invoice": "Print Invoice",
     "Progress": "Progress",
@@ -864,6 +867,26 @@
   },
   "app/(store)/components/product-tabs": {
     "categoryNavigation": "Category Navigation"
+  },
+  "app/(store)/components/report-product": {
+    "cancel": "Cancel",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Please describe the issue in detail",
+    "reportProduct": "Report Product",
+    "sending": "Sending...",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Enter the subject of your report",
+    "submit": "Submit Report"
+  },
+  "app/(store)/components/report-store": {
+    "cancel": "Cancel",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Please describe the issue in detail",
+    "reportStore": "Report Store",
+    "sending": "Sending...",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Enter the subject of your report",
+    "submit": "Submit Report"
   },
   "app/(store)/components/smart-calendar": {
     "time": "Time"
@@ -1389,15 +1412,5 @@
     "hours": "hours",
     "minute": "minute",
     "minutes": "minutes"
-  },
-  "app/(store)/components/report-store": {
-    "reportStore": "Report Store",
-    "subjectLabel": "Subject",
-    "subjectPlaceholder": "Enter the subject of your report",
-    "descriptionLabel": "Description",
-    "descriptionPlaceholder": "Please describe the issue in detail",
-    "cancel": "Cancel",
-    "submit": "Submit Report",
-    "sending": "Sending..."
   }
 }

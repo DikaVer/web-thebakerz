@@ -5,7 +5,8 @@ import {
     ModalBody,
     ModalFooter,
     Button,
-    ScrollShadow
+    ScrollShadow,
+    useDisclosure
 } from "@heroui/react";
 import { ProductData } from "@/lib/actions/product";
 import { scheduledToCalendarDateTime } from "@/lib/utils";
@@ -31,6 +32,10 @@ import { ProductInfo } from './ProductInfo';
 import { ProductDetails } from './ProductDetails';
 import { ProductNotes } from './ProductNotes';
 import { ProductActions } from './ProductActions';
+import { ReportProductModal } from "./report-product-modal";
+import { useSignInModal } from "@/components/ui/modal-signin";
+import { useSession } from "@/components/providers/session-provider";
+
 
 type ProductDialogViewProps = {
     productData: ProductData;
@@ -57,6 +62,9 @@ export default function ProductDialogView({
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     const router = useRouter();
     const pathname = usePathname();
+    const { isOpen: isReportOpen, onOpen: onReportOpen, onOpenChange: onReportChange } = useDisclosure();
+    const { openModal, ModalSign } = useSignInModal();
+    const { session } = useSession();
 
     useEffect(() => {
         if (pathname.includes("item")) {
@@ -177,6 +185,17 @@ export default function ProductDialogView({
 
     return (
         <>
+        {/* Sign-in modal */}
+            <ModalSign 
+                message="You need to sign in to report products"
+            />
+            <ReportProductModal 
+                    isOpen={isReportOpen}
+                    onOpenChange={onReportChange}
+                    productName={productData.name}
+                    storeName={productData.store_name || ""}
+                    productId={productData.id}
+                />
             <ModalHeader className={'px-4 justify-between'}>
                 <Button isIconOnly variant={'light'} radius={'full'} onPress={onClose}>
                     <Icon icon="iconamoon:close-bold" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
@@ -236,6 +255,23 @@ export default function ProductDialogView({
                                 initialNote={note}
                                 onChange={setNote}
                             />
+                            <div className="flex w-full justify-end gap-2">
+                                <Button
+                                    className="aspect-square w-12 h-12 min-w-0 p-0 text-foreground border-small border-foreground"
+                                    onPress={() => {
+                                        if (!session?.user) {
+                                            openModal();
+                                            return;
+                                        }
+                                        onReportOpen();
+                                    }}
+                                >
+                                    <Icon 
+                                        icon="solar:flag-linear" 
+                                        width={24} 
+                                    />
+                                </Button>
+                            </div>
                         </div>
                     </ScrollShadow>
                 )}

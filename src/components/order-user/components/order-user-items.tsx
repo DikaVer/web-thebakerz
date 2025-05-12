@@ -48,6 +48,7 @@ export const OrderUserItems: React.FC<OrderUserItemsProps> = ({orderData}) => {
                             <ItemUserList
                                 orderId={orderData.id}
                                 orderProducts={orderData.productsData}
+                                storeId={orderData.store_id}
                             />
                         </motion.div>
                     </AnimatePresence>
