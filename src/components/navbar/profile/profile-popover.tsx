@@ -225,7 +225,7 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
                         </div>
 
                         <div 
-                        key={"orders"}
+                        key={"favorites"}
                         className="flex items-center gap-2 cursor-pointer hover:bg-background-secondary rounded-md p-2 py-3"
                         onClick={() => {
                             router.push('/favorites');
