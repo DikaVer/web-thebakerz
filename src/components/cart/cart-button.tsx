@@ -45,12 +45,11 @@ const CartButton: React.FC<CartButtonProps> = ({
         removeItem,
     } = useCart();
     
-    const { isDelivery, validationResult } = useDelivery();
+    const { isDelivery, validationResult, minLeadTimeProduct } = useDelivery();
     
     const isMobile = useMediaQuery("(max-width: 768px)");
     const [isLoading, setIsLoading] = useState(false);
     const { store } = useStore();
-    const { minLeadTimeProduct } = useDelivery();
     const router = useRouter();
     const t = useTranslations("app/(store)/components/cart");
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
@@ -87,19 +86,6 @@ const CartButton: React.FC<CartButtonProps> = ({
         });
     };
 
-
-    const preOrderTime = useMemo(() => {
-        if(isDelivery && validationResult.deliveryRegion?.minOrderTime) {
-            const minLeadTime = minLeadTimeProduct || 0;
-            const final = validationResult.deliveryRegion?.minOrderTime > minLeadTime ? validationResult.deliveryRegion?.minOrderTime : minLeadTime;
-            return convertMinutesToTimeComponents(final);
-        } else {
-            const minLeadTime = minLeadTimeProduct || 0;
-            const final = store.minTimeOrder > minLeadTime ? store.minTimeOrder : minLeadTime;
-            return convertMinutesToTimeComponents(final);
-        }
-    }, [isDelivery, validationResult, minLeadTimeProduct, store]);
-
     // Calculate total price of all items in the cart
     const calculateTotalPrice = (): number => {
         let total = 0;
@@ -132,6 +118,18 @@ const CartButton: React.FC<CartButtonProps> = ({
     const totalPrice = calculateTotalPrice();
     const formattedTotalPrice = formatCurrency(totalPrice);
     
+    const preOrderTime = useMemo(() => {
+        if(isDelivery && validationResult.deliveryRegion?.minOrderTime) {
+            const minLeadTime = minLeadTimeProduct || 0;
+            const final = validationResult.deliveryRegion?.minOrderTime > minLeadTime ? validationResult.deliveryRegion?.minOrderTime : minLeadTime;
+            return convertMinutesToTimeComponents(final);
+        } else {
+            const minLeadTime = minLeadTimeProduct || 0;
+            const final = store.minTimeOrder > minLeadTime ? store.minTimeOrder : minLeadTime;
+            return convertMinutesToTimeComponents(final);
+        }
+    }, [totalPrice, isDelivery, validationResult, minLeadTimeProduct, store]);
+
     // Calculate minimum order amount based on delivery region if applicable
     const minimumOrderAmount = useMemo(() => {
         if (isDelivery && validationResult.deliveryRegion?.ranges?.[0]?.minOrderPriceInCents) {

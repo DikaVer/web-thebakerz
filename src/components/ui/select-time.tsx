@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { Alert} from "@heroui/react";
 import { now } from "@internationalized/date";
 import { useTranslations } from "next-intl";
@@ -30,7 +30,7 @@ export function SelectTime() {
         return store.schedule;
     };
 
-    const minValue = () => {
+    const minValueTime = useMemo(() => {
         if (isDelivery && validationResult.deliveryRegion?.minOrderTime) {
             const minLeadTime = minLeadTimeProduct || 0;
             const final = validationResult.deliveryRegion?.minOrderTime > minLeadTime ? validationResult.deliveryRegion?.minOrderTime : minLeadTime;
@@ -40,9 +40,10 @@ export function SelectTime() {
             const final = store.minTimeOrder > minLeadTime ? store.minTimeOrder : minLeadTime;
             return now("Europe/Amsterdam").add({ minutes: final});
         }
-    };
+    }, [isDelivery, validationResult.deliveryRegion?.minOrderTime, minLeadTimeProduct, store.minTimeOrder]);
 
-
+    // Function that returns the memoized value
+    const minValue = () => minValueTime;
 
     return isDelivery ? (
             <>

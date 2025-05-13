@@ -56,7 +56,7 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
 
 
   const menuItems = [
-    { label: 'Find desserts', icon: 'iconoir:search', action: () => router.push('/') },
+    { label: 'Find desserts', icon: 'iconoir:search', action: () => router.push('/search') },
     { label: 'Contact us', icon: 'solar:user-rounded-linear', action: () => router.push('/support/contact-us') },
     ...(!isBakerz ? [{ label: 'Create Store', icon: 'solar:shop-2-linear', action: () => router.push('/become-partner') }] : []),
     { label: 'FAQ', icon: 'solar:question-circle-linear', action: () => router.push('/support') },

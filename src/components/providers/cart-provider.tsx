@@ -83,7 +83,7 @@ export const CartProvider: React.FC<{
             }, 0);
         
         setMinLeadTimeProduct(maxLeadTime);
-    }, [cartData, storeId, setMinLeadTimeProduct]);
+    }, [JSON.stringify(cartData[storeId]), storeId, setMinLeadTimeProduct]);
 
     // Cart operations
     const addItem = useCallback((item: ItemCart) => {
