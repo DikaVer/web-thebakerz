@@ -250,6 +250,11 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     []
   );
 
+  // Add function to remove all categories
+  const removeAllCategories = useCallback(() => {
+    setSelectedCategories([]);
+  }, []);
+
   const handleAllergiesChange = useCallback(
     throttle((values: string[]) => {
       setSelectedAllergies(values);
@@ -368,7 +373,17 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
 
             {/* Categories Filter - Always Show */}
             <div>
-              <h4 className="font-medium mb-3">Categories</h4>
+              <div className="flex justify-between items-center mb-3">
+                <h4 className="font-medium">Categories</h4>
+                <Button 
+                  size="sm" 
+                  variant="ghost" 
+                  color="secondary"
+                  onPress={removeAllCategories}
+                >
+                  Remove All
+                </Button>
+              </div>
               <CheckboxGroup
                 value={selectedCategories}
                 onValueChange={handleCategoriesChange}

@@ -1,6 +1,7 @@
 "use server";
 import { cookies } from 'next/headers';
 import { v4 as uuidv4 } from 'uuid';
+import { logger } from "@/lib/logger";
 /**
  * COOKIE CONSENT AND PREFERENCES MANAGEMENT
  * 

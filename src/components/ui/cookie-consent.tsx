@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState} from "react";
+import React, { useEffect, useState} from "react";
 import {Button, cn, Link, ResizablePanel, Spacer} from "@heroui/react";
 import {LazyMotion, domAnimation, AnimatePresence, m} from "framer-motion";
 import SwitchCell from "@/components/ui/switch-cell";
@@ -9,6 +9,7 @@ import {acceptAll, CookiePreferences, getSessionCookieOrCreateClient, rejectAll,
 import { useTranslations } from "next-intl";
 import { GA_MEASUREMENT_ID } from "../google-analytics";
 import clarity from "@microsoft/clarity";
+import { logger } from "@/lib/logger";
 
 // Add type declaration for gtag
 declare global {
@@ -22,7 +23,7 @@ declare global {
     }
   }
   
-export default function CookieConsentComponent({id}: {id?: string}) {
+export default function CookieConsentComponent({id, isConsent, preferences}: {id?: string, isConsent?: boolean, preferences?: CookiePreferences | null}) {
     const t = useTranslations("app/(components)/cookie-consent");
     const pathname = usePathname();
     const isSocials = pathname.includes('socials');
@@ -75,9 +76,41 @@ export default function CookieConsentComponent({id}: {id?: string}) {
         clarity.consent(false);
     };
 
-    if (isLoading) {
-        return null;
+    const initCookieConsent = async () => {
+        logger.debug('cookie-consent', 'initCookieConsent', {
+            preferences
+        });
+
+        if(!preferences) {
+            const userId = id || await getSessionCookieOrCreateClient()
+            logger.debug('cookie-consent-initCookieConsent', 'initCookieConsent', {
+                userId
+            });
+            window.gtag("config", GA_MEASUREMENT_ID, {
+                user_id: userId
+            });
+            clarity.identify(userId);
+            return;
+        }
+
+        if(preferences?.analytics) {
+            const userId = id || await getSessionCookieOrCreateClient()
+            logger.debug('cookie-consent-initCookieConsent', 'initCookieConsent', {
+                userId
+            });
+            window.gtag("config", GA_MEASUREMENT_ID, {
+                user_id: userId
+            });
+            clarity.identify(userId);
+        } else {
+            clarity.consent(false);
+        }
     }
+
+    useEffect(() => {
+        initCookieConsent();
+    }, []);
+
 
     const AnimatedWrapper = ({
                                  children,
@@ -229,7 +262,7 @@ export default function CookieConsentComponent({id}: {id?: string}) {
     );
 
     return (
-        isSocials ? null :
+        isSocials || isConsent || isLoading ? null :
         <div className="pointer-events-none fixed inset-x-0 bottom-0 px-6 pb-6 z-50">
             <ResizablePanel>
                 <AnimatePresence initial={false} mode="wait">

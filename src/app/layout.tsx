@@ -10,10 +10,10 @@ import {getLanguageCookie} from "@/lib/actions/language";
 import {NextIntlClientProvider} from 'next-intl';
 import {getLocale, getMessages} from 'next-intl/server';
 import LanguageModal from "@/components/language-modal";
-import {isCookieConsentFromServer} from "@/lib/cookie";
+import {getCookiePreferences, isCookieConsentFromServer} from "@/lib/cookie";
 import ClarityScript from "@/components/clarity-script";
 import GoogleAnalytics from "@/components/google-analytics";
-
+import { logger } from "@/lib/logger";
 export const viewport: Viewport = {
     width: 'device-width',
     initialScale: 1,
@@ -43,6 +43,7 @@ export default async function RootLayout({
     const messages = await getMessages({locale: lang || locale});
 
     const cookieConsent = await isCookieConsentFromServer();
+    const preferences = await getCookiePreferences();
 
     return (
         <html lang={lang || locale}>
@@ -58,7 +59,7 @@ export default async function RootLayout({
                         </>
                         {children}
                         {!lang && <LanguageModal/>}
-                        {!cookieConsent && <CookieConsentComponent id={session?.user?.id}/>}
+                        {<CookieConsentComponent id={session?.user?.id} isConsent={cookieConsent} preferences={preferences}/>}
                     </Providers>
                 </NextIntlClientProvider>
             </body>
