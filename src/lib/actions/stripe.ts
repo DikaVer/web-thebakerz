@@ -42,7 +42,7 @@ async function validateOrderTimeAgainstSchedule(
     // Calculate the earliest allowed order time by adding lead time to the current time
     const minimumOrderTime = nowInLocalTime.add({ minutes: leadTimeMinutes });
 
-    if (orderZonedDateTime.compare(minimumOrderTime) < 0) {
+    if (orderZonedDateTime.compare(minimumOrderTime) <= 0) {
         // Order time is sooner than allowed by lead time
         return {
             isValid: false,
@@ -71,7 +71,7 @@ async function validateOrderTimeAgainstSchedule(
     const orderTime = toTime(orderDateTime);
 
     // Check if order time is within the start and end times for that day
-    if (orderTime.compare(scheduleStartTime) < 0 || orderTime.compare(scheduleEndTime) >= 0) {
+    if (orderTime.compare(scheduleStartTime) <= 0 || orderTime.compare(scheduleEndTime) >= 0) {
         // If order time is before start OR at/after end time
         return {
             isValid: false,
