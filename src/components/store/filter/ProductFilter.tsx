@@ -1,22 +1,19 @@
 'use client';
 
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import SidebarDrawer from '@/components/SidebarDrawer';
-import { Button, Checkbox, CheckboxGroup, Slider, Divider, Spinner } from '@heroui/react';
+import { Button, Checkbox, CheckboxGroup, Select, SelectItem, Divider, Spinner } from '@heroui/react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import { iconAllergyMap } from '@/components/store/product/components/allergy-icons';
 import { iconSuperMap } from '@/components/store/product/components/super-icons';
 import { FilterParams } from '@/components/providers/product-provider';
 import { formatCurrency } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface ProductFilterProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  categories: string[];
-  allergies: string[];
-  dietary: string[];
-  maxPrice: number; // price in cents
   initialFilterParams?: FilterParams;
   onFilterChange?: (filterParams: FilterParams) => void;
   isLoading?: boolean;
@@ -25,10 +22,6 @@ interface ProductFilterProps {
 export const ProductFilter: React.FC<ProductFilterProps> = ({
   isOpen,
   onOpenChange,
-  categories = [],
-  allergies = [],
-  dietary = [],
-  maxPrice = 10000, // default to 100€ (10000 cents)
   initialFilterParams,
   onFilterChange,
   isLoading = false
@@ -38,13 +31,35 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
   const lastUpdateTime = useRef<number>(0);
   const didMount = useRef(false);
   
-  // Initialize state from initial filter params
-  const [priceRange, setPriceRange] = useState<[number, number]>(() => {
-    // Use initialFilterParams or defaults
-    if (initialFilterParams?.minPrice !== undefined && initialFilterParams?.maxPrice !== undefined) {
-      return [initialFilterParams.minPrice, initialFilterParams.maxPrice];
+  // Generate price options with specified step increments
+  const priceOptions = useMemo(() => {
+    const options: number[] = [];
+    // 0 to 100 with step 5
+    for (let i = 0; i <= 10000; i += 500) {
+      options.push(i);
     }
-    return [0, maxPrice];
+    // 150 to 1000 with step 50
+    for (let i = 15000; i <= 100000; i += 5000) {
+      options.push(i);
+    }
+    return options;
+  }, []);
+  
+  // Initialize state from initial filter params
+  const [minPrice, setMinPrice] = useState<number>(() => {
+    // Use initialFilterParams or defaults
+    if (initialFilterParams?.minPrice !== undefined) {
+      return initialFilterParams.minPrice;
+    }
+    return 0;
+  });
+  
+  const [maxPrice, setMaxPrice] = useState<number>(() => {
+    // Use initialFilterParams or defaults
+    if (initialFilterParams?.maxPrice !== undefined) {
+      return initialFilterParams.maxPrice;
+    }
+    return 1000;
   });
   
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
@@ -67,11 +82,16 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     }
     
     if (initialFilterParams && !isUpdating.current) {
-      if (initialFilterParams.minPrice !== undefined || initialFilterParams.maxPrice !== undefined) {
-        setPriceRange([
-          initialFilterParams.minPrice ?? 0,
-          initialFilterParams.maxPrice ?? maxPrice
-        ]);
+      if (initialFilterParams.minPrice !== undefined) {
+        setMinPrice(initialFilterParams.minPrice);
+      } else {
+        setMinPrice(0);
+      }
+      
+      if (initialFilterParams.maxPrice !== undefined) {
+        setMaxPrice(initialFilterParams.maxPrice);
+      } else {
+        setMaxPrice(1000);
       }
       
       if (initialFilterParams.categories) {
@@ -92,11 +112,12 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
         setSelectedDietary([]);
       }
     }
-  }, [initialFilterParams, maxPrice]);
+  }, [initialFilterParams]);
 
   // Create a stable reference to the current filter values for the debounced function
   const filterValues = useRef({
-    priceRange,
+    minPrice,
+    maxPrice,
     selectedCategories,
     selectedAllergies,
     selectedDietary,
@@ -105,12 +126,13 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
   // Update ref whenever filter values change
   useEffect(() => {
     filterValues.current = {
-      priceRange,
+      minPrice,
+      maxPrice,
       selectedCategories,
       selectedAllergies,
       selectedDietary,
     };
-  }, [priceRange, selectedCategories, selectedAllergies, selectedDietary]);
+  }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary]);
 
   // Debounced function to notify parent of filter changes
   const updateFilters = useCallback(
@@ -126,13 +148,21 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       lastUpdateTime.current = now;
       isUpdating.current = true;
       
-      const { priceRange, selectedCategories, selectedAllergies, selectedDietary } = filterValues.current;
+      const { minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary } = filterValues.current;
+      
+      // Log filter values before sending to parent
+      logger.debug('filter_update', 'ProductFilter sending filter values', {
+        minPrice: minPrice > 0 ? minPrice : undefined,
+        maxPrice: maxPrice < 100000 ? maxPrice : undefined,
+        minPriceType: typeof minPrice,
+        maxPriceType: typeof maxPrice
+      });
       
       // Notify parent component about filter changes
       if (onFilterChange) {
         onFilterChange({
-          minPrice: priceRange[0] > 0 ? priceRange[0] : undefined,
-          maxPrice: priceRange[1] < maxPrice ? priceRange[1] : undefined,
+          minPrice: minPrice > 0 ? minPrice : undefined,
+          maxPrice: maxPrice < 100000 ? maxPrice : undefined,
           categories: selectedCategories.length > 0 ? selectedCategories : undefined,
           allergies: selectedAllergies.length > 0 ? selectedAllergies : undefined,
           dietary: selectedDietary.length > 0 ? selectedDietary : undefined
@@ -144,7 +174,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
         isUpdating.current = false;
       }, 100);
     }, 300),
-    [isOpen, maxPrice, onFilterChange]
+    [isOpen, onFilterChange]
   );
 
   // Update filters with a debounce to prevent excessive updates
@@ -157,28 +187,47 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     return () => {
       updateFilters.cancel();
     };
-  }, [priceRange, selectedCategories, selectedAllergies, selectedDietary, isOpen, updateFilters]);
+  }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary]);
 
   // Reset all filters with throttling to prevent multiple resets
   const resetFilters = useCallback(
     throttle(() => {
-      setPriceRange([0, maxPrice]);
+      setMinPrice(0);
+      setMaxPrice(100000);
       setSelectedCategories([]);
       setSelectedAllergies([]);
       setSelectedDietary([]);
     }, 300),
-    [maxPrice]
-  );
-
-  // Handle slider change with throttling to prevent too many updates
-  const handleSliderChange = useCallback(
-    throttle((value: number | number[]) => {
-      if (Array.isArray(value) && value.length === 2) {
-        setPriceRange([value[0], value[1]]);
-      }
-    }, 100),
     []
   );
+
+  // Handle min price select change
+  const handleMinPriceChange = useCallback((value: string) => {
+    const newValue = Number(value);
+    logger.debug('price_change', 'Min price changed', {
+      newValue,
+      valueType: typeof newValue
+    });
+    setMinPrice(newValue);
+    // Ensure max is not less than min
+    if (newValue > maxPrice) {
+      setMaxPrice(newValue);
+    }
+  }, [maxPrice]);
+
+  // Handle max price select change
+  const handleMaxPriceChange = useCallback((value: string) => {
+    const newValue = Number(value);
+    logger.debug('price_change', 'Max price changed', {
+      newValue,
+      valueType: typeof newValue
+    });
+    setMaxPrice(newValue);
+    // Ensure min is not greater than max
+    if (newValue < minPrice) {
+      setMinPrice(newValue);
+    }
+  }, [minPrice]);
 
   // Handle checkbox group changes with throttling
   const handleCategoriesChange = useCallback(
@@ -258,26 +307,54 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
             {/* Price Range Filter - Always Show */}
             <div>
               <h4 className="font-medium mb-3">Price Range</h4>
-              <Slider
-                aria-label="Price range"
-                defaultValue={priceRange}
-                minValue={0}
-                maxValue={maxPrice}
-                step={50} // Step by 0.5€ (50 cents)
-                value={priceRange}
-                onChange={handleSliderChange}
-                className="mb-2"
-              />
-              <div className="flex justify-between text-sm text-foreground-500">
-                <span>{formatCurrency(priceRange[0])}</span>
-                <span>{formatCurrency(priceRange[1])}</span>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm text-foreground-500 mb-1 block">Min Price</label>
+                  <Select
+                    aria-label="Minimum price"
+                    selectedKeys={[minPrice.toString()]}
+                    onSelectionChange={(keys) => {
+                      if (typeof keys === "string") {
+                        handleMinPriceChange(keys);
+                      } else if (keys instanceof Set && keys.size > 0) {
+                        handleMinPriceChange(Array.from(keys)[0] as string);
+                      }
+                    }}
+                  >
+                    {priceOptions.map((price) => (
+                      <SelectItem key={price.toString()}>
+                        {formatCurrency(price)}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </div>
+                <div>
+                  <label className="text-sm text-foreground-500 mb-1 block">Max Price</label>
+                  <Select
+                    aria-label="Maximum price"
+                    selectedKeys={[maxPrice.toString()]}
+                    onSelectionChange={(keys) => {
+                      if (typeof keys === "string") {
+                        handleMaxPriceChange(keys);
+                      } else if (keys instanceof Set && keys.size > 0) {
+                        handleMaxPriceChange(Array.from(keys)[0] as string);
+                      }
+                    }}
+                  >
+                    {priceOptions.map((price) => (
+                      <SelectItem key={price.toString()}>
+                        {formatCurrency(price)}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </div>
               </div>
             </div>
 
             <Divider />
 
             {/* Categories Filter - Always Show */}
-            <div>
+            {/* <div>
               <h4 className="font-medium mb-3">Categories</h4>
               <CheckboxGroup
                 value={selectedCategories}
@@ -293,10 +370,10 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
                   <div className="text-sm text-gray-500 italic">No categories available</div>
                 )}
               </CheckboxGroup>
-            </div>
+            </div> */}
 
             {/* Allergies Filter - only show if allergies exist in products */}
-            {allergies.length > 0 && (
+            {/* {allergies.length > 0 && (
               <>
                 <Divider />
                 <div>
@@ -314,10 +391,10 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
                   </CheckboxGroup>
                 </div>
               </>
-            )}
+            )} */}
 
             {/* Dietary Filter - only show if dietary options exist in products */}
-            {dietary.length > 0 && (
+            {/* {dietary.length > 0 && (
               <>
                 <Divider />
                 <div>
@@ -335,7 +412,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
                   </CheckboxGroup>
                 </div>
               </>
-            )}
+            )} */}
           </div>
         )}
       </div>

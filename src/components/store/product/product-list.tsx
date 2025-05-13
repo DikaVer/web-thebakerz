@@ -14,6 +14,7 @@ import {useSearchParams} from "next/navigation";
 import {useTranslations} from "next-intl";
 import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 import { sortItems } from "@/lib/helper/sort-items-with-order";
+import { logger } from '@/lib/logger';
 
 interface ProductListBaseProps {
     productsData: ProductDataFull;
@@ -85,16 +86,36 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             return sortedProductsByCategories;
         }
         
+        // Debug price filter
+        logger.debug('price_filter', 'Current price filters', { 
+            minPrice: filterParams.minPrice, 
+            maxPrice: filterParams.maxPrice,
+            filterParamsType: typeof filterParams
+        });
+        
         // Apply all filters
         const filteredProductsByCategories: Record<string, ProductData[]> = {};
         
         Object.entries(sortedProductsByCategories).forEach(([category, products]) => {
             const filteredProducts = products.filter(product => {
+                // Debug product price
+                const productPrice = product.price;
+                
                 // Price filter
-                if (filterParams.minPrice !== undefined && product.price < filterParams.minPrice) {
+                if (filterParams.minPrice !== undefined && productPrice < filterParams.minPrice) {
+                    logger.debug('price_filter', 'Product filtered by min price', {
+                        productName: product.name,
+                        productPrice,
+                        minPrice: filterParams.minPrice
+                    });
                     return false;
                 }
-                if (filterParams.maxPrice !== undefined && product.price > filterParams.maxPrice) {
+                if (filterParams.maxPrice !== undefined && productPrice > filterParams.maxPrice) {
+                    logger.debug('price_filter', 'Product filtered by max price', {
+                        productName: product.name,
+                        productPrice,
+                        maxPrice: filterParams.maxPrice
+                    });
                     return false;
                 }
                 
@@ -219,7 +240,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
                 <Spacer y={2} />
                 <ProductSearch searchTerm={searchTerm} onSearchChange={handleSearchChange} />
             </div>
-            <div className={`w-full  h-4 ${isSticky ? ' sticky top-[105px] z-40 shadow-xl' : ''} ${isVisible ? 'top-[0px]' : 'top-[98px]'}`}></div>
+            <div className={`w-full h-4 ${isSticky ? ' sticky top-[105px] z-40 shadow-xl' : ''} ${isVisible ? 'top-[0px]' : 'top-[98px]'}`}></div>
             <Spacer y={8} />
             {sortedCategories.map((category) => (
                 <CategoryProducts
