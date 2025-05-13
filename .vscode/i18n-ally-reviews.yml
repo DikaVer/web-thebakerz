@@ -1054,6 +1054,7 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-04-18T21:29:02.024Z'
+            resolved: true
   app/(components)/cookie-consent.cookiePolicy:
     locales:
       nl:
@@ -1078,6 +1079,7 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-04-18T21:29:09.857Z'
+            resolved: true
   app/(components)/cookie-consent.cookiesConsentText:
     locales:
       nl:
@@ -1102,6 +1104,17 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-04-18T21:29:36.224Z'
+            resolved: true
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: Hyqdp24Jtc8LtbZFc_Mv9
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-13T14:37:22.770Z'
   app/(components)/cookie-consent.essential:
     locales:
       nl:
@@ -1198,6 +1211,17 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-04-18T21:30:04.572Z'
+            resolved: true
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: PG46XnQegWdjQmROSdryA
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-13T14:50:59.059Z'
   app/(components)/cookie-consent.yourPrivacy:
     locales:
       nl:
@@ -10275,3 +10299,24 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-05-12T23:08:47.099Z'
+  app/(components)/cookie-consent.acceptEssential:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: QWpYDMIoCFgs3S0zDbweE
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-13T14:39:48.180Z'
+            resolved: true
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: k5vzaHnQgvphwOh1Kx3r_
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-13T14:49:46.389Z'

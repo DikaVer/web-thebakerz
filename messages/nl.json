@@ -112,14 +112,15 @@
   },
   "app/(components)/cookie-consent": {
     "acceptAll": "Alles accepteren",
+    "acceptEssential": "",
     "acceptSelected": "Accepteer geselecteerde",
     "analytics": "Analyse",
     "analyticsDescription": "Om te begrijpen hoe u de site gebruikt",
     "continueToTheBakerz": "Voordat u verdergaat naar TheBakerz",
     "cookiePolicy": "Cookiebeleid",
-    "cookieSettings": "Cookie-instellingen",
+    "cookieSettings": "",
     "cookiesConsentText": "Door op \"Alles accepteren\" te klikken, stemt u in met het gebruik van ALLE cookies. Als u kiest voor \"Alles afwijzen\", gebruiken we cookies alleen voor essentiële doeleinden. U kunt echter \"Cookie-instellingen\" bezoeken om een gecontroleerde toestemming te geven. Lees voor meer informatie onze",
-    "cookiesExplanation": "Wij gebruiken cookies op onze website om u de meest relevante ervaring te bieden door uw voorkeuren en herhaalde bezoeken te onthouden.",
+    "cookiesExplanation": "",
     "essential": "Essentieel",
     "essentialDescription": "Essentieel voor het functioneren van de site",
     "forMoreInfo": "voor meer informatie.",
@@ -127,7 +128,7 @@
     "marketingDescription": "Om u relevante inhoud te tonen",
     "privacy": "Privacy",
     "privacyDescription": "Deze site maakt gebruik van trackingtechnologieën om uw ervaring te verbeteren. U kunt ervoor kiezen om deze technologieën te accepteren of te weigeren. Als u ervoor kiest om \"Alles te weigeren\", gebruiken we cookies alleen voor essentiële doeleinden. Bekijk onze",
-    "rejectAll": "Alles afwijzen",
+    "rejectAll": "",
     "yourPrivacy": "Uw privacy"
   },
   "app/(components)/footer": {

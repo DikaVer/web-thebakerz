@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 import { useEffect } from "react";
-import { CookiePreferences } from "@/lib/cookie";
+import { CookiePreferences, getSessionCookieOrCreate } from "@/lib/cookie";
 
 // Add type declaration for gtag
 declare global {
@@ -18,6 +18,11 @@ declare global {
 
 export default function GoogleAnalytics({ id, preferences }: { id?: string, preferences: CookiePreferences | null }) {
   const GA_MEASUREMENT_ID = "G-ZJJ1P05SPE";
+
+  const getGoogleAnalyticsId = async () => {
+    const idGoogleAnalytics = id || await getSessionCookieOrCreate();
+    return idGoogleAnalytics;
+}
   
   useEffect(() => {
     if (preferences?.analytics && window.gtag) {
@@ -25,6 +30,12 @@ export default function GoogleAnalytics({ id, preferences }: { id?: string, pref
       if (id) {
         window.gtag("config", GA_MEASUREMENT_ID, {
           user_id: id
+        });
+      } else {
+        getGoogleAnalyticsId().then((id) => {
+          window.gtag("config", GA_MEASUREMENT_ID, {
+            user_id: id
+          });
         });
       }
     }

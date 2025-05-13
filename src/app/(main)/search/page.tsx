@@ -165,18 +165,22 @@ export default async function Page(props : SearchPageProps) {
           Use Suspense inside SearchComponent to show a loading state while StoreResults fetches data. 
           The key ensures Suspense re-triggers when coords or mode change.
         */}
-        <Suspense key={`${initialCoords.lat}-${initialCoords.lng}-${deliveryMode}`} fallback={<StoresLoadingSkeleton />}>
-          {/* 
-            Pass coords and mode needed for fetching.
-            Render this async component inside Suspense.
-          */}
-          <StoreResults 
-            coords={initialCoords}
-            mode={deliveryMode} 
-            country={initialCountry} 
-            isUserCord={initialIsUserCord}
-          /> 
-        </Suspense>
+        <div className='flex flex-col p-4'>
+          <Suspense key={`${initialCoords.lat}-${initialCoords.lng}-${deliveryMode}`} fallback={<StoresLoadingSkeleton />}>
+            {/* 
+              Pass coords and mode needed for fetching.
+              Render this async component inside Suspense.
+            */}
+            
+              <StoreResults 
+                coords={initialCoords}
+                mode={deliveryMode} 
+                country={initialCountry} 
+                isUserCord={initialIsUserCord}
+              /> 
+          
+          </Suspense>
+        </div>
     </GoogleMapsProvider>
   );
 } 

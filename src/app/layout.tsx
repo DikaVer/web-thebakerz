@@ -10,11 +10,9 @@ import {getLanguageCookie} from "@/lib/actions/language";
 import {NextIntlClientProvider} from 'next-intl';
 import {getLocale, getMessages} from 'next-intl/server';
 import LanguageModal from "@/components/language-modal";
-import {getCookiePreferences, isCookieConsentFromServer} from "@/lib/cookie";
+import {getCookiePreferences, getSessionCookieOrCreate, isCookieConsentFromServer} from "@/lib/cookie";
 import ClarityScript from "@/components/clarity-script";
 import GoogleAnalytics from "@/components/google-analytics";
-import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
-
 
 export const viewport: Viewport = {
     width: 'device-width',
@@ -56,11 +54,11 @@ export default async function RootLayout({
                         session={session}
                     >
                             <ClarityScript
-                                id={session.user?.id}
+                                id={session?.user?.id}
                                 preferences={preferences}
                             />
                             <GoogleAnalytics
-                                id={session.user?.id}
+                                id={session?.user?.id}
                                 preferences={preferences}
                             />
                             {children}

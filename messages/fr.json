@@ -110,6 +110,7 @@
   },
   "app/(components)/cookie-consent": {
     "acceptAll": "",
+    "acceptEssential": "",
     "acceptSelected": "",
     "analytics": "",
     "analyticsDescription": "",

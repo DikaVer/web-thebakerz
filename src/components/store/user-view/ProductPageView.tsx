@@ -208,7 +208,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
 
                             <div className="flex w-full justify-end gap-2">
                                 <Button
-                                    className="aspect-square w-12 h-12 min-w-0 p-0 text-foreground border-small border-foreground"
+                                    className="aspect-square w-8 h-8  min-w-0 p-0 text-foreground border-small border-foreground"
                                     onPress={() => {
                                         if (!session?.user) {
                                             openModal();
@@ -219,7 +219,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                                 >
                                     <Icon 
                                         icon="solar:flag-linear" 
-                                        width={24} 
+                                        width={18} 
                                     />
                                 </Button>
                             </div>

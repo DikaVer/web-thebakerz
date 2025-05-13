@@ -257,7 +257,7 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
                 variant="light"
                 color="secondary"
                 size="sm"
-                className={`absolute top-2 right-2 z-10 bg-black/60 font-bold text-lg text-white transition-all duration-300 ${
+                className={`absolute top-2 right-2 z-10 bg-black/20 font-bold text-lg text-white transition-all duration-300 ${
                     isAnimating ? 'scale-105' : 'scale-100'
                 }`}
                 onPress={handleFavoriteToggle}
@@ -308,13 +308,14 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
                                 </Chip>
                             ) : (
                                 isUserCord && (
-                                    <Chip 
-                                        size="sm" 
-                                        color={isDeliveryAvailable ? "success" : "danger"}
-                                        variant="flat"
-                                    >
-                                        {isDeliveryAvailable ? t('deliveryAvailable') : t('deliveryUnavailable')}
-                                    </Chip>
+                                    <></>
+                                    // <Chip 
+                                    //     size="sm" 
+                                    //     color={isDeliveryAvailable ? "success" : "danger"}
+                                    //     variant="flat"
+                                    // >
+                                    //     {isDeliveryAvailable ? t('deliveryAvailable') : t('deliveryUnavailable')}
+                                    // </Chip>
                                 )
                             )}
                         </div>

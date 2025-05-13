@@ -29,7 +29,7 @@ const AnimatedHeart = ({ isFavorite }: { isFavorite: boolean }) => {
     return (
         <Icon 
             icon="solar:heart-bold" 
-            width={36} 
+            width={24} 
             className={`transition-all duration-300 transform ${
                 isFavorite 
                     ? "text-danger-500 scale-110" 

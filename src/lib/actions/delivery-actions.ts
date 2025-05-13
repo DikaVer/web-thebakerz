@@ -2,12 +2,12 @@
 
 import { containerDeliveryRegions, containerDeliveryLocations } from "@/db";
 import { revalidateTag } from "next/cache";
-import { getCurrentSession, getSessionCookie, getSessionCookieOrCreate } from "@/lib/actions/session";
+import { getCurrentSession, getSessionCookie} from "@/lib/actions/session";
 import { DeliveryRegionsSchema } from "@/lib/schemas/delivery.schema";
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import { getCurrentStoreByUserIdAndStoreId } from "@/lib/actions/store";
 import { getTranslations } from "next-intl/server";
-import { globalGETRateLimit, globalPOSTRateLimit } from "@/lib/actions/requests";
+import { globalGETRateLimit } from "@/lib/actions/requests";
 import { v4 as uuidv4 } from "uuid";
 
 export interface DeliveryRange {

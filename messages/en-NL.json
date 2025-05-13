@@ -112,14 +112,15 @@
   },
   "app/(components)/cookie-consent": {
     "acceptAll": "Accept All",
+    "acceptEssential": "Accept essential",
     "acceptSelected": "Accept Selected",
     "analytics": "Analytics",
     "analyticsDescription": "To understand how you use the site",
-    "continueToTheBakerz": "Before you continue to TheBakerz",
+    "continueToTheBakerz": "TheBakerz uses cookies",
     "cookiePolicy": "Cookie Policy",
-    "cookieSettings": "Cookie Settings",
+    "cookieSettings": "Settings",
     "cookiesConsentText": "By clicking \"Accept All\", you consent to the use of ALL the cookies. If you choose to \"Reject All\", we will use cookies for only essential purposes. However, you may visit \"Cookie Settings\" to provide a controlled consent. For more information, please read our",
-    "cookiesExplanation": "We use cookies on our website to give you the most relevant experience by remembering your preferences and repeat visits.",
+    "cookiesExplanation": "They ensure the smooth operation of all TheBakerz sites and services. For more information, please read our",
     "essential": "Essential",
     "essentialDescription": "Essential for the site to function",
     "forMoreInfo": "for more information.",
@@ -127,7 +128,7 @@
     "marketingDescription": "To show you relevant content",
     "privacy": "Privacy",
     "privacyDescription": "This site uses tracking technologies to improve your experience. You may choose to accept or reject these technologies. If you choose to \"Reject All\", we will use cookies for only essential purposes. Check our",
-    "rejectAll": "Reject All",
+    "rejectAll": "Accept essentials",
     "yourPrivacy": "Your Privacy"
   },
   "app/(components)/footer": {

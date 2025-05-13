@@ -51,7 +51,7 @@ export default function CookieConsentComponent() {
                              }: React.PropsWithChildren<{className?: string}>) => (
         <m.div
             className={cn(
-                "pointer-events-auto ml-auto max-w-sm rounded-large border border-divider bg-background/80 dark:bg-black/80 p-6 shadow-small backdrop-blur-md",
+                "pointer-events-auto ml-auto max-w-xl rounded-large border border-divider bg-background/80 dark:bg-black/80 p-4 shadow-small backdrop-blur-md",
                 className,
             )}
             exit="hidden"
@@ -68,7 +68,7 @@ export default function CookieConsentComponent() {
     );
 
     const cookieSettingsContent = (
-        <div className={`pointer-events-auto ml-auto max-w-sm rounded-large border border-divider bg-background/80 dark:bg-black/80 p-6 shadow-small backdrop-blur-md`}>
+        <div className={`pointer-events-auto ml-auto max-w-xl rounded-large border border-divider bg-background/80 dark:bg-black/80 p-4 shadow-small backdrop-blur-md`}>
             <h1 className="text-large font-semibold text-foreground">
                 {t("yourPrivacy")}
             </h1>
@@ -117,11 +117,11 @@ export default function CookieConsentComponent() {
                 />
             </div>
             <Spacer y={4} />
-            <div className="flex justify-between gap-x-3">
+            <div className="flex flex-row justify-between gap-x-3">
                 <Button
                     fullWidth
-                    className={`bg-gradient-primary text-white text-md`}
-                    radius="lg"
+                    className={`bg-gradient-primary text-white`}
+                    size="sm"
                     isLoading={isLoading}
                     isDisabled={isLoading}
                     onPress={handleAcceptSelected}
@@ -132,6 +132,7 @@ export default function CookieConsentComponent() {
                     fullWidth 
                     variant="bordered"
                     className="text-foreground border-foreground/20"
+                    size="sm"
                     isLoading={isLoading}
                     isDisabled={isLoading}
                     onPress={handleRejectAll}>
@@ -147,20 +148,17 @@ export default function CookieConsentComponent() {
                 {t("continueToTheBakerz")}
             </h1>
             <p className="text-small font-normal text-foreground/80">
-                {t("cookiesExplanation")}
-            </p>
-            <p className="text-small font-normal text-foreground/80">
-                {t("cookiesConsentText")}{" "}
+                {t("cookiesExplanation")}{" "}
                 <Link className="text-primary" href="/policies/privacy-policy" size="sm" underline="hover">
                     {t("cookiePolicy")}
                 </Link>
             </p>
-            <div className="mt-4 space-y-2">
+            <div className="flex flex-row gap-x-1 mt-4">
                 <Button
                     fullWidth
-                    className={`bg-gradient-primary text-white text-xl`}
+                    className={`bg-gradient-primary text-white text-xs px-1`}
                     radius="lg"
-                    endContent={<Icon className="ml-2 inline-block h-6 w-6 text-white" icon="lucide:cookie"/>}
+                    size="sm"
                     isLoading={isLoading}
                     isDisabled={isLoading}
                     onPress={acceptAll}
@@ -171,17 +169,19 @@ export default function CookieConsentComponent() {
                     fullWidth
                     className="border-foreground/20 font-medium text-foreground"
                     radius="lg"
+                    size="sm"
                     variant="bordered"
                     isLoading={isLoading}
                     isDisabled={isLoading}
                     onPress={handleRejectAll}
                 >
-                    {t("rejectAll")}
+                    {t("acceptEssential")}
                 </Button>
                 <Button
                     fullWidth
-                    className="font-medium text-foreground/80"
+                    className="font-medium text-foreground/80 w-fit"
                     radius="lg"
+                    size="sm"
                     variant="light"
                     isLoading={isLoading}
                     isDisabled={isLoading}

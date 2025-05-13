@@ -117,7 +117,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
                 variant="light"
                 color="secondary"
                 size="sm"
-                className={`absolute top-2 right-2 z-30 bg-black/60 font-bold text-lg text-white transition-all duration-300 ${
+                className={`absolute top-2 right-2 z-30 bg-black/20 font-bold text-lg text-white transition-all duration-300 ${
                     isAnimating ? 'scale-105' : 'scale-100'
                 }`}
                 onPress={() => handleFavoriteToggle()}

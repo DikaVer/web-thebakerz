@@ -55,7 +55,7 @@ const ipBucket = new RefillingTokenBucket<string>(20, 1);
 /**
  * Handles user login by email
  */
-export async function loginAction(_prev: ActionResult, formData: z.infer<typeof EmailSchema>, sendVerification: boolean = true): Promise<ActionResult> {
+export async function loginAction(_prev: ActionResult, formData: z.infer<typeof EmailSchema>, notSendVerification: boolean = false): Promise<ActionResult> {
     const t = await getTranslations("app/(auth)/auth/actions");
     const context = await getRequestContext();
     const clientIP = context.clientIP || undefined;
@@ -131,7 +131,7 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
     // Create and send verification email
     try {
         const emailVerificationRequest = await createEmailVerificationRequest(user.id, user.email);
-        if (sendVerification) {
+        if (!notSendVerification) {
             await sendVerificationEmail(emailVerificationRequest.email, emailVerificationRequest.code);
         }
         await setEmailVerificationRequestCookie(emailVerificationRequest);

@@ -133,7 +133,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                         <Button
                             isLoading={isLoading}
                             variant="bordered"
-                            className="text-default-600 bg-gradient-card w-full max-w-52"
+                            className="text-default-600 bg-gradient-card w-full max-w-52 border-small border-default-600"
                             startContent={
                                 !isLoading && (
                                     <Icon

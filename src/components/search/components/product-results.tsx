@@ -242,7 +242,7 @@ const ProductResults: React.FC<ProductResultsProps> = ({
             <div 
               key={`${product.id}-${index}`}
               ref={isLastElement ? lastProductElementRef : null} 
-              className="m-1"
+              className=""
             >
               <ProductBase productData={product} />
             </div>
