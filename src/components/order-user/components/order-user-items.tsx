@@ -88,22 +88,22 @@ export const OrderUserItems: React.FC<OrderUserItemsProps> = ({orderData}) => {
                             }
                         </>
                     }
-                    {orderData.priceData.serviceFeeExclVat > 0 &&
+                    {orderData.priceData.serviceFeeInclVat > 0 &&
                         <>
                             <div className={'flex flex-col justify-between text-start col-span-4'}>
                                 <div className="flex justify-between mt-2">
                                     <span className="text-sm font-medium">{t("Service Fee")}</span>
-                                    <span className="text-sm">{formatCurrency(orderData.priceData.serviceFeeExclVat)}</span>
+                                    <span className="text-sm">{formatCurrency(orderData.priceData.serviceFeeInclVat)}</span>
                                 </div>
                             </div>
-                            {orderData.priceData.serviceVat > 0 &&
+                            {/* {orderData.priceData.serviceVat > 0 &&
                                 <div className={'flex flex-col justify-between text-start col-span-4'}>
                                     <div className="flex justify-between mt-2">
                                         <span className="text-sm font-medium">{t("Service VAT")}</span>
                                         <span className="text-sm">{formatCurrency(orderData.priceData.serviceVat)}</span>
                                     </div>
                                 </div>
-                            }
+                            } */}
                         </>
                     }
                     <div className={'flex flex-col justify-between text-start col-span-4'}>

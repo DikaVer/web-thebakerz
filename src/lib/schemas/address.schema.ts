@@ -5,7 +5,7 @@ const zipCodePattern = /^[0-9A-Za-z\s-]{4,10}$/; // Generic pattern for EU posta
 
 // Google Maps related constants
 export const GOOGLE_MAPS_LIBRARIES = ['places'] as const;
-export const COUNTRY_RESTRICTION = [] as const; // Allow all countries
+export const COUNTRY_RESTRICTION = ['nl', 'be', 'de', 'fr', 'lu'] as const; // Allow all countries
 
 
 // Dutch postal code regex: 4 digits followed by 2 letters (with or without space)

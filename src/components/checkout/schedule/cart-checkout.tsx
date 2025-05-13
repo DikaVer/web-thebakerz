@@ -71,6 +71,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         deliveryVat,
         serviceFeeExclVat,
         serviceVat,
+        serviceFeeInclVat,
         totalExclVat,
         totalVat,
         totalInclVat 
@@ -180,18 +181,18 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                                 }
                             </>
                         }
-                        {serviceFeeExclVat > 0 &&
+                        {serviceFeeInclVat > 0 &&
                             <>
                                 <div className="flex justify-between mt-2">
                                     <span className="text-sm font-medium">{t("serviceFee")}</span>
-                                    <span className="text-sm">{formatCurrency(serviceFeeExclVat)}</span>
+                                    <span className="text-sm">{formatCurrency(serviceFeeInclVat)}</span>
                                 </div>
-                                {serviceVat > 0 &&
+                                {/* {serviceVat > 0 &&
                                     <div className="flex justify-between mt-2">
                                         <span className="text-sm font-medium">{t("vat21")}</span>
                                         <span className="text-sm">{formatCurrency(serviceVat)}</span>
                                     </div>
-                                }
+                                } */}
                             </>
                         }
                         <Spacer y={2} />
