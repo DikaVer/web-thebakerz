@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';
 import { FavoriteData, addStoreFavorite, removeStoreFavorite, addProductFavorite, removeProductFavorite} from "@/lib/actions/favorites";
+import clarity from '@microsoft/clarity';
 
 interface FavoritesContextProps {
     storeFavorites: FavoriteData[];
@@ -39,6 +40,7 @@ export const FavoritesProvider: React.FC<{
 
     // Favorite operations
     const addStoreToFavorites = useCallback(async (storeId: string, storeName: string, storeBackground: string) => {
+        clarity.event("store_add_to_favorites")
         const success = await addStoreFavorite(storeId, storeName, storeBackground);
         if (success) {
             setStoreFavorites(prev => [...prev, { id: `${storeId}`, storeId, type: "store", userId: "", createdAt: "", metadata: { storeName, storeBackground } }]);
@@ -49,6 +51,7 @@ export const FavoritesProvider: React.FC<{
     }, []);
 
     const removeStoreFromFavorites = useCallback(async (storeId: string) => {
+        clarity.event("store_remove_from_favorites")
         const success = await removeStoreFavorite(storeId);
         if (success) {
             setStoreFavorites(prev => prev.filter(fav => fav.storeId !== storeId));
@@ -59,6 +62,7 @@ export const FavoritesProvider: React.FC<{
     }, []);
 
     const addProductToFavorites = useCallback(async (storeId: string, productId: string, productName: string, productImage: string) => {
+        clarity.event("product_add_to_favorites")
         const success = await addProductFavorite(storeId, productId, productName, productImage);
         if (success) {
             setProductFavorites(prev => [...prev, { id: `${storeId}-${productId}`, storeId, productId, type: "product", userId: "", createdAt: "", metadata: { productName, productImage } }]);
@@ -69,6 +73,7 @@ export const FavoritesProvider: React.FC<{
     }, []);
 
     const removeProductFromFavorites = useCallback(async (storeId: string, productId: string) => {
+        clarity.event("product_remove_from_favorites")
         const success = await removeProductFavorite(storeId, productId);
         if (success) {
             setProductFavorites(prev => prev.filter(fav => fav.storeId !== storeId || fav.productId !== productId));

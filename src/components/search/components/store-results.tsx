@@ -6,7 +6,8 @@ import { cn } from '@heroui/react';
 import { isEmptyFilters } from './product-results';
 import { useProductDialog } from '@/components/providers/product-provider';
 import { useTranslations } from 'next-intl';
-
+import { useEffect } from 'react';
+import clarity from '@microsoft/clarity';
 interface StoreResultsProps {
   stores: NearbyStore[];
   isUserCord: boolean;
@@ -17,6 +18,9 @@ export function StoreClientResults({ stores, isUserCord, mode }: StoreResultsPro
   const { filterParams } = useProductDialog();
   const isFiltered = !isEmptyFilters(filterParams);
   const t = useTranslations("app/search");
+  useEffect(() => {
+    clarity.setTag("page", "search");
+  }, []);
   
   // Log to help debug duplicate IDs
   logger.debug("storeResults", "Store IDs:", { storeIds: stores.map(store => store.id) });

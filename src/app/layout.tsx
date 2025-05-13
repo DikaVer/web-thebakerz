@@ -59,7 +59,7 @@ export default async function RootLayout({
                         </>
                         {children}
                         {!lang && <LanguageModal/>}
-                        {<CookieConsentComponent id={session?.user?.id} isConsent={cookieConsent} preferences={preferences}/>}
+                        {<CookieConsentComponent id={session?.user?.id} isConsent={cookieConsent} preferences={preferences} role={session?.user?.role}/>}
                     </Providers>
                 </NextIntlClientProvider>
             </body>

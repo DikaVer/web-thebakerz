@@ -23,7 +23,7 @@ declare global {
     }
   }
   
-export default function CookieConsentComponent({id, isConsent, preferences}: {id?: string, isConsent?: boolean, preferences?: CookiePreferences | null}) {
+export default function CookieConsentComponent({id, isConsent, preferences, role}: {id?: string, isConsent?: boolean, preferences?: CookiePreferences | null, role?: string}) {
     const t = useTranslations("app/(components)/cookie-consent");
     const pathname = usePathname();
     const isSocials = pathname.includes('socials');
@@ -47,11 +47,7 @@ export default function CookieConsentComponent({id, isConsent, preferences}: {id
     const handleAcceptAll = async () => {
         setIsLoading(true);
         await acceptAll();
-        const userId = id || await getSessionCookieOrCreateClient()
-        window.gtag("config", GA_MEASUREMENT_ID, {
-        user_id: userId
-        });
-        clarity.identify(userId);
+        await setTrackingCookie(id, role);
         
     };
 
@@ -59,11 +55,7 @@ export default function CookieConsentComponent({id, isConsent, preferences}: {id
         setIsLoading(true);
         await savePreferences(localPreferences);
         if(localPreferences.analytics) {
-            const userId = id || await getSessionCookieOrCreateClient()
-            window.gtag("config", GA_MEASUREMENT_ID, {
-                user_id: userId
-            });
-            clarity.identify(userId);
+            await setTrackingCookie(id, role);
         } else {
             clarity.consent(false);
         }
@@ -82,26 +74,12 @@ export default function CookieConsentComponent({id, isConsent, preferences}: {id
         });
 
         if(!preferences) {
-            const userId = id || await getSessionCookieOrCreateClient()
-            logger.debug('cookie-consent-initCookieConsent', 'initCookieConsent', {
-                userId
-            });
-            window.gtag("config", GA_MEASUREMENT_ID, {
-                user_id: userId
-            });
-            clarity.identify(userId);
+            await setTrackingCookie(id, role);
             return;
         }
 
         if(preferences?.analytics) {
-            const userId = id || await getSessionCookieOrCreateClient()
-            logger.debug('cookie-consent-initCookieConsent', 'initCookieConsent', {
-                userId
-            });
-            window.gtag("config", GA_MEASUREMENT_ID, {
-                user_id: userId
-            });
-            clarity.identify(userId);
+            await setTrackingCookie(id, role);
         } else {
             clarity.consent(false);
         }
@@ -273,4 +251,25 @@ export default function CookieConsentComponent({id, isConsent, preferences}: {id
             </ResizablePanel>
         </div>
     );
+}
+
+
+const setTrackingCookie = async (id?: string,  role?: string) => {
+    const userId = id || await getSessionCookieOrCreateClient()
+    logger.debug('cookie-consent-initCookieConsent', 'initCookieConsent', {
+        userId
+    });
+    window.gtag("config", GA_MEASUREMENT_ID, {
+        user_id: userId
+    });
+    clarity.identify(userId);
+    if(role === "admin") {
+        clarity.setTag("role", "admin");
+    } else if (role === "bakerz") {
+        clarity.setTag("role", "bakerz");
+    } else if (role === "user") {
+        clarity.setTag("role", "user");
+    } else {
+        clarity.setTag("role", "guest");
+    }
 }

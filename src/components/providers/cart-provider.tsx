@@ -5,6 +5,7 @@ import { CartData, ItemCart, updateCart, removeCartItem, TypedCartData } from "@
 import showErrorMessage from "@/components/toast/toast-error";
 import {useDisclosure} from "@heroui/react";
 import { useDelivery } from './delivery-provider';
+import clarity from "@microsoft/clarity";
 
 type CartType = 'delivery' | 'pickup';
 
@@ -87,6 +88,7 @@ export const CartProvider: React.FC<{
 
     // Cart operations
     const addItem = useCallback((item: ItemCart) => {
+        clarity.event("cart_add_item")
         setTypedCarts((prevTypedCarts) => {
             const newTypedCarts = { ...prevTypedCarts };
             const type = item.type as CartType;
@@ -101,6 +103,7 @@ export const CartProvider: React.FC<{
     }, []);
 
     const updateItem = useCallback(async (item: ItemCart) => {
+        clarity.event("cart_update_item")
         const result = await updateCart(
             item.product_id, 
             item.store_id, 
@@ -131,6 +134,7 @@ export const CartProvider: React.FC<{
     }, []);
 
     const removeItem = useCallback(async (item: ItemCart) => {
+        clarity.event("cart_remove_item")
         const result = await removeCartItem(storeId, item.id);
         
         if (result.success) {

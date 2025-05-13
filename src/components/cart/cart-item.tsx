@@ -8,7 +8,7 @@ import CustomAlert from "@/components/ui/custom-alerts";
 import { useTranslations } from "next-intl";
 import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
 import {Icon} from "@iconify/react";
-
+import clarity from "@microsoft/clarity";
 type CartItemRowProps = {
     item: ItemCart;
     productData: ProductData;
@@ -109,6 +109,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                                             setIsLoading(true);
                                             await handleDelete();
                                             setIsLoading(false);
+                                            clarity.event("cart_item_delete");
                                         }}
                                     >
                                         {!isLoading && <Icon icon="solar:trash-bin-trash-broken" width={24} />}

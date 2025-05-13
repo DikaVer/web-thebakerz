@@ -35,7 +35,7 @@ import { ProductActions } from './ProductActions';
 import { ReportProductModal } from "./report-product-modal";
 import { useSignInModal } from "@/components/ui/modal-signin";
 import { useSession } from "@/components/providers/session-provider";
-
+import clarity from "@microsoft/clarity";
 
 type ProductDialogViewProps = {
     productData: ProductData;
@@ -90,6 +90,7 @@ export default function ProductDialogView({
     } = useDelivery();
 
     const handleShareProduct = () => {
+        clarity.event("product_share")
         if (navigator.share) {
             navigator.share({
                 title: productData.name,
@@ -154,6 +155,7 @@ export default function ProductDialogView({
         setIsLoading(true);
         try {
             if (!itemCart) {
+                clarity.event("product_add_to_cart")
                 // Call our server action to update (or add) the cart item.
                 const result = await updateCart(productData.id, productData.store_id, quantity, isDelivery ? "delivery" : "pickup", note, variants);
                 if (result.success) {
@@ -180,6 +182,7 @@ export default function ProductDialogView({
                     showErrorMessage({ error: result.error });
                 }
             } else {
+                clarity.event("cart_update_item")
                 await updateItem({...itemCart, note, quantity, variants}) && onClose();
             }
         } catch (error: any) {

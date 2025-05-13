@@ -23,7 +23,7 @@ import { useSignInModal } from "@/components/ui/modal-signin";
 import { ReportProductModal } from "./report-product-modal";
 import { useDisclosure } from "@heroui/react";
 import { useSession } from "@/components/providers/session-provider";
-
+import clarity from "@microsoft/clarity";
 interface ProductPageViewProps {
     productData: ProductData;
 }
@@ -89,6 +89,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
         
         setIsLoading(true);
         try {
+            clarity.event("product_add_to_cart")
             // Call our server action to add the item to cart
             const result = await updateCart(product.id, product.store_id, quantity, isDelivery ? "delivery" : "pickup", note, variants);
             if (result.success) {
@@ -124,6 +125,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
 
     // Handle product sharing
     const handleShareProduct = () => {
+        clarity.event("product_share")
         const origin = typeof window !== "undefined" ? window.location.origin : "";
         if (navigator.share) {
             navigator.share({

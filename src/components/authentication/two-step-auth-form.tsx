@@ -19,6 +19,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import { useSession } from "@/components/providers/session-provider";
 import type { SessionValidationResult } from "@/lib/actions/session";
 import { useTranslations } from "next-intl";
+import clarity from "@microsoft/clarity";
 
 export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { setIsLogin?: (value: boolean) => void, handleNext?: () => void, storeId?: string }) {
     const t = useTranslations("app/(auth)/components/two-step-auth-form");
@@ -71,6 +72,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
     const [stateEmail, submitActionEmail, isPendingEmail] = useActionState(
         async (previousState: any, formData: z.infer<typeof EmailSchema>) => {
             const state = await loginAction(previousState, formData, notSendVerification);
+            clarity.event("login");
             if (state === null) {
                 setEmail(formData.email);
                 setPage(1);
@@ -86,6 +88,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
     const [stateOTP, submitActionOTP, isPendingOTP] = useActionState(
         async (previousState: any, formData: z.infer<typeof OTPSchema>) => {
             const state = await verifyEmailAction(previousState, formData, storeId);
+            clarity.event("verify_email");
             if (state.session) {
                 if (!setIsLogin) {
                     router.refresh();

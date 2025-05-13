@@ -13,6 +13,7 @@ import { haversineDistance } from '@/lib/utils';
 import { logger } from '@/lib/logger';
 import { saveDeliveryAddress } from '@/lib/actions/delivery-address-actions';
 import { useDeliveryAddressModal } from '../ui/select-time/use-delivery-address-modal';
+import clarity from '@microsoft/clarity';
 
 export interface ValidationResult {
     isValid: boolean;
@@ -280,6 +281,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   
   // Toggle delivery mode
   const toggleDeliveryMode = async (value: boolean) => {
+    clarity.setTag("delivery_mode", value ? "delivery" : "pickup");
     // Skip if we're already toggling or if the value didn't change
     if (isTogglingDelivery || value === isDelivery) return;
 
@@ -294,6 +296,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   // Handle date change
   const handleDateChange = async (newDate: CalendarDateTime | CalendarDate) => {
     if (!store) return;
+    clarity.event("delivery_date-change")
 
     if (newDate instanceof CalendarDate) {
       setSelectedDate(newDate);
@@ -346,6 +349,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     try {
       const response = await saveDeliveryAddress(addressData);
       if (response.success) {
+        clarity.event("delivery_address-submit")
         setAddress(addressData);
         deliveryAddressModal.handleSubmitEnd(true);
       } else {

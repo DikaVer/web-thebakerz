@@ -23,7 +23,7 @@ import { useDelivery } from "@/components/providers/delivery-provider";
 import { useTranslations } from "next-intl";
 import {motion, useAnimation} from "framer-motion";
 import { convertMinutesToTimeComponents, formatCurrency } from "@/lib/utils";
-
+import clarity from "@microsoft/clarity";
 interface CartButtonProps {
     isMobileNavbar?: boolean;
 }
@@ -228,6 +228,7 @@ const CartButton: React.FC<CartButtonProps> = ({
                                             className="w-full bg-gradient-primary text-2xl rounded-full text-white"
                                             onPress={() => {
                                                 setIsLoading(true);
+                                                clarity.event("cart_checkout");
                                                 router.push(`/${storeUrl}/checkout`);
                                                 router.refresh();
                                             }}

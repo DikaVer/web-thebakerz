@@ -21,6 +21,7 @@ import { getLocalTimeZone } from '@internationalized/date';
 import { usePathname, useRouter } from "next/navigation";
 import { useFavorites } from "@/components/providers/favorites-provider";
 import { useSignInModal } from "@/components/ui/modal-signin";
+import clarity from "@microsoft/clarity";
 
 interface ProductBaseProps {
     productData: ProductData & {
@@ -158,6 +159,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
             );
             
             if (result.success) {
+                clarity.event("product_add_to_cart")
                 const dateTime = isDelivery 
                     ? await getDeliveryTime(productData.store_id, validationResult?.deliveryRegion?.name || "") 
                     : await getOrderTime(productData.store_id);
@@ -190,6 +192,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
 
     const handleEditItem = () => {
         setIsLoading(true);
+        clarity.event("product_edit")
         router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`); 
     };
 

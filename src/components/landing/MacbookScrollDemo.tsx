@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MacbookScroll } from "@/components/landing/macbook-scroll";
 import BlurText from "../ui/blur-text";
 import { useTranslations } from "next-intl";
+import clarity from "@microsoft/clarity";
 
 export function MacbookScrollDemo() {
   const t = useTranslations("app/become-partner");
+
+
+  useEffect(() => {
+    clarity.setTag("page", "become-partner");
+}, []);
   return (
     <div className="overflow-hidden pt-20 bg-[#0B0B0F] bg-white w-full">
       <div className="absolute top-0 flex w-full h-[500px] bg-[#0B0B0F]"/>

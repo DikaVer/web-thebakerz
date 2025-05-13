@@ -13,7 +13,7 @@ export function DescriptionTitleSection() {
     const [showDescriptionHelp, setShowDescriptionHelp] = useState(false);
     return (
         <>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-base">{t("Description")}</span>
                 <Button
                     isIconOnly
@@ -35,7 +35,7 @@ export function IngredientsTitleSection() {
     const [showIngredientsHelp, setShowIngredientsHelp] = useState(false);
     return (
         <>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-base">{t("Ingredients")}</span>
                 <Button
                     isIconOnly
@@ -57,7 +57,7 @@ export function AllergiesTitleSection() {
     const [showAllergiesHelp, setShowAllergiesHelp] = useState(false);
     return (
         <>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-base">{t("Allergies")}</span>
                 <Button
                     isIconOnly
@@ -79,7 +79,7 @@ export function DietaryTitleSection() {
     const [showDietaryHelp, setShowDietaryHelp] = useState(false);
     return (
         <>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-base">{t("Dietary Restrictions")}</span>
                 <Button
                     isIconOnly
@@ -122,7 +122,7 @@ export function VariantsTitleSection() {
 export function VariantsInstructionSection() {
     const t = useTranslations("app/(store)/components/variants-form-field");
     return (
-        <div className="bg-default-50 rounded-lg p-4 mb-4 space-y-3 border border-default-200">
+        <div className="bg-default-50 rounded-lg p-4 mb-2 space-y-3 border border-default-200">
             <h4 className="font-semibold text-base mb-1">{t("instructionsHeader")}</h4>
             <div>
                 <h5 className="font-medium text-sm mb-1">{t("singleChoice")}</h5>
@@ -162,7 +162,7 @@ export function ProductTitleSection({ isPending }: ProductTitleSectionProps) {
     const [isHelpOpen, setIsHelpOpen] = useState(false);
     return (
         <>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2">
                 <div>
                     <h2 className="text-2xl font-bold">{t("Basic Information")} </h2>
                     <p className="text-default-600 font-light">{t("Enter the essential details of your product")}</p>

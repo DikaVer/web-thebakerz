@@ -11,7 +11,7 @@ import { FormError } from "@/components/authentication/form-error";
 import { useTranslations } from "next-intl";
 import { useSession } from "@/components/providers/session-provider";
 import { sendEmail } from "@/lib/actions/auth/email-action";
-
+import clarity from '@microsoft/clarity';
 const ReportProductSchema = z.object({
     subject: z.string().min(1, "Subject is required"),
     description: z.string().min(1, "Description is required").max(2000, "Description must be less than 2000 characters"),
@@ -55,6 +55,7 @@ export function ReportProductModal({ isOpen, onOpenChange, productName, storeNam
     );
 
     const handleSubmit = (formData: z.infer<typeof ReportProductSchema>) => {
+        clarity.event("product_report")
         startTransition(() => {
             submitAction(formData);
         });

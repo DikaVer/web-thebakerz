@@ -12,6 +12,7 @@ import { useStore } from "@/components/providers/store-provider";
 import showErrorMessage from "@/components/toast/toast-error";
 import { useTranslations } from "next-intl";
 import { replaceGuestAddress } from "@/lib/actions/delivery-actions";
+import clarity from "@microsoft/clarity";
 
 export default function CheckoutSteps({ }: {}) {
     const { session } = useSession();
@@ -81,7 +82,10 @@ export default function CheckoutSteps({ }: {}) {
                         <TwoStepAuthForm
                             storeId={store.id}
                             setIsLogin={handleLogin}
-                            handleNext={() => handleNext(2)}
+                            handleNext={() => {
+                                clarity.setTag("step", "login");
+                                handleNext(2)
+                            }}
                         />
                     </div>
                 </AccordionItem>
@@ -104,7 +108,10 @@ export default function CheckoutSteps({ }: {}) {
                     }}
                 >
                     <ScheduleOrder
-                        handleNext={() => handleNext(3)}
+                        handleNext={() => {
+                            clarity.setTag("step", "order-details");
+                            handleNext(3)
+                        }}
                     />
                 </AccordionItem>
                 <AccordionItem
@@ -126,6 +133,7 @@ export default function CheckoutSteps({ }: {}) {
                     }}
                 >
                     <CartCheckout handleNext={() => {
+                        clarity.setTag("step", "cart-details");
                         handleNext(4);
                         setCurrentStep(0);
                     }}/>

@@ -7,7 +7,7 @@ import MultistepSidebar from "./multistep-sidebar";
 import ApplyForm from "./apply-form";
 import confetti from "canvas-confetti";
 import { useTranslations } from "next-intl";
-
+import clarity from "@microsoft/clarity";
 const variants = {
     enter: (direction: number) => ({
         y: direction > 0 ? 30 : -30,
@@ -38,6 +38,7 @@ export default function ApplyComponent() {
     }, []);
 
     const onNext = React.useCallback(() => {
+        clarity.event("apply_next");
         paginate(1);
     }, [paginate]);
 

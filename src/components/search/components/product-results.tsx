@@ -7,6 +7,7 @@ import { FilterParams, useProductDialog } from '@/components/providers/product-p
 import { ProductBase } from '@/components/store/product/product';
 import { Spinner, Spacer, cn } from '@heroui/react';
 import { logger } from '@/lib/logger';
+import clarity from '@microsoft/clarity';
 
 // Global cache for all products by page
 const productsCache: Record<string, Record<number, ProductData[]>> = {
@@ -58,6 +59,10 @@ const ProductResults: React.FC<ProductResultsProps> = ({
   
   // Ref to track if a request is in progress to avoid duplicate requests
   const isRequesting = useRef(false);
+
+  useEffect(() => {
+    clarity.setTag("page", "search-product-results");
+  }, []);
 
   // Function to fetch products
   const fetchProducts = useCallback(async (currentPage: number, currentFilterParams: FilterParams, currentStoreIds: string[]) => {

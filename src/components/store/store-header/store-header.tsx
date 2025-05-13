@@ -19,6 +19,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import { useSignInModal } from "@/components/ui/modal-signin";
 import { useFavorites } from "@/components/providers/favorites-provider";
 import { ReportStoreModal } from "./report-store-modal";
+import clarity from "@microsoft/clarity";
 
 interface StoreHeaderProps {
 
@@ -94,7 +95,13 @@ export function StoreHeader( {  }: StoreHeaderProps) {
     const [isAnimating, setIsAnimating] = useState(false);
     const [isFavorite, setIsFavorite] = useState(isStoreFavorite(store.id));
     const [likeCount, setLikeCount] = useState(isStoreFavorite(store.id) ? store.totalLikes + 1 : store.totalLikes);
-    
+
+    useEffect(() => {
+        clarity.setTag("store_id", store.id);
+        clarity.setTag("store_name", store.storeName || "");
+        clarity.setTag("store_owner", store.ownerName || "");
+    }, [store.id]);
+
     // Check if user is a baker and owns this store
     const isOwner = session?.user?.role === "bakerz" && session.user.id === store.user_id;
 

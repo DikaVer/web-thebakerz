@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 import { Icon } from "@iconify/react"
 import showErrorMessage from "@/components/toast/toast-error"
 import { useTranslations } from "next-intl"
-
+import clarity from '@microsoft/clarity';
 // Define response type for fetchClientSecret
 type ClientSecretResponse = string | { error: string }
 
@@ -26,6 +26,8 @@ export default function Checkout({ id, storeId, clientSecretParam, storeStripeAc
     const [error, setError] = useState<string | null>(null)
     const router = useRouter()
     const t = useTranslations("app/(store)/components/checkout")
+    clarity.event("pay");
+    clarity.setTag("page", "payment");
 
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
