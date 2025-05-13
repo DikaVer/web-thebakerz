@@ -55,7 +55,11 @@ const CartButton: React.FC<CartButtonProps> = ({
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
     const pathname = usePathname();
 
-    const handleOpenDrawer = () => onOpen();
+    const handleOpenDrawer = () => {
+        clarity.upgrade("cart");
+        clarity.event("cart_open");
+        onOpen();
+    }
 
     useEffect(() => {
         if (isOpen && pathname.includes("/checkout")) {

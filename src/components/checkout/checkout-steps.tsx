@@ -2,7 +2,7 @@
 import { Accordion, AccordionItem} from "@heroui/react";
 import { Icon } from "@iconify/react";
 import TwoStepAuthForm from "@/components/authentication/two-step-auth-form";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "@/components/providers/session-provider";
 import NotFound from "@/app/(error_layout)/not-found";
 import { ScheduleOrder } from "@/components/checkout/schedule/schedule-order";
@@ -17,6 +17,10 @@ import clarity from "@microsoft/clarity";
 export default function CheckoutSteps({ }: {}) {
     const { session } = useSession();
     const t = useTranslations("app/(store)/components/checkout-steps");
+    useEffect(() => {
+        clarity.upgrade("checkout");
+    }, []);
+    clarity.setTag("page", "checkout-steps");
 
     const { store } = useStore();
     const steps = ["1", "2", "3", "4"];

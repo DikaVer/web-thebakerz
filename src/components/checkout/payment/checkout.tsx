@@ -26,7 +26,9 @@ export default function Checkout({ id, storeId, clientSecretParam, storeStripeAc
     const [error, setError] = useState<string | null>(null)
     const router = useRouter()
     const t = useTranslations("app/(store)/components/checkout")
-    clarity.event("pay");
+    useEffect(() => {
+        clarity.upgrade("checkout");
+    }, []);
     clarity.setTag("page", "payment");
 
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
