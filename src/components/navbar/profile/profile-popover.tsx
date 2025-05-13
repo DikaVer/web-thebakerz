@@ -118,20 +118,25 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
           >
 
             {!session.user ? (
-                    <div className="flex flex-col gap-1 p-3 rounded-xl bg-background">
-                        <h3 className="text-xl font-semibold">{t("loginTitle")}</h3>
-                        <p className="text-sm text-foreground/60">{t("loginDescription")}</p>
-                        <Button 
-                            className="bg-gradient-primary font-medium rounded-md w-full mt-2 py-6"
-                            color="primary"
-                            onPress={() => {
-                            router.push(`/auth?next=${pathname}`);
-                            setIsManualOpen(false);
-                            }}
-                        >
-                            {t("login")}
-                        </Button>
-                    </div>
+                    <>
+                      <div className="flex flex-col gap-1 p-3 rounded-xl bg-background">
+                          <h3 className="text-xl font-semibold">{t("loginTitle")}</h3>
+                          <p className="text-sm text-foreground/60">{t("loginDescription")}</p>
+                          <Button 
+                              className="bg-gradient-primary font-medium rounded-md w-full mt-2 py-6"
+                              color="primary"
+                              onPress={() => {
+                              router.push(`/auth?next=${pathname}`);
+                              setIsManualOpen(false);
+                              }}
+                          >
+                              {t("login")}
+                          </Button>
+                      </div>
+
+                    </>
+
+
                 ) : (
                     <div className="flex flex-col gap-1 p-3 rounded-xl bg-background"
                         onClick={() => {
@@ -175,6 +180,59 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
                                 </Button>
                             ))}
                         </div>
+                    </div>
+                )}
+
+                {session.user?.role === "admin" && (
+                    <div className="flex flex-col p-2 rounded-xl bg-background">
+                        <h3 className="text-base font-semibold px-2 py-1 flex items-center gap-2">
+                            <Icon icon="solar:widget-2-outline" width={20} />
+                            Dashboard
+                        </h3>
+                        
+                        <div 
+                            className="flex items-center gap-2 cursor-pointer hover:bg-background-secondary rounded-md p-2 py-3"
+                            onClick={() => {
+                                router.push('/dashboard/overview');
+                                setIsManualOpen(false);
+                            }}
+                        >
+                            <Icon icon="solar:bomb-emoji-broken" width={20} height={20} />
+                            <span className="text-sm">Orders Overview</span>
+                        </div>
+                        
+                        <div 
+                            className="flex items-center gap-2 cursor-pointer hover:bg-background-secondary rounded-md p-2 py-3"
+                            onClick={() => {
+                                router.push('/dashboard/orders');
+                                setIsManualOpen(false);
+                            }}
+                        >
+                            <Icon icon="solar:notification-unread-lines-broken" width={20} height={20} />
+                            <span className="text-sm">Orders - Delivery</span>
+                        </div>
+                        
+                        <div 
+                            className="flex items-center gap-2 cursor-pointer hover:bg-background-secondary rounded-md p-2 py-3"
+                            onClick={() => {
+                                router.push('/dashboard/users');
+                                setIsManualOpen(false);
+                            }}
+                        >
+                            <Icon icon="solar:user-hand-up-broken" width={20} height={20} />
+                            <span className="text-sm">Users</span>
+                        </div>
+                        
+                        {/* <div 
+                            className="flex items-center gap-2 cursor-pointer hover:bg-background-secondary rounded-md p-2 py-3"
+                            onClick={() => {
+                                router.push('/dashboard/stripe');
+                                setIsManualOpen(false);
+                            }}
+                        >
+                            <Icon icon="solar:shop-2-broken" width={20} height={20} />
+                            <span className="text-sm">Stripe</span>
+                        </div> */}
                     </div>
                 )}
 

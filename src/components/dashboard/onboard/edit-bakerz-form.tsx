@@ -771,7 +771,7 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                     <div className="flex flex-row-reverse w-full">
                         <Button
                             startContent={!isPending && <Icon icon="solar:settings-broken" width={24} />}
-                            className="mt-4 text-black shadow"
+                            className="mt-4 shadow"
                             color="secondary"
                             type="submit"
                             isDisabled={isPending}
