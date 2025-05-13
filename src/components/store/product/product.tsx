@@ -212,6 +212,11 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
             id={productData.id}
             className={`cursor-pointer max-w-sm rounded-2xl overflow-hidden relative`}
             onClick={() => {
+                if (isSearch) {
+                    router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`);
+                    return;
+                }
+
                 if (!preventProductDialog) {
                     if (!isDelivery || (validationResult?.isValid && validationResult?.isInRange)) {
                         handleOpen(productData.id, store?.user_id === session?.user?.id);
