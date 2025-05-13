@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { formatCurrency } from "@/lib/utils";
 import {Card, CardBody, cn, Divider, Skeleton} from "@heroui/react";
@@ -10,6 +10,7 @@ import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { IconLocation } from "@/components/ui/icons";
 import { InfoPopover } from "@/components/ui/info-popovers";
+import { useDelivery } from "@/components/providers/delivery-provider";
 
 // Import LocationMap directly for better performance
 import LocationMap from "@/components/store/store-header/subheader/location-map";
@@ -26,6 +27,8 @@ export default function PickupInfo({ store}: PickupInfoProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const isCheckout = pathname.includes("/checkout");
+  const { minLeadTimeProduct } = useDelivery();
+  
   
   // Generate a stable map ID for the current store
   const mapId = React.useMemo(() => 
@@ -82,6 +85,13 @@ export default function PickupInfo({ store}: PickupInfoProps) {
     // Check if current time is within store hours
     return currentTimeInMinutes >= openingTimeInMinutes && currentTimeInMinutes < closingTimeInMinutes;
   }, [store.schedule]);
+
+  // Calculate effective minimum lead time considering both store setting and cart items
+  const effectiveMinLeadTime = useMemo(() => {
+    const storeMinTime = store.minTimeOrder || 0;
+    const cartMinLeadTime = minLeadTimeProduct || 0;
+    return Math.max(storeMinTime, cartMinLeadTime);
+  }, [store.minTimeOrder, minLeadTimeProduct]);
 
   return (
     <>
@@ -149,7 +159,7 @@ export default function PickupInfo({ store}: PickupInfoProps) {
                               <span>{t("MinLeadTime")}: </span>
                               <span>
                                 {(() => {
-                                  const minutes = store.minTimeOrder;
+                                  const minutes = effectiveMinLeadTime;
                                   if (minutes < 60) {
                                     return `${minutes} min`;
                                   } else if (minutes < 24 * 60) {

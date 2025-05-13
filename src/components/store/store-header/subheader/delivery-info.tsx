@@ -6,10 +6,11 @@ import { formatCurrency } from "@/lib/utils";
 import { Card, CardBody, Divider, Skeleton } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { WorkHours } from "@/lib/actions/calendar-actions";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { InfoPopover } from "@/components/ui/info-popovers";
+import { useDelivery } from "@/components/providers/delivery-provider";
 
 interface DeliveryInfoProps {
   deliveryRegion: MerchantDeliveryRegion;
@@ -22,6 +23,7 @@ export default function DeliveryInfo({
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
   const isCheckout = pathname.includes("/checkout");
+  const { minLeadTimeProduct } = useDelivery();
 
   // Get delivery price
   const deliveryPrice = deliveryRegion.ranges?.[0]?.deliveryPriceInCents || 100000;
@@ -31,8 +33,12 @@ export default function DeliveryInfo({
   const minOrderValue = deliveryRegion.ranges?.[0]?.minOrderPriceInCents || 100000;
   const formattedMinOrderValue = formatCurrency(minOrderValue);
 
-  // Pre-order time (in minutes)
-  const preOrderTimeMinutes = deliveryRegion.minOrderTime;
+  // Calculate effective pre-order time considering both region setting and cart items
+  const effectivePreOrderTime = useMemo(() => {
+    const regionMinTime = deliveryRegion.minOrderTime || 0;
+    const cartMinLeadTime = minLeadTimeProduct || 0;
+    return Math.max(regionMinTime, cartMinLeadTime);
+  }, [deliveryRegion.minOrderTime, minLeadTimeProduct]);
   
   // Convert minutes to days, hours, and minutes
   const formatTime = (minutes: number): string => {
@@ -64,7 +70,7 @@ export default function DeliveryInfo({
 
   const formattedDeliveryWindow = formatTime(deliveryRegion.ranges?.[0]?.deliveryWindow || (24 * 60 * 3));
 
-  const formattedPreOrderTime = formatTime(preOrderTimeMinutes);
+  const formattedPreOrderTime = formatTime(effectivePreOrderTime);
 
   // Show delivery schedule information if available
   // const deliverySchedule = deliveryRegion.deliverySchedule as WorkHours | undefined;

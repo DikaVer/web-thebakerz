@@ -228,7 +228,7 @@ const CartButton: React.FC<CartButtonProps> = ({
                                             className="w-full bg-gradient-primary text-2xl rounded-full text-white"
                                             onPress={() => {
                                                 setIsLoading(true);
-                                                router.push(`${storeUrl}/checkout`);
+                                                router.push(`/${storeUrl}/checkout`);
                                                 router.refresh();
                                             }}
                                         >

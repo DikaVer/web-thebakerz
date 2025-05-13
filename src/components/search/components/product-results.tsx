@@ -236,7 +236,7 @@ const ProductResults: React.FC<ProductResultsProps> = ({
   return (
     <div className={cn(isFiltered ? "block" : "hidden", "w-full")}>
       <div className={'flex w-full justify-center'}>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-w-5xl gap-4 w-full">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6  gap-4 w-full">
           {products.map((product, index) => {
             const isLastElement = products.length === index + 1;
             return (
