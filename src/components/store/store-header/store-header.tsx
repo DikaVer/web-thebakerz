@@ -13,7 +13,6 @@ import {useRouter} from "next/navigation";
 import Image from "next/image";
 import ImageForm from "@/components/image/image-form";
 import { updateStoreBackground } from "@/lib/actions/store";
-import { logger } from "@/lib/logger";
 import { ImageUploader } from "@/components/image/image-upload";
 import { ImageSchema } from "@/lib/schemas";
 import showErrorMessage from "@/components/toast/toast-error";
@@ -324,24 +323,26 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                         </div>
                                     </Button>
                                 </div>
+                                <div className="flex w-full justify-end items-center gap-2">
+                                    <Button
+                                        variant="light"
+                                        className="aspect-square w-12 h-12 min-w-0 p-0 text-white"
+                                        onPress={() => {
+                                            if (!session?.user) {
+                                                openModal();
+                                                return;
+                                            }
+                                            onReportOpen();
+                                        }}
+                                    >
+                                        <Icon 
+                                            icon="solar:flag-linear" 
+                                            width={36} 
+                                        />
+                                    </Button>   
+                                </div>
                             </div>
 
-                            <Button
-                                    variant="light"
-                                    className="aspect-square w-12 h-12 min-w-0 p-0 text-white"
-                                    onPress={() => {
-                                        if (!session?.user) {
-                                            openModal();
-                                            return;
-                                        }
-                                        onReportOpen();
-                                    }}
-                                >
-                                    <Icon 
-                                        icon="solar:flag-linear" 
-                                        width={36} 
-                                    />
-                                </Button>
 
                         </div>
                     </div>

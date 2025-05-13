@@ -130,7 +130,8 @@ export type Customer = {
     name_customer: string;
     phone_number?: string | null;
     address: Stripe.Address | null;
-    payment_method?: Array<string>;
+    payment_method: string | null;
+    payment_intent: string | Stripe.PaymentIntent | null;
     payment_name?: string | null;
     tax_id?: string | null;
 }
@@ -322,7 +323,8 @@ export const createOrder = async (
                 name_customer: formData.name,
                 phone_number: formData.phoneNumber,
                 address: null,
-                payment_method: [],
+                payment_method: null,
+                payment_intent: null,
                 payment_name: null,
                 tax_id: null,
             },

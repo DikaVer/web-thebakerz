@@ -140,7 +140,8 @@ export async function loginAction(_prev: ActionResult, formData: z.infer<typeof 
             requestId: context.requestId,
             clientIP,
             email,
-            userId: user.id 
+            userId: user.id,
+            emailVerificationRequest
         });
     } catch (error) {
         log.error('loginAction', 'Failed to send verification email', { 

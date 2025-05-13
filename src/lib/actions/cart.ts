@@ -1,12 +1,12 @@
 'use server';
 import {globalGETRateLimit, globalPOSTRateLimit} from "@/lib/actions/requests";
 import {getCurrentSession, getSessionCookie} from "@/lib/actions/session";
-import { getSessionCookieOrCreate } from "@/lib/cookie";
 import { v4 as uuidv4 } from "uuid";
 import {containerCart, containerProducts} from "@/db";
 import {revalidateTag} from "next/cache";
 import {ProductData} from "@/lib/actions/product";
 import { getTranslations } from "next-intl/server";
+import { getSessionCookieOrCreate } from "@/lib/actions/session";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -252,7 +252,7 @@ export const removeCartItem = async (
         const session = await getCurrentSession();
         let userId;
         if (!session || !session.user) {
-            userId = await getSessionCookieOrCreate();
+            userId = await getSessionCookie();
         } else {
             userId = session.user.id;
         }
@@ -510,7 +510,7 @@ export const getCurrentCart = async (
     const session = await getCurrentSession();
     let userId;
     if (!session || !session.user) {
-        userId = await getSessionCookieOrCreate();
+        userId = await getSessionCookie();
     } else {
         userId = session.user.id;
     }

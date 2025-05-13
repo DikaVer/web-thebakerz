@@ -192,6 +192,23 @@ export async function deleteSessionTokenCookie(): Promise<void> {
     });
 }
 
+
+
+export async function getSessionCookieOrCreate(): Promise<string> {
+    const cookieStore = await cookies();
+    let userId = cookieStore.get("thebakerz-session")?.value ?? null;
+    if (userId === null) {
+        userId = uuidv4();
+        cookieStore.set("thebakerz-session", userId, {
+            path: '/',
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 60 * 60 * 24 * 1, // 1 days
+        });
+    }
+    return userId;
+}
 export async function getSessionCookie(): Promise<string | null> {
     const cookieStore = await cookies();
     return cookieStore.get("thebakerz-session")?.value ?? null;

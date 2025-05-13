@@ -78,13 +78,14 @@ export default function Checkout({ id, storeId, clientSecretParam, storeStripeAc
         return <ErrorView error={error} onRetry={() => router.push(`/${id}/checkout`)} />
     }
 
+
     return (
-        <div id="checkout" className="min-h-[500px]">
+        <div id="checkout" className="min-h-[500px] bg-background">
             <EmbeddedCheckoutProvider
                 stripe={stripePromise}
                 options={{ clientSecret }}
             >
-                <EmbeddedCheckout />
+                <EmbeddedCheckout/>
             </EmbeddedCheckoutProvider>
         </div>
     )

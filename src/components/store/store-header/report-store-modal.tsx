@@ -45,6 +45,8 @@ export function ReportStoreModal({ isOpen, onOpenChange, storeName }: ReportStor
             };
             const state = await sendEmail(emailData);
             if (state) {
+                onOpenChange();
+                form.reset();
                 return state;
             }
             return state;
@@ -130,6 +132,7 @@ export function ReportStoreModal({ isOpen, onOpenChange, storeName }: ReportStor
                         color="danger"
                         variant="light"
                         onPress={onOpenChange}
+                        disabled={isPending}
                     >
                         {t("cancel")}
                     </Button>

@@ -70,7 +70,13 @@ export async function GET(req: NextRequest) {
         });
         
         // Verify payment status with Stripe
-        const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId);
+        const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId,
+            {
+                expand: [
+                'payment_intent.payment_method',
+                ]
+            }
+        );
 
         if (checkoutSession.payment_status !== 'paid') {
             log.warn('paymentCallback', 'Payment not successful', {
@@ -369,7 +375,10 @@ export async function GET(req: NextRequest) {
                 name_customer: username,
                 phone_number: checkoutSession.customer_details?.phone,
                 address: checkoutSession.customer_details?.address || null,
-                payment_method: checkoutSession.payment_method_types,
+                // @ts-ignore
+                payment_method: checkoutSession.payment_intent?.payment_method_types || null,
+                // @ts-ignore
+                payment_intent: checkoutSession.payment_intent?.payment_method?.id || null,
                 payment_name: checkoutSession.customer_details?.name,
                 tax_id: checkoutSession.customer_details?.tax_ids?.[0]?.value,
             },

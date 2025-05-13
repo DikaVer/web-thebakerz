@@ -137,7 +137,7 @@ export async function savePreferences(newPreferences: CookiePreferences) {
     );
 }
 
-export async function getSessionCookieOrCreate(): Promise<string> {
+export async function getSessionCookieOrCreateClient(): Promise<string> {
     const cookieStore = await cookies();
     let userId = cookieStore.get("thebakerz-session")?.value ?? null;
     if (userId === null) {

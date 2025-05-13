@@ -2,7 +2,7 @@
 
 import { containerDeliveryLocations  } from "@/db";
 import { getSessionCookie, getCurrentSession } from "@/lib/actions/session";
-import { getSessionCookieOrCreate } from "@/lib/cookie";
+import { getSessionCookieOrCreate } from "@/lib/actions/session";
 import { MAX_CHARS_ADDRESS } from "@/lib/schemas/address.schema";
 import { revalidateTag } from "next/cache";
 import { v4 as uuidv4 } from "uuid";

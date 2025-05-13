@@ -1,45 +1,10 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect } from "react";
-import { CookiePreferences, getSessionCookieOrCreate } from "@/lib/cookie";
 
-// Add type declaration for gtag
-declare global {
-  interface Window {
-    gtag: (
-      command: string,
-      target: string,
-      params?: Record<string, any>
-    ) => void;
-    dataLayer: any[];
-  }
-}
+export const GA_MEASUREMENT_ID = "G-ZJJ1P05SPE";
 
-export default function GoogleAnalytics({ id, preferences }: { id?: string, preferences: CookiePreferences | null }) {
-  const GA_MEASUREMENT_ID = "G-ZJJ1P05SPE";
-
-  const getGoogleAnalyticsId = async () => {
-    const idGoogleAnalytics = id || await getSessionCookieOrCreate();
-    return idGoogleAnalytics;
-}
-  
-  useEffect(() => {
-    if (preferences?.analytics && window.gtag) {
-      // Set user ID when available
-      if (id) {
-        window.gtag("config", GA_MEASUREMENT_ID, {
-          user_id: id
-        });
-      } else {
-        getGoogleAnalyticsId().then((id) => {
-          window.gtag("config", GA_MEASUREMENT_ID, {
-            user_id: id
-          });
-        });
-      }
-    }
-  }, [id, preferences]);
+export default function GoogleAnalytics() {
 
   return (
     <>

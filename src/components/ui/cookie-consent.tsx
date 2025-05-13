@@ -3,13 +3,26 @@
 import React, { useState} from "react";
 import {Button, cn, Link, ResizablePanel, Spacer} from "@heroui/react";
 import {LazyMotion, domAnimation, AnimatePresence, m} from "framer-motion";
-import {Icon} from "@iconify/react";
 import SwitchCell from "@/components/ui/switch-cell";
 import {usePathname} from "next/navigation";
-import {acceptAll, CookiePreferences, rejectAll, savePreferences} from "@/lib/cookie";
+import {acceptAll, CookiePreferences, getSessionCookieOrCreateClient, rejectAll, savePreferences} from "@/lib/cookie";
 import { useTranslations } from "next-intl";
+import { GA_MEASUREMENT_ID } from "../google-analytics";
+import clarity from "@microsoft/clarity";
 
-export default function CookieConsentComponent() {
+// Add type declaration for gtag
+declare global {
+    interface Window {
+      gtag: (
+        command: string,
+        target: string,
+        params?: Record<string, any>
+      ) => void;
+      dataLayer: any[];
+    }
+  }
+  
+export default function CookieConsentComponent({id}: {id?: string}) {
     const t = useTranslations("app/(components)/cookie-consent");
     const pathname = usePathname();
     const isSocials = pathname.includes('socials');
@@ -30,14 +43,36 @@ export default function CookieConsentComponent() {
         }));
     };
 
+    const handleAcceptAll = async () => {
+        setIsLoading(true);
+        await acceptAll();
+        const userId = id || await getSessionCookieOrCreateClient()
+        window.gtag("config", GA_MEASUREMENT_ID, {
+        user_id: userId
+        });
+        clarity.identify(userId);
+        
+    };
+
     const handleAcceptSelected = async () => {
         setIsLoading(true);
         await savePreferences(localPreferences);
+        if(localPreferences.analytics) {
+            const userId = id || await getSessionCookieOrCreateClient()
+            window.gtag("config", GA_MEASUREMENT_ID, {
+                user_id: userId
+            });
+            clarity.identify(userId);
+        } else {
+            clarity.consent(false);
+        }
     };
 
     const handleRejectAll = async () => {
         setIsLoading(true);
         await rejectAll();
+        !id && await getSessionCookieOrCreateClient()
+        clarity.consent(false);
     };
 
     if (isLoading) {
@@ -161,7 +196,7 @@ export default function CookieConsentComponent() {
                     size="sm"
                     isLoading={isLoading}
                     isDisabled={isLoading}
-                    onPress={acceptAll}
+                    onPress={handleAcceptAll}
                 >
                     {t("acceptAll")}
                 </Button>
