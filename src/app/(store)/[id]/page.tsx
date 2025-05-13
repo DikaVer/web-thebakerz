@@ -15,6 +15,11 @@ interface StorePageProps {
     }>,
     searchParams?: Promise<{
         tab?: string;
+        minPrice?: string;
+        maxPrice?: string;
+        categories?: string;
+        allergies?: string;
+        dietary?: string;
     }>;
 }
 
@@ -50,7 +55,10 @@ export default async function Page(props: StorePageProps) {
                     <Spacer y={4}/>
                     
                     <Suspense fallback={<ProductListSkeleton />}>
-                        <ProductComponentBase storeId={storeData.id} />
+                        <ProductComponentBase 
+                        storeId={storeData.id} 
+                        searchParams={searchParams}
+                        />
                     </Suspense>
                 </div>
                 <Spacer y={16}/>

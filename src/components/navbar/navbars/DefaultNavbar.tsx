@@ -16,6 +16,7 @@ import { logger } from "@/lib/logger";
 import { useCart } from "@/components/providers/cart-provider";
 import Image from "next/image";
 import { DeliveryNavbar } from "./DeliveryNavbar";
+import { FilterButton } from "@/components/store/filter/FilterButton";
 interface NavbarTranslationProps {
     t: (key: string) => string;
 }
@@ -61,7 +62,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
 
     return (
         <>
-            <NavbarBrand className="flex items-center space-x-8">
+            <NavbarBrand className="flex items-center space-x-3 sm:space-x-8">
                     {store ? (
                         <>
                         <Button
@@ -181,6 +182,9 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                             }}
                         />
                     </div>
+                </div>
+                <div>
+                    <FilterButton />
                 </div>
                 {!isHideDelivery && (
                     <DeliveryNavbar

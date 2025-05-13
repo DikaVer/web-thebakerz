@@ -12,6 +12,9 @@ interface ProductTabsProps {
 export const ProductTabs: React.FC<ProductTabsProps> = ({ categories, selectedTab, onTabSelect }) => {
     const t = useTranslations("app/(store)/components/product-tabs");
 
+    // Handle case when selected tab is not in categories
+    const effectiveSelectedTab = categories.includes(selectedTab) ? selectedTab : (categories.length > 0 ? categories[0] : "");
+
     return (
         <Tabs
             key="underlined_tabs"
@@ -22,7 +25,7 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({ categories, selectedTa
                 cursor: 'bg-white shadow-none',
             }}
             onSelectionChange={(index) => onTabSelect(index.toString())}
-            selectedKey={selectedTab}
+            selectedKey={effectiveSelectedTab}
         >
             {/* Hidden tab placeholder if needed */}
             <Tab key={"Profile"} className="hidden" />

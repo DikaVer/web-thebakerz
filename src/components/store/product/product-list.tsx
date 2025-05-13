@@ -13,18 +13,17 @@ import {ProductSearch} from "@/components/store/product/components/product-searc
 import {useSearchParams} from "next/navigation";
 import {useTranslations} from "next-intl";
 import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
+import { sortItems } from "@/lib/helper/sort-items-with-order";
 
 interface ProductListBaseProps {
     productsData: ProductDataFull;
-    productsByCategories: { [key: string]: ProductData[] };
-    categories: string[];
+    productsOrder: Record<string, string[]>;
 }
 
 export const ProductListBase: React.FC<ProductListBaseProps> = ({
-                                                                    productsData,
-                                                                    productsByCategories,
-                                                                    categories
-                                                                }) => {
+    productsData,
+    productsOrder
+}) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const { isSticky } = useStore();
     const [scroll, setScroll] = useState(window.scrollY);
@@ -33,16 +32,133 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const { sentinelRef } = useStore();
     const [isVisible, setVisible] = useState(false);
     const [selectedTab, setSelectedTab] = useState('');
-    const { setProductsDataLocal} = useProductDialog();
+    const { productsDataLocal, setProductsDataLocal, filterParams, setFilterParams } = useProductDialog();
     const categoryRefs = useRef<Record<string, HTMLDivElement | null>>({});
     const t = useTranslations('app/(store)/components/product-list');
 
-    // Update local product data
+    // Update search term in filter params when it changes
     useEffect(() => {
-        if (productsData) {
-            setProductsDataLocal(productsData);
+        if (searchTerm !== filterParams.searchTerm) {
+            setFilterParams({
+                ...filterParams,
+                searchTerm: searchTerm
+            });
         }
-    }, [productsData]);
+    }, [searchTerm, filterParams, setFilterParams]);
+
+    useEffect(() => {
+        setProductsDataLocal(productsData);
+    }, [productsData, setProductsDataLocal]);
+
+    // Get sorted and filtered products
+    const getFilteredProducts = () => {
+        if (!productsDataLocal) return {};
+        
+        // First, categorize all products by category
+        const productsArray: ProductData[] = Object.values(productsDataLocal);
+        
+        // Categorize products by their category
+        const initialProductsByCategories: Record<string, ProductData[]> = {};
+        
+        productsArray.forEach(product => {
+            if (!initialProductsByCategories[product.category]) {
+                initialProductsByCategories[product.category] = [];
+            }
+            initialProductsByCategories[product.category].push(product);
+        });
+        
+        // Apply sorting to each category based on productsOrder
+        const sortedProductsByCategories: Record<string, ProductData[]> = {};
+        
+        Object.keys(initialProductsByCategories).forEach(category => {
+            const orderForCategory: string[] = productsOrder[category] || [];
+            sortedProductsByCategories[category] = sortItems<ProductData>(
+                initialProductsByCategories[category],
+                orderForCategory,
+                (product: ProductData) => product.constId,
+                (a: ProductData, b: ProductData) => a.name.localeCompare(b.name)
+            );
+        });
+        
+        // Now apply filtering on the sorted products
+        if (Object.keys(filterParams).length === 0) {
+            return sortedProductsByCategories;
+        }
+        
+        // Apply all filters
+        const filteredProductsByCategories: Record<string, ProductData[]> = {};
+        
+        Object.entries(sortedProductsByCategories).forEach(([category, products]) => {
+            const filteredProducts = products.filter(product => {
+                // Price filter
+                if (filterParams.minPrice !== undefined && product.price < filterParams.minPrice) {
+                    return false;
+                }
+                if (filterParams.maxPrice !== undefined && product.price > filterParams.maxPrice) {
+                    return false;
+                }
+                
+                // Category filter - if categories are selected, only include products in those categories
+                if (filterParams.categories && filterParams.categories.length > 0) {
+                    if (!filterParams.categories.includes(product.category)) {
+                        return false;
+                    }
+                }
+                
+                // Allergies filter (exclude products with selected allergies)
+                if (filterParams.allergies && filterParams.allergies.length > 0) {
+                    if (product.allergies && product.allergies.some(allergy => 
+                        filterParams.allergies!.includes(allergy))) {
+                        return false;
+                    }
+                }
+                
+                // Dietary filter (only include products with selected dietary preferences)
+                if (filterParams.dietary && filterParams.dietary.length > 0) {
+                    if (!product.dietary || !product.dietary.length) {
+                        return false;
+                    }
+                    
+                    // Check if product has at least one of the selected dietary options
+                    const hasSelectedDietary = product.dietary.some(diet => 
+                        filterParams.dietary!.includes(diet)
+                    );
+                    
+                    if (!hasSelectedDietary) {
+                        return false;
+                    }
+                }
+                
+                // Search term filter
+                if (filterParams.searchTerm && filterParams.searchTerm.trim() !== '') {
+                    const searchLower = filterParams.searchTerm.toLowerCase();
+                    return (
+                        product.name.toLowerCase().includes(searchLower) || 
+                        (product.description && product.description.toLowerCase().includes(searchLower))
+                    );
+                }
+                
+                return true;
+            });
+            
+            if (filteredProducts.length > 0) {
+                filteredProductsByCategories[category] = filteredProducts;
+            }
+        });
+        
+        return filteredProductsByCategories;
+    };
+
+    // Get filtered and sorted categories
+    const filteredProductsByCategories = getFilteredProducts();
+    
+    // Get categories in proper order based on productsOrder
+    const sortedCategories = sortItems(
+        Object.keys(filteredProductsByCategories),
+        Object.keys(productsOrder),
+        (category: string) => category,
+        (a: string, b: string) => a.localeCompare(b)
+    );
 
     // Handle scroll event
     useEffect(() => {
@@ -53,14 +169,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
         };
         window.addEventListener('scroll', onScroll);
         return () => window.removeEventListener('scroll', onScroll);
-    }, [scroll, isSmall, isSticky]);
-
-    const filteredProductsByCategories = useFilteredProducts(
-        productsByCategories,
-        categories,
-        searchTerm
-    );
-
+    }, [scroll, isSmall, isSticky, isVisible]);
 
     // Use custom scroll observer to update selected category on scroll
     useScrollObserver({ categoryRefs, isSmall, selectedTab, setSelectedTab });
@@ -79,12 +188,11 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     // Scroll to first category when search term changes
     useEffect(() => {
         if (searchTerm.trim() !== '') {
-            const categories = Object.keys(filteredProductsByCategories);
-            if (categories.length > 0) {
-                scrollToCategory(categories[0]);
+            if (sortedCategories.length > 0) {
+                scrollToCategory(sortedCategories[0]);
             }
         }
-    }, [searchTerm, filteredProductsByCategories]);
+    }, [searchTerm, sortedCategories]);
 
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
@@ -104,7 +212,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
                 }`}
             >
                 <ProductTabs
-                    categories={Object.keys(filteredProductsByCategories)}
+                    categories={sortedCategories}
                     selectedTab={selectedTab}
                     onTabSelect={scrollToCategory}
                 />
@@ -113,7 +221,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             </div>
             <div className={`w-full  h-4 ${isSticky ? ' sticky top-[105px] z-40 shadow-xl' : ''} ${isVisible ? 'top-[0px]' : 'top-[98px]'}`}></div>
             <Spacer y={8} />
-            {Object.keys(filteredProductsByCategories).map((category) => (
+            {sortedCategories.map((category) => (
                 <CategoryProducts
                     key={category}
                     category={category}
@@ -121,7 +229,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
                     setCategoryRef={setCategoryRef}
                 />
             ))}
-            {Object.keys(filteredProductsByCategories).length === 0 && (
+            {sortedCategories.length === 0 && (
                 <div className="flex justify-center w-full">
                     <span className="text-default-400 text-lg">{t("noProductsFound")}</span>
                 </div>

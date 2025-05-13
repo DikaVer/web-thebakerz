@@ -1,11 +1,12 @@
 import React from "react";
 import { SelectTime } from "@/components/ui/select-time";
-import { cn} from "@heroui/react";
+import { Button, cn} from "@heroui/react";
 import { useDelivery } from "@/components/providers/delivery-provider";
 
 import { DeliveryAddressButton } from "@/components/ui/select-time/delivery-address-button";
 import { usePathname } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface DeliveryNavbarProps {
     isVisible: boolean;
@@ -30,7 +31,7 @@ export const DeliveryNavbar: React.FC<DeliveryNavbarProps> = ({
             isVisible ? `${level}` : `top-0`,
             isComponent && "flex"
         )}>
-            <div className="flex flex-row w-full gap-4 max-w-xl">
+            <div className="flex flex-row w-full gap-4 max-w-lg">
                 <div className={cn(
                     "w-1/3",
                     !isDelivery && "w-full",

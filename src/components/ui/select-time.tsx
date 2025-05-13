@@ -46,20 +46,6 @@ export function SelectTime() {
 
     return isDelivery ? (
             <>
-                
-                {validationResult?.deliveryRegion?.isPostDelivery && (
-                    <Alert  
-                        key={"Delivery Options Alert"}
-                        className={'bg-primary-400'}
-                        classNames={{
-                            description: 'text-white dark:text-default-500',
-                            title: 'text-md'
-                        }}
-                        title={t("deliveryOptionsAlertTitle")}
-                        description={t("deliveryOptionsAlertDescription", {store: store.ownerName})}
-                        variant={"solid"}
-                    />
-                )}
                 {(validationResult?.isInRange && validationResult?.isValid) && (
                     <DeliveryTimeSelection
                         schedule={getDeliverySchedule()}

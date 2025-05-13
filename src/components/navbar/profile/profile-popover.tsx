@@ -53,37 +53,7 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
   
   // Create ref for the entire component
   const componentRef = useRef<HTMLDivElement>(null);
-  
-  // Combine manual opening and hover state
-  // On mobile, we only use manual open state
-  const isPopoverOpen = isMobile ? isManualOpen : (isManualOpen || isHovered);
-  
-  const handlePopoverOpenChange = (open: boolean) => {
-    setIsManualOpen(open);
-    // Don't close by state if we're hovering and not on mobile
-    if (!open && !isHovered && !isMobile) {
-      setIsHovered(false);
-    }
-  };
 
-  // Close popover when clicking outside on mobile
-  useEffect(() => {
-    if (!isMobile) return;
-    
-    const handleClickOutside = (event: Event) => {
-      if (componentRef.current && !componentRef.current.contains(event.target as Node)) {
-        setIsManualOpen(false);
-      }
-    };
-    
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside);
-    
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
-    };
-  }, [isMobile]);
 
   const menuItems = [
     { label: 'Find desserts', icon: 'iconoir:search', action: () => router.push('/') },
@@ -104,8 +74,6 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
         classNames={{
             content: 'p-1 bg-white/40 backdrop-blur-xl',
         }}
-        isOpen={isPopoverOpen}
-        onOpenChange={handlePopoverOpenChange}
       >
         <PopoverTrigger>
           <div 

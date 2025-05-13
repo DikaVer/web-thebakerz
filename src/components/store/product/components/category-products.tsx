@@ -6,6 +6,7 @@ import { ProductData } from '@/lib/actions/product';
 import GradientText from "@/components/ui/gradient-text";
 import { useStore } from '@/components/providers/store-provider';
 import { useSession } from '@/components/providers/session-provider';
+import { useTranslations } from "next-intl";
 
 interface CategoryProductsProps {
     category: string;

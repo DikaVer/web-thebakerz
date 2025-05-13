@@ -355,6 +355,88 @@ export async function getCurrentProducts(storeId: string): Promise<ProductDataFu
     }
 }
 
+export async function getCurrentProductsByFilter(filterParams: {
+  minPrice?: number;
+  maxPrice?: number;
+  categories?: string[];
+  allergies?: string[];
+  dietary?: string[];
+}): Promise<ProductDataFull> {
+  try {
+
+    // Build the CosmosDB query
+    let queryString = "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product FROM c WHERE c.archive = false";
+    const parameters: { name: string; value: any }[] = [
+    ];
+
+    // Add price filter
+    if (filterParams.minPrice !== undefined) {
+      queryString += " AND c.price >= @minPrice";
+      parameters.push({ name: "@minPrice", value: filterParams.minPrice });
+    }
+
+    if (filterParams.maxPrice !== undefined) {
+      queryString += " AND c.price <= @maxPrice";
+      parameters.push({ name: "@maxPrice", value: filterParams.maxPrice });
+    }
+
+    // Add categories filter
+    if (filterParams.categories && filterParams.categories.length > 0) {
+      queryString += " AND c.category IN (";
+      filterParams.categories.forEach((category, index) => {
+        const paramName = `@category${index}`;
+        queryString += index === 0 ? paramName : `, ${paramName}`;
+        parameters.push({ name: paramName, value: category });
+      });
+      queryString += ")";
+    }
+
+    // For allergies and dietary, we need to handle arrays differently in CosmosDB
+    // Exclude products that contain any of the selected allergies
+    if (filterParams.allergies && filterParams.allergies.length > 0) {
+      // Using NOT EXISTS to exclude products with matching allergies
+      filterParams.allergies.forEach((allergy, index) => {
+        const paramName = `@allergy${index}`;
+        queryString += ` AND NOT EXISTS (SELECT VALUE a FROM a IN c.allergies WHERE a = ${paramName})`;
+        parameters.push({ name: paramName, value: allergy });
+      });
+    }
+
+    // Include only products that match dietary preferences
+    if (filterParams.dietary && filterParams.dietary.length > 0) {
+      // Using ARRAY_CONTAINS to match dietary preferences
+      filterParams.dietary.forEach((diet, index) => {
+        const paramName = `@diet${index}`;
+        queryString += ` AND ARRAY_CONTAINS(c.dietary, ${paramName})`;
+        parameters.push({ name: paramName, value: diet });
+      });
+    }
+
+    const querySpec = {
+      query: queryString,
+      parameters: parameters
+    };
+
+    const { resources: products } = await containerProducts.items
+      .query(querySpec)
+      .fetchAll();
+
+
+   
+
+    const productDataFull: ProductDataFull = {};
+    products.forEach((product: ProductData) => {
+      // Assign the like count to each product, defaulting to 0 if not found
+      productDataFull[product.id] = product;
+    });
+
+    return productDataFull;
+  } catch (error) {
+    console.error("Error fetching filtered products:", error);
+    throw new Error("Failed to fetch filtered products");
+  }
+}
+
 export type ProductData = {
     id: string;
     store_id: string;

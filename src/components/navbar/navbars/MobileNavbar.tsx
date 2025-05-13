@@ -6,11 +6,12 @@ import { Alert } from "@heroui/react";
 import { useDelivery } from "@/components/providers/delivery-provider";
 import { useTranslations } from "next-intl";
 import { DeliveryAddressButton } from "@/components/ui/select-time/delivery-address-button";
-
+import { useStore } from "@/components/providers/store-provider";
 export const MobileNavbar: React.FC = () => {
 
     const { validationResult, address, isDelivery } = useDelivery();
     const t = useTranslations("app/(store)/components/store-subheader");
+    const { store } = useStore();
 
     return (
         <div className="flex flex-col w-full items-center px-2">
@@ -29,6 +30,21 @@ export const MobileNavbar: React.FC = () => {
                         >
                             <p className="text-xl">{t('address_not_in_delivery_range')}</p>
                         </Alert>
+                    </div>
+                )}
+                {(validationResult?.deliveryRegion?.isPostDelivery && validationResult.isInRange && address && isDelivery) && (
+                    <div className="flex flex-col w-full h-full justify-between">
+                    <Alert  
+                        key={"Delivery Options Alert"}
+                        className={'bg-primary-400'}
+                        classNames={{
+                            description: 'text-white dark:text-default-500',
+                            title: 'text-md'
+                        }}
+                        title={t("deliveryOptionsAlertTitle")}
+                        description={t("deliveryOptionsAlertDescription", {store: store.ownerName})}
+                        variant={"solid"}
+                        />
                     </div>
                 )}
             </div>

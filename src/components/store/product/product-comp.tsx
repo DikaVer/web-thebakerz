@@ -1,14 +1,27 @@
+'use server';
+
 import React from "react";
 import { ProductListBase } from "@/components/store/product/product-list";
-import {getCurrentProducts, ProductData, ProductDataFull} from "@/lib/actions/product";
-import {getCurrentProductsOrder} from "@/lib/actions/order-products";
-import {sortItems} from "@/lib/helper/sort-items-with-order";
-import {getTranslations} from "next-intl/server";
+import { getCurrentProducts, ProductData, ProductDataFull } from "@/lib/actions/product";
+import { getCurrentProductsOrder } from "@/lib/actions/order-products";
+import { getTranslations } from "next-intl/server";
+import { FilterButton } from "@/components/store/filter/FilterButton";
 
-export const ProductComponentBase: React.FC<{ storeId: string }> = async ({ storeId }) => {
-    const productsData: ProductDataFull = await getCurrentProducts(storeId);
+type SearchParams = {
+    minPrice?: string;
+    maxPrice?: string;
+    categories?: string;
+    allergies?: string;
+    dietary?: string;
+};
+
+export const ProductComponentBase: React.FC<{ storeId: string, searchParams?: SearchParams }> = async ({ storeId, searchParams = {} }) => {
     const t = await getTranslations("app/(store)/id/page");
 
+    // Fetch all products (unfiltered)
+    const productsData: ProductDataFull = await getCurrentProducts(storeId);
+    
+    // Fetch product order
     const productsOrder = await getCurrentProductsOrder(storeId);
 
     if (productsData === null || Object.keys(productsData).length === 0) {
@@ -19,42 +32,12 @@ export const ProductComponentBase: React.FC<{ storeId: string }> = async ({ stor
         );
     }
 
-    // Convert the object to an array before categorizing
-    const productsArray: ProductData[] = Object.values(productsData);
-
-    // Categorize products by their category using a Record type
-    const productsByCategories: Record<string, ProductData[]> = productsArray.reduce((acc, product) => {
-        if (!acc[product.category]) {
-            acc[product.category] = [];
-        }
-        acc[product.category].push(product);
-        return acc;
-    }, {} as Record<string, ProductData[]>);
-
-    Object.keys(productsOrder).forEach((category) => {
-        const orderForCategory: string[] = productsOrder[category] || [];
-        if(productsByCategories[category]) {
-            productsByCategories[category] = sortItems<ProductData>(
-                productsByCategories[category],
-                orderForCategory,
-                (product) => product.constId,
-                (a, b) => a.name.localeCompare(b.name)
-            );
-        }
-    });
-
-    const categories = sortItems(
-        Object.keys(productsByCategories),
-        Object.keys(productsOrder),
-        (category) => category,
-        (a, b) => a.localeCompare(b)
-    )
-
     return (
-        <ProductListBase
-            categories={categories}
-            productsData={productsData}
-            productsByCategories={productsByCategories}
-        />
+        <>
+            <ProductListBase
+                productsOrder={productsOrder}
+                productsData={productsData}
+            />
+        </>
     );
 };

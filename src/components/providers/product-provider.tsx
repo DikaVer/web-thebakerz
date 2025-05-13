@@ -7,12 +7,26 @@ import { ItemCart} from "@/lib/actions/cart";
 import showErrorMessage from "@/components/toast/toast-error";
 import {useRouter} from "next/navigation";
 
+// Define filter parameters interface
+export interface FilterParams {
+    minPrice?: number;
+    maxPrice?: number;
+    categories?: string[];
+    allergies?: string[];
+    dietary?: string[];
+    searchTerm?: string;
+}
+
 interface ProductDialogContextProps {
     handleOpen: (productId: string, isBakerzStore: boolean, itemCart?: ItemCart) => void;
     getProductDataById: (productId: string) => ProductData | undefined;
     handleOpenWithProduct: (product: ProductData, isBakerzStore: boolean, itemCart?: ItemCart) => void;
     setProductsDataLocal: (data: ProductDataFull) => void;
     handleAddItem: () => void;
+    productsDataLocal: ProductDataFull;
+    // Add filter parameters
+    filterParams: FilterParams;
+    setFilterParams: (params: FilterParams) => void;
 }
 
 export const useProductDialog = () => {
@@ -31,6 +45,7 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
     const [productsData, setProductsData] = useState<ProductDataFull>(productsDataServer ? productsDataServer : {});
     const [itemCart, setItemCartId] = useState<ItemCart | undefined>();
     const [isBakerzStore, setIsBakerzStore] = useState<boolean>(false);
+    const [filterParams, setFilterParams] = useState<FilterParams>({});
     const router = useRouter();
 
 
@@ -81,6 +96,9 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
                 getProductDataById,
                 setProductsDataLocal,
                 handleAddItem,
+                productsDataLocal: productsData,
+                filterParams,
+                setFilterParams,
             }}
         >
             <ProductDialog
