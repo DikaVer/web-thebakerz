@@ -443,8 +443,8 @@ export async function getAllProductsByFilter(filterParams: {
   maxPrice?: number; 
   categories?: string[]; 
   allergies?: string[]; 
-  dietary?: string[]; 
-}, page: number = 1, limit: number = 20): Promise<{ products: ProductData[], hasMore: boolean }> {
+  dietary?: string[];
+}, page: number = 1, limit: number = 20, storeIds?: string[]): Promise<{ products: ProductData[], hasMore: boolean }> {
   try {
     const offset = (page - 1) * limit;
 
@@ -474,8 +474,10 @@ export async function getAllProductsByFilter(filterParams: {
       queryString += ")";
     }
 
-    // Allergies filter
+    // For allergies and dietary, we need to handle arrays differently in CosmosDB
+    // Exclude products that contain any of the selected allergies
     if (filterParams.allergies && filterParams.allergies.length > 0) {
+      // Using NOT EXISTS to exclude products with matching allergies
       filterParams.allergies.forEach((allergy, index) => {
         const paramName = `@allergy${index}`;
         queryString += ` AND NOT EXISTS (SELECT VALUE a FROM a IN c.allergies WHERE a = ${paramName})`;
@@ -483,13 +485,25 @@ export async function getAllProductsByFilter(filterParams: {
       });
     }
 
-    // Dietary filter
+    // Include only products that match dietary preferences
     if (filterParams.dietary && filterParams.dietary.length > 0) {
+      // Using ARRAY_CONTAINS to match dietary preferences
       filterParams.dietary.forEach((diet, index) => {
         const paramName = `@diet${index}`;
         queryString += ` AND ARRAY_CONTAINS(c.dietary, ${paramName})`;
         parameters.push({ name: paramName, value: diet });
       });
+    }
+    
+    // Add store IDs filter
+    if (storeIds && storeIds.length > 0) {
+      queryString += " AND c.store_id IN (";
+      storeIds.forEach((storeId, index) => {
+        const paramName = `@storeId${index}`;
+        queryString += index === 0 ? paramName : `, ${paramName}`;
+        parameters.push({ name: paramName, value: storeId });
+      });
+      queryString += ")";
     }
 
     // Add pagination

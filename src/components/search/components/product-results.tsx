@@ -5,14 +5,21 @@ import { getAllProductsByFilter } from '@/lib/actions/product';
 import { ProductData } from '@/lib/actions/product';
 import { FilterParams, useProductDialog } from '@/components/providers/product-provider';
 import { ProductBase } from '@/components/store/product/product';
-import { Spinner, Spacer } from '@heroui/react';
+import { Spinner, Spacer, cn } from '@heroui/react';
+import { logger } from '@/lib/logger';
 
 // Global cache for all products by page
-const productsCache: Record<number, ProductData[]> = {};
-let hasMoreCache = true;
+const productsCache: Record<string, Record<number, ProductData[]>> = {
+  "all": {},
+  "filtered": {}
+};
+const hasMoreCache: Record<string, boolean> = {
+  "all": true,
+  "filtered": true
+};
 
 // Helper to check if filter params are empty/default
-function isEmptyFilters(filters: FilterParams): boolean {
+export function isEmptyFilters(filters: FilterParams): boolean {
   return !filters.categories?.length && 
          !filters.allergies?.length && 
          !filters.dietary?.length && 
@@ -20,20 +27,31 @@ function isEmptyFilters(filters: FilterParams): boolean {
          filters.maxPrice === undefined;
 }
 
-interface ProductResultsProps {
-  // No props needed for now
+// Helper to generate a cache key based on storeIds
+function getCacheKey(storeIds: string[] = []): string {
+  return storeIds.length ? storeIds.sort().join('-') : 'all';
 }
 
-const ProductResults: React.FC<ProductResultsProps> = () => {
+interface ProductResultsProps {
+  storeIds?: string[];
+  isLoading?: boolean;
+}
+
+const ProductResults: React.FC<ProductResultsProps> = ({ 
+  storeIds = []
+}) => {
   const { filterParams } = useProductDialog();
   const [products, setProducts] = useState<ProductData[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const isFiltered = !isEmptyFilters(filterParams);
   
   // Keep track of the previous filters to detect changes
   const prevFiltersRef = useRef<string>("");
+  const prevStoreIdsRef = useRef<string>("");
   
   // Ref for the observer
   const observer = useRef<IntersectionObserver | null>(null);
@@ -42,7 +60,7 @@ const ProductResults: React.FC<ProductResultsProps> = () => {
   const isRequesting = useRef(false);
 
   // Function to fetch products
-  const fetchProducts = useCallback(async (currentPage: number, currentFilterParams: FilterParams) => {
+  const fetchProducts = useCallback(async (currentPage: number, currentFilterParams: FilterParams, currentStoreIds: string[]) => {
     if (isRequesting.current || (!hasMore && currentPage > 1)) return;
     
     try {
@@ -52,33 +70,37 @@ const ProductResults: React.FC<ProductResultsProps> = () => {
       
       // Check if we're showing all products
       const showingAllProducts = isEmptyFilters(currentFilterParams);
+      const cacheKey = getCacheKey(currentStoreIds);
       
       // If showing all products and we have cached data for this page, use it
-      if (showingAllProducts && productsCache[currentPage]) {
-        console.log('Using cached products for page', currentPage);
+      if (showingAllProducts && productsCache[cacheKey]?.[currentPage]) {
+        logger.debug('Using cached products for page', `page: ${currentPage} with storeIds: ${currentStoreIds}`);
         
         if (currentPage === 1) {
-          setProducts(productsCache[1]);
+          setProducts(productsCache[cacheKey][1]);
         } else {
-          setProducts(prev => [...prev, ...productsCache[currentPage]]);
+          setProducts(prev => [...prev, ...productsCache[cacheKey][currentPage]]);
         }
         
-        setHasMore(hasMoreCache);
+        setHasMore(hasMoreCache[cacheKey] || false);
         return;
       }
       
       // Otherwise, fetch from API
       const filtersToUse = showingAllProducts ? {} : currentFilterParams;
       
-      console.log('Fetching with filters:', filtersToUse, 'Page:', currentPage);
+      logger.debug('Fetching with filters:', `filters: ${JSON.stringify(filtersToUse)}`);
       
-      const result = await getAllProductsByFilter(filtersToUse, currentPage, 20);
-      console.log('Fetched products:', result.products.length, 'Has more:', result.hasMore);
+      const result = await getAllProductsByFilter(filtersToUse, currentPage, 20, currentStoreIds.length > 0 ? currentStoreIds : undefined);
+      logger.debug('Fetched products:', `products: ${result.products.length}`);
       
       // If showing all products, cache the result
       if (showingAllProducts) {
-        productsCache[currentPage] = result.products;
-        hasMoreCache = result.hasMore;
+        if (!productsCache[cacheKey]) {
+          productsCache[cacheKey] = {};
+        }
+        productsCache[cacheKey][currentPage] = result.products;
+        hasMoreCache[cacheKey] = result.hasMore;
       }
       
       setProducts(prevProducts => 
@@ -102,7 +124,7 @@ const ProductResults: React.FC<ProductResultsProps> = () => {
     const [entry] = entries;
     
     if (entry.isIntersecting && hasMore && !loading && !isRequesting.current) {
-      console.log('Loading next page:', page + 1);
+      logger.debug('Loading next page:', `page: ${page + 1}`);
       setPage(prevPage => prevPage + 1);
     }
   }, [hasMore, loading, page]);
@@ -132,9 +154,10 @@ const ProductResults: React.FC<ProductResultsProps> = () => {
     [loading, handleObserver]
   );
 
-  // Effect for initial load and when filterParams change
-  useEffect(() => {
-    // Create a stable string representation of the current filters
+  // Effect for initial load and when filterParams or storeIds change
+  useEffect(() => { // Don't fetch if we're still loading store IDs
+    
+    // Create a stable string representation of the current filters and storeIds
     const currentFiltersString = JSON.stringify({
       minPrice: filterParams.minPrice,
       maxPrice: filterParams.maxPrice,
@@ -143,15 +166,19 @@ const ProductResults: React.FC<ProductResultsProps> = () => {
       dietary: filterParams.dietary?.sort()
     });
     
-    // Check if filters have actually changed
-    if (currentFiltersString === prevFiltersRef.current) {
+    const currentStoreIdsString = storeIds.sort().join('-');
+    
+    // Check if filters or storeIds have actually changed
+    if (currentFiltersString === prevFiltersRef.current && 
+        currentStoreIdsString === prevStoreIdsRef.current) {
       return; // Skip if nothing changed
     }
     
-    console.log('Filter params changed, resetting and fetching page 1');
+    logger.debug('StoreIDs:', storeIds.join(', '));
     
-    // Update the reference
+    // Update the references
     prevFiltersRef.current = currentFiltersString;
+    prevStoreIdsRef.current = currentStoreIdsString;
     
     // Reset everything when filters change
     setProducts([]);
@@ -159,13 +186,15 @@ const ProductResults: React.FC<ProductResultsProps> = () => {
     setHasMore(true);
     isRequesting.current = false;
     
-    // Clear cache if filters are applied
+    // Clear specific cache if needed
     if (!isEmptyFilters(filterParams)) {
-      Object.keys(productsCache).forEach(key => delete productsCache[Number(key)]);
+      // Only clear filtered cache, keep all-products cache
+      productsCache["filtered"] = {};
+      hasMoreCache["filtered"] = true;
     }
     
-    // Fetch first page with new filters
-    fetchProducts(1, filterParams);
+    // Fetch first page with new filters and storeIds
+    fetchProducts(1, filterParams, storeIds);
     
     // Cleanup function
     return () => {
@@ -173,17 +202,17 @@ const ProductResults: React.FC<ProductResultsProps> = () => {
         observer.current.disconnect();
       }
     };
-  }, [filterParams, fetchProducts]);
+  }, [filterParams, storeIds, fetchProducts]);
 
   // Effect for loading more products when page changes
   useEffect(() => {
     if (page > 1) {
-      console.log('Page changed to', page, 'fetching more products');
-      fetchProducts(page, filterParams);
+      logger.debug('Page changed to', `page: ${page} fetching more products`);
+      fetchProducts(page, filterParams, storeIds);
     }
-  }, [page, fetchProducts, filterParams]);
+  }, [page, fetchProducts, filterParams, storeIds]);
 
-  if (products.length === 0 && loading) {
+  if ((products.length === 0 && loading)) {
     return (
       <div className="flex justify-center items-center min-h-[300px]">
         <Spinner size="lg" />
@@ -199,13 +228,13 @@ const ProductResults: React.FC<ProductResultsProps> = () => {
     return (
         <div className="col-span-full flex flex-col justify-center items-center text-center py-10 text-default-600 min-h-svh">
             <p className="text-lg font-medium">No Products Found</p>
-            <p className="text-sm">Try adjusting your filters.</p>
+            <p className="text-sm">Try adjusting your filters or location.</p>
         </div>
     );
   }
 
   return (
-    <div className="min-h-svh">
+    <div className={cn(isFiltered ? "block" : "hidden")}>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map((product, index) => {
           const isLastElement = products.length === index + 1;

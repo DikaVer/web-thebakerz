@@ -1,16 +1,16 @@
 import { Suspense } from 'react';
-import { SearchComponent } from '@/components/search/search-comp';
-import { findNearbyStores, NearbyStore } from '@/lib/actions/store';
+import { findNearbyStores} from '@/lib/actions/store';
 import { StorePanelSkeleton } from '@/components/search/components/store-panel-skeleton';
-import { StorePanel } from '@/components/search/components/store-panel';
 import type { Metadata } from 'next'; // Import Metadata type
 import { getLocale, getTranslations } from 'next-intl/server'; // Import getLocale
 import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata utils
 import { logger } from '@/lib/logger';
-import { Coordinates, getDeliveryMode, getSearchCity, getSearchCoordinates, getSearchCountry } from '@/lib/delivery-cookie';
+import { Coordinates, getDeliveryMode } from '@/lib/delivery-cookie';
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 import { getCurrentDeliveryAddress } from '@/app/(store)/[id]/delivery-actions';
 import { Spacer } from '@heroui/react';
+import ProductResults from '@/components/search/components/product-results';
+import { StoreClientResults } from '@/components/search/components/store-results';
 
 // Define search page specific metadata translations
 const pageMetadataTranslations = {
@@ -144,29 +144,13 @@ async function StoreResults({ coords, mode, country, isUserCord }: { coords: Coo
   
   return (
       <div className={'min-h-svh'}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
-              {stores.map((store, index) => (
-                  // Use combination of store.id and index to ensure uniqueness
-                  <StorePanel
-                      key={`${store.id}-${index}`}
-                      store={store}
-                      deliveryMode={mode}
-                      isUserCord={isUserCord}
-                  />
-              ))}
-              {stores.length === 0 && (
-                  <div className="col-span-full flex flex-col justify-center items-center text-center py-10 text-default-600 min-h-svh">
-                      <p className="text-lg font-medium">{t("noStoresFound")}</p> {/* Add translations later if needed */}
-                      <p className="text-sm">{t("tryChangingLocationOrDeliveryMode")}</p>
-                  </div>
-              )}
-          </div>
+          <StoreClientResults stores={stores} isUserCord={isUserCord} mode={mode} />
+          <ProductResults storeIds={stores.map(store => store.id)} />
           <Spacer y={8}/>
       </div>
   );
 }
 
-// This Page component will now primarily set up the SearchComponent and pass initial data.
 export default async function Page(props : SearchPageProps) {
   const deliveryMode = await getDeliveryMode();
   const savedAddress = await getCurrentDeliveryAddress();
@@ -175,13 +159,24 @@ export default async function Page(props : SearchPageProps) {
   const initialIsUserCord = savedAddress?.coordinates ? true : false;
 
   return (
-    <GoogleMapsProvider> {/* This might be needed if SearchComponent or its children use Google Maps context */}
-      <SearchComponent
-        initialCoords={initialCoords}
-        initialDeliveryMode={deliveryMode}
-        initialCountry={initialCountry}
-        initialIsUserCord={initialIsUserCord}
-      />
+    <GoogleMapsProvider> 
+      
+        {/* 
+          Use Suspense inside SearchComponent to show a loading state while StoreResults fetches data. 
+          The key ensures Suspense re-triggers when coords or mode change.
+        */}
+        <Suspense key={`${initialCoords.lat}-${initialCoords.lng}-${deliveryMode}`} fallback={<StoresLoadingSkeleton />}>
+          {/* 
+            Pass coords and mode needed for fetching.
+            Render this async component inside Suspense.
+          */}
+          <StoreResults 
+            coords={initialCoords}
+            mode={deliveryMode} 
+            country={initialCountry} 
+            isUserCord={initialIsUserCord}
+          /> 
+        </Suspense>
     </GoogleMapsProvider>
   );
 } 
