@@ -10,6 +10,7 @@ import { iconSuperMap } from '@/components/store/product/components/super-icons'
 import { FilterParams } from '@/components/providers/product-provider';
 import { formatCurrency } from '@/lib/utils';
 import { logger } from '@/lib/logger';
+import { categories } from '@/lib/local-variables';
 
 interface ProductFilterProps {
   isOpen: boolean;
@@ -18,6 +19,12 @@ interface ProductFilterProps {
   onFilterChange?: (filterParams: FilterParams) => void;
   isLoading?: boolean;
 }
+
+// Predefined allergies list for exclusion
+const ALLERGY_OPTIONS = [
+  'honey', 'banana', 'orange', 'soy', 'lupine', 'apple', 'sesame', 'kiwi', 
+  'peach', 'gelatin', 'wheat', 'nuts', 'cashew', 'walnut', 'gluten', 'egg', 'milk'
+];
 
 export const ProductFilter: React.FC<ProductFilterProps> = ({
   isOpen,
@@ -30,6 +37,9 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
   const isUpdating = useRef(false);
   const lastUpdateTime = useRef<number>(0);
   const didMount = useRef(false);
+  
+  // Get all category names from the categories object
+  const allCategories = useMemo(() => Object.keys(categories), []);
   
   // Generate price options with specified step increments
   const priceOptions = useMemo(() => {
@@ -59,11 +69,13 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     if (initialFilterParams?.maxPrice !== undefined) {
       return initialFilterParams.maxPrice;
     }
-    return 1000;
+    return 10000;
   });
   
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
-    return initialFilterParams?.categories || [];
+    // If there are categories in initialFilterParams, use those
+    // Otherwise select all categories by default
+    return initialFilterParams?.categories || [...allCategories];
   });
   
   const [selectedAllergies, setSelectedAllergies] = useState<string[]>(() => {
@@ -91,13 +103,14 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       if (initialFilterParams.maxPrice !== undefined) {
         setMaxPrice(initialFilterParams.maxPrice);
       } else {
-        setMaxPrice(1000);
+        setMaxPrice(10000);
       }
       
       if (initialFilterParams.categories) {
         setSelectedCategories(initialFilterParams.categories);
       } else {
-        setSelectedCategories([]);
+        // If no categories specified, select all by default
+        setSelectedCategories([...allCategories]);
       }
       
       if (initialFilterParams.allergies) {
@@ -112,7 +125,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
         setSelectedDietary([]);
       }
     }
-  }, [initialFilterParams]);
+  }, [initialFilterParams, allCategories]);
 
   // Create a stable reference to the current filter values for the debounced function
   const filterValues = useRef({
@@ -162,7 +175,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       if (onFilterChange) {
         onFilterChange({
           minPrice: minPrice > 0 ? minPrice : undefined,
-          maxPrice: maxPrice < 100000 ? maxPrice : undefined,
+          maxPrice: maxPrice < 1000000 ? maxPrice : undefined,
           categories: selectedCategories.length > 0 ? selectedCategories : undefined,
           allergies: selectedAllergies.length > 0 ? selectedAllergies : undefined,
           dietary: selectedDietary.length > 0 ? selectedDietary : undefined
@@ -172,8 +185,8 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       // Reset the updating flag after a short delay to allow state to settle
       setTimeout(() => {
         isUpdating.current = false;
-      }, 100);
-    }, 300),
+      }, 2000);
+    }, 1000),
     [isOpen, onFilterChange]
   );
 
@@ -187,18 +200,18 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     return () => {
       updateFilters.cancel();
     };
-  }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary]);
+  }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary, isOpen, updateFilters]);
 
   // Reset all filters with throttling to prevent multiple resets
   const resetFilters = useCallback(
     throttle(() => {
       setMinPrice(0);
-      setMaxPrice(100000);
-      setSelectedCategories([]);
+      setMaxPrice(10000);
+      setSelectedCategories([...allCategories]);
       setSelectedAllergies([]);
       setSelectedDietary([]);
     }, 300),
-    []
+    [allCategories]
   );
 
   // Handle min price select change
@@ -354,65 +367,59 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
             <Divider />
 
             {/* Categories Filter - Always Show */}
-            {/* <div>
+            <div>
               <h4 className="font-medium mb-3">Categories</h4>
               <CheckboxGroup
                 value={selectedCategories}
                 onValueChange={handleCategoriesChange}
                 className="gap-2"
               >
-                {categories.map((category) => (
+                {allCategories.map((category) => (
                   <Checkbox key={category} value={category}>
                     <span className="capitalize">{category}</span>
                   </Checkbox>
                 ))}
-                {categories.length === 0 && (
+                {allCategories.length === 0 && (
                   <div className="text-sm text-gray-500 italic">No categories available</div>
                 )}
               </CheckboxGroup>
-            </div> */}
+            </div>
 
-            {/* Allergies Filter - only show if allergies exist in products */}
-            {/* {allergies.length > 0 && (
-              <>
-                <Divider />
-                <div>
-                  <h4 className="font-medium mb-3">Exclude Allergies</h4>
-                  <CheckboxGroup
-                    value={selectedAllergies}
-                    onValueChange={handleAllergiesChange}
-                    className="gap-2"
-                  >
-                    {allergies.map((allergy) => (
-                      <Checkbox key={allergy} value={allergy}>
-                        {renderAllergyOption(allergy)}
-                      </Checkbox>
-                    ))}
-                  </CheckboxGroup>
-                </div>
-              </>
-            )} */}
+            <Divider />
 
-            {/* Dietary Filter - only show if dietary options exist in products */}
-            {/* {dietary.length > 0 && (
-              <>
-                <Divider />
-                <div>
-                  <h4 className="font-medium mb-3">Dietary Preferences</h4>
-                  <CheckboxGroup
-                    value={selectedDietary}
-                    onValueChange={handleDietaryChange}
-                    className="gap-2"
-                  >
-                    {dietary.map((diet) => (
-                      <Checkbox key={diet} value={diet}>
-                        {renderDietaryOption(diet)}
-                      </Checkbox>
-                    ))}
-                  </CheckboxGroup>
-                </div>
-              </>
-            )} */}
+            {/* Allergies Filter - Show only specified allergies */}
+            <div>
+              <h4 className="font-medium mb-3">Exclude Allergies</h4>
+              <CheckboxGroup
+                value={selectedAllergies}
+                onValueChange={handleAllergiesChange}
+                className="gap-2"
+              >
+                {ALLERGY_OPTIONS.map((allergy) => (
+                  <Checkbox key={allergy} value={allergy}>
+                    {renderAllergyOption(allergy)}
+                  </Checkbox>
+                ))}
+              </CheckboxGroup>
+            </div>
+
+            <Divider />
+
+            {/* Dietary Filter - Show all dietary options */}
+            <div>
+              <h4 className="font-medium mb-3">Dietary Preferences</h4>
+              <CheckboxGroup
+                value={selectedDietary}
+                onValueChange={handleDietaryChange}
+                className="gap-2"
+              >
+                {Object.keys(iconSuperMap).map((diet) => (
+                  <Checkbox key={diet} value={diet}>
+                    {renderDietaryOption(diet)}
+                  </Checkbox>
+                ))}
+              </CheckboxGroup>
+            </div>
           </div>
         )}
       </div>
