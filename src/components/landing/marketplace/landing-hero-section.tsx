@@ -9,13 +9,17 @@ import { pacifico } from '@/components/fonts';
 import { LandingSigninButton } from '@/components/ui/landing-signin';
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
-
+import clarity from "@microsoft/clarity";
+import { useEffect } from 'react';
 
 
 // LandingSection component with the address search
 export const LandingHeroSection = () => {
   const t = useTranslations("app/landing/marketplace");
   const router = useRouter();
+  useEffect(() => {
+        clarity.setTag("page", "landing");
+  }, []);
 
   // Animation for the pulsate heart effect
   const heartPulsate = {

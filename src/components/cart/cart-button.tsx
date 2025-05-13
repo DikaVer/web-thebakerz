@@ -24,6 +24,7 @@ import { useTranslations } from "next-intl";
 import {motion, useAnimation} from "framer-motion";
 import { convertMinutesToTimeComponents, formatCurrency } from "@/lib/utils";
 import clarity from "@microsoft/clarity";
+import { examppleStore } from "@/lib/local-variables";
 interface CartButtonProps {
     isMobileNavbar?: boolean;
 }
@@ -165,7 +166,7 @@ const CartButton: React.FC<CartButtonProps> = ({
         });
     }, [totalPrice, controls]);
 
-    return totalPrice > 0 ? (
+    return (totalPrice > 0 && store.isStripeValid && !examppleStore.includes(store.id)) ? (
         <div className="flex flex-col w-full">
             <motion.div animate={controls} className="flex items-center w-full">
                 <Button

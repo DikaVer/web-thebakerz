@@ -10,7 +10,7 @@ export function MacbookScrollDemo() {
 
   useEffect(() => {
     clarity.setTag("page", "become-partner");
-}, []);
+  }, []);
   return (
     <div className="overflow-hidden pt-20 bg-[#0B0B0F] bg-white w-full">
       <div className="absolute top-0 flex w-full h-[500px] bg-[#0B0B0F]"/>

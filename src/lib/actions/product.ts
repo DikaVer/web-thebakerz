@@ -10,6 +10,7 @@ import { getTranslations } from "next-intl/server";
 import { getCartItemsByProductId } from "@/lib/actions/cart";
 import {getCurrentStoreByUserIdAndStoreId} from "@/lib/actions/store";
 import { getTotalFavoritesProduct, getTotalFavoritesStoreProduct, getProductFavoritesCountsByStore } from "./favorites";
+import { examppleStore } from "../local-variables";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -499,6 +500,10 @@ export async function getAllProductsByFilter(filterParams: {
     if (storeIds && storeIds.length > 0) {
       queryString += " AND c.store_id IN (";
       storeIds.forEach((storeId, index) => {
+        if (examppleStore.includes(storeId)) {
+          return;
+        }
+
         const paramName = `@storeId${index}`;
         queryString += index === 0 ? paramName : `, ${paramName}`;
         parameters.push({ name: paramName, value: storeId });

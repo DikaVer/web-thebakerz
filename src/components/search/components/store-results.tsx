@@ -19,7 +19,7 @@ export function StoreClientResults({ stores, isUserCord, mode }: StoreResultsPro
   const isFiltered = !isEmptyFilters(filterParams);
   const t = useTranslations("app/search");
   useEffect(() => {
-    clarity.setTag("page", "search");
+    clarity.setTag("page", "search-store-results");
   }, []);
   
   // Log to help debug duplicate IDs

@@ -95,26 +95,28 @@ const ProductResults: React.FC<ProductResultsProps> = ({
       const filtersToUse = showingAllProducts ? {} : currentFilterParams;
       
       logger.debug('Fetching with filters:', `filters: ${JSON.stringify(filtersToUse)}`);
+      if (isEmptyFilters(filtersToUse)) {
+        const result = await getAllProductsByFilter(filtersToUse, currentPage, 20, currentStoreIds.length > 0 ? currentStoreIds : undefined);
       
-      const result = await getAllProductsByFilter(filtersToUse, currentPage, 20, currentStoreIds.length > 0 ? currentStoreIds : undefined);
-      logger.debug('Fetched products:', `products: ${result.products.length}`);
-      
-      // If showing all products, cache the result
-      if (showingAllProducts) {
-        if (!productsCache[cacheKey]) {
-          productsCache[cacheKey] = {};
+        logger.debug('Fetched products:', `products: ${result.products.length}`);
+        
+        // If showing all products, cache the result
+        if (showingAllProducts) {
+          if (!productsCache[cacheKey]) {
+            productsCache[cacheKey] = {};
+          }
+          productsCache[cacheKey][currentPage] = result.products;
+          hasMoreCache[cacheKey] = result.hasMore;
         }
-        productsCache[cacheKey][currentPage] = result.products;
-        hasMoreCache[cacheKey] = result.hasMore;
+        
+        setProducts(prevProducts => 
+          currentPage === 1 
+            ? result.products 
+            : [...prevProducts, ...result.products]
+        );
+        
+        setHasMore(result.hasMore);
       }
-      
-      setProducts(prevProducts => 
-        currentPage === 1 
-          ? result.products 
-          : [...prevProducts, ...result.products]
-      );
-      
-      setHasMore(result.hasMore);
     } catch (err) {
       console.error("Failed to fetch products:", err);
       setError("Failed to load products. Please try again later.");

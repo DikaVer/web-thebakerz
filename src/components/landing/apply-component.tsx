@@ -8,6 +8,7 @@ import ApplyForm from "./apply-form";
 import confetti from "canvas-confetti";
 import { useTranslations } from "next-intl";
 import clarity from "@microsoft/clarity";
+
 const variants = {
     enter: (direction: number) => ({
         y: direction > 0 ? 30 : -30,
