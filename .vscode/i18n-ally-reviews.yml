@@ -6951,6 +6951,16 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-04-18T22:15:51.740Z'
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: u5WMaa3MzAQ8pQPlvQKVl
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-13T19:11:57.447Z'
   app/(store)/components/product-page.cartUpdatedSuccess:
     locales:
       nl:
@@ -6975,6 +6985,16 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-04-18T22:16:00.957Z'
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: ESacxSl7Rrnyhrrm6Ny_Q
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-13T19:10:21.422Z'
   app/(store)/components/product-page.itemName:
     locales:
       nl:
