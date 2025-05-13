@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Button } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { ProductFilter } from './ProductFilter';
@@ -11,8 +11,42 @@ export const FilterButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { productsDataLocal, setFilterParams, filterParams } = useProductDialog();
   
-  // Process product data to get filter options
-  const { categories, allergies, dietary, maxPrice } = useMemo(() => {
+  // State for filter options
+  const [categories, setCategories] = useState<string[]>([]);
+  const [allergies, setAllergies] = useState<string[]>([]);
+  const [dietary, setDietary] = useState<string[]>([]);
+  const [maxPrice, setMaxPrice] = useState<number>(10000);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  
+  // Fetch filter options from global products
+  useEffect(() => {
+    const fetchFilterOptions = async () => {
+      setIsLoading(true);
+      try {
+        // Fetch first page of all products without any filters
+        const response = await fetch('/api/products/filter-options');
+        if (!response.ok) throw new Error('Failed to fetch filter options');
+        
+        const { categories, allergies, dietary, maxPrice } = await response.json();
+        
+        setCategories(categories || []);
+        setAllergies(allergies || []);
+        setDietary(dietary || []);
+        setMaxPrice(maxPrice || 10000);
+      } catch (error) {
+        console.error('Error fetching filter options:', error);
+        // Fallback to local product data if API fails
+        fallbackToLocalData();
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchFilterOptions();
+  }, []);
+  
+  // Fallback function to use local product data if API fails
+  const fallbackToLocalData = () => {
     const productsArray: ProductData[] = Object.values(productsDataLocal || {});
     
     // Get all categories
@@ -44,13 +78,11 @@ export const FilterButton: React.FC = () => {
       ? Math.max(...productsArray.map(product => product.price))
       : 10000; // Default to 100€ (10000 cents)
     
-    return {
-      categories: Array.from(categorySet),
-      allergies: Array.from(allergySet),
-      dietary: Array.from(dietarySet),
-      maxPrice: maxPriceValue
-    };
-  }, [productsDataLocal]);
+    setCategories(Array.from(categorySet));
+    setAllergies(Array.from(allergySet));
+    setDietary(Array.from(dietarySet));
+    setMaxPrice(maxPriceValue);
+  };
 
   // Handle filter changes from the filter component - direct without debounce
   const handleFilterChange = (newFilterParams: FilterParams) => {
@@ -91,6 +123,7 @@ export const FilterButton: React.FC = () => {
         maxPrice={maxPrice}
         onFilterChange={handleFilterChange}
         initialFilterParams={filterParams}
+        isLoading={isLoading}
       />
     </>
   );

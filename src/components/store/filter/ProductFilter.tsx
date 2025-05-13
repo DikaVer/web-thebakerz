@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import SidebarDrawer from '@/components/SidebarDrawer';
-import { Button, Checkbox, CheckboxGroup, Slider, Divider } from '@heroui/react';
+import { Button, Checkbox, CheckboxGroup, Slider, Divider, Spinner } from '@heroui/react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import { iconAllergyMap } from '@/components/store/product/components/allergy-icons';
@@ -19,6 +19,7 @@ interface ProductFilterProps {
   maxPrice: number; // price in cents
   initialFilterParams?: FilterParams;
   onFilterChange?: (filterParams: FilterParams) => void;
+  isLoading?: boolean;
 }
 
 export const ProductFilter: React.FC<ProductFilterProps> = ({
@@ -29,7 +30,8 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
   dietary = [],
   maxPrice = 10000, // default to 100€ (10000 cents)
   initialFilterParams,
-  onFilterChange
+  onFilterChange,
+  isLoading = false
 }) => {
   // Track if filters are being updated to prevent excessive updates
   const isUpdating = useRef(false);
@@ -247,89 +249,95 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
           </Button>
         </div>
 
-        <div className="space-y-6">
-          {/* Price Range Filter - Always Show */}
-          <div>
-            <h4 className="font-medium mb-3">Price Range</h4>
-            <Slider
-              aria-label="Price range"
-              defaultValue={priceRange}
-              minValue={0}
-              maxValue={maxPrice}
-              step={50} // Step by 1€ (100 cents)
-              value={priceRange}
-              onChange={handleSliderChange}
-              className="mb-2"
-            />
-            <div className="flex justify-between text-sm text-foreground-500">
-              <span>{formatCurrency(priceRange[0])}</span>
-              <span>{formatCurrency(priceRange[1])}</span>
+        {isLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <Spinner size="lg" />
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {/* Price Range Filter - Always Show */}
+            <div>
+              <h4 className="font-medium mb-3">Price Range</h4>
+              <Slider
+                aria-label="Price range"
+                defaultValue={priceRange}
+                minValue={0}
+                maxValue={maxPrice}
+                step={50} // Step by 0.5€ (50 cents)
+                value={priceRange}
+                onChange={handleSliderChange}
+                className="mb-2"
+              />
+              <div className="flex justify-between text-sm text-foreground-500">
+                <span>{formatCurrency(priceRange[0])}</span>
+                <span>{formatCurrency(priceRange[1])}</span>
+              </div>
             </div>
+
+            <Divider />
+
+            {/* Categories Filter - Always Show */}
+            <div>
+              <h4 className="font-medium mb-3">Categories</h4>
+              <CheckboxGroup
+                value={selectedCategories}
+                onValueChange={handleCategoriesChange}
+                className="gap-2"
+              >
+                {categories.map((category) => (
+                  <Checkbox key={category} value={category}>
+                    <span className="capitalize">{category}</span>
+                  </Checkbox>
+                ))}
+                {categories.length === 0 && (
+                  <div className="text-sm text-gray-500 italic">No categories available</div>
+                )}
+              </CheckboxGroup>
+            </div>
+
+            {/* Allergies Filter - only show if allergies exist in products */}
+            {allergies.length > 0 && (
+              <>
+                <Divider />
+                <div>
+                  <h4 className="font-medium mb-3">Exclude Allergies</h4>
+                  <CheckboxGroup
+                    value={selectedAllergies}
+                    onValueChange={handleAllergiesChange}
+                    className="gap-2"
+                  >
+                    {allergies.map((allergy) => (
+                      <Checkbox key={allergy} value={allergy}>
+                        {renderAllergyOption(allergy)}
+                      </Checkbox>
+                    ))}
+                  </CheckboxGroup>
+                </div>
+              </>
+            )}
+
+            {/* Dietary Filter - only show if dietary options exist in products */}
+            {dietary.length > 0 && (
+              <>
+                <Divider />
+                <div>
+                  <h4 className="font-medium mb-3">Dietary Preferences</h4>
+                  <CheckboxGroup
+                    value={selectedDietary}
+                    onValueChange={handleDietaryChange}
+                    className="gap-2"
+                  >
+                    {dietary.map((diet) => (
+                      <Checkbox key={diet} value={diet}>
+                        {renderDietaryOption(diet)}
+                      </Checkbox>
+                    ))}
+                  </CheckboxGroup>
+                </div>
+              </>
+            )}
           </div>
-
-          <Divider />
-
-          {/* Categories Filter - Always Show */}
-          <div>
-            <h4 className="font-medium mb-3">Categories</h4>
-            <CheckboxGroup
-              value={selectedCategories}
-              onValueChange={handleCategoriesChange}
-              className="gap-2"
-            >
-              {categories.map((category) => (
-                <Checkbox key={category} value={category}>
-                  <span className="capitalize">{category}</span>
-                </Checkbox>
-              ))}
-              {categories.length === 0 && (
-                <div className="text-sm text-gray-500 italic">No categories available</div>
-              )}
-            </CheckboxGroup>
-          </div>
-
-          {/* Allergies Filter - only show if allergies exist in products */}
-          {allergies.length > 0 && (
-            <>
-              <Divider />
-              <div>
-                <h4 className="font-medium mb-3">Exclude Allergies</h4>
-                <CheckboxGroup
-                  value={selectedAllergies}
-                  onValueChange={handleAllergiesChange}
-                  className="gap-2"
-                >
-                  {allergies.map((allergy) => (
-                    <Checkbox key={allergy} value={allergy}>
-                      {renderAllergyOption(allergy)}
-                    </Checkbox>
-                  ))}
-                </CheckboxGroup>
-              </div>
-            </>
-          )}
-
-          {/* Dietary Filter - only show if dietary options exist in products */}
-          {dietary.length > 0 && (
-            <>
-              <Divider />
-              <div>
-                <h4 className="font-medium mb-3">Dietary Preferences</h4>
-                <CheckboxGroup
-                  value={selectedDietary}
-                  onValueChange={handleDietaryChange}
-                  className="gap-2"
-                >
-                  {dietary.map((diet) => (
-                    <Checkbox key={diet} value={diet}>
-                      {renderDietaryOption(diet)}
-                    </Checkbox>
-                  ))}
-                </CheckboxGroup>
-              </div>
-            </>
-          )}
-        </div>
+        )}
       </div>
     </SidebarDrawer>
   );

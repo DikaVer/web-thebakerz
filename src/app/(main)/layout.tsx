@@ -8,6 +8,7 @@ import { getDeliveryMode } from '@/lib/delivery-cookie';
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 import { getCurrentFavorites } from '@/lib/actions/favorites';
 import { FavoritesProvider } from '@/components/providers/favorites-provider';
+import { ProductDialogProvider } from '@/components/providers/product-provider';
 
 
 export default async function Layout(
@@ -31,16 +32,18 @@ export default async function Layout(
                     initialDeliveryMode={initialDeliveryMode}
                     initialAddress={savedAddress}
                 >   
-                    <FavoritesProvider
-                        initialStoreFavorites={initialStoreFavorites}
-                    >
-                        <GoogleMapsProvider>
-                            <LayoutComp>
-                                {children}
-                                <Footer/>
-                            </LayoutComp>
-                        </GoogleMapsProvider>
-                    </FavoritesProvider>
+                    <ProductDialogProvider>
+                        <FavoritesProvider
+                            initialStoreFavorites={initialStoreFavorites}
+                        >
+                            <GoogleMapsProvider>
+                                <LayoutComp>
+                                    {children}
+                                    <Footer/>
+                                </LayoutComp>
+                            </GoogleMapsProvider>
+                        </FavoritesProvider>
+                    </ProductDialogProvider>
                 </DeliveryProvider>
             </>
     );

@@ -437,6 +437,100 @@ export async function getCurrentProductsByFilter(filterParams: {
   }
 }
 
+// New function to fetch products across all stores based on filters, with pagination
+export async function getAllProductsByFilter(filterParams: { 
+  minPrice?: number; 
+  maxPrice?: number; 
+  categories?: string[]; 
+  allergies?: string[]; 
+  dietary?: string[]; 
+}, page: number = 1, limit: number = 20): Promise<{ products: ProductData[], hasMore: boolean }> {
+  try {
+    const offset = (page - 1) * limit;
+
+    // Build the CosmosDB query - no storeId filter
+    let queryString = "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product FROM c WHERE c.archive = false";
+    const parameters: { name: string; value: any }[] = [];
+
+    // Add price filter
+    if (filterParams.minPrice !== undefined) {
+      queryString += " AND c.price >= @minPrice";
+      parameters.push({ name: "@minPrice", value: filterParams.minPrice });
+    }
+
+    if (filterParams.maxPrice !== undefined) {
+      queryString += " AND c.price <= @maxPrice";
+      parameters.push({ name: "@maxPrice", value: filterParams.maxPrice });
+    }
+
+    // Add categories filter
+    if (filterParams.categories && filterParams.categories.length > 0) {
+      queryString += " AND c.category IN (";
+      filterParams.categories.forEach((category, index) => {
+        const paramName = `@category${index}`;
+        queryString += index === 0 ? paramName : `, ${paramName}`;
+        parameters.push({ name: paramName, value: category });
+      });
+      queryString += ")";
+    }
+
+    // Allergies filter
+    if (filterParams.allergies && filterParams.allergies.length > 0) {
+      filterParams.allergies.forEach((allergy, index) => {
+        const paramName = `@allergy${index}`;
+        queryString += ` AND NOT EXISTS (SELECT VALUE a FROM a IN c.allergies WHERE a = ${paramName})`;
+        parameters.push({ name: paramName, value: allergy });
+      });
+    }
+
+    // Dietary filter
+    if (filterParams.dietary && filterParams.dietary.length > 0) {
+      filterParams.dietary.forEach((diet, index) => {
+        const paramName = `@diet${index}`;
+        queryString += ` AND ARRAY_CONTAINS(c.dietary, ${paramName})`;
+        parameters.push({ name: paramName, value: diet });
+      });
+    }
+
+    // Add pagination
+    queryString += " OFFSET @offset LIMIT @limit";
+    parameters.push({ name: "@offset", value: offset });
+    parameters.push({ name: "@limit", value: limit + 1 }); // Fetch one extra item to check if there are more pages
+
+    const querySpec = {
+      query: queryString,
+      parameters: parameters
+    };
+
+    // Query without partition key as we search across all stores
+    const { resources: fetchedProducts } = await containerProducts.items
+      .query(querySpec)
+      .fetchAll();
+
+    // Check if there are more products to fetch
+    const hasMore = fetchedProducts.length > limit;
+    // Remove the extra item if it exists
+    const products = hasMore ? fetchedProducts.slice(0, limit) : fetchedProducts;
+
+    // Note: This fetches likes for *all* products, which might be inefficient.
+    // Consider optimizing this later if needed (e.g., fetch likes only for displayed products).
+    // const productConstIds = products.map(p => p.constId);
+    // const productFavoriteCounts = await getProductFavoritesCountsByConstIds(productConstIds); // Assuming such a function exists
+
+    const productDataFull: ProductData[] = products.map((product: any) => {
+      // Assign like count (placeholder 0 for now to avoid extra queries here)
+      product.totalLikes = 0; // productFavoriteCounts[product.constId] || 0;
+      return product;
+    });
+
+    return { products: productDataFull, hasMore };
+  } catch (error) {
+    console.error("Error fetching all filtered products:", error);
+    // In case of error, return empty results
+    return { products: [], hasMore: false };
+  }
+}
+
 export type ProductData = {
     id: string;
     store_id: string;

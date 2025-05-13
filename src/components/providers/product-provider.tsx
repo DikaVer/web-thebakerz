@@ -22,7 +22,6 @@ interface ProductDialogContextProps {
     getProductDataById: (productId: string) => ProductData | undefined;
     handleOpenWithProduct: (product: ProductData, isBakerzStore: boolean, itemCart?: ItemCart) => void;
     setProductsDataLocal: (data: ProductDataFull) => void;
-    handleAddItem: () => void;
     productsDataLocal: ProductDataFull;
     // Add filter parameters
     filterParams: FilterParams;
@@ -39,14 +38,13 @@ export const useProductDialog = () => {
 
 const ProductDialogContext = createContext<ProductDialogContextProps | undefined>(undefined);
 
-export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDataServer?: ProductDataFull; storeId: string; storeOwnerId: string; storeName?: string}> = ({children, productsDataServer, storeId, storeOwnerId, storeName}) => {
+export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDataServer?: ProductDataFull;}> = ({children, productsDataServer}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [productData, setProductData] = useState<ProductData | undefined>();
     const [productsData, setProductsData] = useState<ProductDataFull>(productsDataServer ? productsDataServer : {});
     const [itemCart, setItemCartId] = useState<ItemCart | undefined>();
     const [isBakerzStore, setIsBakerzStore] = useState<boolean>(false);
     const [filterParams, setFilterParams] = useState<FilterParams>({});
-    const router = useRouter();
 
 
     const onClose = () => {
@@ -55,9 +53,6 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
         setProductData(undefined);
     };
 
-    const handleAddItem = () => {
-        router.push(`/${storeName || storeId}/item/add-item`);
-    }
 
     const handleOpen = (productId: string, isBakerzStore: boolean, itemCart?: ItemCart) => {
         setProductData(getProductDataById(productId));
@@ -95,7 +90,6 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
                 handleOpen,
                 getProductDataById,
                 setProductsDataLocal,
-                handleAddItem,
                 productsDataLocal: productsData,
                 filterParams,
                 setFilterParams,

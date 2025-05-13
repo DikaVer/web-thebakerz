@@ -62,6 +62,7 @@ export default function ProductDialogView({
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     const router = useRouter();
     const pathname = usePathname();
+    const isSearch = pathname.includes("search");
     const { isOpen: isReportOpen, onOpen: onReportOpen, onOpenChange: onReportChange } = useDisclosure();
     const { openModal, ModalSign } = useSignInModal();
     const { session } = useSession();
@@ -76,7 +77,12 @@ export default function ProductDialogView({
     const {
         addItem,
         updateItem,
-    } = useCart();
+    } = isSearch ? {
+        addItem: () => router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`),
+        updateItem: () => router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`)
+    } : useCart();
+
+
     const {
         isDelivery, 
         validationResult, 

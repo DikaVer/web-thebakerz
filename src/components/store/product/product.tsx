@@ -18,7 +18,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import { getOrderTime, getDeliveryTime, removeAllSchedules } from "@/app/(store)/[id]/actions";
 import { scheduledToCalendarDateTime } from "@/lib/utils";
 import { getLocalTimeZone } from '@internationalized/date';
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useFavorites } from "@/components/providers/favorites-provider";
 import { useSignInModal } from "@/components/ui/modal-signin";
 
@@ -101,7 +101,11 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const { store } = useStore();
     const { session } = useSession();
     const { isDelivery, deliveryAddressModal, validationResult, setSelectedDate } = useDelivery();
-    const { addItem } = useCart();
+    // if pathname is search, then do not show the add to cart button, but redirect to go to the product pageproduct page
+    const pathname = usePathname();
+    const isSearch = pathname.includes("search");
+    
+    const { addItem } = isSearch ? { addItem: () => router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`)} : useCart();
     const storeMinTimeOrder = isDelivery ? validationResult?.deliveryRegion?.minOrderTime : store?.minTimeOrder;
     const { isProductFavorite, addProductToFavorites, removeProductFromFavorites } = useFavorites();
     const { openModal, ModalSign } = useSignInModal();

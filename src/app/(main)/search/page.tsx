@@ -166,28 +166,22 @@ async function StoreResults({ coords, mode, country, isUserCord }: { coords: Coo
   );
 }
 
-
+// This Page component will now primarily set up the SearchComponent and pass initial data.
 export default async function Page(props : SearchPageProps) {
- 
   const deliveryMode = await getDeliveryMode();
   const savedAddress = await getCurrentDeliveryAddress();
+  const initialCoords = savedAddress?.coordinates || { lat: DEFAULT_LAT, lng: DEFAULT_LNG };
+  const initialCountry = savedAddress?.country || undefined;
+  const initialIsUserCord = savedAddress?.coordinates ? true : false;
 
   return (
-    <GoogleMapsProvider>
+    <GoogleMapsProvider> {/* This might be needed if SearchComponent or its children use Google Maps context */}
       <SearchComponent
-      >
-        {/* 
-          Use Suspense to show a loading state while StoreResults fetches data. 
-          The key ensures Suspense re-triggers when coords or mode change the data fetching.
-        */}
-        <Suspense key={`${savedAddress?.coordinates?.lat}-${savedAddress?.coordinates?.lng}-${deliveryMode}`} fallback={<StoresLoadingSkeleton />}>
-          {/* 
-            Pass coords and mode needed for fetching. 
-            Render this async component inside Suspense.
-          */}
-          <StoreResults coords={savedAddress?.coordinates || { lat: DEFAULT_LAT, lng: DEFAULT_LNG }} mode={deliveryMode} country={savedAddress?.country || undefined} isUserCord={savedAddress?.coordinates ? true : false}/>
-        </Suspense>
-      </SearchComponent>
+        initialCoords={initialCoords}
+        initialDeliveryMode={deliveryMode}
+        initialCountry={initialCountry}
+        initialIsUserCord={initialIsUserCord}
+      />
     </GoogleMapsProvider>
   );
 } 

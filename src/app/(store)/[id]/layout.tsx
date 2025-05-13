@@ -195,11 +195,7 @@ async function setupStoreProviders({
                             initialStoreFavorites={initialStoreFavorites}
                             initialProductFavorites={initialProductFavorites}
                         >
-                        <ProductDialogProvider
-                            storeId={storeData.id}
-                            storeOwnerId={storeData.user_id}
-                            storeName={storeData?.storeName}
-                        >
+                        <ProductDialogProvider>
                             <LayoutComp
                                 store={storeData}
                                 {...layoutOptions}
