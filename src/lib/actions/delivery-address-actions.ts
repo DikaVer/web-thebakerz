@@ -316,6 +316,21 @@ export async function validateAddress(
   }
 }
 
+
+export async function getAddressFromCoordinates(latitude: number, longitude: number) {
+  const response = await fetch(
+    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.NEXT_PRIVATE_GOOGLE_GEO_VALIDATION}`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch address from coordinates");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+
 /**
  * Saves a validated address to the database
  */

@@ -103,7 +103,7 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
         <PopoverContent>
           <div 
             ref={popoverRef}
-            className="flex flex-col w-80 gap-1"
+            className="flex flex-col w-80 gap-1 shadow-xl"
             onMouseEnter={() => !isMobile && setIsHovered(true)}
             onMouseLeave={() => {
               if (isMobile) return;

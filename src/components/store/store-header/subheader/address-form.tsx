@@ -48,6 +48,7 @@ interface AddressFormProps {
   onSubmitStart?: () => void;
   onSubmitEnd?: (success?: boolean) => void;
   onClose: () => void;
+  defaultCenter?: { lat: number; lng: number };
 }
 
 interface PlaceSuggestion {
@@ -67,6 +68,7 @@ export function AddressForm({
   onSubmitStart,
   onSubmitEnd,
   onClose,
+  defaultCenter,
 }: AddressFormProps) {
   const t = useTranslations('app/(store)/components/store-subheader');
   const { handleAddressSubmit } = useDelivery();

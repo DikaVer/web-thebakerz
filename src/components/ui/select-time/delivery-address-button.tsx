@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { useMediaQuery } from "usehooks-ts";
 import { usePathname } from "next/navigation";
 import { ExtendedDeliveryAddressRaw } from "@/app/(store)/[id]/delivery-actions";
+import { getAddressFromCoordinates } from "@/lib/actions/delivery-address-actions";
 
 
 export const DeliveryAddressButton: React.FC = () => {
@@ -48,49 +49,45 @@ export const DeliveryAddressButton: React.FC = () => {
                             
                             // If you have a geocoding API service, call it here to convert lat/lng to address
                             // Example with Google Maps Geocoding API:
-                            const response = await fetch(
-                                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
-                            );
-                            
-                            if (response.ok) {
-                                const data = await response.json();
-                                if (data.results && data.results.length > 0) {
-                                    const result = data.results[0];
-                                    
-                                    // Extract address components
-                                    const addressComponents = result.address_components || [];
-                                    const streetNumber = addressComponents.find((c: any) => c.types.includes('street_number'))?.long_name || '';
-                                    const streetName = addressComponents.find((c: any) => c.types.includes('route'))?.long_name || '';
-                                    const city = addressComponents.find((c: any) => c.types.includes('locality'))?.long_name || '';
-                                    const state = addressComponents.find((c: any) => c.types.includes('administrative_area_level_1'))?.short_name || '';
-                                    const country = addressComponents.find((c: any) => c.types.includes('country'))?.long_name || '';
-                                    const postalCode = addressComponents.find((c: any) => c.types.includes('postal_code'))?.long_name || '';
-                                    
-                                    // Create an address object that matches ExtendedDeliveryAddressRaw structure
-                                    const addressData: ExtendedDeliveryAddressRaw = {
-                                        formattedAddress: result.formatted_address,
-                                        street: streetName,
-                                        houseNumber: streetNumber,
-                                        city: city,
-                                        zipCode: postalCode,
-                                        country: country,
-                                        coordinates: {
-                                            lat: latitude,
-                                            lng: longitude
-                                        },
-                                        placeId: result.place_id,
-                                        // Optional fields
-                                        administrativeAreas: [state].filter(Boolean),
-                                        additionalInfo: ''
-                                    };
-                                    
-                                    // Use the handleAddressSubmit function to update the address
-                                    await handleAddressSubmit(addressData);
-                                    
-                                    // Close the modal after successfully setting the address
-                                    deliveryAddressModal.onClose();
-                                }
+                            const data = await getAddressFromCoordinates(latitude, longitude);
+                                
+                            if (data.results && data.results.length > 0) {
+                                const result = data.results[0];
+                                
+                                // Extract address components
+                                const addressComponents = result.address_components || [];
+                                const streetNumber = addressComponents.find((c: any) => c.types.includes('street_number'))?.long_name || '';
+                                const streetName = addressComponents.find((c: any) => c.types.includes('route'))?.long_name || '';
+                                const city = addressComponents.find((c: any) => c.types.includes('locality'))?.long_name || '';
+                                const state = addressComponents.find((c: any) => c.types.includes('administrative_area_level_1'))?.short_name || '';
+                                const country = addressComponents.find((c: any) => c.types.includes('country'))?.long_name || '';
+                                const postalCode = addressComponents.find((c: any) => c.types.includes('postal_code'))?.long_name || '';
+                                
+                                // Create an address object that matches ExtendedDeliveryAddressRaw structure
+                                const addressData: ExtendedDeliveryAddressRaw = {
+                                    formattedAddress: result.formatted_address,
+                                    street: streetName,
+                                    houseNumber: streetNumber,
+                                    city: city,
+                                    zipCode: postalCode,
+                                    country: country,
+                                    coordinates: {
+                                        lat: latitude,
+                                        lng: longitude
+                                    },
+                                    placeId: result.place_id,
+                                    // Optional fields
+                                    administrativeAreas: [state].filter(Boolean),
+                                    additionalInfo: ''
+                                };
+                                
+                                // Use the handleAddressSubmit function to update the address
+                                await handleAddressSubmit(addressData);
+                                
+                                // Close the modal after successfully setting the address
+                                deliveryAddressModal.onClose();
                             }
+                            
                         } catch (error) {
                             console.error("Error getting address from coordinates:", error);
                         }
