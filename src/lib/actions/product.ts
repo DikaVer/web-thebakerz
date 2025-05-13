@@ -500,7 +500,7 @@ export async function getAllProductsByFilter(filterParams: {
     if (storeIds && storeIds.length > 0) {
       queryString += " AND c.store_id IN (";
       storeIds.forEach((storeId, index) => {
-        if (examppleStore.includes(storeId)) {
+        if (examppleStore.includes(storeId) && process.env.NODE_ENV !== "development") {
           return;
         }
 
