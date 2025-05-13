@@ -128,6 +128,11 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
 
     const handleAddToCart = async () => {
 
+        if(isSearch) {
+            router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`);
+            return;
+        }
+
         if (isDelivery && (!validationResult?.isValid || !validationResult?.isInRange)) {
             deliveryAddressModal.onOpen();
             return;
@@ -370,7 +375,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                 </span>
                             </div>
                         )}
-                        {store?.user_id !== session?.user?.id ? (
+                        {(store?.user_id !== session?.user?.id || isSearch) ? (
                             <Button 
                                 className="w-full bg-background text-base"
                                 startContent={!isLoading && <Icon icon="material-symbols:add" width={24} />}
