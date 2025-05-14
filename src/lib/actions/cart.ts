@@ -219,8 +219,8 @@ function validateVariants(
             }
 
             // Validate minimum selections if specified
-            if (!productVariant.isSingle && productVariant.required  && productVariant.maxSelections && selectedCount !== productVariant.maxSelections) {
-                return t("minSelectionsRequired", { variant: productVariant.label, min: productVariant.maxSelections });
+            if (!productVariant.isSingle && productVariant.required  && productVariant.minSelections && selectedCount < productVariant.minSelections) {
+                return t("minSelectionsRequired", { variant: productVariant.label, min: productVariant.minSelections });
             }
 
             // Validate that all selected items exist in the product options

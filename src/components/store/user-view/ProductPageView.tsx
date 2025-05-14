@@ -45,13 +45,20 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
     const { openModal, ModalSign } = useSignInModal();
     
     const { addItem } = useCart();
-    const { isDelivery, validationResult, setSelectedDate } = useDelivery();
+    const { isDelivery, validationResult, setSelectedDate, deliveryAddressModal } = useDelivery();
 
     // Handle adding to cart
     const handleAddToCart = async () => {
+
+
+        if (isDelivery && (!validationResult?.isValid || !validationResult?.isInRange)) {
+            deliveryAddressModal.onOpen();
+            return;
+        }
+        
         // Reset previous errors
         setVariantErrors({});
-        
+
         // Validate variants before proceeding
         const errors: {[label: string]: string} = {};
         let hasErrors = false;

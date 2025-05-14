@@ -160,6 +160,7 @@ export const VariantSchema = z.object({
     label: z.string().min(1, { message: "Minimum 4 characters" }),
     isSingle: z.boolean().default(true),
     required: z.boolean().default(false),
+    minSelections: z.number().min(0).optional(),
     maxSelections: z.number().min(0).optional(),
     options: z.array(VariantOptionSchema).min(1, { message: "At least one option is required" }),
 });
