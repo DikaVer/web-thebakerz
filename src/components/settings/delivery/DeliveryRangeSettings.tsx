@@ -168,7 +168,7 @@ const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
             </label>
             <Select
               placeholder={t("selectDeliveryWindow") || "Select Delivery Window"}
-              selectedKeys={[rangeSettings.deliveryWindow?.toString() || deliveryWindowOptions[0].value.toString()]}
+              selectedKeys={[rangeSettings.deliveryWindow?.toString()]}
               onChange={(e) => onDeliveryWindowChange(index, parseInt(e.target.value))}
               className="max-w-xs"
               size="sm"

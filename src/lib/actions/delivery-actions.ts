@@ -9,6 +9,7 @@ import { getCurrentStoreByUserIdAndStoreId } from "@/lib/actions/store";
 import { getTranslations } from "next-intl/server";
 import { globalGETRateLimit } from "@/lib/actions/requests";
 import { v4 as uuidv4 } from "uuid";
+import { logger } from "../logger";
 
 export interface DeliveryRange {
   range: number;
@@ -80,6 +81,9 @@ export async function updateMerchantDeliveryRegions(
     console.log("Updating merchant delivery regions:", regions);
     // Validate the input data
     const validationResult = DeliveryRegionsSchema.safeParse(regions);
+    logger.debug("Update Merchant Delivery Region", "validate", {
+      validationResult
+    })
     
     if (!validationResult.success) {
       console.error("Validation error:", validationResult.error);
@@ -137,7 +141,7 @@ export async function updateMerchantDeliveryRegions(
         coordinates: region.coordinates,
         deliverySchedule: region.deliverySchedule,
         isStoreDelivery: isStoreDeliveryValue,
-        isPostDelivery: region.isPostDelivery,
+        isPostDelivery: region.isPostDelivery || false,
         ranges: region.ranges,
         isCountry: region.isCountry,
         minOrderTime: region.minOrderTime,

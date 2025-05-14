@@ -60,7 +60,7 @@ const DeliveryRegionSchema = z.object({
   coordinates: CoordinatesSchema.optional(),
   deliverySchedule: DeliveryScheduleSchema,
   isStoreDelivery: z.boolean(), 
-  isPostDelivery: z.boolean(),  // New field for post delivery
+  isPostDelivery: z.boolean().default(false).optional(),  // New field for post delivery
   minOrderTime: z.number().min(0, { message: "Minimum order time must be greater than 0" }),
   ranges: z.array(DeliveryRangeSchema).optional(),
   isCountry: z.boolean(), // Whether this is a country-wide delivery region

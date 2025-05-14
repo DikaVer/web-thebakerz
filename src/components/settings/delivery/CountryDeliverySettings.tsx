@@ -116,7 +116,7 @@ const CountryDeliverySettings: React.FC<CountryDeliverySettingsProps> = ({
             </label>
             <Select
                 placeholder={t("selectDeliveryWindow") || "Select Delivery Window"}
-                selectedKeys={[deliveryWindow?.toString() || "all"]}
+                selectedKeys={[deliveryWindow?.toString() || deliveryWindowOptions[0].value]}
                 onChange={(e) => onDeliveryWindowChange(parseInt(e.target.value))}
                 className="max-w-xs"
                 size="sm"
