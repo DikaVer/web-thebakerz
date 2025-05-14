@@ -166,7 +166,7 @@ const CartButton: React.FC<CartButtonProps> = ({
         });
     }, [totalPrice, controls]);
 
-    return (totalPrice > 0 && store.isStripeValid && !examppleStore.includes(store.id)) ? (
+    return (totalPrice > 0 && !examppleStore.includes(store.id)) ? (
         <div className="flex flex-col w-full">
             <motion.div animate={controls} className="flex items-center w-full">
                 <Button

@@ -830,7 +830,7 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
             const distance = haversineDistance({ lat: userLat, lng: userLng }, { lat: storeLat, lng: storeLng });
 
             let deliveryRegions: MerchantDeliveryRegion[] = [];
-            if (storeRow.delivery_option === 'delivery' || storeRow.delivery_option === 'multi') {
+            if ((storeRow.delivery_option === 'delivery' || storeRow.delivery_option === 'multi') && deliveryMode === 'delivery') {
                 try {
                     deliveryRegions = await getMerchantDeliveryRegions(storeRow.id);
                 } catch (error) {
