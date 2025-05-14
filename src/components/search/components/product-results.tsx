@@ -8,6 +8,7 @@ import { ProductBase } from '@/components/store/product/product';
 import { Spinner, Spacer, cn } from '@heroui/react';
 import { logger } from '@/lib/logger';
 import clarity from '@microsoft/clarity';
+import { examppleStore } from '@/lib/local-variables';
 
 // Global cache for all products by page
 const productsCache: Record<string, Record<number, ProductData[]>> = {
@@ -95,8 +96,11 @@ const ProductResults: React.FC<ProductResultsProps> = ({
       const filtersToUse = showingAllProducts ? {} : currentFilterParams;
       
       logger.debug('Fetching with filters:', `filters: ${JSON.stringify(filtersToUse)}`);
+
+      // Exclude example store from the search
+      const filteredStoreIds = currentStoreIds.filter(id => !examppleStore.includes(id));
     
-      const result = await getAllProductsByFilter(filtersToUse, currentPage, 20, currentStoreIds.length > 0 ? currentStoreIds : undefined);
+      const result = await getAllProductsByFilter(filtersToUse, currentPage, 20, filteredStoreIds.length > 0 ? filteredStoreIds : undefined);
     
       logger.debug('Fetched products:', `products: ${result.products.length}`);
       

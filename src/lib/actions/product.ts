@@ -500,10 +500,6 @@ export async function getAllProductsByFilter(filterParams: {
     if (storeIds && storeIds.length > 0) {
       queryString += " AND c.store_id IN (";
       storeIds.forEach((storeId, index) => {
-        if (examppleStore.includes(storeId) && process.env.NODE_ENV !== "development") {
-          return;
-        }
-
         const paramName = `@storeId${index}`;
         queryString += index === 0 ? paramName : `, ${paramName}`;
         parameters.push({ name: paramName, value: storeId });
