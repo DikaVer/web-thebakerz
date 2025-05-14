@@ -10,6 +10,7 @@ import {renderCalendarContent} from "@/components/store/store-header/subheader/w
 import {useTranslations} from "next-intl";
 import { useSignInModal } from '@/components/ui/modal-signin';
 import { useSession } from '@/components/providers/session-provider';
+import { useDelivery } from '@/components/providers/delivery-provider';
 
 type SocialIconProps = Omit<IconProps, "icon">;
 
@@ -20,6 +21,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
     const t = useTranslations("app/(store)/components/store-description");
     const { openModal, ModalSign } = useSignInModal();
     const { session } = useSession();
+    const { validationResult } = useDelivery();
 
 
     const [latitude, longitude] = [store?.location?.latitude, store?.location?.longitude];
@@ -155,52 +157,55 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                     variant={"solid"}
                                 />
 
-                                <Divider/>
-
-                                <Accordion
-                                    motionProps={{
-                                        variants: {
-                                            enter: {
-                                                y: 0,
-                                                opacity: 1,
-                                                transition: {
-                                                    height: "var(--radix-accordion-content-height)",
-                                                    opacity: 0.3,
-                                                    ease: "easeOut"
+                                {!validationResult?.deliveryRegion?.isPostDelivery && (
+                                    <>
+                                        <Divider/>
+                                        <Accordion
+                                            motionProps={{
+                                                variants: {
+                                                    enter: {
+                                                        y: 0,
+                                                        opacity: 1,
+                                                        transition: {
+                                                            height: "var(--radix-accordion-content-height)",
+                                                            opacity: 0.3,
+                                                            ease: "easeOut"
+                                                        }
+                                                    },
+                                                    exit: {
+                                                        y: -10,
+                                                        opacity: 0,
+                                                        transition: {
+                                                            height: 0,
+                                                            opacity: 0.3,
+                                                            ease: "easeIn"
+                                                        }
+                                                    }
                                                 }
-                                            },
-                                            exit: {
-                                                y: -10,
-                                                opacity: 0,
-                                                transition: {
-                                                    height: 0,
-                                                    opacity: 0.3,
-                                                    ease: "easeIn"
-                                                }
-                                            }
-                                        }
-                                    }}
-                                    variant="light"
-                                    className={'px-0'}
-                                >
-                                    <AccordionItem
-                                        key="Working Hours"
-                                        aria-label={t("workingHours")}
-                                        title={t("workingHours")}
-                                        className={'px-0'}
-                                        classNames={{
-                                            title: 'text-text',
-                                            trigger: 'py-0',
-                                        }}
-                                        startContent={<Icon icon={'solar:clock-circle-outline'} className={'text-text'} width={24}/> }
-                                        indicator={<Icon icon={'material-symbols:chevron-left-rounded'} className={'text-default-500'} width={24}/> }
-                                    >
-                                        <>
-                                            <Spacer y={2}/>
-                                            {renderCalendarContent()}
-                                        </>
-                                    </AccordionItem>
-                                </Accordion>
+                                            }}
+                                            variant="light"
+                                            className={'px-0'}
+                                        >
+                                            <AccordionItem
+                                                key="Working Hours"
+                                                aria-label={t("workingHours")}
+                                                title={t("workingHours")}
+                                                className={'px-0'}
+                                                classNames={{
+                                                    title: 'text-text',
+                                                    trigger: 'py-0',
+                                                }}
+                                                startContent={<Icon icon={'solar:clock-circle-outline'} className={'text-text'} width={24}/> }
+                                                indicator={<Icon icon={'material-symbols:chevron-left-rounded'} className={'text-default-500'} width={24}/> }
+                                            >
+                                                <>
+                                                    <Spacer y={2}/>
+                                                    {renderCalendarContent()}
+                                                </>
+                                            </AccordionItem>
+                                        </Accordion>
+                                    </>
+                                )}
 
                                 <Divider/>
                                 <Link

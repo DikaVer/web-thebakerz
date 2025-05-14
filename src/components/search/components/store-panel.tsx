@@ -343,94 +343,100 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
                                             <span>{distanceString}</span>
                                         </>
                                     )}
-                                </div>
-                                <div onClick={(e) => {
-                                    if (isMobile) {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                    }
-                                }}>
-                                    <Popover 
-                                        placement="bottom" 
-                                        showArrow 
-                                        offset={10}
-                                        isOpen={isPopoverOpen}
-                                        onOpenChange={handlePopoverOpenChange}
-                                    >
-                                        <PopoverTrigger>
-                                            <div 
-                                                ref={triggerRef}
-                                                className={`flex ${(deliveryMode === 'delivery' && !isUserCord) && 'hidden'} items-center justify-between border-1 gap-2 p-1 px-2 rounded-full hover:bg-default-100 cursor-pointer ${examppleStore.includes(store.id) && "hidden"}`}
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    setIsManualOpen(prev => !prev);
-                                                }}
-                                                onMouseEnter={() => !isMobile && setIsHovered(true)}
-                                                onMouseLeave={(e) => {
-                                                    if (isMobile) return;
-                                                    
-                                                    const relatedTarget = e.relatedTarget as Node;
-                                                    if (popoverRef.current?.contains(relatedTarget)) {
-                                                        return;
-                                                    }
-                                                    if (!isManualOpen) {
-                                                        setIsHovered(false);
-                                                    }
-                                                }}
+                                    </div>
+                                    {!store.deliveryRegion?.isPostDelivery ? (
+                                        <div onClick={(e) => {
+                                            if (isMobile) {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                            }
+                                        }}>
+                                            <Popover 
+                                                placement="bottom" 
+                                                showArrow 
+                                                offset={10}
+                                                isOpen={isPopoverOpen}
+                                                onOpenChange={handlePopoverOpenChange}
                                             >
-                                                <span className="text-text font-medium">
-                                                    {deliveryMode === 'delivery' ? t('deliveryHours') : t('workingHours')}
-                                                </span>
-                                                <Icon icon="solar:info-circle-linear" width={16} className="text-text" />
-                                            </div>
-                                        </PopoverTrigger>
-                                        <PopoverContent>
-                                            <div 
-                                                ref={popoverWrapperRef}
-                                                onClick={(e) => {
-                                                    // This ensures clicks inside the popover don't bubble up
-                                                    e.stopPropagation();
-                                                }}
-                                            >
-                                                <div 
-                                                    className="flex flex-col gap-2" 
-                                                    ref={popoverRef}
-                                                    onMouseEnter={() => !isMobile && setIsHovered(true)}
-                                                    onMouseLeave={() => {
-                                                        if (isMobile) return;
-                                                        
-                                                        // Only close if we're not in manual open mode
-                                                        if (!isManualOpen) {
-                                                            setIsHovered(false);
-                                                        }
-                                                    }}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        e.preventDefault();
-                                                    }}
-                                                >
-                                                    {/* {isMobile && (
-                                                        <div className="flex justify-end mb-2">
-                                                            <Button
-                                                                isIconOnly
-                                                                variant="solid"
-                                                                size="sm"
-                                                                className="bg-primary text-white"
-                                                                onPress={() => setIsManualOpen(false)}
-                                                            >
-                                                                <Icon icon="solar:close-circle-bold" width={20} height={20} />
-                                                            </Button>
+                                                <PopoverTrigger>
+                                                    <div 
+                                                        ref={triggerRef}
+                                                        className={`flex ${(deliveryMode === 'delivery' && !isUserCord) && 'hidden'} items-center justify-between border-1 gap-2 p-1 px-2 rounded-full hover:bg-default-100 cursor-pointer ${examppleStore.includes(store.id) && "hidden"}`}
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            setIsManualOpen(prev => !prev);
+                                                        }}
+                                                        onMouseEnter={() => !isMobile && setIsHovered(true)}
+                                                        onMouseLeave={(e) => {
+                                                            if (isMobile) return;
+                                                            
+                                                            const relatedTarget = e.relatedTarget as Node;
+                                                            if (popoverRef.current?.contains(relatedTarget)) {
+                                                                return;
+                                                            }
+                                                            if (!isManualOpen) {
+                                                                setIsHovered(false);
+                                                            }
+                                                        }}
+                                                    >
+                                                        <span className="text-text font-medium">
+                                                            {deliveryMode === 'delivery' ? t('deliveryHours') : t('workingHours')}
+                                                        </span>
+                                                        <Icon icon="solar:info-circle-linear" width={16} className="text-text" />
+                                                    </div>
+                                                </PopoverTrigger>
+                                                <PopoverContent>
+                                                    <div 
+                                                        ref={popoverWrapperRef}
+                                                        onClick={(e) => {
+                                                            // This ensures clicks inside the popover don't bubble up
+                                                            e.stopPropagation();
+                                                        }}
+                                                    >
+                                                        <div 
+                                                            className="flex flex-col gap-2" 
+                                                            ref={popoverRef}
+                                                            onMouseEnter={() => !isMobile && setIsHovered(true)}
+                                                            onMouseLeave={() => {
+                                                                if (isMobile) return;
+                                                                
+                                                                // Only close if we're not in manual open mode
+                                                                if (!isManualOpen) {
+                                                                    setIsHovered(false);
+                                                                }
+                                                            }}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                e.preventDefault();
+                                                            }}
+                                                        >
+                                                            {/* {isMobile && (
+                                                                <div className="flex justify-end mb-2">
+                                                                    <Button
+                                                                        isIconOnly
+                                                                        variant="solid"
+                                                                        size="sm"
+                                                                        className="bg-primary text-white"
+                                                                        onPress={() => setIsManualOpen(false)}
+                                                                    >
+                                                                        <Icon icon="solar:close-circle-bold" width={20} height={20} />
+                                                                    </Button>
+                                                                </div>
+                                                            )} */}
+                                                            {deliveryMode === 'delivery' && store.deliveryRegion && store.deliveryRegion.deliverySchedule
+                                                                ? renderScheduleDisplay(store.deliveryRegion.deliverySchedule, wH)
+                                                                : renderScheduleDisplay(store.schedule, wH)}
                                                         </div>
-                                                    )} */}
-                                                    {deliveryMode === 'delivery' && store.deliveryRegion && store.deliveryRegion.deliverySchedule
-                                                        ? renderScheduleDisplay(store.deliveryRegion.deliverySchedule, wH)
-                                                        : renderScheduleDisplay(store.schedule, wH)}
-                                                </div>
-                                            </div>
-                                        </PopoverContent>
-                                    </Popover>
-                                </div>
+                                                    </div>
+                                                </PopoverContent>
+                                            </Popover>
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center gap-1 border-1 p-1 px-2 rounded-full">
+                                            <p className="font-medium">Postal Delivery</p>
+                                        </div>
+                                    )}
                                 <Chip
                                     size="md"
                                     color={"warning"}
