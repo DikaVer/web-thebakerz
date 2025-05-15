@@ -13,7 +13,7 @@ import {ProductSearch} from "@/components/store/product/components/product-searc
 import {useSearchParams} from "next/navigation";
 import {useTranslations} from "next-intl";
 import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
-import { sortItems } from "@/lib/helper/sort-items-with-order";
+import { sortItems } from "@/lib/utils/helper/sort-items-with-order";
 import { logger } from '@/lib/logger';
 
 interface ProductListBaseProps {

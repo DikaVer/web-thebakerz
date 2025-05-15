@@ -80,5 +80,3 @@ export const MAX_CHARS_ADDRESS = {
   additionalInfo: 1000,
   formattedAddress: 200,
 };
-
-export type ValidatedAddress = z.infer<typeof AddressZodSchema>; 

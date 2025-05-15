@@ -8,7 +8,7 @@ import { useDelivery } from "@/components/providers/delivery-provider";
 import { useStore } from "@/components/providers/store-provider";
 import { DeliveryTimeSelection } from "./select-time/delivery-time-selection";
 import { PickupTimeSelection } from "./select-time/pickup-time-selection";
-
+import { usePathname } from "next/navigation";
 export function SelectTime() {
     const t = useTranslations("app/(store)/components/store-subheader");
     const { 
@@ -22,6 +22,8 @@ export function SelectTime() {
     } = useDelivery();
 
     const { store } = useStore();
+    const pathname = usePathname();
+    const isCheckout = pathname.includes("checkout");
 
     const getDeliverySchedule = () => {
         if (validationResult.isInRange && validationResult.deliveryRegion?.deliverySchedule) {
@@ -49,6 +51,7 @@ export function SelectTime() {
             <>
                 {(validationResult?.isInRange && validationResult?.isValid) && (
                     <DeliveryTimeSelection
+                        buttonClassName={isCheckout ? "bg-gradient-primary text-white" : ""}
                         schedule={getDeliverySchedule()}
                         minValue={minValue}
                         selectedDate={selectedDate}
@@ -62,6 +65,7 @@ export function SelectTime() {
             </>
     ) : (
         <PickupTimeSelection
+            buttonClassName={isCheckout ? "bg-gradient-primary text-white" : ""}
             schedule={store.schedule}
             minValue={minValue}
             selectedDate={selectedDate}

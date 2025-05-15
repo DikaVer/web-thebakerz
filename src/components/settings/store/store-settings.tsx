@@ -11,7 +11,7 @@ import { updateStore } from "@/lib/actions/store-actions";
 import { Icon } from "@iconify/react";
 
 // Import the StoreSchema
-import { StoreSettingsSchema } from "@/lib/schemas/index";
+import { StoreSettingsSchema } from "@/lib/utils/schemas";
 import { useTheme } from "next-themes";
 import { IconLocation, IconPhone } from "@/components/ui/icons";
 import showErrorMessage from "@/components/toast/toast-error";
@@ -94,22 +94,13 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
         useEffect(() => {
             // Define the save handler function
             const handleStoreSettingsSave = () => {
-                logger.debug('storeSettings', 'save handler called', { formIsDirty, isValid: form.formState.isValid });
-                if (formIsDirty && form.formState.isValid) {
-                    const formData = form.getValues();
-                    logger.debug('storeSettings', 'submitting form data');
-                    startTransition(() => {
-                        submitAction(formData);
-                    });
-                    return true;
-                } else {
-                    logger.debug('storeSettings', 'not saving - form not dirty or not valid');
-                    const errors = form.formState.errors;
-                    for (const error of Object.values(errors)) {
-                        showErrorMessage({error: error.message || 'An error occurred'});
-                    }
-                    return false;
-                }
+                const formData = form.getValues();
+                logger.debug('storeSettings', 'submitting form data');
+                startTransition(() => {
+                    submitAction(formData);
+                    setFormIsDirty(false);
+                });
+                return true;
             };
 
             // Register the save handler
@@ -123,24 +114,6 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
             };
         }, [registerSaveHandler, form, formIsDirty, submitAction]);
 
-        // Add state to track form validation status display
-        const [showValidationStatus, setShowValidationStatus] = useState(false);
-
-        // Check for form errors whenever form state changes
-        useEffect(() => {
-            if (form.formState.isSubmitted || formIsDirty) {
-                setShowValidationStatus(true);
-            }
-        }, [form.formState, formIsDirty]);
-
-        // Helper to get all form validation errors
-        const getFormErrors = () => {
-            const errors = form.formState.errors;
-            return Object.entries(errors).map(([field, error]) => ({
-                field,
-                message: error.message || `Invalid ${field}`,
-            }));
-        };
 
         return (
             <div ref={ref} className={cn( className)} {...props}>
@@ -154,7 +127,6 @@ const StoreSetting = React.forwardRef<HTMLDivElement, StoreSettingCardProps>(
                         onSubmit={(e) => { 
                             e.preventDefault(); 
                             setSaveOpen(true);
-                            setShowValidationStatus(true);
                         }}
                         className={'grid gap-y-1'}
                     >

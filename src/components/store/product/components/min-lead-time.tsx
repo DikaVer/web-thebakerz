@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Select, SelectItem, Spacer } from "@heroui/react";
 import { useTranslations } from "next-intl";
 import { UseFormReturn } from "react-hook-form";
-import { ProductSchema } from "@/lib/schemas/index";
+import { ProductSchema } from "@/lib/utils/schemas";
 import * as z from "zod";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 

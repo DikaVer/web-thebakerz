@@ -1,5 +1,5 @@
 import * as z from "zod";
-import {nicknameSchema} from "@/lib/schemas";
+import {nicknameSchema} from "@/lib/utils/schemas";
 
 export const UserEditSchema = z
     .object({

@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 
 import { Button } from "@/components/ui/button";
-import {sendPaymentSupport} from "@/lib/actions/auth/email-action";
+import {sendPaymentSupport} from "@/lib/actions/emails/email-action";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import {useTranslations} from "next-intl";
 

@@ -16,7 +16,7 @@ import { Icon } from "@iconify/react";
 import { ImageUploader } from "@/components/image/image-upload";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { ProductSchema } from "@/lib/schemas";
+import { ProductSchema } from "@/lib/utils/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { categories } from "@/lib/local-variables";
 import showErrorMessage from "@/components/toast/toast-error";

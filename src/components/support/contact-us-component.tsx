@@ -5,14 +5,14 @@ import React, { startTransition } from 'react';
 import { useActionState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { ContactSchema } from "@/lib/schemas";
+import { ContactSchema } from "@/lib/utils/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardBody, Input, Textarea } from "@heroui/react";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { FormError } from "@/components/authentication/form-error";
 import SuccessRedirect from "@/components/redirect-page";
-import { sendEmail } from "@/lib/actions/auth/email-action";
+import { sendEmail } from "@/lib/actions/emails/email-action";
 import { useTranslations } from "next-intl";
 
 export default function ContactUsComponent() {

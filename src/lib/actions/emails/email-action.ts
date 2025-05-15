@@ -2,8 +2,8 @@
 
 import * as z from "zod";
 
-import {ApplySchema, ContactSchema, GetStartedSchema,} from "@/lib/schemas";
-import {sendContactUsForm, sendOnboardingRequest} from "@/lib/emailSendRequest";
+import {ApplySchema, ContactSchema, GetStartedSchema,} from "@/lib/utils/schemas";
+import {sendContactUsForm, sendOnboardingRequest} from "@/lib/email-send-request";
 import { getTranslations } from "next-intl/server";
 
 // Function to handle authActions using form data

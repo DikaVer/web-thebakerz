@@ -5,7 +5,7 @@ import type { Metadata } from 'next'; // Import Metadata type
 import { getLocale, getTranslations } from 'next-intl/server'; // Import getLocale
 import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata utils
 import { logger } from '@/lib/logger';
-import { Coordinates, getDeliveryMode } from '@/lib/delivery-cookie';
+import { Coordinates, getDeliveryMode } from '@/lib/actions/cookies/delivery-cookie';
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 import { getCurrentDeliveryAddress } from '@/app/(store)/[id]/delivery-actions';
 import { Spacer } from '@heroui/react';

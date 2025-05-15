@@ -11,8 +11,8 @@ import { useStore } from "@/components/providers/store-provider";
 import {CartItemRow} from "@/components/cart/cart-item";
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
-import {calculateTotals} from "@/lib/price/tax";
-import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
+import {calculateTotals} from "@/lib/utils/price/price-calculations";
+import {calculateItemTotalPrice} from "@/lib/utils/helper/calculate-total-price-variants";
 
 
 const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {

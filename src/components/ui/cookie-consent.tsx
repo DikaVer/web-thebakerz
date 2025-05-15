@@ -5,7 +5,7 @@ import {Button, cn, Link, ResizablePanel, Spacer} from "@heroui/react";
 import {LazyMotion, domAnimation, AnimatePresence, m} from "framer-motion";
 import SwitchCell from "@/components/ui/switch-cell";
 import {usePathname} from "next/navigation";
-import {acceptAll, CookiePreferences, getSessionCookieOrCreateClient, rejectAll, savePreferences} from "@/lib/cookie";
+import {acceptAll, CookiePreferences, getSessionCookieOrCreateClient, rejectAll, savePreferences} from "@/lib/actions/cookies/cookie";
 import { useTranslations } from "next-intl";
 import { GA_MEASUREMENT_ID } from "../google-analytics";
 import clarity from "@microsoft/clarity";

@@ -13,7 +13,7 @@ import { Icon } from "@iconify/react";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import {UseFormReturn} from "react-hook-form";
-import {ProductSchema} from "@/lib/schemas";
+import {ProductSchema} from "@/lib/utils/schemas";
 import {z} from "zod";
 
 export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.infer<typeof ProductSchema>>, isPending: boolean}) => {

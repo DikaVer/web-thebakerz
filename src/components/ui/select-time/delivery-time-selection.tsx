@@ -5,6 +5,7 @@ import { CalendarDateTime } from "@internationalized/date";
 import { formatDate, SmartDatetimeInput } from "@/components/store/store-header/calendar/smart-calendar";
 
 interface DeliveryTimeSelectionProps {
+    buttonClassName?: string;
     schedule: any;
     minValue: () => any;
     selectedDate: any;
@@ -16,6 +17,7 @@ interface DeliveryTimeSelectionProps {
 }
 
 export const DeliveryTimeSelection: React.FC<DeliveryTimeSelectionProps> = ({
+    buttonClassName,
     schedule,
     minValue,
     selectedDate,
@@ -47,7 +49,7 @@ export const DeliveryTimeSelection: React.FC<DeliveryTimeSelectionProps> = ({
                         }
                     </div>
                 }
-                className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600 bg-background-secondary' : 'border-2 border-primary'} text-sm`}
+                className={`${selectedDate instanceof CalendarDateTime ? `text-default-600 bg-background-secondary` : `border-2 border-primary ${buttonClassName}`} text-sm`}
                 onPress={() => {}}
                 isDisabled={isDateUpdating || isLoadingDate}
             >

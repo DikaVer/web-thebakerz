@@ -12,7 +12,7 @@ import { Icon } from "@iconify/react";
 import { CalendarDate, getLocalTimeZone } from "@internationalized/date";
 
 // Import the ProfileSchema we created above
-import { ProfileSettingsSchema } from "@/lib/schemas/index";
+import { ProfileSettingsSchema } from "@/lib/utils/schemas";
 import { User} from "@/lib/actions/user";
 import {useTheme} from "next-themes";
 import {ImageUploader} from "@/components/image/image-upload";

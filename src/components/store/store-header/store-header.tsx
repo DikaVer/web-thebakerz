@@ -14,7 +14,7 @@ import Image from "next/image";
 import ImageForm from "@/components/image/image-form";
 import { updateStoreBackground } from "@/lib/actions/store";
 import { ImageUploader } from "@/components/image/image-upload";
-import { ImageSchema } from "@/lib/schemas";
+import { ImageSchema } from "@/lib/utils/schemas";
 import showErrorMessage from "@/components/toast/toast-error";
 import { useSignInModal } from "@/components/ui/modal-signin";
 import { useFavorites } from "@/components/providers/favorites-provider";
@@ -284,14 +284,14 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                         </p>
                 
                                     </div>
+                                 </div>
+                            )}
+                            <div className="flex flex-col justify-start items-start gap-2">
                                     {store?.slug && (
                                         <p className="text-xs md:text-sm whitespace-pre-wrap font-light text-white/90">
                                             {store.slug}
                                         </p>
                                     )}
-                                 </div>
-                            )}
-                            <div className="flex flex-col justify-start items-start gap-2">
                                     {store.totalLikesProduct > 0 && (
                                         <div className="flex items-end gap-2">
                                             <Icon 

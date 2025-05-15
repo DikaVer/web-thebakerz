@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { FormError } from "@/components/authentication/form-error";
 import { useTranslations } from "next-intl";
 import { useSession } from "@/components/providers/session-provider";
-import { sendEmail } from "@/lib/actions/auth/email-action";
+import { sendEmail } from "@/lib/actions/emails/email-action";
 
 const ReportStoreSchema = z.object({
     subject: z.string().min(1, "Subject is required"),

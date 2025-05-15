@@ -1,7 +1,7 @@
 import { Footer } from '@/components/footer';
 import { LandingHeroSection } from '@/components/landing/marketplace/landing-hero-section';
 import { BakersGrowthSection } from '@/components/landing/marketplace/bakers-growth-section';
-import { getSearchCoordinates } from '@/lib/delivery-cookie';
+import { getSearchCoordinates } from '@/lib/actions/cookies/delivery-cookie';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';

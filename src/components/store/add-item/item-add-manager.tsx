@@ -10,7 +10,7 @@ import {
     Spacer,
 } from "@heroui/react";
 import { ProductTable } from "@/components/settings/products/product-tab";
-import { sortItems } from "@/lib/helper/sort-items-with-order";
+import { sortItems } from "@/lib/utils/helper/sort-items-with-order";
 import { Icon } from "@iconify/react";
 import { useProductDialog } from "@/components/providers/product-provider";
 import {AnimatePresence, motion } from "framer-motion";

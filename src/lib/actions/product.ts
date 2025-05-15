@@ -1,6 +1,6 @@
 'use server';
 import * as z from "zod";
-import {ProductSchema} from "@/lib/schemas";
+import {ProductSchema} from "@/lib/utils/schemas";
 import {getCurrentSession} from "@/lib/actions/session";
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {v4 as uuidv4} from "uuid";

@@ -9,7 +9,7 @@ import {StoreProvider} from "@/components/providers/store-provider";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import {CartProvider} from "@/components/providers/cart-provider";
 import {getCurrentCart} from "@/lib/actions/cart";
-import {getDeliveryMode} from "@/lib/delivery-cookie";
+import {getDeliveryMode} from "@/lib/actions/cookies/delivery-cookie";
 import {DeliveryProvider} from "@/components/providers/delivery-provider";
 import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 import LayoutComp from "@/components/layout-comp";

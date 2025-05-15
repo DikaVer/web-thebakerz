@@ -4,18 +4,13 @@ import { v4 as uuidv4 } from "uuid";
 import {connectionPool, containerClientAvatar, containerClientProduct, containerClientBackground} from "@/db";
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {getCurrentSession} from "@/lib/actions/session";
-import {ImageSchema} from "@/lib/schemas";
+import {ImageSchema} from "@/lib/utils/schemas";
 import { getTranslations } from "next-intl/server";
 
 
 // Ensure the API route runs in the Node.js runtime so we can use Sharp
 export const runtime = "nodejs";
 
-// Maximum file size limit (2MB for regular images, 5MB for HEIC/HEIF)
-const MAX_FILE_SIZE = {
-    default: 2 * 1024 * 1024, // 2MB in bytes
-    heic: 5 * 1024 * 1024,    // 5MB for HEIC/HEIF formats
-};
 
 export async function POST(request: Request) {
     const t = await getTranslations("app/api/upload-image");
@@ -37,20 +32,6 @@ export async function POST(request: Request) {
         if (!fileField || !(fileField instanceof File) || !containerName) {
             return NextResponse.json(
                 { error: t("fileNotProvided") },
-                { status: 400 }
-            );
-        }
-
-        // Check file size limit based on format
-        const isHeicFormat = fileField.type.toLowerCase().includes('heic') || 
-                           fileField.type.toLowerCase().includes('heif');
-        const sizeLimit = isHeicFormat ? MAX_FILE_SIZE.heic : MAX_FILE_SIZE.default;
-
-        if (fileField.size > sizeLimit) {
-            return NextResponse.json(
-                { 
-                    error: `File size exceeds the maximum limit of ${sizeLimit / (1024 * 1024)}MB` 
-                },
                 { status: 400 }
             );
         }

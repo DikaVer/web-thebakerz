@@ -1,5 +1,5 @@
 // crop-image.ts
-import { processImage } from '@/lib/utils/processImage';
+import { imageProcess } from '@/lib/utils/images/image-process';
 
 export const createImage = (url: string): Promise<HTMLImageElement> =>
     new Promise((resolve, reject) => {
@@ -96,7 +96,7 @@ export default async function getCroppedImg(
                 const croppedFile = new File([blob], 'cropped-temp.jpeg', { type: 'image/jpeg' });
                 
                 // Apply advanced compression and conversion to WebP
-                const processed = await processImage(croppedFile);
+                const processed = await imageProcess(croppedFile);
                 
                 if (!processed.file) {
                     throw new Error(processed.error || 'Failed to process image');

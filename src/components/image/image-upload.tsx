@@ -4,7 +4,7 @@ import { Modal, ModalContent, ModalHeader } from "@heroui/react";
 import React, { useState, useEffect } from "react";
 import CropEasy from "@/components/image/crop/crop-easy";
 import showErrorMessage from "@/components/toast/toast-error";
-import { ImageSchema } from "@/lib/schemas";
+import { ImageSchema } from "@/lib/utils/schemas";
 import { useTheme } from "next-themes";
 import { IconClose } from "@/components/ui/icons";
 import { useTranslations } from "next-intl";

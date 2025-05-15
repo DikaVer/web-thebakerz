@@ -16,7 +16,7 @@ import {
     AddressZodSchema, 
     COUNTRY_RESTRICTION, 
     DUTCH_POSTAL_CODE_REGEX 
-} from '@/lib/schemas/address.schema';
+} from '@/lib/utils/schemas/address.schema';
 import { ExtendedDeliveryAddressRaw } from '@/app/(store)/[id]/delivery-actions';
 import { logger } from '@/lib/logger';
 import { useForm } from 'react-hook-form';

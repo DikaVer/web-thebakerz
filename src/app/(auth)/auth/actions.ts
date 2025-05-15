@@ -13,7 +13,7 @@ import {headers, cookies} from "next/headers";
 import {globalPOSTRateLimit} from "@/lib/actions/requests";
 import {createUser, getUserFromEmail, updateUserEmailAndSetEmailAsVerified, User} from "@/lib/actions/user";
 import {z} from "zod";
-import {EmailSchema, OTPSchema} from "@/lib/schemas";
+import {EmailSchema, OTPSchema} from "@/lib/utils/schemas";
 import {
     createEmailVerificationRequest,
     deleteUserEmailVerificationRequest,

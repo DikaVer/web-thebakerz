@@ -2,7 +2,7 @@ import { OrderData } from "@/lib/actions/order";
 import {StoreBusinessData} from "@/lib/actions/store";
 import React from "react";
 import {calculateTax, formatCurrency, formatDisplayYearDate} from "@/lib/utils";
-import {calculateTotals} from "@/lib/price/tax";
+import {calculateTotals} from "@/lib/utils/price/price-calculations";
 
 interface InvoiceProps {
     store: StoreBusinessData;

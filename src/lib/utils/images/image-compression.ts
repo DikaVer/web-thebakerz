@@ -1,7 +1,7 @@
 /**
  * Utility functions for client-side image compression
  */
-import { logger } from '../logger';
+import { logger } from '../../logger';
 
 /**
  * Compresses an image file to the specified size and format

@@ -3,7 +3,7 @@
 import { containerDeliveryRegions, containerDeliveryLocations } from "@/db";
 import { revalidateTag } from "next/cache";
 import { getCurrentSession, getSessionCookie} from "@/lib/actions/session";
-import { DeliveryRegionsSchema } from "@/lib/schemas/delivery.schema";
+import { DeliveryRegionsSchema } from "@/lib/utils/schemas/delivery.schema";
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import { getCurrentStoreByUserIdAndStoreId } from "@/lib/actions/store";
 import { getTranslations } from "next-intl/server";

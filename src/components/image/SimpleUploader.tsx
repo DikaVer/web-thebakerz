@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useImageProcessing } from './helpers/useImageProcessing';
-import { formatFileSize } from '@/lib/utils/processImage';
+import { formatFileSize } from '@/lib/utils/images/image-process';
 
 export function SimpleUploader({ onUpload }: { onUpload?: (file: File) => void }) {
   const [preview, setPreview] = useState<string | null>(null);

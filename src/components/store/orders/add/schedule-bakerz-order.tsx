@@ -26,7 +26,7 @@ import {useTheme} from "next-themes";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import {useForm} from "react-hook-form";
 import * as z from "zod";
-import {CustomerOrderSchema, ProfileSettingsSchema} from "@/lib/schemas";
+import {CustomerOrderSchema, ProfileSettingsSchema} from "@/lib/utils/schemas";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import {createOrder} from "@/lib/actions/order";

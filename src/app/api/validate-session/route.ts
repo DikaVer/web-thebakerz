@@ -1,4 +1,3 @@
-// app/api/validate-session/route.ts
 import { NextResponse } from 'next/server';
 import { validateSessionToken } from '@/lib/actions/session';
 import { getTranslations } from "next-intl/server";

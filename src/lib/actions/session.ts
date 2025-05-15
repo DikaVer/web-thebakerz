@@ -217,8 +217,7 @@ export async function getSessionCookie(): Promise<string | null> {
 export function generateSessionToken(): string {
     const tokenBytes = new Uint8Array(20);
     crypto.getRandomValues(tokenBytes);
-    const token = encodeBase32LowerCaseNoPadding(tokenBytes).toLowerCase();
-    return token;
+    return encodeBase32LowerCaseNoPadding(tokenBytes).toLowerCase();
 }
 
 // createSession does not use cookies so it can remain synchronous

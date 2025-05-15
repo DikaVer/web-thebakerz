@@ -4,7 +4,7 @@ import {Footer} from "@/components/footer";
 import LayoutComp from "@/components/layout-comp";
 import { DeliveryProvider } from '@/components/providers/delivery-provider';
 import { getCurrentDeliveryAddress } from '../(store)/[id]/delivery-actions';
-import { getDeliveryMode } from '@/lib/delivery-cookie';
+import { getDeliveryMode } from '@/lib/actions/cookies/delivery-cookie';
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 import { getCurrentFavorites } from '@/lib/actions/favorites';
 import { FavoritesProvider } from '@/components/providers/favorites-provider';

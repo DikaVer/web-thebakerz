@@ -1,6 +1,6 @@
 'use server';
 import * as z from "zod";
-import { ProfileSettingsSchema } from "@/lib/schemas";
+import { ProfileSettingsSchema } from "@/lib/utils/schemas";
 import { updateUserProfile } from "./profile-db";
 import { getCurrentSession } from "@/lib/actions/session";
 import { globalPOSTRateLimit } from "@/lib/actions/requests";

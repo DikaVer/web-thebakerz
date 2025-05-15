@@ -5,6 +5,7 @@ import { CalendarDateTime } from "@internationalized/date";
 import { formatDate, SmartDatetimeInput } from "@/components/store/store-header/calendar/smart-calendar";
 
 interface PickupTimeSelectionProps {
+    buttonClassName?: string;
     schedule: any;
     minValue: () => any;
     selectedDate: any;
@@ -15,6 +16,7 @@ interface PickupTimeSelectionProps {
 }
 
 export const PickupTimeSelection: React.FC<PickupTimeSelectionProps> = ({
+    buttonClassName,
     schedule,
     minValue,
     selectedDate,
@@ -42,7 +44,7 @@ export const PickupTimeSelection: React.FC<PickupTimeSelectionProps> = ({
                         {isDateUpdating || isLoadingDate ? <Spinner size="sm" color="current" /> : <Icon icon="solar:walking-round-linear" width={24}/>}
                     </div>
                 }
-                className={`${selectedDate instanceof CalendarDateTime ? 'text-default-600 bg-background-secondary' : 'border-2 border-primary'} text-sm`}
+                className={`${selectedDate instanceof CalendarDateTime ? `text-default-600 bg-background-secondary` : `border-2 border-primary ${buttonClassName}`} text-sm`}
                 onPress={() => {}}
                 isDisabled={isLoadingDate || isDateUpdating}
             >

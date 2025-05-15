@@ -14,7 +14,7 @@ import Image from "next/image";
 import { IconMail } from "@/components/ui/icons";
 import Link from "next/link";
 import { loginAction, resendEmailVerificationCodeAction, verifyEmailAction } from "@/app/(auth)/auth/actions";
-import { EmailSchema, OTPSchema } from "@/lib/schemas";
+import { EmailSchema, OTPSchema } from "@/lib/utils/schemas";
 import showErrorMessage from "@/components/toast/toast-error";
 import { useSession } from "@/components/providers/session-provider";
 import type { SessionValidationResult } from "@/lib/actions/session";

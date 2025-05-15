@@ -28,8 +28,8 @@ export default function Checkout({ id, storeId, clientSecretParam, storeStripeAc
     const t = useTranslations("app/(store)/components/checkout")
     useEffect(() => {
         clarity.upgrade("checkout");
+        clarity.setTag("page", "payment");
     }, []);
-    clarity.setTag("page", "payment");
 
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 

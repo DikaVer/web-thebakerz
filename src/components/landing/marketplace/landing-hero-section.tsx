@@ -21,16 +21,6 @@ export const LandingHeroSection = () => {
         clarity.setTag("page", "landing");
   }, []);
 
-  // Animation for the pulsate heart effect
-  const heartPulsate = {
-    scale: [1, 1.1, 1],
-    transition: {
-      duration: 1.2,
-      repeat: Infinity,
-      repeatType: "reverse" as const,
-      ease: "easeInOut"
-    }
-  };
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
@@ -93,11 +83,10 @@ export const LandingHeroSection = () => {
 
           {/* All Desserts Button */}
           <motion.div
-            animate={heartPulsate}
             className="mt-8"
           >
             <Button 
-              onClick={() => router.push('/search')}
+              onPress={() => router.push('/search')}
               size="lg"
               className="bg-gradient-primary text-white font-semibold text-lg px-8 py-3 rounded-full shadow-xl"
               endContent={<Icon icon="mdi:arrow-right" width={24} />}

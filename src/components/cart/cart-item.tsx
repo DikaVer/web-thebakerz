@@ -6,7 +6,7 @@ import { formatCurrency } from "@/lib/utils";
 import { InputStepper } from "@/components/store/product/dialog/button-stepper";
 import CustomAlert from "@/components/ui/custom-alerts";
 import { useTranslations } from "next-intl";
-import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
+import {calculateItemTotalPrice} from "@/lib/utils/helper/calculate-total-price-variants";
 import {Icon} from "@iconify/react";
 import clarity from "@microsoft/clarity";
 type CartItemRowProps = {

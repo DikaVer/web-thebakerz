@@ -1,6 +1,6 @@
 'use server';
 import * as z from "zod";
-import { StoreSettingsSchema } from "@/lib/schemas/index";
+import { StoreSettingsSchema } from "@/lib/utils/schemas";
 import { updateStoreProfile } from "./profile-db";
 import { getCurrentSession } from "@/lib/actions/session";
 import { globalPOSTRateLimit } from "@/lib/actions/requests";

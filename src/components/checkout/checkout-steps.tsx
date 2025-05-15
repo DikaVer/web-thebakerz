@@ -19,8 +19,8 @@ export default function CheckoutSteps({ }: {}) {
     const t = useTranslations("app/(store)/components/checkout-steps");
     useEffect(() => {
         clarity.upgrade("checkout");
+        clarity.setTag("page", "checkout-steps");
     }, []);
-    clarity.setTag("page", "checkout-steps");
 
     const { store } = useStore();
     const steps = ["1", "2", "3", "4"];

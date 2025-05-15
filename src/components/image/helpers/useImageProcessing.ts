@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { processImage } from '@/lib/utils/processImage';
-import { formatFileSize } from '@/lib/utils/processImage';
+import { imageProcess } from '@/lib/utils/images/image-process';
+import { formatFileSize } from '@/lib/utils/images/image-process';
 
 /**
  * Options for image processing
@@ -40,7 +40,7 @@ export function useImageProcessing() {
     
     setIsProcessing(true);
     try {
-      const result = await processImage(file, options);
+      const result = await imageProcess(file, options);
       
       if (result.file && result.originalSize && result.compressedSize) {
         const compressionRatio = (1 - result.compressedSize / result.originalSize) * 100;

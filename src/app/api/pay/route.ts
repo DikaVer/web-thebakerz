@@ -6,7 +6,7 @@ import { creatAccountAction } from "@/lib/actions/user";
 import { removeCartByUserIdAndStoreId } from "@/lib/actions/cart";
 import { connectionPool, containerOrders, containerOrdersUnpaid, containerTransfers } from "@/db";
 import {ExtendedOrderRaw, OrderData} from "@/lib/actions/order";
-import { sendOrderPlaced } from "@/lib/emailSendRequest";
+import { sendOrderPlaced } from "@/lib/email-send-request";
 import { revalidateTag } from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { logger } from "@/lib/logger";

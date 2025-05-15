@@ -1,4 +1,3 @@
-// src/app/api/store/orders/range/route.ts
 import { NextResponse } from 'next/server';
 import { containerOrders } from "@/db";
 import { getTranslations } from "next-intl/server";

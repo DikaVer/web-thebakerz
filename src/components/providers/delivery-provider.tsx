@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';
 import { CalendarDateTime, CalendarDate } from "@internationalized/date";
-import { setDeliveryMode} from '@/lib/delivery-cookie';
+import { setDeliveryMode} from '@/lib/actions/cookies/delivery-cookie';
 import { addToast } from "@heroui/react";
 import { useStore } from '@/components/providers/store-provider';
 import { updateOrderTime, getOrderTime, updateDeliveryTime, getDeliveryTime, removeAllSchedules } from '@/app/(store)/[id]/actions';
@@ -281,7 +281,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   
   // Toggle delivery mode
   const toggleDeliveryMode = async (value: boolean) => {
-    clarity.setTag("delivery_mode", value ? "delivery" : "pickup");
+    clarity.setTag("delivery-mode", value ? "delivery" : "pickup");
     // Skip if we're already toggling or if the value didn't change
     if (isTogglingDelivery || value === isDelivery) return;
 
@@ -296,7 +296,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   // Handle date change
   const handleDateChange = async (newDate: CalendarDateTime | CalendarDate) => {
     if (!store) return;
-    clarity.event("delivery_date-change")
+    clarity.event("delivery-date-change")
 
     if (newDate instanceof CalendarDate) {
       setSelectedDate(newDate);
@@ -349,7 +349,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     try {
       const response = await saveDeliveryAddress(addressData);
       if (response.success) {
-        clarity.event("delivery_address-submit")
+        clarity.event("delivery-address-submit")
         setAddress(addressData);
         deliveryAddressModal.handleSubmitEnd(true);
       } else {

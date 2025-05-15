@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generatePdf } from "@/lib/pdf/generateInvoicePdf";
-import {renderDumpPdf, renderPdf} from "@/lib/pdf/renderPdf";
+import { generatePdf } from "@/lib/utils/pdf/generate-invoice-pdf";
+import {renderDumpPdf, renderPdf} from "@/lib/utils/pdf/render-pdf";
 import { globalLargeRateLimit } from "@/lib/actions/requests";
 import {getCurrentOrder, OrderData } from "@/lib/actions/order";
 import {

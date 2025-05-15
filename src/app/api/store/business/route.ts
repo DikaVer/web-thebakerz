@@ -1,4 +1,3 @@
-// app/api/validate-session/route.ts
 import { NextResponse } from 'next/server';
 import {getBusinessStoreData} from "@/lib/actions/store";
 import { getTranslations } from "next-intl/server";

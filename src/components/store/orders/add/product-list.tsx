@@ -8,7 +8,7 @@ import {
     CardHeader,
     Spacer,
 } from "@heroui/react";
-import { sortItems } from "@/lib/helper/sort-items-with-order";
+import { sortItems } from "@/lib/utils/helper/sort-items-with-order";
 import { useProductDialog } from "@/components/providers/product-provider";
 import {AnimatePresence, motion} from "framer-motion";
 import {ProductItems} from "@/components/store/orders/add/product-item";

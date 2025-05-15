@@ -1,6 +1,6 @@
 'use server';
 import * as z from "zod";
-import {CustomerOrderSchema} from "@/lib/schemas";
+import {CustomerOrderSchema} from "@/lib/utils/schemas";
 import {getCurrentSession} from "@/lib/actions/session";
 import {getCart, removeCartByUserIdAndStoreId, Variant} from "@/lib/actions/cart";
 import {connectionPool, containerOrders, containerOrdersUnpaid} from "@/db";
@@ -13,11 +13,11 @@ import { getOrderTime } from "@/app/(store)/[id]/actions";
 import { now } from "@internationalized/date";
 import { CalendarDateTime } from "@internationalized/date";
 import { formatCurrency, scheduledToCalendarDateTime } from "../utils";
-import {calculateItemTotalPrice} from "@/lib/helper/calculate-total-price-variants";
-import { calculateTotals } from "@/lib/price/tax";
+import {calculateItemTotalPrice} from "@/lib/utils/helper/calculate-total-price-variants";
+import { calculateTotals } from "@/lib/utils/price/price-calculations";
 import { getCurrentProducts } from "./product";
 import { v4 as uuidv4 } from 'uuid';
-import { sendOrderPlaced } from "../emailSendRequest";
+import { sendOrderPlaced } from "../email-send-request";
 import { DeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
