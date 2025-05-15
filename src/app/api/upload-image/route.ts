@@ -75,32 +75,8 @@ export async function POST(request: Request) {
         const arrayBuffer = await fileField.arrayBuffer();
         const fileBuffer = Buffer.from(arrayBuffer);
 
-        try {
-            const metadata = await sharp(fileBuffer).metadata();
-            // Accept any valid image format now
-            if (!metadata.format) {
-                throw new Error('Invalid image format detected server-side.');
-            }
-            
-            // Log the format and dimensions for debugging
-            if (process.env.NODE_ENV !== 'production') {
-                console.log(`Server received image: ${metadata.format}, ${metadata.width}x${metadata.height}px, ${fileBuffer.length} bytes`);
-            }
-            
-            // Optional: Perform additional security checks if needed
-            // For example, reject extremely large dimensions that could cause memory issues
-            const MAX_DIMENSION = 15000; // Maximum reasonable dimension
-            if ((metadata.width && metadata.width > MAX_DIMENSION) || 
-                (metadata.height && metadata.height > MAX_DIMENSION)) {
-                throw new Error(`Image dimensions too large (max: ${MAX_DIMENSION}px)`);
-            }
-        } catch (validationError) {
-            console.error("Server-side image validation failed:", validationError);
-            return NextResponse.json({ error: t("invalidImage") }, { status: 400 });
-        }
-
         let containerClient;
-        // Ensure the container exists (this call is idempotent)
+        // Identify the container
         if (containerName === "avatars") {
             containerClient = containerClientAvatar;
         } else if (containerName === "products") {
@@ -114,27 +90,61 @@ export async function POST(request: Request) {
             );
         }
 
-        // Generate a unique file name (with .webp extension)
-        const uniqueFileName = `${uuidv4()}.webp`;
+        try {
+            const metadata = await sharp(fileBuffer).metadata();
+            // Accept any valid image format now
+            if (!metadata.format) {
+                throw new Error('Invalid image format detected server-side.');
+            }
+            
+            // Log the format and dimensions for debugging
+            console.log(`Server received image: ${metadata.format}, ${metadata.width}x${metadata.height}px, ${fileBuffer.length} bytes`);
+            
+            // Optional: Perform additional security checks if needed
+            // For example, reject extremely large dimensions that could cause memory issues
+            const MAX_DIMENSION = 15000; // Maximum reasonable dimension
+            if ((metadata.width && metadata.width > MAX_DIMENSION) || 
+                (metadata.height && metadata.height > MAX_DIMENSION)) {
+                throw new Error(`Image dimensions too large (max: ${MAX_DIMENSION}px)`);
+            }
+            
+            // Process, compress and convert to WebP
+            let processedBuffer;
+            if (metadata.format !== "webp") {
+                processedBuffer = await sharp(fileBuffer)
+                    .webp({ quality: 85 }) // Convert to WebP with good quality
+                    .toBuffer();
+            } else {
+                processedBuffer = fileBuffer;
+            }
+                
+            console.log(`Converted to WebP: original=${fileBuffer.length} bytes, webp=${processedBuffer.length} bytes`);
+            
+            // Generate a unique file name (with .webp extension)
+            const uniqueFileName = `${uuidv4()}.webp`;
 
-        // Get a block blob client and upload the processed image (which is now the original buffer)
-        const blockBlobClient = containerClient.getBlockBlobClient(uniqueFileName);
-        await blockBlobClient.uploadData(fileBuffer, { // Upload the original buffer directly
-            blobHTTPHeaders: { blobContentType: "image/webp" }, // Asserting content type based on client validation
-        });
+            // Get a block blob client and upload the processed image
+            const blockBlobClient = containerClient.getBlockBlobClient(uniqueFileName);
+            await blockBlobClient.uploadData(processedBuffer, {
+                blobHTTPHeaders: { blobContentType: "image/webp" },
+            });
+            
+            // Retrieve the URL of the uploaded blob
+            const blobUrl = blockBlobClient.url;
 
-        // Retrieve the URL of the uploaded blob
-        const blobUrl = blockBlobClient.url;
+            if (containerName === "avatars") {
+                await connectionPool.query(
+                    `UPDATE users SET image = $1 WHERE id = $2`,
+                    [blobUrl, userId]
+                );
+            }
 
-
-        if (containerName === "avatars") {
-            await connectionPool.query(
-                `UPDATE users SET image = $1 WHERE id = $2`,
-                [blobUrl, userId]
-            );
+            return NextResponse.json({ success: t("imageUpdated"), url: blobUrl }, { status: 200 });
+            
+        } catch (validationError) {
+            console.error("Server-side image validation failed:", validationError);
+            return NextResponse.json({ error: t("invalidImage") }, { status: 400 });
         }
-
-        return NextResponse.json({ success: t("imageUpdated"), url: blobUrl }, { status: 200 });
     } catch (error) {
         console.error("Error during image upload:", error);
         return NextResponse.json({ error: t("internalError") }, { status: 500 });

@@ -212,6 +212,9 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
     }, [additionalImages, fileAdditional, form, picture]);
 
     const addNewImage = useCallback((file: File, url: string) => {
+        // Debug information to track image format
+        console.log(`Adding image: ${file.name}, type: ${file.type}, size: ${file.size} bytes`);
+        
         if (currentImageIndex !== null) {
             const updatedAdditionalImages = [...additionalImages];
             updatedAdditionalImages[currentImageIndex] = url;
@@ -314,7 +317,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                                 }}
                                                 onAdditionalClick={(index?: number) => {
                                                     if (!isPending) {
-                                                        if (typeof index === "number") {
+                                                        if (typeof index === "number" && !productData?.id) {
                                                             setAsMainImage(index);
                                                         } else {
                                                             setCurrentImageIndex(additionalImages.length);

@@ -106,7 +106,7 @@ const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB - We handle large images but co
 
 // Create a Zod schema to validate the "file" field
 export const ImageSchema = z.instanceof(File)
-    .refine((file) => allowedMimeTypes.includes(file.type), {
+    .refine((file) => allowedMimeTypes.includes(file.type.toLowerCase()), {
         message: "Unsupported file type. Allowed types: JPEG, PNG, WebP, GIF, SVG, BMP, TIFF, HEIC/HEIF",
     })
     .refine((file) => file.size <= MAX_FILE_SIZE, {
