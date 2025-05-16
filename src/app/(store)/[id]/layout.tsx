@@ -66,9 +66,9 @@ export async function generateMetadata({
         : `${storeName} - Fresh artisanal baked goods`;
 
     // Create store images array for use in multiple places
-    const storeImages = storeData.picture ? [
+    const storeImages = storeData.background ? [
         {
-            url: storeData.picture,
+            url: storeData.background,
             width: 1200,
             height: 630,
             alt: imageAlt,
@@ -109,8 +109,8 @@ export async function generateMetadata({
             ...localizedMetadata.twitter,
             title: storeOgTitle,
             description: storeDescription.substring(0, 160),
-            images: storeData.picture ? [storeData.picture] : localizedMetadata.twitter?.images,
-            card: storeData.picture ? 'summary_large_image' : 'summary',
+            images: storeData.background ? [storeData.background] : localizedMetadata.twitter?.images,
+            card: storeData.background ? 'summary_large_image' : 'summary',
         },
         keywords: mergedKeywords,
         alternates: {
