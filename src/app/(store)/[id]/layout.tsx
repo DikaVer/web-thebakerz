@@ -53,9 +53,6 @@ export async function generateMetadata({
 
     const storeLocation = storeData.location ?
         `${storeData.location.city}, ${storeData.location.country}` : '';
-    const storeUrl = storeData.storeName
-        ? `https://www.thebakerz.com/${localeKey === 'nl' ? 'nl/' : ''}${storeData.storeName}`
-        : `https://www.thebakerz.com/${localeKey === 'nl' ? 'nl/' : ''}${id}`;
 
     // Create location-based keywords if available
     const locationKeywords = storeLocation
@@ -104,7 +101,6 @@ export async function generateMetadata({
             ...localizedMetadata.openGraph,
             title: storeOgTitle,
             description: storeDescription.substring(0, 160),
-            url: storeUrl,
             images: storeImages,
             siteName: storeName,
             locale: localeKey === 'nl' ? 'nl_NL' : 'en_US',
@@ -116,20 +112,9 @@ export async function generateMetadata({
             images: storeData.picture ? [storeData.picture] : localizedMetadata.twitter?.images,
             card: storeData.picture ? 'summary_large_image' : 'summary',
         },
-        appLinks: storeData.picture ? {
-            web: {
-                url: storeUrl,
-                should_fallback: true,
-            },
-        } : undefined,
         keywords: mergedKeywords,
         alternates: {
             ...localizedMetadata.alternates,
-            canonical: storeUrl,
-            languages: {
-                'en-US': storeData.storeName ? `https://www.thebakerz.com/${storeData.storeName}` : `https://www.thebakerz.com/${id}`,
-                'x-default': storeData.storeName ? `https://www.thebakerz.com/${storeData.storeName}` : `https://www.thebakerz.com/${id}`,
-            }
         },
         other: {
             'og:street-address': storeData.location?.route,

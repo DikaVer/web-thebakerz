@@ -56,31 +56,13 @@ export async function generateMetadata(
         localeKey = 'nl';
     }
 
-    // Get search parameters
-    const search = await searchParams;
 
-    const city = search?.city;
-    const mode = search?.mode === 'delivery' ? (localeKey === 'nl' ? 'bezorging' : 'delivery') : (localeKey === 'nl' ? 'afhalen' : 'pickup');
 
     const pageSpecifics = pageMetadataTranslations[localeKey];
 
     let title = pageSpecifics.defaultTitle;
     let description = pageSpecifics.defaultDescription;
     let specificKeywords = '';
-
-    if (city) {
-        title = pageSpecifics.cityTitle.replace('{city}', city);
-        description = pageSpecifics.cityDescription.replace('{city}', city).replace('{mode}', mode);
-        specificKeywords = pageSpecifics.keywordsCity.replace(/\{city\}/g, city).replace('{mode}', mode);
-    }
-
-    // Construct URL based on params
-    const params = new URLSearchParams();
-    if (search?.lat) params.set('lat', search.lat);
-    if (search?.lng) params.set('lng', search.lng);
-    if (city) params.set('city', city);
-    if (search?.mode) params.set('mode', search.mode);
-    const searchUrl = `https://www.thebakerz.com/search${params.toString() ? '?' + params.toString() : ''}`;
 
     // Merge keywords
     const baseKeywords = metadataTranslations[localeKey].keywords.split(', ');
@@ -95,19 +77,11 @@ export async function generateMetadata(
         keywords: mergedKeywords,
         alternates: {
             ...baseMetadata.alternates,
-            canonical: searchUrl,
-            // Adjust alternate links if needed, potentially based on city/mode
-            languages: {
-                'en-US': searchUrl.replace('/nl/', '/'), // Basic replacement, might need refinement
-                'nl-NL': searchUrl.replace('/nl/', '/'),
-                'x-default': searchUrl.replace('/nl/', '/'),
-            }
         },
         openGraph: {
             ...baseMetadata.openGraph,
             title,
             description,
-            url: searchUrl,
         },
         twitter: {
             ...baseMetadata.twitter,

@@ -39,7 +39,6 @@ export async function generateMetadata(): Promise<Metadata> {
     }
 
     const pageSpecifics = pageMetadataTranslations[localeKey];
-    const aboutUrl = `https://www.thebakerz.com/about-us`;
 
     // Merge keywords
     const baseKeywords = metadataTranslations[localeKey].keywords.split(', ');
@@ -53,18 +52,11 @@ export async function generateMetadata(): Promise<Metadata> {
         keywords: mergedKeywords,
         alternates: {
             ...baseMetadata.alternates,
-            canonical: aboutUrl,
-            languages: {
-                'en-US': `https://www.thebakerz.com/about-us`,
-                'nl-NL': `https://www.thebakerz.com/about-us`,
-                'x-default': `https://www.thebakerz.com/about-us`,
-            }
         },
         openGraph: {
             ...baseMetadata.openGraph,
             title: pageSpecifics.ogTitle,
             description: pageSpecifics.ogDescription,
-            url: aboutUrl,
         },
         twitter: {
             ...baseMetadata.twitter,

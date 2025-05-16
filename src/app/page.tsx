@@ -52,13 +52,11 @@ export async function generateMetadata(): Promise<Metadata> {
         keywords: Array.from(new Set([...baseKeywords, ...pageKeywords])), // Merge and deduplicate keywords
         alternates: {
             ...baseMetadata.alternates,
-            canonical: `https://www.thebakerz.com/`, // Ensure canonical is correct for the page
         },
         openGraph: {
             ...baseMetadata.openGraph,
             title: pageSpecifics.ogTitle, // Override OG title
             description: pageSpecifics.ogDescription, // Override OG description
-            url: `https://www.thebakerz.com/`, // Ensure OG URL is correct for the page
         },
         twitter: {
             ...baseMetadata.twitter,

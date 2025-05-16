@@ -35,7 +35,6 @@ export async function generateMetadata(): Promise<Metadata> {
     }
 
     const pageSpecifics = pageMetadataTranslations[localeKey];
-    const partnerUrl = `https://www.thebakerz.com/become-partner`;
 
     // Merge keywords
     const baseKeywords = metadataTranslations[localeKey].keywords.split(', ');
@@ -49,18 +48,11 @@ export async function generateMetadata(): Promise<Metadata> {
         keywords: mergedKeywords,
         alternates: {
             ...baseMetadata.alternates,
-            canonical: partnerUrl,
-            languages: {
-                'en-US': `https://www.thebakerz.com/become-partner`,
-                'nl-NL': `https://www.thebakerz.com/become-partner`,
-                'x-default': `https://www.thebakerz.com/become-partner`,
-            }
         },
         openGraph: {
             ...baseMetadata.openGraph,
             title: pageSpecifics.ogTitle,
             description: pageSpecifics.ogDescription,
-            url: partnerUrl,
             // Consider a specific OG image for this page?
         },
         twitter: {

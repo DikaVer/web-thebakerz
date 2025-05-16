@@ -61,10 +61,6 @@ export async function generateMetadata({
         const productTitle = `${product.name} | ${storeName}`;
         const productDescription = (product.description || `${product.name} - Available at ${storeName}`).substring(0, 160);
 
-        const productUrl = storeData.storeName
-            ? `https://www.thebakerz.com/${storeData.storeName}/${productId}`
-            : `https://www.thebakerz.com/${id}/${productId}`;
-
         const productImageAlt = `${product.name} - ${storeName}`;
 
         // Define product images array
@@ -93,19 +89,11 @@ export async function generateMetadata({
             keywords: mergedKeywords,
             alternates: {
                 ...baseMetadata.alternates,
-                canonical: productUrl,
-                languages: {
-                    // Update language keys for the product page
-                    'en-US': storeData.storeName ? `https://www.thebakerz.com/${storeData.storeName}/${productId}` : `https://www.thebakerz.com/${id}/${productId}`,
-                    'nl-NL': storeData.storeName ? `https://www.thebakerz.com/nl/${storeData.storeName}/${productId}` : `https://www.thebakerz.com/${id}/${productId}`,
-                    'x-default': storeData.storeName ? `https://www.thebakerz.com/${storeData.storeName}/${productId}` : `https://www.thebakerz.com/${id}/${productId}`,
-                }
             },
             openGraph: {
                 ...baseMetadata.openGraph,
                 title: productTitle,
                 description: productDescription,
-                url: productUrl,
                 images: productImages,
                 type: 'article', // Changed from 'product' to 'article' which is valid in Next.js
                 siteName: storeName, // Use store name as site name here

@@ -41,7 +41,6 @@ export async function generateMetadata(): Promise<Metadata> {
     }
 
     const pageSpecifics = pageMetadataTranslations[localeKey];
-    const authUrl = `https://www.thebakerz.com/auth`;
 
     // Merge keywords
     const baseKeywords = metadataTranslations[localeKey].keywords.split(', ');
@@ -55,18 +54,11 @@ export async function generateMetadata(): Promise<Metadata> {
         keywords: mergedKeywords,
         alternates: {
             ...baseMetadata.alternates,
-            canonical: authUrl,
-            languages: {
-                'en-US': `https://www.thebakerz.com/auth`,
-                'nl-NL': `https://www.thebakerz.com/auth`,
-                'x-default': `https://www.thebakerz.com/auth`,
-            }
         },
         openGraph: {
             ...baseMetadata.openGraph,
             title: pageSpecifics.ogTitle,
             description: pageSpecifics.ogDescription,
-            url: authUrl,
             // Keep base OG image unless a specific one for auth is desired
         },
         twitter: {
