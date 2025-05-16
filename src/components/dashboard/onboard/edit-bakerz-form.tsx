@@ -326,9 +326,17 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                                             label={'Latitude'}
                                             className="mt-2"
                                             placeholder="Latitude"
+                                            formatOptions={{ maximumFractionDigits: 7 }}
                                             onChange={(value) => {
-                                                //@ts-ignore
-                                                field.onChange(parseFloat(value.target.value));
+                                                // Only update when we have a valid number or empty string
+                                                if (typeof value === "object" && value.target) {
+                                                    const inputValue = value.target.value;
+                                                    if (inputValue === '' || !isNaN(parseFloat(inputValue))) {
+                                                        field.onChange(inputValue === '' ? '' : parseFloat(inputValue));
+                                                    }
+                                                } else if (typeof value === "number") {
+                                                    field.onChange(value);
+                                                }
                                             }}
                                             validate={() => fieldState.error?.message}
                                         />
@@ -352,9 +360,17 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                                             label={'Longitude'}
                                             className="mt-2"
                                             placeholder="Longitude"
+                                            formatOptions={{ maximumFractionDigits: 7 }}
                                             onChange={(value) => {
-                                                //@ts-ignore
-                                                field.onChange(parseFloat(value.target.value));
+                                                // Only update when we have a valid number or empty string
+                                                if (typeof value === "object" && value.target) {
+                                                    const inputValue = value.target.value;
+                                                    if (inputValue === '' || !isNaN(parseFloat(inputValue))) {
+                                                        field.onChange(inputValue === '' ? '' : parseFloat(inputValue));
+                                                    }
+                                                } else if (typeof value === "number") {
+                                                    field.onChange(value);
+                                                }
                                             }}
                                             validate={() => fieldState.error?.message}
                                         />
@@ -405,11 +421,23 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                                                 isDisabled={isPending}
                                                 label="App Fee (%)"
                                                 className="mt-2"
+                                                step={0.01}
                                                 placeholder="App Fee"
+                                                formatOptions={{ 
+                                                    maximumFractionDigits: 3,
+                                                    useGrouping: false
+                                                }}
                                                 endContent={<div className="pointer-events-none flex items-center"><span>%</span></div>}
                                                 onChange={(value) => {
-                                                    //@ts-ignore
-                                                    field.onChange(parseFloat(value.target.value));
+                                                    // Only update when we have a valid number or empty string
+                                                    if (typeof value === "object" && value.target) {
+                                                        const inputValue = value.target.value;
+                                                        if (inputValue === '' || !isNaN(parseFloat(inputValue))) {
+                                                            field.onChange(inputValue === '' ? '' : parseFloat(inputValue));
+                                                        }
+                                                    } else if (typeof value === "number") {
+                                                        field.onChange(value);
+                                                    }
                                                 }}
                                                 validate={() => fieldState.error?.message}
                                             />
@@ -430,11 +458,23 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                                                 isDisabled={isPending}
                                                 label="Delivery Fee (%)"
                                                 className="mt-2"
+                                                step={0.01}
                                                 placeholder="Delivery Fee"
+                                                formatOptions={{ 
+                                                    maximumFractionDigits: 3,
+                                                    useGrouping: false
+                                                }}
                                                 endContent={<div className="pointer-events-none flex items-center"><span>%</span></div>}
                                                 onChange={(value) => {
-                                                    //@ts-ignore
-                                                    field.onChange(parseFloat(value.target.value));
+                                                    // Only update when we have a valid number or empty string
+                                                    if (typeof value === "object" && value.target) {
+                                                        const inputValue = value.target.value;
+                                                        if (inputValue === '' || !isNaN(parseFloat(inputValue))) {
+                                                            field.onChange(inputValue === '' ? '' : parseFloat(inputValue));
+                                                        }
+                                                    } else if (typeof value === "number") {
+                                                        field.onChange(value);
+                                                    }
                                                 }}
                                                 validate={() => fieldState.error?.message}
                                             />
