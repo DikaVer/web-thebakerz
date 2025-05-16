@@ -9,8 +9,8 @@ import {revalidateTag} from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { getCartItemsByProductId } from "@/lib/actions/cart";
 import {getCurrentStoreByUserIdAndStoreId} from "@/lib/actions/store";
-import { getTotalFavoritesProduct, getTotalFavoritesStoreProduct, getProductFavoritesCountsByStore } from "./favorites";
-import { examppleStore } from "../local-variables";
+import { getTotalFavoritesProduct,getProductFavoritesCountsByStore } from "./favorites";
+
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -47,67 +47,6 @@ export const addProduct = async (
         oldProductData = resource;
     }
 
-    // 2. Prepare updatedAdditionalImages with a copy of existing ones.
-    let updatedAdditionalImages = formData.additionalImages || [];
-
-    // 3. If new additional pictures are provided, upload and replace/append.
-    if (formData.file_additional_pictures && formData.file_additional_pictures.length > 0) {
-        for (let i = 0; i < formData.file_additional_pictures.length; i++) {
-            const fileToUpload = formData.file_additional_pictures[i];
-
-            if (!fileToUpload) {continue;}
-            // Upload the file as done for `file_picture`:
-            const fd = new FormData();
-            fd.append("file", fileToUpload, "image.webp");
-            fd.append("container", "products");
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload-image`,
-                {
-                    method: "POST",
-                    body: fd,
-                    headers: {
-                      "Authorization": `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-                    },
-                }
-            );
-            if (!response.ok) {
-              return { error: t("failedUploadImage") };
-            }
-            const { url: newUrl } = await response.json();
-            if (!newUrl) return { error: t("failedUploadImage") };
-
-            // Replace if an old URL exists at the same index, otherwise append.
-            if (updatedAdditionalImages[i]) {
-              updatedAdditionalImages[i] = newUrl;
-            } else {
-              updatedAdditionalImages.push(newUrl);
-            }
-      }
-    }
-
-    let image_url;
-    if (formData.file_picture && !productId) {
-        const fd = new FormData();
-        fd.append("file", formData.file_picture, "image.webp");
-        fd.append("container", "products");
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload-image`,
-            {
-                method: "POST",
-                body: fd,
-                headers: {
-                    "Authorization": `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-                },
-            }
-        );
-        if (!response.ok) {
-            console.error("Failed to upload image");
-            return { error: t("failedUploadImage") };
-        }
-        const { url } = await response.json();
-        if (!url) return { error: t("failedUploadImage") };
-        image_url = url;
-    }
 
     const now = new Date().toISOString();
     const productData = {
@@ -122,7 +61,7 @@ export const addProduct = async (
         min_lead_time: formData.min_lead_time,
         variants: formData.variants,
         price: formData.price,
-        picture: image_url || formData.url,
+        picture: formData.url,
         ingredients: formData.ingredients || [],
         allergies: formData.allergies || [],
         dietary: formData.dietary || [],
@@ -133,7 +72,7 @@ export const addProduct = async (
             : [],
         archive: false,
         constId: oldProductData ? oldProductData.constId : uuidv4(),
-        additionalImages: updatedAdditionalImages,
+        additionalImages: formData.additionalImages,
         hide_product: formData.hide_product,
     };
 

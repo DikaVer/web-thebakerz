@@ -10,6 +10,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { z } from 'zod';
 import { Icon } from '@iconify/react';
+import { motion } from 'framer-motion';
 import { useDelivery } from '@/components/providers/delivery-provider';
 import { useGoogleMaps, DEFAULT_CENTER } from '@/components/providers/google-maps-provider';
 import { 
@@ -110,6 +111,7 @@ export function AddressForm({
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isMapVisible, setIsMapVisible] = useState(false);
+  const [isOkButtonVisible, setIsOkButtonVisible] = useState(true);
 
   // --- Refs ---
   const formRef = useRef<HTMLFormElement>(null);
@@ -500,7 +502,6 @@ export function AddressForm({
   // --- Form Submission ---
   const onSubmit = async (data: AddressFormData) => {
     if (isValidating || isSubmitting) {
-      onClose && onClose();
       return;
     }
 
@@ -526,7 +527,7 @@ export function AddressForm({
     
     try {
       logger.debug('addressForm', 'submissionData', { submissionData });
-      await handleAddressSubmit(submissionData);
+      await handleAddressSubmit(submissionData, true);
       onSubmitEnd && onSubmitEnd(true);
       onClose();
       
@@ -557,11 +558,27 @@ export function AddressForm({
                   : autocompleteValue || (t('typeToSearchAddress') || "Enter street and address number")
             }
             value={autocompleteValue}
-            onInputChange={setAutocompleteValue}
-            onSelectionChange={(key) => {
-              const selected = suggestions.find(item => item.place_id === key as string);
-              if (selected) {
-                handleAutocompleteSelect(selected.description, selected.place_id);
+            onInputChange={(value) => {
+              setAutocompleteValue(value);
+              setIsOkButtonVisible(false);
+            }}
+            onSelectionChange={async (key) => {
+              const selectedKey = key as string;
+              const selectedSuggestion = suggestions.find(item => item.place_id === selectedKey);
+
+              if (selectedSuggestion) {
+                try {
+                  await handleAutocompleteSelect(selectedSuggestion.description, selectedSuggestion.place_id);
+                  setIsOkButtonVisible(true);
+
+                  const inputElement = formRef.current?.querySelector('input[role="combobox"], input[aria-autocomplete="list"], input[type="text"]') as HTMLElement | null;
+                  
+                  if (inputElement && typeof inputElement.blur === 'function') {
+                    inputElement.blur();
+                  }
+                } catch (err) {
+                  logger.error('addressForm', 'Error processing selection or blurring input:', { err });
+                }
               }
             }}
             selectorIcon={null}
@@ -583,31 +600,42 @@ export function AddressForm({
             items={suggestions}
           >
             {suggestions.map((item) => (
-              <AutocompleteItem key={item.place_id} textValue={item.description}>
-                <div className="flex items-center">
-                  <Icon icon="solar:map-point-linear" className="text-foreground mr-2" width={16} />
-                  <span>{item.description}</span>
-                </div>
-              </AutocompleteItem>
+                <AutocompleteItem key={item.place_id} textValue={item.description}>
+                  <div className="flex items-center">
+                    <Icon icon="solar:map-point-linear" className="text-foreground mr-2" width={16} />
+                    <span>{item.description}</span>
+                  </div>
+                </AutocompleteItem>
             ))}
           </Autocomplete>
           
           {/* Submit Button */}
-          <div className="flex h-full justify-end gap-2">
+          <motion.div
+            className="flex h-full justify-end gap-2"
+            initial={false}
+            animate={{
+              opacity: isOkButtonVisible ? 1 : 0,
+              x: isOkButtonVisible ? 0 : 20,
+              pointerEvents: isOkButtonVisible ? 'auto' : 'none',
+            }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+          >
             <Button
               type="submit"
               className='bg-gradient-primary'
               color="primary"
               isLoading={isValidating || isSubmitting}
-              isDisabled={isValidating || isSubmitting}
+              isDisabled={isValidating || isSubmitting || !isOkButtonVisible}
               onPress={() => {
                 const validationResult = AddressZodSchema.safeParse(form.getValues());
-                console.log(validationResult);
+                if (!validationResult.success) {
+                    logger.warn('addressForm', 'Client-side validation failed on button press:', validationResult.error.flatten());
+                }
               }}
             >
               Ok
             </Button>
-          </div>
+          </motion.div>
         </div>
 
         {/* Google Map */}

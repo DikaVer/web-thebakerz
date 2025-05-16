@@ -40,7 +40,7 @@ interface DeliveryContextProps {
     
     // Address management
     address: ExtendedDeliveryAddressRaw | null;
-    handleAddressSubmit: (addressData: ExtendedDeliveryAddressRaw) => Promise<void>;
+    handleAddressSubmit: (addressData: ExtendedDeliveryAddressRaw, isModal: boolean) => Promise<void>;
     
     // Address validation
     validationResult: ValidationResult;
@@ -340,7 +340,8 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
 
   // Function to save delivery address (UPDATED IMPLEMENTATION USING SERVER-SIDE VALIDATION)
   const handleAddressSubmit = async (
-      addressData: ExtendedDeliveryAddressRaw
+      addressData: ExtendedDeliveryAddressRaw,
+      isModal: boolean = false
   ): Promise<void> => {
     
     deliveryAddressModal.handleSubmitStart();
@@ -351,14 +352,14 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
       if (response.success) {
         clarity.event("delivery-address-submit")
         setAddress(addressData);
-        deliveryAddressModal.handleSubmitEnd(true);
+        isModal && deliveryAddressModal.handleSubmitEnd(true);
       } else {
         logger.error('deliveryProvider', 'Error saving delivery address:', { error: response.error });
-        deliveryAddressModal.handleSubmitEnd(false);
+        isModal && deliveryAddressModal.handleSubmitEnd(false);
       }
     } catch (error) {
       logger.error('deliveryProvider', 'Error saving delivery address:', { error });
-      deliveryAddressModal.handleSubmitEnd(false);
+      isModal && deliveryAddressModal.handleSubmitEnd(false);
     } finally {
       setIsValidating(false);
     }

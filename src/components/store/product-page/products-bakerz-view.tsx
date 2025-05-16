@@ -33,6 +33,7 @@ import {ImageUploadSection} from "@/components/store/product/components/image-up
 import {MinLeadTime} from "@/components/store/product/components/min-lead-time";
 import { DescriptionTitleSection, ProductTitleSection, IngredientsTitleSection, AllergiesTitleSection, DietaryTitleSection, VariantsTitleSection, VariantsInstructionSection } from "@/components/store/product/components/product-title-section";
 import SwitchCell from "@/components/ui/switch-cell";
+import { uploadImage } from "@/lib/actions/image";
 
 type ProductViewProps = {
     storeId: string;
@@ -54,6 +55,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(null);
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     // Form setup with zod validation
     const form = useForm<z.infer<typeof ProductSchema>>({
@@ -85,6 +87,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
 
     const [state, submitAction, isPending] = useActionState(
         async (prevState: any, formData: z.infer<typeof ProductSchema>) => {
+            setIsLoading(false);
             try {
                 const result = await addProduct(formData, storeId, productData?.id);
                 if (result?.success) {
@@ -134,25 +137,75 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
         }
     }, [t]);
 
-    const handleSubmit = useCallback((formData: z.infer<typeof ProductSchema>) => {
+    const handleSubmit = useCallback(async (data: z.infer<typeof ProductSchema>) => {
+
+        setIsLoading(true);
+
         // Validate that all files are properly loaded
-        const mainFile = formData.file_picture;
-        const additionalFiles = formData.file_additional_pictures || [];
-        
+        const mainFile = data.file_picture;
+        const additionalFiles = data.file_additional_pictures || [];
+
         const allFiles = [mainFile, ...additionalFiles].filter(Boolean);
         const hasInvalidFiles = allFiles.some(file => !file || file.size === 0);
-        
-        if (hasInvalidFiles) {
-            showErrorMessage({ 
+
+        if (hasInvalidFiles && (!productData?.id || (productData?.id && (mainFile || additionalFiles.length > 0)))) {
+             showErrorMessage({
                 error: t("invalidImages", {
                     defaultValue: "Some images are not properly loaded. Please try uploading them again."
                 })
             });
             return;
         }
+        
+        const processedFormData = { ...data };
 
-        startTransition(() => submitAction(formData));
-    }, [submitAction, t]);
+        // Upload main picture if it's a new file
+        if (data.file_picture instanceof File) {
+            const uploadResult = await uploadImage(data.file_picture, "products");
+            if (uploadResult.error || !uploadResult.url) {
+                showErrorMessage({ error: uploadResult.error || t("failedUploadImage") });
+                return;
+            }
+            processedFormData.url = uploadResult.url;
+        } else if (!data.url && productData?.picture) { // if main picture was removed and not replaced by new one
+             processedFormData.url = ""; // explicitly set to empty to signify removal
+        }
+
+
+        // Upload additional pictures if they are new files
+        if (data.file_additional_pictures && data.file_additional_pictures.length > 0) {
+            const newAdditionalImageUrls: string[] = [];
+            // Keep existing URLs that were not replaced by new files
+            const existingUrls = data.additionalImages || [];
+            
+            for (let i = 0; i < Math.max(existingUrls.length, data.file_additional_pictures.length); i++) {
+                const file = data.file_additional_pictures[i];
+                if (file instanceof File) {
+                    const uploadResult = await uploadImage(file, "products");
+                    if (uploadResult.error) {
+                        showErrorMessage({ error: uploadResult.error });
+                        return;
+                    }
+                    if(uploadResult.url) {
+                        newAdditionalImageUrls.push(uploadResult.url);
+                    }
+                } else if (existingUrls[i] && !file) { // If there's an existing URL and no new file at this position
+                    newAdditionalImageUrls.push(existingUrls[i]);
+                }
+            }
+            processedFormData.additionalImages = newAdditionalImageUrls;
+        } else if (productData?.id && (!data.file_additional_pictures || data.file_additional_pictures.length === 0) && data.additionalImages?.length === 0) {
+            // if existing product and all additional images were removed and no new ones added
+            processedFormData.additionalImages = [];
+        }
+
+
+        // Clear file objects from form data as they've been processed
+        processedFormData.file_picture = undefined;
+        processedFormData.file_additional_pictures = undefined;
+
+        startTransition(() => submitAction(processedFormData));
+    }, [submitAction, t, productData]);
 
     const handleDelete = async () => {
         if (productData?.id) {
@@ -308,15 +361,15 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                                 isProductExisting={!!productData?.id}
                                                 picture={picture}
                                                 additionalImages={additionalImages}
-                                                isPending={isPending}
+                                                isPending={isPending || isLoading}
                                                 isSmall={isSmall}
                                                 fileRef={fileRef}
                                                 onFileChange={handleFileChange}
                                                 onMainClick={() => {
-                                                    if (!isPending && !productData?.id) fileRef.current?.click();
+                                                    if (!isPending && !isLoading && !productData?.id) fileRef.current?.click();
                                                 }}
                                                 onAdditionalClick={(index?: number) => {
-                                                    if (!isPending) {
+                                                    if (!isPending && !isLoading) {
                                                         if (typeof index === "number" && !productData?.id) {
                                                             setAsMainImage(index);
                                                         } else {
@@ -352,7 +405,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                             />
                             <div className="flex flex-col my-4">
                                 
-                                <ProductTitleSection isPending={isPending} />
+                                <ProductTitleSection isPending={isPending || isLoading} />
                                 <div className="flex flex-col bg-white rounded-lg p-4">
                                     <div className="flex flex-row">
                                         <FormField
@@ -363,7 +416,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                                     <FormControl>
                                                         <Input
                                                             {...field}
-                                                            isDisabled={isPending}
+                                                            isDisabled={isPending || isLoading}
                                                             variant="underlined"
                                                             placeholder={t("Item Name")}
                                                             classNames={{ input: "text-xl sm:text-2xl truncate font-medium" }}
@@ -382,7 +435,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                                         <NumberInput
                                                             {...field}
                                                             isRequired
-                                                            isDisabled={isPending}
+                                                            isDisabled={isPending || isLoading}
                                                             placeholder="0.00"
                                                             variant="underlined"
                                                             classNames={{
@@ -417,7 +470,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                                 <FormControl>
                                                     <Select
                                                         {...field}
-                                                        isDisabled={isPending}
+                                                        isDisabled={isPending || isLoading}
                                                         placeholder={t("Select Category")}
                                                         variant="underlined"
                                                         className="w-1/2"
@@ -444,7 +497,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                                 <FormControl>
                                                     <Textarea
                                                         {...field}
-                                                        isDisabled={isPending}
+                                                        isDisabled={isPending || isLoading}
                                                         value={field.value ?? ""}
                                                         placeholder={t("Add Description Placeholder")}
                                                         variant="underlined"
@@ -468,7 +521,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                             <FormItem>
                                                 <FormControl>
                                                     <TagsInput
-                                                        isLoading={isPending}
+                                                        isLoading={isPending || isLoading}
                                                         tags={field.value || []}
                                                         setTags={(newTags) => field.onChange(newTags)}
                                                         placeholder={t("Add Ingredients Placeholder")}
@@ -489,7 +542,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                             <FormItem>
                                                 <FormControl>
                                                     <TagsSelectInput
-                                                        isLoading={isPending}
+                                                        isLoading={isPending || isLoading}
                                                         tags={field.value || []}
                                                         setTags={(newTags) => field.onChange(newTags)}
                                                         type="warning"
@@ -511,7 +564,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                             <FormItem>
                                                 <FormControl>
                                                     <DietarySelectInput
-                                                        isLoading={isPending}
+                                                        isLoading={isPending || isLoading}
                                                         tags={field.value || []}
                                                         setTags={(newTags) => field.onChange(newTags)}
                                                         placeholder={t("Add Dietary Restrictions")}
@@ -529,7 +582,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                 <div className="flex flex-col rounded-lg">
                                     <VariantsFormField
                                         form={form}
-                                        isPending={isPending}
+                                        isPending={isPending || isLoading}
                                     />
                                 </div>
 
@@ -546,7 +599,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                                         <NumberInput
                                                             {...field}
                                                             isRequired
-                                                            isDisabled={isPending}
+                                                            isDisabled={isPending || isLoading}
                                                             placeholder="1"
                                                             variant="underlined"
                                                             classNames={{
@@ -572,7 +625,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                 </div>
                                 <Spacer y={8} />
                                 <div className="flex flex-col bg-white rounded-lg p-4">
-                                    <MinLeadTime form={form} isPending={isPending} />
+                                    <MinLeadTime form={form} isPending={isPending || isLoading} />
                                 </div>
                                 <Spacer y={8} />
 
@@ -585,7 +638,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                                 <SwitchCell
                                                     isSelected={field.value}
                                                     onChange={e => field.onChange(e.target.checked)}
-                                                    disabled={isPending}
+                                                    isDisabled={isPending || isLoading}
                                                     label={t("Hide Product")}
                                                     description={t("Hide Product Helper", { defaultValue: "If enabled, this product will be hidden from customers but still available for editing." })}
                                                     classNames={{
@@ -615,7 +668,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                 <Button
                                     variant="bordered"
                                     className="w-1/3 bg-white text-foreground"
-                                    isDisabled={isPending}
+                                    isDisabled={isPending || isLoading}
                                     onPress={() => setIsOpenDelete(true)}
                                     type="button"
                                 >
@@ -627,9 +680,9 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                             className={`w-2/3 bg-gradient-primary ${!productData?.id && "w-full"}`}
                             color="primary"
                             type="submit"
-                            isLoading={isPending}
+                            isLoading={isPending || isLoading}
                         >
-                            {isPending ? t("Loading") : productData?.id ? t("Update Item") : t("Add Item")}
+                            {isPending || isLoading ? t("Loading") : productData?.id ? t("Update Item") : t("Add Item")}
                         </Button>
                     </div>
                 </form>

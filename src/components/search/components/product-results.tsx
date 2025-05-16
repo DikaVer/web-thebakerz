@@ -235,7 +235,7 @@ const ProductResults: React.FC<ProductResultsProps> = ({
     return <div className="text-center text-danger py-10">{error}</div>;
   }
 
-  if (products.length === 0 && !loading && !hasMore) {
+  if (products.length === 0 && !loading && !hasMore && isFiltered) {
     return (
         <div className="col-span-full flex flex-col justify-center items-center text-center py-10 text-default-600 min-h-svh">
             <p className="text-lg font-medium">No Products Found</p>

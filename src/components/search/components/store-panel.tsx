@@ -5,8 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardBody, CardFooter, Chip, Popover, PopoverContent, PopoverTrigger, Button } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { NearbyStore } from '@/lib/actions/store'; // Assuming NearbyStore is exported
-import { formatCurrency } from '@/lib/utils'; // Assuming a currency formatting util
+import { NearbyStore } from '@/lib/actions/store';
+import { WorkHours } from '@/lib/actions/calendar-actions'; // Added import
+import { formatCurrency } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import { examppleStore } from '@/lib/local-variables';
 import { renderScheduleDisplay } from '@/components/store/store-header/subheader/working-hours';
@@ -78,7 +79,33 @@ const AnimatedHeart = ({ isFavorite }: { isFavorite: boolean }) => {
     );
 };
 
+// Helper function to check if any day in the schedule is enabled
+const isAnyDayEnabled = (schedule: WorkHours | undefined | null): boolean => {
+    if (!schedule) {
+        return false;
+    }
+    // Iterate over the days of the week
+    const days: (keyof WorkHours)[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    for (const dayKey of days) {
+        if (schedule[dayKey]?.isEnabled) {
+            return true; // Found an enabled day
+        }
+    }
+    return false; // No enabled day found
+};
+
 export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps) {
+    // Determine which schedule to check
+    const relevantSchedule = deliveryMode === 'delivery' 
+        ? store.deliveryRegion?.deliverySchedule 
+        : store.schedule;
+
+    const shouldShowPanel = isAnyDayEnabled(relevantSchedule);
+
+    if (!shouldShowPanel) {
+        return null; 
+    }
+
     const wH = useTranslations("app/(store)/components/working-hours");
     const t = useTranslations("search.components.storePanel");
     const [isManualOpen, setIsManualOpen] = React.useState(false);

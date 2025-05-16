@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import { Spacer, Divider } from '@heroui/react';
 import { ProductBase } from '@/components/store/product/product';
 import { ProductData } from '@/lib/actions/product';

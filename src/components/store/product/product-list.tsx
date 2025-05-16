@@ -15,6 +15,7 @@ import {useTranslations} from "next-intl";
 import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 import { sortItems } from "@/lib/utils/helper/sort-items-with-order";
 import { logger } from '@/lib/logger';
+import { useSession } from "@/components/providers/session-provider";
 
 interface ProductListBaseProps {
     productsData: ProductDataFull;
@@ -36,6 +37,11 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const { productsDataLocal, setProductsDataLocal, filterParams, setFilterParams } = useProductDialog();
     const categoryRefs = useRef<Record<string, HTMLDivElement | null>>({});
     const t = useTranslations('app/(store)/components/product-list');
+    const { session } = useSession();
+    const { store } = useStore();
+
+    // Determine if the current user is the owner of the store
+    const isStoreOwner = !!(session?.user?.role === "bakerz" && store?.user_id && session.user.id === store.user_id);
 
     // Update search term in filter params when it changes
     useEffect(() => {
@@ -80,94 +86,106 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
                 (a: ProductData, b: ProductData) => a.name.localeCompare(b.name)
             );
         });
-        
-        // Now apply filtering on the sorted products
+
+        let productsAfterStandardFilters: Record<string, ProductData[]>;
+
+        // Apply standard filtering based on filterParams (price, categories, allergies, dietary, searchTerm)
         if (Object.keys(filterParams).length === 0) {
-            return sortedProductsByCategories;
+            productsAfterStandardFilters = sortedProductsByCategories;
+        } else {
+            const currentlyFiltered: Record<string, ProductData[]> = {};
+            Object.entries(sortedProductsByCategories).forEach(([category, products]) => {
+                const filteredProductList = products.filter(product => {
+                    const productPrice = product.price;
+                    
+                    // Price filter
+                    if (filterParams.minPrice !== undefined && productPrice < filterParams.minPrice) {
+                        logger.debug('price_filter', 'Product filtered by min price', {
+                            productName: product.name, productPrice, minPrice: filterParams.minPrice
+                        });
+                        return false;
+                    }
+                    if (filterParams.maxPrice !== undefined && productPrice > filterParams.maxPrice) {
+                        logger.debug('price_filter', 'Product filtered by max price', {
+                            productName: product.name, productPrice, maxPrice: filterParams.maxPrice
+                        });
+                        return false;
+                    }
+                    
+                    // Category filter - if categories are selected, only include products in those categories
+                    if (filterParams.categories && filterParams.categories.length > 0) {
+                        if (!filterParams.categories.includes(product.category)) {
+                            return false;
+                        }
+                    }
+                    
+                    // Allergies filter (exclude products with selected allergies)
+                    if (filterParams.allergies && filterParams.allergies.length > 0) {
+                        if (product.allergies && product.allergies.some(allergy => 
+                            filterParams.allergies!.includes(allergy))) {
+                            return false;
+                        }
+                    }
+                    
+                    // Dietary filter (only include products with selected dietary preferences)
+                    if (filterParams.dietary && filterParams.dietary.length > 0) {
+                        if (!product.dietary || !product.dietary.length) {
+                            return false;
+                        }
+                        const hasSelectedDietary = product.dietary.some(diet => 
+                            filterParams.dietary!.includes(diet)
+                        );
+                        if (!hasSelectedDietary) {
+                            return false;
+                        }
+                    }
+                    
+                    // Search term filter
+                    if (filterParams.searchTerm && filterParams.searchTerm.trim() !== '') {
+                        const searchLower = filterParams.searchTerm.toLowerCase();
+                        if (!(product.name.toLowerCase().includes(searchLower) || 
+                            (product.description && product.description.toLowerCase().includes(searchLower)))) {
+                            return false;
+                        }
+                    }
+                    
+                    return true;
+                });
+                
+                if (filteredProductList.length > 0) {
+                    currentlyFiltered[category] = filteredProductList;
+                }
+            });
+            productsAfterStandardFilters = currentlyFiltered;
         }
         
-        // Debug price filter
+        // Debug price filter (kept from original code)
         logger.debug('price_filter', 'Current price filters', { 
             minPrice: filterParams.minPrice, 
             maxPrice: filterParams.maxPrice,
             filterParamsType: typeof filterParams
         });
-        
-        // Apply all filters
-        const filteredProductsByCategories: Record<string, ProductData[]> = {};
-        
-        Object.entries(sortedProductsByCategories).forEach(([category, products]) => {
-            const filteredProducts = products.filter(product => {
-                // Debug product price
-                const productPrice = product.price;
-                
-                // Price filter
-                if (filterParams.minPrice !== undefined && productPrice < filterParams.minPrice) {
-                    logger.debug('price_filter', 'Product filtered by min price', {
-                        productName: product.name,
-                        productPrice,
-                        minPrice: filterParams.minPrice
-                    });
-                    return false;
+
+        // New logic: Apply "hide_product" and category hiding for non-store owners
+        const finalCategoriesToDisplay: Record<string, ProductData[]> = {};
+        Object.entries(productsAfterStandardFilters).forEach(([category, productsInCat]) => {
+            if (isStoreOwner) {
+                // Store owners see all products that passed previous filters, regardless of hide_product flag
+                finalCategoriesToDisplay[category] = productsInCat;
+            } else {
+                // For regular users, filter out individual hidden products
+                const visibleProducts = productsInCat.filter(p => !p.hide_product); // !p.hide_product is true if hide_product is false or undefined
+
+                // If the category still has visible products after this, add it
+                if (visibleProducts.length > 0) {
+                    finalCategoriesToDisplay[category] = visibleProducts;
                 }
-                if (filterParams.maxPrice !== undefined && productPrice > filterParams.maxPrice) {
-                    logger.debug('price_filter', 'Product filtered by max price', {
-                        productName: product.name,
-                        productPrice,
-                        maxPrice: filterParams.maxPrice
-                    });
-                    return false;
-                }
-                
-                // Category filter - if categories are selected, only include products in those categories
-                if (filterParams.categories && filterParams.categories.length > 0) {
-                    if (!filterParams.categories.includes(product.category)) {
-                        return false;
-                    }
-                }
-                
-                // Allergies filter (exclude products with selected allergies)
-                if (filterParams.allergies && filterParams.allergies.length > 0) {
-                    if (product.allergies && product.allergies.some(allergy => 
-                        filterParams.allergies!.includes(allergy))) {
-                        return false;
-                    }
-                }
-                
-                // Dietary filter (only include products with selected dietary preferences)
-                if (filterParams.dietary && filterParams.dietary.length > 0) {
-                    if (!product.dietary || !product.dietary.length) {
-                        return false;
-                    }
-                    
-                    // Check if product has at least one of the selected dietary options
-                    const hasSelectedDietary = product.dietary.some(diet => 
-                        filterParams.dietary!.includes(diet)
-                    );
-                    
-                    if (!hasSelectedDietary) {
-                        return false;
-                    }
-                }
-                
-                // Search term filter
-                if (filterParams.searchTerm && filterParams.searchTerm.trim() !== '') {
-                    const searchLower = filterParams.searchTerm.toLowerCase();
-                    return (
-                        product.name.toLowerCase().includes(searchLower) || 
-                        (product.description && product.description.toLowerCase().includes(searchLower))
-                    );
-                }
-                
-                return true;
-            });
-            
-            if (filteredProducts.length > 0) {
-                filteredProductsByCategories[category] = filteredProducts;
+                // If all products in the category were hidden (or filtered out such that only hidden ones remained),
+                // visibleProducts will be empty, and the category won't be added to finalCategoriesToDisplay.
             }
         });
         
-        return filteredProductsByCategories;
+        return finalCategoriesToDisplay;
     };
 
     // Get filtered and sorted categories
@@ -193,7 +211,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     }, [scroll, isSmall, isSticky, isVisible]);
 
     // Use custom scroll observer to update selected category on scroll
-    useScrollObserver({ categoryRefs, isSmall, selectedTab, setSelectedTab });
+    useScrollObserver({ categoryRefs, isSmall, selectedTab, setSelectedTab, categories: sortedCategories });
 
     const scrollToCategory = (category: string) => {
         const element = categoryRefs.current[category];

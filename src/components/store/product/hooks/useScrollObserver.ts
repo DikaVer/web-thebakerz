@@ -5,6 +5,7 @@ interface UseScrollObserverParams {
     isSmall: boolean;
     selectedTab: string;
     setSelectedTab: (category: string) => void;
+    categories: string[];
 }
 
 export const useScrollObserver = ({
@@ -12,6 +13,7 @@ export const useScrollObserver = ({
                                       isSmall,
                                       selectedTab,
                                       setSelectedTab,
+                                      categories,
                                   }: UseScrollObserverParams) => {
     // Keep track of scroll position and direction
     const lastScrollY = useRef(typeof window !== 'undefined' ? window.scrollY : 0);
@@ -153,5 +155,5 @@ export const useScrollObserver = ({
             }
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [categoryRefs, isSmall, selectedTab, setSelectedTab]);
+    }, [categoryRefs, isSmall, selectedTab, setSelectedTab, categories]);
 };

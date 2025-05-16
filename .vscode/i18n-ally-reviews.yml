@@ -10340,3 +10340,15 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-05-13T14:49:46.389Z'
+  app/(store)/components/product-page.failedUploadImage:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: DikaVer
+              email: dika1596@gmail.com
+            id: 7kHipn7hohAnaB0kaq4RN
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-16T11:10:57.909Z'

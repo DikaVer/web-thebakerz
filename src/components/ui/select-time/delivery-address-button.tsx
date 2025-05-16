@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, ModalHeader, ModalBody, ModalContent, Modal, cn } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useDeliveryAddressModal } from "./use-delivery-address-modal";
@@ -82,10 +82,8 @@ export const DeliveryAddressButton: React.FC = () => {
                                 };
                                 
                                 // Use the handleAddressSubmit function to update the address
-                                await handleAddressSubmit(addressData);
+                                await handleAddressSubmit(addressData, false);
                                 
-                                // Close the modal after successfully setting the address
-                                deliveryAddressModal.onClose();
                             }
                             
                         } catch (error) {
@@ -99,7 +97,14 @@ export const DeliveryAddressButton: React.FC = () => {
                 );
             }
         }
-    }, [deliveryAddressModal.isOpen, handleAddressSubmit, deliveryAddressModal]);
+
+        // Reset the ref when the modal closes
+        return () => {
+            if (!deliveryAddressModal.isOpen) {
+                hasTriedGeolocationRef.current = false;
+            }
+        };
+    }, [deliveryAddressModal.isOpen, handleAddressSubmit, deliveryAddressModal, address]);
 
     // Determine display mode based on screen size
     const getButtonProps = () => {
@@ -146,7 +151,7 @@ export const DeliveryAddressButton: React.FC = () => {
             startContent: startIcon,
             endContent: endIcon,
             isIconOnly: false,
-            className: `w-full px-2 py-0 justify-between h-fit ${address ? "bg-background-secondary text-foreground" : "bg-gradient-primary text-white"}`
+            className: `w-full h-8 px-2 py-0 justify-between h-fit ${address ? "bg-background-secondary text-foreground" : "bg-gradient-primary text-white"}`
         };
         
     };
@@ -158,8 +163,9 @@ export const DeliveryAddressButton: React.FC = () => {
         <Button
             className={cn(buttonProps.className, "max-w-full")}
             variant="solid"
-            startContent={buttonProps.startContent}
-            endContent={buttonProps.endContent}
+            isLoading={isValidating}
+            startContent={!isValidating && buttonProps.startContent}
+            endContent={!isValidating && buttonProps.endContent}
             isIconOnly={buttonProps.isIconOnly}
             onPress={deliveryAddressModal.onOpen}
         >

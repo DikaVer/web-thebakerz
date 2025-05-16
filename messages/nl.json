@@ -832,6 +832,7 @@
     "cartUpdatedSuccess": "Winkelwagen is bijgewerkt",
     "day": "dag",
     "days": "dagen",
+    "failedUploadImage": "",
     "help": {
       "allergies": "",
       "category": "",

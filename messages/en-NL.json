@@ -826,6 +826,7 @@
     "cartUpdatedSuccess": "Cart is Updated",
     "day": "day",
     "days": "days",
+    "failedUploadImage": "Failed to upload image.",
     "help": {
       "allergies": "Select or add all allergens present in your product. Use the dropdown to pick from common allergens. Click × to remove. This helps customers with allergies stay safe.",
       "category": "Choose the most appropriate category for your product to help customers find it easily",
