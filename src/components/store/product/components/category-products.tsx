@@ -7,7 +7,7 @@ import GradientText from "@/components/ui/gradient-text";
 import { useStore } from '@/components/providers/store-provider';
 import { useSession } from '@/components/providers/session-provider';
 import { useTranslations } from "next-intl";
-
+import { useDelivery } from '@/components/providers/delivery-provider';
 interface CategoryProductsProps {
     category: string;
     products: ProductData[];
@@ -24,6 +24,7 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
     const topRef = useRef<HTMLDivElement>(null);
     const { store } = useStore();
     const { session } = useSession();
+    const { isDelivery, validationResult } = useDelivery();
     
     // Use the top element as the category reference
     useEffect(() => {
@@ -61,7 +62,7 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
                     constIds[product.constId] = true;
 
                     return (
-                        <div key={product.constId} className={`m-1 ${(store?.user_id === session?.user?.id && product.hide_product) ? "opacity-50" : product.hide_product && "hidden"}`}>
+                        <div key={product.constId} className={`m-1 ${(store?.user_id === session?.user?.id && product.hide_product) ? "opacity-50" : (product.hide_product || (isDelivery && validationResult.deliveryRegion?.isPostDelivery && validationResult.deliveryRegion?.isPostDelivery !== product.isPostDelivery) && store?.user_id !== session?.user?.id) && "hidden"}`}>
                             <ProductBase productData={product}/>
                         </div>
                     );

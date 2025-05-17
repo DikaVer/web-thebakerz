@@ -10352,3 +10352,27 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-05-16T11:10:57.909Z'
+  app/(store)/components/product-page.Post Delivery Helper:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: lwpo2Pl9BX5-qB_HNvAQF
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-17T20:39:53.901Z'
+  app/(store)/components/product-page.Post Delivery:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: 2KRljn9Hi_NgLh3EjtoAV
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-17T20:40:00.745Z'

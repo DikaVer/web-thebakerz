@@ -74,6 +74,7 @@ export const addProduct = async (
         constId: oldProductData ? oldProductData.constId : uuidv4(),
         additionalImages: formData.additionalImages,
         hide_product: formData.hide_product,
+        isPostDelivery: formData.isPostDelivery,
     };
 
     try {
@@ -183,7 +184,7 @@ export async function getProductsByStoreId(storeId: string): Promise<ProductData
         }
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product FROM c WHERE c.store_id = @storeId AND c.archive = false",
+            query: "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product, c.isPostDelivery FROM c WHERE c.store_id = @storeId AND c.archive = false",
             parameters: [{ name: "@storeId", value: storeId }]
         };
 
@@ -218,7 +219,7 @@ export async function getProductByStoreIdAndWebName(storeId: string, webName: st
         console.log("storeId", storeId);
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product FROM c WHERE c.store_id = @storeId AND (c.web_name = @webName OR c.id = @webName) AND c.archive = false",
+            query: "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product, c.isPostDelivery FROM c WHERE c.store_id = @storeId AND (c.web_name = @webName OR c.id = @webName) AND c.archive = false",
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@webName", value: webName }
@@ -305,7 +306,7 @@ export async function getCurrentProductsByFilter(filterParams: {
   try {
 
     // Build the CosmosDB query
-    let queryString = "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product FROM c WHERE c.archive = false";
+    let queryString = "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product, c.isPostDelivery FROM c WHERE c.archive = false";
     const parameters: { name: string; value: any }[] = [
     ];
 
@@ -504,6 +505,7 @@ export type ProductData = {
     constId: string;
     additionalImages: string[];
     hide_product?: boolean;
+    isPostDelivery?: boolean;
     totalLikes: number;
 };
 
@@ -526,6 +528,7 @@ export type ProductDataClean = {
     constId?: string;
     additionalImages?: string[];
     hide_product?: boolean;
+    isPostDelivery?: boolean;
 };
 
 export type ProductVariant = {

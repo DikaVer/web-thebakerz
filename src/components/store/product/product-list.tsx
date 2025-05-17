@@ -8,14 +8,12 @@ import { ProductData, ProductDataFull } from '@/lib/actions/product';
 import {ProductTabs} from "@/components/store/product/components/product-tabs";
 import {CategoryProducts} from "@/components/store/product/components/category-products";
 import {useScrollObserver} from "@/components/store/product/hooks/useScrollObserver";
-import {useFilteredProducts} from "@/components/store/product/hooks/useFilteredProducts";
 import {ProductSearch} from "@/components/store/product/components/product-search";
-import {useSearchParams} from "next/navigation";
 import {useTranslations} from "next-intl";
-import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 import { sortItems } from "@/lib/utils/helper/sort-items-with-order";
 import { logger } from '@/lib/logger';
 import { useSession } from "@/components/providers/session-provider";
+import { useDelivery } from '@/components/providers/delivery-provider';
 
 interface ProductListBaseProps {
     productsData: ProductDataFull;
@@ -39,6 +37,8 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const t = useTranslations('app/(store)/components/product-list');
     const { session } = useSession();
     const { store } = useStore();
+    const { isDelivery, validationResult } = useDelivery();
+
 
     // Determine if the current user is the owner of the store
     const isStoreOwner = !!(session?.user?.role === "bakerz" && store?.user_id && session.user.id === store.user_id);
@@ -174,7 +174,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
                 finalCategoriesToDisplay[category] = productsInCat;
             } else {
                 // For regular users, filter out individual hidden products
-                const visibleProducts = productsInCat.filter(p => !p.hide_product); // !p.hide_product is true if hide_product is false or undefined
+                const visibleProducts = productsInCat.filter(p => !p.hide_product && !(isDelivery && validationResult.deliveryRegion?.isPostDelivery && validationResult.deliveryRegion?.isPostDelivery !== p.isPostDelivery) || store?.user_id === session?.user?.id); // !p.hide_product is true if hide_product is false or undefined
 
                 // If the category still has visible products after this, add it
                 if (visibleProducts.length > 0) {

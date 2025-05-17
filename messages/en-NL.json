@@ -811,6 +811,8 @@
     "MinimalLeadTimeDescription": "What is the minimum pre-order time for the order?",
     "MinimalNumberDescription": "What is the minimum number of items a customer can order?",
     "Needhelp": "Need Help?",
+    "Post Delivery": "If enabled, this product will be available for post delivery.",
+    "Post Delivery Helper": "If enabled, this product will be available for post delivery.",
     "Price": "Price",
     "Required Fields": "",
     "Select Category": "Select Category",

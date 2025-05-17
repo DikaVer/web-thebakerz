@@ -82,6 +82,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
             min_order: productData?.min_order || 1,
             min_lead_time: productData?.min_lead_time || 30,
             hide_product: productData?.hide_product,
+            isPostDelivery: productData?.isPostDelivery,
         },
     });
 
@@ -641,6 +642,30 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                                     isDisabled={isPending || isLoading}
                                                     label={t("Hide Product")}
                                                     description={t("Hide Product Helper", { defaultValue: "If enabled, this product will be hidden from customers but still available for editing." })}
+                                                    classNames={{
+                                                        base: "bg-white",
+                                                        label: "text-base font-medium",
+                                                        description: "font-light text-default-700",
+                                                    }}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <Spacer y={8} />
+                                <FormField
+                                    control={form.control}
+                                    name="isPostDelivery"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <SwitchCell
+                                                    isSelected={field.value}
+                                                    onChange={e => field.onChange(e.target.checked)}
+                                                    isDisabled={isPending || isLoading}
+                                                    label={t("Post Delivery")}
+                                                    description={t("Post Delivery Helper", { defaultValue: "If enabled, this product will be available for post delivery." })}
                                                     classNames={{
                                                         base: "bg-white",
                                                         label: "text-base font-medium",
