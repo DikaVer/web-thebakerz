@@ -80,7 +80,11 @@ const AnimatedHeart = ({ isFavorite }: { isFavorite: boolean }) => {
 };
 
 // Helper function to check if any day in the schedule is enabled
-const isAnyDayEnabled = (schedule: WorkHours | undefined | null): boolean => {
+const isAnyDayEnabled = (schedule: WorkHours | undefined | null, isDelivery: boolean, isPostDelivery?: boolean): boolean => {
+
+    if (isPostDelivery && isDelivery) {
+        return true;
+    }
     if (!schedule) {
         return false;
     }
@@ -100,7 +104,7 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
         ? store.deliveryRegion?.deliverySchedule 
         : store.schedule;
 
-    const shouldShowPanel = isAnyDayEnabled(relevantSchedule);
+    const shouldShowPanel = isAnyDayEnabled(relevantSchedule, deliveryMode === 'delivery', store.deliveryRegion?.isPostDelivery);
 
     if (!shouldShowPanel) {
         return null; 
