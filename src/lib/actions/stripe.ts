@@ -71,8 +71,8 @@ async function validateOrderTimeAgainstSchedule(
     const orderTime = toTime(orderDateTime);
 
     // Check if order time is within the start and end times for that day
-    if (orderTime.compare(scheduleStartTime) <= 0 || orderTime.compare(scheduleEndTime) >= 0) {
-        // If order time is before start OR at/after end time
+    if (orderTime.compare(scheduleStartTime) < 0 || orderTime.compare(scheduleEndTime) > 0) {
+        // If order time is before start OR after end time
         return {
             isValid: false,
             message: `Order time (${orderTime.hour}:${String(orderTime.minute).padStart(2, '0')}) is outside opening hours (${scheduleStartTime.hour}:${String(scheduleStartTime.minute).padStart(2, '0')} - ${scheduleEndTime.hour}:${String(scheduleEndTime.minute).padStart(2, '0')}) for ${dayKey}.`
