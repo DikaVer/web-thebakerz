@@ -1006,6 +1006,8 @@ export async function updateStoreBackground(storeId: string, file: File): Promis
             [data.url, store.id, user.id]
         );
 
+        console.log(data.url);
+
         revalidateTag('store');
         return true;
     } catch (error) {

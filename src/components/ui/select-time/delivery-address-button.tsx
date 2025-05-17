@@ -60,7 +60,7 @@ export const DeliveryAddressButton: React.FC = () => {
                                 const streetName = addressComponents.find((c: any) => c.types.includes('route'))?.long_name || '';
                                 const city = addressComponents.find((c: any) => c.types.includes('locality'))?.long_name || '';
                                 const state = addressComponents.find((c: any) => c.types.includes('administrative_area_level_1'))?.short_name || '';
-                                const country = addressComponents.find((c: any) => c.types.includes('country'))?.long_name || '';
+                                const country = addressComponents.find((c: any) => c.types.includes('country'))?.short_name || '';
                                 const postalCode = addressComponents.find((c: any) => c.types.includes('postal_code'))?.long_name || '';
                                 
                                 // Create an address object that matches ExtendedDeliveryAddressRaw structure

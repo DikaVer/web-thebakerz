@@ -112,7 +112,7 @@ export async function POST(request: Request) {
             let processedBuffer;
             if (metadata.format !== "webp") {
                 processedBuffer = await sharp(fileBuffer)
-                    .webp({ quality: 85 }) // Convert to WebP with good quality
+                    .webp({ quality: 95 }) // Convert to WebP with good quality
                     .toBuffer();
             } else {
                 processedBuffer = fileBuffer;
