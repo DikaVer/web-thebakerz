@@ -7,6 +7,7 @@ import {useTranslations} from "next-intl";
 import {useSession} from "@/components/providers/session-provider";
 import BakerzProductView from "@/components/store/product-page/products-bakerz-view";
 import { ProductPageView } from '../user-view/ProductPageView';
+import { DeliverySubheader } from '../store-header/delivery-subheader';
 
 interface ProductViewProps {
     productsData: ProductDataFull;
@@ -49,9 +50,12 @@ export const ProductView: React.FC<ProductViewProps> = ({
         />
     ) : (
         product ? (
-            <ProductPageView
-                productData={product} 
-             />
+            <>
+                <ProductPageView
+                    productData={product} 
+                />
+                <DeliverySubheader />
+            </>
         ) : (
             <div className="text-center">
                 <p className="text-2xl my-10">{t("productNotFound")}</p>
