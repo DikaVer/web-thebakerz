@@ -390,7 +390,7 @@ export async function getAllProductsByFilter(filterParams: {
     const offset = (page - 1) * limit;
 
     // Build the CosmosDB query - no storeId filter
-    let queryString = "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product FROM c WHERE c.archive = false";
+    let queryString = "SELECT c.id, c.store_id, c.store_name, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product FROM c WHERE c.archive = false AND c.hide_product = false";
     const parameters: { name: string; value: any }[] = [];
 
     // Add price filter
