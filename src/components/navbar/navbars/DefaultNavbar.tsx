@@ -54,7 +54,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
 
     const handleBack = () => {
         if (isProductPage || isOrdersPage || isSearchPage) {
-            router.push(`/${store?.storeName}`);
+            router.push(`/${store?.storeName || store?.id}`);
         } else {
             router.push("/search");
         }

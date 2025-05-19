@@ -169,11 +169,11 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
                                     className={cn("justify-between w-full", 
                                         storeItem.id === store?.id && "bg-default-200")}
                                     onPress={() => {
-                                        router.push(`/${storeItem.name}`);
+                                        router.push(`/${storeItem.name || storeItem.id}`);
                                         setIsManualOpen(false);
                                     }}
                                 >
-                                    <span className="truncate">{storeItem.name}</span>
+                                    <span className="truncate">{storeItem.name || storeItem.id}</span>
                                     {storeItem.newOrdersCount > 0 && (
                                         <p className="text-xs text-default-400 text-white rounded-full bg-danger-500 p-1 px-2">{storeItem.newOrdersCount}</p>
                                     )}
