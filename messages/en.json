@@ -251,7 +251,7 @@
   },
   "app/(landing)/components/partners": {
     "description": "We collaborate with industry leaders to deliver the best solutions.",
-    "title": "Our Partners"
+    "title": "Member of"
   },
   "app/(landing)/components/scroll-triggered": {
     "features": {

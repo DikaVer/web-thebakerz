@@ -95,36 +95,36 @@ export default function HorizontalScroll() {
       >
         <div className="panel min-w-[100vw] flex flex-col items-center justify-center px-4 py-0 bg-[#FFEFD9]">
           <h2 className="panel-text text-[14.5vw] font-bold mt-8 text-center">{t("deliveries")}</h2>
-          <div className="relative w-full" style={{ height: '500px' }}>
-            <Image 
+          {/* <div className="relative w-full" style={{ height: '500px' }}> */}
+            {/* <Image 
               src="/landing/delivery.webp" 
               alt="Delivery service" 
               fill
               className="object-contain rounded-xl"
               sizes="(max-width: 768px) 100vw, 80vw"
               priority
-            />
-          </div>
+            /> */}
+          {/* </div> */}
         </div>
         
         <div className="panel min-w-[100vw] flex flex-col items-center justify-center px-4 py-0 bg-[#CA054D]">
           <h2 className="panel-text text-[14.5vw] font-bold mt-8 text-center">{t("marketing")}</h2>
-          <div className="relative w-full" style={{ height: '500px' }}>
-            <Image 
+          {/* <div className="relative w-full" style={{ height: '500px' }}> */}
+            {/* <Image 
               src="/landing/marketing.webp" 
               alt="Marketing services" 
               fill
               className="object-contain rounded-xl"
               sizes="(max-width: 768px) 100vw, 80vw"
               priority
-            />
-          </div>
+            /> */}
+          {/* </div> */}
         </div>
         
         <div className="panel min-w-[100vw] flex flex-col items-center justify-center px-4 py-0 bg-[#D4761A]">
           <h2 className="panel-text text-[14.5vw] font-bold mt-8 text-center">{t("support")}</h2>
-          <div className="relative w-full" style={{ height: '500px' }}>
-            <div className="absolute" style={{ 
+          {/* <div className="relative w-full" style={{ height: '500px' }}> */}
+            {/* <div className="absolute" style={{ 
               width: '300px', 
               height: '300px', 
               left: getResponsiveLeft(60), 
@@ -171,8 +171,8 @@ export default function HorizontalScroll() {
                 className="object-contain"
                 sizes="(max-width: 768px) 33vw, 30vw"
               />
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
         </div>
       </div>
     </div>

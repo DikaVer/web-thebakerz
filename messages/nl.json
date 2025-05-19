@@ -251,7 +251,7 @@
   },
   "app/(landing)/components/partners": {
     "description": "We werken samen met marktleiders om de beste oplossingen te leveren.",
-    "title": "Onze partners"
+    "title": ""
   },
   "app/(landing)/components/scroll-triggered": {
     "features": {

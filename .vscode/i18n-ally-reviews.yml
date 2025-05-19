@@ -10376,3 +10376,15 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-05-17T20:40:00.745Z'
+  app/(landing)/components/partners.title:
+    locales:
+      en-NL:
+        comments:
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: MfczEXCL94xfYlIULtCEz
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-19T15:41:41.539Z'

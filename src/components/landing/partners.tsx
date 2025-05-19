@@ -17,12 +17,12 @@ const partners = [
   },
   {
     name: "Cloud",
-    logo: "/partner/cloud-logo.svg",
-    alt: "Cloud logo"
+    logo: "/partner/Google_for_Startups_logo.svg",
+    alt: "Google for Startups logo"
   },
   {
     name: "Microsoft",
-    logo: "/partner/MicrosoftFull.svg",
+    logo: "/partner/Microsoft-for-Startups.png",
     alt: "Microsoft logo"
   }
 ];
