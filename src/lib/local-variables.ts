@@ -223,7 +223,7 @@ export const countryCityLatLngMap: Readonly<{ [key: string]: { [city: string]: {
     },
   };
 
-export const examppleStore = ['OrGoD8o3jQ', 'NwzUMel5X6']
+export const examppleStore = ['OrGoD8o3jQ', 'NwzUMel5X6', 'S8gWY29Zhx']
 
 export const TOS_VERSION = '2.0';
 
