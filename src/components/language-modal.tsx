@@ -123,7 +123,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                             <p className={'text-xs text-default-500 truncate'}>Може содержать ошибки в переводе</p>
                         </div>
                     </Button>
-                    <Button
+                    {/* <Button
                         variant={'light'}
                         size={'lg'}
                         className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
@@ -136,7 +136,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                             <p>España</p>
                             <p className={'text-xs text-default-500 truncate'}>Puede contener errores de traducción</p>
                         </div>
-                    </Button>
+                    </Button> */}
 
                     {/*<Button*/}
                     {/*    variant={'light'}*/}

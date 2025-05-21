@@ -174,7 +174,7 @@
     "termsOfUse": "Gebruiksvoorwaarden"
   },
   "app/(components)/join-button": {
-    "join": "Join TheBakerz",
+    "join": "Word lid van TheBakerz",
     "joinSmall": "Meedoen",
     "loading": "Laden..."
   },
@@ -329,7 +329,7 @@
     "businessInformation": "Zakelijke informatie",
     "businessName": "Bedrijfsnaam",
     "email": "E-mail",
-    "korDisabled": "Gehandicapt",
+    "korDisabled": "Uitgeschakeld",
     "korEnabled": "Ingeschakeld",
     "korStatus": "KOR-status",
     "kvkNumber": "Zakelijk nummer",
@@ -362,10 +362,10 @@
     "hour": "uur",
     "hours": "uren",
     "minutes": "minuten",
-    "pickupWindowDescription": "Bepaal hoe lang de klant zijn bestelling moet ophalen",
-    "pickupWindowLabel": "Pick -up venster duur",
-    "pickupWindowPlaceholder": "Selecteer Pickup -venster",
-    "pickupWindowTitle": "Pick -upvenster",
+    "pickupWindowDescription": "Bepaal hoe lang de klant heeft om zijn bestelling op te halen",
+    "pickupWindowLabel": "Pick-upvenster duur",
+    "pickupWindowPlaceholder": "Selecteer pick-upvenster",
+    "pickupWindowTitle": "Pick-upvenster",
     "selectLabel": "Minimale pre-ordertijd",
     "selectPlaceholder": "Selecteer een tijd",
     "title": "Minimale besteltijd"
@@ -399,7 +399,7 @@
     "cityDelivery": "Stad",
     "cityEditError": "Stadsfout",
     "countryDelivery": "Land",
-    "countryDeliveryFor": "Landen levering voor",
+    "countryDeliveryFor": "Leveringen naar landen",
     "day": "dag",
     "days": "dagen",
     "deliveryAllWeek": "Bezorging beschikbaar de hele week",
@@ -411,7 +411,7 @@
     "deliveryScheduleDescription": "Stel de tijden in waarop bezorging beschikbaar is voor dit gebied",
     "deliveryTimes": "Bezorgtijden",
     "deliveryWindow": "Afleverraam",
-    "deliveryWindowDescription": "Hoe lang de klant moet ontvangen om zijn levering te ontvangen",
+    "deliveryWindowDescription": "Hoe lang de klant heeft om zijn levering te ontvangen",
     "endTime": "Eindtijd",
     "endTimeError": "Eindtijd fout",
     "hour": "uur",
@@ -566,7 +566,7 @@
     "addItemsToStart": "Voeg items toe om te beginnen",
     "cartEmpty": "Winkelwagen leeg",
     "continue": "Doorgaan",
-    "minimumOrderForDelivery": "Minimale bestelling: {hoeveelheid}",
+    "minimumOrderForDelivery": "Minimale bestelling: {amount}",
     "note": "Opmerking",
     "preOrderTime": "Pre-order tijd: {time}",
     "yourCartFrom": "Uw winkelwagen van"
@@ -580,7 +580,7 @@
     "deliveryVat": "Levering BTW (21%)",
     "invalidDeliveryAddress": "Ongeldig afleveradres",
     "loadingPaymentGateway": "Betalingsgateway wordt geladen...",
-    "minimumAmount": "De minimale bestelhoeveelheid is € 10",
+    "minimumAmount": "De minimale bestelhoeveelheid is {minOrder}",
     "minimumOrderForDelivery": "Minimale bestelling is {amount}",
     "pay": "Betalen",
     "returnToCheckout": "Terug naar afrekenen",
@@ -603,7 +603,7 @@
     "signInOrSignUpText": "Meld u aan of registreer om een bestelling te plaatsen"
   },
   "app/(store)/components/delete-confirmation": {
-    "close": "Sluit",
+    "close": "Sluiten",
     "confirm": "Bevestigen",
     "deleteConfirmation": "Verwijder bevestiging",
     "deleteProductWarning": "Nadat u het item hebt verwijderd, wordt het permanent verwijderd en kan het niet meer worden hersteld."
@@ -611,7 +611,7 @@
   "app/(store)/components/delivery-map": {
   },
   "app/(store)/components/image": {
-    "close": "Sluit",
+    "close": "Sluiten",
     "failedToUploadImage": "Afbeelding uploaden mislukt. Probeer het opnieuw.",
     "imageProcessingError": "Niet in staat om de afbeelding te verwerken. \nProbeer een ander beeldformaat (JPEG of PNG aanbevolen).",
     "rotation": "Rotatie",
@@ -625,7 +625,7 @@
     "deliveryWindowDescription": "Dit is het tijdsbestek waarin uw bestelling wordt afgeleverd. \nDe bezorgservice zorgt ervoor dat uw bestelling binnen dit venster aankomt.",
     "deliveryWindowTitle": "Afleverraam",
     "pickupWindowDescription": "Dit is het tijdsbestek waarin u uw bestelling kunt ophalen. \nKom in dit venster aan om uw vers bereide items te verzamelen.",
-    "pickupWindowTitle": "Pick -upvenster",
+    "pickupWindowTitle": "Pick-upvenster",
     "preOrderTimeDescription": "Dit is de vereiste minimale tijd voordat uw bestelling kan worden vervuld. \nBestellingen moeten minstens zo ver van tevoren worden geplaatst om de voorbereidingstijd mogelijk te maken.",
     "preOrderTimeTitle": "Pre-ordertijd"
   },
@@ -662,7 +662,7 @@
     "cartDetails": "Winkelwagengegevens",
     "cartDetailsStep": "1. Winkelwagengegevens",
     "cartEmpty": "Je winkelwagen is leeg",
-    "close": "Sluit",
+    "close": "Sluiten",
     "copyLink": "Link kopiëren",
     "copyLinkInstructions": "Kopieer deze link en deel deze met de klant voor betaling.",
     "createOrderButton": "Bestelling aanmaken",
@@ -708,7 +708,7 @@
     "Delivery Fee": "Bezorgkosten",
     "Delivery VAT": "Levering btw",
     "Failed to update status": "Status kan niet worden bijgewerkt",
-    "Order": "Volgorde",
+    "Order": "Bestelling",
     "Order Again": "Opnieuw bestellen",
     "Order Items": "Bestel artikelen",
     "Order Status": "Bestelstatus",
@@ -748,7 +748,7 @@
     "Basic Information": "Basisinformatie",
     "Basic Information Help": "Basisinformatie",
     "Category": "Categorie",
-    "Close": "Dichtbij",
+    "Close": "Sluiten",
     "CustomerView": "Klantweergave",
     "Description": "Beschrijving",
     "Dietary Restrictions": "Dieetbeperkingen",
@@ -794,10 +794,10 @@
     "ingredients": "Ingrediënten",
     "invalidImages": "Sommige afbeeldingen zijn niet goed geladen. \nProbeer ze opnieuw te uploaden.",
     "maxSelectionsExceeded": "Overschrijdt maximum: {max}",
-    "minSelectionsRequired": "Minimun vereist: {min}",
+    "minSelectionsRequired": "Minimum vereist: {min}",
     "noProductsAvailable": "Geen producten beschikbaar",
     "notes": "Opmerkingen",
-    "productDeleteFailed": "Het product niet verwijderen. \nProbeer het opnieuw.",
+    "productDeleteFailed": "Het product kon niet worden verwijderd. \nProbeer het opnieuw.",
     "productDeleted": "Product succesvol verwijderd",
     "productLinkCopied": "Productlink gekopieerd!",
     "productNotFound": "Product niet gevonden",
@@ -827,7 +827,7 @@
     "cancel": "Annuleren",
     "descriptionLabel": "Beschrijving",
     "descriptionPlaceholder": "Beschrijf het probleem in detail",
-    "reportStore": "Rapportopslag",
+    "reportStore": "Rapporteer winkel",
     "sending": "Verzenden ...",
     "subjectLabel": "Onderwerp",
     "subjectPlaceholder": "Voer het onderwerp van uw rapport in",
@@ -847,7 +847,7 @@
   },
   "app/(store)/components/store-description": {
     "addressPlaceholder": "Adres Placeholder",
-    "close": "Sluit",
+    "close": "Sluiten",
     "deliveryOnly": "Alleen levering",
     "deliveryOnlyDescription": "Deze winkel biedt alleen leveringsopdrachten aan. \nSelecteer een levertijd tijdens het afrekenen.",
     "facebook": "Facebook",
@@ -887,9 +887,9 @@
     "hours": "uren",
     "locationPlaceholder": "Locatie Placeholder",
     "minimumOrder": "Minimale bestellingswaarde",
-    "minutes": "notulen",
+    "minutes": "minuten",
     "pickUp": "Afhalen",
-    "pickupWindowTitle": "Pick -upvenster",
+    "pickupWindowTitle": "Pick-upvenster",
     "please_enter_address_to_check_delivery": "Voer je adres in om te zien of de winkel bij jou bezorgt",
     "preOrderTime": "Pre-ordertijd",
     "scheduleOrderTime": "Selecteer tijd",
@@ -1026,8 +1026,8 @@
   },
   "app/(support)/components/support": {
     "contactUs": "Neem contact met ons op",
-    "faqsTitleLong": "Stel vaak vragen",
-    "faqsTitleShort": "Stel vaak vragen",
+    "faqsTitleLong": "Veelgestelde vragen",
+    "faqsTitleShort": "Veelgestelde vragen",
     "sectionCustomer": "Klanten"
   },
   "app/actions": {
@@ -1141,16 +1141,16 @@
     "weHaveMoreDescription": "We hebben meer!"
   },
   "app/components/order-user": {
-    "close": "Dichtbij",
+    "close": "Sluiten",
     "item": "Item",
     "items": "Items",
     "myOrders": "Uw bestellingen",
     "noOrdersFound": "Geen bestellingen. \nBestel op TheBakerz",
     "noOrdersMatchSearch": "Bestellingen niet gevonden",
     "noOrdersYet": "Nog geen bestellingen",
-    "order": "Volgorde",
+    "order": "Bestelling",
     "orderDetails": "Bestelgegevens",
-    "orders": "Bevelen",
+    "orders": "Bestellingen",
     "searchOrders": "Zoek de bestelling",
     "view": "Weergave"
   },
@@ -1263,7 +1263,7 @@
   },
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Voer adres in",
-    "whereToDeliver": "Waar u uw bestelling aflevert?"
+    "whereToDeliver": "Waar wilt u uw bestelling laten bezorgen?"
   },
   "lib/actions/delivery-address-actions": {
     "AddressNotPreciseEnough": "Het adres is niet precies genoeg!",
