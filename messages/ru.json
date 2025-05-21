@@ -1263,8 +1263,6 @@
         "minOrder": "Мин заказ",
         "open": "Открыть",
         "workingHours": "Часы работы"
-      },
-      "toggleDelivery": {
       }
     }
   }

@@ -174,7 +174,7 @@
     "termsOfUse": "Gebruiksvoorwaarden"
   },
   "app/(components)/join-button": {
-    "join": "Word lid van TheBakerz",
+    "join": "Join TheBakerz",
     "joinSmall": "Meedoen",
     "loading": "Laden..."
   },
@@ -603,7 +603,7 @@
     "signInOrSignUpText": "Meld u aan of registreer om een bestelling te plaatsen"
   },
   "app/(store)/components/delete-confirmation": {
-    "close": "Sluiten",
+    "close": "Sluit",
     "confirm": "Bevestigen",
     "deleteConfirmation": "Verwijder bevestiging",
     "deleteProductWarning": "Nadat u het item hebt verwijderd, wordt het permanent verwijderd en kan het niet meer worden hersteld."
@@ -611,7 +611,7 @@
   "app/(store)/components/delivery-map": {
   },
   "app/(store)/components/image": {
-    "close": "Sluiten",
+    "close": "Sluit",
     "failedToUploadImage": "Afbeelding uploaden mislukt. Probeer het opnieuw.",
     "imageProcessingError": "Niet in staat om de afbeelding te verwerken. \nProbeer een ander beeldformaat (JPEG of PNG aanbevolen).",
     "rotation": "Rotatie",
@@ -662,7 +662,7 @@
     "cartDetails": "Winkelwagengegevens",
     "cartDetailsStep": "1. Winkelwagengegevens",
     "cartEmpty": "Je winkelwagen is leeg",
-    "close": "Sluiten",
+    "close": "Sluit",
     "copyLink": "Link kopiëren",
     "copyLinkInstructions": "Kopieer deze link en deel deze met de klant voor betaling.",
     "createOrderButton": "Bestelling aanmaken",
@@ -708,7 +708,7 @@
     "Delivery Fee": "Bezorgkosten",
     "Delivery VAT": "Levering btw",
     "Failed to update status": "Status kan niet worden bijgewerkt",
-    "Order": "Bestelling",
+    "Order": "Volgorde",
     "Order Again": "Opnieuw bestellen",
     "Order Items": "Bestel artikelen",
     "Order Status": "Bestelstatus",
@@ -748,7 +748,7 @@
     "Basic Information": "Basisinformatie",
     "Basic Information Help": "Basisinformatie",
     "Category": "Categorie",
-    "Close": "Sluiten",
+    "Close": "Sluit",
     "CustomerView": "Klantweergave",
     "Description": "Beschrijving",
     "Dietary Restrictions": "Dieetbeperkingen",
@@ -847,7 +847,7 @@
   },
   "app/(store)/components/store-description": {
     "addressPlaceholder": "Adres Placeholder",
-    "close": "Sluiten",
+    "close": "Sluit",
     "deliveryOnly": "Alleen levering",
     "deliveryOnlyDescription": "Deze winkel biedt alleen leveringsopdrachten aan. \nSelecteer een levertijd tijdens het afrekenen.",
     "facebook": "Facebook",
@@ -1141,7 +1141,7 @@
     "weHaveMoreDescription": "We hebben meer!"
   },
   "app/components/order-user": {
-    "close": "Sluiten",
+    "close": "Sluit",
     "item": "Item",
     "items": "Items",
     "myOrders": "Uw bestellingen",
@@ -1289,17 +1289,7 @@
         "minOrder": "Min bestelling",
         "open": "Open",
         "workingHours": "Openingstijden"
-      },
-      "toggleDelivery": {
       }
-    },
-    "errors": {
-    },
-    "noLocation": {
-    },
-    "noStoresFound": {
     }
-  },
-  "time": {
   }
 }

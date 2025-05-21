@@ -1262,11 +1262,7 @@
         "minOrder": "Commande min",
         "open": "Ouvrir",
         "workingHours": "Heures d'ouverture"
-      },
-      "toggleDelivery": {
       }
     }
-  },
-  "time": {
   }
 }
