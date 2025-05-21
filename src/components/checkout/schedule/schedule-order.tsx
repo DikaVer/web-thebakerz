@@ -35,14 +35,11 @@ type SocialIconProps = Omit<IconProps, "icon">;
 export function ScheduleOrder({
                                   handleNext,
                               }: StoreSubHeaderProps) {
-    const { store } = useStore();
-    const cT = useTranslations("app/(store)/components/store-header");
     const t = useTranslations("app/(store)/components/checkout");
     const {
         isDelivery,
         selectedDate,
         validationResult,
-        isTogglingDelivery,
     } = useDelivery();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [note, setNote] = useState<string>("");

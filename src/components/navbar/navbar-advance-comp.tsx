@@ -158,6 +158,7 @@ export default function NavbarAdvancedComponent({
             {(!isReturnPage && isShowDelivery && !pay) && (
                 <DeliveryNavbar
                     isVisible={isVisible || !isMobile}
+                    store={store}
                 />
             )}
            

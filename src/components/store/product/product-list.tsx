@@ -247,7 +247,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             <div
                 className={`flex flex-col-reverse md:flex-row transition-all justify-between items-center w-full ${
                     isSticky &&
-                    `sticky ${isVisible ? isShowDelivery ? 'top-[93px] ' : 'top-[50px]' : 'top-[0px] pt-3'} z-50 py-4 bg-background`
+                    `sticky ${isVisible ? isShowDelivery ? 'top-[143px] ' : 'top-[50px]' : 'top-[0px] pt-3'} z-50 py-4 bg-background`
                 }`}
             >
                 <ProductTabs
