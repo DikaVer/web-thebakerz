@@ -7,12 +7,10 @@ import { JoinButton } from "@/components/ui/join-button";
 import CartButton from "@/components/cart/cart-button";
 import GradientText from "@/components/ui/gradient-text";
 import { pacifico } from "@/components/fonts";
+import { useTranslations } from "next-intl";
 
-interface NavbarTranslationProps {
-    t: (key: string) => string;
-}
 
-interface ReturnNavbarProps extends NavbarTranslationProps {
+interface ReturnNavbarProps {
     store?: StoreData;
     navigateToStore: () => void;
     isVisibleCart?: boolean;
@@ -22,10 +20,11 @@ interface ReturnNavbarProps extends NavbarTranslationProps {
 export const ReturnNavbar: React.FC<ReturnNavbarProps> = ({
     store,
     navigateToStore,
-    t,
     isVisibleCart,
     session
 }) => {
+
+    const t = useTranslations("app/(landing)/components/navbar");
     const router = useRouter();
     const pathname = usePathname();
     const isPartnerPage = pathname.includes("/become-partner");
@@ -48,17 +47,15 @@ export const ReturnNavbar: React.FC<ReturnNavbarProps> = ({
                 <Button
                     size="md"
                     variant="flat"
+                    isIconOnly
                     className="text-foreground"
                     onPress={redirectToStore}
-                    startContent={
-                        <Icon
+                >
+                    <Icon
                             height={24}
                             icon="solar:alt-arrow-left-linear"
                             width={24}
                         />
-                    }
-                >
-                    {t("back")}
                 </Button>
             </NavbarItem>
             <NavbarItem className="ml-1 !flex">

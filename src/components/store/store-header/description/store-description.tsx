@@ -21,7 +21,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
     const t = useTranslations("app/(store)/components/store-description");
     const { openModal, ModalSign } = useSignInModal();
     const { session } = useSession();
-    const { validationResult } = useDelivery();
+    const { validationResult, isDelivery } = useDelivery();
 
 
     const [latitude, longitude] = [store?.location?.latitude, store?.location?.longitude];
@@ -157,7 +157,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                     variant={"solid"}
                                 />
 
-                                {!validationResult?.deliveryRegion?.isPostDelivery && (
+                                {(!isDelivery || !validationResult?.deliveryRegion?.isPostDelivery) && (
                                     <>
                                         <Divider/>
                                         <Accordion

@@ -1,0 +1,1261 @@
+{
+  "Allergies": {
+    "Add Allergy": "Agregar alergia",
+    "abalone": "abulón",
+    "apple": "manzana",
+    "banana": "banana",
+    "beef": "carne de res",
+    "cashew": "anacardo",
+    "celery": "apio",
+    "chicken": "pollo",
+    "crab": "cangrejo",
+    "egg": "huevo",
+    "fish": "pez",
+    "gelatin": "gelatina",
+    "gluten": "gluten",
+    "honey": "Miel",
+    "kiwi": "kiwi",
+    "lupine": "lupino",
+    "matsuke": "matsutake",
+    "milk": "leche",
+    "mushroom": "champiñón",
+    "nuts": "nueces",
+    "orange": "naranja",
+    "peach": "durazno",
+    "pork": "cerdo",
+    "potato": "papa",
+    "sesame": "sésamo",
+    "shrimp": "camarón",
+    "soy": "soja",
+    "squid": "calamar",
+    "sulfur": "sulfites",
+    "walnut": "nuez",
+    "wheat": "trigo"
+  },
+  "Dietary": {
+    "AddDietaryRestriction": "Agregar dieta",
+    "Diet": "Especial",
+    "gluten-free": "Sin gluten",
+    "halal": "Halal",
+    "lactose-free": "Lactosa",
+    "sugar-free": "Sin azúcar",
+    "vegan": "Vegano"
+  },
+  "HomePage": {
+    "get started": "Empezar",
+    "learn more": "Obtenga más información",
+    "subtitle": "TheBakerz: todos los pedidos, mensajes de clientes y recetas en un solo lugar",
+    "title": "Hornee más. \n\nEstrés menos."
+  },
+  "OrderStatus": {
+    "cancelled": "Cancelado",
+    "completed": "Terminado",
+    "new": "Nuevo",
+    "ready": "Listo",
+    "refunded": "Reintegrado",
+    "started": "Cocinando",
+    "unknown": "Desconocido"
+  },
+  "ProductAdd": {
+    "ManageProductsDescription": "Agregue el producto desde cero o use la plantilla",
+    "ProductAdd": "Gerente de producto"
+  },
+  "ProductSettings": {
+    "ManageProductsDescription": "Agregar",
+    "ProductManager": "Gerente de producto"
+  },
+  "UsersDashboard": {
+    "Search User": "Search User"
+  },
+  "Working Hours": {
+    "brandName": "TheBakerz",
+    "friday": "Viernes",
+    "monday": "Lunes",
+    "saturday": "Sábado",
+    "sunday": "Domingo",
+    "thursday": "Jueves",
+    "tuesday": "Martes",
+    "wednesday": "Miércoles"
+  },
+  "app/(auth)/auth/actions": {
+    "accountDoesNotExist": "La cuenta no existe",
+    "incorrectCode": "Código incorrecto.",
+    "invalidOrMissingField": "Campo no válido o faltante",
+    "notAuthenticated": "No autenticado",
+    "problemSendingEmail": "Hubo un problema para enviar el correo electrónico. \nVuelva a intentarlo más tarde.",
+    "problemWithAccount": "Problema con la cuenta",
+    "tooManyRequests": "Demasiadas solicitudes",
+    "verificationCodeExpired": "El código de verificación fue expirado. \nEnviamos otro código a su correo electrónico."
+  },
+  "app/(auth)/components/two-step-auth-form": {
+    "A new code was sent to your email": "Se envió un nuevo código a su correo electrónico",
+    "An unexpected error occurred": "Se produjo un error inesperado",
+    "and": "y",
+    "byClickingContinue": "Al hacer clic en Continuar, usted acepta nuestro",
+    "continueAsGuest": "Continuar como invitado",
+    "continueWithEmail": "Continuar con el correo electrónico",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "Ingrese su correo electrónico",
+    "enterOtp": "Ingrese OTP",
+    "enterOtpDescription": "Ingrese el código de 6 dígitos enviado a",
+    "goBack": "Volver",
+    "orContinueWith": "o continuar con",
+    "otp": "OTP",
+    "privacyPolicy": "política de privacidad",
+    "termsOfService": "Términos de servicio",
+    "verify": "Verificar"
+  },
+  "app/(auth)/page": {
+    "authDescription": "Iniciar sesión para ordenar deliciosas golosinas"
+  },
+  "app/(components)/cookie-consent": {
+    "acceptAll": "Aceptar todo",
+    "acceptEssential": "Aceptar esencial",
+    "acceptSelected": "Aceptar seleccionado",
+    "analytics": "Analítica",
+    "analyticsDescription": "Para entender cómo usa el sitio",
+    "continueToTheBakerz": "TheBakerz usa cookies",
+    "cookiePolicy": "Política de cookies",
+    "cookieSettings": "Ajustes",
+    "cookiesExplanation": "Aseguran el funcionamiento sin problemas de todos los sitios y servicios de Yandex. \nPara obtener más información, lea nuestro",
+    "essential": "Básico",
+    "essentialDescription": "Esencial para que funcione el sitio",
+    "forMoreInfo": "Para más información.",
+    "marketing": "Marketing",
+    "marketingDescription": "Para mostrarle contenido relevante",
+    "privacy": "Privacidad",
+    "privacyDescription": "Este sitio utiliza tecnologías de seguimiento para mejorar su experiencia. \nPuede optar por aceptar o rechazar estas tecnologías. \nSi elige \"rechazar todo\", usaremos cookies solo para fines esenciales. \nRevise nuestro",
+    "rejectAll": "Aceptar elementos esenciales",
+    "yourPrivacy": "Tu privacidad"
+  },
+  "app/(components)/footer": {
+    "aboutTheBakerz": "Sobre TheBakerz",
+    "brandName": "TheBakerz",
+    "copyright": "TheBakerz. \nReservados todos los derechos.",
+    "getHelp": "Obtener ayuda",
+    "joinTheBakerz": "Únete a TheBakerz",
+    "legal": "Legal",
+    "navigation": "Navegación",
+    "privacyPolicy": "política de privacidad",
+    "refundPolicy": "Política de reembolso",
+    "search": "Buscar panadero",
+    "support": "Apoyo",
+    "termsOfUse": "Condiciones de uso"
+  },
+  "app/(components)/footer-simple": {
+    "aboutTheBakerz": "Sobre TheBakerz",
+    "brandName": "TheBakerz",
+    "copyright": "TheBakerz. \nReservados todos los derechos.",
+    "getHelp": "Obtener ayuda",
+    "joinTheBakerz": "Únete a TheBakerz",
+    "legal": "Legal",
+    "privacyPolicy": "política de privacidad",
+    "refundPolicy": "Política de reembolso",
+    "search": "Buscar Bakerz",
+    "support": "Apoyo",
+    "termsOfUse": "Condiciones de uso"
+  },
+  "app/(components)/footer-store": {
+    "Opening Hours": "Horario de apertura",
+    "aboutTheBakerz": "Sobre TheBakerz",
+    "addressPlaceholder": "Dirección de marcador de posición",
+    "brandName": "TheBakerz",
+    "contactUs": "Contáctenos",
+    "copyright": "TheBakerz. \nReservados todos los derechos.",
+    "getHelp": "Obtener ayuda",
+    "joinTheBakerz": "Únete a TheBakerz",
+    "legal": "Legal",
+    "locationPlaceholder": "Marcador de posición de ubicación",
+    "phone": "Teléfono",
+    "privacyPolicy": "política de privacidad",
+    "refundPolicy": "Política de reembolso",
+    "search": "Buscar panaderos",
+    "support": "Apoyo",
+    "termsOfUse": "Condiciones de uso"
+  },
+  "app/(components)/join-button": {
+    "join": "Únete a TheBakerz",
+    "joinSmall": "Unirse",
+    "loading": "Cargando..."
+  },
+  "app/(components)/redirect-page": {
+    "holdTight": "Mantenga presionado o haga clic en el botón de abajo para ir ahora:",
+    "redirectNow": "Redirigir ahora",
+    "seconds": "artículos de segunda clase",
+    "success": "¡Éxito!"
+  },
+  "app/(components)/signin-button": {
+    "loading": "Cargando...",
+    "signIn": "Acceso",
+    "storeRedirect": "Almacenar"
+  },
+  "app/(components)/signout-button": {
+    "logOut": "Finalizar la sesión",
+    "signOut": "Desconectar"
+  },
+  "app/(error_layout)/error": {
+    "error": "Error",
+    "goBackToTheBakerz": "Vuelve a TheBakerz",
+    "somethingWentWrong": "¡Algo salió mal!"
+  },
+  "app/(error_layout)/not-found": {
+    "brokenLink": "El enlace que siguió puede estar roto, o la página puede haberse eliminado.",
+    "goBackToTheBakerz": "Vuelve a TheBakerz",
+    "sorry": "Lo siento, esta página aún no está disponible.",
+    "subtitle": "¡Estamos haciendo todo lo posible para entregarlo pronto!",
+    "underConstruction": "¡Bajo construcción!"
+  },
+  "app/(landing)/components/apply": {
+    "applicationSuccess": "Su solicitud ha sido enviada con éxito. \n¡Nos pondremos en contacto pronto!",
+    "congratulations": "¡Felicidades!"
+  },
+  "app/(landing)/components/apply-form": {
+    "and": "y",
+    "cookingAndRest": "Te enfocas en cocinar, nos manejaremos el resto",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "Ingrese su correo electrónico",
+    "getStarted": "Empezar",
+    "goBack": "Volver",
+    "name": "Nombre",
+    "namePlaceholder": "Ingrese su nombre",
+    "phone": "Teléfono",
+    "phonePlaceholder": "Ingrese su número de teléfono",
+    "privacyPolicy": "política de privacidad",
+    "startAndGrowBusiness": "Inicie y haga crecer su negocio",
+    "submit": "Entregar",
+    "submitting": "Sumisión...",
+    "terms": "Términos de servicio",
+    "termsAgreement": "Estoy de acuerdo con el"
+  },
+  "app/(landing)/components/multistep-sidebar": {
+    "applyDescription": "Complete un formulario rápido y nos pondremos en contacto para explicar todo y configurar su cuenta.",
+    "applyTitle": "Aplicar",
+    "setUpStoreDescription": "Comparta sus productos y precios, y manejaremos la configuración para usted.",
+    "setUpStoreTitle": "Tienda de configuración",
+    "startSellingDescription": "¡Pruebe su tienda, haga ajustes y comience a tomar pedidos reales!",
+    "startSellingTitle": "Empiece a vender"
+  },
+  "app/(landing)/components/partners": {
+    "description": "Colaboramos con los líderes de la industria para ofrecer las mejores soluciones.",
+    "title": "Miembro de"
+  },
+  "app/(landing)/components/scroll-triggered": {
+    "features": {
+      "all_chats": {
+        "description": "Conecte los chats de los clientes desde Instagram, Facebook y WhatsApp a pedidos en un solo lugar para una fácil comunicación.",
+        "key": "All-Chats in-One-Place",
+        "title": "Todos los chats en un solo lugar"
+      },
+      "online_store": {
+        "description": "Creamos su propia tienda en línea para exhibir sus deliciosas creaciones y aceptar órdenes sin problemas.",
+        "key": "tienda en línea",
+        "title": "Tienda en línea"
+      },
+      "order_management": {
+        "description": "Rastree y administre fácilmente todos sus pedidos en un solo lugar, reduciendo el riesgo de errores y pedidos perdidos.",
+        "key": "gestión de pedidos",
+        "title": "Gestión de pedidos"
+      },
+      "support": {
+        "description": "Nuestro equipo dedicado está aquí para ayudar durante nuestras horas disponibles, asegurando que sus consultas se aborden de inmediato.",
+        "key": "soporte flexible",
+        "title": "Soporte flexible"
+      }
+    }
+  },
+  "app/(landing)/components/sidebar-menu": {
+    "aboutTheBakerz": "Sobre TheBakerz",
+    "account": "Cuenta",
+    "dashboard": "Panel",
+    "joinTheBakerz": "Únete a TheBakerz",
+    "navigation": "Navegación",
+    "orders": "Órdenes",
+    "overview": "Descripción general",
+    "products": "Productos",
+    "search": "Buscar panaderos",
+    "settings": "Ajustes",
+    "shop": "Comercio",
+    "signInButton": "Iniciar sesión",
+    "stores": "Víveres",
+    "stripe": "Raya",
+    "users": "Usuarios"
+  },
+  "app/(landing)/components/support-card": {
+    "supportCardMessage": "¿Necesitar ayuda? \n¡Estamos aquí para ayudarlo!"
+  },
+  "app/(main)/about-us/page": {
+    "greeting": "Somos David y Dumitru, fundamos TheBakerz para facilitar que los panaderos y los chefs artesanales venderan sus productos. \nVimos un mercado creciente de panaderos apasionados e incluso más personas hambrientas de algo mejor que los postres de supermercados. \nEntonces creamos una plataforma que los reúne. \nEs simple: los panaderos obtienen herramientas para crecer, los clientes tienen acceso a productos increíbles. \n¡Gane la victoria!",
+    "greetingTitle": "Encantado de conocerlo",
+    "slogan": "TheBakerz pone todo lo que los panaderos necesitan en un solo lugar. \nEn lugar de rebotar entre hojas de cálculo, correos electrónicos y mensajes, puede manejar todos sus pedidos, horarios y detalles del cliente de un solo lugar organizado. \nMenos molestias, menos dolores de cabeza y más energía para hacer lo que mejor hace: casar.",
+    "sloganTitle": "Hornee más, estrés menos",
+    "why": "Para nosotros, TheBakerz no es solo otra idea: es una respuesta directa a lo que nuestros amigos y panaderos familiares nos dijeron que necesitan. \nEstamos aquí para hacerlo más fácil, para que pueda concentrarse en lo que más le gusta. \nSíguenos en las redes sociales y formemos un futuro mejor juntos.",
+    "whyTitle": "Por qué hacemos esto"
+  },
+  "app/(main)/page": {
+    "Tips": "Consejos",
+    "Tips Info": "Consejos Información",
+    "allMessagesInOnePlace": "Todos los mensajes en un solo lugar",
+    "connectMessages": "Conecte sus mensajes de WhatsApp, Instagram y Facebook en una sola vista",
+    "easyToUseSystem": "Sistema fácil de usar para administrar sus recetas y rastrear todos los pedidos",
+    "exclusiveOffer": "Oferta exclusiva: ¡Comience por 3 meses gratis!",
+    "freeTrial": "Prueba gratuita",
+    "getStarted": "Empiece con TheBakerz",
+    "loading": "Cargando...",
+    "monthlySubscription": "Suscripción de € 9.99/mes",
+    "ownWebshop": "Tu posesión de web",
+    "paymentFee": "Tarifa de pago y servicio 8%",
+    "paymentFeeInfo": "8% de las ventas para organizar el sitio web, los servicios operativos y de pago",
+    "planProduction": "Planifique su producción y realice un seguimiento de las tareas diarias",
+    "professionalStore": "Tienda profesional en línea para exhibir y vender sus creaciones horneadas",
+    "recipeOrderControl": "Receta",
+    "smartCalendar": "Calendario inteligente",
+    "transparentPricing": "Precios transparentes",
+    "wantYouToSucceed": "Queremos que tengas éxito",
+    "whyChooseTheBakerz": "¿Por qué elegir TheBakerz?"
+  },
+  "app/(return_page)/profile": {
+    "login": "Acceso",
+    "loginDescription": "Para ordenar pasteles, chocolates, galletas y más",
+    "loginTitle": "Inicie sesión en su cuenta",
+    "profileSettings": "Configuración de perfil"
+  },
+  "app/(return_page)/settings/components/business-info": {
+    "accountInformation": "Información de la cuenta",
+    "accountStatus": "Estado de cuenta",
+    "accountType": "Tipo de cuenta",
+    "bankAccount": "Cuenta bancaria",
+    "businessInformation": "Información comercial",
+    "businessName": "Nombre comercial",
+    "email": "Correo electrónico",
+    "korDisabled": "Desactivado",
+    "korEnabled": "Activado",
+    "korStatus": "Estado de KOR",
+    "kvkNumber": "Número de negocio",
+    "memberSince": "Miembro desde",
+    "notAvailable": "No disponible",
+    "region": "Región",
+    "registeredAddress": "Dirección registrada",
+    "unverified": "Inconfirmado",
+    "vatNumber": "Identificación de impuestos",
+    "verified": "Verificado"
+  },
+  "app/(return_page)/settings/components/calendar-settings": {
+    "workingSchedule": "Horario de trabajo",
+    "workingScheduleDescription": "Establezca sus horas de trabajo para cada día de la semana"
+  },
+  "app/(return_page)/settings/components/calendar/day-picker": {
+    "editDay": "Día de edición",
+    "endTime": "Tiempo de finalización",
+    "pleaseEnterValidTime": "Por favor ingrese una hora válida",
+    "selectDaysWithDifferentHours": "Seleccione días con diferentes horas",
+    "specialWorkingHours": "Horario de trabajo especial",
+    "startTime": "Hora de inicio",
+    "stayDuration": "Duración de la permanencia"
+  },
+  "app/(return_page)/settings/components/calendar/min-time-order": {
+    "day": "día",
+    "days": "días",
+    "description": "Seleccione cuánto aviso anticipado necesita antes de cumplir con un pedido",
+    "errorMessage": "No se pudo actualizar el tiempo de pedido mínimo",
+    "hour": "hora",
+    "hours": "horas",
+    "minutes": "minutos",
+    "pickupWindowDescription": "Defina cuánto tiempo el cliente tiene que recoger su pedido",
+    "pickupWindowLabel": "Duración de la ventana de recogida",
+    "pickupWindowPlaceholder": "Seleccione la ventana de recogida",
+    "pickupWindowTitle": "Ventana de entrega",
+    "selectLabel": "Tiempo de pedido por adelantado mínimo",
+    "selectPlaceholder": "Seleccione una hora",
+    "title": "Tiempo mínimo para ordenar"
+  },
+  "app/(return_page)/settings/components/calendar/schedule-picker": {
+    "endTime": "Tiempo de finalización",
+    "endTimeError": "Error de tiempo de finalización",
+    "errorFailedToSaveSchedule": "No se pudo guardar el horario",
+    "errorInvalidTimeFields": "Tiempo no válido",
+    "errorSomethingWentWrong": "¡Algo salió mal!",
+    "errorTooManyRequests": "¡Demasiadas solicitudes!",
+    "startTime": "Hora de inicio",
+    "startTimeError": "Error de tiempo de inicio"
+  },
+  "app/(return_page)/settings/components/delivery-options": {
+    "deliveryDescription": "Permitir a los clientes recibir pedidos entregados a su dirección",
+    "deliveryOption": "Entrega",
+    "deliveryOptions": "Opciones de entrega",
+    "deliveryOptionsDescription": "Configure cómo los clientes pueden recibir sus pedidos.",
+    "pickupDescription": "Permitir que los clientes reciban pedidos de su tienda",
+    "pickupOption": "Levantar",
+    "updateDeliveryOptions": "Actualizar opciones de entrega",
+    "updatingOptions": "Opciones de actualización ..."
+  },
+  "app/(return_page)/settings/components/delivery-settings": {
+    "addCity": "Agregar ciudad",
+    "addCountry": "Agregar país",
+    "addRange": "Agregar rango",
+    "brandName": "TheBakerz",
+    "cancel": "Cancelar",
+    "cityDelivery": "Ciudad",
+    "cityEditError": "Error de la ciudad",
+    "countryDelivery": "País",
+    "countryDeliveryFor": "Entrega de país para",
+    "day": "día",
+    "days": "días",
+    "deliveryAllWeek": "Entrega disponible toda la semana",
+    "deliveryDescription": "Permitir a los clientes recibir pedidos entregados a su dirección",
+    "deliveryPrice": "Precio de entrega",
+    "deliveryRange": "Rango de entrega",
+    "deliveryRegions": "Regiones de entrega",
+    "deliverySchedule": "Tiempos de entrega",
+    "deliveryScheduleDescription": "Establezca los tiempos en que la entrega está disponible para esta región",
+    "deliveryTimes": "Tiempos de entrega",
+    "deliveryWindow": "Ventana de entrega",
+    "deliveryWindowDescription": "Cuánto tiempo el cliente tiene que recibir su entrega",
+    "endTime": "Tiempo de finalización",
+    "endTimeError": "Error de tiempo de finalización",
+    "hour": "hora",
+    "hours": "horas",
+    "invalidCity": "Ciudad no válida seleccionada",
+    "loadError": "No se pudo cargar regiones de entrega",
+    "loadingMap": "Cargando...",
+    "manageDeliverySchedule": "Gestionar los tiempos de entrega",
+    "mapView": "Vista de mapa",
+    "minOrderPrice": "Valor de pedido mínimo",
+    "minOrderPriceDescription": "Los clientes deben ordenar al menos esta cantidad para calificar para la entrega en esta región",
+    "minOrderPriceError": "El valor mínimo de pedido debe ser al menos 10 €",
+    "minOrderTime": "Tiempo de pedido mínimo:",
+    "minPriceLabel": "Valor mínimo",
+    "minutes": "minutos",
+    "noCitiesSelected": "No hay ciudades seleccionadas",
+    "noCountriesSelected": "Ningún país seleccionado",
+    "noDeliveryDays": "No hay días de entrega establecidos",
+    "ownDelivery": "Mi propio",
+    "postDelivery": "Postal",
+    "postalDelivery": "Entrega postal",
+    "priceLabel": "Precio (€)",
+    "rangeOrderError": "Hacer que el rango sea más grande que el anterior",
+    "resetMap": "Restablecer zoom",
+    "save": "Ahorrar",
+    "selectCity": "Seleccione una ciudad",
+    "selectCountry": "País seleccionado",
+    "selectCountryPlaceholder": "Seleccionar...",
+    "selectDeliveryCity": "Seleccionar la ciudad de entrega",
+    "selectDeliveryWindow": "Seleccione la ventana de entrega",
+    "selectedCities": "Ciudades seleccionadas",
+    "selectedCountries": "Países seleccionados",
+    "startTime": "Hora de inicio",
+    "startTimeError": "Error de tiempo de inicio",
+    "togglePostDelivery": "Alternar entrega postal"
+  },
+  "app/(return_page)/settings/components/item-add-manager": {
+    "addItem": "Agregar nuevo artículo",
+    "noProductsYet": "Todavía no hay productos"
+  },
+  "app/(return_page)/settings/components/products-settings": {
+    "drag": "Arrastrar",
+    "image": "Imagen",
+    "manageProductsDescription": "Administre sus productos",
+    "nameAndPrice": "Nombre",
+    "noProductsYet": "La tienda aún no tiene ningún producto.",
+    "productManager": "Gerente de producto"
+  },
+  "app/(return_page)/settings/components/products/product-card": {
+    "productManager": "Gerente de producto"
+  },
+  "app/(return_page)/settings/components/profile-setting": {
+    "adsAndPromos": "Anuncios",
+    "bakerz": "Socio de thebakerz",
+    "customer": "Cliente",
+    "dateOfBirth": "Fecha de nacimiento",
+    "displaysProfile": "Esta información se mostrará en su perfil.",
+    "displaysProfileStore": "Esta información se mostrará en su tienda.",
+    "editCurrentName": "Edite su nombre actual",
+    "editCurrentStoreName": "Edite el nombre actual de su tienda actual",
+    "email": "Correo electrónico",
+    "female": "Femenino",
+    "gender": "Género",
+    "male": "Masculino",
+    "name": "Nombre",
+    "profile": "Perfil",
+    "profileHasUpdated": "Tu perfil ha sido actualizado",
+    "profileUpdated": "Perfil actualizado",
+    "pushNotifications": "Push Notificaciones con descuentos y códigos de promoción",
+    "pushNotificationsNote": "Desactivaremos el impulso de marketing y continuaremos enviando los estados de pedido",
+    "selectDate": "Fecha de selección",
+    "selectSex": "Seleccionar género",
+    "smsWithDiscounts": "SMS con descuentos y códigos de promoción",
+    "storeName": "Nombre de la tienda"
+  },
+  "app/(return_page)/settings/components/store-info": {
+    "currencyText": "Divisa",
+    "deliveryOnly": "Solo entrega",
+    "deliveryOption": "Opciones de envío",
+    "notConfigured": "No configurado",
+    "owner": "Dueño",
+    "pickupAndDelivery": "Levantar",
+    "pickupOnly": "Solo recogida",
+    "region": "Región",
+    "storeInformation": "Información de almacenamiento"
+  },
+  "app/(return_page)/settings/components/store-setting": {
+    "contactUs": "Contáctenos",
+    "description": "Descripción",
+    "editLocationPhoneBy": "Puede editarlos contactándonos en",
+    "enterFacebookURL": "Ingrese la URL de su página de Facebook",
+    "enterInstagramURL": "Ingrese su URL de perfil de Instagram",
+    "facebookURL": "URL de Facebook",
+    "facebookURLPlaceholder": "https://facebook.com/your-page",
+    "formHasErrors": "El formulario tiene errores de validación",
+    "formIsValid": "El formulario es válido",
+    "howUserFindYou": "Cómo los usuarios encontrarán su tienda",
+    "howUserRecognizeYou": "Esto será parte del subtítulo de su tienda",
+    "instagramURL": "URL de Instagram",
+    "instagramURLPlaceholder": "https://instagram.com/your-handle",
+    "locationPhone": "Ubicación",
+    "locationPlaceholder": "Marcador de posición de ubicación",
+    "phoneNumberPlaceholder": "31 6 12 34 56 78",
+    "storeDescriptionPlaceholder": "Cuéntanos sobre tu tienda ... (Max 200 caracteres)",
+    "storeLink": "Enlace",
+    "storeSlug": "Subtítulo",
+    "typeYourStoreName": "Escriba el nombre de su tienda",
+    "typeYourStoreSlug": "Almacenar desde 2021",
+    "writeAboutStore": "Escriba una breve descripción sobre su tienda (Max 200 caracteres)"
+  },
+  "app/(return_page)/settings/components/store-tabs-settings": {
+    "delivery": "Entrega",
+    "pickup": "Levantar",
+    "store": "Almacenar"
+  },
+  "app/(return_page)/settings/components/tabs-settings": {
+    "information": "Información",
+    "profile": "Perfil"
+  },
+  "app/(return_page)/settings/page": {
+    "settingsDescription": "Personalice su configuración y perfil.",
+    "settingsTitle": "Ajustes"
+  },
+  "app/(return_page)/support/contact-us/page": {
+    "contactUs": "Contáctenos",
+    "contactUsDescription": "Estamos aquí para ayudarlo durante nuestro horario comercial. \nNo dude en contactarnos para cualquier pregunta o problema que pueda tener.",
+    "support": "Apoyo"
+  },
+  "app/(return_page)/transit-exit/page": {
+    "performingSignOut": "Registrar ..."
+  },
+  "app/(return_page)/transit-login/page": {
+    "performingSignIn": "Realizar firmado en ..."
+  },
+  "app/(store)/components/button-stepper": {
+    "addItem": "Agregar elemento",
+    "deleteItem": "Eliminar el artículo",
+    "removeItem": "Eliminar el artículo"
+  },
+  "app/(store)/components/calendar-dashboard": {
+    "thisMonth": "Este mes",
+    "thisWeek": "Esta semana",
+    "today": "Hoy"
+  },
+  "app/(store)/components/cart": {
+    "addItemsToStart": "Agregar elementos para comenzar",
+    "cartEmpty": "Carro vacío",
+    "continue": "Continuar",
+    "minimumOrderForDelivery": "Orden mínimo: {cantidad}",
+    "note": "Nota",
+    "preOrderTime": "Tiempo de pedido anticipado: {tiempo}",
+    "yourCartFrom": "Tu carrito de"
+  },
+  "app/(store)/components/checkout": {
+    "addItem": "Agregar elemento",
+    "addItemsToStart": "Agregar elementos para comenzar",
+    "addressOutOfRange": "Dirección fuera de la región de entrega",
+    "cartEmpty": "Carro vacío",
+    "deliveryFee": "Tarifa de entrega",
+    "deliveryVat": "IVA de entrega (21%)",
+    "invalidDeliveryAddress": "Dirección de entrega no válida",
+    "loadingPaymentGateway": "Cargando la pasarela de pago ...",
+    "minimumAmount": "La cantidad mínima del pedido es {minorder}",
+    "minimumOrderForDelivery": "El orden mínimo es {cantidad}",
+    "pay": "Pagar",
+    "returnToCheckout": "Volver a pagar",
+    "saveDeliveryDetails": "Guardar detalles de entrega",
+    "savePickUpDetails": "Guardar detalles de recogida",
+    "serviceFee": "Tarifa de servicio",
+    "subtotal": "Total parcial",
+    "total": "Total",
+    "unableToInitializePayment": "No se puede inicializar la pasarela de pago",
+    "vat21": "IVA (21%)",
+    "vatExclusive": "IVA (9%)"
+  },
+  "app/(store)/components/checkout-steps": {
+    "cartDetails": "Detalles del carrito",
+    "cartDetailsStep": "3. Detalles del carrito",
+    "failedToUpdateCart": "No se pudo actualizar el carrito o la dirección",
+    "orderDetails": "Detalles del pedido",
+    "orderDetailsStep": "2. Detalles del pedido",
+    "signInOrSignUpStep": "1. Inicie sesión o regístrese para el pedido de lugar",
+    "signInOrSignUpText": "Iniciar sesión o Regístrese para el pedido de lugar"
+  },
+  "app/(store)/components/delete-confirmation": {
+    "close": "Cerca",
+    "confirm": "Confirmar",
+    "deleteConfirmation": "Eliminar confirmación",
+    "deleteProductWarning": "Después de eliminar, el artículo se eliminará permanentemente y no se puede recuperar."
+  },
+  "app/(store)/components/image": {
+    "close": "Cerca",
+    "failedToUploadImage": "No se pudo subir la imagen. \nPor favor intente de nuevo.",
+    "imageProcessingError": "No se puede procesar la imagen. \nPruebe un formato de imagen diferente (recomendado JPEG o PNG).",
+    "rotation": "Rotación",
+    "subtitle": "Corte y ajuste su imagen",
+    "title": "Cargar imagen",
+    "uploadImage": "Cargar imagen",
+    "uploading": "Subiendo ...",
+    "zoom": "Zoom"
+  },
+  "app/(store)/components/info-popovers": {
+    "deliveryWindowDescription": "Este es el plazo durante el cual se entregará su pedido. \nEl servicio de entrega se asegurará de que su pedido llegue a esta ventana.",
+    "deliveryWindowTitle": "Ventana de entrega",
+    "pickupWindowDescription": "Este es el plazo durante el cual puede recoger su pedido. \nLlegue dentro de esta ventana para recolectar sus artículos recién preparados.",
+    "pickupWindowTitle": "Ventana de entrega",
+    "preOrderTimeDescription": "Este es el tiempo mínimo requerido antes de que se pueda cumplir su pedido. \nLos pedidos deben realizarse al menos con mucha anticipación para permitir el tiempo de preparación.",
+    "preOrderTimeTitle": "Tiempo de pedido anticipado"
+  },
+  "app/(store)/components/location-map": {
+    "errorLoadingMap": "Error de carga de mapa",
+    "loadingMap": "Mapa de carga ...",
+    "storeLocation": "Ubicación de la tienda",
+    "viewOnGoogleMaps": "Ver los mapas de Google"
+  },
+  "app/(store)/components/orders": {
+    "backToOrderDashboard": "Panel de regreso a pedido"
+  },
+  "app/(store)/components/orders-bar-chart": {
+    "notFound": "Extraviado",
+    "title": "Descripción general del pedido"
+  },
+  "app/(store)/components/orders-list": {
+    "addOrder": "Agregar pedido",
+    "brandName": "TheBakerz",
+    "delivery": "Entrega",
+    "no": "Sin selección",
+    "noOrdersFound": "No se encuentra ningún pedido",
+    "order": "Orden",
+    "orderStatusFilter": "Filtro de estado de pedido",
+    "orders": "Órdenes"
+  },
+  "app/(store)/components/orders/add": {
+    "add": "Agregar",
+    "addItemsToStart": "Agregar elementos para comenzar",
+    "addManageCart": "Agregar",
+    "backToOrderDashboard": "Panel de regreso a pedido",
+    "cartDetails": "Detalles del carrito",
+    "cartDetailsStep": "1. Detalles del carrito",
+    "cartEmpty": "Tu carro esta vacío",
+    "close": "Cerca",
+    "copyLink": "Enlace de copia",
+    "copyLinkInstructions": "Copie este enlace para compartir con el cliente para el pago.",
+    "createOrderButton": "Crear orden",
+    "customerCart": "Carrito de clientes",
+    "customerDetails": "Detalles del cliente",
+    "customerEmailLabel": "Ingrese la dirección de correo electrónico del cliente.",
+    "customerEmailPlaceholder": "Ingrese la dirección de correo electrónico del cliente",
+    "customerNameLabel": "Ingrese el nombre del cliente.",
+    "customerNamePlaceholder": "Ingrese el nombre del cliente",
+    "customerPhoneLabel": "Ingrese el número de teléfono del cliente. \n(Opcional)",
+    "customerPhonePlaceholder": "Ingrese el número de teléfono del cliente",
+    "failedCreateOrder": "No se pudo crear el pedido",
+    "failedInitCheckout": "No se pudo inicializar el pago",
+    "hasCustomerPaid": "¿Ya ha pagado al cliente?",
+    "image": "Imagen",
+    "namePrice": "Nombre",
+    "no": "No",
+    "noProductsAvailable": "La tienda aún no tiene ningún producto.",
+    "orderCreated": "Orden creado",
+    "orderCreatedSuccess": "¡El orden se creó con éxito!",
+    "orderLink": "Enlace de pedido",
+    "orderLinkCopiedClient": "¡El enlace de pedido copiado al portapapeles!",
+    "orderLinkText": "Enlace de pedido de {Store}",
+    "pickUpAt": "Recoger",
+    "pickUpDetails": "Detalles de recogida",
+    "pickUpDetailsStep": "2. Recoge detalles",
+    "pickUpOptionSelected": "Opción de recogida seleccionada",
+    "saveCartDetails": "Guardar detalles del carrito",
+    "scheduleOrderTime": "Hora de pedido de programación",
+    "selectPickUpTime": "Seleccione el tiempo de recogida",
+    "somethingWentWrong": "Algo salió mal",
+    "subtotal": "Total parcial",
+    "total": "Total",
+    "vatExclusive": "IVA (9%)",
+    "yes": "Sí"
+  },
+  "app/(store)/components/orders/overview": {
+    "Cancelled": "Cancelado",
+    "Change Status": "Estado de cambio",
+    "Change Status Action": "¿Estás seguro de que quieres cambiar el estado de este pedido?",
+    "Cooking": "Cocinando",
+    "Customer Details": "Detalles del cliente",
+    "Delivery Fee": "Tarifa de entrega",
+    "Delivery VAT": "IVA de entrega",
+    "Failed to update status": "No se pudo actualizar el estado",
+    "Order": "Orden",
+    "Order Again": "Ordenar de nuevo",
+    "Order Items": "Ordenar artículos",
+    "Order Status": "Estado de pedido",
+    "OrderFrom": "Ordenar desde",
+    "Placed": "Metido",
+    "Print Invoice": "Imprimir factura",
+    "Progress": "Progreso",
+    "Ready": "Listo",
+    "Search Items": "Artículos de búsqueda",
+    "Select one option": "Seleccione una opción",
+    "Service Fee": "Tarifa de servicio",
+    "Service VAT": "IVA de servicio",
+    "Something Went Wrong": "Algo salió mal",
+    "Status updated successfully": "Estado actualizado correctamente",
+    "Subtotal": "Total parcial",
+    "Total": "Total",
+    "VAT Exclusive": "IVA (9%)",
+    "brandName": "TheBakerz",
+    "completed": "Terminado",
+    "delivery": "Entrega"
+  },
+  "app/(store)/components/product-list": {
+    "noProductsFound": "No se encuentran productos"
+  },
+  "app/(store)/components/product-page": {
+    "Add": "Agregar",
+    "Add Allergies Placeholder": "Agregar alergias",
+    "Add Description Placeholder": "Describe tu artículo",
+    "Add Dietary Restrictions": "Agregar restricción dietética",
+    "Add Ingredients Placeholder": "Agregar ingredientes",
+    "Add Item": "Agregar elemento",
+    "Allergies": "Alergias",
+    "Basic Information": "Información básica",
+    "Basic Information Help": "Información básica",
+    "Category": "Categoría",
+    "Close": "Cerca",
+    "CustomerView": "Vista del cliente",
+    "Description": "Descripción",
+    "Dietary Restrictions": "Restricciones dietéticas",
+    "EditItem": "Elemento de edición",
+    "Enter the essential details of your product": "Ingrese los detalles esenciales de su producto",
+    "Hide Product": "Esconder el producto",
+    "Hide Product Helper": "Si está habilitado, este producto estará oculto a los clientes pero aún está disponible para editar en el gerente de productos.",
+    "Ingredients": "Ingredientes",
+    "Item Name": "Nombre del artículo",
+    "Item Options": "Opciones de artículos",
+    "Loading": "Cargando",
+    "MinLeadTime": "Hacer un pedido",
+    "Minimal Order": "Orden mínimo",
+    "MinimalLeadTime": "Tiempo de pedido anticipado",
+    "MinimalLeadTimeDescription": "¿Cuál es el tiempo mínimo de pedido anticipado para el pedido?",
+    "MinimalNumberDescription": "¿Cuál es el número mínimo de artículos que un cliente puede pedir?",
+    "Needhelp": "¿Necesitar ayuda?",
+    "Post Delivery": "Si está habilitado, este producto estará disponible para la entrega posterior.",
+    "Post Delivery Helper": "Si está habilitado, este producto estará disponible para la entrega posterior.",
+    "Price": "Precio",
+    "Select Category": "Seleccionar categoría",
+    "Update": "Actualizar",
+    "Update Item": "Artículo de actualización",
+    "Updating Cart": "Actualización del carrito",
+    "addNotesPlaceholder": "Escribe notas al artículo",
+    "allergies": "Alergias",
+    "cartUpdatedSuccess": "Se actualiza el carrito",
+    "day": "día",
+    "days": "días",
+    "failedUploadImage": "No se pudo subir la imagen.",
+    "help": {
+      "allergies": "Seleccione o agregue todos los alérgenos presentes en su producto. \nUse el menú desplegable para elegir de alérgenos comunes. \nHaga clic en × para eliminar. \nEsto ayuda a los clientes con alergias a mantenerse seguros.",
+      "category": "Elija la categoría más apropiada para su producto para ayudar a los clientes a encontrar fácilmente",
+      "description": "Agregue una descripción detallada para ayudar a los clientes a comprender qué hace que su producto sea especial.",
+      "dietary": "Seleccione todas las restricciones dietéticas que se aplican a su producto. \nUse el menú desplegable para elegir de opciones comunes como vegano o sin gluten. \nHaga clic en × para eliminar. \nEsto ayuda a los clientes con dietas especiales.",
+      "ingredients": "Enumere todos los ingredientes utilizados en su producto. \nUse la entrada para agregar cada ingrediente como una etiqueta. \nPresione Entrar o coma para agregar, y haga clic en × para eliminar. \nEsto ayuda a los clientes a ver exactamente lo que hay dentro.",
+      "name": "Darle a su producto un nombre claro y descriptivo que los clientes reconocerán fácilmente",
+      "price": "Establezca el precio base en euros (€) para su producto. \nEste es el precio inicial antes de cualquier opción o variante",
+      "variants": "Agregue opciones personalizables para su producto, como tamaño, sabor o extras. \nPuede crear grupos de opción simple o múltiple, establecer selecciones mínimas y máximas, y marcar las opciones según sea necesario. \nEsto permite a los clientes personalizar su pedido (por ejemplo, elegir un tamaño o seleccionar hasta tres coberturas). \nUse esto para ofrecer modificadores y variantes de productos de manera flexible."
+    },
+    "hour": "hora",
+    "hours": "horas",
+    "ingredients": "Ingridient",
+    "invalidImages": "Algunas imágenes no se cargan correctamente. \nIntente descargarlos nuevamente.",
+    "maxSelectionsExceeded": "Exceder el máximo: {max}",
+    "minSelectionsRequired": "Se requiere minimun: {min}",
+    "noProductsAvailable": "No hay productos disponibles",
+    "notes": "Notas",
+    "productDeleteFailed": "No se pudo eliminar el producto. \nPor favor intente de nuevo.",
+    "productDeleted": "Producto eliminado con éxito",
+    "productLinkCopied": "Enlace del producto copiado!",
+    "productNotFound": "Producto no encontrado",
+    "requiredVariant": "Requerido",
+    "specialCategory": "Especiales",
+    "submitError": "No se pudo enviar el formulario. \nPor favor intente de nuevo.",
+    "unexpectedError": "Error inesperado",
+    "unsupportedFormat": "Las imágenes HEIC/HEIF no son compatibles. \nConvierta su imagen en JPEG o PNG usando la aplicación de fotos de su dispositivo antes de cargar."
+  },
+  "app/(store)/components/product-search": {
+    "search": "Encontrar en la tienda"
+  },
+  "app/(store)/components/product-tabs": {
+    "categoryNavigation": "Navegación por categoría"
+  },
+  "app/(store)/components/report-product": {
+    "cancel": "Cancelar",
+    "descriptionLabel": "Descripción",
+    "descriptionPlaceholder": "Describa el problema en detalle",
+    "reportProduct": "Producto informar",
+    "sending": "Envío...",
+    "subjectLabel": "Sujeto",
+    "subjectPlaceholder": "Ingrese el tema de su informe",
+    "submit": "Informe de envío"
+  },
+  "app/(store)/components/report-store": {
+    "cancel": "Cancelar",
+    "descriptionLabel": "Descripción",
+    "descriptionPlaceholder": "Describa el problema en detalle",
+    "reportStore": "Tienda de informes",
+    "sending": "Envío...",
+    "subjectLabel": "Sujeto",
+    "subjectPlaceholder": "Ingrese el tema de su informe",
+    "submit": "Informe de envío"
+  },
+  "app/(store)/components/smart-calendar": {
+    "time": "Tiempo"
+  },
+  "app/(store)/components/status-select": {
+    "changeStatus": "Estado de cambio",
+    "changeStatusAction": "Estado de cambio",
+    "failedToUpdateStatus": "No se pudo actualizar el estado",
+    "order": "Orden",
+    "orderStatus": "Estado de pedido",
+    "selectOneOption": "Seleccione una opción",
+    "statusUpdatedSuccess": "El estado se actualiza"
+  },
+  "app/(store)/components/store-description": {
+    "addressPlaceholder": "Dirección de marcador de posición",
+    "close": "Cerca",
+    "deliveryOnly": "Solo entrega",
+    "deliveryOnlyDescription": "Esta tienda solo ofrece pedidos de entrega. \nSeleccione un tiempo de entrega durante el pago.",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "locationPlaceholder": "Marcador de posición de ubicación",
+    "phone": "Teléfono",
+    "pickUpAndDelivery": "Recogida y entrega",
+    "pickUpAndDeliveryDescription": "Esta tienda ofrece pedidos de entrega y recogida. \nSeleccione una hora durante el pago.",
+    "pickUpDescription": "Esta tienda solo ofrece pedidos de recogida. \nSeleccione una hora de recogida durante el pago.",
+    "pickUpOnly": "Solo recoger",
+    "workingHours": "Horas de trabajo"
+  },
+  "app/(store)/components/store-header": {
+    "delivery": "Entrega",
+    "facebook": "Facebook",
+    "failedToUploadImage": "Subido fallido",
+    "instagram": "Instagram",
+    "pickup": "Levantar"
+  },
+  "app/(store)/components/store-subheader": {
+    "MinLeadTime": "Tiempo de pedido anticipado",
+    "addressInRange": "Su dirección está dentro del rango de entrega",
+    "addressPlaceholder": "Dirección de marcador de posición",
+    "address_not_in_delivery_range": "Su dirección no está dentro del rango de entrega de la tienda",
+    "buyerProtection": "Protección del comprador",
+    "buyerProtectionDescription": "Si el elemento real no coincide con la composición enumerada, puede devolverlo o obtener un reembolso.",
+    "cancellationRules": "Reglas de cancelación",
+    "cancellationRulesDescription": "Puede cancelar el pedido antes de la preparación, el dinero se reembolsará por completo.",
+    "day": "día",
+    "days": "días",
+    "delivery": "Entrega",
+    "deliveryFee": "Tarifa de entrega",
+    "deliveryOptionsAlertDescription": "{Store} ofrece su pedido a través del servicio postal",
+    "deliveryOptionsAlertTitle": "Entrega postal",
+    "deliveryWindow": "Ventana de entrega",
+    "hour": "hora",
+    "hours": "horas",
+    "locationPlaceholder": "Marcador de posición de ubicación",
+    "minimumOrder": "Valor de pedido mínimo",
+    "minutes": "minutos",
+    "pickUp": "Levantar",
+    "pickupWindowTitle": "Ventana de entrega",
+    "please_enter_address_to_check_delivery": "Ingrese su dirección para ver si la tienda le entrega",
+    "preOrderTime": "Tiempo de pedido anticipado",
+    "scheduleOrderTime": "Tiempo de selección",
+    "storeClosed": "Cerrado ahora",
+    "storeOpen": "Abierto ahora",
+    "typeToSearchAddress": "Ingrese el número de calle y dirección",
+    "when": "¿Cuando?"
+  },
+  "app/(store)/components/store-top": {
+    "addItem": "Agregar elemento"
+  },
+  "app/(store)/components/three-dots": {
+    "addOrder": "Agregar pedido",
+    "copyStoreLink": "Copiar enlace de la tienda",
+    "editDelivery": "Entrega de edición",
+    "editPickup": "Editar recogida",
+    "editProducts": "Editar productos",
+    "editStore": "Editar tienda",
+    "getHelp": "Obtener ayuda",
+    "report": "Informe",
+    "storeLinkCopied": "¡El enlace de almacenamiento copiado!"
+  },
+  "app/(store)/components/variants-form-field": {
+    "addOption": "Añadir opción",
+    "addOptionGroup": "Agregar grupo de opciones",
+    "exampleHeader": "Ejemplos:",
+    "exampleMinMax": "Min/Max: el cliente debe seleccionar al menos 2 y como máximo 3 ingredientes.",
+    "exampleMultiple": "Opción múltiple: ingredientes (queso, aceitunas, pimientos): el cliente puede elegir varios.",
+    "exampleRequired": "Requerido: el cliente debe seleccionar al menos una opción.",
+    "exampleSingle": "Opción única: tamaño (pequeño, mediano, grande) - El cliente elige uno.",
+    "instructionsHeader": "Cómo usar opciones de elementos (variantes)",
+    "maxSelections": "Selecciones máximas",
+    "maxSelectionsInstruction": "Establezca el número máximo de opciones que un cliente puede seleccionar cuando 'múltiple' está habilitado.",
+    "minSelections": "Selecciones mínimas",
+    "minSelectionsInstruction": "Establezca el número mínimo de opciones que un cliente debe seleccionar cuando se habilitan 'múltiples' y 'requeridos'.",
+    "multipleChoices": "Múltiples opciones",
+    "multipleChoicesHelp": "El cliente puede seleccionar múltiples opciones de este grupo. \nSi 'requerido' está habilitado, el cliente debe seleccionar al menos el número mínimo de opciones que establece.",
+    "multipleChoicesInstruction": "Se pueden seleccionar varias opciones. \nEjemplo: ingredientes (queso, aceitunas, pimientos). \nSi 'requerido' está habilitado, el cliente debe seleccionar al menos el número mínimo de opciones que establece.",
+    "newOption": "Nueva opción",
+    "optionGroupName": "Nombre del grupo de opciones",
+    "optionGroupNameHelp": "Dale a este grupo un nombre claro, p. \nTamaño, ingredientes, extras.",
+    "optionName": "Nombre de opción",
+    "options": "Opción",
+    "optionsHelp": "Agregue todas las opciones posibles para este grupo. \nCada opción puede tener un nombre y precio.",
+    "placeholder": "p.ej. \nTamaño, ingredientes, extras",
+    "required": "Requerido",
+    "requiredHelp": "El cliente debe seleccionar al menos una opción de este grupo.",
+    "requiredInstruction": "Si está habilitado, el cliente debe seleccionar al menos una opción de este grupo.",
+    "singleChoice": "Elección única",
+    "singleChoiceHelp": "El cliente puede seleccionar solo una opción de este grupo.",
+    "singleChoiceInstruction": "El cliente solo puede seleccionar una opción. \nEjemplo: tamaño (pequeño, mediano, grande) donde solo se puede elegir un tamaño único."
+  },
+  "app/(store)/components/variants-user-selection": {
+    "max": "Máximo",
+    "min": "Mínimo"
+  },
+  "app/(store)/components/working-hours": {
+    "addressOutOfRange": "Dirección fuera de rango",
+    "checkingAddress": "Ingrese su dirección",
+    "closed": "Cerrado",
+    "enterAddressPrompt": "Ingrese la dirección",
+    "friday": "Viernes",
+    "monday": "Lunes",
+    "noInfo": "Cerrado",
+    "noScheduleAvailable": "No hay horario disponible",
+    "saturday": "Sábado",
+    "scheduleFormatError": "Error de formato de programación",
+    "scheduleUnavailable": "Programe no disponible",
+    "sunday": "Domingo",
+    "thursday": "Jueves",
+    "tuesday": "Martes",
+    "wednesday": "Miércoles",
+    "workingHours": "Horas de trabajo"
+  },
+  "app/(store)/id": {
+    "example-store": "Esta es una tienda de ejemplo. \nLos productos y servicios que se muestran son solo para fines de demostración."
+  },
+  "app/(store)/id/order/failed": {
+    "error": "Algo está mal con el pago"
+  },
+  "app/(store)/id/order/success": {
+    "checkEmail": "Consulte su correo electrónico para ver la información sobre su pedido.",
+    "orderPlaced": "¡Su pedido está realizado!",
+    "returnToStore": "Vuelve a la tienda",
+    "verifyEmail": "Verificar la imagen de correo electrónico"
+  },
+  "app/(store)/id/page": {
+    "noProducts": "No hay productos disponibles"
+  },
+  "app/(store)/id/settings/page": {
+    "settingsDescription": "Personaliza tu tienda y configuración",
+    "settingsTitle": "Configuración de almacenamiento"
+  },
+  "app/(support)/components/contact-us": {
+    "buttonSending": "Envío...",
+    "buttonSubmit": "Envío",
+    "contextLabel": "¿Qué problema te enfrentas?",
+    "contextPlaceholder": "Ayúdame con ...",
+    "emailLabel": "Correo electrónico",
+    "emailPlaceholder": "Ingrese su correo electrónico",
+    "subjectLabel": "Sujeto",
+    "subjectPlaceholder": "Ingrese su sujeto",
+    "successMessage": "Su boleto fue enviado con éxito. \nLo redirigiremos a la página principal automáticamente en:"
+  },
+  "app/(support)/components/faq-baker": {
+    "answer1": "TheBakerz es una plataforma todo en uno que ayuda a los panaderos a administrar sus negocios y llegar a más clientes. \nManeja publicidad, pedidos, pagos y entregas (por ahora solo en el área de Limburg). \nAdemás, podemos ayudarlo a establecer su panadería y cumplir con las leyes y regulaciones.",
+    "answer2": "¡Comenzar es fácil! \n[Complete este formulario](/become-partner#join-thebakerz), y programaremos una llamada rápida para configurar todo. \nLe ayudaremos a crear su tienda en línea y le mostraremos cómo usarla paso a paso. \nSolo necesitará un número KVK, el número de IVA y la certificación de seguridad alimentaria. \nSi te estás perdiendo algo, no te preocupes, te ayudaremos a resolverlo.",
+    "answer3": "¡Por supuesto! \nUsted tiene el control de lo que vende y cuánto cobra. \nPuede actualizar su menú y precios cuando lo desee.",
+    "answer4": "Puede ofrecer entrega o permitir a los clientes recoger pedidos de su ubicación. \nEstablezca sus propias áreas de entrega y tiempos de recogida para adaptarse a su horario. \nLas panaderías en Limburg pueden usar el servicio de entrega de TheBakerz. \nEsto cuesta el 20% de la comisión del valor del pedido (pagado por el panadero) y una pequeña tarifa de entrega (cobrada al cliente).",
+    "answer5": "Pagas solo cuando haces una venta. \nTomamos una comisión del 8%, que cubre las operaciones del sitio web, las tarifas de procesamiento de pagos y la publicidad.",
+    "answer6": "Los clientes pagan por adelantado a través de nuestro sistema de pago seguro. \nTransferimos sus ganancias, menos la comisión, a su cuenta bancaria semanalmente. \nLos pagos generalmente llegan dentro de los 1-2 días hábiles posteriores al lunes",
+    "answer7": "Sí, puedes. \nLos pedidos se rastrean automáticamente y los pagos se procesan de forma segura con nuestro socio de pago (Stripe). \nTanto usted como sus clientes tendrán transparencia total en cada paso.",
+    "answer8": "Estamos aquí para ayudar con todo lo que necesite. Desde la configuración de su tienda hasta la gestión de pedidos, contáctenos o llámenos al +31 684794739. Nos aseguraremos de que todo funcione sin problemas para usted.",
+    "question1": "¿Qué es THEBAKERZ?",
+    "question2": "¿Cómo empiezo a vender en theBakerz?",
+    "question3": "¿Puedo elegir mis propios precios y menú?",
+    "question4": "¿Cómo funcionan las entregas de pedidos?",
+    "question5": "¿Qué cuesta usar TheBakerz?",
+    "question6": "¿Cómo funcionan los pagos?",
+    "question7": "¿Puedo confiar en TheBakerz con pagos y pedidos?",
+    "question8": "¿A quién debo contactar en caso de preguntas?"
+  },
+  "app/(support)/components/payment-urgent": {
+    "requestSentSuccess": "Su solicitud ha sido enviada con éxito.",
+    "sendRequest": "Enviar solicitud",
+    "sending": "Envío...",
+    "supportTicket": "Boleto de apoyo"
+  },
+  "app/(support)/components/support": {
+    "contactUs": "Contáctenos",
+    "faqsTitleLong": "Haga preguntas con frecuencia",
+    "faqsTitleShort": "Haga preguntas con frecuencia",
+    "sectionCustomer": "Clientes"
+  },
+  "app/actions": {
+    "notAuthenticated": "No autenticado",
+    "tooManyRequests": "Demasiadas solicitudes"
+  },
+  "app/api/auth/google": {
+    "pleaseRestartProcess": "Reinicie el proceso.",
+    "tooManyRequests": "Demasiadas solicitudes"
+  },
+  "app/api/invoice/storeId/orderId": {
+    "errorGeneratingPdf": "Error de generación de PDF",
+    "notAuthenticated": "No autenticado",
+    "orderNotFound": "No se encuentra el pedido",
+    "restrictedAccess": "Acceso restringido",
+    "storeNotFound": "La tienda no se encuentra",
+    "tooManyRequests": "Demasiadas solicitudes"
+  },
+  "app/api/pay": {
+    "missingCartId": "ID de carrito faltante",
+    "missingCosmosId": "Falta de la identificación del cosmos",
+    "missingStoreId": "ID de tienda faltante",
+    "missingUserEmail": "Correo electrónico de usuario perdido",
+    "orderDbFailed": "Ordenar DB fallido",
+    "orderNotFound": "Orden no encontrado",
+    "processingError": "Pago de procesamiento de errores",
+    "tooManyRequests": "Demasiadas solicitudes",
+    "userCreationFailed": "Falló la creación de usuarios"
+  },
+  "app/api/store": {
+    "internalError": "Error Interno del Servidor",
+    "missingAuth": "Encabezado de autorización faltante o no válido",
+    "missingStoreId": "Encabezado de ID de tienda faltante o no válido",
+    "notAuthorized": "No autorizar el acceso"
+  },
+  "app/api/store/cart": {
+    "internalError": "Error Interno del Servidor",
+    "missingAuth": "Encabezado de autorización faltante o no válido",
+    "missingStoreId": "Encabezado de ID de tienda faltante o no válido",
+    "missingUserId": "Encabezado de ID de usuario faltante o no válido",
+    "notAuthorized": "No autorizar el acceso"
+  },
+  "app/api/store/order": {
+    "internalError": "Error Interno del Servidor",
+    "notAuthorized": "No autorizar el acceso"
+  },
+  "app/api/store/orders/range": {
+    "internalError": "Error Interno del Servidor",
+    "missingAuth": "Encabezado de autorización faltante",
+    "missingFromDate": "Falta del encabezado de la fecha",
+    "missingStoreId": "Encabezado de ID de tienda faltante",
+    "missingToDate": "Falta de encabezado hasta la fecha",
+    "notAuthorized": "Acceso no autorizado"
+  },
+  "app/api/store/products": {
+    "internalError": "Error Interno del Servidor",
+    "missingAuth": "Encabezado de autorización faltante o no válido",
+    "missingStoreId": "Encabezado de ID de tienda faltante o no válido",
+    "notAuthorized": "No autorizar el acceso"
+  },
+  "app/api/store/products-order": {
+    "internalError": "Error Interno del Servidor",
+    "missingAuth": "Encabezado de autorización faltante o no válido",
+    "missingStoreId": "Encabezado de ID de tienda faltante o no válido",
+    "notAuthorized": "No autorizar el acceso"
+  },
+  "app/api/store/products/productId": {
+    "internalError": "Error Interno del Servidor",
+    "missingAuth": "Encabezado de autorización faltante o no válido",
+    "missingStoreId": "Encabezado de ID de tienda faltante o no válido",
+    "notAuthorized": "No autorizar el acceso"
+  },
+  "app/api/update-schedule": {
+    "invalidJson": "JSON no válido",
+    "invalidPayload": "Solicitud no válida de carga útil",
+    "invalidTimeFields": "Campos de tiempo no válidos",
+    "storeNotFound": "Tienda no encontrada",
+    "tooManyRequests": "Demasiadas solicitudes",
+    "updateFailed": "No se pudo actualizar el horario"
+  },
+  "app/api/upload-image": {
+    "fileNotProvided": "Archivo no proporcionado",
+    "imageUpdated": "Imagen actualizada con éxito!",
+    "internalError": "Error Interno del Servidor",
+    "invalidContainer": "Nombre del contenedor no válido",
+    "invalidImage": "Imagen no válida",
+    "notAuthenticated": "No autenticado",
+    "notAuthorized": "No autorizar el acceso",
+    "tooManyRequests": "Demasiadas solicitudes"
+  },
+  "app/api/validate-session": {
+    "internalError": "Error Interno del Servidor",
+    "missingAuth": "Encabezado de autorización faltante o no válido",
+    "tokenNotProvided": "Token no proporcionado"
+  },
+  "app/become-partner": {
+    "launchYourCustomWebShop": "Inicie su tienda web personalizada",
+    "launchYourCustomWebShopDescription": "Muestre sus productos con fotografía profesional en nuestra plataforma fácil de usar con un pago suave para la máxima satisfacción del cliente",
+    "manageOrdersSmarter": "Gestionar órdenes más inteligentes",
+    "manageOrdersSmarterDescription": "Realice un seguimiento de cada pedido desde la ubicación hasta la recogida con nuestro tablero de calendario intuitivo que muestra los detalles del cliente, los estados del pedido y las ideas financieras, todo en una vista organizada",
+    "title": "Desbloquee su potencial con thebakerz",
+    "weHaveMore": "¿Crees que esto es todo?",
+    "weHaveMoreDescription": "¡Tenemos más!"
+  },
+  "app/components/order-user": {
+    "close": "Cerca",
+    "item": "Artículo",
+    "items": "Elementos",
+    "myOrders": "Tus pedidos",
+    "noOrdersFound": "Sin pedidos. \nPedir en theBakerz",
+    "noOrdersMatchSearch": "Órdenes no encontradas",
+    "noOrdersYet": "No hay pedidos todavía",
+    "order": "Orden",
+    "orderDetails": "Detalles del pedido",
+    "orders": "Órdenes",
+    "searchOrders": "Encontrar orden",
+    "view": "Vista"
+  },
+  "app/landing/horizontal-scroll": {
+    "deliveries": "Entregas",
+    "marketing": "MARKETING",
+    "support": "APOYO"
+  },
+  "app/landing/marketplace": {
+    "bakersGrowthSectionDescription": "Nuestra plataforma ayuda a los panaderos artesanales a impulsar los ingresos a través de la gestión de pedidos promocionales, las herramientas de descubrimiento de clientes y las operaciones simplificadas, lo que se enfoca en crear deliciosos productos horneados.",
+    "bakersGrowthSectionTitle": "Haga crecer su negocio de panadería con TheBakerz",
+    "become": "Convertirse en socio",
+    "heroSectionTitle": "Descubre panaderías artesanales cerca de ti"
+  },
+  "app/lib/actions/auth/email-action": {
+    "applicationSubmittedSuccess": "¡La solicitud fue enviada con éxito!",
+    "emailSentSuccess": "¡Correo electrónico enviado correctamente!",
+    "invalidFields": "Campos no válidos!",
+    "phoneCorrect": "¡El teléfono es correcto!"
+  },
+  "app/lib/actions/cart": {
+    "cartRemovedSuccess": "¡CART eliminado con éxito!",
+    "cartUpdatedSuccess": "¡CART actualizado con éxito!",
+    "failedRemoveCart": "No se pudo quitar el carrito.",
+    "failedRemoveItem": "No se pudo eliminar el artículo del carrito.",
+    "failedReplaceGuestCart": "No se pudo reemplazar el carrito de invitados.",
+    "failedUpdateCart": "No se pudo actualizar el carrito.",
+    "guestCartReplacedSuccess": "¡El carrito de invitados ha sido reemplazado con éxito con artículos de carrito de usuario!",
+    "guestIdNotFound": "ID de invitado no encontrado",
+    "invalidOption": "Opción no válida {opción} para {variante}",
+    "itemRemovedSuccess": "Artículo eliminado con éxito!",
+    "maxSelectionsExceeded": "{variante} no puede tener más de {max} selecciones",
+    "minOrderRequired": "Debe ordenar al menos {min} de este producto",
+    "minSelectionsRequired": "{variante} debe tener {min} selecciones",
+    "noteTooLong": "¡La nota es demasiado larga!",
+    "productNotFound": "¡Producto no encontrado!",
+    "requiredVariantMissing": "se requiere {variante}",
+    "sessionNotRecognized": "Sesión no reconocida",
+    "singleSelectionRequired": "{variante} debe tener exactamente una selección",
+    "tooManyRequests": "Demasiadas solicitudes",
+    "userIdStoreIdRequired": "Se requiere la identificación de usuario y la ID de la tienda",
+    "userNotFound": "¡Usuario no encontrado!"
+  },
+  "app/lib/actions/delivery": {
+    "failedReplaceGuestAddress": "Dirección fallida",
+    "guestAddressReplacedSuccess": "Éxito",
+    "guestIdNotFound": "Invitado no encontrado",
+    "sessionNotRecognized": "Sesión",
+    "tooManyRequests": "¡Demasiadas solicitudes!"
+  },
+  "app/lib/actions/order": {
+    "cannotChangeStatus": "TheBakerz solo puede completar este pedido",
+    "cartEmpty": "El carrito está vacío",
+    "failedCreateCheckout": "No se pudo crear una sesión de pago",
+    "failedFetchOrder": "No se pudo obtener datos de la tienda",
+    "failedFetchOrders": "No se pudo obtener pedidos",
+    "failedUpdateOrderStatus": "No se pudo actualizar el estado del pedido",
+    "invalidData": "Datos de pedido no válidos",
+    "invalidFields": "Campos no válidos!",
+    "invalidStatus": "Estado no válido",
+    "orderAlreadyCompleted": "El pedido ya está completado",
+    "orderNotFound": "Orden no encontrado",
+    "orderTimeNotSet": "El tiempo de pedido no está configurado",
+    "pastDateOrder": "No se puede realizar pedidos para fechas pasadas o el tiempo está cerca de terminar",
+    "sessionExpired": "La sesión no es válida",
+    "storeNotFound": "¡Tienda no encontrado!",
+    "tooManyRequests": "Demasiadas solicitudes",
+    "userNotAuthorized": "No hay acceso"
+  },
+  "app/lib/actions/order-products": {
+    "failedFetchStoreProducts": "No se pudo obtener productos de la tienda",
+    "failedUpdateProduct": "No se pudo actualizar el producto.",
+    "orderUpdated": "¡Pedido actualizado!",
+    "storeNotFound": "¡Tienda no encontrado!",
+    "tooManyRequests": "Demasiadas solicitudes",
+    "userNotFound": "¡Usuario no encontrado!"
+  },
+  "app/lib/actions/product": {
+    "failedUpdateProduct": "No se pudo actualizar el producto.",
+    "invalidFields": "Campos no válidos!",
+    "productAdded": "¡Producto agregado!",
+    "productUpdated": "Producto actualizado!",
+    "storeNotFound": "¡Tienda no encontrado!",
+    "tooManyRequests": "Demasiadas solicitudes",
+    "userNotFound": "¡Usuario no encontrado!"
+  },
+  "app/lib/actions/profile-actions": {
+    "invalidFields": "Campos no válidos!",
+    "profileUpdated": "Perfil actualizado con éxito!",
+    "tooManyRequests": "Demasiadas solicitudes",
+    "userNotFound": "¡Usuario no encontrado!"
+  },
+  "app/lib/actions/store-actions": {
+    "invalidFields": "Campos no válidos",
+    "storeNameExists": "¡El nombre de la tienda ya existe!",
+    "storeUpdated": "¡Información de almacenamiento actualizada!",
+    "tooManyRequests": "¡Demasiadas solicitudes!",
+    "userNotFound": "¡Usuario no encontrado!"
+  },
+  "app/lib/actions/user-orders": {
+    "failedFetchOrders": "Pedidos de búsqueda fallidos"
+  },
+  "app/search": {
+    "noStoresFound": "No se encuentran tiendas",
+    "tryChangingLocationOrDeliveryMode": "Intente cambiar su ubicación o modo de entrega."
+  },
+  "delivery-button": {
+    "enterDeliveryAddressPrompt": "Ingrese la dirección",
+    "whereToDeliver": "¿Dónde entregar su pedido?"
+  },
+  "lib/actions/delivery-address-actions": {
+    "AddressNotPreciseEnough": "¡La dirección no es lo suficientemente precisa!",
+    "CouldNotVerifyAddressLocation": "No se pudo verificar la ubicación de la dirección. \nPor favor revise los detalles.",
+    "FailedToVerifyAddressLocation": "No se pudo verificar la ubicación de la dirección.",
+    "InvalidCity": "Ciudad no válida",
+    "InvalidPostalCode": "Código postal no válido",
+    "MissingRequiredFields": "Se requiere una dirección formateada para la validación de entrega."
+  },
+  "search": {
+    "components": {
+      "storePanel": {
+        "MinLeadTime": "Tiempo de pedido anticipado",
+        "closed": "Cerrado",
+        "day": "día",
+        "days": "días",
+        "deliveryAvailable": "Entregar ahora",
+        "deliveryFee": "Tarifa de entrega",
+        "deliveryHours": "Horas de entrega",
+        "deliveryUnavailable": "No hay entrega ahora",
+        "hour": "hora",
+        "hours": "horas",
+        "minOrder": "Orden mínimo",
+        "open": "Abierto",
+        "workingHours": "Horario de apertura"
+      }
+    }
+  }
+}

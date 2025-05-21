@@ -163,12 +163,11 @@ export default function DeliveryInfo({
              <div className="flex flex-col gap-1 p-3 rounded-lg bg-background">
               <div className="flex items-center gap-2 mb-1 h-10">
                 <Icon icon="solar:shield-check-linear" className="h-5 w-5 text-foreground" />
-                <span className="text-sm font-semibold">Buyer protection</span>
+                <span className="text-sm font-semibold">{t("buyerProtection")}</span>
               </div>
               <Skeleton isLoaded={!isLoading} className="rounded-full">
                 <span className="text-sm text-default-600">
-                  If the actual item doesn't match the listed composition, 
-                  you can return it or get a refund.
+                  {t("buyerProtectionDescription")}
                 </span>
               </Skeleton>
             </div>
@@ -177,12 +176,11 @@ export default function DeliveryInfo({
              <div className="flex flex-col gap-1 p-3 rounded-lg bg-background">
               <div className="flex items-center gap-2 mb-1 h-10">
                 <Icon icon="solar:close-circle-linear" className="h-5 w-5 text-foreground" />
-                <span className="text-sm font-semibold">Cancellation rules</span>
+                <span className="text-sm font-semibold">{t("cancellationRules")}</span>
               </div>
               <Skeleton isLoaded={!isLoading} className="rounded-full">
                 <span className="text-sm text-default-600">
-                  You can cancel the order before preparation, the 
-                  money will be fully refunded to you.
+                  {t("cancellationRulesDescription")}
                 </span>
               </Skeleton>
             </div>

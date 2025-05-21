@@ -7,6 +7,7 @@ import { DeliveryAddressButton } from "@/components/ui/select-time/delivery-addr
 import { usePathname } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { FilterButton } from "@/components/store/filter/FilterButton";
 
 interface DeliveryNavbarProps {
     isVisible: boolean;
@@ -40,10 +41,12 @@ export const DeliveryNavbar: React.FC<DeliveryNavbarProps> = ({
                     <SelectTime />
                 </div>
                 <div className={cn(
-                    "w-2/3",
-                    (!isDelivery && !isSearchPage) && "hidden"
+                    "w-2/3"
                 )}>
-                    <DeliveryAddressButton />
+                    <div className={cn("flex space-x-2")}>
+                        {!(!isDelivery && !isSearchPage) && <DeliveryAddressButton />}
+                        <FilterButton />
+                    </div>
                 </div>
             </div>
         </div>

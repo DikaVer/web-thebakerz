@@ -59,7 +59,6 @@ export function SelectTime() {
                         isDateUpdating={isDateUpdating}
                         isLoadingDate={isLoadingDate}
                         isPostDelivery={validationResult?.deliveryRegion?.isPostDelivery || false}
-                        t={t}
                     />
                 )}
             </>
@@ -72,7 +71,6 @@ export function SelectTime() {
             onValueChange={handleDateChange}
             isDateUpdating={isDateUpdating}
             isLoadingDate={isLoadingDate}
-            t={t}
         />
     );
 }

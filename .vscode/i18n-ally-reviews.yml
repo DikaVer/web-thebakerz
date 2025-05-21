@@ -8822,6 +8822,7 @@ reviews:
             suggestion: ''
             type: request_change
             time: '2025-04-27T13:06:37.301Z'
+            resolved: true
       nl:
         comments:
           - user:
@@ -8832,6 +8833,7 @@ reviews:
             suggestion: ''
             type: request_change
             time: '2025-04-27T13:04:39.607Z'
+            resolved: true
       fr:
         comments:
           - user:
@@ -8842,6 +8844,7 @@ reviews:
             suggestion: ''
             type: request_change
             time: '2025-04-27T13:06:28.602Z'
+            resolved: true
   app/(store)/components/location-map.errorLoadingMap:
     locales:
       en-NL:
@@ -8890,6 +8893,15 @@ reviews:
             suggestion: ''
             type: approve
             time: '2025-05-07T23:26:55.632Z'
+            resolved: true
+          - user:
+              name: dikaver
+              email: dika1596@gmail.com
+            id: 35rBmMiqVAhjQU8y9iR1e
+            comment: ''
+            suggestion: ''
+            type: approve
+            time: '2025-05-21T16:25:57.517Z'
       fr:
         comments:
           - user:
@@ -9214,10 +9226,6 @@ reviews:
   app/(return_page)/profile.login:
     locales:
       en-NL:
-        translation_candidate:
-          source: en
-          text: ''
-          time: '2025-05-09T00:01:23.790Z'
         comments:
           - user:
               name: dikaver

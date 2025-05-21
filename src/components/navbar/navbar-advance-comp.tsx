@@ -1,6 +1,6 @@
 "use client";
 
-import {ButtonGroup, cn, NavbarProps, Button} from "@heroui/react";
+import {cn, NavbarProps, Button} from "@heroui/react";
 import React, { useEffect, useState, memo } from "react";
 import {
     Navbar,
@@ -16,9 +16,6 @@ import { ReturnNavbar } from "./navbars/ReturnNavbar";
 import { DefaultNavbar } from "./navbars/DefaultNavbar";
 import { MobileNavbar } from "./navbars/MobileNavbar";
 import MobileStoreNavbar from "./navbars/MobileStoreNavbar";
-import { MobileSearchNavbar } from "./navbars/MobileSearchNavbar";
-import { DeliveryAddressButton } from "../ui/select-time/delivery-address-button";
-import { SelectTime } from "../ui/select-time";
 import { DeliveryNavbar } from "./navbars/DeliveryNavbar";
 
 interface LayoutProps {
@@ -62,7 +59,6 @@ export default function NavbarAdvancedComponent({
     pay = false,
     props = {},
 }: LayoutProps) {
-    const t = useTranslations("app/(landing)/components/navbar");
     const isMobile = useMediaQuery("(max-width: 768px)");
     const { isSticky } = useStore();
     const { session, isSaveOpen, handleSave, isLoading } = useSession();
@@ -73,7 +69,6 @@ export default function NavbarAdvancedComponent({
     const prevScrollY = React.useRef(0);
     const blocking = React.useRef(false);
     const SCROLL_THRESHOLD = 10;
-    const pathname = usePathname();
     const isShowDelivery = useMediaQuery(store ? "(max-width: 1200px)" : "(max-width: 948px)");
 
     // Track scroll position and direction with improved performance
@@ -137,7 +132,6 @@ export default function NavbarAdvancedComponent({
                             navigateToStore={navigateToStore}
                             isVisibleCart={isVisibleCart}
                             session={session}
-                            t={t}
                         />
                     ) : (
                         <>
@@ -145,7 +139,6 @@ export default function NavbarAdvancedComponent({
                             store={store}
                             session={session}
                             navigateToStore={navigateToStore}
-                            t={t}
                         />
                             {(session?.user?.role === "bakerz" && store?.user_id === session?.user.id) && (
                                 <div className="bg-background rounded-t-xl fixed bottom-0 left-0 right-0 z-50 p-2 shadow-[0_-4px_12px_-1px_rgba(0,0,0,0.1)]">

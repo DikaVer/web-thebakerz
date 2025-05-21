@@ -13,7 +13,8 @@ import LanguageModal from "@/components/language-modal";
 import {getCookiePreferences, isCookieConsentFromServer} from "@/lib/actions/cookies/cookie";
 import ClarityScript from "@/components/clarity-script";
 import GoogleAnalytics from "@/components/google-analytics";
-import { logger } from "@/lib/logger";
+
+
 export const viewport: Viewport = {
     width: 'device-width',
     initialScale: 1,

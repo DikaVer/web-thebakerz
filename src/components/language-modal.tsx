@@ -31,7 +31,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
             hideCloseButton
             backdrop={'blur'}
             placement={'center'}
-            size={'xs'}
+            size={'sm'}
         >
             <ModalContent>
                 <ModalHeader
@@ -53,80 +53,91 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                     >
                         English
                     </Button>
-                    {/*<Button*/}
-                    {/*    variant={'light'}*/}
-                    {/*    size={'lg'}*/}
-                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
-                    {/*    startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-nl" width={32}/></div>}*/}
-                    {/*    onPress={(e) => {*/}
-                    {/*        handleSubmit('nl')*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    <div className={'flex flex-col items-start'}>*/}
-                    {/*        <p>Nederlands</p>*/}
-                    {/*        <p className={'text-xs text-default-500'}>Kan fouten bevatten in de vertaling</p>*/}
-                    {/*    </div>*/}
-                    {/*</Button>*/}
-                    {/*<Button*/}
-                    {/*    variant={'light'}*/}
-                    {/*    size={'lg'}*/}
-                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
-                    {/*    startContent={<Icon icon="circle-flags:lang-de" width={32}/>}*/}
-                    {/*    onPress={(e) => {*/}
-                    {/*        handleSubmit('de')*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    German*/}
-                    {/*</Button>*/}
-                    {/*<Button*/}
-                    {/*    variant={'light'}*/}
-                    {/*    size={'lg'}*/}
-                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
-                    {/*    startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-fr" width={32}/></div>}*/}
-                    {/*    onPress={(e) => {*/}
-                    {/*        handleSubmit('fr')*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    <div className={'flex flex-col items-start'}>*/}
-                    {/*        <p>French</p>*/}
-                    {/*        <p className={'text-xs text-default-500'}>Peut contenir des erreurs de traduction</p>*/}
-                    {/*    </div>*/}
-                    {/*</Button>*/}
-                    {/*<Button*/}
-                    {/*    variant={'light'}*/}
-                    {/*    size={'lg'}*/}
-                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
-                    {/*    startContent={<Icon icon="circle-flags:lang-es" width={32}/>}*/}
-                    {/*    onPress={(e) => {*/}
-                    {/*        handleSubmit('es')*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    España*/}
-                    {/*</Button>*/}
-                    {/*<Button*/}
-                    {/*    variant={'light'}*/}
-                    {/*    size={'lg'}*/}
-                    {/*    className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}*/}
-                    {/*    startContent={<Icon icon="circle-flags:lang-uk" width={32}/>}*/}
-                    {/*    onPress={(e) => {*/}
-                    {/*        handleSubmit('uk')*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    Українській*/}
-                    {/*</Button>*/}
-                    {process.env.NEXT_PUBLIC_RUSSIAN_LANGUAGE &&
-                            <Button
-                            variant={'light'}
-                            size={'lg'}
-                            className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
-                            startContent={<Icon icon="circle-flags:lang-ru" width={32}/>}
-                            onPress={(e) => {
-                                handleSubmit('ru')
-                            }}
-                        >
-                            Русский
-                        </Button>
-                    }
+                    <Button
+                        variant={'light'}
+                        size={'lg'}
+                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
+                        startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-nl" width={32}/></div>}
+                        onPress={(e) => {
+                            handleSubmit('nl')
+                        }}
+                    >
+                        <div className={'flex flex-col items-start'}>
+                            <p>Nederlands</p>
+                            <p className={'text-xs text-default-500 truncate'}>Kan fouten bevatten in de vertaling</p>
+                        </div>
+                    </Button>
+                    <Button
+                        variant={'light'}
+                        size={'lg'}
+                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
+                        startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-de" width={32}/></div>}
+                        onPress={(e) => {
+                            handleSubmit('de')
+                        }}
+                    >
+                        <div className={'flex flex-col items-start'}>
+                            <p>Deutsch</p>
+                            <p className={'text-xs text-default-500 truncate'}>Kann Fehler in der Übersetzung enthalten</p>
+                        </div>
+                    </Button>
+                    <Button
+                        variant={'light'}
+                        size={'lg'}
+                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
+                        startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-fr" width={32}/></div>}
+                        onPress={(e) => {
+                            handleSubmit('fr')
+                        }}
+                    >
+                        <div className={'flex flex-col items-start'}>
+                            <p>French</p>
+                            <p className={'text-xs text-default-500 truncate'}>Peut contenir des erreurs de traduction</p>
+                        </div>
+                    </Button>
+                    <Button
+                        variant={'light'}
+                        size={'lg'}
+                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
+                        startContent={ <div className={'w-8'}><Icon icon="circle-flags:lang-ru" width={32}/></div>}
+                        onPress={(e) => {
+                            handleSubmit('ru')
+                        }}
+                    >
+                        <div className={'flex flex-col items-start'}>
+                            <p>Русский</p>
+                            <p className={'text-xs text-default-500 truncate'}>Может содержать ошибки в переводе</p>
+                        </div>
+                    </Button>
+                    <Button
+                        variant={'light'}
+                        size={'lg'}
+                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
+                        startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-uk" width={32}/></div>}
+                        onPress={(e) => {
+                            handleSubmit('uk')
+                        }}
+                    >
+                        <div className={'flex flex-col items-start'}>
+                            <p>Українській</p>
+                            <p className={'text-xs text-default-500 truncate'}>Може содержать ошибки в переводе</p>
+                        </div>
+                    </Button>
+                    <Button
+                        variant={'light'}
+                        size={'lg'}
+                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
+                        startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-es" width={32}/></div>}
+                        onPress={(e) => {
+                            handleSubmit('es')
+                        }}
+                    >
+                        <div className={'flex flex-col items-start'}>
+                            <p>España</p>
+                            <p className={'text-xs text-default-500 truncate'}>Puede contener errores de traducción</p>
+                        </div>
+                    </Button>
+
                     {/*<Button*/}
                     {/*    variant={'light'}*/}
                     {/*    size={'lg'}*/}

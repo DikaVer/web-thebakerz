@@ -12,16 +12,12 @@ import GradientText from "@/components/ui/gradient-text";
 import LanguageModal from "@/components/language-modal";
 import { useTranslations } from "next-intl";
 import ProfilePopover from "@/components/navbar/profile/profile-popover";
-import { logger } from "@/lib/logger";
 import { useCart } from "@/components/providers/cart-provider";
 import Image from "next/image";
 import { DeliveryNavbar } from "./DeliveryNavbar";
-import { FilterButton } from "@/components/store/filter/FilterButton";
-interface NavbarTranslationProps {
-    t: (key: string) => string;
-}
 
-interface DefaultNavbarProps extends NavbarTranslationProps {
+
+interface DefaultNavbarProps {
     store?: StoreData;
     session: SessionValidationResult;
     navigateToStore: () => void;
@@ -183,9 +179,6 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         />
                     </div>
                 </div>
-                <div>
-                    <FilterButton />
-                </div>
                 {!isHideDelivery && (
                     <DeliveryNavbar
                         isVisible={true}
@@ -212,7 +205,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         />
                     }
                 />
-                {/* <Button
+                <Button
                     isIconOnly
                     variant="light"
                     size="sm"
@@ -220,7 +213,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                     onPress={() => setIsLanguageOpen(true)}
                 >
                     <Icon icon="material-symbols-light:language" width={32} height={32} />
-                </Button> */}
+                </Button>
             </NavbarContent>
             {isLanguageOpen && <LanguageModal handAction={() => setIsLanguageOpen(false)}/>}
         </>

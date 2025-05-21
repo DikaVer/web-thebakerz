@@ -3,6 +3,7 @@ import { Button, ButtonGroup, Spinner, Skeleton } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { CalendarDateTime } from "@internationalized/date";
 import { formatDate, SmartDatetimeInput } from "@/components/store/store-header/calendar/smart-calendar";
+import { useTranslations } from "next-intl";
 
 interface DeliveryTimeSelectionProps {
     buttonClassName?: string;
@@ -13,7 +14,6 @@ interface DeliveryTimeSelectionProps {
     isDateUpdating: boolean;
     isLoadingDate: boolean;
     isPostDelivery: boolean;
-    t: (key: string) => string;
 }
 
 export const DeliveryTimeSelection: React.FC<DeliveryTimeSelectionProps> = ({
@@ -24,46 +24,49 @@ export const DeliveryTimeSelection: React.FC<DeliveryTimeSelectionProps> = ({
     onValueChange,
     isDateUpdating,
     isLoadingDate,
-    isPostDelivery,
-    t
-}) => (
-    <ButtonGroup
-        fullWidth
-        size="sm"
-        radius="md"
-        className="text-grayText"
-    >
-        <SmartDatetimeInput
-            schedule={schedule}
-            minValue={minValue()}
-            value={selectedDate}
-            onValueChange={onValueChange}
-            isPostDelivery={isPostDelivery}
+    isPostDelivery
+}) => {
+    const t = useTranslations("app/(store)/components/store-subheader");
+
+    return (
+        <ButtonGroup
+            fullWidth
+            size="sm"
+            radius="md"
+            className="text-grayText"
         >
-            <Button
-                startContent={
-                    <div className="flex items-center justify-center w-6 h-6">
-                        {isDateUpdating || isLoadingDate ? 
-                            <Spinner size="sm" color="current" /> : 
-                            <Icon icon="solar:scooter-linear" width={24} />
-                        }
-                    </div>
-                }
-                className={`${selectedDate instanceof CalendarDateTime ? `text-default-600 bg-background-secondary` : `border-2 border-primary ${buttonClassName}`} text-sm`}
-                onPress={() => {}}
-                isDisabled={isDateUpdating || isLoadingDate}
+            <SmartDatetimeInput
+                schedule={schedule}
+                minValue={minValue()}
+                value={selectedDate}
+                onValueChange={onValueChange}
+                isPostDelivery={isPostDelivery}
             >
-                <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
-                    {isLoadingDate ? (
-                        <Skeleton className="h-4 w-32 rounded-lg" /> 
-                    ) : selectedDate instanceof CalendarDateTime ? (
-                    // `${t("deliverAt")} ${formatDate(selectedDate, isPostDelivery)}`
-                    `${formatDate(selectedDate, isPostDelivery)}`
-                    ) : (
-                            t("when")
-                        )}
-                </div>
-            </Button>
-        </SmartDatetimeInput>
-    </ButtonGroup>
-); 
+                <Button
+                    startContent={
+                        <div className="flex items-center justify-center w-6 h-6">
+                            {isDateUpdating || isLoadingDate ? 
+                                <Spinner size="sm" color="current" /> : 
+                                <Icon icon="solar:scooter-linear" width={24} />
+                            }
+                        </div>
+                    }
+                    className={`${selectedDate instanceof CalendarDateTime ? `text-default-600 bg-background-secondary` : `border-2 border-primary ${buttonClassName}`} text-sm`}
+                    onPress={() => {}}
+                    isDisabled={isDateUpdating || isLoadingDate}
+                >
+                    <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                        {isLoadingDate ? (
+                            <Skeleton className="h-4 w-32 rounded-lg" /> 
+                        ) : selectedDate instanceof CalendarDateTime ? (
+                        // `${t("deliverAt")} ${formatDate(selectedDate, isPostDelivery)}`
+                        `${formatDate(selectedDate, isPostDelivery)}`
+                        ) : (
+                                t("when")
+                            )}
+                    </div>
+                </Button>
+            </SmartDatetimeInput>
+        </ButtonGroup>
+    ); 
+};
