@@ -125,10 +125,10 @@ export const onboardBakerz = async (
         
         await connectionPool.query(
             `
-              INSERT INTO store_locations (store_id, route, country, city, latitude, longitude, zip_code)
-              VALUES ($1, $2, $3, $4, $5, $6, $7)
+              INSERT INTO store_locations (store_id, house_number, route, country, city, latitude, longitude, zip_code)
+              VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
               `,
-            [storeId, formData.route, formData.country, formData.city, formData.latitude, formData.longitude, formData.zip_code],
+            [storeId, formData.houseNumber, formData.route, formData.country, formData.city, formData.latitude, formData.longitude, formData.zip_code],
         );
 
         // 3. Insert business address

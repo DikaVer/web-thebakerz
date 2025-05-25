@@ -254,9 +254,6 @@ export async function getStoreDataPaymentByStoreNameOrId(id: string): Promise<St
             })
             .catch((error) => console.error("Error reading item:", error));
 
-        if (!schedule) {
-            throw new Error("Schedule not found");
-        }
 
         // Fetch delivery regions
         let deliveryRegions: MerchantDeliveryRegion[] = [];
@@ -749,7 +746,7 @@ export interface StoreDataPayment {
     stripe_id?: string;
     minTimeOrder: number;
     location: LocationData;
-    schedule: WorkHours;
+    schedule?: WorkHours;
     vat: string;
     nameBusiness: string;
     kvk: string;

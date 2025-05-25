@@ -49,6 +49,7 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                 stripeAccountId: "",
                 phoneNumber: "",
                 route: "",
+                houseNumber: "",
                 country: "",
                 city: "",
                 latitude: undefined,
@@ -224,6 +225,29 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                                 label={'Route'}
                                                 className="mt-2"
                                                 placeholder="Route"
+                                                type="text"
+                                                validate={() => fieldState.error?.message}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        {/* House Number Field */}
+                        <div>
+                            <FormField
+                                control={form.control}
+                                name="houseNumber"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                isDisabled={isPending}
+                                                isRequired
+                                                label={'House Number'}
+                                                className="mt-2"
+                                                placeholder="House Number"
                                                 type="text"
                                                 validate={() => fieldState.error?.message}
                                             />
