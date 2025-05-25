@@ -8,18 +8,19 @@ import DeliveryManager from "@/components/settings/delivery-settings";
 import StoreInfo from "@/components/settings/store/store-info";
 import EditBakerzForm from "../edit-bakerz-form";
 import { StoreData } from "@/lib/actions/store";
-import { StoreBusinessData } from "@/lib/actions/store";
+import { StoreBusinessData, StoreDataPayment } from "@/lib/actions/store";
 
 interface TabsSettingsProps {
     store: StoreData | null;
     businessData: StoreBusinessData | null;
-
+    paymentData: StoreDataPayment | null;
 }
 
 export const BakerzEditTabs: React.FC<TabsSettingsProps> = ({
 
     store,
-    businessData    
+    businessData,
+    paymentData
                                                            }) => {
 
     const t = useTranslations("app/(return_page)/settings/components/store-tabs-settings");
@@ -54,7 +55,8 @@ export const BakerzEditTabs: React.FC<TabsSettingsProps> = ({
                             <EditBakerzForm 
                                 store={store} 
                                 businessData={businessData} 
-                                className="max-w-2xl"
+                                paymentData={paymentData}
+                                className="max-w-2xl w-full"
                             />
                         </div>
                     </Tab>

@@ -29,12 +29,22 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
                     s.stripe_id,
                     s.min_time_order,
                     s.delivery_option,
+                    s.hide_phone,
+                    s.hide_street,
                     COALESCE(bs.kor, false) AS kor,
                     s.region as region,
                     s.currency as currency,
-                    s.pickup_window as pickup_window
+                    s.pickup_window as pickup_window,
+                    sl.house_number as house_number,
+                    sl.route as route,
+                    sl.city as city,
+                    sl.zip_code as zip_code,
+                    sl.country as country,
+                    sl.latitude as latitude,
+                    sl.longitude as longitude
              FROM stores s
                       JOIN users u ON s.user_id = u.id
+                      JOIN store_locations sl ON s.id = sl.store_id
                       LEFT JOIN business_acc bs ON bs.user_id = s.user_id
              WHERE (LOWER(s.nickname) = LOWER($1) OR s.id = $1)
                AND s.deleted = false`,
@@ -46,8 +56,6 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
         }
 
         const storeRow = storeResult.rows[0];
-        // Get the store location by calling getLocationStore.
-        const location = await getLocationStore(storeRow.id);
 
         let schedule: WorkHours | undefined = undefined;
 
@@ -83,7 +91,7 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             currency: storeRow.currency,
             storeName: storeRow.nickname,
             description: storeRow.description,
-            phone: storeRow.phone,
+            phone: storeRow.hide_phone ? "" : storeRow.phone,
             email: storeRow.email,
             picture: storeRow.picture,
             background: storeRow.background,
@@ -96,7 +104,17 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             pickupWindow: storeRow.pickup_window,
             deliveryOption: storeRow.delivery_option,
             isStripeValid: isStripeValid,
-            location,  // This is of type LocationData
+            hide_phone: storeRow.hide_phone,
+            hide_street: storeRow.hide_street,
+            location: {
+                house_number: storeRow.hide_street ? "" : storeRow.house_number,
+                route: storeRow.route,
+                city: storeRow.city,
+                zipCode: storeRow.zip_code,
+                country: storeRow.country,
+                latitude: storeRow.latitude,
+                longitude: storeRow.longitude,
+            },
             schedule,
             deliveryRegions,
             totalLikes: totalLikes,
@@ -202,9 +220,17 @@ export async function getStoreDataPaymentByStoreNameOrId(id: string): Promise<St
                     ba.route,
                     ba.city,
                     ba.zip_code,
-                    ba.country
+                    ba.country,
+                    sl.house_number as house_number,
+                    sl.route as route,
+                    sl.city as city,
+                    sl.zip_code as zip_code,
+                    sl.country as country,
+                    sl.latitude as latitude,
+                    sl.longitude as longitude
              FROM stores s
                       JOIN users u ON s.user_id = u.id
+                      JOIN store_locations sl ON s.id = sl.store_id
                       LEFT JOIN business_acc bs ON bs.user_id = s.user_id
                       LEFT JOIN business_address ba ON bs.business_address_id = ba.id
              WHERE (LOWER(s.nickname) = LOWER($1) OR s.id = $1)
@@ -217,8 +243,6 @@ export async function getStoreDataPaymentByStoreNameOrId(id: string): Promise<St
         }
 
         const storeRow = storeResult.rows[0];
-        // Get the store location by calling getLocationStore.
-        const location = await getLocationStore(storeRow.id);
 
         let schedule: WorkHours | undefined = undefined;
 
@@ -269,7 +293,15 @@ export async function getStoreDataPaymentByStoreNameOrId(id: string): Promise<St
                 country: storeRow.country,
             },
             regionBusiness: storeRow.regionBusiness,
-            location,  // This is of type LocationData
+            location: {
+                house_number: storeRow.house_number,
+                route: storeRow.route,
+                city: storeRow.city,
+                zipCode: storeRow.zip_code,
+                country: storeRow.country,
+                latitude: storeRow.latitude,
+                longitude: storeRow.longitude,
+            },
             schedule: schedule,    
         };
     } catch (error) {
@@ -293,6 +325,9 @@ export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string
                 stores.slug AS slug,
                 stores.min_time_order AS min_time_order,
                 stores.delivery_option AS delivery_option,
+                stores.hide_phone AS hide_phone,
+                stores.hide_street AS hide_street,
+                store_locations.house_number AS house_number,
                 store_locations.route AS store_route,
                 store_locations.city AS store_city,
                 store_locations.zip_code AS store_zip_code,
@@ -342,7 +377,7 @@ export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string
             region: rowS.region,
             storeName: rowS.store_name,
             description: rowS.store_description,
-            phone: rowS.store_phone,
+            phone: rowS.hide_phone ? "" : rowS.store_phone,
             facebook_url: rowS.store_facebook_url,
             instagram_url: rowS.store_instagram_url,
             background: rowS.store_background,
@@ -352,7 +387,10 @@ export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string
             deliveryOption: rowS.delivery_option,
             isStripeValid: isStripeValid,
             pickupWindow: rowS.pickup_window,
+            hide_phone: rowS.hide_phone,
+            hide_street: rowS.hide_street,
             location: {
+                house_number: rowS.hide_street ? "" : rowS.house_number,
                 route: rowS.store_route,
                 city: rowS.store_city,
                 zipCode: rowS.store_zip_code,
@@ -402,6 +440,8 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 stores.phone AS store_phone,
                 stores.deleted AS deleted,
                 stores.hidden AS hidden,
+                stores.hide_phone AS hide_phone,
+                stores.hide_street AS hide_street,
                 u.email AS email,
                 u.image AS picture,
                 u.name AS "ownerName",
@@ -418,6 +458,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
                 store_locations.country AS store_country,
                 store_locations.latitude AS store_latitude,
                 store_locations.longitude AS store_longitude,
+                store_locations.house_number AS house_number,
                 bs.kor AS kor,
                 stores.region as region,
                 stores.currency as currency,
@@ -464,7 +505,7 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
             picture: rowS.picture,
             background: rowS.store_background,
             description: rowS.store_description,
-            phone: rowS.store_phone,
+            phone: rowS.hide_phone ? "" : rowS.store_phone,
             email: rowS.email,
             deleted: rowS.deleted,
             hidden: rowS.hidden,
@@ -477,7 +518,10 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
             minTimeOrder: rowS.min_time_order,
             pickupWindow: rowS.pickup_window,
             deliveryOption: rowS.delivery_option,
+            hide_phone: rowS.hide_phone,
+            hide_street: rowS.hide_street,
             location: {
+                house_number: rowS.hide_street ? "" : rowS.house_number,
                 route: rowS.store_route,
                 city: rowS.store_city,
                 zipCode: rowS.store_zip_code,
@@ -629,44 +673,6 @@ export const getCurrentBusinessStore = async (id: string): Promise<StoreBusiness
     }).then(res => res.json());
 };
 
-
-async function getLocationStore(storeId: string): Promise<LocationData> {
-    try {
-        const result = await connectionPool.query(
-            `SELECT route,
-                    city,
-                    country,
-                    latitude,
-                    longitude,
-                    zip_code
-             FROM store_locations
-             WHERE store_id = $1`,
-            [storeId]
-        );
-
-        if (result.rows.length === 0) {
-            throw new Error("Location not found");
-        }
-
-        const row = result.rows[0];
-
-        const locationData: LocationData = {
-            route: row.route,
-            city: row.city,
-            country: row.country,
-            latitude: row.latitude,
-            longitude: row.longitude,
-            zipCode: row.zip_code,
-        };
-
-        return locationData;
-    } catch (error) {
-        console.error("Error fetching store location:", error);
-        throw new Error("Failed to fetch store location");
-    }
-}
-
-
 export interface StoreBusinessData {
     id: string;
     user_id: string;
@@ -688,6 +694,7 @@ export interface LocationBusiness {
 
 export interface LocationData {
     route: string;
+    house_number: string;
     city: string;
     country: string;
     latitude: number;
@@ -716,6 +723,8 @@ export interface StoreData {
     pickupWindow: number;
     deleted?: boolean;
     hidden?: boolean;
+    hide_phone: boolean;
+    hide_street: boolean;
     location: LocationData;
     schedule?: WorkHours;
     deliveryRegions: MerchantDeliveryRegion[];
@@ -736,7 +745,7 @@ export interface StoreDataPayment {
     custom_delivery_fee: number;
     email: string;
     phone?: string;
-    ownerName?: string;
+    ownerName: string;
     stripe_id?: string;
     minTimeOrder: number;
     location: LocationData;
@@ -793,6 +802,8 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                 s.nickname,
                 s.description,
                 s.phone,
+                s.hide_phone,
+                s.hide_street,
                 u.image AS picture,
                 u.name AS "ownerName",
                 u.email AS email,
@@ -806,6 +817,7 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                 COALESCE(bs.kor, false) AS kor,
                 s.region as region,
                 s.currency as currency,
+                sl.house_number,
                 sl.route,
                 sl.city,
                 sl.country,
@@ -859,7 +871,7 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                 currency: storeRow.currency,
                 storeName: storeRow.nickname,
                 description: storeRow.description,
-                phone: storeRow.phone,
+                phone: storeRow.hide_phone ? "" : storeRow.phone,
                 email: storeRow.email,
                 picture: storeRow.picture,
                 ownerName: storeRow.ownerName,
@@ -870,7 +882,10 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                 minTimeOrder: storeRow.min_time_order,
                 pickupWindow: storeRow.pickup_window,
                 deliveryOption: storeRow.delivery_option,
+                hide_phone: storeRow.hide_phone,
+                hide_street: storeRow.hide_street, 
                 location: {
+                    house_number: storeRow.hide_street ? "" : storeRow.house_number,
                     route: storeRow.route,
                     city: storeRow.city,
                     country: storeRow.country,

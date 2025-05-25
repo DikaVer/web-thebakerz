@@ -80,6 +80,7 @@ export const OnboardSchema = z.object({
             { message: "Invalid phone number format" }
         ),
     route: z.string().nonempty('Route is required!').transform(val => val?.trim() || ""),
+    houseNumber: z.string().nonempty('House number is required!').transform(val => val?.trim() || ""),
     country: z.string().nonempty('Country is required!').transform(val => val?.trim() || ""),
     city: z.string().nonempty('City is required!').transform(val => val?.trim() || ""),
     latitude: z
@@ -110,6 +111,8 @@ export const OnboardSchema = z.object({
     // Store status flags
     banned: z.boolean().default(false),
     hidden: z.boolean().default(false),
+    hide_phone: z.boolean().default(false),
+    hide_street: z.boolean().default(false),
     // Business information fields
     businessName: z
         .string()

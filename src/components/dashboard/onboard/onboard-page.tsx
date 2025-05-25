@@ -296,8 +296,11 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                                 className="mt-2"
                                                 placeholder="Latitude"
                                                 onChange={(value) => {
-                                                    //@ts-ignore
-                                                    field.onChange(parseFloat(value.target.value));
+                                                    if (typeof value === "number") {
+                                                        field.onChange(value);
+                                                    } else {
+                                                        field.onChange(parseFloat(value.target.value));
+                                                    }
                                                 }}
                                                 validate={() => fieldState.error?.message}
                                             />
@@ -322,8 +325,11 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                                 className="mt-2"
                                                 placeholder="Longitude"
                                                 onChange={(value) => {
-                                                    //@ts-ignore
-                                                    field.onChange(parseFloat(value.target.value));
+                                                    if (typeof value === "number") {
+                                                        field.onChange(value);
+                                                    } else {
+                                                        field.onChange(parseFloat(value.target.value));
+                                                    }
                                                 }}
                                                 validate={() => fieldState.error?.message}
                                             />
@@ -376,8 +382,11 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                                     placeholder="App Fee"
                                                     endContent={<div className="pointer-events-none flex items-center"><span>%</span></div>}
                                                     onChange={(value) => {
-                                                        //@ts-ignore
-                                                        field.onChange(parseFloat(value.target.value));
+                                                        if (typeof value === "number") {
+                                                            field.onChange(value);
+                                                        } else {
+                                                            field.onChange(parseFloat(value.target.value));
+                                                        }
                                                     }}
                                                     validate={() => fieldState.error?.message}
                                                 />
@@ -401,8 +410,11 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                                                     placeholder="Delivery Fee"
                                                     endContent={<div className="pointer-events-none flex items-center"><span>%</span></div>}
                                                     onChange={(value) => {
-                                                        //@ts-ignore
-                                                        field.onChange(parseFloat(value.target.value));
+                                                        if (typeof value === "number") {
+                                                            field.onChange(value);
+                                                        } else {
+                                                            field.onChange(parseFloat(value.target.value));
+                                                        }
                                                     }}
                                                     validate={() => fieldState.error?.message}
                                                 />

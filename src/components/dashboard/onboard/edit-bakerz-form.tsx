@@ -24,19 +24,19 @@ import { Icon } from "@iconify/react";
 
 // Import the OnboardSchema and User type
 import { OnboardSchema } from "@/lib/dashboard/schemas";
-import { User } from "@/lib/actions/user";
 import { updateBakerz } from "@/lib/dashboard/update-bakerz";
 import showErrorMessage from "@/components/toast/toast-error";
 import { useRouter } from "next/navigation";
-import { StoreData, StoreBusinessData } from "@/lib/actions/store";
+import { StoreData, StoreBusinessData, StoreDataPayment } from "@/lib/actions/store";
 
 interface EditBakerzFormProps {
     className?: string;
     store: StoreData | null;
     businessData: StoreBusinessData | null;
+    paymentData: StoreDataPayment | null;
 }
 
-const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, className }) => {
+const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, paymentData, className }) => {
     const router = useRouter();
 
     // Initialize the form with values from the store and business data
@@ -46,21 +46,24 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
             name: store?.ownerName || "",
             email: store?.email || "",
             stripeAccountId: store?.stripe_id || "",
-            phoneNumber: store?.phone || "",
+            phoneNumber: paymentData?.phone || "",
             route: store?.location?.route || "",
+            houseNumber: paymentData?.location?.house_number || "",
             country: store?.location?.country || "",
             city: store?.location?.city || "",
             latitude: store?.location?.latitude ? Number(store.location.latitude) : undefined,
             longitude: store?.location?.longitude ? Number(store.location.longitude) : undefined,
             zip_code: store?.location?.zipCode || "",
             // Store settings
-            app_fee: 8,
-            delivery_fee: 20,
+            app_fee: Number(paymentData?.custom_app_fee) || 8,
+            delivery_fee: Number(paymentData?.custom_delivery_fee) || 20,
             region: store?.region.toUpperCase() || "NL",
             currency: store?.currency.toUpperCase() || "EUR",
             // Store status flags
             banned: store?.deleted || false,
             hidden: store?.hidden || false,
+            hide_phone: store?.hide_phone || false,
+            hide_street: store?.hide_street || false,
             // Business information fields
             businessName: businessData?.name || "",
             vat: businessData?.vat || "",
@@ -263,6 +266,29 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                             )}
                         />
                     </div>
+                    {/* House Number Field */}
+                    <div>
+                        <FormField
+                            control={form.control}
+                            name="houseNumber"
+                            render={({ field, fieldState }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            isDisabled={isPending}
+                                            isRequired
+                                            label={'House Number'}
+                                            className="mt-2"
+                                            placeholder="House Number"
+                                            type="text"
+                                            validate={() => fieldState.error?.message}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
                     {/* Country Field */}
                     <div>
                         <FormField
@@ -328,14 +354,10 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                                             placeholder="Latitude"
                                             formatOptions={{ maximumFractionDigits: 7 }}
                                             onChange={(value) => {
-                                                // Only update when we have a valid number or empty string
-                                                if (typeof value === "object" && value.target) {
-                                                    const inputValue = value.target.value;
-                                                    if (inputValue === '' || !isNaN(parseFloat(inputValue))) {
-                                                        field.onChange(inputValue === '' ? '' : parseFloat(inputValue));
-                                                    }
-                                                } else if (typeof value === "number") {
+                                                if (typeof value === "number") {
                                                     field.onChange(value);
+                                                } else {
+                                                    field.onChange(parseFloat(value.target.value));
                                                 }
                                             }}
                                             validate={() => fieldState.error?.message}
@@ -362,14 +384,10 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                                             placeholder="Longitude"
                                             formatOptions={{ maximumFractionDigits: 7 }}
                                             onChange={(value) => {
-                                                // Only update when we have a valid number or empty string
-                                                if (typeof value === "object" && value.target) {
-                                                    const inputValue = value.target.value;
-                                                    if (inputValue === '' || !isNaN(parseFloat(inputValue))) {
-                                                        field.onChange(inputValue === '' ? '' : parseFloat(inputValue));
-                                                    }
-                                                } else if (typeof value === "number") {
+                                                if (typeof value === "number") {
                                                     field.onChange(value);
+                                                } else {
+                                                    field.onChange(parseFloat(value.target.value));
                                                 }
                                             }}
                                             validate={() => fieldState.error?.message}
@@ -421,22 +439,17 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                                                 isDisabled={isPending}
                                                 label="App Fee (%)"
                                                 className="mt-2"
-                                                step={0.01}
-                                                placeholder="App Fee"
+                                                placeholder="0.000"
                                                 formatOptions={{ 
                                                     maximumFractionDigits: 3,
                                                     useGrouping: false
                                                 }}
                                                 endContent={<div className="pointer-events-none flex items-center"><span>%</span></div>}
                                                 onChange={(value) => {
-                                                    // Only update when we have a valid number or empty string
-                                                    if (typeof value === "object" && value.target) {
-                                                        const inputValue = value.target.value;
-                                                        if (inputValue === '' || !isNaN(parseFloat(inputValue))) {
-                                                            field.onChange(inputValue === '' ? '' : parseFloat(inputValue));
-                                                        }
-                                                    } else if (typeof value === "number") {
+                                                    if (typeof value === "number") {
                                                         field.onChange(value);
+                                                    } else {
+                                                        field.onChange(parseFloat(value.target.value));
                                                     }
                                                 }}
                                                 validate={() => fieldState.error?.message}
@@ -458,22 +471,17 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                                                 isDisabled={isPending}
                                                 label="Delivery Fee (%)"
                                                 className="mt-2"
-                                                step={0.01}
-                                                placeholder="Delivery Fee"
+                                                placeholder="0.000"
                                                 formatOptions={{ 
                                                     maximumFractionDigits: 3,
                                                     useGrouping: false
                                                 }}
                                                 endContent={<div className="pointer-events-none flex items-center"><span>%</span></div>}
                                                 onChange={(value) => {
-                                                    // Only update when we have a valid number or empty string
-                                                    if (typeof value === "object" && value.target) {
-                                                        const inputValue = value.target.value;
-                                                        if (inputValue === '' || !isNaN(parseFloat(inputValue))) {
-                                                            field.onChange(inputValue === '' ? '' : parseFloat(inputValue));
-                                                        }
-                                                    } else if (typeof value === "number") {
+                                                    if (typeof value === "number") {
                                                         field.onChange(value);
+                                                    } else {
+                                                        field.onChange(parseFloat(value.target.value));
                                                     }
                                                 }}
                                                 validate={() => fieldState.error?.message}
@@ -573,6 +581,48 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, cl
                                                     onChange={(e) => field.onChange(e.target.checked)}
                                                 />
                                                 <span className="ml-2 text-sm font-medium">Hide Store</span>
+                                            </label>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        
+                        <div className="flex gap-x-8 mt-4">
+                            {/* Hide Phone Switch */}
+                            <FormField
+                                control={form.control}
+                                name="hide_phone"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <label className="inline-flex items-center">
+                                                <Switch
+                                                    color="warning"
+                                                    defaultSelected={field.value}
+                                                    onChange={(e) => field.onChange(e.target.checked)}
+                                                />
+                                                <span className="ml-2 text-sm font-medium">Hide Phone</span>
+                                            </label>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* Hide Street Switch */}
+                            <FormField
+                                control={form.control}
+                                name="hide_street"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <label className="inline-flex items-center">
+                                                <Switch
+                                                    color="warning"
+                                                    defaultSelected={field.value}
+                                                    onChange={(e) => field.onChange(e.target.checked)}
+                                                />
+                                                <span className="ml-2 text-sm font-medium">Hide Street</span>
                                             </label>
                                         </FormControl>
                                     </FormItem>

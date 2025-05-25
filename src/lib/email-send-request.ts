@@ -13,7 +13,7 @@ import { RefillingTokenBucket } from "@/lib/actions/rate-limits";
 import OrderPlacedEmail, {OrderPlacedEmailProps} from "@/components/emails/order-placed";
 import NewOrderEmail from "@/components/emails/new-order-bakerz";
 import {OrderData} from "@/lib/actions/order";
-import {getCurrentStore} from "@/lib/actions/store";
+import {getCurrentStore, getStoreDataPaymentByStoreNameOrId} from "@/lib/actions/store";
 
 const ipBucket = new RefillingTokenBucket<string>(20, 1);
 
@@ -91,7 +91,7 @@ export async function sendMagicCode(params: { identifier: string; code: string }
 export async function sendOrderPlaced(params: { identifier: string; orderData: OrderData }) {
     const { identifier: to, orderData } = params;
 
-    const storeData = await getCurrentStore(orderData.store_id);
+    const storeData = await getStoreDataPaymentByStoreNameOrId(orderData.store_id);
     if (!storeData) {
         // Maybe throw a more specific error or log details
         console.error(`Failed to send order emails: Store not found for ID ${orderData.store_id}`);
@@ -104,7 +104,7 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
         
     // Construct store location object (handle potential nulls)
     const storeLocation = {
-        address: `${storeData.location?.route || ''}, ${storeData.location?.city || ''}, ${storeData.location?.country || ''}`.replace(/^, |, $/g, ''), // Clean up extra commas
+        address: `${storeData.location?.route || ''} ${storeData.location?.house_number || ''}, ${storeData.location?.city || ''}, ${storeData.location?.country || ''}`.replace(/^, |, $/g, ''), // Clean up extra commas
         latitude: storeData.location?.latitude ?? 0,
         longitude: storeData.location?.longitude ?? 0,
     };
@@ -163,7 +163,7 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
             to: [
                 {
                     address: storeData.email, // Use store's email from storeData
-                    displayName: storeData.ownerName || storeData.storeName || "Store Owner", // Use owner or store name
+                    displayName: storeData.ownerName || "Store Owner Missing", // Use owner or store name
                 },
             ],
             // Optional: Add CC/BCC if needed
@@ -200,7 +200,7 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
                 to: [
                     {
                         address: "support@thebakerz.com", // Use store's email from storeData
-                        displayName: storeData.ownerName || storeData.storeName || "Store Owner", // Use owner or store name
+                        displayName: storeData.ownerName || "Store Owner", // Use owner or store name
                     },
                 ],
                 // Optional: Add CC/BCC if needed

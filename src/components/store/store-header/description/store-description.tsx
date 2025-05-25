@@ -26,7 +26,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
 
     const [latitude, longitude] = [store?.location?.latitude, store?.location?.longitude];
 
-    const location = store?.location?.route ? `${store.location?.route}` : "";
+    const location = store?.location?.route ? `${store.location?.route} ${store.location?.house_number}` : "";
     const subLocation = store?.location?.route ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}` : "";
 
     const phone = {

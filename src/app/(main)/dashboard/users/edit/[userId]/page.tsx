@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getCurrentStoreByUserId,  getCurrentBusinessStore } from "@/lib/actions/store";
+import { getCurrentStoreByUserId,  getCurrentBusinessStore, getCurrentStorePayment } from "@/lib/actions/store";
 
 import {getCurrentSession} from "@/lib/actions/session";
 import {redirect} from "next/navigation";
@@ -26,9 +26,11 @@ export default async function Page({ params }: UserEditProps) {
     const { store } = await getCurrentStoreByUserId(userId);
     
     let businessData = null;
+    let paymentData = null;
     if (store) {
         businessData = await getCurrentBusinessStore(store.id);
+        paymentData = await getCurrentStorePayment(store.id);   
     }
     
-    return <BakerzEditTabs store={store} businessData={businessData} />;
+    return <BakerzEditTabs store={store} businessData={businessData} paymentData={paymentData}/>;
 }

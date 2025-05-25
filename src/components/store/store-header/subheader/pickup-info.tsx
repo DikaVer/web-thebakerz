@@ -50,7 +50,7 @@ export default function PickupInfo({ store}: PickupInfoProps) {
   const minimumOrder = 1000;
 
   // Format address
-  const location = store?.location?.route ? `${store.location.route}` : t("addressPlaceholder");
+  const location = store?.location?.route ? `${store.location.route} ${store.location.house_number}` : t("addressPlaceholder");
   const subLocation = store?.location?.route
     ? `${store.location.city}, ${store.location.zipCode}, ${store.location.country}`
     : t("locationPlaceholder");

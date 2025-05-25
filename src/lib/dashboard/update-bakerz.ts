@@ -111,8 +111,10 @@ export const updateBakerz = async (
                     custom_delivery_fee = $6, 
                     stripe_id = $7, 
                     deleted = $8,
-                    hidden = $9
-                WHERE id = $10 AND user_id = $11
+                    hidden = $9,
+                    hide_phone = $10,
+                    hide_street = $11
+                WHERE id = $12 AND user_id = $13
             `,
             [
                 formData.phoneNumber, 
@@ -124,6 +126,8 @@ export const updateBakerz = async (
                 formData.stripeAccountId,
                 formData.banned,
                 formData.hidden,
+                formData.hide_phone,
+                formData.hide_street,
                 storeId,
                 userId
             ],
@@ -141,15 +145,17 @@ export const updateBakerz = async (
             `
                 UPDATE store_locations 
                 SET route = $1, 
-                    country = $2, 
-                    city = $3, 
-                    latitude = $4, 
-                    longitude = $5, 
-                    zip_code = $6
-                WHERE store_id = $7
+                    house_number = $2,
+                    country = $3, 
+                    city = $4, 
+                    latitude = $5, 
+                    longitude = $6, 
+                    zip_code = $7
+                WHERE store_id = $8
             `,
             [
-                formData.route, 
+                formData.route,
+                formData.houseNumber,
                 formData.country, 
                 formData.city, 
                 formData.latitude, 
