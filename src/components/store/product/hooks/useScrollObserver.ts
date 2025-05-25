@@ -94,20 +94,22 @@ export const useScrollObserver = ({
                     );
                     
                     if (category && category !== selectedTab) {
+                        const rect = relevantEntry.boundingClientRect;
+                        const viewportHeight = window.innerHeight;
+                        const visibleHeight = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
+                        const visibilityRatio = visibleHeight / rect.height;
+                        
                         // When scrolling up, only update if the category is significantly in view
                         if (scrollingDirection.current === 'up') {
-                            const rect = relevantEntry.boundingClientRect;
-                            const viewportHeight = window.innerHeight;
-                            const visibleHeight = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
-                            const visibilityRatio = visibleHeight / rect.height;
-                            
-                            // Only update when the category is at least 40% visible when scrolling up
-                            if (visibilityRatio >= 0.4 || rect.top <= headerOffset + 50) {
+                            // Only update when the category is at least 60% visible when scrolling up
+                            if (visibilityRatio >= 0.6 || rect.top <= headerOffset + 50) {
                                 setSelectedTab(category);
                             }
                         } else {
-                            // When scrolling down, update as soon as the category becomes visible
-                            setSelectedTab(category);
+                            // When scrolling down, only update when more than 60% of the category is visible
+                            if (visibilityRatio >= 0.6) {
+                                setSelectedTab(category);
+                            }
                         }
                     }
                 } else if (scrollingDirection.current === 'down') {
