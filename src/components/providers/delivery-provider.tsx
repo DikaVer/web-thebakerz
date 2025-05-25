@@ -123,27 +123,29 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
           let minDistance = Infinity;
           let applicableRange: DeliveryRange | null = null;
           let minPrice = Infinity;
+          
+          // Store country region as fallback
+          let countryRegion: MerchantDeliveryRegion | null = null;
+          let countryRange: DeliveryRange | null = null;
         
           for (const region of store.deliveryRegions) {
             logger.debug("deliveryProvider", `Checking region: ${region.name}`);
             
-            // Check for country-wide delivery first
             if (region.isCountry && address.country && 
                 region.minOrderPriceInCents && region.deliveryPriceInCents && region.deliveryWindow &&
-                minPrice > region.minOrderPriceInCents &&
                 region.name.toLowerCase() === address.country.toLowerCase()) {
 
                 logger.debug("deliveryProvider", `Found country-wide delivery region: ${region.name}`);
-                closestRegion = region;
-                minPrice = region.minOrderPriceInCents;
-                applicableRange = {
+                // Store as potential fallback instead of immediately using it
+                countryRegion = region;
+                countryRange = {
                   range: 0,
                   deliveryPriceInCents: region.deliveryPriceInCents,
                   minOrderPriceInCents: region.minOrderPriceInCents,
                   deliveryWindow: region.deliveryWindow
                 };
             } else {
-              // Check for city/region based delivery
+              // Prioritize city/region based delivery
               if (region.coordinates && address.coordinates) {
                 const distance = haversineDistance(address.coordinates, region.coordinates);
                 logger.debug("deliveryProvider", `Distance to ${region.name}: ${distance.toFixed(2)} km`);
@@ -166,6 +168,14 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
                 }
               }
             }
+          }
+          
+          // If no city delivery was found, fall back to country delivery
+          if (!closestRegion && countryRegion && countryRange) {
+            logger.debug("deliveryProvider", `No city delivery found, using country-wide delivery: ${countryRegion.name}`);
+            closestRegion = countryRegion;
+            applicableRange = countryRange;
+            minPrice = countryRange.minOrderPriceInCents;
           }
           // 4. Determine if the address is within range and find the applicable pricing tier
           if (closestRegion && applicableRange) {

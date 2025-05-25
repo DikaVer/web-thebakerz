@@ -228,25 +228,28 @@ export async function validateAddress(
     let minDistance = Infinity;
     let minPrice = Infinity;
     
+    // Store country region as fallback
+    let countryRegion: MerchantDeliveryRegion | null = null;
+    let countryRange: DeliveryRange | null = null;
+    
     for (const region of deliveryRegions) {
       logger.debug("validateAddress", `Checking region: ${region.name}`);
-      // Check for country-wide delivery first
+      
       if (region.isCountry && addressData.country && 
           region.minOrderPriceInCents && region.deliveryPriceInCents && region.deliveryWindow &&
-          minPrice > region.minOrderPriceInCents && 
           region.name.toLowerCase() === addressData.country.toLowerCase()) {
 
           logger.debug("validateAddress", `Found country-wide delivery region: ${region.name}`);
-          closestRegion = region;
-          minPrice = region.minOrderPriceInCents;
-          applicableRange = {
+          // Store as potential fallback instead of immediately using it
+          countryRegion = region;
+          countryRange = {
             range: 0,
             deliveryPriceInCents: region.deliveryPriceInCents,
             minOrderPriceInCents: region.minOrderPriceInCents,
             deliveryWindow: region.deliveryWindow
           };
       } else  {
-        // Check for city/region based delivery
+        // Prioritize city/region based delivery
         if (region.coordinates && coords) {
           const distance = haversineDistance(coords, region.coordinates);
           logger.debug("validateAddress", `Distance to ${region.name}: ${distance.toFixed(2)} km`);
@@ -266,6 +269,14 @@ export async function validateAddress(
           }
         }
       }
+    }
+    
+    // If no city delivery was found, fall back to country delivery
+    if (!closestRegion && countryRegion && countryRange) {
+      logger.debug("validateAddress", `No city delivery found, using country-wide delivery: ${countryRegion.name}`);
+      closestRegion = countryRegion;
+      applicableRange = countryRange;
+      minPrice = countryRange.minOrderPriceInCents;
     }
     
     // 5. Determine if the address is within range and find the applicable pricing tier

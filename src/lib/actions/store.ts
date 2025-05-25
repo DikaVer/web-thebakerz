@@ -916,25 +916,25 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                     let deliveryRegion: MerchantDeliveryRegion | undefined = undefined;
                     
                     if (storeData.deliveryRegions && storeData.deliveryRegions.length > 0) {
-                        // Check all ranges to find the closest one
+                        // Store country region as fallback
+                        let countryRegion: MerchantDeliveryRegion | undefined = undefined;
+                        let countryDeliveryRange: DeliveryRange | undefined = undefined;
+                        
+                        // Check all ranges to find the closest city delivery first
                         for (const region of storeData.deliveryRegions) {
-                            // Check for country-wide delivery if country is provided
+                            // Store country-wide delivery as fallback
                             if (region.isCountry && country && 
                                 region.name.toLowerCase() === country.toLowerCase()) {
-                                // Country match found, prioritize this
-                                regionFound = true;
-                                deliveryRegion = region;
-                                // For country delivery, we don't use ranges but the direct price
-                                deliveryRange = {
+                                countryRegion = region;
+                                countryDeliveryRange = {
                                     range: Infinity, // No distance limit for country delivery
                                     deliveryPriceInCents: region.deliveryPriceInCents || 0,
                                     minOrderPriceInCents: region.minOrderPriceInCents || 0,
                                     deliveryWindow: region.deliveryWindow || 0
                                 };
-                                break; // Country match takes precedence
                             }
                             
-                            // Check for city/region based delivery with coordinates
+                            // Prioritize city/region based delivery with coordinates
                             if (region.coordinates) {
                                 const distanceDelivery = haversineDistance(
                                     { lat: userLat, lng: userLng }, 
@@ -954,6 +954,13 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                                     }
                                 }
                             }
+                        }
+                        
+                        // If no city delivery was found, fall back to country delivery
+                        if (!regionFound && countryRegion && countryDeliveryRange) {
+                            regionFound = true;
+                            deliveryRegion = countryRegion;
+                            deliveryRange = countryDeliveryRange;
                         }
                     }
 
