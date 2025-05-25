@@ -103,7 +103,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       if (initialFilterParams.maxPrice !== undefined) {
         setMaxPrice(initialFilterParams.maxPrice);
       } else {
-        setMaxPrice(10000);
+        setMaxPrice(100000);
       }
       
       if (initialFilterParams.categories) {
