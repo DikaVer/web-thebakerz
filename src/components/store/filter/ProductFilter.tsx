@@ -23,7 +23,7 @@ interface ProductFilterProps {
 // Predefined allergies list for exclusion
 const ALLERGY_OPTIONS = [
   'honey', 'banana', 'orange', 'soy', 'lupine', 'apple', 'sesame', 'kiwi', 
-  'peach', 'gelatin', 'wheat', 'nuts', 'cashew', 'walnut', 'gluten', 'egg', 'milk'
+  'peach', 'gelatin', 'wheat', 'nuts', 'cashew', 'walnut', 'egg', 'milk'
 ];
 
 export const ProductFilter: React.FC<ProductFilterProps> = ({

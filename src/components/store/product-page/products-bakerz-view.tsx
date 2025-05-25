@@ -34,7 +34,9 @@ import {MinLeadTime} from "@/components/store/product/components/min-lead-time";
 import { DescriptionTitleSection, ProductTitleSection, IngredientsTitleSection, AllergiesTitleSection, DietaryTitleSection, VariantsTitleSection, VariantsInstructionSection } from "@/components/store/product/components/product-title-section";
 import SwitchCell from "@/components/ui/switch-cell";
 import { uploadImage } from "@/lib/actions/image";
+import { useStore } from  "@/components/providers/store-provider"
 
+;
 type ProductViewProps = {
     storeId: string;
     productData: ProductData | ProductDataClean | undefined;
@@ -45,6 +47,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
     const router = useRouter();
     const isSmall = useMediaQuery("(max-width: 460px)");
     const fileRef = useRef<HTMLInputElement>(null);
+    const { store } = useStore();
 
     // State declarations
     const [picture, setPicture] = useState<string | undefined>(productData?.picture);
@@ -93,7 +96,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                 const result = await addProduct(formData, storeId, productData?.id);
                 if (result?.success) {
                     showSuccessMessage({ success: result.success });
-                    router.push(`/${result.product.store_name || result.product.store_id}`);
+                    router.push(`/${store?.storeName || result.product.store_id}`);
                     router.refresh();
                 } else if (result?.error) {
                     showErrorMessage({ error: result.error });
@@ -216,7 +219,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                 if (response.success) {
                     showSuccessMessage({ success: t("productDeleted") });
                     setIsOpenDelete(false);
-                    router.push(`/${productData.store_name || productData.store_id}`);
+                    router.push(`/${store?.storeName || productData.store_id}`);
                     router.refresh();
                 } else if (response.error) {
                     showErrorMessage({error: response.error});

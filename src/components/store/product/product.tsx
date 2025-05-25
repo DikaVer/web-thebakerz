@@ -106,7 +106,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const pathname = usePathname();
     const isSearch = pathname.includes("search");
     
-    const { addItem } = isSearch ? { addItem: () => router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`)} : useCart();
+    const { addItem } = isSearch ? { addItem: () => router.push(`/${store?.storeName || productData?.store_id}/item/${productData.web_name}`)} : useCart();
     const storeMinTimeOrder = isDelivery ? validationResult?.deliveryRegion?.minOrderTime : store?.minTimeOrder;
     const { isProductFavorite, addProductToFavorites, removeProductFromFavorites } = useFavorites();
     const { openModal, ModalSign } = useSignInModal();
@@ -130,7 +130,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const handleAddToCart = async () => {
 
         if(isSearch) {
-            router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`);
+            router.push(`/${store?.storeName || store?.id}/item/${productData.web_name}`);
             return;
         }
 
@@ -193,7 +193,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const handleEditItem = () => {
         setIsLoading(true);
         clarity.event("product_edit")
-        router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`); 
+        router.push(`/${store?.storeName || store?.id}/item/${productData.web_name}`); 
     };
 
     const handleFavoriteToggle = async () => {
@@ -221,7 +221,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
             className={`cursor-pointer max-w-sm rounded-2xl overflow-hidden relative`}
             onClick={() => {
                 if (isSearch) {
-                    router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`);
+                    router.push(`/${store?.storeName || productData?.id}/item/${productData.web_name}`);
                     return;
                 }
 

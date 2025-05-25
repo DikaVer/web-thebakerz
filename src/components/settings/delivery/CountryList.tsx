@@ -147,7 +147,7 @@ const CountryList: React.FC<CountryListProps> = ({
             </div>
 
             {/* Display delivery info */}
-            <div className="mb-2 flex gap-2">
+            <div className="mb-2 flex flex-wrap gap-2">
               <Chip
                 size="sm"
                 variant="flat"

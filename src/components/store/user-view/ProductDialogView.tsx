@@ -36,6 +36,7 @@ import { ReportProductModal } from "./report-product-modal";
 import { useSignInModal } from "@/components/ui/modal-signin";
 import { useSession } from "@/components/providers/session-provider";
 import clarity from "@microsoft/clarity";
+import { useStore } from "@/components/providers/store-provider";
 
 type ProductDialogViewProps = {
     productData: ProductData;
@@ -66,6 +67,8 @@ export default function ProductDialogView({
     const { isOpen: isReportOpen, onOpen: onReportOpen, onOpenChange: onReportChange } = useDisclosure();
     const { openModal, ModalSign } = useSignInModal();
     const { session } = useSession();
+    const { store } = useStore();
+
 
     useEffect(() => {
         if (pathname.includes("item")) {
@@ -78,8 +81,8 @@ export default function ProductDialogView({
         addItem,
         updateItem,
     } = isSearch ? {
-        addItem: () => router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`),
-        updateItem: () => router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`)
+        addItem: () => router.push(`/${store?.storeName || productData.store_id}/item/${productData.web_name}`),
+        updateItem: () => router.push(`/${store?.storeName || productData.store_id}/item/${productData.web_name}`)
     } : useCart();
 
 
@@ -95,17 +98,17 @@ export default function ProductDialogView({
             navigator.share({
                 title: productData.name,
                 text: "Check out this product on TheBakerz!",
-                url: origin + "/" + (productData?.store_name || productData?.store_id) + "/item/" + (productData?.web_name)
+                url: origin + "/" + (store?.storeName || productData?.store_id) + "/item/" + (productData?.web_name)
             });
         } else {
-            navigator.clipboard.writeText(origin + "/" + (productData?.store_name || productData?.store_id) + "/item/" + (productData?.web_name));
+            navigator.clipboard.writeText(origin + "/" + (store?.storeName || productData?.store_id) + "/item/" + (productData?.web_name));
             showSuccessMessage({success: t("productLinkCopied")});
         }
     };
 
     const handleEditItem = () => {
         setIsLoading(true);
-        router.push(`/${productData.store_name || productData.store_id}/item/${productData.web_name}`); 
+        router.push(`/${store?.storeName || productData.store_id}/item/${productData.web_name}`); 
     };
 
     // This function calls the updateCart server action.
@@ -202,7 +205,7 @@ export default function ProductDialogView({
                     isOpen={isReportOpen}
                     onOpenChange={onReportChange}
                     productName={productData.name}
-                    storeName={productData.store_name || ""}
+                    storeName={store?.storeName || ""}
                     productId={productData.id}
                 />
             <ModalHeader className={'px-4 justify-between'}>

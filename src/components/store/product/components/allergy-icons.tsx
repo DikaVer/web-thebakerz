@@ -4,7 +4,6 @@ import {
     iconKiwi,
     iconSesame,
     iconPotato,
-    iconGluten,
     iconApple,
     iconLupine,
     iconSoy,
@@ -35,7 +34,6 @@ import {
 export const iconAllergyMap: Record<string, React.FC<{ size?: number }>> = {
     egg: iconEggs,
     milk: iconMilk,
-    gluten: iconGluten,
     walnut: iconWalnut,
     cashew: iconCashew,
     nuts: iconNuts,

@@ -24,6 +24,7 @@ import { ReportProductModal } from "./report-product-modal";
 import { useDisclosure } from "@heroui/react";
 import { useSession } from "@/components/providers/session-provider";
 import clarity from "@microsoft/clarity";
+import { useStore } from "@/components/providers/store-provider";
 interface ProductPageViewProps {
     productData: ProductData;
 }
@@ -43,7 +44,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
     const [isLoading, setIsLoading] = useState(false);
     const { isOpen: isReportOpen, onOpen: onReportOpen, onOpenChange: onReportChange } = useDisclosure();
     const { openModal, ModalSign } = useSignInModal();
-    
+    const { store } = useStore();
     const { addItem } = useCart();
     const { isDelivery, validationResult, setSelectedDate, deliveryAddressModal } = useDelivery();
 
@@ -138,10 +139,10 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
             navigator.share({
                 title: product.name,
                 text: "Check out this product on TheBakerz!",
-                url: origin + "/" + (product?.store_name || product?.store_id) + "/item/" + (product?.web_name)
+                url: origin + "/" + (store?.storeName || product?.store_id) + "/item/" + (product?.web_name)
             });
         } else {
-            navigator.clipboard.writeText(origin + "/" + (product?.store_name || product?.store_id) + "/item/" + (product?.web_name));
+            navigator.clipboard.writeText(origin + "/" + (store?.storeName || product?.store_id) + "/item/" + (product?.web_name));
             showSuccessMessage({success: t("productLinkCopied")});
         }
     };
@@ -156,7 +157,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                 isOpen={isReportOpen}
                 onOpenChange={onReportChange}
                 productName={product.name}
-                storeName={product.store_name || ""}
+                storeName={store?.storeName || ""}
                 productId={product.id}
             />
             <Card className=" md:p-6">
