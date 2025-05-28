@@ -26,6 +26,9 @@ const ALLERGY_OPTIONS = [
   'peach', 'gelatin', 'wheat', 'gluten', 'nuts', 'cashew', 'walnut', 'egg', 'milk'
 ];
 
+const DEFAULT_MIN_PRICE = 0;
+const DEFAULT_MAX_PRICE = 100000;
+
 export const ProductFilter: React.FC<ProductFilterProps> = ({
   isOpen,
   onOpenChange,
@@ -45,11 +48,11 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
   const priceOptions = useMemo(() => {
     const options: number[] = [];
     // 0 to 100 with step 5
-    for (let i = 0; i <= 10000; i += 500) {
+    for (let i = 0; i <= DEFAULT_MAX_PRICE; i += 500) {
       options.push(i);
     }
     // 150 to 1000 with step 50
-    for (let i = 15000; i <= 100000; i += 5000) {
+    for (let i = 15000; i <= DEFAULT_MAX_PRICE; i += 5000) {
       options.push(i);
     }
     return options;
@@ -61,7 +64,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     if (initialFilterParams?.minPrice !== undefined) {
       return initialFilterParams.minPrice;
     }
-    return 0;
+    return DEFAULT_MIN_PRICE;
   });
   
   const [maxPrice, setMaxPrice] = useState<number>(() => {
@@ -69,7 +72,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     if (initialFilterParams?.maxPrice !== undefined) {
       return initialFilterParams.maxPrice;
     }
-    return 10000;
+    return DEFAULT_MAX_PRICE;
   });
   
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
@@ -97,13 +100,13 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       if (initialFilterParams.minPrice !== undefined) {
         setMinPrice(initialFilterParams.minPrice);
       } else {
-        setMinPrice(0);
+        setMinPrice(DEFAULT_MIN_PRICE);
       }
       
       if (initialFilterParams.maxPrice !== undefined) {
         setMaxPrice(initialFilterParams.maxPrice);
       } else {
-        setMaxPrice(100000);
+        setMaxPrice(DEFAULT_MAX_PRICE);
       }
       
       if (initialFilterParams.categories) {
@@ -165,8 +168,8 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       
       // Log filter values before sending to parent
       logger.debug('filter_update', 'ProductFilter sending filter values', {
-        minPrice: minPrice > 0 ? minPrice : undefined,
-        maxPrice: maxPrice < 100000 ? maxPrice : undefined,
+        minPrice: minPrice > DEFAULT_MIN_PRICE ? minPrice : undefined,
+        maxPrice: maxPrice < DEFAULT_MAX_PRICE ? maxPrice : undefined,
         minPriceType: typeof minPrice,
         maxPriceType: typeof maxPrice
       });
@@ -174,8 +177,8 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       // Notify parent component about filter changes
       if (onFilterChange) {
         onFilterChange({
-          minPrice: minPrice > 0 ? minPrice : undefined,
-          maxPrice: maxPrice < 1000000 ? maxPrice : undefined,
+          minPrice: minPrice > DEFAULT_MIN_PRICE ? minPrice : undefined,
+          maxPrice: maxPrice < DEFAULT_MAX_PRICE ? maxPrice : undefined,
           categories: selectedCategories.length > 0 ? selectedCategories : undefined,
           allergies: selectedAllergies.length > 0 ? selectedAllergies : undefined,
           dietary: selectedDietary.length > 0 ? selectedDietary : undefined
@@ -205,8 +208,8 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
   // Reset all filters with throttling to prevent multiple resets
   const resetFilters = useCallback(
     throttle(() => {
-      setMinPrice(0);
-      setMaxPrice(10000);
+      setMinPrice(DEFAULT_MIN_PRICE);
+      setMaxPrice(DEFAULT_MAX_PRICE);
       setSelectedCategories([...allCategories]);
       setSelectedAllergies([]);
       setSelectedDietary([]);
