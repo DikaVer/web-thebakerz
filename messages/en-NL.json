@@ -977,6 +977,7 @@
     "verifyEmail": "Verify Email Image"
   },
   "app/(store)/id/orders/add": {
+    "addOrder": "Add Order"
   },
   "app/(store)/id/page": {
     "noProducts": "No products available"

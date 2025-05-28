@@ -960,6 +960,9 @@
     "returnToStore": "Zurück zum Shop",
     "verifyEmail": "Überprüfen Sie Ihre E-Mail"
   },
+  "app/(store)/id/orders/add": {
+    "addOrder": "Bestellung hinzufügen"
+  },
   "app/(store)/id/page": {
     "noProducts": "Keine Produkte verfügbar"
   },

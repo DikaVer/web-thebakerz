@@ -965,6 +965,7 @@
     "verifyEmail": "Vérifiez l'image e-mail"
   },
   "app/(store)/id/orders/add": {
+    "addOrder": "Ajouter la commande"
   },
   "app/(store)/id/page": {
     "noProducts": "Aucun produit disponible"
@@ -1062,6 +1063,7 @@
     "internalError": "Erreur interne du serveur",
     "missingAuth": "En-tête d'autorisation manquante",
     "missingFromDate": "En-tête de date de début manquant",
+    "missingStoreId": "",
     "missingToDate": "En-tête de date de fin manquant",
     "notAuthorized": "Accès non autorisé"
   },

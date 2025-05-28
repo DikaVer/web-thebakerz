@@ -960,6 +960,9 @@
     "returnToStore": "Поверніться до магазину",
     "verifyEmail": "Перевірте зображення електронної пошти"
   },
+  "app/(store)/id/orders/add": {
+    "addOrder": "Додати порядок"
+  },
   "app/(store)/id/page": {
     "noProducts": "Немає продуктів"
   },

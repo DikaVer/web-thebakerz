@@ -960,6 +960,9 @@
     "returnToStore": "Vuelve a la tienda",
     "verifyEmail": "Verificar la imagen de correo electrónico"
   },
+  "app/(store)/id/orders/add": {
+    "addOrder": "Agregar pedido"
+  },
   "app/(store)/id/page": {
     "noProducts": "No hay productos disponibles"
   },

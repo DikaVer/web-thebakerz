@@ -54,9 +54,6 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
                 <div className="flex items-center gap-x-3">
                     <h1 className="text-3xl font-bold leading-9 text-default-foreground">{additionalT('addOrder')}</h1>
                 </div>
-                <h2 className="mt-2 text-small text-default-500">
-                    {additionalT('addOrderDescription')}
-                </h2>
             <Spacer y={4}/>
             <ProductList
                 currentStep={currentStep}

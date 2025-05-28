@@ -123,13 +123,13 @@ export const updateCart = async (
             // Update quantity of existing item
             await containerCart.item(existingItem.id, partitionKeyValue).patch({
                 operations: [
-                    { op: "set", path: "/quantity", value: existingItem.quantity + quantity }
+                    { op: "set", path: "/quantity", value: quantity }
                 ],
             });
             
             const updatedItem = {
                 ...existingItem,
-                quantity: existingItem.quantity + quantity
+                quantity: quantity
             };
             
             revalidateTag('cart');

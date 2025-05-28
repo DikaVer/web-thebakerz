@@ -981,6 +981,7 @@
     "verifyEmail": "Controleer e-mailafbeelding"
   },
   "app/(store)/id/orders/add": {
+    "addOrder": "Voeg bestelling toe"
   },
   "app/(store)/id/page": {
     "noProducts": "Geen producten beschikbaar"

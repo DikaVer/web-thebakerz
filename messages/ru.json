@@ -965,6 +965,7 @@
     "verifyEmail": "Проверьте изображение электронной почты"
   },
   "app/(store)/id/orders/add": {
+    "addOrder": "Добавить заказ"
   },
   "app/(store)/id/page": {
     "noProducts": "Нет продуктов"
