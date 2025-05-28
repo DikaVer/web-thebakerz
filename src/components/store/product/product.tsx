@@ -155,7 +155,9 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                 productData.min_order || 1, 
                 isDelivery ? "delivery" : "pickup", 
                 "", 
-                []
+                [],
+                undefined,
+                true
             );
             
             if (result.success) {

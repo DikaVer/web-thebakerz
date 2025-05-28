@@ -50,6 +50,7 @@ export const updateCart = async (
     note?: string,
     variants?: Variant[],
     itemId?: string,
+    isSingleItem?: boolean
 ): Promise<{ success?: string; error?: string; itemCart?: ItemCart }> => {
     const t = await getTranslations("app/lib/actions/cart") as TranslationFunction;
     
@@ -123,13 +124,13 @@ export const updateCart = async (
             // Update quantity of existing item
             await containerCart.item(existingItem.id, partitionKeyValue).patch({
                 operations: [
-                    { op: "set", path: "/quantity", value: quantity }
+                    { op: "set", path: "/quantity", value: isSingleItem ? existingItem.quantity + quantity : quantity }
                 ],
             });
             
             const updatedItem = {
                 ...existingItem,
-                quantity: quantity
+                quantity: isSingleItem ? existingItem.quantity + quantity : quantity
             };
             
             revalidateTag('cart');
