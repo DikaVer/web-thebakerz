@@ -6,7 +6,7 @@ import { AddressForm } from "@/components/store/store-header/subheader/address-f
 import { useDelivery } from "@/components/providers/delivery-provider";
 import { useTranslations } from "next-intl";
 import { useMediaQuery } from "usehooks-ts";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ExtendedDeliveryAddressRaw } from "@/app/(store)/[id]/delivery-actions";
 import { getAddressFromCoordinates } from "@/lib/actions/delivery-address-actions";
 
@@ -19,6 +19,7 @@ export const DeliveryAddressButton: React.FC = () => {
 
     const t = useTranslations("delivery-button");
     const pathname = usePathname(); 
+    const router = useRouter();
     const isCheckout = pathname.includes("/checkout");
 
     const { 
@@ -30,6 +31,25 @@ export const DeliveryAddressButton: React.FC = () => {
     
     // Track if we've already tried geolocation
     const hasTriedGeolocationRef = useRef(false);
+
+    // Check for openAddressModal search parameter and auto-open modal
+    useEffect(() => {
+        // Client-side check for search parameters
+        if (typeof window !== 'undefined') {
+            const urlParams = new URLSearchParams(window.location.search);
+            const shouldOpenModal = urlParams.get('openAddressModal') === 'true';
+            
+            if (shouldOpenModal && !deliveryAddressModal.isOpen && !address && !isValidating) {
+                // Open the modal
+                deliveryAddressModal.onOpen();
+                
+                // Clean up the URL by removing the search parameter
+                urlParams.delete('openAddressModal');
+                const newUrl = `${pathname}${urlParams.toString() ? `?${urlParams.toString()}` : ''}`;
+                router.replace(newUrl, { scroll: false });
+            }
+        }
+    }, [deliveryAddressModal, pathname, router, address, isValidating]);
 
     // Ask for user's geolocation when modal opens
     useEffect(() => {
@@ -163,6 +183,7 @@ export const DeliveryAddressButton: React.FC = () => {
         <Button
             className={cn(buttonProps.className, "max-w-full")}
             variant="solid"
+            radius="sm"
             isLoading={isValidating}
             startContent={!isValidating && buttonProps.startContent}
             endContent={!isValidating && buttonProps.endContent}
@@ -180,7 +201,7 @@ export const DeliveryAddressButton: React.FC = () => {
                     placement={fullMap ? "top" : "center"}
                     backdrop="blur"
                     scrollBehavior="inside"
-                    size={fullMap ? "5xl" : "3xl"}
+                    size={fullMap ? "full" : "3xl"}
                 >
                     <ModalContent>
                         {(onClose) => (

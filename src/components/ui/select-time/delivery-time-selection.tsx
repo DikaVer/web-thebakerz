@@ -32,7 +32,7 @@ export const DeliveryTimeSelection: React.FC<DeliveryTimeSelectionProps> = ({
         <ButtonGroup
             fullWidth
             size="sm"
-            radius="md"
+            radius="sm"
             className="text-grayText"
         >
             <SmartDatetimeInput

@@ -10,8 +10,40 @@ import { LandingSigninButton } from '@/components/ui/landing-signin';
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import clarity from "@microsoft/clarity";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
+// Animated typing component
+const AnimatedPlaceholder = () => {
+  const [displayText, setDisplayText] = useState('');
+  const [isTyping, setIsTyping] = useState(true);
+  const fullText = 'Enter address';
+  
+  useEffect(() => {
+    if (isTyping) {
+      const timeout = setTimeout(() => {
+        if (displayText.length < fullText.length) {
+          setDisplayText(fullText.slice(0, displayText.length + 1));
+        } else {
+          setIsTyping(false);
+          // Start over after a pause
+          setTimeout(() => {
+            setDisplayText('');
+            setIsTyping(true);
+          }, 2000);
+        }
+      }, 100);
+      
+      return () => clearTimeout(timeout);
+    }
+  }, [displayText, isTyping, fullText]);
+  
+  return (
+    <span className="text-gray-500">
+      {displayText}
+      {isTyping && <span className="animate-pulse">|</span>}
+    </span>
+  );
+};
 
 // LandingSection component with the address search
 export const LandingHeroSection = () => {
@@ -35,7 +67,8 @@ export const LandingHeroSection = () => {
           quality={100}
           fill
           priority
-          className="object-cover object-center bg-[#FCF1DC]"
+          sizes="100vw"
+          className="object-cover object-center bg-[#f7f6f5]"
         />
         <div className="absolute inset-0 bg-gradient-to-b bg-black bg-opacity-5"></div>
       </div>
@@ -59,7 +92,7 @@ export const LandingHeroSection = () => {
       {/* Content overlay */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 md:px-8 lg:px-16">
            
-        <div className="max-w-3xl mx-auto p-8 md:p-12 rounded-2xl mb-32">
+        <div className="max-w-3xl mx-auto p-8 px-4 md:p-12 rounded-2xl mb-32">
           <BlurText
             once={true}
             text="TheBakerz"
@@ -81,18 +114,31 @@ export const LandingHeroSection = () => {
             className="text-3xl sm:text-5xl font-bold text-[#0E0205] mb-8 drop-shadow-xl justify-center items-center"
           />
 
-          {/* All Desserts Button */}
+          {/* Apple-style Search Button */}
           <motion.div
-            className="mt-8"
+            className="mt-8 max-w-md mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
           >
-            <Button 
-              onPress={() => router.push('/search')}
-              size="lg"
-              className="bg-gradient-primary text-white font-semibold text-lg px-8 py-3 rounded-full shadow-xl"
-              endContent={<Icon icon="mdi:arrow-right" width={24} />}
+            <div 
+              onClick={() => router.push('/search?openAddressModal=true')}
+              className="group relative flex items-center w-full bg-white/90 backdrop-blur-md border border-gray-200/50 rounded-2xl px-6 py-4 shadow-xl hover:shadow-2xl hover:bg-white/95 transition-all duration-300 cursor-pointer"
             >
-              All Desserts
-            </Button>
+              <Icon 
+                icon="material-symbols:search" 
+                width={24} 
+                className="text-gray-400 group-hover:text-gray-600 transition-colors duration-200" 
+              />
+              <div className="ml-4 flex-1 text-left">
+                <AnimatedPlaceholder />
+              </div>
+              <Icon 
+                icon="mdi:arrow-right" 
+                width={20} 
+                className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" 
+              />
+            </div>
           </motion.div>
         </div>
       </div>

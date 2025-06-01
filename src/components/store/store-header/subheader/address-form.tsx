@@ -205,9 +205,13 @@ export function AddressForm({
 
   // --- Effects for Google Maps initialization ---
   useEffect(() => {
-    if (isMapsApiReady && !loadError) {
-      sessionTokenRef.current = new window.google.maps.places.AutocompleteSessionToken();
-      initializeMap();
+    if (isMapsApiReady && !loadError && window.google?.maps?.places?.AutocompleteSessionToken) {
+      try {
+        sessionTokenRef.current = new window.google.maps.places.AutocompleteSessionToken();
+        initializeMap();
+      } catch (error) {
+        logger.error('addressForm', 'Error creating AutocompleteSessionToken:', { error });
+      }
     }
   }, [isMapsApiReady, loadError, initializeMap]);
 

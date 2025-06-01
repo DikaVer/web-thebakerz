@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { findNearbyStores} from '@/lib/actions/store';
+import { findNearbyStores, NearbyStore} from '@/lib/actions/store';
 import { StorePanelSkeleton } from '@/components/search/components/store-panel-skeleton';
 import type { Metadata } from 'next'; // Import Metadata type
 import { getLocale, getTranslations } from 'next-intl/server'; // Import getLocale
@@ -110,7 +110,11 @@ const StoresLoadingSkeleton = () => {
 
 // Main component to fetch and render stores
 async function StoreResults({ coords, mode, country, isUserCord }: { coords: Coordinates, mode: 'pickup' | 'delivery', country?: string, isUserCord: boolean }) {
-  const stores = await findNearbyStores(coords.lat, coords.lng, mode, isUserCord, country);
+
+  let stores: NearbyStore[] = [];
+  if ((mode === 'delivery' && isUserCord) || mode === 'pickup') {
+    stores = await findNearbyStores(coords.lat, coords.lng, mode, isUserCord, country);
+  }
   
   const t = await getTranslations("app/search");
   // Log to help debug duplicate IDs

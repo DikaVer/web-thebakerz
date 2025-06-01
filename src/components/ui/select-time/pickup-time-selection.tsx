@@ -30,7 +30,7 @@ export const PickupTimeSelection: React.FC<PickupTimeSelectionProps> = ({
         <ButtonGroup
             fullWidth
             size="sm"
-            radius="md"
+            radius="sm"
             className="text-grayText"
         >
             <SmartDatetimeInput
