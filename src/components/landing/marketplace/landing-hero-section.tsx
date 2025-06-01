@@ -13,7 +13,7 @@ import clarity from "@microsoft/clarity";
 import { useEffect, useState } from 'react';
 
 // Animated typing component
-const AnimatedPlaceholder = () => {
+export const AnimatedPlaceholder = () => {
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
   const fullText = 'Enter address';
