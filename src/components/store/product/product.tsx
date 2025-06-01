@@ -130,7 +130,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const handleAddToCart = async () => {
 
         if(isSearch) {
-            router.push(`/${store?.storeName || store?.id}/item/${productData.web_name}`);
+            router.push(`/${store?.storeName || productData?.store_id}/item/${productData.web_name}`);
             return;
         }
 
