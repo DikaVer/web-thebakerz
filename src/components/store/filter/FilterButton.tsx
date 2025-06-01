@@ -41,7 +41,7 @@ export const FilterButton: React.FC = () => {
           aria-label="Filter products"
         >
           <Icon 
-            icon="mage:filter"
+            icon="material-symbols:search"
             width={20}
             height={20}
           />
