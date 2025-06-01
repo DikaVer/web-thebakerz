@@ -9,7 +9,7 @@ import { NearbyStore } from '@/lib/actions/store';
 import { WorkHours } from '@/lib/actions/calendar-actions'; // Added import
 import { formatCurrency } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
-import { examppleStore } from '@/lib/local-variables';
+import { exampleStore } from '@/lib/local-variables';
 import { renderScheduleDisplay } from '@/components/store/store-header/subheader/working-hours';
 import { useHoverPopover } from '@/hooks/use-hover-popover';
 import { useMediaQuery } from 'usehooks-ts';
@@ -392,7 +392,7 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
                                                 <PopoverTrigger>
                                                     <div 
                                                         ref={triggerRef}
-                                                        className={`flex ${(deliveryMode === 'delivery' && !isUserCord) && 'hidden'} items-center justify-between border-1 gap-2 p-1 px-2 rounded-full hover:bg-default-100 cursor-pointer ${examppleStore.includes(store.id) && "hidden"}`}
+                                                        className={`flex ${(deliveryMode === 'delivery' && !isUserCord) && 'hidden'} items-center justify-between border-1 gap-2 p-1 px-2 rounded-full hover:bg-default-100 cursor-pointer ${exampleStore.includes(store.id) && "hidden"}`}
                                                         onClick={(e) => {
                                                             e.preventDefault();
                                                             e.stopPropagation();
@@ -472,7 +472,7 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
                                     size="md"
                                     color={"warning"}
                                     variant="flat"
-                                    className={`${examppleStore.includes(store.id) ? "bg-warning-400 px-2 text-black dark:text-black" : "hidden"}`}
+                                    className={`${exampleStore.includes(store.id) ? "bg-warning-400 px-2 text-black dark:text-black" : "hidden"}`}
                                 >
                                     Example Store
                                 </Chip>

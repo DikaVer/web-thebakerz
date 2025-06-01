@@ -7,7 +7,7 @@ import {StoreTop} from "@/components/store/store-header/store-top";
 import { FooterStore } from "@/components/footer-store";
 import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 import {getTranslations} from "next-intl/server";
-import { examppleStore } from "@/lib/local-variables";
+import { exampleStore } from "@/lib/local-variables";
 
 interface StorePageProps {
     params: Promise<{
@@ -42,7 +42,7 @@ export default async function Page(props: StorePageProps) {
                 <div className="flex flex-col container mx-auto items-center justify-center">
                     <Spacer y={2}/>
                     <StoreTop />
-                    {examppleStore.includes(storeData.id) && (
+                    {exampleStore.includes(storeData.id) && (
                         <>
                             <Spacer y={4}/>
                             <div className="w-full flex flex-col items-start justify-start">
