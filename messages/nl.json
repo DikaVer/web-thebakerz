@@ -895,7 +895,7 @@
     "scheduleOrderTime": "Selecteer tijd",
     "storeClosed": "Nu gesloten",
     "storeOpen": "Nu open",
-    "typeToSearchAddress": "Voer straat- en adresnummer in",
+    "typeToSearchAddress": "Voer adres in",
     "when": "Wanneer?"
   },
   "app/(store)/components/store-top": {

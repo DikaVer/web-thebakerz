@@ -881,7 +881,7 @@
     "scheduleOrderTime": "Выберите время",
     "storeClosed": "Закрыт сейчас",
     "storeOpen": "Открыт сейчас",
-    "typeToSearchAddress": "Введите улицу и номер адреса",
+    "typeToSearchAddress": "Введите адрес",
     "when": "Когда?"
   },
   "app/(store)/components/store-top": {

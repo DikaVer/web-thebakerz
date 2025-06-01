@@ -879,7 +879,7 @@
     "scheduleOrderTime": "Виберіть час",
     "storeClosed": "Закрито зараз",
     "storeOpen": "Відкрито зараз",
-    "typeToSearchAddress": "Введіть номер вулиці та адреси",
+    "typeToSearchAddress": "Введіть адресу",
     "when": "Коли?"
   },
   "app/(store)/components/store-top": {

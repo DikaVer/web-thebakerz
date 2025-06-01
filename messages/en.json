@@ -891,7 +891,7 @@
     "scheduleOrderTime": "Select Time",
     "storeClosed": "Closed Now",
     "storeOpen": "Open Now",
-    "typeToSearchAddress": "Enter street and address number",
+    "typeToSearchAddress": "Enter address",
     "when": "When?"
   },
   "app/(store)/components/store-top": {

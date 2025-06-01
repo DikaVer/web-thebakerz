@@ -559,7 +559,7 @@ export function AddressForm({
                 ? `Error: ${loadError.message}`
                 : !isMapsApiReady 
                   ? "Loading Google Maps..." 
-                  : autocompleteValue || (t('typeToSearchAddress') || "Enter street and address number")
+                  : autocompleteValue || (t('typeToSearchAddress') || "Enter address")
             }
             value={autocompleteValue}
             onInputChange={(value) => {

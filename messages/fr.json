@@ -881,7 +881,7 @@
     "scheduleOrderTime": "Sélectionner l'heure",
     "storeClosed": "Fermé actuellement",
     "storeOpen": "Ouvert actuellement",
-    "typeToSearchAddress": "Saisissez la rue et le numéro",
+    "typeToSearchAddress": "Entrer l'adresse",
     "when": "Quand ?"
   },
   "app/(store)/components/store-top": {

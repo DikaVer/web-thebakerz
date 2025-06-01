@@ -203,7 +203,9 @@ export const DeliveryAddressButton: React.FC = () => {
                     scrollBehavior="inside"
                     size={fullMap ? "full" : "3xl"}
                 >
-                    <ModalContent>
+                    <ModalContent
+                        className={"bg-background"}
+                    >
                         {(onClose) => (
                             <>
                                 <ModalHeader>
