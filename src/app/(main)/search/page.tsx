@@ -3,7 +3,7 @@ import { findNearbyStores, NearbyStore} from '@/lib/actions/store';
 import { StorePanelSkeleton } from '@/components/search/components/store-panel-skeleton';
 import type { Metadata } from 'next'; // Import Metadata type
 import { getLocale, getTranslations } from 'next-intl/server'; // Import getLocale
-import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata utils
+import { getLocalizedMetadata } from '@/components/metadata'; // Import base metadata utils
 import { logger } from '@/lib/logger';
 import { Coordinates, getDeliveryMode } from '@/lib/actions/cookies/delivery-cookie';
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
@@ -15,20 +15,12 @@ import { StoreClientResults } from '@/components/search/components/store-results
 // Define search page specific metadata translations
 const pageMetadataTranslations = {
     en: {
-        defaultTitle: "Search Bakeries | TheBakerz",
-        defaultDescription: "Find artisanal bakeries, pastry shops, and home bakers near you for pickup or delivery on TheBakerz.",
-        cityTitle: "Bakeries in {city} | Search on TheBakerz",
-        cityDescription: "Discover local bakeries in {city} offering {mode}. Find fresh bread, pastries, and cakes near you on TheBakerz.",
-        keywordsBase: "search bakery, find bakery, local bakery, pastry shop search, bread delivery, cake delivery, artisanal bakery",
-        keywordsCity: "bakery in {city}, {city} pastry shop, {city} bread delivery, {city} cake order, {city} {mode}"
-    },
-    nl: {
-        defaultTitle: "Zoek Bakkerijen | TheBakerz",
-        defaultDescription: "Vind ambachtelijke bakkers, patisserieën en thuisbakkers bij u in de buurt voor afhalen of bezorgen op TheBakerz.",
-        cityTitle: "Bakkerijen in {city} | Zoeken op TheBakerz",
-        cityDescription: "Ontdek lokale bakkerijen in {city} die {mode} aanbieden. Vind vers brood, gebak en taarten bij u in de buurt op TheBakerz.",
-        keywordsBase: "zoek bakkerij, vind bakkerij, lokale bakker, patisserie zoeken, brood bezorgen, taart bezorgen, ambachtelijke bakkerij",
-        keywordsCity: "bakkerij in {city}, {city} patisserie, {city} brood bezorgen, {city} taart bestellen, {city} {mode}"
+        defaultTitle: "Search Bakeries Near You | TheBakerz", // Primary keyword first
+        defaultDescription: "Find artisanal bakeries & pastry shops for pickup or delivery. Explore local bakers on TheBakerz now!", // CTA added
+        cityTitle: "{city} Bakeries | Search Near You | TheBakerz", // Adjusted for keywords & branding
+        cityDescription: "Discover bakeries in {city} for {mode}. Find fresh bread, pastries & cakes. Order on TheBakerz!", // CTA added
+        keywordsBase: "search bakery, find bakery, local bakery, pastry shop, bread delivery, cake delivery, artisanal bakery, near me", // Added "near me"
+        keywordsCity: "bakery in {city}, {city} pastry shop, {city} bread, {city} cakes, {city} {mode}, {city} bakery delivery, {city} bakery pickup" // More specific
     }
 };
 
@@ -36,39 +28,54 @@ const pageMetadataTranslations = {
 // interface Bakery { ... }
 
 interface SearchPageProps {
-  searchParams?: Promise<{
+  searchParams?: {
     lat?: string;
     lng?: string;
     city?: string;
     mode?: 'pickup' | 'delivery';
     country?: string;
-  }>;
+    q?: string; // For general search query
+  };
 }
 
 export async function generateMetadata(
     { searchParams }: SearchPageProps
 ): Promise<Metadata> {
     const locale = await getLocale();
-    const baseMetadata = getLocalizedMetadata(locale);
-
-    let localeKey: 'en' | 'nl' = 'en';
-    if (locale === 'nl-NL' || locale === 'nl') {
-        localeKey = 'nl';
-    }
-
-
+    // Always use 'en' as we are removing 'nl'
+    const localeKey: 'en' = 'en';
+    const baseMetadata = getLocalizedMetadata(localeKey);
 
     const pageSpecifics = pageMetadataTranslations[localeKey];
 
     let title = pageSpecifics.defaultTitle;
     let description = pageSpecifics.defaultDescription;
-    let specificKeywords = '';
+    let currentKeywords = pageSpecifics.keywordsBase.split(', ');
+    let canonicalUrl = `https://www.thebakerz.com/search`;
 
-    // Merge keywords
-    const baseKeywords = metadataTranslations[localeKey].keywords.split(', ');
-    const pageBaseKeywords = pageSpecifics.keywordsBase.split(', ');
-    const cityKeywords = specificKeywords.split(', ').map(k => k.trim()).filter(Boolean);
-    const mergedKeywords = Array.from(new Set([...baseKeywords, ...pageBaseKeywords, ...cityKeywords]));
+    const city = searchParams?.city;
+    const mode = searchParams?.mode || 'pickup'; // Default to pickup if not specified
+    const query = searchParams?.q;
+
+    if (city) {
+        title = pageSpecifics.cityTitle.replace('{city}', city);
+        description = pageSpecifics.cityDescription.replace('{city}', city).replace('{mode}', mode);
+        const citySpecKeywords = pageSpecifics.keywordsCity.replace(/\{city\}/g, city).replace(/\{mode\}/g, mode).split(', ');
+        currentKeywords.push(...citySpecKeywords);
+        canonicalUrl = `https://www.thebakerz.com/search?city=${encodeURIComponent(city)}&mode=${mode}`;
+    } else if (query) {
+        // Handle general search query in title and description if needed
+        title = `Search results for "${query}" | TheBakerz`;
+        description = `Find bakeries and products matching "${query}". Explore your options on TheBakerz!`;
+        canonicalUrl = `https://www.thebakerz.com/search?q=${encodeURIComponent(query)}`;
+    }
+
+    // Ensure title and description lengths
+    title = title.length > 60 ? title.substring(0, 57) + '...' : title;
+    description = description.length > 160 ? description.substring(0, 157) + '...' : description;
+
+    const baseKeywords = baseMetadata.keywords || [];
+    const mergedKeywords = Array.from(new Set([...baseKeywords, ...currentKeywords]));
 
     return {
         ...baseMetadata,
@@ -77,11 +84,17 @@ export async function generateMetadata(
         keywords: mergedKeywords,
         alternates: {
             ...baseMetadata.alternates,
+            canonical: canonicalUrl,
+            languages: { // Ensure only en-US and x-default are present
+                'en-US': canonicalUrl,
+                'x-default': canonicalUrl,
+            }
         },
         openGraph: {
             ...baseMetadata.openGraph,
             title,
             description,
+            url: canonicalUrl,
         },
         twitter: {
             ...baseMetadata.twitter,

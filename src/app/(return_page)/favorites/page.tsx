@@ -4,6 +4,16 @@ import { FavoritesProvider } from '@/components/providers/favorites-provider';
 import FavoritesContent from '@/components/favorites/favorites-content';
 import { getCurrentSession } from '@/lib/actions/session';
 import { redirect } from 'next/navigation';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'My Favorites | TheBakerz',
+  description: 'Manage your favorite stores and products on TheBakerz. Save your top picks for easy access.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function FavoritesPage() {
   const session = await getCurrentSession();

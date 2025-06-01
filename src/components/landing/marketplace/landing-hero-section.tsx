@@ -11,6 +11,7 @@ import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import clarity from "@microsoft/clarity";
 import { useEffect, useState } from 'react';
+import LanguageModal from "@/components/language-modal";
 
 // Animated typing component
 export const AnimatedPlaceholder = () => {
@@ -52,6 +53,7 @@ export const LandingHeroSection = () => {
   useEffect(() => {
         clarity.setTag("page", "landing");
   }, []);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
 
 
   return (
@@ -84,7 +86,16 @@ export const LandingHeroSection = () => {
         />
       </div> */}
 
-      <div className=" flex w-full justify-end p-4">
+      <div className=" flex w-full items-center gap-4 justify-end p-4">
+        <Button
+            isIconOnly
+            variant="light"
+            size="sm"
+            className="min-w-0"
+            onPress={() => setIsLanguageOpen(true)}
+        >
+          <Icon icon="material-symbols-light:language" width={32} height={32} />
+        </Button>
         <LandingSigninButton className=" bg-gradient-primary text-lg shadow-xl rounded-3xl text-white border-0" />
       </div>
 
@@ -142,6 +153,7 @@ export const LandingHeroSection = () => {
           </motion.div>
         </div>
       </div>
+      {isLanguageOpen && <LanguageModal handAction={() => setIsLanguageOpen(false)}/>}
     </div>
   );
 };

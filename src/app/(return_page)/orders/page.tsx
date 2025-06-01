@@ -4,12 +4,31 @@ import { getUserOrders } from "@/lib/actions/user-orders";
 import { OrdersList } from "@/components/order-user/order-list";
 import { redirect } from "next/navigation";
 
+const pageTitle = "My Orders | TheBakerz";
+const pageDescription = "Track your orders, view past purchases with TheBakerz.";
+const pageUrl = "https://www.thebakerz.com/orders";
+
 export const metadata: Metadata = {
-    title: "Orders | TheBakerz",
-    description: "Manage and track your bakery orders",
+    title: pageTitle,
+    description: pageDescription,
     robots: {
         index: false,
         follow: false
+    },
+    alternates: {
+        canonical: pageUrl,
+    },
+    openGraph: {
+        title: pageTitle,
+        description: pageDescription,
+        url: pageUrl,
+        type: 'website',
+        siteName: 'TheBakerz',
+    },
+    twitter: {
+        card: 'summary',
+        title: pageTitle,
+        description: pageDescription,
     }
 };
 

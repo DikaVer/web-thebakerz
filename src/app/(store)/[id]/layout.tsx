@@ -1,7 +1,7 @@
 import '@/styles/globals.css'
 import React from "react";
 import {getCurrentStore} from "@/lib/actions/store";
-import {getLocalizedMetadata, metadataTranslations} from "@/components/metadata";
+import {getLocalizedMetadata} from "@/components/metadata";
 import type {Metadata} from "next";
 import {getLocale} from "next-intl/server";
 import {StoreIdChecker} from "@/components/store/store-id-checker";
@@ -16,56 +16,46 @@ import LayoutComp from "@/components/layout-comp";
 import NotFound from "@/app/(error_layout)/not-found";
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 import { FavoritesProvider } from '@/components/providers/favorites-provider';
-import { getCurrentFavorites, getProductFavorites } from '@/lib/actions/favorites';
+import { getCurrentFavorites } from '@/lib/actions/favorites';
 
 type Params = Promise<{ id: string }>
 
-export async function generateMetadata({
-                                           params,
-                                       }: {
-    params: Params,
-}): Promise<Metadata> {
+export async function generateMetadata({params}: {params: Params}): Promise<Metadata> {
     const { id } = await params;
     const storeData = await getCurrentStore(id);
-    const locale = await getLocale();
+    const localeKey: 'en' = 'en';
 
-    // Get base localized metadata
-    const localizedMetadata = getLocalizedMetadata(locale);
-    // Determine locale key for consistency
-    let localeKey: 'en' | 'nl' = 'en';
-    if (locale === 'nl-NL' || locale === 'nl') {
-        localeKey = 'nl';
-    }
-    const baseTranslations = metadataTranslations[localeKey]; // Get base translations for keywords
+    const baseMetadata = getLocalizedMetadata(localeKey);
 
     if (!storeData) {
         return {
+            ...baseMetadata,
             title: "Store Not Found | TheBakerz",
-            description: "The requested store could not be found."
+            description: "The requested store could not be found. Please search again on TheBakerz.",
+            robots: { index: false, follow: false }
         };
     }
 
     const storeName = storeData.ownerName || "TheBakerz Store";
-    const storeDescription = storeData.description ||
-    localeKey === 'nl'
-        ? `Bestel verse, ambachtelijke bakkerijproducten van ${storeName}. Handgemaakt met zorg en aan uw deur geleverd.`
-        : `Order fresh, artisanal baked goods from ${storeName}. Handcrafted with care and delivered to your door.`;
+    let title = `${storeName} | Bakery on TheBakerz`;
+    if (title.length > 60) {
+        title = `${(storeData.ownerName || "Bakery").substring(0, 40)}... | TheBakerz`;
+        if (title.length > 60) title = title.substring(0, 57) + '...';
+    }
 
-    const storeLocation = storeData.location ?
-        `${storeData.location.city}, ${storeData.location.country}` : '';
+    let description = storeData.description || `Order fresh bread, pastries & cakes from ${storeName}. Quality baked goods delivered to you. Explore now!`;
+    if (description.length > 160) {
+        description = description.substring(0, 157) + '...';
+    } else if (description.length < 140) {
+        description = `${description} Find unique items from ${storeName} on TheBakerz marketplace.`;
+        if (description.length > 160) description = description.substring(0, 157) + '...';
+    }
+    
+    const storeLocation = storeData.location ? `${storeData.location.city}, ${storeData.location.country}` : '';
+    const locationKeywords = storeLocation ? `bakery in ${storeLocation}, ${storeData.location?.city} bakery, artisanal bakery ${storeData.location?.city}` : '';
 
-    // Create location-based keywords if available
-    const locationKeywords = storeLocation
-        ? localeKey === 'nl'
-            ? `bakkerij in ${storeLocation}, ${storeData.location?.city} bakkerij, ambachtelijke bakkerij ${storeData.location?.city}`
-            : `bakery in ${storeLocation}, ${storeData.location?.city} bakery, artisanal bakery ${storeData.location?.city}`
-        : '';
+    const imageAlt = `${storeName} - Fresh artisanal baked goods`;
 
-    const imageAlt = localeKey === 'nl'
-        ? `${storeName} - Verse ambachtelijke bakkerijproducten`
-        : `${storeName} - Fresh artisanal baked goods`;
-
-    // Create store images array for use in multiple places
     const storeImages = storeData.background ? [
         {
             url: storeData.background,
@@ -73,63 +63,72 @@ export async function generateMetadata({
             height: 630,
             alt: imageAlt,
         }
-    ] : localizedMetadata.openGraph?.images;
+    ] : baseMetadata.openGraph?.images;
 
-    const storeTitle = localeKey === 'nl'
-        ? `${storeName} | Ambachtelijke Bakkerij op TheBakerz`
-        : `${storeName} | Artisanal Bakery on TheBakerz`;
-
-    const storeOgTitle = localeKey === 'nl'
-        ? `${storeName} | Verse Bakkerijproducten Geleverd`
-        : `${storeName} | Fresh Baked Goods Delivered`;
-
-    // Generate store-specific keywords string first
-    const storeKeywordsString = localeKey === 'nl'
-        ? `${storeName}, ambachtelijke bakkerij, vers brood, gebak, thuisbakkerij, ${locationKeywords}, online bakkerij bestelling, ${storeData.ownerName || 'lokale bakker'}`
-        : `${storeName}, artisanal bakery, fresh bread, pastries, homemade bakery, ${locationKeywords}, online bakery order, ${storeData.ownerName || 'local baker'}`;
-
-    // Merge base keywords with store-specific keywords
-    const baseKeywords = baseTranslations.keywords.split(', ');
-    const storeKeywordsArray = storeKeywordsString.split(', ').map(k => k.trim()).filter(k => k !== ''); // Split, trim, and remove empty strings
+    const storeKeywordsString = `${storeName}, artisanal bakery, fresh bread, pastries, homemade bakery, ${locationKeywords}, online bakery order, ${storeData.ownerName || 'local baker'}, ${storeData.location?.city || ''}`;
+    
+    const baseKeywords = baseMetadata.keywords || [];
+    const storeKeywordsArray = storeKeywordsString.split(', ').map(k => k.trim()).filter(k => k !== '');
     const mergedKeywords = Array.from(new Set([...baseKeywords, ...storeKeywordsArray]));
 
+    const canonicalUrl = `https://www.thebakerz.com/${storeData.storeName || id}`;
+
+    // Initialize an empty object for 'other' metadata or use existing if compatible
+    const otherMetadata: { [name: string]: string | number | (string | number)[] } = {}; 
+    if (baseMetadata.other) {
+        // Selectively copy known string/number properties if needed, or start fresh
+        // For now, let's start fresh and add only our specific tags to avoid type issues.
+    }
+
+    otherMetadata['og:street-address'] = storeData.location?.route || '';
+    otherMetadata['og:locality'] = storeData.location?.city || '';
+    otherMetadata['og:postal-code'] = storeData.location?.zipCode || '';
+    otherMetadata['og:country-name'] = storeData.location?.country || '';
+    otherMetadata['business:contact_data:street_address'] = storeData.location?.route || '';
+    otherMetadata['business:contact_data:locality'] = storeData.location?.city || '';
+    otherMetadata['business:contact_data:postal_code'] = storeData.location?.zipCode || '';
+    otherMetadata['business:contact_data:country_name'] = storeData.location?.country || '';
+    otherMetadata['business:contact_data:email'] = storeData.email || '';
+    otherMetadata['business:contact_data:phone_number'] = storeData.phone || '';
+    if (storeData.location?.latitude) {
+        otherMetadata['place:location:latitude'] = storeData.location.latitude.toString();
+    }
+    if (storeData.location?.longitude) {
+        otherMetadata['place:location:longitude'] = storeData.location.longitude.toString();
+    }
+    otherMetadata['og:email'] = storeData.email || '';
+    otherMetadata['og:phone_number'] = storeData.phone || '';
+
     return {
-        ...localizedMetadata,
-        title: storeTitle,
-        description: storeDescription.substring(0, 160),
-        openGraph: {
-            ...localizedMetadata.openGraph,
-            title: storeOgTitle,
-            description: storeDescription.substring(0, 160),
-            images: storeImages,
-            siteName: storeName,
-            locale: localeKey === 'nl' ? 'nl_NL' : 'en_US',
-        },
-        twitter: {
-            ...localizedMetadata.twitter,
-            title: storeOgTitle,
-            description: storeDescription.substring(0, 160),
-            images: storeData.background ? [storeData.background] : localizedMetadata.twitter?.images,
-            card: storeData.background ? 'summary_large_image' : 'summary',
-        },
+        ...baseMetadata,
+        title: title,
+        description: description,
         keywords: mergedKeywords,
         alternates: {
-            ...localizedMetadata.alternates,
+            ...baseMetadata.alternates,
+            canonical: canonicalUrl,
+            languages: {
+                'en-US': canonicalUrl,
+                'x-default': canonicalUrl,
+            }
         },
-        other: {
-            'og:street-address': storeData.location?.route,
-            'og:locality': storeData.location?.city,
-            'og:postal-code': storeData.location?.zipCode,
-            'og:country-name': storeData.location?.country,
-            'business:contact_data:street_address': storeData.location?.route,
-            'business:contact_data:locality': storeData.location?.city,
-            'business:contact_data:postal_code': storeData.location?.zipCode,
-            'business:contact_data:country_name': storeData.location?.country,
-            'business:contact_data:email': storeData.email || '',
-            'business:contact_data:phone_number': storeData.phone || '',
-            'og:email': storeData.email || '',
-            'og:phone_number': storeData.phone || '',
-        }
+        openGraph: {
+            ...(baseMetadata.openGraph || {}),
+            title: title,
+            description: description,
+            images: storeImages,
+            siteName: storeName,
+            url: canonicalUrl,
+            locale: 'en_US',
+        },
+        twitter: {
+            ...(baseMetadata.twitter || {}),
+            title: title,
+            description: description,
+            images: storeData.background ? [storeData.background] : (baseMetadata.twitter?.images || []),
+            card: storeData.background ? 'summary_large_image' : 'summary',
+        },
+        other: otherMetadata // Assign the cleaned/rebuilt otherMetadata
     };
 }
 
@@ -137,11 +136,9 @@ export async function generateMetadata({
 async function setupStoreProviders({ 
     id, 
     children, 
-    layoutOptions = {} 
 }: { 
     id: string; 
     children: React.ReactNode; 
-    layoutOptions?: Record<string, any>; 
 }) {
     const storeData = await getCurrentStore(id);
     
@@ -160,7 +157,6 @@ async function setupStoreProviders({
     
     const cartData = await getCurrentCart(storeData.id);
     const initialStoreFavorites = await getCurrentFavorites("getStoreFavorites", storeData.id);
-    const initialProductFavorites = await getCurrentFavorites("getProductFavorites", storeData.id);
     
     return (
         
@@ -178,12 +174,10 @@ async function setupStoreProviders({
                 >
                     <FavoritesProvider
                             initialStoreFavorites={initialStoreFavorites}
-                            initialProductFavorites={initialProductFavorites}
                         >
                         <ProductDialogProvider>
                             <LayoutComp
                                 store={storeData}
-                                {...layoutOptions}
                             >
                                 {children}
                             </LayoutComp>

@@ -1,42 +1,31 @@
 import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
-import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata function and translations
+import { getLocalizedMetadata } from '@/components/metadata'; 
 import Media from '@/components/media/media';
 
 // Define specific metadata overrides for the media page
 const pageMetadataTranslations = {
     en: {
-        title: 'Connect With TheBakerz | Social Media & Press Contact',
-        description: 'Find and follow TheBakerz on social media platforms. Get in touch with our press team for media inquiries, interviews, and collaboration opportunities.',
-        keywords: 'TheBakerz social media, bakery press contact, bakery social channels, TheBakerz LinkedIn, TheBakerz Facebook, TheBakerz Instagram, contact media team',
-        ogTitle: 'Find TheBakerz On Social Media | Press & Media Contact',
-        ogDescription: 'Connect with TheBakerz on LinkedIn, Facebook, Instagram, TikTok and YouTube. Contact our press team for media inquiries and collaboration opportunities.',
-        twitterTitle: 'Follow TheBakerz | Social Media & Press Contact',
-        twitterDescription: 'Find us on your favorite social platforms! 📱 Connect with TheBakerz and stay updated with our latest news and announcements. #bakery #socialmedia #press'
-    },
-    nl: {
-        title: 'Verbind Met TheBakerz | Social Media & Perscontact',
-        description: 'Vind en volg TheBakerz op sociale mediaplatforms. Neem contact op met ons persteam voor media-aanvragen, interviews en samenwerkingsmogelijkheden.',
-        keywords: 'TheBakerz sociale media, bakkerij perscontact, bakkerij sociale kanalen, TheBakerz LinkedIn, TheBakerz Facebook, TheBakerz Instagram, contact mediateam',
-        ogTitle: 'Vind TheBakerz Op Sociale Media | Pers & Mediacontact',
-        ogDescription: 'Verbind met TheBakerz op LinkedIn, Facebook, Instagram, TikTok en YouTube. Neem contact op met ons persteam voor media-aanvragen en samenwerkingsmogelijkheden.',
-        twitterTitle: 'Volg TheBakerz | Sociale Media & Perscontact',
-        twitterDescription: 'Vind ons op je favoriete sociale platforms! 📱 Verbind met TheBakerz en blijf op de hoogte van ons laatste nieuws en aankondigingen. #bakkerij #socialemedia #pers'
+        title: 'TheBakerz Social Media & Press | Contact Us', // Optimized title < 60
+        description: 'Connect with TheBakerz on LinkedIn, Facebook, Instagram, TikTok & YouTube. Contact press for media inquiries. Follow us!', // Optimized desc < 160, CTA
+        keywords: 'TheBakerz social media, press contact, bakery social channels, TheBakerz LinkedIn, Facebook, Instagram, TikTok, YouTube, media inquiries, contact us', // expanded keywords
+        ogTitle: 'TheBakerz Socials & Press Contact | TheBakerz', // Optimized OG
+        ogDescription: 'Connect with TheBakerz on social media (LinkedIn, Facebook, Instagram, TikTok, YouTube). Contact our press team for inquiries.', // Optimized OG desc
+        twitterTitle: 'Follow TheBakerz | Social Media & Press Info', // Optimized Twitter
+        twitterDescription: 'Find TheBakerz on social media & get press contact info. Stay updated with our news! #bakery #socialmedia #press #TheBakerz' // Hashtag updated
     }
+    // NL removed
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-    const locale = await getLocale();
-    const baseMetadata = getLocalizedMetadata(locale);
-
-    let localeKey: 'en' | 'nl' = 'en';
-    if (locale === 'nl-NL' || locale === 'nl') {
-        localeKey = 'nl';
-    }
+    // const locale = await getLocale(); // locale not strictly needed
+    const localeKey: 'en' = 'en'; // Hardcode to en
+    const baseMetadata = getLocalizedMetadata(localeKey);
 
     const pageSpecifics = pageMetadataTranslations[localeKey];
-    const baseKeywords = metadataTranslations[localeKey].keywords.split(', ');
+    const baseKeywords = baseMetadata.keywords || [];
     const pageKeywords = pageSpecifics.keywords.split(', ');
+    const canonicalUrl = `https://www.thebakerz.com/socials`; // Corrected canonical URL
 
     // Merge metadata
     return {
@@ -46,13 +35,17 @@ export async function generateMetadata(): Promise<Metadata> {
         keywords: Array.from(new Set([...baseKeywords, ...pageKeywords])),
         alternates: {
             ...baseMetadata.alternates,
-            canonical: `https://www.thebakerz.com/media`,
+            canonical: canonicalUrl,
+            languages: { // Ensure only en-US and x-default are present
+                'en-US': canonicalUrl,
+                'x-default': canonicalUrl,
+            }
         },
         openGraph: {
             ...baseMetadata.openGraph,
             title: pageSpecifics.ogTitle,
             description: pageSpecifics.ogDescription,
-            url: `https://www.thebakerz.com/media`,
+            url: canonicalUrl, // Use correct canonical URL
         },
         twitter: {
             ...baseMetadata.twitter,
@@ -64,10 +57,36 @@ export async function generateMetadata(): Promise<Metadata> {
 
 // Media Page component
 export default async function Page() {
+    const contactPageSchema = {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": pageMetadataTranslations.en.title,
+        "description": pageMetadataTranslations.en.description,
+        "url": "https://www.thebakerz.com/socials",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://www.thebakerz.com/socials"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "TheBakerz",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://storage4thebakerz.blob.core.windows.net/email-messages/TheBakerzLogo.svg"
+            }
+        }
+        // Potentially add "contactPoint" if there are specific press contacts listed on the page
+    };
 
     return (
-        <main className="min-h-screen">
-            <Media />
-        </main>
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageSchema) }}
+            />
+            <main className="min-h-screen">
+                <Media />
+            </main>
+        </>
     );
 }

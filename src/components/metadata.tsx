@@ -2,45 +2,31 @@ import type {Metadata} from "next";
 
 export const metadataTranslations = {
     'en': {
-        title: 'TheBakerz | All-in-One Platform for Bakers & Pastry Shops',
-        titleTemplate: '%s | TheBakerz - Grow Your Bakery Business',
-        description: 'Supercharge your bakery with TheBakerz! We offer lead generation, order management, webshop creation, marketing tools, secure payments, and delivery coordination for artisanal bakers, pastry chefs, and home bakeries. Join our marketplace or streamline your operations.',
-        keywords: "bakery software, pastry shop management, artisanal bakers platform, order management system, webshop for bakers, lead generation bakery, online bakery marketplace, bread delivery service, pastry delivery, home bakery tools, payment processing bakers, marketing for bakeries, TheBakerz",
-        ogTitle: 'TheBakerz: Grow Your Bakery Business - Orders, Webshop, Marketing & More',
-        ogDescription: 'The complete platform for bakers & pastry chefs. Manage orders, build your webshop, attract customers, handle payments, and coordinate deliveries with TheBakerz.',
-        twitterTitle: 'TheBakerz: All-in-One Bakery & Pastry Shop Platform',
-        twitterDescription: 'Streamline your bakery operations! Get lead gen, order management, webshop, marketing, payments & delivery tools with TheBakerz. #bakery #pastry #smallbusiness',
+        title: 'Bakery & Pastry Shop Platform | TheBakerz',
+        titleTemplate: '%s | TheBakerz',
+        description: 'TheBakerz: All-in-one platform for bakers. Manage orders, webshop, payments & deliveries to grow your business. Explore now!',
+        keywords: "bakery software, pastry shop management, artisanal bakers platform, order management, webshop for bakers, online bakery marketplace, bread delivery, pastry delivery, home bakery tools, payments for bakers, bakery marketing, TheBakerz",
+        ogTitle: 'TheBakerz: Grow Your Bakery - Orders, Webshop & More',
+        ogDescription: 'The complete platform for bakers: manage orders, build your webshop, attract customers, and handle payments with TheBakerz. Start today!',
+        twitterTitle: 'TheBakerz: All-In-One Bakery & Pastry Platform',
+        twitterDescription: 'Streamline bakery ops! Get order management, webshop, marketing, payments & delivery tools with TheBakerz. #bakery #pastry #TheBakerz',
         category: 'technology',
         altText: 'TheBakerz Logo - All-in-One Platform for Bakers and Pastry Shops'
-    },
-    'nl': {
-        title: 'TheBakerz | Alles-in-één Platform voor Bakkers & Patissiers',
-        titleTemplate: '%s | TheBakerz - Laat Je Bakkerij Groeien',
-        description: 'Geef je bakkerij een boost met TheBakerz! Wij bieden leadgeneratie, orderbeheer, webshopcreatie, marketingtools, veilige betalingen en leveringscoördinatie voor ambachtelijke bakkers, patissiers en thuisbakkerijen. Sluit je aan bij onze marktplaats of stroomlijn je activiteiten.',
-        keywords: "bakkerij software, patisserie beheer, platform ambachtelijke bakkers, orderbeheersysteem, webshop voor bakkers, leadgeneratie bakkerij, online bakkerij marktplaats, brood bezorgservice, gebak bezorging, thuisbakkerij tools, betalingsverwerking bakkers, marketing voor bakkerijen, TheBakerz",
-        ogTitle: 'TheBakerz: Laat Je Bakkerij Groeien - Bestellingen, Webshop, Marketing & Meer',
-        ogDescription: 'Het complete platform voor bakkers & patissiers. Beheer bestellingen, bouw je webshop, trek klanten aan, verwerk betalingen en coördineer leveringen met TheBakerz.',
-        twitterTitle: 'TheBakerz: Alles-in-één Platform voor Bakkerijen & Patisserieën',
-        twitterDescription: 'Stroomlijn je bakkerijactiviteiten! Krijg lead gen, orderbeheer, webshop, marketing, betalingen & bezorgtools met TheBakerz. #bakkerij #patisserie #mkb',
-        category: 'technologie',
-        altText: 'TheBakerz Logo - Alles-in-één Platform voor Bakkers en Patissiers'
     }
 };
 
 
 export function getLocalizedMetadata(locale: string): Metadata {
+    const localeKey: 'en' = 'en';
+    const translations = metadataTranslations[localeKey];
 
-    let localeDefault: 'en' | 'nl' = 'en';
-    if (locale === 'nl-NL' || locale === 'nl') {
-        localeDefault = 'nl';
-    }
-
-    const translations = metadataTranslations[localeDefault];
+    const baseUrl = `https://www.thebakerz.com`;
+    const canonicalUrl = locale === 'en' ? baseUrl : `${baseUrl}/${locale}`;
 
     return {
-        metadataBase: new URL(`https://www.thebakerz.com/`),
+        metadataBase: new URL(baseUrl),
         applicationName: 'TheBakerz',
-        authors: [{ name: 'TheBakerz Team', url: 'https://www.thebakerz.com' }],
+        authors: [{ name: 'TheBakerz Team', url: baseUrl }],
         title: {
             default: translations.title,
             template: translations.titleTemplate
@@ -60,20 +46,19 @@ export function getLocalizedMetadata(locale: string): Metadata {
             ],
         },
         alternates: {
-            canonical: `https://www.thebakerz.com/${localeDefault === 'nl' ? 'nl' : ''}`,
+            canonical: canonicalUrl,
             languages: {
-                'en-US': 'https://www.thebakerz.com/',
-                'nl-NL': 'https://www.thebakerz.com/',
-                'x-default': 'https://www.thebakerz.com/',
+                'en-US': baseUrl + '/',
+                'x-default': baseUrl + '/',
             }
         },
         openGraph: {
             title: translations.ogTitle,
             description: translations.ogDescription,
-            url: `https://www.thebakerz.com/${localeDefault === 'nl' ? 'nl' : ''}`,
+            url: canonicalUrl,
             siteName: 'TheBakerz',
             type: 'website',
-            locale: localeDefault === 'nl' ? 'nl_NL' : 'en_US',
+            locale: 'en_US',
             images: [
                 {
                     url: 'https://storage4thebakerz.blob.core.windows.net/email-messages/TheBakerzLogo.svg',

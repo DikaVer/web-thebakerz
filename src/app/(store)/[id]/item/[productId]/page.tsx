@@ -6,7 +6,7 @@ import {getCurrentProduct} from "@/lib/actions/product";
 import {ProductPage} from "@/components/store/product-page/product-page";
 import {getCurrentStore} from "@/lib/actions/store";
 import { getLocale } from 'next-intl/server';
-import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata';
+import { getLocalizedMetadata } from '@/components/metadata';
 import type { Metadata } from 'next';
 
 interface StorePageProps {
@@ -21,67 +21,62 @@ interface StorePageProps {
 
 type Params = Promise<{ id: string, productId: string }>
 
-export async function generateMetadata({
-                                           params
-                                       }: {
-    params: Params
-}): Promise<Metadata> {
+export async function generateMetadata({params}: {params: Params}): Promise<Metadata> {
     try {
         const { id, productId } = await params;
-        const locale = await getLocale();
+        const localeKey: 'en' = 'en';
+        const baseMetadata = getLocalizedMetadata(localeKey);
 
-        // Get base metadata first
-        const baseMetadata = getLocalizedMetadata(locale);
-        let localeKey: 'en' | 'nl' = 'en';
-        if (locale === 'nl-NL' || locale === 'nl') {
-            localeKey = 'nl';
-        }
-
-        // Fetch store and product data
         const storeData = await getCurrentStore(id);
         if (!storeData) {
-            // Return simple not found metadata
             return {
-                title: "Store Not Found",
-                description: "This store could not be found."
+                title: "Store Not Found | TheBakerz",
+                description: "Sorry, this store could not be found. Please check the URL or search for another store."
             };
         }
 
         const product = await getCurrentProduct(storeData.id, productId);
-
         if (!product) {
-            // Return simple not found metadata
             return {
-                title: "Product Not Found",
-                description: "This product could not be found in the store."
+                title: "Product Not Found | TheBakerz",
+                description: "Sorry, this product could not be found in the store. Please try another item."
             };
         }
 
         const storeName = storeData.ownerName || "TheBakerz Store";
-        const productTitle = `${product.name} | ${storeName}`;
-        const productDescription = (product.description || `${product.name} - Available at ${storeName}`).substring(0, 160);
+        let productTitle = `${product.name} | ${storeName} | TheBakerz`; 
+        if (productTitle.length > 60) {
+             productTitle = `${product.name.substring(0, Math.max(0, 40 - storeName.length - 12))}... | ${storeName} | TheBakerz`;
+             if (productTitle.length > 60) productTitle = productTitle.substring(0, 57) + '...';
+        }
+        
+        let productDescription = (product.description || `${product.name} available at ${storeName}. Order now for fresh delivery or pickup!`);
+        if (productDescription.length > 160) {
+            productDescription = productDescription.substring(0, 157) + '...';
+        } else if (productDescription.length < 140) {
+            productDescription = `${productDescription} Discover more from ${storeName} on TheBakerz.`;
+            if (productDescription.length > 160) productDescription = productDescription.substring(0, 157) + '...';
+        }
 
         const productImageAlt = `${product.name} - ${storeName}`;
 
-        // Define product images array
         const productImages = product.picture ? [
             {
                 url: product.picture,
-                width: 1200, // Standard OG size
+                width: 1200, 
                 height: 630,
                 alt: productImageAlt
             }
-        ] : baseMetadata.openGraph?.images; // Fallback to base images
+        ] : baseMetadata.openGraph?.images;
 
-        // Define product-specific keywords
-        const productKeywordsString = `${product.name}, ${product.category || 'baked goods'}, order ${product.name}, ${storeName} ${product.name}`;
+        const productKeywordsString = `${product.name}, ${product.category || 'baked goods'}, order ${product.name}, ${storeName} ${product.name}, buy ${product.name}`;
         const productKeywords = productKeywordsString.split(', ').map(k => k.trim());
 
-        // Merge keywords (base + product-specific)
-        const baseKeywords = metadataTranslations[localeKey].keywords.split(', ');
+        const baseKeywords = baseMetadata.keywords || [];
         const mergedKeywords = Array.from(new Set([...baseKeywords, ...productKeywords]));
+        
+        const canonicalUrl = `https://www.thebakerz.com/${storeData.storeName || id}/item/${productId}`;
 
-        // Merge base metadata with product-specific overrides
         return {
             ...baseMetadata,
             title: productTitle,
@@ -89,28 +84,34 @@ export async function generateMetadata({
             keywords: mergedKeywords,
             alternates: {
                 ...baseMetadata.alternates,
+                canonical: canonicalUrl,
+                 languages: { 
+                    'en-US': canonicalUrl,
+                    'x-default': canonicalUrl,
+                }
             },
             openGraph: {
-                ...baseMetadata.openGraph,
-                title: productTitle,
-                description: productDescription,
+                ...(baseMetadata.openGraph || {}),
+                title: productTitle, 
+                description: productDescription, 
                 images: productImages,
-                type: 'article', // Changed from 'product' to 'article' which is valid in Next.js
-                siteName: storeName, // Use store name as site name here
+                type: 'article', 
+                url: canonicalUrl, 
+                siteName: storeName, 
             },
             twitter: {
-                ...baseMetadata.twitter,
+                ...(baseMetadata.twitter || {}),
                 card: product.picture ? 'summary_large_image' : 'summary',
-                title: productTitle,
-                description: productDescription,
-                images: product.picture ? [product.picture] : baseMetadata.twitter?.images // Fallback image
+                title: productTitle, 
+                description: productDescription, 
+                images: product.picture ? [product.picture] : (baseMetadata.twitter?.images || []) 
             },
         };
     } catch (error) {
-        console.error('Error generating metadata:', error);
+        console.error('Error generating metadata for product:', error);
         return {
-            title: 'Error',
-            description: 'Could not load product details'
+            title: 'Error | TheBakerz',
+            description: 'Could not load product details. Please try again later.'
         };
     }
 }
@@ -124,17 +125,39 @@ export default async function Page(props: StorePageProps) {
         return <NotFound />;
     }
 
+    const productData = await getCurrentProduct(storeData.id, productId);
+    const productStructuredData = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": productData?.name || "",
+        "image": productData?.picture ? [productData.picture] : [],
+        "description": productData?.description || "",
+        "brand": { "@type": "Organization", "name": storeData.ownerName || storeData.id || "TheBakerz" },
+        "offers": {
+            "@type": "Offer",
+            "price": productData?.price || 0,
+            "priceCurrency": "EUR",
+            "availability": "http://schema.org/InStock",
+            "seller": { "@type": "Organization", "name": storeData.ownerName || storeData.id }
+        }
+    };
+
     // Store data and providers are handled in the layout
     return (
-        <div className="flex flex-col min-h-screen relative z-10 items-center">
-            <div className="flex flex-col container mx-auto items-center justify-center">
-                <ProductPage
-                    storeId={storeData.id}
-                    productId={productId}
-                />
+        <>
+            <div className="flex flex-col min-h-screen relative z-10 items-center">
+                <div className="flex flex-col container mx-auto items-center justify-center">
+                    <ProductPage
+                        storeId={storeData.id}
+                        productId={productId}
+                    />
+                </div>
+                <Spacer y={16}/>
+                <FooterStore/>
             </div>
-            <Spacer y={16}/>
-            <FooterStore/>
-        </div>
+            <script 
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(productStructuredData) }} />
+        </>
     );
 }

@@ -1,45 +1,34 @@
 import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
-import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata';
+import { getLocalizedMetadata } from '@/components/metadata';
 
 // Define page-specific metadata translations
 const pageMetadataTranslations = {
     en: {
-        title: "Become a Partner | Grow Your Bakery with TheBakerz",
-        description: "Join TheBakerz platform! Get your own webshop, streamline orders, manage recipes, and reach more customers. Start your free trial today.",
-        keywords: "join thebakerz, bakery partner program, bakery software signup, webshop for bakers, online bakery platform, grow bakery business, bakery order management, free trial bakery software",
-        ogTitle: "Partner with TheBakerz & Grow Your Bakery Business",
-        ogDescription: "Expand your reach and simplify operations. Get a dedicated webshop, order management, and more with TheBakerz. Sign up now!",
+        title: "Partner with TheBakerz: Grow Your Bakery Business",
+        description: "Join TheBakerz to get a webshop, manage orders & recipes, and reach more customers. Start your to grow your business now!",
+        keywords: "bakery partner program, webshop for bakers, bakery software, online bakery platform, grow bakery business, bakery order management, bakery marketing, free trial",
+        ogTitle: "Partner with TheBakerz & Boost Your Bakery Sales",
+        ogDescription: "Expand reach & simplify operations with TheBakerz. Get your webshop, order tools & more. Sign up for a free access!",
         twitterTitle: "Grow Your Bakery with TheBakerz | Become a Partner",
-        twitterDescription: "Ready to boost your bakery sales? Join TheBakerz for a free trial and get your own webshop, order tools, and more. #bakerybusiness #onlinebakery #pastrychef"
-    },
-    nl: {
-        title: "Word Partner | Laat Je Bakkerij Groeien met TheBakerz",
-        description: "Sluit je aan bij het TheBakerz platform! Krijg je eigen webshop, stroomlijn bestellingen, beheer recepten en bereik meer klanten. Start vandaag nog je gratis proefperiode.",
-        keywords: "word lid van thebakerz, partnerprogramma bakkerij, aanmelden bakkerij software, webshop voor bakkers, online bakkerij platform, bakkerij laten groeien, orderbeheer bakkerij, gratis proefversie bakkerij software",
-        ogTitle: "Word Partner van TheBakerz & Laat Je Bakkerij Groeien",
-        ogDescription: "Vergroot je bereik en vereenvoudig je activiteiten. Krijg een eigen webshop, orderbeheer en meer met TheBakerz. Meld je nu aan!",
-        twitterTitle: "Laat Je Bakkerij Groeien met TheBakerz | Word Partner",
-        twitterDescription: "Klaar om je bakkerijomzet te verhogen? Sluit je aan bij TheBakerz voor een gratis proefperiode en krijg je eigen webshop, besteltools en meer. #bakkerij #onlinebakkerij #patissier"
+        twitterDescription: "Boost sales with TheBakerz! Free access for webshop, order tools & more. #bakerybusiness #onlinebakery #TheBakerzPartner"
     }
 };
 
 // GenerateMetadata function
 export async function generateMetadata(): Promise<Metadata> {
-    const locale = await getLocale();
-    const baseMetadata = getLocalizedMetadata(locale);
-
-    let localeKey: 'en' | 'nl' = 'en';
-    if (locale === 'nl-NL' || locale === 'nl') {
-        localeKey = 'nl';
-    }
+    // Always use 'en' as we are removing 'nl'
+    const localeKey: 'en' = 'en';
+    const baseMetadata = getLocalizedMetadata(localeKey);
 
     const pageSpecifics = pageMetadataTranslations[localeKey];
 
     // Merge keywords
-    const baseKeywords = metadataTranslations[localeKey].keywords.split(', ');
+    const baseKeywords = baseMetadata.keywords || [];
     const pageKeywords = pageSpecifics.keywords.split(', ');
     const mergedKeywords = Array.from(new Set([...baseKeywords, ...pageKeywords]));
+
+    const canonicalUrl = `https://www.thebakerz.com/become-partner`;
 
     return {
         ...baseMetadata,
@@ -48,22 +37,58 @@ export async function generateMetadata(): Promise<Metadata> {
         keywords: mergedKeywords,
         alternates: {
             ...baseMetadata.alternates,
+            canonical: canonicalUrl,
+            languages: {
+                'en-US': canonicalUrl,
+                'x-default': canonicalUrl,
+            }
         },
         openGraph: {
             ...baseMetadata.openGraph,
             title: pageSpecifics.ogTitle,
             description: pageSpecifics.ogDescription,
-            // Consider a specific OG image for this page?
+            url: canonicalUrl,
         },
         twitter: {
             ...baseMetadata.twitter,
             title: pageSpecifics.twitterTitle,
             description: pageSpecifics.twitterDescription,
-            // Consider a specific Twitter image for this page?
         },
     };
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-    return children;
+    const serviceSchema = {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "BusinessPlatform",
+        "provider": {
+            "@type": "Organization",
+            "name": "TheBakerz"
+        },
+        "name": "TheBakerz Partner Program",
+        "description": pageMetadataTranslations.en.description,
+        "url": "https://www.thebakerz.com/become-partner",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/OnlineOnly",
+            "name": "Free Trial"
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": "Netherlands"
+        }
+    };
+
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+            />
+            {children}
+        </>
+    );
 }

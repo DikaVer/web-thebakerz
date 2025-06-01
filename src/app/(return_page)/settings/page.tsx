@@ -1,13 +1,37 @@
 import React from "react";
-import { metadataDefault } from "@/components/metadata";
+import { getLocalizedMetadata } from "@/components/metadata";
 import type { Metadata } from "next";
 import {getTranslations} from "next-intl/server";
 import TabsSettings from "@/components/settings/tabs-settings";
 
+const pageTitle = "Account Settings | TheBakerz";
+const pageDescription = "Manage your TheBakerz account settings, profile information, and preferences. Update your details here.";
+const pageUrl = "https://www.thebakerz.com/settings";
+
 export const metadata: Metadata = {
-    ...metadataDefault,
-    title: "Settings",
-    description: "Manage your account settings and preferences for your TheBakerz profile and store."
+    ...(getLocalizedMetadata('en')),
+    title: pageTitle,
+    description: pageDescription,
+    robots: {
+        index: false,
+        follow: false, 
+    },
+    alternates: {
+        canonical: pageUrl,
+    },
+    openGraph: {
+        ...(getLocalizedMetadata('en').openGraph || {}),
+        title: pageTitle,
+        description: pageDescription,
+        url: pageUrl,
+        type: 'profile',
+    },
+    twitter: {
+        ...(getLocalizedMetadata('en').twitter || {}),
+        card: 'summary',
+        title: pageTitle,
+        description: pageDescription,
+    }
 };
 
 export default async function Page() {
