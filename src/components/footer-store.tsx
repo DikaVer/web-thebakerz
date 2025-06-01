@@ -171,12 +171,15 @@ export function FooterStore() {
                             className="flex items-center justify-end order-1 md:order-3"
                             href="/"
                         >
-                            <Image
-                                src="/images/TheBakerzLogo.svg"
-                                width={32}
-                                height={32}
-                                alt={t("brandName") + " Logo"}
-                            />
+                            <div className={'flex items-center justify-center w-9 h-9'}>
+                                <Image
+                                    src="/images/TheBakerzLogo.svg"
+                                    width={32}
+                                    height={32}
+                                    alt={t("brandName") + " Logo"}
+                                    radius={'none'}
+                                />
+                            </div>
                             <span className={`text-2xl ml-2 ${pacifico.className}`}>{t("brandName")}</span>
                         </a>
                     </div>

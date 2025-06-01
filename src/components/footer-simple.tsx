@@ -67,11 +67,14 @@ export function FooterSimple() {
                             className="flex items-end justify-end w-[80%]"
                             href="/"
                         >
-                            <Image
-                                src={`/images/TheBakerzLogo.svg`}
-                                width={32}
-                                height={32}
-                            />
+                            <div className={'flex items-center justify-center w-9 h-9'}>
+                                <Image
+                                    src={`/images/TheBakerzLogo.svg`}
+                                    width={32}
+                                    height={32}
+                                    radius={'none'}
+                                />
+                            </div>
                             <span className={`text-2xl ml-2 ${pacifico.className}`}>{t("brandName")}</span>
                         </a>
                     </div>

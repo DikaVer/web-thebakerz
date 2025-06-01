@@ -89,11 +89,14 @@ const Footer = () => {
                             className="flex items-end justify-start"
                             href="/"
                         >
-                            <Image
-                                src={`/images/TheBakerzLogo.svg`}
-                                width={42}
-                                height={42}
-                            />
+                            <div className={'flex w-11 h-11 items-center justify-center'}>
+                                <Image
+                                    src={`/images/TheBakerzLogo.svg`}
+                                    width={42}
+                                    height={42}
+                                    radius={'none'}
+                                />
+                            </div>
                             <span className={`text-3xl ml-2 ${pacifico.className}`}>{t("brandName")}</span>
                         </a>
                         <p className="text-small text-grayText">
