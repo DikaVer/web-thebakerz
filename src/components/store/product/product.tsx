@@ -250,7 +250,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                             variant="light"
                             color="secondary"
                             size="sm"
-                            className={`absolute top-2 right-2 z-30 bg-black/20 font-bold text-lg text-white transition-all duration-300 ${
+                            className={`absolute top-2 right-2 z-20 bg-black/20 font-bold text-lg text-white transition-all duration-300 ${
                                 isAnimating ? 'scale-105' : 'scale-100'
                             }`}
                             onPress={() => handleFavoriteToggle()}
@@ -261,7 +261,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                             <AnimatedHeart isFavorite={isFavorite} />
                         </Button>
                         {Array.isArray(productData.dietary) && productData.dietary.length > 0 && (
-                            <div className="absolute bottom-2 right-2 z-20">
+                            <div className="absolute bottom-2 right-2 z-10">
                                 <Popover 
                                     placement="top-end" 
                                     showArrow 
