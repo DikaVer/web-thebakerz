@@ -9,6 +9,7 @@ import {motion} from "framer-motion";
 import {AnimatedPlaceholder} from "@/components/landing/marketplace/landing-hero-section";
 import {useRouter} from "next/navigation";
 import BlurText from "@/components/ui/blur-text";
+import {Divider} from "@heroui/react";
 
 export const Media = () => {
   const router = useRouter();
@@ -62,6 +63,11 @@ export const Media = () => {
             />
           </div>
         </motion.div>
+        <div className="flex items-center gap-4">
+          <Divider className="flex-1" />
+          <span>or</span>
+          <Divider className="flex-1" />
+        </div>
         <a href="/become-partner#join-thebakerz" className="bg-gradient-primary text-white rounded-lg p-4 text-center font-semibold hover:opacity-90 transition-opacity relative">
           Join as a Baker
         </a>

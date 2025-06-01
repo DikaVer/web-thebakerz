@@ -295,9 +295,9 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
             {page === 0 && (
                 <>
                     <div className="flex items-center gap-4">
-                        <Divider className="flex-1 bg-grayText" />
-                        <span className="text-grayText">{t("orContinueWith")}</span>
-                        <Divider className="flex-1 bg-grayText" />
+                        <Divider className="flex-1" />
+                        <span className="text-default-400">{t("orContinueWith")}</span>
+                        <Divider className="flex-1" />
                     </div>
                     <div className="flex flex-row w-full justify-between items-center -my-1">
                         <form
