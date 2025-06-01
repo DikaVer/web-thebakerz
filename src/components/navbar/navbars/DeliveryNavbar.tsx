@@ -115,7 +115,7 @@ export const DeliveryNavbar: React.FC<DeliveryNavbarProps> = ({
                         </ButtonGroup>
                         <div
                             className={cn(
-                                "absolute top-0 bottom-1 rounded-small bg-white dark:bg-default-700 transition-all duration-300 border-2 border-foreground-secondary",
+                                "absolute top-0.5 bottom-0.5 rounded-small bg-white dark:bg-default-700 transition-all duration-300 border-2 border-foreground-secondary",
                                 !isDelivery ? "translate-x-[calc(100%)]" : "translate-x-[1px]",
                                 (deliveryOption === "multi") ? "w-[calc(50%)]" : "w-[calc(100%)]",
                                 (deliveryOption === "pickup") && "translate-x-[1px]"

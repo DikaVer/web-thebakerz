@@ -67,7 +67,7 @@ const ProductResults: React.FC<ProductResultsProps> = ({
 
   // Function to fetch products
   const fetchProducts = useCallback(async (currentPage: number, currentFilterParams: FilterParams, currentStoreIds: string[]) => {
-    if (isRequesting.current || (!hasMore && currentPage > 1)) return;
+    if (isRequesting.current) return;
     
     try {
       isRequesting.current = true;
@@ -77,18 +77,19 @@ const ProductResults: React.FC<ProductResultsProps> = ({
       // Check if we're showing all products
       const showingAllProducts = isEmptyFilters(currentFilterParams);
       const cacheKey = getCacheKey(currentStoreIds);
+      const cacheType = showingAllProducts ? cacheKey : "filtered";
       
-      // If showing all products and we have cached data for this page, use it
-      if (showingAllProducts && productsCache[cacheKey]?.[currentPage]) {
+      // If we have cached data for this page, use it
+      if (productsCache[cacheType]?.[currentPage]) {
         logger.debug('Using cached products for page', `page: ${currentPage} with storeIds: ${currentStoreIds}`);
         
         if (currentPage === 1) {
-          setProducts(productsCache[cacheKey][1]);
+          setProducts(productsCache[cacheType][1]);
         } else {
-          setProducts(prev => [...prev, ...productsCache[cacheKey][currentPage]]);
+          setProducts(prev => [...prev, ...productsCache[cacheType][currentPage]]);
         }
         
-        setHasMore(hasMoreCache[cacheKey] || false);
+        setHasMore(hasMoreCache[cacheType]);
         return;
       }
       
@@ -104,14 +105,12 @@ const ProductResults: React.FC<ProductResultsProps> = ({
     
       logger.debug('Fetched products:', `products: ${result.products.length}`);
       
-      // If showing all products, cache the result
-      if (showingAllProducts) {
-        if (!productsCache[cacheKey]) {
-          productsCache[cacheKey] = {};
-        }
-        productsCache[cacheKey][currentPage] = result.products;
-        hasMoreCache[cacheKey] = result.hasMore;
+      // Cache the result
+      if (!productsCache[cacheType]) {
+        productsCache[cacheType] = {};
       }
+      productsCache[cacheType][currentPage] = result.products;
+      hasMoreCache[cacheType] = result.hasMore;
       
       setProducts(prevProducts => 
         currentPage === 1 
@@ -128,27 +127,35 @@ const ProductResults: React.FC<ProductResultsProps> = ({
       setLoading(false);
       isRequesting.current = false;
     }
-  }, [hasMore]);
+  }, []); // Remove hasMore dependency to avoid stale closures
 
   // Handle intersection observer callback
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
     const [entry] = entries;
     
-    if (entry.isIntersecting && hasMore && !loading && !isRequesting.current) {
-      logger.debug('Loading next page:', `page: ${page + 1}`);
-      setPage(prevPage => prevPage + 1);
+    if (entry.isIntersecting) {
+      // Use a ref to get the current values to avoid stale closures
+      setPage(prevPage => {
+        // Only increment if we're not already loading and we have more to load
+        if (!isRequesting.current && hasMore) {
+          logger.debug('Loading next page:', `page: ${prevPage + 1}`);
+          return prevPage + 1;
+        }
+        return prevPage;
+      });
     }
-  }, [hasMore, loading, page]);
+  }, []); // Remove all dependencies to prevent unnecessary observer recreation
 
   // Initialize observer and attach to last element
   const lastProductElementRef = useCallback(
     (node: HTMLDivElement | null) => {
-      if (loading) return;
-      
       // Always disconnect previous observer before creating a new one
       if (observer.current) {
         observer.current.disconnect();
       }
+      
+      // Don't create observer if there's no node, no more products to load, or no products yet
+      if (!node || !hasMore || products.length === 0) return;
       
       // Create new observer
       observer.current = new IntersectionObserver(handleObserver, {
@@ -158,11 +165,9 @@ const ProductResults: React.FC<ProductResultsProps> = ({
       });
       
       // Observe the new last element
-      if (node) {
-        observer.current.observe(node);
-      }
+      observer.current.observe(node);
     },
-    [loading, handleObserver]
+    [handleObserver, hasMore, products.length] // Add products.length dependency
   );
 
   // Effect for initial load and when filterParams or storeIds change
@@ -198,10 +203,16 @@ const ProductResults: React.FC<ProductResultsProps> = ({
     isRequesting.current = false;
     
     // Clear specific cache if needed
-    if (!isEmptyFilters(filterParams)) {
-      // Only clear filtered cache, keep all-products cache
+    const isCurrentlyFiltered = !isEmptyFilters(filterParams);
+    const cacheKey = getCacheKey(storeIds);
+    
+    if (isCurrentlyFiltered) {
+      // Clear filtered cache when filters are applied
       productsCache["filtered"] = {};
       hasMoreCache["filtered"] = true;
+    } else {
+      // Reset hasMore for the specific store cache when showing all products
+      hasMoreCache[cacheKey] = true;
     }
     
     // Fetch first page with new filters and storeIds
