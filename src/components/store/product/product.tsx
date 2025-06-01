@@ -147,7 +147,6 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
         
         setIsLoading(true);
         try {
-            console.log("isDelivery", isDelivery);
             // Add item directly to cart without variants
             const result = await updateCart(
                 productData.id, 
