@@ -122,7 +122,7 @@ const ProductResults: React.FC<ProductResultsProps> = ({
       
     } catch (err) {
       console.error("Failed to fetch products:", err);
-      setError("Failed to load products. Please try again later.");
+      setError("Failed to load products. Please reload the page.");
     } finally {
       setLoading(false);
       isRequesting.current = false;
