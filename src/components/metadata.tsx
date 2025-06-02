@@ -1,11 +1,13 @@
 import type {Metadata} from "next";
 
+
+
 export const metadataTranslations = {
     'en': {
         title: 'Bakery & Pastry Shop Platform | TheBakerz',
         titleTemplate: '%s | TheBakerz',
         description: 'TheBakerz: All-in-one platform for bakers. Manage orders, webshop, payments & deliveries to grow your business. Explore now!',
-        keywords: "bakery software, pastry shop management, artisanal bakers platform, order management, webshop for bakers, online bakery marketplace, bread delivery, pastry delivery, home bakery tools, payments for bakers, bakery marketing, TheBakerz",
+        keywords: "bakery software, pastry shop management, artisanal bakers platform, order management, webshop for bakers, online bakery marketplace, cake delivery, pastry delivery, home bakery tools, payments for bakers, bakery marketing, TheBakerz, the best cakes, the best pastries, the best bread, the best desserts, the best bakery, the best pastry shop, the best bakery in the world, the best pastry shop in the world, the best cheesecake, the best chocolate, the best cookies, the best eclairs, the best macarons, the best pies, the best birthday cakes, the best wedding cakes",
         ogTitle: 'TheBakerz: Grow Your Bakery - Orders, Webshop & More',
         ogDescription: 'The complete platform for bakers: manage orders, build your webshop, attract customers, and handle payments with TheBakerz. Start today!',
         twitterTitle: 'TheBakerz: All-In-One Bakery & Pastry Platform',
