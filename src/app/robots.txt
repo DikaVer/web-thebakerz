@@ -1,0 +1,201 @@
+# TheBakerz Robots.txt - Optimized for E-commerce Marketplace SEO
+# Last updated: 6/2/2025
+# Website: https://www.thebakerz.com
+
+# === MAIN CRAWLERS ===
+User-agent: *
+
+# === ALLOW PUBLIC CONTENT ===
+# Main marketing and informational pages
+Allow: /
+Allow: /about-us
+Allow: /become-partner
+Allow: /search
+Allow: /socials
+
+# Support and help pages
+Allow: /support
+Allow: /support/contact-us
+
+# Policy pages (important for trust and compliance)
+Allow: /policies/privacy-policy
+Allow: /policies/refund-policy
+Allow: /policies/terms-of-use
+
+# Store pages (public storefronts)
+Allow: /*/
+Allow: /*/item/*/
+
+# Media and assets
+Allow: /images/
+Allow: /icons/
+Allow: /assets/
+Allow: /_next/static/
+Allow: /public/
+
+# Mobile-specific resources (2024 mobile-first indexing)
+Allow: /*mobile$
+Allow: /*responsive$
+Allow: /assets/mobile/
+Allow: /images/mobile/
+
+# === BLOCK PRIVATE AND NON-INDEXABLE CONTENT ===
+
+# Authentication and user account areas
+Allow: /auth
+Disallow: /login
+Disallow: /register
+Disallow: /account/
+
+# Admin dashboard (admin-only access)
+Disallow: /dashboard/
+Disallow: /admin/
+
+# User private areas
+Disallow: /favorites
+Disallow: /orders
+Disallow: /settings
+Disallow: /profile
+
+# E-commerce checkout and payment flows
+Disallow: /*/checkout
+Disallow: /*/pay/
+Disallow: /*/order/success
+Disallow: /*/order/failed
+Disallow: /cart
+Disallow: /payment
+
+# Store management (store owner only)
+Disallow: /*/products
+Disallow: /*/settings
+Disallow: /*/orders/
+Disallow: /*/item/add-item
+
+# Transit and temporary redirect pages
+Disallow: /transit-login
+Disallow: /transit-exit
+
+# API endpoints
+Disallow: /api/
+
+# Enhanced faceted navigation management (2024 best practices)
+# Block filter combinations but allow category-level pages
+Disallow: /*?*sort=*&*
+Disallow: /*?*filter=*&*
+Disallow: /*?*price=*&*
+Disallow: /*?*color=*&*
+Disallow: /*?*size=*&*
+Disallow: /*?*brand=*&*
+Allow: /*?category=*
+
+# Specific parameter patterns
+Disallow: /*?*
+Disallow: /*&*
+Disallow: /search?*
+Disallow: /*sort=*
+Disallow: /*filter=*
+Disallow: /*page=*
+Disallow: /*minPrice=*
+Disallow: /*maxPrice=*
+
+# Marketplace-specific URL patterns to avoid duplicate content
+Disallow: /*/item/*/reviews?*
+Disallow: /*/item/*/compare*
+Disallow: /*/products/compare*
+Disallow: /*/search?*
+
+# Technical and system files
+Disallow: /.well-known/
+Disallow: /_next/
+Disallow: /node_modules/
+
+# Development and staging areas
+Disallow: /dev/
+Disallow: /test/
+Disallow: /staging/
+Disallow: /.git/
+
+# File types that don't need indexing
+Disallow: /*.pdf$
+Disallow: /*.doc$
+Disallow: /*.docx$
+Disallow: /*.xls$
+Disallow: /*.xlsx$
+Disallow: /*.json$
+
+# Seasonal and expired content (when applicable)
+Disallow: /*/expired/
+Disallow: /*/out-of-stock/
+
+# === SPECIFIC CRAWLER RULES ===
+
+# Google-specific rules (2024 optimizations)
+User-agent: Googlebot
+# Inherit all rules above
+# Allow specific Google services
+Allow: /robots.txt
+Allow: /sitemap.xml
+# Allow Google to access structured data
+Allow: /api/structured-data
+
+# Bing-specific rules  
+User-agent: Bingbot
+# Inherit all rules above
+Crawl-delay: 2
+
+# Block problematic bots and scrapers (updated list)
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: YandexBot
+Crawl-delay: 5
+
+# Social media crawlers (allow for proper sharing)
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+# === SITEMAP LOCATION ===
+# Comprehensive sitemap containing all pages
+Sitemap: https://www.thebakerz.com/sitemap.xml
+
+# === CRAWL OPTIMIZATION ===
+# Note: Crawl-delay is not supported by Google but respected by others
+# Set reasonable delays for non-Google bots to prevent server overload
+
+# === NOTES FOR DEVELOPERS ===
+# - Update sitemap when adding new store/product categories
+# - Monitor crawl budget usage in Google Search Console
+# - Regularly review for new dynamic URL patterns to block
+# - Test robots.txt changes in Google Search Console Robots Tester
+# - Consider creating separate robots.txt for staging environments
+# - Implement automated sitemap generation for dynamic content
+# - Monitor Core Web Vitals and page speed for mobile-first indexing
+# - Use structured data markup for products and reviews
+# - Regularly audit faceted navigation patterns to prevent index bloat

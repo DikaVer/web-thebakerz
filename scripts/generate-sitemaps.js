@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * Generate TheBakerz Sitemaps Script
+ * Generate TheBakerz Comprehensive Sitemap & Robots.txt Script
  * 
- * This script automatically generates sitemap-stores.xml and sitemap-products.xml
- * by fetching active stores and products from the database.
+ * This script automatically generates a single sitemap.xml file containing all pages
+ * and creates a robots.txt file by fetching data from PostgreSQL and CosmosDB.
  * 
  * Usage: node scripts/generate-sitemaps.js
  */
@@ -73,6 +73,42 @@ function generateSitemapHeader() {
 function generateSitemapFooter() {
     return `
 </urlset>`;
+}
+
+/**
+ * Generate static pages URLs
+ */
+function generateStaticPagesXml() {
+    const currentDate = new Date().toISOString();
+    const staticPages = [
+        { url: SITE_URL, priority: 1.0, changefreq: 'daily' },
+        { url: `${SITE_URL}/about-us`, priority: 0.8, changefreq: 'weekly' },
+        { url: `${SITE_URL}/become-partner`, priority: 0.9, changefreq: 'weekly' },
+        { url: `${SITE_URL}/search`, priority: 0.8, changefreq: 'daily' },
+        { url: `${SITE_URL}/support`, priority: 0.7, changefreq: 'weekly' },
+        { url: `${SITE_URL}/support/contact-us`, priority: 0.6, changefreq: 'monthly' },
+        { url: `${SITE_URL}/policies/privacy-policy`, priority: 0.5, changefreq: 'weekly' },
+        { url: `${SITE_URL}/policies/refund-policy`, priority: 0.5, changefreq: 'weekly' },
+        { url: `${SITE_URL}/policies/terms-of-use`, priority: 0.5, changefreq: 'weekly' },
+        { url: `${SITE_URL}/socials`, priority: 0.6, changefreq: 'weekly' },
+    ];
+
+    let xml = `
+  
+  <!-- Static Pages -->`;
+
+    staticPages.forEach(page => {
+        xml += `
+  <url>
+    <loc>${escapeXml(page.url)}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+    <mobile:mobile/>
+  </url>`;
+    });
+
+    return xml;
 }
 
 /**
@@ -223,9 +259,7 @@ async function fetchActiveProducts() {
  * Generate store URL entry
  */
 function generateStoreUrlEntry(store, priority = 0.7) {
-    // Based on your routing structure: /(store)/[id]/
     const storeUrl = `${SITE_URL}/${store.id}`;
-    
     const lastmod = new Date().toISOString();
     const changefreq = priority >= 0.8 ? 'daily' : 'weekly';
     
@@ -264,9 +298,7 @@ function generateStoreUrlEntry(store, priority = 0.7) {
  * Generate product URL entry
  */
 function generateProductUrlEntry(product, priority = 0.6) {
-    // Based on your routing structure: /(store)/[id]/item/[productId]/
     const productUrl = `${SITE_URL}/${product.store_id}/item/${product.constId}`;
-    
     const lastmod = product.updatedAt || product.createdAt || new Date().toISOString();
     
     // Determine change frequency based on product age and category
@@ -330,29 +362,35 @@ function generateProductUrlEntry(product, priority = 0.6) {
 }
 
 /**
- * Generate stores sitemap
+ * Generate comprehensive sitemap
  */
-async function generateStoresSitemap() {
+async function generateComprehensiveSitemap() {
     try {
-        console.log('\n=== Generating Stores Sitemap ===');
+        console.log('\n=== Generating Comprehensive Sitemap ===');
         
-        const stores = await fetchActiveStores();
+        // Fetch all data in parallel
+        const [stores, products] = await Promise.all([
+            fetchActiveStores(),
+            fetchActiveProducts()
+        ]);
         
         let xml = generateSitemapHeader();
         xml += `
   
-  <!-- TheBakerz Stores Sitemap -->
+  <!-- TheBakerz Comprehensive Sitemap -->
   <!-- Last updated: ${new Date().toISOString()} -->
   <!-- Automatically generated from database -->
   <!-- Optimized for mobile-first indexing and marketplace SEO -->`;
 
-        if (stores.length === 0) {
-            console.log('No active stores found');
+        // Add static pages
+        xml += generateStaticPagesXml();
+
+        // Add store pages
+        if (stores.length > 0) {
             xml += `
   
-  <!-- No active stores found -->`;
-        } else {
-            // Sort stores by product count and generate entries
+  <!-- Store Pages (${stores.length} stores) -->`;
+            
             stores.forEach((store, index) => {
                 // Determine priority based on store activity and position
                 let priority = 0.7; // Default priority
@@ -371,45 +409,12 @@ async function generateStoresSitemap() {
             });
         }
 
-        xml += generateSitemapFooter();
-        
-        // Write to file
-        const filePath = path.join(process.cwd(), 'sitemap-stores.xml');
-        await fs.writeFile(filePath, xml, 'utf8');
-        
-        console.log(`✅ Generated sitemap-stores.xml with ${stores.length} stores`);
-        console.log(`📁 Saved to: ${filePath}`);
-        
-        return stores.length;
-    } catch (error) {
-        console.error('❌ Error generating stores sitemap:', error);
-        throw error;
-    }
-}
-
-/**
- * Generate products sitemap
- */
-async function generateProductsSitemap() {
-    try {
-        console.log('\n=== Generating Products Sitemap ===');
-        
-        const products = await fetchActiveProducts();
-        
-        let xml = generateSitemapHeader();
-        xml += `
-  
-  <!-- TheBakerz Products Sitemap -->
-  <!-- Last updated: ${new Date().toISOString()} -->
-  <!-- Automatically generated from database -->
-  <!-- Optimized for e-commerce product visibility and mobile-first indexing -->`;
-
-        if (products.length === 0) {
-            console.log('No active products found');
+        // Add product pages
+        if (products.length > 0) {
             xml += `
   
-  <!-- No active products found -->`;
-        } else {
+  <!-- Product Pages (${products.length} products) -->`;
+            
             // Group products by store for better organization
             const productsByStore = {};
             products.forEach(product => {
@@ -451,103 +456,252 @@ async function generateProductsSitemap() {
         xml += `
   
   <!-- 
-  Best practices implemented:
-  - Only active, visible products included
-  - Products sorted by store for better organization
-  - Priority based on category, age, and performance
+  Comprehensive sitemap includes:
+  - Static pages (homepage, about, policies, etc.)
+  - All active store pages with priorities based on activity
+  - All active product pages with images and categories
   - Mobile-first indexing with mobile tags
-  - Product images included for better search visibility
-  - Last modification dates based on actual update timestamps
+  - SEO optimized with proper priorities and change frequencies
   -->`;
 
         xml += generateSitemapFooter();
         
         // Write to file
-        const filePath = path.join(process.cwd(), 'sitemap-products.xml');
+        const filePath = path.join(process.cwd(), 'sitemap.xml');
         await fs.writeFile(filePath, xml, 'utf8');
         
-        console.log(`✅ Generated sitemap-products.xml with ${products.length} products`);
+        console.log(`✅ Generated comprehensive sitemap.xml`);
+        console.log(`📊 Summary:`);
+        console.log(`   - Static pages: 10`);
+        console.log(`   - Stores: ${stores.length}`);
+        console.log(`   - Products: ${products.length}`);
+        console.log(`   - Total URLs: ${10 + stores.length + products.length}`);
         console.log(`📁 Saved to: ${filePath}`);
         
-        return products.length;
+        return { stores: stores.length, products: products.length };
     } catch (error) {
-        console.error('❌ Error generating products sitemap:', error);
+        console.error('❌ Error generating comprehensive sitemap:', error);
         throw error;
     }
 }
 
 /**
- * Update main sitemap index with new timestamps
+ * Generate robots.txt file
  */
-async function updateMainSitemap() {
+async function generateRobotsTxt() {
     try {
-        console.log('\n=== Updating Main Sitemap Index ===');
+        console.log('\n=== Generating Robots.txt ===');
         
-        const currentTime = new Date().toISOString();
-        
-        const sitemapIndexXml = `<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">  
-  <!-- TheBakerz Sitemap Index - Main sitemap for marketplace -->
-  <!-- Last updated: ${currentTime} -->
-  <!-- Optimized for 2024 e-commerce SEO best practices -->
-  
-  <!-- Core static pages sitemap -->
-  <sitemap>
-    <loc>${SITE_URL}/sitemap-pages.xml</loc>
-    <lastmod>${currentTime}</lastmod>
-  </sitemap>
-  
-  <!-- Store listings sitemap (dynamic stores) -->
-  <sitemap>
-    <loc>${SITE_URL}/sitemap-stores.xml</loc>
-    <lastmod>${currentTime}</lastmod>
-  </sitemap>
-  
-  <!-- Product pages sitemap (dynamic products) -->
-  <sitemap>
-    <loc>${SITE_URL}/sitemap-products.xml</loc>
-    <lastmod>${currentTime}</lastmod>
-  </sitemap>
-  
-  <!-- High-priority product categories (for better crawl budget management) -->
-  <sitemap>
-    <loc>${SITE_URL}/sitemap-categories.xml</loc>
-    <lastmod>${currentTime}</lastmod>
-  </sitemap>
-  
-  <!-- Images sitemap for better image search visibility -->
-  <sitemap>
-    <loc>${SITE_URL}/sitemap-images.xml</loc>
-    <lastmod>${currentTime}</lastmod>
-  </sitemap>
-  
-  <!-- Blog/content sitemap (if applicable) -->
-  <sitemap>
-    <loc>${SITE_URL}/sitemap-blog.xml</loc>
-    <lastmod>${currentTime}</lastmod>
-  </sitemap>
-  
-  <!-- Video content sitemap (if applicable) -->
-  <sitemap>
-    <loc>${SITE_URL}/sitemap-videos.xml</loc>
-    <lastmod>${currentTime}</lastmod>
-  </sitemap>
-  
-  <!-- News sitemap for timely content (if applicable) -->
-  <sitemap>
-    <loc>${SITE_URL}/sitemap-news.xml</loc>
-    <lastmod>${currentTime}</lastmod>
-  </sitemap>
+        const robotsContent = `# TheBakerz Robots.txt - Optimized for E-commerce Marketplace SEO
+# Last updated: ${new Date().toLocaleDateString()}
+# Website: ${SITE_URL}
 
-</sitemapindex>`;
+# === MAIN CRAWLERS ===
+User-agent: *
 
-        const filePath = path.join(process.cwd(), 'sitemap.xml');
-        await fs.writeFile(filePath, sitemapIndexXml, 'utf8');
+# === ALLOW PUBLIC CONTENT ===
+# Main marketing and informational pages
+Allow: /
+Allow: /about-us
+Allow: /become-partner
+Allow: /search
+Allow: /socials
+
+# Support and help pages
+Allow: /support
+Allow: /support/contact-us
+
+# Policy pages (important for trust and compliance)
+Allow: /policies/privacy-policy
+Allow: /policies/refund-policy
+Allow: /policies/terms-of-use
+
+# Store pages (public storefronts)
+Allow: /*/
+Allow: /*/item/*/
+
+# Media and assets
+Allow: /images/
+Allow: /icons/
+Allow: /assets/
+Allow: /_next/static/
+Allow: /public/
+
+# Mobile-specific resources (2024 mobile-first indexing)
+Allow: /*mobile$
+Allow: /*responsive$
+Allow: /assets/mobile/
+Allow: /images/mobile/
+
+# === BLOCK PRIVATE AND NON-INDEXABLE CONTENT ===
+
+# Authentication and user account areas
+Disallow: /auth
+Disallow: /login
+Disallow: /register
+Disallow: /account/
+
+# Admin dashboard (admin-only access)
+Disallow: /dashboard/
+Disallow: /admin/
+
+# User private areas
+Disallow: /favorites
+Disallow: /orders
+Disallow: /settings
+Disallow: /profile
+
+# E-commerce checkout and payment flows
+Disallow: /*/checkout
+Disallow: /*/pay/
+Disallow: /*/order/success
+Disallow: /*/order/failed
+Disallow: /cart
+Disallow: /payment
+
+# Store management (store owner only)
+Disallow: /*/products
+Disallow: /*/settings
+Disallow: /*/orders/
+Disallow: /*/item/add-item
+
+# Transit and temporary redirect pages
+Disallow: /transit-login
+Disallow: /transit-exit
+
+# API endpoints
+Disallow: /api/
+
+# Enhanced faceted navigation management (2024 best practices)
+# Block filter combinations but allow category-level pages
+Disallow: /*?*sort=*&*
+Disallow: /*?*filter=*&*
+Disallow: /*?*price=*&*
+Disallow: /*?*color=*&*
+Disallow: /*?*size=*&*
+Disallow: /*?*brand=*&*
+Allow: /*?category=*
+
+# Specific parameter patterns
+Disallow: /*?*
+Disallow: /*&*
+Disallow: /search?*
+Disallow: /*sort=*
+Disallow: /*filter=*
+Disallow: /*page=*
+Disallow: /*minPrice=*
+Disallow: /*maxPrice=*
+
+# Marketplace-specific URL patterns to avoid duplicate content
+Disallow: /*/item/*/reviews?*
+Disallow: /*/item/*/compare*
+Disallow: /*/products/compare*
+Disallow: /*/search?*
+
+# Technical and system files
+Disallow: /.well-known/
+Disallow: /_next/
+Disallow: /node_modules/
+
+# Development and staging areas
+Disallow: /dev/
+Disallow: /test/
+Disallow: /staging/
+Disallow: /.git/
+
+# File types that don't need indexing
+Disallow: /*.pdf$
+Disallow: /*.doc$
+Disallow: /*.docx$
+Disallow: /*.xls$
+Disallow: /*.xlsx$
+Disallow: /*.json$
+
+# Seasonal and expired content (when applicable)
+Disallow: /*/expired/
+Disallow: /*/out-of-stock/
+
+# === SPECIFIC CRAWLER RULES ===
+
+# Google-specific rules (2024 optimizations)
+User-agent: Googlebot
+# Inherit all rules above
+# Allow specific Google services
+Allow: /robots.txt
+Allow: /sitemap.xml
+# Allow Google to access structured data
+Allow: /api/structured-data
+
+# Bing-specific rules  
+User-agent: Bingbot
+# Inherit all rules above
+Crawl-delay: 2
+
+# Block problematic bots and scrapers (updated list)
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: YandexBot
+Crawl-delay: 5
+
+# Social media crawlers (allow for proper sharing)
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+# === SITEMAP LOCATION ===
+# Comprehensive sitemap containing all pages
+Sitemap: ${SITE_URL}/sitemap.xml
+
+# === CRAWL OPTIMIZATION ===
+# Note: Crawl-delay is not supported by Google but respected by others
+# Set reasonable delays for non-Google bots to prevent server overload
+
+# === NOTES FOR DEVELOPERS ===
+# - Update sitemap when adding new store/product categories
+# - Monitor crawl budget usage in Google Search Console
+# - Regularly review for new dynamic URL patterns to block
+# - Test robots.txt changes in Google Search Console Robots Tester
+# - Consider creating separate robots.txt for staging environments
+# - Implement automated sitemap generation for dynamic content
+# - Monitor Core Web Vitals and page speed for mobile-first indexing
+# - Use structured data markup for products and reviews
+# - Regularly audit faceted navigation patterns to prevent index bloat`;
+
+        const filePath = path.join(process.cwd(), 'robots.txt');
+        await fs.writeFile(filePath, robotsContent, 'utf8');
         
-        console.log(`✅ Updated sitemap.xml index`);
+        console.log(`✅ Generated robots.txt`);
         console.log(`📁 Saved to: ${filePath}`);
+        
     } catch (error) {
-        console.error('❌ Error updating main sitemap:', error);
+        console.error('❌ Error generating robots.txt:', error);
         throw error;
     }
 }
@@ -556,34 +710,33 @@ async function updateMainSitemap() {
  * Main execution function
  */
 async function main() {
-    console.log('🚀 Starting TheBakerz Sitemap Generation...');
+    console.log('🚀 Starting TheBakerz Comprehensive Sitemap & Robots.txt Generation...');
     console.log(`📅 Timestamp: ${new Date().toISOString()}`);
     console.log(`🌐 Site URL: ${SITE_URL}`);
     
     try {
-        // Generate sitemaps
-        const [storeCount, productCount] = await Promise.all([
-            generateStoresSitemap(),
-            generateProductsSitemap()
+        // Generate sitemap and robots.txt in parallel
+        const [sitemapResult] = await Promise.all([
+            generateComprehensiveSitemap(),
+            generateRobotsTxt()
         ]);
         
-        // Update main sitemap index
-        await updateMainSitemap();
-        
-        console.log('\n🎉 Sitemap generation completed successfully!');
-        console.log(`📊 Summary:`);
-        console.log(`   - Stores: ${storeCount}`);
-        console.log(`   - Products: ${productCount}`);
-        console.log(`   - Total URLs: ${storeCount + productCount}`);
+        console.log('\n🎉 Generation completed successfully!');
+        console.log(`📊 Final Summary:`);
+        console.log(`   - Static pages: 10`);
+        console.log(`   - Stores: ${sitemapResult.stores}`);
+        console.log(`   - Products: ${sitemapResult.products}`);
+        console.log(`   - Total URLs: ${10 + sitemapResult.stores + sitemapResult.products}`);
+        console.log(`   - Files created: sitemap.xml, robots.txt`);
         
         console.log('\n📋 Next Steps:');
-        console.log('1. Submit updated sitemaps to Google Search Console');
-        console.log('2. Test robots.txt accessibility');
+        console.log('1. Submit sitemap.xml to Google Search Console');
+        console.log('2. Test robots.txt accessibility at /robots.txt');
         console.log('3. Monitor crawl budget and indexing performance');
-        console.log('4. Set up automated sitemap generation (daily/weekly)');
+        console.log('4. Set up automated generation (daily/weekly)');
         
     } catch (error) {
-        console.error('\n💥 Sitemap generation failed:', error);
+        console.error('\n💥 Generation failed:', error);
         process.exit(1);
     } finally {
         // Close database connections
@@ -601,7 +754,6 @@ if (require.main === module) {
 }
 
 module.exports = {
-    generateStoresSitemap,
-    generateProductsSitemap,
-    updateMainSitemap
+    generateComprehensiveSitemap,
+    generateRobotsTxt
 }; 

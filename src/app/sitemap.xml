@@ -1,0 +1,1467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- TheBakerz Comprehensive Sitemap -->
+  <!-- Last updated: 2025-06-02T19:45:36.708Z -->
+  <!-- Automatically generated from database -->
+  <!-- Optimized for mobile-first indexing and marketplace SEO -->
+  
+  <!-- Static Pages -->
+  <url>
+    <loc>https://www.thebakerz.com</loc>
+    <lastmod>2025-06-02T19:45:36.708Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/about-us</loc>
+    <lastmod>2025-06-02T19:45:36.708Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/become-partner</loc>
+    <lastmod>2025-06-02T19:45:36.708Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/search</loc>
+    <lastmod>2025-06-02T19:45:36.708Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/support</loc>
+    <lastmod>2025-06-02T19:45:36.708Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/support/contact-us</loc>
+    <lastmod>2025-06-02T19:45:36.708Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/policies/privacy-policy</loc>
+    <lastmod>2025-06-02T19:45:36.708Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/policies/refund-policy</loc>
+    <lastmod>2025-06-02T19:45:36.708Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/policies/terms-of-use</loc>
+    <lastmod>2025-06-02T19:45:36.708Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/socials</loc>
+    <lastmod>2025-06-02T19:45:36.708Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+  </url>
+  
+  <!-- Store Pages (10 stores) -->
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/avatars/eb47efc2-b8cf-4d0c-a7b0-27a551d092f9.webp</image:loc>
+      <image:caption>Eclair Affair - Fresh baked goods and artisan treats</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/avatars/c631e393-a1f4-478f-b2e7-5f613ac0d0d5.webp</image:loc>
+      <image:caption>Dolce Casa - Fresh baked goods and artisan treats</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/QQeUjf7xed</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7999999999999999</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/avatars/09b51e63-b816-405b-b8ed-5882dc5a47e5.webp</image:loc>
+      <image:caption>Bearly Baked - Classic desserts with a modern twist ✨
+Discover unique cheesecake flavours and perfectly portioned treats for any occasion 🍰
+Join 100+ dessert lovers already enjoying in our irresistible creations 👥</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7999999999999999</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/avatars/84f5325d-2eb5-404c-aac3-c88232e4de36.webp</image:loc>
+      <image:caption>Sweet Moments - Fresh baked goods and artisan treats</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/kCGANA6MPc</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/niqdjD74Gh</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/avatars/9762f89b-79e7-4b56-a4ad-09553bb71cc0.webp</image:loc>
+      <image:caption>One Good Baker - Hi everyone, 
+I’m Saydar, your one good baker from Haarlem. Customised cakes, cheesecake, cookies and desserts for any occasion. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/82nuCvIBmX</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/avatars/595c0cf8-3688-41aa-b459-9713ff1d4dac.webp</image:loc>
+      <image:caption>Trili tort - Fresh baked goods and artisan treats</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/a4BORavGI9</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/avatars/f3448ce9-a5d0-4bd5-94fd-0fe6f99a9fad.webp</image:loc>
+      <image:caption>zefirinka - Fresh baked goods and artisan treats</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Product Pages (83 products) -->
+  
+  <!-- Products from Store: XGDafLovKh (15 products) -->
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/611d664d-3780-4c57-8cc6-0350be2e8ca4</loc>
+    <lastmod>2025-05-26T19:41:28.754Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/3d82be73-661e-4108-8cd4-da4221a0039d.webp</image:loc>
+      <image:caption>Dubai Chocolate  - Milk chocolate, Kataifi dough, sesame paste, pistachio 
+
+
+
+Portion: 250g per bar.
+Store at 16–18°C. 
+Maximum shelf life: 30 days.
+</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c4524570-0efb-4653-b685-2bd113bdfcf8.webp</image:loc>
+      <image:caption>Dubai Chocolate  - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/25fd7e7d-7050-4de3-ba97-59f687e4575b.webp</image:loc>
+      <image:caption>Dubai Chocolate  - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/3fbf4300-8400-43e1-89a8-d05e07c174c0</loc>
+    <lastmod>2025-05-21T09:13:59.542Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/be144c3a-006b-45be-86cb-3e873730f03c.webp</image:loc>
+      <image:caption>Lime - pistachio  - Dark chocolate 65%, Lime ganache and pistachio filling  
+
+
+Portion: 10-12g per bonbon
+Store at 16–18°C. 
+Maximum shelf life: 14 days.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/77a8252b-39ad-4e61-ae87-2ff517416f95.webp</image:loc>
+      <image:caption>Lime - pistachio  - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/5b6c6abe-9fa9-468c-baf2-eaaad14bd458.webp</image:loc>
+      <image:caption>Lime - pistachio  - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/91e6daba-c3ef-4b1e-83dc-025faa58cac6</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/bbeb1134-91ee-4b4f-a742-f68a2fa8c53b.webp</image:loc>
+      <image:caption>Truffle box  - Build your own Truffle Box. Select up to 9 different tastes. Specify which flavors and in what quantities you world like in your box 
+
+
+Portion: 16-18g per bonbon
+Store at 16–18°C. 
+Maximum shelf life: 14 days.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/1d9dfacb-c950-48ea-b5c8-0c105baa62e0.webp</image:loc>
+      <image:caption>Truffle box  - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/ae35e932-db2c-4b20-8efe-2c58d6f5f4ab</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/03ffeb72-8c39-4d33-a0b4-a8f015c8eb4a.webp</image:loc>
+      <image:caption>Bonbon Box For 9 pcs  - Build your own BonBon Box. Select up to 9 different tastes. Specify which flavors and in what quantities you world like in your box 
+
+
+Portion: 10-12g per bonbon
+Store at 16–18°C. 
+Maximum shelf life: 14 days.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/30791147-e09c-4540-b611-30ff416f9651</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/b36b6847-cd35-46b2-a33b-64816697ee53.webp</image:loc>
+      <image:caption>Dark chocolate medians  - Dark chocolate, roasted almonds, hazelnuts, dried cranberries,  crispy balls 
+
+
+Portion: 13-15g per box
+Store at 16–18°C. 
+Maximum shelf life: 90 days.
+</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c389cf60-f132-4c50-aea2-8af0af45e2fe.webp</image:loc>
+      <image:caption>Dark chocolate medians  - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/e84aca80-db03-4c4b-94f5-416260295841.webp</image:loc>
+      <image:caption>Dark chocolate medians  - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/55c936ae-00bc-4ba1-9a10-426dcf0e5f19</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/baf23172-7135-482e-bc11-e707206e95b0.webp</image:loc>
+      <image:caption>Orange medians - Orange chocolate, roasted almonds, dried orange,  crispy balls 
+
+
+Portion: 13-15g per box
+Store at 16–18°C. 
+Maximum shelf life: 90 days.
+</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/7826d96a-b7db-40ce-b140-0e9430f5861a.webp</image:loc>
+      <image:caption>Orange medians - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/93a67653-a5ea-4da4-8bcf-c86fd35c3ec0</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/3b0c9661-5304-4466-987a-095ce56657a9.webp</image:loc>
+      <image:caption>Strawberry medians - Strawberry chocolate, freeze-dried strawberries, Raspberry powder crispy balls 
+
+
+Portion: 13-15g per box
+Store at 16–18°C. 
+Maximum shelf life: 90 days.
+</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/a8c0d543-8de8-4352-ae19-938916e594aa.webp</image:loc>
+      <image:caption>Strawberry medians - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/11200f92-9166-412a-be1b-97c48ab0cbd6</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/7a8257e3-acd7-4e13-8f8d-ddd65312d2f1.webp</image:loc>
+      <image:caption>Matcha - violet  - White chocolate, Blue matcha Anchan, Violet flowers 
+
+
+Portion: 100g per bar
+Store at 16–18°C. 
+Maximum shelf life: 60 days.
+</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/66a916ba-daac-4eb3-bf87-d31246524f46.webp</image:loc>
+      <image:caption>Matcha - violet  - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/7a95c8ac-e59b-4210-a050-446800755cdc.webp</image:loc>
+      <image:caption>Matcha - violet  - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/b62955a4-8e9b-49bd-acd2-2316834c1dbe</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ffa509ef-b707-4fa6-92b0-06f76e92df37.webp</image:loc>
+      <image:caption>Matcha Strawberry   - White chocolate, Green matcha, freeze-dried strawberries, raspberry powder 
+
+
+Portion: 100g per bar
+Store at 16–18°C. 
+Maximum shelf life: 60 days.
+</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/3ede5747-fb64-4170-894b-9b073946c583.webp</image:loc>
+      <image:caption>Matcha Strawberry   - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/2db2b63a-1523-454d-b72d-f3902f29365e.webp</image:loc>
+      <image:caption>Matcha Strawberry   - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/d7d37909-2cd8-4906-8dfd-c5996a3c06f3</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f88f8d36-bb01-466d-9db1-5350802575df.webp</image:loc>
+      <image:caption>Currants and lime marshmallows  - Dark chocolate, currant jam , lime marshmallows 
+
+
+Portion: 35-400g per bar
+Store at 16–18°C. 
+Maximum shelf life: 14 days.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/9ba2d18c-41bc-4496-9141-416332cbd1b3.webp</image:loc>
+      <image:caption>Currants and lime marshmallows  - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/589618b9-c2e1-488c-a29e-aefdeae76805</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/63f72c27-93a9-481e-86bf-bcc8f8b0764a.webp</image:loc>
+      <image:caption>Apricot and lime marshmallows  - Milk chocolate, apricot jam, lime marshmallows 
+
+
+Portion: 35-400g per bar
+Store at 16–18°C. 
+Maximum shelf life: 14 days.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4a83d13d-7309-4bd8-b58c-a6caa7b0c42b.webp</image:loc>
+      <image:caption>Apricot and lime marshmallows  - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/caec5df4-23b1-46c8-9afb-40e9c230b7e3</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/91276cf7-fa43-43fb-b7f7-31488baa583c.webp</image:loc>
+      <image:caption>Lime - raspberry marshmallows  - White chocolate, two-layer filling -  lime ganache and raspberry marshmallows 
+
+Portion: 10-12g per bonbon
+Store at 16–18°C. 
+Maximum shelf life: 14 days</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/1de8f67a-cb62-4c06-824a-020dc9b4df00.webp</image:loc>
+      <image:caption>Lime - raspberry marshmallows  - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/41b0f85d-f413-49c6-8d12-e35084bbce73</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/dbb4e19c-30fd-449f-b432-f7d49d77c807.webp</image:loc>
+      <image:caption>Apricot and raspberry marshmallows  - White chocolate, two-layer filling -  apricot jam and raspberry marshmallows 
+
+Portion: 10-12g per bonbon
+Store at 16–18°C. 
+Maximum shelf life: 14 days</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c40d197d-3c49-419f-9cae-3e90184dfea1.webp</image:loc>
+      <image:caption>Apricot and raspberry marshmallows  - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/1960995c-9246-4e62-9866-dc753be830d0</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0ba7ce2a-3f48-40cd-99fd-ce57da6d733d.webp</image:loc>
+      <image:caption>Orange - bergamot  - Orange chocolate, two-layer filling - orange jam and ganache on dark chocolate with bergamot
+
+
+Portion: 10-12g per bonbon
+Store at 16–18°C. 
+Maximum shelf life: 14 days</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/dc9611ff-235a-41d4-b9b0-0448676e20ba.webp</image:loc>
+      <image:caption>Orange - bergamot  - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/a9c9b6df-77ac-49c2-827d-ea6aed90a69e</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/53093979-2964-46ae-aa5b-72bec02297e8.webp</image:loc>
+      <image:caption>Mint lime - Dark chocolate, two-layer filling - delicate mint jam and lime ganache based on white chocolate 
+
+Portion: 10-12g per bonbon
+Store at 16–18°C. 
+Maximum shelf life: 14 days</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/851ccbc5-de27-486c-bb75-0f76e76edc54.webp</image:loc>
+      <image:caption>Mint lime - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/85167796-056d-4891-89eb-023be5415c12.webp</image:loc>
+      <image:caption>Mint lime - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Products from Store: M1z3xRu8d9 (41 products) -->
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/74696b0d-909e-4ee4-bf94-bb657c35bf7f</loc>
+    <lastmod>2025-05-26T13:46:27.186Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/5d996957-992a-49bc-bebe-cf5a17b44b60.webp</image:loc>
+      <image:caption>Raisin Swirl - Our traditional French Raisin Swirl mixes a timeless flavor with a hint of sweetness. Flaky, buttery layers surround a luscious raisin center, making any bite memorable. A great treat for any moment of day.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/47e7e6c6-195b-4293-a733-731beb39ebd9</loc>
+    <lastmod>2025-05-26T13:46:18.445Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/33fe89bc-92da-44b2-a494-42694922c1e4.webp</image:loc>
+      <image:caption>Chocolate &amp; Passion Fruit - Chocolate cookie filled with passion fruit coulis and topped with passion fruit jam.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/6b038cab-4009-4a53-8052-5b2713180653</loc>
+    <lastmod>2025-05-26T13:46:13.596Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/12f563c3-f564-48b0-be94-fea3a0146abd.webp</image:loc>
+      <image:caption>Chausson aux pommes - Our classic French Chausson aux pommes is an expression of coated elegance. With a crispy buttery crust and a creamy, spiced apple inside, every bite is pure delight. Ideal for any time of day.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/2e512a53-53a0-47b0-90ca-0156f61fda14</loc>
+    <lastmod>2025-05-26T13:44:27.128Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/a9553668-14e4-489d-8d2e-c890dbf7b8bb.webp</image:loc>
+      <image:caption>Pavlova - A pavlova cake features a crisp meringue base topped with a luscious combination of mascarpone and whipped cream, finished with fresh fruit</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/fd84734b-175a-4f9d-994d-8226c61e1bcd</loc>
+    <lastmod>2025-05-26T13:44:21.279Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/308d95ed-e646-4836-a0fc-51daf4a47d49.webp</image:loc>
+      <image:caption>Millefeuille cake - Millefeuille is a classic French pastry consisting of layers of puff pastry alternating with layers of pastry cream, topped with powdered sugar for a sweet and flaky treat.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/61697d07-6bac-4b9b-ad01-2eaa569d0a1d</loc>
+    <lastmod>2025-05-26T13:44:12.208Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4cb9ac1e-3663-48d1-940d-3c4fc74df84a.webp</image:loc>
+      <image:caption>Medovik - Russian honeycake - Medovik, also known as &quot;Russian Honey Cake,&quot; is a classic and beloved Russian dessert. This cake is characterized by its unique layers of thin, honey-infused sponge cake separated by a luscious sweetened sour cream.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/c1b18673-9c8a-48cd-8281-37f250ed8613</loc>
+    <lastmod>2025-05-26T13:43:52.471Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/438350d5-afbe-4858-a87a-ae4cd0466780.webp</image:loc>
+      <image:caption>Macarons Cake - Macarons Cake – made with light macaron shells, creamy vanilla filling, fluffy raspberry mousse, and sweet raspberry jam.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/e2a45d3b-c9f8-41ab-951b-6fad021a59e8.webp</image:loc>
+      <image:caption>Macarons Cake - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/5f704b01-2261-416c-9439-185697eb5a2b</loc>
+    <lastmod>2025-05-26T13:43:42.594Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/727b9840-ee4c-4485-b2de-a5caca69ebba.webp</image:loc>
+      <image:caption>Chocolate Raspberry cake - Indulge in this delightful dark chocolate cake, filled with raspberry mousse, chocolate mousse and fresh raspberry coulis. A true taste sensation of bittersweet refinement.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/477fd216-2ed3-4d2c-b69c-cacee1d60385</loc>
+    <lastmod>2025-05-26T13:42:42.978Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ed961685-73af-484d-8f23-ef31fc109c05.webp</image:loc>
+      <image:caption>Eclair Karamel St. Honore - Indulge yourself in the ultimate treat: our delightful St. Honore éclair! Filled with blissful caramel cream and generously covered with velvety vanilla Chantilly, this heavenly delicacy is a true delight for the senses! Let yourself be enchanted by the delicious flavors and elegant French flair of our St. Honore éclair.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/9fd4aa11-aa30-4c07-9aa2-903a53625b94</loc>
+    <lastmod>2025-05-26T13:41:20.645Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4d83477f-9b79-4dfb-8772-ac9d19cea9b8.webp</image:loc>
+      <image:caption>Eclair Chocolat Noir - Savor our éclair filled with airy dark chocolate ganache, topped with glossy chocolate glaze and crunchy chocolate crisps. A delightful indulgence in every bite!</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/6e5432cf-54ba-494a-8599-5e390b7be2ef</loc>
+    <lastmod>2025-05-26T13:41:13.995Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4bc0be5c-42f8-477f-8a83-6f0016cee767.webp</image:loc>
+      <image:caption>Eclair Earl Grey Srawberry - A delicious éclair with a velvety Earl Grey cream filling, refined with a hint of homemade strawberry jam, and topped with a light Earl Grey chantilly.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/85e28713-f507-4c36-96a7-62a80bce9c64</loc>
+    <lastmod>2025-05-26T13:41:07.498Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/74040844-8db2-432c-b83b-2c0266405fd4.webp</image:loc>
+      <image:caption>Eclair Exotic - A delectable eclair bursting with a luscious mango-passionfruit cream filling, adorned with a light coconut mousse and a tantalizing mango-passionfruit jelly on top.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/c5734756-d15f-4ec0-aec5-51e68edf8308</loc>
+    <lastmod>2025-05-26T13:40:56.015Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/eb5eed66-f39f-47db-9dcc-36e35187ce8a.webp</image:loc>
+      <image:caption>Eclair Paris Brest - Discover French elegance in every bite with our Eclair Paris-Brest. This pastry masterpiece combines the classic flavors of a Parisian eclair with the iconic round shape of a Paris-Brest. Enjoy the soft, airy choux pastry filled with a creamy hazelnut praline cream. Let yourself be seduced by the perfect balance of sweet and nutty, and experience the indulgence of French pastry with our Eclair Paris-Brest.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/fcd60a52-ffee-4e60-b2fa-e969fb6f9275</loc>
+    <lastmod>2025-05-26T13:40:48.053Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/24f78ee4-713f-40fc-b7fc-5376350520ae.webp</image:loc>
+      <image:caption>Eclair Pecan Caramel - An Eclair filled with a decadent dark chocolate cream, enrobed in a luscious caramel coating adorned with crunchy roasted pecan nuts, and elegantly dusted with shimmering gold for a touch of luxury and indulgence.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/c700fc13-d967-4654-ab6b-b43f70f97edc</loc>
+    <lastmod>2025-05-26T13:40:41.133Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/7598862f-15e7-4c10-b092-406da3bc890f.webp</image:loc>
+      <image:caption>Eclair Pistache Framboos - A delightful éclair with a savory pistachio cream filling, subtly enriched with a touch of raspberry jelly and covered with a lush layer of raspberry mousse.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/98f89550-d4ed-4eb5-bb80-3cf892c498ff</loc>
+    <lastmod>2025-05-26T13:40:35.155Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c50b3095-322b-489b-86a0-1de5d4fe614f.webp</image:loc>
+      <image:caption>Eclair Vanilla - A delightful twist on the classic: luscious vanilla cream nestled within a crisp choux pastry, enrobed in a decadent chocolate glaze and adorned with intricate chocolate decorations.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/3318ce83-04b4-4129-ac39-d0a50c78fd82</loc>
+    <lastmod>2025-05-26T13:39:43.853Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f5cf4071-9c26-445f-93fb-f18150f13bba.webp</image:loc>
+      <image:caption>Eclair Yuzu Meringue - An elegant eclair boasting a zesty yuzu cremeux filling nestled within tender pastry, elegantly enveloped by a cloud-like Swiss meringue. Yuzu, a citrus fruit with a unique blend of tartness and floral notes, infuses the dessert with refreshing brightness, complementing the sweetness of the meringue perfectly.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/faf68952-5b3c-4259-b22e-290744ce09e1</loc>
+    <lastmod>2025-05-26T13:39:34.346Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/e06558f1-0a22-4aeb-9bc9-114f0ed72fa2.webp</image:loc>
+      <image:caption>Eclair Blauwebes Lavendel - An éclair filled with a delightful combination of airy chantilly and lavender cream, enriched with a smooth blueberry coulis. Topped with a glaze of blueberry ganache and adorned with juicy blueberries, resulting in a delectable treat with a perfect balance of sweetness and refreshment.
+</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/b3c62bdb-3319-40dd-8c6c-5f94ba8d6526</loc>
+    <lastmod>2025-05-25T15:01:05.497Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f7a990ac-5e40-456c-ba9f-d29aa6fcdb3f.webp</image:loc>
+      <image:caption>Sable Nantaise - Our Sablé Nantaise biscuits are traditional French butter cookies with a tender, crumbly texture and a rich, buttery flavor. A timeless classic, perfect for pairing with tea or coffee.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/ed7d5bff-bc3d-4c9f-b4c2-11c1a5ab1fb7</loc>
+    <lastmod>2025-05-25T15:00:54.817Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/659326f6-79da-4ad2-9158-8a05d5282c61.webp</image:loc>
+      <image:caption>Madeleines - Our madeleines are classic French butter cakes with a light, fluffy texture and a delicate golden crust. Perfectly baked with a hint of vanilla and lemon, they’re an elegant treat for any occasion.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/c57d174f-d109-4872-9aa2-9311b51245d5</loc>
+    <lastmod>2025-05-25T15:00:36.035Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4db126d4-fb66-485b-bb60-fbca702f88e1.webp</image:loc>
+      <image:caption>Bonbons L&#039;Odyssee Exquise - The iconic flavors of the Manufacture brought together in a single box.
+This selection showcases the CLUIZEL taste: intense chocolate with low sugar content, presented in a beautifully designed box, perfect for gifting and sharing. Featuring a 99% cocoa ganache, chocolates from the Mangaro Plantation in Madagascar, raspberry-filled palets, the Perle d’Or with its nougatine praline of almonds and hazelnuts, chocolate-coated bonbons, and soft salted butter caramel from Guérande... The L’Odyssée Exquise boxes offer authentic and delicious combinations, a gourmet testament to the craftsmanship of CLUIZEL as a Cacaofèvier®, confectioner, and chocolatier.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/b66a3886-bc2c-46d5-a820-7e37ecae1b45</loc>
+    <lastmod>2025-05-25T15:00:01.752Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c61a31c1-30f5-433e-be28-9e283ca1c4c3.webp</image:loc>
+      <image:caption>Very Berry Cake - Whether you&#039;re seeking a treat for yourself or a delightful dessert to share during special occasions, our cake of madeleine sponge, strawberry coulis, vanilla cream, and fresh seasonal fruits promises to provide an experience that will enchant all your senses. Enjoy a moment of pure delight with every delectable bite!</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/d8af73c6-9013-4abb-83d3-24402e240ab5</loc>
+    <lastmod>2025-05-25T14:59:39.184Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c2a2e90b-273c-4e18-b2d2-effdc6124f88.webp</image:loc>
+      <image:caption>Tropical cake - Whether you&#039;re searching for a delicious dessert for a special occasion or simply craving a bit of tropical indulgence, our Tropical Cake is the perfect choice. Let yourself be transported to a paradise of flavor with every delightful bite!</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/4dc5df84-bb06-45b8-945f-f36345e6f727</loc>
+    <lastmod>2025-05-25T14:42:51.523Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/a48fe4cb-b374-4ea4-b33f-ca3b88e703b9.webp</image:loc>
+      <image:caption>Happy Box - Among them, you find classic flavors like chocolate, vanilla, offering comforting familiarity. Then, there are more adventurous options such as raspberry  pistachio, passionfruit, and earl grey tea with strawberry, enticing your taste buds with exotic twists. Finally, whimsical creations like  caramel, yuzu and hazelnut praline add a playful yet sophisticated touch to the assortment, promising a delightful journey of flavors with every bite.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/024d5c01-72d0-4afa-8974-cf3190a8964b</loc>
+    <lastmod>2025-05-25T14:35:47.760Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/89cf4047-a9ef-43f8-95b0-7b0a2b30b4d0.webp</image:loc>
+      <image:caption>Sable Diamant - Our Sablé Diamant biscuits are buttery, melt-in-your-mouth cookies with a delicate crunch from their sugar-coated edges. Perfectly crafted for a luxurious and irresistible treat.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/98a73aad-adec-4c22-80be-4ffab7284372</loc>
+    <lastmod>2025-05-25T14:35:12.069Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/890ae896-0a49-43ff-8c8f-3fc12d4bdd2c.webp</image:loc>
+      <image:caption>Amaretti - Amaretti with candied oranges are delicate almond-based cookies infused with the bright, citrusy flavor of candied oranges. These sweet treats offer a harmonious blend of nuttiness from the almonds and a zesty kick from the candied oranges, creating a delightful balance of flavors in every bite. The crunchy exterior gives way to a soft, chewy center, making them a delightful indulgence for any occasion.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/94b76d42-601c-43cd-8aa3-76fd3f3b5a39</loc>
+    <lastmod>2025-05-25T14:05:48.585Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4e9a3588-0091-4652-bafe-322db5b0c600.webp</image:loc>
+      <image:caption>Red Velvet - Red velvet cookie filled with cream cheese and topped with raspberry coulis.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/2ca6048e-5e23-4a46-9222-eab91adec1ae</loc>
+    <lastmod>2025-05-25T13:48:41.927Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/90ea04f7-f116-45af-947b-0e1687b6425e.webp</image:loc>
+      <image:caption>Pain au Chocolat - Our traditional French Pain au Chocolat blends classic flavor with a touch of indulgence. Soft, buttery layers envelop rich, creamy chocolate, making every bite unforgettable. A delightful treat for each of you.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/b2a62d57-ed41-4993-8ef9-db0ab28e0dac</loc>
+    <lastmod>2025-05-25T13:48:28.716Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/9fe51b9e-3d64-4309-8312-1cea753c3a1f.webp</image:loc>
+      <image:caption>Orange Crown - Our amazing vegan Danish Crown with oranges and hazelnuts will have you addicted from the first taste. The puff pastry contains margarine, therefore it is suitable for vegans. An characteristic creation with a tasty orange core and a lovely hazelnut coating will make a wonderful snack with your coffee.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/09787ff4-ea7c-47f2-bac7-bd1e3f1f8d31</loc>
+    <lastmod>2025-05-25T13:48:16.554Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/9aa113d9-8365-4211-8238-ff28786fe8c5.webp</image:loc>
+      <image:caption>Croissant - Our authentic French croissant is a celebration of buttery perfection. With its crisp exterior and soft, airy layers, each bite is pure bliss. Perfect on its own or with your favorite coffee.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/32d96e90-1988-4c4b-bd4b-cdbde55d41c2</loc>
+    <lastmod>2025-05-25T13:47:24.226Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ec3f9eac-6024-4581-840d-5afb98fc29c3.webp</image:loc>
+      <image:caption>Cherry Crown - Our indulgent vegan cherry and flaxseed Danish crown will make you love it after the first bite. The puff pastry is made with margarine, so everyone with a vegan diet can enjoy it. An iconic shape with a delicious cherry center with lovely brown flaxseed topping will make your taste buds feel delighted.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/efafa1b3-ff16-40da-aad9-5c24d105c413</loc>
+    <lastmod>2025-05-25T13:47:11.110Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/683430f7-519b-4002-a84f-eaa8df8e5964.webp</image:loc>
+      <image:caption>Cheese Finger - Our traditional French Cheese Fingers offer a perfect balance of savory, buttery and cheesy goodness. Crispy layers embrace a rich, creamy cheese filling, making each bite irresistible. A delightful snack for any time of the day.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/19aa4f2d-c5f2-40b5-b7d3-f26a0e9760f1</loc>
+    <lastmod>2025-05-25T13:44:08.492Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/dbe40641-ad78-4875-b83d-0266186110d7.webp</image:loc>
+      <image:caption>21 macarons - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/ab4fb555-e008-4267-9d96-82e4bc8e9aeb</loc>
+    <lastmod>2025-05-25T13:43:49.559Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/90d69e06-103f-4761-b78e-23f969b6aaef.webp</image:loc>
+      <image:caption>14 macarons - A selection of 14 macarons in a gift box.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/a7ea0a7e-7c87-4859-97e5-dbf1b17de512</loc>
+    <lastmod>2025-05-25T13:43:36.663Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/9fbd5c86-ac03-4271-bf9d-71726d4bd486.webp</image:loc>
+      <image:caption>9 macarons - A selection of 9 macarons in a gift box.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/296ea152-502e-40e2-a148-efa922d31c33</loc>
+    <lastmod>2025-05-25T13:43:10.793Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/510e44ec-8e93-4d02-b9a8-3f3f7752d5e8.webp</image:loc>
+      <image:caption>7 macarons - A selection of 7 macarons in a gift box.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/6b432a8e-b105-4887-8085-4f02a72d6aab</loc>
+    <lastmod>2025-05-25T13:42:56.473Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/abbaee76-5a67-46d2-a78d-c5ec853a05f0.webp</image:loc>
+      <image:caption>5 macarons - 5 different macarons in a gift box.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/8a8a3355-b8ef-4473-997c-ea73101a8b6e</loc>
+    <lastmod>2025-05-25T13:42:47.508Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/81cac4db-7e10-4bc3-ba63-85c84efbc54e.webp</image:loc>
+      <image:caption>Ispahan - Ispahan is a delectable French dessert and consists of delicate rose-flavored macarons sandwiched with layers of fresh lychees, raspberries, and rose petal cream, offering a harmonious blend of floral, fruity, and creamy flavors. This exquisite dessert is adorned with raspberry, adding an elegant touch to its presentation.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/fbeb0e9a-f5e3-4c4d-b033-0f102b4e65a1</loc>
+    <lastmod>2025-05-25T13:41:02.272Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/13e5a76d-256f-4b42-9ebd-79ddad08ee49.webp</image:loc>
+      <image:caption>Black Forest - Chocolate cherry cookie with cream cheese, cherry coulis, and cherry chunks.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/0819e6eb-4e3a-4313-abbb-647343f249f1</loc>
+    <lastmod>2025-05-25T13:39:55.634Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/d01690c0-cdc0-4ee0-b300-94de450c1ea8.webp</image:loc>
+      <image:caption>Carrot Cake - Carrot cake cookie filled with cream cheese and topped with homemade orange jam.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/b37713ab-59eb-4271-b019-568f2fb5b199</loc>
+    <lastmod>2025-05-25T13:39:32.058Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/1fe3f3a6-5261-402e-b184-70f97ae3a596.webp</image:loc>
+      <image:caption>Blueberry Lemon - Poppy seed cookie with white chocolate and blueberries.</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Products from Store: Wh4Mf8bczO (2 products) -->
+  <url>
+    <loc>https://www.thebakerz.com/Wh4Mf8bczO/item/ee7198ee-8076-4991-8498-ef56ffc6953d</loc>
+    <lastmod>2025-05-26T09:44:22.204Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/a7e2ed2e-1e8a-43bd-a2f6-f259d419a3f4.webp</image:loc>
+      <image:caption>Medovik - Classic Medovik cake.
+
+Store refrigerated at 2–6°C. 
+Maximum shelf life 72 hours.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/69fa669f-ff7e-4c8b-b426-62353f2d0daa.webp</image:loc>
+      <image:caption>Medovik - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Wh4Mf8bczO/item/39e0dae8-6378-407b-9964-0251de92ab34</loc>
+    <lastmod>2025-05-26T09:39:28.579Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/73fdb7ed-4f56-47f4-82b9-cfb7c4ce9ccd.webp</image:loc>
+      <image:caption>Red Velvet - Classic Red Velvet cake.
+
+Store refrigerated at 2–6°C. 
+Maximum shelf life 72 hours.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/39854c28-0abb-4034-9aed-e5fded718d4a.webp</image:loc>
+      <image:caption>Red Velvet - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/2444f20d-444f-46ed-abe5-e3c387b4ba00.webp</image:loc>
+      <image:caption>Red Velvet - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Products from Store: ABK8YN4nAl (8 products) -->
+  <url>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/11519292-e356-4626-a976-f6b9a1707799</loc>
+    <lastmod>2025-05-25T17:13:51.330Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/2a094c3b-d1a6-4973-947e-ebf4661259a3.webp</image:loc>
+      <image:caption>Macaron tasting box - Try our delicious, handmade macarons in different flavours.
+This box contains 5 macarons with the following tastes:
+Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/6d3ba307-dcbc-40bb-ad0b-706e228ba06c.webp</image:loc>
+      <image:caption>Macaron tasting box - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/3c926cc2-85e8-4bf9-9498-69c6d878c429.webp</image:loc>
+      <image:caption>Macaron tasting box - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/b6016519-9349-48e1-b09b-f85f3ef1aef4</loc>
+    <lastmod>2025-05-25T17:12:15.247Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/556b3d3d-c689-4730-be74-f695b30ef66f.webp</image:loc>
+      <image:caption>Orange - Dark Chocolate Macaron - Delicious macaron with the taste of Orange and Dark Chocolate.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/2f77ac19-547f-4e55-b1fa-7a2b281f3913.webp</image:loc>
+      <image:caption>Orange - Dark Chocolate Macaron - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/437beaa5-d543-4dfc-b510-2d73f7518ce4.webp</image:loc>
+      <image:caption>Orange - Dark Chocolate Macaron - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/21f92f81-a3fd-4caa-ba1d-342de2965a17</loc>
+    <lastmod>2025-05-25T12:35:13.885Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/d4aaea9a-6583-44cc-aea5-4056630a25bb.webp</image:loc>
+      <image:caption>Pistachio-Raspberry macaron - Delicious macaron with the taste of Pistachio and Raspberry.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/532ba612-f75b-4329-be1e-45a9922b75ad.webp</image:loc>
+      <image:caption>Pistachio-Raspberry macaron - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/37845af6-baf1-4540-b0fc-4e67c142d178.webp</image:loc>
+      <image:caption>Pistachio-Raspberry macaron - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/dfcbbdd1-972a-4644-90e0-5708d00343f2</loc>
+    <lastmod>2025-05-25T12:33:10.488Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/29277237-abec-44c6-bc5a-4e57e2c9bbc7.webp</image:loc>
+      <image:caption>Oreo Macaron - Delicious macaron with the taste of Lemon Cheesecake and poppy seeds.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/1c7dbb12-50fa-4c8c-8993-cc6a3601b628.webp</image:loc>
+      <image:caption>Oreo Macaron - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/935c93c2-9d38-4e6d-b90a-28df63ecd416</loc>
+    <lastmod>2025-05-25T12:31:51.931Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0cf58f81-d6e7-4049-8160-22809cafb2a3.webp</image:loc>
+      <image:caption>Coffee Pecan Macaron - Delicious macaron with coffee pecan ganache. Decorated with pecan nuts.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/2ee677c4-77f8-49c9-a2b7-684dc8ad24e0.webp</image:loc>
+      <image:caption>Coffee Pecan Macaron - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/eeefa1c4-555a-4187-b4d1-718af88e0ba8.webp</image:loc>
+      <image:caption>Coffee Pecan Macaron - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/ad78254e-eb08-4a8f-95b8-bccbe483c589</loc>
+    <lastmod>2025-05-25T12:31:42.980Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/098d41dc-c5af-44e5-a579-8a317bee7fb3.webp</image:loc>
+      <image:caption>Lemon cheesecake macaron - Delicious macaron with the taste of Lemon Cheesecake and poppy seeds.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/34bd6630-02d2-4eae-a2c1-361e9630485d.webp</image:loc>
+      <image:caption>Lemon cheesecake macaron - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/584065a3-9236-4a35-ae34-d2dac7cc0d8b.webp</image:loc>
+      <image:caption>Lemon cheesecake macaron - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/b1166109-0bb9-4e10-a115-35cbed77b45d</loc>
+    <lastmod>2025-05-25T12:29:09.855Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/419f7214-7649-40d5-8ace-9dcc6235d29b.webp</image:loc>
+      <image:caption>Ruby macaron - Delicious handmade macarons with the fresh tastes of red fruits.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c4130a98-6fe2-4b16-ad5b-73f5264e7e07.webp</image:loc>
+      <image:caption>Ruby macaron - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/6aa96739-d9a8-433c-986d-fd1c50450d17.webp</image:loc>
+      <image:caption>Ruby macaron - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/7e8e9d8a-db80-489e-b1f7-76f30fc431c0</loc>
+    <lastmod>2025-05-25T12:04:16.193Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/d585aed2-48ba-4c6f-8999-528e572dac42.webp</image:loc>
+      <image:caption>Family macaron box - A box for the family.
+10 pcs. of delicious handmade macarons.
+
+A smaller size than our regular macarons, but just as tasetefull. To share with family or friends.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/e7dc8727-d81e-4e7b-a4cb-1f6578cd3082.webp</image:loc>
+      <image:caption>Family macaron box - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Products from Store: B1KqcUWMeG (2 products) -->
+  <url>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/701026da-08ba-4a2a-95a0-cf971db446ee</loc>
+    <lastmod>2025-05-22T18:48:55.174Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/bfd6d4b9-45fc-49cb-9e62-9623fba3a249.webp</image:loc>
+      <image:caption>CHOCOLATE CHEESECAKE - CHOCOLATE CHEESECAKE — PURE INDULGENCE IN EVERY BITE 
+
+A dream come true for all dessert lovers — our velvety chocolate cheesecake, where smooth cream cheese meets the rich flavor of real Belgian chocolate.
+⠀
+Not too sweet, not too heavy — just perfect. With a delicate chocolate crust, silky filling, and a perfectly balanced taste you won’t forget.
+⠀
+Made with love and only natural ingredients.
+Size: 18 (or individual portions available upon request).
+Comes in gift packaging — ideal for a treat or a present.
+⠀
+❗ Perfect with coffee, for celebrations, as a gift, or simply to treat yourself.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/d665fb16-0e12-4d15-83c7-f858e1998c61.webp</image:loc>
+      <image:caption>CHOCOLATE CHEESECAKE - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f3e3deb6-f469-46dd-860c-2f97364bb773.webp</image:loc>
+      <image:caption>CHOCOLATE CHEESECAKE - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/777d3951-43f6-4bc0-a94c-06c0db8f729b</loc>
+    <lastmod>2025-05-20T21:01:00.887Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/d7d759ee-f09c-4351-aa88-78f659937352.webp</image:loc>
+      <image:caption>Honey cake  - Homemade Honey Cake – A Taste of Tradition and Love
+
+Imagine delicate, thin layers infused with real honey, each one generously filled with smooth, creamy filling. This cake is soft, flavorful, and melts in your mouth — just like the ones grandma used to make.
+
+Every cake is prepared with love using a trusted homemade recipe and only natural ingredients — no preservatives, no shortcuts. Perfect for family gatherings, special occasions, or simply to treat yourself and your loved ones.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/51413a21-8d62-4241-b22f-7da29cb9ccac.webp</image:loc>
+      <image:caption>Honey cake  - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Products from Store: QQeUjf7xed (10 products) -->
+  <url>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/a530cba7-8412-42df-ac16-3406ddb3acc8</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/8080c818-4c81-421a-bd99-9ff8c1461c4a.webp</image:loc>
+      <image:caption>Totally Berry Cheesecake - This cheesecake tastes just like a basket of freshly picked berries from Grandma’s garden! It starts with a crunchy base infused with dried raspberries, followed by creamy cheesecake layers and a generous berry compote.
+
+Store refrigerated at 2–6°C. 
+Maximum shelf life 72 hours.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/f05a9969-c390-44e2-8dbc-aa3d2033d447</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/79a8aed3-b63f-4ded-8d25-fe0f97b5a5a4.webp</image:loc>
+      <image:caption>Red Velvet Cheesecake - A timeless dessert with a modern twist! This charming cheesecake pairs a luscious white chocolate cheesr layer with the perfect touch of tart cranberry sauce – romantic, elegant, and absolutely irresistible.
+
+Store refrigerated at 2–6°C. 
+Maximum shelf life 72 hours.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f2983494-5a8f-4112-91d7-f615416d4948.webp</image:loc>
+      <image:caption>Red Velvet Cheesecake - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/42f236df-deda-4a8a-bd2e-c7421feefaa1</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4e98456b-4a00-41c4-9cb5-ab82e6a70599.webp</image:loc>
+      <image:caption>Pistachio Cheesecake - A rich and nutty cheesecake set on a crunchy caramel and pistachio base, topped with a smooth, velvety cream.
+
+Store refrigerated at 2–6°C. 
+Maximum shelf life 72 hours.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/34a0f6d8-a927-4973-b5a2-0807be90aceb</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/95f9c288-689b-40dd-8225-87d13e442b58.webp</image:loc>
+      <image:caption>Apricot Lavender Cheesecake - Infused with subtle lavender, topped with luscious apricot confit and decorated with apricot ganache.
+
+Store refrigerated at 2–6°C. 
+Maximum shelf life 72 hours.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/b40fa86b-1e1e-42be-8070-1431976ace03</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/1fefb304-3333-49f0-b666-026fd5b0becb.webp</image:loc>
+      <image:caption>New York Cheesecake - Discover a timeless favourite! Our classic New York style cheesecake sits on a perfectly crunchy base, with just a hint of vanilla and a touch of lemon zest. Delicious on its own or paired with your favorite toppings – it&#039;s a slice of pure perfection.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/24d60346-3602-40dd-89da-2fa252a31e46.webp</image:loc>
+      <image:caption>New York Cheesecake - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/7a83cc8b-9d76-402f-9b7f-9f89684e8ee9</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/22121689-1303-4ca7-bddd-30b4818ab1e8.webp</image:loc>
+      <image:caption>Honey Cake - This cake is made up of delicate honey layers, each separated by a delicious sour cream-based cream. But here&#039;s the twist: there are two flavours of cream! One is classic sour cream and the other is sweetened with rich caramel. This cake is decorated with fine crumbs.
+
+Store refrigerated at 2–6°C. 
+Maximum shelf life 72 hours.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/eb753e5a-7d71-4ebd-b646-642cd91c2870</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/1913b3e4-d509-40dc-b6ec-b98119ae8ffd.webp</image:loc>
+      <image:caption>Coconut Cherry Cake - Light as a cloud and full of flavour! Delicate coconut sponge layers hide a creamy coconut cheesecake and a vibrant sour cherry filling – perfectly balancing sweet and tangy in every bite.
+
+Store refrigerated at 2–6°C. 
+Maximum shelf life 72 hours.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/2e930573-5345-4f4d-956d-12539ff2d440</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/8893d5b5-42de-4041-bbf6-d4e1e4011f69.webp</image:loc>
+      <image:caption>Red Velvet Cookies - Soft cake-like cookies stuffed with cream cheese filling.
+
+Store refrigerated at 2–6°C. 
+Maximum shelf life 96 hours.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/9e3b89ea-2de9-4888-ba06-b6f9f5494c66.webp</image:loc>
+      <image:caption>Red Velvet Cookies - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/87e879f9-3cb3-40c4-83e6-12e1502da75c</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/42efc0bb-e89d-47bc-bc61-e303bb263d3d.webp</image:loc>
+      <image:caption>Carrot Cookies - Soft cake-like cookies filled with nuts and cream cheese filling.
+
+Store refrigerated at 2–6°C. 
+Maximum shelf life 96 hours.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/c6c6cd56-e2aa-4e92-8801-fa16f3b123ab</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ec572b60-cabb-4b7d-a4ab-201998b7dde5.webp</image:loc>
+      <image:caption>Chocolate Chip Cookie - Gooey chocolate chip cookies fresh from the oven – crispy on the edges, irresistibly melty in the middle. A bite of pure comfort and indulgence.
+
+Store at room temperature.
+Maximum shelf life 72 hours.</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Products from Store: aFXhl4lpFd (5 products) -->
+  <url>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/0b8fd110-629b-4bb1-a97c-f36e1c19d4cf</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/01d44310-bf77-434d-903b-f3e164f95fdd.webp</image:loc>
+      <image:caption>Basket bento - Bento  cake with fresh red berries, vanilla mousse, crunchy layer, strawberry gel and mango crémeux.
+Netto 550g.
+Store at +2 - +4°C. 
+Maximum shelf life: 72 hours.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/7f399141-6f89-4009-b129-7b09511dd09c</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/19e288f3-0e99-4745-9f27-33a243e8243b.webp</image:loc>
+      <image:caption>Bento star cake - Bento  cake with amaretto mousse, crunchy layer, banana gel and passion fruit crémeux.
+Netto 550g.
+Store at +2 - +4°C. 
+Maximum shelf life: 72 hours.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/79986143-6dea-4443-a212-3e4bca859665.webp</image:loc>
+      <image:caption>Bento star cake - Additional view 1</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/a8760967-9b60-4939-89f4-c75269f1d573.webp</image:loc>
+      <image:caption>Bento star cake - Additional view 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/689ca60f-41c3-4319-9ff8-062715034ddc</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/6c089e85-aa92-4a3a-8d3f-e40dcf064c72.webp</image:loc>
+      <image:caption>Heart set  - Mousse heart shaped set includes one big (950g) heart and two small (165g).
+Netto 1280g.
+Store at +2 - +4°C. 
+Maximum shelf life: 72 hours.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/351ee87d-df0f-4693-9b94-54d0c0539b25.webp</image:loc>
+      <image:caption>Heart set  - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/0cfafa34-0ac3-4c9a-bc8d-4dd95d2289ee</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4e7ee597-59cc-4200-bde6-8ece6d6605ed.webp</image:loc>
+      <image:caption>Raspberry raffaello - Sponge cake with coconut sponge, and crunchy layers, coconut, raspberry cream and mousse.
+Netto 2 kg.
+Store at +2 - +4°C. 
+Maximum shelf life: 72 hours.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/29e622ac-ed7e-485b-92ab-c6e5e131cc2e.webp</image:loc>
+      <image:caption>Raspberry raffaello - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/0fefc8a3-7b9a-4441-9b24-48af99a26fa5</loc>
+    <lastmod>2025-06-02T19:45:36.709Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/7dc2d74c-cd64-45ec-9945-ca8a0373db3e.webp</image:loc>
+      <image:caption>Unicorn cake - Bento mousse cake three chocolate
+Netto 550g.
+Store at +2 - +4°C. 
+Maximum shelf life: 72 hours.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/80ac48ad-4117-43c4-8ce3-79dc83a4b1ff.webp</image:loc>
+      <image:caption>Unicorn cake - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- 
+  Comprehensive sitemap includes:
+  - Static pages (homepage, about, policies, etc.)
+  - All active store pages with priorities based on activity
+  - All active product pages with images and categories
+  - Mobile-first indexing with mobile tags
+  - SEO optimized with proper priorities and change frequencies
+  -->
+</urlset>
