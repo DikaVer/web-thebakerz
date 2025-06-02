@@ -3,7 +3,6 @@ import React from "react";
 import {getCurrentStore} from "@/lib/actions/store";
 import {getLocalizedMetadata} from "@/components/metadata";
 import type {Metadata} from "next";
-import {getLocale} from "next-intl/server";
 import {StoreIdChecker} from "@/components/store/store-id-checker";
 import {StoreProvider} from "@/components/providers/store-provider";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
@@ -22,6 +21,7 @@ type Params = Promise<{ id: string }>
 
 export async function generateMetadata({params}: {params: Params}): Promise<Metadata> {
     const { id } = await params;
+    
     const storeData = await getCurrentStore(id);
     const localeKey: 'en' = 'en';
 
@@ -197,8 +197,8 @@ export default async function Layout({
     params: Params
 }) {
     const { id } = await params;
+    
     const storeData = await getCurrentStore(id);
-
 
     return (
         <div className={'min-h-svh'}>
