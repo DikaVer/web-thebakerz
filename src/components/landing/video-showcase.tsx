@@ -21,10 +21,12 @@ export const VideoShowcase = () => {
               <div className="relative aspect-video w-full bg-background rounded-2xl overflow-hidden shadow-2xl">
                 {/* Video iframe */}
                 <iframe
-                  src="https://www.youtube.com/embed/2hlFLVs1oMk?rel=0&modestbranding=1&showinfo=0&controls=1&autoplay=0&color=white&theme=dark"
+                  src="https://www.youtube-nocookie.com/embed/2hlFLVs1oMk?rel=0&modestbranding=1&showinfo=0&controls=1&autoplay=0&color=white&theme=dark&enablejsapi=1&origin=window.location.origin"
                   title="TheBakerz Platform Demo"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
                   className="absolute inset-0 w-full h-full"
                   style={{
                     border: 'none',

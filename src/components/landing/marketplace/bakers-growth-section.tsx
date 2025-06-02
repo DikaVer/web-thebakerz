@@ -23,10 +23,12 @@ export const BakersGrowthSection = () => {
                     {/* Apple-style video container */}
                     <div className="relative w-full h-full bg-black rounded-2xl shadow-2xl overflow-hidden border border-black/10">
                         <iframe
-                            src="https://www.youtube.com/embed/2hlFLVs1oMk?rel=0&modestbranding=1&showinfo=0&controls=1&autoplay=0"
+                            src="https://www.youtube-nocookie.com/embed/2hlFLVs1oMk?rel=0&modestbranding=1&showinfo=0&controls=1&autoplay=0&enablejsapi=1&origin=window.location.origin"
                             title="Baker decorating cupcakes"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             allowFullScreen
+                            loading="lazy"
+                            referrerPolicy="strict-origin-when-cross-origin"
                             className="absolute inset-0 w-full h-full rounded-2xl"
                             style={{
                                 border: 'none',
