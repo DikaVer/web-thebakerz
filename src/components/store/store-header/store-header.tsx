@@ -179,6 +179,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                     alt={store.storeName || "Store"} 
                     fill
                     priority
+                    sizes="100vw"
                     className="object-cover w-full"
                 />
                 

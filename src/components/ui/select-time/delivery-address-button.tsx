@@ -107,11 +107,11 @@ export const DeliveryAddressButton: React.FC = () => {
                             }
                             
                         } catch (error) {
-                            console.error("Error getting address from coordinates:", error);
+                            // console.error("Error getting address from coordinates:", error);
                         }
                     },
                     (error) => {
-                        console.error("Geolocation error:", error);
+                        // console.error("Geolocation error:", error);
                         // Don't close the modal on error so user can enter address manually
                     }
                 );

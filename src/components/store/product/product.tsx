@@ -342,6 +342,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                             removeWrapper
                             alt={productData.name}
                             className="object-cover w-full rounded-b-none"
+                            sizes="100vw"
                             src={productData.picture}
                         />
                     </div>
