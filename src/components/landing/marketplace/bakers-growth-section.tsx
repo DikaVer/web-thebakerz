@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@heroui/react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
@@ -18,15 +17,24 @@ export const BakersGrowthSection = () => {
         <section className="w-full bg-[#FFC454] py-12 md:py-16">
         <div className="container max-w-7xl mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            {/* Image Section */}
+            {/* Video Section */}
             <div className="order-2 md:order-1">
-                <div className="relative h-[300px] md:h-[400px] w-full rounded-md overflow-hidden">
-                <Image
-                    src="/landing/becomeBakerz.webp"
-                    alt="Baker decorating cupcakes"
-                    fill
-                    className="object-cover"
-                />
+                <div className="relative h-[300px] md:h-[400px] w-full">
+                    {/* Apple-style video container */}
+                    <div className="relative w-full h-full bg-black rounded-2xl shadow-2xl overflow-hidden border border-black/10">
+                        <iframe
+                            src="https://www.youtube.com/embed/2hlFLVs1oMk?rel=0&modestbranding=1&showinfo=0&controls=1&autoplay=0"
+                            title="Baker decorating cupcakes"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="absolute inset-0 w-full h-full rounded-2xl"
+                            style={{
+                                border: 'none',
+                            }}
+                        />
+                        {/* Subtle overlay for Apple-like depth */}
+                        <div className="absolute inset-0 rounded-2xl ring-1 ring-black/5 pointer-events-none" />
+                    </div>
                 </div>
             </div>
             
