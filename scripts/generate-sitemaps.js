@@ -44,6 +44,19 @@ const containerProducts = cosmosDB.container("Products");
 // Configuration
 const SITE_URL = 'https://www.thebakerz.com';
 
+// Video configuration for pages with embedded videos
+const pageVideos = {
+    '/become-partner': {
+        title: 'TheBakerz Platform Demo - How to Grow Your Bakery Business',
+        description: 'Discover how TheBakerz platform helps bakers create their online presence, manage orders, and grow their business. See the platform features and tools designed specifically for bakery businesses.',
+        thumbnailUrl: 'https://img.youtube.com/vi/2hlFLVs1oMk/maxresdefault.jpg',
+        contentUrl: 'https://www.youtube.com/watch?v=2hlFLVs1oMk',
+        duration: 120, // seconds
+        uploadDate: '2024-12-01T00:00:00Z',
+        tags: ['bakery', 'business', 'platform', 'partnership', 'TheBakerz', 'demo']
+    }
+};
+
 /**
  * Escape XML special characters
  */
@@ -58,13 +71,14 @@ function escapeXml(unsafe) {
 }
 
 /**
- * Generate XML sitemap header
+ * Generate XML sitemap header with video namespace
  */
 function generateSitemapHeader() {
     return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">`;
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">`;
 }
 
 /**
@@ -76,7 +90,35 @@ function generateSitemapFooter() {
 }
 
 /**
- * Generate static pages URLs
+ * Generate video XML for a page
+ */
+function generateVideoXml(videoData) {
+    if (!videoData) return '';
+    
+    let videoXml = `
+    <video:video>
+      <video:thumbnail_loc>${escapeXml(videoData.thumbnailUrl)}</video:thumbnail_loc>
+      <video:title>${escapeXml(videoData.title)}</video:title>
+      <video:description>${escapeXml(videoData.description)}</video:description>
+      <video:content_loc>${escapeXml(videoData.contentUrl)}</video:content_loc>
+      <video:duration>${videoData.duration}</video:duration>
+      <video:publication_date>${videoData.uploadDate}</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>`;
+    
+    if (videoData.tags && videoData.tags.length > 0) {
+        videoXml += `
+      <video:tag>${escapeXml(videoData.tags.join(', '))}</video:tag>`;
+    }
+    
+    videoXml += `
+    </video:video>`;
+    
+    return videoXml;
+}
+
+/**
+ * Generate static pages URLs with video support
  */
 function generateStaticPagesXml() {
     const currentDate = new Date().toISOString();
@@ -98,13 +140,23 @@ function generateStaticPagesXml() {
   <!-- Static Pages -->`;
 
     staticPages.forEach(page => {
+        const urlPath = page.url.replace(SITE_URL, '') || '/';
+        const videoData = pageVideos[urlPath];
+        
         xml += `
   <url>
     <loc>${escapeXml(page.url)}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-    <mobile:mobile/>
+    <mobile:mobile/>`;
+
+        // Add video data if available
+        if (videoData) {
+            xml += generateVideoXml(videoData);
+        }
+
+        xml += `
   </url>`;
     });
 
@@ -366,7 +418,7 @@ function generateProductUrlEntry(product, priority = 0.6) {
  */
 async function generateComprehensiveSitemap() {
     try {
-        console.log('\n=== Generating Comprehensive Sitemap ===');
+        console.log('\n=== Generating Comprehensive Sitemap with Video Support ===');
         
         // Fetch all data in parallel
         const [stores, products] = await Promise.all([
@@ -380,9 +432,10 @@ async function generateComprehensiveSitemap() {
   <!-- TheBakerz Comprehensive Sitemap -->
   <!-- Last updated: ${new Date().toISOString()} -->
   <!-- Automatically generated from database -->
-  <!-- Optimized for mobile-first indexing and marketplace SEO -->`;
+  <!-- Optimized for mobile-first indexing and marketplace SEO -->
+  <!-- Includes video sitemap support for YouTube embeds -->`;
 
-        // Add static pages
+        // Add static pages (including video metadata)
         xml += generateStaticPagesXml();
 
         // Add store pages
@@ -462,6 +515,7 @@ async function generateComprehensiveSitemap() {
   - All active product pages with images and categories
   - Mobile-first indexing with mobile tags
   - SEO optimized with proper priorities and change frequencies
+  - Video sitemap support for YouTube embeds and marketing videos
   -->`;
 
         xml += generateSitemapFooter();
@@ -470,15 +524,16 @@ async function generateComprehensiveSitemap() {
         const filePath = path.join(process.cwd(), 'sitemap.xml');
         await fs.writeFile(filePath, xml, 'utf8');
         
-        console.log(`✅ Generated comprehensive sitemap.xml`);
+        console.log(`✅ Generated comprehensive sitemap.xml with video support`);
         console.log(`📊 Summary:`);
-        console.log(`   - Static pages: 10`);
+        console.log(`   - Static pages: 10 (${Object.keys(pageVideos).length} with videos)`);
         console.log(`   - Stores: ${stores.length}`);
         console.log(`   - Products: ${products.length}`);
+        console.log(`   - Videos: ${Object.keys(pageVideos).length}`);
         console.log(`   - Total URLs: ${10 + stores.length + products.length}`);
         console.log(`📁 Saved to: ${filePath}`);
         
-        return { stores: stores.length, products: products.length };
+        return { stores: stores.length, products: products.length, videos: Object.keys(pageVideos).length };
     } catch (error) {
         console.error('❌ Error generating comprehensive sitemap:', error);
         throw error;
@@ -676,7 +731,7 @@ User-agent: TelegramBot
 Allow: /
 
 # === SITEMAP LOCATION ===
-# Comprehensive sitemap containing all pages
+# Comprehensive sitemap containing all pages with video support
 Sitemap: ${SITE_URL}/sitemap.xml
 
 # === CRAWL OPTIMIZATION ===
@@ -692,12 +747,13 @@ Sitemap: ${SITE_URL}/sitemap.xml
 # - Implement automated sitemap generation for dynamic content
 # - Monitor Core Web Vitals and page speed for mobile-first indexing
 # - Use structured data markup for products and reviews
-# - Regularly audit faceted navigation patterns to prevent index bloat`;
+# - Regularly audit faceted navigation patterns to prevent index bloat
+# - Video sitemap support included for YouTube embeds and marketing content`;
 
         const filePath = path.join(process.cwd(), 'robots.txt');
         await fs.writeFile(filePath, robotsContent, 'utf8');
         
-        console.log(`✅ Generated robots.txt`);
+        console.log(`✅ Generated robots.txt with video sitemap support`);
         console.log(`📁 Saved to: ${filePath}`);
         
     } catch (error) {
@@ -713,6 +769,7 @@ async function main() {
     console.log('🚀 Starting TheBakerz Comprehensive Sitemap & Robots.txt Generation...');
     console.log(`📅 Timestamp: ${new Date().toISOString()}`);
     console.log(`🌐 Site URL: ${SITE_URL}`);
+    console.log(`🎥 Video support: Enabled for YouTube embeds`);
     
     try {
         // Generate sitemap and robots.txt in parallel
@@ -726,6 +783,7 @@ async function main() {
         console.log(`   - Static pages: 10`);
         console.log(`   - Stores: ${sitemapResult.stores}`);
         console.log(`   - Products: ${sitemapResult.products}`);
+        console.log(`   - Videos: ${sitemapResult.videos}`);
         console.log(`   - Total URLs: ${10 + sitemapResult.stores + sitemapResult.products}`);
         console.log(`   - Files created: sitemap.xml, robots.txt`);
         
@@ -734,6 +792,7 @@ async function main() {
         console.log('2. Test robots.txt accessibility at /robots.txt');
         console.log('3. Monitor crawl budget and indexing performance');
         console.log('4. Set up automated generation (daily/weekly)');
+        console.log('5. Monitor video indexing in Google Video Search');
         
     } catch (error) {
         console.error('\n💥 Generation failed:', error);

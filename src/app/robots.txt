@@ -42,7 +42,7 @@ Allow: /images/mobile/
 # === BLOCK PRIVATE AND NON-INDEXABLE CONTENT ===
 
 # Authentication and user account areas
-Allow: /auth
+Disallow: /auth
 Disallow: /login
 Disallow: /register
 Disallow: /account/
@@ -182,7 +182,7 @@ User-agent: TelegramBot
 Allow: /
 
 # === SITEMAP LOCATION ===
-# Comprehensive sitemap containing all pages
+# Comprehensive sitemap containing all pages with video support
 Sitemap: https://www.thebakerz.com/sitemap.xml
 
 # === CRAWL OPTIMIZATION ===
@@ -199,3 +199,4 @@ Sitemap: https://www.thebakerz.com/sitemap.xml
 # - Monitor Core Web Vitals and page speed for mobile-first indexing
 # - Use structured data markup for products and reviews
 # - Regularly audit faceted navigation patterns to prevent index bloat
+# - Video sitemap support included for YouTube embeds and marketing content

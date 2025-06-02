@@ -48,12 +48,24 @@ export async function generateMetadata(): Promise<Metadata> {
             title: pageSpecifics.ogTitle,
             description: pageSpecifics.ogDescription,
             url: canonicalUrl,
+            videos: [
+                {
+                    url: 'https://www.youtube.com/watch?v=2hlFLVs1oMk',
+                    type: 'video/youtube',
+                    width: 1280,
+                    height: 720,
+                }
+            ],
         },
         twitter: {
             ...baseMetadata.twitter,
             title: pageSpecifics.twitterTitle,
             description: pageSpecifics.twitterDescription,
         },
+        other: {
+            'video:duration': '120',
+            'video:tag': 'bakery, business, platform, partnership, TheBakerz',
+        }
     };
 }
 
@@ -82,11 +94,50 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }
     };
 
+    const videoSchema = {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": "TheBakerz Platform Demo - How to Grow Your Bakery Business",
+        "description": "Discover how TheBakerz platform helps bakers create their online presence, manage orders, and grow their business. See the platform features and tools designed specifically for bakery businesses.",
+        "thumbnailUrl": "https://img.youtube.com/vi/2hlFLVs1oMk/maxresdefault.jpg",
+        "uploadDate": "2024-12-01T00:00:00Z",
+        "duration": "PT2M",
+        "contentUrl": "https://www.youtube.com/watch?v=2hlFLVs1oMk",
+        "embedUrl": "https://www.youtube-nocookie.com/embed/2hlFLVs1oMk",
+        "publisher": {
+            "@type": "Organization",
+            "name": "TheBakerz",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.thebakerz.com/icons/icon-512x512.png"
+            }
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "TheBakerz"
+        },
+        "mainEntity": {
+            "@type": "WebPage",
+            "url": "https://www.thebakerz.com/become-partner"
+        },
+        "keywords": "bakery business, online platform, webshop, order management, bakery marketing, TheBakerz demo",
+        "isFamilyFriendly": true,
+        "inLanguage": "en",
+        "potentialAction": {
+            "@type": "WatchAction",
+            "target": "https://www.youtube.com/watch?v=2hlFLVs1oMk"
+        }
+    };
+
     return (
         <>
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
             />
             {children}
         </>
