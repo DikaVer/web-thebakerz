@@ -67,7 +67,7 @@ const ProductResults: React.FC<ProductResultsProps> = ({
 
   // Function to fetch products
   const fetchProducts = useCallback(async (currentPage: number, currentFilterParams: FilterParams, currentStoreIds: string[]) => {
-    if (isRequesting.current) return;
+    if (isRequesting.current || !isFiltered) return;
     
     try {
       isRequesting.current = true;
@@ -90,6 +90,8 @@ const ProductResults: React.FC<ProductResultsProps> = ({
         }
         
         setHasMore(hasMoreCache[cacheType]);
+        setLoading(false);
+        isRequesting.current = false;
         return;
       }
       
@@ -127,7 +129,7 @@ const ProductResults: React.FC<ProductResultsProps> = ({
       setLoading(false);
       isRequesting.current = false;
     }
-  }, []); // Remove hasMore dependency to avoid stale closures
+  }, [isFiltered, filterParams, storeIds]); // Remove hasMore dependency to avoid stale closures
 
   // Handle intersection observer callback
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
@@ -144,7 +146,7 @@ const ProductResults: React.FC<ProductResultsProps> = ({
         return prevPage;
       });
     }
-  }, []); // Remove all dependencies to prevent unnecessary observer recreation
+  }, [hasMore]); // Remove all dependencies to prevent unnecessary observer recreation
 
   // Initialize observer and attach to last element
   const lastProductElementRef = useCallback(
@@ -255,8 +257,12 @@ const ProductResults: React.FC<ProductResultsProps> = ({
     );
   }
 
+  if (!isFiltered) {
+    return null;
+  }
+
   return (
-    <div className={cn(isFiltered ? "block" : "hidden", "w-full")}>
+    <div className={cn("w-full")}>
       <div className={'flex w-full justify-center'}>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6  gap-4 w-full">
           {products.map((product, index) => {

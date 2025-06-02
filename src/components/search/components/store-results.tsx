@@ -30,18 +30,12 @@ export function StoreClientResults({ stores, isUserCord, mode }: StoreResultsPro
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {stores.map((store, index) => (
           // Use combination of store.id and index to ensure uniqueness
-          <>
-            {/* SEO-friendly hidden link */}
-            <a href={`/${store.storeName || store.id}`} className="sr-only" aria-label={`View store ${store?.ownerName || store?.storeName}`}>
-                {store?.ownerName || store?.storeName}
-            </a>
           <StorePanel
             key={`${store.id}-${index}`}
             store={store}
             deliveryMode={mode}
             isUserCord={isUserCord}
           />
-          </>
         ))}
         {stores.length === 0 && (
           <div className="col-span-full flex flex-col justify-center items-center text-center py-10 text-default-600 min-h-svh">

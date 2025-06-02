@@ -78,7 +78,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
     // If there are categories in initialFilterParams, use those
     // Otherwise select all categories by default
-    return initialFilterParams?.categories || [...allCategories];
+    return initialFilterParams?.categories || [];
   });
   
   const [selectedAllergies, setSelectedAllergies] = useState<string[]>(() => {
@@ -113,7 +113,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
         setSelectedCategories(initialFilterParams.categories);
       } else {
         // If no categories specified, select all by default
-        setSelectedCategories([...allCategories]);
+        setSelectedCategories([]);
       }
       
       if (initialFilterParams.allergies) {
@@ -213,18 +213,6 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     };
   }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary]);
 
-  // Reset all filters with throttling to prevent multiple resets
-  const resetFilters = useCallback(
-    throttle(() => {
-      setMinPrice(DEFAULT_MIN_PRICE);
-      setMaxPrice(DEFAULT_MAX_PRICE);
-      setSelectedCategories([...allCategories]);
-      setSelectedAllergies([]);
-      setSelectedDietary([]);
-    }, 300),
-    [allCategories]
-  );
-
   // Handle min price select change
   const handleMinPriceChange = useCallback((value: string) => {
     const newValue = Number(value);
@@ -314,18 +302,11 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       backdrop='blur'
       sidebarPlacement="right"
       sidebarWidth={320}
+      className={'bg-background'}
     >
       <div className="p-4">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-semibold">Filter Products</h3>
-          <Button 
-            size="sm" 
-            variant="ghost" 
-            color="secondary"
-            onPress={resetFilters}
-          >
-            Reset
-          </Button>
         </div>
 
         {isLoading ? (
@@ -402,7 +383,13 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
                 className="gap-2"
               >
                 {allCategories.map((category) => (
-                  <Checkbox key={category} value={category}>
+                  <Checkbox
+                      classNames={{
+                        wrapper: 'before:border-background-secondary',
+                      }}
+                      key={category}
+                      value={category}
+                  >
                     <span className="capitalize">{category}</span>
                   </Checkbox>
                 ))}
@@ -423,7 +410,13 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
                 className="gap-2"
               >
                 {ALLERGY_OPTIONS.map((allergy) => (
-                  <Checkbox key={allergy} value={allergy}>
+                  <Checkbox
+                        classNames={{
+                            wrapper: 'before:border-background-secondary',
+                        }}
+                      key={allergy}
+                      value={allergy}
+                  >
                     {renderAllergyOption(allergy)}
                   </Checkbox>
                 ))}
@@ -441,7 +434,13 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
                 className="gap-2"
               >
                 {Object.keys(iconSuperMap).map((diet) => (
-                  <Checkbox key={diet} value={diet}>
+                  <Checkbox
+                      classNames={{
+                          wrapper: 'before:border-background-secondary',
+                      }}
+                      key={diet}
+                      value={diet}
+                  >
                     {renderDietaryOption(diet)}
                   </Checkbox>
                 ))}

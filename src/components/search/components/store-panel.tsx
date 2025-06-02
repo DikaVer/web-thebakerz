@@ -283,6 +283,10 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
     return (
         <>
             <div ref={componentRef} className="relative">
+                {/* SEO-friendly hidden link */}
+                <a href={`/${store.storeName || store.id}`} className="sr-only" aria-label={`View store ${store?.ownerName || store?.storeName}`}>
+                    {store?.ownerName || store?.storeName}
+                </a>
                 <ModalSign 
                     message="And you add store to your favorites"
                 />

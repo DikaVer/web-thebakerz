@@ -131,7 +131,7 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
         if (params.searchTerm) newSearchParams.set('q', params.searchTerm);
         
         logger.debug('[ProductProvider] setFilterParams - newSearchParams before replace:', newSearchParams.toString());
-        router.replace(`?${newSearchParams.toString()}`, { scroll: false });
+        // router.replace(`?${newSearchParams.toString()}`, { scroll: false });
     };
 
     // Toggle product search and update URL
@@ -140,13 +140,8 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
         setIsProductSearchOpen(newValue);
         
         const newSearchParams = new URLSearchParams(searchParams.toString());
-        if (newValue) {
-            newSearchParams.set('isProductSearch', 'true');
-        } else {
-            newSearchParams.delete('isProductSearch');
-        }
         
-        router.replace(`?${newSearchParams.toString()}`, { scroll: false });
+        // router.replace(`?${newSearchParams.toString()}`, { scroll: false });
     };
 
     // Update state when URL changes (e.g., browser back/forward)
