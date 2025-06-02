@@ -73,6 +73,7 @@ export function FooterSimple() {
                                     width={32}
                                     height={32}
                                     radius={'none'}
+                                    alt="TheBakerz Logo"
                                 />
                             </div>
                             <span className={`text-2xl ml-2 ${pacifico.className}`}>{t("brandName")}</span>

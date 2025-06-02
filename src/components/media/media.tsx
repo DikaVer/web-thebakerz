@@ -121,6 +121,7 @@ export const Media = () => {
             width={150}
             height={150}
             className="rounded-full"
+            
         />
       </div>
     </div>

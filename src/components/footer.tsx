@@ -95,6 +95,7 @@ const Footer = () => {
                                     width={42}
                                     height={42}
                                     radius={'none'}
+                                    alt="TheBakerz Logo"
                                 />
                             </div>
                             <span className={`text-3xl ml-2 ${pacifico.className}`}>{t("brandName")}</span>

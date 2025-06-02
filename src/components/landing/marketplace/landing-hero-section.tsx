@@ -87,11 +87,13 @@ export const LandingHeroSection = () => {
 
       <div className=" flex w-full items-center gap-4 justify-end p-4">
         <Button
+          
             isIconOnly
             variant="light"
             size="sm"
             className="min-w-0"
             onPress={() => setIsLanguageOpen(true)}
+            aria-label="Change language"
         >
           <Icon icon="material-symbols-light:language" width={32} height={32} />
         </Button>
