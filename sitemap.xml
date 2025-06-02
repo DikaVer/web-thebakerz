@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">  
+  <!-- TheBakerz Sitemap Index - Main sitemap for marketplace -->
+  <!-- Last updated: 2025-06-02T17:06:00.151Z -->
+  <!-- Optimized for 2024 e-commerce SEO best practices -->
+  
+  <!-- Core static pages sitemap -->
+  <sitemap>
+    <loc>https://www.thebakerz.com/sitemap-pages.xml</loc>
+    <lastmod>2025-06-02T17:06:00.151Z</lastmod>
+  </sitemap>
+  
+  <!-- Store listings sitemap (dynamic stores) -->
+  <sitemap>
+    <loc>https://www.thebakerz.com/sitemap-stores.xml</loc>
+    <lastmod>2025-06-02T17:06:00.151Z</lastmod>
+  </sitemap>
+  
+  <!-- Product pages sitemap (dynamic products) -->
+  <sitemap>
+    <loc>https://www.thebakerz.com/sitemap-products.xml</loc>
+    <lastmod>2025-06-02T17:06:00.151Z</lastmod>
+  </sitemap>
+  
+  <!-- High-priority product categories (for better crawl budget management) -->
+  <sitemap>
+    <loc>https://www.thebakerz.com/sitemap-categories.xml</loc>
+    <lastmod>2025-06-02T17:06:00.151Z</lastmod>
+  </sitemap>
+  
+  <!-- Images sitemap for better image search visibility -->
+  <sitemap>
+    <loc>https://www.thebakerz.com/sitemap-images.xml</loc>
+    <lastmod>2025-06-02T17:06:00.151Z</lastmod>
+  </sitemap>
+  
+  <!-- Blog/content sitemap (if applicable) -->
+  <sitemap>
+    <loc>https://www.thebakerz.com/sitemap-blog.xml</loc>
+    <lastmod>2025-06-02T17:06:00.151Z</lastmod>
+  </sitemap>
+  
+  <!-- Video content sitemap (if applicable) -->
+  <sitemap>
+    <loc>https://www.thebakerz.com/sitemap-videos.xml</loc>
+    <lastmod>2025-06-02T17:06:00.151Z</lastmod>
+  </sitemap>
+  
+  <!-- News sitemap for timely content (if applicable) -->
+  <sitemap>
+    <loc>https://www.thebakerz.com/sitemap-news.xml</loc>
+    <lastmod>2025-06-02T17:06:00.151Z</lastmod>
+  </sitemap>
+
+</sitemapindex>

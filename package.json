@@ -11,7 +11,8 @@
     "translations:find-unused": "ts-node src/scripts/find-unused-translations.ts",
     "translations:sync": "ts-node src/scripts/sync-translations.ts",
     "translations:check": "ts-node src/scripts/check-translation-integrity.ts",
-    "translations:clean": "npm run translations:find-unused && npm run translations:sync && npm run translations:check"
+    "translations:clean": "npm run translations:find-unused && npm run translations:sync && npm run translations:check",
+    "sitemap:generate": "node scripts/generate-sitemaps.js"
   },
   "browserslist": {},
   "dependencies": {
@@ -83,6 +84,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.4.5",
     "embla-carousel": "^8.5.2",
     "embla-carousel-autoplay": "^8.5.2",
     "embla-carousel-class-names": "^8.5.2",

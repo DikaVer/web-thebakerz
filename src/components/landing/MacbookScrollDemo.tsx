@@ -25,7 +25,7 @@ export function MacbookScrollDemo() {
             className={`font-pacifico text-5xl sm:text-8xl text-white drop-shadow-xl justify-center max-w-4xl gap-y-8`}
           />
         }
-        src={`/landing/store.png`}
+        src={`/landing/store_upgrade.png`}
         showGradient={true}
       />
     </div>
