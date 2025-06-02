@@ -30,6 +30,7 @@ export const DeliveryTimeSelection: React.FC<DeliveryTimeSelectionProps> = ({
 
     return (
         <ButtonGroup
+            aria-label="Delivery time selection"
             fullWidth
             size="sm"
             radius="sm"
@@ -43,6 +44,7 @@ export const DeliveryTimeSelection: React.FC<DeliveryTimeSelectionProps> = ({
                 isPostDelivery={isPostDelivery}
             >
                 <Button
+                    aria-label="Delivery time"
                     startContent={
                         <div className="flex items-center justify-center w-6 h-6">
                             {isDateUpdating || isLoadingDate ? 

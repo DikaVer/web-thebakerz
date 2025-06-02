@@ -166,6 +166,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                 >
                     
                     <Button
+                        aria-label="Share product"
                         onPress={handleShareProduct}
                         isIconOnly={true}
                     >
@@ -218,6 +219,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
 
                             <div className="flex w-full justify-end gap-2">
                                 <Button
+                                    aria-label="Report product"
                                     className="aspect-square w-8 h-8  min-w-0 p-0 text-foreground border-small border-foreground"
                                     onPress={() => {
                                         if (!session?.user) {

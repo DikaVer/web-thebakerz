@@ -46,6 +46,7 @@ export const DayHoursComp: React.FC<DayHoursProps> = () => {
             <Spacer y={4}/>
             <div className={'w-full flex flex-row-reverse'}>
                 <Button
+                    aria-label="Edit day"
                     color={'secondary'}
                     className={'shadow'}
                     startContent={<Icon icon={"solar:pen-new-square-broken"} width={24}/>}

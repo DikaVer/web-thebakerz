@@ -44,6 +44,7 @@ export const ProductActions: React.FC<ProductActionsProps> = ({
                 <>
                     {isBakerzStore ? (
                         <Button
+                            aria-label="Edit item"
                             className={"w-full bg-gradient-primary"}
                             color="primary"
                             onPress={onEditItem}
@@ -54,12 +55,14 @@ export const ProductActions: React.FC<ProductActionsProps> = ({
                     ) : (
                         <>
                             <InputStepper
+                                aria-label="Quantity"
                                 min={minOrder || 1}
                                 max={999}
                                 value={quantity}
                                 onChange={setQuantity}
                             />
                             <Button
+                                aria-label="Add to cart"
                                 className={"w-full bg-gradient-primary"}
                                 color="primary"
                                 onPress={onUpdate}
@@ -72,6 +75,7 @@ export const ProductActions: React.FC<ProductActionsProps> = ({
              </>
             ) : (
                 <Button
+                    aria-label="View product"
                     className={"w-full bg-gradient-primary"}
                     color="primary"
                     onPress={onUpdate}

@@ -83,6 +83,7 @@ export default function FavoritesContent() {
                       <div className="flex justify-between items-center w-full">
                         <h3 className="text-foreground font-medium">{store.metadata?.storeName || "Store"}</h3>
                         <Button
+                          aria-label="Remove store from favorites"
                           isIconOnly
                           variant="light"
                           radius="full"
@@ -138,6 +139,7 @@ export default function FavoritesContent() {
                       <div className="flex justify-between items-center w-full">
                         <h3 className="text-foreground font-medium">{product.metadata?.productName || "Product"}</h3>
                         <Button
+                          aria-label="Remove product from favorites"
                           isIconOnly
                           variant="light"
                           radius="full"

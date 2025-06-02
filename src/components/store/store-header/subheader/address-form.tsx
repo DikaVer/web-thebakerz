@@ -625,6 +625,7 @@ export function AddressForm({
             transition={{ duration: 0.25, ease: "easeInOut" }}
           >
             <Button
+              aria-label="Submit address"
               type="submit"
               className='bg-gradient-primary'
               color="primary"

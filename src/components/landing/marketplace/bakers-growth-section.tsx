@@ -42,6 +42,7 @@ export const BakersGrowthSection = () => {
                 
                     <div className="flex w-full justify-end">
                         <Button 
+                            aria-label="Become a Bakerz"
                             color="primary" 
                             size="lg"
                             className="px-8 py-3 bg-gradient-primary rounded-full text-white font-medium"

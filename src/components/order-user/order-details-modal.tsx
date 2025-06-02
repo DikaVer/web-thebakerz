@@ -74,6 +74,7 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
                             <div className="flex items-center justify-between">
                                 <span className="text-xl">{t('orderDetails')}</span>
                                 <Button
+                                    aria-label="Close order details"
                                     isIconOnly
                                     variant="light"
                                     onPress={onClose}
@@ -111,7 +112,7 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
                         </ModalBody>
 
                         <ModalFooter>
-                            <Button variant="light" onPress={onClose}>
+                            <Button aria-label="Close order details" variant="light" onPress={onClose}>
                                 {t('close')}
                             </Button>
                         </ModalFooter>

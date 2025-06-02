@@ -252,6 +252,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                 <CardBody className="p-0">
                     <div className={`w-full aspect-square`}>
                         <Button
+                            aria-label="Add to favorites"
                             radius="full"
                             variant="light"
                             color="secondary"
@@ -267,7 +268,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                             <AnimatedHeart isFavorite={isFavorite} />
                         </Button>
                         {Array.isArray(productData.dietary) && productData.dietary.length > 0 && (
-                            <div className="absolute bottom-2 right-2 z-10">
+                            <div className="absolute bottom-2 right-2 z-20">
                                 <Popover 
                                     placement="top-end" 
                                     showArrow 
@@ -276,8 +277,8 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                     onOpenChange={handlePopoverOpenChange}
                                 >
                                     <PopoverTrigger>
-                                        <div 
-                                            ref={triggerRef}
+                                        <button 
+                                            aria-label="Dietary information"
                                             className="flex items-center gap-1 px-2 py-1 rounded-full bg-success-100 hover:bg-success-50 backdrop-blur-md cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md"
                                             onClick={(e) => {
                                                 e.preventDefault();
@@ -299,7 +300,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                                 {t2("Diet")}
                                             </span>
                                             <Icon icon="solar:info-circle-linear" className="text-success-600" width={16} />
-                                        </div>
+                                        </button>
                                     </PopoverTrigger>
                                     <PopoverContent
                                         className="p-1"
@@ -388,6 +389,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                         )}
                         {(store?.user_id !== session?.user?.id || isSearch) ? (
                             <Button 
+                                aria-label="Add to cart"
                                 className="w-full bg-background text-base"
                                 startContent={!isLoading && <Icon icon="material-symbols:add" width={24} />}
                                 onPress={handleAddToCart}
@@ -397,11 +399,12 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                             </Button>
                         ) : (
                             <Button 
-                            className="w-full bg-background text-base"
-                            startContent={!isLoading && <Icon icon="solar:pen-linear" width={24} />}
-                            onPress={handleEditItem}
-                            isLoading={isLoading}
-                        >
+                                aria-label="Edit product"
+                                className="w-full bg-background text-base"
+                                startContent={!isLoading && <Icon icon="solar:pen-linear" width={24} />}
+                                onPress={handleEditItem}
+                                isLoading={isLoading}
+                            >
                             Edit
                             </Button>
                         )}

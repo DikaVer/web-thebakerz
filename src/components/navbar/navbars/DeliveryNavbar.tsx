@@ -53,6 +53,7 @@ export const DeliveryNavbar: React.FC<DeliveryNavbarProps> = ({
             )}>
                     <div className="relative rounded-xl px-2 py-1 bg-background min-w-[160px]">
                         <ButtonGroup
+                            aria-label="Delivery options"
                             className="relative z-10 gap-2 overflow-hidden"
                             isDisabled={isTogglingDelivery}
                         >

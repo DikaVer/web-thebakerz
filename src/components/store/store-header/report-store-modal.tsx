@@ -129,6 +129,7 @@ export function ReportStoreModal({ isOpen, onOpenChange, storeName }: ReportStor
                 </ModalBody>
                 <ModalFooter>
                     <Button
+                        aria-label="Cancel"
                         color="danger"
                         variant="light"
                         onPress={onOpenChange}
@@ -137,6 +138,7 @@ export function ReportStoreModal({ isOpen, onOpenChange, storeName }: ReportStor
                         {t("cancel")}
                     </Button>
                     <Button
+                        aria-label="Submit"
                         color="primary"
                         className="bg-gradient-primary"
                         onPress={() => {

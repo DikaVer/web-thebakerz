@@ -860,6 +860,7 @@ const EditBakerzForm: React.FC<EditBakerzFormProps> = ({ store, businessData, pa
                     {/* Update Button */}
                     <div className="flex flex-row-reverse w-full">
                         <Button
+                            aria-label="Update Bakerz"
                             startContent={!isPending && <Icon icon="solar:settings-broken" width={24} />}
                             className="mt-4 shadow"
                             color="secondary"

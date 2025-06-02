@@ -37,6 +37,7 @@ export const LandingSigninButton = ({ className}: LandingSigninButtonProps) => {
     return session?.user ? (
         session.stores && session.stores.length > 0 ? (
             <Button
+                aria-label="Redirect to store"
                 isLoading={isLoading}
                 disabled={isLoading}
                 variant={'bordered'}
@@ -50,6 +51,7 @@ export const LandingSigninButton = ({ className}: LandingSigninButtonProps) => {
         )
     ) : (
         <Button
+            aria-label="Sign in"
             isLoading={isLoading}
             disabled={isLoading}
             variant={'bordered'}

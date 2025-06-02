@@ -89,7 +89,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                             <ModalHeader
                                 className={'pb-0 px-4'}
                             >
-                                <Button isIconOnly variant={'light'} radius={'full'} onPress={onClose}>
+                                <Button aria-label="Close" isIconOnly variant={'light'} radius={'full'} onPress={onClose}>
                                     <Icon icon="iconamoon:close-bold" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
                                 </Button>
                             </ModalHeader>
@@ -266,7 +266,7 @@ const StoreDescription: React.FC<{ isOpen: boolean, onOpenChange: () => void }> 
                                 )}
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="primary" radius={'full'} onPress={onClose}>
+                                <Button aria-label="Close" color="primary" radius={'full'} onPress={onClose}>
                                     {t("close")}
                                 </Button>
                             </ModalFooter>

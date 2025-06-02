@@ -33,6 +33,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ setFile, onUpload }) => {
                 onChange={handleChange}
             />
             <Button
+                aria-label="Upload image"
                 isIconOnly
                 className="h-5 w-5 min-w-5 bg-background p-0 text-foreground"
                 radius="full"

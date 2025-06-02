@@ -134,6 +134,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
                             </ModalBody>
                             <ModalFooter>
                                 <Button
+                                    aria-label="Change status"
                                     isDisabled={isLoading}
                                     isLoading={isLoading}
                                     color="primary"

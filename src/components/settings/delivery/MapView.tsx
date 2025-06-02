@@ -241,6 +241,7 @@ const MapView: React.FC<MapViewProps> = ({
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-medium">{t("mapView")}</h3>
         <Button
+          aria-label="Reset map"
           onPress={resetMap}
           size="sm"
           variant={'ghost'}

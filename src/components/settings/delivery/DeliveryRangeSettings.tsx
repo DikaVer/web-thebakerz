@@ -77,6 +77,7 @@ const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
               </label>
               {index > 0 && (
                 <Button 
+                  aria-label="Remove range"
                   isIconOnly
                   color="danger" 
                   variant="flat" 
@@ -188,6 +189,7 @@ const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
 
       <div className={'flex w-full justify-between'}>
         <Button
+          aria-label="Add range"
           color="primary"
           variant="flat"
           onPress={onAddRange}
@@ -200,6 +202,7 @@ const DeliveryRangeSettings: React.FC<DeliveryRangeSettingsProps> = ({
         </Button>
         
         <Button
+          aria-label="Add city"
           color="secondary"
           onPress={onSave}
           size="sm"

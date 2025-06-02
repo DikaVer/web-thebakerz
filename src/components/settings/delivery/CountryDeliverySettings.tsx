@@ -133,6 +133,7 @@ const CountryDeliverySettings: React.FC<CountryDeliverySettingsProps> = ({
         </div>
         
         <Button
+            aria-label="Add country"
             color="secondary"
             onPress={onSave}
             size="sm"

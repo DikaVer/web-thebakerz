@@ -29,6 +29,7 @@ export default function Error({ error, reset } : { error: Error, reset: () => vo
                 <p>{t("error")}</p>
                 <strong>{error.message}</strong>
                 <Button
+                    aria-label="Go back to TheBakerz"
                     size="md"
                     variant="light"
                     className="text-default-500"

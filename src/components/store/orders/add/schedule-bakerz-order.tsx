@@ -165,6 +165,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                     placeholder={t("scheduleOrderTime")}
                 >
                     <Button
+                        aria-label="Select pick up time"
                         startContent={<Icon icon={'solar:walking-round-linear'} width={24}/>}
                         isLoading={isLoading || isPending}
                         variant={selectedDate instanceof CalendarDateTime ? "bordered" : 'solid'}
@@ -218,10 +219,10 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                             />
                                         </ModalBody>
                                         <ModalFooter>
-                                            <Button variant="light" onPress={onClose}>
+                                            <Button aria-label="Close" variant="light" onPress={onClose}>
                                                 {t("close")}
                                             </Button>
-                                            <Button color="primary" variant="light" onPress={() => {
+                                            <Button aria-label="Copy link" color="primary" variant="light" onPress={() => {
                                                 onClose();
                                                 if(navigator.share) {   
                                                     navigator.share({
@@ -253,6 +254,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                             </p>
                             <div className={'flex w-full gap-x-8'}>
                                 <Button
+                                    aria-label="Yes"
                                     variant={'bordered'}
                                     className={`w-1/3`}
                                     isLoading={isLoading}
@@ -261,6 +263,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                     {t("yes")}
                                 </Button>
                                 <Button
+                                    aria-label="No"
                                     isLoading={isLoading}
                                     variant={'bordered'}
                                     className={`${!(selectedDate instanceof CalendarDateTime) ? "" : "bg-gradient-primary text-white border-none"}  w-2/3`}
@@ -364,6 +367,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                             </div>
                             <div className="flex justify-end w-full mt-4">
                                 <Button
+                                    aria-label="Create order"
                                     type="submit"
                                     variant={'bordered'}
                                     isLoading={isPending || isLoading}

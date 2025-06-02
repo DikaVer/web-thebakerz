@@ -155,6 +155,7 @@ const DeliveryScheduleModal: React.FC<DeliveryScheduleModalProps> = ({
         </ModalBody>
         <ModalFooter>
           <Button
+            aria-label="Cancel"
             color="danger"
             variant="light"
             onPress={onClose}
@@ -162,6 +163,7 @@ const DeliveryScheduleModal: React.FC<DeliveryScheduleModalProps> = ({
             {t("cancel")}
           </Button>
           <Button
+            aria-label="Save"
             color="primary"
             onPress={onSave}
           >

@@ -92,6 +92,7 @@ export function ScheduleOrder({
             <Spacer y={4} />
             <div className={'flex flex-row w-full justify-center'}>
                 <Button
+                    aria-label="Save order details"
                     variant={'bordered'}
                     isDisabled={!isNext}
                     className={`${
@@ -124,8 +125,8 @@ export function ScheduleOrder({
                         />
                     </ModalBody>
                     <ModalFooter>
-                        <Button variant="flat" onPress={onClose}>Cancel</Button>
-                        <Button color="primary" onPress={handleSaveNote}>Save</Button>
+                        <Button aria-label="Cancel" variant="flat" onPress={onClose}>Cancel</Button>
+                        <Button aria-label="Save order details" color="primary" onPress={handleSaveNote}>Save</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

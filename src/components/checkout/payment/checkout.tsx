@@ -124,6 +124,7 @@ function ErrorView({ error, onRetry }: ErrorViewProps) {
             </p>
             <Spacer y={4} />
             <Button
+                aria-label="Return to checkout"
                 className="bg-gradient-primary text-white"
                 onPress={onRetry}
             >

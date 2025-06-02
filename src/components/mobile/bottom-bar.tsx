@@ -55,12 +55,13 @@ const MobileBottomBar: React.FC = () => {
               {stores.length > 0 ? (
                 stores.map((storeItem) => (
                   <Button
+                    aria-label={`Open ${storeItem.name}`}
                     key={storeItem.id}
                     size="sm"
                     variant={storeItem.id === store?.id ? "solid" : "light"}
                     color={storeItem.id === store?.id ? "primary" : "default"}
                     className="justify-start w-full"
-                    onClick={() => {
+                    onPress={() => {
                       handleNavigation(`/${storeItem.name}`, `shop-${storeItem.id}`);
                       setIsStorePopoverOpen(false);
                     }}

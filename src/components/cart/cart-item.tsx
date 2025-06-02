@@ -102,6 +102,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                                 <p className="font-medium overflow-hidden text-ellipsis text-start">{productData.name}</p>
                                 {item.quantity > 1 && (
                                     <Button
+                                        aria-label="Delete item"
                                         size={'sm'}
                                         variant={'ghost'}
                                         isLoading={isLoading}

@@ -123,6 +123,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                     transition={{ duration: 0.3 }}
                                                 >
                                                     <Button
+                                                        aria-label="Expand variant"            
                                                         isIconOnly
                                                         size="sm"
                                                         variant="light"
@@ -135,6 +136,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                     </Button>
                                                 </motion.div>
                                                 <Button
+                                                    aria-label="Remove variant"
                                                     isIconOnly
                                                     size="sm"
                                                     color="danger"
@@ -277,6 +279,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                     transition={{ type: "spring", damping: 20, stiffness: 300 }}
                                                                 >
                                                                     <Input
+                                                                        aria-label="Option name"
                                                                         placeholder={t("optionName")}
                                                                         value={option.label}
                                                                         onChange={(e) => {
@@ -301,6 +304,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                         isDisabled={isPending}
                                                                     />
                                                                     <NumberInput
+                                                                        aria-label="Price"
                                                                         placeholder="0.00"
                                                                         value={option.price}
                                                                         onChange={(val) => {
@@ -332,6 +336,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                                             whileTap={{ scale: 0.95 }}
                                                                         >
                                                                             <Button
+                                                                                aria-label="Remove option"
                                                                                 isIconOnly
                                                                                 size="sm"
                                                                                 color="danger"
@@ -351,6 +356,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                                             whileTap={{ scale: 0.98 }}
                                                         >
                                                             <Button
+                                                                aria-label="Add option"
                                                                 size="sm"
                                                                 variant="flat"
                                                                 onPress={() => addOption(variantIndex)}
@@ -374,6 +380,7 @@ export const VariantsFormField = ({ form, isPending } : {form: UseFormReturn<z.i
                                         whileTap={{ scale: 0.95 }}
                                     >
                                         <Button
+                                            aria-label="Add option group"
                                             variant="flat"
                                             color="primary"
                                             onPress={addVariant}

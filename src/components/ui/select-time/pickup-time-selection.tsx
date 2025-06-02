@@ -32,6 +32,7 @@ export const PickupTimeSelection: React.FC<PickupTimeSelectionProps> = ({
             size="sm"
             radius="sm"
             className="text-grayText"
+            aria-label="Pickup time selection"
         >
             <SmartDatetimeInput
                 schedule={schedule}
@@ -41,6 +42,7 @@ export const PickupTimeSelection: React.FC<PickupTimeSelectionProps> = ({
                 placeholder={t("scheduleOrderTime")}
             >
                 <Button
+                    aria-label="Pickup time"
                     startContent={
                         <div className="flex items-center justify-center w-6 h-6">
                             {isDateUpdating || isLoadingDate ? <Spinner size="sm" color="current" /> : <Icon icon="solar:walking-round-linear" width={24}/>}

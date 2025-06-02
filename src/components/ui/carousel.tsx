@@ -213,6 +213,7 @@ const CarouselPrevious = React.forwardRef<
 
   return (
     <Button
+        aria-label="Previous slide"
         isIconOnly
       ref={ref}
       variant={variant}
@@ -227,7 +228,7 @@ const CarouselPrevious = React.forwardRef<
         className
       )}
       isDisabled={!canScrollPrev}
-      onClick={scrollPrev}
+      onPress={scrollPrev}
       {...props}
     >
       <ArrowLeft className="h-4 w-4" />
@@ -245,6 +246,7 @@ const CarouselNext = React.forwardRef<
 
   return (
     <Button
+        aria-label="Next slide"
       ref={ref}
       isIconOnly
       variant={variant}
@@ -259,7 +261,7 @@ const CarouselNext = React.forwardRef<
         className
       )}
       isDisabled={!canScrollNext}
-      onClick={scrollNext}
+      onPress={scrollNext}
       {...props}
     >
       <ArrowRight className="h-4 w-4" />

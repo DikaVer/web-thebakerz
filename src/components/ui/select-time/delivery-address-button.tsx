@@ -181,6 +181,7 @@ export const DeliveryAddressButton: React.FC = () => {
     return (
         <>
         <Button
+            aria-label="Delivery address"
             className={cn(buttonProps.className, "max-w-full")}
             variant="solid"
             radius="sm"

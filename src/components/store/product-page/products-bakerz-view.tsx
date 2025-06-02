@@ -694,6 +694,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                                     onConfirm={handleDelete}
                                 />
                                 <Button
+                                    aria-label="Delete product"
                                     variant="bordered"
                                     className="w-1/3 bg-white text-foreground"
                                     isDisabled={isPending || isLoading}
@@ -705,6 +706,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
                             </>
                         )}
                         <Button
+                            aria-label="Save product"
                             className={`w-2/3 bg-gradient-primary ${!productData?.id && "w-full"}`}
                             color="primary"
                             type="submit"

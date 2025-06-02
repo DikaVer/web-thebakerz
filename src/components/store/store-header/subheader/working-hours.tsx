@@ -135,6 +135,7 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
     if (!store?.schedule) {
         return (
             <Button
+                aria-label="Working hours"
                 size={"sm"}
                 variant="bordered"
                 radius={'md'}
@@ -163,6 +164,7 @@ export const renderWorkingHoursDropdown = ({store} : {store: StoreData}) => {
         >
             <DropdownTrigger>
                 <Button
+                    aria-label="Working hours"
                     size={"sm"}
                     variant="bordered"
                     radius={'md'}

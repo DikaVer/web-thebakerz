@@ -39,6 +39,7 @@ const SaveButton = memo(({ isMobile, handleSave, isSaveOpen, isBakerz, isLoading
     return (
         <div className={`fixed flex items-center justify-center w-full z-50 ${isMobile ? 'bottom-24' : 'bottom-8'} ${isBakerz && 'bottom-[100px]'}`}>
             <Button 
+                aria-label="Save changes"
                 color="primary"
                 isLoading={isLoading}
                 className="shadow-lg w-full max-w-2xl border-foreground border-2 bg-gradient-primary"

@@ -113,6 +113,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
         <div className="flex flex-col gap-2 relative">
             <ModalSign message={"And you add this product to your favorites"} />
             <Button
+                aria-label="Favorite"
                 radius="full"
                 variant="light"
                 color="secondary"

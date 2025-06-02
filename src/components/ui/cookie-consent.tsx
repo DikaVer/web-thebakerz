@@ -165,6 +165,7 @@ export default function CookieConsentComponent({id, isConsent, preferences, role
             <Spacer y={4} />
             <div className="flex flex-row justify-between gap-x-3">
                 <Button
+                    aria-label="Accept selected"
                     fullWidth
                     className={`bg-gradient-primary text-white`}
                     size="sm"
@@ -175,6 +176,7 @@ export default function CookieConsentComponent({id, isConsent, preferences, role
                     {t("acceptSelected")}
                 </Button>
                 <Button 
+                    aria-label="Reject all"
                     fullWidth 
                     variant="bordered"
                     className="text-foreground border-foreground/20"
@@ -201,6 +203,7 @@ export default function CookieConsentComponent({id, isConsent, preferences, role
             </p>
             <div className="flex flex-row gap-x-1 mt-4">
                 <Button
+                    aria-label="Accept all"
                     fullWidth
                     className={`bg-gradient-primary text-white text-xs px-1`}
                     radius="lg"
@@ -212,6 +215,7 @@ export default function CookieConsentComponent({id, isConsent, preferences, role
                     {t("acceptAll")}
                 </Button>
                 <Button
+                    aria-label="Accept essential"
                     fullWidth
                     className="border-foreground/20 font-medium text-foreground"
                     radius="lg"
@@ -224,6 +228,7 @@ export default function CookieConsentComponent({id, isConsent, preferences, role
                     {t("acceptEssential")}
                 </Button>
                 <Button
+                    aria-label="Cookie settings"
                     fullWidth
                     className="font-medium text-foreground/80 w-fit"
                     radius="lg"

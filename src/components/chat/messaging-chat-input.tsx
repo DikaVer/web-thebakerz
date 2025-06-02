@@ -26,7 +26,7 @@ const MessagingChatInput = React.forwardRef<HTMLInputElement, MessagingChatInput
           <div className="flex">
             {!message && (
               <Tooltip showArrow content="Speak">
-                <Button isIconOnly radius="full" variant="light">
+                <Button aria-label="Speak" isIconOnly radius="full" variant="light">
                   <Icon className="text-default-500" icon="solar:microphone-3-linear" width={20} />
                 </Button>
               </Tooltip>

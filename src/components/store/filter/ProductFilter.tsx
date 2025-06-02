@@ -369,6 +369,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
               <div className="flex justify-between items-center mb-3">
                 <h4 className="font-medium">Categories</h4>
                 <Button 
+                  aria-label="Remove all categories"
                   size="sm" 
                   variant="ghost" 
                   color="secondary"

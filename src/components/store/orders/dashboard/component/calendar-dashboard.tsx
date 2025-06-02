@@ -447,15 +447,16 @@ function CalendarDashboard({
         >
             <div className="flex justify-center bg-content1">
                 <ButtonGroup
+                    aria-label="Select date range"
                     fullWidth
                     className="px-3 max-w-full pb-2 pt-3 bg-content1 [&>button]:text-default-500 [&>button]:border-default-200/60"
                     radius="full"
                     size="sm"
                     variant="bordered"
                 >
-                    <Button onPress={handleTodayClick}>{t("today")}</Button>
-                    <Button onPress={handleThisWeekClick}>{t("thisWeek")}</Button>
-                    <Button onPress={handleThisMonthClick}>{t("thisMonth")}</Button>
+                    <Button aria-label="Select today" onPress={handleTodayClick}>{t("today")}</Button>
+                    <Button aria-label="Select this week" onPress={handleThisWeekClick}>{t("thisWeek")}</Button>
+                    <Button aria-label="Select this month" onPress={handleThisMonthClick}>{t("thisMonth")}</Button>
                 </ButtonGroup>
             </div>
 

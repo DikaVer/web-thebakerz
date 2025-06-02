@@ -29,6 +29,7 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
         <>
             <Spacer y={4}/>
             <Button
+                aria-label="Back to order dashboard"
                 size="md"
                 variant="light"
                 className="text-default-500 max-w-fit px-0 pr-1"

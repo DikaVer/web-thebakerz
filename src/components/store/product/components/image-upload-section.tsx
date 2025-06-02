@@ -45,6 +45,7 @@ export function ImageUploadSection({
                         >
                             {!isProductExisting && (
                                 <Button
+                                    aria-label="Remove main image"
                                     isIconOnly
                                     isDisabled={isPending}
                                     size="sm"
@@ -89,6 +90,7 @@ export function ImageUploadSection({
                             onClick={() => onAdditionalClick(index)}
                         >
                             <Button
+                                aria-label="Remove additional image"
                                 isDisabled={isPending}
                                 isIconOnly
                                 size="sm"

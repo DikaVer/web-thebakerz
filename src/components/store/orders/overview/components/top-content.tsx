@@ -79,6 +79,7 @@ export const OrderTopContent: React.FC<OrderTopContentProps> = ({ orderData, isU
             </div>
             {!isUser && (
                 <Button
+                    aria-label="Print invoice"
                     startContent={
                         <div className="w-[24px]">
                             <Icon icon="solar:printer-minimalistic-bold" width={24} height={24}/>

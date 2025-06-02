@@ -133,6 +133,7 @@ export default function ContactUsComponent() {
                             />
                             <FormError message={state?.error || undefined}/>
                             <Button
+                                aria-label="Submit"
                                 type="submit"
                                 className={'w-full rounded-xl bg-gradient-primary'}
                                 isLoading={isPending}

@@ -29,6 +29,7 @@ const SupportComponent: React.FC = () => {
                 </h2>
                 <div>
                     <Button
+                        aria-label="Contact us"
                         disableAnimation
                         className="bg-gradient-item font-medium text-background"
                         endContent={<Icon icon="lucide:chevron-right" width={24} />}

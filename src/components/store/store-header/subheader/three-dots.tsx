@@ -29,6 +29,7 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
             <DropdownTrigger>
                 { children ||
                     <Button
+                        aria-label="Open actions"
                         isIconOnly
                         size="lg"
                         color="default"

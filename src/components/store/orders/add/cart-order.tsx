@@ -95,6 +95,7 @@ const CartOrder: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                         </div>
                     </div>
                     <Button
+                        aria-label="Save cart details"
                         isLoading={isLoading}
                         className="w-full bg-gradient-primary text-2xl rounded-full text-white"
                         onPress={() => {

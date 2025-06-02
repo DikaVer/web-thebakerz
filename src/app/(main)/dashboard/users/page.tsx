@@ -114,6 +114,7 @@ export default function Page() {
                         }
                     />
                     <Button
+                        aria-label="Refresh users"
                         variant="light"
                         className={'shadow-medium'}
                         isIconOnly

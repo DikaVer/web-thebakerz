@@ -132,6 +132,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                 <>
                     <div className="flex w-full justify-end">
                         <Button
+                            aria-label="Add item"
                             isLoading={isLoading}
                             variant="bordered"
                             className="text-default-600 bg-gradient-card w-full max-w-52 border-small border-default-600"
@@ -219,6 +220,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                         )}
                     </div>
                     <Button
+                        aria-label="Pay"
                         isLoading={isLoading}
                         isDisabled={!canProceedToPayment}
                         className="w-full bg-gradient-primary text-2xl rounded-full text-white"
@@ -242,6 +244,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                     <p>{t("addItemsToStart")}</p>
                     <Spacer y={4} />
                     <Button
+                        aria-label="Add item"
                         isLoading={isLoading}
                         variant="bordered"
                         className="text-default-600 bg-gradient-card w-full max-w-52"

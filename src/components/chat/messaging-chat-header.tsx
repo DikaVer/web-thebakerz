@@ -21,6 +21,7 @@ const MessagingChatHeader = React.forwardRef<HTMLInputElement, MessagingChatHead
       >
         {page === 0 ? (
           <Button
+            aria-label="Open menu"
             isIconOnly
             className={cn("flex text-default-500", {
               "sm:hidden": page === 0,
@@ -33,6 +34,7 @@ const MessagingChatHeader = React.forwardRef<HTMLInputElement, MessagingChatHead
           </Button>
         ) : (
           <Button
+            aria-label="Go back"
             isIconOnly
             className="flex text-default-500 lg:hidden"
             size="sm"
@@ -65,6 +67,7 @@ const MessagingChatHeader = React.forwardRef<HTMLInputElement, MessagingChatHead
         </div>
 
         <Button
+          aria-label="New message"
           isIconOnly
           className="ml-auto h-[28px] w-[28px] min-w-[28px] rounded-[6px] border-1 border-default-200 p-0 text-default-400"
           variant="bordered"

@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 // Custom hook for hover functionality
 export const useHoverPopover = () => {
     const [isHovered, setIsHovered] = useState(false);
-    const triggerRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLElement>(null);
     const popoverRef = useRef<HTMLDivElement>(null);
     
     useEffect(() => {

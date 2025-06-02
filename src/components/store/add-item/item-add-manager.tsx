@@ -39,6 +39,7 @@ const ItemAddManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
             <div className="text-center">
                 <Spacer y={8} />
                 <Button
+                    aria-label="Add item"
                     className="w-full h-12 bg-gradient-primary text-white font-medium"
                     isLoading={isLoading}
                     endContent={
@@ -107,6 +108,7 @@ const ItemAddManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
             <Spacer y={8} />
             <div className={'flex justify-between'}>
                 <Button
+                    aria-label="Add item"
                     className="w-full h-12 bg-gradient-primary text-white font-medium"
                     isLoading={isLoading}
                     endContent={

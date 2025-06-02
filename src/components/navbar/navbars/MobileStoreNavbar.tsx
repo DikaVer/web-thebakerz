@@ -58,6 +58,7 @@ const MobileStoreNavbar: React.FC = () => {
               {stores.length > 0 ? (
                 stores.map((storeItem) => (
                   <Button
+                    aria-label={`Open ${storeItem.name}`}
                     key={storeItem.id}
                     size="sm"
                     variant={storeItem.id === store?.id ? "solid" : "light"}

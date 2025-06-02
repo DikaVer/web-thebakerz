@@ -53,10 +53,12 @@ const ModalSignIn = ({
               variant="light" 
               className="flex-1 border border-gray-200 hover:bg-gray-100"
               onPress={handleClose}
+              aria-label="Not now"
             >
               Not now
             </Button>
             <Button 
+              aria-label="Login"
               className="flex-1 bg-gradient-primary text-white border-0 hover:bg-gradient-primary/80"
               onPress={handleSignIn}
             >

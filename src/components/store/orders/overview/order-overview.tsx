@@ -35,6 +35,7 @@ export const OrderOverview: React.FC<OrderOverviewProps> = ({orderData, from, to
         <div className={'flex flex-col w-full max-w-2xl container'}>
             {isStore ? (
                 <Button
+                    aria-label="Back to order dashboard"
                     size="md"
                     variant="light"
                     className="text-default-500 max-w-fit px-0 pr-2"
@@ -55,6 +56,7 @@ export const OrderOverview: React.FC<OrderOverviewProps> = ({orderData, from, to
                 </Button>
             ) : (
                 <Button
+                    aria-label="Back to order dashboard"
                     size="md"
                     variant="light"
                     className="text-default-500 max-w-fit px-0 pr-2"

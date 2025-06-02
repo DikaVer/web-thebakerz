@@ -41,7 +41,7 @@ const SuccessRedirect: React.FC<SuccessRedirectProps> = ({ redirectPage, text })
                     {countdown} {t("seconds")}
                 </div>
                 <p>{t("holdTight")}</p>
-                <Button onPress={() => router.replace(redirectPage)} className="rounded-xl">
+                <Button aria-label="Redirect now" onPress={() => router.replace(redirectPage)} className="rounded-xl">
                     {t("redirectNow")}
                 </Button>
             </CardBody>

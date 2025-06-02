@@ -57,6 +57,7 @@ export const JoinButton = ({ className}: JoinButtonProps) => {
 
     return (
         <Button
+            aria-label="Join the Bakerz"
             isLoading={isLoading}
             disabled={isLoading}
             className={`${isLoading ? "px-6" : "px-4"} text-white bg-gradient-primary text-large shadow-xl rounded-3xl ${className}`}

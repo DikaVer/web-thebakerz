@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, NavbarBrand, NavbarContent, Avatar, ButtonGroup } from "@heroui/react";
+import { Button, NavbarBrand, NavbarContent, Avatar, ButtonGroup, NavbarItem } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
@@ -55,11 +55,12 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
 
     return (
         <>
-            <NavbarBrand className="flex items-center space-x-3 sm:space-x-8">
+            <NavbarItem className="flex items-center space-x-3 sm:space-x-8">
                     {store ? (
                         <>
                         <Button
-                        size="md"
+                            aria-label="Go back"
+                            size="md"
                             variant="flat"
                             className="text-foreground"
                             onPress={handleBack}
@@ -104,9 +105,9 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                         store={store}
                     />
                 )}
-            </NavbarBrand>
+            </NavbarItem>
 
-            <NavbarContent className="flex flex-row-reverse gap-4 justify-end">
+            <NavbarItem className="flex flex-row-reverse gap-4 justify-end">
                 <ProfilePopover
                     session={session}
                     trigger={
@@ -124,6 +125,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                     }
                 />
                 <Button
+                    aria-label="Change language"
                     isIconOnly
                     variant="light"
                     size="sm"
@@ -132,7 +134,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                 >
                     <Icon icon="material-symbols-light:language" width={32} height={32} />
                 </Button>
-            </NavbarContent>
+            </NavbarItem>
             {isLanguageOpen && <LanguageModal handAction={() => setIsLanguageOpen(false)}/>}
         </>
     );

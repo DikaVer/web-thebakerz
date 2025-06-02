@@ -42,6 +42,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                     className={'mb-4 '}
                 >
                     <Button
+                        aria-label="Select English"
                         variant={'light'}
                         size={'lg'}
                         className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
@@ -54,6 +55,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                         English
                     </Button>
                     <Button
+                        aria-label="Select Dutch"
                         variant={'light'}
                         size={'lg'}
                         className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
@@ -68,6 +70,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                         </div>
                     </Button>
                     <Button
+                        aria-label="Select German"
                         variant={'light'}
                         size={'lg'}
                         className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
@@ -82,6 +85,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                         </div>
                     </Button>
                     <Button
+                        aria-label="Select French"
                         variant={'light'}
                         size={'lg'}
                         className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
@@ -96,6 +100,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                         </div>
                     </Button>
                     <Button
+                        aria-label="Select Russian"
                         variant={'light'}
                         size={'lg'}
                         className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
@@ -110,6 +115,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                         </div>
                     </Button>
                     <Button
+                        aria-label="Select Ukrainian"
                         variant={'light'}
                         size={'lg'}
                         className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}

@@ -18,6 +18,7 @@ export default function PaymentSupportButton({error, description}: {error: strin
     return !isSuccess ? (
             <Button
                 type="submit"
+                aria-label="Send payment support request"
                 className={'rounded-xl bg-gradient-primary'}
                 isLoading={isPending}
                 disabled={isPending}

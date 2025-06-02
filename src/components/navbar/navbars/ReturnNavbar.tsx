@@ -45,6 +45,7 @@ export const ReturnNavbar: React.FC<ReturnNavbarProps> = ({
         <>
             <NavbarItem className="ml-1 !flex">
                 <Button
+                    aria-label="Go back to store"
                     size="md"
                     variant="flat"
                     isIconOnly

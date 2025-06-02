@@ -27,6 +27,7 @@ export const SigninButton = ({ className}: SigninButtonProps) => {
 
     return (
         <Button
+            aria-label="Sign in"
             isLoading={isLoading}
             disabled={isLoading}
             className={`bg-background-secondary rounded-full`}

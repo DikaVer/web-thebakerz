@@ -16,6 +16,7 @@ export function DescriptionTitleSection() {
             <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-base">{t("Description")}</span>
                 <Button
+                    aria-label="Description help"
                     isIconOnly
                     variant="light"
                     size="sm"
@@ -38,6 +39,7 @@ export function IngredientsTitleSection() {
             <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-base">{t("Ingredients")}</span>
                 <Button
+                    aria-label="Ingredients help"
                     isIconOnly
                     variant="light"
                     size="sm"
@@ -60,6 +62,7 @@ export function AllergiesTitleSection() {
             <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-base">{t("Allergies")}</span>
                 <Button
+                    aria-label="Allergies help"
                     isIconOnly
                     variant="light"
                     size="sm"
@@ -82,6 +85,7 @@ export function DietaryTitleSection() {
             <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-base">{t("Dietary Restrictions")}</span>
                 <Button
+                    aria-label="Dietary help"
                     isIconOnly
                     variant="light"
                     size="sm"
@@ -105,6 +109,7 @@ export function VariantsTitleSection() {
             <div className="flex items-center justify-between mb-4">
                 <span className="font-medium text-base">{t("Item Options")}</span>
                 <Button
+                    aria-label="Item options help"
                     isIconOnly
                     variant="light"
                     size="sm"
@@ -169,6 +174,7 @@ export function ProductTitleSection({ isPending }: ProductTitleSectionProps) {
                 </div>
                 <Tooltip content={t("Needhelp")}>
                     <Button
+                        aria-label="Help"
                         isIconOnly
                         variant="light"
                         onPress={() => setIsHelpOpen(true)}

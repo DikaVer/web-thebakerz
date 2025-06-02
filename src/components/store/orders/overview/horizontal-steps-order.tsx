@@ -310,6 +310,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                                     {/*    {!isLoading && t("Change Send Email")}*/}
                                     {/*</Button>*/}
                                     <Button
+                                        aria-label="Change status"
                                         isDisabled={isLoading}
                                         isLoading={isLoading}
                                         color="primary"

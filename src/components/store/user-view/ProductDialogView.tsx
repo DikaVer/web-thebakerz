@@ -209,7 +209,7 @@ export default function ProductDialogView({
                     productId={productData.id}
                 />
             <ModalHeader className={'px-4 justify-between'}>
-                <Button isIconOnly variant={'light'} radius={'full'} onPress={onClose}>
+                <Button aria-label="Close" isIconOnly variant={'light'} radius={'full'} onPress={onClose}>
                     <Icon icon="iconamoon:close-bold" width={32} className="text-default-400" strokeWidth={2} stroke={"2"}/>
                 </Button>
                 {isBakerzStore && (
@@ -219,6 +219,7 @@ export default function ProductDialogView({
                 )}
                 <div className="flex items-center gap-2">
                     <Button
+                        aria-label="Share product"
                         onPress={handleShareProduct}
                         isIconOnly={true}
                     >
@@ -269,6 +270,7 @@ export default function ProductDialogView({
                             />
                             <div className="flex w-full justify-end gap-2">
                                 <Button
+                                    aria-label="Report product"
                                     className="aspect-square w-8 h-8 min-w-0 p-0 text-foreground border-small border-foreground"
                                     onPress={() => {
                                         if (!session?.user) {

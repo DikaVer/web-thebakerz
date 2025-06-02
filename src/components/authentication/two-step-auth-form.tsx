@@ -199,6 +199,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                                         )}
                                     />
                                     <Button
+                                        aria-label="Continue with email"
                                         fullWidth
                                         type="submit"
                                         endContent={<Icon icon="solar:arrow-right-broken" height={24} />}
@@ -264,6 +265,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                                         <div className="flex justify-between">
                                             <Tooltip content={t("goBack")} delay={300}>
                                                 <Button
+                                                    aria-label="Go back"
                                                     isIconOnly
                                                     size="sm"
                                                     variant="ghost"
@@ -278,6 +280,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                                                 </Button>
                                             </Tooltip>
                                             <Button
+                                                aria-label="Verify email"
                                                 endContent={<Icon icon="solar:arrow-right-broken" height={24} />}
                                                 type="submit"
                                                 isLoading={isPendingOTP}
@@ -308,6 +311,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                             className={"w-full"}
                         >
                             <Button
+                                aria-label="Continue with Google"
                                 type="submit"
                                 variant={"outline"}
                                 className={"w-full py-5"}
@@ -341,6 +345,7 @@ export default function TwoStepAuthForm({ setIsLogin, handleNext, storeId }: { s
                         <>
                             <Spacer y={1} />
                             <Button
+                                aria-label="Continue as guest"
                                 variant={"outline"}
                                 className={"w-full py-5"}
                                 disabled={isPendingEmail}

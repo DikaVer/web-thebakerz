@@ -725,6 +725,7 @@ const OnboardPage = React.forwardRef<HTMLDivElement, ProfileSettingCardProps>(
                         {/* Onboard Button can be added here */}
                         <div className="flex flex-row-reverse w-full">
                             <Button
+                                aria-label="Onboard Bakerz"
                                 startContent={!isPending && <Icon icon="solar:settings-broken" width={24} />}
                                 className="mt-4 shadow"
                                 color="secondary"

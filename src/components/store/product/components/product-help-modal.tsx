@@ -34,7 +34,7 @@ export function ProductHelpModal({ isOpen, onClose }: ProductHelpModalProps) {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button className="bg-gradient-primary" color="primary" onPress={onClose}>
+                    <Button aria-label="Close" className="bg-gradient-primary" color="primary" onPress={onClose}>
                         {t("Close")}
                     </Button>
                 </ModalFooter>
@@ -59,7 +59,7 @@ export function DescriptionHelpModal({ isOpen, onClose }: ProductHelpModalProps)
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button className="bg-gradient-primary" color="primary" onPress={onClose}>
+                    <Button aria-label="Close" className="bg-gradient-primary" color="primary" onPress={onClose}>
                         {t("Close")}
                     </Button>
                 </ModalFooter>
@@ -84,7 +84,7 @@ export function IngredientsHelpModal({ isOpen, onClose }: ProductHelpModalProps)
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button className="bg-gradient-primary" color="primary" onPress={onClose}>
+                    <Button aria-label="Close" className="bg-gradient-primary" color="primary" onPress={onClose}>
                         {t("Close")}
                     </Button>
                 </ModalFooter>
@@ -109,7 +109,7 @@ export function AllergiesHelpModal({ isOpen, onClose }: ProductHelpModalProps) {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button className="bg-gradient-primary" color="primary" onPress={onClose}>
+                    <Button aria-label="Close" className="bg-gradient-primary" color="primary" onPress={onClose}>
                         {t("Close")}
                     </Button>
                 </ModalFooter>
@@ -134,7 +134,7 @@ export function DietaryHelpModal({ isOpen, onClose }: ProductHelpModalProps) {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button className="bg-gradient-primary" color="primary" onPress={onClose}>
+                    <Button aria-label="Close" className="bg-gradient-primary" color="primary" onPress={onClose}>
                         {t("Close")}
                     </Button>
                 </ModalFooter>
@@ -159,7 +159,7 @@ export function VariantsHelpModal({ isOpen, onClose }: ProductHelpModalProps) {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button className="bg-gradient-primary" color="primary" onPress={onClose}>
+                    <Button aria-label="Close" className="bg-gradient-primary" color="primary" onPress={onClose}>
                         {t("Close")}
                     </Button>
                 </ModalFooter>

@@ -99,6 +99,7 @@ const CountryList: React.FC<CountryListProps> = ({
                 <div className="flex gap-2 items-center">
                   {onEditCountry && (
                     <Button
+                      aria-label="Edit country"
                       size="sm"
                       color="primary"
                       variant="light"
@@ -111,6 +112,7 @@ const CountryList: React.FC<CountryListProps> = ({
                   )}    
                   {country.isStoreDelivery && (
                     <Button
+                      aria-label="Manage schedule"
                       size="sm"
                       color="primary"
                       variant="light"
@@ -122,6 +124,7 @@ const CountryList: React.FC<CountryListProps> = ({
                   )}
                   
                   <Button
+                    aria-label="Remove country"
                     size="sm"
                     color="danger"
                     variant="light"

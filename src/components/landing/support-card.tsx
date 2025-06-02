@@ -32,6 +32,7 @@ const SupportCard = React.forwardRef<HTMLDivElement, SupportCardProps>(
                     {t("supportCardMessage")}
                 </div>
                 <Button
+                    aria-label="Contact us"
                     isIconOnly
                     className="align-center flex h-[32px] w-[31px] justify-center rounded-[12px] bg-default-100 dark:bg-[#27272A]/[.4]"
                     size="sm"

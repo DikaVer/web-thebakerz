@@ -43,6 +43,7 @@ export const InfoPopover: React.FC<InfoPopoverProps> = ({ type }) => {
     <Popover placement="top">
       <PopoverTrigger>
         <Button
+          aria-label="Help"
           isIconOnly
           size="sm"
           variant="light"

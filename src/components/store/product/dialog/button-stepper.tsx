@@ -195,6 +195,7 @@ export function InputStepper({
         >
             <Tooltip content={isCart && localValue <= 1 ? t("deleteItem") : t("removeItem")}>
                 <Button
+                    aria-label="Remove item"
                     isIconOnly
                     variant="bordered"
                     radius="full"
@@ -228,6 +229,7 @@ export function InputStepper({
                 ) : (
                     <>
                         <input
+                            aria-label="Quantity"
                             ref={inputRef}
                             className={cn(
                                 showCaret ? 'caret-primary' : 'caret-transparent',
@@ -244,6 +246,7 @@ export function InputStepper({
                             onInput={handleInput}
                         />
                         <NumberFlow
+                            aria-label="Quantity"
                             value={localValue}
                             format={{useGrouping: false}}
                             aria-hidden
@@ -258,6 +261,7 @@ export function InputStepper({
             </div>
             <Tooltip content={t("addItem")}>
                 <Button
+                    aria-label="Add item"
                     isIconOnly
                     variant="bordered"
                     radius="full"

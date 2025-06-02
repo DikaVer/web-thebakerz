@@ -39,6 +39,7 @@ export const SignOutButton = ({isCollapsed} : SignOutButtonProps) => {
     return (
         <Tooltip content={t("logOut")} isDisabled={!isCollapsed} placement="right">
             <Button
+                aria-label="Sign out"
                 className={cn("justify-start text-grayText data-[hover=true]:text-foreground data-[hover=true]:bg-default/40", {
                     "justify-center": isCollapsed,
                 })}

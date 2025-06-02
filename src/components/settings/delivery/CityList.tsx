@@ -102,6 +102,7 @@ const CityList: React.FC<CityListProps> = ({
                 <>
                   {onEditCity && (
                     <Button
+                      aria-label="Edit city"
                       size="sm"
                       color="primary"
                       variant="light"
@@ -113,6 +114,7 @@ const CityList: React.FC<CityListProps> = ({
                     </Button>
                   )}
                   <Button
+                    aria-label="Manage schedule"
                     size="sm"
                     color="primary"
                     variant="light"
@@ -123,6 +125,7 @@ const CityList: React.FC<CityListProps> = ({
                   </Button>
               
                   <Button
+                    aria-label="Remove city"
                     size="sm"
                     color="danger"
                     variant="light"
@@ -138,6 +141,7 @@ const CityList: React.FC<CityListProps> = ({
                   <>
                     {onEditCity && (
                       <Button
+                        aria-label="Edit city"
                         size="sm"
                         color="primary"
                         variant="light"
@@ -149,6 +153,7 @@ const CityList: React.FC<CityListProps> = ({
                       </Button>
                     )}
                     <Button
+                      aria-label="Manage schedule"
                       size="sm"
                       color="primary"
                       variant="light"
@@ -159,6 +164,7 @@ const CityList: React.FC<CityListProps> = ({
                     </Button>
                 
                     <Button
+                      aria-label="Remove city"
                       size="sm"
                       color="danger"
                       variant="light"

@@ -146,6 +146,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({ setIsLoadingTime, orderD
                 <div className="flex justify-end items-end gap-2">
                     {store && (
                         <Button
+                            aria-label="Add order"
                             isLoading={isLoading}
                             startContent={
                                 <Icon icon="solar:document-add-linear" width={24} />

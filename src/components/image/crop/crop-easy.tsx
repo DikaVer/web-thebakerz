@@ -176,6 +176,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
             </ModalBody>
             <ModalFooter>
                 <Button
+                    aria-label="Upload image"
                     color="secondary"
                     onPress={cropImage}
                     className="text-white shadow"

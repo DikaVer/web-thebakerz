@@ -76,9 +76,11 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
         }}
       >
         <PopoverTrigger>
-          <div 
-            ref={triggerRef}
-            className="cursor-pointer"
+          <button 
+            
+            className="cursor-pointer bg-transparent border-none p-0 m-0 outline-none focus:outline-none"
+            type="button"
+            aria-label="Open profile menu"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -98,7 +100,7 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
             }}
           >
             {trigger}
-          </div>
+          </button>
         </PopoverTrigger>
         <PopoverContent>
           <div 
@@ -123,6 +125,7 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
                           <h3 className="text-xl font-semibold">{t("loginTitle")}</h3>
                           <p className="text-sm text-foreground/60">{t("loginDescription")}</p>
                           <Button 
+                              aria-label="Login"
                               className="bg-gradient-primary font-medium rounded-md w-full mt-2 py-6"
                               color="primary"
                               onPress={() => {
@@ -163,6 +166,7 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
                         <div className="flex flex-col w-full gap-2 max-h-[180px] overflow-y-auto">
                             {stores.map((storeItem) => (
                                 <Button
+                                    aria-label={`Open ${storeItem.name || storeItem.id}`}
                                     key={storeItem.id}
                                     size="sm"
                                     variant={storeItem.id === store?.id ? "solid" : "light"}

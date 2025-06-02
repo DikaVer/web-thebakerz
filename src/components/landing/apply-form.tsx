@@ -189,6 +189,7 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                         <FormError message={stateStarted?.error || undefined} />
                                         <div className="w-full flex justify-end">
                                             <Button
+                                                aria-label="Get started"
                                                 fullWidth
                                                 className="bg-gradient-primary w-fit"
                                                 type="submit"
@@ -260,6 +261,7 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                         >
                                                             <Tooltip content={t("goBack")} delay={3000}>
                                                                 <Button
+                                                                    aria-label="Go back"
                                                                     isIconOnly
                                                                     size="sm"
                                                                     variant="ghost"
@@ -277,6 +279,7 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
                                                 </AnimatePresence>
                                             </m.div>
                                             <Button
+                                                aria-label="Submit application"
                                                 fullWidth
                                                 className="bg-gradient-primary w-fit"
                                                 type="submit"

@@ -252,6 +252,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                     )}  
                                 </div>
                                 <Button 
+                                    aria-label="Share"
                                     isIconOnly
                                     variant="light"
                                     className="text-white h-10 min-w-10 p-0"
@@ -307,6 +308,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                     )}
                                 <div className="flex items-center gap-2">  
                                     <Button
+                                        aria-label="Open description"
                                         variant="light"
                                         className="aspect-square w-12 h-12 min-w-0 p-0 bg-white/70 text-foreground"
                                         onPress={onOpen}
@@ -317,6 +319,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                         />
                                     </Button>
                                     <Button
+                                        aria-label="Like store"
                                         variant="light"
                                         className={`text-3xl font-medium w-fit h-12 min-w-0 p-0 px-2 bg-white/70 text-foreground transition-all duration-300 ${
                                             isAnimating ? 'scale-105' : 'scale-100'
@@ -333,6 +336,7 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                                 </div>
                                 <div className="flex w-full justify-end items-center gap-2">
                                     <Button
+                                        aria-label="Report store"
                                         variant="light"
                                         className="aspect-square w-12 h-12 min-w-0 p-0 text-white"
                                         onPress={() => {

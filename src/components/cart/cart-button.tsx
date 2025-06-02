@@ -170,6 +170,7 @@ const CartButton: React.FC<CartButtonProps> = ({
         <div className="flex flex-col w-full">
             <motion.div animate={controls} className="flex items-center w-full">
                 <Button
+                    aria-label="Open cart"
                     className={cn("bg-gradient-primary text-white flex items-center justify-between gap-2 px-3 py-2 rounded-full", isMobileNavbar && "w-full")}
                     onPress={handleOpenDrawer}
                     endContent={
@@ -228,6 +229,7 @@ const CartButton: React.FC<CartButtonProps> = ({
                                             {t("preOrderTime", { time: preOrderTime.formatted })}
                                         </p>
                                         <Button
+                                            aria-label="Continue to checkout"
                                             isLoading={isLoading}
                                             isDisabled={!canProceedToCheckout}
                                             className="w-full bg-gradient-primary text-2xl rounded-full text-white"

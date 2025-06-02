@@ -291,6 +291,7 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
                     message="And you add store to your favorites"
                 />
                 <Button
+                    aria-label="Add store to favorites"
                     radius="full"
                     variant="light"
                     color="secondary"
