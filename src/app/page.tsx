@@ -4,64 +4,60 @@ import { BakersGrowthSection } from '@/components/landing/marketplace/bakers-gro
 import { getSearchCoordinates } from '@/lib/actions/cookies/delivery-cookie';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getLocale } from 'next-intl/server';
-import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata'; // Import base metadata function and translations
+import { getLocale } from 'next-intl/server'; // Kept for potential future use, though hardcoding to 'en' now
+import { getLocalizedMetadata } from '@/components/metadata'; // Removed metadataTranslations
 import Partners from '@/components/landing/partners';
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 
 // Define specific metadata overrides for the homepage
 const pageMetadataTranslations = {
     en: {
-        title: 'Find Local Bakeries & Pastry Shops Near You | TheBakerz Marketplace',
-        description: 'Easily find and order from the best local artisanal bakeries, home bakers, and pastry shops near you. Enter your address to discover fresh bread, cakes, pastries, and more on TheBakerz.',
-        keywords: 'find local bakery, bakery near me, pastry shop near me, order bread online, order cake online, local food delivery, artisanal bread delivery, home bakery near me, TheBakerz marketplace',
-        ogTitle: 'Discover & Order from Local Bakeries Near You | TheBakerz',
-        ogDescription: 'Find the best artisanal bread, pastries, and cakes from local bakers. Enter your address and explore bakeries near you on TheBakerz.',
-        twitterTitle: 'Find Local Bakeries & Pastry Shops Nearby | TheBakerz',
-        twitterDescription: 'Craving fresh baked goods? 🥐🎂 Find and order from local artisanal bakeries near you on TheBakerz marketplace. #localbakery #bakerynearme #pastries #cakes #bread'
-    },
-    nl: {
-        title: 'Vind Lokale Bakkers & Patissiers bij Jou in de Buurt | TheBakerz Marktplaats',
-        description: 'Vind en bestel eenvoudig bij de beste lokale ambachtelijke bakkers, thuisbakkers en patissiers bij jou in de buurt. Voer je adres in en ontdek vers brood, taarten, gebak en meer op TheBakerz.',
-        keywords: 'lokale bakker vinden, bakker in de buurt, patisserie in de buurt, online brood bestellen, online taart bestellen, lokale voedselbezorging, ambachtelijk brood bezorgen, thuisbakker in de buurt, TheBakerz marktplaats',
-        ogTitle: 'Ontdek & Bestel bij Lokale Bakkers in de Buurt | TheBakerz',
-        ogDescription: 'Vind het beste ambachtelijke brood, gebak en taarten van lokale bakkers. Voer je adres in en verken bakkerijen bij jou in de buurt op TheBakerz.',
-        twitterTitle: 'Vind Lokale Bakkers & Patisserieën in de Buurt | TheBakerz',
-        twitterDescription: 'Zin in verse baksels? 🥐🎂 Vind en bestel bij lokale ambachtelijke bakkers bij jou in de buurt op de TheBakerz marktplaats. #lokalebakker #bakkerindebuurt #gebak #taarten #brood'
+        title: 'Local Bakeries & Pastry Shops Near You | TheBakerz', // < 60 chars
+        description: 'Find & order from local artisanal bakeries, home bakers & pastry shops. Discover fresh bread, cakes & pastries on TheBakerz. Explore now!', // < 160 chars, CTA
+        keywords: 'local bakery, bakery near me, pastry shop near me, order bread online, cake delivery, artisanal bread, home bakery, TheBakerz, find bakers', // Optimized keywords
+        ogTitle: 'Discover & Order From Local Bakeries | TheBakerz', // Optimized OG Title
+        ogDescription: 'Find artisanal bread, pastries & cakes from local bakers. Explore bakeries near you & order on TheBakerz today!', // Optimized OG Description, CTA
+        twitterTitle: 'Find Local Bakeries & Pastry Shops | TheBakerz', // Optimized Twitter Title
+        twitterDescription: 'Craving fresh baked goods? 🥐🎂 Find & order from local bakeries near you on TheBakerz. #localbakery #bakerynearme #TheBakerz' // Optimized Twitter Description
     }
+    // NL translations removed
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-    const locale = await getLocale();
-    const baseMetadata = getLocalizedMetadata(locale);
-
-    let localeKey: 'en' | 'nl' = 'en';
-    if (locale === 'nl-NL' || locale === 'nl') {
-        localeKey = 'nl';
-    }
+    // const locale = await getLocale(); // Hardcoding to 'en' for now
+    const localeKey: 'en' = 'en'; // Explicitly 'en'
+    const baseMetadata = getLocalizedMetadata(localeKey);
 
     const pageSpecifics = pageMetadataTranslations[localeKey];
-    const baseKeywords = metadataTranslations[localeKey].keywords.split(', ');
+    const baseKeywords = baseMetadata.keywords || []; // Get base keywords from the already localized metadata
     const pageKeywords = pageSpecifics.keywords.split(', ');
+
+    const canonicalUrl = `https://www.thebakerz.com/`; // Root canonical for homepage
 
     // Merge metadata
     return {
         ...baseMetadata,
-        title: pageSpecifics.title, // Override title
-        description: pageSpecifics.description, // Override description
-        keywords: Array.from(new Set([...baseKeywords, ...pageKeywords])), // Merge and deduplicate keywords
+        title: pageSpecifics.title, 
+        description: pageSpecifics.description, 
+        keywords: Array.from(new Set([...baseKeywords, ...pageKeywords])),
         alternates: {
             ...baseMetadata.alternates,
+            canonical: canonicalUrl, // Set specific canonical for homepage
+            languages: { // Ensure only en-US and x-default for homepage
+                'en-US': canonicalUrl,
+                'x-default': canonicalUrl,
+            }
         },
         openGraph: {
             ...baseMetadata.openGraph,
-            title: pageSpecifics.ogTitle, // Override OG title
-            description: pageSpecifics.ogDescription, // Override OG description
+            title: pageSpecifics.ogTitle, 
+            description: pageSpecifics.ogDescription, 
+            url: canonicalUrl, // OG URL should be the canonical homepage URL
         },
         twitter: {
             ...baseMetadata.twitter,
-            title: pageSpecifics.twitterTitle, // Override Twitter title
-            description: pageSpecifics.twitterDescription, // Override Twitter description
+            title: pageSpecifics.twitterTitle, 
+            description: pageSpecifics.twitterDescription, 
         },
     };
 }

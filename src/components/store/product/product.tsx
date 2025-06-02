@@ -113,8 +113,10 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     
     // Initialize favorite state with the product ID - ensure productData has all required properties
     const [isFavorite, setIsFavorite] = useState(isProductFavorite(productData.store_id, productData.constId));
-    const [likeCount, setLikeCount] = useState(isFavorite ? productData.totalLikes + 1 : productData.totalLikes);
+    const [likeCount, setLikeCount] = useState(productData.totalLikes !== undefined ? (isFavorite ? productData.totalLikes + 1 : productData.totalLikes) : 0);
     const [isAnimating, setIsAnimating] = useState(false);
+
+    const productUrl = `/${store?.storeName || productData.store_id}/item/${productData.web_name}`;
 
     const handlePopoverOpenChange = (open: boolean) => {
         setIsManualOpen(open);
@@ -130,7 +132,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const handleAddToCart = async () => {
 
         if(isSearch) {
-            router.push(`/${store?.storeName || productData?.store_id}/item/${productData.web_name}`);
+            router.push(productUrl);
             return;
         }
 
@@ -194,7 +196,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const handleEditItem = () => {
         setIsLoading(true);
         clarity.event("product_edit")
-        router.push(`/${store?.storeName ||  productData.store_id}/item/${productData.web_name}`);
+        router.push(productUrl);
     };
 
     const handleFavoriteToggle = async () => {
@@ -222,7 +224,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
             className={`cursor-pointer max-w-sm rounded-2xl overflow-hidden relative`}
             onClick={() => {
                 if (isSearch) {
-                    router.push(`/${store?.storeName || productData.store_id}/item/${productData.web_name}`);
+                    router.push(productUrl);
                     return;
                 }
 
@@ -237,6 +239,10 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                 }
             }}
         >
+            {/* SEO-friendly hidden link */}
+            <a href={productUrl} className="sr-only" aria-label={`View product ${productData.name}`}>
+                {productData.name}
+            </a>
             <ModalSign message={"And you add this product to your favorites"} />
             <Card
                 isFooterBlurred

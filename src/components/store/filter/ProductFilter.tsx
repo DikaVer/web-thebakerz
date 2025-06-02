@@ -148,6 +148,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       selectedAllergies,
       selectedDietary,
     };
+    logger.debug('[ProductFilter] filterValues.current updated. selectedCategories:', JSON.stringify(selectedCategories));
   }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary]);
 
   // Debounced function to notify parent of filter changes
@@ -167,9 +168,13 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       const { minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary } = filterValues.current;
       
       // Log filter values before sending to parent
-      logger.debug('filter_update', 'ProductFilter sending filter values', {
+      const categoriesToSend = selectedCategories.length > 0 ? selectedCategories : undefined;
+      logger.debug('[ProductFilter] filter_update', 'ProductFilter sending filter values', {
         minPrice: minPrice > DEFAULT_MIN_PRICE ? minPrice : undefined,
         maxPrice: maxPrice < DEFAULT_MAX_PRICE ? maxPrice : undefined,
+        categories: categoriesToSend,
+        allergies: selectedAllergies.length > 0 ? selectedAllergies : undefined,
+        dietary: selectedDietary.length > 0 ? selectedDietary : undefined,
         minPriceType: typeof minPrice,
         maxPriceType: typeof maxPrice
       });
@@ -179,7 +184,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
         onFilterChange({
           minPrice: minPrice > DEFAULT_MIN_PRICE ? minPrice : undefined,
           maxPrice: maxPrice < DEFAULT_MAX_PRICE ? maxPrice : undefined,
-          categories: selectedCategories.length > 0 ? selectedCategories : undefined,
+          categories: categoriesToSend,
           allergies: selectedAllergies.length > 0 ? selectedAllergies : undefined,
           dietary: selectedDietary.length > 0 ? selectedDietary : undefined
         });
@@ -188,22 +193,25 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       // Reset the updating flag after a short delay to allow state to settle
       setTimeout(() => {
         isUpdating.current = false;
-      }, 2000);
-    }, 1000),
-    [isOpen, onFilterChange]
+      }, 500); // Reduced delay from 2000ms
+    }, 700), // Adjusted debounce time from 1000ms to 700ms
+    [onFilterChange] // Removed isOpen. onFilterChange is the main prop dependency.
   );
 
   // Update filters with a debounce to prevent excessive updates
   useEffect(() => {
     if (didMount.current) {
+      // logger.debug('[ProductFilter] useEffect triggering updateFilters due to state change. selectedCategories:', JSON.stringify(selectedCategories));
       updateFilters();
+    } else {
+      didMount.current = true; // Set didMount to true after the first render cycle for this effect
     }
     
     // Clean up the debounced function on unmount
     return () => {
       updateFilters.cancel();
     };
-  }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary, isOpen, updateFilters]);
+  }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary]);
 
   // Reset all filters with throttling to prevent multiple resets
   const resetFilters = useCallback(
@@ -248,9 +256,10 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
   // Handle checkbox group changes with throttling
   const handleCategoriesChange = useCallback(
     throttle((values: string[]) => {
+      logger.debug('[ProductFilter] handleCategoriesChange (throttled) called with values:', JSON.stringify(values));
       setSelectedCategories(values);
-    }, 150),
-    []
+    }, 150), // Throttle time
+    [] // No dependencies, so setSelectedCategories is from initial render, which is fine for useState setter
   );
 
   // Add function to remove all categories

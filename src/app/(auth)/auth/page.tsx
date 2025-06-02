@@ -35,10 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
     const locale = await getLocale();
     const baseMetadata = getLocalizedMetadata(locale);
 
-    let localeKey: 'en' | 'nl' = 'en';
-    if (locale === 'nl-NL' || locale === 'nl') {
-        localeKey = 'nl';
-    }
+    let localeKey: 'en' = 'en';
 
     const pageSpecifics = pageMetadataTranslations[localeKey];
 

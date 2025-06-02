@@ -28,14 +28,14 @@ const pageMetadataTranslations = {
 // interface Bakery { ... }
 
 interface SearchPageProps {
-  searchParams?: {
+  searchParams?: Promise<{
     lat?: string;
     lng?: string;
     city?: string;
     mode?: 'pickup' | 'delivery';
     country?: string;
     q?: string; // For general search query
-  };
+  }>;
 }
 
 export async function generateMetadata(
@@ -53,9 +53,11 @@ export async function generateMetadata(
     let currentKeywords = pageSpecifics.keywordsBase.split(', ');
     let canonicalUrl = `https://www.thebakerz.com/search`;
 
-    const city = searchParams?.city;
-    const mode = searchParams?.mode || 'pickup'; // Default to pickup if not specified
-    const query = searchParams?.q;
+    // Await searchParams since it's now a Promise
+    const resolvedSearchParams = await searchParams;
+    const city = resolvedSearchParams?.city;
+    const mode = resolvedSearchParams?.mode || 'pickup'; // Default to pickup if not specified
+    const query = resolvedSearchParams?.q;
 
     if (city) {
         title = pageSpecifics.cityTitle.replace('{city}', city);

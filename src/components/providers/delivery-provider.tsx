@@ -14,6 +14,7 @@ import { logger } from '@/lib/logger';
 import { saveDeliveryAddress } from '@/lib/actions/delivery-address-actions';
 import { useDeliveryAddressModal } from '../ui/select-time/use-delivery-address-modal';
 import clarity from '@microsoft/clarity';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export interface ValidationResult {
     isValid: boolean;
@@ -75,7 +76,14 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   isStore = true
 }) => {
   const { store } =  isStore ? useStore() : { store: null };
-  const [isDelivery, setIsDelivery] = useState(initialDeliveryMode);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  // Check search params for delivery mode
+  const modeFromUrl = searchParams.get('mode');
+  const initialMode = modeFromUrl === 'delivery' ? true : modeFromUrl === 'pickup' ? false : initialDeliveryMode;
+  
+  const [isDelivery, setIsDelivery] = useState(initialMode);
   const [isTogglingDelivery, setIsTogglingDelivery] = useState(false);
   
   // Date selection state
@@ -235,7 +243,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   // Initialize delivery mode
   useEffect(() => {
     const initDeliveryMode = async () => {
-      await setDeliveryMode(initialDeliveryMode ? 'delivery' : 'pickup');
+      await setDeliveryMode(initialMode ? 'delivery' : 'pickup');
     };
     
     initDeliveryMode();
@@ -300,6 +308,14 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     setSelectedDate(undefined);
     setIsDelivery(value);
     await setDeliveryMode(value ? 'delivery' : 'pickup');
+    
+    // Update URL search params for SEO
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.set('mode', value ? 'delivery' : 'pickup');
+    
+    // Use replace to avoid adding to browser history for mode toggles
+    router.replace(`?${newSearchParams.toString()}`, { scroll: false });
+    
     setIsTogglingDelivery(false);
   };
   

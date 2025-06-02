@@ -120,8 +120,10 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
     const { isStoreFavorite, addStoreToFavorites, removeStoreFromFavorites } = useFavorites();
 
     const [isFavorite, setIsFavorite] = useState(isStoreFavorite(store.id));
-    const [likeCount, setLikeCount] = useState(isFavorite ? store.totalLikes + 1 : store.totalLikes);
+    const [likeCount, setLikeCount] = useState(store.totalLikes !== undefined ? (isFavorite ? store.totalLikes + 1 : store.totalLikes) : 0);
     const [isAnimating, setIsAnimating] = useState(false);
+    
+    const storeUrl = `/${store.storeName || store.id}`;
     
     // Create ref for the popover component
     const componentRef = useRef<HTMLDivElement>(null);
@@ -280,6 +282,10 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
 
     return (
         <div ref={componentRef} className="relative">
+            {/* SEO-friendly hidden link */}
+            <a href={storeUrl} className="sr-only" aria-label={`View store ${store?.ownerName || store?.storeName}`}>
+                {store?.ownerName || store?.storeName}
+            </a>
             <ModalSign 
                 message="And you add store to your favorites"
             />

@@ -9,23 +9,17 @@ import { ProductData } from '@/lib/actions/product';
 import { logger } from '@/lib/logger';
 
 export const FilterButton: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { setFilterParams, filterParams } = useProductDialog();
+  const { setFilterParams, filterParams, toggleProductSearch, isProductSearchOpen } = useProductDialog();
   
-  
-
-  
-
-
   // Handle filter changes from the filter component - direct without debounce
   const handleFilterChange = (newFilterParams: FilterParams) => {
     logger.debug('filter_change', 'FilterButton received new filter params', newFilterParams);
     setFilterParams(newFilterParams);
   };
 
-  // Toggle filter drawer
+  // Toggle filter drawer and update search params
   const toggleFilterDrawer = () => {
-    setIsOpen(prev => !prev);
+    toggleProductSearch();
   };
 
   return (
@@ -49,8 +43,8 @@ export const FilterButton: React.FC = () => {
       </div>
 
       <ProductFilter
-        isOpen={isOpen}
-        onOpenChange={setIsOpen}
+        isOpen={isProductSearchOpen}
+        onOpenChange={toggleProductSearch}
         onFilterChange={handleFilterChange}
         initialFilterParams={filterParams}
       />

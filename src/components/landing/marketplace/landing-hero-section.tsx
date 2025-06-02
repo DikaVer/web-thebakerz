@@ -1,7 +1,6 @@
 'use client';
 
 import { Button} from '@heroui/react';
-import { useRouter } from 'next/navigation';
 import { Icon } from '@iconify/react';
 import Image from 'next/image';
 import BlurText from '@/components/ui/blur-text';
@@ -12,6 +11,7 @@ import { motion } from 'framer-motion';
 import clarity from "@microsoft/clarity";
 import { useEffect, useState } from 'react';
 import LanguageModal from "@/components/language-modal";
+import Link from 'next/link';
 
 // Animated typing component
 export const AnimatedPlaceholder = () => {
@@ -49,7 +49,6 @@ export const AnimatedPlaceholder = () => {
 // LandingSection component with the address search
 export const LandingHeroSection = () => {
   const t = useTranslations("app/landing/marketplace");
-  const router = useRouter();
   useEffect(() => {
         clarity.setTag("page", "landing");
   }, []);
@@ -132,24 +131,21 @@ export const LandingHeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
           >
-            <div 
-              onClick={() => router.push('/search?openAddressModal=true')}
-              className="group relative flex items-center w-full bg-white/90 backdrop-blur-md border border-gray-200/50 rounded-2xl px-6 py-4 shadow-xl hover:shadow-2xl hover:bg-white/95 transition-all duration-300 cursor-pointer"
-            >
-              <Icon 
-                icon="material-symbols:search" 
-                width={24} 
-                className="text-gray-400 group-hover:text-gray-600 transition-colors duration-200" 
-              />
-              <div className="ml-4 flex-1 text-left">
-                <AnimatedPlaceholder />
-              </div>
-              <Icon 
-                icon="mdi:arrow-right" 
-                width={20} 
-                className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" 
-              />
-            </div>
+            <Link className="group relative flex items-center w-full bg-white/90 backdrop-blur-md border border-gray-200/50 rounded-2xl px-6 py-4 shadow-xl hover:shadow-2xl hover:bg-white/95 transition-all duration-300 cursor-pointer" href="/search?openAddressModal=true" passHref>
+                <Icon 
+                  icon="material-symbols:search" 
+                  width={24} 
+                  className="text-gray-400 group-hover:text-gray-600 transition-colors duration-200" 
+                />
+                <div className="ml-4 flex-1 text-left">
+                  <AnimatedPlaceholder />
+                </div>
+                <Icon 
+                  icon="mdi:arrow-right" 
+                  width={20} 
+                  className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" 
+                />
+            </Link>
           </motion.div>
         </div>
       </div>
