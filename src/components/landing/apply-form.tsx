@@ -12,6 +12,7 @@ import { sendApplication, validatePhone } from "@/lib/actions/emails/email-actio
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { useTranslations } from "next-intl";
+import BlurText from "../ui/blur-text";
 
 export type ApplyFormProps = React.HTMLAttributes<HTMLDivElement> & {
     onNext: () => void;
@@ -102,9 +103,17 @@ const ApplyForm = React.forwardRef<HTMLFormElement, ApplyFormProps>(
         return (
             <>
                 <div className="flex flex-col text-left gap-2 mb-4">
-                    <h2 className="text-3xl lg:text-5xl font-bold bg-gradient-text pb-4">
+                    <h2 className="sr-only text-3xl lg:text-5xl font-bold bg-gradient-text pb-4">
                         {t("startAndGrowBusiness")}
                     </h2>
+                    <BlurText
+                        once={true}
+                        text={t("startAndGrowBusiness")}
+                        delay={200}
+                        animateBy="words"
+                        direction="bottom"
+                        className="text-3xl lg:text-5xl font-bold pb-4"
+                    />
                     <p className="text-lg lg:text-xl font-bold text-grayText">
                         {t("cookingAndRest")}
                     </p>

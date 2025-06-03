@@ -1133,10 +1133,11 @@
     "support": "UNTERSTÜTZUNG"
   },
   "app/landing/marketplace": {
-    "bakersGrowthSectionDescription": "Unsere Plattform hilft Kunsthandwerksbäckern, die Einnahmen durch Werbeveranstaltungsmanagement, Kundenentdeckungstools und optimierte Betriebsvorgänge zu steigern.",
+    "bakersGrowthSectionDescription": "Eröffnen Sie in Minuten ein wunderschön gebrandetes Online-Webladen, nutzen Sie unsere Lieferpartner und nutzen Sie gezielte Marketingkampagnen, die Ihre Kreationen auf weitere Tische im ganzen Land bringen. \nErweitern Sie Ihr Geschäft, begeistern Sie mehr Dessertliebhaber und lassen Sie uns die Logistik bewältigen, während Sie sich auf das Backen von Meisterwerken konzentrieren.",
     "bakersGrowthSectionTitle": "Wachsen Sie Ihr Bäckereigeschäft mit TheBakerz aus",
-    "become": "Werden Sie Partner",
-    "heroSectionTitle": "Entdecken Sie handwerkliche Bäckereien in Ihrer Nähe"
+    "become": "",
+    "heroSectionTitle": "Entdecken Sie handwerkliche Bäckereien in Ihrer Nähe",
+    "joinBakerz": ""
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "Der Antrag wurde erfolgreich eingereicht!",

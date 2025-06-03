@@ -1137,10 +1137,11 @@
     "support": "SOUTIEN"
   },
   "app/landing/marketplace": {
-    "bakersGrowthSectionDescription": "Notre plateforme aide les boulangers artisanaux à augmenter les revenus grâce à la gestion des commandes promotionnelles, aux outils de découverte des clients et aux opérations rationalisées, ce qui vous permet de vous concentrer sur la création de délicieux produits de boulangerie.",
+    "bakersGrowthSectionDescription": "Ouvrez un magasin en ligne magnifiquement de marque en quelques minutes, exploitez nos partenaires de livraison et tirez parti des campagnes de marketing ciblées qui mettent vos créations sur plus de tables à travers le pays. \nDéveloppez votre entreprise, ravissez plus d'amateurs de desserts et laissez-nous gérer la logistique pendant que vous vous concentrez sur les chefs-d'œuvre de la cuisson.",
     "bakersGrowthSectionTitle": "Faites développer votre entreprise de boulangerie avec TheBakerz",
-    "become": "Devenir partenaire",
-    "heroSectionTitle": "Découvrez les boulangeries artisanales près de chez vous"
+    "become": "Rejoindre Plaform",
+    "heroSectionTitle": "Découvrez les boulangeries artisanales près de chez vous",
+    "joinBakerz": ""
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "La demande a été soumise avec succès!",

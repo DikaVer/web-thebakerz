@@ -121,7 +121,7 @@ export const LandingHeroSection = () => {
             text={t("heroSectionTitle")}
             delay={150}
             animateBy="words"
-            direction="top"
+            direction="bottom"
             className="text-3xl sm:text-5xl font-bold text-[#0E0205] mb-8 drop-shadow-xl justify-center items-center"
           />
 

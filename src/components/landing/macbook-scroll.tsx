@@ -26,6 +26,7 @@ import { IconCaretDownFilled } from "@tabler/icons-react";
 import Image from "next/image";
 import { useMediaQuery } from "usehooks-ts";
 import { useTranslations } from "next-intl";
+import BlurText from "../ui/blur-text";
 export const MacbookScroll = ({
   src,
   showGradient,
@@ -160,7 +161,17 @@ export const MacbookScroll = ({
         >
             <div className={'flex flex-col items-start justify-start w-full max-w-4xl px-4'}>
                 <h2 className="text-3xl sm:text-5xl font-bold mb-6 text-white">{t("weHaveMore")}</h2>
-                <h2 className="text-3xl sm:text-5xl font-bold mb-6 text-white">{t("weHaveMoreDescription")}</h2>
+                <h2 className="sr-only text-3xl sm:text-5xl font-bold mb-6 text-white">{t("weHaveMoreDescription")}</h2>
+                <BlurText
+                    once={true}
+                    text={t("weHaveMoreDescription")}
+                    delay={75}
+                    threshold={0.5}
+                    animateBy="letters"
+                    direction="bottom"
+                    className="text-3xl sm:text-5xl font-bold mb-6 text-white"
+                />
+                
             </div>
         </motion.div>
     

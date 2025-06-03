@@ -1161,10 +1161,11 @@
     "support": "STEUN"
   },
   "app/landing/marketplace": {
-    "bakersGrowthSectionDescription": "Ons platform helpt ambachtelijke bakkers de omzet te vergroten door middel van promotionele orderbeheer, klantontdekkingstools en gestroomlijnde activiteiten - om u te richten op het creëren van heerlijke gebakken producten.",
+    "bakersGrowthSectionDescription": "Open in enkele minuten een prachtig merk online webwinkel, maak gebruik van onze bezorgpartners en maak gebruik van gerichte marketingcampagnes die uw creaties op meer tafels in het hele land zetten. \nLaat uw bedrijf groeien, verrukken meer dessert-liefhebbers en laat ons de logistiek afhandelen terwijl u zich concentreert op bakmeesterwerken.",
     "bakersGrowthSectionTitle": "Laat uw bakkerijbedrijf groeien met TheBakerz",
-    "become": "Word een partner",
-    "heroSectionTitle": "Ontdek ambachtelijke bakkerijen bij jou in de buurt"
+    "become": "Word lid van PLAFORM",
+    "heroSectionTitle": "Ontdek ambachtelijke bakkerijen bij jou in de buurt",
+    "joinBakerz": ""
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "Aanvraag succesvol ingediend!",

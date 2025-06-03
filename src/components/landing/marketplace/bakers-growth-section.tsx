@@ -3,6 +3,8 @@
 import { Button } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import BlurText from '@/components/ui/blur-text';
+import AnimatedContent from '@/components/ui/animated-content';
 
 export const BakersGrowthSection = () => {
 
@@ -42,15 +44,36 @@ export const BakersGrowthSection = () => {
             
             {/* Content Section */}
             <div className="order-1 md:order-2 flex flex-col items-start">
-                <h2 className="text-3xl md:text-4xl font-bold text-[#191919] dark:text-[#191919] mb-4">
+                <h2 className="sr-only text-3xl md:text-4xl font-bold text-[#191919] dark:text-[#191919] mb-4">
                 {t("bakersGrowthSectionTitle")}
                 </h2>
+                <BlurText
+                    once={true}
+                    text={t("joinBakerz")}
+                    // text={t("bakersGrowthSectionTitle")}
+                    delay={75}
+                    animateBy="letters"
+                    direction="top"
+                    className="text-3xl md:text-4xl font-bold text-[#191919] dark:text-[#191919] mb-4"
+                />
                 
                 <p className="text-base md:text-lg mb-6 text-[#191919] dark:text-[#191919] max-w-xl">
                     {t("bakersGrowthSectionDescription")}
                 </p>
                 
-                    <div className="flex w-full justify-end">
+                <div className="flex w-full justify-end">
+                    <AnimatedContent
+                        distance={75}
+                        direction="vertical"
+                        reverse={false}
+                        duration={1.2}
+                        ease="power3.out"
+                        initialOpacity={0}
+                        animateOpacity
+                        scale={1}
+                        // threshold={0.2}
+                        delay={0}
+                    >
                         <Button 
                             aria-label="Become a Bakerz"
                             color="primary" 
@@ -59,9 +82,12 @@ export const BakersGrowthSection = () => {
                             onPress={handleBecomeBakerz}
                         >
                             {t('become')}
-                        </Button>
-                    </div>
+                        </Button>  
+                    </AnimatedContent>
+                </div>
             </div>
+
+            
             </div>
         </div>
         </section>

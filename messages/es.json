@@ -1133,10 +1133,11 @@
     "support": "APOYO"
   },
   "app/landing/marketplace": {
-    "bakersGrowthSectionDescription": "Nuestra plataforma ayuda a los panaderos artesanales a impulsar los ingresos a través de la gestión de pedidos promocionales, las herramientas de descubrimiento de clientes y las operaciones simplificadas, lo que se enfoca en crear deliciosos productos horneados.",
+    "bakersGrowthSectionDescription": "Abra una tienda web en línea bellamente marcada en minutos, aproveche a nuestros socios de entrega y aproveche las campañas de marketing específicas que ponen sus creaciones en más mesas en todo el país. \nHaga crecer su negocio, deleite más amantes del postres y permítanos manejar la logística mientras se concentra en las obras maestras de hornear.",
     "bakersGrowthSectionTitle": "Haga crecer su negocio de panadería con TheBakerz",
-    "become": "Convertirse en socio",
-    "heroSectionTitle": "Descubre panaderías artesanales cerca de ti"
+    "become": "Plataforma de unión",
+    "heroSectionTitle": "Descubre panaderías artesanales cerca de ti",
+    "joinBakerz": ""
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "¡La solicitud fue enviada con éxito!",

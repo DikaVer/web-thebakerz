@@ -1155,10 +1155,11 @@
     "support": "SUPPORT"
   },
   "app/landing/marketplace": {
-    "bakersGrowthSectionDescription": "Our platform helps artisanal bakers boost revenue through promotional order management, customer discovery tools, and streamlined operations—helping you focus on creating delicious baked goods.",
+    "bakersGrowthSectionDescription": "Open a beautifully branded online web-store in minutes, tap into our delivery partners, and leverage targeted marketing campaigns that put your creations on more tables across the country. Grow your business, delight more dessert-lovers, and let us handle the logistics while you focus on baking masterpieces.",
     "bakersGrowthSectionTitle": "Grow your bakery business with TheBakerz",
-    "become": "Become a partner",
-    "heroSectionTitle": "Discover artisanal bakeries near you"
+    "become": "Join platform",
+    "heroSectionTitle": "Discover artisanal bakeries near you",
+    "joinBakerz": "Join TheBakerz — where happy customers meet local bakers"
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "Application was submitted successfully!",
