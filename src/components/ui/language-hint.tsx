@@ -85,7 +85,7 @@ export const LanguageHint = ({ show, onDismiss }: LanguageHintProps) => {
 
       {/* Hand-drawn style text - now on the left */}
       <motion.div
-        className="absolute top-12 -right-[180px] max-w-[200px]"
+        className="absolute top-12 -right-[205px] max-w-[200px]"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 2.0 }}
