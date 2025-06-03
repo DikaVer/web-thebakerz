@@ -52,8 +52,8 @@ export const BakersGrowthSection = () => {
                     text={t("joinBakerz")}
                     // text={t("bakersGrowthSectionTitle")}
                     delay={75}
-                    animateBy="letters"
-                    direction="top"
+                    animateBy="words"
+                    direction="bottom"
                     className="text-3xl md:text-4xl font-bold text-[#191919] dark:text-[#191919] mb-4"
                 />
                 

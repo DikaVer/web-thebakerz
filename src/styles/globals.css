@@ -127,7 +127,7 @@
   }
 
   .bg-gradient-primary {
-    background: linear-gradient(to bottom right, hsl(302 81% 25%) 50%, hsl(302 81% 35%));
+    background: linear-gradient(to bottom right, hsl(302 81% 25%) 50%, hsl(302, 81%, 35%));
   }
 
   .bg-gradient-secondary {
