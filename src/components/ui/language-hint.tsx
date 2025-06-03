@@ -85,7 +85,7 @@ export const LanguageHint = ({ show, onDismiss }: LanguageHintProps) => {
 
       {/* Hand-drawn style text - now on the left */}
       <motion.div
-        className="absolute top-12 -right-[190px] max-w-[200px]"
+        className="absolute top-12 -right-[180px] max-w-[200px]"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 2.0 }}
@@ -100,7 +100,7 @@ export const LanguageHint = ({ show, onDismiss }: LanguageHintProps) => {
           <p 
             className="text-sm text-primary font-medium leading-tight flex items-center gap-2"
             style={{
-              fontFamily: 'Comic Sans MS, cursive, system-ui',
+              fontFamily: 'Comic Sans MS, system-ui',
             }}
           >
             Click here to change language <Icon icon="material-symbols:translate" className="text-foreground" width={16} height={16} />
