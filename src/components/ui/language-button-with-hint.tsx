@@ -15,7 +15,7 @@ interface LanguageButtonWithHintProps {
 export const LanguageButtonWithHint = ({ 
   onLanguageOpen, 
   isLanguageOpen,
-  showHintDelay = 2000,
+  showHintDelay = 300,
   autoHideDelay = 11000
 }: LanguageButtonWithHintProps) => {
   const [showLanguageHint, setShowLanguageHint] = useState(false);
