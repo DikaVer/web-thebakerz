@@ -12,7 +12,7 @@ import clarity from "@microsoft/clarity";
 import { useEffect, useState } from 'react';
 import LanguageModal from "@/components/language-modal";
 import Link from 'next/link';
-import { LanguageHint } from '@/components/ui/language-hint';
+import { LanguageButtonWithHint } from '@/components/ui/language-button-with-hint';
 
 // Animated typing component
 export const AnimatedPlaceholder = () => {
@@ -54,34 +54,6 @@ export const LandingHeroSection = () => {
         clarity.setTag("page", "landing");
   }, []);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
-  const [showLanguageHint, setShowLanguageHint] = useState(false);
-
-  // Show language hint after a delay on component mount
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      // Only show hint if language modal hasn't been opened yet
-      if (!isLanguageOpen) {
-        setShowLanguageHint(true);
-      }
-    }, 2000); // Show hint after 3 seconds
-
-    // Auto-hide hint after 8 seconds
-    const autoHideTimer = setTimeout(() => {
-      setShowLanguageHint(false);
-    }, 11000);
-
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(autoHideTimer);
-    };
-  }, [isLanguageOpen]);
-
-  // Hide hint when language modal is opened
-  useEffect(() => {
-    if (isLanguageOpen) {
-      setShowLanguageHint(false);
-    }
-  }, [isLanguageOpen]);
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
@@ -114,24 +86,12 @@ export const LandingHeroSection = () => {
       </div> */}
 
       <div className=" flex w-full items-center gap-4 justify-end p-4 relative">
-        <Button
-            isIconOnly
-            variant="light"
-            size="sm"
-            className="min-w-0 relative z-10"
-            onPress={() => setIsLanguageOpen(true)}
-            aria-label="Change language"
-        >
-          <Icon icon="material-symbols-light:language" width={32} height={32} />
-        </Button>
+        <LanguageButtonWithHint 
+          onLanguageOpen={() => setIsLanguageOpen(true)}
+          isLanguageOpen={isLanguageOpen}
+        />
         
         <LandingSigninButton className=" bg-gradient-primary text-lg shadow-xl rounded-3xl text-white border-0" />
-        
-        {/* Language hint overlay */}
-        <LanguageHint 
-          show={showLanguageHint} 
-          onDismiss={() => setShowLanguageHint(false)} 
-        />
       </div>
 
       
