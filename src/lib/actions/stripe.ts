@@ -445,7 +445,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
             line_items: stripeLineItems,
             mode: 'payment',
             currency: storeData.currency,
-            payment_method_types: ['card', 'ideal', 'revolut_pay', 'bancontact', 'klarna'],
+            payment_method_types: ['ideal', 'card', 'klarna', 'bancontact', 'revolut_pay'],
             return_url: `${origin}/api/pay?session_id={CHECKOUT_SESSION_ID}&store_id=${storeId}&store_stripe_account_id=${storeStripeAccountId}&order_id=${cosmosId}`,
             automatic_tax: { enabled: false }, // We specify tax rates manually
             payment_intent_data: {
