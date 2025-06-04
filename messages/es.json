@@ -939,6 +939,7 @@
     "monday": "Lunes",
     "noInfo": "Cerrado",
     "noScheduleAvailable": "No hay horario disponible",
+    "postDeliveryAvailable": "Horas de trabajo postales",
     "saturday": "Sábado",
     "scheduleFormatError": "Error de formato de programación",
     "scheduleUnavailable": "Programe no disponible",

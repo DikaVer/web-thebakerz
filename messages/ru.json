@@ -943,6 +943,7 @@
     "monday": "Понедельник",
     "noInfo": "Закрыто",
     "noScheduleAvailable": "Нет расписания",
+    "postDeliveryAvailable": "Почтовое рабочее время",
     "saturday": "Суббота",
     "scheduleFormatError": "Ошибка формата расписания",
     "scheduleUnavailable": "Расписание недоступно",

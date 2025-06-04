@@ -939,6 +939,7 @@
     "monday": "Montag",
     "noInfo": "Geschlossen",
     "noScheduleAvailable": "Kein Zeitplan verfügbar",
+    "postDeliveryAvailable": "Postarbeit",
     "saturday": "Samstag",
     "scheduleFormatError": "Zeitplan-Formatfehler",
     "scheduleUnavailable": "Zeitplan nicht verfügbar",

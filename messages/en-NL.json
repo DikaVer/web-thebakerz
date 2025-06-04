@@ -955,6 +955,7 @@
     "monday": "Monday",
     "noInfo": "Closed",
     "noScheduleAvailable": "No schedule available",
+    "postDeliveryAvailable": "Postal Working Hours",
     "saturday": "Saturday",
     "scheduleFormatError": "Schedule Format Error",
     "scheduleUnavailable": "Schedule Unavailable",

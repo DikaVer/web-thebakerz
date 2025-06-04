@@ -943,6 +943,7 @@
     "monday": "Lundi",
     "noInfo": "Fermé",
     "noScheduleAvailable": "Aucun horaire disponible",
+    "postDeliveryAvailable": "Heures de travail postal",
     "saturday": "Samedi",
     "scheduleFormatError": "Erreur de format de planification",
     "scheduleUnavailable": "Planification indisponible",

@@ -22,7 +22,6 @@ export function FooterStore() {
     const { theme } = useTheme();
 
     const [latitude, longitude] = [store?.location?.latitude, store?.location?.longitude];
-    // const { validationResult, isDelivery } = useDelivery();
 
     const location = store?.location?.route ? `${store.location?.route}` : t("addressPlaceholder");
     const subLocation = store?.location?.route ? `${store.location?.city}, ${store.location.zipCode}, ${store.location.country}` : t("locationPlaceholder");
@@ -139,16 +138,16 @@ export function FooterStore() {
                                 </div>
                             </Link>
                         </div>
-                        {/*{(!isDelivery || !validationResult?.deliveryRegion?.isPostDelivery) && (*/}
-                            <div className="flex justify-start gap-y-4 my-0 w-full md:w-[30%]">
-                                <div className="w-full mr-4">
-                                    <h3 className="md:small text-medium font-semibold ">{t("Opening Hours")}</h3>
-                                    <div className="mt-4">
-                                        {renderCalendarContent()}
-                                    </div>
+
+                        <div className="flex justify-start gap-y-4 my-0 w-full md:w-[30%]">
+                            <div className="w-full mr-4">
+                                <h3 className="md:small text-medium font-semibold ">{t("Opening Hours")}</h3>
+                                <div className="mt-4">
+                                    {renderCalendarContent()}
                                 </div>
                             </div>
-                        {/*)}*/}
+                        </div>
+
                         <div className="grid grid-cols-2 gap-8 w-full md:w-[30%]">
                             <div>
                                 {renderList({title: t("legal"), items: footerNavigation.legal})}

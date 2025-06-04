@@ -939,6 +939,7 @@
     "monday": "Понеділок",
     "noInfo": "ЗАЧИНЕНО",
     "noScheduleAvailable": "Немає розкладу",
+    "postDeliveryAvailable": "Поштовий робочий час",
     "saturday": "Субота",
     "scheduleFormatError": "Помилка формату розкладу",
     "scheduleUnavailable": "Графік недоступний",

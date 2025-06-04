@@ -222,6 +222,14 @@ export const renderCalendarContent = () => {
                 </div>
             );
         }
+
+        if (validationResult?.deliveryRegion?.isPostDelivery) {
+            return (
+                <div className="w-full text-foreground text-center text-sm bg-background-secondary py-2 px-3 rounded-md">
+                    {t("postDeliveryAvailable")}
+                </div>
+            );
+        }
         
         // Address is out of delivery range
         if (!validationResult.isInRange) {
