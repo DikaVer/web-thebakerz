@@ -196,16 +196,16 @@ export default function PickupInfo({ store}: PickupInfoProps) {
                       )}
 
                       {/* Availability */}
-                      <div className="flex items-center gap-3 mb-4">
-                        <Icon
-                            icon="solar:clock-circle-linear"
-                            className={isStoreOpen ? "text-success" : "text-danger"}
-                            width={16}
-                        />
-                        <p className={`text-xs ${isStoreOpen ? "text-success" : "text-danger"}`}>
-                          {isStoreOpen ? t("storeOpen") : t("storeClosed")}
-                        </p>
-                      </div>
+                      {/*<div className="flex items-center gap-3 mb-4">*/}
+                      {/*  <Icon*/}
+                      {/*      icon="solar:clock-circle-linear"*/}
+                      {/*      className={isStoreOpen ? "text-success" : "text-danger"}*/}
+                      {/*      width={16}*/}
+                      {/*  />*/}
+                      {/*  <p className={`text-xs ${isStoreOpen ? "text-success" : "text-danger"}`}>*/}
+                      {/*    {isStoreOpen ? t("storeOpen") : t("storeClosed")}*/}
+                      {/*  </p>*/}
+                      {/*</div>*/}
 
                        {/* Buyer Protection */}
                        <div className="flex flex-col gap-1 p-3 rounded-lg bg-background mb-4">

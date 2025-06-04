@@ -338,13 +338,14 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
                             <div className="flex justify-between items-start w-full">
                                 <h4 className="font-bold text-2xl truncate mr-2">{store?.ownerName || store?.storeName}</h4>
                                 {deliveryMode === 'pickup' ? (
-                                    <Chip 
-                                        size="sm" 
-                                        color={isStoreOpen ? "success" : "danger"}
-                                        variant="flat"
-                                    >
-                                        {isStoreOpen ? t('open') : t('closed')}
-                                    </Chip>
+                                    <></>
+                                    // <Chip
+                                    //     size="sm"
+                                    //     color={isStoreOpen ? "success" : "danger"}
+                                    //     variant="flat"
+                                    // >
+                                    //     {isStoreOpen ? t('open') : t('closed')}
+                                    // </Chip>
                                 ) : (
                                     isUserCord && (
                                         <></>
