@@ -115,8 +115,70 @@ export function AddressForm({
 
   // --- Refs ---
   const formRef = useRef<HTMLFormElement>(null);
+  const autocompleteRef = useRef<HTMLInputElement>(null);
   const sessionTokenRef = useRef<google.maps.places.AutocompleteSessionToken | null>(null);
   const geocoderRef = useRef<google.maps.Geocoder | null>(null);
+
+  // --- iOS Safari zoom prevention for autocomplete ---
+  useEffect(() => {
+    const isIOSSafari = () => {
+      return /iP(ad|hone|od)/.test(navigator.userAgent) && /WebKit/.test(navigator.userAgent) && !(/(CriOS|FxiOS|OPiOS|mercury)/.test(navigator.userAgent));
+    };
+
+    if (!isIOSSafari()) return;
+
+    const handleFocus = () => {
+      // Temporarily disable zoom on focus for iOS Safari only
+      const viewport = document.querySelector('meta[name="viewport"]');
+      if (viewport) {
+        const originalContent = viewport.getAttribute('content');
+        viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');
+        
+        // Restore original viewport on blur
+        const handleBlur = () => {
+          if (originalContent) {
+            viewport.setAttribute('content', originalContent);
+          }
+        };
+        
+        // Set up blur listener on the autocomplete input
+        const findAndAttachBlurListener = () => {
+          // Find the actual input element within the Autocomplete component
+          const autocompleteInput = formRef.current?.querySelector('input[role="combobox"], input[aria-autocomplete="list"], input[type="text"]') as HTMLInputElement;
+          if (autocompleteInput) {
+            autocompleteInput.addEventListener('blur', handleBlur, { once: true });
+          }
+        };
+        
+        // Attach blur listener immediately or after a short delay
+        findAndAttachBlurListener();
+        setTimeout(findAndAttachBlurListener, 100);
+      }
+    };
+
+    // Set up focus listener on the autocomplete input
+    const setupFocusListener = () => {
+      const autocompleteInput = formRef.current?.querySelector('input[role="combobox"], input[aria-autocomplete="list"], input[type="text"]') as HTMLInputElement;
+      if (autocompleteInput) {
+        autocompleteInput.addEventListener('focus', handleFocus);
+        return () => {
+          autocompleteInput.removeEventListener('focus', handleFocus);
+        };
+      }
+    };
+
+    // Try to set up listener immediately and also after a delay for dynamic content
+    const cleanup1 = setupFocusListener();
+    const timeoutId = setTimeout(() => {
+      const cleanup2 = setupFocusListener();
+      return cleanup2;
+    }, 500);
+
+    return () => {
+      cleanup1?.();
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   // --- Initialize Map ---
   const initializeMap = useCallback(() => {
@@ -592,8 +654,9 @@ export function AddressForm({
             startContent={
               <Icon icon="solar:magnifer-linear" className="text-foreground" width={20} />
             }
+            style={{ fontSize: '16px' }}
             classNames={{
-              base: "w-full",
+              base: "w-full text-base",
               listbox: "max-h-[200px]",
               popoverContent: "z-[1000]",
               selectorButton: "hidden"

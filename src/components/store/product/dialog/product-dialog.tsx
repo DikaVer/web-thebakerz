@@ -26,8 +26,6 @@ export default function ProductDialog({productData, itemCart, isOpen, onClose, i
                 isOpen={isOpen}
                 size={isSmall ? 'full' : '2xl'}
                 onClose={onClose}
-                radius={'lg'}
-                className={'h-fit max-h-fit min-h-fit !rounded-t-xl'}
                 backdrop={'blur'}
                 placement={isSmall ? 'bottom' : 'center'}
                 hideCloseButton
