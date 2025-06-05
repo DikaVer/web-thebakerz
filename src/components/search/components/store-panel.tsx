@@ -399,7 +399,7 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
                                                     onOpenChange={handlePopoverOpenChange}
                                                 >
                                                     <PopoverTrigger>
-                                                        <button 
+                                                        <div
                                                             aria-label="Delivery hours"
                                                             className={`flex ${(deliveryMode === 'delivery' && !isUserCord) && 'hidden'} items-center justify-between border-1 gap-2 p-1 px-2 rounded-full hover:bg-default-100 cursor-pointer ${exampleStore.includes(store.id) && "hidden"}`}
                                                             onClick={(e) => {
@@ -424,7 +424,7 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
                                                                 {deliveryMode === 'delivery' ? t('deliveryHours') : t('workingHours')}
                                                             </span>
                                                             <Icon icon="solar:info-circle-linear" width={16} className="text-text" />
-                                                        </button>
+                                                        </div>
                                                     </PopoverTrigger>
                                                     <PopoverContent>
                                                         <div 

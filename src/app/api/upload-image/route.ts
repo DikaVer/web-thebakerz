@@ -98,7 +98,7 @@ export async function POST(request: Request) {
             }
             
             // Log the format and dimensions for debugging
-            console.log(`Server received image: ${metadata.format}, ${metadata.width}x${metadata.height}px, ${fileBuffer.length} bytes`);
+            // console.log(`Server received image: ${metadata.format}, ${metadata.width}x${metadata.height}px, ${fileBuffer.length} bytes`);
             
             // Optional: Perform additional security checks if needed
             // For example, reject extremely large dimensions that could cause memory issues
@@ -118,7 +118,7 @@ export async function POST(request: Request) {
                 processedBuffer = fileBuffer;
             }
                 
-            console.log(`Converted to WebP: original=${fileBuffer.length} bytes, webp=${processedBuffer.length} bytes`);
+            // console.log(`Converted to WebP: original=${fileBuffer.length} bytes, webp=${processedBuffer.length} bytes`);
             
             // Generate a unique file name (with .webp extension)
             const uniqueFileName = `${uuidv4()}.webp`;

@@ -242,6 +242,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                                     quantity={quantity}
                                     setQuantity={setQuantity}
                                     minOrder={product?.min_order || 1}
+                                    isPostDelivery={product.isPostDelivery}
                                     isUpdateMode={false}
                                     onUpdate={handleAddToCart}
                                     isLoading={isLoading}

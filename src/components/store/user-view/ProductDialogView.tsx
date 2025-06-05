@@ -297,6 +297,7 @@ export default function ProductDialogView({
                     setQuantity={setQuantity}
                     minOrder={productData?.min_order || 1}
                     isUpdateMode={!!itemCart}
+                    isPostDelivery={productData.isPostDelivery}
                     isBakerzStore={isBakerzStore}
                     onUpdate={handleUpdateCart}
                     onEditItem={handleEditItem}

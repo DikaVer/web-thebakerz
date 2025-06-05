@@ -626,11 +626,11 @@ export async function getAllOrdersAdmin(): Promise<OrderData[]> {
         const { resources: orders } = await containerOrders.items.query(querySpec).fetchAll();
 
         if (!orders) {
-            console.log("Admin order fetch: No orders found.");
+            // console.log("Admin order fetch: No orders found.");
             return [];
         }
 
-        console.log(`Admin order fetch: Found ${orders.length} orders.`);
+        // console.log(`Admin order fetch: Found ${orders.length} orders.`);
         return orders;
     } catch (error) {
         console.error("Error fetching all admin orders:", error);

@@ -97,8 +97,13 @@ const CartButton: React.FC<CartButtonProps> = ({
         Object.values(cart).forEach(storeCart => {
             Object.values(storeCart).forEach(item => {
                 const productData = getProductDataById(item.product_id);
+                
                 if (productData) {
                     // Base price of product
+                    if (isDelivery && !productData.isPostDelivery && validationResult?.deliveryRegion?.isPostDelivery) {
+                        return;
+                    }
+
                     let itemPrice = productData.price;
                     
                     // Add variant costs if any

@@ -11,8 +11,66 @@ import { getCartItemsByProductId } from "@/lib/actions/cart";
 import {getCurrentStoreByUserIdAndStoreId} from "@/lib/actions/store";
 import { getTotalFavoritesProduct,getProductFavoritesCountsByStore } from "./favorites";
 
-
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
+
+export type ProductVariant = {
+    label: string;
+    isSingle: boolean;
+    required: boolean;
+    minSelections?: number;
+    maxSelections?: number;
+    options: {
+        label: string;
+        price: number;
+    }[];
+}
+
+export type ProductData = {
+    id: string;
+    store_id: string;
+    category: string;
+    name: string;
+    web_name: string;
+    min_order: number;
+    min_lead_time: number;
+    description?: string | null;
+    variants?: ProductVariant[];
+    price: number;
+    picture: string;
+    ingredients?: string[];
+    allergies?: string[];
+    dietary?: string[];
+    constId: string;
+    additionalImages: string[];
+    hide_product?: boolean;
+    isPostDelivery?: boolean;
+    totalLikes: number;
+};
+
+export type ProductDataClean = {
+    store_id: string;
+    category: string;
+    name?: string;
+    web_name?: string;
+    min_order: number;
+    min_lead_time: number;
+    description?: string | null;
+    variants?: ProductVariant[];
+    price: number;
+    picture?: string;
+    ingredients?: string[];
+    allergies?: string[];
+    dietary?: string[];
+    id?: string;
+    constId?: string;
+    additionalImages?: string[];
+    hide_product?: boolean;
+    isPostDelivery?: boolean;
+};
+
+export type ProductDataFull = {
+    [productId: string]: ProductData;
+};
 
 /**
  * Adds a new product or updates an existing one in the database.
@@ -214,11 +272,11 @@ export async function getProductByStoreIdAndWebName(storeId: string, webName: st
             return null;
         }
 
-        console.log("webName", webName);
-        console.log("storeId", storeId);
+        // console.log("webName", webName);
+        // console.log("storeId", storeId);
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product, c.isPostDelivery FROM c WHERE c.store_id = @storeId AND (c.web_name = @webName OR c.constId = @webName) AND c.archive = false",
+            query: "SELECT c.id, c.store_id, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product, c.isPostDelivery FROM c WHERE c.store_id = @storeId AND (c.web_name = @webName OR c.constId = @webName) AND c.archive = false AND c.hide_product = false",
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@webName", value: webName }
@@ -295,88 +353,6 @@ export async function getCurrentProducts(storeId: string): Promise<ProductDataFu
     }
 }
 
-export async function getCurrentProductsByFilter(filterParams: {
-  minPrice?: number;
-  maxPrice?: number;
-  categories?: string[];
-  allergies?: string[];
-  dietary?: string[];
-}): Promise<ProductDataFull> {
-  try {
-
-    // Build the CosmosDB query
-    let queryString = "SELECT c.id, c.store_id, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product, c.isPostDelivery FROM c WHERE c.archive = false";
-    const parameters: { name: string; value: any }[] = [
-    ];
-
-    // Add price filter
-    if (filterParams.minPrice !== undefined) {
-      queryString += " AND c.price >= @minPrice";
-      parameters.push({ name: "@minPrice", value: filterParams.minPrice });
-    }
-
-    if (filterParams.maxPrice !== undefined) {
-      queryString += " AND c.price <= @maxPrice";
-      parameters.push({ name: "@maxPrice", value: filterParams.maxPrice });
-    }
-
-    // Add categories filter
-    if (filterParams.categories && filterParams.categories.length > 0) {
-      queryString += " AND c.category IN (";
-      filterParams.categories.forEach((category, index) => {
-        const paramName = `@category${index}`;
-        queryString += index === 0 ? paramName : `, ${paramName}`;
-        parameters.push({ name: paramName, value: category });
-      });
-      queryString += ")";
-    }
-
-    // For allergies and dietary, we need to handle arrays differently in CosmosDB
-    // Exclude products that contain any of the selected allergies
-    if (filterParams.allergies && filterParams.allergies.length > 0) {
-      // Using NOT EXISTS to exclude products with matching allergies
-      filterParams.allergies.forEach((allergy, index) => {
-        const paramName = `@allergy${index}`;
-        queryString += ` AND NOT EXISTS (SELECT VALUE a FROM a IN c.allergies WHERE a = ${paramName})`;
-        parameters.push({ name: paramName, value: allergy });
-      });
-    }
-
-    // Include only products that match dietary preferences
-    if (filterParams.dietary && filterParams.dietary.length > 0) {
-      // Using ARRAY_CONTAINS to match dietary preferences
-      filterParams.dietary.forEach((diet, index) => {
-        const paramName = `@diet${index}`;
-        queryString += ` AND ARRAY_CONTAINS(c.dietary, ${paramName})`;
-        parameters.push({ name: paramName, value: diet });
-      });
-    }
-
-    const querySpec = {
-      query: queryString,
-      parameters: parameters
-    };
-
-    const { resources: products } = await containerProducts.items
-      .query(querySpec)
-      .fetchAll();
-
-
-   
-
-    const productDataFull: ProductDataFull = {};
-    products.forEach((product: ProductData) => {
-      // Assign the like count to each product, defaulting to 0 if not found
-      productDataFull[product.id] = product;
-    });
-
-    return productDataFull;
-  } catch (error) {
-    console.error("Error fetching filtered products:", error);
-    throw new Error("Failed to fetch filtered products");
-  }
-}
-
 // New function to fetch products across all stores based on filters, with pagination
 export async function getAllProductsByFilter(filterParams: { 
   minPrice?: number; 
@@ -389,7 +365,7 @@ export async function getAllProductsByFilter(filterParams: {
     const offset = (page - 1) * limit;
 
     // Build the CosmosDB query - no storeId filter
-    let queryString = "SELECT c.id, c.store_id, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product FROM c WHERE c.archive = false AND c.hide_product = false";
+    let queryString = "SELECT c.id, c.store_id, c.web_name, c.category, c.name, c.description, c.price, c.picture, c.ingredients, c.allergies, c.dietary, c.constId, c.additionalImages, c.variants, c.min_order, c.min_lead_time, c.hide_product, c.isPostDelivery FROM c WHERE c.archive = false AND c.hide_product = false";
     const parameters: { name: string; value: any }[] = [];
 
     // Add price filter
@@ -456,6 +432,8 @@ export async function getAllProductsByFilter(filterParams: {
       parameters: parameters
     };
 
+    console.log("querySpec", querySpec);
+
     // Query without partition key as we search across all stores
     const { resources: fetchedProducts } = await containerProducts.items
       .query(querySpec)
@@ -484,62 +462,3 @@ export async function getAllProductsByFilter(filterParams: {
     return { products: [], hasMore: false };
   }
 }
-
-export type ProductData = {
-    id: string;
-    store_id: string;
-    category: string;
-    name: string;
-    web_name: string;
-    min_order: number;
-    min_lead_time: number;
-    description?: string | null;
-    variants?: ProductVariant[];
-    price: number;
-    picture: string;
-    ingredients?: string[];
-    allergies?: string[];
-    dietary?: string[];
-    constId: string;
-    additionalImages: string[];
-    hide_product?: boolean;
-    isPostDelivery?: boolean;
-    totalLikes: number;
-};
-
-export type ProductDataClean = {
-    store_id: string;
-    category: string;
-    name?: string;
-    web_name?: string;
-    min_order: number;
-    min_lead_time: number;
-    description?: string | null;
-    variants?: ProductVariant[];
-    price: number;
-    picture?: string;
-    ingredients?: string[];
-    allergies?: string[];
-    dietary?: string[];
-    id?: string;
-    constId?: string;
-    additionalImages?: string[];
-    hide_product?: boolean;
-    isPostDelivery?: boolean;
-};
-
-export type ProductVariant = {
-    label: string;
-    isSingle: boolean;
-    required: boolean;
-    minSelections?: number;
-    maxSelections?: number;
-    options: {
-        label: string;
-        price: number;
-    }[];
-}
-
-export type ProductDataFull = {
-    [productId: string]: ProductData;
-};

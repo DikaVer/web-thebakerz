@@ -138,7 +138,7 @@ async function StoreResults({ coords, mode, country, isUserCord }: { coords: Coo
   return (
       <div className={'min-h-svh'}>
           <StoreClientResults stores={stores} isUserCord={isUserCord} mode={mode} />
-          <ProductResults storeIds={stores.map(store => store.id)} />
+          <ProductResults storeIds={stores.map(store => store.id)} stores={stores} />
           <Spacer y={8}/>
       </div>
   );

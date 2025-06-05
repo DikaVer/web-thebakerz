@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { getAllProductsByFilter } from '@/lib/actions/product';
 import { ProductData } from '@/lib/actions/product';
 import { FilterParams, useProductDialog } from '@/components/providers/product-provider';
@@ -9,7 +9,8 @@ import { Spinner, Spacer, cn } from '@heroui/react';
 import { logger } from '@/lib/logger';
 import clarity from '@microsoft/clarity';
 import { exampleStore } from '@/lib/local-variables';
-
+import { NearbyStore } from '@/lib/actions/store';
+import { useDelivery } from '@/components/providers/delivery-provider';
 // Global cache for all products by page
 const productsCache: Record<string, Record<number, ProductData[]>> = {
   "all": {},
@@ -36,11 +37,13 @@ function getCacheKey(storeIds: string[] = []): string {
 
 interface ProductResultsProps {
   storeIds?: string[];
+  stores?: NearbyStore[];
   isLoading?: boolean;
 }
 
 const ProductResults: React.FC<ProductResultsProps> = ({ 
-  storeIds = []
+  storeIds = [],
+  stores = []
 }) => {
   const { filterParams } = useProductDialog();
   const [products, setProducts] = useState<ProductData[]>([]);
@@ -48,6 +51,13 @@ const ProductResults: React.FC<ProductResultsProps> = ({
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { isDelivery } = useDelivery();
+  const storeDictIds = useMemo(() => {
+    return stores.reduce((acc, store) => {
+      acc[store.id] = store;
+      return acc;
+    }, {} as Record<string, NearbyStore>);
+  }, [stores]);
 
   const isFiltered = !isEmptyFilters(filterParams);
   
@@ -261,24 +271,39 @@ const ProductResults: React.FC<ProductResultsProps> = ({
     return null;
   }
 
+  
+
   return (
     <div className={cn("w-full")}>
       <div className={'flex w-full justify-center'}>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6  gap-4 w-full">
           {products.map((product, index) => {
-            const isLastElement = products.length === index + 1;
+            const deliveryRegion = storeDictIds[product.store_id]?.deliveryRegion;
+            if(isDelivery && !product.isPostDelivery && deliveryRegion?.isPostDelivery) {
+              return null;
+            }
+
             return (
                 <div
                     key={`${product.id}-${index}`}
-                    ref={isLastElement ? lastProductElementRef : null}
                     className=""
                 >
                   <ProductBase productData={product}/>
                 </div>
             );
-          })}
+          }).filter(Boolean)}
         </div>
       </div>
+      
+      {/* Observer element for infinite scroll - placed after all visible products */}
+      {hasMore && products.length > 0 && (
+        <div 
+          ref={lastProductElementRef}
+          className="h-px w-full"
+          style={{ marginTop: '100px' }}
+        />
+      )}
+      
       {loading && (
         <div className="flex justify-center py-4">
           <Spinner size="md" />

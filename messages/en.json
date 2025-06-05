@@ -764,6 +764,8 @@
     "Needhelp": "Need Help?",
     "Post Delivery": "If enabled, this product will be available for post delivery.",
     "Post Delivery Helper": "If enabled, this product will be available for post delivery.",
+    "PostalDeliveryMismatchTitle": "Cannot Add to Cart",
+    "PostalDeliveryMismatchMessage": "This product is not available for postal delivery, but your selected delivery method is postal delivery. Please choose pickup or change to a regular delivery area.",
     "Price": "Price",
     "Select Category": "Select Category",
     "Update": "Update",

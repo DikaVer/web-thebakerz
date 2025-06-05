@@ -78,7 +78,7 @@ export async function updateMerchantDeliveryRegions(
 ) {
   try {
 
-    console.log("Updating merchant delivery regions:", regions);
+    // console.log("Updating merchant delivery regions:", regions);
     // Validate the input data
     const validationResult = DeliveryRegionsSchema.safeParse(regions);
     logger.debug("Update Merchant Delivery Region", "validate", {

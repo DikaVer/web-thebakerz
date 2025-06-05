@@ -224,6 +224,9 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
         const cartItem = cartData[storeId][itemId];
         const product = productsData[cartItem.product_id];
         if (!product) continue; 
+        if (isDelivery && !product.isPostDelivery && selectedRegion?.isPostDelivery) {
+            continue;
+        }
 
         if (leadTime && leadTime < product.min_lead_time) {
             leadTime = product.min_lead_time;

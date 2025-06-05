@@ -270,7 +270,7 @@ export default function BakerzProductView({ storeId, productData }: ProductViewP
 
     const addNewImage = useCallback((file: File, url: string) => {
         // Debug information to track image format
-        console.log(`Adding image: ${file.name}, type: ${file.type}, size: ${file.size} bytes`);
+        // console.log(`Adding image: ${file.name}, type: ${file.type}, size: ${file.size} bytes`);
         
         if (currentImageIndex !== null) {
             const updatedAdditionalImages = [...additionalImages];

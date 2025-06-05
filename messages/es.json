@@ -752,6 +752,8 @@
     "Needhelp": "¿Necesitar ayuda?",
     "Post Delivery": "Si está habilitado, este producto estará disponible para la entrega posterior.",
     "Post Delivery Helper": "Si está habilitado, este producto estará disponible para la entrega posterior.",
+    "PostalDeliveryMismatchMessage": "Este producto no está disponible para la entrega postal, pero su método de entrega seleccionado es la entrega postal. \nElija recogida o cambie a un área de entrega regular.",
+    "PostalDeliveryMismatchTitle": "No se puede agregar al carrito",
     "Price": "Precio",
     "Select Category": "Seleccionar categoría",
     "Update": "Actualizar",

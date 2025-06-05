@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import {calculateItemTotalPrice} from "@/lib/utils/helper/calculate-total-price-variants";
 import {Icon} from "@iconify/react";
 import clarity from "@microsoft/clarity";
+import { useDelivery } from "../providers/delivery-provider";
 type CartItemRowProps = {
     item: ItemCart;
     productData: ProductData;
@@ -68,12 +69,13 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
         return updatedValue;
     };
 
+    const { isDelivery, validationResult } = useDelivery();
+
     const handleDelete = async () => {
         const updateValue = await removeItem(item);
     }
 
-    if (item.quantity === 0) return null;
-
+    if ((item.quantity === 0) || (isDelivery && !productData.isPostDelivery && validationResult?.deliveryRegion?.isPostDelivery)) return null;
 
     return (
         <>
