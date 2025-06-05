@@ -1140,7 +1140,8 @@
     "bakersGrowthSectionTitle": "Розвивайте свій хлібобулочний бізнес за допомогою TheBakerz",
     "become": "Стати партнером",
     "heroSectionTitle": "Відкрийте для себе ремісничі пекарні поблизу",
-    "joinBakerz": ""
+    "joinBakerz": "",
+    "special": "Ви маєте щось особливе на увазі?"
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "Заява була подана успішно!",
@@ -1237,6 +1238,20 @@
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Введіть адресу",
     "whereToDeliver": "Де доставити замовлення?"
+  },
+  "filter": {
+    "categories": "Категорії",
+    "dietaryPreferences": "Дієтичні уподобання",
+    "excludeAllergies": "Виключіть алергію",
+    "filterProducts": "Фільтрувальні вироби",
+    "maxPrice": "Максимальна ціна",
+    "minPrice": "Мінімальна ціна",
+    "noMoreProducts": "Більше немає продуктів для завантаження",
+    "noProductsFound": "Продукти не знайдено",
+    "priceRange": "Ціновий діапазон",
+    "removeAllCategories": "Видаліть усі категорії",
+    "special": "Ви маєте щось особливе на увазі?",
+    "tryAdjustingFiltersOrLocation": "Спробуйте коригувати свої фільтри або місцезнаходження"
   },
   "lib/actions/delivery-address-actions": {
     "AddressNotPreciseEnough": "Адреса недостатньо точна!",

@@ -1162,7 +1162,8 @@
     "bakersGrowthSectionTitle": "Grow your bakery business with TheBakerz",
     "become": "Join platform",
     "heroSectionTitle": "Discover artisanal bakeries near you",
-    "joinBakerz": "Join TheBakerz — where happy customers meet local bakers"
+    "joinBakerz": "Join TheBakerz — where happy customers meet local bakers",
+    "special": "Do you have something special in mind?"
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "Application was submitted successfully!",
@@ -1263,6 +1264,20 @@
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Enter Address",
     "whereToDeliver": "Where to deliver your order?"
+  },
+  "filter": {
+    "categories": "Categories",
+    "dietaryPreferences": "Dietary Preferences",
+    "excludeAllergies": "Exclude Allergies",
+    "filterProducts": "Filter Products",
+    "maxPrice": "Max Price",
+    "minPrice": "Min Price",
+    "noMoreProducts": "No more products to load",
+    "noProductsFound": "No Products Found",
+    "priceRange": "Price Range",
+    "removeAllCategories": "Remove All Categories",
+    "special": "Do you have something special in mind?",
+    "tryAdjustingFiltersOrLocation": "Try adjusting your filters or location"
   },
   "lib/actions/delivery-address-actions": {
     "AddressNotPreciseEnough": "Address is not precise enough!",

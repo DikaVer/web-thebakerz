@@ -1144,7 +1144,8 @@
     "bakersGrowthSectionTitle": "Вырасти свой бизнес с TheBakerz",
     "become": "",
     "heroSectionTitle": "Откройте для себя ремесленные пекарни рядом с вами",
-    "joinBakerz": ""
+    "joinBakerz": "",
+    "special": "У вас есть что-то особенное?"
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "Заявка была подана успешно!",
@@ -1243,6 +1244,20 @@
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Введите адрес",
     "whereToDeliver": "Где доставить ваш заказ?"
+  },
+  "filter": {
+    "categories": "Категории",
+    "dietaryPreferences": "Диетические предпочтения",
+    "excludeAllergies": "Исключить аллергию",
+    "filterProducts": "Фильтр продуктов",
+    "maxPrice": "Макс цена",
+    "minPrice": "Мин цена",
+    "noMoreProducts": "Больше нет продуктов для загрузки",
+    "noProductsFound": "Не найдено продуктов",
+    "priceRange": "Ценовой диапазон",
+    "removeAllCategories": "Удалить все категории",
+    "special": "У вас есть что -то особенное?",
+    "tryAdjustingFiltersOrLocation": "Попробуйте настроить фильтры или местоположение"
   },
   "lib/actions/delivery-address-actions": {
     "AddressNotPreciseEnough": "Адрес недостаточно точный!",

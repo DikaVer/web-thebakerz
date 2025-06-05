@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import SidebarDrawer from '@/components/SidebarDrawer';
-import { Button, Checkbox, CheckboxGroup, Select, SelectItem, Divider, Spinner } from '@heroui/react';
+import { Button, Checkbox, CheckboxGroup, Select, SelectItem, Divider, Spinner, Accordion, AccordionItem } from '@heroui/react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import { iconAllergyMap } from '@/components/store/product/components/allergy-icons';
@@ -11,6 +11,8 @@ import { FilterParams } from '@/components/providers/product-provider';
 import { formatCurrency } from '@/lib/utils';
 import { logger } from '@/lib/logger';
 import { categories } from '@/lib/local-variables';
+import { useTranslations } from 'next-intl';
+import { CustomOrderButton } from '@/components/ui/custom-order-button';
 
 interface ProductFilterProps {
   isOpen: boolean;
@@ -40,6 +42,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
   const isUpdating = useRef(false);
   const lastUpdateTime = useRef<number>(0);
   const didMount = useRef(false);
+  const t = useTranslations("filter");
   
   // Get all category names from the categories object
   const allCategories = useMemo(() => Object.keys(categories), []);
@@ -301,12 +304,12 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       onOpenChange={onOpenChange}
       backdrop='blur'
       sidebarPlacement="right"
-      sidebarWidth={320}
-      className={'bg-background'}
+      sidebarWidth={400}
+      className={'bg-background rounded-xl rounded-r-none'}
     >
       <div className="p-4">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-semibold">Filter Products</h3>
+          <h3 className="text-xl font-semibold">{t("filterProducts")}</h3>
         </div>
 
         {isLoading ? (
@@ -317,10 +320,10 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
           <div className="space-y-6">
             {/* Price Range Filter - Always Show */}
             <div>
-              <h4 className="font-medium mb-3">Price Range</h4>
+              <h4 className="font-medium mb-3">{t("priceRange")}</h4>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm text-foreground-500 mb-1 block">Min Price</label>
+                  <label className="text-sm text-foreground-500 mb-1 block">{t("minPrice")}</label>
                   <Select
                     aria-label="Minimum price"
                     selectedKeys={[minPrice.toString()]}
@@ -340,7 +343,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
                   </Select>
                 </div>
                 <div>
-                  <label className="text-sm text-foreground-500 mb-1 block">Max Price</label>
+                  <label className="text-sm text-foreground-500 mb-1 block">{t("maxPrice")}</label>
                   <Select
                     aria-label="Maximum price"
                     selectedKeys={[maxPrice.toString()]}
@@ -364,91 +367,98 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
 
             <Divider />
 
-            {/* Categories Filter - Always Show */}
-            <div>
-              <div className="flex justify-between items-center mb-3">
-                <h4 className="font-medium">Categories</h4>
-                <Button 
-                  aria-label="Remove all categories"
-                  size="sm" 
-                  variant="ghost" 
-                  color="secondary"
-                  onPress={removeAllCategories}
-                >
-                  Remove All
-                </Button>
-              </div>
-              <CheckboxGroup
-                value={selectedCategories}
-                onValueChange={handleCategoriesChange}
-                className="gap-2"
+            {/* Remove All Button - Moved to upper position */}
+            <div className="flex justify-end">
+              <Button 
+                aria-label="Remove all categories"
+                size="sm" 
+                variant="ghost" 
+                color="secondary"
+                onPress={removeAllCategories}
               >
-                {allCategories.map((category) => (
-                  <Checkbox
-                      classNames={{
-                        wrapper: 'before:border-background-secondary',
-                      }}
-                      key={category}
-                      value={category}
-                  >
-                    <span className="capitalize">{category}</span>
-                  </Checkbox>
-                ))}
-                {allCategories.length === 0 && (
-                  <div className="text-sm text-gray-500 italic">No categories available</div>
-                )}
-              </CheckboxGroup>
+                {t("removeAllCategories")}
+              </Button>
             </div>
 
-            <Divider />
+            {/* Filters Accordion */}
+            <Accordion variant="bordered" selectionMode="multiple">
+              {/* Categories Filter */}
+              <AccordionItem key="categories" aria-label="Categories" title={t("categories")}>
+                <CheckboxGroup
+                  value={selectedCategories}
+                  onValueChange={handleCategoriesChange}
+                  className="gap-2"
+                >
+                  {allCategories.map((category) => (
+                    <Checkbox
+                        classNames={{
+                          wrapper: 'before:border-background-secondary',
+                        }}
+                        key={category}
+                        value={category}
+                    >
+                      <span className="capitalize">{category}</span>
+                    </Checkbox>
+                  ))}
+                  {allCategories.length === 0 && (
+                    <div className="text-sm text-gray-500 italic">No categories available</div>
+                  )}
+                </CheckboxGroup>
+              </AccordionItem>
 
-            {/* Allergies Filter - Show only specified allergies */}
-            <div>
-              <h4 className="font-medium mb-3">Exclude Allergies</h4>
-              <CheckboxGroup
-                value={selectedAllergies}
-                onValueChange={handleAllergiesChange}
-                className="gap-2"
-              >
-                {ALLERGY_OPTIONS.map((allergy) => (
-                  <Checkbox
+              {/* Allergies Filter */}
+              <AccordionItem key="allergies" aria-label="Exclude Allergies" title={t("excludeAllergies")}>
+                <CheckboxGroup
+                  value={selectedAllergies}
+                  onValueChange={handleAllergiesChange}
+                  className="gap-2"
+                >
+                  {ALLERGY_OPTIONS.map((allergy) => (
+                    <Checkbox
+                          classNames={{
+                              wrapper: 'before:border-background-secondary',
+                          }}
+                        key={allergy}
+                        value={allergy}
+                    >
+                      {renderAllergyOption(allergy)}
+                    </Checkbox>
+                  ))}
+                </CheckboxGroup>
+              </AccordionItem>
+
+              {/* Dietary Filter */}
+              <AccordionItem key="dietary" aria-label="Dietary Preferences" title={t("dietaryPreferences")}>
+                <CheckboxGroup
+                  value={selectedDietary}
+                  onValueChange={handleDietaryChange}
+                  className="gap-2"
+                >
+                  {Object.keys(iconSuperMap).map((diet) => (
+                    <Checkbox
                         classNames={{
                             wrapper: 'before:border-background-secondary',
                         }}
-                      key={allergy}
-                      value={allergy}
-                  >
-                    {renderAllergyOption(allergy)}
-                  </Checkbox>
-                ))}
-              </CheckboxGroup>
-            </div>
-
-            <Divider />
-
-            {/* Dietary Filter - Show all dietary options */}
-            <div>
-              <h4 className="font-medium mb-3">Dietary Preferences</h4>
-              <CheckboxGroup
-                value={selectedDietary}
-                onValueChange={handleDietaryChange}
-                className="gap-2"
-              >
-                {Object.keys(iconSuperMap).map((diet) => (
-                  <Checkbox
-                      classNames={{
-                          wrapper: 'before:border-background-secondary',
-                      }}
-                      key={diet}
-                      value={diet}
-                  >
-                    {renderDietaryOption(diet)}
-                  </Checkbox>
-                ))}
-              </CheckboxGroup>
-            </div>
+                        key={diet}
+                        value={diet}
+                    >
+                      {renderDietaryOption(diet)}
+                    </Checkbox>
+                  ))}
+                </CheckboxGroup>
+              </AccordionItem>
+            </Accordion>
           </div>
         )}
+        <div className="flex items-center gap-4 mt-4">
+            <Divider className="flex-1" />
+            <span className="text-default-400">Or</span>
+            <Divider className="flex-1" />
+        </div>
+        <p className="text-sm text-foreground-500 mt-4 w-full text-center">{t("special")}</p>
+        <CustomOrderButton 
+          className="w-full mt-4 justify-center"
+        />
       </div>
     </SidebarDrawer>
   );

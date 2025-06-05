@@ -5,12 +5,14 @@ import { getAllProductsByFilter } from '@/lib/actions/product';
 import { ProductData } from '@/lib/actions/product';
 import { FilterParams, useProductDialog } from '@/components/providers/product-provider';
 import { ProductBase } from '@/components/store/product/product';
-import { Spinner, Spacer, cn } from '@heroui/react';
+import { Spinner, Spacer, cn, Divider } from '@heroui/react';
 import { logger } from '@/lib/logger';
 import clarity from '@microsoft/clarity';
 import { exampleStore } from '@/lib/local-variables';
 import { NearbyStore } from '@/lib/actions/store';
 import { useDelivery } from '@/components/providers/delivery-provider';
+import { CustomOrderButton } from '@/components/ui/custom-order-button';
+import { useTranslations } from 'next-intl';
 // Global cache for all products by page
 const productsCache: Record<string, Record<number, ProductData[]>> = {
   "all": {},
@@ -52,6 +54,7 @@ const ProductResults: React.FC<ProductResultsProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { isDelivery } = useDelivery();
+  const t = useTranslations("filter");
   const storeDictIds = useMemo(() => {
     return stores.reduce((acc, store) => {
       acc[store.id] = store;
@@ -260,10 +263,23 @@ const ProductResults: React.FC<ProductResultsProps> = ({
 
   if (products.length === 0 && !loading && !hasMore && isFiltered) {
     return (
-        <div className="col-span-full flex flex-col justify-center items-center text-center py-10 text-default-600 min-h-svh">
-            <p className="text-lg font-medium">No Products Found</p>
-            <p className="text-sm">Try adjusting your filters or location.</p>
+      <>
+        <div className="col-span-full flex flex-col justify-center items-center text-center py-10 text-default-600 min-h-svh max-w-2xl mx-auto">
+            <p className="text-lg font-medium">{t("noProductsFound")}</p>
+            <p className="text-sm">{t("tryAdjustingFiltersOrLocation")}</p>
+            <div>
+            <div className="flex items-center gap-4 mt-4 justify-center">
+            <Divider className="flex-1" />
+            <span className="text-default-500">Or</span>
+            <Divider className="flex-1" />
+            </div>
+            <p className="text-sm text-foreground-500 mt-4">{t("special")}</p>
+            <CustomOrderButton 
+              className="w-full mt-4 justify-center"
+            />
+          </div>
         </div>
+      </>
     );
   }
 
@@ -310,8 +326,21 @@ const ProductResults: React.FC<ProductResultsProps> = ({
         </div>
       )}
       {!hasMore && products.length > 0 && (
-        <div className="text-center text-default-500 py-4">
-          <p>No more products to load.</p>
+        <div className="flex flex-col items-center max-w-2xl mx-auto">
+          <div className="text-center text-default-500 py-4">
+            <p>{t("noMoreProducts")}</p>
+          </div>
+          <div>
+            <div className="flex items-center gap-4 mt-4 justify-center">
+            <Divider className="flex-1" />
+            <span className="text-default-500">Or</span>
+            <Divider className="flex-1" />
+            </div>
+            <p className="text-sm text-foreground-500 mt-4">{t("special")}</p>
+            <CustomOrderButton 
+              className="w-full mt-4 justify-center"
+            />
+          </div>
         </div>
       )}
       <Spacer y={8} />

@@ -10,9 +10,11 @@ import {AnimatedPlaceholder} from "@/components/landing/marketplace/landing-hero
 import {useRouter} from "next/navigation";
 import BlurText from "@/components/ui/blur-text";
 import {Divider} from "@heroui/react";
-
+import { CustomOrderButton } from '../ui/custom-order-button';
+import { useTranslations } from 'next-intl';
 export const Media = () => {
   const router = useRouter();
+  const t = useTranslations("filter");
   return (
     <div className="flex flex-col items-center max-w-screen-lg mx-auto px-4 py-12 md:py-16 gap-10">
       {/* Logo and Title */}
@@ -63,6 +65,23 @@ export const Media = () => {
             />
           </div>
         </motion.div>
+        {/* Custom Order Button with Animation */}
+        <motion.div 
+            className="mx-auto w-full"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+          >
+            <div className="flex items-center gap-4 mt-4 justify-center">
+            <Divider className="flex-1" />
+            <span>or</span>
+            <Divider className="flex-1" />
+            </div>
+            <p className="text-sm text-foreground-500 mt-4 w-full text-center">{t("special")}</p>
+            <CustomOrderButton 
+              className="w-full mt-4 justify-center p-4"
+            />
+          </motion.div>
         <div className="flex items-center gap-4">
           <Divider className="flex-1" />
           <span>or</span>

@@ -768,8 +768,8 @@
     "Needhelp": "Hulp nodig?",
     "Post Delivery": "Indien ingeschakeld, is dit product beschikbaar voor postbezorging.",
     "Post Delivery Helper": "Indien ingeschakeld, is dit product beschikbaar voor postbezorging.",
-    "PostalDeliveryMismatchTitle": "Kan niet aan winkelwagen toevoegen",
     "PostalDeliveryMismatchMessage": "Dit product is niet beschikbaar voor postbezorging, maar uw geselecteerde bezorgmethode is postbezorging. Kies afhalen of verander naar een regulier bezorggebied.",
+    "PostalDeliveryMismatchTitle": "Kan niet aan winkelwagen toevoegen",
     "Price": "Prijs",
     "Select Category": "Selecteer categorie",
     "Update": "Update",
@@ -1168,7 +1168,8 @@
     "bakersGrowthSectionTitle": "Laat uw bakkerijbedrijf groeien met TheBakerz",
     "become": "Word lid van PLAFORM",
     "heroSectionTitle": "Ontdek ambachtelijke bakkerijen bij jou in de buurt",
-    "joinBakerz": ""
+    "joinBakerz": "",
+    "special": "Heb je iets speciaals in gedachten?"
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "Aanvraag succesvol ingediend!",
@@ -1269,6 +1270,20 @@
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Voer adres in",
     "whereToDeliver": "Waar wilt u uw bestelling laten bezorgen?"
+  },
+  "filter": {
+    "categories": "Categorieën",
+    "dietaryPreferences": "Dieetvoorkeuren",
+    "excludeAllergies": "Allergieën uitsluiten",
+    "filterProducts": "Filterproducten",
+    "maxPrice": "Maximale prijs",
+    "minPrice": "Min prijs",
+    "noMoreProducts": "Geen producten meer om te laden",
+    "noProductsFound": "Geen producten gevonden",
+    "priceRange": "Prijsklasse",
+    "removeAllCategories": "Verwijder alle categorieën",
+    "special": "Heb je iets speciaals in gedachten?",
+    "tryAdjustingFiltersOrLocation": "Probeer uw filters of locatie aan te passen"
   },
   "lib/actions/delivery-address-actions": {
     "AddressNotPreciseEnough": "Het adres is niet precies genoeg!",

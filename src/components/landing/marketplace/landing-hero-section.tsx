@@ -1,6 +1,6 @@
 'use client';
 
-import { Button} from '@heroui/react';
+import { Button, Divider} from '@heroui/react';
 import { Icon } from '@iconify/react';
 import Image from 'next/image';
 import BlurText from '@/components/ui/blur-text';
@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import LanguageModal from "@/components/language-modal";
 import Link from 'next/link';
 import { LanguageButtonWithHint } from '@/components/ui/language-button-with-hint';
+import { CustomOrderButton } from '@/components/ui/custom-order-button';
 
 // Animated typing component
 export const AnimatedPlaceholder = () => {
@@ -143,6 +144,23 @@ export const LandingHeroSection = () => {
                   className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" 
                 />
             </Link>
+          </motion.div>
+          
+          {/* Custom Order Button with Animation */}
+          <motion.div 
+            className="max-w-md mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+          >
+            <div className="flex items-center gap-4 mt-4">
+            <Divider className="flex-1" />
+            <span className="text-default-500">Or</span>
+            <Divider className="flex-1" />
+            </div>
+            <CustomOrderButton 
+              className="w-full mt-4 justify-center"
+            />
           </motion.div>
         </div>
       </div>

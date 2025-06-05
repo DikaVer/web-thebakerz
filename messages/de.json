@@ -752,8 +752,8 @@
     "Needhelp": "Benötigen Sie Hilfe?",
     "Post Delivery": "Falls aktiviert, ist dieses Produkt für die Postzustellung verfügbar.",
     "Post Delivery Helper": "Falls aktiviert, ist dieses Produkt für die Postzustellung verfügbar.",
-    "PostalDeliveryMismatchTitle": "Kann nicht zum Warenkorb hinzugefügt werden",
     "PostalDeliveryMismatchMessage": "Dieses Produkt ist nicht für die Postzustellung verfügbar, aber Ihre gewählte Liefermethode ist Postzustellung. Bitte wählen Sie Abholung oder wechseln Sie zu einem regulären Liefergebiet.",
+    "PostalDeliveryMismatchTitle": "Kann nicht zum Warenkorb hinzugefügt werden",
     "Price": "Preis",
     "Select Category": "Kategorie auswählen",
     "Update": "Aktualisieren",
@@ -1140,7 +1140,8 @@
     "bakersGrowthSectionTitle": "Wachsen Sie Ihr Bäckereigeschäft mit TheBakerz aus",
     "become": "",
     "heroSectionTitle": "Entdecken Sie handwerkliche Bäckereien in Ihrer Nähe",
-    "joinBakerz": ""
+    "joinBakerz": "",
+    "special": "Haben Sie etwas Besonderes im Sinn?"
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "Der Antrag wurde erfolgreich eingereicht!",
@@ -1237,6 +1238,20 @@
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Adresse eingeben",
     "whereToDeliver": "Wo kann man Ihre Bestellung liefern?"
+  },
+  "filter": {
+    "categories": "Kategorien",
+    "dietaryPreferences": "Ernährungsvorlieben",
+    "excludeAllergies": "Allergien ausschließen",
+    "filterProducts": "Filterprodukte",
+    "maxPrice": "Maximaler Preis",
+    "minPrice": "Min Preis",
+    "noMoreProducts": "Keine Produkte mehr zum Laden",
+    "noProductsFound": "Keine Produkte gefunden",
+    "priceRange": "Preisklasse",
+    "removeAllCategories": "Entfernen Sie alle Kategorien",
+    "special": "Haben Sie etwas Besonderes im Sinn?",
+    "tryAdjustingFiltersOrLocation": "Versuchen Sie, Ihre Filter oder Standort anzupassen"
   },
   "lib/actions/delivery-address-actions": {
     "AddressNotPreciseEnough": "Adresse ist nicht präzise genug!",

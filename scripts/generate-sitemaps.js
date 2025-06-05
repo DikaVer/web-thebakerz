@@ -124,15 +124,16 @@ function generateStaticPagesXml() {
     const currentDate = new Date().toISOString();
     const staticPages = [
         { url: SITE_URL, priority: 1.0, changefreq: 'daily' },
-        { url: `${SITE_URL}/about-us`, priority: 0.8, changefreq: 'weekly' },
-        { url: `${SITE_URL}/become-partner`, priority: 0.9, changefreq: 'weekly' },
-        { url: `${SITE_URL}/search`, priority: 0.8, changefreq: 'daily' },
-        { url: `${SITE_URL}/support`, priority: 0.7, changefreq: 'weekly' },
-        { url: `${SITE_URL}/support/contact-us`, priority: 0.6, changefreq: 'monthly' },
-        { url: `${SITE_URL}/policies/privacy-policy`, priority: 0.5, changefreq: 'weekly' },
-        { url: `${SITE_URL}/policies/refund-policy`, priority: 0.5, changefreq: 'weekly' },
-        { url: `${SITE_URL}/policies/terms-of-use`, priority: 0.5, changefreq: 'weekly' },
-        { url: `${SITE_URL}/socials`, priority: 0.6, changefreq: 'weekly' },
+        { url: `${SITE_URL}/about-us`, priority: 0.95, changefreq: 'weekly' },
+        { url: `${SITE_URL}/become-partner`, priority: 0.98, changefreq: 'weekly' },
+        { url: `${SITE_URL}/search`, priority: 0.95, changefreq: 'daily' },
+        { url: `${SITE_URL}/auth`, priority: 0.95, changefreq: 'monthly' },
+        { url: `${SITE_URL}/support`, priority: 0.92, changefreq: 'weekly' },
+        { url: `${SITE_URL}/support/contact-us`, priority: 0.9, changefreq: 'monthly' },
+        { url: `${SITE_URL}/policies/privacy-policy`, priority: 0.9, changefreq: 'weekly' },
+        { url: `${SITE_URL}/policies/refund-policy`, priority: 0.9, changefreq: 'weekly' },
+        { url: `${SITE_URL}/policies/terms-of-use`, priority: 0.9, changefreq: 'weekly' },
+        { url: `${SITE_URL}/socials`, priority: 0.92, changefreq: 'weekly' },
     ];
 
     let xml = `
@@ -310,7 +311,7 @@ async function fetchActiveProducts() {
 /**
  * Generate store URL entry
  */
-function generateStoreUrlEntry(store, priority = 0.7) {
+function generateStoreUrlEntry(store, priority = 0.85) {
     const storeUrl = `${SITE_URL}/${store.id}`;
     const lastmod = new Date().toISOString();
     const changefreq = priority >= 0.8 ? 'daily' : 'weekly';
@@ -349,7 +350,7 @@ function generateStoreUrlEntry(store, priority = 0.7) {
 /**
  * Generate product URL entry
  */
-function generateProductUrlEntry(product, priority = 0.6) {
+function generateProductUrlEntry(product, priority = 0.8) {
     const productUrl = `${SITE_URL}/${product.store_id}/item/${product.constId}`;
     const lastmod = product.updatedAt || product.createdAt || new Date().toISOString();
     
@@ -358,11 +359,8 @@ function generateProductUrlEntry(product, priority = 0.6) {
     const isNewProduct = productAge < (7 * 24 * 60 * 60 * 1000); // 7 days
     const changefreq = isNewProduct ? 'daily' : 'weekly';
     
-    // Adjust priority based on factors
-    if (isNewProduct) priority = Math.min(priority + 0.1, 0.9);
-    if (product.category === 'featured' || product.category === 'bestseller') {
-        priority = Math.min(priority + 0.2, 0.9);
-    }
+    // Keep priority consistent at 0.8 for all products
+    priority = 0.8;
 
     // Safe product name and description
     const productName = product.name || product.web_name || `Product ${product.id}`;
@@ -445,18 +443,8 @@ async function generateComprehensiveSitemap() {
   <!-- Store Pages (${stores.length} stores) -->`;
             
             stores.forEach((store, index) => {
-                // Determine priority based on store activity and position
-                let priority = 0.7; // Default priority
-                
-                if (store.product_count > 20) priority = 0.9; // High activity stores
-                else if (store.product_count > 10) priority = 0.8; // Medium activity stores
-                else if (store.product_count > 5) priority = 0.7; // Regular stores
-                else priority = 0.6; // Low activity stores
-                
-                // Featured stores (first few with most products) get higher priority
-                if (index < 5 && store.product_count > 5) {
-                    priority = Math.min(priority + 0.1, 0.9);
-                }
+                // Set consistent priority for all stores
+                const priority = 0.85;
 
                 xml += generateStoreUrlEntry(store, priority);
             });
@@ -486,20 +474,8 @@ async function generateComprehensiveSitemap() {
   <!-- Products from Store: ${storeId} (${storeProducts.length} products) -->`;
                 
                 storeProducts.forEach(product => {
-                    // Determine priority based on various factors
-                    let priority = 0.6; // Default priority
-                    
-                    const productAge = new Date() - new Date(product.createdAt || new Date());
-                    const isNewProduct = productAge < (7 * 24 * 60 * 60 * 1000); // 7 days
-                    
-                    // Category-based priority
-                    if (product.category === 'featured' || product.category === 'bestseller') {
-                        priority = 0.9;
-                    } else if (product.category === 'seasonal' || product.category === 'special') {
-                        priority = 0.7;
-                    } else if (isNewProduct) {
-                        priority = 0.8;
-                    }
+                    // Set consistent priority for all products
+                    const priority = 0.8;
 
                     xml += generateProductUrlEntry(product, priority);
                 });
@@ -591,7 +567,7 @@ Allow: /images/mobile/
 # === BLOCK PRIVATE AND NON-INDEXABLE CONTENT ===
 
 # Authentication and user account areas
-Disallow: /auth
+Allow: /auth
 Disallow: /login
 Disallow: /register
 Disallow: /account/

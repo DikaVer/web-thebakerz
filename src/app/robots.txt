@@ -1,5 +1,5 @@
 # TheBakerz Robots.txt - Optimized for E-commerce Marketplace SEO
-# Last updated: 6/2/2025
+# Last updated: 6/6/2025
 # Website: https://www.thebakerz.com
 
 # === MAIN CRAWLERS ===
@@ -42,7 +42,7 @@ Allow: /images/mobile/
 # === BLOCK PRIVATE AND NON-INDEXABLE CONTENT ===
 
 # Authentication and user account areas
-Disallow: /auth
+Allow: /auth
 Disallow: /login
 Disallow: /register
 Disallow: /account/

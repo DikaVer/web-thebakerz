@@ -754,8 +754,8 @@
     "Needhelp": "Besoin d'aide ?",
     "Post Delivery": "Si activé, ce produit sera disponible pour la livraison postale.",
     "Post Delivery Helper": "Si activé, ce produit sera disponible pour la livraison postale.",
-    "PostalDeliveryMismatchTitle": "Impossible d'ajouter au panier",
     "PostalDeliveryMismatchMessage": "Ce produit n'est pas disponible pour la livraison postale, mais votre méthode de livraison sélectionnée est la livraison postale. Veuillez choisir le retrait ou changer vers une zone de livraison régulière.",
+    "PostalDeliveryMismatchTitle": "Impossible d'ajouter au panier",
     "Price": "Prix",
     "Select Category": "Sélectionner une catégorie",
     "Update": "Mise à jour",
@@ -1144,7 +1144,8 @@
     "bakersGrowthSectionTitle": "Faites développer votre entreprise de boulangerie avec TheBakerz",
     "become": "Rejoindre Plaform",
     "heroSectionTitle": "Découvrez les boulangeries artisanales près de chez vous",
-    "joinBakerz": ""
+    "joinBakerz": "",
+    "special": "Avez-vous quelque chose de spécial en tête?"
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "La demande a été soumise avec succès!",
@@ -1243,6 +1244,20 @@
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Entrer l'adresse",
     "whereToDeliver": "Où livrer votre commande?"
+  },
+  "filter": {
+    "categories": "Catégories",
+    "dietaryPreferences": "Préférences alimentaires",
+    "excludeAllergies": "Exclure les allergies",
+    "filterProducts": "Filtre des produits",
+    "maxPrice": "Prix ​​maximum",
+    "minPrice": "Prix ​​min",
+    "noMoreProducts": "Plus de produits à charger",
+    "noProductsFound": "Aucun produit trouvé",
+    "priceRange": "Fourchette",
+    "removeAllCategories": "Supprimer toutes les catégories",
+    "special": "Avez-vous quelque chose de spécial en tête?",
+    "tryAdjustingFiltersOrLocation": "Essayez de régler vos filtres ou votre emplacement"
   },
   "lib/actions/delivery-address-actions": {
     "AddressNotPreciseEnough": "L'adresse n'est pas assez précise!",

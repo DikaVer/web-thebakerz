@@ -1140,7 +1140,8 @@
     "bakersGrowthSectionTitle": "Haga crecer su negocio de panadería con TheBakerz",
     "become": "Plataforma de unión",
     "heroSectionTitle": "Descubre panaderías artesanales cerca de ti",
-    "joinBakerz": ""
+    "joinBakerz": "",
+    "special": "¿Tienes algo especial en mente?"
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "¡La solicitud fue enviada con éxito!",
@@ -1237,6 +1238,20 @@
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Ingrese la dirección",
     "whereToDeliver": "¿Dónde entregar su pedido?"
+  },
+  "filter": {
+    "categories": "Categorías",
+    "dietaryPreferences": "Preferencias dietéticas",
+    "excludeAllergies": "Excluir alergias",
+    "filterProducts": "Productos de filtro",
+    "maxPrice": "Precio máximo",
+    "minPrice": "Precio mínimo",
+    "noMoreProducts": "No más productos para cargar",
+    "noProductsFound": "No se encuentran productos",
+    "priceRange": "Gama de precios",
+    "removeAllCategories": "Eliminar todas las categorías",
+    "special": "¿Tienes algo especial en mente?",
+    "tryAdjustingFiltersOrLocation": "Intente ajustar sus filtros o ubicación"
   },
   "lib/actions/delivery-address-actions": {
     "AddressNotPreciseEnough": "¡La dirección no es lo suficientemente precisa!",
