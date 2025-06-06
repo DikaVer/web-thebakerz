@@ -7,6 +7,7 @@ import { ProductFilter } from './ProductFilter';
 import { useProductDialog, FilterParams } from '@/components/providers/product-provider';
 import { Hint } from '@/components/ui/hint';
 import { logger } from '@/lib/logger';
+import { useDelivery } from '@/components/providers/delivery-provider';
 
 interface FilterButtonWithHintProps {
   showHintDelay?: number;
@@ -19,6 +20,7 @@ export const FilterButtonWithHint: React.FC<FilterButtonWithHintProps> = ({
 }) => {
   const { setFilterParams, filterParams, toggleProductSearch, isProductSearchOpen } = useProductDialog();
   const [showFilterHint, setShowFilterHint] = useState(false);
+  const { validationResult } = useDelivery();
 
   // Show filter hint after a delay on component mount
   useEffect(() => {
@@ -38,7 +40,7 @@ export const FilterButtonWithHint: React.FC<FilterButtonWithHintProps> = ({
       clearTimeout(timer);
       clearTimeout(autoHideTimer);
     };
-  }, [isProductSearchOpen, showHintDelay, autoHideDelay]);
+  }, [validationResult, showHintDelay, autoHideDelay]);
 
   // Hide hint when filter modal is opened
   useEffect(() => {
