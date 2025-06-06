@@ -37,6 +37,16 @@ function getCacheKey(storeIds: string[] = []): string {
   return storeIds.length ? storeIds.sort().join('-') : 'all';
 }
 
+// Helper function to shuffle an array using Fisher-Yates algorithm
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 interface ProductResultsProps {
   storeIds?: string[];
   stores?: NearbyStore[];
@@ -120,17 +130,20 @@ const ProductResults: React.FC<ProductResultsProps> = ({
     
       logger.debug('Fetched products:', `products: ${result.products.length}`);
       
-      // Cache the result
+      // Shuffle the products before caching and setting state
+      const shuffledProducts = shuffleArray(result.products);
+      
+      // Cache the shuffled result
       if (!productsCache[cacheType]) {
         productsCache[cacheType] = {};
       }
-      productsCache[cacheType][currentPage] = result.products;
+      productsCache[cacheType][currentPage] = shuffledProducts;
       hasMoreCache[cacheType] = result.hasMore;
       
       setProducts(prevProducts => 
         currentPage === 1 
-          ? result.products 
-          : [...prevProducts, ...result.products]
+          ? shuffledProducts 
+          : [...prevProducts, ...shuffledProducts]
       );
       
       setHasMore(result.hasMore);
