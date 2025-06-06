@@ -36,6 +36,9 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
 
     const amount = itemsArray.reduce((sum, item) => {
         const productData = getProductDataById(item.product_id);
+        if (isDelivery && !productData?.isPostDelivery && validationResult?.deliveryRegion?.isPostDelivery) {
+            return sum;
+        }
         return productData ? sum + calculateItemTotalPrice(item.variants, productData.price, item.quantity) : sum;
     }, 0);
 
