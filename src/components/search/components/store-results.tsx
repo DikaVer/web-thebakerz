@@ -2,12 +2,13 @@
 import { NearbyStore } from '@/lib/actions/store';
 import { StorePanel } from './store-panel';
 import { logger } from '@/lib/logger';
-import { cn } from '@heroui/react';
+import { cn, Divider } from '@heroui/react';
 import { isEmptyFilters } from './product-results';
 import { useProductDialog } from '@/components/providers/product-provider';
 import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
 import clarity from '@microsoft/clarity';
+import { CustomOrderButton } from '@/components/ui/custom-order-button';
 interface StoreResultsProps {
   stores: NearbyStore[];
   isUserCord: boolean;
@@ -38,9 +39,20 @@ export function StoreClientResults({ stores, isUserCord, mode }: StoreResultsPro
           />
         ))}
         {stores.length === 0 && (
-          <div className="col-span-full flex flex-col justify-center items-center text-center py-10 text-default-600 min-h-svh">
+          <div className="col-span-full flex flex-col justify-center items-center text-center py-10 text-default-600 min-h-svh max-w-2xl mx-auto">
             <p className="text-lg font-medium">{t("noStoresFound")}</p>
             <p className="text-sm">{t("tryChangingLocationOrDeliveryMode")}</p>
+            <div>
+            <div className="flex items-center gap-4 mt-4 justify-center">
+            <Divider className="flex-1" />
+            <span className="text-default-500">Or</span>
+            <Divider className="flex-1" />
+            </div>
+            <p className="text-sm text-foreground-500 mt-4">{t("special")}</p>
+            <CustomOrderButton 
+              className="w-full mt-4 justify-center"
+            />
+          </div>
           </div>
         )}
       </div>
