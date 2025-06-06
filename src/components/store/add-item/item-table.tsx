@@ -37,7 +37,7 @@ export const ItemTable: React.FC<ItemTableProps> = ({ category, productsData, is
                             onClick={()=>{
                                 if (!isLoading) {
                                     setIsLoading(true);
-                                    router.push(`/${store?.storeName || store?.id}/item/add-item/${product.id}`);
+                                    router.push(`/${store?.storeName || store?.id}/item/add-item/${product.constId}`);
                                 }
                             }}
                             className="grid grid-cols-7 col-span-7 cursor-pointer gap-x-4 hover:bg-default-100 p-2 rounded-lg group"
