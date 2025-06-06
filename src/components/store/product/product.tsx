@@ -116,7 +116,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const [likeCount, setLikeCount] = useState(productData.totalLikes !== undefined ? (isFavorite ? productData.totalLikes + 1 : productData.totalLikes) : 0);
     const [isAnimating, setIsAnimating] = useState(false);
 
-    const productUrl = `/${store?.storeName || productData.store_id}/item/${productData.web_name}`;
+    const productUrl = `/${store?.storeName || productData.store_id}/item/${productData.web_name || productData.constId}`;
 
     const handlePopoverOpenChange = (open: boolean) => {
         setIsManualOpen(open);

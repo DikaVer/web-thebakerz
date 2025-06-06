@@ -108,7 +108,7 @@ export default function ProductDialogView({
 
     const handleEditItem = () => {
         setIsLoading(true);
-        router.push(`/${store?.storeName || productData.store_id}/item/${productData.web_name}`); 
+        router.push(`/${store?.storeName || productData.store_id}/item/${productData.web_name || productData.constId}`); 
     };
 
     // This function calls the updateCart server action.

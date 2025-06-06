@@ -107,7 +107,7 @@ export default function VariantsUserSelection({
     return (
         <div className="flex flex-col gap-4">
             {productData.variants.map((variant, index) => (
-                <div key={`${variant.label}-${index}`} className="flex flex-col gap-2">
+                <div key={`${variant.label}-${index}`} className="flex flex-col gap-2 mt-2">
                     <div className="flex justify-between items-center">
                         <span className="text-lg font-medium text-text">
                             {variant.label}
@@ -167,7 +167,7 @@ export default function VariantsUserSelection({
                                     key={option.label} 
                                     textValue={option.label}
                                     classNames={{
-                                        base: "py-2",
+                                        base: "py-4 border-b border-default-200 rounded-none",
                                     }}
                                     endContent={
                                         variant.isSingle ? 
