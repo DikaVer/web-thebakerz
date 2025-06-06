@@ -24,7 +24,14 @@ const partners = [
     name: "Microsoft",
     logo: "/partner/Microsoft-for-Startups.png",
     alt: "Microsoft logo"
-  }
+  },
+  {
+    name: "Stripe",
+    logo: "/partner/stripe.svg",
+    alt: "Stripe logo"
+  },
+  
+
 ];
 
 export default function Partners() {
