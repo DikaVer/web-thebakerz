@@ -6,9 +6,11 @@ import { Icon } from '@iconify/react';
 interface LanguageHintProps {
   show: boolean;
   onDismiss: () => void;
+  text: string;
+  icon?: React.ReactNode;
 }
 
-export const LanguageHint = ({ show, onDismiss }: LanguageHintProps) => {
+export const Hint = ({ show, onDismiss, text, icon }: LanguageHintProps) => {
   if (!show) return null;
 
   return (
@@ -103,7 +105,7 @@ export const LanguageHint = ({ show, onDismiss }: LanguageHintProps) => {
               fontFamily: 'Comic Sans MS, system-ui',
             }}
           >
-            Click here to change language <Icon icon="material-symbols:translate" className="text-foreground" width={16} height={16} />
+            {text} {icon}
           </p>
           
           {/* Small triangle pointer - pointing right toward the button */}

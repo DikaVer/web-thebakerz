@@ -6,11 +6,11 @@ import { useDelivery } from "@/components/providers/delivery-provider";
 import { DeliveryAddressButton } from "@/components/ui/select-time/delivery-address-button";
 import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { FilterButton } from "@/components/store/filter/FilterButton";
 import { useCart } from "@/components/providers/cart-provider";
 import { StoreData } from "@/lib/actions/store";
 import { useTranslations } from "next-intl";
 import { useMediaQuery } from "usehooks-ts";
+import { FilterButtonWithHint } from "@/components/store/filter/FilterButtonWithHint";
 
 interface DeliveryNavbarProps {
     isVisible: boolean;
@@ -141,7 +141,7 @@ export const DeliveryNavbar: React.FC<DeliveryNavbarProps> = ({
                 )}>
                     <div className={cn("flex space-x-2")}>
                         {!(!isDelivery && !isSearchPage) && <DeliveryAddressButton />}
-                        <FilterButton />
+                        <FilterButtonWithHint />
                     </div>
                 </div>
             </div>

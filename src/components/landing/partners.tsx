@@ -16,7 +16,7 @@ const partners = [
     alt: "Maastricht University logo"
   },
   {
-    name: "Cloud",
+    name: "Google Cloud",
     logo: "/partner/Google_for_Startups_logo.svg",
     alt: "Google for Startups logo"
   },
@@ -30,7 +30,31 @@ const partners = [
     logo: "/partner/stripe.svg",
     alt: "Stripe logo"
   },
-  
+  {
+    name: "Brightlands repeated",
+    logo: "/partner/brightlands-screen.svg",
+    alt: "Brightlands logo - 2"
+  },
+  {
+    name: "Maastricht University repeated",
+    logo: "/partner/Maastricht_University_logo.svg",
+    alt: "Maastricht University logo - 2"
+  },
+  {
+    name: "Google Cloud repeated",
+    logo: "/partner/Google_for_Startups_logo.svg",
+    alt: "Google for Startups logo - 2"
+  },
+  {
+    name: "Microsoft repeated",
+    logo: "/partner/Microsoft-for-Startups.png",
+    alt: "Microsoft logo - 2"
+  },
+  {
+    name: "Stripe repeated",
+    logo: "/partner/stripe.svg",
+    alt: "Stripe logo - 2"
+  },
 
 ];
 
@@ -48,7 +72,7 @@ export default function Partners() {
       <ScrollingBanner 
         className="w-full dark:bg-default-900" 
         gap="4rem"
-        duration={30}
+        duration={60}
       >
         {partners.map((partner) => (
           <div key={partner.name} className="flex items-center justify-center h-24 px-8">

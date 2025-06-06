@@ -5,7 +5,6 @@ import { ProductListBase } from "@/components/store/product/product-list";
 import { getCurrentProducts, ProductData, ProductDataFull } from "@/lib/actions/product";
 import { getCurrentProductsOrder } from "@/lib/actions/order-products";
 import { getTranslations } from "next-intl/server";
-import { FilterButton } from "@/components/store/filter/FilterButton";
 
 type SearchParams = {
     minPrice?: string;

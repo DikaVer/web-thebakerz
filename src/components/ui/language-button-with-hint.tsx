@@ -3,7 +3,7 @@
 import { Button } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { useState, useEffect } from 'react';
-import { LanguageHint } from './language-hint';
+import { Hint } from './hint';
 
 interface LanguageButtonWithHintProps {
   onLanguageOpen: () => void;
@@ -61,9 +61,11 @@ export const LanguageButtonWithHint = ({
       </Button>
       
       {/* Language hint positioned relative to the button */}
-      <LanguageHint 
+      <Hint
         show={showLanguageHint} 
         onDismiss={() => setShowLanguageHint(false)} 
+        text="Click here to change language"
+        icon={<Icon icon="material-symbols-light:translate" className="text-foreground" width={16} height={16} />}
       />
     </div>
   );
