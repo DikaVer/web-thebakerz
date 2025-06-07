@@ -153,15 +153,18 @@ export const LandingHeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
           >
-            <div className="flex items-center gap-4 mt-4">
-            <Divider className="flex-1" />
-            <span className="text-default-500">Or</span>
-            <Divider className="flex-1" />
+            <div className="flex items-center gap-4 mt-4 bg-white/30 backdrop-blur-md rounded-full px-4">
+              <Divider className="flex-1 bg-foreground" />
+              <span className="text-foreground">Or</span>
+              <Divider className="flex-1 bg-foreground" />
             </div>
             <CustomOrderButton 
               variant="bordered"
-              className="w-full mt-4 justify-center bg-white text-foreground border-none shadow-small hover:bg-background/70"
-            />
+              className="w-full mt-4 justify-center bg-white text-foreground border-none shadow-small hover:bg-background/70 rounded-2xl"
+            >
+              <p className="text-xs text-default-500">{t("special")}</p>
+              <p className="text-sm text-default-700">{t("customOrder")}</p>
+            </CustomOrderButton>
           </motion.div>
         </div>
       </div>

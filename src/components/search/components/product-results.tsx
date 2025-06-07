@@ -296,19 +296,14 @@ const ProductResults: React.FC<ProductResultsProps> = ({
     );
   }
 
-  if (!isFiltered) {
-    return null;
-  }
-
-  
-
   return (
     <div className={cn("w-full")}>
       <div className={'flex w-full justify-center'}>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6  gap-4 w-full">
           {products.map((product, index) => {
             const deliveryRegion = storeDictIds[product.store_id]?.deliveryRegion;
-            if(isDelivery && !product.isPostDelivery && deliveryRegion?.isPostDelivery) {
+            // check on delivery region and if storeId is presented in storeIds
+            if((isDelivery && !product.isPostDelivery && deliveryRegion?.isPostDelivery) || !storeIds.includes(product.store_id)) {
               return null;
             }
 

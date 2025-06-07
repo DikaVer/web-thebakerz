@@ -3,6 +3,7 @@
 import React from 'react';
 import { Link } from '@heroui/react';
 import { ExternalLinkIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface CustomOrderButtonProps {
   size?: 'sm' | 'md' | 'lg';
@@ -18,9 +19,15 @@ export const CustomOrderButton: React.FC<CustomOrderButtonProps> = ({
   color = 'primary',
   variant = 'solid',
   className = '',
-  children = 'Custom Dessert',
+  children,
   showIcon = true,
 }) => {
+  const t = useTranslations("filter");
+
+  if (!children) {
+    children = t("customOrder");
+  }
+
   return (
     <Link
       href="https://form.typeform.com/to/B6ShMyC8"

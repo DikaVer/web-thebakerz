@@ -154,14 +154,14 @@ export const descriptionSchema = z.string()
 
 // Schema for individual option items within a variant
 export const VariantOptionSchema = z.object({
-    label: z.string().min(4, { message: "Minimum 4 characters" }),
+    label: z.string().min(2, { message: "Minimum 2 characters" }),
     price: z.number().min(0, { message: "Price must be a positive number" })
         .transform(val => parseFloat(val.toFixed(2)) * 100), // Convert to cents
 });
 
 // Schema for an entire variant group
 export const VariantSchema = z.object({
-    label: z.string().min(1, { message: "Minimum 4 characters" }),
+    label: z.string().min(2, { message: "Minimum 2 characters" }),
     isSingle: z.boolean().default(true),
     required: z.boolean().default(false),
     minSelections: z.number().min(0).optional(),

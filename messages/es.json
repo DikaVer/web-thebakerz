@@ -1139,6 +1139,7 @@
     "bakersGrowthSectionDescription": "Abra una tienda web en línea bellamente marcada en minutos, aproveche a nuestros socios de entrega y aproveche las campañas de marketing específicas que ponen sus creaciones en más mesas en todo el país. \nHaga crecer su negocio, deleite más amantes del postres y permítanos manejar la logística mientras se concentra en las obras maestras de hornear.",
     "bakersGrowthSectionTitle": "Haga crecer su negocio de panadería con TheBakerz",
     "become": "Plataforma de unión",
+    "customOrder": "Postre personalizado",
     "heroSectionTitle": "Descubre panaderías artesanales cerca de ti",
     "joinBakerz": "",
     "special": "¿Tienes algo especial en mente?"
@@ -1234,6 +1235,7 @@
   },
   "app/search": {
     "noStoresFound": "No se encuentran tiendas",
+    "special": "¿Tienes algo especial en mente?",
     "tryChangingLocationOrDeliveryMode": "Intente cambiar su ubicación o modo de entrega."
   },
   "delivery-button": {
@@ -1242,8 +1244,11 @@
   },
   "filter": {
     "categories": "Categorías",
+    "customOrder": "Postre personalizado",
     "dietaryPreferences": "Preferencias dietéticas",
     "excludeAllergies": "Excluir alergias",
+    "exploreProducts": "Explorar postres",
+    "exploreStores": "Explorar tiendas",
     "filterProducts": "Productos de filtro",
     "maxPrice": "Precio máximo",
     "minPrice": "Precio mínimo",

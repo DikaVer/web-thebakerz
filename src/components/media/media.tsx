@@ -77,10 +77,13 @@ export const Media = () => {
             <span>or</span>
             <Divider className="flex-1" />
             </div>
-            <p className="text-sm text-foreground-500 mt-4 w-full text-center">{t("special")}</p>
             <CustomOrderButton 
-              className="w-full mt-4 justify-center p-4"
-            />
+              variant="bordered"
+              className="w-full mt-4 justify-center p-4 justify-center bg-white text-foreground border-none shadow-small hover:bg-background/70 rounded-lg"
+            >
+              <p className="text-xs text-default-500">{t("special")}</p>
+              <p className="text-sm text-default-700 text-center">Custom Order</p>
+            </CustomOrderButton>
           </motion.div>
         <div className="flex items-center gap-4">
           <Divider className="flex-1" />

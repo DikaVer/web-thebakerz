@@ -1143,6 +1143,7 @@
     "bakersGrowthSectionDescription": "Ouvrez un magasin en ligne magnifiquement de marque en quelques minutes, exploitez nos partenaires de livraison et tirez parti des campagnes de marketing ciblées qui mettent vos créations sur plus de tables à travers le pays. \nDéveloppez votre entreprise, ravissez plus d'amateurs de desserts et laissez-nous gérer la logistique pendant que vous vous concentrez sur les chefs-d'œuvre de la cuisson.",
     "bakersGrowthSectionTitle": "Faites développer votre entreprise de boulangerie avec TheBakerz",
     "become": "Rejoindre Plaform",
+    "customOrder": "Dessert personnalisé",
     "heroSectionTitle": "Découvrez les boulangeries artisanales près de chez vous",
     "joinBakerz": "",
     "special": "Avez-vous quelque chose de spécial en tête?"
@@ -1238,6 +1239,7 @@
   },
   "app/search": {
     "noStoresFound": "Aucun magasin trouvé",
+    "special": "Avez-vous quelque chose de spécial en tête?",
     "tryChangingLocationOrDeliveryMode": "Essayez de modifier votre emplacement ou votre mode de livraison."
   },
   "common": {
@@ -1248,8 +1250,11 @@
   },
   "filter": {
     "categories": "Catégories",
+    "customOrder": "Dessert personnalisé",
     "dietaryPreferences": "Préférences alimentaires",
     "excludeAllergies": "Exclure les allergies",
+    "exploreProducts": "Explorer les desserts",
+    "exploreStores": "Explorer les magasins",
     "filterProducts": "Filtre des produits",
     "maxPrice": "Prix ​​maximum",
     "minPrice": "Prix ​​min",

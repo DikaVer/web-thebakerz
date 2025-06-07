@@ -1161,6 +1161,7 @@
     "bakersGrowthSectionDescription": "Open a beautifully branded online web-store in minutes, tap into our delivery partners, and leverage targeted marketing campaigns that put your creations on more tables across the country. Grow your business, delight more dessert-lovers, and let us handle the logistics while you focus on baking masterpieces.",
     "bakersGrowthSectionTitle": "Grow your bakery business with TheBakerz",
     "become": "Join platform",
+    "customOrder": "Custom Dessert",
     "heroSectionTitle": "Discover artisanal bakeries near you",
     "joinBakerz": "Join TheBakerz — where happy customers meet local bakers",
     "special": "Do you have something special in mind?"
@@ -1258,6 +1259,7 @@
   },
   "app/search": {
     "noStoresFound": "No stores found",
+    "special": "Do you have something special in mind?",
     "tryChangingLocationOrDeliveryMode": "Try changing your location or delivery mode."
   },
   "common": {
@@ -1268,8 +1270,11 @@
   },
   "filter": {
     "categories": "Categories",
+    "customOrder": "Custom Dessert",
     "dietaryPreferences": "Dietary Preferences",
     "excludeAllergies": "Exclude Allergies",
+    "exploreProducts": "Explore Desserts",
+    "exploreStores": "Explore Stores",
     "filterProducts": "Filter Products",
     "maxPrice": "Max Price",
     "minPrice": "Min Price",

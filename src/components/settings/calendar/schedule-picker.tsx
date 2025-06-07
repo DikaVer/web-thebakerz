@@ -3,7 +3,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import { Time } from '@internationalized/date';
 import { Button, Spacer, Switch, Select, SelectItem } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import {WorkHours} from "@/lib/actions/calendar-actions";
+import {WorkHours, updateSchedule} from "@/lib/actions/calendar-actions";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import showErrorMessage from "@/components/toast/toast-error";
 import {useSession} from "@/components/providers/session-provider";
@@ -230,24 +230,17 @@ export const WorkingHoursComp: React.FC = () => {
             setIsLoading(true);
             try {
                 logger.debug('scheduleSettings', 'saving schedule changes');
-                const res = await fetch('/api/update-schedule', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        workHours: workingHours,
-                        storeId: store.id,
-                    }),
-                });
+                const result = await updateSchedule(workingHours, store.id);
                 
-                if (!res.ok) {
-                    if (res.status === 500) {
+                if (!result.success) {
+                    if (result.status === 500) {
                         showErrorMessage({ error: t("errorSomethingWentWrong") });
-                    } else if (res.status === 429) {
+                    } else if (result.status === 429) {
                         showErrorMessage({ error: t("errorTooManyRequests") });
                     } else {
                         showErrorMessage({ error: t("errorInvalidTimeFields") });
                     }
-                    logger.error('scheduleSettings', 'failed to save schedule', { status: res.status });
+                    logger.error('scheduleSettings', 'failed to save schedule', { status: result.status });
                     setIsLoading(false);
                     return false;
                 } else {

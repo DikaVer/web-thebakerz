@@ -1139,6 +1139,7 @@
     "bakersGrowthSectionDescription": "Eröffnen Sie in Minuten ein wunderschön gebrandetes Online-Webladen, nutzen Sie unsere Lieferpartner und nutzen Sie gezielte Marketingkampagnen, die Ihre Kreationen auf weitere Tische im ganzen Land bringen. \nErweitern Sie Ihr Geschäft, begeistern Sie mehr Dessertliebhaber und lassen Sie uns die Logistik bewältigen, während Sie sich auf das Backen von Meisterwerken konzentrieren.",
     "bakersGrowthSectionTitle": "Wachsen Sie Ihr Bäckereigeschäft mit TheBakerz aus",
     "become": "",
+    "customOrder": "Benutzerdefiniertes Dessert",
     "heroSectionTitle": "Entdecken Sie handwerkliche Bäckereien in Ihrer Nähe",
     "joinBakerz": "",
     "special": "Haben Sie etwas Besonderes im Sinn?"
@@ -1234,6 +1235,7 @@
   },
   "app/search": {
     "noStoresFound": "Keine Geschäfte gefunden",
+    "special": "Haben Sie etwas Besonderes im Sinn?",
     "tryChangingLocationOrDeliveryMode": "Versuchen Sie, Ihren Standort- oder Liefermodus zu ändern."
   },
   "delivery-button": {
@@ -1242,8 +1244,11 @@
   },
   "filter": {
     "categories": "Kategorien",
+    "customOrder": "Benutzerdefiniertes Dessert",
     "dietaryPreferences": "Ernährungsvorlieben",
     "excludeAllergies": "Allergien ausschließen",
+    "exploreProducts": "Desserts erkunden",
+    "exploreStores": "Läden erkunden",
     "filterProducts": "Filterprodukte",
     "maxPrice": "Maximaler Preis",
     "minPrice": "Min Preis",

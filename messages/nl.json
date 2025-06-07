@@ -1167,6 +1167,7 @@
     "bakersGrowthSectionDescription": "Open in enkele minuten een prachtig merk online webwinkel, maak gebruik van onze bezorgpartners en maak gebruik van gerichte marketingcampagnes die uw creaties op meer tafels in het hele land zetten. \nLaat uw bedrijf groeien, verrukken meer dessert-liefhebbers en laat ons de logistiek afhandelen terwijl u zich concentreert op bakmeesterwerken.",
     "bakersGrowthSectionTitle": "Laat uw bakkerijbedrijf groeien met TheBakerz",
     "become": "Word lid van PLAFORM",
+    "customOrder": "Aangepast dessert",
     "heroSectionTitle": "Ontdek ambachtelijke bakkerijen bij jou in de buurt",
     "joinBakerz": "",
     "special": "Heb je iets speciaals in gedachten?"
@@ -1264,6 +1265,7 @@
   },
   "app/search": {
     "noStoresFound": "Geen winkels gevonden",
+    "special": "Heb je iets speciaals in gedachten?",
     "tryChangingLocationOrDeliveryMode": "Probeer uw locatie of aflevermodus te wijzigen."
   },
   "common": {
@@ -1274,8 +1276,11 @@
   },
   "filter": {
     "categories": "Categorieën",
+    "customOrder": "Aangepast dessert",
     "dietaryPreferences": "Dieetvoorkeuren",
     "excludeAllergies": "Allergieën uitsluiten",
+    "exploreProducts": "Ontdek desserts",
+    "exploreStores": "Verken winkels",
     "filterProducts": "Filterproducten",
     "maxPrice": "Maximale prijs",
     "minPrice": "Min prijs",
