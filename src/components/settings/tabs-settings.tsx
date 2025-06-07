@@ -6,7 +6,6 @@ import {useTranslations} from "next-intl";
 import {useSession} from "@/components/providers/session-provider";
 import {redirect, useSearchParams} from "next/navigation";
 import { getCurrentBusinessUser } from "@/lib/actions/user";
-import StoreSetting from "./store/store-settings";
 import BusinessInfo from "./business-info";
 
 

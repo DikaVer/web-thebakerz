@@ -9,6 +9,7 @@ import { Hint } from '@/components/ui/hint';
 import { logger } from '@/lib/logger';
 import { useDelivery } from '@/components/providers/delivery-provider';
 import { useSession } from '@/components/providers/session-provider';
+import { useStore } from '@/components/providers/store-provider';
 
 interface FilterButtonWithHintProps {
   showHintDelay?: number;
@@ -23,12 +24,13 @@ export const FilterButtonWithHint: React.FC<FilterButtonWithHintProps> = ({
   const [showFilterHint, setShowFilterHint] = useState(false);
   const { address } = useDelivery();
   const { session } = useSession();
+  const { store } = useStore(); 
 
   // Show filter hint after a delay on component mount
   useEffect(() => {
     const timer = setTimeout(() => {
       // Only show hint if filter modal hasn't been opened yet
-      if (!isProductSearchOpen && !session?.user) {
+      if (!isProductSearchOpen && !session?.user && !store?.id) {
         setShowFilterHint(true);
       }
     }, showHintDelay);

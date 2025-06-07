@@ -65,14 +65,14 @@ export const ItemUserList: React.FC<ItemUserListProps> = ({orderId, orderProduct
         return Object.keys(orderDictionary);
     });
 
-    const navigateToProduct = (constId: string) => {
-        router.push(`/${storeId}/item/${constId}`);
+    const navigateToProduct = (productId: string) => {
+        router.push(`/${storeId}/item/${productId}`);
     };
 
     const orderAgain = (item: OrderProduct) => {
         // You would implement the add to cart functionality here
         // For now, we'll just navigate to the product page
-        navigateToProduct(item.const_id);
+        navigateToProduct(item.id);
     };
 
     const isSmall = useMediaQuery("(max-width: 640px)");
@@ -95,7 +95,7 @@ export const ItemUserList: React.FC<ItemUserListProps> = ({orderId, orderProduct
                             {item.image && (
                                 <div 
                                     className="flex-shrink-0 cursor-pointer" 
-                                    onClick={() => navigateToProduct(item.const_id)}
+                                    onClick={() => navigateToProduct(item.id)}
                                 >
                                     <div className="relative w-16 h-16 rounded-md overflow-hidden">
                                         <Image 
@@ -111,7 +111,7 @@ export const ItemUserList: React.FC<ItemUserListProps> = ({orderId, orderProduct
                             
                             <div className="flex flex-col flex-grow gap-1">
                                 <div className="flex justify-between items-start">
-                                    <div className="cursor-pointer" onClick={() => navigateToProduct(item.const_id)}>
+                                    <div className="cursor-pointer" onClick={() => navigateToProduct(item.id)}>
                                         <CustomAlert
                                             color={theme === 'dark' ? 'secondary' : 'primary'}
                                             hideIcon={true}

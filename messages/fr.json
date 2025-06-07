@@ -1214,6 +1214,7 @@
     "failedUpdateProduct": "Échec de la mise à jour du produit.",
     "invalidFields": "Champs non valides!",
     "productAdded": "Produit ajouté!",
+    "productNotFound": "Produit introuvable!",
     "productUpdated": "Produit mis à jour !",
     "storeNotFound": "Magasin introuvable !",
     "tooManyRequests": "Trop de demandes",

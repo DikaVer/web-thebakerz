@@ -1,7 +1,7 @@
 import { stripe } from "@/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentSession } from "@/lib/actions/session";
-import { globalPOSTRateLimit } from "@/lib/actions/requests";
+import { globalPOSTRateLimit } from "@/lib/utils/helper/requests";
 import { creatAccountAction } from "@/lib/actions/user";
 import { removeCartByUserIdAndStoreId } from "@/lib/actions/cart";
 import { connectionPool, containerOrders, containerOrdersUnpaid, containerTransfers } from "@/db";

@@ -1,13 +1,13 @@
 import '@/styles/globals.css'
 import React from "react";
-import {getCurrentStore} from "@/lib/actions/store";
+import {getCurrentStore} from "@/lib/api/store-api";
 import {getLocalizedMetadata} from "@/components/metadata";
 import type {Metadata} from "next";
 import {StoreIdChecker} from "@/components/store/store-id-checker";
 import {StoreProvider} from "@/components/providers/store-provider";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import {CartProvider} from "@/components/providers/cart-provider";
-import {getCurrentCart} from "@/lib/actions/cart";
+import {getCurrentCart} from "@/lib/api/cart-api";
 import {getDeliveryMode} from "@/lib/actions/cookies/delivery-cookie";
 import {DeliveryProvider} from "@/components/providers/delivery-provider";
 import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";

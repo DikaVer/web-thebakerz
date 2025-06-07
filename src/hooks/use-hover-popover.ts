@@ -59,6 +59,21 @@ export const useHoverPopover = () => {
             popover.removeEventListener('mouseleave', handleMouseLeave);
         };
     }, []);
+
+    // Close popover on scroll
+    useEffect(() => {
+        const handleScroll = () => {
+            if (isHovered) {
+                setIsHovered(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [isHovered]);
     
     return { isHovered, setIsHovered, triggerRef, popoverRef };
 }; 

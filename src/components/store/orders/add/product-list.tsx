@@ -69,7 +69,7 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
             productsByCategories[category] = sortItems<ProductData>(
                 productsByCategories[category],
                 orderForCategory,
-                (product) => product.constId,
+                (product) => product.id,
                 (a, b) => a.name.localeCompare(b.name)
             );
         }
@@ -83,7 +83,7 @@ const ProductList: React.FC<ProductListProps> = ({currentStep, productsData, pro
     // Memoize the productsData for the selected tab so that it recomputes when selectedTab or productOrders change
     const computedProductsData: ProductDataFull = useMemo(() => {
         return productsByCategories[selectedTab]?.reduce((acc, product) => {
-            acc[product.constId] = product;
+            acc[product.id] = product;
             return acc;
         }, {} as ProductDataFull) || {};
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {getCurrentStore} from "@/lib/actions/store";
+import {getCurrentStore} from "@/lib/api/store-api";
 import {ItemPage} from "@/components/store/add-item/item-page";
 import NotFound from "@/app/(error_layout)/not-found";
 interface PageProps {

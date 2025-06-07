@@ -5,7 +5,6 @@ import {StoreHeader} from "@/components/store/store-header/store-header";
 
 import {useTranslations} from "next-intl";
 
-interface StoreTopProps {}
 
 export function StoreTop() {
 

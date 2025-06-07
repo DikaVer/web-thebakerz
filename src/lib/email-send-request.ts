@@ -7,13 +7,13 @@ import OnboardingRequest from "@/components/emails/onboarding-request";
 import ContactUsForm from "@/components/emails/contact-us";
 import { acceptTOS } from "@/lib/term-of-service";
 import { TOS_VERSION } from "@/lib/local-variables";
-import { globalPOSTRateLimit } from "@/lib/actions/requests";
+import { globalPOSTRateLimit } from "@/lib/utils/helper/requests";
 import { headers } from "next/headers";
-import { RefillingTokenBucket } from "@/lib/actions/rate-limits";
+import { RefillingTokenBucket } from "@/lib/utils/helper/rate-limits";
 import OrderPlacedEmail, {OrderPlacedEmailProps} from "@/components/emails/order-placed";
 import NewOrderEmail from "@/components/emails/new-order-bakerz";
 import {OrderData} from "@/lib/actions/order";
-import {getCurrentStore, getStoreDataPaymentByStoreNameOrId} from "@/lib/actions/store";
+import {getCurrentStorePayment} from "@/lib/api/store-api";
 
 const ipBucket = new RefillingTokenBucket<string>(20, 1);
 
@@ -91,7 +91,7 @@ export async function sendMagicCode(params: { identifier: string; code: string }
 export async function sendOrderPlaced(params: { identifier: string; orderData: OrderData }) {
     const { identifier: to, orderData } = params;
 
-    const storeData = await getStoreDataPaymentByStoreNameOrId(orderData.store_id);
+    const storeData = await getCurrentStorePayment(orderData.store_id);
     if (!storeData) {
         // Maybe throw a more specific error or log details
         console.error(`Failed to send order emails: Store not found for ID ${orderData.store_id}`);

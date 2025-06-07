@@ -1214,6 +1214,7 @@
     "failedUpdateProduct": "Не удалось обновить продукт.",
     "invalidFields": "Неверные поля!",
     "productAdded": "Добавлен продукт!",
+    "productNotFound": "Продукт не найден!",
     "productUpdated": "Продукт обновлен!",
     "storeNotFound": "Магазин не найден!",
     "tooManyRequests": "Слишком много запросов",

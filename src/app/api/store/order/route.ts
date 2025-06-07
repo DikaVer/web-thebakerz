@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getOrder } from "@/lib/actions/order";
 import { getTranslations } from "next-intl/server";
-import { globalGETRateLimit } from '@/lib/actions/requests';
+import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 /**
  * API Route: GET Order Information
  *

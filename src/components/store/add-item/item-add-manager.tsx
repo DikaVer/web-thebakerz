@@ -9,7 +9,6 @@ import {
     CardHeader,
     Spacer,
 } from "@heroui/react";
-import { ProductTable } from "@/components/settings/products/product-tab";
 import { sortItems } from "@/lib/utils/helper/sort-items-with-order";
 import { Icon } from "@iconify/react";
 import { useProductDialog } from "@/components/providers/product-provider";
@@ -84,7 +83,7 @@ const ItemAddManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
             productsByCategories[category] = sortItems<ProductData>(
                 productsByCategories[category],
                 orderForCategory,
-                (product) => product.constId,
+                (product) => product.id,
                 (a, b) => a.name.localeCompare(b.name)
             );
         }
@@ -96,7 +95,7 @@ const ItemAddManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
     // Memoize the productsData for the selected tab so that it recomputes when selectedTab or productOrders change
     const computedProductsData: ProductDataFull = useMemo(() => {
         return productsByCategories[selectedTab]?.reduce((acc, product) => {
-            acc[product.constId] = product;
+            acc[product.id] = product;
             return acc;
         }, {} as ProductDataFull) || {};
     }, [productsByCategories, selectedTab]);

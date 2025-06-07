@@ -1,9 +1,6 @@
 import React from "react";
 
-import { FooterStore } from "@/components/footer-store";
-
 import {OrderDashboard} from "@/components/store/orders/dashboard/order-dashboard";
-import {getCurrentStore} from "@/lib/actions/store";
 
 type Params = Promise<{ id: string  }>
 

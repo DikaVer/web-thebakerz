@@ -82,7 +82,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             sortedProductsByCategories[category] = sortItems<ProductData>(
                 initialProductsByCategories[category],
                 orderForCategory,
-                (product: ProductData) => product.constId,
+                (product: ProductData) => product.id,
                 (a: ProductData, b: ProductData) => a.name.localeCompare(b.name)
             );
         });

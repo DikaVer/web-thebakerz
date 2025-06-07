@@ -80,7 +80,7 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
             // For each category, if there's no order defined or it's incomplete,
             // initialize it with the product IDs in that category
             if (productsByCategories[category]) {
-                const productIds = productsByCategories[category].map(product => product.constId);
+                const productIds = productsByCategories[category].map(product => product.id);
                 
                 // If the order array is empty or doesn't contain all product IDs,
                 // initialize it with the current product order
@@ -115,13 +115,13 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
         const sortedProducts = sortItems<ProductData>(
             productsByCategories[selectedTab],
             orderPayload[selectedTab] || [],
-            (product) => product.constId,
+            (product) => product.id,
             (a, b) => a.name.localeCompare(b.name)
         );
         
         // Convert back to the ProductDataFull format
         return sortedProducts.reduce((acc, product) => {
-            acc[product.constId] = product;
+            acc[product.id] = product;
             return acc;
         }, {} as ProductDataFull);
     }, [productsByCategories, selectedTab, orderPayload]);

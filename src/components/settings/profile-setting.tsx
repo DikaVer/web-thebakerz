@@ -4,12 +4,11 @@ import React, {startTransition, useState, useEffect} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import {Card, CardBody, Input, Textarea, Button, cn, Avatar, Spacer, Link, Badge, addToast, Select, SelectItem, Switch, DatePicker} from "@heroui/react";
+import {Card, CardBody, Input, cn, Avatar, Spacer, Badge, addToast, Select, SelectItem, Switch, DatePicker} from "@heroui/react";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { useActionState } from "react";
-import { updateProfile} from "@/lib/actions/profile-actions";
-import { Icon } from "@iconify/react";
-import { CalendarDate, getLocalTimeZone } from "@internationalized/date";
+import { updateProfile} from "@/lib/actions/user-actions";
+import { CalendarDate } from "@internationalized/date";
 
 // Import the ProfileSchema we created above
 import { ProfileSettingsSchema } from "@/lib/utils/schemas";

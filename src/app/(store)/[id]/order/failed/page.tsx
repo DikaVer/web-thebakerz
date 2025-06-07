@@ -1,4 +1,4 @@
-import {getCurrentStore} from "@/lib/actions/store";
+import {getCurrentStore} from "@/lib/api/store-api";
 import NotFound from "@/app/(error_layout)/not-found";
 import PaymentSupportButton from "@/components/support/payment-urgent";
 import {getTranslations} from "next-intl/server";

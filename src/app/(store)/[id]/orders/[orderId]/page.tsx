@@ -1,7 +1,7 @@
 import React from "react";
 import NotFound from "@/app/(error_layout)/not-found";
 import {getCurrentOrder} from "@/lib/actions/order";
-import {getCurrentStore} from "@/lib/actions/store";
+import {getCurrentStore} from "@/lib/api/store-api";
 import {OrderOverview} from "@/components/store/orders/overview/order-overview";
 
 interface StorePageProps {

@@ -2,7 +2,8 @@
 
 import React from "react";
 import { ProductListBase } from "@/components/store/product/product-list";
-import { getCurrentProducts, ProductData, ProductDataFull } from "@/lib/actions/product";
+import { ProductDataFull } from "@/lib/actions/product";
+import { getCurrentProducts } from "@/lib/api/products-api";
 import { getCurrentProductsOrder } from "@/lib/actions/order-products";
 import { getTranslations } from "next-intl/server";
 
@@ -19,7 +20,7 @@ export const ProductComponentBase: React.FC<{ storeId: string, searchParams?: Se
 
     // Fetch all products (unfiltered)
     const productsData: ProductDataFull = await getCurrentProducts(storeId);
-    
+
     // Fetch product order
     const productsOrder = await getCurrentProductsOrder(storeId);
 
@@ -30,6 +31,7 @@ export const ProductComponentBase: React.FC<{ storeId: string, searchParams?: Se
             </div>
         );
     }
+
 
     return (
         <>

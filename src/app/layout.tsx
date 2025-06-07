@@ -12,7 +12,7 @@ import LanguageModal from "@/components/language-modal";
 import {getCookiePreferences, isCookieConsentFromServer} from "@/lib/actions/cookies/cookie";
 import ClarityScript from "@/components/clarity-script";
 import GoogleAnalytics from "@/components/google-analytics";
-import { getLanguageCookie } from "@/lib/actions/language";
+import { getLanguageCookie } from "@/lib/actions/cookies/language";
 
 
 export const viewport: Viewport = {

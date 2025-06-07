@@ -1,6 +1,6 @@
 import React, {Suspense} from "react";
 import {ProductCard} from "@/components/settings/products/product-card";
-import {getCurrentProducts} from "@/lib/actions/product";
+import {getCurrentProducts} from "@/lib/api/products-api";
 import {getCurrentProductsOrder} from "@/lib/actions/order-products";
 import {getTranslations} from "next-intl/server";
 import {verifyStoreAccess} from "../store-utils";

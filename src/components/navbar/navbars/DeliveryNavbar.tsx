@@ -10,7 +10,7 @@ import { useCart } from "@/components/providers/cart-provider";
 import { StoreData } from "@/lib/actions/store";
 import { useTranslations } from "next-intl";
 import { useMediaQuery } from "usehooks-ts";
-import { FilterButtonWithHint } from "@/components/store/filter/FilterButtonWithHint";
+import { FilterButtonWithHint } from "@/components/filter/FilterButtonWithHint";
 
 interface DeliveryNavbarProps {
     isVisible: boolean;

@@ -1210,6 +1210,7 @@
     "failedUpdateProduct": "Не вдалося оновити продукт.",
     "invalidFields": "Недійсні поля!",
     "productAdded": "Продукт додається!",
+    "productNotFound": "Продукт не знайдено!",
     "productUpdated": "Продукт оновлений!",
     "storeNotFound": "Магазин не знайдено!",
     "tooManyRequests": "Занадто багато запитів",

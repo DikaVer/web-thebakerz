@@ -64,20 +64,20 @@ const AnimatedNumber = ({ value }: { value: number }) => {
 };
 
 interface ProductInfoProps {
+    id: string;
     name: string;
     price: number;
     description: string;
-    constId: string;
     storeId: string;
     totalLikes: number;
     image: string;
 }
 
 export const ProductInfo: React.FC<ProductInfoProps> = ({
+    id,
     name,
     price,
     description,
-    constId,
     storeId,
     totalLikes,
     image
@@ -86,7 +86,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
     const { isProductFavorite, addProductToFavorites, removeProductFromFavorites } = useFavorites();
     const { openModal, ModalSign } = useSignInModal();
     
-    const [isFavorite, setIsFavorite] = useState(isProductFavorite(storeId, constId));
+    const [isFavorite, setIsFavorite] = useState(isProductFavorite(storeId, id));
     const [likeCount, setLikeCount] = useState(isFavorite ? totalLikes + 1 : totalLikes);
     const [isAnimating, setIsAnimating] = useState(false);
 
@@ -100,11 +100,11 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
         if (isFavorite) {
             setIsFavorite(false);
             setLikeCount((prev: number) => prev - 1);
-            await removeProductFromFavorites(storeId, constId);
+            await removeProductFromFavorites(storeId, id);
         } else {
             setIsFavorite(true);
             setLikeCount((prev: number) => prev + 1);
-            await addProductToFavorites(storeId, constId, name, image);
+            await addProductToFavorites(storeId, id, name, image);
         }
         setTimeout(() => setIsAnimating(false), 300);
     };

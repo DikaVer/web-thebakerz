@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { containerOrders } from "@/db";
-import { globalGETRateLimit } from '@/lib/actions/requests';
+import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 /**
  * API Route: GET User Orders
  *

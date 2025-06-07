@@ -1210,6 +1210,7 @@
     "failedUpdateProduct": "No se pudo actualizar el producto.",
     "invalidFields": "Campos no válidos!",
     "productAdded": "¡Producto agregado!",
+    "productNotFound": "Producto no encontrado!",
     "productUpdated": "Producto actualizado!",
     "storeNotFound": "¡Tienda no encontrado!",
     "tooManyRequests": "Demasiadas solicitudes",

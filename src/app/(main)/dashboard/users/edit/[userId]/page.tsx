@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getCurrentStoreByUserId,  getCurrentBusinessStore, getCurrentStorePayment } from "@/lib/actions/store";
+import { getCurrentStoreByUserId,  getCurrentBusinessStore, getCurrentStorePayment } from "@/lib/api/store-api";
 
 import {getCurrentSession} from "@/lib/actions/session";
 import {redirect} from "next/navigation";

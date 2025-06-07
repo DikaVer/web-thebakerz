@@ -106,17 +106,17 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const pathname = usePathname();
     const isSearch = pathname.includes("search");
     
-    const { addItem } = isSearch ? { addItem: () => router.push(`/${store?.storeName || productData?.store_id}/item/${productData.web_name}`)} : useCart();
+    const { addItem } = isSearch ? { addItem: () => router.push(`/${store?.storeName || productData?.store_id}/item/${productData.id}`)} : useCart();
     const storeMinTimeOrder = isDelivery ? validationResult?.deliveryRegion?.minOrderTime : store?.minTimeOrder;
     const { isProductFavorite, addProductToFavorites, removeProductFromFavorites } = useFavorites();
     const { openModal, ModalSign } = useSignInModal();
     
     // Initialize favorite state with the product ID - ensure productData has all required properties
-    const [isFavorite, setIsFavorite] = useState(isProductFavorite(productData.store_id, productData.constId));
+    const [isFavorite, setIsFavorite] = useState(isProductFavorite(productData.store_id, productData.id));
     const [likeCount, setLikeCount] = useState(productData.totalLikes !== undefined ? (isFavorite ? productData.totalLikes + 1 : productData.totalLikes) : 0);
     const [isAnimating, setIsAnimating] = useState(false);
 
-    const productUrl = `/${store?.storeName || productData.store_id}/item/${productData.web_name || productData.constId}`;
+    const productUrl = `/${store?.storeName || productData.store_id}/item/${productData.id}`;
 
     const handlePopoverOpenChange = (open: boolean) => {
         setIsManualOpen(open);
@@ -125,6 +125,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
             setIsHovered(false);
         }
     };
+
 
     // Prevent product dialog when interacting with popover
     const preventProductDialog = isPopoverOpen;
@@ -209,11 +210,11 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
         if (isFavorite) {
             setIsFavorite(false);
             setLikeCount((prev: number) => prev - 1);
-            await removeProductFromFavorites(productData.store_id, productData.constId);
+            await removeProductFromFavorites(productData.store_id, productData.id);
         } else {
             setIsFavorite(true);
             setLikeCount((prev: number) => prev + 1);
-            await addProductToFavorites(productData.store_id, productData.constId, productData.name, productData.picture);
+            await addProductToFavorites(productData.store_id, productData.id, productData.name, productData.picture);
         }
         setTimeout(() => setIsAnimating(false), 300);
     };
@@ -303,7 +304,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                         </button>
                                     </PopoverTrigger>
                                     <PopoverContent
-                                        className="p-1"
+                                        className="p-1 bg-background !z-0"
                                     >
                                         {(popoverProps) => (
                                             <div 
@@ -324,7 +325,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                                     <div
                                                         key={attr}
                                                         className={`
-                                                            flex items-center gap-2 px-2 py-1.5 text-sm text-success-700 
+                                                            flex items-center gap-2 px-2 py-1.5 text-sm text-success-700
                                                             bg-success-50 rounded-lg transition-colors duration-150
                                                             ${index === 0 ? 'animate-fade-in-down' : ''}
                                                         `}

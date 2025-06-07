@@ -56,13 +56,13 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
             <Spacer y={4}/>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center items-center w-full">
                 {products.map((product) => {
-                    if (constIds[product.constId]) {
+                    if (constIds[product.id]) {
                         return null;
                     }
-                    constIds[product.constId] = true;
+                    constIds[product.id] = true;
 
                     return (
-                        <div key={product.constId} className={`m-1 ${(store?.user_id === session?.user?.id && product.hide_product) ? "opacity-50" : (product.hide_product || (isDelivery && validationResult.deliveryRegion?.isPostDelivery && validationResult.deliveryRegion?.isPostDelivery !== product.isPostDelivery) && store?.user_id !== session?.user?.id) && "hidden"}`}>
+                        <div key={product.id} className={`m-1 ${(store?.user_id === session?.user?.id && product.hide_product) ? "opacity-50" : (product.hide_product || (isDelivery && validationResult.deliveryRegion?.isPostDelivery && validationResult.deliveryRegion?.isPostDelivery !== product.isPostDelivery) && store?.user_id !== session?.user?.id) && "hidden"}`}>
                             <ProductBase productData={product}/>
                         </div>
                     );

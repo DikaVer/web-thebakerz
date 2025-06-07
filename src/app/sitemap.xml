@@ -5,7 +5,7 @@
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   
   <!-- TheBakerz Comprehensive Sitemap -->
-  <!-- Last updated: 2025-06-05T23:28:12.338Z -->
+  <!-- Last updated: 2025-06-07T03:33:39.934Z -->
   <!-- Automatically generated from database -->
   <!-- Optimized for mobile-first indexing and marketplace SEO -->
   <!-- Includes video sitemap support for YouTube embeds -->
@@ -13,21 +13,21 @@
   <!-- Static Pages -->
   <url>
     <loc>https://www.thebakerz.com</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/about-us</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/become-partner</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.98</priority>
     <mobile:mobile/>
@@ -45,65 +45,76 @@
   </url>
   <url>
     <loc>https://www.thebakerz.com/search</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/auth</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/support</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.92</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/support/contact-us</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/policies/privacy-policy</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/policies/refund-policy</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/policies/terms-of-use</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/socials</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.92</priority>
     <mobile:mobile/>
   </url>
   
-  <!-- Store Pages (10 stores) -->
+  <!-- Store Pages (11 stores) -->
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu</loc>
+    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/avatars/e9122034-4f9a-4edf-b02c-48547113b4bc.webp</image:loc>
+      <image:caption>Smores - Fresh baked goods and artisan treats</image:caption>
+    </image:image>
+  </url>
   <url>
     <loc>https://www.thebakerz.com/M1z3xRu8d9</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -114,7 +125,7 @@
   </url>
   <url>
     <loc>https://www.thebakerz.com/XGDafLovKh</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -124,20 +135,15 @@
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <loc>https://www.thebakerz.com/gllavISk4K</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/avatars/9762f89b-79e7-4b56-a4ad-09553bb71cc0.webp</image:loc>
-      <image:caption>One Good Baker - Hi everyone, 
-I’m Saydar, your one good baker from Haarlem. Customised cakes, cheesecake, cookies and desserts for any occasion. </image:caption>
-    </image:image>
   </url>
   <url>
     <loc>https://www.thebakerz.com/QQeUjf7xed</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -150,14 +156,14 @@ Join 100+ dessert lovers already enjoying in our irresistible creations 👥</im
   </url>
   <url>
     <loc>https://www.thebakerz.com/ABK8YN4nAl</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/a4BORavGI9</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -168,14 +174,14 @@ Join 100+ dessert lovers already enjoying in our irresistible creations 👥</im
   </url>
   <url>
     <loc>https://www.thebakerz.com/aFXhl4lpFd</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/B1KqcUWMeG</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -186,7 +192,7 @@ Join 100+ dessert lovers already enjoying in our irresistible creations 👥</im
   </url>
   <url>
     <loc>https://www.thebakerz.com/82nuCvIBmX</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -197,7 +203,7 @@ Join 100+ dessert lovers already enjoying in our irresistible creations 👥</im
   </url>
   <url>
     <loc>https://www.thebakerz.com/kCGANA6MPc</loc>
-    <lastmod>2025-06-05T23:28:12.339Z</lastmod>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -207,13 +213,1131 @@ Join 100+ dessert lovers already enjoying in our irresistible creations 👥</im
     </image:image>
   </url>
   
-  <!-- Product Pages (143 products) -->
+  <!-- Product Pages (225 products) -->
+  
+  <!-- Products from Store: gllavISk4K (11 products) -->
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/009744ee-76e2-40da-90e4-7a6cb13168a6.webp</image:loc>
+      <image:caption>Dinosaur - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/cd1e0bdf-5546-4a61-8bff-761821970d11.webp</image:loc>
+      <image:caption>Dalmatian dog with sunglasses - Cute dog with red sunglasses. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c33148d5-2ca6-4839-b6b0-eac43d99039f.webp</image:loc>
+      <image:caption>Dachshund baguette - Dachshund with a baguette on its back. The dog can either have a red or a green hat and outfit. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f2a917d9-ce1a-43a9-9198-5751b1646e82.webp</image:loc>
+      <image:caption>Dachshund baguette - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/5a566467-6a5e-48e4-ba55-9d43c256b68a.webp</image:loc>
+      <image:caption>Dachshund - Cute brown Dachshund.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/96ab150b-944f-4fe6-8bf7-275d4ee7be2f.webp</image:loc>
+      <image:caption>Crocodile birthday - Party crocodile at a birthday party with a balloon and a present. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0a17e7c0-0b6d-4983-a98e-ded7910c4d15.webp</image:loc>
+      <image:caption>Frog with cowboy boots - Frog with cowboy boots and a cowboy hat surrounded with gold stars.
+
+Cookie is ± 9x10 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0201b198-9562-458b-a214-a8195307e23f.webp</image:loc>
+      <image:caption>Cowboy dog - Cute white dog with orange cowboy boots and a cowboy hat. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/689f97dc-10d1-419e-aa28-17bdb8381c33.webp</image:loc>
+      <image:caption>Chicken with wellie boots - Funny chicken with Wellie boots on. 
+
+Cookie is ± 7x9 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/8e3e1539-064b-4050-8bc2-3172bb1f9ffd.webp</image:loc>
+      <image:caption>Cat hug - A purple and a white cat hugging. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ff898f7e-6511-437e-958e-829d63b48c8b.webp</image:loc>
+      <image:caption>Aristocats Marie - Marie from Disney&#039;s Artistocats.
+
+Cookie is ± 8 x 10 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/11055cca-73f4-4d29-96eb-46228db73d34.webp</image:loc>
+      <image:caption>Babar - Babar the elephant from Jean Brunhoff&#039;s children books. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Products from Store: Cw6V6v5xgu (71 products) -->
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c092d163-34a7-4651-a0e7-fe357b4d6e55.webp</image:loc>
+      <image:caption>Chocolate Bar - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f35e64c0-2ad7-4490-9315-43bd23a47ecc.webp</image:loc>
+      <image:caption>Studentenreep - A Valrhona chocolate bar with hazelnuts from Piedmont.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/2c5750ba-bb32-4ab8-8532-7b52698061a2.webp</image:loc>
+      <image:caption>Chocolate Bar with Nuts - A Valrhona chocolate bar with hazelnuts from Piedmont.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ebb28886-7392-4e4f-8cd0-71c2c347cc12.webp</image:loc>
+      <image:caption>Dubai Pistachio Bar - The dark and milk chocolate bars are back!
+
+This bar weighs a generous 140 grams and is filled with pistachios and crunchy knafeh.
+
+
+The bar is decorated with pistachios in green-yellow hues, and finished with 18-carat gold leaf to complete the look.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/d856122e-ddd3-432c-b664-4f59d3003ee0.webp</image:loc>
+      <image:caption>Chocolate Sprinkles - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/e225a082-f8e5-4bf8-91c8-966730946c57.webp</image:loc>
+      <image:caption>Pinda Rotsjes - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/6f09563c-77fd-4e64-b0e5-6c6805287f48.webp</image:loc>
+      <image:caption>Chocolate shavings - Milk, white, or dark chocolate shavings.
+
+Delicious on bread, inside a warm croissant, or as decoration on a cake or dessert.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0e4ea7b2-7e1c-4380-bbd4-e134ec2d36fb.webp</image:loc>
+      <image:caption>Orange Slice in Dark Chocolate - Candied orange slices dipped in dark chocolate.
+Available in boxes of 9 pieces.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/e00a9757-0aac-427f-bf70-5323737101f8.webp</image:loc>
+      <image:caption>Bonbon Box - We have 3 different sizes of boxes.
+
+Our assortment includes boxes of chocolates with 12, 20, and 40 pieces.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/5ba57c55-a53a-4eb3-8675-21c94009c9c4.webp</image:loc>
+      <image:caption>Macaron box 16 pc. - Macarons are made by our French pastry chef Sebastien Trudelle.
+
+He is one of the best French pastry chefs and holds the title “Meilleur Ouvrier de France.”
+
+Macaron flavors:
+Vanilla, passion fruit, orange, yogurt-strawberry
+Lemon, lemon-basil, pistachio, tea 
+Hazelnut, caramel-sea salt, coconut, chocolate</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/5600030d-07a0-41cf-882c-7ab3de9b0164.webp</image:loc>
+      <image:caption>Macaron box 16 pc. - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/18eea18d-34ac-4b97-b2ad-3ca44e4906b1.webp</image:loc>
+      <image:caption>Macarons box 9 pc. - Macarons are made by our French pastry chef Sebastien Trudelle.
+
+He is one of the best French pastry chefs and holds the title “Meilleur Ouvrier de France.”
+
+Macaron flavors:
+Vanilla, passion fruit, orange, yogurt-strawberry
+Lemon, lemon-basil, pistachio, tea 
+Hazelnut, caramel-sea salt, coconut, chocolate</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/d28c2596-460a-4882-b142-7c6996611525.webp</image:loc>
+      <image:caption>Macarons box 9 pc. - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/09acbee5-78d4-48bd-94a1-7fbc93decfca.webp</image:loc>
+      <image:caption>Macarons Box 20 pc - Macarons are made by our French pastry chef Sebastien Trudelle.
+
+He is one of the best French pastry chefs and holds the title “Meilleur Ouvrier de France.”
+
+Macaron flavors:
+Vanilla, passion fruit, orange, yogurt-strawberry
+Lemon, lemon-basil, pistachio, tea 
+Hazelnut, caramel-sea salt, coconut, chocolate</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/8c45f452-1f4b-49c8-a1aa-6c7d91c2d057.webp</image:loc>
+      <image:caption>Macarons Box 20 pc - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c4de7474-03e9-46e8-a75b-f13761b0cda0.webp</image:loc>
+      <image:caption>Macarons Box 40 pc. - Macarons are made by our French pastry chef Sebastien Trudelle.
+
+He is one of the best French pastry chefs and holds the title “Meilleur Ouvrier de France.”
+
+Macaron flavors:
+Vanilla, passion fruit, orange, yogurt-strawberry
+Lemon, lemon-basil, pistachio, tea 
+Hazelnut, caramel-sea salt, coconut, chocolate</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/7e6fe6e4-6bcb-4fd6-b20d-a408f2bf1727.webp</image:loc>
+      <image:caption>Macarons Box 40 pc. - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/75f35daf-be34-4bee-9612-83a51c42e487.webp</image:loc>
+      <image:caption>Smores - A Smores pastry that offers a perfect mix of crunchiness, creaminess, and rich chocolate. This unique pastry starts with a crispy cookie base filled with delicious caramel. On top of that comes a velvety chocolate ganache. The Italian meringue adds an airy texture, while the topping of creamy chocolate mousse finishes it off with a luxurious touch.
+
+The Smores is the perfect treat for chocolate lovers seeking a rich and refined taste experience.
+
+Whether for a special occasion or as a moment of indulgence for yourself.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/bc09e097-ae5e-41ab-8790-c1fcb3fb6ea9.webp</image:loc>
+      <image:caption>Madeleine (6 pieces) - A well-known French cake with fresh orange zest.
+Available in bags of 6 pieces.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/94567a64-8365-4ad3-8f09-02f86a177d45.webp</image:loc>
+      <image:caption>French Almond Croissants - This classic French delicacy is a true treat for the senses.
+
+The soft butter croissant is perfectly baked to a golden brown, crispy crust, while the inside is filled with a delicious almond paste that offers a rich, nutty flavor.
+The croissant is finished with fine almond flakes and a light dusting of powdered sugar.
+
+This aligns perfectly with your appreciation for French pastries and desserts with unique flavors, particularly those featuring nuts and refined textures</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f8553b9c-2c9e-44bd-b223-8acc5baac87b.webp</image:loc>
+      <image:caption>Lemon Meringue - Let yourself be tempted by the fresh and sweet flavors of our lemon meringue pastry, a customer favorite.
+
+This refined pastry combines a crispy base with a creamy lemon cream that offers a refreshing brightness.
+The airy meringue on top, perfectly caramelized, provides a deliciously sweet contrast to the citrusy filling.
+
+Every bite is a perfect balance between the tartness of lemon and the soft, sweet meringue, making this pastry a delightful treat.
+
+The Lemon Meringue Pastry is an ideal choice for lovers of fresh, fruity delicacies with a touch of luxury. Perfect with coffee, as a refreshing end to a meal, or as a special treat for yourself.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0b2ff9f2-636a-45e2-bfdb-a32bebe4ca64.webp</image:loc>
+      <image:caption>Apple Slice - Enjoy the authentic flavors of the French Tarte Pomme, a classic pastry that reflects the refinement of French patisserie.
+
+This delicious apple slice consists of a crispy, butter puff pastry base filled with a smooth vanilla pastry cream.
+
+The top of the apple slice is beautifully finished with thin slices of apple.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/18fc5926-57ed-45ce-be67-b2683f3f9f9e.webp</image:loc>
+      <image:caption>Gloriette Pastry - This delicate pastry consists of airy macaron sponge, perfectly baked for a subtle crunch and a soft texture. Between the two halves lies a rich butter nougatine cream, offering the perfect balance of creaminess and a subtle nutty flavor.
+
+Even this pastry is gluten-free.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/2142c7f6-34ae-46cd-8b1e-ea348aa9d56f.webp</image:loc>
+      <image:caption>The Black Gold - This elegant pastry consists of layers of rich chocolate mousse and chocolate almond sponge, creating an irresistible taste experience thanks to the selected Valrhona chocolate.
+
+A luxurious treat that makes any occasion special.
+“The Black Gold” is not only a feast for the senses, but also a perfect choice for true chocolate lovers, and this pastry is also gluten-free.
+
+Enjoy the ultimate chocolate pleasure with this masterpiece of patisserie.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/d0e5783a-104c-4479-8ae6-284bf79cf7bf.webp</image:loc>
+      <image:caption>Choco Raspberry - This refined pastry combines the rich, creamy taste of Valrhona chocolate with a surprising raspberry filling that provides a refreshing twist. The chocolate almond sponge is light and gluten-free, while the fruity raspberry center delights your taste buds.
+
+Choco Raspberry is the ideal treat for lovers of chocolate and fruit.
+
+A luxurious and flavorful indulgence for any occasion, bringing together the best of both worlds: deep, rich chocolate and the fresh, fruity taste of raspberries.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/cc6d591c-8605-474c-be32-cc4a10de34a9.webp</image:loc>
+      <image:caption>Caraibe - A perfect interplay of rich flavors and refined textures. This pastry starts with a crunchy hazelnut sponge that adds a subtle, nutty depth. It is followed by a creamy chocolate mousse made from premium Valrhona chocolate, delivering a luxurious, rich taste experience.
+
+At the heart of the pastry is a silky vanilla crémeux, providing the perfect balance to the intense chocolate and nutty sponge. The smooth vanilla filling blends beautifully with the rich chocolate, creating a surprising, creamy center.
+
+This gluten-free masterpiece is a true treat for gourmets and chocolate lovers. It combines the sophisticated flavors of hazelnut, chocolate, and vanilla in one irresistible pastry.
+
+ Perfect for any occasion when you want to indulge yourself or others!</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/47e005c3-30c1-452a-a7ea-41c253bf3c2b.webp</image:loc>
+      <image:caption>Dacquoise Raspberry - This delicate pastry consists of a light almond sponge, which not only tastes delicious but is also completely gluten-free.
+
+A pastry with a silky vanilla mousse that caresses your senses with its creamy texture and rich flavor.
+
+The center is filled with a fresh raspberry filling, providing a fruity counterpoint and creating a perfect balance between sweet and tart.
+
+Enjoy this refined treat, ideal for any occasion and suitable for anyone who wants to enjoy something delicious gluten-free!</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/47c7c803-ae75-4084-96ac-2b550a9377d1.webp</image:loc>
+      <image:caption>Passion - A refined delicacy that offers the perfect balance between exotic flavors and a rich texture.
+
+The pastry starts with a soft almond coconut sponge, which adds a subtle nutty and coconut flavor.
+
+The heart of the pastry is filled with a silky passion fruit mango mousse, perfectly combining the tropical flavors of passion fruit and mango into a light, fruity sensation.
+This pastry is not only a treat for your taste buds but also a feast for the eyes.
+
+Enjoying gluten-free has never been so delicious!</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/e4bce695-0258-432c-89dc-fca78787f3f8.webp</image:loc>
+      <image:caption>Petit fours 12 pcs - A luxurious selection of 12 small, delicate pastries that are perfect for any occasion.
+
+Each petit four is a masterpiece of flavor and presentation, with a harmonious balance between refined chocolates, creamy fillings, and subtle fruity notes.
+
+The pastries are beautifully finished with glazes and edible, refined decorations that delight both the palate and the eye.
+
+Whether you’re celebrating a special occasion or simply want to treat yourself, the petit fours offer an elegant and delicious experience in every bite. Perfect for a high tea, a festive table, or as a luxurious treat.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4b086b9a-7fb4-4456-96ee-8c4ad570d0c1.webp</image:loc>
+      <image:caption>Strawberry Pastry - This delicious strawberry pastry is made with a crispy hard shortcrust base, filled with a light frangipane and creamy vanilla cream made with fresh vanilla.
+Finished with fresh strawberries for the perfect balance between sweet and refreshing.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/259b6deb-9602-42bc-8fd3-7006eefb2467.webp</image:loc>
+      <image:caption>Standard birthday cake - Please note...
+The drip decoration can only be used on the Dacquoise cake.
+All cakes are packaged in a tube.
+
+Fill in the options and create your own cake!</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ba8f8c5b-ffe9-4149-b41d-54845a527fb5.webp</image:loc>
+      <image:caption>2 level Birthday Cake - The bottom cake is larger than the top one.
+This cake is suitable for 14 people.
+
+The bottom cake is always a Dacquoise, because it is the sturdiest.
+
+You can choose the flavor of the top cake yourself.
+Fill in your preferences and create your own cake!
+Always mention you allergies and dietary restrictions in the notes.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/61852ec1-4866-455f-ba27-505123874164.webp</image:loc>
+      <image:caption>Big Birthday Cake - Create your own cake from scratch! 🎉
+
+Choose the number of people, add a theme or decorations, and customize the cake entirely to your wishes. Please write your allergies and food preferences in the notes.
+
+📸 The cake in the photo is a version for 30 people with the flavor Dacquoise (vanilla-raspberry).</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/e560c687-f43c-43d1-8317-1ad6a3036ac3.webp</image:loc>
+      <image:caption>Paris Brest Cake - A truly traditional French pastry.
+
+This ring-shaped cake is made from choux pastry filled with a hazelnut cream and crunchy hazelnuts.
+
+This cake was originally created by a French pastry chef for a cycling tournament.
+
+The cake is designed to resemble a bicycle tire.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/9f95ab44-5bcd-4516-8059-a816534754bc.webp</image:loc>
+      <image:caption>Gloriette - A &quot;Miserable&quot; cake, named after the Gloriette of Meerssen.
+
+A delicious regional specialty.
+
+Made from a soft almond sponge cake with a butter-nougatine cream.
+
+Serves 6–8 people.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/7d0339aa-6f31-45b6-9dde-db30a47146ac.webp</image:loc>
+      <image:caption>French Tarte aux Pomme - A puff pastry base with vanilla cream and pieces of apple.
+
+You can briefly heat this tart at home if you want to serve it warm.
+
+Also delicious with a scoop of vanilla ice cream!
+
+5 minutes at 160 degrees in a preheated oven.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/bd2aaf56-b609-4caf-ab60-5ecdf2163e80.webp</image:loc>
+      <image:caption>The Black Gold (Gluten Free) - A dark chocolate mousse with a soft chocolate sponge.
+
+For true chocolate lovers!</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/253a0f90-0bf0-4d5f-b125-421b54dad21b.webp</image:loc>
+      <image:caption>The Black Gold - A dark chocolate mousse with a soft chocolate sponge.
+
+For true chocolate lovers!</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/bdbd1b60-0f86-41a1-8c12-80e501c61cb0.webp</image:loc>
+      <image:caption>St. Honoré - A puff pastry base with pastry cream, surrounded by cream puffs filled with pastry cream and finished with a layer of caramel.
+
+The cake is topped with vanilla whipped cream.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/565a1ae4-2003-41fc-9ab9-f0394e7f50f9.webp</image:loc>
+      <image:caption>Passion-Mango - A fruity tart with a mango mousse and a passion fruit/mango crémeux.
+</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0f526815-51c0-46b1-a9f6-d8019c4b825c.webp</image:loc>
+      <image:caption>Dacquoise Raspberry - Our bestseller!
+
+An almond sponge cake with vanilla cream and raspberries.
+</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/8aaf0c8b-64c8-4385-9ade-563650a73a57.webp</image:loc>
+      <image:caption>Dacquoise Raspberry - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/e9f3dd19-0a9a-4960-9335-157f62c16c4b.webp</image:loc>
+      <image:caption>Choco-Raspberry Cake - A chocolate mousse made from Caraïbe 66% chocolate, with a soft chocolate sponge and raspberry.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/2bca6344-bc51-4de7-8429-f9bb3711b028.webp</image:loc>
+      <image:caption>Lemon Cake - Fresh lemon cream, hard shortcrust pastry, and Italian meringue.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/a62326da-f8b6-4668-985f-740449ca64f7.webp</image:loc>
+      <image:caption>Caraibe - A chocolate mousse made from Caraïbe 66% with a layer of vanilla crème brûlée on a delicious hazelnut sponge.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/cb6fd645-cb60-42bd-a204-c87bcfe852d7.webp</image:loc>
+      <image:caption>Dacquoise Raspberry (Lactose Free) - Our bestseller!
+
+An almond sponge cake with vanilla cream and raspberries.
+</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/d0d76fa0-9c1b-463b-8ed8-9d68fcda200d.webp</image:loc>
+      <image:caption>Dacquoise Raspberry (Lactose Free) - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ef97425e-26e9-4632-bdd7-29a7f86958e2.webp</image:loc>
+      <image:caption>Frasier Cake - Enjoy a delicious combination of fresh strawberries with vanilla, the classic Frasier cake!
+
+This delightful creation consists of airy layers of soft almond sponge cake, fresh strawberries, and a smooth vanilla mousse.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0b31c05f-a5de-42a4-954b-fe2ca1c06c76.webp</image:loc>
+      <image:caption>Strawberry Hardewener - Geniet van onze heerlijke aardbeien harde wener taart, perfect voor een feestje of een gezellig moment.
+
+Deze taart met verse aardbeien en een romige vanillecrème op een knapperige harde wenerbodem.
+
+Ideaal voor 5-6 personen.
+
+Een traktatie die je niet wilt missen!</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/bc733e1d-83f5-4170-8de1-ffba8bdea951.webp</image:loc>
+      <image:caption>Apricot Meringue Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/a1c5f99c-62f6-42b4-a641-49a495440639.webp</image:loc>
+      <image:caption>Apricot Whipped Cream White Chocolate Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/1817078c-bffd-4489-905f-2f67f9ce6d2e.webp</image:loc>
+      <image:caption>Cherry Whipped Cream Pure Chocolate Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/3c648bce-711a-4862-bc52-5bbfee367fbe.webp</image:loc>
+      <image:caption>Apricot Whipped Cream Meringue Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/fad5c561-7b13-4610-90bb-f1dabe7a6b3a.webp</image:loc>
+      <image:caption>Rice Whipped Cream Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c3c366c1-e2f7-4d65-b917-28ffaa8307e9.webp</image:loc>
+      <image:caption>Open Gooseberry Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/b18e3c12-33a2-4ae8-8828-4e1700b2babf.webp</image:loc>
+      <image:caption>Open Cherry Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4bf3f4fe-1722-4f6b-aad8-edd257b99766.webp</image:loc>
+      <image:caption>Apricot Crumble Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c8de049e-ed21-4f63-964e-78c58715d82a.webp</image:loc>
+      <image:caption>Open Apricot Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/37e0ae3a-d3dd-4d50-8a87-58025878bf64.webp</image:loc>
+      <image:caption>Gooseberry Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f5b3feed-c91a-4210-b13c-bdfe2eb9c6b9.webp</image:loc>
+      <image:caption>Cherry Crumble Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/a57e8a39-3b98-4e39-b365-83f1f5db4e72.webp</image:loc>
+      <image:caption>Appel-Apricot Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f0e0eaed-97bd-4950-81c7-c5b044f5505f.webp</image:loc>
+      <image:caption>Linzer Cherry Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/6e618558-de34-4523-9f6f-b3141ec58152.webp</image:loc>
+      <image:caption>Linzer Apricot Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ad46f90b-ce41-4f9c-9ba1-c35f9449a3e2.webp</image:loc>
+      <image:caption>Crumb Pudding Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/449e77a6-1c89-45e9-811f-eb29d0960508.webp</image:loc>
+      <image:caption>Cherry Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/30348db2-a3f8-4b02-aef8-e2eedf6ec48c.webp</image:loc>
+      <image:caption>Rice Vlaai - Rice pie made with fresh farm milk and vanilla.
+This pie is a bit soft.
+Serves 10 people.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/b7186200-97c2-49cc-9a19-0517e21a4f49.webp</image:loc>
+      <image:caption>Abrikoos Vlaai - Apricot with fresh vanilla</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/6c80e5cb-8bda-49f3-a7e9-8be9fe733338.webp</image:loc>
+      <image:caption>Apple Almond Vlaai - Apricot with fresh vanilla</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/6907b497-fc0f-48df-9970-de63b1175b6f.webp</image:loc>
+      <image:caption>Cherry Whipped Cream Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/30f1c782-f7a9-496f-b987-426b0c7e77ae.webp</image:loc>
+      <image:caption>Rice Vlaai with Apricot - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/29087ce1-3607-47fa-87f9-ef50d1ec9fb1.webp</image:loc>
+      <image:caption>Rice Vlaai with Cherries - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/2d140f30-f2fa-476e-98e7-4990c9485386.webp</image:loc>
+      <image:caption>Cherry Meringue Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/30d5b1d1-26c3-4784-b8d8-39ae6c1311ae.webp</image:loc>
+      <image:caption>Gooseberry Meringue Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/99708627-7188-41e2-aebb-b4cafaa184b8.webp</image:loc>
+      <image:caption>Apricot Whipped Cream Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/b092c069-f41d-424c-aded-5062a6e03d56.webp</image:loc>
+      <image:caption>Strawberry Vlaai - A delicious Limburg-style pie base with vanilla and fresh strawberries.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/90f05d74-c479-4049-b8af-abc6d85e4767.webp</image:loc>
+      <image:caption>Gooseberry Meringue Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/1569a67d-28a4-47c5-9639-6b9f25d97c91.webp</image:loc>
+      <image:caption>Smores Truffels - Deze handgemaakte truffels zijn gevuld met zachte gianduja en worden omhuld door een rijk laagje cacaopoeder voor een perfecte balans van zoetheid en diepte.
+
+Wat deze truffels extra bijzonder maakt, is de toevoeging van hazelnoten uit Piemonte, die een subtiele nootachtige crunch geven die heerlijk contrasteert met de romige vulling.
+
+De hazelnoten worden met zorg geselecteerd uit de regio Piemonte, bekend om zijn hoogwaardige hazelnoten die een delicate smaak en textuur bieden.
+
+De combinatie van zachte gianduja, rijke cacao en de knapperige hazelnoten maakt van deze truffels een ware specialiteit, ideaal om te delen of om jezelf mee te verwennen bij een bijzonder moment.</image:caption>
+    </image:image>
+  </url>
   
   <!-- Products from Store: XGDafLovKh (36 products) -->
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/611d664d-3780-4c57-8cc6-0350be2e8ca4</loc>
-    <lastmod>2025-05-26T19:41:28.754Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -237,9 +1361,9 @@ Maximum shelf life: 30 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/3fbf4300-8400-43e1-89a8-d05e07c174c0</loc>
-    <lastmod>2025-05-21T09:13:59.542Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -261,8 +1385,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/d4bf09a2-7142-4ccd-b75c-148f9baad95b</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -281,8 +1405,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/ff8d6bbf-f1e1-4f92-ac99-0c0e166442de</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -296,8 +1420,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/400798c6-9ab7-4fd0-86f6-9594be3b5650</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -311,8 +1435,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/3278f56c-4468-4b46-b913-ca46345c6c80</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -328,8 +1452,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/83dcb550-43de-48fc-becf-b83d624a5afe</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -347,8 +1471,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/6bca1998-decd-4c35-8923-825077e091da</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -369,8 +1493,8 @@ Maximum shelf life: 60 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/26151bdc-47eb-49c9-b4c6-f171d5db67b0</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -395,8 +1519,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/c8013aee-cc0f-4d4a-ae6e-0c1aab3dbce0</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -412,8 +1536,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/7d2cc528-aa74-49bc-8eff-6861faa5f263</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -428,8 +1552,8 @@ Maximum shelf life: 90 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/1693d680-3315-41bf-8bc4-8e63f13c286f</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -444,8 +1568,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/1452c8e2-494c-4163-a5b9-0c46c15a6296</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -465,8 +1589,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/5b6c17be-469a-4689-af45-a4e773b8971a</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -483,8 +1607,8 @@ Maximum shelf life: 30 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/24a52a05-37d9-4406-b846-6cb705a599b1</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -499,8 +1623,8 @@ Maximum shelf life: 30 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/42197ebf-9cb1-4bcd-8068-5466bde04434</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -519,8 +1643,8 @@ Maximum shelf life: 30 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/48bed7a6-3d8f-4cfb-8bca-c881e9bd0ba5</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -537,8 +1661,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/861040d5-6548-4145-bf65-a900b859840e</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -555,8 +1679,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/ef12f2d3-0d47-4741-b325-964b8ba26042</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -573,8 +1697,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/7cfa9991-8e82-4a66-a015-c1a88afdd72f</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -593,8 +1717,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/c657f383-6ae9-41bd-ba63-cec1a28d2849</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -614,8 +1738,8 @@ Maximum shelf life: 14 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/cca13761-a937-460f-b312-d7632a99754e</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -630,8 +1754,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/db89ccc2-5329-4b21-8ab5-71df97264910</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -650,8 +1774,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/91e6daba-c3ef-4b1e-83dc-025faa58cac6</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -670,8 +1794,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/ae35e932-db2c-4b20-8efe-2c58d6f5f4ab</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -686,8 +1810,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/30791147-e09c-4540-b611-30ff416f9651</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -711,8 +1835,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/55c936ae-00bc-4ba1-9a10-426dcf0e5f19</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -732,8 +1856,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/93a67653-a5ea-4da4-8bcf-c86fd35c3ec0</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -753,8 +1877,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/11200f92-9166-412a-be1b-97c48ab0cbd6</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -778,8 +1902,8 @@ Maximum shelf life: 60 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/b62955a4-8e9b-49bd-acd2-2316834c1dbe</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -803,8 +1927,8 @@ Maximum shelf life: 60 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/d7d37909-2cd8-4906-8dfd-c5996a3c06f3</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -823,8 +1947,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/589618b9-c2e1-488c-a29e-aefdeae76805</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -843,8 +1967,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/caec5df4-23b1-46c8-9afb-40e9c230b7e3</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -862,8 +1986,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/41b0f85d-f413-49c6-8d12-e35084bbce73</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -881,8 +2005,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/1960995c-9246-4e62-9866-dc753be830d0</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -901,8 +2025,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/a9c9b6df-77ac-49c2-827d-ea6aed90a69e</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -926,8 +2050,8 @@ Maximum shelf life: 14 days</image:caption>
   
   <!-- Products from Store: M1z3xRu8d9 (41 products) -->
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/74696b0d-909e-4ee4-bf94-bb657c35bf7f</loc>
-    <lastmod>2025-05-26T13:46:27.186Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -937,8 +2061,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/47e7e6c6-195b-4293-a733-731beb39ebd9</loc>
-    <lastmod>2025-05-26T13:46:18.445Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -948,8 +2072,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/6b038cab-4009-4a53-8052-5b2713180653</loc>
-    <lastmod>2025-05-26T13:46:13.596Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -959,8 +2083,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/2e512a53-53a0-47b0-90ca-0156f61fda14</loc>
-    <lastmod>2025-05-26T13:44:27.128Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -970,8 +2094,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/fd84734b-175a-4f9d-994d-8226c61e1bcd</loc>
-    <lastmod>2025-05-26T13:44:21.279Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -981,8 +2105,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/61697d07-6bac-4b9b-ad01-2eaa569d0a1d</loc>
-    <lastmod>2025-05-26T13:44:12.208Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -992,8 +2116,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/c1b18673-9c8a-48cd-8281-37f250ed8613</loc>
-    <lastmod>2025-05-26T13:43:52.471Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1007,8 +2131,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/5f704b01-2261-416c-9439-185697eb5a2b</loc>
-    <lastmod>2025-05-26T13:43:42.594Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1018,8 +2142,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/477fd216-2ed3-4d2c-b69c-cacee1d60385</loc>
-    <lastmod>2025-05-26T13:42:42.978Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1029,8 +2153,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/9fd4aa11-aa30-4c07-9aa2-903a53625b94</loc>
-    <lastmod>2025-05-26T13:41:20.645Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1040,8 +2164,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/6e5432cf-54ba-494a-8599-5e390b7be2ef</loc>
-    <lastmod>2025-05-26T13:41:13.995Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1051,8 +2175,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/85e28713-f507-4c36-96a7-62a80bce9c64</loc>
-    <lastmod>2025-05-26T13:41:07.498Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1062,8 +2186,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/c5734756-d15f-4ec0-aec5-51e68edf8308</loc>
-    <lastmod>2025-05-26T13:40:56.015Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1073,8 +2197,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/fcd60a52-ffee-4e60-b2fa-e969fb6f9275</loc>
-    <lastmod>2025-05-26T13:40:48.053Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1084,8 +2208,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/c700fc13-d967-4654-ab6b-b43f70f97edc</loc>
-    <lastmod>2025-05-26T13:40:41.133Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1095,8 +2219,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/98f89550-d4ed-4eb5-bb80-3cf892c498ff</loc>
-    <lastmod>2025-05-26T13:40:35.155Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1106,8 +2230,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/3318ce83-04b4-4129-ac39-d0a50c78fd82</loc>
-    <lastmod>2025-05-26T13:39:43.853Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1117,8 +2241,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/faf68952-5b3c-4259-b22e-290744ce09e1</loc>
-    <lastmod>2025-05-26T13:39:34.346Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1129,8 +2253,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/b3c62bdb-3319-40dd-8c6c-5f94ba8d6526</loc>
-    <lastmod>2025-05-25T15:01:05.497Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1140,8 +2264,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/ed7d5bff-bc3d-4c9f-b4c2-11c1a5ab1fb7</loc>
-    <lastmod>2025-05-25T15:00:54.817Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1151,8 +2275,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/c57d174f-d109-4872-9aa2-9311b51245d5</loc>
-    <lastmod>2025-05-25T15:00:36.035Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1163,8 +2287,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/b66a3886-bc2c-46d5-a820-7e37ecae1b45</loc>
-    <lastmod>2025-05-25T15:00:01.752Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1174,8 +2298,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/d8af73c6-9013-4abb-83d3-24402e240ab5</loc>
-    <lastmod>2025-05-25T14:59:39.184Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1185,8 +2309,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/4dc5df84-bb06-45b8-945f-f36345e6f727</loc>
-    <lastmod>2025-05-25T14:42:51.523Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1196,8 +2320,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/024d5c01-72d0-4afa-8974-cf3190a8964b</loc>
-    <lastmod>2025-05-25T14:35:47.760Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1207,8 +2331,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/98a73aad-adec-4c22-80be-4ffab7284372</loc>
-    <lastmod>2025-05-25T14:35:12.069Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1218,8 +2342,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/94b76d42-601c-43cd-8aa3-76fd3f3b5a39</loc>
-    <lastmod>2025-05-25T14:05:48.585Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1229,8 +2353,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/2ca6048e-5e23-4a46-9222-eab91adec1ae</loc>
-    <lastmod>2025-05-25T13:48:41.927Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1240,8 +2364,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/b2a62d57-ed41-4993-8ef9-db0ab28e0dac</loc>
-    <lastmod>2025-05-25T13:48:28.716Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1251,8 +2375,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/09787ff4-ea7c-47f2-bac7-bd1e3f1f8d31</loc>
-    <lastmod>2025-05-25T13:48:16.554Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1262,8 +2386,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/32d96e90-1988-4c4b-bd4b-cdbde55d41c2</loc>
-    <lastmod>2025-05-25T13:47:24.226Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1273,8 +2397,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/efafa1b3-ff16-40da-aad9-5c24d105c413</loc>
-    <lastmod>2025-05-25T13:47:11.110Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1284,8 +2408,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/19aa4f2d-c5f2-40b5-b7d3-f26a0e9760f1</loc>
-    <lastmod>2025-05-25T13:44:08.492Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1295,8 +2419,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/ab4fb555-e008-4267-9d96-82e4bc8e9aeb</loc>
-    <lastmod>2025-05-25T13:43:49.559Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1306,8 +2430,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/a7ea0a7e-7c87-4859-97e5-dbf1b17de512</loc>
-    <lastmod>2025-05-25T13:43:36.663Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1317,8 +2441,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/296ea152-502e-40e2-a148-efa922d31c33</loc>
-    <lastmod>2025-05-25T13:43:10.793Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1328,8 +2452,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/6b432a8e-b105-4887-8085-4f02a72d6aab</loc>
-    <lastmod>2025-05-25T13:42:56.473Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1339,8 +2463,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/8a8a3355-b8ef-4473-997c-ea73101a8b6e</loc>
-    <lastmod>2025-05-25T13:42:47.508Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1350,8 +2474,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/fbeb0e9a-f5e3-4c4d-b033-0f102b4e65a1</loc>
-    <lastmod>2025-05-25T13:41:02.272Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1361,8 +2485,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/0819e6eb-4e3a-4313-abbb-647343f249f1</loc>
-    <lastmod>2025-05-25T13:39:55.634Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1372,8 +2496,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/b37713ab-59eb-4271-b019-568f2fb5b199</loc>
-    <lastmod>2025-05-25T13:39:32.058Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1385,9 +2509,9 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
   
   <!-- Products from Store: Wh4Mf8bczO (2 products) -->
   <url>
-    <loc>https://www.thebakerz.com/Wh4Mf8bczO/item/ee7198ee-8076-4991-8498-ef56ffc6953d</loc>
-    <lastmod>2025-05-26T09:44:22.204Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/Wh4Mf8bczO/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -1403,9 +2527,9 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Wh4Mf8bczO/item/39e0dae8-6378-407b-9964-0251de92ab34</loc>
-    <lastmod>2025-05-26T09:39:28.579Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/Wh4Mf8bczO/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -1427,9 +2551,9 @@ Maximum shelf life 72 hours.</image:caption>
   
   <!-- Products from Store: ABK8YN4nAl (8 products) -->
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/11519292-e356-4626-a976-f6b9a1707799</loc>
-    <lastmod>2025-05-25T17:13:51.330Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -1448,9 +2572,9 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/b6016519-9349-48e1-b09b-f85f3ef1aef4</loc>
-    <lastmod>2025-05-25T17:12:15.247Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -1467,9 +2591,9 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/21f92f81-a3fd-4caa-ba1d-342de2965a17</loc>
-    <lastmod>2025-05-25T12:35:13.885Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -1486,9 +2610,9 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/dfcbbdd1-972a-4644-90e0-5708d00343f2</loc>
-    <lastmod>2025-05-25T12:33:10.488Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -1501,9 +2625,9 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/935c93c2-9d38-4e6d-b90a-28df63ecd416</loc>
-    <lastmod>2025-05-25T12:31:51.931Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -1520,9 +2644,9 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/ad78254e-eb08-4a8f-95b8-bccbe483c589</loc>
-    <lastmod>2025-05-25T12:31:42.980Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -1539,9 +2663,9 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/b1166109-0bb9-4e10-a115-35cbed77b45d</loc>
-    <lastmod>2025-05-25T12:29:09.855Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -1558,9 +2682,9 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/7e8e9d8a-db80-489e-b1f7-76f30fc431c0</loc>
-    <lastmod>2025-05-25T12:04:16.193Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -1578,9 +2702,9 @@ A smaller size than our regular macarons, but just as tasetefull. To share with 
   
   <!-- Products from Store: B1KqcUWMeG (5 products) -->
   <url>
-    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/701026da-08ba-4a2a-95a0-cf971db446ee</loc>
-    <lastmod>2025-05-22T18:48:55.174Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -1607,9 +2731,9 @@ Comes in gift packaging — ideal for a treat or a present.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/777d3951-43f6-4bc0-a94c-06c0db8f729b</loc>
-    <lastmod>2025-05-20T21:01:00.887Z</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
     <image:image>
@@ -1626,8 +2750,8 @@ Every cake is prepared with love using a trusted homemade recipe and only natura
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/a3e8a41f-3298-42b3-b1ff-a4ce0b12b300</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1648,8 +2772,8 @@ Maximum shelf life: 3 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/efd13c42-be85-43ed-b380-7ed21e08ded3</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1671,8 +2795,8 @@ Made only with natural ingredients and a taste you’ll never forget.</image:cap
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/5fbedbde-3da8-4af0-838e-9596d7fc304c</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1696,8 +2820,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
   
   <!-- Products from Store: niqdjD74Gh (21 products) -->
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/09ed61a6-1fe9-465b-9f78-db55145933ea</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1707,8 +2831,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/fe4f492f-d0a7-48f7-91a1-77d2dd04b795</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1718,8 +2842,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/3eeb2db4-ef6d-485d-be3f-3519eecfe1ae</loc>
-    <lastmod>2025-06-05T23:28:12.340Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1729,8 +2853,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/a36b0023-01bc-4af2-af8d-1649d65eb0ab</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1740,8 +2864,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/7a918b62-55af-4a68-ad30-96765f8eea27</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1751,8 +2875,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/8baa8747-b308-45cd-b21b-24b0aeba505f</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1762,8 +2886,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/799ea4e4-4a0b-4eb8-90da-1238614ea908</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1773,8 +2897,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/434cd9a2-73d7-43bc-a84a-22442344d008</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1784,8 +2908,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/93c1f9c1-e29b-4e3b-ae74-b15e27323c60</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1795,8 +2919,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/dbb3c731-d87a-4264-8aae-88ca071c2d11</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1806,8 +2930,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/5581733f-5ad5-426b-a1c3-4a1cb30ba185</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1817,8 +2941,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/4731141c-ff91-45fe-9ce5-fe1a6763c5a6</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1828,8 +2952,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/ce21b303-d6cd-4973-b8cc-9b523f9afeea</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1839,8 +2963,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/cfc726cd-110d-4ea0-b127-8bf4f0be25a7</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1850,8 +2974,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/166b08c1-0a35-4cb9-baac-0011089540df</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1861,8 +2985,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/c2fc9bb5-7139-4eb6-9e07-ed2aaed6923e</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1872,8 +2996,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/c5ebcf24-3293-4442-bc75-6f6d5bd64d9d</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1883,8 +3007,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/dbb243f8-f962-4ab0-b570-d62ead2b71c7</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1894,8 +3018,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/e6e6b5d2-b370-4678-9626-de3741c316ee</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1905,8 +3029,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/fd9ebbc6-b725-4962-bf33-afad5bdbdd81</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1916,8 +3040,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/3f4d07f0-f869-4a55-8771-08eb05b5a1f6</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1929,8 +3053,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
   
   <!-- Products from Store: a4BORavGI9 (8 products) -->
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/bf90846e-4735-4541-bbca-f76b165404e8</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1949,8 +3073,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/0cbfde94-512e-421a-bd0d-67f5dbe9b4f3</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1967,8 +3091,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/fc40275d-064e-4e4d-983a-303a57a38229</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1986,8 +3110,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/a7e619c6-236f-4d77-bcdc-c8f496890395</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2005,8 +3129,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/68f17b1a-a5d3-406e-be98-434107b79a6b</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2021,8 +3145,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/ee8237ec-ab21-4bda-b93a-0f193f742ac8</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2041,8 +3165,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/64571115-e60d-421d-be37-52b742b7b8c5</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2052,8 +3176,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/ec5b99c7-222f-4615-b22c-1a4f783df977</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2069,8 +3193,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
   
   <!-- Products from Store: W9pDQq237L (2 products) -->
   <url>
-    <loc>https://www.thebakerz.com/W9pDQq237L/item/6502cb41-73b7-48a2-bf82-9d06ab718a44</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/W9pDQq237L/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2081,8 +3205,8 @@ Ingredients: flour, honey, eggs, butter, soda, sour cream, powdered sugar.</imag
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/W9pDQq237L/item/acc9c739-56bd-4a09-96c9-1aa99f6b0627</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/W9pDQq237L/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2094,8 +3218,8 @@ Ingredients: flour, honey, eggs, butter, soda, sour cream, powdered sugar.</imag
   
   <!-- Products from Store: QQeUjf7xed (10 products) -->
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/a530cba7-8412-42df-ac16-3406ddb3acc8</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2108,8 +3232,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/f05a9969-c390-44e2-8dbc-aa3d2033d447</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2126,8 +3250,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/42f236df-deda-4a8a-bd2e-c7421feefaa1</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2140,8 +3264,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/34a0f6d8-a927-4973-b5a2-0807be90aceb</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2154,8 +3278,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/b40fa86b-1e1e-42be-8070-1431976ace03</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2169,8 +3293,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/7a83cc8b-9d76-402f-9b7f-9f89684e8ee9</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2183,8 +3307,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/eb753e5a-7d71-4ebd-b646-642cd91c2870</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2197,8 +3321,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/2e930573-5345-4f4d-956d-12539ff2d440</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2215,8 +3339,8 @@ Maximum shelf life 96 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/87e879f9-3cb3-40c4-83e6-12e1502da75c</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2229,8 +3353,8 @@ Maximum shelf life 96 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/c6c6cd56-e2aa-4e92-8801-fa16f3b123ab</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2245,8 +3369,8 @@ Maximum shelf life 72 hours.</image:caption>
   
   <!-- Products from Store: aFXhl4lpFd (5 products) -->
   <url>
-    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/0b8fd110-629b-4bb1-a97c-f36e1c19d4cf</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2259,8 +3383,8 @@ Maximum shelf life: 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/7f399141-6f89-4009-b129-7b09511dd09c</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2281,8 +3405,8 @@ Maximum shelf life: 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/689ca60f-41c3-4319-9ff8-062715034ddc</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2299,8 +3423,8 @@ Maximum shelf life: 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/0cfafa34-0ac3-4c9a-bc8d-4dd95d2289ee</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2317,8 +3441,8 @@ Maximum shelf life: 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/0fefc8a3-7b9a-4441-9b24-48af99a26fa5</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2337,8 +3461,8 @@ Maximum shelf life: 72 hours.</image:caption>
   
   <!-- Products from Store: 82nuCvIBmX (5 products) -->
   <url>
-    <loc>https://www.thebakerz.com/82nuCvIBmX/item/fa64a9dc-7c72-4b07-9be7-6daafa59d0da</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/82nuCvIBmX/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2361,8 +3485,8 @@ Maximum shelf life: 2 days. </image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/82nuCvIBmX/item/473861d5-4999-4d8c-9cc0-ef094e2c8392</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/82nuCvIBmX/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2374,8 +3498,8 @@ Maximum shelf life: 2 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/82nuCvIBmX/item/c5060cbd-5c95-453b-b0d3-679a5fcd0ec7</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/82nuCvIBmX/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2387,8 +3511,8 @@ Maximum shelf life: 2 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/82nuCvIBmX/item/3a8d94ea-89a3-4c45-af2c-44e7ce8de6fc</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/82nuCvIBmX/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2400,8 +3524,8 @@ Store refrigerated at 4-6°C.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/82nuCvIBmX/item/9780009c-af6b-4d19-8385-8bec1bff5d8a</loc>
-    <lastmod>2025-06-05T23:28:12.341Z</lastmod>
+    <loc>https://www.thebakerz.com/82nuCvIBmX/item/undefined</loc>
+    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>

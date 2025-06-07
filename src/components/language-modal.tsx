@@ -2,7 +2,7 @@
 'use client';
 import {Modal, ModalContent, ModalHeader, ModalBody, Button} from '@heroui/react';
 import { useState, FormEvent } from 'react';
-import {setLanguageCookie} from "@/lib/actions/language";
+import {setLanguageCookie} from "@/lib/actions/cookies/language";
 import { usePathname, useRouter } from 'next/navigation';
 import {Locale} from "@/lib/i18n";
 import { Icon } from '@iconify/react';

@@ -81,8 +81,8 @@ export default function ProductDialogView({
         addItem,
         updateItem,
     } = isSearch ? {
-        addItem: () => router.push(`/${store?.storeName || productData.store_id}/item/${productData.web_name}`),
-        updateItem: () => router.push(`/${store?.storeName || productData.store_id}/item/${productData.web_name}`)
+        addItem: () => router.push(`/${store?.storeName || productData.store_id}/item/${productData.id}`),
+        updateItem: () => router.push(`/${store?.storeName || productData.store_id}/item/${productData.id}`)
     } : useCart();
 
 
@@ -98,17 +98,17 @@ export default function ProductDialogView({
             navigator.share({
                 title: productData.name,
                 text: "Check out this product on TheBakerz!",
-                url: origin + "/" + (store?.storeName || productData?.store_id) + "/item/" + (productData?.web_name)
+                url: origin + "/" + (store?.storeName || productData?.store_id) + "/item/" + (productData?.id)
             });
         } else {
-            navigator.clipboard.writeText(origin + "/" + (store?.storeName || productData?.store_id) + "/item/" + (productData?.web_name));
+            navigator.clipboard.writeText(origin + "/" + (store?.storeName || productData?.store_id) + "/item/" + (productData?.id));
             showSuccessMessage({success: t("productLinkCopied")});
         }
     };
 
     const handleEditItem = () => {
         setIsLoading(true);
-        router.push(`/${store?.storeName || productData.store_id}/item/${productData.web_name || productData.constId}`); 
+        router.push(`/${store?.storeName || productData.store_id}/item/${productData.id}`); 
     };
 
     // This function calls the updateCart server action.
@@ -240,7 +240,7 @@ export default function ProductDialogView({
 
                         <div className={"flex flex-col px-4 py-2 w-full gap-4"}>
                             <ProductInfo
-                                constId={productData.constId}
+                                id={productData.id}
                                 storeId={productData.store_id}
                                 name={productData.name}
                                 price={productData.price}

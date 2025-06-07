@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getAllCart, } from "@/lib/actions/cart";
 import { getTranslations } from "next-intl/server";
-import { globalGETRateLimit } from '@/lib/actions/requests';
+import { globalGETRateLimit } from '@/lib/utils/helper/requests';
+import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
 /**
  * API Route: GET /api/store/cart
  * -----------------------------------------------------------------------------------
@@ -14,7 +15,7 @@ import { globalGETRateLimit } from '@/lib/actions/requests';
  *
  * @returns {Promise<NextResponse>} JSON response with cart data or error message
  */
-export async function GET(request: Request) {
+export async function GET(request: Request, { params }: { params: Promise<{ storeId: string, userId: string }> }) {
     const t = await getTranslations("app/api/store/cart");
 
     if (!(await globalGETRateLimit())) {
@@ -23,31 +24,13 @@ export async function GET(request: Request) {
             { status: 429 }
         );
     }
-    // Extract and validate required headers
-    const storeId = request.headers.get('Store-Id');
-    const userId = request.headers.get('User-Id');
-    const type = request.headers.get('Type');
-    const authHeader = request.headers.get('Authorization');
 
-    // Check for missing headers and return appropriate errors
-    if (!storeId) {
-        return NextResponse.json({ error: t("missingStoreId") }, { status: 401 });
-    }
+    const { storeId, userId } = await params;
 
-    if (!userId) {
-        return NextResponse.json({ error: t("missingUserId") }, { status: 401 });
-    }
-
-    if (!authHeader) {
-        return NextResponse.json({ error: t("missingAuth") }, { status: 401 });
-    }
-
-
-    // Validate bearer token
-    const token = authHeader.replace('Bearer ', '').trim();
-    if (token !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
-        return NextResponse.json({ error: t("notAuthorized") }, { status: 401 });
-    }
+    const authError = await checkBearerToken(request);
+     if (authError) {
+         return authError;
+     }
 
     try {
         // Fetch and return cart data

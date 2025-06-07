@@ -9,6 +9,7 @@ import { useSession } from "@/components/providers/session-provider";
 import { SessionValidationResult } from "@/lib/actions/session";
 import { User } from "@/lib/actions/user";
 import { useTranslations } from "next-intl";
+import { uploadImage } from "@/lib/actions/image";
 
 interface Area {
     x: number;
@@ -66,29 +67,17 @@ const CropEasy: React.FC<CropEasyProps> = ({
                 setIsPending(true);
 
                 if (container === "avatars" && session) {
-                    const formData = new FormData();
-                    formData.append("file", file, "image.webp");
-                    formData.append("container", container);
+                    
+                    const {url, error} = await uploadImage(file, container);
 
-                    const response = await fetch("/api/upload-image", {
-                        method: "POST",
-                        body: formData,
-                    });
-
-                    if (!response.ok) {
-                        if (response.status === 500) {
-                            showErrorMessage({ error: t("failedToUploadImage") });
-                        } else {
-                            const { error } = await response.json();
-                            showErrorMessage({ error: error });
-                        }
+                    if (error) {
+                        showErrorMessage({ error: error });
                         setOpenCrop(false);
                         setIsPending(false);
                         return;
                     }
 
-                    const { success, url: uploadedUrl } = await response.json();
-                    showSuccessMessage({ success: success });
+                    showSuccessMessage({ success: "Image uploaded successfully" });
 
                     setSession((prevSession): SessionValidationResult => {
                         if (!session) return prevSession;
@@ -97,7 +86,7 @@ const CropEasy: React.FC<CropEasyProps> = ({
                                 ...prevSession,
                                 user: {
                                     ...prevSession.user,
-                                    picture: uploadedUrl,
+                                    picture: url,
                                 } as User,
                             };
                         }

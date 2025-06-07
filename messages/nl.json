@@ -1238,6 +1238,7 @@
     "failedUpdateProduct": "Het product kon niet worden bijgewerkt.",
     "invalidFields": "Ongeldige velden!",
     "productAdded": "Product toegevoegd!",
+    "productNotFound": "Product niet gevonden!",
     "productUpdated": "Product bijgewerkt!",
     "storeNotFound": "Winkel niet gevonden!",
     "tooManyRequests": "Te veel verzoeken",

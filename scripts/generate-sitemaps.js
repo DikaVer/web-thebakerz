@@ -253,6 +253,29 @@ async function fetchActiveStores() {
     }
 }
 
+
+/**
+ * Database fields to select when querying products.
+ */
+const PRODUCT_FIELDS = [
+    'c.id',
+    'c.store_id',
+    'c.category',
+    'c.name',
+    'c.min_order',
+    'c.min_lead_time',
+    'c.description',
+    'c.variants',
+    'c.price',
+    'c.picture',
+    'c.ingredients',
+    'c.allergies',
+    'c.dietary',
+    'c.additionalImages',
+    'c.hide_product',
+    'c.isPostDelivery'
+];
+
 /**
  * Fetch all active products from CosmosDB
  */
@@ -263,20 +286,7 @@ async function fetchActiveProducts() {
         const querySpec = {
             query: `
                 SELECT 
-                    c.id, 
-                    c.constId,
-                    c.store_id, 
-                    c.web_name, 
-                    c.name, 
-                    c.category,
-                    c.description,
-                    c.price,
-                    c.picture, 
-                    c.additionalImages,
-                    c.updatedAt,
-                    c.createdAt,
-                    c.hide_product,
-                    c.archive
+                    ${PRODUCT_FIELDS.join(', ')}
                 FROM c 
                 WHERE c.archive = false 
                     AND c.hide_product = false

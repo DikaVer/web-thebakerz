@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 import {connectionPool, containerClientAvatar, containerClientProduct, containerClientBackground} from "@/db";
-import {globalPOSTRateLimit} from "@/lib/actions/requests";
+import {globalPOSTRateLimit} from "@/lib/utils/helper/requests";
 import {getCurrentSession} from "@/lib/actions/session";
 import {ImageSchema} from "@/lib/utils/schemas";
 import { getTranslations } from "next-intl/server";

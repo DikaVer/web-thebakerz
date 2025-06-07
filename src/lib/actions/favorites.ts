@@ -2,7 +2,7 @@
 import { containerFavorites } from "@/db";
 import { getCurrentSession } from "./session"
 import { revalidateTag } from "next/cache";
-import { globalGETRateLimit, globalPOSTRateLimit } from "./requests";
+import { globalPOSTRateLimit } from "../utils/helper/requests";
 
 export interface FavoriteData {
     id: string;

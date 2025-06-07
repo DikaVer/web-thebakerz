@@ -12,7 +12,7 @@ import {useTranslations} from "next-intl";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 import ImageForm from "@/components/image/image-form";
-import { updateStoreBackground } from "@/lib/actions/store";
+import { updateStoreBackground } from "@/lib/actions/store-actions";
 import { ImageUploader } from "@/components/image/image-upload";
 import { ImageSchema } from "@/lib/utils/schemas";
 import showErrorMessage from "@/components/toast/toast-error";

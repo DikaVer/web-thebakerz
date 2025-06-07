@@ -1,8 +1,8 @@
 'use client';
 import React, { useState } from "react";
-import { ProductData, ProductDataFull } from "@/lib/actions/product";
+import { ProductData} from "@/lib/actions/product";
 import { useTranslations } from "next-intl";
-import { Card, Button, Divider, cn, CardHeader } from "@heroui/react";
+import { Card, Button, Divider, CardHeader } from "@heroui/react";
 import { ProductImageGallery } from './ProductImageGallery';
 import { ProductInfo } from './ProductInfo';
 import { ProductDetails } from './ProductDetails';
@@ -139,10 +139,10 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
             navigator.share({
                 title: product.name,
                 text: "Check out this product on TheBakerz!",
-                url: origin + "/" + (store?.storeName || product?.store_id) + "/item/" + (product?.web_name)
+                url: origin + "/" + (store?.storeName || product?.store_id) + "/item/" + (product?.id)
             });
         } else {
-            navigator.clipboard.writeText(origin + "/" + (store?.storeName || product?.store_id) + "/item/" + (product?.web_name));
+            navigator.clipboard.writeText(origin + "/" + (store?.storeName || product?.store_id) + "/item/" + (product?.id));
             showSuccessMessage({success: t("productLinkCopied")});
         }
     };
@@ -184,7 +184,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                     <div className="p-4 md:p-0md:flex gap-8">  
                         <div className="md:w-fit space-y-6">
                             <ProductInfo
-                                constId={product.constId}
+                                id={product.id}
                                 storeId={product.store_id}
                                 name={product.name}
                                 price={product.price}

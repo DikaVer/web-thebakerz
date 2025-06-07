@@ -4,11 +4,10 @@ import React, {startTransition, useEffect, useState} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import {Card, CardBody, Input, Textarea, Button, cn, Avatar, Spacer, Link, Badge, addToast} from "@heroui/react";
+import {Input, Textarea, cn, Spacer, Link} from "@heroui/react";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useActionState } from "react";
 import { updateStore } from "@/lib/actions/store-actions";
-import { Icon } from "@iconify/react";
 
 // Import the StoreSchema
 import { StoreSettingsSchema } from "@/lib/utils/schemas";

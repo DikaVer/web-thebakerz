@@ -20,10 +20,9 @@ export const ItemAddView: React.FC<ItemAddViewProps> = ({
             ...productData,
             id: undefined,
             name: undefined,
-            web_name: undefined,
             picture: undefined,
             additionalImages: undefined,
-            constId: undefined,
+
         };
     }
 

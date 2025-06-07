@@ -1,7 +1,7 @@
 import { generateState, generateCodeVerifier } from "arctic";
 import { google} from "@/lib/actions/auth/oauth";
 import { cookies } from "next/headers";
-import { globalGETRateLimit} from "@/lib/actions/requests";
+import { globalGETRateLimit} from "@/lib/utils/helper/requests";
 import {getTranslations} from "next-intl/server";
 import { logger } from "@/lib/logger";
 import { getRequestContext } from "@/lib/request-context";

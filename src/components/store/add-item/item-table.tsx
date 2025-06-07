@@ -4,11 +4,8 @@ import {Image, Divider, Spinner} from "@heroui/react";
 import {formatCurrency} from "@/lib/utils";
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
-
 import {ProductDataFull} from "@/lib/actions/product";
-import {useProductDialog} from "@/components/providers/product-provider";
 import {useStore} from "@/components/providers/store-provider";
-import {useSession} from "@/components/providers/session-provider";
 import { useRouter } from "next/navigation";
 
 export interface ItemTableProps {
@@ -18,9 +15,7 @@ export interface ItemTableProps {
     setIsLoading: (isLoading: boolean) => void;
 }   
 export const ItemTable: React.FC<ItemTableProps> = ({ category, productsData, isLoading, setIsLoading}) => {
-    const { handleOpen } = useProductDialog();
     const { store } = useStore();
-    const { session } = useSession();
     const router = useRouter();
 
     const [products, setProducts] = useState<string[]>(Object.keys(productsData));
@@ -37,7 +32,7 @@ export const ItemTable: React.FC<ItemTableProps> = ({ category, productsData, is
                             onClick={()=>{
                                 if (!isLoading) {
                                     setIsLoading(true);
-                                    router.push(`/${store?.storeName || store?.id}/item/add-item/${product.constId}`);
+                                    router.push(`/${store?.storeName || store?.id}/item/add-item/${product.id}`);
                                 }
                             }}
                             className="grid grid-cols-7 col-span-7 cursor-pointer gap-x-4 hover:bg-default-100 p-2 rounded-lg group"

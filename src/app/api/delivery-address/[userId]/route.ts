@@ -1,7 +1,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { getDeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
-import { globalGETRateLimit } from "@/lib/actions/requests";
+import { globalGETRateLimit } from "@/lib/utils/helper/requests";
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ userId: string }> }

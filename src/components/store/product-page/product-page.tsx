@@ -1,6 +1,7 @@
 import React from "react";
 
-import {getCurrentProducts, ProductDataFull} from "@/lib/actions/product";
+import { ProductDataFull} from "@/lib/actions/product";
+import { getCurrentProducts } from "@/lib/api/products-api";
 import {getTranslations} from "next-intl/server";
 import {ProductView} from "@/components/store/product-page/product-view";
 

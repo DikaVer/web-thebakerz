@@ -1,10 +1,10 @@
 import React, { Suspense } from "react";
-import { getCurrentProducts } from "@/lib/actions/product";
+import { getCurrentProducts } from "@/lib/api/products-api";
 import { getCurrentProductsOrder } from "@/lib/actions/order-products";
 import { getTranslations } from "next-intl/server";
 import ItemAddManager from "@/components/store/add-item/item-add-manager";
 import NotFound from "@/app/(error_layout)/not-found";
-import { getCurrentStore } from "@/lib/actions/store";
+import { getCurrentStore } from "@/lib/api/store-api";
 
 interface StorePageProps {
     params: Promise<{

@@ -2,23 +2,24 @@
 import * as z from "zod";
 import {CustomerOrderSchema} from "@/lib/utils/schemas";
 import {getCurrentSession} from "@/lib/actions/session";
-import {getCart, removeCartByUserIdAndStoreId, Variant} from "@/lib/actions/cart";
-import {connectionPool, containerOrders, containerOrdersUnpaid} from "@/db";
+import { removeCartByUserIdAndStoreId, Variant} from "@/lib/actions/cart";
+import {connectionPool, containerOrders } from "@/db";
 import Stripe from "stripe";
 import { getTranslations } from "next-intl/server";
-import {getCurrentStoreByUserIdAndStoreId} from "@/lib/actions/store";
+import {getCurrentStoreByUserIdAndStoreId} from "@/lib/api/store-api";
 import { revalidateTag } from "next/cache";
-import {globalPOSTRateLimit} from "@/lib/actions/requests";
+import {globalPOSTRateLimit} from "@/lib/utils/helper/requests";
 import { getOrderTime } from "@/app/(store)/[id]/actions";
 import { now } from "@internationalized/date";
 import { CalendarDateTime } from "@internationalized/date";
-import { formatCurrency, scheduledToCalendarDateTime } from "../utils";
+import { scheduledToCalendarDateTime } from "../utils";
 import {calculateItemTotalPrice} from "@/lib/utils/helper/calculate-total-price-variants";
 import { calculateTotals } from "@/lib/utils/price/price-calculations";
-import { getCurrentProducts } from "./product";
+import { getCurrentProducts } from "@/lib/api/products-api";
 import { v4 as uuidv4 } from 'uuid';
 import { sendOrderPlaced } from "../email-send-request";
 import { DeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
+import { getCurrentCart, getCurrentCartType } from "../api/cart-api";
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
 // Order data interface
@@ -145,7 +146,6 @@ export type OrderProduct = {
     qty: number;
     price: number;
     unitAmount: number;
-    const_id: string;
     ingredients?: string[];
     allergies?: string[];
     itemTotalInclVat?: number;
@@ -235,7 +235,7 @@ export const createOrder = async (
     }
 
     // Retrieve the user's cart data for the current store
-    const cartData = await getCart(user.id, store.id, 'pickup');
+    const cartData = await getCurrentCartType(store.id, 'pickup'); 
 
     if (!cartData || !cartData[store.id] || Object.keys(cartData[store.id]).length === 0) {
         return { error: t("cartEmpty") };
@@ -282,7 +282,6 @@ export const createOrder = async (
             price: product.price, // Base price
             note: cartItem.note,
             variants: cartItem.variants,
-            const_id: product.constId,
             ingredients: product.ingredients,
             allergies: product.allergies,
             image: product.picture,

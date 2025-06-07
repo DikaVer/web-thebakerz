@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import {getProductsByStoreId} from "@/lib/actions/product";
 import {getProductsOrder} from "@/lib/actions/order-products";
 import { getTranslations } from "next-intl/server";
-import { globalGETRateLimit } from '@/lib/actions/requests';
+import { globalGETRateLimit } from '@/lib/utils/helper/requests';
+import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
 
 // This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(request: Request) {
@@ -24,20 +25,9 @@ export async function GET(request: Request) {
         );
     }
 
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader) {
-        return NextResponse.json(
-            { error: t("missingAuth") },
-            { status: 401 }
-        );
-    }
-
-    const token = authHeader.replace('Bearer ', '').trim();
-    if (token !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
-        return NextResponse.json(
-            { error: t("notAuthorized") },
-            { status: 401 }
-        );
+    const authError = await checkBearerToken(request);
+    if (authError) {
+        return authError;
     }
 
     try {

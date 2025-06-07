@@ -1,11 +1,11 @@
 import { containerWorkingHours } from '@/db';
-import {globalGETRateLimit, globalPOSTRateLimit} from '@/lib/actions/requests';
+import {globalGETRateLimit, globalPOSTRateLimit} from '@/lib/utils/helper/requests';
 import { NextResponse } from 'next/server';
 import { getCurrentSession } from '@/lib/actions/session';
 import { z } from 'zod';
 import { getTranslations } from "next-intl/server";
 import {revalidateTag} from "next/cache";
-import { getCurrentStoreByUserIdAndStoreId } from '@/lib/actions/store';
+import { getCurrentStoreByUserIdAndStoreId } from '@/lib/api/store-api';
 
 // Define Zod schemas for the nested types.
 const timeSchema = z.object({

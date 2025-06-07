@@ -1,12 +1,13 @@
 'use server';
-import {globalGETRateLimit, globalPOSTRateLimit} from "@/lib/actions/requests";
+import {globalGETRateLimit, globalPOSTRateLimit} from "@/lib/utils/helper/requests";
 import {getCurrentSession, getSessionCookie} from "@/lib/actions/session";
 import { v4 as uuidv4 } from "uuid";
-import {containerCart, containerProducts} from "@/db";
+import {containerCart } from "@/db";
 import {revalidateTag} from "next/cache";
-import {ProductData} from "@/lib/actions/product";
+import {getProductByStoreIdAndProductId, ProductData} from "@/lib/actions/product";
 import { getTranslations } from "next-intl/server";
 import { getSessionCookieOrCreate } from "@/lib/actions/session";
+import { getCurrentCartType } from "../api/cart-api";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -39,6 +40,19 @@ export interface ItemCart {
     type: string;
 }
 
+const CART_FIELDS = [
+    'c.id',
+    'c.store_id',
+    'c.product_id',
+    'c.note',
+    'c.quantity',
+    'c.variants',
+    'c.createdAt',
+    'c.user_id',
+    'c.type',
+    'c.min_lead_time',
+];
+
 /**
  * Updates or adds a product to the cart in Cosmos DB.
  */
@@ -63,7 +77,7 @@ export const updateCart = async (
             return { error: t("noteTooLong") };
         }
         
-        const { resource: productData } = await containerProducts.item(productId, storeId).read<ProductData>();
+        const productData = await getProductByStoreIdAndProductId(storeId, productId);
 
         if (!productData) {
             return { error: t("productNotFound") };
@@ -99,22 +113,11 @@ export const updateCart = async (
         const now = new Date().toISOString();
         
         // Check for existing item without notes
-        const querySpec = {
-            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.user_id = @userId AND c.product_id = @productId AND c.type = @type",
-            parameters: [
-                { name: "@storeId", value: storeId },
-                { name: "@userId", value: userId },
-                { name: "@productId", value: productId },
-                { name: "@type", value: type }
-            ],
-        };
-
-        const { resources: existingItems } = await containerCart.items
-            .query(querySpec, { partitionKey: partitionKeyValue })
-            .fetchAll();
+        const existingCartData = await getCurrentCartType(storeId, type as "delivery" | "pickup");
+        const existingItems = Object.values(existingCartData[storeId]);
 
         // Find an item without notes and with matching variants
-        const existingItem = existingItems.find(item => 
+        const existingItem = existingItems.find((item) => 
             !item.note && 
             (!item.variants && !variants || 
              JSON.stringify(item.variants) === JSON.stringify(variants))
@@ -295,7 +298,7 @@ export const replaceGuestCart = async (
         const userPartitionKey = [storeId, userId];
 
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.user_id = @guestId",
+            query: `SELECT ${CART_FIELDS.join(', ')} FROM c WHERE c.store_id = @storeId AND c.user_id = @guestId`,
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@guestId", value: guestId },
@@ -307,7 +310,7 @@ export const replaceGuestCart = async (
             .fetchAll();
 
         const userQuerySpec = {
-            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
+            query: `SELECT ${CART_FIELDS.join(', ')} FROM c WHERE c.store_id = @storeId AND c.user_id = @userId`,
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@userId", value: userId },
@@ -426,7 +429,7 @@ export const getCart = async (
 ): Promise<CartData> => {
 
     const querySpec = {
-        query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.user_id = @userId AND c.type = @type",
+        query: `SELECT ${CART_FIELDS.join(', ')} FROM c WHERE c.store_id = @storeId AND c.user_id = @userId AND c.type = @type`,
         parameters: [{ name: "@storeId", value: storeId }, { name: "@userId", value: userId }, { name: "@type", value: type }],
     };
 
@@ -465,7 +468,7 @@ export const getAllCart = async (
     storeId: string,
 ): Promise<TypedCartData> => {
     const querySpec = {
-        query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.user_id = @userId",
+        query: `SELECT ${CART_FIELDS.join(', ')} FROM c WHERE c.store_id = @storeId AND c.user_id = @userId`,
         parameters: [{ name: "@storeId", value: storeId }, { name: "@userId", value: userId }],
     };
 
@@ -496,35 +499,6 @@ export const getAllCart = async (
     };
 };
 
-export const getCurrentCart = async (
-    storeId: string
-): Promise<TypedCartData> => {
-
-    const session = await getCurrentSession();
-    let userId;
-    if (!session || !session.user) {
-        userId = await getSessionCookie();
-    } else {
-        userId = session.user.id;
-    }
-
-
-    if (!userId) return {delivery: {}, pickup: {}};
-
-    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/cart`, {
-        headers: {
-            'Store-Id': storeId,
-            'User-Id': userId,
-            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-        },
-        next: {
-            tags: ['cart'],
-            revalidate: 300
-        }
-    }).then(res => res.json());
-
-};
-
 /**
  * Gets all cart items for a specific product in a store.
  * 
@@ -538,7 +512,7 @@ export const getCartItemsByProductId = async (
 ): Promise<ItemCart[]> => {
     try {
         const querySpec = {
-            query: "SELECT c.id, c.store_id, c.product_id, c.note, c.quantity, c.variants, c.createdAt, c.user_id, c.type, c.min_lead_time FROM c WHERE c.store_id = @storeId AND c.product_id = @productId",
+            query: `SELECT ${CART_FIELDS.join(', ')} FROM c WHERE c.store_id = @storeId AND c.product_id = @productId`,
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@productId", value: productId }

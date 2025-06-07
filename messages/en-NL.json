@@ -1232,6 +1232,7 @@
     "failedUpdateProduct": "Failed to update product.",
     "invalidFields": "Invalid fields!",
     "productAdded": "Product added!",
+    "productNotFound": "Product not found!",
     "productUpdated": "Product updated!",
     "storeNotFound": "Store not Found!",
     "tooManyRequests": "Too many requests",

@@ -6,7 +6,6 @@ import {useTranslations} from "next-intl";
 import {useSession} from "@/components/providers/session-provider";
 import {redirect, useRouter, useSearchParams} from "next/navigation";
 import DeliveryManager from "@/components/settings/delivery-settings";
-import {useStore} from "@/components/providers/store-provider";
 import StoreSetting from "@/components/settings/store/store-settings";
 import StoreInfo from "@/components/settings/store/store-info";
 

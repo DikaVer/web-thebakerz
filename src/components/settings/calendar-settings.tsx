@@ -1,9 +1,8 @@
 'use client';
 
 import React from "react";
-import {Divider, Spacer} from "@heroui/react";
+import {Spacer} from "@heroui/react";
 import {WorkingHoursComp} from "@/components/settings/calendar/schedule-picker";
-import {DayHoursComp} from "@/components/settings/calendar/day-picker";
 import {useTranslations} from "next-intl";
 import {MinTimeOrder} from "@/components/settings/calendar/min-time-order";
 

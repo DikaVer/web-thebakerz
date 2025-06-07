@@ -23,29 +23,6 @@ type TranslationFunction = (key: string, params?: Record<string, string | number
 export async function getOverviewData(): Promise<OverviewData> {
 
     try {
-        const { user } = await getCurrentSession();
-        if (!user) {
-            return { 
-                error: "Session expired",
-                totalAmountProcessed: 0,
-                completedOrdersCount: 0,
-                nonCompletedOrdersCount: 0,
-                totalOrdersCount: 0,
-                allOrders: []
-            };
-        }
-
-        if (user.role !== "admin") {
-             return { 
-                error: "Not authorized",
-                totalAmountProcessed: 0,
-                completedOrdersCount: 0,
-                nonCompletedOrdersCount: 0,
-                totalOrdersCount: 0,
-                allOrders: []
-            };
-        }
-
         const allOrders = await getAllOrdersAdmin();
 
         let totalAmountProcessed = 0;

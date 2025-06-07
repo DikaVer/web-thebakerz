@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from "react";
-import {cn, Listbox, ListboxItem, ListboxSection } from "@heroui/react";
+import {cn, Listbox, ListboxItem} from "@heroui/react";
 import { Variant } from "@/lib/actions/cart";
 import { ProductData } from "@/lib/actions/product";
 import { useTranslations } from "next-intl";

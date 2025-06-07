@@ -2,14 +2,14 @@
 
 import { stripe } from "@/stripe";
 import { getCurrentSession, getSessionCookie} from "@/lib/actions/session";
-import { globalPOSTRateLimit } from "@/lib/actions/requests";
+import { globalPOSTRateLimit } from "@/lib/utils/helper/requests";
 import { getCart } from "@/lib/actions/cart";
-import {getCurrentProducts} from "@/lib/actions/product";
+import {getCurrentProducts} from "@/lib/api/products-api";
 import { getDeliveryTime, getOrderTime} from "@/app/(store)/[id]/actions";
 import {OrderRaw, ExtendedOrderRaw} from "@/lib/actions/order";
 import {v4 as uuidv4} from "uuid";
 import {containerOrdersUnpaid} from "@/db";
-import { getCurrentStorePayment} from "@/lib/actions/store";
+import { getCurrentStorePayment} from "@/lib/api/store-api";
 import {calculateApplicationFee, calculateTotals} from "@/lib/utils/price/price-calculations";
 import {calculateItemTotalPrice} from "@/lib/utils/helper/calculate-total-price-variants";
 import { CalendarDateTime, getDayOfWeek, Time, toTime, ZonedDateTime, now, getLocalTimeZone, toZoned } from "@internationalized/date";
@@ -21,6 +21,7 @@ import { validateAddress } from "@/lib/actions/delivery-address-actions";
 import { MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import { DeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
+import { getCurrentCartType } from "../api/cart-api";
 
 // It should validate if the given time is within the schedule and respects lead time.
 async function validateOrderTimeAgainstSchedule(
@@ -132,7 +133,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
 
     // 4. Cart Validation
     // ------------------
-    const cartData = await getCart(userId, storeId, isDelivery ? "delivery" : "pickup");
+    const cartData = await getCurrentCartType(storeId, isDelivery ? "delivery" : "pickup");
     if (!cartData || !cartData[storeId] || Object.keys(cartData[storeId]).length === 0) {
         return {error: 'Your cart is empty.'};
     }
@@ -241,7 +242,6 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
             price: product.price, // Base price
             note: cartItem.note,
             variants: cartItem.variants,
-            const_id: product.constId,
             ingredients: product.ingredients,
             allergies: product.allergies,
             image: product.picture,

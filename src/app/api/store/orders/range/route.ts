@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { containerOrders } from "@/db";
 import { getTranslations } from "next-intl/server";
-import { globalGETRateLimit } from '@/lib/actions/requests';
+import { globalGETRateLimit } from '@/lib/utils/helper/requests';
+import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
 
 export async function GET(request: Request) {
     const t = await getTranslations("app/api/store/orders/range");
@@ -38,21 +39,10 @@ export async function GET(request: Request) {
         );
     }
 
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader) {
-        return NextResponse.json(
-            { error: t("missingAuth") },
-            { status: 401 }
-        );
-    }
-
-    const token = authHeader.replace('Bearer ', '').trim();
-    if (token !== process.env.NEXT_PRIVATE_SECRET_BEARER) {
-        return NextResponse.json(
-            { error: t("notAuthorized") },
-            { status: 401 }
-        );
-    }
+    const authError = await checkBearerToken(request);
+     if (authError) {
+         return authError;
+     }
 
     try {
         // Format dates to match the format in the database (YYYY-M-D)

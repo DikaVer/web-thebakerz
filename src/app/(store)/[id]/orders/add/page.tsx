@@ -1,13 +1,12 @@
 import React, {Suspense} from "react";
 
-import {getCurrentProducts} from "@/lib/actions/product";
+import {getCurrentProducts} from "@/lib/api/products-api";
 import {getCurrentProductsOrder} from "@/lib/actions/order-products";
 
 import CartOrderComp from "@/components/store/orders/add/cart-order-comp";
-import {getCurrentStore} from "@/lib/actions/store";
+import {getCurrentStore} from "@/lib/api/store-api";
 import {verifyStoreAccess} from "@/app/(store)/[id]/store-utils";
 import NotFound from "@/app/(error_layout)/not-found";
-import { getTranslations } from "next-intl/server";
 
 interface StorePageProps {
     params: Promise<{

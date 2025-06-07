@@ -142,58 +142,6 @@ export async function validateStripeAccount(stripeId: string): Promise<boolean> 
 
 
 
-export async function updateMinOrderTime(storeId: string, minutes: number): Promise<boolean> {
-    try {
-
-        const {user} = await getCurrentSession();
-        if (!user) {
-            throw new Error("Store not found");
-        }
-
-        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
-        if (!store) {
-            throw new Error("Store not found");
-        }
-
-        await connectionPool.query(
-            `UPDATE stores SET min_time_order = $1 WHERE id = $2 AND user_id = $3`,
-            [minutes, store.id, user.id]
-        );
-
-        revalidateTag('store');
-        return true;
-    } catch (error) {
-        console.error("Error updating minimum order time:", error);
-        throw new Error("Failed to update minimum order time");
-    }
-}
-
-export const getCurrentStore = async (id: string): Promise<StoreData> => {
-    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store`, {
-        headers: {
-            'Store-Id': id,
-            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-        },
-        next: {
-            tags: ['store'],
-            revalidate: 300
-        }
-    }).then(res => res.json());
-};
-
-export const getCurrentStorePayment = async (id: string): Promise<StoreDataPayment> => {
-    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/payment`, {
-        headers: {
-            'Store-Id': id,
-            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-        },
-        next: {
-            tags: ['store'],
-            revalidate: 300
-        }
-    }).then(res => res.json());
-};
-
 export async function getStoreDataPaymentByStoreNameOrId(id: string): Promise<StoreDataPayment | null> {
     try {
         // Query the stores table for the store profile, joining with the users table
@@ -413,17 +361,6 @@ export const getStoreByUserIdAndStoreId = async (userId: string, storeId: string
     return {store, schedule};
 }
 
-export const getCurrentStoreByUserIdAndStoreId = async (userId: string, storeId: string): Promise<{store: StoreData | null, schedule: WorkHours | null}> => {
-    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/${userId}/${storeId}`, {
-        headers: {
-            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-        },
-        next: {
-            tags: ['store'],
-            revalidate: 300
-        }
-    }).then(res => res.json());
-}
 
 
 export const getStoreByUserId = async (userId: string): Promise<{store: StoreData | null, schedule: WorkHours | null}> => {
@@ -544,18 +481,6 @@ export const getStoreByUserId = async (userId: string): Promise<{store: StoreDat
     return {store, schedule};
 }
 
-export const getCurrentStoreByUserId = async (userId: string): Promise<{store: StoreData | null, schedule: WorkHours | null}> => {
-    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/${userId}`, {
-        headers: {
-            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-        },
-        next: {
-            tags: ['store'],
-            revalidate: 300
-        }
-    }).then(res => res.json());
-}
-
 export async function getBusinessStoreData(id: string): Promise<StoreBusinessData | null> {
     try {
         // Query the business_store table joined with business_address.
@@ -657,18 +582,6 @@ export async function getBusinessByUserId(id: string): Promise<StoreBusinessData
     }
 }
 
-export const getCurrentBusinessStore = async (id: string): Promise<StoreBusinessData > => {
-    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/business`, {
-        headers: {
-            'Store-Id': id,
-            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-        },
-        next: {
-            tags: ['store'],
-            revalidate: 300
-        }
-    }).then(res => res.json());
-};
 
 export interface StoreBusinessData {
     id: string;
@@ -753,33 +666,6 @@ export interface StoreDataPayment {
     bank_account: string;
     locationBusiness: LocationBusiness;
     regionBusiness: string;
-}
-
-export async function updateStoreDeliveryOptions(storeId: string, deliveryOption: 'pickup' | 'delivery' | 'multi'): Promise<boolean> {
-    try {
-
-        const {user} = await getCurrentSession();
-        if (!user) {
-            throw new Error("Store not found");
-        }
-
-        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
-        if (!store) {
-            throw new Error("Store not found");
-        }
-
-        // Update the store's delivery option in the database
-        await connectionPool.query(
-            `UPDATE stores SET delivery_option = $1 WHERE id = $2 AND user_id = $3`,
-            [deliveryOption, store.id, user.id]
-        );
-
-        revalidateTag('store');
-        return true;
-    } catch (error) {
-        console.error("Error updating store delivery options:", error);
-        throw new Error("Failed to update store delivery options");
-    }
 }
 
 export interface NearbyStore extends StoreData {
@@ -982,80 +868,5 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
     } catch (error) {
         console.error("Error finding nearby stores:", error);
         throw new Error("Failed to find nearby stores");
-    }
-}
-
-export async function updateStoreBackground(storeId: string, file: File): Promise<boolean> {
-    try {
-        const {user} = await getCurrentSession();
-        if (!user) {
-            throw new Error("User not found");
-        }
-
-        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
-        if (!store) {
-            throw new Error("Store not found");
-        }
-
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("container", "background");
-        
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload-image`, {
-            method: "POST",
-            body: formData,
-            headers: {
-                'Store-Id': store.id,
-                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-            },
-        });
-        
-        if (!response.ok) {
-            throw new Error("Failed to upload image");
-        }
-        
-        const data = await response.json();
-
-        logger.debug("store", store.id);
-        logger.debug("user", user.id);
-
-        // Update the store's background image in the database
-        await connectionPool.query(
-            `UPDATE stores SET background = $1 WHERE id = $2 AND user_id = $3`,
-            [data.url, store.id, user.id]
-        );
-
-        console.log(data.url);
-
-        revalidateTag('store');
-        return true;
-    } catch (error) {
-        console.error("Error updating store background image:", error);
-        throw new Error("Failed to update store background image");
-    }
-}
-
-export async function updatePickupWindow(storeId: string, minutes: number): Promise<boolean> {
-    try {
-        const {user} = await getCurrentSession();
-        if (!user) {
-            throw new Error("Store not found");
-        }
-
-        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
-        if (!store) {
-            throw new Error("Store not found");
-        }
-
-        await connectionPool.query(
-            `UPDATE stores SET pickup_window = $1 WHERE id = $2 AND user_id = $3`,
-            [minutes, store.id, user.id]
-        );
-
-        revalidateTag('store');
-        return true;
-    } catch (error) {
-        logger.error("Error updating pickup window:", error instanceof Error ? error.message : String(error));
-        throw new Error("Failed to update pickup window");
     }
 }

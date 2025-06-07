@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import {getBusinessByUserId} from "@/lib/actions/store";
 import { getTranslations } from "next-intl/server";
-import { globalGETRateLimit } from '@/lib/actions/requests';
+import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 // This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(request: Request) {
     const t = await getTranslations("app/api/store");

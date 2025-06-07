@@ -3,7 +3,7 @@ import { Metadata } from "next"
  import { pacifico } from "@/components/fonts";
  import React from "react";
  import TwoStepAuthForm from "@/components/authentication/two-step-auth-form";
- import { globalGETRateLimit } from "@/lib/actions/requests";
+ import { globalGETRateLimit } from "@/lib/utils/helper/requests";
  import { getCurrentSession } from "@/lib/actions/session";
  import { getTranslations, getLocale } from "next-intl/server";
  import { getLocalizedMetadata, metadataTranslations } from '@/components/metadata';

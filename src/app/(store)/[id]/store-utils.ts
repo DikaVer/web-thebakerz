@@ -1,4 +1,4 @@
-import {getCurrentStore} from "@/lib/actions/store";
+import {getCurrentStore} from "@/lib/api/store-api";
 import {Metadata} from "next";
 import {getLocale} from "next-intl/server";
 import {getCurrentSession} from "@/lib/actions/session";

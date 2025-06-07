@@ -1,6 +1,6 @@
 "use server";
 
-import {RefillingTokenBucket} from "@/lib/actions/rate-limits";
+import {RefillingTokenBucket} from "@/lib/utils/helper/rate-limits";
 import {
     createSession,
     generateSessionToken,
@@ -10,7 +10,7 @@ import {
     setSessionTokenCookie
 } from "@/lib/actions/session";
 import {headers, cookies} from "next/headers";
-import {globalPOSTRateLimit} from "@/lib/actions/requests";
+import {globalPOSTRateLimit} from "@/lib/utils/helper/requests";
 import {createUser, getUserFromEmail, updateUserEmailAndSetEmailAsVerified, User} from "@/lib/actions/user";
 import {z} from "zod";
 import {EmailSchema, OTPSchema} from "@/lib/utils/schemas";

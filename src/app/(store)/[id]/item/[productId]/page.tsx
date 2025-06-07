@@ -2,10 +2,9 @@ import React from "react";
 import {Spacer} from "@heroui/react";
 import NotFound from "@/app/(error_layout)/not-found";
 import { FooterStore } from "@/components/footer-store";
-import {getCurrentProduct} from "@/lib/actions/product";
+import {getCurrentProductByStoreIdAndProductId} from "@/lib/api/products-api";
 import {ProductPage} from "@/components/store/product-page/product-page";
-import {getCurrentStore} from "@/lib/actions/store";
-import { getLocale } from 'next-intl/server';
+import {getCurrentStore} from "@/lib/api/store-api";
 import { getLocalizedMetadata } from '@/components/metadata';
 import type { Metadata } from 'next';
 
@@ -35,7 +34,7 @@ export async function generateMetadata({params}: {params: Params}): Promise<Meta
             };
         }
 
-        const product = await getCurrentProduct(storeData.id, productId);
+        const product = await getCurrentProductByStoreIdAndProductId(storeData.id, productId);
         if (!product) {
             return {
                 title: "Product Not Found | TheBakerz",
@@ -125,7 +124,7 @@ export default async function Page(props: StorePageProps) {
         return <NotFound />;
     }
 
-    const productData = await getCurrentProduct(storeData.id, productId);
+    const productData = await getCurrentProductByStoreIdAndProductId(storeData.id, productId);
     const productStructuredData = {
         "@context": "https://schema.org",
         "@type": "Product",

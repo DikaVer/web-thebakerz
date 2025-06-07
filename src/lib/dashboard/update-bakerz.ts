@@ -1,6 +1,6 @@
 'use server';
 import * as z from "zod";
-import {globalPOSTRateLimit} from "@/lib/actions/requests";
+import {globalPOSTRateLimit} from "@/lib/utils/helper/requests";
 import {OnboardSchema} from "@/lib/dashboard/schemas";
 import {connectionPool} from "@/db";
 import {revalidateTag} from "next/cache";
