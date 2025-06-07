@@ -40,7 +40,7 @@ export const getCurrentStoreByUserId = async (userId: string): Promise<{store: S
         throw new Error("User ID is required");
     }
 
-    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/user/${userId}`, {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/owner/${userId}`, {
         headers: {
             'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
         },

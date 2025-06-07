@@ -159,7 +159,8 @@ export const LandingHeroSection = () => {
             <Divider className="flex-1" />
             </div>
             <CustomOrderButton 
-              className="w-full mt-4 justify-center"
+              variant="bordered"
+              className="w-full mt-4 justify-center bg-white text-foreground border-none shadow-small hover:bg-background/70"
             />
           </motion.div>
         </div>
