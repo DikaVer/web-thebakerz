@@ -1,7 +1,7 @@
 import React, {Suspense} from "react";
 import {ProductCard} from "@/components/settings/products/product-card";
 import {getCurrentProducts} from "@/lib/api/products-api";
-import {getCurrentProductsOrder} from "@/lib/actions/order-products";
+import {getCurrentProductsOrder} from "@/lib/api/products-api";
 import {getTranslations} from "next-intl/server";
 import {verifyStoreAccess} from "../store-utils";
 import NotFound from "@/app/(error_layout)/not-found";

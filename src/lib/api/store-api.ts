@@ -2,7 +2,7 @@ import 'server-only';
 import { StoreBusinessData, StoreData, StoreDataPayment } from "@/lib/actions/store";
 import {WorkHours} from "@/lib/actions/calendar-actions";
 
-export const getCurrentStore = async (id: string): Promise<StoreData> => {
+export const getCurrentStore = async (id: string): Promise<StoreData | null> => {
 
     if (!id) {
         throw new Error("Store ID is required");
@@ -66,6 +66,7 @@ export const getCurrentBusinessStore = async (id: string): Promise<StoreBusiness
         }
     }).then(res => res.json());
 };
+
 
 export const getCurrentStorePayment = async (id: string): Promise<StoreDataPayment> => {
     if (!id) {

@@ -1,12 +1,12 @@
 'use server';
 import {globalGETRateLimit, globalPOSTRateLimit} from "@/lib/utils/helper/requests";
-import {getCurrentSession, getSessionCookie} from "@/lib/actions/session";
+import { getCurrentSession } from "@/lib/actions/session";
+import { getSessionCookie, getSessionCookieOrCreate } from "@/lib/actions/session";
 import { v4 as uuidv4 } from "uuid";
 import {containerCart } from "@/db";
 import {revalidateTag} from "next/cache";
 import {getProductByStoreIdAndProductId, ProductData} from "@/lib/actions/product";
 import { getTranslations } from "next-intl/server";
-import { getSessionCookieOrCreate } from "@/lib/actions/session";
 import { getCurrentCartType } from "../api/cart-api";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;

@@ -15,7 +15,7 @@ import LayoutComp from "@/components/layout-comp";
 import NotFound from "@/app/(error_layout)/not-found";
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 import { FavoritesProvider } from '@/components/providers/favorites-provider';
-import { getCurrentFavorites } from '@/lib/actions/favorites';
+import { getCurrentFavoritesByStore } from '@/lib/api/favorites-api';
 
 type Params = Promise<{ id: string }>
 
@@ -156,7 +156,7 @@ async function setupStoreProviders({
 
     
     const cartData = await getCurrentCart(storeData.id);
-    const initialStoreFavorites = await getCurrentFavorites("getStoreFavorites", storeData.id);
+    const initialStoreFavorites = await getCurrentFavoritesByStore(storeData.id);
     
     return (
         

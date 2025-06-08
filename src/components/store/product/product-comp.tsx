@@ -4,7 +4,7 @@ import React from "react";
 import { ProductListBase } from "@/components/store/product/product-list";
 import { ProductDataFull } from "@/lib/actions/product";
 import { getCurrentProducts } from "@/lib/api/products-api";
-import { getCurrentProductsOrder } from "@/lib/actions/order-products";
+import { getCurrentProductsOrder } from "@/lib/api/products-api";
 import { getTranslations } from "next-intl/server";
 
 type SearchParams = {

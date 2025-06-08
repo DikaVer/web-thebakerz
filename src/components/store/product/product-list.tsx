@@ -211,7 +211,15 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     }, [scroll, isSmall, isSticky, isVisible]);
 
     // Use custom scroll observer to update selected category on scroll
-    useScrollObserver({ categoryRefs, isSmall, selectedTab, setSelectedTab, categories: sortedCategories });
+    useScrollObserver({ 
+        categoryRefs, 
+        isSmall, 
+        selectedTab, 
+        setSelectedTab, 
+        categories: sortedCategories,
+        isVisible,
+        isShowDelivery 
+    });
 
     const scrollToCategory = (category: string) => {
         const element = categoryRefs.current[category];

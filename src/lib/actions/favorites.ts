@@ -1,6 +1,6 @@
 'use server';
 import { containerFavorites } from "@/db";
-import { getCurrentSession } from "./session"
+import { getCurrentSession } from "@/lib/actions/session";
 import { revalidateTag } from "next/cache";
 import { globalPOSTRateLimit } from "../utils/helper/requests";
 
@@ -17,6 +17,16 @@ export interface FavoriteData {
         productName?: string;
         productImage?: string;
         storeBackground?: string;
+        lastUpdated?: string;
+        storeLocation?: {
+            city?: string;
+            region?: string;
+        };
+        storeIsOpen?: boolean;
+        totalProducts?: number;
+        productPrice?: number;
+        productAvailable?: boolean;
+        productCategory?: string;
     }
     type: "store" | "product";
 }
@@ -42,6 +52,7 @@ export const addStoreFavorite = async (storeId: string, storeName: string, store
             metadata: {
                 storeName: storeName,
                 storeBackground: storeBackground,
+                lastUpdated: new Date().toISOString(),
             }
         };
 
@@ -99,6 +110,7 @@ export const addProductFavorite = async (storeId: string, productId: string, pro
             metadata: {
                 productName: productName,
                 productImage: productImage,
+                lastUpdated: new Date().toISOString(),
             }
         };
 
@@ -232,26 +244,5 @@ export const getProductFavoritesCountsByStore = async (storeId: string): Promise
     });
     
     return favoritesMap;
-}
-
-export const getCurrentFavorites = async (purpose: "getStoreFavorites" | "getProductFavorites" | "getProductFavoritesByStore", storeId?:string): Promise<FavoriteData[]> => {
-    
-    const session = await getCurrentSession();
-    if(!session?.user) {
-        return [];
-    }
-
-    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/favorites`, {
-        headers: {
-            'User-Id': session.user.id,
-            'Purpose': purpose,
-            'Store-Id': storeId || "",
-            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-        },
-        next: {
-            tags: ['favorites'],
-            revalidate: 0
-        }
-    }).then(res => res.json());
 }
 

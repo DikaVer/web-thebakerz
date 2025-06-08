@@ -1,18 +1,15 @@
 import { useState } from "react";
-import { Button, NavbarBrand, NavbarContent, Avatar, ButtonGroup, NavbarItem } from "@heroui/react";
+import { Button, Avatar, NavbarItem } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
 import { StoreData } from "@/lib/actions/store";
 import { SessionValidationResult } from "@/lib/actions/session";
-import { useDelivery } from "@/components/providers/delivery-provider";
 import { cn } from "@heroui/react";
 import { pacifico } from "@/components/fonts";
 import GradientText from "@/components/ui/gradient-text";
 import LanguageModal from "@/components/language-modal";
-import { useTranslations } from "next-intl";
 import ProfilePopover from "@/components/navbar/profile/profile-popover";
-import { useCart } from "@/components/providers/cart-provider";
 import Image from "next/image";
 import { DeliveryNavbar } from "./DeliveryNavbar";
 

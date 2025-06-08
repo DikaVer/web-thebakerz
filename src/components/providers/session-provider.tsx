@@ -2,11 +2,7 @@
 
 import React, {createContext, useContext, ReactNode, useState, useCallback, useEffect} from 'react';
 import {SessionValidationResult} from "@/lib/actions/session";
-import { usePathname, useRouter } from 'next/navigation';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, addToast } from '@heroui/react';
-import { useTheme } from 'next-themes';
-import { IconClose } from '@/components/ui/icons';
-import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 import { logger } from '@/lib/logger';
 
 interface SessionContextType {

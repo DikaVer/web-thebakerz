@@ -1,10 +1,10 @@
 import React from 'react';
-import { getCurrentFavorites } from '@/lib/actions/favorites';
 import { FavoritesProvider } from '@/components/providers/favorites-provider';
 import FavoritesContent from '@/components/favorites/favorites-content';
 import { getCurrentSession } from '@/lib/actions/session';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
+import { getCurrentProductFavorites, getCurrentStoreFavorites } from '@/lib/api/favorites-api';
 
 export const metadata: Metadata = {
   title: 'My Favorites | TheBakerz',
@@ -24,8 +24,8 @@ export default async function FavoritesPage() {
   }
 
   // Fetch favorites data
-  const initialStoreFavorites = await getCurrentFavorites("getStoreFavorites");
-  const initialProductFavorites = await getCurrentFavorites("getProductFavorites");
+  const initialStoreFavorites = await getCurrentStoreFavorites();
+  const initialProductFavorites = await getCurrentProductFavorites();
 
   return (
     <FavoritesProvider 

@@ -1,7 +1,8 @@
 'use server'
 
 import { stripe } from "@/stripe";
-import { getCurrentSession, getSessionCookie} from "@/lib/actions/session";
+import { getCurrentSession } from "@/lib/actions/session";
+import { getSessionCookie } from "@/lib/actions/session";
 import { globalPOSTRateLimit } from "@/lib/utils/helper/requests";
 import { getCart } from "@/lib/actions/cart";
 import {getCurrentProducts} from "@/lib/api/products-api";

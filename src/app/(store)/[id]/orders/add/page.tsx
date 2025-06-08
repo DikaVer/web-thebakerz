@@ -1,7 +1,7 @@
 import React, {Suspense} from "react";
 
 import {getCurrentProducts} from "@/lib/api/products-api";
-import {getCurrentProductsOrder} from "@/lib/actions/order-products";
+import {getCurrentProductsOrder} from "@/lib/api/products-api";
 
 import CartOrderComp from "@/components/store/orders/add/cart-order-comp";
 import {getCurrentStore} from "@/lib/api/store-api";

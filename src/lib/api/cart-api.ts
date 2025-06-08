@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { getCurrentSession } from "../actions/session";
-import { getSessionCookie } from "../actions/session";
+import { getCurrentSession } from "@/lib/actions/session";
+import { getSessionCookie } from "@/lib/actions/session";
 import { CartData, TypedCartData } from "../actions/cart";
 
 export const getCurrentCart = async (

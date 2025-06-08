@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { Card, CardBody, Skeleton } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useTranslations } from "next-intl";
 import { useSession } from "@/components/providers/session-provider";
-import { getCurrentBusinessUser } from "@/lib/actions/user";
 import { StoreBusinessData } from "@/lib/actions/store";
 
 interface BusinessInfoProps {
   className?: string;
+  business: StoreBusinessData | null;
 }
 
 // Map of country codes to flag icons
@@ -34,30 +34,11 @@ const accountTypeMap: Record<string, {icon: string, color: string, name: string}
   'default': { icon: 'solar:user-linear', color: 'text-default-500', name: 'User' }
 };
 
-const BusinessInfo: React.FC<BusinessInfoProps> = ({ className }) => {
+const BusinessInfo: React.FC<BusinessInfoProps> = ({ className, business }) => {
   const t = useTranslations("app/(return_page)/settings/components/business-info");
   const { session } = useSession();
-  const [business, setBusiness] = useState<StoreBusinessData | null>(null);
-  const [isLoadingBusiness, setIsLoadingBusiness] = useState(true);
-  const isLoading = !session.user || isLoadingBusiness;
+  const isLoading = !session.user;
 
-  // Fetch business data
-  useEffect(() => {
-    const fetchBusinessData = async () => {
-      if (!session.user) return;
-      
-      try {
-        const businessData = await getCurrentBusinessUser(session.user.id);
-        setBusiness(businessData);
-      } catch (error) {
-        console.error("Error fetching business data:", error);
-      } finally {
-        setIsLoadingBusiness(false);
-      }
-    };
-    
-    fetchBusinessData();
-  }, [session.user]);
 
   if (!session.user) {
     return null;
@@ -177,7 +158,7 @@ const BusinessInfo: React.FC<BusinessInfoProps> = ({ className }) => {
       </Card>
 
       {/* Business Information Card (only shown if business data exists) */}
-      {(business || isLoadingBusiness) && (
+      {(business) && (
         <Card shadow="none" className={`w-full overflow-hidden transition-all duration-300 ${className}`} >
           <CardBody className="p-0 w-full">
             <div className="p-4 bg-gradient-to-r from-warning-50 to-warning-100 dark:from-warning-900/30 dark:to-warning-800/20">

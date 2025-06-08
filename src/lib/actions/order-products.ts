@@ -65,28 +65,3 @@ export const getProductsOrder = async (storeId: string): Promise<Record<string, 
         return {};
     }
 };
-
-export async function getCurrentProductsOrder(storeId: string): Promise<Record<string, string[]>> {
-    const t = await getTranslations("app/lib/actions/order-products") as TranslationFunction;
-    
-    try {
-        if (!storeId) {
-            return {};
-        }
-
-        return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/products-order`, {
-            headers: {
-                'Store-Id': storeId,
-                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-            },
-            next: {
-                tags: ['productsOrder'],
-                revalidate: 300
-            }
-        }).then(res => res.json());
-
-    } catch (error) {
-        console.error("Error fetching store products:", error);
-        throw new Error(t("failedFetchStoreProducts"));
-    }
-}

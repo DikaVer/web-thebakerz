@@ -361,7 +361,7 @@ function generateStoreUrlEntry(store, priority = 0.85) {
  * Generate product URL entry
  */
 function generateProductUrlEntry(product, priority = 0.8) {
-    const productUrl = `${SITE_URL}/${product.store_id}/item/${product.constId}`;
+    const productUrl = `${SITE_URL}/${product.store_id}/item/${product.id}`;
     const lastmod = product.updatedAt || product.createdAt || new Date().toISOString();
     
     // Determine change frequency based on product age and category
@@ -373,7 +373,7 @@ function generateProductUrlEntry(product, priority = 0.8) {
     priority = 0.8;
 
     // Safe product name and description
-    const productName = product.name || product.web_name || `Product ${product.id}`;
+    const productName = product.name || `Product ${product.id}`;
     const productDescription = product.description || 'Fresh baked goods';
 
     let entry = `

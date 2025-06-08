@@ -13,7 +13,31 @@ export async function getCurrentProducts(storeId: string): Promise<ProductDataFu
             },
             next: {
                 tags: ['products'],
-                revalidate: 0
+                revalidate: 300
+            }
+        }).then(res => res.json());
+
+
+        return products;
+    } catch (error) {
+        console.error("Error fetching store products:", error);
+        throw new Error("Failed to fetch store products");
+    }
+}
+
+export async function getCurrentProductsOrder(storeId: string): Promise<Record<string, string[]>> {
+    try {
+        if (!storeId) {
+            return {};
+        }
+
+        const products = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/${storeId}/products-order`, {
+            headers: {
+                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+            },
+            next: {
+                tags: ['products'],
+                revalidate: 300
             }
         }).then(res => res.json());
 

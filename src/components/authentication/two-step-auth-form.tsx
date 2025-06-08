@@ -17,7 +17,7 @@ import { loginAction, resendEmailVerificationCodeAction, verifyEmailAction } fro
 import { EmailSchema, OTPSchema } from "@/lib/utils/schemas";
 import showErrorMessage from "@/components/toast/toast-error";
 import { useSession } from "@/components/providers/session-provider";
-import type { SessionValidationResult } from "@/lib/actions/session";
+import { SessionValidationResult } from "@/lib/actions/session";
 import { useTranslations } from "next-intl";
 import clarity from "@microsoft/clarity";
 

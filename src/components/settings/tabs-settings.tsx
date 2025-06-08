@@ -5,40 +5,21 @@ import ProfileSetting from "@/components/settings/profile-setting";
 import {useTranslations} from "next-intl";
 import {useSession} from "@/components/providers/session-provider";
 import {redirect, useSearchParams} from "next/navigation";
-import { getCurrentBusinessUser } from "@/lib/actions/user";
 import BusinessInfo from "./business-info";
+import { StoreBusinessData } from "@/lib/actions/store";
 
 
 interface TabsSettingsProps {
-
+    business: StoreBusinessData | null;
 }
 
 export const TabsSettings: React.FC<TabsSettingsProps> = ({
-
+    business
 }) => {
 
     const t = useTranslations("app/(return_page)/settings/components/tabs-settings");
     const { session } = useSession();
     const searchParams = useSearchParams();
-    const [userBusiness, setUserBusiness] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        if (session.user) {
-            const fetchBusinessUser = async () => {
-                try {
-                    const business = await getCurrentBusinessUser(session.user.id);
-                    setUserBusiness(business);
-                } catch (error) {
-                    console.error("Error fetching business data:", error);
-                } finally {
-                    setLoading(false);
-                }
-            };
-            
-            fetchBusinessUser();
-        }
-    }, [session.user]);
 
     if (!session.user) {
         redirect('/auth?next=' + window.location.pathname);
@@ -48,9 +29,6 @@ export const TabsSettings: React.FC<TabsSettingsProps> = ({
     const tabParam = searchParams.get('tab');
     const selectedTab = tabParam ? tabParam : "profile";
 
-    if (loading) {
-        return <div className="mt-6 p-4">Loading...</div>;
-    }
 
     return (
         <Tabs
@@ -69,7 +47,7 @@ export const TabsSettings: React.FC<TabsSettingsProps> = ({
               <ProfileSetting />
           </Tab>
           <Tab key="info" title={`${t("information")}`}>
-              <BusinessInfo />
+              <BusinessInfo business={business} />
           </Tab>
         
         </Tabs>

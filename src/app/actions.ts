@@ -1,7 +1,8 @@
 "use server";
 
 import {globalPOSTRateLimit} from "@/lib/utils/helper/requests";
-import {deleteSessionTokenCookie, getCurrentSession, invalidateSession} from "@/lib/actions/session";
+import { getCurrentSession } from "@/lib/actions/session";
+import { deleteSessionTokenCookie, invalidateSession } from "@/lib/actions/session";
 import {revalidateTag} from "next/cache";
 import {getTranslations} from "next-intl/server";
 import { cookies } from 'next/headers';

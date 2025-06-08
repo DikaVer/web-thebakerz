@@ -35,12 +35,16 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
 
     return (
         <div>
-            {/* Top observer target element */}
+            {/* Top observer target */}
             <div 
                 ref={topRef}
-                className="category-observer-target top"
-                style={{ height: '2px', marginTop: '-2px' }}
+                className="category-observer-target"
+                style={{ 
+                    height: '1px', 
+                    position: 'relative'
+                }}
                 data-category-position="top"
+                data-category={category}
             />
             <Spacer y={8}/>
             <div className={'flex flex-row items-start justify-start w-full'}>
@@ -69,14 +73,17 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
                 })}
             </div>
             <Spacer y={8}/>
-            <Divider/>
-            {/* Bottom observer target element */}
+            {/* Bottom observer target */}
             <div 
-                className="category-observer-target bottom"
-                style={{ height: '2px', marginBottom: '-2px' }}
+                className="category-observer-target"
+                style={{ 
+                    height: '1px', 
+                    position: 'relative'
+                }}
                 data-category-position="bottom"
                 data-category={category}
             />
+            <Divider/>
         </div>
     )
 };

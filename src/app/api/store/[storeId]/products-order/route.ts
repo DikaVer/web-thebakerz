@@ -6,7 +6,7 @@ import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
 
 // This API route accepts GET requests with a Bearer token in the Authorization header.
-export async function GET(request: Request) {
+export async function GET(request: Request, { params }: { params: Promise<{ storeId: string }> }) {
     const t = await getTranslations("app/api/store/products-order");
 
     if (!(await globalGETRateLimit())) {
@@ -16,23 +16,17 @@ export async function GET(request: Request) {
         );
     }
     
-    // Retrieve the Authorization header
-    const id = request.headers.get('Store-Id');
-    if (!id) {
-        return NextResponse.json(
-            { error: t("missingStoreId") },
-            { status: 401 }
-        );
-    }
 
     const authError = await checkBearerToken(request);
     if (authError) {
         return authError;
     }
 
+    const { storeId } = await params;
+
     try {
         // Call your validation logic with the extracted token
-        const productsOrder = await getProductsOrder(id)
+        const productsOrder = await getProductsOrder(storeId)
         return NextResponse.json(productsOrder, { status: 200 });
     } catch (error) {
         console.error('Error validating session:', error);

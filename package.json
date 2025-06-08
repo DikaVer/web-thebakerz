@@ -12,7 +12,8 @@
     "translations:sync": "ts-node src/scripts/sync-translations.ts",
     "translations:check": "ts-node src/scripts/check-translation-integrity.ts",
     "translations:clean": "npm run translations:find-unused && npm run translations:sync && npm run translations:check",
-    "sitemap:generate": "node scripts/generate-sitemaps.js"
+    "sitemap:generate": "node scripts/generate-sitemaps.js",
+    "test:metadata-refresh": "node scripts/test-metadata-refresh.js"
   },
   "browserslist": {},
   "dependencies": {

@@ -290,6 +290,16 @@
     z-index: 60;
   }
 
+  /* Hide scrollbar for tabs */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+
 }
 /* Reduced Motion for Accessibility */
 @media (prefers-reduced-motion: reduce) {

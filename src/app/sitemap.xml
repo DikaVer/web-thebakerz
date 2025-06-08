@@ -5,7 +5,7 @@
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   
   <!-- TheBakerz Comprehensive Sitemap -->
-  <!-- Last updated: 2025-06-07T03:33:39.934Z -->
+  <!-- Last updated: 2025-06-08T01:20:57.243Z -->
   <!-- Automatically generated from database -->
   <!-- Optimized for mobile-first indexing and marketplace SEO -->
   <!-- Includes video sitemap support for YouTube embeds -->
@@ -13,21 +13,21 @@
   <!-- Static Pages -->
   <url>
     <loc>https://www.thebakerz.com</loc>
-    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.243Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/about-us</loc>
-    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.243Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/become-partner</loc>
-    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.243Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.98</priority>
     <mobile:mobile/>
@@ -45,65 +45,65 @@
   </url>
   <url>
     <loc>https://www.thebakerz.com/search</loc>
-    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.243Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/auth</loc>
-    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.243Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/support</loc>
-    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.243Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.92</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/support/contact-us</loc>
-    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.243Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/policies/privacy-policy</loc>
-    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.243Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/policies/refund-policy</loc>
-    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.243Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/policies/terms-of-use</loc>
-    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.243Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/socials</loc>
-    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.243Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.92</priority>
     <mobile:mobile/>
   </url>
   
-  <!-- Store Pages (11 stores) -->
+  <!-- Store Pages (12 stores) -->
   <url>
     <loc>https://www.thebakerz.com/Cw6V6v5xgu</loc>
-    <lastmod>2025-06-07T03:33:39.934Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.243Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -113,8 +113,15 @@
     </image:image>
   </url>
   <url>
+    <loc>https://www.thebakerz.com/gllavISk4K</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+    <mobile:mobile/>
+  </url>
+  <url>
     <loc>https://www.thebakerz.com/M1z3xRu8d9</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -125,7 +132,7 @@
   </url>
   <url>
     <loc>https://www.thebakerz.com/XGDafLovKh</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -135,15 +142,20 @@
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/gllavISk4K</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/avatars/9762f89b-79e7-4b56-a4ad-09553bb71cc0.webp</image:loc>
+      <image:caption>One Good Baker - Hi everyone, 
+I’m Saydar, your one good baker from Haarlem. Customised cakes, cheesecake, cookies and desserts for any occasion. </image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://www.thebakerz.com/QQeUjf7xed</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -156,14 +168,14 @@ Join 100+ dessert lovers already enjoying in our irresistible creations 👥</im
   </url>
   <url>
     <loc>https://www.thebakerz.com/ABK8YN4nAl</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/a4BORavGI9</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -174,14 +186,14 @@ Join 100+ dessert lovers already enjoying in our irresistible creations 👥</im
   </url>
   <url>
     <loc>https://www.thebakerz.com/aFXhl4lpFd</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
   </url>
   <url>
     <loc>https://www.thebakerz.com/B1KqcUWMeG</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -192,7 +204,7 @@ Join 100+ dessert lovers already enjoying in our irresistible creations 👥</im
   </url>
   <url>
     <loc>https://www.thebakerz.com/82nuCvIBmX</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -203,7 +215,7 @@ Join 100+ dessert lovers already enjoying in our irresistible creations 👥</im
   </url>
   <url>
     <loc>https://www.thebakerz.com/kCGANA6MPc</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <mobile:mobile/>
@@ -213,165 +225,36 @@ Join 100+ dessert lovers already enjoying in our irresistible creations 👥</im
     </image:image>
   </url>
   
-  <!-- Product Pages (225 products) -->
-  
-  <!-- Products from Store: gllavISk4K (11 products) -->
-  <url>
-    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/009744ee-76e2-40da-90e4-7a6cb13168a6.webp</image:loc>
-      <image:caption>Dinosaur - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/cd1e0bdf-5546-4a61-8bff-761821970d11.webp</image:loc>
-      <image:caption>Dalmatian dog with sunglasses - Cute dog with red sunglasses. 
-
-Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c33148d5-2ca6-4839-b6b0-eac43d99039f.webp</image:loc>
-      <image:caption>Dachshund baguette - Dachshund with a baguette on its back. The dog can either have a red or a green hat and outfit. 
-
-Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f2a917d9-ce1a-43a9-9198-5751b1646e82.webp</image:loc>
-      <image:caption>Dachshund baguette - Additional view 1</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/5a566467-6a5e-48e4-ba55-9d43c256b68a.webp</image:loc>
-      <image:caption>Dachshund - Cute brown Dachshund.
-
-Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/96ab150b-944f-4fe6-8bf7-275d4ee7be2f.webp</image:loc>
-      <image:caption>Crocodile birthday - Party crocodile at a birthday party with a balloon and a present. 
-
-Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0a17e7c0-0b6d-4983-a98e-ded7910c4d15.webp</image:loc>
-      <image:caption>Frog with cowboy boots - Frog with cowboy boots and a cowboy hat surrounded with gold stars.
-
-Cookie is ± 9x10 cm.
-
-Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0201b198-9562-458b-a214-a8195307e23f.webp</image:loc>
-      <image:caption>Cowboy dog - Cute white dog with orange cowboy boots and a cowboy hat. 
-
-Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/689f97dc-10d1-419e-aa28-17bdb8381c33.webp</image:loc>
-      <image:caption>Chicken with wellie boots - Funny chicken with Wellie boots on. 
-
-Cookie is ± 7x9 cm.
-
-Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/8e3e1539-064b-4050-8bc2-3172bb1f9ffd.webp</image:loc>
-      <image:caption>Cat hug - A purple and a white cat hugging. 
-
-Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ff898f7e-6511-437e-958e-829d63b48c8b.webp</image:loc>
-      <image:caption>Aristocats Marie - Marie from Disney&#039;s Artistocats.
-
-Cookie is ± 8 x 10 cm.
-
-Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://www.thebakerz.com/gllavISk4K/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/11055cca-73f4-4d29-96eb-46228db73d34.webp</image:loc>
-      <image:caption>Babar - Babar the elephant from Jean Brunhoff&#039;s children books. 
-
-Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
-    </image:image>
-  </url>
+  <!-- Product Pages (283 products) -->
   
   <!-- Products from Store: Cw6V6v5xgu (71 products) -->
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/6de96bd1-d31d-4443-96b5-a6f5a0be1727</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ef97425e-26e9-4632-bdd7-29a7f86958e2.webp</image:loc>
+      <image:caption>Frasier Cake - Enjoy a delicious combination of fresh strawberries with vanilla, the classic Frasier cake!
+
+This delightful creation consists of airy layers of soft almond sponge cake, fresh strawberries, and a smooth vanilla mousse.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/9d224209-ffb2-41cd-ae49-963a174a8e1e</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/fad5c561-7b13-4610-90bb-f1dabe7a6b3a.webp</image:loc>
+      <image:caption>Rice Whipped Cream Vlaai - Fresh baked goods</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/8d15c6cb-7168-4ce9-a2a5-d4c4250fc5aa</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -381,8 +264,8 @@ Our cookies are carefully handmade and may vary slightly, making each one a uniq
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/700154e5-02ed-41e7-a03c-182b22f72e3e</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -392,8 +275,8 @@ Our cookies are carefully handmade and may vary slightly, making each one a uniq
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/d3729424-7eef-4237-b58e-bcca68e1adbe</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -403,8 +286,8 @@ Our cookies are carefully handmade and may vary slightly, making each one a uniq
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/e36dba8b-d542-4253-ba30-022531ce8f2b</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -419,8 +302,8 @@ The bar is decorated with pistachios in green-yellow hues, and finished with 18-
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/89adadca-797f-4d00-8a37-caa0b924feba</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -430,8 +313,8 @@ The bar is decorated with pistachios in green-yellow hues, and finished with 18-
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/765f71f2-d7e3-4683-af4b-fed7a8f2ac38</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -441,8 +324,8 @@ The bar is decorated with pistachios in green-yellow hues, and finished with 18-
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/12335a55-2544-4815-8be2-a937ba9d0210</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -454,8 +337,8 @@ Delicious on bread, inside a warm croissant, or as decoration on a cake or desse
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/986ffabb-27ac-4911-8398-be8bf39b266e</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -466,8 +349,8 @@ Available in boxes of 9 pieces.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/6e26a231-2217-4a7d-b86d-3cfbd6b040f8</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -479,8 +362,8 @@ Our assortment includes boxes of chocolates with 12, 20, and 40 pieces.</image:c
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/ce7f7033-05a4-4417-9a68-58777b7b5d87</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -501,8 +384,8 @@ Hazelnut, caramel-sea salt, coconut, chocolate</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/abc5a4e9-a8ad-4462-bbc5-9b43e8a43a51</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -523,8 +406,8 @@ Hazelnut, caramel-sea salt, coconut, chocolate</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/642a9ddd-6d55-4ffb-97a7-5eb86d12b288</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -545,8 +428,8 @@ Hazelnut, caramel-sea salt, coconut, chocolate</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/965d3030-faa2-451f-9de0-f958521d4b11</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -567,8 +450,8 @@ Hazelnut, caramel-sea salt, coconut, chocolate</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/36ebfc64-3b74-4354-a60f-d91b5e8866ae</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -582,8 +465,8 @@ Whether for a special occasion or as a moment of indulgence for yourself.</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/d2fd99fb-cad9-4ffb-ad64-69d753b67122</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -594,8 +477,8 @@ Available in bags of 6 pieces.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/abc97750-a62d-430a-8e19-dd58c617bf5d</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -610,8 +493,8 @@ This aligns perfectly with your appreciation for French pastries and desserts wi
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/730864de-00aa-41ef-823f-9da68824f916</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -628,8 +511,8 @@ The Lemon Meringue Pastry is an ideal choice for lovers of fresh, fruity delicac
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/54966938-77d1-47d5-b3cf-470e58cc1505</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -643,8 +526,8 @@ The top of the apple slice is beautifully finished with thin slices of apple.</i
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/5c957e2f-e2d9-40bf-9907-01e418294163</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -656,8 +539,8 @@ Even this pastry is gluten-free.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/e434ff15-3bfe-4802-b0da-de489bf89700</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -672,8 +555,8 @@ Enjoy the ultimate chocolate pleasure with this masterpiece of patisserie.</imag
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/aad45609-c717-4983-af2d-d513741f6457</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -687,8 +570,8 @@ A luxurious and flavorful indulgence for any occasion, bringing together the bes
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/f4aaacf7-0603-42f5-9985-e82d5ee38430</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -704,8 +587,8 @@ This gluten-free masterpiece is a true treat for gourmets and chocolate lovers. 
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/8c47b2a6-3846-476f-a422-984e0ef7ee87</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -721,8 +604,8 @@ Enjoy this refined treat, ideal for any occasion and suitable for anyone who wan
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/0f9b47d2-d932-4f3f-8ef5-41fa5f73c570</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -739,8 +622,8 @@ Enjoying gluten-free has never been so delicious!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/7a40d137-3572-4eb1-9bf3-a55bc1fe5659</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -756,8 +639,8 @@ Whether you’re celebrating a special occasion or simply want to treat yourself
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/a77a1001-c244-4162-befe-64c95a023a57</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -768,8 +651,8 @@ Finished with fresh strawberries for the perfect balance between sweet and refre
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/a72ff7b7-b164-4d38-b5a8-74a720e7287c</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -783,8 +666,8 @@ Fill in the options and create your own cake!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/5af8d425-6f4c-4f86-96e4-7d017897287c</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -801,8 +684,8 @@ Always mention you allergies and dietary restrictions in the notes.</image:capti
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/a1d16eba-0379-408a-b4d6-770f050ec2a3</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -816,8 +699,8 @@ Choose the number of people, add a theme or decorations, and customize the cake 
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/784a1857-cc86-4d63-8fcf-718765926a53</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -833,8 +716,8 @@ The cake is designed to resemble a bicycle tire.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/567a1231-7c15-4e68-ae6d-0d3154fdde66</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -850,8 +733,8 @@ Serves 6–8 people.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/e5f48146-d9d9-4f25-a10e-8d2c54bc46fe</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -867,8 +750,8 @@ Also delicious with a scoop of vanilla ice cream!
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/1a4fbed3-0b78-4d5e-807e-fcd26692608d</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -880,8 +763,8 @@ For true chocolate lovers!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/9ea5506e-fc73-49c2-9f18-233d0e9c4333</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -893,8 +776,8 @@ For true chocolate lovers!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/ebe96bcf-d2dd-4b36-b4b5-83cb7a7fb968</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -906,8 +789,8 @@ The cake is topped with vanilla whipped cream.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/079c0144-803b-4192-9463-24b2f763f32e</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -918,8 +801,8 @@ The cake is topped with vanilla whipped cream.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/8f203300-492b-4f3e-944b-3cf873e7d29b</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -936,8 +819,8 @@ An almond sponge cake with vanilla cream and raspberries.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/bd624a1c-a597-47f3-af54-e9a98c3c0168</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -947,8 +830,8 @@ An almond sponge cake with vanilla cream and raspberries.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.935Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/3f595953-e107-4c7e-8bc3-b790a205da1d</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -958,8 +841,8 @@ An almond sponge cake with vanilla cream and raspberries.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/9c8ba7e7-f5b0-45d0-9556-90a4463723ed</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -969,8 +852,8 @@ An almond sponge cake with vanilla cream and raspberries.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/57e66742-514b-4a4c-9c88-2b3838bcb69d</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -987,21 +870,8 @@ An almond sponge cake with vanilla cream and raspberries.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ef97425e-26e9-4632-bdd7-29a7f86958e2.webp</image:loc>
-      <image:caption>Frasier Cake - Enjoy a delicious combination of fresh strawberries with vanilla, the classic Frasier cake!
-
-This delightful creation consists of airy layers of soft almond sponge cake, fresh strawberries, and a smooth vanilla mousse.</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/766a210e-fb0c-4bdf-b2f8-fddd48914b38</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1017,8 +887,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/2cae686c-c49e-4f8f-90c2-a1198d7482fc</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1028,8 +898,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/ea357948-0bca-4416-a8a7-9c7c4725d6cf</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1039,8 +909,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/f6ab5166-e9c3-4548-8438-2b1593b8f372</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1050,8 +920,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/b7a7495e-bad6-40e1-882b-074dab117e4e</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1061,19 +931,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-    <image:image>
-      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/fad5c561-7b13-4610-90bb-f1dabe7a6b3a.webp</image:loc>
-      <image:caption>Rice Whipped Cream Vlaai - Fresh baked goods</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/6d2de2bd-9cdc-4bb9-90bb-9db9f68a5f39</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1083,8 +942,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/7ea88db3-9d68-4f03-addc-16356f65028a</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1094,8 +953,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/0f596951-1097-4e40-a985-59fb5ffe0914</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1105,8 +964,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/fb987871-a237-4114-8150-26843b715f34</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1116,8 +975,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/297b142e-579f-4072-ba6b-bbfda4a21eb7</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1127,8 +986,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/aece2f39-8b41-4970-a58d-2eb521e9cdf3</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1138,8 +997,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/be2fb2ad-b3aa-4386-8734-fc31e11cd693</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1149,8 +1008,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/d5c94978-f8bf-4f68-8f48-e006400a4af5</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1160,8 +1019,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/74298aab-9b21-4b00-bafe-0cf23d82d7ef</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1171,8 +1030,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/7108fa56-7d4e-46f8-b996-a3d78df93e43</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1182,8 +1041,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/280f5a0a-8fd3-4d3a-890c-79b41e333d33</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1193,8 +1052,8 @@ Een traktatie die je niet wilt missen!</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/ba70b135-dc5c-4ae1-8111-ab1ecd2ff82b</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1206,8 +1065,8 @@ Serves 10 people.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/d1be26a2-1215-43cf-93b3-694570e51b7c</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1217,8 +1076,8 @@ Serves 10 people.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/b95b19ef-89e5-48fc-9033-195dcb44f74a</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1228,8 +1087,8 @@ Serves 10 people.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/12dffe16-2e35-401d-b3a1-e5c223595049</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1239,8 +1098,8 @@ Serves 10 people.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/cb3ab0a5-1197-4852-a132-e24f9b69648c</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1250,8 +1109,8 @@ Serves 10 people.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/725c0f81-b315-495a-93a9-4f33719aa2bf</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1261,8 +1120,8 @@ Serves 10 people.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/4742cb61-a632-4668-9fc4-a02aeee4816d</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1272,8 +1131,8 @@ Serves 10 people.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/0cf6ee7f-d9fb-4559-8102-dad18d36eea3</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1283,8 +1142,8 @@ Serves 10 people.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/465211b6-c54b-4ab7-88a4-5a106f2e9cdd</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1294,8 +1153,8 @@ Serves 10 people.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/47b613d0-37b2-4610-94cd-1584b304a2f9</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1305,8 +1164,8 @@ Serves 10 people.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/50e0194c-3e2b-4228-a5ec-495d450be5df</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1316,8 +1175,8 @@ Serves 10 people.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Cw6V6v5xgu/item/b04095c6-c0a8-4d32-bc72-830bf6f08909</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1333,10 +1192,882 @@ De combinatie van zachte gianduja, rijke cacao en de knapperige hazelnoten maakt
     </image:image>
   </url>
   
+  <!-- Products from Store: gllavISk4K (69 products) -->
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/9fa0a53d-2cb1-4651-ac74-d57048da60bf</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/805c8127-49c2-4923-98f4-f8bc2e466a3a.webp</image:loc>
+      <image:caption>Egg-cellent birthday - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/631cc49c-5126-4b3b-a9fd-690571f3ef24</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/5dd4faca-91e9-48b7-82d4-a8f9d403fa79.webp</image:loc>
+      <image:caption>Paddington - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/d078d17a-2152-457b-a48b-6c2ea058802a</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/a2d8c2d6-b51b-4daf-86ef-28634201d9ad.webp</image:loc>
+      <image:caption>You&#039;re brilliant - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/0f1f7584-befa-4c8c-9161-c2d21a1ea33c</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4e9b665a-8288-451b-976d-63276fdeaff2.webp</image:loc>
+      <image:caption>Maastricht sign - Babar the elephant from Jean Brunhoff&#039;s children books. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/49abf7b6-e966-4838-8ad7-a09cda357b08</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f02fe8f8-9179-4686-8b40-3bd84488f107.webp</image:loc>
+      <image:caption>Happy Birthday Mouse - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/225a60f3-8600-4981-b150-c44b318b3b71</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/5cb15c87-10e3-43d9-a1b9-39193f21a207.webp</image:loc>
+      <image:caption>Hippy birthday - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/aad85789-6ba1-4160-bf9d-c7e6a98a5eca</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/be8da9f4-7e87-4d91-bb16-b2accebd92e3.webp</image:loc>
+      <image:caption>Saury - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/5877b834-e2f8-435d-a996-461cc618a83d</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/67893b0a-8451-4eeb-a6b0-a863fc8bf21f.webp</image:loc>
+      <image:caption>Taylor Swift Blue - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/eabe133c-cab5-4f6e-b334-6da61d0dc373</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/527f5359-a009-4c14-88ab-ec3a5ee30d59.webp</image:loc>
+      <image:caption>The story of the little mole - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/bb365ac4-ad1e-465f-a590-8179cd120328</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/15346c7c-97d5-4a91-a6dc-c05ed8b1860f.webp</image:loc>
+      <image:caption>Mario - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/d9be55fc-2dd6-4776-a6bc-427f6d7d6ba2</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/61102c91-4905-49d8-a40b-7e3f2fb3ae7f.webp</image:loc>
+      <image:caption>Paris Eiffel Tower - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/5a44ee2e-76e6-41e9-a166-41120a186fd8</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/68f08a8f-9bfa-4867-b611-dc5db9e439d4.webp</image:loc>
+      <image:caption>Harry Potter Sorting Hat - These cute Sorting Hats will decide which Hogwarts house you belong to. When you open the cookie, sprinkles and a shield will fall out.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/a130f6ce-76ac-4f51-a42d-b8d30dd61052.webp</image:loc>
+      <image:caption>Harry Potter Sorting Hat - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/668d483e-52b3-49eb-bb76-eec337253cd3</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/89d12ec6-9d8a-447a-94ec-a43ead64fc81.webp</image:loc>
+      <image:caption>Feyenoord - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/c84ac426-8792-4c6e-ac9e-9d8909572d83</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/15052d8b-b5a7-45a0-a86b-5a928c592c22.webp</image:loc>
+      <image:caption>Winnie the Pooh with Piglet - Babar the elephant from Jean Brunhoff&#039;s children books. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/6fdd82c1-5c37-4775-b487-b80a8e20e3cd</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/90d4ff83-3971-4275-b32f-07fcd22c883c.webp</image:loc>
+      <image:caption>Manchester United - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/1414d4d6-2b3f-4e07-9d71-d261a2aa1965</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/51184854-d127-4324-984a-dc2b7347bc1f.webp</image:loc>
+      <image:caption>Maastricht Servaasbrug - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/c6726a6a-4155-4fab-ad1f-f777ef11f1f9</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/48d6f62f-2f4c-43d9-839e-03ef1a96a4c1.webp</image:loc>
+      <image:caption>Starry Night - Van Gogh - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/15b63736-1888-4726-aa02-f4ad664902f2</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/fd9f2490-2f2a-4b07-87dc-59b2e6b90aec.webp</image:loc>
+      <image:caption>Van Gogh&#039;s Sunflowers - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/4930c677-cf5c-40ea-b721-b1bdbd489623</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0c3efb15-73c4-4da4-8115-816452f43831.webp</image:loc>
+      <image:caption>Harry Potter v2 - Harry Potter, Ron &amp; Hermione
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/b4b89305-da43-4d01-a09a-b88eab1b7d28</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/520f148a-54fd-405b-816b-a9536137398f.webp</image:loc>
+      <image:caption>Real Madrid - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/6324ffd1-1090-4605-97f1-2b20de5ccb3c</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/5fcacafc-0266-4139-a259-3d954642fd56.webp</image:loc>
+      <image:caption>Hippie van - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/32dee7b5-f649-47a0-b946-0b4d208dbddb</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/8add4559-63ab-4d5e-acad-7ad104b949cf.webp</image:loc>
+      <image:caption>FC Barcelona - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/8888dedd-dae4-449e-93d5-54c76bb92121</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f1e3777a-f78f-4af9-b510-868f48ae8d2d.webp</image:loc>
+      <image:caption>Harry Potter v1 - Harry Potter, Hagrid, Ron &amp; Hermione
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/d87ead49-3167-4a5c-ac2c-b20a1a8e0539</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/03eaddf8-ff2e-46fe-a96e-f40b14bd2d82.webp</image:loc>
+      <image:caption>Happy birthday - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/6cf5663a-3f6b-4497-b5fa-43804cca009b</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/920ba4ee-337f-4a9e-8f13-f7cb2f713b79.webp</image:loc>
+      <image:caption>Eeyore - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/f05d7d20-4ad6-4aae-b516-47d178b7b43e</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/5cec2de4-0b87-4ffd-bb9f-946c0f166ab2.webp</image:loc>
+      <image:caption>Shrek - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/c90f1a0d-37d5-41a9-9d48-d5dcaad5b87a</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/b5bb8ba3-4274-4a05-9163-a5508b035a07.webp</image:loc>
+      <image:caption>Charlotte&#039;s Web - Charlotte&#039;s Web characters on a cookie. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/9eaca96a-3b1e-4e95-9666-d89c6fa2cdd5</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/dd3a1b42-4215-4a75-9569-236edadea243.webp</image:loc>
+      <image:caption>Can&#039;t you sleep Little Bear - Mother and Little bear from the book Can&#039;t you sleep Little Bear. 
+Moeder en Kleine Beer van het kinderboek Welterusten Kleine Beer. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/6da26a76-3d5e-4218-8721-d3ca230926b3</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/bc0d318a-327f-4e41-9ec5-361afa6748f1.webp</image:loc>
+      <image:caption>Bunny with little chick - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/bb5e4526-8b6d-406b-adac-27281d9baaeb</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4931a46f-4496-4de2-a370-0d669dc4f471.webp</image:loc>
+      <image:caption>Bunny eating a carrot - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/6a7646df-e1b7-4671-977a-2e2624b4daf7</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/87a21faa-ef47-4943-b211-7ebb9abeb8d3.webp</image:loc>
+      <image:caption>Bunny - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/6f553424-ca8e-46ab-b983-c6a285f4aaca</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/eb0c732e-6df1-4df5-b61b-c9ea5c233afc.webp</image:loc>
+      <image:caption>Bumba - Cartoon circus clown Bumba. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/5bc511a1-4698-4456-bc80-fab6cef590be</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/55219e26-f497-4611-8dac-a4a1de7ef8ae.webp</image:loc>
+      <image:caption>Bruno Fernandes - Manchester United and Portuguese National Team midfielder Bruno Fernandes. 
+
+Cookie has a height of ± 15 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/e987db6f-962d-425c-8199-1d73726fb75f</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f27e7623-a8a1-4fdb-8783-4f8c32d97567.webp</image:loc>
+      <image:caption>Brian Brobbey - Ajax and Dutch National Team striker Brian Brobbey.
+
+Cookie has a height of ± 15 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/f2e0c9b5-672e-4b82-bbf3-92ddc93dde9e</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/275210e8-ac96-45bb-8b06-b3c1b4321484.webp</image:loc>
+      <image:caption>Brat - Green brat cookie. 
+
+Four options: you&#039;re so julia, brat summer, birthday brat &amp; i&#039;m so julia.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f90f4910-51e2-458c-af38-38b1b6535ca4.webp</image:loc>
+      <image:caption>Brat - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/f46befb2-365f-4431-92ec-f3713b5a5dbd</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/38329967-19f4-4e2d-bb60-06e2d47204cb.webp</image:loc>
+      <image:caption>Borussia Dortmund - Logo of German football club BVB (Borussia Dortmund). 
+
+Cookie is ± 9x9 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/48d97be4-d5dc-4a4d-911f-29b10793d534</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/617a5821-cdf5-4675-bd61-6a511be06dc1.webp</image:loc>
+      <image:caption>Birthday essentials - Cookie with all the birthday essentials: cake, candles, flowers and more. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.
+
+</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/f05e3dfc-5bf6-49b6-96db-ca1d46549307</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/025aa633-da1b-499c-98cf-c8e8b04e03b1.webp</image:loc>
+      <image:caption>Basketball - Basketball cookie. 
+
+The cookie is ± 9x9 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.
+
+</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/458d014a-6326-4f71-a7d8-153901429204</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/33100062-c294-4a49-9c0e-c16f4ea32d1a.webp</image:loc>
+      <image:caption>Bart Verbruggen - Brighton and Dutch National Team Goalkeeper Bart Verbruggen. 
+
+Cookie has a height of ± 15 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/acf5b9de-7096-46bf-84bd-4f4d97e45942</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/1bf8138b-cf78-40b2-8fb8-2b4b291ebed5.webp</image:loc>
+      <image:caption>Ballerina - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/6b2c1ffb-aa00-4fbc-8cb3-a929fb3e8097</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/587f013f-92e2-4b69-9e23-4a328772cbec.webp</image:loc>
+      <image:caption>Anna Frozen - Princess Anna from Disney&#039;s Frozen.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/8748c1fb-3c89-4c6f-9be2-08d7f54863c0</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0df3cdaa-8d75-4e48-a359-0a01438a1701.webp</image:loc>
+      <image:caption>Anis Hadj-Moussa - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/d6fe9fd7-c70e-42d9-8708-1e2afc031d94</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/27323d6d-2185-4311-af1e-22b3763bb24c.webp</image:loc>
+      <image:caption>Angel - Angel from Disney&#039;s Lilo &amp; Stitch.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/7a82fa3b-3fca-4539-b2b3-358bea28e45c</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/e9b2bb8a-adb3-4cd1-ab46-91f6a68c6542.webp</image:loc>
+      <image:caption>André Rieu - Face cookie of Dutch violist André Rieu. 
+
+Cookie has a height of ± 15 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/bd150d30-e38f-453d-adef-8c0f84709981</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/64bfe53d-ede1-4858-bb10-64db0a8fff45.webp</image:loc>
+      <image:caption>Amsterdam canal houses - This cookie portraits Amsterdam canal houses. Fun cookie for someone moving or travelling to Amsterdam! 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/145edf1e-086b-4fe5-bbb5-93a2dcf09ff0</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/1d542543-f0c6-4a6c-9645-719a79a763d8.webp</image:loc>
+      <image:caption>Amsterdam bike - Dutch Amsterdam bike. We have a few different colours, including blue, pink, green and yellow. If you&#039;d like another colour please send us a message on social media. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/b84aa467-ad96-4b29-9b93-69e52b3e3483</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/fae2c315-b58c-43cd-b00b-ee3f18ac44c1.webp</image:loc>
+      <image:caption>Alejandro Garnacho - Manchester United and Argentine National Team football player Alejandro Garnacho. 
+
+Cookie has a height of ± 15 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/6b06a4e8-53d7-425e-9cf9-bc8994690113</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ca4a3bf7-c725-496f-850a-3733aaed3818.webp</image:loc>
+      <image:caption>Ajax - The new logo of Dutch football club Ajax Amsterdam. 
+
+The cookie is ± 9x9cm. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.
+
+</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/93d07b6b-4393-4ef2-a294-b2c1563115e6</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/4687a540-5e88-4e33-99bf-a320d6bde0f9.webp</image:loc>
+      <image:caption>Unicorn - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/af9beafb-395e-462e-8882-440ae930f752</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c9f09ee9-b588-49e1-a83b-8478a3435405.webp</image:loc>
+      <image:caption>Rainbow fish - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/47dd5a32-3f25-49fb-9f6b-4e410df548bc</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/2f44a134-6720-4871-b0cd-e3887e54ec93.webp</image:loc>
+      <image:caption>Lion - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/03f8fc72-12ba-4854-bcbd-da92bb88c33d</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/8473ede5-4a2b-4b57-9f56-4b176db196ef.webp</image:loc>
+      <image:caption>Kikker - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/a05d49f4-db89-4e8b-97f8-19f127f11d31</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/aedd0fae-4de8-49d9-ab5c-58b9481da106.webp</image:loc>
+      <image:caption>Happy birthday Dog - Happy birthday cookie with a dachshund/teckel.
+
+This cookie is available as gluten-free, but be sure to check the right choice of flour. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/986823fa-9e6b-4aca-9444-4c1fa58690c9</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/caabc732-08fd-4646-bb3d-e2e975acedd4.webp</image:loc>
+      <image:caption>Giraffe - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/3618d37a-c2c4-4664-a6a3-27ee7d0d3041</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/d45fd7e2-ae5a-4c69-a849-465364d577c2.webp</image:loc>
+      <image:caption>Elephant - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/d06e875c-28d5-4d17-adf5-332eceb55027</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/864c0050-a8b1-4570-a307-f08555efe080.webp</image:loc>
+      <image:caption>Dog with Christmas tree - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/60b08777-7d3d-40a4-9feb-d7b3c0430e17</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/691510e9-8277-41c1-863d-2712ead902e2.webp</image:loc>
+      <image:caption>Dog with balloons - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/c140776e-5937-4977-97b3-21ab932516fd</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/d3d6e250-9132-4ce6-be9c-9128a6005ea4.webp</image:loc>
+      <image:caption>Dog on skateboard - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/42dbb315-a7e4-4d74-93d4-03632b9f79ad</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/009744ee-76e2-40da-90e4-7a6cb13168a6.webp</image:loc>
+      <image:caption>Dinosaur - Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/57de7118-6f2e-448c-bb35-d86dcb887a75</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/cd1e0bdf-5546-4a61-8bff-761821970d11.webp</image:loc>
+      <image:caption>Dalmatian dog with sunglasses - Cute dog with red sunglasses. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/079df805-75c7-46ae-b448-8bd1a3471b31</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/c33148d5-2ca6-4839-b6b0-eac43d99039f.webp</image:loc>
+      <image:caption>Dachshund baguette - Dachshund with a baguette on its back. The dog can either have a red or a green hat and outfit. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/f2a917d9-ce1a-43a9-9198-5751b1646e82.webp</image:loc>
+      <image:caption>Dachshund baguette - Additional view 1</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/d3368b1f-6de6-459d-8579-5ce124251b34</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/5a566467-6a5e-48e4-ba55-9d43c256b68a.webp</image:loc>
+      <image:caption>Dachshund - Cute brown Dachshund.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/65c04b33-cd19-437c-8e50-274fd567afa9</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/96ab150b-944f-4fe6-8bf7-275d4ee7be2f.webp</image:loc>
+      <image:caption>Crocodile birthday - Party crocodile at a birthday party with a balloon and a present. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/9d82766d-0c61-4964-b372-ce60720020ee</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0a17e7c0-0b6d-4983-a98e-ded7910c4d15.webp</image:loc>
+      <image:caption>Frog with cowboy boots - Frog with cowboy boots and a cowboy hat surrounded with gold stars.
+
+Cookie is ± 9x10 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/643fe20e-60ff-4789-a954-46e1dd972942</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/0201b198-9562-458b-a214-a8195307e23f.webp</image:loc>
+      <image:caption>Cowboy dog - Cute white dog with orange cowboy boots and a cowboy hat. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/9131b84c-76b9-489b-8d96-9c3d78a925f5</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/689f97dc-10d1-419e-aa28-17bdb8381c33.webp</image:loc>
+      <image:caption>Chicken with wellie boots - Funny chicken with Wellie boots on. 
+
+Cookie is ± 7x9 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/b2ac0b11-a13a-422c-a9db-d0515e6c13df</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/8e3e1539-064b-4050-8bc2-3172bb1f9ffd.webp</image:loc>
+      <image:caption>Cat hug - A purple and a white cat hugging. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art. </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/6475323c-ad94-44d9-867f-9968551f0d86</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/ff898f7e-6511-437e-958e-829d63b48c8b.webp</image:loc>
+      <image:caption>Aristocats Marie - Marie from Disney&#039;s Artistocats.
+
+Cookie is ± 8 x 10 cm.
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.thebakerz.com/gllavISk4K/item/db257bf4-662d-4c99-93fc-9456f5c3bad2</loc>
+    <lastmod>2025-06-08T01:20:57.244Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://storage4thebakerz.blob.core.windows.net/products/11055cca-73f4-4d29-96eb-46228db73d34.webp</image:loc>
+      <image:caption>Babar - Babar the elephant from Jean Brunhoff&#039;s children books. 
+
+Our cookies are carefully handmade and may vary slightly, making each one a unique piece of art.</image:caption>
+    </image:image>
+  </url>
+  
   <!-- Products from Store: XGDafLovKh (36 products) -->
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/f9867d96-e6ee-40b9-83b7-5f386c05c037</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1361,8 +2092,8 @@ Maximum shelf life: 30 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/b77c578b-795c-46b9-88a2-4d1b70f94729</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1385,8 +2116,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/23ee5fdc-2314-47b7-8469-da1437d8384e</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1405,8 +2136,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/859ec6bc-74fc-493a-a54f-99cc25383292</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1420,8 +2151,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/36280b96-1203-449e-a116-8794c8c0a2c6</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1435,8 +2166,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/0fb969f4-eb90-4229-af0b-ac5e3abfb035</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1452,8 +2183,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/00349858-6d55-4b31-ac02-88080cac2734</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1471,8 +2202,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/d7c9c54b-39fb-48a9-9878-14cd75cc8087</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1493,8 +2224,8 @@ Maximum shelf life: 60 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/25b50902-9418-4815-a9fd-d8b2b4c274d2</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1519,8 +2250,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/5c8ab3c7-4601-4e89-85dc-e13f00166f19</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1536,8 +2267,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/ba14ac10-347d-4fc7-b2df-349f6b7c252e</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1552,8 +2283,8 @@ Maximum shelf life: 90 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/7ab46d5b-041a-45b9-8f04-848feb68f4c7</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1568,8 +2299,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/7381b03e-d80f-4bb4-8c83-bdeba5b33ccd</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1589,8 +2320,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/6f434063-a12a-4adf-b18a-f5883b375b61</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1607,8 +2338,8 @@ Maximum shelf life: 30 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/71040964-f4a4-46b8-8de0-b217eec53ba9</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1623,8 +2354,8 @@ Maximum shelf life: 30 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/4aadac4b-e715-4ad1-9f66-261f5c7c44d5</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1643,8 +2374,8 @@ Maximum shelf life: 30 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/d835820e-4eec-4859-ad1b-c7a6418bcff2</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1661,8 +2392,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/056b0be4-db90-4fac-849e-d4d62ae9a2a7</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1679,8 +2410,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/bafba104-1d04-4856-8f83-147bf8f3cf71</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1697,8 +2428,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/86751c0f-583a-450e-8388-5d6d0459bf8b</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1717,8 +2448,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/ff3be34b-6739-4e4b-b442-47f6a9d7d418</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1738,8 +2469,8 @@ Maximum shelf life: 14 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/4558782b-9557-4756-8f49-1d678144383d</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1754,8 +2485,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/733ffdc8-7a69-481b-a2ff-567e1b9b9ef8</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1774,8 +2505,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/8869b328-6734-4f56-92f5-e9b3fc172e64</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1794,8 +2525,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/b97082ce-27e6-4240-b95c-876da86cd3cd</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1810,8 +2541,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/f56e242e-301e-4524-9217-76f54cc1196c</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1835,8 +2566,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/f1f7a3c6-4435-49bd-aed5-6144422815fb</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1856,8 +2587,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/e990574b-de5e-4739-8c11-2d858f357dd3</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1877,8 +2608,8 @@ Maximum shelf life: 90 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/eb306f78-0d97-4dbb-b85c-315f444c5edc</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1902,8 +2633,8 @@ Maximum shelf life: 60 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/70b98241-6742-434d-ac1a-4d803ffb7ccd</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1927,8 +2658,8 @@ Maximum shelf life: 60 days.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/0f5987fc-e0e1-495c-8db6-96b96f3805a4</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1947,8 +2678,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/0b203f74-2785-4761-9975-d4db38fe0f11</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1967,8 +2698,8 @@ Maximum shelf life: 14 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/75789730-2dfb-4504-822d-8b5fc8e5cef5</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -1986,8 +2717,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/3889289f-7bc6-4d9a-87e8-4a794805674c</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2005,8 +2736,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/e2f78a32-a962-48fe-a386-82975144291d</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2025,8 +2756,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/XGDafLovKh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/XGDafLovKh/item/fa726f9e-443f-4525-818e-83f9dee96053</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2050,8 +2781,8 @@ Maximum shelf life: 14 days</image:caption>
   
   <!-- Products from Store: M1z3xRu8d9 (41 products) -->
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/603473ed-70c3-455e-9bb7-f2860016ed5e</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2061,8 +2792,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/aed5b08f-8d8a-451d-8015-de8333034b3d</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2072,8 +2803,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/cd7ac5be-beec-4cc2-8e87-d6965d8184f8</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2083,8 +2814,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/f078277f-329a-431a-befa-0cd69c69884e</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2094,8 +2825,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/5b24e0fa-f75c-438d-8442-8ed09dc5ab21</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2105,8 +2836,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/b6e81ccd-ab0c-447e-adce-92d808121d82</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2116,8 +2847,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/c235b22b-5891-4d7a-9792-fc630afe23c4</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2131,8 +2862,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/5454d39b-518a-499d-ba83-5a8d278c2576</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2142,8 +2873,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/b66a7a82-16dc-474b-83f3-53be5ff32047</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2153,8 +2884,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/cce3fd03-80e8-450f-9940-a6cf0797a3b3</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2164,8 +2895,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/72cb760b-0973-4f54-82f1-ad144f1c8b25</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2175,8 +2906,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/a80132c6-0038-48b2-96c0-b5f9111077a5</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2186,8 +2917,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/8244f157-731f-4fc2-9f4c-448eef37c253</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2197,8 +2928,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/09c4c7ab-bdb6-45f6-b274-b46ac5c97580</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2208,8 +2939,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/656620cc-5d60-49c6-b49b-75f7c3220c69</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2219,8 +2950,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/69487612-4e1b-40cd-8f15-37409966cdfa</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2230,8 +2961,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/4fb1402f-63ef-4418-bf28-0aade7a3bc64</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2241,8 +2972,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/e4c42c75-4d73-4ee8-b9ad-0c6e6435f5d9</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2253,8 +2984,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/b3b3334c-909e-41f4-85e0-b0d948df4ccc</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2264,8 +2995,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/db550132-f3aa-47bf-9ffa-90c01e70ee34</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2275,8 +3006,8 @@ Maximum shelf life: 14 days</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/a0fbbc63-9272-42b7-95ff-2afe85cf3587</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2287,8 +3018,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/b6e7efe7-fe1a-4211-8b5c-c376018997cf</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2298,8 +3029,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/c32aa644-e4d4-4a6b-9b79-715667120f1c</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2309,8 +3040,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/57e767e2-75ed-4fa9-a040-e6a1db034dfb</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2320,8 +3051,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/172e097c-7a94-45b7-a124-e3b90bd21bcf</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2331,8 +3062,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/52e11c8a-65ac-49fa-8acf-d59761fd45e3</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2342,8 +3073,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/0a01667c-8928-4603-875d-2ab3a384428f</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2353,8 +3084,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/92d9c729-9d72-4dbd-aac2-0cfd3125a6e8</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2364,8 +3095,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/78c1962d-3a89-470d-8cff-1e89c8313743</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2375,8 +3106,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/ee862f24-98a9-4e15-be59-6a443635ba76</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2386,8 +3117,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/531350db-326a-46e8-96ab-246ea7367c2b</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2397,8 +3128,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/490b7947-eba3-4c56-9e52-6797104556ed</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2408,8 +3139,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/7e98bac6-eaa5-4ea6-8335-6eaab328f508</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2419,8 +3150,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/88812c4d-861b-4ab4-8339-814027e964d0</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2430,8 +3161,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/d574dc4b-4a68-418e-a113-e889008a03c5</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2441,8 +3172,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/4c23dcb3-05e5-43ff-b90f-0f5623f66095</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2452,8 +3183,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/35f9dbb2-5585-41e6-bbc8-5021c8aea766</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2463,8 +3194,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/742bdf45-7e13-4ee8-b7f9-6c4b4aa117d4</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2474,8 +3205,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/6df28b92-f8a9-43f1-a686-8fe907b218a2</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2485,8 +3216,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/05f2825f-5fd4-4883-ae85-61b6608b8449</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2496,8 +3227,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/M1z3xRu8d9/item/9141dc83-f29d-4021-8155-e4d588ebd282</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2509,8 +3240,8 @@ This selection showcases the CLUIZEL taste: intense chocolate with low sugar con
   
   <!-- Products from Store: Wh4Mf8bczO (2 products) -->
   <url>
-    <loc>https://www.thebakerz.com/Wh4Mf8bczO/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Wh4Mf8bczO/item/8d3c3e2d-f401-4337-ae78-a5c95c270c5e</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2527,8 +3258,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/Wh4Mf8bczO/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/Wh4Mf8bczO/item/ab8fab23-3e69-4699-80f4-11528652ffaa</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2551,8 +3282,8 @@ Maximum shelf life 72 hours.</image:caption>
   
   <!-- Products from Store: ABK8YN4nAl (8 products) -->
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/f3bf2622-9c97-44b9-8bd0-1449e40bb891</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2572,8 +3303,8 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/d4528123-36e7-4dd5-81e5-fdbc794710df</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2591,8 +3322,8 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/2e64ddac-3452-4041-8084-091c879178f9</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2610,8 +3341,8 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/a05dd756-7f89-46c4-92ef-a12c122bb514</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2625,8 +3356,8 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/e501a445-0352-4216-9b2f-11cd7ee9d102</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2644,8 +3375,8 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/26ab9b21-185e-494f-a54c-87a70181934e</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2663,8 +3394,8 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/91c61d36-2369-470c-a94e-97799d2b5ba4</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2682,8 +3413,8 @@ Coffee-Pecan, Lemon Cheesecake, Ruby, Oreo Cookie and Pistachio Raspberry</image
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/ABK8YN4nAl/item/25ca11e6-139d-4f77-9d0e-7f2fcd52037b</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2702,8 +3433,8 @@ A smaller size than our regular macarons, but just as tasetefull. To share with 
   
   <!-- Products from Store: B1KqcUWMeG (5 products) -->
   <url>
-    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/0709cbce-f791-4996-8a48-7ac564fdd48e</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2731,8 +3462,8 @@ Comes in gift packaging — ideal for a treat or a present.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/445d5348-8095-4d45-a0a6-cbc24f7cfbcd</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2750,8 +3481,8 @@ Every cake is prepared with love using a trusted homemade recipe and only natura
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/e8561e58-5ab5-4efe-9931-02c3eea7c7ad</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2772,8 +3503,8 @@ Maximum shelf life: 3 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/ae094b2b-3054-4280-8059-4354698de9fd</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2795,8 +3526,8 @@ Made only with natural ingredients and a taste you’ll never forget.</image:cap
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/B1KqcUWMeG/item/9f303629-bfc6-4a4d-b8ad-5fc5eb03038c</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2820,8 +3551,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
   
   <!-- Products from Store: niqdjD74Gh (21 products) -->
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/07b045e4-204b-41cc-b67b-fcf870961217</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2831,8 +3562,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/8b3ba354-5131-424d-9cfd-59d257efdc24</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2842,8 +3573,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/abbf561c-3275-4abb-ab48-c92255270a86</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2853,8 +3584,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/b843737f-b61c-4557-8c2a-a0bf45e0f8f0</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2864,8 +3595,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/ebc3ce4f-d39e-4faa-822f-03375872d606</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2875,8 +3606,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/d6a37e95-0b0f-4522-bc19-17c47b865c9f</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2886,8 +3617,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/0e76b91e-313f-4690-aecc-296315ddb134</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2897,8 +3628,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/822ab06c-9790-4c99-b9cf-abc715a4e90b</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2908,8 +3639,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/c6c58034-b9c6-47fb-8fde-758d842f575f</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2919,8 +3650,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/fec1a21a-e6ed-4f26-a6aa-d88eab1bb19a</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2930,8 +3661,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/4b06c7e7-a117-47b5-b20f-a48344ea5af1</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2941,8 +3672,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/94a1f9b4-70cd-458d-94f5-940519ee59d5</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2952,8 +3683,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/826cb5cd-7f6c-4946-93ce-2061bea8833a</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2963,8 +3694,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/28a84bdb-9411-4748-9e80-feaf200c7d80</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2974,8 +3705,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/c57c92e3-503e-41b0-bc30-ef8dd2567533</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2985,8 +3716,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/36246f37-40c8-41df-ac7d-65ce816d5b8a</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -2996,8 +3727,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/b0dd2fd9-c6fc-4455-832b-93edd35748a1</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3007,8 +3738,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/08d768dc-9f19-49c0-b8ff-42e11cb095a1</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3018,8 +3749,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/96ff109f-73c9-4be3-89f3-b94c1a7b584c</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3029,8 +3760,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/fac699a0-0315-4eec-8973-cbf66e28aa2f</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3040,8 +3771,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/niqdjD74Gh/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/niqdjD74Gh/item/a30a480b-80e9-4c2d-8bf1-ff4fbc9cf644</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3053,8 +3784,8 @@ Perfect with coffee, as a gift, or simply — to make you smile.</image:caption>
   
   <!-- Products from Store: a4BORavGI9 (8 products) -->
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/4a2c1bd1-060c-4b1e-a8a7-71f8e5129632</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3073,8 +3804,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/0dad1639-51c3-44c3-ac05-2f1132f35872</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3091,8 +3822,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/343e9f80-61df-4988-a5f6-084fc61c5fa5</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3110,8 +3841,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/a3a9a165-99e2-4d9d-af91-755c8e26709d</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3129,8 +3860,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/5bd090d4-6171-4b65-964b-2c198c78d733</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3145,8 +3876,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/6991448e-edd6-4402-8cb2-d989ee077b2c</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3165,8 +3896,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/f9b7066c-cc19-4e86-8ba0-ee61a7f40984</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3176,8 +3907,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/a4BORavGI9/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/a4BORavGI9/item/c04a477d-4c67-4ace-bf0e-1e90488a6412</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3193,8 +3924,8 @@ Opslagtemperatuur: 15-21 C</image:caption>
   
   <!-- Products from Store: W9pDQq237L (2 products) -->
   <url>
-    <loc>https://www.thebakerz.com/W9pDQq237L/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/W9pDQq237L/item/15396765-3e35-4612-9785-1439b7ffe809</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3205,8 +3936,8 @@ Ingredients: flour, honey, eggs, butter, soda, sour cream, powdered sugar.</imag
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/W9pDQq237L/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/W9pDQq237L/item/73e0756f-b430-4f45-ad05-23b3d7520943</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3218,8 +3949,8 @@ Ingredients: flour, honey, eggs, butter, soda, sour cream, powdered sugar.</imag
   
   <!-- Products from Store: QQeUjf7xed (10 products) -->
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/d44b9315-3758-4d48-ab72-99e3abf111ce</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3232,8 +3963,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/88705422-fc35-4684-9152-41dc6500ea99</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3250,8 +3981,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/cd52c95d-f7fb-4f0c-9ba0-c9853b3ea383</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3264,8 +3995,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/e1b4e77f-eaf3-4c92-8783-83b006dac9e4</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3278,8 +4009,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/19bfc3d3-c8bd-4149-99a7-3e680f934560</loc>
+    <lastmod>2025-06-08T01:20:57.245Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3293,8 +4024,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/c91f3b4a-b611-43d5-bad0-e706d08a63fd</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3307,8 +4038,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/2d1a02a8-977e-45ad-a48f-aac4686072d7</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3321,8 +4052,8 @@ Maximum shelf life 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/86e01d3b-a905-4584-b38a-97b80386904c</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3339,8 +4070,8 @@ Maximum shelf life 96 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/7aa7da35-3c18-4ca9-84c2-67af472f6063</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3353,8 +4084,8 @@ Maximum shelf life 96 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/QQeUjf7xed/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/QQeUjf7xed/item/8da15580-cf09-40a8-8a39-c9fa546df7bf</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3369,8 +4100,8 @@ Maximum shelf life 72 hours.</image:caption>
   
   <!-- Products from Store: aFXhl4lpFd (5 products) -->
   <url>
-    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/eaa6c351-d6f5-48ac-8407-b5f801ff598d</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3383,8 +4114,8 @@ Maximum shelf life: 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/d23fe7d8-4a1b-4b2e-9a48-b860bb59fe52</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3405,8 +4136,8 @@ Maximum shelf life: 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/3299f56e-2a07-4072-b5eb-60b0f7da4bbf</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3423,8 +4154,8 @@ Maximum shelf life: 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/fade4452-e9b3-4a02-9e92-04d66a1acbb4</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3441,8 +4172,8 @@ Maximum shelf life: 72 hours.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/aFXhl4lpFd/item/99826345-4670-4b7c-bc07-1323d89d473e</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3461,8 +4192,8 @@ Maximum shelf life: 72 hours.</image:caption>
   
   <!-- Products from Store: 82nuCvIBmX (5 products) -->
   <url>
-    <loc>https://www.thebakerz.com/82nuCvIBmX/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/82nuCvIBmX/item/c980e85d-0039-4b9c-bd49-3df4815731db</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3485,8 +4216,8 @@ Maximum shelf life: 2 days. </image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/82nuCvIBmX/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/82nuCvIBmX/item/1c771080-e34f-4d94-9c82-1b4a81031328</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3498,8 +4229,8 @@ Maximum shelf life: 2 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/82nuCvIBmX/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/82nuCvIBmX/item/dd622ce1-4a50-476c-838b-9737c0afefa6</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3511,8 +4242,8 @@ Maximum shelf life: 2 days.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/82nuCvIBmX/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/82nuCvIBmX/item/7b4cf0ad-ffbe-4380-993f-f80cf79cbf60</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -3524,8 +4255,8 @@ Store refrigerated at 4-6°C.
     </image:image>
   </url>
   <url>
-    <loc>https://www.thebakerz.com/82nuCvIBmX/item/undefined</loc>
-    <lastmod>2025-06-07T03:33:39.936Z</lastmod>
+    <loc>https://www.thebakerz.com/82nuCvIBmX/item/9c18f9f4-dc6b-45bf-aa04-4dff3565aac5</loc>
+    <lastmod>2025-06-08T01:20:57.246Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>

@@ -263,18 +263,7 @@ export async function creatAccountAction(email: string, bearer: string): Promise
     return user;
 }
 
-export const getCurrentBusinessUser = async (id: string): Promise<StoreBusinessData | null> => {
-    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/business`, {
-        headers: {
-            'User-Id': id,
-            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
-        },
-        next: {
-            tags: ['store'],
-            revalidate: 300
-        }
-    }).then(res => res.json());
-};
+
 
 
 export interface User {

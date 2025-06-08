@@ -6,156 +6,148 @@ interface UseScrollObserverParams {
     selectedTab: string;
     setSelectedTab: (category: string) => void;
     categories: string[];
+    isVisible: boolean;
+    isShowDelivery: boolean;
 }
 
 export const useScrollObserver = ({
-                                      categoryRefs,
-                                      isSmall,
-                                      selectedTab,
-                                      setSelectedTab,
-                                      categories,
-                                  }: UseScrollObserverParams) => {
-    // Keep track of scroll position and direction
+    categoryRefs,
+    isSmall,
+    selectedTab,
+    setSelectedTab,
+    categories,
+    isVisible,
+    isShowDelivery,
+}: UseScrollObserverParams) => {
+    const observerRef = useRef<IntersectionObserver | null>(null);
     const lastScrollY = useRef(typeof window !== 'undefined' ? window.scrollY : 0);
-    const scrollingDirection = useRef<'up' | 'down'>('down');
-    // Track bottom observers
-    const bottomObservers = useRef<IntersectionObserver | null>(null);
+    const scrollDirection = useRef<'up' | 'down'>('down');
     
     useEffect(() => {
-        const headerOffset = isSmall ? 270 : 300;
-        
+        // Calculate the sticky header height based on current conditions
+        const getStickyHeaderOffset = () => {
+            if (isVisible) {
+                return isShowDelivery ? 143 : 50;
+            } else {
+                return 0;
+            }
+        };
+
         // Track scroll direction
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-            scrollingDirection.current = currentScrollY > lastScrollY.current ? 'down' : 'up';
+            scrollDirection.current = currentScrollY > lastScrollY.current ? 'down' : 'up';
             lastScrollY.current = currentScrollY;
         };
-        
+
         window.addEventListener('scroll', handleScroll, { passive: true });
+
+        // Clean up previous observer
+        if (observerRef.current) {
+            observerRef.current.disconnect();
+        }
+
+        const headerOffset = getStickyHeaderOffset();
         
-        // Create a separate observer for bottom markers
-        // This helps with determining when we're leaving a category
-        bottomObservers.current = new IntersectionObserver(
+        // Single observer for both top and bottom markers
+        observerRef.current = new IntersectionObserver(
             (entries) => {
-                entries.forEach(entry => {
+                const intersectingEntries = entries.filter(entry => entry.isIntersecting);
+                
+                if (intersectingEntries.length === 0) return;
+                
+                // Group entries by category
+                const categoriesInView: Record<string, { top?: Element, bottom?: Element }> = {};
+                
+                intersectingEntries.forEach(entry => {
                     const category = entry.target.getAttribute('data-category');
-                    if (!category) return;
+                    const position = entry.target.getAttribute('data-category-position');
                     
-                    // If scrolling up and a bottom marker is entering view
-                    if (scrollingDirection.current === 'up' && entry.isIntersecting) {
-                        if (category !== selectedTab) {
-                            setSelectedTab(category);
+                    if (category && position) {
+                        if (!categoriesInView[category]) {
+                            categoriesInView[category] = {};
                         }
+                        categoriesInView[category][position as 'top' | 'bottom'] = entry.target;
                     }
                 });
-            },
-            {
-                threshold: [0.1, 0.5],
-                rootMargin: `-${headerOffset + 50}px 0px 0px 0px`, // Focus on top area
-            }
-        );
-        
-        // Find and observe all bottom markers
-        document.querySelectorAll('.category-observer-target.bottom').forEach(el => {
-            if (bottomObservers.current) {
-                bottomObservers.current.observe(el);
-            }
-        });
-        
-        // Create an observer that will detect when the target elements cross the threshold
-        const observer = new IntersectionObserver(
-            (entries) => {
-                // Only process entries for top markers
-                const topEntries = entries.filter(entry => 
-                    entry.target.getAttribute('data-category-position') !== 'bottom'
-                );
                 
-                // Find entries that are intersecting
-                const intersectingEntries = topEntries.filter(entry => entry.isIntersecting);
+                // Find the best category to select based on scroll direction
+                let targetCategory = '';
                 
-                if (intersectingEntries.length > 0) {
-                    // Sort entries differently based on scroll direction
-                    const sortedEntries = [...intersectingEntries].sort((a, b) => {
-                        // When scrolling down, prioritize entries from top to bottom
-                        // When scrolling up, prioritize entries from bottom to top
-                        if (scrollingDirection.current === 'down') {
-                            return a.boundingClientRect.top - b.boundingClientRect.top;
-                        } else {
-                            return b.boundingClientRect.bottom - a.boundingClientRect.bottom;
+                if (scrollDirection.current === 'down') {
+                    // When scrolling down, prefer categories that have their top marker visible
+                    // This means we're entering a new category
+                    for (const category of categories) {
+                        if (categoriesInView[category]?.top) {
+                            targetCategory = category;
+                            break; // Take the first one in order
                         }
-                    });
+                    }
                     
-                    // Get the most relevant entry based on scroll direction
-                    const relevantEntry = sortedEntries[0];
-                    
-                    // Find which category this element belongs to
-                    const category = Object.keys(categoryRefs.current).find(
-                        key => categoryRefs.current[key] === relevantEntry.target
-                    );
-                    
-                    if (category && category !== selectedTab) {
-                        const rect = relevantEntry.boundingClientRect;
-                        const viewportHeight = window.innerHeight;
-                        const visibleHeight = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
-                        const visibilityRatio = visibleHeight / rect.height;
-                        
-                        // When scrolling up, only update if the category is significantly in view
-                        if (scrollingDirection.current === 'up') {
-                            // Only update when the category is at least 60% visible when scrolling up
-                            if (visibilityRatio >= 0.6 || rect.top <= headerOffset + 50) {
-                                setSelectedTab(category);
-                            }
-                        } else {
-                            // When scrolling down, only update when more than 60% of the category is visible
-                            if (visibilityRatio >= 0.6) {
-                                setSelectedTab(category);
+                    // If no top markers, use bottom markers
+                    if (!targetCategory) {
+                        for (const category of categories) {
+                            if (categoriesInView[category]?.bottom) {
+                                targetCategory = category;
+                                break;
                             }
                         }
                     }
-                } else if (scrollingDirection.current === 'down') {
-                    // Only use proximity logic when scrolling down to avoid unwanted tab changes
-                    // If no entries are intersecting, check if we should select one
-                    // based on proximity to the viewport
-                    const allEntries = Array.from(topEntries);
-                    const entryDistances = allEntries.map(entry => {
-                        const rect = entry.boundingClientRect;
-                        // Calculate distance from top of viewport (negative when above viewport)
-                        const distanceFromViewport = rect.top - headerOffset;
-                        return { entry, distance: Math.abs(distanceFromViewport) };
-                    });
+                } else {
+                    // When scrolling up, prefer categories that have their bottom marker visible
+                    // This means we're in the middle/end of a category
+                    for (let i = categories.length - 1; i >= 0; i--) {
+                        const category = categories[i];
+                        if (categoriesInView[category]?.bottom) {
+                            targetCategory = category;
+                            break; // Take the last one in order
+                        }
+                    }
                     
-                    // Sort by closest to viewport
-                    entryDistances.sort((a, b) => a.distance - b.distance);
-                    
-                    if (entryDistances.length > 0) {
-                        const closestEntry = entryDistances[0].entry;
-                        const category = Object.keys(categoryRefs.current).find(
-                            key => categoryRefs.current[key] === closestEntry.target
-                        );
-                        
-                        if (category && category !== selectedTab) {
-                            setSelectedTab(category);
+                    // If no bottom markers, use top markers
+                    if (!targetCategory) {
+                        for (let i = categories.length - 1; i >= 0; i--) {
+                            const category = categories[i];
+                            if (categoriesInView[category]?.top) {
+                                targetCategory = category;
+                                break;
+                            }
                         }
                     }
                 }
+                
+                // Update selected tab if we found a target category
+                if (targetCategory && targetCategory !== selectedTab) {
+                    setSelectedTab(targetCategory);
+                }
             },
             {
-                threshold: [0, 0.1, 0.4, 0.5], 
-                rootMargin: `-${headerOffset}px 0px -40% 0px`,
+                threshold: [0, 0.1, 0.3],
+                rootMargin: `-${headerOffset + 10}px 0px -50% 0px`,
             }
         );
-        
-        // Observe all category ref elements (top markers)
-        Object.values(categoryRefs.current).forEach((el) => {
-            if (el) observer.observe(el);
-        });
-        
+
+        // Observe all marker elements
+        const observeElements = () => {
+            document.querySelectorAll('.category-observer-target').forEach(element => {
+                if (observerRef.current) {
+                    observerRef.current.observe(element);
+                }
+            });
+        };
+
+        // Initial observation
+        observeElements();
+
+        // Re-observe when categories change
+        const timeoutId = setTimeout(observeElements, 100);
+
         return () => {
-            observer.disconnect();
-            if (bottomObservers.current) {
-                bottomObservers.current.disconnect();
+            if (observerRef.current) {
+                observerRef.current.disconnect();
             }
             window.removeEventListener('scroll', handleScroll);
+            clearTimeout(timeoutId);
         };
-    }, [categoryRefs, isSmall, selectedTab, setSelectedTab, categories]);
+    }, [categoryRefs, isSmall, selectedTab, setSelectedTab, categories, isVisible, isShowDelivery]);
 };
