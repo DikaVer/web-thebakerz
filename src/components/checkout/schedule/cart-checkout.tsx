@@ -13,6 +13,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import {calculateTotals} from "@/lib/utils/price/price-calculations";
 import {calculateItemTotalPrice} from "@/lib/utils/helper/calculate-total-price-variants";
 import {useDelivery} from "@/components/providers/delivery-provider";
+import {MIN_ORDER_PRICE_IN_CENTS} from "@/lib/local-variables";
 
 const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
     const {
@@ -47,7 +48,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         if (isDelivery && validationResult.deliveryRegion?.ranges?.[0]?.deliveryPriceInCents) {
             return validationResult.deliveryRegion.ranges[0].deliveryPriceInCents;
         }
-        return 0;
+        return  0;
     }, [isDelivery, validationResult]);
 
     // Get delivery fee from the selected region if in delivery mode
@@ -63,7 +64,7 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         if (isDelivery && validationResult.deliveryRegion?.ranges?.[0]?.minOrderPriceInCents) {
             return validationResult.deliveryRegion.ranges[0].minOrderPriceInCents;
         }
-        return 1000; // Default minimum 10€ (in cents)
+        return MIN_ORDER_PRICE_IN_CENTS; // Default minimum 10€ (in cents)
     }, [isDelivery, validationResult]);
 
     // Calculate totals with delivery fee

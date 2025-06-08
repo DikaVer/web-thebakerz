@@ -224,7 +224,7 @@ export const countryCityLatLngMap: Readonly<{ [key: string]: { [city: string]: {
   };
 
 export const exampleStore = ['OrGoD8o3jQ', 'NwzUMel5X6', 'S8gWY29Zhx']
-
+export const MIN_ORDER_PRICE_IN_CENTS = 100; // 1.00 EUR
 export const TOS_VERSION = '2.0';
 
 export const categories: Readonly<{ [key: string]: { description: string } }> = {

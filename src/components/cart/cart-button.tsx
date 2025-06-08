@@ -24,7 +24,7 @@ import { useTranslations } from "next-intl";
 import {motion, useAnimation} from "framer-motion";
 import { convertMinutesToTimeComponents, formatCurrency } from "@/lib/utils";
 import clarity from "@microsoft/clarity";
-import { exampleStore } from "@/lib/local-variables";
+import {exampleStore, MIN_ORDER_PRICE_IN_CENTS} from "@/lib/local-variables";
 interface CartButtonProps {
     isMobileNavbar?: boolean;
 }
@@ -145,7 +145,7 @@ const CartButton: React.FC<CartButtonProps> = ({
         if (isDelivery && validationResult.deliveryRegion?.ranges?.[0]?.minOrderPriceInCents) {
             return validationResult.deliveryRegion.ranges[0].minOrderPriceInCents;
         }
-        return 1000; // Default minimum 10€ (in cents)
+        return MIN_ORDER_PRICE_IN_CENTS; // Default minimum 10€ (in cents)
     }, [isDelivery, validationResult]);
     
     // Check if we can proceed to checkout

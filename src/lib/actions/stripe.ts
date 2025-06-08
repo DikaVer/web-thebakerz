@@ -23,6 +23,7 @@ import { MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import { DeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 import { getCurrentCartType } from "../api/cart-api";
+import {MIN_ORDER_PRICE_IN_CENTS} from "@/lib/local-variables";
 
 // It should validate if the given time is within the schedule and respects lead time.
 async function validateOrderTimeAgainstSchedule(
@@ -144,7 +145,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     let deliveryValidationResult: ValidationResult | null = null;
     let currentAddress: DeliveryAddress | null = null;
     let deliveryFeeInclVat = 0;
-    let minimumOrderAmount = 1000; // Default min €10
+    let minimumOrderAmount = MIN_ORDER_PRICE_IN_CENTS; // Default min €10
     let selectedRegion: MerchantDeliveryRegion | undefined;
 
     if (isDelivery) {
