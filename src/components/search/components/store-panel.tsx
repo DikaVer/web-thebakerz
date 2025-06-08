@@ -122,8 +122,7 @@ export function StorePanel({ store, deliveryMode, isUserCord }: StorePanelProps)
     const [isFavorite, setIsFavorite] = useState(isStoreFavorite(store.id));
     const [likeCount, setLikeCount] = useState(store.totalLikes !== undefined ? (isFavorite ? store.totalLikes + 1 : store.totalLikes) : 0);
     const [isAnimating, setIsAnimating] = useState(false);
-    
-    const storeUrl = `/${store.storeName || store.id}`;
+
     
     // Create ref for the popover component
     const componentRef = useRef<HTMLDivElement>(null);

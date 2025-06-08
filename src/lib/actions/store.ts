@@ -618,7 +618,29 @@ export interface StoreDataPayment {
     regionBusiness: string;
 }
 
-export interface NearbyStore extends StoreData {
+interface SearchStore {
+    id: string;
+    user_id: string;
+    ownerName: string;
+    storeName: string;
+    pickup_window: number;
+    delivery_option: 'pickup' | 'delivery' | 'multi';
+    minTimeOrder: number;
+    slug: string;
+    region: string;
+    currency: string;
+    background: string;
+    location: {
+        latitude: number;
+        longitude: number;
+    };
+    deliveryRegions: MerchantDeliveryRegion[];
+    schedule?: WorkHours;
+    totalLikes: number;
+    totalLikesProduct: number;
+}
+
+export interface NearbyStore extends SearchStore {
     distance: number; // Distance in kilometers from the search location
     deliveryRange?: DeliveryRange;
     deliveryRegion?: MerchantDeliveryRegion;
@@ -633,30 +655,15 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                 s.id,
                 s.user_id,
                 s.nickname,
-                s.description,
-                s.phone,
-                s.hide_phone,
-                s.hide_street,
-                u.image AS picture,
-                u.name AS "ownerName",
-                u.email AS email,
-                s.facebook_url,
-                s.instagram_url,
                 s.slug,
-                s.stripe_id,
                 s.min_time_order,
+                u.name AS "ownerName",
                 s.pickup_window,
                 s.delivery_option,
-                COALESCE(bs.kor, false) AS kor,
                 s.region as region,
                 s.currency as currency,
-                sl.house_number,
-                sl.route,
-                sl.city,
-                sl.country,
                 sl.latitude,
                 sl.longitude,
-                sl.zip_code,
                 s.background
              FROM stores s
              JOIN users u ON s.user_id = u.id
@@ -696,35 +703,20 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
                 .catch((error) => console.error("Error reading item:", error));
 
 
-            const storeData: StoreData = {
+            const storeData: SearchStore = {
                 id: storeRow.id,
                 user_id: storeRow.user_id,
-                kor: storeRow.kor,
                 region: storeRow.region,
                 currency: storeRow.currency,
-                storeName: storeRow.nickname,
-                description: storeRow.description,
-                phone: storeRow.hide_phone ? "" : storeRow.phone,
-                email: storeRow.email,
-                picture: storeRow.picture,
                 ownerName: storeRow.ownerName,
-                instagram_url: storeRow.instagram_url,
-                facebook_url: storeRow.facebook_url,
-                slug: storeRow.slug,
-                stripe_id: storeRow.stripe_id,
+                storeName: storeRow.nickname,
+                pickup_window: storeRow.pickup_window,
+                delivery_option: storeRow.delivery_option,
                 minTimeOrder: storeRow.min_time_order,
-                pickupWindow: storeRow.pickup_window,
-                deliveryOption: storeRow.delivery_option,
-                hide_phone: storeRow.hide_phone,
-                hide_street: storeRow.hide_street, 
+                slug: storeRow.slug,
                 location: {
-                    house_number: storeRow.hide_street ? "" : storeRow.house_number,
-                    route: storeRow.route,
-                    city: storeRow.city,
-                    country: storeRow.country,
                     latitude: storeLat,
                     longitude: storeLng,
-                    zipCode: storeRow.zip_code,
                 }, 
                 deliveryRegions: deliveryRegions,
                 schedule: schedule,
@@ -736,12 +728,12 @@ export async function findNearbyStores(userLat: number, userLng: number, deliver
             // Filter based on delivery mode
             if (deliveryMode === 'pickup' || !isUserCord) {
                 // Include if store offers pickup or multi
-                if (storeData.deliveryOption === 'pickup' || storeData.deliveryOption === 'multi') {
+                if (storeData.delivery_option === 'pickup' || storeData.delivery_option === 'multi') {
                     nearbyStores.push({ ...storeData, distance, isUserCord });
                 }
             } else { // deliveryMode === 'delivery'
                 // Include if store offers delivery or multi AND user is within a delivery range
-                if (storeData.deliveryOption === 'delivery' || storeData.deliveryOption === 'multi') {
+                if (storeData.delivery_option === 'delivery' || storeData.delivery_option === 'multi') {
                     let closestRange = Infinity;
             
                     let regionFound = false;
