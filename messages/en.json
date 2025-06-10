@@ -506,10 +506,8 @@
     "noProductsSelected": "Please select at least one product",
     "noProductsYet": "No products yet",
     "promotion": "Promotion",
-    "promotionPercent": "Promotion %",
     "quantity": "Quantity",
     "selectTime": "Select time",
-    "selected": "Selected",
     "selections": "Selections",
     "startBefore": "Start Before",
     "startTime": "Start Time",
@@ -1007,7 +1005,6 @@
     "verifyEmail": "Verify Email Image"
   },
   "app/(store)/id/orders/add": {
-    "addOrder": "Add Order"
   },
   "app/(store)/id/page": {
     "noProducts": "No products available"
@@ -1087,17 +1084,10 @@
     "userCreationFailed": "User Creation Failed"
   },
   "app/api/store": {
-    "internalError": "Internal Server Error",
-    "missingAuth": "Missing or invalid Authorization header",
-    "missingStoreId": "Missing or invalid Store-Id header",
-    "notAuthorized": "Not Authorize Access"
+    "internalError": "Internal Server Error"
   },
   "app/api/store/cart": {
-    "internalError": "Internal Server Error",
-    "missingAuth": "Missing or invalid Authorization header",
-    "missingStoreId": "Missing or invalid Store-Id header",
-    "missingUserId": "Missing or invalid User-Id header",
-    "notAuthorized": "Not Authorize Access"
+    "internalError": "Internal Server Error"
   },
   "app/api/store/order": {
     "internalError": "Internal Server Error",
@@ -1109,32 +1099,22 @@
   },
   "app/api/store/orders/range": {
     "internalError": "Internal Server Error",
-    "missingAuth": "Missing Authorization header",
     "missingFromDate": "Missing From-Date header",
     "missingStoreId": "Missing Store-Id header",
-    "missingToDate": "Missing To-Date header",
-    "notAuthorized": "Not Authorized Access"
+    "missingToDate": "Missing To-Date header"
   },
   "app/api/store/products": {
     "internalError": "Internal Server Error",
     "missingAuth": "Missing or invalid Authorization header",
-    "missingStoreId": "Missing or invalid Store-Id header",
     "notAuthorized": "Not Authorize Access"
   },
   "app/api/store/products-order": {
-    "internalError": "Internal Server Error",
-    "missingAuth": "Missing or invalid Authorization header",
-    "missingStoreId": "Missing or invalid Store-Id header",
-    "notAuthorized": "Not Authorize Access"
+    "internalError": "Internal Server Error"
   },
   "app/api/store/products/productId": {
-    "internalError": "Internal Server Error",
-    "missingAuth": "Missing or invalid Authorization header",
-    "missingStoreId": "Missing or invalid Store-Id header",
-    "notAuthorized": "Not Authorize Access"
+    "internalError": "Internal Server Error"
   },
   "app/api/update-schedule": {
-    "invalidJson": "Invalid JSON",
     "invalidPayload": "Invalid request payload",
     "invalidTimeFields": "Invalid time fields",
     "storeNotFound": "Store not found",
@@ -1249,7 +1229,6 @@
     "userNotAuthorized": "No Access"
   },
   "app/lib/actions/order-products": {
-    "failedFetchStoreProducts": "Failed to fetch store products",
     "failedUpdateProduct": "Failed to update product.",
     "orderUpdated": "Order updated!",
     "storeNotFound": "Store not found!",
@@ -1300,8 +1279,6 @@
     "customOrder": "Custom Dessert",
     "dietaryPreferences": "Dietary Preferences",
     "excludeAllergies": "Exclude Allergies",
-    "exploreProducts": "Explore Desserts",
-    "exploreStores": "Explore Stores",
     "filterProducts": "Filter Products",
     "maxPrice": "Max Price",
     "minPrice": "Min Price",
