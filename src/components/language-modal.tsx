@@ -58,7 +58,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                         aria-label="Select Dutch"
                         variant={'light'}
                         size={'lg'}
-                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
+                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg hidden'}
                         startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-nl" width={32}/></div>}
                         onPress={(e) => {
                             handleSubmit('nl')
@@ -118,7 +118,7 @@ export default function LanguageModal({handAction}: {handAction?: () => void}) {
                         aria-label="Select Ukrainian"
                         variant={'light'}
                         size={'lg'}
-                        className={'justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
+                        className={'hidden justify-start px-0 data-[hover=true]:bg-background data-[hover=true]:text-lg'}
                         startContent={<div className={'w-8'}><Icon icon="circle-flags:lang-uk" width={32}/></div>}
                         onPress={(e) => {
                             handleSubmit('uk')
