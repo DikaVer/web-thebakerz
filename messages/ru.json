@@ -243,7 +243,7 @@
   "app/(landing)/components/navbar": {},
   "app/(landing)/components/partners": {
     "description": "Мы сотрудничаем с лидерами отрасли для предоставления лучших решений.",
-    "title": "Член"
+    "title": "Партнеры"
   },
   "app/(landing)/components/scroll-triggered": {
     "features": {
