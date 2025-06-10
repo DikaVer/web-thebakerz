@@ -64,6 +64,10 @@
     "ManageProductsDescription": "Управляйте своими продуктами",
     "ProductManager": "Менеджер продукта"
   },
+  "RescueDealSettings": {
+    "RescueDealManager": "Спасенный менеджер сделки",
+    "RescueProductsDescription": "Настроить и редактировать спасательные сделки"
+  },
   "UsersDashboard": {
     "Search User": "Поиск пользователя"
   },
@@ -487,6 +491,28 @@
     "smsWithDiscounts": "SMS со скидками и промо-кодами",
     "storeName": "Название магазина"
   },
+  "app/(return_page)/settings/components/rescue-deal": {
+    "enableRescueDeal": "Включить спасательную сделку",
+    "enableRescueDealDescription": "Активировать спасательные сделки для подходящих заказов",
+    "endTime": "Время окончания",
+    "errorSavingRescueDeal": "Не удалось сохранить спасательную сделку",
+    "hour": "час",
+    "hours": "часа",
+    "image": "Изображение",
+    "minutes": "минут",
+    "nameAndPrice": "Имя & цена",
+    "noProductsSelected": "Пожалуйста, выберите хотя бы один продукт",
+    "noProductsYet": "Пока нет продуктов",
+    "promotion": "Повышение",
+    "promotionPercent": "Повышение %",
+    "quantity": "Количество",
+    "selectTime": "Выберите время",
+    "selected": "Выбран",
+    "selections": "Выборы",
+    "startBefore": "Начать раньше",
+    "startTime": "Время начала",
+    "validationError": "Пожалуйста, проверьте свои входы"
+  },
   "app/(return_page)/settings/components/store-info": {
     "currencyText": "Валюта",
     "deliveryOnly": "Только доставка",
@@ -894,9 +920,10 @@
   "app/(store)/components/three-dots": {
     "addOrder": "Добавить заказ",
     "copyStoreLink": "Скопировать ссылку на магазин",
-    "editDelivery": "Редактировать доставку",
-    "editPickup": "Редактировать самовывоз",
-    "editProducts": "Редактировать продукты",
+    "editDelivery": "Доставка",
+    "editPickup": "Подобрать",
+    "editProducts": "Продукция",
+    "editRescueDeal": "Выгода Спасения",
     "editStore": "Редактировать магазин",
     "getHelp": "Получите помощь",
     "report": "Отчет",

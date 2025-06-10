@@ -142,6 +142,22 @@ const ThreeDotsDropdown: React.FC<{ children?: React.ReactNode }> = ({ children 
                             {t("editProducts")}
                         </DropdownItem>
                         <DropdownItem
+                            key="rescue-deal"
+                            endContent={
+                                <Icon
+                                    icon="material-symbols:eco-outline"
+                                    width={24}
+                                />
+                            }
+                            onPress={() => {
+                                setIsLoading(true);
+                                router.push("/" + storeUrl + "/rescue-deal");
+                                router.refresh();
+                            }}
+                        >
+                            {t("editRescueDeal")}
+                        </DropdownItem>
+                        <DropdownItem
                             key="order"
                             endContent={
                                 <Icon

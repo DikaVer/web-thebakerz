@@ -64,6 +64,10 @@
     "ManageProductsDescription": "Add & Manage your products",
     "ProductManager": "Product Manager"
   },
+  "RescueDealSettings": {
+    "RescueDealManager": "Rescue Deal Manager",
+    "RescueProductsDescription": "Set up and Edit Rescue Deals"
+  },
   "Shop": {
   },
   "UsersDashboard": {
@@ -489,6 +493,28 @@
     "smsWithDiscounts": "SMS with discounts and promo codes",
     "storeName": "Store Name"
   },
+  "app/(return_page)/settings/components/rescue-deal": {
+    "enableRescueDeal": "Enable Rescue Deal",
+    "enableRescueDealDescription": "Activate rescue deals for eligible orders",
+    "endTime": "End Time",
+    "errorSavingRescueDeal": "Failed to save rescue deal",
+    "hour": "hour",
+    "hours": "hours",
+    "image": "Image",
+    "minutes": "minutes",
+    "nameAndPrice": "Name and Price",
+    "noProductsSelected": "Please select at least one product",
+    "noProductsYet": "No products yet",
+    "promotion": "Promotion",
+    "promotionPercent": "Promotion %",
+    "quantity": "Quantity",
+    "selectTime": "Select time",
+    "selected": "Selected",
+    "selections": "Selections",
+    "startBefore": "Start Before",
+    "startTime": "Start Time",
+    "validationError": "Please check your inputs"
+  },
   "app/(return_page)/settings/components/store-info": {
     "currencyText": "Currency",
     "deliveryOnly": "Delivery Only",
@@ -904,10 +930,11 @@
   "app/(store)/components/three-dots": {
     "addOrder": "Add Order",
     "copyStoreLink": "Copy Store Link",
-    "editDelivery": "Edit Delivery",
-    "editPickup": "Edit Pickup",
-    "editProducts": "Edit Products",
-    "editStore": "Edit Store",
+    "editDelivery": "Delivery",
+    "editPickup": "Pickup",
+    "editProducts": "Products",
+    "editRescueDeal": "Rescue Deal",
+    "editStore": "Store",
     "getHelp": "Get Help",
     "report": "Report",
     "storeLinkCopied": "Store Link Copied!"

@@ -1,10 +1,8 @@
 'use client';
 import React, {useEffect, useMemo, useState} from 'react';
 import { Time } from '@internationalized/date';
-import { Button, Spacer, Switch, Select, SelectItem } from '@heroui/react';
-import { Icon } from '@iconify/react';
+import { Spacer, Switch, Select, SelectItem } from '@heroui/react';
 import {WorkHours, updateSchedule} from "@/lib/actions/calendar-actions";
-import showSuccessMessage from "@/components/toast/toast-succes";
 import showErrorMessage from "@/components/toast/toast-error";
 import {useSession} from "@/components/providers/session-provider";
 import {IconLoadingCircle} from "@/components/ui/icons";

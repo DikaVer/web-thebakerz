@@ -64,6 +64,10 @@
     "ManageProductsDescription": "Hinzufügen & Verwalten Ihrer Produkte",
     "ProductManager": "Produktmanager"
   },
+  "RescueDealSettings": {
+    "RescueDealManager": "Rescue Deal Manager",
+    "RescueProductsDescription": "Rettungsabkommen einrichten und bearbeiten"
+  },
   "UsersDashboard": {
     "Search User": "Benutzer suchen"
   },
@@ -485,6 +489,28 @@
     "smsWithDiscounts": "SMS mit Rabatten und Promo -Codes",
     "storeName": "Speichername"
   },
+  "app/(return_page)/settings/components/rescue-deal": {
+    "enableRescueDeal": "Rettungsabkommen aktivieren",
+    "enableRescueDealDescription": "Rettungsabkommen für förderfähige Bestellungen aktivieren",
+    "endTime": "Endzeit",
+    "errorSavingRescueDeal": "Versäumte es, einen Rettungsvertrag zu retten",
+    "hour": "Stunde",
+    "hours": "Std.",
+    "image": "Bild",
+    "minutes": "Minuten",
+    "nameAndPrice": "Name & Preis",
+    "noProductsSelected": "Bitte wählen Sie mindestens ein Produkt aus",
+    "noProductsYet": "Noch keine Produkte",
+    "promotion": "Förderung",
+    "promotionPercent": "Förderung %",
+    "quantity": "Menge",
+    "selectTime": "Zeit wählen",
+    "selected": "Ausgewählt",
+    "selections": "Auswahl",
+    "startBefore": "Beginnen Sie vorher",
+    "startTime": "Startzeit",
+    "validationError": "Bitte überprüfen Sie Ihre Eingaben"
+  },
   "app/(return_page)/settings/components/store-info": {
     "currencyText": "Währung",
     "deliveryOnly": "Nur Lieferung",
@@ -890,10 +916,11 @@
   "app/(store)/components/three-dots": {
     "addOrder": "Bestellung hinzufügen",
     "copyStoreLink": "Kopieren Sie den Store-Link",
-    "editDelivery": "Lieferung bearbeiten",
-    "editPickup": "Abholung bearbeiten",
-    "editProducts": "Produkte bearbeiten",
-    "editStore": "Store bearbeiten",
+    "editDelivery": "Lieferung",
+    "editPickup": "Abholen",
+    "editProducts": "Produkte",
+    "editRescueDeal": "Rettungsabkommen",
+    "editStore": "Speichern",
     "getHelp": "Holen Sie sich Hilfe",
     "report": "Bericht",
     "storeLinkCopied": "Store-Link kopiert!"

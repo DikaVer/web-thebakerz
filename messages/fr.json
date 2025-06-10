@@ -64,6 +64,10 @@
     "ManageProductsDescription": "Gérer vos produits",
     "ProductManager": "Gestion des produits"
   },
+  "RescueDealSettings": {
+    "RescueDealManager": "Rescue Deal Manager",
+    "RescueProductsDescription": "Mettre en place et modifier les offres de sauvetage"
+  },
   "UsersDashboard": {
     "Search User": "Rechercher un utilisateur"
   },
@@ -487,6 +491,28 @@
     "smsWithDiscounts": "SMS avec des réductions et des codes promotionnels",
     "storeName": "Nom de magasin"
   },
+  "app/(return_page)/settings/components/rescue-deal": {
+    "enableRescueDeal": "Activer l'accord de sauvetage",
+    "enableRescueDealDescription": "Activer les transactions de sauvetage pour les commandes éligibles",
+    "endTime": "Heure de fin",
+    "errorSavingRescueDeal": "Échec de l'économie de sauvetage",
+    "hour": "heure",
+    "hours": "heures",
+    "image": "Image",
+    "minutes": "minutes",
+    "nameAndPrice": "Nom & prix",
+    "noProductsSelected": "Veuillez sélectionner au moins un produit",
+    "noProductsYet": "Pas encore de produits",
+    "promotion": "Promotion",
+    "promotionPercent": "Promotion %",
+    "quantity": "Quantité",
+    "selectTime": "Sélectionner l'heure",
+    "selected": "Choisi",
+    "selections": "Sélections",
+    "startBefore": "Commencer avant",
+    "startTime": "Heure de début",
+    "validationError": "Veuillez vérifier vos entrées"
+  },
   "app/(return_page)/settings/components/store-info": {
     "currencyText": "Devise",
     "deliveryOnly": "Livraison uniquement",
@@ -894,10 +920,11 @@
   "app/(store)/components/three-dots": {
     "addOrder": "Ajouter une commande",
     "copyStoreLink": "Copier le lien de la boutique",
-    "editDelivery": "Modifier la livraison",
-    "editPickup": "Modifier le retrait",
-    "editProducts": "Modifier les produits",
-    "editStore": "Modifier le magasin",
+    "editDelivery": "Livraison",
+    "editPickup": "Ramasser",
+    "editProducts": "Produits",
+    "editRescueDeal": "Contrat de sauvetage",
+    "editStore": "Magasin",
     "getHelp": "Obtenir de l'aide",
     "report": "Signaler",
     "storeLinkCopied": "Lien du magasin copié !"

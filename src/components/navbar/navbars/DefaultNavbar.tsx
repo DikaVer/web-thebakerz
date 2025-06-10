@@ -39,11 +39,16 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
 
     
     const isProductPage = pathname.includes("item");
-    const isSearchPage = pathname.includes("settings");
+    const isAddItemPage = pathname.includes("add-item");
+    const isSettingsPage = pathname.includes("settings");
     const isOrdersPage = pathname.includes("orders");
+    const isRescueDealPage = pathname.includes("rescue-deal");
+    const isProductSettingsPage = pathname.includes("products");
+
+    const isStoreSettingsPage = isProductSettingsPage || isRescueDealPage || isOrdersPage || isSettingsPage || isAddItemPage;
 
     const handleBack = () => {
-        if (isProductPage || isOrdersPage || isSearchPage) {
+        if (isStoreSettingsPage || isProductPage) {
             router.push(`/${store?.storeName || store?.id}`);
         } else {
             router.push("/search");
@@ -94,7 +99,7 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
                     </div>
                 )}
                 {/* Only show DeliveryNavbar on larger screens and hide on mobile */}
-                {!isHideDelivery && (
+                {(!isHideDelivery && !isStoreSettingsPage) && (
                     <DeliveryNavbar
                         isVisible={true}
                         level="top-0"

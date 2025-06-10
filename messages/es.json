@@ -64,6 +64,10 @@
     "ManageProductsDescription": "Agregar",
     "ProductManager": "Gerente de producto"
   },
+  "RescueDealSettings": {
+    "RescueDealManager": "Gerente de acuerdo de rescate",
+    "RescueProductsDescription": "Configurar y editar ofertas de rescate"
+  },
   "UsersDashboard": {
     "Search User": "Search User"
   },
@@ -485,6 +489,28 @@
     "smsWithDiscounts": "SMS con descuentos y códigos de promoción",
     "storeName": "Nombre de la tienda"
   },
+  "app/(return_page)/settings/components/rescue-deal": {
+    "enableRescueDeal": "Habilitar el acuerdo de rescate",
+    "enableRescueDealDescription": "Activar acuerdos de rescate para órdenes elegibles",
+    "endTime": "Tiempo de finalización",
+    "errorSavingRescueDeal": "No se pudo salvar el acuerdo de rescate",
+    "hour": "hora",
+    "hours": "horas",
+    "image": "Imagen",
+    "minutes": "minutos",
+    "nameAndPrice": "Nombre & precio",
+    "noProductsSelected": "Seleccione al menos un producto",
+    "noProductsYet": "Todavía no hay productos",
+    "promotion": "Promoción",
+    "promotionPercent": "Promoción %",
+    "quantity": "Cantidad",
+    "selectTime": "Tiempo de selección",
+    "selected": "Seleccionado",
+    "selections": "Trozos escogidos",
+    "startBefore": "Comenzar antes",
+    "startTime": "Hora de inicio",
+    "validationError": "Por favor revise sus entradas"
+  },
   "app/(return_page)/settings/components/store-info": {
     "currencyText": "Divisa",
     "deliveryOnly": "Solo entrega",
@@ -890,10 +916,11 @@
   "app/(store)/components/three-dots": {
     "addOrder": "Agregar pedido",
     "copyStoreLink": "Copiar enlace de la tienda",
-    "editDelivery": "Entrega de edición",
-    "editPickup": "Editar recogida",
-    "editProducts": "Editar productos",
-    "editStore": "Editar tienda",
+    "editDelivery": "Entrega",
+    "editPickup": "Levantar",
+    "editProducts": "Productos",
+    "editRescueDeal": "Acuerdo de rescate",
+    "editStore": "Almacenar",
     "getHelp": "Obtener ayuda",
     "report": "Informe",
     "storeLinkCopied": "¡El enlace de almacenamiento copiado!"

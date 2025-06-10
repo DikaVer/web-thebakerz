@@ -72,6 +72,15 @@ export default function NavbarAdvancedComponent({
     const SCROLL_THRESHOLD = 10;
     const isShowDelivery = useMediaQuery(store ? "(max-width: 1200px)" : "(max-width: 948px)");
 
+    const pathname = usePathname();
+    const isAddItemPage = pathname.includes("add-item");
+    const isSettingsPage = pathname.includes("settings");
+    const isOrdersPage = pathname.includes("orders");
+    const isRescueDealPage = pathname.includes("rescue-deal");
+    const isProductSettingsPage = pathname.includes("products");
+
+    const isStoreSettingsPage = isProductSettingsPage || isRescueDealPage || isOrdersPage || isSettingsPage || isAddItemPage;
+
     // Track scroll position and direction with improved performance
     useEffect(() => {
         const updateScrollDirection = () => {
@@ -156,7 +165,7 @@ export default function NavbarAdvancedComponent({
                 </NavbarContent>
             </Navbar>
 
-            {(!isReturnPage && isShowDelivery && !pay) && (
+            {(!isReturnPage && isShowDelivery && !pay && !isStoreSettingsPage) && (
                 <DeliveryNavbar
                     isVisible={isVisible || !isMobile}
                     store={store}
