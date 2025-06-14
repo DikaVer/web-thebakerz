@@ -14,14 +14,16 @@ import { sortItems } from "@/lib/utils/helper/sort-items-with-order";
 import { logger } from '@/lib/logger';
 import { useSession } from "@/components/providers/session-provider";
 import { useDelivery } from '@/components/providers/delivery-provider';
+import { RescueDeal, RescueDealProduct } from '@/lib/actions/rescue-deal';
+import { RescueDealTimer } from '@/components/store/product/rescue-deals/rescue-deal-timer';
 
 interface ProductListBaseProps {
-    productsData: ProductDataFull;
+    rescueDeals: RescueDeal | null;
     productsOrder: Record<string, string[]>;
 }
 
 export const ProductListBase: React.FC<ProductListBaseProps> = ({
-    productsData,
+    rescueDeals,
     productsOrder
 }) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
@@ -32,12 +34,12 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const { sentinelRef } = useStore();
     const [isVisible, setVisible] = useState(false);
     const [selectedTab, setSelectedTab] = useState('');
-    const { productsDataLocal, setProductsDataLocal, filterParams, setFilterParams } = useProductDialog();
+    const { productsDataLocal, filterParams, setFilterParams } = useProductDialog();
     const categoryRefs = useRef<Record<string, HTMLDivElement | null>>({});
     const t = useTranslations('app/(store)/components/product-list');
     const { session } = useSession();
     const { store } = useStore();
-    const { isDelivery, validationResult } = useDelivery();
+    const { isDelivery, validationResult, isRescueDeal } = useDelivery();
 
 
     // Determine if the current user is the owner of the store
@@ -52,10 +54,6 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             });
         }
     }, [searchTerm, filterParams, setFilterParams]);
-
-    useEffect(() => {
-        setProductsDataLocal(productsData);
-    }, [productsData, setProductsDataLocal]);
 
     // Get sorted and filtered products
     const getFilteredProducts = () => {
@@ -89,74 +87,106 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
 
         let productsAfterStandardFilters: Record<string, ProductData[]>;
 
-        // Apply standard filtering based on filterParams (price, categories, allergies, dietary, searchTerm)
-        if (Object.keys(filterParams).length === 0) {
-            productsAfterStandardFilters = sortedProductsByCategories;
-        } else {
-            const currentlyFiltered: Record<string, ProductData[]> = {};
+        // Apply rescue deal filtering first if isRescueDeal is true
+        if (isRescueDeal) {
+            // Only get product IDs that are both in rescue deals AND have isSelected: true
+            const selectedRescueDealProductIds = rescueDeals?.products
+                ?.map(p => p.id) || [];
+            const rescueDealCategories: Record<string, ProductData[]> = {};
+            
+            logger.debug('rescue_deal_filter', 'Filtering for selected rescue deals', {
+                totalRescueDealProducts: rescueDeals?.products?.length || 0,
+                selectedRescueDealProducts: selectedRescueDealProductIds.length,
+                selectedRescueDealProductIds,
+                isActive: rescueDeals?.isActive
+            });
+            
             Object.entries(sortedProductsByCategories).forEach(([category, products]) => {
-                const filteredProductList = products.filter(product => {
-                    const productPrice = product.price;
-                    
-                    // Price filter
-                    if (filterParams.minPrice !== undefined && productPrice < filterParams.minPrice) {
-                        logger.debug('price_filter', 'Product filtered by min price', {
-                            productName: product.name, productPrice, minPrice: filterParams.minPrice
-                        });
-                        return false;
-                    }
-                    if (filterParams.maxPrice !== undefined && productPrice > filterParams.maxPrice) {
-                        logger.debug('price_filter', 'Product filtered by max price', {
-                            productName: product.name, productPrice, maxPrice: filterParams.maxPrice
-                        });
-                        return false;
-                    }
-                    
-                    // Category filter - if categories are selected, only include products in those categories
-                    if (filterParams.categories && filterParams.categories.length > 0) {
-                        if (!filterParams.categories.includes(product.category)) {
-                            return false;
-                        }
-                    }
-                    
-                    // Allergies filter (exclude products with selected allergies)
-                    if (filterParams.allergies && filterParams.allergies.length > 0) {
-                        if (product.allergies && product.allergies.some(allergy => 
-                            filterParams.allergies!.includes(allergy))) {
-                            return false;
-                        }
-                    }
-                    
-                    // Dietary filter (only include products with selected dietary preferences)
-                    if (filterParams.dietary && filterParams.dietary.length > 0) {
-                        if (!product.dietary || !product.dietary.length) {
-                            return false;
-                        }
-                        const hasSelectedDietary = product.dietary.some(diet => 
-                            filterParams.dietary!.includes(diet)
-                        );
-                        if (!hasSelectedDietary) {
-                            return false;
-                        }
-                    }
-                    
-                    // Search term filter
-                    if (filterParams.searchTerm && filterParams.searchTerm.trim() !== '') {
-                        const searchLower = filterParams.searchTerm.toLowerCase();
-                        if (!(product.name.toLowerCase().includes(searchLower) || 
-                            (product.description && product.description.toLowerCase().includes(searchLower)))) {
-                            return false;
-                        }
-                    }
-                    
-                    return true;
-                });
+                const rescueDealProductsInCategory = products.filter(product => 
+                    selectedRescueDealProductIds.includes(product.id)
+                );
                 
-                if (filteredProductList.length > 0) {
-                    currentlyFiltered[category] = filteredProductList;
+                if (rescueDealProductsInCategory.length > 0) {
+                    rescueDealCategories[category] = rescueDealProductsInCategory;
+                    logger.debug('rescue_deal_filter', 'Found selected rescue deal products in category', {
+                        category,
+                        productCount: rescueDealProductsInCategory.length,
+                        productIds: rescueDealProductsInCategory.map(p => p.id)
+                    });
                 }
             });
-            productsAfterStandardFilters = currentlyFiltered;
+            
+            productsAfterStandardFilters = rescueDealCategories;
+        } else {
+            // Apply standard filtering based on filterParams (price, categories, allergies, dietary, searchTerm)
+            if (Object.keys(filterParams).length === 0) {
+                productsAfterStandardFilters = sortedProductsByCategories;
+            } else {
+                const currentlyFiltered: Record<string, ProductData[]> = {};
+                Object.entries(sortedProductsByCategories).forEach(([category, products]) => {
+                    const filteredProductList = products.filter(product => {
+                        const productPrice = product.price;
+                        
+                        // Price filter
+                        if (filterParams.minPrice !== undefined && productPrice < filterParams.minPrice) {
+                            logger.debug('price_filter', 'Product filtered by min price', {
+                                productName: product.name, productPrice, minPrice: filterParams.minPrice
+                            });
+                            return false;
+                        }
+                        if (filterParams.maxPrice !== undefined && productPrice > filterParams.maxPrice) {
+                            logger.debug('price_filter', 'Product filtered by max price', {
+                                productName: product.name, productPrice, maxPrice: filterParams.maxPrice
+                            });
+                            return false;
+                        }
+                        
+                        // Category filter - if categories are selected, only include products in those categories
+                        if (filterParams.categories && filterParams.categories.length > 0) {
+                            if (!filterParams.categories.includes(product.category)) {
+                                return false;
+                            }
+                        }
+                        
+                        // Allergies filter (exclude products with selected allergies)
+                        if (filterParams.allergies && filterParams.allergies.length > 0) {
+                            if (product.allergies && product.allergies.some(allergy => 
+                                filterParams.allergies!.includes(allergy))) {
+                                return false;
+                            }
+                        }
+                        
+                        // Dietary filter (only include products with selected dietary preferences)
+                        if (filterParams.dietary && filterParams.dietary.length > 0) {
+                            if (!product.dietary || !product.dietary.length) {
+                                return false;
+                            }
+                            const hasSelectedDietary = product.dietary.some(diet => 
+                                filterParams.dietary!.includes(diet)
+                            );
+                            if (!hasSelectedDietary) {
+                                return false;
+                            }
+                        }
+                        
+                        // Search term filter
+                        if (filterParams.searchTerm && filterParams.searchTerm.trim() !== '') {
+                            const searchLower = filterParams.searchTerm.toLowerCase();
+                            if (!(product.name.toLowerCase().includes(searchLower) || 
+                                (product.description && product.description.toLowerCase().includes(searchLower)))) {
+                                return false;
+                            }
+                        }
+                        
+                        return true;
+                    });
+                    
+                    if (filteredProductList.length > 0) {
+                        currentlyFiltered[category] = filteredProductList;
+                    }
+                });
+                productsAfterStandardFilters = currentlyFiltered;
+            }
         }
         
         // Debug price filter (kept from original code)
@@ -191,13 +221,32 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     // Get filtered and sorted categories
     const filteredProductsByCategories = getFilteredProducts();
     
+    // Create rescue deals lookup map by product ID for easy access
+    const rescueDealsMap: Record<string, RescueDealProduct> = {};
+    if (rescueDeals?.products) {
+        rescueDeals.products.forEach(product => {
+                rescueDealsMap[product.id] = {
+                    promotionPercent: product.promotionPercent,
+                    quantity: product.quantity,
+                    isSelected: product.isSelected
+            };
+        });
+    }
+    
     // Get categories in proper order based on productsOrder
+    // When isRescueDeal is true, still use productsOrder but only include categories that have rescue deal products
+    const availableCategories = Object.keys(filteredProductsByCategories);
+    
     const sortedCategories = sortItems(
-        Object.keys(filteredProductsByCategories),
+        availableCategories,
         Object.keys(productsOrder),
         (category: string) => category,
         (a: string, b: string) => a.localeCompare(b)
     );
+
+    // Check if we should show rescue deal messages
+    const shouldShowRescueDeliveryMessage = isRescueDeal && isDelivery;
+    const shouldShowNoRescueDealsMessage = isRescueDeal && !shouldShowRescueDeliveryMessage && sortedCategories.length === 0;
 
     // Handle scroll event
     useEffect(() => {
@@ -255,7 +304,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             <div
                 className={`flex flex-col-reverse md:flex-row transition-all justify-between items-center w-full ${
                     isSticky &&
-                    `sticky ${isVisible ? isShowDelivery ? 'top-[143px] ' : 'top-[50px]' : 'top-[0px] pt-3'} z-50 py-4 bg-background`
+                    `sticky ${isVisible ? isShowDelivery ? isRescueDeal ? 'top-[100px]' : 'top-[143px]' : 'top-[50px]' : 'top-[0px] pt-3'} z-50 py-4 bg-background`
                 }`}
             >
                 <ProductTabs
@@ -268,18 +317,43 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             </div>
             <div className={`w-full h-4 ${isSticky ? ' sticky top-[105px] z-40 shadow-xl' : ''} ${isVisible ? 'top-[0px]' : 'top-[98px]'}`}></div>
             <Spacer y={8} />
-            {sortedCategories.map((category) => (
-                <CategoryProducts
-                    key={category}
-                    category={category}
-                    products={filteredProductsByCategories[category]}
-                    setCategoryRef={setCategoryRef}
-                />
-            ))}
-            {sortedCategories.length === 0 && (
-                <div className="flex justify-center w-full">
-                    <span className="text-default-400 text-lg">{t("noProductsFound")}</span>
+            
+            {/* Rescue Deal Timer - Show when rescue deals are available and active */}
+            {rescueDeals && rescueDeals.isActive && Object.keys(rescueDealsMap).length > 0 && (
+                <div className={`transition-all duration-500`}>
+                    <RescueDealTimer schedule={store?.schedule} />
                 </div>
+            )}
+            
+            {shouldShowRescueDeliveryMessage ? (
+                <div className="flex justify-center w-full">
+                    <span className="text-foreground text-lg text-center px-4">
+                        {t("rescueDealsOnlyAvailableForPickUpOrders")}
+                    </span>
+                </div>
+            ) : shouldShowNoRescueDealsMessage ? (
+                <div className="flex justify-center w-full">
+                    <span className="text-foreground text-lg text-center px-4">
+                        {t("noRescueDealsProductsAtTheMoment")}
+                    </span>
+                </div>
+            ) : (
+                <>
+                    {sortedCategories.map((category) => (
+                        <CategoryProducts
+                            key={category}
+                            category={category}
+                            products={filteredProductsByCategories[category]}
+                            setCategoryRef={setCategoryRef}
+                            rescueDealsMap={rescueDealsMap}
+                        />
+                    ))}
+                    {sortedCategories.length === 0 && !isRescueDeal && (
+                        <div className="flex justify-center w-full">
+                            <span className="text-default-400 text-lg">{t("noProductsFound")}</span>
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );

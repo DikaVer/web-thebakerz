@@ -8,23 +8,27 @@ import { useStore } from '@/components/providers/store-provider';
 import { useSession } from '@/components/providers/session-provider';
 import { useTranslations } from "next-intl";
 import { useDelivery } from '@/components/providers/delivery-provider';
+import { RescueDealProduct } from '@/lib/actions/rescue-deal';
+
 interface CategoryProductsProps {
     category: string;
     products: ProductData[];
     setCategoryRef: (category: string, el: HTMLDivElement | null) => void;
+    rescueDealsMap: Record<string, RescueDealProduct>;
 }
 
 export const CategoryProducts: React.FC<CategoryProductsProps> = ({
-                                                                      category,
-                                                                      products,
-                                                                      setCategoryRef,
-                                                                  }) => {
+    category,
+    products,
+    setCategoryRef,
+    rescueDealsMap,
+}) => {
 
-    const constIds: Record<string, boolean> = {};
+    const productIds: Record<string, boolean> = {};
     const topRef = useRef<HTMLDivElement>(null);
     const { store } = useStore();
     const { session } = useSession();
-    const { isDelivery, validationResult } = useDelivery();
+    const { isDelivery, validationResult, isRescueDeal } = useDelivery();
     
     // Use the top element as the category reference
     useEffect(() => {
@@ -60,14 +64,17 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
             <Spacer y={4}/>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center items-center w-full">
                 {products.map((product) => {
-                    if (constIds[product.id]) {
+                    if (productIds[product.id]) {
                         return null;
                     }
-                    constIds[product.id] = true;
+                    productIds[product.id] = true;
 
                     return (
-                        <div key={product.id} className={`m-1 ${(store?.user_id === session?.user?.id && product.hide_product) ? "opacity-50" : (product.hide_product || (isDelivery && validationResult.deliveryRegion?.isPostDelivery && validationResult.deliveryRegion?.isPostDelivery !== product.isPostDelivery) && store?.user_id !== session?.user?.id) && "hidden"}`}>
-                            <ProductBase productData={product}/>
+                        <div key={product.id} className={`m-1 ${((store?.user_id === session?.user?.id && product.hide_product) || ((rescueDealsMap[product.id] && isRescueDeal) && (rescueDealsMap[product.id]?.isSelected === false || rescueDealsMap[product.id]?.quantity <= 0))) ? "opacity-50" : (product.hide_product || (isDelivery && validationResult.deliveryRegion?.isPostDelivery && validationResult.deliveryRegion?.isPostDelivery !== product.isPostDelivery) && store?.user_id !== session?.user?.id) && "hidden"}`}>
+                            <ProductBase 
+                                productData={product} 
+                                rescueDealInfo={rescueDealsMap[product.id] || null}
+                            />
                         </div>
                     );
                 })}

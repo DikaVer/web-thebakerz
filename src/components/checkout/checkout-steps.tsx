@@ -14,12 +14,28 @@ import { useTranslations } from "next-intl";
 import { replaceGuestAddress } from "@/lib/actions/delivery-actions";
 import clarity from "@microsoft/clarity";
 import { useDelivery } from "@/components/providers/delivery-provider";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import EmbeddedCheckout from "@/components/checkout/payment/embedded-checkout";
+import { getErrorMessage } from "@/app/payment/error/page";
 
 export default function CheckoutSteps({ }: {}) {
     const { session } = useSession();
     const t = useTranslations("app/(store)/components/checkout-steps");
     const router = useRouter();
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const error = searchParams.get('error');
+        if (error) {
+            const errorMessage = getErrorMessage(error);
+            showErrorMessage({ error: errorMessage });
+            
+            // Optional: Remove error from URL without reloading the page
+            const newUrl = window.location.pathname;
+            window.history.replaceState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
+        }
+    }, [searchParams]);
+
     useEffect(() => {
         clarity.upgrade("checkout");
         clarity.setTag("page", "checkout-steps");
@@ -27,19 +43,22 @@ export default function CheckoutSteps({ }: {}) {
 
     const { store } = useStore();
     const steps = ["1", "2", "3", "4"];
-    const { isDelivery, selectedDate, validationResult } = useDelivery();
+    const { isDelivery, selectedDate, validationResult, isRescueDeal } = useDelivery();
     const canProceedToPayment = isDelivery 
         ? validationResult.isValid && validationResult.isInRange && selectedDate
         : selectedDate;
+
+    const [totalAmount, setTotalAmount] = useState<number>(0);
 
     // const initialStep = session?.user 
     //     ? canProceedToPayment ? 3 : 2 
     //     : 2;
 
     const initialStep = canProceedToPayment ? 3 : 2 
+    const finalStep = isRescueDeal ? 3 : initialStep;
     
 
-    const [currentStep, setCurrentStep] = useState<number>(initialStep);
+    const [currentStep, setCurrentStep] = useState<number>(finalStep);
     const disabledKeys = steps.filter((key) => Number(key) > currentStep);
     const [selectedKey, setSelectedKey] = useState<string>(currentStep.toString());
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
@@ -70,10 +89,6 @@ export default function CheckoutSteps({ }: {}) {
             setCurrentStep(nextStep);
             setSelectedKey(nextStep.toString());
         }
-    };
-
-    const handlePlaceOrder = () => {
-        // Place order logic here...
     };
 
     return (
@@ -158,11 +173,41 @@ export default function CheckoutSteps({ }: {}) {
                         }
                     }}
                 >
-                    <CartCheckout handleNext={() => {
-                        clarity.setTag("step", "cart-details");
-                        handleNext(4);
-                        setCurrentStep(0);
-                    }}/>
+                    <CartCheckout 
+                        setTotalAmount={setTotalAmount}
+                        handleNext={() => {
+                            clarity.setTag("step", "cart-details");
+                            handleNext(4);
+                        }}
+                    />
+                </AccordionItem>
+                <AccordionItem
+                    key="4"
+                    className={'shadow-none border-1'}
+                    aria-label={t("paymentDetails")}
+                    title={t("paymentDetailsStep")}
+                    disableIndicatorAnimation
+                    indicator={
+                        4 < currentStep
+                            ? <Icon icon={'solar:check-read-linear'} width={24} />
+                            : <Icon icon={"material-symbols:payments-outline"} className={'text-default-400'} width={24} />
+                    }
+                    onPress={() => {
+                        setSelectedKey("4");
+                        if (currentStep > 4) {
+                            setCurrentStep(4);
+                        }
+                    }}
+                >
+                    <EmbeddedCheckout
+                        totalAmount={totalAmount}
+                        storeStripeAccountId={store.stripe_id!}
+                        onPaymentSuccess={() => {
+                            clarity.setTag("step", "pay");
+                            handleNext(5);
+                            setCurrentStep(0);
+                        }}
+                    />
                 </AccordionItem>
             </Accordion>
         </>

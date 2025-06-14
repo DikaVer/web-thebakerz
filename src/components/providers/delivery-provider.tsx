@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';
 import { CalendarDateTime, CalendarDate } from "@internationalized/date";
-import { setDeliveryMode} from '@/lib/actions/cookies/delivery-cookie';
+import { setDeliveryMode, setRescueDealMode} from '@/lib/actions/cookies/delivery-cookie';
 import { addToast } from "@heroui/react";
 import { useStore } from '@/components/providers/store-provider';
 import { updateOrderTime, getOrderTime, updateDeliveryTime, getDeliveryTime, removeAllSchedules } from '@/app/(store)/[id]/actions';
@@ -27,8 +27,10 @@ export interface ValidationResult {
 interface DeliveryContextProps {
     // Delivery mode state
     isDelivery: boolean;
+    isRescueDeal: boolean;
     isTogglingDelivery: boolean;
     toggleDeliveryMode: (value: boolean) => Promise<void>;
+    toggleRescueDealMode: (value: boolean) => void;
     
     // Date selection
     selectedDate: CalendarDateTime | CalendarDate | undefined;
@@ -66,12 +68,14 @@ interface DeliveryProviderProps {
   children: ReactNode;
   initialDeliveryMode: boolean;
   initialAddress: DeliveryAddress | null;
+  initialRescueDealMode: boolean;
   isStore?: boolean;
 }
 
 export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   children,
   initialDeliveryMode = false,
+  initialRescueDealMode = false,
   initialAddress = null,
   isStore = true
 }) => {
@@ -85,6 +89,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   
   const [isDelivery, setIsDelivery] = useState(initialMode);
   const [isTogglingDelivery, setIsTogglingDelivery] = useState(false);
+  const [isRescueDeal, setIsRescueDeal] = useState(initialRescueDealMode);
   
   // Date selection state
   const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(undefined);
@@ -117,7 +122,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   // Validate initial address when component mounts
   useEffect(() => {
     const validateInitialAddress = async () => {
-      if (address && store?.id) {
+      if (address && store?.id && !isRescueDeal && isDelivery) {
         try {
           setIsValidating(true);
 
@@ -243,7 +248,7 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   // Initialize delivery mode
   useEffect(() => {
     const initDeliveryMode = async () => {
-      await setDeliveryMode(initialMode ? 'delivery' : 'pickup');
+      await setDeliveryMode(isDelivery ? 'delivery' : 'pickup');
     };
     
     initDeliveryMode();
@@ -309,15 +314,14 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     setIsDelivery(value);
     await setDeliveryMode(value ? 'delivery' : 'pickup');
     
-    // Update URL search params for SEO
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-    newSearchParams.set('mode', value ? 'delivery' : 'pickup');
-    
-    // Use replace to avoid adding to browser history for mode toggles
-    router.replace(`?${newSearchParams.toString()}`, { scroll: false });
-    
     setIsTogglingDelivery(false);
   };
+
+  const toggleRescueDealMode = async (value: boolean) => {
+    clarity.setTag("rescue-deal-mode", value ? "rescue-deal" : "normal");
+    setIsRescueDeal(value);
+    await setRescueDealMode(value);
+  }
   
   // Handle date change
   const handleDateChange = async (newDate: CalendarDateTime | CalendarDate) => {
@@ -397,8 +401,10 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
       value={{
         // Delivery mode state
         isDelivery,
+        isRescueDeal,
         isTogglingDelivery,
         toggleDeliveryMode,
+        toggleRescueDealMode,
         
         // Date selection
         selectedDate,

@@ -5,6 +5,7 @@ import { CartData, ItemCart, updateCart, removeCartItem, TypedCartData } from "@
 import showErrorMessage from "@/components/toast/toast-error";
 import {useDisclosure} from "@heroui/react";
 import { useDelivery } from './delivery-provider';
+import { RescueDeal } from '@/lib/actions/rescue-deal';
 import clarity from "@microsoft/clarity";
 
 type CartType = 'delivery' | 'pickup';
@@ -22,6 +23,8 @@ interface CartContextProps {
     onOpenChange: () => void;
     currentCartType: CartType;
     setCurrentCartType: (type: CartType) => void;
+    validateRescueDealsQuantity: () => { isValid: boolean; exceedsQuantity: ItemCart[] };
+    rescueDeals: RescueDeal | null;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -39,11 +42,13 @@ export const CartProvider: React.FC<{
     cart: TypedCartData; 
     storeId: string; 
     initialDeliveryMode: boolean;
+    rescueDeals?: RescueDeal | null;
 }> = ({
     children,
     cart,
     storeId,
-    initialDeliveryMode
+    initialDeliveryMode,
+    rescueDeals = null
 }) => {
     // State management
     const [typedCarts, setTypedCarts] = useState<TypedCartData>(cart);
@@ -52,7 +57,7 @@ export const CartProvider: React.FC<{
     const [itemCount, setItemCount] = useState<number>(0);
     const [total, setTotal] = useState<number>(0);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { setMinLeadTimeProduct } = useDelivery();
+    const { setMinLeadTimeProduct, isRescueDeal } = useDelivery();
 
     // Calculate cart metrics
     const calculateCartMetrics = useCallback((cart: CartData) => {
@@ -86,6 +91,32 @@ export const CartProvider: React.FC<{
         setMinLeadTimeProduct(maxLeadTime);
     }, [JSON.stringify(cartData[storeId]), storeId, setMinLeadTimeProduct]);
 
+    // Validate rescue deals quantity - ensure cart items don't exceed available rescue deal stock
+    const validateRescueDealsQuantity = useCallback(() => {
+        if (!isRescueDeal || !rescueDeals || !cartData[storeId]) {
+            return { isValid: true, exceedsQuantity: [] };
+        }
+
+        const exceedsQuantity: ItemCart[] = [];
+        const cartItems = Object.values(cartData[storeId]);
+
+        cartItems.forEach(cartItem => {
+            const rescueDealProduct = rescueDeals.products?.find(p => p.id === cartItem.product_id);
+            
+            if (rescueDealProduct && rescueDealProduct.isSelected) {
+                // Check if cart quantity exceeds available rescue deal quantity
+                if (cartItem.quantity > rescueDealProduct.quantity) {
+                    exceedsQuantity.push(cartItem);
+                }
+            }
+        });
+
+        return {
+            isValid: exceedsQuantity.length === 0,
+            exceedsQuantity
+        };
+    }, [isRescueDeal, rescueDeals, cartData, storeId]);
+
     // Cart operations
     const addItem = useCallback((item: ItemCart) => {
         clarity.event("cart_add_item")
@@ -104,6 +135,18 @@ export const CartProvider: React.FC<{
 
     const updateItem = useCallback(async (item: ItemCart) => {
         clarity.event("cart_update_item")
+        
+        // Check rescue deal quantity limits before updating
+        if (isRescueDeal && rescueDeals) {
+            const rescueDealProduct = rescueDeals.products?.find(p => p.id === item.product_id);
+            if (rescueDealProduct && rescueDealProduct.isSelected && item.quantity > rescueDealProduct.quantity) {
+                showErrorMessage({ 
+                    error: `Cannot add ${item.quantity} items. Only ${rescueDealProduct.quantity} available in rescue deal.` 
+                });
+                return false;
+            }
+        }
+
         const result = await updateCart(
             item.product_id, 
             item.store_id, 
@@ -175,7 +218,9 @@ export const CartProvider: React.FC<{
         onOpen,
         onOpenChange,
         currentCartType,
-        setCurrentCartType
+        setCurrentCartType,
+        validateRescueDealsQuantity,
+        rescueDeals
     };
 
     return (

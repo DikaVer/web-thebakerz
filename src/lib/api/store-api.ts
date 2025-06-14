@@ -19,6 +19,40 @@ export const getCurrentStore = async (id: string): Promise<StoreData | null> => 
     }).then(res => res.json());
 };
 
+export const getCurrentStoreId = async (id: string): Promise<{id: string, storeName: string, ownerName: string, user_id: string} | null> => {
+
+    if (!id) {
+        throw new Error("Store ID is required");
+    }
+
+    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/${id}/id`, {
+        headers: {
+            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+        },
+        next: {
+            tags: ['store'],
+            revalidate: 300
+        }
+    }).then(res => res.json());
+};
+
+export const getCurrentStoreSchedule = async (id: string): Promise<WorkHours | undefined> => {
+
+    if (!id) {
+        throw new Error("Store ID is required");
+    }
+
+    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/store/${id}/schedule/pickup`, {
+        headers: {
+            'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`,
+        },
+        next: {
+            tags: ['store'],
+            revalidate: 300
+        }
+    }).then(res => res.json());
+};
+
 export const getCurrentStoreByUserIdAndStoreId = async (userId: string, storeId: string): Promise<{store: StoreData | null, schedule: WorkHours | null}> => {
     if (!userId || !storeId) {
         throw new Error("User ID and store ID are required");

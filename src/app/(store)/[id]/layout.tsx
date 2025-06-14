@@ -1,6 +1,6 @@
 import '@/styles/globals.css'
 import React from "react";
-import {getCurrentStore} from "@/lib/api/store-api";
+import {getCurrentStore, getCurrentStoreId} from "@/lib/api/store-api";
 import {getLocalizedMetadata} from "@/components/metadata";
 import type {Metadata} from "next";
 import {StoreIdChecker} from "@/components/store/store-id-checker";
@@ -8,7 +8,7 @@ import {StoreProvider} from "@/components/providers/store-provider";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import {CartProvider} from "@/components/providers/cart-provider";
 import {getCurrentCart} from "@/lib/api/cart-api";
-import {getDeliveryMode} from "@/lib/actions/cookies/delivery-cookie";
+import {getDeliveryMode, getRescueDealMode} from "@/lib/actions/cookies/delivery-cookie";
 import {DeliveryProvider} from "@/components/providers/delivery-provider";
 import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 import LayoutComp from "@/components/layout-comp";
@@ -16,6 +16,9 @@ import NotFound from "@/app/(error_layout)/not-found";
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 import { FavoritesProvider } from '@/components/providers/favorites-provider';
 import { getCurrentFavoritesByStore } from '@/lib/api/favorites-api';
+import { getRescueDeal } from '@/lib/actions/rescue-deal';
+import { isWithinClosingWindow } from '@/lib/utils/helper/schedule-utils';
+import { getCurrentProducts } from '@/lib/api/products-api';
 
 type Params = Promise<{ id: string }>
 
@@ -147,6 +150,7 @@ async function setupStoreProviders({
     }
     
     const deliveryMode = await getDeliveryMode();
+    const rescueDealMode = await getRescueDealMode();   
     const savedAddress = await getCurrentDeliveryAddress();
     let initialDeliveryMode = deliveryMode === 'delivery';
 
@@ -154,9 +158,18 @@ async function setupStoreProviders({
         initialDeliveryMode = storeData.deliveryOption === 'delivery';
     }
 
+    // Check if current time is within 45 minutes of closing
+    const isClosingSoon = isWithinClosingWindow(storeData.schedule);
+
+    let rescueDeals = null;
+    if (isClosingSoon) {
+        rescueDeals = await getRescueDeal(storeData.id);
+    }
     
     const cartData = await getCurrentCart(storeData.id);
     const initialStoreFavorites = await getCurrentFavoritesByStore(storeData.id);
+    const productsData = await getCurrentProducts(storeData.id);
+
     
     return (
         
@@ -165,17 +178,21 @@ async function setupStoreProviders({
         >
             <DeliveryProvider
                 initialDeliveryMode={initialDeliveryMode}
+                initialRescueDealMode={rescueDealMode}
                 initialAddress={savedAddress}
             >   
                 <CartProvider
                     cart={cartData}
                     storeId={storeData.id}
                     initialDeliveryMode={initialDeliveryMode}
+                    rescueDeals={rescueDeals}
                 >
                     <FavoritesProvider
                             initialStoreFavorites={initialStoreFavorites}
                         >
-                        <ProductDialogProvider>
+                        <ProductDialogProvider
+                            productsDataServer={productsData}
+                        >
                             <LayoutComp
                                 store={storeData}
                             >
@@ -198,7 +215,7 @@ export default async function Layout({
 }) {
     const { id } = await params;
     
-    const storeData = await getCurrentStore(id);
+    const storeData = await getCurrentStoreId(id);  
 
     return (
         <div className={'min-h-svh'}>

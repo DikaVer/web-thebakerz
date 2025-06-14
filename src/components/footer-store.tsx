@@ -127,16 +127,18 @@ export function FooterStore() {
                                     </div>
                                 </div>
                             </Link>
-                            <Link key="WhatsApp" isExternal className="text-default-600 hover:text-default-700 transition-colors flex items-center"
-                                  href={phone.href}>
-                                <div className="flex gap-x-2 items-center">
-                                    <phone.icon aria-hidden="true"/>
-                                    <p className="text-sm">
-                                        {store.phone}
-                                    </p>
-                                    <span className="sr-only">{phone.name}</span>
-                                </div>
-                            </Link>
+                            {store?.phone && (
+                                <Link key="WhatsApp" isExternal className="text-default-600 hover:text-default-700 transition-colors flex items-center"
+                                    href={phone.href}>
+                                    <div className="flex gap-x-2 items-center">
+                                        <phone.icon aria-hidden="true"/>
+                                        <p className="text-sm">
+                                            {store.phone}
+                                        </p>
+                                        <span className="sr-only">{phone.name}</span>
+                                    </div>
+                                </Link>
+                            )}
                         </div>
 
                         <div className="flex justify-start gap-y-4 my-0 w-full md:w-[30%]">

@@ -10,6 +10,9 @@ import {calculateItemTotalPrice} from "@/lib/utils/helper/calculate-total-price-
 import {Icon} from "@iconify/react";
 import clarity from "@microsoft/clarity";
 import { useDelivery } from "../providers/delivery-provider";
+import { useCart } from "../providers/cart-provider";
+import { RescueDealProduct } from "@/lib/actions/rescue-deal";
+
 type CartItemRowProps = {
     item: ItemCart;
     productData: ProductData;
@@ -17,7 +20,7 @@ type CartItemRowProps = {
     removeItem: (item: ItemCart) => Promise<boolean>;
     isLoading: boolean;
     setIsLoading: (value: boolean) => void;
-    handleOpen: (productId: string, isBakerzStore:boolean, itemCart?: ItemCart) => void;
+    handleOpen: (productId: string, isBakerzStore:boolean, itemCart?: ItemCart, rescueDealInfo?: RescueDealProduct | null) => void;
 };
 
 // Format variants into readable strings
@@ -58,6 +61,14 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                                                             handleOpen
                                                         }) => {
     const t = useTranslations("app/(store)/components/cart");
+    const { isDelivery, validationResult, isRescueDeal } = useDelivery();
+    const { rescueDeals } = useCart();
+
+    // Check if this item exceeds rescue deal quantity
+    const rescueDealProduct: RescueDealProduct | null = rescueDeals?.products?.find(p => p.id === item.product_id) || null;
+    const exceedsRescueStock = isRescueDeal && rescueDealProduct && rescueDealProduct.isSelected && 
+                               item.quantity > rescueDealProduct.quantity;
+
 
     const handleQuantityChange = async (value: number) => {
         let updatedValue;
@@ -69,25 +80,34 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
         return updatedValue;
     };
 
-    const { isDelivery, validationResult } = useDelivery();
-
     const handleDelete = async () => {
         const updateValue = await removeItem(item);
     }
 
-    if ((item.quantity === 0) || (isDelivery && !productData.isPostDelivery && validationResult?.deliveryRegion?.isPostDelivery)) return null;
+    if ((item.quantity === 0) || (isDelivery && !productData.isPostDelivery && validationResult?.deliveryRegion?.isPostDelivery) || 
+        (isRescueDeal && rescueDealProduct && (!rescueDealProduct.isSelected || rescueDealProduct.quantity === 0))) return null;
 
     return (
         <>
             <div
-                className={`flex flex-col gap-2 p-4 w-full  ${!isLoading && 'hover:bg-default-100 cursor-pointer'} border-gray-200`}
+                className={`flex flex-col gap-2 p-4 w-full  ${!isLoading && 'hover:bg-default-100 cursor-pointer'} border-gray-200 ${exceedsRescueStock ? 'bg-warning-50 border-warning-200' : ''}`}
                 key={item.id}
                 onClick={() => {
                     if (!isLoading) {
-                        handleOpen(productData.id, false, item);
+                        handleOpen(productData.id, false, item, rescueDealProduct);
                     }
                 }}
             >
+                {/* Rescue Deal Stock Warning */}
+                {exceedsRescueStock && (
+                    <div className="flex items-center gap-2 p-2 rounded-lg bg-warning-100 border border-warning-300">
+                        <Icon icon="solar:warning-bold" className="text-warning-600" width={16} />
+                        <p className="text-xs text-warning-700">
+                            Quantity exceeds rescue deal stock. Only {rescueDealProduct.quantity} available.
+                        </p>
+                    </div>
+                )}
+
                 <div className={'flex'}>
                     <div className="w-20 h-20 aspect-square">
                         <Image
@@ -155,14 +175,42 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
                     </div>
                 </div>
                 <div className="flex items-end justify-between" onClick={(e) => e.stopPropagation()}>
-                    <p className="text-sm text-gray-600">
-                        {formatCurrency(calculateItemTotalPrice(item.variants, productData.price, item.quantity))}
-                    </p>
+                    {/* Price display with rescue deal discount */}
+                    {(rescueDealProduct && rescueDealProduct.isSelected && isRescueDeal) ? (
+                        <div className="flex flex-col items-start">
+                            <div className="flex items-center gap-2">
+                                {/* Original price with line-through */}
+                                <div className="relative">
+                                    <p className="text-xs text-default-600 font-medium">
+                                        {formatCurrency(calculateItemTotalPrice(item.variants, productData.price, item.quantity))}
+                                    </p>
+                                    {/* Custom line-through that's more prominent */}
+                                    <div className="absolute inset-0 flex items-center">
+                                        <div className="w-full h-0.5 bg-danger-500 transform rotate-12"></div>
+                                    </div>
+                                </div>
+                                {/* Rescue deal badge */}
+                                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-danger-500 text-white text-xs font-bold">
+                                    <Icon icon="solar:fire-bold" width={10} />
+                                    <span>{rescueDealProduct.promotionPercent}% OFF</span>
+                                </div>
+                            </div>
+                            {/* Discounted price */}
+                            <p className="text-sm text-gray-900 font-semibold">
+                                {formatCurrency(calculateItemTotalPrice(item.variants, productData.price * (1 - rescueDealProduct.promotionPercent / 100), item.quantity))}
+                            </p>
+                        </div>
+                    ) : (
+                        <p className="text-sm text-gray-600">
+                            {formatCurrency(calculateItemTotalPrice(item.variants, productData.price, item.quantity))}
+                        </p>
+                    )}
                     <div>
                         <InputStepper
                             isCart
                             min={0}
-                            max={999}
+                            max={isRescueDeal && rescueDealProduct && rescueDealProduct.isSelected ? 
+                                 rescueDealProduct.quantity : 999}
                             value={item.quantity}
                             onChange={handleQuantityChange}
                             isLoading={isLoading}

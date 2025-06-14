@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react";
 import { useSession } from "@/components/providers/session-provider";
 import { useFavorites } from "@/components/providers/favorites-provider";
 import { useSignInModal } from "@/components/ui/modal-signin";
+import { RescueDealProduct } from "@/lib/actions/rescue-deal";
 
 // Add AnimatedHeart component
 const AnimatedHeart = ({ isFavorite }: { isFavorite: boolean }) => {
@@ -71,6 +72,8 @@ interface ProductInfoProps {
     storeId: string;
     totalLikes: number;
     image: string;
+    rescueDealInfo?: RescueDealProduct | null;  
+    isRescueDeal?: boolean;
 }
 
 export const ProductInfo: React.FC<ProductInfoProps> = ({
@@ -80,7 +83,9 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
     description,
     storeId,
     totalLikes,
-    image
+    image,
+    rescueDealInfo,
+    isRescueDeal
 }) => {
     const { session } = useSession();
     const { isProductFavorite, addProductToFavorites, removeProductFromFavorites } = useFavorites();
@@ -128,10 +133,33 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
                 )}
                 <AnimatedHeart isFavorite={isFavorite} />
             </Button>
-            <div className="flex justify-between items-center w-full">
-                <p className={`font-semibold text-2xl`}>
-                    {formatCurrency(price)}
-                </p>
+            <div className="flex justify-between items-center w-full relative">
+                <div className="flex flex-row items-start w-full gap-3">
+                    {(rescueDealInfo && isRescueDeal) && (
+                        <div className="relative">
+                            <p className="text-lg text-default-600 font-medium">
+                                {formatCurrency(price)}
+                            </p>
+                            {/* Custom line-through that's more prominent */}
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full h-0.5 bg-danger-500 transform rotate-12"></div>
+                            </div>
+                        </div>
+                    )}
+                    <p className={`font-semibold text-2xl`}>
+                        {(rescueDealInfo && isRescueDeal) ? 
+                            formatCurrency(price * (1 - rescueDealInfo.promotionPercent / 100)) :
+                            formatCurrency(price)
+                        }
+                    </p>
+                    {/* Rescue Deal Badge */}
+                    {(rescueDealInfo && isRescueDeal) && (
+                        <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-danger-500 text-white text-xs font-bold shadow-lg">
+                            <Icon icon="solar:fire-bold" width={14} />
+                            <span>{rescueDealInfo.promotionPercent}% OFF</span>
+                        </div>
+                    )}
+                </div>
             </div>
             <p className={`text-base font-medium`}>
                 {name}

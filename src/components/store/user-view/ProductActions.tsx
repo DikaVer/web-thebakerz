@@ -14,6 +14,7 @@ interface ProductActionsProps {
     quantity: number;
     setQuantity: (quantity: number) => void;
     minOrder: number;
+    maxOrder?: number;
     isPostDelivery?: boolean;
     isUpdateMode: boolean;
     isBakerzStore?: boolean;
@@ -28,6 +29,7 @@ export const ProductActions: React.FC<ProductActionsProps> = ({
     quantity,
     setQuantity,
     minOrder,
+    maxOrder,
     isUpdateMode,
     isBakerzStore = false,
     isPostDelivery = false,
@@ -77,7 +79,7 @@ export const ProductActions: React.FC<ProductActionsProps> = ({
                                 <InputStepper
                                     aria-label="Quantity"
                                     min={minOrder || 1}
-                                    max={999}
+                                    max={maxOrder || 999}
                                     value={quantity}
                                     onChange={setQuantity}
                                 />

@@ -5,9 +5,10 @@ import { getSessionCookie, getSessionCookieOrCreate } from "@/lib/actions/sessio
 import { v4 as uuidv4 } from "uuid";
 import {containerCart } from "@/db";
 import {revalidateTag} from "next/cache";
-import {getProductByStoreIdAndProductId, ProductData} from "@/lib/actions/product";
+import { ProductData} from "@/lib/actions/product";
 import { getTranslations } from "next-intl/server";
 import { getCurrentCartType } from "../api/cart-api";
+import { getCurrentProductByStoreIdAndProductId } from "../api/products-api";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -77,7 +78,7 @@ export const updateCart = async (
             return { error: t("noteTooLong") };
         }
         
-        const productData = await getProductByStoreIdAndProductId(storeId, productId);
+        const productData = await getCurrentProductByStoreIdAndProductId(storeId, productId); 
 
         if (!productData) {
             return { error: t("productNotFound") };
@@ -112,50 +113,21 @@ export const updateCart = async (
         const partitionKeyValue = [storeId, userId];
         const now = new Date().toISOString();
         
-        // Check for existing item without notes
-        const existingCartData = await getCurrentCartType(storeId, type as "delivery" | "pickup");
-        const existingItems = Object.values(existingCartData[storeId]);
-
-        // Find an item without notes and with matching variants
-        const existingItem = existingItems.find((item) => 
-            !item.note && 
-            (!item.variants && !variants || 
-             JSON.stringify(item.variants) === JSON.stringify(variants))
-        );
-
-        if (existingItem && !note) {
-            // Update quantity of existing item
-            await containerCart.item(existingItem.id, partitionKeyValue).patch({
-                operations: [
-                    { op: "set", path: "/quantity", value: isSingleItem ? existingItem.quantity + quantity : quantity }
-                ],
-            });
-            
-            const updatedItem = {
-                ...existingItem,
-                quantity: isSingleItem ? existingItem.quantity + quantity : quantity
-            };
-            
-            revalidateTag('cart');
-            return { success: t("cartUpdatedSuccess"), itemCart: updatedItem };
-        }
-
-        const cartItemId = itemId || uuidv4();
-        
-        const newItemCart: ItemCart = {
-            id: cartItemId,
-            store_id: storeId,
-            product_id: productId,
-            min_lead_time: productData.min_lead_time,
-            note,
-            quantity,
-            variants,
-            createdAt: now,
-            user_id: userId,
-            type: type,
-        };
-
+        // If itemId is provided, we're updating an existing specific item
         if (itemId) {
+            const newItemCart: ItemCart = {
+                id: itemId,
+                store_id: storeId,
+                product_id: productId,
+                min_lead_time: productData.min_lead_time,
+                note,
+                quantity,
+                variants,
+                createdAt: now,
+                user_id: userId,
+                type: type,
+            };
+
             await containerCart.item(itemId, partitionKeyValue).patch({
                 operations: [
                     { op: "set", path: "/note", value: newItemCart.note },
@@ -163,12 +135,94 @@ export const updateCart = async (
                     { op: "set", path: "/variants", value: newItemCart.variants }
                 ],
             });
-        } else {
-            await containerCart.items.create(newItemCart);
+
+            revalidateTag('cart');
+            return { success: t("cartUpdatedSuccess"), itemCart: newItemCart };
         }
 
-        revalidateTag('cart');
+        // Check for existing item without notes and matching product/variants
+        const existingCartData = await getCurrentCartType(storeId, type as "delivery" | "pickup");
         
+        // Safely check if store exists in cart data
+        const storeCartItems = existingCartData[storeId];
+        if (!storeCartItems) {
+            // No existing items for this store, create new item
+            const cartItemId = uuidv4();
+            
+            const newItemCart: ItemCart = {
+                id: cartItemId,
+                store_id: storeId,
+                product_id: productId,
+                min_lead_time: productData.min_lead_time,
+                note,
+                quantity: isSingleItem ? quantity : quantity,
+                variants,
+                createdAt: now,
+                user_id: userId,
+                type: type,
+            };
+
+            await containerCart.items.create(newItemCart);
+            revalidateTag('cart');
+            return { success: t("cartUpdatedSuccess"), itemCart: newItemCart };
+        }
+
+        const existingItems = Object.values(storeCartItems);
+
+        // Helper function to compare variants properly
+        const areVariantsEqual = (v1?: Variant[], v2?: Variant[]): boolean => {
+            // Both null/undefined
+            if (!v1 && !v2) return true;
+            // One is null/undefined, other isn't
+            if (!v1 || !v2) return false;
+            // Compare JSON strings
+            return JSON.stringify(v1) === JSON.stringify(v2);
+        };
+
+        // Find an item with matching product, no notes, and matching variants
+        const existingItem = existingItems.find((item) => 
+            item.product_id === productId && // CRITICAL: Check product ID match
+            !item.note && 
+            areVariantsEqual(item.variants, variants)
+        );
+
+        if (existingItem && !note) {
+            // Update quantity of existing item
+            const newQuantity = isSingleItem ? existingItem.quantity + quantity : quantity;
+            
+            await containerCart.item(existingItem.id, partitionKeyValue).patch({
+                operations: [
+                    { op: "set", path: "/quantity", value: newQuantity }
+                ],
+            });
+
+            const updatedItem = {
+                ...existingItem,
+                quantity: newQuantity
+            };
+            
+            revalidateTag('cart');
+            return { success: t("cartUpdatedSuccess"), itemCart: updatedItem };
+        }
+
+        // Create new item if no matching existing item found
+        const cartItemId = uuidv4();
+        
+        const newItemCart: ItemCart = {
+            id: cartItemId,
+            store_id: storeId,
+            product_id: productId,
+            min_lead_time: productData.min_lead_time,
+            note,
+            quantity: isSingleItem ? quantity : quantity,
+            variants,
+            createdAt: now,
+            user_id: userId,
+            type: type,
+        };
+
+        await containerCart.items.create(newItemCart);
+        revalidateTag('cart');
         
         return { success: t("cartUpdatedSuccess"), itemCart: newItemCart };
     } catch (error: any) {

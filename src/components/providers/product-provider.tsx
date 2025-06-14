@@ -8,6 +8,7 @@ import showErrorMessage from "@/components/toast/toast-error";
 import {useRouter, useSearchParams} from "next/navigation";
 import { logger } from '@/lib/logger';
 import { categories as canonicalCategoriesMap } from '@/lib/local-variables'; // Import canonical categories
+import { RescueDealProduct } from '@/lib/actions/rescue-deal';
 
 // Define filter parameters interface
 export interface FilterParams {
@@ -20,9 +21,9 @@ export interface FilterParams {
 }
 
 interface ProductDialogContextProps {
-    handleOpen: (productId: string, isBakerzStore: boolean, itemCart?: ItemCart) => void;
+    handleOpen: (productId: string, isBakerzStore: boolean, itemCart?: ItemCart, rescueDealInfo?: RescueDealProduct | null) => void;
     getProductDataById: (productId: string) => ProductData | undefined;
-    handleOpenWithProduct: (product: ProductData, isBakerzStore: boolean, itemCart?: ItemCart) => void;
+    handleOpenWithProduct: (product: ProductData, isBakerzStore: boolean, itemCart?: ItemCart, rescueDealInfo?: RescueDealProduct | null) => void;
     setProductsDataLocal: (data: ProductDataFull) => void;
     productsDataLocal: ProductDataFull;
     // Add filter parameters
@@ -55,7 +56,7 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
     const [productsData, setProductsData] = useState<ProductDataFull>(productsDataServer ? productsDataServer : {});
     const [itemCart, setItemCartId] = useState<ItemCart | undefined>();
     const [isBakerzStore, setIsBakerzStore] = useState<boolean>(false);
-    const router = useRouter();
+    const [rescueDealInfo, setRescueDealInfo] = useState<RescueDealProduct | null>(null);
     const searchParams = useSearchParams();
     
     // Parse initial filter params from URL
@@ -159,18 +160,20 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
         setProductData(undefined);
     };
 
-    const handleOpen = (productId: string, isBakerzStore: boolean, itemCart?: ItemCart) => {
+    const handleOpen = (productId: string, isBakerzStore: boolean, itemCart?: ItemCart, rescueDealInfo?: RescueDealProduct | null) => {
         setProductData(getProductDataById(productId));
         setItemCartId(itemCart);
         setIsBakerzStore(isBakerzStore);
+        setRescueDealInfo(rescueDealInfo || null);
         setIsOpen(true);
     };
 
-    const handleOpenWithProduct = (product: ProductData, isBakerzStore: boolean, itemCart?: ItemCart) => {
+    const handleOpenWithProduct = (product: ProductData, isBakerzStore: boolean, itemCart?: ItemCart, rescueDealInfo?: RescueDealProduct | null) => {
         if (product) {
             setProductData(product);
             setItemCartId(itemCart);
             setIsBakerzStore(isBakerzStore);
+            setRescueDealInfo(rescueDealInfo || null);
             setIsOpen(true);
         } else {
             showErrorMessage({ error: 'Product not found' });
@@ -178,7 +181,8 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
     };
 
     const getProductDataById = (productId: string) => {
-        return productsData ? productsData[productId] : undefined;
+        const product = productsData ? productsData[productId] : undefined;
+        return product;
     };
 
     const setProductsDataLocal = (data: ProductDataFull) => {
@@ -205,6 +209,7 @@ export const ProductDialogProvider: React.FC<{ children: ReactNode;  productsDat
                 onClose={onClose}
                 itemCart={itemCart}
                 isBakerzStore={isBakerzStore}
+                rescueDealInfo={rescueDealInfo}
             />
             {children}
         </ProductDialogContext.Provider>

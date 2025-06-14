@@ -9,26 +9,29 @@ import {CartItemRow} from "@/components/cart/cart-item";
 import {useCart} from "@/components/providers/cart-provider";
 import {useTranslations} from "next-intl";
 import {Icon} from "@iconify/react";
-import showErrorMessage from "@/components/toast/toast-error";
 import {calculateTotals} from "@/lib/utils/price/price-calculations";
 import {calculateItemTotalPrice} from "@/lib/utils/helper/calculate-total-price-variants";
 import {useDelivery} from "@/components/providers/delivery-provider";
 import {MIN_ORDER_PRICE_IN_CENTS} from "@/lib/local-variables";
 
-const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
+
+const CartCheckout: React.FC<{ setTotalAmount: (amount: number) => void, handleNext: () => void }> = ({ setTotalAmount, handleNext }) => {
     const {
         getProductDataById,
         handleOpen,
     } = useProductDialog();
 
-    const { itemCount, cart, updateItem, removeItem } = useCart();
+    const { itemCount, cart, updateItem, removeItem, validateRescueDealsQuantity, rescueDeals } = useCart();
     const [isLoading, setIsLoading] = useState(false);
     const { store } = useStore();
-    const { isDelivery, validationResult } = useDelivery();
+    const { isDelivery, validationResult, isRescueDeal } = useDelivery();
     const router = useRouter();
     const searchParams = useSearchParams();
     const queryString = searchParams ? `?${searchParams.toString()}` : "";
     const t = useTranslations("app/(store)/components/checkout");
+
+    // Validate rescue deal quantities
+    const rescueDealValidation = validateRescueDealsQuantity();
 
     // Compute totals
     const itemsArray = Object.values(cart).flatMap(
@@ -40,7 +43,28 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
         if (isDelivery && !productData?.isPostDelivery && validationResult?.deliveryRegion?.isPostDelivery) {
             return sum;
         }
-        return productData ? sum + calculateItemTotalPrice(item.variants, productData.price, item.quantity) : sum;
+        if (!productData) return sum;
+
+        // Skip items that are part of rescue deal but not selected or out of stock
+        if (isRescueDeal && rescueDeals) {
+            const rescueDealProduct = rescueDeals.products?.find((p: any) => p.id === item.product_id);
+            if (rescueDealProduct && (!rescueDealProduct.isSelected || rescueDealProduct.quantity === 0)) {
+                return sum; // Don't include in total
+            }
+        }
+
+        let itemPrice = productData.price;
+
+        // Apply rescue deal discount if applicable
+        if (isRescueDeal && rescueDeals) {
+            const rescueDealProduct = rescueDeals.products?.find((p: any) => p.id === item.product_id);
+            if (rescueDealProduct && rescueDealProduct.isSelected) {
+                // Apply rescue deal discount to base product price
+                itemPrice = productData.price * (1 - rescueDealProduct.promotionPercent / 100);
+            }
+        }
+
+        return sum + calculateItemTotalPrice(item.variants, itemPrice, item.quantity);
     }, 0);
 
     // Get delivery fee from the selected region if in delivery mode
@@ -69,12 +93,8 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
 
     // Calculate totals with delivery fee
     const { 
-        itemExclVat,
-        itemVat,
-        deliveryFeeExclVat,
-        deliveryVat,
-        serviceFeeExclVat,
-        serviceVat,
+        itemInclVat,
+        deliveryFeeInclVat,
         serviceFeeInclVat,
         totalExclVat,
         totalVat,
@@ -110,25 +130,18 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
             return false;
         }
         
+        if (isRescueDeal && !rescueDealValidation.isValid) {
+            return false;
+        }
+        
         if (isDelivery) {
             return validationResult.isValid && validationResult.isInRange;
         }
         
         return true;
-    }, [amount, minimumOrderAmount, isDelivery, validationResult]);
+    }, [amount, minimumOrderAmount, isDelivery, validationResult, isRescueDeal, rescueDealValidation]);
 
-    // Message to show when user can't proceed
-    const paymentBlockedMessage = useMemo(() => {
-        if (amount < minimumOrderAmount) {
-            return t("minimumAmount", { minOrder: formatCurrency(minimumOrderAmount) });
-        }
-        
-        if (isDelivery && (!validationResult.isValid || !validationResult.isInRange)) {
-            return t("invalidDeliveryAddress");
-        }
-        
-        return "";
-    }, [amount, minimumOrderAmount, isDelivery, validationResult, t]);
+
 
     return (
         <>
@@ -161,29 +174,57 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                     <Spacer y={2} />
                     <Divider />
                     {renderCartItems(isLoading, setIsLoading)}
+
+                    {/* Rescue Deal Validation Warning */}
+                    {isRescueDeal && !rescueDealValidation.isValid && (
+                        <div className="p-3 rounded-lg bg-warning-50 border border-warning-200 mb-4">
+                            <div className="flex items-start gap-2">
+                                <Icon icon="solar:warning-bold" className="text-warning-500 mt-0.5" width={20} />
+                                <div>
+                                    <p className="text-sm font-medium text-warning-700">
+                                        Rescue Deal Quantity Exceeded
+                                    </p>
+                                    <p className="text-xs text-warning-600 mt-1">
+                                        The following items exceed available rescue deal stock:
+                                    </p>
+                                    <ul className="text-xs text-warning-600 mt-1 list-disc list-inside">
+                                        {rescueDealValidation.exceedsQuantity.map((item) => {
+                                            const productData = getProductDataById(item.product_id);
+                                            return (
+                                                <li key={item.id}>
+                                                    {productData?.name} - In cart: {item.quantity}
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     <div className="py-4">
                         <div className="flex justify-between">
                             <span className="text-sm font-medium">{t("subtotal")}</span>
-                            <span className="text-sm">{formatCurrency(itemExclVat)}</span>
+                            <span className="text-sm">{formatCurrency(itemInclVat)}</span>
                         </div>
-                        {itemVat > 0 &&
+                        {/* {itemVat > 0 &&
                             <div className="flex justify-between mt-2">
                                 <span className="text-sm font-medium">{t("vatExclusive")}</span>
                                 <span className="text-sm">{formatCurrency(itemVat)}</span>
                             </div>
-                        }
-                        {isDelivery && deliveryFeeExclVat > 0 &&
+                        } */}
+                        {isDelivery && deliveryFeeInclVat > 0 &&
                             <>    
                                 <div className="flex justify-between mt-2">
                                     <span className="text-sm font-medium">{t("deliveryFee")}</span>
-                                    <span className="text-sm">{formatCurrency(deliveryFeeExclVat)}</span>
+                                    <span className="text-sm">{formatCurrency(deliveryFeeInclVat)}</span>
                                 </div>
-                                {deliveryVat > 0 &&
+                                {/* {deliveryVat > 0 &&
                                     <div className="flex justify-between mt-2">
                                         <span className="text-sm font-medium">{t("deliveryVat")}</span>
                                         <span className="text-sm">{formatCurrency(deliveryVat)}</span>
                                     </div>
-                                }
+                                } */}
                             </>
                         }
                         {serviceFeeInclVat > 0 &&
@@ -223,24 +264,25 @@ const CartCheckout: React.FC<{ handleNext: () => void }> = ({ handleNext }) => {
                             </div>
                         )}
                     </div>
-                    <Button
-                        aria-label="Pay"
+
+                      <Button
+                        aria-label="Save Cart Details"
                         isLoading={isLoading}
                         isDisabled={!canProceedToPayment}
-                        className="w-full bg-gradient-primary text-2xl rounded-full text-white"
+                        className={`${
+                            (!canProceedToPayment)
+                                ? "bg-transparent text-default-600 "
+                                : "bg-gradient-primary text-white border-none"
+                        }  w-full`}
                         onPress={() => {
                             if (canProceedToPayment) {
-                                setIsLoading(true);
-                                router.push(`/${storeUrl}/pay`);
-                                router.refresh();
+                                setTotalAmount(totalInclVat);
                                 handleNext();
-                            } else {
-                                showErrorMessage({error: paymentBlockedMessage});
-                            }
+                            } 
                         }}
                     >
-                        {t("pay")}
-                    </Button>
+                        {t("saveCartDetails")}
+                    </Button>  
                 </>
             ) : (
                 <div className="flex flex-col text-xs font-medium items-center my-2">

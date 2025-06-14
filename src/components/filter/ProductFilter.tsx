@@ -13,6 +13,8 @@ import { logger } from '@/lib/logger';
 import { categories } from '@/lib/local-variables';
 import { useTranslations } from 'next-intl';
 import { CustomOrderButton } from '@/components/ui/custom-order-button';
+import { RescueDealsSwitch } from '@/components/ui/rescue-deals-switch';
+import { usePathname } from 'next/navigation';
 
 interface ProductFilterProps {
   isOpen: boolean;
@@ -43,6 +45,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
   const lastUpdateTime = useRef<number>(0);
   const didMount = useRef(false);
   const t = useTranslations("filter");
+  const pathname = usePathname();
   
   // Get all category names from the categories object
   const allCategories = useMemo(() => Object.keys(categories), []);
@@ -304,7 +307,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       onOpenChange={onOpenChange}
       backdrop='blur'
       sidebarPlacement="right"
-      sidebarWidth={400}
+      sidebarWidth={375}
       className={'bg-background rounded-xl rounded-r-none'}
     >
       <div className="p-4">
@@ -318,6 +321,9 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
           </div>
         ) : (
           <div className="space-y-6">
+            {/* Rescue Deals Switch */}
+            {/* {!pathname.includes('search') && <RescueDealsSwitch />} */}
+
             {/* Price Range Filter - Always Show */}
             <div>
               <h4 className="font-medium mb-3">{t("priceRange")}</h4>

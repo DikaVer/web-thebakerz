@@ -1,4 +1,4 @@
-import {getCurrentStore} from "@/lib/api/store-api";
+import {getCurrentStoreId} from "@/lib/api/store-api";
 import NotFound from "@/app/(error_layout)/not-found";
 import PaymentSupportButton from "@/components/support/payment-urgent";
 import {getTranslations} from "next-intl/server";
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: {
 }) {
     const { id } = await params;
 
-    const storeData = await getCurrentStore(id);
+    const storeData = await getCurrentStoreId(id);
 
     if (!storeData) {
         return {
@@ -46,7 +46,7 @@ export default async function Page(props: StorePageProps) {
 
     const  searchParams  = await props.searchParams;
 
-    const storeData = await getCurrentStore(id);
+    const storeData = await getCurrentStoreId(id);
 
     if (!storeData || !searchParams?.error || !searchParams?.session_id) {
         return NotFound();

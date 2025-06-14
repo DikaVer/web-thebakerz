@@ -68,7 +68,8 @@
     "RescueDealManager": "Reddingsdealmanager",
     "RescueProductsDescription": "Rescue Deals instellen en bewerken"
   },
-  "Shop": {},
+  "Shop": {
+  },
   "UsersDashboard": {
     "Search User": "Zoek gebruiker"
   },
@@ -240,7 +241,8 @@
     "startSellingDescription": "Test uw winkel, voer aanpassingen door en begin met het aannemen van echte bestellingen!",
     "startSellingTitle": "Begin met verkopen"
   },
-  "app/(landing)/components/navbar": {},
+  "app/(landing)/components/navbar": {
+  },
   "app/(landing)/components/partners": {
     "description": "Wij werken samen met marktleiders om de beste oplossingen te leveren.",
     "title": "Lid van"
@@ -386,11 +388,11 @@
   },
   "app/(return_page)/settings/components/delivery-options": {
     "deliveryDescription": "Geef klanten de mogelijkheid om bestellingen op hun adres te laten bezorgen",
-    "deliveryOption": "bezorging",
+    "deliveryOption": "Bezorging",
     "deliveryOptions": "Bezorgopties",
     "deliveryOptionsDescription": "Configureer hoe klanten hun bestellingen kunnen ontvangen.",
     "pickupDescription": "Laat klanten bestellingen ophalen in uw winkel",
-    "pickupOption": "afhaling",
+    "pickupOption": "Afhaling",
     "updateDeliveryOptions": "Update bezorgopties",
     "updatingOptions": "Opties bijwerken..."
   },
@@ -503,8 +505,12 @@
     "nameAndPrice": "Naam en prijs",
     "noProductsSelected": "Selecteer minimaal één product",
     "noProductsYet": "Nog geen producten",
-    "promotion": "Bevbestellinging",
+    "promotion": "Korting",
     "quantity": "Hoeveelheid",
+    "rescueDealDescription": "",
+    "rescueDealDescriptionH2": "",
+    "rescueDealDescriptionH3": "",
+    "rescueDealTitle": "",
     "selectTime": "Selecteer tijd",
     "selections": "Selecties",
     "startBefore": "Begin vóór",
@@ -596,12 +602,19 @@
     "cartEmpty": "Winkelwagen leeg",
     "deliveryFee": "Bezorgkosten",
     "deliveryVat": "Levering BTW (21%)",
+    "enterPaymentDetails": "",
+    "initializingPayment": "",
     "invalidDeliveryAddress": "Ongeldig afleveradres",
     "loadingPaymentGateway": "Betalingsgateway wordt geladen...",
     "minimumAmount": "Het minimale bestelbedrag is {minbestelling}",
     "minimumOrderForDelivery": "Minimale bestelling is {bedrag}",
+    "orPayWith": "",
     "pay": "Betalen",
+    "paymentSuccessful": "",
+    "processing": "",
+    "retry": "",
     "returnToCheckout": "Terug naar afrekenen",
+    "saveCartDetails": "",
     "saveDeliveryDetails": "Bewaar bezorggegevens",
     "savePickUpDetails": "Ophaalgegevens opslaan",
     "serviceFee": "Servicekosten",
@@ -617,6 +630,8 @@
     "failedToUpdateCart": "Het is niet gelukt om het winkelwagentje of adres bij te werken",
     "orderDetails": "Bestelgegevens",
     "orderDetailsStep": "2. Bestelgegevens",
+    "paymentDetails": "",
+    "paymentDetailsStep": "",
     "signInOrSignUpStep": "1. Meld u aan of registreer om een bestelling te plaatsen",
     "signInOrSignUpText": "Meld u aan of registreer om een bestelling te plaatsen"
   },
@@ -626,7 +641,8 @@
     "deleteConfirmation": "Verwijderbevestiging",
     "deleteProductWarning": "Nadat u het item hebt verwijderd, wordt het permanent verwijderd en kan het niet meer worden hersteld."
   },
-  "app/(store)/components/delivery-map": {},
+  "app/(store)/components/delivery-map": {
+  },
   "app/(store)/components/image": {
     "close": "Dichtbij",
     "failedToUploadImage": "Het uploaden van de afbeelding is mislukt. Probeer het opnieuw.",
@@ -652,7 +668,8 @@
     "storeLocation": "Winkellocatie",
     "viewOnGoogleMaps": "Bekijk op Google Maps"
   },
-  "app/(store)/components/order-dashboard": {},
+  "app/(store)/components/order-dashboard": {
+  },
   "app/(store)/components/orders": {
     "backToOrderDashboard": "Terug naar het besteloverzicht"
   },
@@ -746,10 +763,14 @@
     "completed": "Voltooid",
     "delivery": "bezorging"
   },
-  "app/(store)/components/product": {},
-  "app/(store)/components/product-dialog": {},
+  "app/(store)/components/product": {
+  },
+  "app/(store)/components/product-dialog": {
+  },
   "app/(store)/components/product-list": {
-    "noProductsFound": "Geen producten gevonden"
+    "noProductsFound": "Geen producten gevonden",
+    "noRescueDealsProductsAtTheMoment": "",
+    "rescueDealsOnlyAvailableForPickUpOrders": ""
   },
   "app/(store)/components/product-page": {
     "Add": "Toevoegen",
@@ -917,12 +938,13 @@
   "app/(store)/components/store-top": {
     "addItem": "Item toevoegen"
   },
-  "app/(store)/components/store-top-next": {},
+  "app/(store)/components/store-top-next": {
+  },
   "app/(store)/components/three-dots": {
     "addOrder": "Bestelling toevoegen",
     "copyStoreLink": "Kopieer winkellink",
-    "editDelivery": "bezorging",
-    "editPickup": "afhaling",
+    "editDelivery": "Bezorging",
+    "editPickup": "Afhaling",
     "editProducts": "Producten",
     "editRescueDeal": "Reddingsdeal",
     "editStore": "Winkel",
@@ -930,7 +952,8 @@
     "report": "Rapport",
     "storeLinkCopied": "Winkellink gekopieerd!"
   },
-  "app/(store)/components/user-product": {},
+  "app/(store)/components/user-product": {
+  },
   "app/(store)/components/variants-form-field": {
     "addOption": "Optie toevoegen",
     "addOptionGroup": "Optiegroep toevoegen",
@@ -996,7 +1019,8 @@
     "returnToStore": "Ga terug naar de winkel",
     "verifyEmail": "E-mailafbeelding verifiëren"
   },
-  "app/(store)/id/orders/add": {},
+  "app/(store)/id/orders/add": {
+  },
   "app/(store)/id/page": {
     "noProducts": "Geen producten beschikbaar"
   },
@@ -1033,7 +1057,8 @@
     "question7": "Kan ik TheBakerz vertrouwen voor betalingen en bestellingen?",
     "question8": "Met wie kan ik contact opnemen als ik vragen heb?"
   },
-  "app/(support)/components/faq-customer": {},
+  "app/(support)/components/faq-customer": {
+  },
   "app/(support)/components/payment-urgent": {
     "requestSentSuccess": "Uw aanvraag is succesvol verzonden.",
     "sendRequest": "Verzoek verzenden",
@@ -1083,8 +1108,10 @@
     "internalError": "Interne serverfout",
     "notAuthorized": "Geen toegang verlenen"
   },
-  "app/api/store/order/updateStatus": {},
-  "app/api/store/orders/new": {},
+  "app/api/store/order/updateStatus": {
+  },
+  "app/api/store/orders/new": {
+  },
   "app/api/store/orders/range": {
     "internalError": "Interne serverfout",
     "missingFromDate": "Ontbrekende Van-Datum-header",
@@ -1177,6 +1204,7 @@
     "guestCartReplacedSuccess": "De gastenwinkelwagen is succesvol vervangen door de artikelen in de gebruikerswinkelwagen!",
     "guestIdNotFound": "Gast-ID niet gevonden",
     "invalidOption": "Ongeldige optie {option} voor {variant}",
+    "itemNotFound": "",
     "itemRemovedSuccess": "Item succesvol verwijderd!",
     "maxSelectionsExceeded": "{variant} kan niet meer dan {max} selecties hebben",
     "minOrderRequired": "U moet minimaal {min} van dit product bestellen",
@@ -1249,13 +1277,15 @@
   "app/lib/actions/user-orders": {
     "failedFetchOrders": "Mislukte ophaalopdrachten"
   },
-  "app/lib/schemas": {},
+  "app/lib/schemas": {
+  },
   "app/search": {
     "noStoresFound": "Geen winkels gevonden",
     "special": "Heeft u iets speciaals in gedachten?",
     "tryChangingLocationOrDeliveryMode": "Probeer uw locatie of bezorgmethode te wijzigen."
   },
-  "common": {},
+  "common": {
+  },
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Adres invoeren",
     "whereToDeliver": "Waar kan ik mijn bestelling laten bezorgen?"
@@ -1300,11 +1330,16 @@
         "open": "Open",
         "workingHours": "Openingstijden"
       },
-      "toggleDelivery": {}
+      "toggleDelivery": {
+      }
     },
-    "errors": {},
-    "noLocation": {},
-    "noStoresFound": {}
+    "errors": {
+    },
+    "noLocation": {
+    },
+    "noStoresFound": {
+    }
   },
-  "time": {}
+  "time": {
+  }
 }

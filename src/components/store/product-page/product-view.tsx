@@ -8,15 +8,18 @@ import {useSession} from "@/components/providers/session-provider";
 import BakerzProductView from "@/components/store/product-page/products-bakerz-view";
 import { ProductPageView } from '../user-view/ProductPageView';
 import { DeliverySubheader } from '../store-header/delivery-subheader';
+import { RescueDeal } from '@/lib/actions/rescue-deal';
 
 interface ProductViewProps {
     productsData: ProductDataFull;
     productId: string;
+    rescueDeals?: RescueDeal | null;
 }
 
 export const ProductView: React.FC<ProductViewProps> = ({
     productsData,
-    productId
+    productId,
+    rescueDeals
 }) => {
     const { setProductsDataLocal} = useProductDialog();
     const { session } = useSession();
@@ -35,6 +38,9 @@ export const ProductView: React.FC<ProductViewProps> = ({
         p.id === productId
     );
 
+    // Get rescue deal info for the specific product
+    const rescueDealInfo = rescueDeals?.products?.find(p => p.id === productId) || null;
+
     if (!product && store.user_id !== session?.user?.id) {
         return (
             <div className="text-center">
@@ -52,7 +58,8 @@ export const ProductView: React.FC<ProductViewProps> = ({
         product ? (
             <>
                 <ProductPageView
-                    productData={product} 
+                    productData={product}
+                    rescueDealInfo={rescueDealInfo}
                 />
                 <DeliverySubheader />
             </>

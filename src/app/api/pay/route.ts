@@ -15,6 +15,7 @@ import { getRequestContext } from "@/lib/request-context";
 // Initialize logger for payment processing
 const log = logger.child({ module: "payment-processing" });
 
+
 /**
  * Handles payment validation and order processing after a Stripe checkout session.
  */

@@ -29,7 +29,7 @@ export const DeliveryNavbar: React.FC<DeliveryNavbarProps> = ({
     const t = useTranslations("app/(store)/components/store-header");
     const isHideDelivery = useMediaQuery(store ? "(max-width: 1200px)" : "(max-width: 948px)");
 
-    const { isDelivery, toggleDeliveryMode, isTogglingDelivery } = useDelivery();
+    const { isDelivery, toggleDeliveryMode, isTogglingDelivery, isRescueDeal } = useDelivery();
     const { setCurrentCartType } = store ? useCart() : { setCurrentCartType: () => {} };
     const pathname = usePathname();
     const isSearchPage = pathname.includes("search");
@@ -48,7 +48,7 @@ export const DeliveryNavbar: React.FC<DeliveryNavbarProps> = ({
         )}>
             {/* Toggle Delivery Button */}
             <div className={cn(
-                "flex items-center justify-start flex-shrink-0",
+                "flex items-center justify-start flex-shrink-0 gap-2",
                 isHideDelivery && "pb-2"
             )}>
                     <div className="relative rounded-xl px-2 py-1 bg-background min-w-[160px]">
@@ -125,9 +125,14 @@ export const DeliveryNavbar: React.FC<DeliveryNavbarProps> = ({
                                 left: deliveryOption === "pickup" ? "1px" : "1px"
                             }}
                         />
-                    </div>
+                         </div>
+                    <FilterButtonWithHint />
                 </div>
-            <div className="flex flex-row w-full gap-4 max-w-lg">
+            
+            <div className={cn(
+                "flex flex-row w-full gap-4 max-w-lg",
+                (isRescueDeal && !isSearchPage) && "hidden"
+            )}>
                 <div className={cn(
                     "w-1/3",
                     !isDelivery && "w-full",
@@ -137,11 +142,11 @@ export const DeliveryNavbar: React.FC<DeliveryNavbarProps> = ({
                 </div>
                 <div className={cn(
                     "w-2/3",
+                    !isDelivery && "hidden",
                     isSearchPage && "w-full"
                 )}>
                     <div className={cn("flex space-x-2")}>
                         {!(!isDelivery && !isSearchPage) && <DeliveryAddressButton />}
-                        <FilterButtonWithHint />
                     </div>
                 </div>
             </div>

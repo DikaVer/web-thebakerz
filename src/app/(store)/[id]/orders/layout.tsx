@@ -1,7 +1,7 @@
 import '@/styles/globals.css'
 import React from "react";
 
-import {getCurrentStore} from "@/lib/api/store-api";
+import {getCurrentStoreId} from "@/lib/api/store-api";
 import NotFound from "@/app/(error_layout)/not-found";
 import {verifyStoreAccess} from "@/app/(store)/[id]/store-utils";
 
@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: {
 }) {
     const { id } = await params;
 
-    const storeData = await getCurrentStore(id);
+    const storeData = await getCurrentStoreId(id);
 
     if (!storeData) {
         return {

@@ -37,19 +37,22 @@ import { useSignInModal } from "@/components/ui/modal-signin";
 import { useSession } from "@/components/providers/session-provider";
 import clarity from "@microsoft/clarity";
 import { useStore } from "@/components/providers/store-provider";
+import { RescueDealProduct } from "@/lib/actions/rescue-deal";
 
 type ProductDialogViewProps = {
     productData: ProductData;
     onClose: () => void;
     itemCart?: ItemCart;
     isBakerzStore: boolean;
+    rescueDealInfo?: RescueDealProduct | null;
 };
 
 export default function ProductDialogView({
     productData,
     onClose,
     itemCart,
-    isBakerzStore
+    isBakerzStore,
+    rescueDealInfo
 }: ProductDialogViewProps) {
     const t = useTranslations("app/(store)/components/product-page");
 
@@ -89,7 +92,8 @@ export default function ProductDialogView({
     const {
         isDelivery, 
         validationResult, 
-        setSelectedDate
+        setSelectedDate,
+        isRescueDeal
     } = useDelivery();
 
     const handleShareProduct = () => {
@@ -113,6 +117,13 @@ export default function ProductDialogView({
 
     // This function calls the updateCart server action.
     const handleUpdateCart = async () => {
+        // Check rescue deal validation first
+        if(rescueDealInfo && isRescueDeal) {
+            if(rescueDealInfo.quantity <= 0 || !rescueDealInfo.isSelected) {
+                return;
+            }
+        }
+
         // Reset previous errors
         setVariantErrors({});
         
@@ -160,7 +171,14 @@ export default function ProductDialogView({
             if (!itemCart) {
                 clarity.event("product_add_to_cart")
                 // Call our server action to update (or add) the cart item.
-                const result = await updateCart(productData.id, productData.store_id, quantity, isDelivery ? "delivery" : "pickup", note, variants);
+                const result = await updateCart(
+                    productData.id, 
+                    productData.store_id, 
+                    quantity, 
+                    isDelivery ? "delivery" : "pickup", 
+                    note, 
+                    variants
+                );
                 if (result.success) {
                     const dateTime = isDelivery ? 
                         await getDeliveryTime(productData.store_id, validationResult?.deliveryRegion?.name || "") : 
@@ -247,7 +265,33 @@ export default function ProductDialogView({
                                 description={productData.description || ""}
                                 totalLikes={productData.totalLikes}
                                 image={productData.picture}
+                                rescueDealInfo={rescueDealInfo}
+                                isRescueDeal={isRescueDeal}
                             />
+
+                            {/* Rescue Deal Stock Information */}
+                            {(rescueDealInfo && isRescueDeal) && (
+                                <div className="flex items-center gap-2 p-3 rounded-lg bg-danger-50 border border-danger-200">
+                                    <Icon icon="solar:fire-bold" className="text-danger-500" width={20} />
+                                    <div className="flex flex-col">
+                                        <div className="flex items-center gap-1 text-sm font-medium text-danger-700">
+                                            {(rescueDealInfo.quantity > 0 && rescueDealInfo.isSelected) ? (
+                                                <>
+                                                    <span>Rescue Deal Stock: </span>
+                                                    <span className="font-bold">
+                                                        {rescueDealInfo.quantity} left
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <span className="text-danger-600">Out of Stock</span>
+                                            )}
+                                        </div>
+                                        <span className="text-xs text-danger-600">
+                                            Limited time offer - grab it before it's gone!
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
                             
                             <ProductDetails
                                 ingredients={productData.ingredients}
@@ -292,16 +336,17 @@ export default function ProductDialogView({
             </ModalBody>
             <ModalFooter className={"px-4 space-x-4"}>
                 <ProductActions
-                    price={productData.price}
+                    price={(rescueDealInfo && isRescueDeal) ? productData.price * (1 - rescueDealInfo.promotionPercent / 100) : productData.price}
                     quantity={quantity}
                     setQuantity={setQuantity}
                     minOrder={productData?.min_order || 1}
+                    maxOrder={rescueDealInfo && isRescueDeal ? rescueDealInfo.quantity : undefined}
                     isUpdateMode={!!itemCart}
                     isPostDelivery={productData.isPostDelivery}
                     isBakerzStore={isBakerzStore}
                     onUpdate={handleUpdateCart}
                     onEditItem={handleEditItem}
-                    isLoading={isLoading}
+                    isLoading={isLoading || !!(rescueDealInfo && isRescueDeal && (rescueDealInfo.quantity <= 0 || !rescueDealInfo.isSelected))}
                     variants={variants}
                 />
             </ModalFooter>

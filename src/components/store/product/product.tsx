@@ -22,11 +22,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { useFavorites } from "@/components/providers/favorites-provider";
 import { useSignInModal } from "@/components/ui/modal-signin";
 import clarity from "@microsoft/clarity";
+import { RescueDealProduct } from "@/lib/actions/rescue-deal";
 
 interface ProductBaseProps {
     productData: ProductData & {
         totalLikes?: number;
     };
+    rescueDealInfo?: RescueDealProduct | null;
 }
 
 // Add AnimatedHeart component
@@ -87,6 +89,7 @@ const AnimatedNumber = ({ value }: { value: number }) => {
 
 export const ProductBase: React.FC<ProductBaseProps> = ({
     productData,
+    rescueDealInfo,
 }) => {
     const [isManualOpen, setIsManualOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -101,7 +104,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
     const t = useTranslations("app/(store)/components/product-page");
     const { store } = useStore();
     const { session } = useSession();
-    const { isDelivery, deliveryAddressModal, validationResult, setSelectedDate } = useDelivery();
+    const { isDelivery, deliveryAddressModal, validationResult, setSelectedDate, isRescueDeal } = useDelivery();
     // if pathname is search, then do not show the add to cart button, but redirect to go to the product pageproduct page
     const pathname = usePathname();
     const isSearch = pathname.includes("search");
@@ -132,6 +135,12 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
 
     const handleAddToCart = async () => {
 
+        if(rescueDealInfo && isRescueDeal) {
+            if(rescueDealInfo.quantity <= 0 || !rescueDealInfo.isSelected) {
+                return;
+            }
+        }
+
         if(isSearch) {
             router.push(productUrl);
             return;
@@ -144,7 +153,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
         
         // If product has variants, open the dialog instead
         if (productData.variants && productData.variants.length > 0) {
-            handleOpen(productData.id, store?.user_id === session?.user?.id);
+            handleOpen(productData.id, store?.user_id === session?.user?.id, undefined, rescueDealInfo);
             return;
         }
         
@@ -224,6 +233,12 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
             id={productData.id}
             className={`cursor-pointer max-w-sm rounded-2xl overflow-hidden relative`}
             onClick={() => {
+                if(rescueDealInfo && isRescueDeal) {
+                    if(rescueDealInfo.quantity <= 0 || !rescueDealInfo.isSelected) {
+                        return;
+                    }
+                }
+                
                 if (isSearch) {
                     router.push(productUrl);
                     return;
@@ -231,7 +246,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
 
                 if (!preventProductDialog) {
                     if (!isDelivery || (validationResult?.isValid && validationResult?.isInRange)) {
-                        handleOpen(productData.id, store?.user_id === session?.user?.id);
+                        handleOpen(productData.id, store?.user_id === session?.user?.id, undefined, rescueDealInfo);
                     }
                 }
 
@@ -356,14 +371,37 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                 {/* <span className="text-yellow-500">★★★★☆</span>
                                 <span className="text-xs text-default-600">4.0</span> */}
                             {/* </div> */}
-                            <p className={`font-medium text-2xl`}>
-                                {formatCurrency(productData.price)}
-                            </p>
+                            <div className="flex flex-row items-start w-full gap-2">
+                                {(rescueDealInfo && isRescueDeal) && (
+                                    <div className="relative">
+                                        <p className="text-base text-default-600 font-medium">
+                                            {formatCurrency(productData.price)}
+                                        </p>
+                                        {/* Custom line-through that's more prominent */}
+                                        <div className="absolute inset-0 flex items-center">
+                                            <div className="w-full h-0.5 bg-danger-500 transform rotate-12"></div>
+                                        </div>
+                                    </div>
+                                )}
+                                <p className={`font-medium text-2xl`}>
+                                    {(rescueDealInfo && isRescueDeal) ? 
+                                        formatCurrency(productData.price * (1 - rescueDealInfo.promotionPercent / 100)) :
+                                        formatCurrency(productData.price)
+                                    }
+                                </p>
+                                {/* Rescue Deal Badge */}
+                                {(rescueDealInfo && isRescueDeal) && (
+                                    <div className="absolute right-0 flex items-center gap-1 px-2 py-1 rounded-lg bg-danger-500 text-white text-xs font-bold shadow-lg">
+                                        <Icon icon="solar:fire-bold" width={14} />
+                                        <span>{rescueDealInfo.promotionPercent}% OFF</span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                         <p className={`text-sm font-normal line-clamp-2 leading-tight h-9`}>
                             {productData.name}
                         </p>
-                        {(storeMinTimeOrder !== undefined) && (
+                        {(storeMinTimeOrder !== undefined && !rescueDealInfo && !isRescueDeal) && (
                             <div className="flex items-center gap-1 text-xs text-default-600 mb-1">
                                 <Icon icon="solar:clock-circle-linear" className="text-warning-500" width={14} />
                                 <span>{t("MinLeadTime")}: </span>
@@ -386,6 +424,21 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                         }
                                     })()}
                                 </span>
+                            </div>
+                        )}
+
+                        {(rescueDealInfo && isRescueDeal) && (
+                            <div className="flex items-center gap-1 text-xs text-default-600 mb-1">
+                                {(rescueDealInfo.quantity > 0 && rescueDealInfo.isSelected) ? (
+                                    <>
+                                        <span>In Stock: </span>
+                                        <span>
+                                            {rescueDealInfo.quantity} left
+                                        </span>
+                                    </>
+                                ) : (
+                                    <span>Out of Stock</span>
+                                )}
                             </div>
                         )}
                         {(store?.user_id !== session?.user?.id || isSearch) ? (

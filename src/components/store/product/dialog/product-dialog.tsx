@@ -8,6 +8,7 @@ import {ProductData} from "@/lib/actions/product";
 import {ItemCart} from "@/lib/actions/cart";
 import {useMediaQuery} from "usehooks-ts";
 import ProductDialogView from "../../user-view/ProductDialogView";
+import { RescueDealProduct } from "@/lib/actions/rescue-deal";
 
 type ProductDialogProps = {
     productData?: ProductData;
@@ -15,9 +16,10 @@ type ProductDialogProps = {
     isOpen: boolean;
     onClose: () => void;
     isBakerzStore: boolean;
+    rescueDealInfo?: RescueDealProduct | null;
 }
 
-export default function ProductDialog({productData, itemCart, isOpen, onClose, isBakerzStore}: ProductDialogProps) {
+export default function ProductDialog({productData, itemCart, isOpen, onClose, isBakerzStore, rescueDealInfo}: ProductDialogProps) {
     const isSmall = useMediaQuery("(max-width: 800px)");
 
     return (
@@ -39,6 +41,7 @@ export default function ProductDialog({productData, itemCart, isOpen, onClose, i
                                     onClose={onClose}
                                     itemCart={itemCart}
                                     isBakerzStore={isBakerzStore}
+                                    rescueDealInfo={rescueDealInfo}
                                 />
                             )}
                         </>

@@ -1,7 +1,7 @@
 import React from "react";
 import NotFound from "@/app/(error_layout)/not-found";
 import {getCurrentOrder} from "@/lib/actions/order";
-import {getCurrentStore} from "@/lib/api/store-api";
+import {getCurrentStoreId} from "@/lib/api/store-api";
 import {OrderOverview} from "@/components/store/orders/overview/order-overview";
 
 interface StorePageProps {
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: {
 }) {
     const { id } = await params;
 
-    const storeData = await getCurrentStore(id);
+    const storeData = await getCurrentStoreId(id);
 
     if (!storeData) {
         return {
@@ -52,7 +52,7 @@ export default async function Page(props: StorePageProps) {
         return NotFound();
     }
 
-    const storeData = await getCurrentStore(id);
+    const storeData = await getCurrentStoreId(id);
 
     if (!storeData) {
         return NotFound();

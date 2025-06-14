@@ -4,7 +4,7 @@ import {getCurrentProducts} from "@/lib/api/products-api";
 import {getCurrentProductsOrder} from "@/lib/api/products-api";
 
 import CartOrderComp from "@/components/store/orders/add/cart-order-comp";
-import {getCurrentStore} from "@/lib/api/store-api";
+import {getCurrentStoreId} from "@/lib/api/store-api";
 import {verifyStoreAccess} from "@/app/(store)/[id]/store-utils";
 import NotFound from "@/app/(error_layout)/not-found";
 
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: {
 }) {
     const { id } = await params;
 
-    const storeData = await getCurrentStore(id);
+    const storeData = await getCurrentStoreId(id);
 
     if (!storeData) {
         return {

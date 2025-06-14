@@ -4,12 +4,9 @@ import React, { useEffect, useState } from "react";
 import {
     Button,
     cn,
-    ButtonGroup,
     Spacer,
-    Alert,
     Modal,
     ModalContent,
-    ModalHeader,
     ModalBody,
     ModalFooter,
     Textarea,
@@ -17,9 +14,7 @@ import {
 } from "@heroui/react";
 
 import { Icon, IconProps } from "@iconify/react";
-import { CalendarDateTime, CalendarDate } from "@internationalized/date";
-
-import { useStore } from "@/components/providers/store-provider";
+import { CalendarDateTime } from "@internationalized/date";
 import { DeliverySubheader } from "@/components/store/store-header/delivery-subheader";
 import { useTranslations } from "next-intl";
 import {useDelivery} from "@/components/providers/delivery-provider";
@@ -30,7 +25,6 @@ interface StoreSubHeaderProps {
     handleNext: () => void;
 }
 
-type SocialIconProps = Omit<IconProps, "icon">;
 
 export function ScheduleOrder({
                                   handleNext,
@@ -40,6 +34,7 @@ export function ScheduleOrder({
         isDelivery,
         selectedDate,
         validationResult,
+        isRescueDeal
     } = useDelivery();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [note, setNote] = useState<string>("");
@@ -58,7 +53,7 @@ export function ScheduleOrder({
         onClose();
     };
 
-    const isNext = isDelivery ? (selectedDate instanceof CalendarDateTime && validationResult?.isInRange) : (selectedDate instanceof CalendarDateTime)
+    const isNext = isDelivery ? (selectedDate instanceof CalendarDateTime && validationResult?.isInRange) : (isRescueDeal || (selectedDate instanceof CalendarDateTime))
 
     return (
         <div className={'w-full flex flex-col items-center'}>
@@ -73,7 +68,7 @@ export function ScheduleOrder({
                 <DeliverySubheader/>
             </div>
             <Spacer y={4} />
-            <SelectTime />
+            {!isRescueDeal && <SelectTime />}
             <Spacer y={4} />
             {/* Note Section */}
             <div className="flex flex-col w-full mx-auto">
@@ -96,7 +91,7 @@ export function ScheduleOrder({
                     variant={'bordered'}
                     isDisabled={!isNext}
                     className={`${
-                        !isNext
+                        (!isNext)
                             ? ""
                             : "bg-gradient-primary text-white border-none"
                     }  w-full`}

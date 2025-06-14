@@ -4,7 +4,6 @@ import { stripe } from "@/stripe";
 import { getCurrentSession } from "@/lib/actions/session";
 import { getSessionCookie } from "@/lib/actions/session";
 import { globalPOSTRateLimit } from "@/lib/utils/helper/requests";
-import { getCart } from "@/lib/actions/cart";
 import {getCurrentProducts} from "@/lib/api/products-api";
 import { getDeliveryTime, getOrderTime} from "@/app/(store)/[id]/actions";
 import {OrderRaw, ExtendedOrderRaw} from "@/lib/actions/order";
@@ -13,84 +12,18 @@ import {containerOrdersUnpaid} from "@/db";
 import { getCurrentStorePayment} from "@/lib/api/store-api";
 import {calculateApplicationFee, calculateTotals} from "@/lib/utils/price/price-calculations";
 import {calculateItemTotalPrice} from "@/lib/utils/helper/calculate-total-price-variants";
-import { CalendarDateTime, getDayOfWeek, Time, toTime, ZonedDateTime, now, getLocalTimeZone, toZoned } from "@internationalized/date";
+import { CalendarDateTime, ZonedDateTime, now } from "@internationalized/date";
 import {scheduledToCalendarDateTime, formatCurrency} from "@/lib/utils";
 import { getDeliveryMode } from "@/lib/actions/cookies/delivery-cookie";
 import { ValidationResult } from "@/components/providers/delivery-provider";
 import { getCurrentDeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
 import { validateAddress } from "@/lib/actions/delivery-address-actions";
 import { MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
-import { WorkHours } from "@/lib/actions/calendar-actions";
 import { DeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
 import { getCurrentCartType } from "../api/cart-api";
 import {MIN_ORDER_PRICE_IN_CENTS} from "@/lib/local-variables";
-
-// It should validate if the given time is within the schedule and respects lead time.
-async function validateOrderTimeAgainstSchedule(
-    orderDateTime: CalendarDateTime,
-    schedule: WorkHours | undefined,
-    leadTimeMinutes: number
-): Promise<{ isValid: boolean; message: string }> {
-    if (!schedule) {
-        return { isValid: false, message: "Schedule data is missing." };
-    }
-
-    const localTimeZone = getLocalTimeZone();
-    const nowInLocalTime: ZonedDateTime = now(localTimeZone);
-    // Convert the CalendarDateTime to a ZonedDateTime in the local timezone for comparison
-    const orderZonedDateTime: ZonedDateTime = toZoned(orderDateTime, localTimeZone);
-
-    // 1. Check Lead Time
-    // ------------------
-    // Calculate the earliest allowed order time by adding lead time to the current time
-    const minimumOrderTime = nowInLocalTime.add({ minutes: leadTimeMinutes });
-
-    if (orderZonedDateTime.compare(minimumOrderTime) <= 0) {
-        // Order time is sooner than allowed by lead time
-        return {
-            isValid: false,
-            message: `Order must be placed at least ${leadTimeMinutes} minutes in advance. Earliest time is ${minimumOrderTime.hour}:${String(minimumOrderTime.minute).padStart(2, '0')}.`
-        };
-    }
-
-    // 2. Check Opening Hours
-    // ----------------------
-    // Get the day of the week (0=Sunday, 1=Monday, ..., 6=Saturday)
-    // Use the orderDateTime (which is timezone-agnostic CalendarDateTime) for day of week calculation
-    const dayOfWeek = getDayOfWeek(orderDateTime, 'en-US'); 
-    const dayNames: (keyof WorkHours)[] = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-    const dayKey = dayNames[dayOfWeek];
-
-    const daySchedule = schedule[dayKey];
-
-    if (!daySchedule || !daySchedule.isEnabled) {
-        return { isValid: false, message: `Ordering is not available on ${dayKey}s.` };
-    }
-
-    // Convert schedule start/end times and order time to Time objects for comparison
-    const scheduleStartTime = new Time(daySchedule.start.hour, daySchedule.start.minute);
-    const scheduleEndTime = new Time(daySchedule.end.hour, daySchedule.end.minute);
-    // Convert the CalendarDateTime to Time object
-    const orderTime = toTime(orderDateTime);
-
-    // Check if order time is within the start and end times for that day
-    if (orderTime.compare(scheduleStartTime) < 0 || orderTime.compare(scheduleEndTime) > 0) {
-        // If order time is before start OR after end time
-        return {
-            isValid: false,
-            message: `Order time (${orderTime.hour}:${String(orderTime.minute).padStart(2, '0')}) is outside opening hours (${scheduleStartTime.hour}:${String(scheduleStartTime.minute).padStart(2, '0')} - ${scheduleEndTime.hour}:${String(scheduleEndTime.minute).padStart(2, '0')}) for ${dayKey}.`
-        };
-    }
-
-    // 3. Optional: Check against specific date exceptions (if you have ExDay logic)
-    // If you store specific date overrides (e.g., holidays), you would check them here.
-    // Example: const exception = findExceptionForDate(orderDateTime.toDate(getLocalTimeZone()));
-    // if (exception && !exception.isEnabled) { return { isValid: false, message: "Store is closed on this specific date." }; }
-    // if (exception && (orderTime < exception.start || orderTime >= exception.end)) { ... }
-
-    // If all checks pass
-    return { isValid: true, message: "Order time is valid." };
-}
+import { validateOrderTimeAgainstSchedule } from "./order-checker";
+import { getRescueDealMode } from "./cookies/delivery-cookie";
 
 
 // Define the expected input structure for fetchClientSecret
@@ -109,6 +42,11 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     // ---------------------------------
     if (!(await globalPOSTRateLimit())) {
         return {error: 'Too many requests'};
+    }
+
+    const isRescueDeal = await getRescueDealMode();
+    if (isRescueDeal) {
+        return {error: 'Rescue deals are not supported in this mode.'};
     }
 
     const origin = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -377,7 +315,12 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
         transferAmount += deliveryFeeInclVat; // Include delivery fee in the transfer amount
     }
     const totalTransferAmount = transferAmount;
-    const applicationFee = calculateApplicationFee(totalTransferAmount, selectedRegion?.isStoreDelivery || true, storeData.custom_app_fee, storeData.custom_delivery_fee);
+    const applicationFee = calculateApplicationFee(
+        totalTransferAmount, 
+        selectedRegion?.isStoreDelivery || true, 
+        storeData.custom_app_fee, 
+        storeData.custom_delivery_fee
+    );
     const transferAmountAfterFee = totalTransferAmount - applicationFee;
 
 

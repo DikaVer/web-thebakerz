@@ -532,6 +532,21 @@ export async function getBusinessStoreData(id: string): Promise<StoreBusinessDat
     }
 }
 
+export async function getStoreId(id: string): Promise<{id: string, storeName: string, ownerName: string, user_id: string} | null> {
+    const result = await connectionPool.query(
+        `SELECT s.id, s.nickname, u.id as user_id, u.name as "ownerName" FROM stores s
+            INNER JOIN users u ON u.id = s.user_id
+            WHERE (LOWER(s.nickname) = LOWER($1) OR s.id = $1)
+            AND s.deleted = false`,
+        [id]
+    );
+    if (result.rows.length === 0) {
+        return null;
+    }
+
+    return {id: result.rows[0].id, storeName: result.rows[0].nickname, ownerName: result.rows[0].ownerName, user_id: result.rows[0].user_id};
+}
+
 
 export interface StoreBusinessData {
     id: string;

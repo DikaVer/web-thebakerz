@@ -68,7 +68,8 @@
     "RescueDealManager": "Rettungs-Deal-Manager",
     "RescueProductsDescription": "Einrichten und Bearbeiten von Rettungsangeboten"
   },
-  "Shop": {},
+  "Shop": {
+  },
   "UsersDashboard": {
     "Search User": "Benutzer suchen"
   },
@@ -240,7 +241,8 @@
     "startSellingDescription": "Testen Sie Ihren Shop, nehmen Sie Anpassungen vor und beginnen Sie, echte Bestellungen entgegenzunehmen!",
     "startSellingTitle": "Beginnen Sie mit dem Verkauf"
   },
-  "app/(landing)/components/navbar": {},
+  "app/(landing)/components/navbar": {
+  },
   "app/(landing)/components/partners": {
     "description": "Wir arbeiten mit Branchenführern zusammen, um die besten Lösungen zu liefern.",
     "title": "Mitglied von"
@@ -503,8 +505,12 @@
     "nameAndPrice": "Name und Preis",
     "noProductsSelected": "Bitte wählen Sie mindestens ein Produkt aus",
     "noProductsYet": "Noch keine Produkte",
-    "promotion": "Förderung",
+    "promotion": "Rabatt",
     "quantity": "Menge",
+    "rescueDealDescription": "",
+    "rescueDealDescriptionH2": "",
+    "rescueDealDescriptionH3": "",
+    "rescueDealTitle": "",
     "selectTime": "Wähle eine Zeit",
     "selections": "Auswahl",
     "startBefore": "Beginnen Sie vor",
@@ -596,12 +602,19 @@
     "cartEmpty": "Warenkorb leer",
     "deliveryFee": "Liefergebühr",
     "deliveryVat": "Liefersteuer (21%)",
+    "enterPaymentDetails": "",
+    "initializingPayment": "",
     "invalidDeliveryAddress": "Ungültige Lieferadresse",
     "loadingPaymentGateway": "Zahlungsgateway wird geladen …",
     "minimumAmount": "Der Mindestbestellwert beträgt {minBestellung}",
     "minimumOrderForDelivery": "Mindestbestellwert ist {Betrag}",
+    "orPayWith": "",
     "pay": "Zahlen",
+    "paymentSuccessful": "",
+    "processing": "",
+    "retry": "",
     "returnToCheckout": "Zurück zur Kasse",
+    "saveCartDetails": "",
     "saveDeliveryDetails": "Lieferdetails speichern",
     "savePickUpDetails": "Abholdetails speichern",
     "serviceFee": "Servicegebühr",
@@ -617,6 +630,8 @@
     "failedToUpdateCart": "Warenkorb oder Adresse konnten nicht aktualisiert werden",
     "orderDetails": "Bestelldetails",
     "orderDetailsStep": "2. Bestelldetails",
+    "paymentDetails": "",
+    "paymentDetailsStep": "",
     "signInOrSignUpStep": "1. Melden Sie sich an oder registrieren Sie sich, um eine Bestellung aufzugeben",
     "signInOrSignUpText": "Melden Sie sich an oder registrieren Sie sich, um eine Bestellung aufzugeben"
   },
@@ -626,7 +641,8 @@
     "deleteConfirmation": "Löschbestätigung",
     "deleteProductWarning": "Nach dem Entfernen wird das Element dauerhaft gelöscht und kann nicht wiederhergestellt werden."
   },
-  "app/(store)/components/delivery-map": {},
+  "app/(store)/components/delivery-map": {
+  },
   "app/(store)/components/image": {
     "close": "Schließen",
     "failedToUploadImage": "Das Hochladen des Bildes ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
@@ -652,7 +668,8 @@
     "storeLocation": "Standort des Geschäfts",
     "viewOnGoogleMaps": "Auf Google Maps ansehen"
   },
-  "app/(store)/components/order-dashboard": {},
+  "app/(store)/components/order-dashboard": {
+  },
   "app/(store)/components/orders": {
     "backToOrderDashboard": "Zurück zum Bestell-Dashboard"
   },
@@ -746,10 +763,14 @@
     "completed": "Vollendet",
     "delivery": "Lieferung"
   },
-  "app/(store)/components/product": {},
-  "app/(store)/components/product-dialog": {},
+  "app/(store)/components/product": {
+  },
+  "app/(store)/components/product-dialog": {
+  },
   "app/(store)/components/product-list": {
-    "noProductsFound": "Keine Produkte gefunden"
+    "noProductsFound": "Keine Produkte gefunden",
+    "noRescueDealsProductsAtTheMoment": "",
+    "rescueDealsOnlyAvailableForPickUpOrders": ""
   },
   "app/(store)/components/product-page": {
     "Add": "Hinzufügen",
@@ -917,7 +938,8 @@
   "app/(store)/components/store-top": {
     "addItem": "Element hinzufügen"
   },
-  "app/(store)/components/store-top-next": {},
+  "app/(store)/components/store-top-next": {
+  },
   "app/(store)/components/three-dots": {
     "addOrder": "Bestellung hinzufügen",
     "copyStoreLink": "Store-Link kopieren",
@@ -930,7 +952,8 @@
     "report": "Bericht",
     "storeLinkCopied": "Store-Link kopiert!"
   },
-  "app/(store)/components/user-product": {},
+  "app/(store)/components/user-product": {
+  },
   "app/(store)/components/variants-form-field": {
     "addOption": "Option hinzufügen",
     "addOptionGroup": "Optionsgruppe hinzufügen",
@@ -996,7 +1019,8 @@
     "returnToStore": "Zurück zum Shop",
     "verifyEmail": "E-Mail-Bild bestätigen"
   },
-  "app/(store)/id/orders/add": {},
+  "app/(store)/id/orders/add": {
+  },
   "app/(store)/id/page": {
     "noProducts": "Keine Produkte verfügbar"
   },
@@ -1033,7 +1057,8 @@
     "question7": "Kann ich TheBakerz Zahlungen und Bestellungen anvertrauen?",
     "question8": "An wen kann ich mich bei Fragen wenden?"
   },
-  "app/(support)/components/faq-customer": {},
+  "app/(support)/components/faq-customer": {
+  },
   "app/(support)/components/payment-urgent": {
     "requestSentSuccess": "Ihre Anfrage wurde erfolgreich gesendet.",
     "sendRequest": "Anfrage senden",
@@ -1083,8 +1108,10 @@
     "internalError": "interner Serverfehler",
     "notAuthorized": "Kein autorisierter Zugriff"
   },
-  "app/api/store/order/updateStatus": {},
-  "app/api/store/orders/new": {},
+  "app/api/store/order/updateStatus": {
+  },
+  "app/api/store/orders/new": {
+  },
   "app/api/store/orders/range": {
     "internalError": "interner Serverfehler",
     "missingFromDate": "Fehlender Von-Datum-Header",
@@ -1177,6 +1204,7 @@
     "guestCartReplacedSuccess": "Der Gästewagen wurde erfolgreich durch Artikel aus dem Benutzerwagen ersetzt!",
     "guestIdNotFound": "Gast-ID nicht gefunden",
     "invalidOption": "Ungültige Option {option} für {variant}",
+    "itemNotFound": "",
     "itemRemovedSuccess": "Artikel erfolgreich entfernt!",
     "maxSelectionsExceeded": "{variant} kann nicht mehr als {max} Auswahlen haben",
     "minOrderRequired": "Sie müssen mindestens {min} dieses Produkts bestellen",
@@ -1249,13 +1277,15 @@
   "app/lib/actions/user-orders": {
     "failedFetchOrders": "Fehlgeschlagene Abholaufträge"
   },
-  "app/lib/schemas": {},
+  "app/lib/schemas": {
+  },
   "app/search": {
     "noStoresFound": "Keine Geschäfte gefunden",
     "special": "Haben Sie etwas Besonderes im Sinn?",
     "tryChangingLocationOrDeliveryMode": "Versuchen Sie, Ihren Standort oder die Lieferart zu ändern."
   },
-  "common": {},
+  "common": {
+  },
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Adresse eingeben",
     "whereToDeliver": "Wohin soll Ihre Bestellung geliefert werden?"
@@ -1300,11 +1330,16 @@
         "open": "Offen",
         "workingHours": "Öffnungszeiten"
       },
-      "toggleDelivery": {}
+      "toggleDelivery": {
+      }
     },
-    "errors": {},
-    "noLocation": {},
-    "noStoresFound": {}
+    "errors": {
+    },
+    "noLocation": {
+    },
+    "noStoresFound": {
+    }
   },
-  "time": {}
+  "time": {
+  }
 }

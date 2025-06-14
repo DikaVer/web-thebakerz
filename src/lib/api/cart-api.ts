@@ -25,7 +25,7 @@ export const getCurrentCart = async (
         },
         next: {
             tags: ['cart'],
-            revalidate: 300
+            revalidate: 0
         }
     }).then(res => res.json());
 
@@ -53,7 +53,7 @@ export const getCurrentCartType = async (
         },
         next: {
             tags: ['cart'],
-            revalidate: 300
+            revalidate: 0
         }
     }).then(res => res.json());
 

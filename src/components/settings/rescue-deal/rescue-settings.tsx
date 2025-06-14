@@ -11,10 +11,7 @@ import {
     CardBody,
     CardHeader,
     Spacer,
-    Select,
-    SelectItem,
-    Switch,
-    Divider
+    Switch
 } from "@heroui/react";
 import { RescueDealItem } from "@/components/settings/rescue-deal/rescue-item";
 import { sortItems } from "@/lib/utils/helper/sort-items-with-order";
@@ -34,7 +31,7 @@ interface RescueSettingsProps {
     initialRescueDeal: RescueDeal | null;
 }
 
-type RescueProductInForm = RescueDealType['products'][number] & { isSelected: boolean };
+type RescueProductInForm = RescueDealType['products'][number];
 type RescueDealInForm = Omit<RescueDealType, 'products'> & { products: RescueProductInForm[] };
 
 const RescueSettings: React.FC<RescueSettingsProps> = ({ productsData, productsOrder, initialRescueDeal }) => {
@@ -54,15 +51,12 @@ const RescueSettings: React.FC<RescueSettingsProps> = ({ productsData, productsO
         const formProducts = allProducts.map(product => {
             const initialProduct = initialProducts.find(p => p.id === product.id);
             if (initialProduct) {
-                return { ...initialProduct, isSelected: true };
+                return initialProduct;
             }
             return { id: product.id, promotionPercent: 50, quantity: 1, isSelected: false };
         });
 
         return {
-            beforeTime: currentRescueDeal?.beforeTime || 30,
-            startTime: currentRescueDeal?.startTime || { hour: 18, minute: 0 },
-            endTime: currentRescueDeal?.endTime || { hour: 22, minute: 0 },
             isActive: currentRescueDeal?.isActive || false,
             products: formProducts
         };
@@ -91,16 +85,9 @@ const RescueSettings: React.FC<RescueSettingsProps> = ({ productsData, productsO
             logger.debug('rescueSettings', 'saving rescue deal');
             const formData = getValues();
             
-            const productsToSave = formData.products
-                .filter(p => p.isSelected)
-                .map(({ isSelected, ...rest }) => rest);
-            
             const dataToSave = {
-                beforeTime: formData.beforeTime,
-                startTime: formData.startTime,
-                endTime: formData.endTime,
                 isActive: formData.isActive,
-                products: productsToSave
+                products: formData.products
             };
 
             const validation = RescueDealSchema.safeParse(dataToSave);
@@ -214,30 +201,8 @@ const RescueSettings: React.FC<RescueSettingsProps> = ({ productsData, productsO
         }, {} as ProductDataFull) || {};
     }, [productsByCategories, selectedTab]);
 
-    // Time options for start/end time selects
-    const timeOptions = useMemo(() => {
-        const options = [];
-        for (let hour = 0; hour < 24; hour++) {
-            for (let minute of [0, 15, 30, 45]) {
-                const formattedHour = hour.toString().padStart(2, '0');
-                const formattedMinute = minute.toString().padStart(2, '0');
-                const label = `${formattedHour}:${formattedMinute}`;
-                const value = `${hour}:${minute}`;
-                options.push({ label, value, hour, minute });
-            }
-        }
-        return options;
-    }, []);
 
-    // Before time options (minutes)
-    const beforeTimeOptions = useMemo(() => [
-        { key: "15", label: `15 ${t("minutes") || "minutes"}` },
-        { key: "30", label: `30 ${t("minutes") || "minutes"}` },
-        { key: "45", label: `45 ${t("minutes") || "minutes"}` },
-        { key: "60", label: `1 ${t("hour") || "hour"}` },
-        { key: "90", label: `1.5 ${t("hours") || "hours"}` },
-        { key: "120", label: `2 ${t("hours") || "hours"}` },
-    ], [t]);
+
 
     useEffect(() => {
         logger.debug('rescueSettings', 'cleanup - component unmounting');
@@ -251,94 +216,32 @@ const RescueSettings: React.FC<RescueSettingsProps> = ({ productsData, productsO
     return (
         <div>
             <Spacer y={8} />
+            
+            {/* Rescue Deal Description */}
+            <Card shadow="none" className="w-full mb-6 bg-default-100">
+                <CardBody>
+                    <div className="space-y-2">
+                        <h3 className="text-lg font-semibold text-text">
+                            {t("rescueDealTitle") || "What are Rescue Deals?"}
+                        </h3>
+                        <p className="text-sm text-default-600">
+                            {t("rescueDealDescription") || "Rescue Deals automatically activate 45 minutes before your store closes, converting potential food waste into additional revenue. These discounted promotions help you sell items with short remaining shelf life while providing customers great value on quality products."}
+                        </p>
+                        <p className="text-sm text-default-600">
+                            {t("rescueDealDescriptionH2") || "How it works: Use the menu below to select which items and quantities to include in your Rescue Deals. Set your discount percentage for each product category."}
+                        </p>
+                        <p className="text-sm text-default-600">
+                            {t("rescueDealDescriptionH3") || "Important requirements: Only add items currently in stock with at least 12 hours of optimal consumption time remaining after purchase. All Rescue Deal sales are final with mandatory same-day pickup - no exceptions or refunds."}
+                        </p>
+                    </div>
+                </CardBody>
+            </Card>
+            
             <Form {...form}>
                 <form>
                     {/* Rescue Deal Settings Card */}
                     <Card shadow="none" className="w-full mb-6">
                         <CardBody className="space-y-6">
-                            <div className="grid grid-cols-3 gap-4">
-                                {/* Start Before */}
-                                <FormField
-                                    control={control}
-                                    name="beforeTime"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                
-                                                <Select
-                                                    label={t("startBefore") || "Start Before"}
-                                                    placeholder={t("selectTime") || "Select time"}
-                                                    selectedKeys={[field.value?.toString()]}
-                                                    onChange={(e) => field.onChange(parseInt(e.target.value))}
-                                                    isInvalid={!!errors.beforeTime}
-                                                    errorMessage={errors.beforeTime?.message as string}
-                                                >
-                                                    {beforeTimeOptions.map((option) => (
-                                                        <SelectItem key={option.key}>{option.label}</SelectItem>
-                                                    ))}
-                                                </Select>
-                                                   
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-
-                                {/* Start Time */}
-                                <FormField
-                                    control={control}
-                                    name="startTime"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <Select
-                                                    label={t("startTime") || "Start Time"}
-                                                    placeholder="18:00"
-                                                    selectedKeys={field.value ? [`${field.value.hour}:${field.value.minute}`] : []}
-                                                    onChange={(e) => {
-                                                        const [hour, minute] = e.target.value.split(':').map(Number);
-                                                        field.onChange({ hour, minute });
-                                                    }}
-                                                    isInvalid={!!errors.startTime}
-                                                    errorMessage={errors.startTime?.message as string}
-                                                >
-                                                    {timeOptions.map((option) => (
-                                                        <SelectItem key={option.value}>{option.label}</SelectItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-
-                                {/* End Time */}
-                                <FormField
-                                    control={control}
-                                    name="endTime"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <Select
-                                                    label={t("endTime") || "End Time"}
-                                                    placeholder="22:00"
-                                                    selectedKeys={field.value ? [`${field.value.hour}:${field.value.minute}`] : []}
-                                                    onChange={(e) => {
-                                                        const [hour, minute] = e.target.value.split(':').map(Number);
-                                                        field.onChange({ hour, minute });
-                                                    }}
-                                                    isInvalid={!!errors.endTime}
-                                                    errorMessage={errors.endTime?.message as string}
-                                                >
-                                                    {timeOptions.map((option) => (
-                                                        <SelectItem key={option.value}>{option.label}</SelectItem>
-                                                    ))}
-                                                </Select>              
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-
-                            <Divider />
 
                             {/* Enable Rescue Deal Switch */}
                             <FormField

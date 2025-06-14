@@ -10,6 +10,20 @@ export interface RescueDeal extends RescueDealType {
   storeId: string;
 }
 
+export interface RescueDealProduct {
+  promotionPercent: number; 
+  quantity: number; 
+  isSelected: boolean;
+}
+
+const RESCUE_DEALS_FIELDS = [
+  "c.id",
+  "c.storeId",
+  "c.isActive",
+  "c.products"
+
+]
+
 export async function saveRescueDeal(storeId: string, raw: unknown, rescueDealId?: string) {
   try {
     const parsed = RescueDealSchema.safeParse(raw);
@@ -53,7 +67,7 @@ export async function saveRescueDeal(storeId: string, raw: unknown, rescueDealId
 export async function getRescueDeal(storeId: string): Promise<RescueDeal | null> {
   try {
     const query = {
-      query: 'SELECT * FROM c WHERE c.storeId = @storeId',
+      query: `SELECT ${RESCUE_DEALS_FIELDS.join(',')} FROM c WHERE c.storeId = @storeId`,
       parameters: [
         { name: '@storeId', value: storeId }
       ]

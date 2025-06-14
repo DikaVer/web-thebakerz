@@ -400,7 +400,7 @@ export async function getProductByStoreIdAndProductId(storeId: string, productId
         }
 
         const querySpec = {
-            query: `SELECT ${PRODUCT_FIELDS.join(', ')} FROM c WHERE c.store_id = @storeId AND c.id = @productId AND c.archive=false AND c.hide_product = false`,
+            query: `SELECT ${PRODUCT_FIELDS.join(', ')} FROM c WHERE c.store_id = @storeId AND c.id = @productId AND c.archive = false AND (c.hide_product = false OR NOT IS_DEFINED(c.hide_product))`,
             parameters: [
                 { name: "@storeId", value: storeId },
                 { name: "@productId", value: productId }
@@ -481,7 +481,7 @@ export async function getAllProductsByFilter(filterParams: {
     const offset = (page - 1) * limit;
 
     // Build the CosmosDB query - no storeId filter
-    let queryString = `SELECT ${PRODUCT_FIELDS.join(', ')} FROM c WHERE c.archive = false AND c.hide_product = false`;
+    let queryString = `SELECT ${PRODUCT_FIELDS.join(', ')} FROM c WHERE c.archive = false AND (c.hide_product = false OR NOT IS_DEFINED(c.hide_product))`;
     const parameters: { name: string; value: any }[] = [];
 
     // Add price filter

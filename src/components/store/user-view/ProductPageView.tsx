@@ -25,12 +25,15 @@ import { useDisclosure } from "@heroui/react";
 import { useSession } from "@/components/providers/session-provider";
 import clarity from "@microsoft/clarity";
 import { useStore } from "@/components/providers/store-provider";
+
 interface ProductPageViewProps {
     productData: ProductData;
+    rescueDealInfo?: { promotionPercent: number; quantity: number; isSelected: boolean} | null;
 }
 
 export const ProductPageView: React.FC<ProductPageViewProps> = ({
-    productData 
+    productData,
+    rescueDealInfo
 }) => {
     const t = useTranslations("app/(store)/components/product-page");
     const product = productData;
@@ -46,11 +49,17 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
     const { openModal, ModalSign } = useSignInModal();
     const { store } = useStore();
     const { addItem } = useCart();
-    const { isDelivery, validationResult, setSelectedDate, deliveryAddressModal } = useDelivery();
+    const { isDelivery, validationResult, setSelectedDate, deliveryAddressModal, isRescueDeal } = useDelivery();
 
     // Handle adding to cart
     const handleAddToCart = async () => {
 
+        // Check rescue deal availability
+        if (rescueDealInfo && isRescueDeal) {
+            if (rescueDealInfo.quantity <= 0 || !rescueDealInfo.isSelected) {
+                return;
+            }
+        }
 
         if (isDelivery && (!validationResult?.isValid || !validationResult?.isInRange)) {
             deliveryAddressModal.onOpen();
@@ -99,7 +108,13 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
         try {
             clarity.event("product_add_to_cart")
             // Call our server action to add the item to cart
-            const result = await updateCart(product.id, product.store_id, quantity, isDelivery ? "delivery" : "pickup", note, variants);
+            const result = await updateCart(
+                product.id, 
+                product.store_id, 
+                quantity, isDelivery ? "delivery" : "pickup", 
+                note, 
+                variants
+            );
             if (result.success) {
                 const dateTime = isDelivery ? 
                     await getDeliveryTime(product.store_id, validationResult?.deliveryRegion?.name || "") : 
@@ -148,7 +163,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
     };
 
     return (
-        <div className=" py-8">
+        <div className={`py-8 ${rescueDealInfo && isRescueDeal && (rescueDealInfo.quantity <= 0 || !rescueDealInfo.isSelected) ? 'opacity-50 pointer-events-none' : ''}`}>
             {/* Sign-in modal */}
             <ModalSign 
                 message="You need to sign in to report products"
@@ -191,7 +206,26 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                                 description={product.description || ""}
                                 totalLikes={product.totalLikes}
                                 image={product.picture}
+                                rescueDealInfo={rescueDealInfo}
+                                isRescueDeal={isRescueDeal}
                             />
+
+                            {/* Rescue Deal Stock Information */}
+                            {(rescueDealInfo && isRescueDeal) && (
+                                <div className="flex items-center gap-2 p-3 rounded-lg bg-danger-50 border border-danger-200">
+                                    <Icon icon="solar:fire-bold" className="text-danger-500" width={20} />
+                                    {(rescueDealInfo.quantity > 0 && rescueDealInfo.isSelected) ? (
+                                        <>
+                                            <span>Rescue Deal Stock: </span>
+                                            <span className="font-bold">
+                                                {rescueDealInfo.quantity} left
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <span className="font-bold text-danger-500">Out of Stock</span>
+                                    )}
+                                </div>
+                            )}
                             
                             <Divider className="my-4" />
                             
@@ -238,10 +272,14 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                             
                             <div className="flex items-center gap-4 pt-4">
                                 <ProductActions
-                                    price={product.price}
+                                    price={rescueDealInfo && isRescueDeal ? 
+                                        product.price * (1 - rescueDealInfo.promotionPercent / 100) : 
+                                        product.price
+                                    }
                                     quantity={quantity}
                                     setQuantity={setQuantity}
                                     minOrder={product?.min_order || 1}
+                                    maxOrder={rescueDealInfo && isRescueDeal ? rescueDealInfo.quantity : undefined}
                                     isPostDelivery={product.isPostDelivery}
                                     isUpdateMode={false}
                                     onUpdate={handleAddToCart}

@@ -44,9 +44,11 @@ const CartButton: React.FC<CartButtonProps> = ({
         cart,
         updateItem,
         removeItem,
+        validateRescueDealsQuantity,
+        rescueDeals,
     } = useCart();
     
-    const { isDelivery, validationResult, minLeadTimeProduct } = useDelivery();
+    const { isDelivery, validationResult, minLeadTimeProduct, isRescueDeal } = useDelivery();
     
     const isMobile = useMediaQuery("(max-width: 768px)");
     const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +57,27 @@ const CartButton: React.FC<CartButtonProps> = ({
     const t = useTranslations("app/(store)/components/cart");
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
     const pathname = usePathname();
+
+    // Auto-remove invalid rescue deal items
+    useEffect(() => {
+        if (isRescueDeal && rescueDeals) {
+            const itemsArray = Object.values(cart).flatMap(
+                (storeCart) => Object.values(storeCart)
+            );
+
+            itemsArray.forEach(async (item) => {
+                const rescueDealProduct = rescueDeals.products?.find((p: any) => p.id === item.product_id);
+                
+                // Remove item if it's part of rescue deal but not selected or out of stock
+                if (rescueDealProduct && (!rescueDealProduct.isSelected || rescueDealProduct.quantity === 0)) {
+                    await removeItem(item);
+                }
+            });
+        }
+    }, [isRescueDeal, rescueDeals, cart, removeItem]);
+
+    // Validate rescue deal quantities
+    const rescueDealValidation = validateRescueDealsQuantity();
 
     const handleOpenDrawer = () => {
         clarity.upgrade("cart");
@@ -104,7 +127,24 @@ const CartButton: React.FC<CartButtonProps> = ({
                         return;
                     }
 
+                    // Skip items that are part of rescue deal but not selected or out of stock
+                    if (isRescueDeal && rescueDeals) {
+                        const rescueDealProduct = rescueDeals.products?.find((p: any) => p.id === item.product_id);
+                        if (rescueDealProduct && (!rescueDealProduct.isSelected || rescueDealProduct.quantity === 0)) {
+                            return; // Don't include in total
+                        }
+                    }
+
                     let itemPrice = productData.price;
+
+                    // Check if this item is part of a rescue deal and apply discount
+                    if (isRescueDeal && rescueDeals) {
+                        const rescueDealProduct = rescueDeals.products?.find((p: any) => p.id === item.product_id);
+                        if (rescueDealProduct && rescueDealProduct.isSelected) {
+                            // Apply rescue deal discount
+                            itemPrice = productData.price * (1 - rescueDealProduct.promotionPercent / 100);
+                        }
+                    }
                     
                     // Add variant costs if any
                     if (item.variants) {
@@ -150,12 +190,20 @@ const CartButton: React.FC<CartButtonProps> = ({
     
     // Check if we can proceed to checkout
     const canProceedToCheckout = useMemo(() => {
-        if (isDelivery) {
-            return totalPrice >= minimumOrderAmount && validationResult.isValid && validationResult.isInRange;
-        } else {
-            return totalPrice >= minimumOrderAmount
+        if (totalPrice < minimumOrderAmount) {
+            return false;
         }
-    }, [totalPrice, minimumOrderAmount, isDelivery, validationResult]);
+
+        if (isRescueDeal && !rescueDealValidation.isValid) {
+            return false;
+        }
+
+        if (isDelivery) {
+            return validationResult.isValid && validationResult.isInRange;
+        } else {
+            return true;
+        }
+    }, [totalPrice, minimumOrderAmount, isDelivery, validationResult, isRescueDeal, rescueDealValidation]);
 
     const controls = useAnimation();
 
@@ -229,10 +277,19 @@ const CartButton: React.FC<CartButtonProps> = ({
                                                 {t("minimumOrderForDelivery", { amount: formatCurrency(minimumOrderAmount) })}
                                             </div>
                                         )}
+                                        {/* Rescue Deal Validation Warning */}
+                                        {isRescueDeal && !rescueDealValidation.isValid && (
+                                            <div className="mb-2 text-warning text-sm">
+                                                Some items exceed rescue deal stock. Please reduce quantities.
+                                            </div>
+                                        )}
+
                                         {/* Pre-order time */}
-                                        <p className="mb-2 text-warning text-sm">
-                                            {t("preOrderTime", { time: preOrderTime.formatted })}
-                                        </p>
+                                        {!isRescueDeal && (
+                                            <p className="mb-2 text-warning text-sm">
+                                                {t("preOrderTime", { time: preOrderTime.formatted })}
+                                            </p>
+                                        )}
                                         <Button
                                             aria-label="Continue to checkout"
                                             isLoading={isLoading}

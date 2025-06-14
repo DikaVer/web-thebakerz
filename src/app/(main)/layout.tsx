@@ -4,7 +4,7 @@ import {Footer} from "@/components/footer";
 import LayoutComp from "@/components/layout-comp";
 import { DeliveryProvider } from '@/components/providers/delivery-provider';
 import { getCurrentDeliveryAddress } from '../(store)/[id]/delivery-actions';
-import { getDeliveryMode } from '@/lib/actions/cookies/delivery-cookie';
+import { getDeliveryMode, getRescueDealMode } from '@/lib/actions/cookies/delivery-cookie';
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 import { FavoritesProvider } from '@/components/providers/favorites-provider';
 import { ProductDialogProvider } from '@/components/providers/product-provider';
@@ -20,6 +20,7 @@ export default async function Layout(
 
     // const cartData = await getCurrentCart("11");
     const deliveryMode = await getDeliveryMode();
+    const rescueDealMode = await getRescueDealMode();
     const savedAddress = await getCurrentDeliveryAddress();
     
     let initialDeliveryMode = deliveryMode === 'delivery';
@@ -30,6 +31,7 @@ export default async function Layout(
             <>
                 <DeliveryProvider
                     initialDeliveryMode={initialDeliveryMode}
+                    initialRescueDealMode={rescueDealMode}
                     initialAddress={savedAddress}
                 >   
                     <ProductDialogProvider>

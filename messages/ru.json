@@ -68,7 +68,8 @@
     "RescueDealManager": "Менеджер по спасению сделок",
     "RescueProductsDescription": "Настройка и редактирование спасательных сделок"
   },
-  "Shop": {},
+  "Shop": {
+  },
   "UsersDashboard": {
     "Search User": "Поиск пользователя"
   },
@@ -240,7 +241,8 @@
     "startSellingDescription": "Протестируйте свой магазин, внесите коррективы и начните принимать реальные заказы!",
     "startSellingTitle": "Начать продавать"
   },
-  "app/(landing)/components/navbar": {},
+  "app/(landing)/components/navbar": {
+  },
   "app/(landing)/components/partners": {
     "description": "Мы сотрудничаем с лидерами отрасли для предоставления лучших решений.",
     "title": "Член"
@@ -386,11 +388,11 @@
   },
   "app/(return_page)/settings/components/delivery-options": {
     "deliveryDescription": "Разрешить клиентам доставлять заказы по их адресу",
-    "deliveryOption": "доставка",
+    "deliveryOption": "Доставка",
     "deliveryOptions": "Варианты доставки",
     "deliveryOptionsDescription": "Настройте способ получения заказов клиентами.",
     "pickupDescription": "Разрешите клиентам забирать заказы из вашего магазина",
-    "pickupOption": "самовывоз",
+    "pickupOption": "Самовывоз",
     "updateDeliveryOptions": "Обновить параметры доставки",
     "updatingOptions": "Обновление параметров..."
   },
@@ -503,8 +505,12 @@
     "nameAndPrice": "Название и цена",
     "noProductsSelected": "Пожалуйста, выберите хотя бы один продукт",
     "noProductsYet": "Пока нет товаров",
-    "promotion": "Повышение",
+    "promotion": "Скидка",
     "quantity": "Количество",
+    "rescueDealDescription": "",
+    "rescueDealDescriptionH2": "",
+    "rescueDealDescriptionH3": "",
+    "rescueDealTitle": "",
     "selectTime": "Выберите время",
     "selections": "Выборы",
     "startBefore": "Начать до",
@@ -596,12 +602,19 @@
     "cartEmpty": "Корзина пуста",
     "deliveryFee": "Плата за доставку",
     "deliveryVat": "НДС на доставку (21%)",
+    "enterPaymentDetails": "",
+    "initializingPayment": "",
     "invalidDeliveryAddress": "Неверный адрес доставки",
     "loadingPaymentGateway": "Загрузка платежного шлюза...",
     "minimumAmount": "Минимальная сумма заказа {minзаказ}",
     "minimumOrderForDelivery": "Минимальный заказ — {сумма}",
+    "orPayWith": "",
     "pay": "Платить",
+    "paymentSuccessful": "",
+    "processing": "",
+    "retry": "",
     "returnToCheckout": "Вернуться к оформлению заказа",
+    "saveCartDetails": "",
     "saveDeliveryDetails": "Сохранить данные о доставке",
     "savePickUpDetails": "Сохранить детали получения",
     "serviceFee": "Плата за обслуживание",
@@ -617,6 +630,8 @@
     "failedToUpdateCart": "Не удалось обновить корзину или адрес",
     "orderDetails": "Подробности заказа",
     "orderDetailsStep": "2. Подробности заказа",
+    "paymentDetails": "",
+    "paymentDetailsStep": "",
     "signInOrSignUpStep": "1. Войдите или зарегистрируйтесь, чтобы оформить заказ.",
     "signInOrSignUpText": "Войдите или зарегистрируйтесь, чтобы оформить заказ"
   },
@@ -626,7 +641,8 @@
     "deleteConfirmation": "Подтверждение удаления",
     "deleteProductWarning": "После удаления элемент будет удален навсегда и не подлежит восстановлению."
   },
-  "app/(store)/components/delivery-map": {},
+  "app/(store)/components/delivery-map": {
+  },
   "app/(store)/components/image": {
     "close": "Закрывать",
     "failedToUploadImage": "Не удалось загрузить изображение. Попробуйте еще раз.",
@@ -652,7 +668,8 @@
     "storeLocation": "Расположение магазина",
     "viewOnGoogleMaps": "Посмотреть на Google Картах"
   },
-  "app/(store)/components/order-dashboard": {},
+  "app/(store)/components/order-dashboard": {
+  },
   "app/(store)/components/orders": {
     "backToOrderDashboard": "Вернуться к панели управления заказами"
   },
@@ -746,10 +763,14 @@
     "completed": "Завершенный",
     "delivery": "доставка"
   },
-  "app/(store)/components/product": {},
-  "app/(store)/components/product-dialog": {},
+  "app/(store)/components/product": {
+  },
+  "app/(store)/components/product-dialog": {
+  },
   "app/(store)/components/product-list": {
-    "noProductsFound": "Продуктов не найдено"
+    "noProductsFound": "Продуктов не найдено",
+    "noRescueDealsProductsAtTheMoment": "",
+    "rescueDealsOnlyAvailableForPickUpOrders": ""
   },
   "app/(store)/components/product-page": {
     "Add": "Добавлять",
@@ -917,7 +938,8 @@
   "app/(store)/components/store-top": {
     "addItem": "Добавить элемент"
   },
-  "app/(store)/components/store-top-next": {},
+  "app/(store)/components/store-top-next": {
+  },
   "app/(store)/components/three-dots": {
     "addOrder": "Добавить заказ",
     "copyStoreLink": "Копировать ссылку на магазин",
@@ -930,7 +952,8 @@
     "report": "Отчет",
     "storeLinkCopied": "Ссылка на магазин скопирована!"
   },
-  "app/(store)/components/user-product": {},
+  "app/(store)/components/user-product": {
+  },
   "app/(store)/components/variants-form-field": {
     "addOption": "Добавить вариант",
     "addOptionGroup": "Добавить группу опций",
@@ -996,7 +1019,8 @@
     "returnToStore": "Вернуться в магазин",
     "verifyEmail": "Подтвердите изображение электронной почты"
   },
-  "app/(store)/id/orders/add": {},
+  "app/(store)/id/orders/add": {
+  },
   "app/(store)/id/page": {
     "noProducts": "Нет доступных продуктов"
   },
@@ -1033,7 +1057,8 @@
     "question7": "Могу ли я доверять TheBakerz в отношении платежей и заказов?",
     "question8": "К кому мне следует обратиться в случае возникновения вопросов?"
   },
-  "app/(support)/components/faq-customer": {},
+  "app/(support)/components/faq-customer": {
+  },
   "app/(support)/components/payment-urgent": {
     "requestSentSuccess": "Ваш запрос успешно отправлен.",
     "sendRequest": "Отправить запрос",
@@ -1083,8 +1108,10 @@
     "internalError": "Внутренняя ошибка сервера",
     "notAuthorized": "Не разрешать доступ"
   },
-  "app/api/store/order/updateStatus": {},
-  "app/api/store/orders/new": {},
+  "app/api/store/order/updateStatus": {
+  },
+  "app/api/store/orders/new": {
+  },
   "app/api/store/orders/range": {
     "internalError": "Внутренняя ошибка сервера",
     "missingFromDate": "Отсутствует заголовок From-Date",
@@ -1177,6 +1204,7 @@
     "guestCartReplacedSuccess": "Гостевая корзина успешно заменена товарами из корзины пользователя!",
     "guestIdNotFound": "Гостевой идентификатор не найден",
     "invalidOption": "Недопустимая опция {option} для {variant}",
+    "itemNotFound": "",
     "itemRemovedSuccess": "Элемент успешно удален!",
     "maxSelectionsExceeded": "{variant} не может иметь больше {max} вариантов выбора",
     "minOrderRequired": "Вы должны заказать не менее {min} этого продукта",
@@ -1249,13 +1277,15 @@
   "app/lib/actions/user-orders": {
     "failedFetchOrders": "Неудачные заказы на получение"
   },
-  "app/lib/schemas": {},
+  "app/lib/schemas": {
+  },
   "app/search": {
     "noStoresFound": "Магазины не найдены",
     "special": "У вас есть что-то особенное на примете?",
     "tryChangingLocationOrDeliveryMode": "Попробуйте изменить свое местоположение или способ доставки."
   },
-  "common": {},
+  "common": {
+  },
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Введите адрес",
     "whereToDeliver": "Куда доставить ваш заказ?"
@@ -1300,11 +1330,16 @@
         "open": "Открыть",
         "workingHours": "Часы работы"
       },
-      "toggleDelivery": {}
+      "toggleDelivery": {
+      }
     },
-    "errors": {},
-    "noLocation": {},
-    "noStoresFound": {}
+    "errors": {
+    },
+    "noLocation": {
+    },
+    "noStoresFound": {
+    }
   },
-  "time": {}
+  "time": {
+  }
 }

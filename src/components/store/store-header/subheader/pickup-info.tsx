@@ -27,7 +27,7 @@ export default function PickupInfo({ store}: PickupInfoProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const isCheckout = pathname.includes("/checkout");
-  const { minLeadTimeProduct } = useDelivery();
+  const { minLeadTimeProduct, isRescueDeal } = useDelivery();
   
   
   // Generate a stable map ID for the current store
@@ -144,55 +144,58 @@ export default function PickupInfo({ store}: PickupInfoProps) {
                       </div>
 
                       {/* Minimum order */}
-                      <div className="flex items-center gap-3 mb-3">
+                      {/* <div className="flex items-center gap-3 mb-3">
                         <Icon icon="solar:card-linear" className="text-default-600" width={16}/>
                         <p className="text-xs text-default-600">
                           {t("minimumOrder")}: {formatCurrency(minimumOrder)}
                         </p>
-                      </div>
+                      </div> */}
+                      {!isRescueDeal && (
+                        <>
+                          {/* Min Lead Time */}
+                          {(store.minTimeOrder !== undefined) && (
+                              <div className="flex items-center gap-3 text-xs text-warning-500 mb-3">
+                                <Icon icon="solar:clock-square-linear" className="text-warning-500" width={16}/>
+                                <div className="flex flex-row gap-1 items-center">
+                                  <span>{t("MinLeadTime")}: </span>
+                                  <span>
+                                    {(() => {
+                                      const minutes = effectiveMinLeadTime;
+                                      if (minutes < 60) {
+                                        return `${minutes} min`;
+                                      } else if (minutes < 24 * 60) {
+                                        const hours = minutes / 60;
+                                        return `${hours} ${hours === 1 ? t("hour") : t("hours")}`;
+                                      } else {
+                                        const days = Math.floor(minutes / (24 * 60));
+                                        const remainingHours = (minutes % (24 * 60)) / 60;
+                                        if (remainingHours === 0) {
+                                          return `${days} ${days === 1 ? t("day") : t("days")}`;
+                                        } else {
+                                          return `${days} ${days === 1 ? t("day") : t("days")} ${remainingHours} ${remainingHours === 1 ? t("hour") : t("hours")}`;
+                                        }
+                                      }
+                                    })()}
+                                  </span>
+                                  <InfoPopover type="preOrderTime" />
+                                </div>
+                              </div>
+                          )}
 
-                      {/* Min Lead Time */}
-                      {(store.minTimeOrder !== undefined) && (
-                          <div className="flex items-center gap-3 text-xs text-warning-500 mb-3">
-                            <Icon icon="solar:clock-square-linear" className="text-warning-500" width={16}/>
-                            <div className="flex flex-row gap-1 items-center">
-                              <span>{t("MinLeadTime")}: </span>
-                              <span>
-                                {(() => {
-                                  const minutes = effectiveMinLeadTime;
-                                  if (minutes < 60) {
-                                    return `${minutes} min`;
-                                  } else if (minutes < 24 * 60) {
-                                    const hours = minutes / 60;
-                                    return `${hours} ${hours === 1 ? t("hour") : t("hours")}`;
-                                  } else {
-                                    const days = Math.floor(minutes / (24 * 60));
-                                    const remainingHours = (minutes % (24 * 60)) / 60;
-                                    if (remainingHours === 0) {
-                                      return `${days} ${days === 1 ? t("day") : t("days")}`;
-                                    } else {
-                                      return `${days} ${days === 1 ? t("day") : t("days")} ${remainingHours} ${remainingHours === 1 ? t("hour") : t("hours")}`;
-                                    }
-                                  }
-                                })()}
-                              </span>
-                              <InfoPopover type="preOrderTime" />
-                            </div>
-                          </div>
-                      )}
-
-                      {/* Pickup Window */}
-                      {(store.pickupWindow !== undefined) && (
-                          <div className="flex items-center gap-3 text-xs text-info-500 mb-3">
-                            <Icon icon="solar:sort-by-time-linear" className="text-info-500" width={16}/>
-                            <div className="flex flex-row gap-1 items-center">
-                              <span>{t("pickupWindowTitle") || "Pickup Window"}: </span>
-                              <span>
-                                {`${store.pickupWindow} ${t("minutes")}`}
-                              </span>
-                              <InfoPopover type="pickupWindow" />
-                            </div>
-                          </div>
+                          {/* Pickup Window */}
+                          {(store.pickupWindow !== undefined) && (
+                              <div className="flex items-center gap-3 text-xs text-info-500 mb-3">
+                                <Icon icon="solar:sort-by-time-linear" className="text-info-500" width={16}/>
+                                <div className="flex flex-row gap-1 items-center">
+                                  <span>{t("pickupWindowTitle") || "Pickup Window"}: </span>
+                                  <span>
+                                    {`${store.pickupWindow} ${t("minutes")}`}
+                                  </span>
+                                  <InfoPopover type="pickupWindow" />
+                                </div>
+                              </div>
+                          )}
+                        </>
                       )}
 
                       {/* Availability */}

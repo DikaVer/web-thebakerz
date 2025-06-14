@@ -4,7 +4,7 @@ import { getCurrentProductsOrder } from "@/lib/api/products-api";
 import { getTranslations } from "next-intl/server";
 import ItemAddManager from "@/components/store/add-item/item-add-manager";
 import NotFound from "@/app/(error_layout)/not-found";
-import { getCurrentStore } from "@/lib/api/store-api";
+import { getCurrentStoreId } from "@/lib/api/store-api";
 
 interface StorePageProps {
     params: Promise<{
@@ -19,7 +19,7 @@ export default async function Page({ params, searchParams }: StorePageProps) {
     const { id } = await params;
     const t = await getTranslations("ProductAdd");
 
-    const storeData = await getCurrentStore(id);
+    const storeData = await getCurrentStoreId(id);
     if (!storeData) {
         return <NotFound />;
     }

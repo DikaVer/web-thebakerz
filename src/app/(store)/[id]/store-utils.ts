@@ -1,4 +1,4 @@
-import {getCurrentStore} from "@/lib/api/store-api";
+import {getCurrentStoreId} from "@/lib/api/store-api";
 import {Metadata} from "next";
 import {getLocale} from "next-intl/server";
 import {getCurrentSession} from "@/lib/actions/session";
@@ -13,7 +13,7 @@ export async function generateStorePageMetadata(
     pageDescription: string = '',
     robotsConfig = { index: true, follow: true }
 ): Promise<Metadata> {
-    const storeData = await getCurrentStore(id);
+    const storeData = await getCurrentStoreId(id);
     
     if (!storeData) {
         return {
@@ -36,27 +36,14 @@ export async function generateStorePageMetadata(
     };
 }
 
-/**
- * Verify store exists and return the store data
- * Returns null if store doesn't exist
- */
-export async function verifyStoreExists(id: string) {
-    const storeData = await getCurrentStore(id);
-    
-    if (!storeData) {
-        return null;
-    }
-    
-    return storeData;
-}
 
 /**
  * Verify store exists and user has access to it
  * Redirects to auth page if not authenticated
  * Returns null if user doesn't have access to store
  */
-export async function verifyStoreAccess(id: string) {
-    const storeData = await getCurrentStore(id);
+export async function verifyStoreAccess(id: string): Promise<{id: string, storeName: string} | null> {
+    const storeData = await getCurrentStoreId(id);
     
     if (!storeData) {
         return null;

@@ -1,7 +1,6 @@
 import { Footer } from '@/components/footer';
 import { LandingHeroSection } from '@/components/landing/marketplace/landing-hero-section';
 import { BakersGrowthSection } from '@/components/landing/marketplace/bakers-growth-section';
-import { getSearchCoordinates } from '@/lib/actions/cookies/delivery-cookie';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server'; // Kept for potential future use, though hardcoding to 'en' now
@@ -64,11 +63,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 // Main HomePage component
 export default async function Page() {
-
-    const initialCoords = await getSearchCoordinates();
-    if (initialCoords) {
-        redirect(`/search`);
-    }
 
   return (
     <main className="min-h-screen">
