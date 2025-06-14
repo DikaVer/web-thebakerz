@@ -1096,6 +1096,7 @@
     "orderDbFailed": "bestelling DB mislukt",
     "orderNotFound": "Bestelling niet gevonden",
     "processingError": "Fout bij het verwerken van de betaling",
+    "rescueDealNotAvailable": "",
     "tooManyRequests": "Te veel verzoeken",
     "userCreationFailed": "Gebruikersaanmaak mislukt"
   },

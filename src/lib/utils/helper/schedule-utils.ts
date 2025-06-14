@@ -1,5 +1,48 @@
 import { WorkHours } from "@/lib/actions/calendar-actions";
+import { now } from "@internationalized/date";
 
+
+// Get the last hours of the store for today in Amsterdam timezone
+export const getLastStoreHoursToday = (schedule: WorkHours): { date: string; time: string } => {
+    const nowInAmsterdam = now("Europe/Amsterdam");
+    const today = nowInAmsterdam.toDate();
+    const dayOfWeek = today.toLocaleDateString('en-US', { weekday: 'long', timeZone: 'Europe/Amsterdam' }).toLowerCase() as keyof WorkHours;
+    
+    // Get today's schedule
+    const todaySchedule = schedule[dayOfWeek];
+    
+    if (!todaySchedule || !todaySchedule.isEnabled) {
+        // If today is closed, find the next available day
+        const daysOrder: (keyof WorkHours)[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        const todayIndex = daysOrder.indexOf(dayOfWeek);
+        
+        for (let i = 1; i <= 7; i++) {
+            const nextDayIndex = (todayIndex + i) % 7;
+            const nextDay = daysOrder[nextDayIndex];
+            const nextDaySchedule = schedule[nextDay];
+            
+            if (nextDaySchedule && nextDaySchedule.isEnabled) {
+                const nextDate = new Date(today);
+                nextDate.setDate(today.getDate() + i);
+                return {
+                    date: nextDate.toISOString().split('T')[0],
+                    time: `${nextDaySchedule.end.hour.toString().padStart(2, '0')}:${nextDaySchedule.end.minute.toString().padStart(2, '0')}`
+                };
+            }
+        }
+        
+        // Fallback if no days are enabled
+        return {
+            date: today.toISOString().split('T')[0],
+            time: "23:59"
+        };
+    }
+    
+    return {
+        date: today.toISOString().split('T')[0],
+        time: `${todaySchedule.end.hour.toString().padStart(2, '0')}:${todaySchedule.end.minute.toString().padStart(2, '0')}`
+    };
+};
 // Helper function to check if current time is within 45 minutes of closing
 export const isWithinClosingWindow = (schedule: WorkHours | undefined): boolean => {
     if (!schedule) return false;

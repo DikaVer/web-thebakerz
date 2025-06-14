@@ -4,10 +4,6 @@ import { CalendarDateTime, getDayOfWeek, getLocalTimeZone, now, Time, toTime, to
 import { WorkHours } from "./calendar-actions";
 
 
-interface CheckOrderInput {
-    storeId: string;
-}
-
 // It should validate if the given time is within the schedule and respects lead time.
 export async function validateOrderTimeAgainstSchedule(
     orderDateTime: CalendarDateTime,

@@ -1076,6 +1076,7 @@
     "orderDbFailed": "",
     "orderNotFound": "",
     "processingError": "",
+    "rescueDealNotAvailable": "",
     "tooManyRequests": "",
     "userCreationFailed": ""
   },

@@ -52,6 +52,9 @@ export interface OrderData {
     isCountryDelivery: boolean;
     deliveryAddress: DeliveryAddress | null; // Store the structured address
 
+    // Rescue Deal details
+    isRescueDeal: boolean;
+
     // Timestamps
     cancelledAt?: Date;
     refundedAt?: Date;
@@ -92,6 +95,7 @@ export interface ExtendedOrderRaw extends OrderRaw {
         }
     ];
     status: string;
+    isRescueDeal: boolean;
 }
 
 export interface PriceOrderData {
@@ -336,7 +340,7 @@ export const createOrder = async (
             order_status: 'new',
             completed: false,
             productsData: cartItemsForOrder,
-            
+            isRescueDeal: false,
             // Price information
             priceData: {
                 itemInclVat: itemsInclVat,

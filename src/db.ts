@@ -48,5 +48,7 @@ export const containerDeliveryLocations = cosmosDB.container("DeliveryLocations"
 export const containerTransfers = cosmosDB.container("Transfers");
 export const containerFavorites = cosmosDB.container("Favorites");
 export const containerRescueDeals = cosmosDB.container("RescueDeals");
+export const containerInventoryHolds = cosmosDB.container("InventoryRescueHolds");
+export const containerHolds = cosmosDB.container("Holds");
 
 

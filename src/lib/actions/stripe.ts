@@ -24,6 +24,7 @@ import { getCurrentCartType } from "../api/cart-api";
 import {MIN_ORDER_PRICE_IN_CENTS} from "@/lib/local-variables";
 import { validateOrderTimeAgainstSchedule } from "./order-checker";
 import { getRescueDealMode } from "./cookies/delivery-cookie";
+import { isWithinClosingWindow } from "../utils/helper/schedule-utils";
 
 
 // Define the expected input structure for fetchClientSecret
@@ -45,9 +46,6 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
     }
 
     const isRescueDeal = await getRescueDealMode();
-    if (isRescueDeal) {
-        return {error: 'Rescue deals are not supported in this mode.'};
-    }
 
     const origin = process.env.NEXT_PUBLIC_API_BASE_URL;
     if (!storeId || !storeStripeAccountId) {
@@ -147,6 +145,13 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
 
     if (!scheduleToValidateAgainst) {
         return {error: isDelivery ? "Delivery/Store schedule not found." : "Store operating hours not found."};
+    }
+
+    if(!isDelivery && isRescueDeal){
+        const isClosingSoon = isWithinClosingWindow(scheduleToValidateAgainst);
+        if(isClosingSoon){
+            return {error: "Rescue deals are not available at this time."};
+        }
     }
     
 
@@ -339,7 +344,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
         orderNote: orderNote, // Add the order note
         // Add extra fields needed internally or for Stripe metadata
         isDelivery: isDelivery,
-        isStoreDelivery: selectedRegion?.isStoreDelivery || false,
+        isStoreDelivery: selectedRegion?.isStoreDelivery || true,
         isPostDelivery: selectedRegion?.isPostDelivery || false,
         isCountryDelivery: selectedRegion?.isCountry || false,
         deliveryToAddress: currentAddress,
@@ -366,6 +371,7 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
             amount: transferAmount, // Amount to transfer to the connected account
             app_fee: applicationFee
         }],
+        isRescueDeal: isRescueDeal,
         status: 'pending_payment',
     };
 

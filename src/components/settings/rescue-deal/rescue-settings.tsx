@@ -259,7 +259,7 @@ const RescueSettings: React.FC<RescueSettingsProps> = ({ productsData, productsO
                                         </div>
                                         <FormControl>
                                             <Switch
-                                                checked={field.value}
+                                                defaultSelected={field.value}
                                                 onValueChange={field.onChange}
                                                 color="success"
                                             />

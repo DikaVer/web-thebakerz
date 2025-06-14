@@ -1096,6 +1096,7 @@
     "orderDbFailed": "Bestell-DB fehlgeschlagen",
     "orderNotFound": "Bestellung nicht gefunden",
     "processingError": "Fehler bei der Zahlungsabwicklung",
+    "rescueDealNotAvailable": "",
     "tooManyRequests": "Zu viele Anfragen",
     "userCreationFailed": "Benutzererstellung fehlgeschlagen"
   },

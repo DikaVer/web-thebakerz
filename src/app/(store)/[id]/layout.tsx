@@ -16,9 +16,10 @@ import NotFound from "@/app/(error_layout)/not-found";
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 import { FavoritesProvider } from '@/components/providers/favorites-provider';
 import { getCurrentFavoritesByStore } from '@/lib/api/favorites-api';
-import { getRescueDeal } from '@/lib/actions/rescue-deal';
+import { getRescueDeal, RescueDeal } from '@/lib/actions/rescue-deal';
 import { isWithinClosingWindow } from '@/lib/utils/helper/schedule-utils';
 import { getCurrentProducts } from '@/lib/api/products-api';
+import { checkInventoryAvailability } from '@/lib/utils/helper/check-inventory-rescue';
 
 type Params = Promise<{ id: string }>
 
@@ -161,9 +162,16 @@ async function setupStoreProviders({
     // Check if current time is within 45 minutes of closing
     const isClosingSoon = isWithinClosingWindow(storeData.schedule);
 
-    let rescueDeals = null;
+    let rescueDeals: RescueDeal | null = null;
     if (isClosingSoon) {
         rescueDeals = await getRescueDeal(storeData.id);
+        //update rescue deal with available quantity
+        if(rescueDeals){
+            const newQuantities = await checkInventoryAvailability(rescueDeals.products?.map(p => p.id) || [], storeData.id);    
+            rescueDeals.products?.forEach(p => {
+                p.quantity = newQuantities[p.id] || 0;
+            });
+        }
     }
     
     const cartData = await getCurrentCart(storeData.id);

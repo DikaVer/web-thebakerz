@@ -18,7 +18,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import EmbeddedCheckout from "@/components/checkout/payment/embedded-checkout";
 import { getErrorMessage } from "@/lib/utils/payment-errors";
 
-export default function CheckoutSteps({ }: {}) {
+export default function CheckoutSteps({ isRescueDeal }: { isRescueDeal: boolean }) {
     const { session } = useSession();
     const t = useTranslations("app/(store)/components/checkout-steps");
     const router = useRouter();
@@ -43,7 +43,7 @@ export default function CheckoutSteps({ }: {}) {
 
     const { store } = useStore();
     const steps = ["1", "2", "3", "4"];
-    const { isDelivery, selectedDate, validationResult, isRescueDeal } = useDelivery();
+    const { isDelivery, selectedDate, validationResult } = useDelivery();
     const canProceedToPayment = isDelivery 
         ? validationResult.isValid && validationResult.isInRange && selectedDate
         : selectedDate;
@@ -207,6 +207,7 @@ export default function CheckoutSteps({ }: {}) {
                             handleNext(5);
                             setCurrentStep(0);
                         }}
+                        isRescueDeal={isRescueDeal}
                     />
                 </AccordionItem>
             </Accordion>

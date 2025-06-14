@@ -1096,6 +1096,7 @@
     "orderDbFailed": "Не вдалося створити базу даних замовлень",
     "orderNotFound": "Замовлення не знайдено",
     "processingError": "Помилка обробки платежу",
+    "rescueDealNotAvailable": "",
     "tooManyRequests": "Забагато запитів",
     "userCreationFailed": "Не вдалося створити користувача"
   },

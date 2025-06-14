@@ -313,6 +313,11 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     setSelectedDate(undefined);
     setIsDelivery(value);
     await setDeliveryMode(value ? 'delivery' : 'pickup');
+
+    // Update URL search params without router
+    const url = new URL(window.location.href);
+    url.searchParams.set('mode', value ? 'delivery' : 'pickup');
+    window.history.replaceState({}, '', url.toString());
     
     setIsTogglingDelivery(false);
   };

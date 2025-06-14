@@ -407,6 +407,8 @@ export async function GET(req: NextRequest) {
                 totalVat: orderRaw.totalVat
             },
 
+            isRescueDeal: orderRaw.isRescueDeal,
+
             // Delivery information
             isDelivery: orderRaw.isDelivery,
             isStoreDelivery: orderRaw.isStoreDelivery,

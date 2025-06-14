@@ -110,6 +110,21 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
         }
     };
 
+    // Handle selection change for better touch support
+    const handleStartSelectionChange = (keys: any) => {
+        const selectedKey = Array.from(keys)[0] as string;
+        if (selectedKey) {
+            handleStartChange(selectedKey);
+        }
+    };
+
+    const handleEndSelectionChange = (keys: any) => {
+        const selectedKey = Array.from(keys)[0] as string;
+        if (selectedKey) {
+            handleEndChange(selectedKey);
+        }
+    };
+
     return (
         <div className="mb-4">
             <p className="mt-1 text-xs font-normal text-default-400 capitalize">{t_c(`Working Hours.${day}`)}</p>
@@ -118,37 +133,45 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
                 <Select
                     isDisabled={!isEnabled || isLoading}
                     selectedKeys={[formatTimeKey(startTime)]}
-                    onChange={(e) => handleStartChange(e.target.value)}
+                    onSelectionChange={handleStartSelectionChange}
                     label={t("startTime")}
                     className="w-1/3"
                     classNames={{ 
                         trigger: 'rounded-r-none shadow-none',
-                        base: isInvalid ? 'border-danger' : '' 
+                        base: isInvalid ? 'border-danger' : '',
+                        mainWrapper: 'touch-manipulation'
                     }}
                     labelPlacement="inside"
                     isInvalid={isInvalid}
                     errorMessage={isInvalid ? t("startTimeError") : ""}
+                    style={{ touchAction: 'manipulation' }}
                 >
                     {timeOptions.map((option) => (
-                        <SelectItem key={option.value}>{option.label}</SelectItem>
+                        <SelectItem key={option.value} style={{ touchAction: 'manipulation' }}>
+                            {option.label}
+                        </SelectItem>
                     ))}
                 </Select>
                 <Select
                     isDisabled={!isEnabled || isLoading}
                     selectedKeys={[formatTimeKey(endTime)]}
-                    onChange={(e) => handleEndChange(e.target.value)}
+                    onSelectionChange={handleEndSelectionChange}
                     label={t("endTime")}
                     className="w-1/3"
                     classNames={{ 
                         trigger: 'rounded-none shadow-none',
-                        base: isInvalid ? 'border-danger' : '' 
+                        base: isInvalid ? 'border-danger' : '',
+                        mainWrapper: 'touch-manipulation'
                     }}
                     labelPlacement="inside"
                     isInvalid={isInvalid}
                     errorMessage={isInvalid ? t("endTimeError") : ""}
+                    style={{ touchAction: 'manipulation' }}
                 >
                     {timeOptions.map((option) => (
-                        <SelectItem key={option.value}>{option.label}</SelectItem>
+                        <SelectItem key={option.value} style={{ touchAction: 'manipulation' }}>
+                            {option.label}
+                        </SelectItem>
                     ))}
                 </Select>
                 <Switch
@@ -162,6 +185,7 @@ const DayWorkingHours: React.FC<DayWorkingHoursProps> = ({
                         ${!isInvalid ? 'bg-default-100' : 'bg-danger-50'} 
                         ${!isEnabled && 'opacity-50'} rounded-r-medium px-4`}
                     color={'success'}
+                    style={{ touchAction: 'manipulation' }}
                 />
             </div>
         </div>
@@ -270,6 +294,27 @@ export const WorkingHoursComp: React.FC = () => {
 
     return (
         <div>
+            <style jsx>{`
+                .touch-manipulation {
+                    touch-action: manipulation !important;
+                    -webkit-tap-highlight-color: transparent;
+                    -webkit-touch-callout: none;
+                    -webkit-user-select: none;
+                    -khtml-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
+                }
+
+                .touch-manipulation * {
+                    touch-action: manipulation !important;
+                }
+
+                :global([data-slot="trigger"]), :global([data-slot="base"]), :global([data-slot="listbox"]) {
+                    touch-action: manipulation !important;
+                    -webkit-tap-highlight-color: transparent;
+                }
+            `}</style>
             {isLoading ? (
                 <div className="w-full flex justify-center h-[640px]">
                     <div className={'h-full flex flex-col justify-center'}>

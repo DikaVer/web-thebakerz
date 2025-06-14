@@ -12,6 +12,8 @@ import { getTranslations } from "next-intl/server";
 import { logger } from "@/lib/logger";
 import { getRequestContext } from "@/lib/request-context";
 import { getDeliveryMode } from "@/lib/actions/cookies/delivery-cookie";
+import { cancelRescueDealCheckout } from "@/lib/utils/helper/inventory-integration";
+import { getActiveHoldsByUserIdAndStoreId } from "@/lib/utils/helper/inventory-holds";
 
 const log = logger.child({ module: "payment-completion" });
 
@@ -369,6 +371,8 @@ export async function GET(req: NextRequest) {
                 totalVat: orderRaw.totalVat
             },
 
+            isRescueDeal: orderRaw.isRescueDeal,
+
             // Delivery information
             isDelivery: orderRaw.isDelivery,
             isStoreDelivery: orderRaw.isStoreDelivery,
@@ -381,6 +385,10 @@ export async function GET(req: NextRequest) {
         await containerOrders.items.create(orderData);
         await removeCartByUserIdAndStoreId(cartId, storeId, orderRaw.isDelivery ? "delivery" : "pickup");
         await containerOrdersUnpaid.item(cosmosId, storeId).delete();
+        if(orderRaw.isRescueDeal){
+            const holds = await getActiveHoldsByUserIdAndStoreId(userSession.id, storeId);
+            await cancelRescueDealCheckout(storeId, holds);
+        }
 
         // Commit transaction
         await connectionPool.query('COMMIT');

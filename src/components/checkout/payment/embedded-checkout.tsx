@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { Elements, PaymentElement, ExpressCheckoutElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { prepareCheckout } from "@/lib/actions/prepare-checkout-input"
-import { Button, Input, Spacer, Spinner } from "@heroui/react"
+import { Button, Input, Spacer, Spinner, Progress } from "@heroui/react"
 import { useRouter } from 'next/navigation'
 import { Icon } from "@iconify/react"
 import showErrorMessage from "@/components/toast/toast-error"
@@ -17,11 +17,11 @@ import { EmailSchema } from '@/lib/utils/schemas'
 import { formatCurrency } from '@/lib/utils'
 
 
-
 interface EmbeddedCheckoutProps {
     storeStripeAccountId: string
     onPaymentSuccess?: () => void
     totalAmount: number
+    isRescueDeal: boolean
 }
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
@@ -29,13 +29,16 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 export default function EmbeddedCheckout({ 
     storeStripeAccountId, 
     totalAmount,
-    onPaymentSuccess 
+    onPaymentSuccess,
+    isRescueDeal
 }: EmbeddedCheckoutProps) {
     const [options, setOptions] = useState<any>(null)
     const [orderId, setOrderId] = useState<string | null>(null)
     const [isInitializing, setIsInitializing] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const { store } = useStore()
+    const router = useRouter()
+
 
     const initializeCheckout = useCallback(async () => {
         if (!store?.id || !storeStripeAccountId) {
@@ -61,42 +64,49 @@ export default function EmbeddedCheckout({
                 setError(response.error || 'Failed to initialize checkout')
             } else if (response.orderId && response.totalAmount && response.currency) {
                 setOrderId(response.orderId)
-                setOptions({
+                
+                // Prepare Stripe options with payment method restrictions for Rescue Deals
+                const stripeOptions: any = {
                     mode: 'payment' as const,
                     amount: response.totalAmount,
                     currency: response.currency,
                     paymentMethodCreation: 'manual' as const,
                     appearance: {
-        theme: 'stripe' as const,
-        variables: {
-            colorPrimary: '#0066cc',
-            colorBackground: '#ffffff',
-            colorText: '#30313d',
-            colorDanger: '#df1b41',
-            fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Lexend Deca, sans-serif',
-            spacingUnit: '6px',
-            borderRadius: '8px',
-        },
-        rules: {
-            '.Tab': {
-                border: '1px solid #E3E8EE',
-                borderRadius: '8px',
-            },
-            '.Tab--selected': {
-                borderColor: '#0066cc',
-                boxShadow: '0 0 0 1px #0066cc',
-            },
-            '.Input': {
-                border: '1px solid #E3E8EE',
-                borderRadius: '8px',
-            },
-            '.Input:focus': {
-                borderColor: '#0066cc',
-                boxShadow: '0 0 0 1px #0066cc',
-            }
-        },
-    }
-                })
+                    theme: 'stripe' as const,
+                    variables: {
+                        colorPrimary: '#0066cc',
+                        colorBackground: '#ffffff',
+                        colorText: '#30313d',
+                        colorDanger: '#df1b41',
+                        fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Lexend Deca, sans-serif',
+                        spacingUnit: '6px',
+                        borderRadius: '8px',
+                    },
+                    rules: {
+                        '.Tab': {
+                            border: '1px solid #E3E8EE',
+                            borderRadius: '8px',
+                        },
+                        '.Tab--selected': {
+                            borderColor: '#0066cc',
+                            boxShadow: '0 0 0 1px #0066cc',
+                        },
+                        '.Input': {
+                            border: '1px solid #E3E8EE',
+                            borderRadius: '8px',
+                        },
+                        '.Input:focus': {
+                            borderColor: '#0066cc',
+                            boxShadow: '0 0 0 1px #0066cc',
+                        }
+                    },
+                }
+                }
+
+                // Note: Payment method restrictions for Rescue Deals are handled server-side
+                // to avoid conflicts with automatic payment methods configuration
+
+                setOptions(stripeOptions)
             } else {
                 const errorMsg = 'Failed to initialize checkout'
                 showErrorMessage({ error: errorMsg })
@@ -110,11 +120,12 @@ export default function EmbeddedCheckout({
         } finally {
             setIsInitializing(false)
         }
-    }, [store?.id, storeStripeAccountId])
+    }, [store?.id, storeStripeAccountId, isRescueDeal])
 
     useEffect(() => {
         initializeCheckout()
     }, [initializeCheckout])
+
 
     if (isInitializing) {
         return <InitializingView />
@@ -130,13 +141,16 @@ export default function EmbeddedCheckout({
     }
 
     return (
-        <Elements stripe={stripePromise} options={options}>
-            <CheckoutForm 
+        <div>     
+            <Elements stripe={stripePromise} options={options}>
+                <CheckoutForm 
                     orderId={orderId}
                     onPaymentSuccess={onPaymentSuccess}
                     totalAmount={totalAmount}
+                    isRescueDeal={isRescueDeal}
                 />
             </Elements>
+        </div>
     )
 }
 
@@ -144,9 +158,10 @@ interface CheckoutFormProps {
     orderId: string
     onPaymentSuccess?: () => void
     totalAmount: number
+    isRescueDeal?: boolean
 }
 
-function CheckoutForm({ orderId, onPaymentSuccess, totalAmount }: CheckoutFormProps) {
+function CheckoutForm({ orderId, onPaymentSuccess, totalAmount, isRescueDeal }: CheckoutFormProps) {
     const stripe = useStripe()
     const elements = useElements()
     const router = useRouter()
@@ -159,7 +174,6 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount }: CheckoutFormPr
     const [email, setEmail] = useState('')
     const [emailError, setEmailError] = useState('')
     const [customerName, setCustomerName] = useState('')
-    const [nameError, setNameError] = useState('')
     const [isExpressCheckoutAvailable, setIsExpressCheckoutAvailable] = useState(false)
     const [hasSubmitted, setHasSubmitted] = useState(false)
     
@@ -220,7 +234,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount }: CheckoutFormPr
             removeAllItems();
             if (onPaymentSuccess) onPaymentSuccess();
             const storeUrl = store?.storeName || store?.id;
-            router.push(`/${storeUrl}/order/success?order_id=${response.orderId}`);
+            router.push(`/${storeUrl}/order/success`);
         }
     };
 
@@ -286,6 +300,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount }: CheckoutFormPr
                     storeId: store?.id,
                     email: userEmail,
                     name: customerName,
+                    isRescueDeal: isRescueDeal,
                 }),
             });
         
@@ -307,6 +322,10 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount }: CheckoutFormPr
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
                  <ExpressCheckoutElement 
+                    options={{
+                        // Note: Payment method restrictions for Rescue Deals are handled server-side
+                        // to avoid conflicts with automatic payment methods configuration
+                    }}
                     onReady={(event) => {
                         if (event.availablePaymentMethods) {
                             setIsExpressCheckoutAvailable(true);
@@ -358,6 +377,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount }: CheckoutFormPr
                                      storeId: store?.id,
                                      email: userEmail,
                                      name: customerName,
+                                     isRescueDeal: isRescueDeal,
                                  }),
                              });
                              const data = await res.json();
@@ -443,7 +463,8 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount }: CheckoutFormPr
                                     email: 'never',
                                     name: 'never'
                                 }
-                            },
+                            }
+                            // Note: Payment method restrictions for Rescue Deals are handled server-side
                         }}
                     />
                 </div>
@@ -452,7 +473,11 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount }: CheckoutFormPr
                     type="submit"
                     isDisabled={!stripe || !elements || isLoading}
                     isLoading={isLoading}
-                    className="w-full bg-gradient-primary text-white text-lg py-3 rounded-full"
+                    className={`w-full text-white text-xl py-3 rounded-full ${
+                        isRescueDeal 
+                            ? 'bg-gradient-to-r from-danger-500 to-warning-500 shadow-lg' 
+                            : 'bg-gradient-primary'
+                    }`}
                     size="lg"
                 >
                     {isLoading ? t("processing") : t("pay")}

@@ -57,6 +57,7 @@ function padZero(num: number): string {
     return num < 10 ? `0${num}` : `${num}`;
 }
 
+// You will receive another email when your order is ready for {isDelivery ? "delivery" : "pickup"}.
 
 export default function OrderPlacedEmail({
     orderId, 
@@ -126,7 +127,7 @@ export default function OrderPlacedEmail({
                     <Section>
                         <Text style={summaryText}>
                             Hello,<br/>
-                            Your order #{orderId} has been placed. You will receive another email when your order is ready for {isDelivery ? "delivery" : "pickup"}.
+                            Your order #{orderId} has been placed.
                         </Text>
                     </Section>
 

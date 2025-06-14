@@ -322,7 +322,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
         ) : (
           <div className="space-y-6">
             {/* Rescue Deals Switch */}
-            {/* {!pathname.includes('search') && <RescueDealsSwitch />} */}
+            {!pathname.includes('search') && <RescueDealsSwitch />}
 
             {/* Price Range Filter - Always Show */}
             <div>

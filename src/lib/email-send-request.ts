@@ -167,58 +167,16 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
                 },
             ],
             // Optional: Add CC/BCC if needed
-            // cc: [{ address: "management@example.com" }],
+            cc: [{ address: orderData.isStoreDelivery ? "" : "support@thebakerz.com" }],
         },
     };
 
-    // --- TheBakerz Email --- 
-    let messageTheBakerzDelivery = null;
-
-
-    if (!orderData.isStoreDelivery) {
-            messageTheBakerzDelivery = {
-                senderAddress,
-            content: {
-                subject: `New ${orderData.isDelivery ? 'Delivery' : 'Pickup'} Order #${orderData.store_order_id} (${storeData.ownerName})`, // Indicate type and store
-                html: await render(NewOrderEmail({
-                    orderId: orderData.store_order_id,
-                    storeName: storeData.ownerName || "Your Store",
-                    scheduledTime: orderData.scheduled_time,
-                    storePhone: storeData.phone || "", // Include store phone for reference
-                    storeLocation: storeLocation, // Include store location for pickup reference
-                    customer: orderData.customer, // Pass the whole customer object
-                    products: orderData.productsData,
-                    isStoreDelivery: true,
-                    isPostDelivery: orderData.isPostDelivery,
-                    // Pass new pricing/delivery fields
-                    priceData: orderData.priceData,
-                    isDelivery: orderData.isDelivery,
-                    deliveryAddress: orderData.deliveryAddress,
-                })),
-            },
-            recipients: {
-                to: [
-                    {
-                        address: "support@thebakerz.com", // Use store's email from storeData
-                        displayName: storeData.ownerName || "Store Owner", // Use owner or store name
-                    },
-                ],
-                // Optional: Add CC/BCC if needed
-                // cc: [{ address: "management@example.com" }],
-            },
-        };
-    }
 
     try {
         // Send emails concurrently for efficiency
         const sendCustomerEmail = sendEmailMessage(emailClient, messageCustomer);
         const sendBakerEmail = sendEmailMessage(emailClient, messageBakerz);
-        if (messageTheBakerzDelivery) {
-            const sendTheBakerzEmail = sendEmailMessage(emailClient, messageTheBakerzDelivery);
-            await Promise.all([sendCustomerEmail, sendBakerEmail, sendTheBakerzEmail]);
-        } else {
-            await Promise.all([sendCustomerEmail, sendBakerEmail]);
-        }
+        await Promise.all([sendCustomerEmail, sendBakerEmail]);
         
         // console.log(`Order confirmation email sent successfully to customer: ${to}`);
         // console.log(`New order notification email sent successfully to baker: ${storeData.email}`);

@@ -12,9 +12,9 @@ import { containerOrdersUnpaid } from "@/db";
 import { getCurrentStorePayment } from "@/lib/api/store-api";
 import { calculateApplicationFee, calculateTotals } from "@/lib/utils/price/price-calculations";
 import { calculateItemTotalPrice } from "@/lib/utils/helper/calculate-total-price-variants";
-import { CalendarDateTime, ZonedDateTime, now } from "@internationalized/date";
+import { CalendarDateTime, ZonedDateTime, now, parseDate, parseTime } from "@internationalized/date";
 import { scheduledToCalendarDateTime, formatCurrency } from "@/lib/utils";
-import { getDeliveryMode } from "@/lib/actions/cookies/delivery-cookie";
+import { getDeliveryMode, getRescueDealMode} from "@/lib/actions/cookies/delivery-cookie";
 import { ValidationResult } from "@/components/providers/delivery-provider";
 import { getCurrentDeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
 import { validateAddress } from "@/lib/actions/delivery-address-actions";
@@ -23,7 +23,10 @@ import { DeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
 import { getCurrentCartType } from "../api/cart-api";
 import { MIN_ORDER_PRICE_IN_CENTS } from "@/lib/local-variables";
 import { validateOrderTimeAgainstSchedule } from "./order-checker";
+import { getLastStoreHoursToday, isWithinClosingWindow } from "@/lib/utils/helper/schedule-utils";
 import { logger } from "@azure/storage-blob";
+import { checkAndReserveInventory, checkInventoryAvailability } from "../utils/helper/check-inventory-rescue";
+
 
 // Define the expected input structure for prepareCheckout
 interface PrepareCheckoutInput {
@@ -58,6 +61,7 @@ export async function prepareCheckout({
 
     // 3. Determine Delivery/Pickup Mode
     const deliveryMode = await getDeliveryMode();
+    const isRescueDealMode = await getRescueDealMode();
     const isDelivery = deliveryMode === 'delivery';
 
     // Fetch Full Store Data
@@ -103,28 +107,7 @@ export async function prepareCheckout({
     }
 
     let fetchedTimeData: { date: string | null; time: string | null; } | null = null;
-    // 6. Order Time Validation
-    // ------------------------
-    // Fetch selected time based on mode and potentially region
-    if (isDelivery && selectedRegion) {
-        fetchedTimeData = await getDeliveryTime(storeId, selectedRegion.name);
-    } else if (!isDelivery) {
-        fetchedTimeData = await getOrderTime(storeId);
-    }
-
-    // Ensure date and time are strings, not null
-    if (!fetchedTimeData?.date || !fetchedTimeData?.time) {
-        return {error: isDelivery ? 'Delivery time is not set.' : 'Pickup time is not set.'};
-    }
-    const selectedTime = {date: fetchedTimeData.date, time: fetchedTimeData.time};
-
-    // Validate against current time (prevent past orders)
-    const nowInAmsterdam: ZonedDateTime = now("Europe/Amsterdam");
-    const orderDateTime: CalendarDateTime = scheduledToCalendarDateTime(selectedTime);
-    // Compare using epoch milliseconds for safety
-    if (orderDateTime.toDate(nowInAmsterdam.timeZone).getTime() < nowInAmsterdam.toDate().getTime()) {
-        return {error: "Cannot place orders for past dates/times."};
-    }
+    let orderDateTime: CalendarDateTime | null = null;
 
     // Validate against store schedule (operating hours, lead time)
     // Get the correct schedule based on delivery mode
@@ -139,6 +122,43 @@ export async function prepareCheckout({
     if (!scheduleToValidateAgainst) {
         return {error: isDelivery ? "Delivery/Store schedule not found." : "Store operating hours not found."};
     }
+
+    let isRescueDeal = false;
+
+    if(isRescueDealMode){
+        const isClosingSoon = isWithinClosingWindow(scheduleToValidateAgainst);
+        if(isClosingSoon){
+            isRescueDeal = true;
+        }
+    }
+
+    if(!isRescueDeal){
+        // 6. Order Time Validation
+        // ------------------------
+        // Fetch selected time based on mode and potentially region
+        if (isDelivery && selectedRegion) {
+            fetchedTimeData = await getDeliveryTime(storeId, selectedRegion.name);
+        } else if (!isDelivery) {
+            fetchedTimeData = await getOrderTime(storeId);
+        }
+
+
+
+        // Ensure date and time are strings, not null
+        if (!fetchedTimeData?.date || !fetchedTimeData?.time) {
+            return {error: isDelivery ? 'Delivery time is not set.' : 'Pickup time is not set.'};
+        }
+        const selectedTime = {date: fetchedTimeData.date, time: fetchedTimeData.time};
+
+        // Validate against current time (prevent past orders)
+        const nowInAmsterdam: ZonedDateTime = now("Europe/Amsterdam");
+        orderDateTime = scheduledToCalendarDateTime(selectedTime);
+        // Compare using epoch milliseconds for safety
+        if (orderDateTime.toDate(nowInAmsterdam.timeZone).getTime() < nowInAmsterdam.toDate().getTime()) {
+            return {error: "Cannot place orders for past dates/times."};
+        }
+    }
+
     
     let leadTime = isDelivery ? selectedRegion?.minOrderTime : storeData.minTimeOrder// Use minTimeOrder from storeData
 
@@ -180,7 +200,7 @@ export async function prepareCheckout({
     }
 
     // Validate against store schedule (operating hours, lead time)
-    if (user?.role !== 'bakerz' && !selectedRegion?.isPostDelivery) {
+    if (user?.role !== 'bakerz' && !selectedRegion?.isPostDelivery && !isRescueDeal && orderDateTime) {
         if (!leadTime ) {
             return {error: 'Validation of order time failed. Please try again.'};
         }
@@ -220,12 +240,32 @@ export async function prepareCheckout({
     const cosmosId = uuidv4();
 
 
+    // Determine the scheduled time for the order
+    let finalScheduledTime: { date: string; time: string };
+    
+    if (!isRescueDeal && fetchedTimeData?.date && fetchedTimeData?.time) {
+        // Use the selected time from rescue deal flow
+        finalScheduledTime = { date: fetchedTimeData.date, time: fetchedTimeData.time };
+    } else {
+        const availableQuantities = await checkAndReserveInventory(cartItemsForOrder.map(p => p.id), storeId, cartItemsForOrder.reduce((acc, p) => {
+            acc[p.id] = p.qty;
+            return acc;
+        }, {} as Record<string, number>), userId, false);
+
+        if(!availableQuantities.isAvailable){
+            return {error: 'Insufficient inventory for some products.'};
+        }
+
+        // Use the last hours of the store for today
+        finalScheduledTime = getLastStoreHoursToday(scheduleToValidateAgainst);     
+    }
+
     const orderRecordForDb: ExtendedOrderRaw = {
         id: cosmosId,
         store_id: storeId,
         store_name: storeData.ownerName || "Bakery",
         createdAt: new Date(),
-        scheduled_time: selectedTime,
+        scheduled_time: finalScheduledTime,
         customer_email: (user && user.role !== 'bakerz') ? user.email : undefined,
         productsData: cartItemsForOrder,
         orderNote: orderNote,
@@ -262,6 +302,7 @@ export async function prepareCheckout({
                 storeData.custom_delivery_fee
             )
         }],
+        isRescueDeal: isRescueDeal,
         status: 'pending_payment',
     };
 

@@ -11,6 +11,9 @@ import { revalidateTag } from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { logger } from "@/lib/logger";
 import { getRequestContext } from "@/lib/request-context";
+import { checkAndReserveInventory } from "@/lib/utils/helper/check-inventory-rescue";
+import { attachPaymentIntentToHold, removeHold } from "@/lib/utils/helper/inventory-holds";
+import { cancelRescueDealCheckout } from "@/lib/utils/helper/inventory-integration";
 
 // Initialize logger for payment processing
 const log = logger.child({ module: "payment-intent-processing" });
@@ -38,7 +41,7 @@ export async function POST(req: NextRequest) {
 
     try {
         const body = await req.json();
-        const { confirmationTokenId, orderId, storeId, email: providedEmail, name: providedName } = body;
+        const { confirmationTokenId, orderId, storeId, email: providedEmail, name: providedName, isRescueDeal } = body;
 
         if (!confirmationTokenId || !orderId) {
             log.warn('paymentIntentConfirm', 'Missing confirmationTokenId or orderId', {
@@ -80,6 +83,26 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: t("userCreationFailed") }, { status: 500 });
         }
 
+        let holdIds: Record<string, string> | undefined = undefined;
+
+        if(isRescueDeal){
+            const productsIds = orderRaw.productsData?.map(p => p.id) || [];
+            const quantities = orderRaw.productsData?.reduce((acc, p) => {
+                acc[p.id] = p.qty;
+                return acc;
+            }, {} as Record<string, number>) || {};
+            const checkResult = await checkAndReserveInventory(productsIds, storeId, quantities, userId);
+            if(!checkResult.isAvailable){
+                return NextResponse.json({ error: t("rescueDealNotAvailable") }, { status: 400 });
+            }
+            holdIds = checkResult.holdIds;
+            logger.info('paymentIntentConfirm', 'Rescue deal hold ids', {
+                requestId: context.requestId,
+                orderId,
+                storeId,
+                holdIds
+            });
+        }
 
         // Create and confirm the PaymentIntent in one step
         const paymentIntent = await stripe.paymentIntents.create({
@@ -96,6 +119,18 @@ export async function POST(req: NextRequest) {
                 isDelivery: orderRaw.isDelivery ? 'true' : 'false',
             }
         });
+
+        if(isRescueDeal && holdIds){
+            for(const holdId of Object.values(holdIds || {})){
+                await attachPaymentIntentToHold(holdId, storeId, paymentIntent.id);
+            }
+            logger.info('paymentIntentConfirm', 'Rescue deal payment intent attached', {
+                requestId: context.requestId,
+                orderId,
+                storeId,
+                holdIds
+            });
+        }
         
         if (paymentIntent.status !== 'succeeded' && paymentIntent.status !== 'requires_action') {
              log.error('paymentIntentConfirm', 'Payment intent confirmation failed', {
@@ -306,6 +341,8 @@ export async function POST(req: NextRequest) {
                 totalVat: orderRaw.totalVat
             },
 
+            isRescueDeal: orderRaw.isRescueDeal,
+
             isDelivery: orderRaw.isDelivery,
             isStoreDelivery: orderRaw.isStoreDelivery,
             isPostDelivery: orderRaw.isPostDelivery,
@@ -317,6 +354,9 @@ export async function POST(req: NextRequest) {
         await containerOrders.items.create(orderData);
         await removeCartByUserIdAndStoreId(cartId, storeId, orderRaw.isDelivery ? "delivery" : "pickup");
         await containerOrdersUnpaid.item(orderId, storeId).delete();
+        if(isRescueDeal && holdIds){
+            await cancelRescueDealCheckout(storeId, holdIds);
+        }
 
         // Commit transaction
         await connectionPool.query('COMMIT');

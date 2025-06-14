@@ -1096,6 +1096,7 @@
     "orderDbFailed": "Order DB Failed",
     "orderNotFound": "Order not found",
     "processingError": "Error processing payment",
+    "rescueDealNotAvailable": "",
     "tooManyRequests": "Too many requests",
     "userCreationFailed": "User Creation Failed"
   },

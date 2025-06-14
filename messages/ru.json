@@ -1096,6 +1096,7 @@
     "orderDbFailed": "Ошибка заказа БД",
     "orderNotFound": "Заказ не найден",
     "processingError": "Ошибка обработки платежа",
+    "rescueDealNotAvailable": "",
     "tooManyRequests": "Слишком много запросов",
     "userCreationFailed": "Создание пользователя не удалось"
   },

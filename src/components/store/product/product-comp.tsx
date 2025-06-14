@@ -6,6 +6,7 @@ import { getCurrentProductsOrder } from "@/lib/api/products-api";
 import { getCurrentStoreSchedule } from "@/lib/api/store-api";
 import { getRescueDeal, RescueDeal } from "@/lib/actions/rescue-deal";
 import { isWithinClosingWindow } from "@/lib/utils/helper/schedule-utils";
+import { checkInventoryAvailability } from "@/lib/utils/helper/check-inventory-rescue";
 
 type SearchParams = {
     minPrice?: string;
@@ -27,8 +28,15 @@ export const ProductComponentBase: React.FC<{ storeId: string, searchParams?: Se
 
     let rescueDeals: RescueDeal | null = null;
 
-    if(false){
+    if(isClosingSoon){
         rescueDeals = await getRescueDeal(storeId);
+        //update rescue deal with available quantity
+        if(rescueDeals){
+            const newQuantities = await checkInventoryAvailability(rescueDeals.products?.map(p => p.id) || [], storeId);    
+            rescueDeals.products?.forEach(p => {
+                p.quantity = newQuantities[p.id] || 0;
+            });
+        }
     }
 
     return (
