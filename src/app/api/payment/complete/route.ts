@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
     const context = await getRequestContext();
     const { searchParams } = new URL(req.url);
     const paymentIntentId = searchParams.get('payment_intent');
+    const origin = process.env.NEXT_PUBLIC_API_BASE_URL;
     let storeIdForErrorRedirect: string | undefined;
     
     log.info('paymentComplete', 'Payment completion redirect received', {
@@ -33,13 +34,13 @@ export async function GET(req: NextRequest) {
 
     // Helper to generate checkout error redirect
     const checkoutErrorRedirect = async (storeIdentifier: string | undefined, errorCode: string, params: Record<string, string> = {}) => {
-        const urlPath = storeIdentifier ? `/${storeIdentifier}/checkout` : '/payment/error';
+        const urlPath = storeIdentifier ? `/${storeIdentifier}/checkout` : `/payment/error`;
         const redirectUrl = new URL(urlPath, req.url);
         redirectUrl.searchParams.set('error', errorCode);
         for (const key in params) {
             redirectUrl.searchParams.set(key, params[key]);
         }
-        return NextResponse.redirect(redirectUrl, { status: 308 });
+        return NextResponse.redirect(new URL(redirectUrl, origin), { status: 308 });
     };
 
     if (!(await globalGETRateLimit())) {
@@ -140,8 +141,7 @@ export async function GET(req: NextRequest) {
                 });
                 
                 // Order already exists, redirect to success page
-                const storeUrl = orderRaw.store_name || storeId;
-                return NextResponse.redirect(new URL(`/${storeUrl}/order/success?order_id=${cosmosId}`, req.url));
+                return NextResponse.redirect(new URL(`/${storeId}/order/success`, origin), { status: 308 });
             }
         } catch (error) {
             // Order doesn't exist yet, which is expected - continue processing
@@ -402,8 +402,8 @@ export async function GET(req: NextRequest) {
             email: email
         });
 
-        const successRedirectUrl = new URL(`/${storeId}/order/success`, req.url);
-        return NextResponse.redirect(successRedirectUrl);
+        const successRedirectUrl = new URL(`/${storeId}/order/success`, origin);
+        return NextResponse.redirect(successRedirectUrl, { status: 308 });
 
     } catch (error: any) {
         // Rollback transaction on any error
