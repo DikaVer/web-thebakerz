@@ -16,7 +16,7 @@ import clarity from "@microsoft/clarity";
 import { useDelivery } from "@/components/providers/delivery-provider";
 import { useRouter, useSearchParams } from "next/navigation";
 import EmbeddedCheckout from "@/components/checkout/payment/embedded-checkout";
-import { getErrorMessage } from "@/app/payment/error/page";
+import { getErrorMessage } from "@/lib/utils/payment-errors";
 
 export default function CheckoutSteps({ }: {}) {
     const { session } = useSession();
