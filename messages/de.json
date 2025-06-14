@@ -620,6 +620,7 @@
     "serviceFee": "Servicegebühr",
     "subtotal": "Zwischensumme",
     "total": "Gesamt",
+    "totalAmount": "",
     "unableToInitializePayment": "Zahlungsgateway kann nicht initialisiert werden",
     "vat21": "Mehrwertsteuer (21%)",
     "vatExclusive": "Mehrwertsteuer (9%)"

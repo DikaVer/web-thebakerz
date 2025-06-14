@@ -616,6 +616,7 @@
     "serviceFee": "",
     "subtotal": "",
     "total": "",
+    "totalAmount": "",
     "unableToInitializePayment": "",
     "vat21": "",
     "vatExclusive": ""

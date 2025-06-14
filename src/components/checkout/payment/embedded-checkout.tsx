@@ -14,6 +14,7 @@ import { useCart } from '@/components/providers/cart-provider'
 import { useStore } from '@/components/providers/store-provider'
 import { useSession } from '@/components/providers/session-provider'
 import { EmailSchema } from '@/lib/utils/schemas'
+import { formatCurrency } from '@/lib/utils'
 
 
 
@@ -133,6 +134,7 @@ export default function EmbeddedCheckout({
             <CheckoutForm 
                     orderId={orderId}
                     onPaymentSuccess={onPaymentSuccess}
+                    totalAmount={totalAmount}
                 />
             </Elements>
     )
@@ -141,9 +143,10 @@ export default function EmbeddedCheckout({
 interface CheckoutFormProps {
     orderId: string
     onPaymentSuccess?: () => void
+    totalAmount: number
 }
 
-function CheckoutForm({ orderId, onPaymentSuccess }: CheckoutFormProps) {
+function CheckoutForm({ orderId, onPaymentSuccess, totalAmount }: CheckoutFormProps) {
     const stripe = useStripe()
     const elements = useElements()
     const router = useRouter()
@@ -298,6 +301,10 @@ function CheckoutForm({ orderId, onPaymentSuccess }: CheckoutFormProps) {
 
     return (
         <div className="space-y-6">
+            <div className="flex justify-between border-small bg-background rounded-lg p-4">
+                <p className="text-sm font-bold">{t("totalAmount")}</p>
+                <p className="text-base font-base">{formatCurrency(totalAmount)}</p>
+            </div>
             <form onSubmit={handleSubmit} className="space-y-6">
                  <ExpressCheckoutElement 
                     onReady={(event) => {
@@ -326,12 +333,12 @@ function CheckoutForm({ orderId, onPaymentSuccess }: CheckoutFormProps) {
                             elements,
                             params: {
                                 return_url: `${window.location.origin}/api/payment/complete`,
-                                // payment_method_data: {
-                                //     billing_details: {
-                                //         name: customerName || session?.user?.username || userEmail.split('@')[0],
-                                //         email: userEmail,
-                                //     }
-                                // }
+                                payment_method_data: {
+                                    billing_details: {
+                                        name: customerName || session?.user?.username || userEmail.split('@')[0],
+                                        email: userEmail,
+                                    }
+                                }
                             }
                          });
 

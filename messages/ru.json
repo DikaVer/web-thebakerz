@@ -620,6 +620,7 @@
     "serviceFee": "Плата за обслуживание",
     "subtotal": "Промежуточный итог",
     "total": "Общий",
+    "totalAmount": "",
     "unableToInitializePayment": "Не удалось инициализировать платежный шлюз",
     "vat21": "НДС (21%)",
     "vatExclusive": "НДС (9%)"

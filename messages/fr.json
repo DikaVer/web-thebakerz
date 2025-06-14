@@ -616,6 +616,7 @@
     "serviceFee": "",
     "subtotal": "",
     "total": "",
+    "totalAmount": "",
     "unableToInitializePayment": "Impossible d'initialiser la passerelle de paiement",
     "vat21": "",
     "vatExclusive": ""

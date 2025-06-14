@@ -620,6 +620,7 @@
     "serviceFee": "Service Fee",
     "subtotal": "Subtotal",
     "total": "Total",
+    "totalAmount": "",
     "unableToInitializePayment": "Unable to initialize payment gateway",
     "vat21": "VAT (21%)",
     "vatExclusive": "VAT (9%)"

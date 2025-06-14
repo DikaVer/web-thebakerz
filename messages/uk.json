@@ -68,7 +68,8 @@
     "RescueDealManager": "Менеджер рятувальних угод",
     "RescueProductsDescription": "Налаштування та редагування рятувальних угод"
   },
-  "Shop": {},
+  "Shop": {
+  },
   "UsersDashboard": {
     "Search User": "Пошук користувача"
   },
@@ -240,7 +241,8 @@
     "startSellingDescription": "Тестуйте свій магазин, вносьте корективи та почніть приймати реальні замовлення!",
     "startSellingTitle": "Почати продаж"
   },
-  "app/(landing)/components/navbar": {},
+  "app/(landing)/components/navbar": {
+  },
   "app/(landing)/components/partners": {
     "description": "Ми співпрацюємо з лідерами галузі, щоб пропонувати найкращі рішення.",
     "title": "Партнеры"
@@ -505,6 +507,10 @@
     "noProductsYet": "Поки що немає товарів",
     "promotion": "Просування",
     "quantity": "Кількість",
+    "rescueDealDescription": "",
+    "rescueDealDescriptionH2": "",
+    "rescueDealDescriptionH3": "",
+    "rescueDealTitle": "",
     "selectTime": "Виберіть час",
     "selections": "Вибір",
     "startBefore": "Почати раніше",
@@ -596,17 +602,25 @@
     "cartEmpty": "Кошик порожній",
     "deliveryFee": "Вартість доставки",
     "deliveryVat": "ПДВ на доставку (21%)",
+    "enterPaymentDetails": "",
+    "initializingPayment": "",
     "invalidDeliveryAddress": "Недійсна адреса доставки",
     "loadingPaymentGateway": "Завантаження платіжного шлюзу...",
     "minimumAmount": "Мінімальна сума замовлення становить {minзамовлення}",
     "minimumOrderForDelivery": "Мінімальне замовлення становить {сума}",
+    "orPayWith": "",
     "pay": "Оплата",
+    "paymentSuccessful": "",
+    "processing": "",
+    "retry": "",
     "returnToCheckout": "Повернутися до оформлення замовлення",
+    "saveCartDetails": "",
     "saveDeliveryDetails": "Зберегти деталі доставки",
     "savePickUpDetails": "Зберегти деталі самовивозу",
     "serviceFee": "Плата за обслуговування",
     "subtotal": "Проміжний підсумок",
     "total": "Всього",
+    "totalAmount": "",
     "unableToInitializePayment": "Не вдається ініціалізувати платіжний шлюз",
     "vat21": "ПДВ (21%)",
     "vatExclusive": "ПДВ (9%)"
@@ -617,6 +631,8 @@
     "failedToUpdateCart": "Не вдалося оновити кошик або адресу",
     "orderDetails": "Деталі замовлення",
     "orderDetailsStep": "2. Деталі замовлення",
+    "paymentDetails": "",
+    "paymentDetailsStep": "",
     "signInOrSignUpStep": "1. Увійдіть або зареєструйтесь, щоб розмістити замовлення",
     "signInOrSignUpText": "Увійдіть або зареєструйтесь, щоб зробити замовлення"
   },
@@ -626,7 +642,8 @@
     "deleteConfirmation": "Підтвердження видалення",
     "deleteProductWarning": "Після видалення елемент буде видалено назавжди і не може бути відновлений."
   },
-  "app/(store)/components/delivery-map": {},
+  "app/(store)/components/delivery-map": {
+  },
   "app/(store)/components/image": {
     "close": "Закрити",
     "failedToUploadImage": "Не вдалося завантажити зображення. Спробуйте ще раз.",
@@ -652,7 +669,8 @@
     "storeLocation": "Розташування магазину",
     "viewOnGoogleMaps": "Переглянути на Картах Google"
   },
-  "app/(store)/components/order-dashboard": {},
+  "app/(store)/components/order-dashboard": {
+  },
   "app/(store)/components/orders": {
     "backToOrderDashboard": "Назад до панелі керування замовленнями"
   },
@@ -746,10 +764,14 @@
     "completed": "Завершено",
     "delivery": "доставка"
   },
-  "app/(store)/components/product": {},
-  "app/(store)/components/product-dialog": {},
+  "app/(store)/components/product": {
+  },
+  "app/(store)/components/product-dialog": {
+  },
   "app/(store)/components/product-list": {
-    "noProductsFound": "Не знайдено жодних товарів"
+    "noProductsFound": "Не знайдено жодних товарів",
+    "noRescueDealsProductsAtTheMoment": "",
+    "rescueDealsOnlyAvailableForPickUpOrders": ""
   },
   "app/(store)/components/product-page": {
     "Add": "Додати",
@@ -917,7 +939,8 @@
   "app/(store)/components/store-top": {
     "addItem": "Додати елемент"
   },
-  "app/(store)/components/store-top-next": {},
+  "app/(store)/components/store-top-next": {
+  },
   "app/(store)/components/three-dots": {
     "addOrder": "Додати замовлення",
     "copyStoreLink": "Копіювати посилання на магазин",
@@ -930,7 +953,8 @@
     "report": "Звіт",
     "storeLinkCopied": "Посилання на магазин скопійовано!"
   },
-  "app/(store)/components/user-product": {},
+  "app/(store)/components/user-product": {
+  },
   "app/(store)/components/variants-form-field": {
     "addOption": "Додати опцію",
     "addOptionGroup": "Додати групу параметрів",
@@ -996,7 +1020,8 @@
     "returnToStore": "Повернутися до магазину",
     "verifyEmail": "Перевірте зображення електронної пошти"
   },
-  "app/(store)/id/orders/add": {},
+  "app/(store)/id/orders/add": {
+  },
   "app/(store)/id/page": {
     "noProducts": "Немає доступних товарів"
   },
@@ -1033,7 +1058,8 @@
     "question7": "Чи можу я довіряти TheBakerz платежі та замовлення?",
     "question8": "З ким мені слід зв'язатися у разі виникнення питань?"
   },
-  "app/(support)/components/faq-customer": {},
+  "app/(support)/components/faq-customer": {
+  },
   "app/(support)/components/payment-urgent": {
     "requestSentSuccess": "Ваш запит успішно надіслано.",
     "sendRequest": "Надіслати запит",
@@ -1083,8 +1109,10 @@
     "internalError": "Внутрішня помилка сервера",
     "notAuthorized": "Не авторизувати доступ"
   },
-  "app/api/store/order/updateStatus": {},
-  "app/api/store/orders/new": {},
+  "app/api/store/order/updateStatus": {
+  },
+  "app/api/store/orders/new": {
+  },
   "app/api/store/orders/range": {
     "internalError": "Внутрішня помилка сервера",
     "missingFromDate": "Відсутній заголовок \"Від-Дата\"",
@@ -1177,6 +1205,7 @@
     "guestCartReplacedSuccess": "Кошик гостя успішно замінено на товари з кошика користувача!",
     "guestIdNotFound": "Ідентифікатор гостя не знайдено",
     "invalidOption": "Недійсний параметр {option} для {variant}",
+    "itemNotFound": "",
     "itemRemovedSuccess": "Елемент успішно видалено!",
     "maxSelectionsExceeded": "{variant} не може мати більше ніж {max} варіантів вибору",
     "minOrderRequired": "Ви повинні замовити щонайменше {min} цього товару",
@@ -1249,13 +1278,15 @@
   "app/lib/actions/user-orders": {
     "failedFetchOrders": "Невдалі замовлення на отримання"
   },
-  "app/lib/schemas": {},
+  "app/lib/schemas": {
+  },
   "app/search": {
     "noStoresFound": "Магазинів не знайдено",
     "special": "Маєте щось особливе на увазі?",
     "tryChangingLocationOrDeliveryMode": "Спробуйте змінити місцезнаходження або спосіб доставки."
   },
-  "common": {},
+  "common": {
+  },
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Введіть адресу",
     "whereToDeliver": "Куди доставити ваше замовлення?"
@@ -1300,11 +1331,16 @@
         "open": "ВІДЧИНЕНО",
         "workingHours": "Години роботи"
       },
-      "toggleDelivery": {}
+      "toggleDelivery": {
+      }
     },
-    "errors": {},
-    "noLocation": {},
-    "noStoresFound": {}
+    "errors": {
+    },
+    "noLocation": {
+    },
+    "noStoresFound": {
+    }
   },
-  "time": {}
+  "time": {
+  }
 }

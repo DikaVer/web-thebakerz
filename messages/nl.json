@@ -620,6 +620,7 @@
     "serviceFee": "Servicekosten",
     "subtotal": "Subtotaal",
     "total": "Totaal",
+    "totalAmount": "",
     "unableToInitializePayment": "Betalingsgateway kan niet worden geïnitialiseerd",
     "vat21": "BTW (21%)",
     "vatExclusive": "BTW (9%)"
