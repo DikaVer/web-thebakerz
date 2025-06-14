@@ -318,16 +318,16 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount }: CheckoutFormPr
                             return;
                          }
 
-                        //  if (needsEmail) {
-                        //     let hasError = false;
-                        //     if (!validateEmail(email)) {
-                        //         hasError = true;
-                        //     }
-                        //     if (hasError) {
-                        //         showErrorMessage({ error: "Please fill in all required fields before using Express Checkout." });
-                        //         return;
-                        //     }
-                        // }
+                         if (needsEmail) {
+                            let hasError = false;
+                            if (!validateEmail(email)) {
+                                hasError = true;
+                            }
+                            if (hasError) {
+                                showErrorMessage({ error: "Please fill in all required fields before using Express Checkout." });
+                                return;
+                            }
+                        }
 
                          const {error, confirmationToken} = await stripe.createConfirmationToken({
                             elements,
