@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import { Elements, PaymentElement, ExpressCheckoutElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { prepareCheckout } from "@/lib/actions/prepare-checkout-input"
-import { Button, Input, Spacer, Spinner, Progress } from "@heroui/react"
+import { Button, Input, Spacer, Spinner, Progress, Link} from "@heroui/react"
 import { useRouter } from 'next/navigation'
 import { Icon } from "@iconify/react"
 import showErrorMessage from "@/components/toast/toast-error"
@@ -15,6 +15,7 @@ import { useStore } from '@/components/providers/store-provider'
 import { useSession } from '@/components/providers/session-provider'
 import { EmailSchema } from '@/lib/utils/schemas'
 import { formatCurrency } from '@/lib/utils'
+import { useDelivery } from '@/components/providers/delivery-provider'
 
 
 interface EmbeddedCheckoutProps {
@@ -22,6 +23,7 @@ interface EmbeddedCheckoutProps {
     onPaymentSuccess?: () => void
     totalAmount: number
     isRescueDeal: boolean
+    onPaymentError?: () => void
 }
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
@@ -30,6 +32,7 @@ export default function EmbeddedCheckout({
     storeStripeAccountId, 
     totalAmount,
     onPaymentSuccess,
+    onPaymentError,
     isRescueDeal
 }: EmbeddedCheckoutProps) {
     const [options, setOptions] = useState<any>(null)
@@ -146,6 +149,7 @@ export default function EmbeddedCheckout({
                 <CheckoutForm 
                     orderId={orderId}
                     onPaymentSuccess={onPaymentSuccess}
+                    onPaymentError={onPaymentError}
                     totalAmount={totalAmount}
                     isRescueDeal={isRescueDeal}
                 />
@@ -157,11 +161,12 @@ export default function EmbeddedCheckout({
 interface CheckoutFormProps {
     orderId: string
     onPaymentSuccess?: () => void
+    onPaymentError?: () => void
     totalAmount: number
     isRescueDeal?: boolean
 }
 
-function CheckoutForm({ orderId, onPaymentSuccess, totalAmount, isRescueDeal }: CheckoutFormProps) {
+function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, isRescueDeal }: CheckoutFormProps) {
     const stripe = useStripe()
     const elements = useElements()
     const router = useRouter()
@@ -169,7 +174,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount, isRescueDeal }: 
     const { removeAllItems } = useCart()
     const { store } = useStore()
     const { session } = useSession()
-    
+    const { isDelivery } = useDelivery()
     const [isLoading, setIsLoading] = useState(false)
     const [email, setEmail] = useState('')
     const [emailError, setEmailError] = useState('')
@@ -211,6 +216,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount, isRescueDeal }: 
     const handleServerResponse = async (response: any) => {
         if (response.error) {
             showErrorMessage({ error: response.error.message || 'An unknown error occurred' });
+            if (onPaymentError) onPaymentError();
             setIsLoading(false);
         } else if (response.status === 'requires_action') {
             const { error, paymentIntent } = await stripe!.handleNextAction({
@@ -219,6 +225,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount, isRescueDeal }: 
 
             if (error) {
                 showErrorMessage({ error: error.message || 'Authentication failed.' });
+                if (onPaymentError) onPaymentError();
                 setIsLoading(false);
             } else if (paymentIntent) {
                 if (onPaymentSuccess) onPaymentSuccess();
@@ -234,7 +241,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount, isRescueDeal }: 
             removeAllItems();
             if (onPaymentSuccess) onPaymentSuccess();
             const storeUrl = store?.storeName || store?.id;
-            router.push(`/${storeUrl}/order/success`);
+            router.push(`/${storeUrl}/order/success?mode=${isDelivery ? "delivery" : "pickup"}`);
         }
     };
 
@@ -274,7 +281,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount, isRescueDeal }: 
         const { error, confirmationToken } = await stripe.createConfirmationToken({
                 elements,
                 params: {
-                return_url: `${window.location.origin}/api/payment/complete`,
+                return_url: `${window.location.origin}/api/payment/complete?mode=${isDelivery ? "delivery" : "pickup"}`,
                 payment_method_data: {
                     billing_details: {
                         name: customerName || session?.user?.username || userEmail.split('@')[0],
@@ -351,7 +358,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount, isRescueDeal }: 
                          const {error, confirmationToken} = await stripe.createConfirmationToken({
                             elements,
                             params: {
-                                return_url: `${window.location.origin}/api/payment/complete`,
+                                return_url: `${window.location.origin}/api/payment/complete?mode=${isDelivery ? "delivery" : "pickup"}`,
                                 payment_method_data: {
                                     billing_details: {
                                         name: customerName || session?.user?.username || userEmail.split('@')[0],
@@ -362,7 +369,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount, isRescueDeal }: 
                          });
 
                          if (error) {
-                             showErrorMessage({ error: error.message || 'Failed to create confirmation token' })
+                            showErrorMessage({ error: error.message || 'Failed to create confirmation token' })
                              setIsLoading(false)
                              return;
                          }
@@ -482,6 +489,24 @@ function CheckoutForm({ orderId, onPaymentSuccess, totalAmount, isRescueDeal }: 
                 >
                     {isLoading ? t("processing") : t("pay")}
                 </Button>
+
+                <p className="px-8 text-center text-sm text-muted-foreground gap-4">
+                        {t("byClickingContinue")}{" "}
+                        <div className="flex flex-row items-center gap-6 justify-center">
+                            <Link href="/policies/terms-of-use" className="underline underline-offset-4 hover:text-primary text-sm text-muted-foreground">
+                                {t("termsOfService")}
+                            </Link>{" "}
+
+                            <Link href="/policies/privacy-policy" className="underline underline-offset-4 hover:text-primary text-sm text-muted-foreground">
+                                {t("privacyPolicy")}
+                            </Link>
+
+                            <Link href="/policies/refund-policy" className="underline underline-offset-4 hover:text-primary text-sm text-muted-foreground">
+                                {t("refundPolicy")}
+                            </Link>
+                        </div>
+                        .
+                    </p>
             </form>
         </div>
     )

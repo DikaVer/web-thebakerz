@@ -26,6 +26,7 @@ import { validateOrderTimeAgainstSchedule } from "./order-checker";
 import { getLastStoreHoursToday, isWithinClosingWindow } from "@/lib/utils/helper/schedule-utils";
 import { logger } from "@azure/storage-blob";
 import { checkAndReserveInventory, checkInventoryAvailability } from "../utils/helper/check-inventory-rescue";
+import { getRescueDeal } from "./rescue-deal";
 
 
 // Define the expected input structure for prepareCheckout
@@ -166,6 +167,12 @@ export async function prepareCheckout({
     const productsData = await getCurrentProducts(storeId);
     const applyVat = !storeData.kor;
 
+    // Fetch rescue deals if this is a rescue deal order
+    let rescueDeals = null;
+    if (isRescueDeal) {
+        rescueDeals = await getRescueDeal(storeId);
+    }
+
     // Calculate item subtotal
     let itemsInclVat = 0;
     const cartItemsForOrder = [];
@@ -178,23 +185,43 @@ export async function prepareCheckout({
             continue;
         }
 
+        // Skip items that are part of rescue deal but not selected or out of stock
+        if (isRescueDeal && rescueDeals) {
+            const rescueDealProduct = rescueDeals.products?.find((p: any) => p.id === cartItem.product_id);
+            if (rescueDealProduct && (!rescueDealProduct.isSelected || rescueDealProduct.quantity === 0)) {
+                continue; // Don't include in order
+            }
+        }
+
         if (leadTime && leadTime < product.min_lead_time) {
             leadTime = product.min_lead_time;
         }
-        const itemTotalInclVat = calculateItemTotalPrice(cartItem.variants, product.price, cartItem.quantity);
+
+        let itemPrice = product.price;
+
+        // Apply rescue deal discount if applicable
+        if (isRescueDeal && rescueDeals) {
+            const rescueDealProduct = rescueDeals.products?.find((p: any) => p.id === cartItem.product_id);
+            if (rescueDealProduct && rescueDealProduct.isSelected) {
+                // Apply rescue deal discount to base product price
+                itemPrice = product.price * (1 - rescueDealProduct.promotionPercent / 100);
+            }
+        }
+
+        const itemTotalInclVat = calculateItemTotalPrice(cartItem.variants, itemPrice, cartItem.quantity);
         itemsInclVat += itemTotalInclVat;
 
         cartItemsForOrder.push({
             id: product.id,
             name: product.name,
             qty: cartItem.quantity,
-            price: product.price,
+            price: itemPrice, // Use the discounted price if applicable
             note: cartItem.note,
             variants: cartItem.variants,
             ingredients: product.ingredients,
             allergies: product.allergies,
             image: product.picture,
-            unitAmount: calculateItemTotalPrice(cartItem.variants, product.price),
+            unitAmount: calculateItemTotalPrice(cartItem.variants, itemPrice),
             itemTotalInclVat: itemTotalInclVat
         });
     }

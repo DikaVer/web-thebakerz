@@ -215,20 +215,35 @@ export default function NewOrderEmail({
                             </tbody>
                         </table>
 
-                        {/* Totals */}
-                        <Section style={totalSection}>
-                             <Row style={totalRow}>
-                                <Column><Text style={totalLabel}>Subtotal (Items)</Text></Column>
-                                <Column><Text style={totalValue}>{formatCurrency(priceData.itemInclVat)}</Text></Column>
+                         {/* Totals */}
+                         <Section style={totalSection}>
+                            <Row style={totalRow}>
+                                <Column><Text style={totalLabel}>Subtotal</Text></Column>
+                                <Column><Text style={totalValue}>{formatCurrency(priceData.itemExclVat)}</Text></Column>
                             </Row>
-                            {isStoreDelivery && priceData.deliveryFeeInclVat !== undefined && priceData.deliveryFeeInclVat > 0 && (
+                            { priceData.itemVat > 0 &&
                                 <Row style={totalRow}>
-                                    <Column><Text style={totalLabel}>Delivery Fee</Text></Column>
-                                    <Column><Text style={totalValue}>{formatCurrency(priceData.deliveryFeeInclVat)}</Text></Column>
+                                    <Column><Text style={totalLabel}>VAT 9%</Text></Column>
+                                    <Column><Text style={totalValue}>{formatCurrency(priceData.itemVat)}</Text></Column>
                                 </Row>
+                            }
+                            {isStoreDelivery && isDelivery && priceData.deliveryFeeExclVat && priceData.deliveryFeeExclVat > 0 && (
+                                <>
+                                    <Row style={totalRow}>
+                                        <Column><Text style={totalLabel}>Delivery Fee</Text></Column>
+                                        <Column><Text style={totalValue}>{formatCurrency(priceData.deliveryFeeExclVat)}</Text></Column>
+                                    </Row>
+                                    { priceData.deliveryVat  > 0 &&
+                                        <Row style={totalRow}>
+                                            <Column><Text style={totalLabel}>VAT 9%</Text></Column>
+                                            <Column><Text style={totalValue}>{formatCurrency(priceData.deliveryVat)}</Text></Column>
+                                        </Row>
+                                    }
+                                </>
                             )}
+                    
                             <Row style={totalTotalRow}>
-                                <Column><Text style={totalTotalLabel}>Total Charged</Text></Column>
+                                <Column><Text style={totalTotalLabel}>Total</Text></Column>
                                 <Column><Text style={totalTotalValue}>{formatCurrency(priceData.totalInclVat)}</Text></Column>
                             </Row>
                         </Section>

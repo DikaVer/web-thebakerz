@@ -152,7 +152,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
         }
         
         // If product has variants, open the dialog instead
-        if (productData.variants && productData.variants.length > 0) {
+        if (productData.variants && productData.variants.length > 0 && !isRescueDeal) {
             handleOpen(productData.id, store?.user_id === session?.user?.id, undefined, rescueDealInfo);
             return;
         }
@@ -163,12 +163,13 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
             const result = await updateCart(
                 productData.id, 
                 productData.store_id, 
-                productData.min_order || 1, 
+                isRescueDeal ? 1 : productData.min_order || 1, 
                 isDelivery ? "delivery" : "pickup", 
                 "", 
                 [],
                 undefined,
-                true
+                true,
+                isRescueDeal
             );
             
             if (result.success) {
@@ -267,6 +268,13 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
             >
                 <CardBody className="p-0">
                     <div className={`w-full aspect-square`}>
+                        {/* Rescue Deal Badge */}
+                        {(rescueDealInfo && isRescueDeal) && (
+                            <div className="absolute left-2 top-2 z-20 flex items-center gap-1 px-2 py-1 rounded-lg bg-danger-500 text-white text-xs font-bold shadow-lg">
+                                <Icon icon="solar:fire-bold" width={14} />
+                                <span>{rescueDealInfo.promotionPercent}% OFF</span>
+                            </div>
+                        )}
                         <Button
                             aria-label="Add to favorites"
                             radius="full"
@@ -389,13 +397,6 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                         formatCurrency(productData.price)
                                     }
                                 </p>
-                                {/* Rescue Deal Badge */}
-                                {(rescueDealInfo && isRescueDeal) && (
-                                    <div className="absolute right-0 flex items-center gap-1 px-2 py-1 rounded-lg bg-danger-500 text-white text-xs font-bold shadow-lg">
-                                        <Icon icon="solar:fire-bold" width={14} />
-                                        <span>{rescueDealInfo.promotionPercent}% OFF</span>
-                                    </div>
-                                )}
                             </div>
                         </div>
                         <p className={`text-sm font-normal line-clamp-2 leading-tight h-9`}>

@@ -65,7 +65,8 @@ export const updateCart = async (
     note?: string,
     variants?: Variant[],
     itemId?: string,
-    isSingleItem?: boolean
+    isSingleItem?: boolean,
+    isRescueDeal?: boolean
 ): Promise<{ success?: string; error?: string; itemCart?: ItemCart }> => {
     const t = await getTranslations("app/lib/actions/cart") as TranslationFunction;
     
@@ -84,7 +85,7 @@ export const updateCart = async (
             return { error: t("productNotFound") };
         }
 
-        if (productData?.variants && productData.variants.length > 0) {
+        if (productData?.variants && productData.variants.length > 0 && !isRescueDeal) {
             
             const variantsError = validateVariants(variants || [], productData.variants, t);
             if (variantsError) {
@@ -94,7 +95,7 @@ export const updateCart = async (
 
         const minOrder = productData?.min_order || 1;
 
-        if (quantity < minOrder) {
+        if (quantity < minOrder && !isRescueDeal) {
             return { error: t("minOrderRequired", { min: minOrder }) };
         }
 

@@ -131,7 +131,7 @@ export default function ProductDialogView({
         const errors: {[label: string]: string} = {};
         let hasErrors = false;
         
-        if (productData.variants && productData.variants.length > 0) {
+        if (productData.variants && productData.variants.length > 0 && !isRescueDeal) {
             productData.variants.forEach(variant => {
                 // Find the user selection for this variant
                 const selectedVariant = variants.find(v => v.label === variant.label);
@@ -177,7 +177,10 @@ export default function ProductDialogView({
                     quantity, 
                     isDelivery ? "delivery" : "pickup", 
                     note, 
-                    variants
+                    variants,
+                    undefined,
+                    undefined,
+                    isRescueDeal
                 );
                 if (result.success) {
                     const dateTime = isDelivery ? 
@@ -299,14 +302,16 @@ export default function ProductDialogView({
                                 dietary={productData.dietary}
                             />
 
-                            <div ref={variantsRef}>
-                                <VariantsUserSelection
-                                    productData={productData}
-                                    variants={variants}
-                                    setVariants={setVariants}
-                                    errors={variantErrors}
-                                />
-                            </div>
+                            {(!isRescueDeal && productData.variants && productData.variants.length > 0) && (
+                                <div ref={variantsRef}>
+                                    <VariantsUserSelection
+                                        productData={productData}
+                                        variants={variants}
+                                        setVariants={setVariants}
+                                        errors={variantErrors}
+                                        />
+                                </div>
+                            )}
 
                             <ProductNotes
                                 initialNote={note}
@@ -339,7 +344,7 @@ export default function ProductDialogView({
                     price={(rescueDealInfo && isRescueDeal) ? productData.price * (1 - rescueDealInfo.promotionPercent / 100) : productData.price}
                     quantity={quantity}
                     setQuantity={setQuantity}
-                    minOrder={productData?.min_order || 1}
+                    minOrder={isRescueDeal ? 1 : productData?.min_order || 1}
                     maxOrder={rescueDealInfo && isRescueDeal ? rescueDealInfo.quantity : undefined}
                     isUpdateMode={!!itemCart}
                     isPostDelivery={productData.isPostDelivery}

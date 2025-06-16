@@ -155,7 +155,6 @@ async function getTodaysRescueOrders(storeId: string) {
         WHERE c.store_id = @storeId 
         AND c.isRescueDeal = true
         AND c.scheduled_time.date = @todayString
-        AND (c.order_status != 'cancelled' AND c.order_status != 'refunded')
       `,
       parameters: [
         { name: '@storeId', value: storeId },

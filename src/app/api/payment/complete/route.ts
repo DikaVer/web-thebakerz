@@ -410,7 +410,7 @@ export async function GET(req: NextRequest) {
             email: email
         });
 
-        const successRedirectUrl = new URL(`/${storeId}/order/success`, origin);
+        const successRedirectUrl = new URL(`/${storeId}/order/success?mode=${isDelivery ? "delivery" : "pickup"}`, origin);
         return NextResponse.redirect(successRedirectUrl, { status: 308 });
 
     } catch (error: any) {

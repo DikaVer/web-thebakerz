@@ -210,7 +210,7 @@ export default function OrderPlacedEmail({
                         <Section style={totalSection}>
                             <Row style={totalRow}>
                                 <Column><Text style={totalLabel}>Subtotal</Text></Column>
-                                <Column><Text style={totalValue}>{formatCurrency(priceData.itemInclVat)}</Text></Column>
+                                <Column><Text style={totalValue}>{formatCurrency(priceData.itemExclVat)}</Text></Column>
                             </Row>
                             { priceData.itemVat > 0 &&
                                 <Row style={totalRow}>
@@ -218,11 +218,11 @@ export default function OrderPlacedEmail({
                                     <Column><Text style={totalValue}>{formatCurrency(priceData.itemVat)}</Text></Column>
                                 </Row>
                             }
-                            {isDelivery && priceData.deliveryFeeInclVat && priceData.deliveryFeeInclVat > 0 && (
+                            {isDelivery && priceData.deliveryFeeExclVat && priceData.deliveryFeeExclVat > 0 && (
                                 <>
                                     <Row style={totalRow}>
                                         <Column><Text style={totalLabel}>Delivery Fee</Text></Column>
-                                        <Column><Text style={totalValue}>{formatCurrency(priceData.deliveryFeeInclVat)}</Text></Column>
+                                        <Column><Text style={totalValue}>{formatCurrency(priceData.deliveryFeeExclVat)}</Text></Column>
                                     </Row>
                                     { priceData.deliveryVat  > 0 &&
                                         <Row style={totalRow}>
@@ -236,7 +236,7 @@ export default function OrderPlacedEmail({
                                 <>
                                     <Row style={totalRow}>
                                         <Column><Text style={totalLabel}>Service Fee</Text></Column>
-                                        <Column><Text style={totalValue}>{formatCurrency(priceData.serviceFeeInclVat)}</Text></Column>
+                                        <Column><Text style={totalValue}>{formatCurrency(priceData.serviceFeeExclVat)}</Text></Column>
                                     </Row>
                                     { priceData.serviceVat > 0 &&
                                         <Row style={totalRow}>

@@ -599,6 +599,8 @@
     "addItem": "Item toevoegen",
     "addItemsToStart": "Items toevoegen om te beginnen",
     "addressOutOfRange": "Adres Buiten bezorggebied",
+    "and": "",
+    "byClickingContinue": "",
     "cartEmpty": "Winkelwagen leeg",
     "deliveryFee": "Bezorgkosten",
     "deliveryVat": "Levering BTW (21%)",
@@ -611,7 +613,9 @@
     "orPayWith": "",
     "pay": "Betalen",
     "paymentSuccessful": "",
+    "privacyPolicy": "",
     "processing": "",
+    "refundPolicy": "",
     "retry": "",
     "returnToCheckout": "Terug naar afrekenen",
     "saveCartDetails": "",
@@ -619,6 +623,7 @@
     "savePickUpDetails": "Ophaalgegevens opslaan",
     "serviceFee": "Servicekosten",
     "subtotal": "Subtotaal",
+    "termsOfService": "",
     "total": "Totaal",
     "totalAmount": "",
     "unableToInitializePayment": "Betalingsgateway kan niet worden geïnitialiseerd",
@@ -769,9 +774,11 @@
   "app/(store)/components/product-dialog": {
   },
   "app/(store)/components/product-list": {
+    "exploreDesserts": "",
     "noProductsFound": "Geen producten gevonden",
     "noRescueDealsProductsAtTheMoment": "",
-    "rescueDealsOnlyAvailableForPickUpOrders": ""
+    "rescueDealsOnlyAvailableForPickUpOrders": "",
+    "toggleRescueDealMode": ""
   },
   "app/(store)/components/product-page": {
     "Add": "Toevoegen",

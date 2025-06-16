@@ -73,7 +73,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
         const errors: {[label: string]: string} = {};
         let hasErrors = false;
         
-        if (productData.variants && productData.variants.length > 0) {
+        if (productData.variants && productData.variants.length > 0 && !isRescueDeal) {
             productData.variants.forEach(variant => {
                 // Find the user selection for this variant
                 const selectedVariant = variants.find(v => v.label === variant.label);
@@ -111,9 +111,13 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
             const result = await updateCart(
                 product.id, 
                 product.store_id, 
-                quantity, isDelivery ? "delivery" : "pickup", 
+                quantity, 
+                isDelivery ? "delivery" : "pickup", 
                 note, 
-                variants
+                variants,
+                undefined,
+                undefined,
+                isRescueDeal
             );
             if (result.success) {
                 const dateTime = isDelivery ? 
@@ -235,7 +239,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                                 dietary={product.dietary}
                             />
                             
-                            {product.variants && product.variants.length > 0 && (
+                            {(!isRescueDeal && product.variants && product.variants.length > 0) && (
                                 <div>
                                     <VariantsUserSelection
                                         productData={product}
@@ -278,7 +282,7 @@ export const ProductPageView: React.FC<ProductPageViewProps> = ({
                                     }
                                     quantity={quantity}
                                     setQuantity={setQuantity}
-                                    minOrder={product?.min_order || 1}
+                                    minOrder={isRescueDeal ? 1 : product?.min_order || 1}
                                     maxOrder={rescueDealInfo && isRescueDeal ? rescueDealInfo.quantity : undefined}
                                     isPostDelivery={product.isPostDelivery}
                                     isUpdateMode={false}

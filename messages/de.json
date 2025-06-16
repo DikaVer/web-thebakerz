@@ -108,7 +108,7 @@
     "orContinueWith": "oder weiter mit",
     "otp": "OTP",
     "privacyPolicy": "Datenschutzrichtlinie",
-    "termsOfService": "Servicebedingungen",
+    "termsOfService": "Nutzungsbedingungen",
     "verify": "Verifizieren"
   },
   "app/(auth)/page": {
@@ -599,6 +599,8 @@
     "addItem": "Element hinzufügen",
     "addItemsToStart": "Elemente zum Starten hinzufügen",
     "addressOutOfRange": "Adresse außerhalb der Lieferregion",
+    "and": "",
+    "byClickingContinue": "",
     "cartEmpty": "Warenkorb leer",
     "deliveryFee": "Liefergebühr",
     "deliveryVat": "Liefersteuer (21%)",
@@ -611,7 +613,9 @@
     "orPayWith": "",
     "pay": "Zahlen",
     "paymentSuccessful": "",
+    "privacyPolicy": "",
     "processing": "",
+    "refundPolicy": "",
     "retry": "",
     "returnToCheckout": "Zurück zur Kasse",
     "saveCartDetails": "",
@@ -619,6 +623,7 @@
     "savePickUpDetails": "Abholdetails speichern",
     "serviceFee": "Servicegebühr",
     "subtotal": "Zwischensumme",
+    "termsOfService": "",
     "total": "Gesamt",
     "totalAmount": "",
     "unableToInitializePayment": "Zahlungsgateway kann nicht initialisiert werden",
@@ -769,9 +774,11 @@
   "app/(store)/components/product-dialog": {
   },
   "app/(store)/components/product-list": {
+    "exploreDesserts": "",
     "noProductsFound": "Keine Produkte gefunden",
     "noRescueDealsProductsAtTheMoment": "",
-    "rescueDealsOnlyAvailableForPickUpOrders": ""
+    "rescueDealsOnlyAvailableForPickUpOrders": "",
+    "toggleRescueDealMode": ""
   },
   "app/(store)/components/product-page": {
     "Add": "Hinzufügen",

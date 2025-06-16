@@ -16,6 +16,7 @@ import { useSession } from "@/components/providers/session-provider";
 import { useDelivery } from '@/components/providers/delivery-provider';
 import { RescueDeal, RescueDealProduct } from '@/lib/actions/rescue-deal';
 import { RescueDealTimer } from '@/components/store/product/rescue-deals/rescue-deal-timer';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 interface ProductListBaseProps {
     rescueDeals: RescueDeal | null;
@@ -39,7 +40,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const t = useTranslations('app/(store)/components/product-list');
     const { session } = useSession();
     const { store } = useStore();
-    const { isDelivery, validationResult, isRescueDeal } = useDelivery();
+    const { isDelivery, validationResult, isRescueDeal, toggleRescueDealMode } = useDelivery();
 
 
     // Determine if the current user is the owner of the store
@@ -326,16 +327,24 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
             )}
             
             {shouldShowRescueDeliveryMessage ? (
-                <div className="flex justify-center w-full">
+                <div className="flex flex-col justify-center w-full gap-4 items-center">
                     <span className="text-foreground text-lg text-center px-4">
                         {t("rescueDealsOnlyAvailableForPickUpOrders")}
                     </span>
+                    <button className="flex flex-row items-center gap-2 bg-background-secondary text-foreground text-lg text-center px-4 max-w-fit rounded-lg py-2" onClick={() => toggleRescueDealMode(!isRescueDeal)}>
+                        {t("exploreDesserts")}
+                        <Icon icon="solar:arrow-right-outline" width={20} />
+                    </button>
                 </div>
             ) : shouldShowNoRescueDealsMessage ? (
-                <div className="flex justify-center w-full">
+                <div className="flex flex-col justify-center w-full gap-4 items-center">
                     <span className="text-foreground text-lg text-center px-4">
                         {t("noRescueDealsProductsAtTheMoment")}
                     </span>
+                    <button className="flex flex-row items-center gap-2 bg-background-secondary text-foreground text-lg text-center px-4 max-w-fit rounded-lg py-2" onClick={() => toggleRescueDealMode(!isRescueDeal)}>
+                        {t("exploreDesserts")}
+                        <Icon icon="solar:arrow-right-outline" width={20} />
+                    </button>
                 </div>
             ) : (
                 <>

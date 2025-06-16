@@ -108,7 +108,7 @@
     "orContinueWith": "або продовжити з",
     "otp": "Одноразовий пароль",
     "privacyPolicy": "Політика конфіденційності",
-    "termsOfService": "Умови надання послуг",
+    "termsOfService": "Умови використання",
     "verify": "Перевірити"
   },
   "app/(auth)/page": {
@@ -599,6 +599,8 @@
     "addItem": "Додати елемент",
     "addItemsToStart": "Додати елементи для початку",
     "addressOutOfRange": "Адреса поза регіоном доставки",
+    "and": "",
+    "byClickingContinue": "",
     "cartEmpty": "Кошик порожній",
     "deliveryFee": "Вартість доставки",
     "deliveryVat": "ПДВ на доставку (21%)",
@@ -611,7 +613,9 @@
     "orPayWith": "",
     "pay": "Оплата",
     "paymentSuccessful": "",
+    "privacyPolicy": "",
     "processing": "",
+    "refundPolicy": "",
     "retry": "",
     "returnToCheckout": "Повернутися до оформлення замовлення",
     "saveCartDetails": "",
@@ -619,6 +623,7 @@
     "savePickUpDetails": "Зберегти деталі самовивозу",
     "serviceFee": "Плата за обслуговування",
     "subtotal": "Проміжний підсумок",
+    "termsOfService": "",
     "total": "Всього",
     "totalAmount": "",
     "unableToInitializePayment": "Не вдається ініціалізувати платіжний шлюз",
@@ -769,9 +774,11 @@
   "app/(store)/components/product-dialog": {
   },
   "app/(store)/components/product-list": {
+    "exploreDesserts": "",
     "noProductsFound": "Не знайдено жодних товарів",
     "noRescueDealsProductsAtTheMoment": "",
-    "rescueDealsOnlyAvailableForPickUpOrders": ""
+    "rescueDealsOnlyAvailableForPickUpOrders": "",
+    "toggleRescueDealMode": ""
   },
   "app/(store)/components/product-page": {
     "Add": "Додати",

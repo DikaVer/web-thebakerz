@@ -461,11 +461,15 @@ export async function getOrdersByDateRange(storeId: string, fromDate: string, to
             }
         });
 
+
         if (!response.ok) {
             throw new Error(t("failedFetchOrders"));
         }
 
-        return response.json();
+        const orders = await response.json();
+
+
+        return orders;
     } catch (error) {
         console.error("Error fetching orders by date range:", error);
         return [];

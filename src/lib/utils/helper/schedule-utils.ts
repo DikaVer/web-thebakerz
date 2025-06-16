@@ -2,6 +2,12 @@ import { WorkHours } from "@/lib/actions/calendar-actions";
 import { now } from "@internationalized/date";
 
 
+// Format date to YYYY-M-D format (without zero-padding)
+export const formatDateToString = (date: Date): string => {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+};
+
+
 // Get the last hours of the store for today in Amsterdam timezone
 export const getLastStoreHoursToday = (schedule: WorkHours): { date: string; time: string } => {
     const nowInAmsterdam = now("Europe/Amsterdam");
@@ -25,7 +31,7 @@ export const getLastStoreHoursToday = (schedule: WorkHours): { date: string; tim
                 const nextDate = new Date(today);
                 nextDate.setDate(today.getDate() + i);
                 return {
-                    date: nextDate.toISOString().split('T')[0],
+                    date: formatDateToString(nextDate),
                     time: `${nextDaySchedule.end.hour.toString().padStart(2, '0')}:${nextDaySchedule.end.minute.toString().padStart(2, '0')}`
                 };
             }
@@ -33,13 +39,13 @@ export const getLastStoreHoursToday = (schedule: WorkHours): { date: string; tim
         
         // Fallback if no days are enabled
         return {
-            date: today.toISOString().split('T')[0],
+            date: formatDateToString(today),
             time: "23:59"
         };
     }
     
     return {
-        date: today.toISOString().split('T')[0],
+        date: formatDateToString(today),
         time: `${todaySchedule.end.hour.toString().padStart(2, '0')}:${todaySchedule.end.minute.toString().padStart(2, '0')}`
     };
 };

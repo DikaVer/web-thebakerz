@@ -72,7 +72,7 @@ export const LandingHeroSection = () => {
           sizes="100vw"
           className="object-cover object-center bg-[#f7f6f5]"
         />
-        <div className="absolute inset-0 bg-gradient-to-b bg-black bg-opacity-5"></div>
+        {/* <div className="absolute inset-0 bg-gradient-to-b bg-black bg-opacity-5"></div> */}
       </div>
 
       {/* <div className="absolute top-0 left-0 w-full h-full flex justify-center mt-[360px]">

@@ -207,6 +207,13 @@ export default function CheckoutSteps({ isRescueDeal }: { isRescueDeal: boolean 
                             handleNext(5);
                             setCurrentStep(0);
                         }}
+                        onPaymentError={() => {
+                            setSelectedKey("3");
+                            if (currentStep > 3) {
+                                setCurrentStep(3);
+                            }
+                            router.refresh();
+                        }}
                         isRescueDeal={isRescueDeal}
                     />
                 </AccordionItem>

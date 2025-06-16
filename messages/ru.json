@@ -108,7 +108,7 @@
     "orContinueWith": "или продолжить",
     "otp": "ОТП",
     "privacyPolicy": "политика конфиденциальности",
-    "termsOfService": "Условия обслуживания",
+    "termsOfService": "Условия эксплуатации",
     "verify": "Проверять"
   },
   "app/(auth)/page": {
@@ -599,6 +599,8 @@
     "addItem": "Добавить элемент",
     "addItemsToStart": "Добавить элементы в начало",
     "addressOutOfRange": "Адрес вне региона доставки",
+    "and": "",
+    "byClickingContinue": "",
     "cartEmpty": "Корзина пуста",
     "deliveryFee": "Плата за доставку",
     "deliveryVat": "НДС на доставку (21%)",
@@ -611,7 +613,9 @@
     "orPayWith": "",
     "pay": "Платить",
     "paymentSuccessful": "",
+    "privacyPolicy": "",
     "processing": "",
+    "refundPolicy": "",
     "retry": "",
     "returnToCheckout": "Вернуться к оформлению заказа",
     "saveCartDetails": "",
@@ -619,6 +623,7 @@
     "savePickUpDetails": "Сохранить детали получения",
     "serviceFee": "Плата за обслуживание",
     "subtotal": "Промежуточный итог",
+    "termsOfService": "",
     "total": "Общий",
     "totalAmount": "",
     "unableToInitializePayment": "Не удалось инициализировать платежный шлюз",
@@ -769,9 +774,11 @@
   "app/(store)/components/product-dialog": {
   },
   "app/(store)/components/product-list": {
+    "exploreDesserts": "",
     "noProductsFound": "Продуктов не найдено",
     "noRescueDealsProductsAtTheMoment": "",
-    "rescueDealsOnlyAvailableForPickUpOrders": ""
+    "rescueDealsOnlyAvailableForPickUpOrders": "",
+    "toggleRescueDealMode": ""
   },
   "app/(store)/components/product-page": {
     "Add": "Добавлять",

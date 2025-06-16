@@ -37,16 +37,16 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
         deliveryOption = "multi";
     }
 
-    
     const isProductPage = pathname.includes("item");
     const isAddItemPage = pathname.includes("add-item");
     const isSettingsPage = pathname.includes("settings");
     const isOrdersPage = pathname.includes("orders");
+    const isOrderPage = pathname.includes("order");
     const isRescueDealPage = pathname.includes("rescue-deal");
     const isProductSettingsPage = pathname.includes("products");
     const isAboutUs = pathname.includes('about-us')
 
-    const isStoreSettingsPage = isProductSettingsPage || isRescueDealPage || isOrdersPage || isSettingsPage || isAddItemPage || isAboutUs;
+    const isStoreSettingsPage = isProductSettingsPage || isRescueDealPage || isOrdersPage || isOrderPage || isSettingsPage || isAddItemPage || isAboutUs;
 
     const handleBack = () => {
         if (isStoreSettingsPage || isProductPage) {

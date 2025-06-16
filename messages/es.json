@@ -595,6 +595,8 @@
     "addItem": "",
     "addItemsToStart": "",
     "addressOutOfRange": "",
+    "and": "",
+    "byClickingContinue": "",
     "cartEmpty": "",
     "deliveryFee": "",
     "deliveryVat": "",
@@ -607,7 +609,9 @@
     "orPayWith": "",
     "pay": "",
     "paymentSuccessful": "",
+    "privacyPolicy": "",
     "processing": "",
+    "refundPolicy": "",
     "retry": "",
     "returnToCheckout": "",
     "saveCartDetails": "",
@@ -615,6 +619,7 @@
     "savePickUpDetails": "",
     "serviceFee": "",
     "subtotal": "",
+    "termsOfService": "",
     "total": "",
     "totalAmount": "",
     "unableToInitializePayment": "",
@@ -757,9 +762,11 @@
     "delivery": ""
   },
   "app/(store)/components/product-list": {
+    "exploreDesserts": "",
     "noProductsFound": "",
     "noRescueDealsProductsAtTheMoment": "",
-    "rescueDealsOnlyAvailableForPickUpOrders": ""
+    "rescueDealsOnlyAvailableForPickUpOrders": "",
+    "toggleRescueDealMode": ""
   },
   "app/(store)/components/product-page": {
     "Add": "",
