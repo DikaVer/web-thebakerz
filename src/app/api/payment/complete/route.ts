@@ -8,10 +8,8 @@ import { connectionPool, containerOrders, containerOrdersUnpaid, containerTransf
 import { ExtendedOrderRaw, OrderData } from "@/lib/actions/order";
 import { sendOrderPlaced } from "@/lib/email-send-request";
 import { revalidateTag } from "next/cache";
-import { getTranslations } from "next-intl/server";
 import { logger } from "@/lib/logger";
 import { getRequestContext } from "@/lib/request-context";
-import { getDeliveryMode } from "@/lib/actions/cookies/delivery-cookie";
 import { cancelRescueDealCheckout } from "@/lib/utils/helper/inventory-integration";
 import { getActiveHoldsByUserIdAndStoreId } from "@/lib/utils/helper/inventory-holds";
 
