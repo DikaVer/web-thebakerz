@@ -117,6 +117,7 @@ export async function POST(req: NextRequest) {
                 userId: userId,
                 storeName: orderRaw.store_name || storeId,
                 isDelivery: orderRaw.isDelivery ? 'true' : 'false',
+                isRescueDeal: isRescueDeal ? 'true' : 'false',
             }
         });
 
@@ -138,6 +139,9 @@ export async function POST(req: NextRequest) {
                 orderId,
                 status: paymentIntent.status
             });
+            if(isRescueDeal){
+                await cancelRescueDealCheckout(storeId, holdIds || {});
+            }
             return NextResponse.json({ 
                 error: `Payment failed with status: ${paymentIntent.status}`,
                 status: paymentIntent.status,

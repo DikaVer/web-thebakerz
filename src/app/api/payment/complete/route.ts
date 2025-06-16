@@ -36,13 +36,18 @@ export async function GET(req: NextRequest) {
     });
 
     // Helper to generate checkout error redirect
-    const checkoutErrorRedirect = async (storeIdentifier: string | undefined, errorCode: string, params: Record<string, string> = {}) => {
+    const checkoutErrorRedirect = async (storeIdentifier: string | undefined, errorCode: string, params: Record<string, string> = {}, isRescueDeal?: boolean, cartId?: string, storeId?: string) => {
         const urlPath = storeIdentifier ? `/${storeIdentifier}/checkout` : `/payment/error`;
         const redirectUrl = new URL(urlPath, origin);
         redirectUrl.searchParams.set('error', errorCode);
         for (const key in params) {
             redirectUrl.searchParams.set(key, params[key]);
         }
+        if(isRescueDeal && cartId && storeId){
+            const holds = await getActiveHoldsByUserIdAndStoreId(cartId, storeId);
+            await cancelRescueDealCheckout(storeId, holds);
+        }
+
         return NextResponse.redirect(redirectUrl, { status: 308 });
     };
 
@@ -87,7 +92,14 @@ export async function GET(req: NextRequest) {
             });
             
             // Redirect to payment error page with status
-            return checkoutErrorRedirect(storeIdForErrorRedirect, 'payment_failed', { status: paymentIntent.status, mode: isDelivery ? 'delivery' : 'pickup' });
+            return checkoutErrorRedirect(
+                storeIdForErrorRedirect, 
+                'payment_failed', 
+                { status: paymentIntent.status, mode: isDelivery ? 'delivery' : 'pickup' },
+                paymentIntent.metadata?.isRescueDeal === 'true',
+                paymentIntent.metadata?.userId,
+                paymentIntent.metadata?.storeId
+            );
         }
 
         // Extract necessary data from payment intent metadata
@@ -110,7 +122,14 @@ export async function GET(req: NextRequest) {
                 paymentIntentId
             });
             
-            return checkoutErrorRedirect(storeId, missingParam);
+            return checkoutErrorRedirect(
+                storeId, 
+                missingParam,
+                undefined, 
+                paymentIntent.metadata?.isRescueDeal === 'true', 
+                cartId, 
+                storeId
+            );
         }
 
         log.info('paymentComplete', 'Retrieving temporary order for processing', {
@@ -130,7 +149,14 @@ export async function GET(req: NextRequest) {
                 orderExists: !!orderRaw
             });
             
-            return checkoutErrorRedirect(orderRaw?.store_name || storeId, 'order_not_found');
+            return checkoutErrorRedirect(
+                orderRaw?.store_name || storeId, 
+                'order_not_found',
+                undefined,
+                paymentIntent.metadata?.isRescueDeal === 'true',
+                cartId,
+                storeId
+            );
         }
 
         // Check if order has already been processed (avoid double processing)
@@ -185,7 +211,14 @@ export async function GET(req: NextRequest) {
                 paymentIntentId
             });
             
-            return checkoutErrorRedirect(storeIdForErrorRedirect, 'missing_email');
+            return checkoutErrorRedirect(
+                storeIdForErrorRedirect, 
+                'missing_email',
+                undefined,
+                paymentIntent.metadata?.isRescueDeal === 'true',
+                cartId,
+                storeId
+            );
         }
 
         log.info('paymentComplete', 'Processing user session', {
@@ -228,7 +261,14 @@ export async function GET(req: NextRequest) {
                 paymentIntentId
             });
             
-            return checkoutErrorRedirect(storeIdForErrorRedirect, 'user_creation_failed');
+            return checkoutErrorRedirect(
+                storeIdForErrorRedirect, 
+                'user_creation_failed',
+                undefined,
+                paymentIntent.metadata?.isRescueDeal === 'true',
+                cartId,
+                storeId
+            );
         }
 
         // Create delivery order record
@@ -326,7 +366,14 @@ export async function GET(req: NextRequest) {
 
         if (result.rows.length === 0) {
             await connectionPool.query('ROLLBACK');
-            return checkoutErrorRedirect(storeIdForErrorRedirect, 'order_creation_failed');
+            return checkoutErrorRedirect(
+                storeIdForErrorRedirect, 
+                'order_creation_failed',
+                undefined,
+                paymentIntent.metadata?.isRescueDeal === 'true',
+                cartId,
+                storeId
+            );
         }
 
         // Create final order record in Cosmos DB
