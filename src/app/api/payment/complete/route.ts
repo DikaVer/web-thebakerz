@@ -387,7 +387,7 @@ export async function GET(req: NextRequest) {
         await removeCartByUserIdAndStoreId(cartId, storeId, orderRaw.isDelivery ? "delivery" : "pickup");
         await containerOrdersUnpaid.item(cosmosId, storeId).delete();
         if(orderRaw.isRescueDeal){
-            const holds = await getActiveHoldsByUserIdAndStoreId(userSession.id, storeId);
+            const holds = await getActiveHoldsByUserIdAndStoreId(cartId, storeId);
             await cancelRescueDealCheckout(storeId, holds);
         }
 

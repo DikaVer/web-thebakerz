@@ -267,10 +267,10 @@ export async function removeHold(
   storeId: string
 ): Promise<{ success: boolean; paymentCancelled?: boolean; error?: string }> {
   try {
-    // First get the hold to check for payment intent
-    const { resource: hold } = await containerInventoryHolds.item(holdId, storeId).read();
+    // // First get the hold to check for payment intent
+    // const { resource: hold } = await containerInventoryHolds.item(holdId, storeId).read();
     
-    let paymentCancelled = false;
+    // let paymentCancelled = false;
     
     // // Cancel payment intent if it exists
     // if (hold?.stripePaymentIntentId) {
@@ -293,9 +293,9 @@ export async function removeHold(
     // Remove the hold
     await containerInventoryHolds.item(holdId, storeId).delete();
     
-    logger.info('inventory-holds', 'Hold removed', { holdId, storeId, paymentCancelled });
+    logger.info('inventory-holds', 'Hold removed', { holdId, storeId });
     
-    return { success: true, paymentCancelled };
+    return { success: true };
   } catch (error) {
     logger.error('inventory-holds', 'Error removing hold:', { error, holdId });
     return { success: false, error: 'Failed to remove hold' };
