@@ -331,7 +331,10 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
                     <span className="text-foreground text-lg text-center px-4">
                         {t("rescueDealsOnlyAvailableForPickUpOrders")}
                     </span>
-                    <button className="flex flex-row items-center gap-2 bg-background-secondary text-foreground text-lg text-center px-4 max-w-fit rounded-lg py-2" onClick={() => toggleRescueDealMode(!isRescueDeal)}>
+                    <button 
+                        className="flex flex-row items-center gap-2 bg-background-secondary text-foreground text-lg text-center px-4 max-w-fit rounded-lg py-2" 
+                        onClick={() => toggleRescueDealMode(false)}
+                    >
                         {t("exploreDesserts")}
                         <Icon icon="solar:arrow-right-outline" width={20} />
                     </button>
@@ -341,7 +344,10 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
                     <span className="text-foreground text-lg text-center px-4">
                         {t("noRescueDealsProductsAtTheMoment")}
                     </span>
-                    <button className="flex flex-row items-center gap-2 bg-background-secondary text-foreground text-lg text-center px-4 max-w-fit rounded-lg py-2" onClick={() => toggleRescueDealMode(!isRescueDeal)}>
+                    <button 
+                        className="flex flex-row items-center gap-2 bg-background-secondary text-foreground text-lg text-center px-4 max-w-fit rounded-lg py-2" 
+                        onClick={() => toggleRescueDealMode(false)}
+                    >
                         {t("exploreDesserts")}
                         <Icon icon="solar:arrow-right-outline" width={20} />
                     </button>

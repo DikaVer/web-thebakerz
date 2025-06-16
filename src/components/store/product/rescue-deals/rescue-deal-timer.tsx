@@ -56,7 +56,7 @@ export const RescueDealTimer: React.FC<RescueDealTimerProps> = ({ schedule }) =>
     const shouldShowSeconds = timeData.hours === 0; // Only show seconds when less than 1 hour
 
     return (
-        <div className={`cursor-pointer relative w-full mx-auto mb-6 rounded-2xl p-4 backdrop-blur-md transition-all duration-300 overflow-hidden ${
+        <div className={`${isRescueDeal ? 'cursor-default' : 'cursor-pointer'} relative w-full mx-auto mb-6 rounded-2xl p-4 backdrop-blur-md transition-all duration-300 overflow-hidden ${
             isVeryUrgent 
                 ? 'bg-gradient-to-r from-danger-600/30 to-danger-500/30 border-2 border-danger-500/50 shadow-xl shadow-danger-500/30' 
                 : isCritical 
@@ -65,7 +65,7 @@ export const RescueDealTimer: React.FC<RescueDealTimerProps> = ({ schedule }) =>
                 ? 'bg-gradient-to-r from-warning-500/20 to-primary-500/20 border-2 border-warning-500/30 shadow-lg shadow-warning-500/10'
                 : 'bg-gradient-to-r from-primary-500/10 to-secondary-500/10 border border-primary-500/20 shadow-md'
         }`}
-        onClick={() => toggleRescueDealMode(!isRescueDeal)}
+        onClick={() => toggleRescueDealMode(true)}
         >
             {/* Header */}
             <div className="flex items-center justify-between mb-3 relative z-10">
@@ -156,7 +156,7 @@ export const RescueDealTimer: React.FC<RescueDealTimerProps> = ({ schedule }) =>
             {!isRescueDeal && (
                 <div className="absolute bottom-2 right-2 z-20">
                     <button
-                        onClick={() => toggleRescueDealMode(!isRescueDeal)}
+                        onClick={() => toggleRescueDealMode(true)}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-medium text-xs transition-all duration-300 hover:scale-105 ${
                             isVeryUrgent 
                                 ? 'bg-white/90 text-danger-700 shadow-lg border border-danger-200 hover:bg-white' 
