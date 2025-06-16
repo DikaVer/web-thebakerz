@@ -204,7 +204,7 @@ export async function prepareCheckout({
             const rescueDealProduct = rescueDeals.products?.find((p: any) => p.id === cartItem.product_id);
             if (rescueDealProduct && rescueDealProduct.isSelected) {
                 // Apply rescue deal discount to base product price
-                itemPrice = product.price * (1 - rescueDealProduct.promotionPercent / 100);
+                itemPrice = Math.round(product.price * (1 - rescueDealProduct.promotionPercent / 100));
             }
         }
 
