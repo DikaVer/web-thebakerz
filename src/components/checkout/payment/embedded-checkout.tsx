@@ -65,6 +65,7 @@ export default function EmbeddedCheckout({
             if ('error' in response) {
                 showErrorMessage({ error: response.error || 'Failed to initialize checkout' })
                 setError(response.error || 'Failed to initialize checkout')
+                if (onPaymentError) onPaymentError();
             } else if (response.orderId && response.totalAmount && response.currency) {
                 setOrderId(response.orderId)
                 
@@ -113,11 +114,13 @@ export default function EmbeddedCheckout({
             } else {
                 const errorMsg = 'Failed to initialize checkout'
                 showErrorMessage({ error: errorMsg })
+                if (onPaymentError) onPaymentError();
                 setError(errorMsg)
             }
         } catch (err) {
             const errorMsg = 'Something went wrong. Please try again.'
             showErrorMessage({ error: errorMsg })
+            if (onPaymentError) onPaymentError();
             setError(errorMsg)
             console.error(err)
         } finally {

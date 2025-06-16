@@ -56,6 +56,23 @@
     "started": "Kochen",
     "unknown": "Unbekannt"
   },
+  "PaymentErrors": {
+    "contactSupport": "Wenn dieses Problem weiterhin besteht, wenden Sie sich bitte an unser Support-Team.",
+    "goHome": "Nach Hause gehen",
+    "missingEmail": "Kundeninformationen fehlen. Bitte wenden Sie sich an den Support.",
+    "missingOrderInformation": "Fehlende Bestellinformationen. Bitte wenden Sie sich an den Support.",
+    "missingPaymentIntent": "Zahlungsinformationen fehlen. Bitte versuchen Sie es erneut.",
+    "orderCreationFailed": "Die Bestellung konnte nicht erstellt werden. Bitte wenden Sie sich an den Support.",
+    "orderNotFound": "Bestellung konnte nicht gefunden werden. Bitte wenden Sie sich an den Support.",
+    "paymentError": "Zahlungsfehler",
+    "paymentFailed": "Die Zahlung war nicht erfolgreich. Bitte versuchen Sie es erneut.",
+    "processingFailed": "Die Zahlungsabwicklung ist fehlgeschlagen. Bitte versuchen Sie es erneut oder wenden Sie sich an den Support.",
+    "rateLimit": "Zu viele Anfragen. Bitte versuchen Sie es später erneut.",
+    "status": "Status:",
+    "tryAgain": "Versuchen Sie es erneut",
+    "unexpectedError": "Während der Zahlungsabwicklung ist ein unerwarteter Fehler aufgetreten.",
+    "userCreationFailed": "Das Erstellen des Benutzerkontos ist fehlgeschlagen. Wenden Sie sich an den Support."
+  },
   "ProductAdd": {
     "ManageProductsDescription": "Fügen Sie ein Produkt von Grund auf neu hinzu oder verwenden Sie die Vorlage",
     "ProductAdd": "Produktmanager"
@@ -67,6 +84,14 @@
   "RescueDealSettings": {
     "RescueDealManager": "Rettungs-Deal-Manager",
     "RescueProductsDescription": "Einrichten und Bearbeiten von Rettungsangeboten"
+  },
+  "RescueDealTimer": {
+    "checkItOut": "Hör zu",
+    "endingNow": "JETZT ENDE!",
+    "grabBeforeGone": "Schnapp sie dir, bevor sie weg sind",
+    "lastChance": "Letzte Chance!",
+    "limitedTimeOffers": "Befristete Angebote, die mit Ladenschluss ablaufen",
+    "rescueDealsEndingSoon": "Rettungsangebote enden bald!"
   },
   "Shop": {
   },
@@ -108,7 +133,7 @@
     "orContinueWith": "oder weiter mit",
     "otp": "OTP",
     "privacyPolicy": "Datenschutzrichtlinie",
-    "termsOfService": "Nutzungsbedingungen",
+    "termsOfService": "Servicebedingungen",
     "verify": "Verifizieren"
   },
   "app/(auth)/page": {
@@ -496,25 +521,18 @@
   "app/(return_page)/settings/components/rescue-deal": {
     "enableRescueDeal": "Rettungsangebot aktivieren",
     "enableRescueDealDescription": "Aktivieren Sie Rettungsangebote für berechtigte Bestellungen",
-    "endTime": "Endzeit",
     "errorSavingRescueDeal": "Rettungspaket gescheitert",
-    "hour": "Stunde",
-    "hours": "Std.",
     "image": "Bild",
-    "minutes": "Minuten",
     "nameAndPrice": "Name und Preis",
     "noProductsSelected": "Bitte wählen Sie mindestens ein Produkt aus",
     "noProductsYet": "Noch keine Produkte",
-    "promotion": "Rabatt",
+    "promotion": "Förderung",
     "quantity": "Menge",
-    "rescueDealDescription": "",
-    "rescueDealDescriptionH2": "",
-    "rescueDealDescriptionH3": "",
-    "rescueDealTitle": "",
-    "selectTime": "Wähle eine Zeit",
+    "rescueDealDescription": "Rescue Deals werden automatisch 45 Minuten vor Ladenschluss aktiviert und verwandeln potenzielle Lebensmittelabfälle in zusätzlichen Umsatz. Diese Rabattaktionen helfen Ihnen, Artikel mit kurzer Resthaltbarkeit zu verkaufen und Ihren Kunden gleichzeitig ein gutes Preis-Leistungs-Verhältnis für Qualitätsprodukte zu bieten.",
+    "rescueDealDescriptionH2": "So funktioniert's: Wählen Sie im Menü unten die Artikel und Mengen für Ihre Rescue Deals aus. Legen Sie für jede Produktkategorie Ihren Rabattprozentsatz fest.",
+    "rescueDealDescriptionH3": "Wichtige Voraussetzungen: Nur Artikel hinzufügen, die aktuell vorrätig sind und nach dem Kauf noch mindestens 12 Stunden optimal verzehrbar sind. Alle Rescue-Deal-Verkäufe sind endgültig und müssen am selben Tag abgeholt werden – keine Ausnahmen oder Rückerstattungen.",
+    "rescueDealTitle": "Was sind Rescue Deals?",
     "selections": "Auswahl",
-    "startBefore": "Beginnen Sie vor",
-    "startTime": "Startzeit",
     "validationError": "Bitte überprüfen Sie Ihre Eingaben"
   },
   "app/(return_page)/settings/components/store-info": {
@@ -599,33 +617,30 @@
     "addItem": "Element hinzufügen",
     "addItemsToStart": "Elemente zum Starten hinzufügen",
     "addressOutOfRange": "Adresse außerhalb der Lieferregion",
-    "and": "",
-    "byClickingContinue": "",
+    "byClickingContinue": "Mit dem Klick auf „Bezahlen“ stimmen Sie unseren",
     "cartEmpty": "Warenkorb leer",
     "deliveryFee": "Liefergebühr",
     "deliveryVat": "Liefersteuer (21%)",
-    "enterPaymentDetails": "",
-    "initializingPayment": "",
+    "initializingPayment": "Zahlung wird initialisiert",
     "invalidDeliveryAddress": "Ungültige Lieferadresse",
     "loadingPaymentGateway": "Zahlungsgateway wird geladen …",
-    "minimumAmount": "Der Mindestbestellwert beträgt {minBestellung}",
     "minimumOrderForDelivery": "Mindestbestellwert ist {Betrag}",
-    "orPayWith": "",
+    "orPayWith": "Oder bezahlen mit",
     "pay": "Zahlen",
-    "paymentSuccessful": "",
-    "privacyPolicy": "",
-    "processing": "",
-    "refundPolicy": "",
-    "retry": "",
+    "paymentSuccessful": "Bestellung ist aufgegeben!",
+    "privacyPolicy": "Datenschutzrichtlinie",
+    "processing": "Verarbeitung",
+    "refundPolicy": "Rückgaberecht",
+    "retry": "Wiederholen",
     "returnToCheckout": "Zurück zur Kasse",
-    "saveCartDetails": "",
+    "saveCartDetails": "Warenkorbdetails speichern",
     "saveDeliveryDetails": "Lieferdetails speichern",
     "savePickUpDetails": "Abholdetails speichern",
     "serviceFee": "Servicegebühr",
     "subtotal": "Zwischensumme",
-    "termsOfService": "",
+    "termsOfService": "Nutzungsbedingungen",
     "total": "Gesamt",
-    "totalAmount": "",
+    "totalAmount": "Gesamtbetrag",
     "unableToInitializePayment": "Zahlungsgateway kann nicht initialisiert werden",
     "vat21": "Mehrwertsteuer (21%)",
     "vatExclusive": "Mehrwertsteuer (9%)"
@@ -636,8 +651,8 @@
     "failedToUpdateCart": "Warenkorb oder Adresse konnten nicht aktualisiert werden",
     "orderDetails": "Bestelldetails",
     "orderDetailsStep": "2. Bestelldetails",
-    "paymentDetails": "",
-    "paymentDetailsStep": "",
+    "paymentDetails": "Zahlungsdetails",
+    "paymentDetailsStep": "4. Zahlungsdetails",
     "signInOrSignUpStep": "1. Melden Sie sich an oder registrieren Sie sich, um eine Bestellung aufzugeben",
     "signInOrSignUpText": "Melden Sie sich an oder registrieren Sie sich, um eine Bestellung aufzugeben"
   },
@@ -774,11 +789,10 @@
   "app/(store)/components/product-dialog": {
   },
   "app/(store)/components/product-list": {
-    "exploreDesserts": "",
+    "exploreDesserts": "Desserts entdecken",
     "noProductsFound": "Keine Produkte gefunden",
-    "noRescueDealsProductsAtTheMoment": "",
-    "rescueDealsOnlyAvailableForPickUpOrders": "",
-    "toggleRescueDealMode": ""
+    "noRescueDealsProductsAtTheMoment": "Im Moment gibt es keine Rescue Deals-Produkte. Schalten Sie den Rescue Deals-Filter aus, um Desserts zu entdecken",
+    "rescueDealsOnlyAvailableForPickUpOrders": "Rettungsangebote sind nur für Abholbestellungen verfügbar. Bitte drehen Sie die Lieferung auf Abholung, um die Rettungsangebote zu sehen"
   },
   "app/(store)/components/product-page": {
     "Add": "Hinzufügen",
@@ -1030,7 +1044,6 @@
   "app/(store)/id/orders/add": {
   },
   "app/(store)/id/page": {
-    "noProducts": "Keine Produkte verfügbar"
   },
   "app/(store)/id/settings/page": {
     "settingsDescription": "Passen Sie Ihren Shop und Ihre Einstellungen an",
@@ -1103,7 +1116,8 @@
     "orderDbFailed": "Bestell-DB fehlgeschlagen",
     "orderNotFound": "Bestellung nicht gefunden",
     "processingError": "Fehler bei der Zahlungsabwicklung",
-    "rescueDealNotAvailable": "",
+    "rescueDealNotAvailable": "Einige Produkte sind nicht mehr verfügbar!",
+    "rescueDealNotAvailableScheduledTime": "Rettungsangebot ist abgelaufen!",
     "tooManyRequests": "Zu viele Anfragen",
     "userCreationFailed": "Benutzererstellung fehlgeschlagen"
   },
@@ -1213,7 +1227,6 @@
     "guestCartReplacedSuccess": "Der Gästewagen wurde erfolgreich durch Artikel aus dem Benutzerwagen ersetzt!",
     "guestIdNotFound": "Gast-ID nicht gefunden",
     "invalidOption": "Ungültige Option {option} für {variant}",
-    "itemNotFound": "",
     "itemRemovedSuccess": "Artikel erfolgreich entfernt!",
     "maxSelectionsExceeded": "{variant} kann nicht mehr als {max} Auswahlen haben",
     "minOrderRequired": "Sie müssen mindestens {min} dieses Produkts bestellen",

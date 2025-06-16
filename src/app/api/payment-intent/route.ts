@@ -14,6 +14,9 @@ import { getRequestContext } from "@/lib/request-context";
 import { checkAndReserveInventory } from "@/lib/utils/helper/check-inventory-rescue";
 import { attachPaymentIntentToHold, removeHold } from "@/lib/utils/helper/inventory-holds";
 import { cancelRescueDealCheckout } from "@/lib/utils/helper/inventory-integration";
+import { scheduledToCalendarDateTime } from "@/lib/utils";
+import { getLocalTimeZone } from "@internationalized/date";
+import { now } from "@internationalized/date";
 
 // Initialize logger for payment processing
 const log = logger.child({ module: "payment-intent-processing" });
@@ -62,7 +65,15 @@ export async function POST(req: NextRequest) {
             });
             return NextResponse.json({ error: t("orderNotFound") }, { status: 404 });
         }
-    
+
+        //Check if scheduled time is not in the past
+        if(orderRaw.isRescueDeal){
+            const scheduledTime = scheduledToCalendarDateTime(orderRaw.scheduled_time);
+            const nowTime = now("Europe/Amsterdam");   
+            if(scheduledTime.compare(nowTime) <= 0){
+                return NextResponse.json({ error: t("rescueDealNotAvailableScheduledTime") }, { status: 400 });
+            }
+        }
 
         log.info('paymentIntentConfirm', 'Creating and confirming payment intent', {
             requestId: context.requestId,

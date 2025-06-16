@@ -5,12 +5,14 @@ import { Button } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@iconify/react';
 import { getErrorMessage } from '@/lib/utils/payment-errors';
+import { useTranslations } from 'next-intl';
 
 export default function PaymentErrorPage() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const error = searchParams.get('error');
     const status = searchParams.get('status');
+    const t = useTranslations("PaymentErrors");
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -23,14 +25,14 @@ export default function PaymentErrorPage() {
                         height={64}
                     />
                     <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                        Payment Error
+                        {t("paymentError")}
                     </h1>
                     <p className="text-gray-600">
                         {getErrorMessage(error)}
                     </p>
                     {status && (
                         <p className="text-sm text-gray-500 mt-2">
-                            Status: {status}
+                            {t("status")}: {status}
                         </p>
                     )}
                 </div>
@@ -39,25 +41,25 @@ export default function PaymentErrorPage() {
                     <Button
                         color="primary"
                         variant="solid"
-                        onClick={() => router.back()}
+                        onPress={() => router.back()}
                         className="w-full"
                     >
-                        Try Again
+                        {t("tryAgain")}
                     </Button>
                     
                     <Button
                         color="default"
                         variant="bordered"
-                        onClick={() => router.push('/')}
+                        onPress={() => router.push('/')}
                         className="w-full"
                     >
-                        Go Home
+                        {t("goHome")}
                     </Button>
                 </div>
 
                 <div className="mt-6 pt-6 border-t border-gray-200">
                     <p className="text-sm text-gray-500">
-                        If this problem persists, please contact our support team.
+                        {t("contactSupport")}
                     </p>
                 </div>
             </div>

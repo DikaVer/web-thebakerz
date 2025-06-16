@@ -56,6 +56,23 @@
     "started": "Приготовление пищи",
     "unknown": "Неизвестный"
   },
+  "PaymentErrors": {
+    "contactSupport": "Если проблема не устранена, обратитесь в нашу службу поддержки.",
+    "goHome": "Иди домой",
+    "missingEmail": "Информация о клиенте отсутствует. Обратитесь в службу поддержки.",
+    "missingOrderInformation": "Отсутствует информация о заказе. Обратитесь в службу поддержки.",
+    "missingPaymentIntent": "Платежная информация отсутствует. Попробуйте еще раз.",
+    "orderCreationFailed": "Не удалось создать заказ. Обратитесь в службу поддержки.",
+    "orderNotFound": "Заказ не найден. Обратитесь в службу поддержки.",
+    "paymentError": "Ошибка платежа",
+    "paymentFailed": "Платеж не прошел. Попробуйте еще раз.",
+    "processingFailed": "Обработка платежа не удалась. Попробуйте еще раз или обратитесь в службу поддержки.",
+    "rateLimit": "Слишком много запросов. Попробуйте еще раз позже.",
+    "status": "Статус:",
+    "tryAgain": "Попробуйте еще раз",
+    "unexpectedError": "Во время обработки платежа произошла непредвиденная ошибка.",
+    "userCreationFailed": "Не удалось создать учетную запись пользователя. Обратитесь в службу поддержки."
+  },
   "ProductAdd": {
     "ManageProductsDescription": "Добавьте продукт с нуля или используйте шаблон",
     "ProductAdd": "Менеджер по продукту"
@@ -67,6 +84,14 @@
   "RescueDealSettings": {
     "RescueDealManager": "Менеджер по спасению сделок",
     "RescueProductsDescription": "Настройка и редактирование спасательных сделок"
+  },
+  "RescueDealTimer": {
+    "checkItOut": "Проверьте это",
+    "endingNow": "КОНЕЦ СЕЙЧАС!",
+    "grabBeforeGone": "Хватайте их, пока они не исчезли",
+    "lastChance": "Последний шанс!",
+    "limitedTimeOffers": "Ограниченные по времени предложения, срок действия которых истекает при закрытии магазина",
+    "rescueDealsEndingSoon": "Спасательные предложения скоро закончатся!"
   },
   "Shop": {
   },
@@ -108,7 +133,7 @@
     "orContinueWith": "или продолжить",
     "otp": "ОТП",
     "privacyPolicy": "политика конфиденциальности",
-    "termsOfService": "Условия эксплуатации",
+    "termsOfService": "Условия обслуживания",
     "verify": "Проверять"
   },
   "app/(auth)/page": {
@@ -388,11 +413,11 @@
   },
   "app/(return_page)/settings/components/delivery-options": {
     "deliveryDescription": "Разрешить клиентам доставлять заказы по их адресу",
-    "deliveryOption": "Доставка",
+    "deliveryOption": "доставка",
     "deliveryOptions": "Варианты доставки",
     "deliveryOptionsDescription": "Настройте способ получения заказов клиентами.",
     "pickupDescription": "Разрешите клиентам забирать заказы из вашего магазина",
-    "pickupOption": "Самовывоз",
+    "pickupOption": "самовывоз",
     "updateDeliveryOptions": "Обновить параметры доставки",
     "updatingOptions": "Обновление параметров..."
   },
@@ -496,25 +521,18 @@
   "app/(return_page)/settings/components/rescue-deal": {
     "enableRescueDeal": "Включить сделку по спасению",
     "enableRescueDealDescription": "Активируйте спасательные предложения для соответствующих заказов",
-    "endTime": "Время окончания",
     "errorSavingRescueDeal": "Не удалось спасти сделку по спасению",
-    "hour": "час",
-    "hours": "часы",
     "image": "Изображение",
-    "minutes": "минут",
     "nameAndPrice": "Название и цена",
     "noProductsSelected": "Пожалуйста, выберите хотя бы один продукт",
     "noProductsYet": "Пока нет товаров",
-    "promotion": "Скидка",
+    "promotion": "Повышение",
     "quantity": "Количество",
-    "rescueDealDescription": "",
-    "rescueDealDescriptionH2": "",
-    "rescueDealDescriptionH3": "",
-    "rescueDealTitle": "",
-    "selectTime": "Выберите время",
+    "rescueDealDescription": "Rescue Deals автоматически активируются за 45 минут до закрытия вашего магазина, превращая потенциальные пищевые отходы в дополнительный доход. Эти скидки на акции помогут вам продавать товары с коротким оставшимся сроком годности, предоставляя клиентам большую выгоду за качественные продукты.",
+    "rescueDealDescriptionH2": "Как это работает: Используйте меню ниже, чтобы выбрать, какие товары и в каком количестве включить в свои предложения по спасению. Установите процент скидки для каждой категории продуктов.",
+    "rescueDealDescriptionH3": "Важные требования: Добавляйте только товары, которые в данный момент есть в наличии, с оставшимся не менее 12 часов оптимального времени потребления после покупки. Все продажи по Rescue Deal являются окончательными с обязательным получением в тот же день — без исключений или возвратов.",
+    "rescueDealTitle": "Что такое спасательные сделки?",
     "selections": "Выборы",
-    "startBefore": "Начать до",
-    "startTime": "Время начала",
     "validationError": "Пожалуйста, проверьте введенные данные."
   },
   "app/(return_page)/settings/components/store-info": {
@@ -599,33 +617,30 @@
     "addItem": "Добавить элемент",
     "addItemsToStart": "Добавить элементы в начало",
     "addressOutOfRange": "Адрес вне региона доставки",
-    "and": "",
-    "byClickingContinue": "",
+    "byClickingContinue": "Нажимая «Оплатить», вы соглашаетесь с нашими",
     "cartEmpty": "Корзина пуста",
     "deliveryFee": "Плата за доставку",
     "deliveryVat": "НДС на доставку (21%)",
-    "enterPaymentDetails": "",
-    "initializingPayment": "",
+    "initializingPayment": "Инициализация платежа",
     "invalidDeliveryAddress": "Неверный адрес доставки",
     "loadingPaymentGateway": "Загрузка платежного шлюза...",
-    "minimumAmount": "Минимальная сумма заказа {minзаказ}",
     "minimumOrderForDelivery": "Минимальный заказ — {сумма}",
-    "orPayWith": "",
+    "orPayWith": "Или оплатить с помощью",
     "pay": "Платить",
-    "paymentSuccessful": "",
-    "privacyPolicy": "",
-    "processing": "",
-    "refundPolicy": "",
-    "retry": "",
+    "paymentSuccessful": "Заказ оформлен!",
+    "privacyPolicy": "политика конфиденциальности",
+    "processing": "Обработка",
+    "refundPolicy": "Политика возврата средств",
+    "retry": "Повторить попытку",
     "returnToCheckout": "Вернуться к оформлению заказа",
-    "saveCartDetails": "",
+    "saveCartDetails": "Сохранить данные корзины",
     "saveDeliveryDetails": "Сохранить данные о доставке",
     "savePickUpDetails": "Сохранить детали получения",
     "serviceFee": "Плата за обслуживание",
     "subtotal": "Промежуточный итог",
-    "termsOfService": "",
+    "termsOfService": "Условия эксплуатации",
     "total": "Общий",
-    "totalAmount": "",
+    "totalAmount": "Общая сумма",
     "unableToInitializePayment": "Не удалось инициализировать платежный шлюз",
     "vat21": "НДС (21%)",
     "vatExclusive": "НДС (9%)"
@@ -636,8 +651,8 @@
     "failedToUpdateCart": "Не удалось обновить корзину или адрес",
     "orderDetails": "Подробности заказа",
     "orderDetailsStep": "2. Подробности заказа",
-    "paymentDetails": "",
-    "paymentDetailsStep": "",
+    "paymentDetails": "Реквизиты платежа",
+    "paymentDetailsStep": "4. Реквизиты платежа",
     "signInOrSignUpStep": "1. Войдите или зарегистрируйтесь, чтобы оформить заказ.",
     "signInOrSignUpText": "Войдите или зарегистрируйтесь, чтобы оформить заказ"
   },
@@ -774,11 +789,10 @@
   "app/(store)/components/product-dialog": {
   },
   "app/(store)/components/product-list": {
-    "exploreDesserts": "",
+    "exploreDesserts": "Исследуйте десерты",
     "noProductsFound": "Продуктов не найдено",
-    "noRescueDealsProductsAtTheMoment": "",
-    "rescueDealsOnlyAvailableForPickUpOrders": "",
-    "toggleRescueDealMode": ""
+    "noRescueDealsProductsAtTheMoment": "На данный момент нет товаров Rescue Deals, отключите фильтр Rescue Deals, чтобы изучить десерты",
+    "rescueDealsOnlyAvailableForPickUpOrders": "Спасательные предложения доступны только для заказов с самовывозом. Чтобы увидеть спасательные предложения, переключите доставку в режим самовывоза."
   },
   "app/(store)/components/product-page": {
     "Add": "Добавлять",
@@ -1030,7 +1044,6 @@
   "app/(store)/id/orders/add": {
   },
   "app/(store)/id/page": {
-    "noProducts": "Нет доступных продуктов"
   },
   "app/(store)/id/settings/page": {
     "settingsDescription": "Настройте свой магазин и настройки",
@@ -1103,7 +1116,8 @@
     "orderDbFailed": "Ошибка заказа БД",
     "orderNotFound": "Заказ не найден",
     "processingError": "Ошибка обработки платежа",
-    "rescueDealNotAvailable": "",
+    "rescueDealNotAvailable": "Некоторые продукты больше не доступны!",
+    "rescueDealNotAvailableScheduledTime": "Срок действия спасательной сделки истек!",
     "tooManyRequests": "Слишком много запросов",
     "userCreationFailed": "Создание пользователя не удалось"
   },
@@ -1213,7 +1227,6 @@
     "guestCartReplacedSuccess": "Гостевая корзина успешно заменена товарами из корзины пользователя!",
     "guestIdNotFound": "Гостевой идентификатор не найден",
     "invalidOption": "Недопустимая опция {option} для {variant}",
-    "itemNotFound": "",
     "itemRemovedSuccess": "Элемент успешно удален!",
     "maxSelectionsExceeded": "{variant} не может иметь больше {max} вариантов выбора",
     "minOrderRequired": "Вы должны заказать не менее {min} этого продукта",

@@ -37,6 +37,7 @@ interface NewOrderEmailProps {
     isStoreDelivery: boolean;
     isPostDelivery: boolean;
     deliveryAddress?: DeliveryAddress | null; // Optional delivery address
+    isRescueDeal: boolean;
 }
 
 // Helper functions for date formatting
@@ -84,10 +85,11 @@ export default function NewOrderEmail({
     isDelivery, 
     isStoreDelivery,
     isPostDelivery,
-    deliveryAddress
+    deliveryAddress,
+    isRescueDeal
 }: NewOrderEmailProps) {
 
-    const scheduledTimeLabel = isDelivery ? "Delivery Time" : "Pick Up Time";
+    const scheduledTimeLabel = isDelivery ? "Delivery Time" : isRescueDeal ? "Pick Up Before" : "Pick Up Time";
     const addressLabel = isDelivery ? "Delivery Address" : "Pick Up Address (Store)";
     const addressToShow = isDelivery 
         ? `${deliveryAddress?.street} ${deliveryAddress?.houseNumber}, ${deliveryAddress?.zipCode} ${deliveryAddress?.city}` 

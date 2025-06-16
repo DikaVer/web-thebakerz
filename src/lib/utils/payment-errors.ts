@@ -1,26 +1,30 @@
+import { useTranslations } from "next-intl";
+
 export const getErrorMessage = (errorCode: string | null) => {
+    const t = useTranslations("PaymentErrors");
+    
     switch (errorCode) {
         case 'rate_limit':
-            return 'Too many requests. Please try again later.';
+            return t("rateLimit");
         case 'missing_payment_intent':
-            return 'Payment information is missing. Please try again.';
+            return t("missingPaymentIntent");
         case 'payment_failed':
-            return 'Payment was not successful. Please try again.';
+            return t("paymentFailed");
         case 'missing_store_id':
         case 'missing_cosmos_id':
         case 'missing_cart_id':
-            return 'Missing order information. Please contact support.';
+            return t("missingOrderInformation");
         case 'order_not_found':
-            return 'Order could not be found. Please contact support.';
+            return t("orderNotFound");
         case 'missing_email':
-            return 'Customer information is missing. Please contact support.';
+            return t("missingEmail");
         case 'user_creation_failed':
-            return 'Failed to create user account. Please contact support.';
+            return t("userCreationFailed");
         case 'order_creation_failed':
-            return 'Failed to create order. Please contact support.';
+            return t("orderCreationFailed");
         case 'processing_failed':
-            return 'Payment processing failed. Please try again or contact support.';
+            return t("processingFailed");
         default:
-            return 'An unexpected error occurred during payment processing.';
+            return t("unexpectedError");
     }
 }; 

@@ -5,13 +5,13 @@ import { logger } from '@/lib/logger';
 export async function POST(request: NextRequest) {
   try {
     // Verify the request is from an authorized source (e.g., cron job)
-    // const authHeader = request.headers.get('authorization');
-    // if (authHeader !== `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`) {
-    //   return NextResponse.json(
-    //     { error: 'Unauthorized' },
-    //     { status: 401 }
-    //   );
-    // }
+    const authHeader = request.headers.get('authorization');
+    if (authHeader !== `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
 
     const result = await purgeExpiredHolds();
     

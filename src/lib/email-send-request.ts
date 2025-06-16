@@ -126,6 +126,8 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
                 priceData: orderData.priceData,
                 isDelivery: orderData.isDelivery,
                 deliveryAddress: orderData.deliveryAddress,
+
+                isRescueDeal: orderData.isRescueDeal
             })),
         },
         recipients: {
@@ -157,6 +159,8 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
                 priceData: orderData.priceData,
                 isDelivery: orderData.isDelivery,
                 deliveryAddress: orderData.deliveryAddress,
+
+                isRescueDeal: orderData.isRescueDeal
             })),
         },
         recipients: {

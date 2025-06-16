@@ -30,7 +30,7 @@ export const FeatureSection = () => {
     return (
         <section className="w-full relative">
             {/* Gradient background that transitions from hero to bakers growth */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#f7f6f5] from-5% via-background-secondary via-90% to-[#FFC454]"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-[#f7f6f5] from-5% to-background-secondary"></div>
             
             <div className="relative z-10 container max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24">
                 <div className="space-y-16">

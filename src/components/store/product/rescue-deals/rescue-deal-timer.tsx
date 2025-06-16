@@ -4,6 +4,7 @@ import { Progress } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { getTimeUntilClosing } from '@/lib/utils/helper/schedule-utils';
 import { useDelivery } from '@/components/providers/delivery-provider';
+import { useTranslations } from 'next-intl';
 
 interface RescueDealTimerProps {
     schedule: any;
@@ -13,6 +14,7 @@ export const RescueDealTimer: React.FC<RescueDealTimerProps> = ({ schedule }) =>
     const [timeData, setTimeData] = useState<ReturnType<typeof getTimeUntilClosing>>(null);
     const [mounted, setMounted] = useState(false);
     const { isRescueDeal, toggleRescueDealMode } = useDelivery();
+    const t = useTranslations("RescueDealTimer");
 
     useEffect(() => {
         setMounted(true);
@@ -85,10 +87,10 @@ export const RescueDealTimer: React.FC<RescueDealTimerProps> = ({ schedule }) =>
                             : isUrgent ? 'text-warning-600' 
                             : 'text-primary-600'
                         }`}>
-                            🔥 Rescue Deals Ending Soon!
+                            🔥 {t("rescueDealsEndingSoon")}
                         </h3>
                         <p className="text-xs text-default-500 font-medium">
-                            {isVeryUrgent ? "Last chance!" : "Grab them before they're gone"}
+                            {isVeryUrgent ? t("lastChance") : t("grabBeforeGone")}
                         </p>
                     </div>
                 </div>
@@ -132,7 +134,7 @@ export const RescueDealTimer: React.FC<RescueDealTimerProps> = ({ schedule }) =>
             {/* Bottom Text */}
             <div className="flex items-center justify-between text-xs relative z-10">
                 <span className={`font-medium ${isVeryUrgent ? 'text-danger-600 animate-pulse' : 'text-default-600'}`}>
-                    ⚡ {isVeryUrgent ? "ENDING NOW!" : "Limited time offers expiring at store closing"}
+                    ⚡ {isVeryUrgent ? t("endingNow") : t("limitedTimeOffers")}
                 </span>
             </div>
 
@@ -168,7 +170,7 @@ export const RescueDealTimer: React.FC<RescueDealTimerProps> = ({ schedule }) =>
                         }`}
                     >
                         <Icon icon="material-symbols:eco-outline" width={14} />
-                        <span>Check it out</span>
+                        <span>{t("checkItOut")}</span>
                         <Icon icon="solar:arrow-right-linear" width={12} />
                     </button>
                 </div>

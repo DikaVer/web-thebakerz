@@ -35,6 +35,7 @@ export interface OrderPlacedEmailProps {
     isPostDelivery: boolean;
     isDelivery: boolean;
     deliveryAddress?: DeliveryAddress | null;
+    isRescueDeal: boolean;
 }
 
 function formatDateForCalendar(dateString: string): string {
@@ -69,10 +70,11 @@ export default function OrderPlacedEmail({
     isPostDelivery,
     priceData,
     isDelivery, 
-    deliveryAddress
+    deliveryAddress,
+    isRescueDeal
 }: OrderPlacedEmailProps) {
     
-    const scheduledTimeLabel = isDelivery ? "Delivery Time" : "Pick Up Time";
+    const scheduledTimeLabel = isDelivery ? "Delivery Time" : isRescueDeal ? "Pick Up Before" : "Pick Up Time";
     const addressLabel = isDelivery ? "Delivery Address" : "Pick Up Address";
     const addressToShow = isDelivery 
         ? `${deliveryAddress?.street} ${deliveryAddress?.houseNumber}, ${deliveryAddress?.zipCode} ${deliveryAddress?.city}` 

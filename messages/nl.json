@@ -56,6 +56,23 @@
     "started": "Koken",
     "unknown": "Onbekend"
   },
+  "PaymentErrors": {
+    "contactSupport": "Als dit probleem zich blijft voordoen, neem dan contact op met ons supportteam.",
+    "goHome": "Ga naar huis",
+    "missingEmail": "Klantgegevens ontbreken. Neem contact op met de support.",
+    "missingOrderInformation": "Bestelgegevens ontbreken. Neem contact op met de support.",
+    "missingPaymentIntent": "Betalingsgegevens ontbreken. Probeer het opnieuw.",
+    "orderCreationFailed": "Bestelling aanmaken mislukt. Neem contact op met de support.",
+    "orderNotFound": "Bestelling niet gevonden. Neem contact op met de support.",
+    "paymentError": "Betalingsfout",
+    "paymentFailed": "Betaling mislukt. Probeer het opnieuw.",
+    "processingFailed": "Betaling mislukt. Probeer het opnieuw of neem contact op met de support.",
+    "rateLimit": "Te veel verzoeken. Probeer het later opnieuw.",
+    "status": "Status:",
+    "tryAgain": "Probeer het opnieuw",
+    "unexpectedError": "Er is een onverwachte fout opgetreden tijdens de betalingsverwerking.",
+    "userCreationFailed": "Het aanmaken van een gebruikersaccount is mislukt. Neem contact op met de support."
+  },
   "ProductAdd": {
     "ManageProductsDescription": "Voeg een product vanaf nul toe of gebruik de sjabloon",
     "ProductAdd": "Productmanager"
@@ -67,6 +84,14 @@
   "RescueDealSettings": {
     "RescueDealManager": "Reddingsdealmanager",
     "RescueProductsDescription": "Rescue Deals instellen en bewerken"
+  },
+  "RescueDealTimer": {
+    "checkItOut": "Kijk eens",
+    "endingNow": "EINDIGT NU!",
+    "grabBeforeGone": "Grijp ze voordat ze weg zijn",
+    "lastChance": "Laatste kans!",
+    "limitedTimeOffers": "Aanbiedingen met beperkte tijd, geldig tot sluitingstijd van de winkel",
+    "rescueDealsEndingSoon": "Reddingsacties eindigen binnenkort!"
   },
   "Shop": {
   },
@@ -388,11 +413,11 @@
   },
   "app/(return_page)/settings/components/delivery-options": {
     "deliveryDescription": "Geef klanten de mogelijkheid om bestellingen op hun adres te laten bezorgen",
-    "deliveryOption": "Bezorging",
+    "deliveryOption": "bezorging",
     "deliveryOptions": "Bezorgopties",
     "deliveryOptionsDescription": "Configureer hoe klanten hun bestellingen kunnen ontvangen.",
     "pickupDescription": "Laat klanten bestellingen ophalen in uw winkel",
-    "pickupOption": "Afhaling",
+    "pickupOption": "afhaling",
     "updateDeliveryOptions": "Update bezorgopties",
     "updatingOptions": "Opties bijwerken..."
   },
@@ -496,25 +521,18 @@
   "app/(return_page)/settings/components/rescue-deal": {
     "enableRescueDeal": "Rescue Deal inschakelen",
     "enableRescueDealDescription": "Activeer reddingsdeals voor in aanmerking komende bestellingen",
-    "endTime": "Eindtijd",
     "errorSavingRescueDeal": "Reddingsdeal kon niet worden opgeslagen",
-    "hour": "uur",
-    "hours": "uren",
     "image": "Afbeelding",
-    "minutes": "notulen",
     "nameAndPrice": "Naam en prijs",
     "noProductsSelected": "Selecteer minimaal één product",
     "noProductsYet": "Nog geen producten",
-    "promotion": "Korting",
+    "promotion": "Bevbestellinging",
     "quantity": "Hoeveelheid",
-    "rescueDealDescription": "",
-    "rescueDealDescriptionH2": "",
-    "rescueDealDescriptionH3": "",
-    "rescueDealTitle": "",
-    "selectTime": "Selecteer tijd",
+    "rescueDealDescription": "Rescue Deals worden automatisch 45 minuten voor sluitingstijd van uw winkel geactiveerd, waardoor u potentiële voedselverspilling omzet in extra omzet. Deze kortingsacties helpen u om producten met een korte houdbaarheidsdatum te verkopen en bieden klanten tegelijkertijd een uitstekende prijs-kwaliteitverhouding.",
+    "rescueDealDescriptionH2": "Hoe het werkt: Gebruik het onderstaande menu om te selecteren welke artikelen en aantallen u in uw Rescue Deals wilt opnemen. Stel uw kortingspercentage voor elke productcategorie in.",
+    "rescueDealDescriptionH3": "Belangrijke vereisten: Voeg alleen artikelen toe die momenteel op voorraad zijn en die na aankoop nog minimaal 12 uur optimaal te gebruiken zijn. Alle Rescue Deal-verkopen zijn definitief en vereisen verplichte afhaling op dezelfde dag - geen uitzonderingen of restituties.",
+    "rescueDealTitle": "Wat zijn Rescue Deals?",
     "selections": "Selecties",
-    "startBefore": "Begin vóór",
-    "startTime": "Starttijd",
     "validationError": "Controleer uw invoer"
   },
   "app/(return_page)/settings/components/store-info": {
@@ -599,33 +617,30 @@
     "addItem": "Item toevoegen",
     "addItemsToStart": "Items toevoegen om te beginnen",
     "addressOutOfRange": "Adres Buiten bezorggebied",
-    "and": "",
-    "byClickingContinue": "",
+    "byClickingContinue": "Door te klikken op betalen, gaat u akkoord met onze",
     "cartEmpty": "Winkelwagen leeg",
     "deliveryFee": "Bezorgkosten",
     "deliveryVat": "Levering BTW (21%)",
-    "enterPaymentDetails": "",
-    "initializingPayment": "",
+    "initializingPayment": "Betaling initialiseren",
     "invalidDeliveryAddress": "Ongeldig afleveradres",
     "loadingPaymentGateway": "Betalingsgateway wordt geladen...",
-    "minimumAmount": "Het minimale bestelbedrag is {minbestelling}",
     "minimumOrderForDelivery": "Minimale bestelling is {bedrag}",
-    "orPayWith": "",
+    "orPayWith": "Of betaal met",
     "pay": "Betalen",
-    "paymentSuccessful": "",
-    "privacyPolicy": "",
-    "processing": "",
-    "refundPolicy": "",
-    "retry": "",
+    "paymentSuccessful": "Bestelling geplaatst!",
+    "privacyPolicy": "Privacybeleid",
+    "processing": "Verwerking",
+    "refundPolicy": "Restitutiebeleid",
+    "retry": "Opnieuw proberen",
     "returnToCheckout": "Terug naar afrekenen",
-    "saveCartDetails": "",
+    "saveCartDetails": "Winkelwagengegevens opslaan",
     "saveDeliveryDetails": "Bewaar bezorggegevens",
     "savePickUpDetails": "Ophaalgegevens opslaan",
     "serviceFee": "Servicekosten",
     "subtotal": "Subtotaal",
-    "termsOfService": "",
+    "termsOfService": "Gebruiksvoorwaarden",
     "total": "Totaal",
-    "totalAmount": "",
+    "totalAmount": "Totaalbedrag",
     "unableToInitializePayment": "Betalingsgateway kan niet worden geïnitialiseerd",
     "vat21": "BTW (21%)",
     "vatExclusive": "BTW (9%)"
@@ -636,8 +651,8 @@
     "failedToUpdateCart": "Het is niet gelukt om het winkelwagentje of adres bij te werken",
     "orderDetails": "Bestelgegevens",
     "orderDetailsStep": "2. Bestelgegevens",
-    "paymentDetails": "",
-    "paymentDetailsStep": "",
+    "paymentDetails": "Betalingsgegevens",
+    "paymentDetailsStep": "4. Betalingsgegevens",
     "signInOrSignUpStep": "1. Meld u aan of registreer om een bestelling te plaatsen",
     "signInOrSignUpText": "Meld u aan of registreer om een bestelling te plaatsen"
   },
@@ -774,11 +789,10 @@
   "app/(store)/components/product-dialog": {
   },
   "app/(store)/components/product-list": {
-    "exploreDesserts": "",
+    "exploreDesserts": "Ontdek desserts",
     "noProductsFound": "Geen producten gevonden",
-    "noRescueDealsProductsAtTheMoment": "",
-    "rescueDealsOnlyAvailableForPickUpOrders": "",
-    "toggleRescueDealMode": ""
+    "noRescueDealsProductsAtTheMoment": "Er zijn momenteel geen Rescue Deals-producten beschikbaar. Schakel het Rescue Deals-filter uit om desserts te bekijken.",
+    "rescueDealsOnlyAvailableForPickUpOrders": "Rescue Deals zijn alleen beschikbaar voor afhaalbestellingen. Draai de bezorgoptie naar afhalen om de Rescue Deals te bekijken."
   },
   "app/(store)/components/product-page": {
     "Add": "Toevoegen",
@@ -951,8 +965,8 @@
   "app/(store)/components/three-dots": {
     "addOrder": "Bestelling toevoegen",
     "copyStoreLink": "Kopieer winkellink",
-    "editDelivery": "Bezorging",
-    "editPickup": "Afhaling",
+    "editDelivery": "bezorging",
+    "editPickup": "afhaling",
     "editProducts": "Producten",
     "editRescueDeal": "Reddingsdeal",
     "editStore": "Winkel",
@@ -1030,7 +1044,6 @@
   "app/(store)/id/orders/add": {
   },
   "app/(store)/id/page": {
-    "noProducts": "Geen producten beschikbaar"
   },
   "app/(store)/id/settings/page": {
     "settingsDescription": "Pas uw winkel en instellingen aan",
@@ -1103,7 +1116,8 @@
     "orderDbFailed": "bestelling DB mislukt",
     "orderNotFound": "Bestelling niet gevonden",
     "processingError": "Fout bij het verwerken van de betaling",
-    "rescueDealNotAvailable": "",
+    "rescueDealNotAvailable": "Sommige producten zijn niet meer beschikbaar!",
+    "rescueDealNotAvailableScheduledTime": "Reddingsdeal is verlopen!",
     "tooManyRequests": "Te veel verzoeken",
     "userCreationFailed": "Gebruikersaanmaak mislukt"
   },
@@ -1213,7 +1227,6 @@
     "guestCartReplacedSuccess": "De gastenwinkelwagen is succesvol vervangen door de artikelen in de gebruikerswinkelwagen!",
     "guestIdNotFound": "Gast-ID niet gevonden",
     "invalidOption": "Ongeldige optie {option} voor {variant}",
-    "itemNotFound": "",
     "itemRemovedSuccess": "Item succesvol verwijderd!",
     "maxSelectionsExceeded": "{variant} kan niet meer dan {max} selecties hebben",
     "minOrderRequired": "U moet minimaal {min} van dit product bestellen",

@@ -56,6 +56,23 @@
     "started": "Кулінарія",
     "unknown": "Невідомо"
   },
+  "PaymentErrors": {
+    "contactSupport": "Якщо ця проблема не зникає, зверніться до нашої служби підтримки.",
+    "goHome": "Додому",
+    "missingEmail": "Інформація про клієнта відсутня. Зверніться до служби підтримки.",
+    "missingOrderInformation": "Відсутня інформація про замовлення. Зверніться до служби підтримки.",
+    "missingPaymentIntent": "Немає платіжної інформації. Спробуйте ще раз.",
+    "orderCreationFailed": "Не вдалося створити замовлення. Зверніться до служби підтримки.",
+    "orderNotFound": "Замовлення не знайдено. Зверніться до служби підтримки.",
+    "paymentError": "Помилка оплати",
+    "paymentFailed": "Платіж не пройшов успішно. Будь ласка, спробуйте ще раз.",
+    "processingFailed": "Не вдалося обробити платіж. Будь ласка, спробуйте ще раз або зверніться до служби підтримки.",
+    "rateLimit": "Забагато запитів. Спробуйте ще раз пізніше.",
+    "status": "Статус:",
+    "tryAgain": "Спробуйте ще раз",
+    "unexpectedError": "Під час обробки платежу сталася неочікувана помилка.",
+    "userCreationFailed": "Не вдалося створити обліковий запис користувача. Зверніться до служби підтримки."
+  },
   "ProductAdd": {
     "ManageProductsDescription": "Додайте продукт з нуля або скористайтеся шаблоном",
     "ProductAdd": "Менеджер продукту"
@@ -67,6 +84,14 @@
   "RescueDealSettings": {
     "RescueDealManager": "Менеджер рятувальних угод",
     "RescueProductsDescription": "Налаштування та редагування рятувальних угод"
+  },
+  "RescueDealTimer": {
+    "checkItOut": "Перевірте це",
+    "endingNow": "ЗАКІНЧУЄТЬСЯ ЗАРАЗ!",
+    "grabBeforeGone": "Схопи їх, поки вони не зникли",
+    "lastChance": "Останній шанс!",
+    "limitedTimeOffers": "Обмежені за часом пропозиції, термін дії яких закінчується до закриття магазину",
+    "rescueDealsEndingSoon": "Рятувальні пропозиції скоро закінчуються!"
   },
   "Shop": {
   },
@@ -108,7 +133,7 @@
     "orContinueWith": "або продовжити з",
     "otp": "Одноразовий пароль",
     "privacyPolicy": "Політика конфіденційності",
-    "termsOfService": "Умови використання",
+    "termsOfService": "Умови надання послуг",
     "verify": "Перевірити"
   },
   "app/(auth)/page": {
@@ -496,25 +521,18 @@
   "app/(return_page)/settings/components/rescue-deal": {
     "enableRescueDeal": "Увімкнути рятувальну угоду",
     "enableRescueDealDescription": "Активуйте рятувальні пропозиції для відповідних замовлень",
-    "endTime": "Час завершення",
     "errorSavingRescueDeal": "Не вдалося зберегти угоду про порятунок",
-    "hour": "година",
-    "hours": "години",
     "image": "Зображення",
-    "minutes": "хвилин",
     "nameAndPrice": "Назва та ціна",
     "noProductsSelected": "Будь ласка, виберіть принаймні один продукт",
     "noProductsYet": "Поки що немає товарів",
     "promotion": "Просування",
     "quantity": "Кількість",
-    "rescueDealDescription": "",
-    "rescueDealDescriptionH2": "",
-    "rescueDealDescriptionH3": "",
-    "rescueDealTitle": "",
-    "selectTime": "Виберіть час",
+    "rescueDealDescription": "Рятувальні пропозиції автоматично активуються за 45 хвилин до закриття вашого магазину, перетворюючи потенційні харчові відходи на додатковий дохід. Ці знижені акції допомагають вам продавати товари з коротким терміном придатності, водночас пропонуючи клієнтам вигідні ціни на якісні продукти.",
+    "rescueDealDescriptionH2": "Як це працює: Скористайтеся меню нижче, щоб вибрати товари та їх кількість, які потрібно включити до ваших рятувальних пропозицій. Встановіть відсоток знижки для кожної категорії товарів.",
+    "rescueDealDescriptionH3": "Важливі вимоги: додавайте лише товари, які є в наявності та до яких залишається щонайменше 12 годин оптимального часу споживання після покупки. Усі розпродажі за програмою «Реанімаційні угоди» є остаточними з обов’язковим самовивозом у той самий день – без винятків та повернення коштів.",
+    "rescueDealTitle": "Що таке рятувальні угоди?",
     "selections": "Вибір",
-    "startBefore": "Почати раніше",
-    "startTime": "Час початку",
     "validationError": "Будь ласка, перевірте свої введені дані"
   },
   "app/(return_page)/settings/components/store-info": {
@@ -599,33 +617,30 @@
     "addItem": "Додати елемент",
     "addItemsToStart": "Додати елементи для початку",
     "addressOutOfRange": "Адреса поза регіоном доставки",
-    "and": "",
-    "byClickingContinue": "",
+    "byClickingContinue": "Натискаючи кнопку оплати, ви погоджуєтеся з нашими",
     "cartEmpty": "Кошик порожній",
     "deliveryFee": "Вартість доставки",
     "deliveryVat": "ПДВ на доставку (21%)",
-    "enterPaymentDetails": "",
-    "initializingPayment": "",
+    "initializingPayment": "Ініціалізація платежу",
     "invalidDeliveryAddress": "Недійсна адреса доставки",
     "loadingPaymentGateway": "Завантаження платіжного шлюзу...",
-    "minimumAmount": "Мінімальна сума замовлення становить {minзамовлення}",
     "minimumOrderForDelivery": "Мінімальне замовлення становить {сума}",
-    "orPayWith": "",
+    "orPayWith": "Або сплатити за допомогою",
     "pay": "Оплата",
-    "paymentSuccessful": "",
-    "privacyPolicy": "",
-    "processing": "",
-    "refundPolicy": "",
-    "retry": "",
+    "paymentSuccessful": "Замовлення оформлено!",
+    "privacyPolicy": "Політика конфіденційності",
+    "processing": "Обробка",
+    "refundPolicy": "Політика повернення коштів",
+    "retry": "Повторити спробу",
     "returnToCheckout": "Повернутися до оформлення замовлення",
-    "saveCartDetails": "",
+    "saveCartDetails": "Зберегти деталі кошика",
     "saveDeliveryDetails": "Зберегти деталі доставки",
     "savePickUpDetails": "Зберегти деталі самовивозу",
     "serviceFee": "Плата за обслуговування",
     "subtotal": "Проміжний підсумок",
-    "termsOfService": "",
+    "termsOfService": "Умови використання",
     "total": "Всього",
-    "totalAmount": "",
+    "totalAmount": "Загальна сума",
     "unableToInitializePayment": "Не вдається ініціалізувати платіжний шлюз",
     "vat21": "ПДВ (21%)",
     "vatExclusive": "ПДВ (9%)"
@@ -636,8 +651,8 @@
     "failedToUpdateCart": "Не вдалося оновити кошик або адресу",
     "orderDetails": "Деталі замовлення",
     "orderDetailsStep": "2. Деталі замовлення",
-    "paymentDetails": "",
-    "paymentDetailsStep": "",
+    "paymentDetails": "Платіжні реквізити",
+    "paymentDetailsStep": "4. Платіжні реквізити",
     "signInOrSignUpStep": "1. Увійдіть або зареєструйтесь, щоб розмістити замовлення",
     "signInOrSignUpText": "Увійдіть або зареєструйтесь, щоб зробити замовлення"
   },
@@ -774,11 +789,10 @@
   "app/(store)/components/product-dialog": {
   },
   "app/(store)/components/product-list": {
-    "exploreDesserts": "",
+    "exploreDesserts": "Ознайомтеся з десертами",
     "noProductsFound": "Не знайдено жодних товарів",
-    "noRescueDealsProductsAtTheMoment": "",
-    "rescueDealsOnlyAvailableForPickUpOrders": "",
-    "toggleRescueDealMode": ""
+    "noRescueDealsProductsAtTheMoment": "Наразі немає товарів із пропозиції «Рятувальні пропозиції», вимкніть фільтр «Рятувальні пропозиції», щоб переглянути десерти.",
+    "rescueDealsOnlyAvailableForPickUpOrders": "Пропозиції «Рятувальні» доступні лише для замовлень із самовивозом. Будь ласка, переверніть доставку на самовивіз, щоб переглянути пропозиції «Рятувальні»."
   },
   "app/(store)/components/product-page": {
     "Add": "Додати",
@@ -1030,7 +1044,6 @@
   "app/(store)/id/orders/add": {
   },
   "app/(store)/id/page": {
-    "noProducts": "Немає доступних товарів"
   },
   "app/(store)/id/settings/page": {
     "settingsDescription": "Налаштуйте свій магазин та налаштування",
@@ -1103,7 +1116,8 @@
     "orderDbFailed": "Не вдалося створити базу даних замовлень",
     "orderNotFound": "Замовлення не знайдено",
     "processingError": "Помилка обробки платежу",
-    "rescueDealNotAvailable": "",
+    "rescueDealNotAvailable": "Деякі товари більше недоступні!",
+    "rescueDealNotAvailableScheduledTime": "Термін дії рятувальної угоди закінчився!",
     "tooManyRequests": "Забагато запитів",
     "userCreationFailed": "Не вдалося створити користувача"
   },
@@ -1213,7 +1227,6 @@
     "guestCartReplacedSuccess": "Кошик гостя успішно замінено на товари з кошика користувача!",
     "guestIdNotFound": "Ідентифікатор гостя не знайдено",
     "invalidOption": "Недійсний параметр {option} для {variant}",
-    "itemNotFound": "",
     "itemRemovedSuccess": "Елемент успішно видалено!",
     "maxSelectionsExceeded": "{variant} не може мати більше ніж {max} варіантів вибору",
     "minOrderRequired": "Ви повинні замовити щонайменше {min} цього товару",

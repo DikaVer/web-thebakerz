@@ -109,6 +109,9 @@ export const RescueDealItem: React.FC<RescueDealItemProps> = ({
                                     onChange={(e) => handlePromotionChange(product.id, e.target.value)}
                                     className="max-w-xs"
                                     size="sm"
+                                    classNames={{
+                                        popoverContent: "min-w-24",
+                                    }}
                                     isDisabled={!isSelected}
                                 >
                                     {promotionOptions.map((option) => (

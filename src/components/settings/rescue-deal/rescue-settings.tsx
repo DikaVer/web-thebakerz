@@ -192,6 +192,44 @@ const RescueSettings: React.FC<RescueSettingsProps> = ({ productsData, productsO
 
     // State for product orders and tabs
     const [selectedTab, setSelectedTab] = useState(categories[0]);
+    
+    // Drag scroll functionality
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+    const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+
+    // Drag scroll handlers
+    const handleMouseDown = (e: React.MouseEvent) => {
+        if (!scrollContainerRef.current) return;
+        setIsDragging(true);
+        setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+        setScrollLeft(scrollContainerRef.current.scrollLeft);
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging || !scrollContainerRef.current) return;
+        e.preventDefault();
+        const x = e.pageX - scrollContainerRef.current.offsetLeft;
+        const walk = (x - startX) * 2; // Scroll speed
+        scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const handleMouseLeave = () => {
+        setIsDragging(false);
+    };
+
+    const handleCategoryClick = (category: string, e: React.MouseEvent) => {
+        // Only change tab if we're not dragging
+        if (!isDragging) {
+            setSelectedTab(category);
+        }
+        e.preventDefault();
+    };
 
     // Memoize the productsData for the selected tab
     const computedProductsData: ProductDataFull = useMemo(() => {
@@ -274,17 +312,24 @@ const RescueSettings: React.FC<RescueSettingsProps> = ({ productsData, productsO
 
                     {/* Products Configuration */}
                     <Card shadow="none" className="w-full">
-                        <CardHeader className={'pb-0 gap-x-4'}>
+                        <CardHeader className={'pb-0'}>
+                            <div 
+                                ref={scrollContainerRef}
+                                className="flex gap-x-4 overflow-x-auto scrollbar-hide w-full cursor-grab active:cursor-grabbing select-none"
+                                onMouseDown={handleMouseDown}
+                                onMouseMove={handleMouseMove}
+                                onMouseUp={handleMouseUp}
+                                onMouseLeave={handleMouseLeave}
+                                style={{ scrollBehavior: isDragging ? 'auto' : 'smooth' }}
+                            >
                                 {categories.map((category) => (
                                         <motion.button
                                             key={category}
                                             type="button"
                                             layout="position"
-                                            onPointerDown={() => {
-                                                setSelectedTab(category);
-                                            }}
-                                            className={`text-sm relative ${selectedTab === category ? 'text-text font-medium' : 'text-default-500'}`}
-                                            whileHover={{ scale: 1.05 }}
+                                            onMouseDown={(e) => handleCategoryClick(category, e)}
+                                            className={`text-sm relative whitespace-nowrap flex-shrink-0 py-2 pointer-events-auto ${selectedTab === category ? 'text-text font-medium' : 'text-default-500'}`}
+                                            whileHover={!isDragging ? { scale: 1.05 } : {}}
                                             transition={{ duration: 0.2 }}
                                         >
                                             {`${category}`}
@@ -299,6 +344,7 @@ const RescueSettings: React.FC<RescueSettingsProps> = ({ productsData, productsO
                                             />
                                         </motion.button>
                                 ))}
+                            </div>
                         </CardHeader>
                         <CardBody className={'flex'}>
                             <div className={'p-2 rounded-lg rounded-b-none bg-default-100 grid grid-cols-12 text-xs md:text-sm font-medium mb-4'}>
