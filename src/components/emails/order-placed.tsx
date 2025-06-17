@@ -86,7 +86,7 @@ export default function OrderPlacedEmail({
     // Format date based on whether it's post delivery or not
     const formattedDateTime = isPostDelivery
         ? `${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year}`
-        : `${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year} at ${String(scheduledToCalendarDateTime(scheduledTime).hour).padStart(2, '0')}:${String(scheduledToCalendarDateTime(scheduledTime).minute).padStart(2, '0')}`;
+        : `${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year} ${isRescueDeal ? 'before' : 'at'} ${String(scheduledToCalendarDateTime(scheduledTime).hour).padStart(2, '0')}:${String(scheduledToCalendarDateTime(scheduledTime).minute).padStart(2, '0')}`;
         
     const calendarEventTitle = `${storeName} Order ${isDelivery ? 'Delivery' : 'Pickup'} #${orderId}`;
     const calendarLocation = isDelivery ? addressToShow : storeLocation.address;

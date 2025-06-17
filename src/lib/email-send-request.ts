@@ -10,7 +10,7 @@ import { TOS_VERSION } from "@/lib/local-variables";
 import { globalPOSTRateLimit } from "@/lib/utils/helper/requests";
 import { headers } from "next/headers";
 import { RefillingTokenBucket } from "@/lib/utils/helper/rate-limits";
-import OrderPlacedEmail, {OrderPlacedEmailProps} from "@/components/emails/order-placed";
+import OrderPlacedEmail from "@/components/emails/order-placed";
 import NewOrderEmail from "@/components/emails/new-order-bakerz";
 import {OrderData} from "@/lib/actions/order";
 import {getCurrentStorePayment} from "@/lib/api/store-api";
