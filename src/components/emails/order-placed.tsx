@@ -83,10 +83,9 @@ export default function OrderPlacedEmail({
         ? `https://maps.google.com/?q=${encodeURIComponent(addressToShow)}`
         : `https://maps.google.com/?q=${storeLocation.latitude},${storeLocation.longitude}`;
         
-    // Format date based on whether it's post delivery or not
-    const formattedDateTime = isPostDelivery
-        ? `${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year}`
-        : `${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year} ${isRescueDeal ? 'before' : 'at'} ${String(scheduledToCalendarDateTime(scheduledTime).hour).padStart(2, '0')}:${String(scheduledToCalendarDateTime(scheduledTime).minute).padStart(2, '0')}`;
+    // Format date components
+    const dateFormatted = `${String(scheduledToCalendarDateTime(scheduledTime).day).padStart(2, '0')}-${String(scheduledToCalendarDateTime(scheduledTime).month).padStart(2, '0')}-${scheduledToCalendarDateTime(scheduledTime).year}`;
+    const timeFormatted = `${String(scheduledToCalendarDateTime(scheduledTime).hour).padStart(2, '0')}:${String(scheduledToCalendarDateTime(scheduledTime).minute).padStart(2, '0')}`;
         
     const calendarEventTitle = `${storeName} Order ${isDelivery ? 'Delivery' : 'Pickup'} #${orderId}`;
     const calendarLocation = isDelivery ? addressToShow : storeLocation.address;
@@ -140,7 +139,13 @@ export default function OrderPlacedEmail({
                             <Column style={textColumn}>
                                 <Text style={detailHeading}>{scheduledTimeLabel}</Text>
                                 <Link href={calendarLink} style={linkStyle}>
-                                    {formattedDateTime}
+                                    {isPostDelivery ? (
+                                        dateFormatted
+                                    ) : (
+                                        <>
+                                            {dateFormatted} <strong>{isRescueDeal ? 'before' : 'at'}</strong> {timeFormatted}
+                                        </>
+                                    )}
                                 </Link>
                             </Column>
                         </Row>

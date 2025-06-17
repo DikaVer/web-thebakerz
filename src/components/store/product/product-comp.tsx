@@ -36,6 +36,8 @@ export const ProductComponentBase: React.FC<{ storeId: string, searchParams?: Se
             rescueDeals.products?.forEach(p => {
                 p.quantity = newQuantities[p.id] || 0;
             });
+            // Filter to only show selected rescue deal products
+            rescueDeals.products = rescueDeals.products?.filter(p => p.isSelected === true);
         }
     }
 

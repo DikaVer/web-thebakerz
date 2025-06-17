@@ -85,11 +85,13 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
   
   // Check search params for delivery mode
   const modeFromUrl = searchParams.get('mode');
+  const rescueDealMode = searchParams.get('rescue-deal');
   const initialMode = modeFromUrl === 'delivery' ? true : modeFromUrl === 'pickup' ? false : initialDeliveryMode;
+  const initialRescueMode = rescueDealMode === 'true' ? true : initialRescueDealMode;
   
   const [isDelivery, setIsDelivery] = useState(initialMode);
   const [isTogglingDelivery, setIsTogglingDelivery] = useState(false);
-  const [isRescueDeal, setIsRescueDeal] = useState(initialRescueDealMode);
+  const [isRescueDeal, setIsRescueDeal] = useState(initialRescueMode);
   
   // Date selection state
   const [selectedDate, setSelectedDate] = useState<CalendarDateTime | CalendarDate | undefined>(undefined);
@@ -326,6 +328,11 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
     clarity.setTag("rescue-deal-mode", value ? "rescue-deal" : "normal");
     setIsRescueDeal(value);
     await setRescueDealMode(value);
+
+    // Update URL search params without router
+    const url = new URL(window.location.href);
+    url.searchParams.set('rescue-deal', value ? 'true' : 'false');
+    window.history.replaceState({}, '', url.toString());
   }
   
   // Handle date change

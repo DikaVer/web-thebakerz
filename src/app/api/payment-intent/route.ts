@@ -122,6 +122,10 @@ export async function POST(req: NextRequest) {
             automatic_payment_methods: { enabled: true },
             confirmation_token: confirmationTokenId,
             confirm: true,
+            transfer_data: orderRaw.transfer_data && orderRaw.transfer_data.length > 0 ? {
+                destination: orderRaw.transfer_data[0].destination,
+                amount: orderRaw.transfer_data[0].amount - orderRaw.transfer_data[0].app_fee,
+            } : undefined,
             metadata: {
                 storeId: storeId,
                 cosmosOrderId: orderId,
@@ -129,7 +133,7 @@ export async function POST(req: NextRequest) {
                 storeName: orderRaw.store_name || storeId,
                 isDelivery: orderRaw.isDelivery ? 'true' : 'false',
                 isRescueDeal: isRescueDeal ? 'true' : 'false',
-            }
+            },
         });
 
         if(isRescueDeal && holdIds){

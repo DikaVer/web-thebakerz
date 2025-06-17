@@ -235,14 +235,15 @@ export const categories: Readonly<{ [key: string]: { description: string } }> = 
     'Chocolate Bar': { description: 'Other categories not listed above.' },
     'Marshmallow': { description: 'Other categories not listed above.' },
     'Cookies and Biscuits': { description: 'Various sweet and savory cookies and biscuits.' },
+    'Bread': { description: 'Various types of bread including baguettes, ciabatta, and sourdough.' },
     'Cupcakes': { description: 'Individual portion cakes with decorative frosting.' },
-    'Donuts': { description: 'Ring-shaped fried dough with various glazes and fillings.' },
     'Eclairs': { description: 'Choux pastry filled with cream and topped with icing.' },
     'Macarons': { description: 'French almond meringue cookies with filling.' },
     'Pastries': { description: 'Flaky, buttery baked goods including croissants and danish.' },
     'Pies': { description: 'Traditional fruit or savory fillings in a pastry crust.' },
     'Birthday Cakes': { description: 'Special decorated cakes for birthday celebrations.' },
     'Wedding Cakes': { description: 'Elegant multi-tiered cakes for wedding celebrations.' },
+    'Donuts': { description: 'Ring-shaped fried dough with various glazes and fillings.' },
 };
 
 export const EU_COUNTRIES_PLUS_SWISS: Readonly<{ [key: string]: string }> = {

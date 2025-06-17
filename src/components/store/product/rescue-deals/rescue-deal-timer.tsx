@@ -13,7 +13,7 @@ interface RescueDealTimerProps {
 export const RescueDealTimer: React.FC<RescueDealTimerProps> = ({ schedule }) => {
     const [timeData, setTimeData] = useState<ReturnType<typeof getTimeUntilClosing>>(null);
     const [mounted, setMounted] = useState(false);
-    const { isRescueDeal, toggleRescueDealMode } = useDelivery();
+    const { isRescueDeal, toggleRescueDealMode, toggleDeliveryMode } = useDelivery();
     const t = useTranslations("RescueDealTimer");
 
     useEffect(() => {
@@ -67,7 +67,11 @@ export const RescueDealTimer: React.FC<RescueDealTimerProps> = ({ schedule }) =>
                 ? 'bg-gradient-to-r from-warning-500/20 to-primary-500/20 border-2 border-warning-500/30 shadow-lg shadow-warning-500/10'
                 : 'bg-gradient-to-r from-primary-500/10 to-secondary-500/10 border border-primary-500/20 shadow-md'
         }`}
-        onClick={() => toggleRescueDealMode(true)}
+        onClick={() => 
+            {
+                toggleRescueDealMode(true);
+                toggleDeliveryMode(false);
+            }}
         >
             {/* Header */}
             <div className="flex items-center justify-between mb-3 relative z-10">
@@ -158,7 +162,10 @@ export const RescueDealTimer: React.FC<RescueDealTimerProps> = ({ schedule }) =>
             {!isRescueDeal && (
                 <div className="absolute bottom-2 right-2 z-20">
                     <button
-                        onClick={() => toggleRescueDealMode(true)}
+                        onClick={() => {
+                            toggleRescueDealMode(true);
+                            toggleDeliveryMode(false);
+                        }}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-medium text-xs transition-all duration-300 hover:scale-105 ${
                             isVeryUrgent 
                                 ? 'bg-white/90 text-danger-700 shadow-lg border border-danger-200 hover:bg-white' 

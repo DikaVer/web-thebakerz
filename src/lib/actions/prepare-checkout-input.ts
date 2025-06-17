@@ -287,6 +287,21 @@ export async function prepareCheckout({
         finalScheduledTime = getLastStoreHoursToday(scheduleToValidateAgainst);     
     }
 
+
+    // Calculate the transfer amount to the connected account
+    let transferAmount = itemsInclVat;
+    if (isDelivery && deliveryFeeInclVat > 0 && selectedRegion?.isStoreDelivery) {
+        transferAmount += deliveryFeeInclVat; // Include delivery fee in the transfer amount
+    }
+    const totalTransferAmount = transferAmount;
+    const applicationFee = calculateApplicationFee(
+        totalTransferAmount, 
+        selectedRegion?.isStoreDelivery || true, 
+        storeData.custom_app_fee, 
+        storeData.custom_delivery_fee
+    );
+    const transferAmountAfterFee = totalTransferAmount - applicationFee;
+
     const orderRecordForDb: ExtendedOrderRaw = {
         id: cosmosId,
         store_id: storeId,
@@ -297,7 +312,7 @@ export async function prepareCheckout({
         productsData: cartItemsForOrder,
         orderNote: orderNote,
         isDelivery: isDelivery,
-        isStoreDelivery: selectedRegion?.isStoreDelivery || false,
+        isStoreDelivery: selectedRegion?.isStoreDelivery || false, //TODO: when we will have more orders
         isPostDelivery: selectedRegion?.isPostDelivery || false,
         isCountryDelivery: selectedRegion?.isCountry || false,
         deliveryToAddress: currentAddress,
@@ -321,13 +336,8 @@ export async function prepareCheckout({
         currency: storeData.currency,
         transfer_data: [{
             destination: storeStripeAccountId,
-            amount: itemsInclVat + (selectedRegion?.isStoreDelivery ? deliveryFeeInclVat : 0),
-            app_fee: calculateApplicationFee(
-                itemsInclVat + (selectedRegion?.isStoreDelivery ? deliveryFeeInclVat : 0), 
-                selectedRegion?.isStoreDelivery || true, 
-                storeData.custom_app_fee, 
-                storeData.custom_delivery_fee
-            )
+            amount: transferAmount, // Amount to transfer to the connected account
+            app_fee: applicationFee
         }],
         isRescueDeal: isRescueDeal,
         status: 'pending_payment',
