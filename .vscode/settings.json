@@ -121,7 +121,13 @@
         "Dietary.halal",
         "Dietary.sugar-free",
         "Dietary.gluten-free",
-        "Dietary.vegan"
+        "Dietary.vegan",
+        "app/landing/marketplace.features.perfectBaker.description",
+        "app/landing/marketplace.features.perfectBaker.title",
+        "app/landing/marketplace.features.hiddenGems.description",
+        "app/landing/marketplace.features.hiddenGems.title",
+        "app/landing/marketplace.features.rescueDeals.description",
+        "app/landing/marketplace.features.rescueDeals.title"
     ],
 
   "i18n-ally.review.gutters": true,

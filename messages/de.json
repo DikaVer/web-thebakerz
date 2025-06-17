@@ -1207,6 +1207,20 @@
     "bakersGrowthSectionTitle": "Erweitern Sie Ihr Bäckereigeschäft mit TheBakerz",
     "become": "Plattform beitreten",
     "customOrder": "Individuelles Dessert",
+    "features": {
+      "hiddenGems": {
+        "description": "Erhalten Sie Zugang zu Desserts, die die meisten Menschen nicht finden – hergestellt von lokalen Bäckern, die genau auf Ihre Ernährungsbedürfnisse spezialisiert sind. Entdecken Sie handgefertigte glutenfreie, vegane, zuckerfreie, halal und allergikerfreundliche Kreationen, die einfach fantastisch schmecken. Geben Sie Ihren Standort ein, suchen und filtern Sie, um das perfekte Dessert zu finden.",
+        "title": "Entdecken Sie versteckte Dessert-Juwelen in Ihrer Nähe"
+      },
+      "perfectBaker": {
+        "description": "Überlassen Sie uns die Suche nach dem perfekten Bäcker für Ihre Hochzeit, Ihren Geburtstag oder Ihre Firmenveranstaltung. Füllen Sie einfach ein kurzes Formular mit Ihren Wünschen aus, und unser System verbindet Sie mit erfahrenen Bäckern in Ihrer Nähe. Erhalten Sie individuelle Angebote von geprüften Experten, die genau auf Ihre Bedürfnisse spezialisiert sind.",
+        "title": "Finden Sie Ihren perfekten Bäcker für jeden Anlass"
+      },
+      "rescueDeals": {
+        "description": "Stöbern Sie durch unsere Backwaren und wählen Sie gezielt nach Ihren Wünschen – keine Überraschungsboxen, nur die Artikel, die Sie wirklich wollen. Diese Produkte haben eine kürzere Resthaltbarkeit oder kleinere optische Mängel, behalten aber den gleichen hervorragenden Geschmack und die gleiche Qualität. Abholung am selben Tag mit einem optimalen Verzehrfenster von 12 Stunden. Alle Angebote sind verbindlich.",
+        "title": "Lebensmittel und Geld sparen"
+      }
+    },
     "heroSectionTitle": "Entdecken Sie handwerkliche Bäckereien in Ihrer Nähe",
     "joinBakerz": "Werden Sie Mitglied bei TheBakerz – hier treffen zufriedene Kunden auf lokale Bäcker",
     "special": "Haben Sie etwas Besonderes im Sinn?"

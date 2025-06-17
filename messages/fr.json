@@ -1207,6 +1207,20 @@
     "bakersGrowthSectionTitle": "Développez votre entreprise de boulangerie avec TheBakerz",
     "become": "Rejoignez la plateforme",
     "customOrder": "Dessert personnalisé",
+    "features": {
+      "hiddenGems": {
+        "description": "Accédez à des desserts introuvables, préparés par des boulangers locaux spécialisés dans vos besoins alimentaires. Découvrez des créations artisanales sans gluten, végétaliennes, sans sucre, halal et hypoallergéniques, au goût exquis. Indiquez votre localisation, recherchez et filtrez pour trouver la recette idéale.",
+        "title": "Découvrez les trésors cachés des desserts dans votre région"
+      },
+      "perfectBaker": {
+        "description": "Oubliez les recherches interminables et laissez-nous trouver le pâtissier idéal pour votre mariage, anniversaire ou événement d'entreprise. Remplissez un court formulaire avec vos besoins et notre système vous mettra en relation avec des pâtissiers expérimentés près de chez vous. Recevez des propositions personnalisées de professionnels qualifiés, spécialisés dans vos besoins.",
+        "title": "Trouvez votre boulanger idéal pour chaque occasion"
+      },
+      "rescueDeals": {
+        "description": "Parcourez et sélectionnez des produits de boulangerie spécifiques à prix réduits : pas de surprises, juste les produits que vous désirez vraiment. Ces produits ont une durée de conservation plus courte ou présentent de légères imperfections esthétiques, mais conservent le même goût et la même qualité. Retrait le jour même obligatoire, avec un délai de consommation optimal de 12 heures. Ventes finales.",
+        "title": "Économisez de la nourriture et de l'argent"
+      }
+    },
     "heroSectionTitle": "Découvrez les boulangeries artisanales près de chez vous",
     "joinBakerz": "Rejoignez TheBakerz — où clients satisfaits rencontrent boulangers locaux",
     "special": "Avez-vous quelque chose de spécial en tête ?"

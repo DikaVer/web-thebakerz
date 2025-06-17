@@ -1207,6 +1207,20 @@
     "bakersGrowthSectionTitle": "Haz crecer tu negocio de panadería con TheBakerz",
     "become": "Unirse a la plataforma",
     "customOrder": "Postre personalizado",
+    "features": {
+      "hiddenGems": {
+        "description": "Accede a postres que la mayoría no encuentra, elaborados por panaderos locales que se especializan en tus necesidades dietéticas. Explora creaciones artesanales sin gluten, veganas, sin azúcar, halal y aptas para alérgicos con un sabor increíble. Introduce tu ubicación, busca y filtra para encontrar la opción perfecta.",
+        "title": "Descubra las joyas ocultas de los postres en su zona"
+      },
+      "perfectBaker": {
+        "description": "Olvídate de las búsquedas interminables y déjanos encontrar al panadero perfecto para tu boda, cumpleaños o evento corporativo. Completa un breve formulario con tus requisitos y nuestro sistema te conectará con panaderos con experiencia en tu zona. Recibe propuestas personalizadas de profesionales certificados que se especializan en lo que necesitas.",
+        "title": "Encuentra tu panadero perfecto para cualquier ocasión"
+      },
+      "rescueDeals": {
+        "description": "Explora y selecciona productos de panadería específicos con grandes descuentos: sin cajas sorpresa, solo los que realmente quieres. Estos productos tienen una vida útil más corta o pequeñas imperfecciones estéticas, pero conservan el mismo sabor y calidad. Recogida el mismo día con un plazo de consumo óptimo de 12 horas. Todas las ventas son finales.",
+        "title": "Ahorre comida y dinero"
+      }
+    },
     "heroSectionTitle": "Descubre panaderías artesanales cerca de ti",
     "joinBakerz": "Únase a TheBakerz, donde los clientes satisfechos conocen a los panaderos locales",
     "special": "¿Tienes algo especial en mente?"

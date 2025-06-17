@@ -1207,6 +1207,20 @@
     "bakersGrowthSectionTitle": "Laat uw bakkerijbedrijf groeien met TheBakerz",
     "become": "Doe mee met het platform",
     "customOrder": "Aangepast dessert",
+    "features": {
+      "hiddenGems": {
+        "description": "Krijg toegang tot desserts die de meeste mensen niet kunnen vinden - gemaakt door lokale bakkers die gespecialiseerd zijn in jouw specifieke dieetwensen. Bekijk handgemaakte glutenvrije, veganistische, suikervrije, halal en allergievriendelijke creaties die echt heerlijk smaken. Voer je locatie in, zoek en filter om je perfecte match te vinden.",
+        "title": "Ontdek verborgen dessertpareltjes in uw omgeving"
+      },
+      "perfectBaker": {
+        "description": "Sla het eindeloze zoeken over en laat ons de perfecte bakker vinden voor uw bruiloft, verjaardag of bedrijfsevenement. Vul een kort formulier in met uw wensen en ons systeem koppelt u aan ervaren bakkers bij u in de buurt. Ontvang persoonlijke offertes van gecontroleerde professionals die gespecialiseerd zijn in precies wat u nodig heeft.",
+        "title": "Vind uw perfecte bakker voor elke gelegenheid"
+      },
+      "rescueDeals": {
+        "description": "Bekijk en selecteer specifieke bakkerijproducten met hoge kortingen - geen verrassingsboxen, alleen de producten die u echt wilt. Deze producten hebben een kortere houdbaarheid of kleine cosmetische onvolkomenheden, maar behouden dezelfde geweldige smaak en kwaliteit. Afhalen op dezelfde dag is vereist met een optimale consumptieperiode van 12 uur. Alle verkopen zijn definitief.",
+        "title": "Bespaar voedsel en geld"
+      }
+    },
     "heroSectionTitle": "Ontdek ambachtelijke bakkerijen bij jou in de buurt",
     "joinBakerz": "Sluit je aan bij TheBakerz, waar tevreden klanten lokale bakkers ontmoeten",
     "special": "Heeft u iets speciaals in gedachten?"
