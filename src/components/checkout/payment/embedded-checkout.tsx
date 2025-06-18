@@ -28,6 +28,11 @@ interface EmbeddedCheckoutProps {
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
+// Add error handling for Stripe loading
+stripePromise.catch(error => {
+    console.error('Failed to load Stripe:', error);
+});
+
 export default function EmbeddedCheckout({ 
     storeStripeAccountId, 
     totalAmount,
@@ -42,6 +47,10 @@ export default function EmbeddedCheckout({
     const { store } = useStore()
     const router = useRouter()
 
+    // Add debugging for Stripe account ID
+    console.log('Stripe Account ID:', storeStripeAccountId);
+    console.log('Store ID:', store?.id);
+    console.log('Is Rescue Deal:', isRescueDeal);
 
     const initializeCheckout = useCallback(async () => {
         if (!store?.id || !storeStripeAccountId) {
@@ -335,11 +344,20 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
                     options={{
                         // Note: Payment method restrictions for Rescue Deals are handled server-side
                         // to avoid conflicts with automatic payment methods configuration
+                        business: { name: store?.storeName || 'Store' },
+                        paymentMethods: {
+                            applePay: 'auto',
+                            googlePay: 'auto', 
+                        }
                     }}
                     onReady={(event) => {
-                        if (event.availablePaymentMethods) {
+                        if (event.availablePaymentMethods && Object.keys(event.availablePaymentMethods).length > 0) {
                             setIsExpressCheckoutAvailable(true);
                         }
+                    }}
+                    onCancel={() => {
+                        // Handle express checkout cancellation gracefully
+                        setIsLoading(false);
                     }}
                     onConfirm={
                     async (e) => {
@@ -347,13 +365,16 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
                             return;
                          }
 
+                         setIsLoading(true);
+
                          if (needsEmail) {
                             let hasError = false;
-                            if (!validateEmail(email)) {
+                            if (!email || !validateEmail(email)) {
                                 hasError = true;
                             }
                             if (hasError) {
                                 showErrorMessage({ error: "Please fill in all required fields before using Express Checkout." });
+                                setIsLoading(false);
                                 return;
                             }
                         }
@@ -394,9 +415,11 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
                              await handleServerResponse(data);
                          } catch (e: any) {
                             showErrorMessage({ error: e.message || 'Server communication error' })
+                            setIsLoading(false);
                          }
                     }
-                 } />
+                 }
+                 />
             {isExpressCheckoutAvailable && <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-gray-300" />
