@@ -1117,7 +1117,7 @@
     "orderNotFound": "Bestelling niet gevonden",
     "processingError": "Fout bij het verwerken van de betaling",
     "rescueDealNotAvailable": "Sommige producten zijn niet meer beschikbaar!",
-    "rescueDealNotAvailableScheduledTime": "Reddingsdeal is verlopen!",
+    "rescueDealNotAvailableScheduledTime": "Reddingsdeal is verlopen! schedule: {scheduledTime} now: {nowTime}",
     "tooManyRequests": "Te veel verzoeken",
     "userCreationFailed": "Gebruikersaanmaak mislukt"
   },

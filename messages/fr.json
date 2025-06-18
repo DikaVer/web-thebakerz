@@ -1117,7 +1117,7 @@
     "orderNotFound": "Commande non trouvée",
     "processingError": "Erreur lors du traitement du paiement",
     "rescueDealNotAvailable": "Certains produits ne sont plus disponibles !",
-    "rescueDealNotAvailableScheduledTime": "L'offre de sauvetage est expirée !",
+    "rescueDealNotAvailableScheduledTime": "L'offre de sauvetage est expirée ! schedule: {scheduledTime} now: {nowTime}",
     "tooManyRequests": "Trop de demandes",
     "userCreationFailed": "Échec de la création de l'utilisateur"
   },

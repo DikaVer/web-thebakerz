@@ -1117,7 +1117,7 @@
     "orderNotFound": "Замовлення не знайдено",
     "processingError": "Помилка обробки платежу",
     "rescueDealNotAvailable": "Деякі товари більше недоступні!",
-    "rescueDealNotAvailableScheduledTime": "Термін дії рятувальної угоди закінчився!",
+    "rescueDealNotAvailableScheduledTime": "Термін дії рятувальної угоди закінчився! schedule: {scheduledTime} now: {nowTtime}",
     "tooManyRequests": "Забагато запитів",
     "userCreationFailed": "Не вдалося створити користувача"
   },

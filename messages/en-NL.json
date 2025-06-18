@@ -1099,7 +1099,7 @@
     "orderNotFound": "Order not found",
     "processingError": "Error processing payment",
     "rescueDealNotAvailable": "Some Products are not avialable anymore!",
-    "rescueDealNotAvailableScheduledTime": "Rescue Deal is expired!",
+    "rescueDealNotAvailableScheduledTime": "Rescue Deal is expired! schedule: {scheduledTime} now: {nowTime}",
     "tooManyRequests": "Too many requests",
     "userCreationFailed": "User Creation Failed"
   },
@@ -1185,23 +1185,23 @@
     "bakersGrowthSectionTitle": "Grow your bakery business with TheBakerz",
     "become": "Join platform",
     "customOrder": "Custom Dessert",
-    "heroSectionTitle": "Discover artisanal bakeries near you",
-    "joinBakerz": "Join TheBakerz — where happy customers meet local bakers",
-    "special": "Do you have something special in mind?",
     "features": {
-      "rescueDeals": {
-        "title": "Save Food and Money",
-        "description": "Browse and select specific bakery items at steep discounts - no surprise boxes, just the items you actually want. These products have shorter remaining shelf life or minor cosmetic imperfections but maintain the same great taste and quality. Same-day pickup required with 12-hour optimal consumption window, all sales final."
-      },
       "hiddenGems": {
-        "title": "Discover Hidden Dessert Gems in Your Area",
-        "description": "Get access to desserts most people can't find - made by local bakers who specialize in your exact dietary needs. Browse handcrafted gluten-free, vegan, sugar-free, halal, and allergy-friendly creations that actually taste amazing. Enter your location, search, and filter to find your perfect match."
+        "description": "Get access to desserts most people can't find - made by local bakers who specialize in your exact dietary needs. Browse handcrafted gluten-free, vegan, sugar-free, halal, and allergy-friendly creations that actually taste amazing. Enter your location, search, and filter to find your perfect match.",
+        "title": "Discover Hidden Dessert Gems in Your Area"
       },
       "perfectBaker": {
-        "title": "Find Your Perfect Baker for Any Occasion",
-        "description": "Skip the endless searching and let us find the perfect baker for your wedding, birthday, or corporate event. Fill out a brief form with your requirements, and our system matches you with experienced bakers in your area. Get personalized proposals from vetted professionals who specialize in exactly what you need."
+        "description": "Skip the endless searching and let us find the perfect baker for your wedding, birthday, or corporate event. Fill out a brief form with your requirements, and our system matches you with experienced bakers in your area. Get personalized proposals from vetted professionals who specialize in exactly what you need.",
+        "title": "Find Your Perfect Baker for Any Occasion"
+      },
+      "rescueDeals": {
+        "description": "Browse and select specific bakery items at steep discounts - no surprise boxes, just the items you actually want. These products have shorter remaining shelf life or minor cosmetic imperfections but maintain the same great taste and quality. Same-day pickup required with 12-hour optimal consumption window, all sales final.",
+        "title": "Save Food and Money"
       }
-    }
+    },
+    "heroSectionTitle": "Discover artisanal bakeries near you",
+    "joinBakerz": "Join TheBakerz — where happy customers meet local bakers",
+    "special": "Do you have something special in mind?"
   },
   "app/lib/actions/auth/email-action": {
     "applicationSubmittedSuccess": "Application was submitted successfully!",

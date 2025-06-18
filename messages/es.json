@@ -1117,7 +1117,7 @@
     "orderNotFound": "Pedido no encontrado",
     "processingError": "Error al procesar el pago",
     "rescueDealNotAvailable": "¡Algunos productos ya no están disponibles!",
-    "rescueDealNotAvailableScheduledTime": "¡La oferta de rescate ha expirado!",
+    "rescueDealNotAvailableScheduledTime": "¡La oferta de rescate ha expirado! schedule: {scheduledTime} now: {nowTime}",
     "tooManyRequests": "Demasiadas solicitudes",
     "userCreationFailed": "Falló la creación del usuario"
   },

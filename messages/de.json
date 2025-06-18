@@ -1117,7 +1117,7 @@
     "orderNotFound": "Bestellung nicht gefunden",
     "processingError": "Fehler bei der Zahlungsabwicklung",
     "rescueDealNotAvailable": "Einige Produkte sind nicht mehr verfügbar!",
-    "rescueDealNotAvailableScheduledTime": "Rettungsangebot ist abgelaufen!",
+    "rescueDealNotAvailableScheduledTime": "Rettungsangebot ist abgelaufen! schedule: {scheduledTime} now: {nowTime}",
     "tooManyRequests": "Zu viele Anfragen",
     "userCreationFailed": "Benutzererstellung fehlgeschlagen"
   },

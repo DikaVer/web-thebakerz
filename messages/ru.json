@@ -1117,7 +1117,7 @@
     "orderNotFound": "Заказ не найден",
     "processingError": "Ошибка обработки платежа",
     "rescueDealNotAvailable": "Некоторые продукты больше не доступны!",
-    "rescueDealNotAvailableScheduledTime": "Срок действия спасательной сделки истек!",
+    "rescueDealNotAvailableScheduledTime": "Срок действия спасательной сделки истек! schedule: {scheduledTime} now: {nowTime}",
     "tooManyRequests": "Слишком много запросов",
     "userCreationFailed": "Создание пользователя не удалось"
   },
