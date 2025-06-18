@@ -48,9 +48,9 @@ export default function EmbeddedCheckout({
     const router = useRouter()
 
     // Add debugging for Stripe account ID
-    console.log('Stripe Account ID:', storeStripeAccountId);
-    console.log('Store ID:', store?.id);
-    console.log('Is Rescue Deal:', isRescueDeal);
+    // console.log('Stripe Account ID:', storeStripeAccountId);
+    // console.log('Store ID:', store?.id);
+    // console.log('Is Rescue Deal:', isRescueDeal);
 
     const initializeCheckout = useCallback(async () => {
         if (!store?.id || !storeStripeAccountId) {
@@ -516,7 +516,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
                     {isLoading ? t("processing") : t("pay")}
                 </Button>
 
-                <p className="px-8 text-center text-sm text-muted-foreground gap-4">
+                <div className="px-8 text-center text-sm text-muted-foreground gap-4">
                         {t("byClickingContinue")}{" "}
                         <div className="flex flex-row items-center gap-6 justify-center">
                             <Link href="/policies/terms-of-use" className="underline underline-offset-4 hover:text-primary text-sm text-muted-foreground">
@@ -532,7 +532,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
                             </Link>
                         </div>
                         .
-                    </p>
+                    </div>
             </form>
         </div>
     )
