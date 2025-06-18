@@ -57,7 +57,7 @@ export const CartProvider: React.FC<{
     const [itemCount, setItemCount] = useState<number>(0);
     const [total, setTotal] = useState<number>(0);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { setMinLeadTimeProduct, isRescueDeal } = useDelivery();
+    const { setMinLeadTimeProduct, isRescueDeal, isDelivery } = useDelivery();
 
     // Calculate cart metrics
     const calculateCartMetrics = useCallback((cart: CartData) => {
@@ -67,6 +67,14 @@ export const CartProvider: React.FC<{
             : 0;
         return { count, totalQuantity };
     }, [storeId]);
+
+    // Sync cart type with delivery provider's isDelivery state
+    useEffect(() => {
+        const newCartType: CartType = isDelivery ? 'delivery' : 'pickup';
+        if (newCartType !== currentCartType) {
+            setCurrentCartType(newCartType);
+        }
+    }, [isDelivery, currentCartType]);
 
     // Update cart data when currentCartType changes
     useEffect(() => {

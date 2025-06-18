@@ -9,6 +9,7 @@ import {
     CardBody,
     CardHeader,
     Spacer,
+    ScrollShadow,
 } from "@heroui/react";
 import { ProductTable } from "@/components/settings/products/product-tab";
 import { sortItems } from "@/lib/utils/helper/sort-items-with-order";
@@ -209,44 +210,51 @@ const ProductManager: React.FC<{ productsData: ProductDataFull; productsOrder: R
 
             <Card shadow="none" className="w-full" >
                 <CardHeader className={'pb-0'}>
-                    <Reorder.Group
-                        axis="x"
-                        onReorder={(newOrder) => {
-                            setTabs(newOrder);
-                            if (!orderChanged) {
-                                setOrderChanged(true);
-                                setSaveOpen(true);
-                            }
-                        }}
-                        className='flex-grow flex justify-start items-end space-x-2 w-full'
-                        values={tabs}
+                    <ScrollShadow 
+                        orientation="horizontal"
+                        className="w-full"
+                        hideScrollBar={false}
+                        size={20}
                     >
-                        {tabs.map((category) => (
-                            <ItemCategory item={category} key={category}>
-                                <motion.button
-                                    key={category}
-                                    layout="position"
-                                    onPointerDown={() => {
-                                        setSelectedTab(category);
-                                    }}
-                                    className={`text-sm relative ${selectedTab === category ? 'text-text font-medium' : 'text-default-500'}`}
-                                    whileHover={{ scale: 1.05 }}
-                                    transition={{ duration: 0.2 }}
-                                >
-                                    {`${category}`}
-                                    <motion.div
-                                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-text"
-                                        initial={false}
-                                        animate={{
-                                            opacity: selectedTab === category ? 1 : 0,
-                                            scaleX: selectedTab === category ? 1 : 0
+                        <Reorder.Group
+                            axis="x"
+                            onReorder={(newOrder) => {
+                                setTabs(newOrder);
+                                if (!orderChanged) {
+                                    setOrderChanged(true);
+                                    setSaveOpen(true);
+                                }
+                            }}
+                            className='flex-grow flex justify-start items-end space-x-2 w-max min-w-full'
+                            values={tabs}
+                        >
+                            {tabs.map((category) => (
+                                <ItemCategory item={category} key={category}>
+                                    <motion.button
+                                        key={category}
+                                        layout="position"
+                                        onPointerDown={() => {
+                                            setSelectedTab(category);
                                         }}
-                                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                                    />
-                                </motion.button>
-                            </ItemCategory>
-                        ))}
-                    </Reorder.Group>
+                                        className={`text-sm relative whitespace-nowrap pointer-events-auto ${selectedTab === category ? 'text-text font-medium' : 'text-default-500'}`}
+                                        whileHover={{ scale: 1.05 }}
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        {`${category}`}
+                                        <motion.div
+                                            className="absolute bottom-0 left-0 right-0 h-[2px] bg-text"
+                                            initial={false}
+                                            animate={{
+                                                opacity: selectedTab === category ? 1 : 0,
+                                                scaleX: selectedTab === category ? 1 : 0
+                                            }}
+                                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                                        />
+                                    </motion.button>
+                                </ItemCategory>
+                            ))}
+                        </Reorder.Group>
+                    </ScrollShadow>
                 </CardHeader>
                 <CardBody className={'flex'}>
                     <div className={'p-2 rounded-lg rounded-b-none bg-default-100 grid grid-cols-6 text-xs md:text-sm font-medium'}>

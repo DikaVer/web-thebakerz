@@ -548,7 +548,7 @@ export async function getAllProductsByFilter(filterParams: {
       parameters: parameters
     };
 
-    console.log("querySpec", querySpec);
+    // console.log("querySpec", querySpec);
 
     // Query without partition key as we search across all stores
     const { resources: fetchedProducts } = await containerProducts.items

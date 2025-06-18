@@ -249,12 +249,12 @@ export const DeliveryProvider: React.FC<DeliveryProviderProps> = ({
 
   // Initialize delivery mode
   useEffect(() => {
-    const initDeliveryMode = async () => {
+    const updateCookies = async () => {
+      await setRescueDealMode(isRescueDeal);
       await setDeliveryMode(isDelivery ? 'delivery' : 'pickup');
     };
-    
-    initDeliveryMode();
-  }, []);
+    updateCookies();
+  }, [isDelivery, isRescueDeal]);
   
   // Load saved delivery date and time when in delivery mode
   useEffect(() => {
