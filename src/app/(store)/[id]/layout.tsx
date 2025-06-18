@@ -186,7 +186,7 @@ async function setupStoreProviders({
         >
             <DeliveryProvider
                 initialDeliveryMode={initialDeliveryMode}
-                initialRescueDealMode={rescueDealMode}
+                initialRescueDealMode={isClosingSoon && rescueDealMode}
                 initialAddress={savedAddress}
             >   
                 <CartProvider

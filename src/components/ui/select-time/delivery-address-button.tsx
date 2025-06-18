@@ -103,6 +103,7 @@ export const DeliveryAddressButton: React.FC = () => {
                                 
                                 // Use the handleAddressSubmit function to update the address
                                 await handleAddressSubmit(addressData, false);
+                                deliveryAddressModal.onClose();
                                 
                             }
                             

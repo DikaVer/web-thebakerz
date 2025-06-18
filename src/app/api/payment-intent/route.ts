@@ -14,8 +14,7 @@ import { getRequestContext } from "@/lib/request-context";
 import { checkAndReserveInventory } from "@/lib/utils/helper/check-inventory-rescue";
 import { attachPaymentIntentToHold, removeHold } from "@/lib/utils/helper/inventory-holds";
 import { cancelRescueDealCheckout } from "@/lib/utils/helper/inventory-integration";
-import { scheduledToCalendarDateTime } from "@/lib/utils";
-import { getLocalTimeZone } from "@internationalized/date";
+import { scheduledToCalendarDateTime } from "@/lib/utils";;
 import { now } from "@internationalized/date";
 
 // Initialize logger for payment processing
