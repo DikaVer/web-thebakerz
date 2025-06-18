@@ -47,6 +47,7 @@ const CartButton: React.FC<CartButtonProps> = ({
         validateRescueDealsQuantity,
         rescueDeals,
     } = useCart();
+
     
     const { isDelivery, validationResult, minLeadTimeProduct, isRescueDeal } = useDelivery();
     

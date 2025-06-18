@@ -42,7 +42,6 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to, i
     const [isPending, startTransition] = useTransition();
     const [isLoading, setIsLoading] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
-    const t = useTranslations("app/(store)/components/order-dashboard");
     const [orderStatusByDate, setOrderStatusByDate] = useState<OrderStatusByDate>({});
 
     const [orderDataList, setOrderDataList] = useState<OrderData[]>([]);

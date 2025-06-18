@@ -76,7 +76,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
                     selectorIcon: 'hidden',
                     innerWrapper: 'w-fit',
                     value: "p-0",
-                    popoverContent: "w-[150px]",
+                    popoverContent: "w-[150px] -translate-x-24",
                 }}
                 renderValue={() => <OrderStatusChip status={selectedStatus} />}
             >
