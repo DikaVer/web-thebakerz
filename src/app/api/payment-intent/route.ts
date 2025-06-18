@@ -70,7 +70,10 @@ export async function POST(req: NextRequest) {
             const scheduledTime = scheduledToCalendarDateTime(orderRaw.scheduled_time);
             const nowTime = now("Europe/Amsterdam");   
             if(scheduledTime.compare(nowTime) <= 0){
-                return NextResponse.json({ error: t("rescueDealNotAvailableScheduledTime") }, { status: 400 });
+                return NextResponse.json({ error: t("rescueDealNotAvailableScheduledTime", {
+                    scheduledTime: scheduledTime.toString(),
+                    nowTime: nowTime.toString()
+                }) }, { status: 400 });
             }
         }
 
