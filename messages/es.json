@@ -712,6 +712,7 @@
     "add": "Agregar",
     "addItemsToStart": "Añade elementos para comenzar",
     "addManageCart": "Agregar y administrar el carrito del cliente",
+    "addOrder": "Agregar pedido",
     "backToOrderDashboard": "Volver al panel de pedidos",
     "cartDetails": "Detalles del carrito",
     "cartDetailsStep": "1. Detalles del carrito",
@@ -791,7 +792,7 @@
   "app/(store)/components/product-list": {
     "exploreDesserts": "Explora los postres",
     "noProductsFound": "No se encontraron productos",
-    "noRescueDealsProductsAtTheMoment": "No hay productos de Rescue Deals en este momento, desactive el filtro de Rescue Deals para explorar los postres",
+    "noRescueDealsProductsAtTheMoment": "No hay productos de ofertas de rescate En este momento, venga mañana a la \"hora de cierre - 45 minutos\" para ver nuevas ofertas, apagar el filtro de ofertas de rescate para explorar los postres",
     "rescueDealsOnlyAvailableForPickUpOrders": "Las ofertas de rescate solo están disponibles para pedidos de recogida, gire la entrega a recoger para ver las ofertas de rescate"
   },
   "app/(store)/components/product-page": {
@@ -1338,6 +1339,7 @@
     "noProductsFound": "No se encontraron productos",
     "priceRange": "Gama de precios",
     "removeAllCategories": "Eliminar todas las categorías",
+    "search": "Buscar",
     "special": "¿Tienes algo especial en mente?",
     "tryAdjustingFiltersOrLocation": "Intente ajustar sus filtros o ubicación"
   },

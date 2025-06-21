@@ -92,7 +92,7 @@ export const LandingHeroSection = () => {
           isLanguageOpen={isLanguageOpen}
         />
         
-        <LandingSigninButton className=" bg-gradient-primary text-lg shadow-xl rounded-3xl text-white border-0" />
+        <LandingSigninButton className=" bg-background-secondary text-lg shadow-xl rounded-3xl text-foreground border-0" />
       </div>
 
       
@@ -129,9 +129,9 @@ export const LandingHeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
           >
-            <Link className="group relative flex items-center w-full bg-white/90 backdrop-blur-md border border-gray-200/50 rounded-2xl px-6 py-4 shadow-xl hover:shadow-2xl hover:bg-white/95 transition-all duration-300 cursor-pointer" href="/search?openAddressModal=true" passHref>
+            <Link className="group relative flex items-center w-full bg-white/90 backdrop-blur-md border border-gray-200/50 rounded-full px-6 py-3 shadow-xl hover:shadow-2xl hover:bg-white/95 transition-all duration-300 cursor-pointer" href="/search?openAddressModal=true" passHref>
                 <Icon 
-                  icon="material-symbols:search" 
+                  icon="solar:map-point-outline" 
                   width={24} 
                   className="text-gray-400 group-hover:text-gray-600 transition-colors duration-200" 
                 />
@@ -140,14 +140,14 @@ export const LandingHeroSection = () => {
                 </div>
                 <Icon 
                   icon="mdi:arrow-right" 
-                  width={20} 
-                  className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" 
+                  width={32} 
+                  className="text-white group-hover:text-default-200 group-hover:translate-x-1 transition-all duration-200 bg-gradient-primary rounded-full" 
                 />
             </Link>
           </motion.div>
           
           {/* Custom Order Button with Animation */}
-          <motion.div 
+          {/* <motion.div 
             className="max-w-md mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -165,7 +165,7 @@ export const LandingHeroSection = () => {
               <p className="text-xs text-default-500">{t("special")}</p>
               <p className="text-sm text-default-700">{t("customOrder")}</p>
             </CustomOrderButton>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
       {isLanguageOpen && <LanguageModal handAction={() => setIsLanguageOpen(false)}/>}

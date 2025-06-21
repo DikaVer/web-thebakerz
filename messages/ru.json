@@ -712,6 +712,7 @@
     "add": "Добавлять",
     "addItemsToStart": "Добавьте элементы, чтобы начать",
     "addManageCart": "Добавить и управлять корзиной клиента",
+    "addOrder": "Добавить заказ",
     "backToOrderDashboard": "Вернуться к панели управления заказами",
     "cartDetails": "Подробности корзины",
     "cartDetailsStep": "1. Подробности корзины",
@@ -791,7 +792,7 @@
   "app/(store)/components/product-list": {
     "exploreDesserts": "Исследуйте десерты",
     "noProductsFound": "Продуктов не найдено",
-    "noRescueDealsProductsAtTheMoment": "На данный момент нет товаров Rescue Deals, отключите фильтр Rescue Deals, чтобы изучить десерты",
+    "noRescueDealsProductsAtTheMoment": "На данный момент нет спасательных сделок, приходите завтра в «Время закрытия - 45 минут», чтобы увидеть новые предложения, отключите фильтр для спасения, чтобы исследовать десерты",
     "rescueDealsOnlyAvailableForPickUpOrders": "Спасательные предложения доступны только для заказов с самовывозом. Чтобы увидеть спасательные предложения, переключите доставку в режим самовывоза."
   },
   "app/(store)/components/product-page": {
@@ -1338,6 +1339,7 @@
     "noProductsFound": "Продуктов не найдено",
     "priceRange": "Диапазон цен",
     "removeAllCategories": "Удалить все категории",
+    "search": "Поиск",
     "special": "У вас есть что-то особенное на примете?",
     "tryAdjustingFiltersOrLocation": "Попробуйте настроить фильтры или местоположение."
   },

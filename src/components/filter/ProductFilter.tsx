@@ -454,9 +454,22 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
                 </CheckboxGroup>
               </AccordionItem>
             </Accordion>
+
+            {/* Search/Apply Button */}
+            <div className="pt-4">
+              <Button
+                className="w-full"
+                color="primary"
+                size="lg"
+                onPress={() => onOpenChange(false)}
+              >
+                {t("search")}
+              </Button>
+            </div>
           </div>
         )}
-        <div className="flex items-center gap-4 mt-4">
+        
+        {/* <div className="flex items-center gap-4 mt-4">
             <Divider className="flex-1" />
             <span className="text-default-400">Or</span>
             <Divider className="flex-1" />
@@ -464,7 +477,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
         <p className="text-sm text-foreground-500 mt-4 w-full text-center">{t("special")}</p>
         <CustomOrderButton 
           className="w-full mt-4 justify-center"
-        />
+        /> */}
       </div>
     </SidebarDrawer>
   );

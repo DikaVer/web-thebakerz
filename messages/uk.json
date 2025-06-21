@@ -712,6 +712,7 @@
     "add": "Додати",
     "addItemsToStart": "Додайте елементи, щоб розпочати",
     "addManageCart": "Додати та керувати кошиком клієнта",
+    "addOrder": "Додати порядок",
     "backToOrderDashboard": "Назад до панелі керування замовленнями",
     "cartDetails": "Деталі кошика",
     "cartDetailsStep": "1. Деталі кошика",
@@ -1338,6 +1339,7 @@
     "noProductsFound": "Не знайдено товарів",
     "priceRange": "Ціновий діапазон",
     "removeAllCategories": "Видалити всі категорії",
+    "search": "Обшук",
     "special": "Маєте щось особливе на увазі?",
     "tryAdjustingFiltersOrLocation": "Спробуйте налаштувати фільтри або місцезнаходження"
   },

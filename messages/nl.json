@@ -712,6 +712,7 @@
     "add": "Toevoegen",
     "addItemsToStart": "Voeg items toe om te beginnen",
     "addManageCart": "Klantenwinkelwagen toevoegen en beheren",
+    "addOrder": "Voeg bestelling toe",
     "backToOrderDashboard": "Terug naar het besteloverzicht",
     "cartDetails": "Winkelwagengegevens",
     "cartDetailsStep": "1. Winkelwagengegevens",
@@ -791,7 +792,7 @@
   "app/(store)/components/product-list": {
     "exploreDesserts": "Ontdek desserts",
     "noProductsFound": "Geen producten gevonden",
-    "noRescueDealsProductsAtTheMoment": "Er zijn momenteel geen Rescue Deals-producten beschikbaar. Schakel het Rescue Deals-filter uit om desserts te bekijken.",
+    "noRescueDealsProductsAtTheMoment": "Op dit moment geen reddingsproducten, komen morgen op \"Sluitingstijd - 45 minuten\" om nieuwe aanbiedingen te zien, schakel het Rescue -dealsfilter uit om desserts te verkennen",
     "rescueDealsOnlyAvailableForPickUpOrders": "Rescue Deals zijn alleen beschikbaar voor afhaalbestellingen. Draai de bezorgoptie naar afhalen om de Rescue Deals te bekijken."
   },
   "app/(store)/components/product-page": {
@@ -1338,6 +1339,7 @@
     "noProductsFound": "Geen producten gevonden",
     "priceRange": "Prijsklasse",
     "removeAllCategories": "Verwijder alle categorieën",
+    "search": "Zoekopdracht",
     "special": "Heeft u iets speciaals in gedachten?",
     "tryAdjustingFiltersOrLocation": "Probeer uw filters of locatie aan te passen"
   },

@@ -20,7 +20,6 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
     const [currentStep, setCurrentStep] = useState(1);
     const router = useRouter();
     const { store } = useStore();
-    const additionalT = useTranslations("app/(store)/id/orders/add")
     const t = useTranslations("app/(store)/components/orders/add");
     const storeUrl = store?.storeName ? store?.storeName : store?.id;
     const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +52,7 @@ export default function CartOrderComp({ productsData, productsOrder }: CartOrder
             <Spacer y={4}/>
                 {/* Title */}
                 <div className="flex items-center gap-x-3">
-                    <h1 className="text-3xl font-bold leading-9 text-default-foreground">{additionalT('addOrder')}</h1>
+                    <h1 className="text-3xl font-bold leading-9 text-default-foreground">{t('addOrder')}</h1>
                 </div>
             <Spacer y={4}/>
             <ProductList
