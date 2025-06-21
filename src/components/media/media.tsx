@@ -46,24 +46,21 @@ export const Media = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
         >
-          <div
-              onClick={() => router.push('/search?openAddressModal=true')}
-              className="group relative flex items-center w-full bg-white/90 backdrop-blur-md border border-gray-200/50 rounded-2xl px-6 py-4 shadow-xl hover:shadow-2xl hover:bg-white/95 transition-all duration-300 cursor-pointer"
-          >
-            <Icon
-                icon="material-symbols:search"
-                width={24}
-                className="text-gray-400 group-hover:text-gray-600 transition-colors duration-200"
-            />
+          <Link className="group relative flex items-center w-full bg-white/90 backdrop-blur-md border border-gray-200/50 rounded-xl px-6 py-3 shadow-xl hover:shadow-2xl hover:bg-white/95 transition-all duration-300 cursor-pointer" href="/search?openAddressModal=true" passHref>
+                <Icon 
+                  icon="solar:map-point-outline" 
+                  width={24} 
+                  className="text-gray-400 group-hover:text-gray-600 transition-colors duration-200" 
+                />
             <div className="ml-4 flex-1 text-left">
               <AnimatedPlaceholder />
             </div>
             <Icon
                 icon="mdi:arrow-right"
-                width={20}
-                className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200"
+                width={32} 
+                className="text-white group-hover:text-default-200 group-hover:translate-x-1 transition-all duration-200 bg-gradient-primary rounded-full" 
             />
-          </div>
+          </Link>
         </motion.div>
         {/* Custom Order Button with Animation */}
         <motion.div 
@@ -79,10 +76,11 @@ export const Media = () => {
             </div>
             <CustomOrderButton 
               variant="bordered"
-              className="w-full mt-4 justify-center p-4 justify-center bg-white text-foreground border-none shadow-small hover:bg-background/70 rounded-lg"
+              className="w-full mt-4 p-4 justify-between bg-white text-foreground border-none shadow-small hover:bg-background/70 rounded-lg"
+              highlight={true}
             >
               <p className="text-xs text-default-500">{t("special")}</p>
-              <p className="text-sm text-default-700 text-center">Custom Order</p>
+              <p className=" text-default-700 ">Custom Order</p>
             </CustomOrderButton>
           </motion.div>
         <div className="flex items-center gap-4">

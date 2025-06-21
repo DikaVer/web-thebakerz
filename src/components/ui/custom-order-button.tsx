@@ -12,6 +12,7 @@ interface CustomOrderButtonProps {
   className?: string;
   children?: React.ReactNode;
   showIcon?: boolean;
+  highlight?: boolean;
 }
 
 export const CustomOrderButton: React.FC<CustomOrderButtonProps> = ({
@@ -21,6 +22,7 @@ export const CustomOrderButton: React.FC<CustomOrderButtonProps> = ({
   className = '',
   children,
   showIcon = true,
+  highlight = false,
 }) => {
   const t = useTranslations("filter");
 
@@ -68,7 +70,9 @@ export const CustomOrderButton: React.FC<CustomOrderButtonProps> = ({
     >
       <span>{children}</span>
       {showIcon && (
-        <ExternalLinkIcon size={size === 'sm' ? 14 : size === 'lg' ? 18 : 16} />
+        <div className={`${highlight ? 'bg-gradient-primary rounded-full text-white p-2' : ''}`}>
+          <ExternalLinkIcon size={size === 'sm' ? 18 : size === 'lg' ? 24 : 20}/>
+        </div>
       )}
     </Link>
   );
