@@ -193,6 +193,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
     const [customerName, setCustomerName] = useState('')
     const [isExpressCheckoutAvailable, setIsExpressCheckoutAvailable] = useState(false)
     const [hasSubmitted, setHasSubmitted] = useState(false)
+    const [expressCheckoutEmailError, setExpressCheckoutEmailError] = useState(false)
     
     const userEmail = session?.user?.email || email;
     const needsEmail = !session?.user?.email;
@@ -212,6 +213,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
 
     const handleEmailChange = (value: string) => {
         setEmail(value)
+        setExpressCheckoutEmailError(false) // Clear express checkout error when user types
         if (value) {
             validateEmail(value)
         } else if (hasSubmitted) {
@@ -372,6 +374,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
                                 hasError = true;
                             }
                             if (hasError) {
+                                setExpressCheckoutEmailError(true);
                                 showErrorMessage({ error: "Please fill in all required fields before using Express Checkout." });
                                 setIsLoading(false);
                                 return;
@@ -393,6 +396,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
                                 hasError = true;
                             }
                             if (hasError) {
+                                setExpressCheckoutEmailError(true);
                                 showErrorMessage({ error: "Please fill in all required fields before using Express Checkout." });
                                 setIsLoading(false);
                                 return;
@@ -464,7 +468,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
                             onValueChange={handleEmailChange}
                             isRequired
                             errorMessage={emailError}
-                            isInvalid={!!emailError || (hasSubmitted && !email)}
+                            isInvalid={!!emailError || (hasSubmitted && !email) || expressCheckoutEmailError}
                             classNames={{
                                 input: "text-base placeholder:!font-light",
                                 label: "text-sm",
