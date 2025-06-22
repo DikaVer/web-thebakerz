@@ -1,12 +1,11 @@
 'use client';
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useRef, useEffect} from 'react';
 import { Spacer, Divider } from '@heroui/react';
 import { ProductBase } from '@/components/store/product/product';
 import { ProductData } from '@/lib/actions/product';
 import GradientText from "@/components/ui/gradient-text";
 import { useStore } from '@/components/providers/store-provider';
 import { useSession } from '@/components/providers/session-provider';
-import { useTranslations } from "next-intl";
 import { useDelivery } from '@/components/providers/delivery-provider';
 import { RescueDealProduct } from '@/lib/actions/rescue-deal';
 
@@ -56,7 +55,7 @@ export const CategoryProducts: React.FC<CategoryProductsProps> = ({
                     colors={["#a2119d", "#730C6F", "#a2119d", "#730C6F", "#a2119d"]}
                     animationSpeed={10}
                     showBorder={false}
-                    className="text-xl desktop:text-2xl cursor-default font-bold items-start"
+                    className="text-3xl cursor-default font-bold items-start"
                 >
                     {category}
                 </GradientText>

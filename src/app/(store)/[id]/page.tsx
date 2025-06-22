@@ -8,6 +8,7 @@ import { FooterStore } from "@/components/footer-store";
 import {ProductListSkeleton} from "@/components/skeleton/product-list-skeleton";
 import {getTranslations} from "next-intl/server";
 import { exampleStore } from "@/lib/local-variables";
+import { DeliverySubheader } from "@/components/store/store-header/delivery-subheader";
 
 interface StorePageProps {
     params: Promise<{
@@ -60,6 +61,7 @@ export default async function Page(props: StorePageProps) {
                             searchParams={searchParams}
                         />
                     </Suspense>
+                    <DeliverySubheader />
                 </div>
                 <Spacer y={16}/>
                 <FooterStore/>

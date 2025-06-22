@@ -146,7 +146,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
             return;
         }
 
-        if (isDelivery && (!validationResult?.isValid || !validationResult?.isInRange)) {
+        if (isDelivery && (!validationResult?.isValid || !validationResult?.isInRange) && session?.user?.role !== "baker") {
             deliveryAddressModal.onOpen();
             return;
         }
@@ -399,7 +399,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                 </p>
                             </div>
                         </div>
-                        <p className={`text-sm font-normal line-clamp-2 leading-tight h-9`}>
+                        <p className={`sm:text-base text-sm font-light line-clamp-2 leading-tight h-9 mt-1`}>
                             {productData.name}
                         </p>
                         {(storeMinTimeOrder !== undefined && !rescueDealInfo && !isRescueDeal) && (

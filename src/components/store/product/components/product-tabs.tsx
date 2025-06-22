@@ -16,6 +16,8 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({ categories, selectedTa
     // Handle case when selected tab is not in categories
     const effectiveSelectedTab = categories.includes(selectedTab) ? selectedTab : (categories.length > 0 ? categories[0] : "");
 
+
+
     // Scroll to selected tab when it changes
     useEffect(() => {
         if (tabsRef.current && effectiveSelectedTab) {
@@ -65,6 +67,7 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({ categories, selectedTa
                     tabList: 'bg-background overflow-x-auto scrollbar-hide',
                     cursor: 'bg-white shadow-none',
                     tab: 'whitespace-nowrap',
+                    tabContent: 'text-base text-foreground font-light group-data-[selected=true]:font-medium',
                 }}
                 onSelectionChange={(index) => onTabSelect(index.toString())}
                 selectedKey={effectiveSelectedTab}

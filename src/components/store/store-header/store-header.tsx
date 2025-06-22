@@ -2,10 +2,9 @@
 
 import React, {useEffect, useState} from "react";
 import {useStore} from "@/components/providers/store-provider";
-import {Link, Divider, Button, useDisclosure, Spinner, Badge, Spacer} from "@heroui/react";
+import {Link, Button, useDisclosure, Spinner, Badge, Spacer} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {pacifico} from "@/components/fonts";
-import {DeliverySubheader} from "@/components/store/store-header/delivery-subheader";
 import {useSession} from "@/components/providers/session-provider";
 import StoreDescription from "@/components/store/store-header/description/store-description";
 import {useTranslations} from "next-intl";
@@ -362,8 +361,6 @@ export function StoreHeader( {  }: StoreHeaderProps) {
                     <StoreDescription isOpen={isOpen} onOpenChange={onOpenChange} />
                 </div>
             </div>
-            <Divider />
-            <DeliverySubheader />
         </div>
     );
 }

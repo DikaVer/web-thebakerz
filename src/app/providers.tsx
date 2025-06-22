@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { applyDOMNodePatch } from '@/lib/utils/dom-patch'
+import { LOCALES, type Locale } from '@/lib/i18n'
 
 import {HeroUIProvider, ToastProvider} from "@heroui/react";
 import dynamic from 'next/dynamic'
@@ -22,6 +23,40 @@ declare module "@react-types/shared" {
     }
 }
 
+// Helper function to detect device language and validate against supported locales
+function getDeviceLanguage(): Locale {
+    if (typeof window === 'undefined') {
+        return 'en'; // Default fallback for server-side rendering
+    }
+
+    // Get the browser language
+    const browserLanguage = navigator.language || navigator.languages?.[0];
+    
+    if (!browserLanguage) {
+        return 'en';
+    }
+
+    // Extract language code (e.g., 'en-US' -> 'en')
+    const languageCode = browserLanguage.toLowerCase().substring(0, 2);
+    
+    // Check if the exact browser language is supported (e.g., 'en-NL')  
+    if (LOCALES.includes(browserLanguage.toLowerCase() as Locale)) {
+        return browserLanguage.toLowerCase() as Locale;
+    }
+    
+    // Check if the language code is supported
+    if (LOCALES.includes(languageCode as Locale)) {
+        return languageCode as Locale;
+    }
+    
+    // Special case for English variants
+    if (languageCode === 'en') {
+        return 'en';
+    }
+    
+    // Fallback to English if language is not supported
+    return 'en';
+}
 
 export function Providers({session, children, locale}: {
     session: SessionValidationResult,
@@ -29,13 +64,22 @@ export function Providers({session, children, locale}: {
     children: React.ReactNode
 }) {
     const router = useRouter();
-    // const pathname = usePathname();
-    // const { theme, setTheme } = useTheme();
-
+    const [detectedLocale, setDetectedLocale] = useState<string>(locale);
+    
     // Apply DOM patch to prevent Google Translate errors
     useEffect(() => {
         applyDOMNodePatch();
     }, []);
+
+    // Detect device language on client side
+    useEffect(() => {
+        const deviceLanguage = getDeviceLanguage();
+        // Only update if the passed locale is different from detected device language
+        // and if no specific locale was intentionally set
+        if (!locale || locale === 'en') {
+            setDetectedLocale(deviceLanguage);
+        }
+    }, [locale]);
 
     // const isBecomePartner = pathname.includes('become-partner');
     // if (isBecomePartner) {
@@ -45,7 +89,7 @@ export function Providers({session, children, locale}: {
 
     return (
         <HeroUIProvider
-            locale={locale}
+            locale={detectedLocale}
             navigate={router.push}
 
         >
