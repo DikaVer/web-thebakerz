@@ -792,7 +792,7 @@
   "app/(store)/components/product-list": {
     "exploreDesserts": "Desserts entdecken",
     "noProductsFound": "Keine Produkte gefunden",
-    "noRescueDealsProductsAtTheMoment": "KEINE RECUE EVLEINE -Produkte im Moment, kommen Sie morgen in \"Schließzeit - 45 Minuten\", um neue Angebote zu sehen, und schalten Sie den Rettungsangebot Filter aus, um Desserts zu erkunden",
+    "noRescueDealsProductsAtTheMoment": "Momentan keine Rescue Deals Produkte. Kommen Sie zur \"Schließzeit - 60 Minuten\", um neue Angebote zu sehen, schalten Sie den Rescue Deals Filter aus, um Desserts zu entdecken",
     "rescueDealsOnlyAvailableForPickUpOrders": "Rettungsangebote sind nur für Abholbestellungen verfügbar. Bitte drehen Sie die Lieferung auf Abholung, um die Rettungsangebote zu sehen"
   },
   "app/(store)/components/product-page": {

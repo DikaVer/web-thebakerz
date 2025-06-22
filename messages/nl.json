@@ -792,7 +792,7 @@
   "app/(store)/components/product-list": {
     "exploreDesserts": "Ontdek desserts",
     "noProductsFound": "Geen producten gevonden",
-    "noRescueDealsProductsAtTheMoment": "Op dit moment geen reddingsproducten, komen morgen op \"Sluitingstijd - 45 minuten\" om nieuwe aanbiedingen te zien, schakel het Rescue -dealsfilter uit om desserts te verkennen",
+    "noRescueDealsProductsAtTheMoment": "Er zijn momenteel geen Rescue Deals-producten beschikbaar. Kom op \"sluitingstijd - 60 minuten\" om nieuwe aanbiedingen te zien. Schakel het Rescue Deals-filter uit om desserts te bekijken.",
     "rescueDealsOnlyAvailableForPickUpOrders": "Rescue Deals zijn alleen beschikbaar voor afhaalbestellingen. Draai de bezorgoptie naar afhalen om de Rescue Deals te bekijken."
   },
   "app/(store)/components/product-page": {

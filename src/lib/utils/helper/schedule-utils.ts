@@ -1,6 +1,8 @@
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import { now } from "@internationalized/date";
 
+const totalWindow = 60; // 60 minutes total window
+
 
 // Format date to YYYY-M-D format (without zero-padding)
 export const formatDateToString = (date: Date): string => {
@@ -76,8 +78,8 @@ export const isWithinClosingWindow = (schedule: WorkHours | undefined): boolean 
     // Get end time in minutes
     const endTimeInMinutes = todaySchedule.end.hour * 60 + todaySchedule.end.minute;
 
-    // Calculate the range: endTime - 45 minutes to endTime
-    const rangeStartInMinutes = endTimeInMinutes - 45;
+    // Calculate the range: endTime - totalWindow minutes to endTime
+    const rangeStartInMinutes = endTimeInMinutes - totalWindow;
 
     // Check if current time is within the range
     return currentTimeInMinutes >= rangeStartInMinutes && currentTimeInMinutes <= endTimeInMinutes;
@@ -86,7 +88,7 @@ export const isWithinClosingWindow = (schedule: WorkHours | undefined): boolean 
 // Helper function to calculate time remaining until store closes
 export const getTimeUntilClosing = (schedule: WorkHours | undefined): {
     timeRemaining: number; // in minutes
-    totalWindow: number; // total window in minutes (45 minutes)
+    totalWindow: number; // total window in minutes (60 minutes)
     percentage: number; // percentage of time remaining (0-100)
     hours: number;
     minutes: number;
@@ -119,9 +121,8 @@ export const getTimeUntilClosing = (schedule: WorkHours | undefined): {
     // Get end time in seconds
     const endTimeInSeconds = todaySchedule.end.hour * 3600 + todaySchedule.end.minute * 60;
 
-    // Calculate the range: endTime - 45 minutes to endTime
-    const rangeStartInSeconds = endTimeInSeconds - (45 * 60); // 45 minutes in seconds
-    const totalWindow = 45; // 45 minutes total window
+    // Calculate the range: endTime - totalWindow minutes to endTime
+    const rangeStartInSeconds = endTimeInSeconds - (totalWindow * 60); // 60 minutes in seconds
 
     // Check if we're within the closing window
     const isActive = currentTimeInSeconds >= rangeStartInSeconds && currentTimeInSeconds <= endTimeInSeconds;
