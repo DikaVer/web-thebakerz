@@ -790,6 +790,7 @@
   "app/(store)/components/product-dialog": {
   },
   "app/(store)/components/product-list": {
+    "clearAllFilters": "Alle Filter löschen",
     "exploreDesserts": "Desserts entdecken",
     "noProductsFound": "Keine Produkte gefunden",
     "noRescueDealsProductsAtTheMoment": "Momentan keine Rescue Deals Produkte. Kommen Sie zur \"Schließzeit - 60 Minuten\", um neue Angebote zu sehen, schalten Sie den Rescue Deals Filter aus, um Desserts zu entdecken",
@@ -1329,6 +1330,8 @@
   },
   "filter": {
     "categories": "Kategorien",
+    "clearAll": "Zurücksetzen",
+    "clearAllFilters": "",
     "customOrder": "Individuelles Dessert",
     "dietaryPreferences": "Ernährungspräferenzen",
     "excludeAllergies": "Allergien ausschließen",

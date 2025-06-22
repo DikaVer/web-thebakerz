@@ -61,6 +61,7 @@ export default async function Page(props: StorePageProps) {
                             searchParams={searchParams}
                         />
                     </Suspense>
+                    <Spacer y={6}/>
                     <DeliverySubheader />
                 </div>
                 <Spacer y={16}/>

@@ -15,6 +15,8 @@ import { useTranslations } from 'next-intl';
 import { CustomOrderButton } from '@/components/ui/custom-order-button';
 import { RescueDealsSwitch } from '@/components/ui/rescue-deals-switch';
 import { usePathname } from 'next/navigation';
+import { ProductSearch } from '../store/product/components/product-search';
+import { Icon } from '@iconify/react';
 
 interface ProductFilterProps {
   isOpen: boolean;
@@ -95,6 +97,11 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     return initialFilterParams?.dietary || [];
   });
 
+  // Add search term state
+  const [searchTerm, setSearchTerm] = useState<string>(() => {
+    return initialFilterParams?.searchTerm || '';
+  });
+
   // Update states when initialFilterParams change, but only when not in the middle of updating
   useEffect(() => {
     if (!didMount.current) {
@@ -133,6 +140,12 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       } else {
         setSelectedDietary([]);
       }
+      
+      if (initialFilterParams.searchTerm !== undefined) {
+        setSearchTerm(initialFilterParams.searchTerm);
+      } else {
+        setSearchTerm('');
+      }
     }
   }, [initialFilterParams, allCategories]);
 
@@ -143,6 +156,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     selectedCategories,
     selectedAllergies,
     selectedDietary,
+    searchTerm,
   });
 
   // Update ref whenever filter values change
@@ -153,9 +167,10 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       selectedCategories,
       selectedAllergies,
       selectedDietary,
+      searchTerm,
     };
     logger.debug('[ProductFilter] filterValues.current updated. selectedCategories:', JSON.stringify(selectedCategories));
-  }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary]);
+  }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary, searchTerm]);
 
   // Debounced function to notify parent of filter changes
   const updateFilters = useCallback(
@@ -171,16 +186,18 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       lastUpdateTime.current = now;
       isUpdating.current = true;
       
-      const { minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary } = filterValues.current;
+      const { minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary, searchTerm } = filterValues.current;
       
       // Log filter values before sending to parent
       const categoriesToSend = selectedCategories.length > 0 ? selectedCategories : undefined;
+      const searchTermToSend = searchTerm.trim() !== '' ? searchTerm : undefined;
       logger.debug('[ProductFilter] filter_update', 'ProductFilter sending filter values', {
         minPrice: minPrice > DEFAULT_MIN_PRICE ? minPrice : undefined,
         maxPrice: maxPrice < DEFAULT_MAX_PRICE ? maxPrice : undefined,
         categories: categoriesToSend,
         allergies: selectedAllergies.length > 0 ? selectedAllergies : undefined,
         dietary: selectedDietary.length > 0 ? selectedDietary : undefined,
+        searchTerm: searchTermToSend,
         minPriceType: typeof minPrice,
         maxPriceType: typeof maxPrice
       });
@@ -192,7 +209,8 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
           maxPrice: maxPrice < DEFAULT_MAX_PRICE ? maxPrice : undefined,
           categories: categoriesToSend,
           allergies: selectedAllergies.length > 0 ? selectedAllergies : undefined,
-          dietary: selectedDietary.length > 0 ? selectedDietary : undefined
+          dietary: selectedDietary.length > 0 ? selectedDietary : undefined,
+          searchTerm: searchTermToSend
         });
       }
       
@@ -217,7 +235,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     return () => {
       updateFilters.cancel();
     };
-  }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary]);
+  }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary, searchTerm]);
 
   // Handle min price select change
   const handleMinPriceChange = useCallback((value: string) => {
@@ -275,6 +293,33 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     []
   );
 
+  // Handle search term change (debouncing is handled in ProductSearch component)
+  const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  }, []);
+
+  // Function to clear all filters
+  const clearAllFilters = useCallback(() => {
+    setMinPrice(DEFAULT_MIN_PRICE);
+    setMaxPrice(DEFAULT_MAX_PRICE);
+    setSelectedCategories([]);
+    setSelectedAllergies([]);
+    setSelectedDietary([]);
+    setSearchTerm('');
+  }, []);
+
+  // Check if there are active filters
+  const hasActiveFilters = useMemo(() => {
+    return (
+      minPrice > DEFAULT_MIN_PRICE ||
+      maxPrice < DEFAULT_MAX_PRICE ||
+      selectedCategories.length > 0 ||
+      selectedAllergies.length > 0 ||
+      selectedDietary.length > 0 ||
+      searchTerm.trim() !== ''
+    );
+  }, [minPrice, maxPrice, selectedCategories, selectedAllergies, selectedDietary, searchTerm]);
+
   // Render allergy icon and label
   const renderAllergyOption = (allergy: string) => {
     const key = allergy.toLowerCase();
@@ -311,8 +356,22 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       className={'bg-background rounded-xl rounded-r-none'}
     >
       <div className="p-4">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center mb-6 gap-6">
           <h3 className="text-xl font-semibold">{t("filterProducts")}</h3>
+           {/* Clear All Filters Button - Show when there are active filters */}
+           {hasActiveFilters && (
+              <div className="flex justify-end">
+                <Button 
+                  size="sm" 
+                  variant="flat" 
+                  color="warning"
+                  onPress={clearAllFilters}
+                  startContent={<Icon icon="solar:refresh-circle-outline" width={16} />}
+                >
+                  {t("clearAll")}
+                </Button>
+              </div>
+            )}
         </div>
 
         {isLoading ? (
@@ -321,8 +380,14 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
           </div>
         ) : (
           <div className="space-y-6">
+
+
             {/* Rescue Deals Switch */}
             {!pathname.includes('search') && <RescueDealsSwitch />}
+
+            
+            {!pathname.includes('search') && <ProductSearch searchTerm={searchTerm} onSearchChange={handleSearchChange} />}
+              
 
             {/* Price Range Filter - Always Show */}
             <div>
@@ -374,7 +439,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
             <Divider />
 
             {/* Remove All Button - Moved to upper position */}
-            <div className="flex justify-end">
+            {/* <div className="flex justify-end">
               <Button 
                 aria-label="Remove all categories"
                 size="sm" 
@@ -384,7 +449,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
               >
                 {t("removeAllCategories")}
               </Button>
-            </div>
+            </div> */}
 
             {/* Filters Accordion */}
             <Accordion variant="bordered" selectionMode="multiple">

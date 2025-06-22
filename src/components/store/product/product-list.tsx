@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Spacer } from '@heroui/react';
 import { useStore } from '@/components/providers/store-provider';
 import { useMediaQuery } from 'usehooks-ts';
@@ -8,7 +8,6 @@ import { ProductData, ProductDataFull } from '@/lib/actions/product';
 import {ProductTabs} from "@/components/store/product/components/product-tabs";
 import {CategoryProducts} from "@/components/store/product/components/category-products";
 import {useScrollObserver} from "@/components/store/product/hooks/useScrollObserver";
-import {ProductSearch} from "@/components/store/product/components/product-search";
 import {useTranslations} from "next-intl";
 import { sortItems } from "@/lib/utils/helper/sort-items-with-order";
 import { logger } from '@/lib/logger';
@@ -27,7 +26,6 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     rescueDeals,
     productsOrder
 }) => {
-    const [searchTerm, setSearchTerm] = useState<string>('');
     const { isSticky } = useStore();
     const [scroll, setScroll] = useState(window.scrollY);
     const isSmall = useMediaQuery('(max-width: 768px)');
@@ -46,15 +44,25 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     // Determine if the current user is the owner of the store
     const isStoreOwner = !!(session?.user?.role === "bakerz" && store?.user_id && session.user.id === store.user_id);
 
-    // Update search term in filter params when it changes
-    useEffect(() => {
-        if (searchTerm !== filterParams.searchTerm) {
-            setFilterParams({
-                ...filterParams,
-                searchTerm: searchTerm
-            });
-        }
-    }, [searchTerm, filterParams, setFilterParams]);
+    // Check if there are active filters
+    const hasActiveFilters = React.useMemo(() => {
+        return (
+            (filterParams.minPrice !== undefined && filterParams.minPrice > 0) ||
+            (filterParams.maxPrice !== undefined && filterParams.maxPrice < 100000) ||
+            (filterParams.categories && filterParams.categories.length > 0) ||
+            (filterParams.allergies && filterParams.allergies.length > 0) ||
+            (filterParams.dietary && filterParams.dietary.length > 0) ||
+            (filterParams.searchTerm && filterParams.searchTerm.trim() !== '')
+        );
+    }, [filterParams]);
+
+    // Function to clear all filters
+    const clearAllFilters = React.useCallback(() => {
+        setFilterParams({});
+    }, [setFilterParams]);
+
+    // Search term is now handled by the filter component
+    // No need for local search term state
 
     // Get sorted and filtered products
     const getFilteredProducts = () => {
@@ -282,18 +290,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
         }
     };
 
-    // Scroll to first category when search term changes
-    useEffect(() => {
-        if (searchTerm.trim() !== '') {
-            if (sortedCategories.length > 0) {
-                scrollToCategory(sortedCategories[0]);
-            }
-        }
-    }, [searchTerm, sortedCategories]);
-
-    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-    };
+    // Scroll to first category when search term changes is now handled by the filter component
 
     const setCategoryRef = (category: string, el: HTMLDivElement | null) => {
         categoryRefs.current[category] = el;
@@ -303,20 +300,34 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
         <div className="flex w-full flex-col">
             <div ref={sentinelRef} className="h-1"></div>
             <div
-                className={`flex flex-col-reverse md:flex-row transition-all justify-between items-center w-full ${
-                    isSticky &&
-                    `sticky ${isVisible ? isShowDelivery ? isRescueDeal ? 'top-[100px]' : 'top-[143px]' : 'top-[50px]' : 'top-[0px] pt-3'} z-50 py-4 bg-background`
-                }`}
+                className={`flex flex-col-reverse md:flex-row justify-between items-center w-full
+                    transition-all duration-300 ease-in-out
+                    ${isSticky ? 
+                        `sticky z-50 py-4 px-2 md:px-4 backdrop-blur-md bg-background/80 border-b border-border/50 shadow-sm
+                         ${isVisible ? 
+                            (isShowDelivery ? 
+                                (isRescueDeal ? 'top-[100px]' : 'top-[143px]') 
+                                : 'top-[50px]'
+                            ) 
+                            : '-top-[21px]'
+                         }` 
+                        : 'relative py-2'
+                    }`}
+                style={{
+                    transform: isSticky ? 'translateY(0)' : 'translateY(0)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                }}
             >
-                <ProductTabs
-                    categories={sortedCategories}
-                    selectedTab={selectedTab}
-                    onTabSelect={scrollToCategory}
-                />
+                <div className={`w-full transition-all duration-300 ease-in-out ${isSticky ? 'transform scale-95 md:scale-100' : 'transform scale-100'}`}>
+                    <ProductTabs
+                        categories={sortedCategories}
+                        selectedTab={selectedTab}
+                        onTabSelect={scrollToCategory}
+                    />
+                </div>
                 <Spacer y={2} />
-                <ProductSearch searchTerm={searchTerm} onSearchChange={handleSearchChange} />
             </div>
-            <div className={`w-full h-4 ${isSticky ? ' sticky top-[105px] z-40 shadow-xl' : ''} ${isVisible ? 'top-[0px]' : 'top-[98px]'}`}></div>
+            <div className={`w-full transition-all duration-300 ease-in-out ${isSticky ? 'h-4 bg-gradient-to-b from-background/20 to-transparent' : 'h-4'}`}></div>
             <Spacer y={8} />
             
             {/* Rescue Deal Timer - Show when rescue deals are available and active */}
@@ -364,8 +375,17 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
                         />
                     ))}
                     {sortedCategories.length === 0 && !isRescueDeal && (
-                        <div className="flex justify-center w-full">
-                            <span className="text-default-400 text-lg">{t("noProductsFound")}</span>
+                        <div className="flex flex-col justify-center w-full gap-4 items-center">
+                            <span className="text-foreground text-lg text-center px-4">{t("noProductsFound")}</span>
+                            {hasActiveFilters && (
+                                <button 
+                                    className="flex flex-row items-center gap-2 bg-warning/10 hover:bg-warning/20 text-warning border border-warning/20 text-sm px-4 py-2 rounded-lg transition-colors" 
+                                    onClick={clearAllFilters}
+                                >
+                                    <Icon icon="solar:refresh-circle-outline" width={16} />
+                                    {t("clearAllFilters")}
+                                </button>
+                            )}
                         </div>
                     )}
                 </>

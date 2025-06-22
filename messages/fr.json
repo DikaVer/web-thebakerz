@@ -790,6 +790,7 @@
   "app/(store)/components/product-dialog": {
   },
   "app/(store)/components/product-list": {
+    "clearAllFilters": "Effacer tous les filtres",
     "exploreDesserts": "Explorez les desserts",
     "noProductsFound": "Aucun produit trouvé",
     "noRescueDealsProductsAtTheMoment": "Aucun produit Rescue Deals pour le moment, venez à « heure de fermeture - 60 minutes » pour voir les nouvelles offres, désactivez le filtre Rescue Deals pour explorer les desserts",
@@ -1329,6 +1330,8 @@
   },
   "filter": {
     "categories": "Catégories",
+    "clearAll": "Réinitialiser",
+    "clearAllFilters": "",
     "customOrder": "Dessert personnalisé",
     "dietaryPreferences": "Préférences alimentaires",
     "excludeAllergies": "Exclure les allergies",
