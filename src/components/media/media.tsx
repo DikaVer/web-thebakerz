@@ -80,7 +80,7 @@ export const Media = () => {
               highlight={true}
             >
               <p className="text-xs text-default-500">{t("special")}</p>
-              <p className=" text-default-700 ">Custom Order</p>
+              <p className="  text-default-700 ">Custom Order</p>
             </CustomOrderButton>
           </motion.div>
         <div className="flex items-center gap-4">

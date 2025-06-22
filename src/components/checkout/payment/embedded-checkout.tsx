@@ -351,6 +351,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
                         }
                     }}
                     onReady={(event) => {
+                        
                         if (event.availablePaymentMethods && Object.keys(event.availablePaymentMethods).length > 0) {
                             setIsExpressCheckoutAvailable(true);
                         }
@@ -358,6 +359,25 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
                     onCancel={() => {
                         // Handle express checkout cancellation gracefully
                         setIsLoading(false);
+                    }}
+                    onClick={() => {
+                        if (!stripe || !elements) {
+                            return;
+                         }
+                         setIsLoading(true);
+
+                         if (needsEmail) {
+                            let hasError = false;
+                            if (!email || !validateEmail(email)) {
+                                hasError = true;
+                            }
+                            if (hasError) {
+                                showErrorMessage({ error: "Please fill in all required fields before using Express Checkout." });
+                                setIsLoading(false);
+                                return;
+                            }
+                        }
+
                     }}
                     onConfirm={
                     async (e) => {
