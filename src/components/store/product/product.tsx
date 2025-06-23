@@ -399,7 +399,7 @@ export const ProductBase: React.FC<ProductBaseProps> = ({
                                 </p>
                             </div>
                         </div>
-                        <p className={`sm:text-base text-sm font-light line-clamp-2 leading-tight h-9 mt-1`}>
+                        <p className={`text-sm font-light line-clamp-2 leading-tight h-9 mt-1`}>
                             {productData.name}
                         </p>
                         {(storeMinTimeOrder !== undefined && !rescueDealInfo && !isRescueDeal) && (

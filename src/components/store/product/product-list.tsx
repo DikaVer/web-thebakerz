@@ -4,7 +4,7 @@ import { Spacer } from '@heroui/react';
 import { useStore } from '@/components/providers/store-provider';
 import { useMediaQuery } from 'usehooks-ts';
 import { useProductDialog } from '@/components/providers/product-provider';
-import { ProductData, ProductDataFull } from '@/lib/actions/product';
+import { ProductData} from '@/lib/actions/product';
 import {ProductTabs} from "@/components/store/product/components/product-tabs";
 import {CategoryProducts} from "@/components/store/product/components/category-products";
 import {useScrollObserver} from "@/components/store/product/hooks/useScrollObserver";
@@ -30,6 +30,7 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const [scroll, setScroll] = useState(window.scrollY);
     const isSmall = useMediaQuery('(max-width: 768px)');
     const isShowDelivery = useMediaQuery("(max-width: 1200px)");
+    const isDesktop = useMediaQuery('(min-width: 1200px)');
     const { sentinelRef } = useStore();
     const [isVisible, setVisible] = useState(false);
     const [selectedTab, setSelectedTab] = useState('');
@@ -257,16 +258,44 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
     const shouldShowRescueDeliveryMessage = isRescueDeal && isDelivery;
     const shouldShowNoRescueDealsMessage = isRescueDeal && !shouldShowRescueDeliveryMessage && sortedCategories.length === 0;
 
+        // Unified scroll handling - synchronized with navbar
+    useEffect(() => {
+        if (isSticky) {
+            // When becoming sticky, set initial visibility based on device type
+            setVisible(!isSmall);
+        } else {
+            // When not sticky, visibility doesn't matter
+            setVisible(false);
+        }
+    }, [isSticky, isSmall]);
+
     // Handle scroll event
     useEffect(() => {
         const onScroll = () => {
-            const addY = isVisible ? - 10 : 4;
-            setVisible(window.scrollY + addY < scroll || !isSmall || !isSticky);
-            setScroll(window.scrollY);
+            if (!isSticky) return; // Only handle scroll when sticky
+
+            const currentScroll = window.scrollY;
+            const isScrollingUp = currentScroll > scroll;
+            const hasScrolledSignificantly = Math.abs(currentScroll - scroll) > 5;
+
+            if (isSmall) {
+                // On mobile, show when scrolling down, hide when scrolling up significantly
+                if (isScrollingUp && hasScrolledSignificantly) {
+                    setVisible(false);
+                } else if (!isScrollingUp) {
+                    setVisible(true);
+                }
+            } else {
+                // On desktop, always show when sticky
+                setVisible(true);
+            }
+
+            setScroll(currentScroll);
         };
+
         window.addEventListener('scroll', onScroll);
         return () => window.removeEventListener('scroll', onScroll);
-    }, [scroll, isSmall, isSticky, isVisible]);
+    }, [scroll, isSmall, isSticky]);
 
     // Use custom scroll observer to update selected category on scroll
     useScrollObserver({ 
@@ -298,27 +327,26 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
 
     return (
         <div className="flex w-full flex-col">
-            <div ref={sentinelRef} className="h-1"></div>
             <div
                 className={`flex flex-col-reverse md:flex-row justify-between items-center w-full
-                    transition-all duration-300 ease-in-out
                     ${isSticky ? 
-                        `sticky z-50 py-4 px-2 md:px-4 backdrop-blur-md bg-background/80 border-b border-border/50 shadow-sm
+                        `sticky z-50 py-2 px-2 md:px-4 backdrop-blur-md bg-background/80 border-b border-border/50 shadow-sm
+                                                   transition-all duration-200 ease-in-out
                          ${isVisible ? 
                             (isShowDelivery ? 
                                 (isRescueDeal ? 'top-[100px]' : 'top-[143px]') 
                                 : 'top-[50px]'
                             ) 
-                            : '-top-[21px]'
+                            : 'top-[120px]'
                          }` 
-                        : 'relative py-2'
+                        : 'relative py-2 transition-all duration-200 ease-in-out'
                     }`}
                 style={{
-                    transform: isSticky ? 'translateY(0)' : 'translateY(0)',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    transform: isSticky && !isVisible ? 'translateY(-100%)' : 'translateY(0)',
+                    transition: isSticky ? 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), top 0.2s cubic-bezier(0.4, 0, 0.2, 1)' : 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
             >
-                <div className={`w-full transition-all duration-300 ease-in-out ${isSticky ? 'transform scale-95 md:scale-100' : 'transform scale-100'}`}>
+                <div className={`w-full transition-all duration-200 ${isDesktop ? '' : 'transform scale-100'}`}>
                     <ProductTabs
                         categories={sortedCategories}
                         selectedTab={selectedTab}
@@ -327,7 +355,8 @@ export const ProductListBase: React.FC<ProductListBaseProps> = ({
                 </div>
                 <Spacer y={2} />
             </div>
-            <div className={`w-full transition-all duration-300 ease-in-out ${isSticky ? 'h-4 bg-gradient-to-b from-background/20 to-transparent' : 'h-4'}`}></div>
+            <div ref={sentinelRef} className="h-1"></div>
+            <div className={`w-full transition-all duration-200 ${isSticky ? 'h-4 bg-gradient-to-b from-background/20 to-transparent' : 'h-4'}`}></div>
             <Spacer y={8} />
             
             {/* Rescue Deal Timer - Show when rescue deals are available and active */}

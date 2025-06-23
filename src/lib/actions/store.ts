@@ -41,7 +41,8 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
                     sl.zip_code as zip_code,
                     sl.country as country,
                     sl.latitude as latitude,
-                    sl.longitude as longitude
+                    sl.longitude as longitude,
+                    s.zero_commission as stripe_zero_commission
              FROM stores s
                       JOIN users u ON s.user_id = u.id
                       JOIN store_locations sl ON s.id = sl.store_id
@@ -100,6 +101,7 @@ export async function getStoreDataByStoreNameOrId(id: string): Promise<StoreData
             facebook_url: storeRow.facebook_url,
             slug: storeRow.slug,
             stripe_id: storeRow.stripe_id,
+            stripe_zero_commission: storeRow.stripe_zero_commission,
             minTimeOrder: storeRow.min_time_order,
             pickupWindow: storeRow.pickup_window,
             deliveryOption: storeRow.delivery_option,
@@ -153,6 +155,7 @@ export async function getStoreDataPaymentByStoreNameOrId(id: string): Promise<St
                     s.custom_fee,
                     s.custom_app_fee,
                     s.custom_delivery_fee,
+                    s.zero_commission,
                     u.name AS "ownerName",
                     u.email AS email,
                     s.stripe_id,
@@ -222,6 +225,7 @@ export async function getStoreDataPaymentByStoreNameOrId(id: string): Promise<St
             custom_fee: storeRow.custom_fee,
             custom_app_fee: storeRow.custom_app_fee,
             custom_delivery_fee: storeRow.custom_delivery_fee,
+            zero_commission: storeRow.zero_commission,
             phone: storeRow.phone,
             email: storeRow.email,
             ownerName: storeRow.ownerName,
@@ -594,6 +598,7 @@ export interface StoreData {
     ownerName?: string;
     slug?: string;
     stripe_id?: string;
+    stripe_zero_commission?: boolean;
     minTimeOrder: number;
     pickupWindow: number;
     deleted?: boolean;
@@ -618,6 +623,7 @@ export interface StoreDataPayment {
     custom_fee: boolean;
     custom_app_fee: number;
     custom_delivery_fee: number;
+    zero_commission: boolean;
     email: string;
     phone?: string;
     ownerName: string;

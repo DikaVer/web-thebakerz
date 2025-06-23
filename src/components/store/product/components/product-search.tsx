@@ -1,5 +1,5 @@
 'use client';
-import React, { ChangeEvent, useState, useEffect, useCallback } from 'react';
+import React, { ChangeEvent, useState, useEffect, useCallback, useRef } from 'react';
 import { Input } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import {useTranslations} from "next-intl";
@@ -16,10 +16,74 @@ export const ProductSearch: React.FC<ProductSearchProps> = ({ searchTerm, onSear
     // Local state for immediate input feedback
     const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
     
+    // Ref for the container to find input elements
+    const containerRef = useRef<HTMLDivElement>(null);
+    
     // Update local state when external searchTerm changes
     useEffect(() => {
         setLocalSearchTerm(searchTerm);
     }, [searchTerm]);
+    
+    // --- iOS Safari zoom prevention for input ---
+    useEffect(() => {
+        const isIOSSafari = () => {
+            return /iP(ad|hone|od)/.test(navigator.userAgent) && /WebKit/.test(navigator.userAgent) && !(/(CriOS|FxiOS|OPiOS|mercury)/.test(navigator.userAgent));
+        };
+
+        if (!isIOSSafari()) return;
+
+        const handleFocus = () => {
+            // Temporarily disable zoom on focus for iOS Safari only
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+                const originalContent = viewport.getAttribute('content');
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');
+                
+                // Restore original viewport on blur
+                const handleBlur = () => {
+                    if (originalContent) {
+                        viewport.setAttribute('content', originalContent);
+                    }
+                };
+                
+                // Set up blur listener on the input
+                const findAndAttachBlurListener = () => {
+                    // Find the actual input element within the Input component
+                    const input = containerRef.current?.querySelector('input[type="text"]') as HTMLInputElement;
+                    if (input) {
+                        input.addEventListener('blur', handleBlur, { once: true });
+                    }
+                };
+                
+                // Attach blur listener immediately or after a short delay
+                findAndAttachBlurListener();
+                setTimeout(findAndAttachBlurListener, 100);
+            }
+        };
+
+        // Set up focus listener on the input
+        const setupFocusListener = () => {
+            const input = containerRef.current?.querySelector('input[type="text"]') as HTMLInputElement;
+            if (input) {
+                input.addEventListener('focus', handleFocus);
+                return () => {
+                    input.removeEventListener('focus', handleFocus);
+                };
+            }
+        };
+
+        // Try to set up listener immediately and also after a delay for dynamic content
+        const cleanup1 = setupFocusListener();
+        const timeoutId = setTimeout(() => {
+            const cleanup2 = setupFocusListener();
+            return cleanup2;
+        }, 500);
+
+        return () => {
+            cleanup1?.();
+            clearTimeout(timeoutId);
+        };
+    }, []);
     
     // Debounced callback to parent
     const debouncedOnSearchChange = useCallback(
@@ -40,7 +104,7 @@ export const ProductSearch: React.FC<ProductSearchProps> = ({ searchTerm, onSear
         debouncedOnSearchChange(value); // Debounced callback to parent
     };
 
-    return (<div className="flex flex-row w-full justify-center">
+    return (<div ref={containerRef} className="flex flex-row w-full justify-center">
         <Input
             className="w-full"
             classNames={{
@@ -51,6 +115,7 @@ export const ProductSearch: React.FC<ProductSearchProps> = ({ searchTerm, onSear
             value={localSearchTerm}
             onChange={handleInputChange}
             type="text"
+            style={{ fontSize: '16px' }} // Prevent zoom on iOS by setting font-size to 16px or larger
             startContent={
                 <Icon icon="solar:magnifer-broken" width={24} className="text-default-400"/>
             }

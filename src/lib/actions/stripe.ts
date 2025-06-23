@@ -369,7 +369,8 @@ export async function fetchClientSecret({ storeId, storeStripeAccountId, promoti
         transfer_data: [{
             destination: storeStripeAccountId,
             amount: transferAmount, // Amount to transfer to the connected account
-            app_fee: applicationFee
+            app_fee: applicationFee,
+            zero_commission: storeData.zero_commission
         }],
         isRescueDeal: isRescueDeal,
         status: 'pending_payment',

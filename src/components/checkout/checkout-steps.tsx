@@ -201,6 +201,7 @@ export default function CheckoutSteps({ isRescueDeal }: { isRescueDeal: boolean 
                 >
                     <EmbeddedCheckout
                         totalAmount={totalAmount}
+                        isZeroCommission={store.stripe_zero_commission || false}
                         storeStripeAccountId={store.stripe_id!}
                         onPaymentSuccess={() => {
                             clarity.setTag("step", "pay");

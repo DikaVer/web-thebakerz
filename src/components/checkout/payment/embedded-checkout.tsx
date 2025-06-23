@@ -19,6 +19,7 @@ import { useDelivery } from '@/components/providers/delivery-provider'
 
 
 interface EmbeddedCheckoutProps {
+    isZeroCommission: boolean
     storeStripeAccountId: string
     onPaymentSuccess?: () => void
     totalAmount: number
@@ -26,14 +27,11 @@ interface EmbeddedCheckoutProps {
     onPaymentError?: () => void
 }
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
-
-// Add error handling for Stripe loading
-stripePromise.catch(error => {
-    console.error('Failed to load Stripe:', error);
-});
+// We'll initialize Stripe dynamically with connected account info
+let stripePromise: Promise<any> | null = null;
 
 export default function EmbeddedCheckout({ 
+    isZeroCommission,
     storeStripeAccountId, 
     totalAmount,
     onPaymentSuccess,
@@ -45,7 +43,6 @@ export default function EmbeddedCheckout({
     const [isInitializing, setIsInitializing] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const { store } = useStore()
-    const router = useRouter()
 
     // Add debugging for Stripe account ID
     // console.log('Stripe Account ID:', storeStripeAccountId);
@@ -59,8 +56,15 @@ export default function EmbeddedCheckout({
             return;
         }
 
-            setIsInitializing(true)
-            setError(null)
+        // Initialize Stripe with connected account
+        if (!stripePromise) {
+            stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!, {
+                stripeAccount: isZeroCommission ? storeStripeAccountId : undefined
+            });
+        }
+
+        setIsInitializing(true)
+        setError(null)
             
         try {
             const orderNote = localStorage.getItem("orderNote") || "";
@@ -78,7 +82,7 @@ export default function EmbeddedCheckout({
             } else if (response.orderId && response.totalAmount && response.currency) {
                 setOrderId(response.orderId)
                 
-                // Prepare Stripe options with payment method restrictions for Rescue Deals
+                // Prepare Stripe options for direct charges to connected account
                 const stripeOptions: any = {
                     mode: 'payment' as const,
                     amount: response.totalAmount,
@@ -164,6 +168,8 @@ export default function EmbeddedCheckout({
                     onPaymentError={onPaymentError}
                     totalAmount={totalAmount}
                     isRescueDeal={isRescueDeal}
+                    storeStripeAccountId={storeStripeAccountId}
+                    isZeroCommission={isZeroCommission}
                 />
             </Elements>
         </div>
@@ -176,9 +182,11 @@ interface CheckoutFormProps {
     onPaymentError?: () => void
     totalAmount: number
     isRescueDeal?: boolean
+    storeStripeAccountId: string
+    isZeroCommission: boolean
 }
 
-function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, isRescueDeal }: CheckoutFormProps) {
+function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, isRescueDeal, storeStripeAccountId, isZeroCommission }: CheckoutFormProps) {
     const stripe = useStripe()
     const elements = useElements()
     const router = useRouter()
@@ -247,7 +255,11 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
                 // We redirect to the same completion URL that redirect-based flows use.
                 // This unifies the order finalization logic on the server.
                 setIsLoading(true);
-                window.location.href = `/api/payment/complete?payment_intent=${paymentIntent.id}&redirect_status=${paymentIntent.status}`;
+                if(isZeroCommission){
+                    window.location.href = `/api/payment/complete?payment_intent=${paymentIntent.id}&redirect_status=${paymentIntent.status}&stripe_connected_account_id=${storeStripeAccountId}`;
+                } else {
+                    window.location.href = `/api/payment/complete?payment_intent=${paymentIntent.id}&redirect_status=${paymentIntent.status}`;
+                }
             }
         } else {
             // Payment succeeded immediately on the server.
@@ -295,7 +307,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
         const { error, confirmationToken } = await stripe.createConfirmationToken({
                 elements,
                 params: {
-                return_url: `${window.location.origin}/api/payment/complete?mode=${isDelivery ? "delivery" : "pickup"}`,
+                return_url: isZeroCommission ? `${window.location.origin}/api/payment/complete?mode=${isDelivery ? "delivery" : "pickup"}&stripe_connected_account_id=${storeStripeAccountId}` : `${window.location.origin}/api/payment/complete?mode=${isDelivery ? "delivery" : "pickup"}`,
                 payment_method_data: {
                     billing_details: {
                         name: customerName || session?.user?.username || userEmail.split('@')[0],
@@ -406,7 +418,7 @@ function CheckoutForm({ orderId, onPaymentSuccess, onPaymentError, totalAmount, 
                          const {error, confirmationToken} = await stripe.createConfirmationToken({
                             elements,
                             params: {
-                                return_url: `${window.location.origin}/api/payment/complete?mode=${isDelivery ? "delivery" : "pickup"}`,
+                                return_url: isZeroCommission ? `${window.location.origin}/api/payment/complete?mode=${isDelivery ? "delivery" : "pickup"}&stripe_connected_account_id=${storeStripeAccountId}` : `${window.location.origin}/api/payment/complete?mode=${isDelivery ? "delivery" : "pickup"}`,
                                 payment_method_data: {
                                     billing_details: {
                                         name: customerName || session?.user?.username || userEmail.split('@')[0],

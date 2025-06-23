@@ -71,6 +71,7 @@ export default function NavbarAdvancedComponent({
     const blocking = React.useRef(false);
     const SCROLL_THRESHOLD = 10;
     const isShowDelivery = useMediaQuery(store ? "(max-width: 1200px)" : "(max-width: 948px)");
+    const isTabletRange = useMediaQuery("(min-width: 769px) and (max-width: 1200px)");
 
     const pathname = usePathname();
     const isAddItemPage = pathname.includes("add-item");
@@ -91,10 +92,25 @@ export default function NavbarAdvancedComponent({
             // Determine if scrolled
             setScrolled(currentScrollY > 10);
             
-            // Only update direction if we've scrolled past threshold
+            // More responsive scroll detection
             if (Math.abs(currentScrollY - prevScrollY.current) > SCROLL_THRESHOLD) {
-                // Determine scroll direction
-                setIsVisible(currentScrollY < prevScrollY.current);
+                const isScrollingUp = currentScrollY < prevScrollY.current;
+                
+                // Faster, more synchronized visibility logic
+                if (isMobile) {
+                    // On mobile, immediate response to scroll direction
+                    if (isScrollingUp || currentScrollY < 50) {
+                        setIsVisible(true);
+                    } else {
+                        setIsVisible(false);
+                    }
+                } else if (isTabletRange) {
+                    // On tablet (769px-1200px), responsive main navbar
+                    setIsVisible(isScrollingUp || currentScrollY < 20);
+                } else {
+                    // On desktop (>1200px), always show main navbar
+                    setIsVisible(true);
+                }
                 
                 // Update previous scroll position
                 prevScrollY.current = currentScrollY > 0 ? currentScrollY : 0;
@@ -112,7 +128,7 @@ export default function NavbarAdvancedComponent({
         
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [isMobile, isTabletRange]);
 
     // Extract navigation logic to avoid repetition
     const navigateToStore = React.useCallback(() => {
@@ -126,7 +142,7 @@ export default function NavbarAdvancedComponent({
             <Navbar
                 {...props}
                 classNames={{
-                    base: cn("sticky py-4 w-full backdrop-filter-none bg-background w-full", scrolled ? `shadow-lg ${(isSticky || isVisible) && 'shadow-none'}` : ""),
+                    base: cn("sticky py-4 w-full backdrop-filter-none bg-background w-full transition-all duration-200", scrolled ? `shadow-lg ${(isSticky || isVisible) && 'shadow-none'}` : ""),
                     wrapper:
                         "px-4 max-w-full justify-center bg-background",
                     item: "hidden md:flex",

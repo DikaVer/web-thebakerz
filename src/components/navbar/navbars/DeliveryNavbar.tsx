@@ -40,13 +40,19 @@ export const DeliveryNavbar: React.FC<DeliveryNavbarProps> = ({
     }
 
     return (
-        <div className={cn(
-            "transition-all duration-300 bg-background w-full md:min-w-[500px] justify-center items-center gap-2 ",
-            "sticky top-14 z-30 px-4 py-2",
-            isVisible ? `${level}` : `-top-14`,
-            isComponent && "flex"
-        )}>
-            {/* Toggle Delivery Button */}
+        <div 
+            className={cn(
+                "bg-background w-full md:min-w-[500px] justify-center items-center gap-2",
+                "sticky z-30 px-4 py-2",
+                "transition-all duration-200 ease-in-out",
+                isVisible ? `${level}` : "top-14",
+                isComponent && "flex"
+            )}
+            style={{
+                transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
+                transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), top 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+            }}
+        >            {/* Toggle Delivery Button */}
             <div className={cn(
                 "flex items-center justify-start flex-shrink-0 gap-2",
                 isHideDelivery && "pb-2"

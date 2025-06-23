@@ -337,7 +337,8 @@ export async function prepareCheckout({
         transfer_data: [{
             destination: storeStripeAccountId,
             amount: transferAmount, // Amount to transfer to the connected account
-            app_fee: applicationFee
+            app_fee: applicationFee,
+            zero_commission: storeData.zero_commission
         }],
         isRescueDeal: isRescueDeal,
         status: 'pending_payment',
@@ -362,5 +363,7 @@ export async function prepareCheckout({
         orderId: cosmosId,
         totalAmount: totalInclVat,
         currency: storeData.currency.toLowerCase(),
+        zeroCommission: storeData.zero_commission || false,
+        stripeAccountId: storeStripeAccountId,
     };
 } 

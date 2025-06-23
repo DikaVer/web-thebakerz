@@ -118,14 +118,18 @@ export async function POST(req: NextRequest) {
         }
 
         // Create and confirm the PaymentIntent in one step
+        const isZeroCommission = orderRaw.transfer_data && orderRaw.transfer_data.length > 0 && orderRaw.transfer_data[0].zero_commission;
+        const connectedAccountId = orderRaw.transfer_data[0].destination;
+       
+        
         const paymentIntent = await stripe.paymentIntents.create({
             amount: orderRaw.totalInclVat,
             currency: orderRaw.currency.toLowerCase(),
             automatic_payment_methods: { enabled: true },
             confirmation_token: confirmationTokenId,
             confirm: true,
-            transfer_data: orderRaw.transfer_data && orderRaw.transfer_data.length > 0 ? {
-                destination: orderRaw.transfer_data[0].destination,
+            transfer_data: !isZeroCommission ? {
+                destination: connectedAccountId,
                 amount: orderRaw.transfer_data[0].amount - orderRaw.transfer_data[0].app_fee,
             } : undefined,
             metadata: {
@@ -135,7 +139,20 @@ export async function POST(req: NextRequest) {
                 storeName: orderRaw.store_name || storeId,
                 isDelivery: orderRaw.isDelivery ? 'true' : 'false',
                 isRescueDeal: isRescueDeal ? 'true' : 'false',
+                zeroCommission: isZeroCommission ? 'true' : 'false',
             },
+        }, {
+            stripeAccount: isZeroCommission ? connectedAccountId : undefined,
+        });
+
+        log.info('paymentIntentConfirm', 'Payment intent created', {
+            requestId: context.requestId,
+            orderId,
+            paymentIntentId: paymentIntent.id,
+            status: paymentIntent.status,
+            amount: paymentIntent.amount,
+            onBehalfOf: paymentIntent.on_behalf_of,
+            hasTransferData: !!paymentIntent.transfer_data
         });
 
         if(isRescueDeal && holdIds){

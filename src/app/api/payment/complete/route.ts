@@ -65,16 +65,15 @@ export async function GET(req: NextRequest) {
         return checkoutErrorRedirect(undefined, 'missing_payment_intent');
     }
 
+    const stripeConnectedAccountId = searchParams.get('stripe_connected_account_id');
+
     try {
-        log.info('paymentComplete', 'Retrieving payment intent from Stripe', {
-            requestId: context.requestId,
-            paymentIntentId,
-            redirectStatus: searchParams.get('redirect_status')
-        });
-        
-        // Retrieve the payment intent to check its status and expand payment method
+    
+        // Retrieve the payment intent from the connected account
         const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, {
             expand: ['payment_method']
+        }, {
+            stripeAccount: stripeConnectedAccountId || undefined
         });
 
         storeIdForErrorRedirect = paymentIntent.metadata?.storeId;

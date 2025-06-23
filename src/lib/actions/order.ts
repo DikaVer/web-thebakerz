@@ -92,6 +92,7 @@ export interface ExtendedOrderRaw extends OrderRaw {
             destination: string;
             amount: number;
             app_fee: number;
+            zero_commission: boolean;
         }
     ];
     status: string;

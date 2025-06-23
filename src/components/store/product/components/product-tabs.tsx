@@ -58,7 +58,7 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({ categories, selectedTa
     }, [effectiveSelectedTab]);
 
     return (
-        <div ref={tabsRef} className="mx-0 px-0 w-full md:w-2/3">
+        <div ref={tabsRef} className="mx-0 px-0 w-full">
             <Tabs
                 key="underlined_tabs"
                 aria-label={t("categoryNavigation")}
