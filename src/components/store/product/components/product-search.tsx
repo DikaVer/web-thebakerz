@@ -24,7 +24,7 @@ export const ProductSearch: React.FC<ProductSearchProps> = ({ searchTerm, onSear
         setLocalSearchTerm(searchTerm);
     }, [searchTerm]);
     
-    // --- iOS Safari zoom prevention for input ---
+    // --- iOS Safari zoom prevention and keyboard juggling fix for input ---
     useEffect(() => {
         const isIOSSafari = () => {
             return /iP(ad|hone|od)/.test(navigator.userAgent) && /WebKit/.test(navigator.userAgent) && !(/(CriOS|FxiOS|OPiOS|mercury)/.test(navigator.userAgent));
@@ -33,32 +33,58 @@ export const ProductSearch: React.FC<ProductSearchProps> = ({ searchTerm, onSear
         if (!isIOSSafari()) return;
 
         const handleFocus = () => {
-            // Temporarily disable zoom on focus for iOS Safari only
+            // Store original values
             const viewport = document.querySelector('meta[name="viewport"]');
+            let originalViewportContent = '';
+
             if (viewport) {
-                const originalContent = viewport.getAttribute('content');
-                viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');
-                
-                // Restore original viewport on blur
-                const handleBlur = () => {
-                    if (originalContent) {
-                        viewport.setAttribute('content', originalContent);
-                    }
-                };
-                
-                // Set up blur listener on the input
-                const findAndAttachBlurListener = () => {
-                    // Find the actual input element within the Input component
-                    const input = containerRef.current?.querySelector('input[type="text"]') as HTMLInputElement;
-                    if (input) {
-                        input.addEventListener('blur', handleBlur, { once: true });
-                    }
-                };
-                
-                // Attach blur listener immediately or after a short delay
-                findAndAttachBlurListener();
-                setTimeout(findAndAttachBlurListener, 100);
+                originalViewportContent = viewport.getAttribute('content') || '';
+                // Prevent zoom but allow scrolling
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
             }
+
+            // Gentle scroll positioning for iPhone - position input optimally without blocking scroll
+            setTimeout(() => {
+                const input = containerRef.current?.querySelector('input[type="text"]') as HTMLInputElement;
+                if (input) {
+                    // Scroll input into view with some padding from top
+                    input.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                        inline: 'nearest'
+                    });
+                    
+                    // Add a bit more space from top for better iPhone experience
+                    setTimeout(() => {
+                        const currentScrollY = window.scrollY;
+                        const additionalOffset = 100; // Extra space from top for better visibility
+                        window.scrollTo({
+                            top: Math.max(0, currentScrollY - additionalOffset),
+                            behavior: 'smooth'
+                        });
+                    }, 100);
+                }
+            }, 150);
+            
+            // Restore viewport on blur
+            const handleBlur = () => {
+                if (viewport && originalViewportContent) {
+                    viewport.setAttribute('content', originalViewportContent);
+                }
+            };
+            
+            // Set up blur listener on the input
+            const findAndAttachBlurListener = () => {
+                // Find the actual input element within the Input component
+                const input = containerRef.current?.querySelector('input[type="text"]') as HTMLInputElement;
+                if (input) {
+                    input.addEventListener('blur', handleBlur, { once: true });
+                }
+            };
+            
+            // Attach blur listener immediately or after a short delay
+            findAndAttachBlurListener();
+            setTimeout(findAndAttachBlurListener, 100);
         };
 
         // Set up focus listener on the input
