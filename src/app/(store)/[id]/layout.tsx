@@ -1,13 +1,13 @@
 import '@/styles/globals.css'
 import React from "react";
-import {getCurrentStore, getCurrentStoreId} from "@/lib/api/store-api";
+import {getStoreAPI, getStoreIdAPI} from "@/lib/api/GET/store-api";
 import {getLocalizedMetadata} from "@/components/metadata";
 import type {Metadata} from "next";
 import {StoreIdChecker} from "@/components/store/store-id-checker";
 import {StoreProvider} from "@/components/providers/store-provider";
 import {ProductDialogProvider} from "@/components/providers/product-provider";
 import {CartProvider} from "@/components/providers/cart-provider";
-import {getCurrentCart} from "@/lib/api/cart-api";
+import {getCartAPI} from "@/lib/api/GET/cart-api";
 import {getDeliveryMode, getRescueDealMode} from "@/lib/actions/cookies/delivery-cookie";
 import {DeliveryProvider} from "@/components/providers/delivery-provider";
 import {getCurrentDeliveryAddress} from "@/app/(store)/[id]/delivery-actions";
@@ -15,10 +15,10 @@ import LayoutComp from "@/components/layout-comp";
 import NotFound from "@/app/(error_layout)/not-found";
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 import { FavoritesProvider } from '@/components/providers/favorites-provider';
-import { getCurrentFavoritesByStore } from '@/lib/api/favorites-api';
+import { getFavoritesByStoreAPI } from '@/lib/api/GET/favorites-api';
 import { getRescueDeal, RescueDeal } from '@/lib/actions/rescue-deal';
 import { isWithinClosingWindow } from '@/lib/utils/helper/schedule-utils';
-import { getCurrentProducts } from '@/lib/api/products-api';
+import { getProductsAPI } from '@/lib/api/GET/products-api';
 import { checkInventoryAvailability } from '@/lib/utils/helper/check-inventory-rescue';
 
 type Params = Promise<{ id: string }>
@@ -26,7 +26,7 @@ type Params = Promise<{ id: string }>
 export async function generateMetadata({params}: {params: Params}): Promise<Metadata> {
     const { id } = await params;
     
-    const storeData = await getCurrentStore(id);
+    const storeData = await getStoreAPI(id);
     const localeKey: 'en' = 'en';
 
     const baseMetadata = getLocalizedMetadata(localeKey);
@@ -144,7 +144,7 @@ async function setupStoreProviders({
     id: string; 
     children: React.ReactNode; 
 }) {
-    const storeData = await getCurrentStore(id);
+    const storeData = await getStoreAPI(id);
     
     if (!storeData) {
         return NotFound();
@@ -174,9 +174,9 @@ async function setupStoreProviders({
         }
     }
     
-    const cartData = await getCurrentCart(storeData.id);
-    const initialStoreFavorites = await getCurrentFavoritesByStore(storeData.id);
-    const productsData = await getCurrentProducts(storeData.id);
+    const cartData = await getCartAPI(storeData.id);
+    const initialStoreFavorites = await getFavoritesByStoreAPI(storeData.id);
+    const productsData = await getProductsAPI(storeData.id);
 
     
     return (
@@ -223,7 +223,7 @@ export default async function Layout({
 }) {
     const { id } = await params;
     
-    const storeData = await getCurrentStoreId(id);  
+    const storeData = await getStoreIdAPI(id);
 
     return (
         <div className={'min-h-svh'}>

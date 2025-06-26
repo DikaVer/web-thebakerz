@@ -1,8 +1,8 @@
 import 'server-only';
-import { StoreBusinessData } from "../actions/store";
+import { StoreBusinessData } from "../../actions/store";
 import { getCurrentSession } from "@/lib/actions/session";
 
-export const getCurrentBusinessUser = async (): Promise<StoreBusinessData | null> => {
+export const getBusinessUserAPI = async (): Promise<StoreBusinessData | null> => {
 
     const session = await getCurrentSession();
     if(!session?.user) {

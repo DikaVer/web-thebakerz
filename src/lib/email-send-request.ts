@@ -13,7 +13,7 @@ import { RefillingTokenBucket } from "@/lib/utils/helper/rate-limits";
 import OrderPlacedEmail from "@/components/emails/order-placed";
 import NewOrderEmail from "@/components/emails/new-order-bakerz";
 import {OrderData} from "@/lib/actions/order";
-import {getCurrentStorePayment} from "@/lib/api/store-api";
+import {getStorePaymentAPI} from "@/lib/api/GET/store-api";
 
 const ipBucket = new RefillingTokenBucket<string>(20, 1);
 
@@ -91,7 +91,7 @@ export async function sendMagicCode(params: { identifier: string; code: string }
 export async function sendOrderPlaced(params: { identifier: string; orderData: OrderData }) {
     const { identifier: to, orderData } = params;
 
-    const storeData = await getCurrentStorePayment(orderData.store_id);
+    const storeData = await getStorePaymentAPI(orderData.store_id);
     if (!storeData) {
         // Maybe throw a more specific error or log details
         console.error(`Failed to send order emails: Store not found for ID ${orderData.store_id}`);

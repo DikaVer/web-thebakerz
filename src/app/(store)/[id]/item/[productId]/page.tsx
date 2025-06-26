@@ -2,9 +2,9 @@ import React from "react";
 import {Spacer} from "@heroui/react";
 import NotFound from "@/app/(error_layout)/not-found";
 import { FooterStore } from "@/components/footer-store";
-import {getCurrentProductByStoreIdAndProductId} from "@/lib/api/products-api";
+import {getProductByStoreIdAndProductIdAPI} from "@/lib/api/GET/products-api";
 import {ProductPage} from "@/components/store/product-page/product-page";
-import {getCurrentStoreId} from "@/lib/api/store-api";
+import {getStoreIdAPI} from "@/lib/api/GET/store-api";
 import { getLocalizedMetadata } from '@/components/metadata';
 import type { Metadata } from 'next';
 
@@ -26,7 +26,7 @@ export async function generateMetadata({params}: {params: Params}): Promise<Meta
         const localeKey: 'en' = 'en';
         const baseMetadata = getLocalizedMetadata(localeKey);
 
-        const storeData = await getCurrentStoreId(id);
+        const storeData = await getStoreIdAPI(id);
         if (!storeData) {
             return {
                 title: "Store Not Found | TheBakerz",
@@ -34,7 +34,7 @@ export async function generateMetadata({params}: {params: Params}): Promise<Meta
             };
         }
 
-        const product = await getCurrentProductByStoreIdAndProductId(storeData.id, productId);
+        const product = await getProductByStoreIdAndProductIdAPI(storeData.id, productId);
         if (!product) {
             return {
                 title: "Product Not Found | TheBakerz",
@@ -119,12 +119,12 @@ export default async function Page(props: StorePageProps) {
     const params = await props.params;
     const { id, productId } = await params;
 
-    const storeData = await getCurrentStoreId(id);
+    const storeData = await getStoreIdAPI(id);
     if (!storeData) {
         return <NotFound />;
     }
 
-    const productData = await getCurrentProductByStoreIdAndProductId(storeData.id, productId);
+    const productData = await getProductByStoreIdAndProductIdAPI(storeData.id, productId);
     const productStructuredData = {
         "@context": "https://schema.org",
         "@type": "Product",

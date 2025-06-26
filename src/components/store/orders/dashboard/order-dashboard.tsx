@@ -8,10 +8,10 @@ import {OrdersBarChart} from "@/components/store/orders/dashboard/component/orde
 import {motion} from "framer-motion";
 import {useStore} from "@/components/providers/store-provider";
 import {getLocalTimeZone, today, CalendarDate} from "@internationalized/date";
-import {getOrdersByDateRange, OrderData} from "@/lib/actions/order";
+import { OrderData} from "@/lib/actions/order";
 import { formatApiDate } from "@/lib/utils";
-import { useTranslations } from "next-intl";
 import {CalendarDashboard} from "@/components/store/orders/dashboard/component/calendar-dashboard";
+import { getOrdersByDateRange } from "@/lib/api/GET/order-api";
 
 interface OrderDashboardProps {
     date?: string;
@@ -77,7 +77,7 @@ export const OrderDashboard: React.FC<OrderDashboardProps> = ({date, from, to, i
             const data = await getOrdersByDateRange(store?.id || "X", fromDate, toDate);
             setOrderDataList(data);
             setIsLoading(false);
-        });
+        }); 
     }, []);
 
     useEffect(() => {

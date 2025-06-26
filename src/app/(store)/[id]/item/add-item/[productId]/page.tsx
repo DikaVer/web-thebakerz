@@ -1,5 +1,5 @@
 import React from "react";
-import {getCurrentStoreId} from "@/lib/api/store-api";
+import {getStoreIdAPI} from "@/lib/api/GET/store-api";
 import {ItemPage} from "@/components/store/add-item/item-page";
 import NotFound from "@/app/(error_layout)/not-found";
 interface PageProps {
@@ -11,7 +11,7 @@ interface PageProps {
 
 export default async function Page({ params }: PageProps) {
     const { id, productId } = await params;
-    const storeData = await getCurrentStoreId(id);
+    const storeData = await getStoreIdAPI(id);
     if (!storeData) {
         return <NotFound />;
     }

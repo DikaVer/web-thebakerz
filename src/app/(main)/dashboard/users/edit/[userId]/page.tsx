@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getCurrentStoreByUserId,  getCurrentBusinessStore, getCurrentStorePayment } from "@/lib/api/store-api";
+import { getStoreByUserIdAPI,  getBusinessStoreAPI, getStorePaymentAPI } from "@/lib/api/GET/store-api";
 
 import {getCurrentSession} from "@/lib/actions/session";
 import {redirect} from "next/navigation";
@@ -23,13 +23,13 @@ export default async function Page({ params }: UserEditProps) {
 
     
     // Fetch store data and business data
-    const { store } = await getCurrentStoreByUserId(userId);
+    const { store } = await getStoreByUserIdAPI(userId);
     
     let businessData = null;
     let paymentData = null;
     if (store) {
-        businessData = await getCurrentBusinessStore(store.id);
-        paymentData = await getCurrentStorePayment(store.id);   
+        businessData = await getBusinessStoreAPI(store.id);
+        paymentData = await getStorePaymentAPI(store.id);
     }
     
     return <BakerzEditTabs store={store} businessData={businessData} paymentData={paymentData}/>;

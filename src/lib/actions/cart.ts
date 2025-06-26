@@ -7,8 +7,8 @@ import {containerCart } from "@/db";
 import {revalidateTag} from "next/cache";
 import { ProductData} from "@/lib/actions/product";
 import { getTranslations } from "next-intl/server";
-import { getCurrentCartType } from "../api/cart-api";
-import { getCurrentProductByStoreIdAndProductId } from "../api/products-api";
+import { getCartTypeAPI } from "../api/GET/cart-api";
+import { getProductByStoreIdAndProductIdAPI } from "../api/GET/products-api";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -79,7 +79,7 @@ export const updateCart = async (
             return { error: t("noteTooLong") };
         }
         
-        const productData = await getCurrentProductByStoreIdAndProductId(storeId, productId); 
+        const productData = await getProductByStoreIdAndProductIdAPI(storeId, productId);
 
         if (!productData) {
             return { error: t("productNotFound") };
@@ -142,7 +142,7 @@ export const updateCart = async (
         }
 
         // Check for existing item without notes and matching product/variants
-        const existingCartData = await getCurrentCartType(storeId, type as "delivery" | "pickup");
+        const existingCartData = await getCartTypeAPI(storeId, type as "delivery" | "pickup");
         
         // Safely check if store exists in cart data
         const storeCartItems = existingCartData[storeId];

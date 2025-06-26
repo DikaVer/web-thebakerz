@@ -27,6 +27,7 @@ import {OrderStatusChip} from "@/components/ui/status-chip";
 import {Icon} from "@iconify/react";
 import {useRouter} from "next/navigation";
 import {useTranslations} from "next-intl";
+import { useSession } from "@/components/providers/session-provider";
 
 export type HorizontalStepProps = {
     title?: React.ReactNode;
@@ -115,6 +116,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
         },
         ref,
     ) => {
+        const { updateNewOrderCount } = useSession();
         const [currentStep, setCurrentStep] = useControlledState(
             currentStepProp,
             defaultStep,
@@ -213,6 +215,7 @@ const HorizontalStepsOrder = React.forwardRef<HTMLButtonElement, HorizontalSteps
                 showErrorMessage({error: error || t("Failed to update status")});
 
             } else {
+                updateNewOrderCount(orderData.store_id, stepIdx === 0 ? 1 : -1);
                 showSuccessMessage({success: t("Status updated successfully")});
                 router.refresh();
                 setCurrentStep(stepIdx);

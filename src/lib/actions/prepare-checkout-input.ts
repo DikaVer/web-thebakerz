@@ -4,12 +4,12 @@ import { stripe } from "@/stripe";
 import { getCurrentSession } from "@/lib/actions/session";
 import { getSessionCookie } from "@/lib/actions/session";
 import { globalPOSTRateLimit } from "@/lib/utils/helper/requests";
-import { getCurrentProducts } from "@/lib/api/products-api";
+import { getProductsAPI } from "@/lib/api/GET/products-api";
 import { getDeliveryTime, getOrderTime } from "@/app/(store)/[id]/actions";
 import { OrderRaw, ExtendedOrderRaw } from "@/lib/actions/order";
 import { v4 as uuidv4 } from "uuid";
 import { containerOrdersUnpaid } from "@/db";
-import { getCurrentStorePayment } from "@/lib/api/store-api";
+import { getStorePaymentAPI } from "@/lib/api/GET/store-api";
 import { calculateApplicationFee, calculateTotals } from "@/lib/utils/price/price-calculations";
 import { calculateItemTotalPrice } from "@/lib/utils/helper/calculate-total-price-variants";
 import { CalendarDateTime, ZonedDateTime, now, parseDate, parseTime } from "@internationalized/date";
@@ -20,7 +20,7 @@ import { getCurrentDeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
 import { validateAddress } from "@/lib/actions/delivery-address-actions";
 import { MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
 import { DeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
-import { getCurrentCartType } from "../api/cart-api";
+import { getCartTypeAPI } from "../api/GET/cart-api";
 import { MIN_ORDER_PRICE_IN_CENTS } from "@/lib/local-variables";
 import { validateOrderTimeAgainstSchedule } from "./order-checker";
 import { getLastStoreHoursToday, isWithinClosingWindow } from "@/lib/utils/helper/schedule-utils";
@@ -66,13 +66,13 @@ export async function prepareCheckout({
     const isDelivery = deliveryMode === 'delivery';
 
     // Fetch Full Store Data
-    const storeData = await getCurrentStorePayment(storeId);
+    const storeData = await getStorePaymentAPI(storeId);
     if (!storeData) {
         return { error: 'Store data could not be found.' };
     }
 
     // 4. Cart Validation
-    const cartData = await getCurrentCartType(storeId, isDelivery ? "delivery" : "pickup");
+    const cartData = await getCartTypeAPI(storeId, isDelivery ? "delivery" : "pickup");
     if (!cartData || !cartData[storeId] || Object.keys(cartData[storeId]).length === 0) {
         return { error: 'Your cart is empty.' };
     }
@@ -164,7 +164,7 @@ export async function prepareCheckout({
     let leadTime = isDelivery ? selectedRegion?.minOrderTime : storeData.minTimeOrder// Use minTimeOrder from storeData
 
     // 7. Calculate Totals & Minimum Order Check
-    const productsData = await getCurrentProducts(storeId);
+    const productsData = await getProductsAPI(storeId);
     const applyVat = !storeData.kor;
 
     // Fetch rescue deals if this is a rescue deal order

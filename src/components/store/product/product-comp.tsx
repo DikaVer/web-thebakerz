@@ -2,8 +2,8 @@
 
 import React from "react";
 import { ProductListBase } from "@/components/store/product/product-list";
-import { getCurrentProductsOrder } from "@/lib/api/products-api";
-import { getCurrentStoreSchedule } from "@/lib/api/store-api";
+import { getProductsOrderAPI } from "@/lib/api/GET/products-api";
+import { getStoreScheduleAPI } from "@/lib/api/GET/store-api";
 import { getRescueDeal, RescueDeal } from "@/lib/actions/rescue-deal";
 import { isWithinClosingWindow } from "@/lib/utils/helper/schedule-utils";
 import { checkInventoryAvailability } from "@/lib/utils/helper/check-inventory-rescue";
@@ -19,9 +19,9 @@ type SearchParams = {
 export const ProductComponentBase: React.FC<{ storeId: string, searchParams?: SearchParams }> = async ({ storeId, searchParams = {} }) => {
 
     // Fetch product order
-    const productsOrder = await getCurrentProductsOrder(storeId);
+    const productsOrder = await getProductsOrderAPI(storeId);
 
-    const schedule = await getCurrentStoreSchedule(storeId);
+    const schedule = await getStoreScheduleAPI(storeId);
 
     // Check if current time is within 45 minutes of closing
     const isClosingSoon = isWithinClosingWindow(schedule);

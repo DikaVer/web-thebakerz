@@ -1,7 +1,7 @@
 import React, {Suspense} from "react";
 import {ProductComponentBase} from "@/components/store/product/product-comp";
 import {Spacer} from "@heroui/react";
-import {getCurrentStoreId} from "@/lib/api/store-api";
+import {getStoreIdAPI} from "@/lib/api/GET/store-api";
 import NotFound from "@/app/(error_layout)/not-found";
 import {StoreTop} from "@/components/store/store-header/store-top";
 import { FooterStore } from "@/components/footer-store";
@@ -31,7 +31,7 @@ export default async function Page(props: StorePageProps) {
 
     const { id } = await params;
 
-    const storeData = await getCurrentStoreId(id);
+    const storeData = await getStoreIdAPI(id);
 
     if (!storeData) {
         return <NotFound />;

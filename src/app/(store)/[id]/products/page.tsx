@@ -1,7 +1,7 @@
 import React, {Suspense} from "react";
 import {ProductCard} from "@/components/settings/products/product-card";
-import {getCurrentProducts} from "@/lib/api/products-api";
-import {getCurrentProductsOrder} from "@/lib/api/products-api";
+import {getProductsAPI} from "@/lib/api/GET/products-api";
+import {getProductsOrderAPI} from "@/lib/api/GET/products-api";
 import {getTranslations} from "next-intl/server";
 import {verifyStoreAccess} from "../store-utils";
 import NotFound from "@/app/(error_layout)/not-found";
@@ -28,8 +28,8 @@ export default async function Page(props: StorePageProps) {
         return NotFound();
     }
 
-    const productsData = await getCurrentProducts(storeData.id);
-    const productsOrder = await getCurrentProductsOrder(storeData.id);
+    const productsData = await getProductsAPI(storeData.id);
+    const productsOrder = await getProductsOrderAPI(storeData.id);
 
     return (
         <div className="flex flex-col min-h-screen relative items-center container mx-auto justify-center">

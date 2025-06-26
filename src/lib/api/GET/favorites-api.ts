@@ -1,9 +1,9 @@
 'use server';
 import { getCurrentSession } from "@/lib/actions/session";
-import { FavoriteData } from "../actions/favorites";
+import { FavoriteData } from "../../actions/favorites";
 
 
-export const getCurrentStoreFavorites = async (): Promise<FavoriteData[]> => {
+export const getStoreFavoritesAPI = async (): Promise<FavoriteData[]> => {
     
     const session = await getCurrentSession();  
     if(!session?.user) {
@@ -21,7 +21,7 @@ export const getCurrentStoreFavorites = async (): Promise<FavoriteData[]> => {
     }).then(res => res.json());
 }
 
-export const getCurrentProductFavorites = async (): Promise<FavoriteData[]> => {
+export const getProductFavoritesAPI = async (): Promise<FavoriteData[]> => {
     
     const session = await getCurrentSession();  
     if(!session?.user) {
@@ -39,7 +39,7 @@ export const getCurrentProductFavorites = async (): Promise<FavoriteData[]> => {
     }).then(res => res.json());
 }
 
-export const getCurrentFavoritesByStore = async (storeId:string): Promise<FavoriteData[]> => {
+export const getFavoritesByStoreAPI = async (storeId:string): Promise<FavoriteData[]> => {
     
     const session = await getCurrentSession();  
     if(!session?.user) {

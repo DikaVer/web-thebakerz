@@ -1,6 +1,6 @@
 
 import Checkout from "@/components/checkout/payment/checkout";
-import {getCurrentStore} from "@/lib/api/store-api";
+import {getStoreAPI} from "@/lib/api/GET/store-api";
 import NotFound from "@/app/(error_layout)/not-found";
 
 interface StorePageProps {
@@ -20,7 +20,7 @@ export default async function Page(props: StorePageProps) {
     const { id } = await params
 
 
-    const storeData = await getCurrentStore(id);
+    const storeData = await getStoreAPI(id);
 
     if (!storeData || !storeData.stripe_id) {
         return NotFound();

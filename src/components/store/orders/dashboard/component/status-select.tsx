@@ -10,6 +10,7 @@ import { IconClose } from "@/components/ui/icons";
 import GradientText from "@/components/ui/gradient-text";
 import showSuccessMessage from "@/components/toast/toast-succes";
 import showErrorMessage from "@/components/toast/toast-error";
+import { useSession } from "@/components/providers/session-provider";
 
 interface StatusSelectProps {
     order: OrderData;
@@ -23,7 +24,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
     const router = useRouter();
     const c_T = useTranslations();
     const t = useTranslations("app/(store)/components/status-select");
-
+    const { updateNewOrderCount } = useSession();
     const [targetStatus, setTargetStatus] = React.useState<OrderStatus>(currentStatus);
     const [selectedStatus, setSelectedStatus] = React.useState<OrderStatus>(currentStatus);
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -52,6 +53,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({ order, currentStatus
             showErrorMessage({error: error || t("failedToUpdateStatus")});
             setSelectedStatus(currentStatus)
         } else {
+            updateNewOrderCount(order.store_id, targetStatus === "new" ? 1 : -1);
             showSuccessMessage({success: t("statusUpdatedSuccess")});
             onStatusChange?.(selectedStatus, targetStatus);
             setSelectedStatus(targetStatus);

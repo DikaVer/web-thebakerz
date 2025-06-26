@@ -15,6 +15,7 @@ interface SessionContextType {
     registerSaveHandler: (id: string, handler: () => Promise<boolean> | boolean) => void;
     unregisterSaveHandler: (id: string) => void;
     clearSaveHandlers: () => void;
+    updateNewOrderCount: (storeId: string, updateNumber: number) => void;
 }
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined);
@@ -60,6 +61,14 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({sessionData, ch
                 return {...prev, [id]: handler};
             }
             return prev;
+        });
+    }, []);
+
+    const updateNewOrderCount = useCallback((storeId: string, updateNumber: number) => {
+        setSession(prev => {
+            if (!prev.session || !prev.stores) return prev;
+            const newStores = prev.stores.map(store => store.id === storeId ? {...store, newOrdersCount: store.newOrdersCount + updateNumber} : store);
+            return {...prev, stores: newStores};
         });
     }, []);
     
@@ -123,7 +132,8 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({sessionData, ch
             handleSave,
             registerSaveHandler,
             unregisterSaveHandler,
-            clearSaveHandlers       
+            clearSaveHandlers,
+            updateNewOrderCount
         }}>
             {children}
         </SessionContext.Provider>

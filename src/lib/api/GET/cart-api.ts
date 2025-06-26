@@ -2,9 +2,9 @@ import 'server-only';
 
 import { getCurrentSession } from "@/lib/actions/session";
 import { getSessionCookie } from "@/lib/actions/session";
-import { CartData, TypedCartData } from "../actions/cart";
+import { CartData, TypedCartData } from "../../actions/cart";
 
-export const getCurrentCart = async (
+export const getCartAPI = async (
     storeId: string,
 ): Promise<TypedCartData> => {
 
@@ -31,7 +31,7 @@ export const getCurrentCart = async (
 
 };
 
-export const getCurrentCartType = async (
+export const getCartTypeAPI = async (
     storeId: string,
     type: 'delivery' | 'pickup'
 ): Promise<CartData> => {

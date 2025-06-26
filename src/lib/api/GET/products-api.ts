@@ -1,7 +1,7 @@
 import 'server-only';
-import { ProductData, ProductDataFull } from "../actions/product";
+import { ProductData, ProductDataFull } from "../../actions/product";
 
-export async function getCurrentProducts(storeId: string): Promise<ProductDataFull> {
+export async function getProductsAPI(storeId: string): Promise<ProductDataFull> {
     try {
         if (!storeId) {
             return {};
@@ -25,7 +25,7 @@ export async function getCurrentProducts(storeId: string): Promise<ProductDataFu
     }
 }
 
-export async function getCurrentProductsOrder(storeId: string): Promise<Record<string, string[]>> {
+export async function getProductsOrderAPI(storeId: string): Promise<Record<string, string[]>> {
     try {
         if (!storeId) {
             return {};
@@ -50,7 +50,7 @@ export async function getCurrentProductsOrder(storeId: string): Promise<Record<s
 }
 
 
-export async function getCurrentProductByStoreIdAndProductId(storeId: string, productId: string): Promise<ProductData | null> {
+export async function getProductByStoreIdAndProductIdAPI(storeId: string, productId: string): Promise<ProductData | null> {
     try {
         if (!storeId || !productId) {
             return null;

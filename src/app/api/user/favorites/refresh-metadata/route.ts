@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { containerFavorites, containerProducts } from "@/db";
-import { getCurrentStore } from "@/lib/api/store-api";
-import { getCurrentProductByStoreIdAndProductId } from "@/lib/api/products-api";
+import { getStoreAPI } from "@/lib/api/GET/store-api";
+import { getProductByStoreIdAndProductIdAPI } from "@/lib/api/GET/products-api";
 import { revalidateTag } from "next/cache";
 
 // Types
@@ -155,7 +155,7 @@ export async function POST(request: NextRequest) {
 async function refreshStoreFavoritesGroup(storeId: string, favorites: FavoriteData[]) {
     try {
         // Get fresh store data once for all favorites of this store
-        const storeData = await getCurrentStore(storeId); 
+        const storeData = await getStoreAPI(storeId);
 
         // Simple business hours check (you can enhance this with actual schedule logic)
         const now = new Date();
@@ -197,7 +197,7 @@ async function refreshStoreFavoritesGroup(storeId: string, favorites: FavoriteDa
 async function refreshProductFavoritesGroup(storeId: string, productId: string, favorites: FavoriteData[]) {
     try {
         // Get fresh product data once for all favorites of this product
-        const productData = await getCurrentProductByStoreIdAndProductId(storeId, productId);
+        const productData = await getProductByStoreIdAndProductIdAPI(storeId, productId);
         
         // Prepare the metadata that will be applied to all favorites of this product
         const sharedMetadata = {

@@ -5,7 +5,8 @@ import {DayPicker, DayModifiers, useActiveModifiers, DayProps, useDayRender} fro
 import { addDays, endOfMonth, endOfWeek, format, isSameMonth, startOfMonth, isBefore, isAfter, isSameDay } from "date-fns"
 
 import { cn, formatApiDate } from "@/lib/utils"
-import { getOrdersByDateRange, OrderData } from "@/lib/actions/order"
+import { OrderData } from "@/lib/actions/order"
+import { getOrdersByDateRange } from "@/lib/api/GET/order-api"
 import { useStore } from "@/components/providers/store-provider"
 import {Badge, Button, ButtonGroup, Card} from "@heroui/react"
 import { Icon } from "@iconify/react/dist/iconify.js"

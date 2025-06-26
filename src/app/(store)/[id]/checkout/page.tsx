@@ -4,7 +4,7 @@ import StoreSkeleton from "@/components/skeletons";
 import CheckoutSteps from "@/components/checkout/checkout-steps";
 import {generateStorePageMetadata} from "../store-utils";
 import { getRescueDealMode } from "@/lib/actions/cookies/delivery-cookie";
-import { getCurrentStoreId, getCurrentStoreSchedule } from "@/lib/api/store-api";
+import { getStoreIdAPI, getStoreScheduleAPI } from "@/lib/api/GET/store-api";
 import { isWithinClosingWindow } from "@/lib/utils/helper/schedule-utils";
 import NotFound from "@/app/(error_layout)/not-found";
 
@@ -26,13 +26,13 @@ export default async function Page(props: StorePageProps) {
     const params = await props.params;
     const { id } = params;
 
-    const storeData = await getCurrentStoreId(id);  
+    const storeData = await getStoreIdAPI(id);
 
     if(!storeData){
         return <NotFound />;
     }
 
-    const schedule = await getCurrentStoreSchedule(storeData.id);
+    const schedule = await getStoreScheduleAPI(storeData.id);
 
     // Check if current time is within 45 minutes of closing
     const isClosingSoon = isWithinClosingWindow(schedule);

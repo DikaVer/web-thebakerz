@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { generatePdf } from "@/lib/utils/pdf/generate-invoice-pdf";
 import { renderPdf} from "@/lib/utils/pdf/render-pdf";
 import { globalLargeRateLimit } from "@/lib/utils/helper/requests";
-import {getCurrentOrder, OrderData } from "@/lib/actions/order";
+import { OrderData } from "@/lib/actions/order";
 import {
-    getCurrentBusinessStore,
-    getCurrentStoreByUserIdAndStoreId
-} from "@/lib/api/store-api";
+    getBusinessStoreAPI,
+    getStoreByUserIdAndStoreIdAPI
+} from "@/lib/api/GET/store-api";
 import {getCurrentSession} from "@/lib/actions/session";
 import {getTranslations} from "next-intl/server";
+import { getOrderAPI } from "@/lib/api/GET/order-api";
 
 export async function POST(
     req: NextRequest,
@@ -31,7 +32,7 @@ export async function POST(
             return NextResponse.json({ error: t("notAuthenticated") }, { status: 404 });
         }
 
-        const { store: storeData } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+        const { store: storeData } = await getStoreByUserIdAndStoreIdAPI(user.id, storeId);
 
         if (!storeData && user) {
             if (customer_email !== user.email) {
@@ -43,13 +44,13 @@ export async function POST(
             }
         }
 
-        const storeBusinessData = await getCurrentBusinessStore(storeId);
+        const storeBusinessData = await getBusinessStoreAPI(storeId);
         // Fixed duplicate condition
         if (!storeBusinessData) {
             return NextResponse.json({ error: t("storeNotFound") }, { status: 404 });
         }
 
-        const order: OrderData = await getCurrentOrder(storeId, orderId, customer_email);
+        const order: OrderData = await getOrderAPI(storeId, orderId, customer_email);
 
         if (!order) {
             return NextResponse.json({ error: t("orderNotFound") }, { status: 404 });

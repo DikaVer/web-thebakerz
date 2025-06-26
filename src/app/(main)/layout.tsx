@@ -8,7 +8,7 @@ import { getDeliveryMode, getRescueDealMode } from '@/lib/actions/cookies/delive
 import { GoogleMapsProvider } from '@/components/providers/google-maps-provider';
 import { FavoritesProvider } from '@/components/providers/favorites-provider';
 import { ProductDialogProvider } from '@/components/providers/product-provider';
-import { getCurrentStoreFavorites } from '@/lib/api/favorites-api';
+import { getStoreFavoritesAPI } from '@/lib/api/GET/favorites-api';
 
 
 export default async function Layout(
@@ -25,7 +25,7 @@ export default async function Layout(
     
     let initialDeliveryMode = deliveryMode === 'delivery';
 
-    const initialStoreFavorites = await getCurrentStoreFavorites();
+    const initialStoreFavorites = await getStoreFavoritesAPI();
 
     return (
             <>

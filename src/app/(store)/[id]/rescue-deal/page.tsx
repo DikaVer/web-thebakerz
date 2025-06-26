@@ -1,7 +1,7 @@
 import React, {Suspense} from "react";
 import RescueDealSettings from "@/components/settings/rescue-deal/rescue-settings";
-import {getCurrentProducts} from "@/lib/api/products-api";
-import {getCurrentProductsOrder} from "@/lib/api/products-api";
+import {getProductsAPI} from "@/lib/api/GET/products-api";
+import {getProductsOrderAPI} from "@/lib/api/GET/products-api";
 import {getRescueDeal} from "@/lib/actions/rescue-deal";
 import {getTranslations} from "next-intl/server";
 import {verifyStoreAccess} from "../store-utils";
@@ -26,8 +26,8 @@ export default async function Page(props: StorePageProps) {
     }
 
     const [productsData, productsOrder, existingRescueDeal] = await Promise.all([
-        getCurrentProducts(storeData.id),
-        getCurrentProductsOrder(storeData.id),
+        getProductsAPI(storeData.id),
+        getProductsOrderAPI(storeData.id),
         getRescueDeal(storeData.id)
     ]);
 

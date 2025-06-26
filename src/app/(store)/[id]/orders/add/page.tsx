@@ -1,10 +1,10 @@
 import React, {Suspense} from "react";
 
-import {getCurrentProducts} from "@/lib/api/products-api";
-import {getCurrentProductsOrder} from "@/lib/api/products-api";
+import {getProductsAPI} from "@/lib/api/GET/products-api";
+import {getProductsOrderAPI} from "@/lib/api/GET/products-api";
 
 import CartOrderComp from "@/components/store/orders/add/cart-order-comp";
-import {getCurrentStoreId} from "@/lib/api/store-api";
+import {getStoreIdAPI} from "@/lib/api/GET/store-api";
 import {verifyStoreAccess} from "@/app/(store)/[id]/store-utils";
 import NotFound from "@/app/(error_layout)/not-found";
 
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: {
 }) {
     const { id } = await params;
 
-    const storeData = await getCurrentStoreId(id);
+    const storeData = await getStoreIdAPI(id);
 
     if (!storeData) {
         return {
@@ -54,9 +54,9 @@ export default async function Page(props: StorePageProps) {
         return NotFound();
     }
 
-    const productsData = await getCurrentProducts(storeData.id);
+    const productsData = await getProductsAPI(storeData.id);
 
-    const productsOrder = await getCurrentProductsOrder(storeData.id);
+    const productsOrder = await getProductsOrderAPI(storeData.id);
 
     return (
         <div className="flex flex-col min-h-screen relative items-center container mx-auto justify-center">

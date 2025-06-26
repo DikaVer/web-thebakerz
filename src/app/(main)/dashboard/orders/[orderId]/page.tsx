@@ -1,7 +1,7 @@
 import React from "react";
 import NotFound from "@/app/(error_layout)/not-found";
-import {getCurrentOrder} from "@/lib/actions/order";
 import {OrderOverview} from "@/components/store/orders/overview/order-overview";
+import { getOrderAPI } from "@/lib/api/GET/order-api";
 
 interface StorePageProps {
     params: Promise<{
@@ -41,7 +41,7 @@ export default async function Page(props: StorePageProps) {
         return NotFound();
     }
 
-    const orderData = await getCurrentOrder(storeId, orderId, email);
+    const orderData = await getOrderAPI(storeId, orderId, email);
 
     if (!orderData) {
         return NotFound();

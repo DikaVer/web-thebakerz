@@ -1,4 +1,4 @@
-import {getCurrentStoreId} from "@/lib/api/store-api";
+import {getStoreIdAPI} from "@/lib/api/GET/store-api";
 import {Metadata} from "next";
 import {getLocale} from "next-intl/server";
 import {getCurrentSession} from "@/lib/actions/session";
@@ -13,7 +13,7 @@ export async function generateStorePageMetadata(
     pageDescription: string = '',
     robotsConfig = { index: true, follow: true }
 ): Promise<Metadata> {
-    const storeData = await getCurrentStoreId(id);
+    const storeData = await getStoreIdAPI(id);
     
     if (!storeData) {
         return {
@@ -43,7 +43,7 @@ export async function generateStorePageMetadata(
  * Returns null if user doesn't have access to store
  */
 export async function verifyStoreAccess(id: string): Promise<{id: string, storeName: string} | null> {
-    const storeData = await getCurrentStoreId(id);
+    const storeData = await getStoreIdAPI(id);
     
     if (!storeData) {
         return null;

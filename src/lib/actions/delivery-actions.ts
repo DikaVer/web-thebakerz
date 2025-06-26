@@ -6,7 +6,7 @@ import { getCurrentSession } from "@/lib/actions/session";
 import { getSessionCookie } from "@/lib/actions/session";
 import { DeliveryRegionsSchema } from "@/lib/utils/schemas/delivery.schema";
 import { WorkHours } from "@/lib/actions/calendar-actions";
-import { getCurrentStoreByUserIdAndStoreId } from "@/lib/api/store-api";
+import { getStoreByUserIdAndStoreIdAPI } from "@/lib/api/GET/store-api";
 import { getTranslations } from "next-intl/server";
 import { globalGETRateLimit } from "@/lib/utils/helper/requests";
 import { v4 as uuidv4 } from "uuid";
@@ -98,7 +98,7 @@ export async function updateMerchantDeliveryRegions(
 
   
     if(user.role !== "admin") {
-      const { store: storeData } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+      const { store: storeData } = await getStoreByUserIdAndStoreIdAPI(user.id, storeId);
       if (!storeData) {
         throw new Error("Store not found");
       }

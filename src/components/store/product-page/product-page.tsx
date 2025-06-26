@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ProductDataFull} from "@/lib/actions/product";
-import { getCurrentProducts } from "@/lib/api/products-api";
+import { getProductsAPI } from "@/lib/api/GET/products-api";
 import {getTranslations} from "next-intl/server";
 import {ProductView} from "@/components/store/product-page/product-view";
 import { getStoreDataByStoreNameOrId } from "@/lib/actions/store";
@@ -9,7 +9,7 @@ import { isWithinClosingWindow } from "@/lib/utils/helper/schedule-utils";
 import { getRescueDeal, RescueDeal } from "@/lib/actions/rescue-deal";
 
 export const ProductPage: React.FC<{ storeId: string, productId: string }> = async ({ storeId, productId }) => {
-    const productsData: ProductDataFull = await getCurrentProducts(storeId);
+    const productsData: ProductDataFull = await getProductsAPI(storeId);
     const t = await getTranslations("app/(store)/components/product-page");
 
     if (productsData === null || Object.keys(productsData).length === 0) {

@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import BlurText from '@/components/ui/blur-text';
 import AnimatedContent from '@/components/ui/animated-content';
-import { Divider, Link } from '@heroui/react';
+import { Button, Divider, Link } from '@heroui/react';
 import { motion } from 'framer-motion';
 import { CustomOrderButton } from '@/components/ui/custom-order-button';
 import { Icon } from '@iconify/react/dist/iconify.js';
@@ -82,63 +82,30 @@ export const FeatureSection = () => {
                                             animateOpacity
                                             delay={0.1}
                                         >
-                                            <BlurText
-                                                once={true}
-                                                text={t(`features.${feature.key}.title`)}
-                                                delay={50}
-                                                animateBy="words"
-                                                direction="bottom"
-                                                className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 leading-tight"
-                                            />
+                                            <a 
+                                            className="flex flex-row gap-4"
+                                            href={feature.key === 'hiddenGems' ? '/search?openAddressModal=true' : feature.key === 'perfectBaker' ? 'https://form.typeform.com/to/B6ShMyC8' : '/search?mode=pickup'}
+                                            >
+                                                <BlurText
+                                                    once={true}
+                                                    text={t(`features.${feature.key}.title`)}
+                                                    delay={50}
+                                                    animateBy="words"
+                                                    direction="bottom"
+                                                    className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 leading-tight"
+                                                />
+                                                <Button
+                                                    isIconOnly
+                                                    color='primary'
+                                                    className="rounded-full bg-gradient-primary"
+                                                >
+                                                    <Icon icon="mdi:arrow-right" width={32} className="text-white" />
+                                                </Button>
+                                            </a>
                                             
                                             <p className="text-base md:text-lg text-gray-700 leading-relaxed max-w-2xl">
                                                 {t(`features.${feature.key}.description`)}
                                             </p>
-                                            {feature.key === 'hiddenGems' && (
-                                                <div className="flex w-full justify-end">
-                                                    <motion.div
-                                                        className="mt-5 w-full max-w-sm"
-                                                        initial={{ opacity: 0, y: 20 }}
-                                                        animate={{ opacity: 1, y: 0 }}
-                                                        transition={{ delay: 0.5, duration: 0.6 }}
-                                                    >
-                                                        <Link className="group relative flex items-center w-full bg-white/90 backdrop-blur-md border border-gray-200/50 rounded-full px-6 py-3 shadow-xl hover:shadow-2xl hover:bg-white/95 transition-all duration-300 cursor-pointer" href="/search?openAddressModal=true">
-                                                            <Icon 
-                                                            icon="solar:map-point-outline" 
-                                                            width={24} 
-                                                            className="text-gray-400 group-hover:text-gray-600 transition-colors duration-200" 
-                                                            />
-                                                            <div className="ml-4 flex-1 text-left">
-                                                            <AnimatedPlaceholder />
-                                                            </div>
-                                                            <Icon 
-                                                            icon="mdi:arrow-right" 
-                                                            width={32} 
-                                                            className="text-white group-hover:text-default-200 group-hover:translate-x-1 transition-all duration-200 bg-gradient-primary rounded-full" 
-                                                            />
-                                                        </Link>
-                                                    </motion.div>
-                                                </div>
-                                            )}
-                                            {feature.key === 'perfectBaker' && (
-                                                <div className="flex w-full justify-end">
-                                                    <motion.div 
-                                                        className="max-w-md"
-                                                        initial={{ opacity: 0, y: 20 }}
-                                                        animate={{ opacity: 1, y: 0 }}
-                                                        transition={{ delay: 0.8, duration: 0.6 }}
-                                                    >
-                                                        <CustomOrderButton 
-                                                            variant="bordered"
-                                                            className="w-full mt-5 py-3 px-6 justify-center bg-white text-foreground border-none shadow-small hover:bg-background/70 rounded-full items-center space-x-2"
-                                                            highlight={true}
-                                                        >
-                                                            <p className="text-xs text-default-500">{t("special")}</p>
-                                                            <p className="text-base text-default-700">{t("customOrder")}</p>
-                                                        </CustomOrderButton>
-                                                    </motion.div>
-                                                </div>
-                                            )}
                                         </AnimatedContent>
                                     </div>
                                 </div>

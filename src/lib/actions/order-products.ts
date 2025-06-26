@@ -5,7 +5,7 @@ import {getCurrentSession} from "@/lib/actions/session";
 import {containerProductsOrder} from "@/db";
 import {revalidateTag} from "next/cache";
 import { getTranslations } from "next-intl/server";
-import {getCurrentStoreByUserIdAndStoreId} from "@/lib/api/store-api";
+import {getStoreByUserIdAndStoreIdAPI} from "@/lib/api/GET/store-api";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
 
@@ -24,7 +24,7 @@ export const updateProductsOrder = async (
         return { error: t("userNotFound") };
     }
 
-    const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+    const { store } = await getStoreByUserIdAndStoreIdAPI(user.id, storeId);
     if (!store) {
         return { error: t("storeNotFound") };
     }

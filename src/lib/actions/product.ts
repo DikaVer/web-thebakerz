@@ -8,7 +8,7 @@ import {containerProducts, containerCart} from "@/db";
 import {revalidateTag} from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { getCartItemsByProductId } from "@/lib/actions/cart";
-import {getCurrentStoreByUserIdAndStoreId} from "@/lib/api/store-api";
+import {getStoreByUserIdAndStoreIdAPI} from "@/lib/api/GET/store-api";
 import { getTotalFavoritesProduct,getProductFavoritesCountsByStore } from "./favorites";
 
 type TranslationFunction = (key: string, params?: Record<string, string | number>) => string;
@@ -171,7 +171,7 @@ export const addProduct = async (
     const { user } = await getCurrentSession();
     if (!user) return { error: t("userNotFound") };
 
-    const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+    const { store } = await getStoreByUserIdAndStoreIdAPI(user.id, storeId);
     if (!store) return { error: t("storeNotFound") };
 
     let oldProductData = null;
@@ -263,7 +263,7 @@ export const deleteProduct = async (
             return { error: "User not found!" };
         }
 
-        const { store } = await getCurrentStoreByUserIdAndStoreId(user.id, storeId);
+        const { store } = await getStoreByUserIdAndStoreIdAPI(user.id, storeId);
         if (!store) {
             return { error: "Store not found!" };
         }

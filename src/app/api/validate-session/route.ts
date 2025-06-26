@@ -12,6 +12,7 @@ export async function GET(request: Request) {
             { status: 429 }
         );
     }
+    
     // Retrieve the Authorization header
     const authHeader = request.headers.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {

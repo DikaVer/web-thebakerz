@@ -3,7 +3,7 @@ import { getLocalizedMetadata } from "@/components/metadata";
 import type { Metadata } from "next";
 import {getTranslations} from "next-intl/server";
 import TabsSettings from "@/components/settings/tabs-settings";
-import { getCurrentBusinessUser } from "@/lib/api/user-api";
+import { getBusinessUserAPI } from "@/lib/api/GET/user-api";
 
 const pageTitle = "Account Settings | TheBakerz";
 const pageDescription = "Manage your TheBakerz account settings, profile information, and preferences. Update your details here.";
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
     const t = await getTranslations("app/(return_page)/settings/page");
-    const businessData = await getCurrentBusinessUser();
+    const businessData = await getBusinessUserAPI();
 
     return (
         <div className="flex flex-col min-h-screen relative items-center container mx-auto justify-center">

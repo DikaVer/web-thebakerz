@@ -1,4 +1,4 @@
-import {getCurrentStoreId} from "@/lib/api/store-api";
+import {getStoreIdAPI} from "@/lib/api/GET/store-api";
 import NotFound from "@/app/(error_layout)/not-found";
 import {pacifico} from "@/components/fonts";
 import Image from "next/image";
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: {
 }) {
     const { id } = await params;
 
-    const storeData = await getCurrentStoreId(id);
+    const storeData = await getStoreIdAPI(id);
 
     if (!storeData) {
         return {
@@ -46,7 +46,7 @@ export default async function Page(props: StorePageProps) {
 
     const { id } = await params
 
-    const storeData = await getCurrentStoreId(id);
+    const storeData = await getStoreIdAPI(id);
 
     if (!storeData) {
         return NotFound();

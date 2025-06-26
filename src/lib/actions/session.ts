@@ -2,11 +2,9 @@ import 'server-only';
 import {encodeBase32LowerCaseNoPadding, encodeHexLowerCase,} from "@oslojs/encoding";
 import {sha256} from "@oslojs/crypto/sha2";
 import {cookies} from "next/headers";
-
 import type {User} from "./user";
 import {connectionPool} from "@/db";
 import {v4 as uuidv4} from "uuid";
-import { getNewOrderCount } from './order';
 
 export async function validateSessionToken(
     token: string
@@ -71,30 +69,6 @@ export async function validateSessionToken(
         phone_note: row.phone_note
     };
 
-    const stores = await connectionPool.query(
-        `
-            SELECT 
-              id, nickname as name
-            FROM stores
-            WHERE user_id = $1
-            `,
-        [user.id]
-    );
-
-    // Extract store IDs and names from the query result
-    const storeData = await Promise.all(
-        stores.rows.map(async (row: { id: string, name: string }) => {
-            // Get new orders count for each store
-            const orders = await getNewOrderCount(row.id);
-
-            return {
-                id: row.id,
-                name: row.name,
-                newOrdersCount: orders
-            };
-        })
-    );
-
     // If the session has expired, delete it from the database and return null.
     if (Date.now() >= session.expiresAt.getTime()) {
         await connectionPool.query(
@@ -113,7 +87,7 @@ export async function validateSessionToken(
         );
     }
 
-    return { session, user, stores: storeData };
+    return { session, user, stores: [] };
 }
 
 
@@ -128,7 +102,7 @@ export const getCurrentSession = async (): Promise<SessionValidationResult> => {
     }
 
     // Call the validate-session API with the bearer token and a revalidation tag.
-    return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/validate-session`, {
+    const { user, session } = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/validate-session`, {
         headers: {
             'Authorization': `Bearer ${token}`
         },
@@ -137,6 +111,24 @@ export const getCurrentSession = async (): Promise<SessionValidationResult> => {
             revalidate: 300
         }
     }).then(res => res.json());
+
+    let stores: StoreInfo[] = [];
+
+    if (user) {
+        const { stores: storeData } = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/validate-session/store/${user?.id}`, {
+            headers: {
+                'Authorization': `Bearer ${process.env.NEXT_PRIVATE_SECRET_BEARER}`
+            },
+            next: {
+                tags: ['stores', 'session', 'orders'],
+                revalidate: 300
+            }
+        }).then(res => res.json());
+
+        stores = storeData;
+    }
+
+    return { session, user, stores: stores };
 };
 
 
