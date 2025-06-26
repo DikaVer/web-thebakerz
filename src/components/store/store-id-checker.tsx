@@ -1,10 +1,10 @@
 'use client';
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 export function StoreIdChecker({storeId, storeName}: { storeId: string, storeName?: string }) {
-    const router = useRouter();
     const pathname = usePathname();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         if(storeName && storeId !== storeName) {
@@ -15,9 +15,15 @@ export function StoreIdChecker({storeId, storeName}: { storeId: string, storeNam
                 segments[1] = storeName; // Replace "cake" with "new-value"
             }
             const newPath = segments.join('/');
-            router.replace(newPath);
+            
+            // Construct the full URL with search params
+            const searchString = searchParams.toString();
+            const fullUrl = searchString ? `${newPath}?${searchString}` : newPath;
+            
+            // Update the URL without causing a page reload
+            window.history.replaceState(null, '', fullUrl);
         }
-    }, [storeId, storeName, pathname, router]);
+    }, [storeId, storeName, pathname, searchParams]);
 
     return null;
 }

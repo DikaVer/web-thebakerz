@@ -1,13 +1,14 @@
 "use client";
 
-import {Divider, Image, Select, SelectItem, Input, Checkbox} from "@heroui/react";
+import {Divider, Image, Select, SelectItem, Input, Checkbox, NumberInput, cn, Spacer} from "@heroui/react";
 import {formatCurrency} from "@/lib/utils";
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useTranslations } from "next-intl";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 
 import {ProductDataFull} from "@/lib/actions/product";
 import { RescueDealType } from "@/lib/utils/schemas/rescue-schema";
+import { useMediaQuery } from "usehooks-ts";
 
 type RescueProductInForm = RescueDealType['products'][number] & { isSelected: boolean };
 type RescueDealInForm = Omit<RescueDealType, 'products'> & { products: RescueProductInForm[] };
@@ -25,8 +26,12 @@ export const RescueDealItem: React.FC<RescueDealItemProps> = ({
 }) => {
     const t = useTranslations("app/(return_page)/settings/components/rescue-deal");
     const productIds = Object.keys(productsData);
+    const isMobile = useMediaQuery('(max-width: 768px)');
 
     const watchedProducts = watch('products') || [];
+    
+    // State to track errors for each product
+    const [quantityErrors, setQuantityErrors] = useState<Record<string, string>>({});
 
     const promotionOptions = [
         { key: "10", label: "10%" },
@@ -49,12 +54,39 @@ export const RescueDealItem: React.FC<RescueDealItemProps> = ({
         }
     };
 
-    const handleQuantityChange = (productId: string, value: string) => {
-        const newValue = parseInt(value) || 1;
+    const validateQuantity = (productId: string, value: number) => {
+        if (value < 1) {
+            setQuantityErrors(prev => ({
+                ...prev,
+                [productId]: "Quantity must be at least 1"
+            }));
+            return false;
+        } else {
+            setQuantityErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[productId];
+                return newErrors;
+            });
+            return true;
+        }
+    };
+
+    const handleQuantityChange = (productId: string, value: number | ChangeEvent<HTMLInputElement>) => {
         const productIndex = watchedProducts.findIndex((p) => p.id === productId);
+        const numericValue = typeof value === 'number' ? value : parseInt(value.target.value);
 
         if (productIndex > -1) {
-            setValue(`products.${productIndex}.quantity`, newValue, { shouldDirty: true });
+            setValue(`products.${productIndex}.quantity`, numericValue, { shouldDirty: true });
+            validateQuantity(productId, numericValue);
+        }
+    };
+
+    const handleQuantityError = (productId: string, error: any) => {
+        if (error && error.validationDetails) {
+            setQuantityErrors(prev => ({
+                ...prev,
+                [productId]: "Quantity must be at least 1"
+            }));
         }
     };
 
@@ -62,6 +94,15 @@ export const RescueDealItem: React.FC<RescueDealItemProps> = ({
         const productIndex = watchedProducts.findIndex((p) => p.id === productId);
         if (productIndex > -1) {
             setValue(`products.${productIndex}.isSelected`, checked, { shouldDirty: true });
+            // Clear error and reset quantity to 1 when item is deselected
+            if (!checked) {
+                setValue(`products.${productIndex}.quantity`, 1, { shouldDirty: true });
+                setQuantityErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors[productId];
+                    return newErrors;
+                });
+            }
         }
     };
 
@@ -78,6 +119,7 @@ export const RescueDealItem: React.FC<RescueDealItemProps> = ({
                 
                 const formProductData = watchedProducts[productIndex];
                 const isSelected = formProductData.isSelected;
+                const hasError = quantityErrors[product.id];
 
                 return (
                     <React.Fragment key={consId}>
@@ -102,7 +144,7 @@ export const RescueDealItem: React.FC<RescueDealItemProps> = ({
                             </div>
                             
                             {/* Promotion Percentage */}
-                            <div className={'col-span-2'}>
+                            <div className={cn('col-span-2', isMobile && 'col-span-4')}>
                                 <Select
                                     placeholder="50%"
                                     selectedKeys={[formProductData.promotionPercent.toString()]}
@@ -118,21 +160,41 @@ export const RescueDealItem: React.FC<RescueDealItemProps> = ({
                                         <SelectItem key={option.key}>{option.label}</SelectItem>
                                     ))}
                                 </Select>
+                                {isMobile && (
+                                    <div className="mt-2">
+                                        <NumberInput
+                                            placeholder="1"
+                                            min={1}
+                                            value={formProductData.quantity}
+                                            onChange={(e) => handleQuantityChange(product.id, e)}
+                                            className="max-w-xs"
+                                            onError={(e) => handleQuantityError(product.id, e)}
+                                            size="sm"
+                                            isDisabled={!isSelected}
+                                            isInvalid={!!hasError && isSelected}
+                                            errorMessage={hasError && isSelected ? hasError : undefined}
+                                        />
+                                    </div>
+                                )}
                             </div>
                             
                             {/* Quantity */}
-                            <div className={'col-span-2'}>
-                                <Input
-                                    type="number"
-                                    placeholder="1"
-                                    min={1}
-                                    value={formProductData.quantity.toString()}
-                                    onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                                    className="max-w-xs"
-                                    size="sm"
-                                    isDisabled={!isSelected}
-                                />
-                            </div>
+                            {!isMobile && (
+                                <div className={'col-span-2'}>
+                                    <NumberInput
+                                        placeholder="1"
+                                        min={1}
+                                        value={formProductData.quantity}
+                                        onChange={(e) => handleQuantityChange(product.id, e)}
+                                        className="max-w-xs"
+                                        onError={(e) => handleQuantityError(product.id, e)}
+                                        size="sm"
+                                        isDisabled={!isSelected}
+                                        isInvalid={!!hasError && isSelected}
+                                        errorMessage={hasError && isSelected ? hasError : undefined}
+                                    />
+                                </div>
+                            )}
                             
                             {/* Selection Checkbox */}
                             <div className={'col-span-2 flex justify-center items-center'}>

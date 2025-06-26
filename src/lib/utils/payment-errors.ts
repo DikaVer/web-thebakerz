@@ -1,7 +1,8 @@
-import { useTranslations } from "next-intl";
+'use server';
+import { getTranslations } from "next-intl/server";
 
-export const getErrorMessage = (errorCode: string | null) => {
-    const t = useTranslations("PaymentErrors");
+export const getErrorMessage = async (errorCode: string | null) => {
+    const t = await getTranslations("PaymentErrors");
     
     switch (errorCode) {
         case 'rate_limit':

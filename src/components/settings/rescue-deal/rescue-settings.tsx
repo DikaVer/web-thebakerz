@@ -263,7 +263,7 @@ const RescueSettings: React.FC<RescueSettingsProps> = ({ productsData, productsO
                             {t("rescueDealTitle") || "What are Rescue Deals?"}
                         </h3>
                         <p className="text-sm text-default-600">
-                            {t("rescueDealDescription") || "Rescue Deals automatically activate 45 minutes before your store closes, converting potential food waste into additional revenue. These discounted promotions help you sell items with short remaining shelf life while providing customers great value on quality products."}
+                            {t("rescueDealDescription") || "Rescue Deals automatically activate 60 minutes before your store closes, converting potential food waste into additional revenue. These discounted promotions help you sell items with short remaining shelf life while providing customers great value on quality products."}
                         </p>
                         <p className="text-sm text-default-600">
                             {t("rescueDealDescriptionH2") || "How it works: Use the menu below to select which items and quantities to include in your Rescue Deals. Set your discount percentage for each product category."}

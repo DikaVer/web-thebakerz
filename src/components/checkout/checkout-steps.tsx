@@ -25,15 +25,20 @@ export default function CheckoutSteps({ isRescueDeal }: { isRescueDeal: boolean 
     const searchParams = useSearchParams();
 
     useEffect(() => {
+        const checkForError = async () => {
         const error = searchParams.get('error');
         if (error) {
-            const errorMessage = getErrorMessage(error);
+            const errorMessage = await getErrorMessage(error);
             showErrorMessage({ error: errorMessage });
             
-            // Optional: Remove error from URL without reloading the page
-            const newUrl = window.location.pathname;
-            window.history.replaceState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
+            // Remove error from search params
+            const params = new URLSearchParams(searchParams.toString());
+            params.delete('error');
+            const newUrl = params.toString() ? `${window.location.pathname}?${params.toString()}` : window.location.pathname;
+            window.history.replaceState(null, '', newUrl);
         }
+    }
+        checkForError();
     }, [searchParams]);
 
     useEffect(() => {

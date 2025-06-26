@@ -528,7 +528,7 @@
     "noProductsYet": "Aucun produit pour le moment",
     "promotion": "Promotion",
     "quantity": "Quantité",
-    "rescueDealDescription": "Les offres de sauvetage sont automatiquement activées 45 minutes avant la fermeture de votre magasin, transformant ainsi le gaspillage alimentaire potentiel en revenus supplémentaires. Ces promotions à prix réduits vous aident à vendre des articles à courte durée de conservation tout en offrant à vos clients des produits de qualité à un prix avantageux.",
+    "rescueDealDescription": "Les offres de sauvetage sont automatiquement activées 60 minutes avant la fermeture de votre magasin, transformant ainsi le gaspillage alimentaire potentiel en revenus supplémentaires. Ces promotions à prix réduits vous aident à vendre des articles à courte durée de conservation tout en offrant à vos clients des produits de qualité à un prix avantageux.",
     "rescueDealDescriptionH2": "Fonctionnement : Utilisez le menu ci-dessous pour sélectionner les articles et les quantités à inclure dans vos offres de sauvetage. Définissez le pourcentage de remise pour chaque catégorie de produits.",
     "rescueDealDescriptionH3": "Conditions importantes : N'ajoutez que les articles actuellement en stock et dont la durée de consommation optimale est d'au moins 12 heures après l'achat. Toutes les ventes Rescue Deal sont définitives et doivent être retirées le jour même ; aucune exception ni remboursement ne sont possibles.",
     "rescueDealTitle": "Que sont les Rescue Deals ?",

@@ -122,7 +122,7 @@ export async function GET(req: NextRequest) {
             return checkoutErrorRedirect(
                 storeId, 
                 missingParam,
-                undefined, 
+                { status: paymentIntent.status, mode: isDelivery ? 'delivery' : 'pickup' }, 
                 paymentIntent.metadata?.isRescueDeal === 'true', 
                 cartId, 
                 storeId
@@ -149,7 +149,7 @@ export async function GET(req: NextRequest) {
             return checkoutErrorRedirect(
                 orderRaw?.store_name || storeId, 
                 'order_not_found',
-                undefined,
+                { status: paymentIntent.status, mode: isDelivery ? 'delivery' : 'pickup' },
                 paymentIntent.metadata?.isRescueDeal === 'true',
                 cartId,
                 storeId
@@ -211,7 +211,7 @@ export async function GET(req: NextRequest) {
             return checkoutErrorRedirect(
                 storeIdForErrorRedirect, 
                 'missing_email',
-                undefined,
+                { status: paymentIntent.status, mode: isDelivery ? 'delivery' : 'pickup' },
                 paymentIntent.metadata?.isRescueDeal === 'true',
                 cartId,
                 storeId
@@ -261,7 +261,7 @@ export async function GET(req: NextRequest) {
             return checkoutErrorRedirect(
                 storeIdForErrorRedirect, 
                 'user_creation_failed',
-                undefined,
+                { status: paymentIntent.status, mode: isDelivery ? 'delivery' : 'pickup' },
                 paymentIntent.metadata?.isRescueDeal === 'true',
                 cartId,
                 storeId
@@ -366,7 +366,7 @@ export async function GET(req: NextRequest) {
             return checkoutErrorRedirect(
                 storeIdForErrorRedirect, 
                 'order_creation_failed',
-                undefined,
+                { status: paymentIntent.status, mode: isDelivery ? 'delivery' : 'pickup' },
                 paymentIntent.metadata?.isRescueDeal === 'true',
                 cartId,
                 storeId
@@ -476,6 +476,6 @@ export async function GET(req: NextRequest) {
             stack: error.stack
         });
         
-        return checkoutErrorRedirect(storeIdForErrorRedirect, 'processing_failed');
+        return checkoutErrorRedirect(undefined, 'processing_failed');
     }
 } 
