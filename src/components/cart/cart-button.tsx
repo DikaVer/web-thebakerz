@@ -301,7 +301,12 @@ const CartButton: React.FC<CartButtonProps> = ({
                                                 clarity.event("cart_checkout");
                                                 const searchParams = new URLSearchParams();
                                                 if (isRescueDeal) {
-                                                    searchParams.set('rescue', 'true');
+                                                    searchParams.set('rescue-deal', 'true');
+                                                }
+                                                if (isDelivery) {
+                                                    searchParams.set('mode', 'delivery');
+                                                } else {
+                                                    searchParams.set('mode', 'pickup');
                                                 }
                                                 const checkoutUrl = `/${storeUrl}/checkout${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
                                                 router.push(checkoutUrl);
