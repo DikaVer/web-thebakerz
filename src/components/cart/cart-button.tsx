@@ -299,7 +299,12 @@ const CartButton: React.FC<CartButtonProps> = ({
                                             onPress={() => {
                                                 setIsLoading(true);
                                                 clarity.event("cart_checkout");
-                                                router.push(`/${storeUrl}/checkout`);
+                                                const searchParams = new URLSearchParams();
+                                                if (isRescueDeal) {
+                                                    searchParams.set('rescue', 'true');
+                                                }
+                                                const checkoutUrl = `/${storeUrl}/checkout${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+                                                router.push(checkoutUrl);
                                                 router.refresh();
                                             }}
                                         >
