@@ -39,7 +39,7 @@ export default function CheckoutSteps({ isRescueDeal }: { isRescueDeal: boolean 
         }
     }
         checkForError();
-    }, [searchParams]);
+    }); // Remove searchParams dependency to prevent re-running
 
     useEffect(() => {
         clarity.upgrade("checkout");
