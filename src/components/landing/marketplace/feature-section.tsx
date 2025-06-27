@@ -4,11 +4,8 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import BlurText from '@/components/ui/blur-text';
 import AnimatedContent from '@/components/ui/animated-content';
-import { Button, Divider, Link } from '@heroui/react';
-import { motion } from 'framer-motion';
-import { CustomOrderButton } from '@/components/ui/custom-order-button';
+import { Button, Divider} from '@heroui/react';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { AnimatedPlaceholder } from './landing-hero-section';
 
 export const FeatureSection = () => {
     const t = useTranslations("app/landing/marketplace");
@@ -32,20 +29,20 @@ export const FeatureSection = () => {
     ];
 
     return (
-        <section className="w-full relative">
+        <section className="w-full relative overflow-x-hidden">
             {/* Gradient background that transitions from hero to bakers growth */}
             <div className="absolute inset-0 bg-gradient-to-b from-[#f7f6f5] from-5% to-background-secondary"></div>
             
-            <div className="relative z-10 container max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24">
+            <div className="relative z-10 container max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24 overflow-x-hidden">
                 <div className="space-y-16">
                     {features.map((feature, index) => (
                         <div key={feature.key}>
                             <Divider />
-                                <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
+                                <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center overflow-hidden ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
                                     {/* Image Section */}
                                     <div className={`${index % 2 === 1 ? 'lg:col-start-2' : ''} relative`}>
                                         <AnimatedContent
-                                            distance={75}
+                                            distance={50}
                                             direction="horizontal"
                                             reverse={index % 2 === 1}
                                             duration={1}
@@ -73,7 +70,7 @@ export const FeatureSection = () => {
                                     {/* Content Section */}
                                     <div className={`${index % 2 === 1 ? 'lg:col-start-1' : ''} flex flex-col justify-center`}>
                                         <AnimatedContent
-                                            distance={75}
+                                            distance={50}
                                             direction="vertical"
                                             reverse={false}
                                             duration={1}
