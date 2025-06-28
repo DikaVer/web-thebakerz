@@ -47,6 +47,73 @@
     "subtitle": "TheBakerz — все заказы, сообщения клиентов и рецепты в одном месте",
     "title": "Выпекайте больше. \nМеньше стресса."
   },
+  "LoyaltySettings": {
+    "active": "Активный",
+    "allProducts": "Все продукты",
+    "applyTo": "Подать заявку на",
+    "applyToAllProducts": "Применить ко всем продуктам",
+    "buy": "Купить",
+    "buyQuantity": "Купить Количество",
+    "buyXGetYFree": "Купи X, получи Y бесплатно",
+    "cancel": "Отмена",
+    "confirmDeleteLoyaltyItem": "Вы уверены, что хотите удалить этот элемент программы лояльности?",
+    "create": "Создавать",
+    "createFailed": "Создать не удалось",
+    "createFirstLoyaltyItem": "Создайте свой первый предмет лояльности",
+    "createLoyaltyItem": "Создать предмет лояльности",
+    "customersEarnLoyalty": "Клиенты будут зарабатывать баллы лояльности и получать скидки в зависимости от уровня обслуживания.",
+    "defaultTier": "Уровень по умолчанию для всех новых клиентов",
+    "deleteFailed": "Удалить не удалось",
+    "description": "Описание",
+    "discount": "Скидка",
+    "discountAmount": "Сумма скидки",
+    "discountOnAllProducts": "Процент скидки применяется ко всем продуктам",
+    "discountPercentage": "Процент скидки",
+    "editLoyaltyItem": "Редактировать пункт лояльности",
+    "enableToStartLoyalty": "Включите программу, чтобы начать отслеживать лояльность клиентов",
+    "enterDescription": "Введите описание",
+    "enterItemTitle": "Введите название элемента",
+    "fixedAmountDiscount": "Скидка с фиксированной суммой",
+    "free": "Бесплатно",
+    "get": "Получать",
+    "getFreeQuantity": "Получите бесплатное количество",
+    "inactive": "Неактивный",
+    "invalidTierOrder": "Пороговые значения расходов по уровням должны быть в порядке возрастания.",
+    "isActive": "Активен",
+    "itemType": "Тип товара",
+    "loyaltyDescription": "Настройте уровни лояльности, чтобы вознаграждать самых преданных клиентов скидками",
+    "loyaltyItemCreated": "Товар лояльности успешно создан",
+    "loyaltyItemDeleted": "Товар лояльности успешно удален",
+    "loyaltyItemUpdated": "Товар лояльности успешно обновлен",
+    "loyaltyItems": "Предметы лояльности",
+    "loyaltyItemsDescription": "Создавайте платные товары лояльности, которые клиенты могут покупать, чтобы разблокировать специальные предложения.",
+    "loyaltyProgram": "Программа лояльности",
+    "loyaltySettingsSaved": "Настройки лояльности успешно сохранены",
+    "minimumSpendRequired": "Минимальная общая сумма расходов, необходимая для достижения этого уровня",
+    "noDiscount": "Скидка не применяется",
+    "noLoyaltyItems": "Пока не создано ни одного предмета лояльности",
+    "off": "Выключенный",
+    "percentageDiscount": "Процент скидки",
+    "price": "Цена",
+    "programActive": "Программа активна",
+    "programDisabled": "Программа лояльности отключена",
+    "programEnabled": "Программа лояльности включена",
+    "receiveDiscount": "Получите скидку {percentage}% на все продукты",
+    "saveFailed": "Не удалось сохранить настройки лояльности",
+    "saveSettings": "Сохранить настройки",
+    "selectedProducts": "Избранные продукты",
+    "spendAtLeast": "Потратьте не менее €{amount}, чтобы достичь этого уровня",
+    "spendingThreshold": "Порог расходов",
+    "tierConfiguration": "Конфигурация уровня",
+    "tierConfigurationDescription": "Установите пороговые значения расходов и проценты скидок для каждого уровня лояльности.",
+    "tierLevel": "Уровень {уровень}",
+    "tierOrderDescription": "Бронзовый уровень должен иметь самый низкий порог, за ним в порядке возрастания следуют Серебро, Золото и Платина.",
+    "tierOrderWarning": "Неверная конфигурация уровня",
+    "tierPreview": "Предварительный просмотр",
+    "title": "Заголовок",
+    "update": "Обновлять",
+    "updateFailed": "Обновление не удалось"
+  },
   "OrderStatus": {
     "cancelled": "Отменено",
     "completed": "Завершенный",
@@ -81,6 +148,60 @@
     "ManageProductsDescription": "Добавьте и управляйте своими продуктами",
     "ProductManager": "Менеджер по продукту"
   },
+  "PromotionSettings": {
+    "PromotionDescription": "Настройте и управляйте акциями и программами лояльности для ваших магазинов",
+    "PromotionManager": "Менеджер по продвижению и лояльности",
+    "active": "Активный",
+    "allProducts": "Все продукты",
+    "assignLoyaltyItem": "Верность",
+    "assignPromotion": "Повышение",
+    "assignmentsSaved": "Назначения продуктов успешно сохранены",
+    "buy": "Купить",
+    "buyGetFree": "Купи X, получи Y бесплатно",
+    "buyQuantity": "Купить Количество",
+    "cancel": "Отмена",
+    "confirmDelete": "Вы уверены, что хотите удалить эту акцию?",
+    "create": "Создавать",
+    "createFailed": "Не удалось создать акцию",
+    "createFirstPromotion": "Создайте свою первую акцию",
+    "createPromotion": "Создать акцию",
+    "createdAt": "Созданный",
+    "currentPromotion": "Выбрано",
+    "deleteFailed": "Не удалось удалить акцию",
+    "description": "Описание",
+    "discountPercentage": "Процент скидки",
+    "editPromotion": "Редактировать продвижение",
+    "enterDescription": "Введите описание (необязательно)",
+    "enterPromotionName": "Введите название акции",
+    "free": "Бесплатно",
+    "get": "Получать",
+    "getFreeQuantity": "Получите бесплатное количество",
+    "inactive": "Неактивный",
+    "isActive": "Активен",
+    "loyaltyTab": "Верность",
+    "manageLoyaltyItemsInLoyaltyTab": "Управление на вкладке «Лояльность»",
+    "noLoyaltyItem": "Нет пункта лояльности",
+    "noProductsFound": "Продуктов не найдено",
+    "noPromotion": "Нет продвижения",
+    "noPromotions": "Пока не создано ни одной акции",
+    "off": "Выключенный",
+    "price": "Цена",
+    "product": "Продукт",
+    "productsTab": "Продукция",
+    "promotionCreated": "Акция успешно создана",
+    "promotionDeleted": "Акция успешно удалена",
+    "promotionName": "Название акции",
+    "promotionType": "Тип продвижения",
+    "promotionUpdated": "Акция успешно обновлена",
+    "promotionsDescription": "Создавайте и управляйте группами продвижения ваших продуктов",
+    "promotionsTab": "Акции",
+    "saveFailed": "Не удалось сохранить изменения.",
+    "searchProducts": "Поиск продуктов...",
+    "selectLoyaltyItem": "Выберите пункт лояльности",
+    "selectPromotion": "Выберите акцию",
+    "update": "Обновлять",
+    "updateFailed": "Не удалось обновить акцию"
+  },
   "RescueDealSettings": {
     "RescueDealManager": "Менеджер по спасению сделок",
     "RescueProductsDescription": "Настройка и редактирование спасательных сделок"
@@ -93,8 +214,7 @@
     "limitedTimeOffers": "Ограниченные по времени предложения, срок действия которых истекает при закрытии магазина",
     "rescueDealsEndingSoon": "Спасательные предложения скоро закончатся!"
   },
-  "Shop": {
-  },
+  "Shop": {},
   "UsersDashboard": {
     "Search User": "Поиск пользователя"
   },
@@ -266,8 +386,7 @@
     "startSellingDescription": "Протестируйте свой магазин, внесите коррективы и начните принимать реальные заказы!",
     "startSellingTitle": "Начать продавать"
   },
-  "app/(landing)/components/navbar": {
-  },
+  "app/(landing)/components/navbar": {},
   "app/(landing)/components/partners": {
     "description": "Мы сотрудничаем с лидерами отрасли для предоставления лучших решений.",
     "title": "Партнеры"
@@ -662,8 +781,7 @@
     "deleteConfirmation": "Подтверждение удаления",
     "deleteProductWarning": "После удаления элемент будет удален навсегда и не подлежит восстановлению."
   },
-  "app/(store)/components/delivery-map": {
-  },
+  "app/(store)/components/delivery-map": {},
   "app/(store)/components/image": {
     "close": "Закрывать",
     "failedToUploadImage": "Не удалось загрузить изображение. Попробуйте еще раз.",
@@ -689,8 +807,7 @@
     "storeLocation": "Расположение магазина",
     "viewOnGoogleMaps": "Посмотреть на Google Картах"
   },
-  "app/(store)/components/order-dashboard": {
-  },
+  "app/(store)/components/order-dashboard": {},
   "app/(store)/components/orders": {
     "backToOrderDashboard": "Вернуться к панели управления заказами"
   },
@@ -785,10 +902,8 @@
     "completed": "Завершенный",
     "delivery": "доставка"
   },
-  "app/(store)/components/product": {
-  },
-  "app/(store)/components/product-dialog": {
-  },
+  "app/(store)/components/product": {},
+  "app/(store)/components/product-dialog": {},
   "app/(store)/components/product-list": {
     "clearAllFilters": "Очистить все фильтры",
     "exploreDesserts": "Исследуйте десерты",
@@ -962,8 +1077,7 @@
   "app/(store)/components/store-top": {
     "addItem": "Добавить элемент"
   },
-  "app/(store)/components/store-top-next": {
-  },
+  "app/(store)/components/store-top-next": {},
   "app/(store)/components/three-dots": {
     "addOrder": "Добавить заказ",
     "copyStoreLink": "Копировать ссылку на магазин",
@@ -976,8 +1090,7 @@
     "report": "Отчет",
     "storeLinkCopied": "Ссылка на магазин скопирована!"
   },
-  "app/(store)/components/user-product": {
-  },
+  "app/(store)/components/user-product": {},
   "app/(store)/components/variants-form-field": {
     "addOption": "Добавить вариант",
     "addOptionGroup": "Добавить группу опций",
@@ -1043,10 +1156,8 @@
     "returnToStore": "Вернуться в магазин",
     "verifyEmail": "Подтвердите изображение электронной почты"
   },
-  "app/(store)/id/orders/add": {
-  },
-  "app/(store)/id/page": {
-  },
+  "app/(store)/id/orders/add": {},
+  "app/(store)/id/page": {},
   "app/(store)/id/settings/page": {
     "settingsDescription": "Настройте свой магазин и настройки",
     "settingsTitle": "Настройки магазина"
@@ -1080,8 +1191,7 @@
     "question7": "Могу ли я доверять TheBakerz в отношении платежей и заказов?",
     "question8": "К кому мне следует обратиться в случае возникновения вопросов?"
   },
-  "app/(support)/components/faq-customer": {
-  },
+  "app/(support)/components/faq-customer": {},
   "app/(support)/components/payment-urgent": {
     "requestSentSuccess": "Ваш запрос успешно отправлен.",
     "sendRequest": "Отправить запрос",
@@ -1133,10 +1243,8 @@
     "internalError": "Внутренняя ошибка сервера",
     "notAuthorized": "Не разрешать доступ"
   },
-  "app/api/store/order/updateStatus": {
-  },
-  "app/api/store/orders/new": {
-  },
+  "app/api/store/order/updateStatus": {},
+  "app/api/store/orders/new": {},
   "app/api/store/orders/range": {
     "internalError": "Внутренняя ошибка сервера",
     "missingFromDate": "Отсутствует заголовок From-Date",
@@ -1315,15 +1423,13 @@
   "app/lib/actions/user-orders": {
     "failedFetchOrders": "Неудачные заказы на получение"
   },
-  "app/lib/schemas": {
-  },
+  "app/lib/schemas": {},
   "app/search": {
     "noStoresFound": "Магазины не найдены",
     "special": "У вас есть что-то особенное на примете?",
     "tryChangingLocationOrDeliveryMode": "Попробуйте изменить свое местоположение или способ доставки."
   },
-  "common": {
-  },
+  "common": {},
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Введите адрес",
     "whereToDeliver": "Куда доставить ваш заказ?"
@@ -1331,7 +1437,7 @@
   "filter": {
     "categories": "Категории",
     "clearAll": "Перезагрузить",
-    "clearAllFilters": "",
+    "clearAllFilters": "Очистить все фильтры",
     "customOrder": "Десерт по индивидуальному заказу",
     "dietaryPreferences": "Диетические предпочтения",
     "excludeAllergies": "Исключить аллергию",
@@ -1371,16 +1477,11 @@
         "open": "Открыть",
         "workingHours": "Часы работы"
       },
-      "toggleDelivery": {
-      }
+      "toggleDelivery": {}
     },
-    "errors": {
-    },
-    "noLocation": {
-    },
-    "noStoresFound": {
-    }
+    "errors": {},
+    "noLocation": {},
+    "noStoresFound": {}
   },
-  "time": {
-  }
+  "time": {}
 }

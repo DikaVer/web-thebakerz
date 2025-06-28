@@ -42,7 +42,7 @@ export async function generateStorePageMetadata(
  * Redirects to auth page if not authenticated
  * Returns null if user doesn't have access to store
  */
-export async function verifyStoreAccess(id: string): Promise<{id: string, storeName: string} | null> {
+export async function verifyStoreAccess(id: string): Promise<{id: string, storeName: string, ownerName: string, user_id: string} | null> {
     const storeData = await getStoreIdAPI(id);
     
     if (!storeData) {

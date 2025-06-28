@@ -47,6 +47,73 @@
     "subtitle": "TheBakerz - toutes les commandes, messages clients et recettes au même endroit",
     "title": "Cuisinez plus. Stressez moins."
   },
+  "LoyaltySettings": {
+    "active": "Actif",
+    "allProducts": "Tous les produits",
+    "applyTo": "Postuler à",
+    "applyToAllProducts": "S'applique à tous les produits",
+    "buy": "Acheter",
+    "buyQuantity": "Acheter la quantité",
+    "buyXGetYFree": "Achetez X et obtenez Y gratuitement",
+    "cancel": "Annuler",
+    "confirmDeleteLoyaltyItem": "Êtes-vous sûr de vouloir supprimer cet article de fidélité ?",
+    "create": "Créer",
+    "createFailed": "Échec de la création",
+    "createFirstLoyaltyItem": "Créez votre premier article de fidélité",
+    "createLoyaltyItem": "Créer un article de fidélité",
+    "customersEarnLoyalty": "Les clients gagneront des points de fidélité et bénéficieront de remises en fonction de leur niveau.",
+    "defaultTier": "Niveau par défaut pour tous les nouveaux clients",
+    "deleteFailed": "Échec de la suppression",
+    "description": "Description",
+    "discount": "Rabais",
+    "discountAmount": "Montant de la remise",
+    "discountOnAllProducts": "Pourcentage de remise appliqué à tous les produits",
+    "discountPercentage": "Pourcentage de remise",
+    "editLoyaltyItem": "Modifier l'élément de fidélité",
+    "enableToStartLoyalty": "Activer le programme pour commencer à suivre la fidélité des clients",
+    "enterDescription": "Entrez la description",
+    "enterItemTitle": "Entrez le titre de l'élément",
+    "fixedAmountDiscount": "Remise à montant fixe",
+    "free": "Gratuit",
+    "get": "Obtenir",
+    "getFreeQuantity": "Obtenez une quantité gratuite",
+    "inactive": "Inactif",
+    "invalidTierOrder": "Les seuils de dépenses par niveau doivent être classés par ordre croissant",
+    "isActive": "Est actif",
+    "itemType": "Type d'article",
+    "loyaltyDescription": "Configurez des niveaux de fidélité pour récompenser vos clients les plus fidèles avec des remises",
+    "loyaltyItemCreated": "Article de fidélité créé avec succès",
+    "loyaltyItemDeleted": "Article de fidélité supprimé avec succès",
+    "loyaltyItemUpdated": "Article de fidélité mis à jour avec succès",
+    "loyaltyItems": "Articles de fidélité",
+    "loyaltyItemsDescription": "Créez des articles de fidélité achetables que les clients peuvent acheter pour débloquer des offres spéciales",
+    "loyaltyProgram": "Programme de fidélité",
+    "loyaltySettingsSaved": "Paramètres de fidélité enregistrés avec succès",
+    "minimumSpendRequired": "Dépense totale minimale requise pour atteindre ce niveau",
+    "noDiscount": "Aucune remise appliquée",
+    "noLoyaltyItems": "Aucun article de fidélité n'a encore été créé",
+    "off": "Désactivé",
+    "percentageDiscount": "Pourcentage de remise",
+    "price": "Prix",
+    "programActive": "Programme actif",
+    "programDisabled": "Programme de fidélité désactivé",
+    "programEnabled": "Programme de fidélité activé",
+    "receiveDiscount": "Bénéficiez d'une remise de {percentage}% sur tous les produits",
+    "saveFailed": "Échec de l'enregistrement des paramètres de fidélité",
+    "saveSettings": "Enregistrer les paramètres",
+    "selectedProducts": "Produits sélectionnés",
+    "spendAtLeast": "Dépensez au moins {amount} € pour atteindre ce niveau",
+    "spendingThreshold": "Seuil de dépenses",
+    "tierConfiguration": "Configuration des niveaux",
+    "tierConfigurationDescription": "Définissez des seuils de dépenses et des pourcentages de remise pour chaque niveau de fidélité",
+    "tierLevel": "Niveau {niveau}",
+    "tierOrderDescription": "Le Bronze doit avoir le seuil le plus bas, suivi de l'Argent, de l'Or et du Platine par ordre croissant",
+    "tierOrderWarning": "Configuration de niveau non valide",
+    "tierPreview": "Aperçu",
+    "title": "Titre",
+    "update": "Mise à jour",
+    "updateFailed": "Échec de la mise à jour"
+  },
   "OrderStatus": {
     "cancelled": "Annulé",
     "completed": "Complété",
@@ -81,6 +148,60 @@
     "ManageProductsDescription": "Ajoutez et gérez vos produits",
     "ProductManager": "Chef de produit"
   },
+  "PromotionSettings": {
+    "PromotionDescription": "Configurez et gérez les promotions et la fidélité de vos magasins",
+    "PromotionManager": "Responsable Promotion et Fidélisation",
+    "active": "Actif",
+    "allProducts": "Tous les produits",
+    "assignLoyaltyItem": "Loyauté",
+    "assignPromotion": "Promotion",
+    "assignmentsSaved": "Les affectations de produits ont été enregistrées avec succès",
+    "buy": "Acheter",
+    "buyGetFree": "Achetez X et obtenez Y gratuitement",
+    "buyQuantity": "Quantité d'achat",
+    "cancel": "Annuler",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette promotion ?",
+    "create": "Créer",
+    "createFailed": "Échec de la création de la promotion",
+    "createFirstPromotion": "Créez votre première promotion",
+    "createPromotion": "Créer une promotion",
+    "createdAt": "Créé",
+    "currentPromotion": "Choisi",
+    "deleteFailed": "Échec de la suppression de la promotion",
+    "description": "Description",
+    "discountPercentage": "Pourcentage de remise",
+    "editPromotion": "Modifier la promotion",
+    "enterDescription": "Entrez la description (facultatif)",
+    "enterPromotionName": "Entrez le nom de la promotion",
+    "free": "Gratuit",
+    "get": "Obtenir",
+    "getFreeQuantity": "Obtenez une quantité gratuite",
+    "inactive": "Inactif",
+    "isActive": "Est actif",
+    "loyaltyTab": "Loyauté",
+    "manageLoyaltyItemsInLoyaltyTab": "Gérer dans l'onglet Fidélité",
+    "noLoyaltyItem": "Aucun article de fidélité",
+    "noProductsFound": "Aucun produit trouvé",
+    "noPromotion": "Aucune promotion",
+    "noPromotions": "Aucune promotion créée pour le moment",
+    "off": "Désactivé",
+    "price": "Prix",
+    "product": "Produit",
+    "productsTab": "Produits",
+    "promotionCreated": "Promotion créée avec succès",
+    "promotionDeleted": "Promotion supprimée avec succès",
+    "promotionName": "Nom de la promotion",
+    "promotionType": "Type de promotion",
+    "promotionUpdated": "Promotion mise à jour avec succès",
+    "promotionsDescription": "Créez et gérez des groupes de promotion pour vos produits",
+    "promotionsTab": "Promotions",
+    "saveFailed": "Échec de l'enregistrement des modifications",
+    "searchProducts": "Rechercher des produits...",
+    "selectLoyaltyItem": "Sélectionnez un article de fidélité",
+    "selectPromotion": "Sélectionnez la promotion",
+    "update": "Mise à jour",
+    "updateFailed": "Échec de la mise à jour de la promotion"
+  },
   "RescueDealSettings": {
     "RescueDealManager": "Gestionnaire de transactions de sauvetage",
     "RescueProductsDescription": "Configurer et modifier les offres de sauvetage"
@@ -93,8 +214,7 @@
     "limitedTimeOffers": "Offres à durée limitée expirant à la fermeture du magasin",
     "rescueDealsEndingSoon": "Les offres de sauvetage se terminent bientôt !"
   },
-  "Shop": {
-  },
+  "Shop": {},
   "UsersDashboard": {
     "Search User": "Rechercher un utilisateur"
   },
@@ -266,8 +386,7 @@
     "startSellingDescription": "Testez votre boutique, faites des ajustements et commencez à prendre de vraies commandes !",
     "startSellingTitle": "Commencez à vendre"
   },
-  "app/(landing)/components/navbar": {
-  },
+  "app/(landing)/components/navbar": {},
   "app/(landing)/components/partners": {
     "description": "Nous collaborons avec les leaders de l’industrie pour offrir les meilleures solutions.",
     "title": "Collaboration"
@@ -662,8 +781,7 @@
     "deleteConfirmation": "Confirmation de suppression",
     "deleteProductWarning": "Après la suppression, l'élément sera définitivement supprimé et ne pourra pas être récupéré."
   },
-  "app/(store)/components/delivery-map": {
-  },
+  "app/(store)/components/delivery-map": {},
   "app/(store)/components/image": {
     "close": "Fermer",
     "failedToUploadImage": "Échec du téléchargement de l'image. Veuillez réessayer.",
@@ -689,8 +807,7 @@
     "storeLocation": "Emplacement du magasin",
     "viewOnGoogleMaps": "Voir sur Google Maps"
   },
-  "app/(store)/components/order-dashboard": {
-  },
+  "app/(store)/components/order-dashboard": {},
   "app/(store)/components/orders": {
     "backToOrderDashboard": "Retour au tableau de bord des commandes"
   },
@@ -785,10 +902,8 @@
     "completed": "Complété",
     "delivery": "Livraison"
   },
-  "app/(store)/components/product": {
-  },
-  "app/(store)/components/product-dialog": {
-  },
+  "app/(store)/components/product": {},
+  "app/(store)/components/product-dialog": {},
   "app/(store)/components/product-list": {
     "clearAllFilters": "Effacer tous les filtres",
     "exploreDesserts": "Explorez les desserts",
@@ -962,8 +1077,7 @@
   "app/(store)/components/store-top": {
     "addItem": "Ajouter un élément"
   },
-  "app/(store)/components/store-top-next": {
-  },
+  "app/(store)/components/store-top-next": {},
   "app/(store)/components/three-dots": {
     "addOrder": "Ajouter une commande",
     "copyStoreLink": "Copier le lien du magasin",
@@ -976,8 +1090,7 @@
     "report": "Rapport",
     "storeLinkCopied": "Lien du magasin copié !"
   },
-  "app/(store)/components/user-product": {
-  },
+  "app/(store)/components/user-product": {},
   "app/(store)/components/variants-form-field": {
     "addOption": "Ajouter une option",
     "addOptionGroup": "Ajouter un groupe d'options",
@@ -1043,10 +1156,8 @@
     "returnToStore": "Retourner à la boutique",
     "verifyEmail": "Vérifier l'image de l'e-mail"
   },
-  "app/(store)/id/orders/add": {
-  },
-  "app/(store)/id/page": {
-  },
+  "app/(store)/id/orders/add": {},
+  "app/(store)/id/page": {},
   "app/(store)/id/settings/page": {
     "settingsDescription": "Personnalisez votre boutique et vos paramètres",
     "settingsTitle": "Paramètres du magasin"
@@ -1080,8 +1191,7 @@
     "question7": "Puis-je faire confiance à TheBakerz pour les paiements et les commandes ?",
     "question8": "Qui dois-je contacter en cas de questions ?"
   },
-  "app/(support)/components/faq-customer": {
-  },
+  "app/(support)/components/faq-customer": {},
   "app/(support)/components/payment-urgent": {
     "requestSentSuccess": "Votre demande a été envoyée avec succès.",
     "sendRequest": "Envoyer une demande",
@@ -1133,10 +1243,8 @@
     "internalError": "Erreur interne du serveur",
     "notAuthorized": "Accès non autorisé"
   },
-  "app/api/store/order/updateStatus": {
-  },
-  "app/api/store/orders/new": {
-  },
+  "app/api/store/order/updateStatus": {},
+  "app/api/store/orders/new": {},
   "app/api/store/orders/range": {
     "internalError": "Erreur interne du serveur",
     "missingFromDate": "En-tête De-Date manquant",
@@ -1315,15 +1423,13 @@
   "app/lib/actions/user-orders": {
     "failedFetchOrders": "Échec de la récupération des commandes"
   },
-  "app/lib/schemas": {
-  },
+  "app/lib/schemas": {},
   "app/search": {
     "noStoresFound": "Aucun magasin trouvé",
     "special": "Avez-vous quelque chose de spécial en tête ?",
     "tryChangingLocationOrDeliveryMode": "Essayez de changer votre emplacement ou votre mode de livraison."
   },
-  "common": {
-  },
+  "common": {},
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Entrez l'adresse",
     "whereToDeliver": "Où livrer votre commande ?"
@@ -1331,7 +1437,7 @@
   "filter": {
     "categories": "Catégories",
     "clearAll": "Réinitialiser",
-    "clearAllFilters": "",
+    "clearAllFilters": "Effacer tous les filtres",
     "customOrder": "Dessert personnalisé",
     "dietaryPreferences": "Préférences alimentaires",
     "excludeAllergies": "Exclure les allergies",
@@ -1371,16 +1477,11 @@
         "open": "Ouvrir",
         "workingHours": "Horaires d'ouverture"
       },
-      "toggleDelivery": {
-      }
+      "toggleDelivery": {}
     },
-    "errors": {
-    },
-    "noLocation": {
-    },
-    "noStoresFound": {
-    }
+    "errors": {},
+    "noLocation": {},
+    "noStoresFound": {}
   },
-  "time": {
-  }
+  "time": {}
 }

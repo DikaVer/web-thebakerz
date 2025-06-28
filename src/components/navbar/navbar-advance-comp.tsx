@@ -81,8 +81,9 @@ export default function NavbarAdvancedComponent({
     const isRescueDealPage = pathname.includes("rescue-deal");
     const isProductSettingsPage = pathname.includes("products");
     const isAboutUs = pathname.includes('about-us')
+    const isPromotionsPage = pathname.includes("promotion");
 
-    const isStoreSettingsPage = isProductSettingsPage || isRescueDealPage || isOrdersPage || isOrderPage || isSettingsPage || isAddItemPage || isAboutUs;
+    const isStoreSettingsPage = isProductSettingsPage || isRescueDealPage || isOrdersPage || isOrderPage || isSettingsPage || isAddItemPage || isAboutUs || isPromotionsPage;
 
     // Track scroll position and direction with improved performance
     useEffect(() => {

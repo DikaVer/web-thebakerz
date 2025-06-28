@@ -47,6 +47,73 @@
     "subtitle": "TheBakerz - усі замовлення, повідомлення клієнтів та рецепти в одному місці",
     "title": "Випікайте більше. \nМенше стресу."
   },
+  "LoyaltySettings": {
+    "active": "Активний",
+    "allProducts": "Усі продукти",
+    "applyTo": "Застосувати до",
+    "applyToAllProducts": "Застосувати до всіх продуктів",
+    "buy": "Купити",
+    "buyQuantity": "Купити кількість",
+    "buyXGetYFree": "Купи X, отримай Y безкоштовно",
+    "cancel": "Скасувати",
+    "confirmDeleteLoyaltyItem": "Ви впевнені, що хочете видалити цей товар лояльності?",
+    "create": "Створити",
+    "createFailed": "Не вдалося створити",
+    "createFirstLoyaltyItem": "Створіть свій перший товар лояльності",
+    "createLoyaltyItem": "Створити товар лояльності",
+    "customersEarnLoyalty": "Клієнти зароблятимуть бали лояльності та отримуватимуть знижки на основі рівнів",
+    "defaultTier": "Рівень за замовчуванням для всіх нових клієнтів",
+    "deleteFailed": "Видалити не вдалося",
+    "description": "Опис",
+    "discount": "Знижка",
+    "discountAmount": "Сума знижки",
+    "discountOnAllProducts": "Відсоток знижки застосовується до всіх товарів",
+    "discountPercentage": "Відсоток знижки",
+    "editLoyaltyItem": "Редагувати товар лояльності",
+    "enableToStartLoyalty": "Увімкніть програму для відстеження лояльності клієнтів",
+    "enterDescription": "Введіть опис",
+    "enterItemTitle": "Введіть назву елемента",
+    "fixedAmountDiscount": "Знижка з фіксованою сумою",
+    "free": "Безкоштовно",
+    "get": "Отримати",
+    "getFreeQuantity": "Отримайте безкоштовну кількість",
+    "inactive": "Неактивний",
+    "invalidTierOrder": "Порогові значення витрат рівня мають бути в порядку зростання",
+    "isActive": "Активний",
+    "itemType": "Тип елемента",
+    "loyaltyDescription": "Налаштуйте рівні лояльності, щоб винагороджувати своїх найвідданіших клієнтів знижками",
+    "loyaltyItemCreated": "Товар лояльності успішно створено",
+    "loyaltyItemDeleted": "Товар лояльності успішно видалено",
+    "loyaltyItemUpdated": "Товар лояльності успішно оновлено",
+    "loyaltyItems": "Товари лояльності",
+    "loyaltyItemsDescription": "Створюйте товари лояльності, які можна придбати, щоб клієнти могли придбати, щоб отримати спеціальні пропозиції",
+    "loyaltyProgram": "Програма лояльності",
+    "loyaltySettingsSaved": "Налаштування програми лояльності успішно збережено",
+    "minimumSpendRequired": "Мінімальні загальні витрати, необхідні для досягнення цього рівня",
+    "noDiscount": "Знижка не застосовується",
+    "noLoyaltyItems": "Поки що не створено жодних товарів лояльності",
+    "off": "Вимкнено",
+    "percentageDiscount": "Відсоткова знижка",
+    "price": "Ціна",
+    "programActive": "Програма активна",
+    "programDisabled": "Програму лояльності вимкнено",
+    "programEnabled": "Програма лояльності активована",
+    "receiveDiscount": "Отримайте знижку {percent}% на всі товари",
+    "saveFailed": "Не вдалося зберегти налаштування програми лояльності",
+    "saveSettings": "Зберегти налаштування",
+    "selectedProducts": "Вибрані продукти",
+    "spendAtLeast": "Витратьте щонайменше €{amount}, щоб досягти цього рівня",
+    "spendingThreshold": "Поріг витрат",
+    "tierConfiguration": "Конфігурація рівня",
+    "tierConfigurationDescription": "Встановіть порогові значення витрат та відсотки знижок для кожного рівня лояльності",
+    "tierLevel": "Рівень {level}",
+    "tierOrderDescription": "Бронза повинна мати найнижчий поріг, далі йдуть Срібло, Золото та Платина у порядку зростання",
+    "tierOrderWarning": "Недійсна конфігурація рівня",
+    "tierPreview": "Попередній перегляд",
+    "title": "Назва",
+    "update": "Оновлення",
+    "updateFailed": "Не вдалося оновити"
+  },
   "OrderStatus": {
     "cancelled": "Скасовано",
     "completed": "Завершено",
@@ -81,6 +148,60 @@
     "ManageProductsDescription": "Додайте та керуйте своїми продуктами",
     "ProductManager": "Менеджер продукту"
   },
+  "PromotionSettings": {
+    "PromotionDescription": "Налаштуйте та керуйте акціями та програмою лояльності для ваших магазинів",
+    "PromotionManager": "Менеджер з просування та лояльності",
+    "active": "Активний",
+    "allProducts": "Усі продукти",
+    "assignLoyaltyItem": "Лояльність",
+    "assignPromotion": "Просування",
+    "assignmentsSaved": "Призначення продуктів успішно збережено",
+    "buy": "Купити",
+    "buyGetFree": "Купи X, отримай Y безкоштовно",
+    "buyQuantity": "Купити кількість",
+    "cancel": "Скасувати",
+    "confirmDelete": "Ви впевнені, що хочете видалити цю рекламну акцію?",
+    "create": "Створити",
+    "createFailed": "Не вдалося створити рекламну акцію",
+    "createFirstPromotion": "Створіть свою першу рекламну акцію",
+    "createPromotion": "Створити рекламну акцію",
+    "createdAt": "Створено",
+    "currentPromotion": "Вибрано",
+    "deleteFailed": "Не вдалося видалити рекламну акцію",
+    "description": "Опис",
+    "discountPercentage": "Відсоток знижки",
+    "editPromotion": "Редагувати рекламну акцію",
+    "enterDescription": "Введіть опис (необов'язково)",
+    "enterPromotionName": "Введіть назву акції",
+    "free": "Безкоштовно",
+    "get": "Отримати",
+    "getFreeQuantity": "Отримайте безкоштовну кількість",
+    "inactive": "Неактивний",
+    "isActive": "Активний",
+    "loyaltyTab": "Лояльність",
+    "manageLoyaltyItemsInLoyaltyTab": "Керування на вкладці «Лояльність»",
+    "noLoyaltyItem": "Немає товару лояльності",
+    "noProductsFound": "Не знайдено жодних товарів",
+    "noPromotion": "Без рекламної акції",
+    "noPromotions": "Поки що не створено жодної рекламної акції",
+    "off": "Вимкнено",
+    "price": "Ціна",
+    "product": "Продукт",
+    "productsTab": "Продукти",
+    "promotionCreated": "Акцію успішно створено",
+    "promotionDeleted": "Акцію успішно видалено",
+    "promotionName": "Назва рекламної акції",
+    "promotionType": "Тип рекламної акції",
+    "promotionUpdated": "Акцію успішно оновлено",
+    "promotionsDescription": "Створюйте та керуйте групами акцій для своїх продуктів",
+    "promotionsTab": "Акції",
+    "saveFailed": "Не вдалося зберегти зміни",
+    "searchProducts": "Пошук товарів...",
+    "selectLoyaltyItem": "Виберіть товар лояльності",
+    "selectPromotion": "Виберіть акцію",
+    "update": "Оновлення",
+    "updateFailed": "Не вдалося оновити рекламну акцію"
+  },
   "RescueDealSettings": {
     "RescueDealManager": "Менеджер рятувальних угод",
     "RescueProductsDescription": "Налаштування та редагування рятувальних угод"
@@ -93,8 +214,7 @@
     "limitedTimeOffers": "Обмежені за часом пропозиції, термін дії яких закінчується до закриття магазину",
     "rescueDealsEndingSoon": "Рятувальні пропозиції скоро закінчуються!"
   },
-  "Shop": {
-  },
+  "Shop": {},
   "UsersDashboard": {
     "Search User": "Пошук користувача"
   },
@@ -266,8 +386,7 @@
     "startSellingDescription": "Тестуйте свій магазин, вносьте корективи та почніть приймати реальні замовлення!",
     "startSellingTitle": "Почати продаж"
   },
-  "app/(landing)/components/navbar": {
-  },
+  "app/(landing)/components/navbar": {},
   "app/(landing)/components/partners": {
     "description": "Ми співпрацюємо з лідерами галузі, щоб пропонувати найкращі рішення.",
     "title": "Партнеры"
@@ -662,8 +781,7 @@
     "deleteConfirmation": "Підтвердження видалення",
     "deleteProductWarning": "Після видалення елемент буде видалено назавжди і не може бути відновлений."
   },
-  "app/(store)/components/delivery-map": {
-  },
+  "app/(store)/components/delivery-map": {},
   "app/(store)/components/image": {
     "close": "Закрити",
     "failedToUploadImage": "Не вдалося завантажити зображення. Спробуйте ще раз.",
@@ -689,8 +807,7 @@
     "storeLocation": "Розташування магазину",
     "viewOnGoogleMaps": "Переглянути на Картах Google"
   },
-  "app/(store)/components/order-dashboard": {
-  },
+  "app/(store)/components/order-dashboard": {},
   "app/(store)/components/orders": {
     "backToOrderDashboard": "Назад до панелі керування замовленнями"
   },
@@ -785,10 +902,8 @@
     "completed": "Завершено",
     "delivery": "доставка"
   },
-  "app/(store)/components/product": {
-  },
-  "app/(store)/components/product-dialog": {
-  },
+  "app/(store)/components/product": {},
+  "app/(store)/components/product-dialog": {},
   "app/(store)/components/product-list": {
     "clearAllFilters": "Очистіть усі фільтри",
     "exploreDesserts": "Ознайомтеся з десертами",
@@ -962,8 +1077,7 @@
   "app/(store)/components/store-top": {
     "addItem": "Додати елемент"
   },
-  "app/(store)/components/store-top-next": {
-  },
+  "app/(store)/components/store-top-next": {},
   "app/(store)/components/three-dots": {
     "addOrder": "Додати замовлення",
     "copyStoreLink": "Копіювати посилання на магазин",
@@ -976,8 +1090,7 @@
     "report": "Звіт",
     "storeLinkCopied": "Посилання на магазин скопійовано!"
   },
-  "app/(store)/components/user-product": {
-  },
+  "app/(store)/components/user-product": {},
   "app/(store)/components/variants-form-field": {
     "addOption": "Додати опцію",
     "addOptionGroup": "Додати групу параметрів",
@@ -1043,10 +1156,8 @@
     "returnToStore": "Повернутися до магазину",
     "verifyEmail": "Перевірте зображення електронної пошти"
   },
-  "app/(store)/id/orders/add": {
-  },
-  "app/(store)/id/page": {
-  },
+  "app/(store)/id/orders/add": {},
+  "app/(store)/id/page": {},
   "app/(store)/id/settings/page": {
     "settingsDescription": "Налаштуйте свій магазин та налаштування",
     "settingsTitle": "Налаштування магазину"
@@ -1080,8 +1191,7 @@
     "question7": "Чи можу я довіряти TheBakerz платежі та замовлення?",
     "question8": "З ким мені слід зв'язатися у разі виникнення питань?"
   },
-  "app/(support)/components/faq-customer": {
-  },
+  "app/(support)/components/faq-customer": {},
   "app/(support)/components/payment-urgent": {
     "requestSentSuccess": "Ваш запит успішно надіслано.",
     "sendRequest": "Надіслати запит",
@@ -1133,10 +1243,8 @@
     "internalError": "Внутрішня помилка сервера",
     "notAuthorized": "Не авторизувати доступ"
   },
-  "app/api/store/order/updateStatus": {
-  },
-  "app/api/store/orders/new": {
-  },
+  "app/api/store/order/updateStatus": {},
+  "app/api/store/orders/new": {},
   "app/api/store/orders/range": {
     "internalError": "Внутрішня помилка сервера",
     "missingFromDate": "Відсутній заголовок \"Від-Дата\"",
@@ -1315,15 +1423,13 @@
   "app/lib/actions/user-orders": {
     "failedFetchOrders": "Невдалі замовлення на отримання"
   },
-  "app/lib/schemas": {
-  },
+  "app/lib/schemas": {},
   "app/search": {
     "noStoresFound": "Магазинів не знайдено",
     "special": "Маєте щось особливе на увазі?",
     "tryChangingLocationOrDeliveryMode": "Спробуйте змінити місцезнаходження або спосіб доставки."
   },
-  "common": {
-  },
+  "common": {},
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Введіть адресу",
     "whereToDeliver": "Куди доставити ваше замовлення?"
@@ -1331,7 +1437,7 @@
   "filter": {
     "categories": "Категорії",
     "clearAll": "Скинути",
-    "clearAllFilters": "",
+    "clearAllFilters": "Очистити всі фільтри",
     "customOrder": "Десерт на замовлення",
     "dietaryPreferences": "Дієтичні уподобання",
     "excludeAllergies": "Виключити алергії",
@@ -1371,16 +1477,11 @@
         "open": "ВІДЧИНЕНО",
         "workingHours": "Години роботи"
       },
-      "toggleDelivery": {
-      }
+      "toggleDelivery": {}
     },
-    "errors": {
-    },
-    "noLocation": {
-    },
-    "noStoresFound": {
-    }
+    "errors": {},
+    "noLocation": {},
+    "noStoresFound": {}
   },
-  "time": {
-  }
+  "time": {}
 }

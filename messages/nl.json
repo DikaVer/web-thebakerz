@@ -47,6 +47,73 @@
     "subtitle": "TheBakerz - alle bestellingen, klantberichten en recepten op één plek",
     "title": "Bak meer.\n\nMaak je minder zorgen."
   },
+  "LoyaltySettings": {
+    "active": "Actief",
+    "allProducts": "Alle producten",
+    "applyTo": "Solliciteren naar",
+    "applyToAllProducts": "Toepassen op alle producten",
+    "buy": "Kopen",
+    "buyQuantity": "Koophoeveelheid",
+    "buyXGetYFree": "Koop X, krijg Y gratis",
+    "cancel": "Annuleren",
+    "confirmDeleteLoyaltyItem": "Weet u zeker dat u dit loyaliteitsartikel wilt verwijderen?",
+    "create": "Creëren",
+    "createFailed": "Maken mislukt",
+    "createFirstLoyaltyItem": "Maak uw eerste loyaliteitsartikel aan",
+    "createLoyaltyItem": "Loyaliteitsartikel aanmaken",
+    "customersEarnLoyalty": "Klanten verdienen loyaliteitspunten en ontvangen kortingen op basis van niveaus",
+    "defaultTier": "Standaardniveau voor alle nieuwe klanten",
+    "deleteFailed": "Verwijderen mislukt",
+    "description": "Beschrijving",
+    "discount": "Korting",
+    "discountAmount": "Kortingsbedrag",
+    "discountOnAllProducts": "Kortingspercentage toegepast op alle producten",
+    "discountPercentage": "Kortingspercentage",
+    "editLoyaltyItem": "Loyaliteitsartikel bewerken",
+    "enableToStartLoyalty": "Schakel het programma in om de klantloyaliteit te gaan volgen",
+    "enterDescription": "Voer beschrijving in",
+    "enterItemTitle": "Voer de titel van het item in",
+    "fixedAmountDiscount": "Vaste korting",
+    "free": "Vrij",
+    "get": "Krijgen",
+    "getFreeQuantity": "Ontvang gratis hoeveelheid",
+    "inactive": "Inactief",
+    "invalidTierOrder": "De uitgavendrempels voor de verschillende niveaus moeten in oplopende volgorde zijn",
+    "isActive": "Is actief",
+    "itemType": "Artikeltype",
+    "loyaltyDescription": "Configureer loyaliteitsniveaus om uw meest loyale klanten te belonen met kortingen",
+    "loyaltyItemCreated": "Loyaliteitsartikel succesvol aangemaakt",
+    "loyaltyItemDeleted": "Loyaliteitsartikel succesvol verwijderd",
+    "loyaltyItemUpdated": "Loyaliteitsartikel succesvol bijgewerkt",
+    "loyaltyItems": "Loyaliteitsartikelen",
+    "loyaltyItemsDescription": "Creëer koopbare loyaliteitsartikelen die klanten kunnen kopen om speciale aanbiedingen te ontgrendelen",
+    "loyaltyProgram": "Loyaliteitsprogramma",
+    "loyaltySettingsSaved": "Loyaliteitsinstellingen succesvol opgeslagen",
+    "minimumSpendRequired": "Minimale totale uitgaven die vereist zijn om dit niveau te bereiken",
+    "noDiscount": "Geen korting toegepast",
+    "noLoyaltyItems": "Er zijn nog geen loyaliteitsartikelen aangemaakt",
+    "off": "Uit",
+    "percentageDiscount": "Percentage korting",
+    "price": "Prijs",
+    "programActive": "Programma Actief",
+    "programDisabled": "Loyaliteitsprogramma uitgeschakeld",
+    "programEnabled": "Loyaliteitsprogramma ingeschakeld",
+    "receiveDiscount": "Ontvang {percentage}% korting op alle producten",
+    "saveFailed": "Het is niet gelukt om de loyaliteitsinstellingen op te slaan",
+    "saveSettings": "Instellingen opslaan",
+    "selectedProducts": "Geselecteerde producten",
+    "spendAtLeast": "Geef minimaal €{bedrag} uit om dit niveau te bereiken",
+    "spendingThreshold": "Uitgavendrempel",
+    "tierConfiguration": "Tierconfiguratie",
+    "tierConfigurationDescription": "Stel bestedingsdrempels en kortingspercentages in voor elk loyaliteitsniveau",
+    "tierLevel": "Niveau {niveau}",
+    "tierOrderDescription": "Brons moet de laagste drempel hebben, gevolgd door Zilver, Goud en Platina in oplopende volgorde.",
+    "tierOrderWarning": "Ongeldige laagconfiguratie",
+    "tierPreview": "Voorvertoning",
+    "title": "Titel",
+    "update": "Update",
+    "updateFailed": "Update mislukt"
+  },
   "OrderStatus": {
     "cancelled": "Geannuleerd",
     "completed": "Voltooid",
@@ -81,6 +148,60 @@
     "ManageProductsDescription": "Voeg uw producten toe en beheer ze",
     "ProductManager": "Productmanager"
   },
+  "PromotionSettings": {
+    "PromotionDescription": "Stel promoties en loyaliteitsprogramma's voor uw winkels in en beheer deze",
+    "PromotionManager": "Promotie- en loyaliteitsmanager",
+    "active": "Actief",
+    "allProducts": "Alle producten",
+    "assignLoyaltyItem": "Loyaliteit",
+    "assignPromotion": "Bevbestellinging",
+    "assignmentsSaved": "Producttoewijzingen succesvol opgeslagen",
+    "buy": "Kopen",
+    "buyGetFree": "Koop X, krijg Y gratis",
+    "buyQuantity": "Koophoeveelheid",
+    "cancel": "Annuleren",
+    "confirmDelete": "Weet u zeker dat u deze promotie wilt verwijderen?",
+    "create": "Creëren",
+    "createFailed": "Het is niet gelukt om een promotie aan te maken",
+    "createFirstPromotion": "Maak je eerste promotie",
+    "createPromotion": "Promotie maken",
+    "createdAt": "Gemaakt",
+    "currentPromotion": "Gekozen",
+    "deleteFailed": "Promotie kan niet worden verwijderd",
+    "description": "Beschrijving",
+    "discountPercentage": "Kortingspercentage",
+    "editPromotion": "Promotie bewerken",
+    "enterDescription": "Voer een beschrijving in (optioneel)",
+    "enterPromotionName": "Voer de promotienaam in",
+    "free": "Vrij",
+    "get": "Krijgen",
+    "getFreeQuantity": "Ontvang gratis hoeveelheid",
+    "inactive": "Inactief",
+    "isActive": "Is actief",
+    "loyaltyTab": "Loyaliteit",
+    "manageLoyaltyItemsInLoyaltyTab": "Beheren in het tabblad Loyaliteit",
+    "noLoyaltyItem": "Geen loyaliteitsartikel",
+    "noProductsFound": "Geen producten gevonden",
+    "noPromotion": "Geen promotie",
+    "noPromotions": "Er zijn nog geen promoties aangemaakt",
+    "off": "Uit",
+    "price": "Prijs",
+    "product": "Product",
+    "productsTab": "Producten",
+    "promotionCreated": "Promotie succesvol aangemaakt",
+    "promotionDeleted": "Promotie succesvol verwijderd",
+    "promotionName": "Promotienaam",
+    "promotionType": "Promotietype",
+    "promotionUpdated": "Promotie succesvol bijgewerkt",
+    "promotionsDescription": "Maak en beheer promotiegroepen voor uw producten",
+    "promotionsTab": "Promoties",
+    "saveFailed": "Wijzigingen konden niet worden opgeslagen",
+    "searchProducts": "Zoek producten...",
+    "selectLoyaltyItem": "Selecteer loyaliteitsartikel",
+    "selectPromotion": "Selecteer promotie",
+    "update": "Update",
+    "updateFailed": "Promotie kan niet worden bijgewerkt"
+  },
   "RescueDealSettings": {
     "RescueDealManager": "Reddingsdealmanager",
     "RescueProductsDescription": "Rescue Deals instellen en bewerken"
@@ -93,8 +214,7 @@
     "limitedTimeOffers": "Aanbiedingen met beperkte tijd, geldig tot sluitingstijd van de winkel",
     "rescueDealsEndingSoon": "Reddingsacties eindigen binnenkort!"
   },
-  "Shop": {
-  },
+  "Shop": {},
   "UsersDashboard": {
     "Search User": "Zoek gebruiker"
   },
@@ -266,8 +386,7 @@
     "startSellingDescription": "Test uw winkel, voer aanpassingen door en begin met het aannemen van echte bestellingen!",
     "startSellingTitle": "Begin met verkopen"
   },
-  "app/(landing)/components/navbar": {
-  },
+  "app/(landing)/components/navbar": {},
   "app/(landing)/components/partners": {
     "description": "Wij werken samen met marktleiders om de beste oplossingen te leveren.",
     "title": "Lid van"
@@ -662,8 +781,7 @@
     "deleteConfirmation": "Verwijderbevestiging",
     "deleteProductWarning": "Nadat u het item hebt verwijderd, wordt het permanent verwijderd en kan het niet meer worden hersteld."
   },
-  "app/(store)/components/delivery-map": {
-  },
+  "app/(store)/components/delivery-map": {},
   "app/(store)/components/image": {
     "close": "Dichtbij",
     "failedToUploadImage": "Het uploaden van de afbeelding is mislukt. Probeer het opnieuw.",
@@ -689,8 +807,7 @@
     "storeLocation": "Winkellocatie",
     "viewOnGoogleMaps": "Bekijk op Google Maps"
   },
-  "app/(store)/components/order-dashboard": {
-  },
+  "app/(store)/components/order-dashboard": {},
   "app/(store)/components/orders": {
     "backToOrderDashboard": "Terug naar het besteloverzicht"
   },
@@ -785,10 +902,8 @@
     "completed": "Voltooid",
     "delivery": "bezorging"
   },
-  "app/(store)/components/product": {
-  },
-  "app/(store)/components/product-dialog": {
-  },
+  "app/(store)/components/product": {},
+  "app/(store)/components/product-dialog": {},
   "app/(store)/components/product-list": {
     "clearAllFilters": "Wis alle filters",
     "exploreDesserts": "Ontdek desserts",
@@ -962,8 +1077,7 @@
   "app/(store)/components/store-top": {
     "addItem": "Item toevoegen"
   },
-  "app/(store)/components/store-top-next": {
-  },
+  "app/(store)/components/store-top-next": {},
   "app/(store)/components/three-dots": {
     "addOrder": "Bestelling toevoegen",
     "copyStoreLink": "Kopieer winkellink",
@@ -976,8 +1090,7 @@
     "report": "Rapport",
     "storeLinkCopied": "Winkellink gekopieerd!"
   },
-  "app/(store)/components/user-product": {
-  },
+  "app/(store)/components/user-product": {},
   "app/(store)/components/variants-form-field": {
     "addOption": "Optie toevoegen",
     "addOptionGroup": "Optiegroep toevoegen",
@@ -1043,10 +1156,8 @@
     "returnToStore": "Ga terug naar de winkel",
     "verifyEmail": "E-mailafbeelding verifiëren"
   },
-  "app/(store)/id/orders/add": {
-  },
-  "app/(store)/id/page": {
-  },
+  "app/(store)/id/orders/add": {},
+  "app/(store)/id/page": {},
   "app/(store)/id/settings/page": {
     "settingsDescription": "Pas uw winkel en instellingen aan",
     "settingsTitle": "Winkelinstellingen"
@@ -1080,8 +1191,7 @@
     "question7": "Kan ik TheBakerz vertrouwen voor betalingen en bestellingen?",
     "question8": "Met wie kan ik contact opnemen als ik vragen heb?"
   },
-  "app/(support)/components/faq-customer": {
-  },
+  "app/(support)/components/faq-customer": {},
   "app/(support)/components/payment-urgent": {
     "requestSentSuccess": "Uw aanvraag is succesvol verzonden.",
     "sendRequest": "Verzoek verzenden",
@@ -1133,10 +1243,8 @@
     "internalError": "Interne serverfout",
     "notAuthorized": "Geen toegang verlenen"
   },
-  "app/api/store/order/updateStatus": {
-  },
-  "app/api/store/orders/new": {
-  },
+  "app/api/store/order/updateStatus": {},
+  "app/api/store/orders/new": {},
   "app/api/store/orders/range": {
     "internalError": "Interne serverfout",
     "missingFromDate": "Ontbrekende Van-Datum-header",
@@ -1315,15 +1423,13 @@
   "app/lib/actions/user-orders": {
     "failedFetchOrders": "Mislukte ophaalopdrachten"
   },
-  "app/lib/schemas": {
-  },
+  "app/lib/schemas": {},
   "app/search": {
     "noStoresFound": "Geen winkels gevonden",
     "special": "Heeft u iets speciaals in gedachten?",
     "tryChangingLocationOrDeliveryMode": "Probeer uw locatie of bezorgmethode te wijzigen."
   },
-  "common": {
-  },
+  "common": {},
   "delivery-button": {
     "enterDeliveryAddressPrompt": "Adres invoeren",
     "whereToDeliver": "Waar kan ik mijn bestelling laten bezorgen?"
@@ -1331,7 +1437,7 @@
   "filter": {
     "categories": "Categorieën",
     "clearAll": "Resetten",
-    "clearAllFilters": "",
+    "clearAllFilters": "Alle filters wissen",
     "customOrder": "Aangepast dessert",
     "dietaryPreferences": "Dieetvoorkeuren",
     "excludeAllergies": "Allergieën uitsluiten",
@@ -1371,16 +1477,11 @@
         "open": "Open",
         "workingHours": "Openingstijden"
       },
-      "toggleDelivery": {
-      }
+      "toggleDelivery": {}
     },
-    "errors": {
-    },
-    "noLocation": {
-    },
-    "noStoresFound": {
-    }
+    "errors": {},
+    "noLocation": {},
+    "noStoresFound": {}
   },
-  "time": {
-  }
+  "time": {}
 }

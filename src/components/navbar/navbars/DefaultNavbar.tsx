@@ -45,8 +45,9 @@ export const DefaultNavbar: React.FC<DefaultNavbarProps> = ({
     const isRescueDealPage = pathname.includes("rescue-deal");
     const isProductSettingsPage = pathname.includes("products");
     const isAboutUs = pathname.includes('about-us')
+    const isPromotionsPage = pathname.includes("promotion");
 
-    const isStoreSettingsPage = isProductSettingsPage || isRescueDealPage || isOrdersPage || isOrderPage || isSettingsPage || isAddItemPage || isAboutUs;
+    const isStoreSettingsPage = isProductSettingsPage || isRescueDealPage || isOrdersPage || isOrderPage || isSettingsPage || isAddItemPage || isAboutUs || isPromotionsPage;
 
     const handleBack = () => {
         if (isStoreSettingsPage || isProductPage) {

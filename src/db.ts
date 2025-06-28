@@ -49,6 +49,13 @@ export const containerTransfers = cosmosDB.container("Transfers");
 export const containerFavorites = cosmosDB.container("Favorites");
 export const containerRescueDeals = cosmosDB.container("RescueDeals");
 export const containerInventoryHolds = cosmosDB.container("InventoryRescueHolds");
-export const containerHolds = cosmosDB.container("Holds");
+
+export const containerPromotionGroups = cosmosDB.container("PromotionGroups");
+export const containerProductPromotions = cosmosDB.container("ProductPromotions");
+
+export const containerLoyaltySettings = cosmosDB.container("LoyaltySettings");
+export const containerLoyaltyItems = cosmosDB.container("LoyaltyItems");
+
+export const containerProductLoyaltyItems = cosmosDB.container("ProductLoyaltyItems");
 
 

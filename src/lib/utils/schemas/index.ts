@@ -315,4 +315,6 @@ export const StoreSettingsSchema = z
 });
 
 export * from './address.schema';
+export * from './promotion-schema';
+export * from './loyalty-schema';
 
