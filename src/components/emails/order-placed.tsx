@@ -233,7 +233,7 @@ export default function OrderPlacedEmail({
                                     </Row>
                                     { priceData.deliveryVat  > 0 &&
                                         <Row style={totalRow}>
-                                            <Column><Text style={totalLabel}>VAT 9%</Text></Column>
+                                            <Column><Text style={totalLabel}>VAT 21%</Text></Column>
                                             <Column><Text style={totalValue}>{formatCurrency(priceData.deliveryVat)}</Text></Column>
                                         </Row>
                                     }
@@ -247,7 +247,7 @@ export default function OrderPlacedEmail({
                                     </Row>
                                     { priceData.serviceVat > 0 &&
                                         <Row style={totalRow}>
-                                            <Column><Text style={totalLabel}>VAT 9%</Text></Column>
+                                            <Column><Text style={totalLabel}>VAT 21%</Text></Column>
                                             <Column><Text style={totalValue}>{formatCurrency(priceData.serviceVat)}</Text></Column>
                                         </Row>
                                     }

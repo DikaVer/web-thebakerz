@@ -242,7 +242,7 @@ export default function NewOrderEmail({
                                     </Row>
                                     { priceData.deliveryVat  > 0 &&
                                         <Row style={totalRow}>
-                                            <Column><Text style={totalLabel}>VAT 9%</Text></Column>
+                                            <Column><Text style={totalLabel}>VAT 21%</Text></Column>
                                             <Column><Text style={totalValue}>{formatCurrency(priceData.deliveryVat)}</Text></Column>
                                         </Row>
                                     }
