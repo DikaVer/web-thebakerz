@@ -171,7 +171,7 @@ export async function sendOrderPlaced(params: { identifier: string; orderData: O
                 },
             ],
             // Optional: Add CC/BCC if needed
-            cc: [{ address: orderData.isStoreDelivery ? "" : "support@thebakerz.com" }],
+            cc: [{ address: "support@thebakerz.com" }],
         },
     };
 
