@@ -15,7 +15,7 @@ TheBakerz, located at Edmond Jasparstraat 48A, 6217HR, Maastricht, The Netherlan
 - [https://thebakerz.com](https://thebakerz.com)
 - Edmond Jasparstraat 48A, 6217HR, Maastricht, The Netherlands.
 - +31645422552
-- TheBakerz is the Data Protection Officer. They can be reached via [info@thebakerz.com](mailto:info@thebakerz.com).
+- TheBakerz is the Data Protection Officer. They can be reached via [support@thebakerz.com](mailto:support@thebakerz.com).
 
 <br><br>
 
@@ -43,7 +43,7 @@ TheBakerz does not process personal data automatically because no personal data 
 
 ## Special and/or Sensitive Personal Data We Process
 
-Our website and/or service is not intended to collect data about visitors under the age of 16, unless they have obtained permission from a parent or guardian. However, we cannot verify whether a visitor is over 16. We therefore recommend that parents become involved in their children’s online activities to prevent data being collected about minors without parental consent. If you believe that we have collected personal data about a minor without such consent, please contact us at [info@thebakerz.com](mailto:info@thebakerz.com) and we will delete that information.
+Our website and/or service is not intended to collect data about visitors under the age of 16, unless they have obtained permission from a parent or guardian. However, we cannot verify whether a visitor is over 16. We therefore recommend that parents become involved in their children’s online activities to prevent data being collected about minors without parental consent. If you believe that we have collected personal data about a minor without such consent, please contact us at [support@thebakerz.com](mailto:support@thebakerz.com) and we will delete that information.
 
 <br><br>
 
@@ -70,7 +70,7 @@ TheBakerz uses automated processing that can have consequences for individuals. 
 - **Fraud Detection:** We use automated systems to identify and prevent potential fraudulent activities. In rare cases, this may result in temporarily blocking an account or refusing a transaction.
 - **Website Personalization:** Based on your browsing behavior and previous purchases, our system adjusts the display of products and offers.
 
-You have the right to request human intervention, express your views, and contest the decision if you disagree with an automated decision. Please contact our customer service at [info@thebakerz.com](mailto:info@thebakerz.com).
+You have the right to request human intervention, express your views, and contest the decision if you disagree with an automated decision. Please contact our customer service at [support@thebakerz.com](mailto:support@thebakerz.com).
 
 <br><br>
 
@@ -105,9 +105,9 @@ On your first visit to our website, we have informed you about these cookies and
 
 ## Viewing, Modifying, or Deleting Your Personal Data
 
-You have the right to view, correct, or delete your personal data. **Please email us at [dsar@thebakerz.com](mailto:dsar@thebakerz.com) to delete your details.** Additionally, you have the right to withdraw your consent for data processing or to object to the processing of your personal data by our company, and you have the right to data portability. This means you can submit a request for the personal data we hold about you to be sent to you or to another organization designated by you.
+You have the right to view, correct, or delete your personal data. **Please email us at [support@thebakerz.com](mailto:support@thebakerz.com) to delete your details.** Additionally, you have the right to withdraw your consent for data processing or to object to the processing of your personal data by our company, and you have the right to data portability. This means you can submit a request for the personal data we hold about you to be sent to you or to another organization designated by you.
 
-If you wish to exercise your right to object and/or your right to data portability, or if you have any other questions or comments about the data processing, please send a detailed request to [info@thebakerz.com](mailto:info@thebakerz.com). To ensure that the request is made by you, we ask that you include a copy of your ID with your request. Please black out your photo, MRZ (machine-readable zone, the strip with numbers at the bottom of your passport), passport number, and Social Security Number (BSN) on this copy to protect your privacy. TheBakerz will respond to your request as soon as possible, and in any case within four weeks.
+If you wish to exercise your right to object and/or your right to data portability, or if you have any other questions or comments about the data processing, please send a detailed request to [support@thebakerz.com](mailto:support@thebakerz.com). To ensure that the request is made by you, we ask that you include a copy of your ID with your request. Please black out your photo, MRZ (machine-readable zone, the strip with numbers at the bottom of your passport), passport number, and Social Security Number (BSN) on this copy to protect your privacy. TheBakerz will respond to your request as soon as possible, and in any case within four weeks.
 
 TheBakerz also reminds you that you have the option to file a complaint with the national supervisory authority, the Dutch Data Protection Authority. This can be done via the following link: [https://autoriteitpersoonsgegevens.nl/nl/contact-met-de-autoriteit-persoonsgegevens/tip-ons](https://autoriteitpersoonsgegevens.nl/nl/contact-met-de-autoriteit-persoonsgegevens/tip-ons).
 
@@ -124,7 +124,7 @@ TheBakerz takes the protection of your data seriously and implements appropriate
 - **Physical Security:** Our servers are located in secure data centers with 24/7 monitoring and access control.
 - **Incident Response Plan:** We have a comprehensive plan in place in case a data breach or security incident occurs.
 
-If you believe that your data is not adequately protected or suspect any misuse, please contact our customer service at [info@thebakerz.com](mailto:info@thebakerz.com). We take your concerns seriously and will investigate them thoroughly.
+If you believe that your data is not adequately protected or suspect any misuse, please contact our customer service at [support@thebakerz.com](mailto:support@thebakerz.com). We take your concerns seriously and will investigate them thoroughly.
 
 <br><br>
 `

@@ -126,7 +126,7 @@ export const Media = () => {
         <h2 className="text-2xl font-bold mb-4">Press Contact</h2>
         <div className="flex items-center mb-3">
           <Icon icon="line-md:email" className=" mr-3" width="24" height="24" />
-          <a href="mailto:info@thebakerz.com" className=" hover:underline">info@thebakerz.com</a>
+          <a href="mailto:support@thebakerz.com" className=" hover:underline">support@thebakerz.com</a>
         </div>
         <div className="flex items-center">
           <Icon icon="line-md:phone" className=" mr-3" width="24" height="24" />

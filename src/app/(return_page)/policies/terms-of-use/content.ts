@@ -19,7 +19,7 @@ _Last updated: [12.04.2025]_
 
 ## About Us
 
-We are TheBakerz, a general partnership (VOF) established in the Netherlands, registered with the Chamber of Commerce under number 94614024, VAT number NL866836913B01, and having its registered office at Edmond Jasparstraat 48a, 6217HB Maastricht, The Netherlands. You can contact us via [info@thebakerz.com](mailto:info@thebakerz.com).
+We are TheBakerz, a general partnership (VOF) established in the Netherlands, registered with the Chamber of Commerce under number 94614024, VAT number NL866836913B01, and having its registered office at Edmond Jasparstraat 48a, 6217HB Maastricht, The Netherlands. You can contact us via [support@thebakerz.com](mailto:support@thebakerz.com).
 
 
 ## Definitions
@@ -277,7 +277,7 @@ We are TheBakerz, a general partnership (VOF) established in the Netherlands, re
 
 14.5. Eligible consumers can submit complaints about TheBakerz Services or these Terms and Conditions to the European Commission's online dispute resolution platform, accessible [here](https://ec.europa.eu/consumers/odr).
 
-14.6. Sellers with disputes should refer to the Seller Agreement or contact Seller Support at [partners@thebakerz.com](mailto:partners@thebakerz.com).
+14.6. Sellers with disputes should refer to the Seller Agreement or contact Seller Support at [support@thebakerz.com](mailto:support@thebakerz.com).
 
 14.7. Nothing in this section limits your right to seek legal remedies in accordance with applicable laws.
 
