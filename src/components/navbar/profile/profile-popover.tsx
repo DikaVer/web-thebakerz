@@ -266,6 +266,19 @@ export const ProfilePopover = ({ session, trigger }: ProfilePopoverProps) => {
                         <span className="text-sm">Favorites</span>
                         </div>
 
+                        {session.user?.role === "bakerz" && (
+                            <div 
+                                key={"cake-calculator"}
+                                className="flex items-center gap-2 cursor-pointer hover:bg-background-secondary rounded-md p-2 py-3"
+                                onClick={() => {
+                                    router.push(`/${store?.storeName || store?.id}/cake-calculator`);
+                                    setIsManualOpen(false);
+                                }}
+                            >
+                                <Icon icon="solar:calculator-linear" width={20} height={20} />
+                                <span className="text-sm">Cake Calculator</span>
+                            </div>
+                        )}
                     </div>
                 )}
               
