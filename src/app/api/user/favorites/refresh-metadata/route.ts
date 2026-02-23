@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Revalidate the favorites cache
-        revalidateTag('favorites');
+        revalidateTag('favorites', 'max');
 
         return NextResponse.json({
             success: true,

@@ -51,8 +51,8 @@ export const updateStore = async (
         formData.storeSlug
     );
     
-    revalidateTag('store');
-    revalidateTag('session');
+    revalidateTag('store', 'max');
+    revalidateTag('session', 'max');
 
     return { success: t("storeUpdated") };
 }; 
@@ -72,7 +72,7 @@ export async function updateMinOrderTime(storeId: string, minutes: number): Prom
             [minutes, store.id, user.id]
         );
 
-        revalidateTag('store');
+        revalidateTag('store', 'max');
         return true;
     } catch (error) {
         console.error("Error updating minimum order time:", error);
@@ -97,7 +97,7 @@ export async function updateStoreDeliveryOptions(storeId: string, deliveryOption
             [deliveryOption, store.id, user.id]
         );
 
-        revalidateTag('store');
+        revalidateTag('store', 'max');
         return true;
     } catch (error) {
         console.error("Error updating store delivery options:", error);
@@ -119,7 +119,7 @@ export async function updatePickupWindow(storeId: string, minutes: number): Prom
             [minutes, store.id, user.id]
         );
 
-        revalidateTag('store');
+        revalidateTag('store', 'max');
         return true;
     } catch (error) {
         logger.error("Error updating pickup window:", error instanceof Error ? error.message : String(error));
@@ -150,7 +150,7 @@ export async function updateStoreBackground(storeId: string, file: File): Promis
             [url, store.id, user.id]
         );
 
-        revalidateTag('store');
+        revalidateTag('store', 'max');
         return true;
     } catch (error) {
         console.error("Error updating store background image:", error);

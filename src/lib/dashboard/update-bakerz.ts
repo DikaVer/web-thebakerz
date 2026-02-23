@@ -240,8 +240,8 @@ export const updateBakerz = async (
         
         await connectionPool.query('COMMIT');
 
-        revalidateTag('session');
-        revalidateTag('store');
+        revalidateTag('session', 'max');
+        revalidateTag('store', 'max');
         
         log.info('updateBakerz', 'Bakerz update completed successfully', {
             requestId: context.requestId,

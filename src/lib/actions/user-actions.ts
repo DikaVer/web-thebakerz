@@ -39,8 +39,8 @@ export const updateProfile = async (
         formData.email_note,
         formData.phone_note
     );
-    revalidateTag('store');
-    revalidateTag('session');
+    revalidateTag('store', 'max');
+    revalidateTag('session', 'max');
 
     return { success: t("profileUpdated") };
 };

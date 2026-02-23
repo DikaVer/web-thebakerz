@@ -137,7 +137,7 @@ export const updateCart = async (
                 ],
             });
 
-            revalidateTag('cart');
+            revalidateTag('cart', 'max');
             return { success: t("cartUpdatedSuccess"), itemCart: newItemCart };
         }
 
@@ -164,7 +164,7 @@ export const updateCart = async (
             };
 
             await containerCart.items.create(newItemCart);
-            revalidateTag('cart');
+            revalidateTag('cart', 'max');
             return { success: t("cartUpdatedSuccess"), itemCart: newItemCart };
         }
 
@@ -202,7 +202,7 @@ export const updateCart = async (
                 quantity: newQuantity
             };
             
-            revalidateTag('cart');
+            revalidateTag('cart', 'max');
             return { success: t("cartUpdatedSuccess"), itemCart: updatedItem };
         }
 
@@ -223,7 +223,7 @@ export const updateCart = async (
         };
 
         await containerCart.items.create(newItemCart);
-        revalidateTag('cart');
+        revalidateTag('cart', 'max');
         
         return { success: t("cartUpdatedSuccess"), itemCart: newItemCart };
     } catch (error: any) {
@@ -311,7 +311,7 @@ export const removeCartItem = async (
 
         const partitionKeyValue = [storeId, userId];
         await containerCart.item(itemId, partitionKeyValue).delete();
-        revalidateTag('cart');
+        revalidateTag('cart', 'max');
         return { success: t("itemRemovedSuccess") };
     } catch (error: any) {
         console.error("Error removing cart item:", error);
@@ -409,7 +409,7 @@ export const replaceGuestCart = async (
             await Promise.all(operations);
         }
 
-        revalidateTag('cart');
+        revalidateTag('cart', 'max');
 
         return {
             success: t("guestCartReplacedSuccess")
@@ -457,7 +457,7 @@ export const removeCartByUserIdAndStoreId = async (
             }
         }
 
-        revalidateTag('cart');
+        revalidateTag('cart', 'max');
 
         return {
             success: t("cartRemovedSuccess")

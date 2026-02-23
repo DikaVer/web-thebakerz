@@ -39,7 +39,7 @@ export const updateProductsOrder = async (
 
     try {
         await containerProductsOrder.items.upsert(productsOrderData);
-        revalidateTag('productsOrder');
+        revalidateTag('productsOrder', 'max');
         return { success: t("orderUpdated")};
     } catch (error: any) {
         console.error("Error updating product:", error);

@@ -445,8 +445,8 @@ export async function GET(req: NextRequest) {
             identifier: email, // Use primary email for notification
         });
 
-        revalidateTag('cart');
-        revalidateTag('orders');
+        revalidateTag('cart', 'max');
+        revalidateTag('orders', 'max');
 
         log.info('paymentCallback', 'Order processing completed successfully', {
             requestId: context.requestId,

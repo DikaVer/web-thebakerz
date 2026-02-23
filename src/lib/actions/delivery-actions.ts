@@ -154,8 +154,8 @@ export async function updateMerchantDeliveryRegions(
       await containerDeliveryRegions.items.create(regionData);
     }
 
-    revalidateTag("store");
-    revalidateTag("session");
+    revalidateTag("store", 'max');
+    revalidateTag("session", 'max');
     return { success: true };
   } catch (error) {
     console.error("Error updating merchant delivery regions:", error);
@@ -252,7 +252,7 @@ export const replaceGuestAddress = async (): Promise<{ success?: string; error?:
       await Promise.all(operations);
     }
 
-    revalidateTag('delivery-address');
+    revalidateTag('delivery-address', 'max');
 
     return {
       success: t("guestAddressReplacedSuccess")

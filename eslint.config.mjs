@@ -1,20 +1,16 @@
-// eslint.config.js
-export default [
-    {
-        files: ["**/*.{js}"],
-        languageOptions: {
-            // Tell ESLint which ECMAScript version you’re using
-            ecmaVersion: 2021,
-            sourceType: "module",
-        },
-        // Instead of "extends", you now import and include shareable configs directly.
-        // If you have configs available in flat format, you can include them here.
-        rules: {
-            "no-unused-vars": "error",
+import { defineConfig, globalIgnores } from 'eslint/config'
+import nextVitals from 'eslint-config-next/core-web-vitals'
+import nextTs from 'eslint-config-next/typescript'
 
-            // semi: 'error',
-            // ...other custom rules
-        },
-    },
-];
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  globalIgnores([
+    '.next/**',
+    'out/**',
+    'build/**',
+    'next-env.d.ts',
+  ]),
+])
 
+export default eslintConfig

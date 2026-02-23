@@ -209,12 +209,12 @@ export const addProduct = async (
         if (productId) {
             // Update existing product
             await containerProducts.item(productId, store.id).replace(productData);
-            revalidateTag("products");
+            revalidateTag("products", 'max');
             return { success: t("productUpdated"), product: productData };
         } else {
             // Create new product
             await containerProducts.items.create(productData);
-            revalidateTag("products");
+            revalidateTag("products", 'max');
             return { success: t("productAdded"), product: productData };
         }
     } catch (error: any) {
@@ -292,8 +292,8 @@ export const deleteProduct = async (
             );
         }
 
-        revalidateTag('products');
-        revalidateTag("cart");
+        revalidateTag('products', 'max');
+        revalidateTag("cart", 'max');
         return { success: "Product deleted successfully!" };
     } catch (error: any) {
         console.error("Error deleting product:", error);

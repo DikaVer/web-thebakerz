@@ -243,7 +243,7 @@ export function InputStepper({
                             inputMode="numeric"
                             max={max}
                             value={localValue}
-                            onInput={handleInput}
+                            onChange={handleInput}
                         />
                         <NumberFlow
                             aria-label="Quantity"

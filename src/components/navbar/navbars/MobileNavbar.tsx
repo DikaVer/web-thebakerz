@@ -42,7 +42,7 @@ export const MobileNavbar: React.FC = () => {
                             title: 'text-md'
                         }}
                         title={t("deliveryOptionsAlertTitle")}
-                        description={t("deliveryOptionsAlertDescription", {store: store.ownerName})}
+                        description={t("deliveryOptionsAlertDescription", {store: store.ownerName ?? ''})}
                         variant={"solid"}
                         />
                     </div>

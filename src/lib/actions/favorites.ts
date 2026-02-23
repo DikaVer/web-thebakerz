@@ -57,7 +57,7 @@ export const addStoreFavorite = async (storeId: string, storeName: string, store
         };
 
         const response = await containerFavorites.items.create(favoriteData);
-        revalidateTag("favorites");
+        revalidateTag("favorites", 'max');
         return true;
     } catch (error) {
         console.error("Error adding favorite:", error);
@@ -80,7 +80,7 @@ export const removeStoreFavorite = async (storeId: string) => {
         const itemId = `${session.user.id}-${storeId}`;
         const partitionKeyValue = session.user.id;
         await containerFavorites.item(itemId, partitionKeyValue).delete();
-        revalidateTag("favorites");
+        revalidateTag("favorites", 'max');
         return true;
     } catch (error) {
         console.error("Error removing favorite:", error);
@@ -115,7 +115,7 @@ export const addProductFavorite = async (storeId: string, productId: string, pro
         };
 
         const response = await containerFavorites.items.create(favoriteData);
-        revalidateTag("favorites");
+        revalidateTag("favorites", 'max');
         return true;
     } catch (error) {
         console.error("Error adding favorite:", error); 
@@ -138,7 +138,7 @@ export const removeProductFavorite = async (storeId: string, productId: string) 
         const itemId = `${session.user.id}-${storeId}-${productId}`;
         const partitionKeyValue = session.user.id;
         await containerFavorites.item(itemId, partitionKeyValue).delete();
-        revalidateTag("favorites");
+        revalidateTag("favorites", 'max');
         return true;
     } catch (error) {
         console.error("Error removing favorite:", error);

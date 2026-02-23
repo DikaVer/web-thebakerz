@@ -202,8 +202,8 @@ export const onboardBakerz = async (
         
         await connectionPool.query('COMMIT');
 
-        revalidateTag('session')
-        revalidateTag('store')
+        revalidateTag('session', 'max')
+        revalidateTag('store', 'max')
         
         log.info('onboardBakerz', 'Bakerz onboarding completed successfully', {
             requestId: context.requestId,

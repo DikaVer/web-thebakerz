@@ -200,8 +200,8 @@ export const createOrder = async (
             identifier: normalizedEmail, // Use primary email for notification
         }); 
 
-        revalidateTag('cart');
-        revalidateTag('orders');
+        revalidateTag('cart', 'max');
+        revalidateTag('orders', 'max');
 
 
         return { orderId: cosmosId };

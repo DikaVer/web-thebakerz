@@ -112,7 +112,7 @@ export async function updateDeliveryAddress(
       await containerDeliveryLocations.items.create(newAddress);
     }
     
-    revalidateTag('delivery-address');
+    revalidateTag('delivery-address', 'max');
     return { success: "Delivery address updated successfully" };
   } catch (error: any) {
     console.error("Error updating delivery address:", error);

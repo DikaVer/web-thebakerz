@@ -50,7 +50,7 @@ export async function logoutAction(): Promise<ActionResult> {
     
     await invalidateSession(session.id);
     await deleteSessionTokenCookie();
-    revalidateTag('session');
+    revalidateTag('session', 'max');
 
     log.info('logoutAction', 'Logout completed successfully', {
         requestId: context.requestId,

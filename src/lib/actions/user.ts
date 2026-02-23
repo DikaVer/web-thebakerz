@@ -259,7 +259,7 @@ export async function creatAccountAction(email: string, bearer: string): Promise
     //
     // await setSessionTokenCookie(sessionToken, session.expiresAt);
     await acceptTOS(user.email, TOS_VERSION, "payment", "explicit", "payment");
-    revalidateTag('session');
+    revalidateTag('session', 'max');
     return user;
 }
 

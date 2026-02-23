@@ -3,7 +3,6 @@ import {connectionPool} from "@/db";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";
 import {getCurrentSession} from "@/lib/actions/session";
 import { DeliveryRange, getMerchantDeliveryRegions, MerchantDeliveryRegion } from "@/lib/actions/delivery-actions";
-import {revalidateTag} from "next/cache";
 import { haversineDistance } from "../utils";
 import { stripe } from "@/stripe";
 import { logger } from "../logger";

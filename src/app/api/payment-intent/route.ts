@@ -405,8 +405,8 @@ export async function POST(req: NextRequest) {
             identifier: email,
         });
 
-        revalidateTag('cart');
-        revalidateTag('orders');
+        revalidateTag('cart', 'max');
+        revalidateTag('orders', 'max');
 
         log.info('paymentIntentConfirm', 'Order processing completed successfully', {
             requestId: context.requestId,

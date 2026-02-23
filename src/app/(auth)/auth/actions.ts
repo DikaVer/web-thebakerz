@@ -301,7 +301,7 @@ export async function verifyEmailAction(_prev: ActionLogin, formData: z.infer<ty
         await updateUserEmailAndSetEmailAsVerified(user.id, verificationRequest.email);
         await deleteEmailVerificationRequestCookie();
         await acceptTOS(user.email, TOS_VERSION, clientIP || "Not Available", "explicit", "login");
-        revalidateTag('session');
+        revalidateTag('session', 'max');
 
         log.info('verifyEmailAction', 'Email verified and session created successfully', { 
             requestId: context.requestId,

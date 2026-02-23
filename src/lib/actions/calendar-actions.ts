@@ -126,7 +126,7 @@ export async function updateSchedule(workHours: Partial<WorkHours>, storeId: str
             throw new Error('Failed to update schedule');
         }
 
-        revalidateTag('store');
+        revalidateTag('store', 'max');
 
         return { success: true, message: 'Schedule updated successfully' };
     } catch (error) {

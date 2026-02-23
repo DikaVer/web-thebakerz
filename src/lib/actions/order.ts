@@ -293,7 +293,7 @@ export async function updateOrderStatus(storeId: string, orderId: string, seqId:
             await updateOrderInCosmos(storeId, orderId, normalizedEmail, newStatus);
         }
 
-        revalidateTag('orders');
+        revalidateTag('orders', 'max');
         
         return { ok: true };
     } catch (error) {

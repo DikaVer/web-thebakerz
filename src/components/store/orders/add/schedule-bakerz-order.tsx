@@ -227,7 +227,7 @@ export function ScheduleBakerzOrder({ dateParam, timeParam, handleNext}: StoreSu
                                                 if(navigator.share) {   
                                                     navigator.share({
                                                         title: t("orderLink"),
-                                                        text: t("orderLinkText", {store: store?.ownerName}),
+                                                        text: t("orderLinkText", {store: store?.ownerName ?? ''}),
                                                         url: process.env.NEXT_PUBLIC_API_BASE_URL + "/" + storeUrl + "/pay/" + clientSecret
                                                     });
                                                 } else {

@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
 
   const { pathname } = req.nextUrl;
 
-  // Skip middleware for static files and API routes
+  // Skip proxy for static files and API routes
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
@@ -14,14 +14,13 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Add security headers
   const response = NextResponse.next();
 
   // Add security headers
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  
+
   // Content Security Policy that allows Stripe to work properly
   // response.headers.set(
   //   'Content-Security-Policy',
