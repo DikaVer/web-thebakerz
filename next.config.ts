@@ -21,7 +21,10 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '5mb',
     },
   },
-  output: 'standalone',
+  // 'standalone' output is only needed for the Docker/Azure self-hosted image.
+  // Vercel builds and runs the app natively, so it's disabled here. Re-enable
+  // if you go back to the Docker deploy.
+  // output: 'standalone',
   images: {
     remotePatterns: [
       {

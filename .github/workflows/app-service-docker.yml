@@ -1,12 +1,16 @@
 name: Build and Deploy to Azure App Service
 
+# DISABLED: deployment moved to Vercel (native Git integration handles deploys).
+# Automatic push triggers are turned off so this no longer builds/pushes to
+# Azure. It can still be run manually from the Actions tab if ever needed.
+# To re-enable Azure auto-deploy, restore the `push:` block below.
 on:
-  push:
-    branches:
-      - prod
-      - preview
-      - dev
   workflow_dispatch:
+  # push:
+  #   branches:
+  #     - prod
+  #     - preview
+  #     - dev
 
 env:
   REGISTRY: ghcr.io
