@@ -18,9 +18,14 @@ export const connectionPool = new Pool({
 
 import { BlobServiceClient } from "@azure/storage-blob";
 
-const blobClient = BlobServiceClient.fromConnectionString(
-    process.env.NEXT_PRIVATE_AZURE_STORAGE_CONNECTION_STRING as string
-);
+// Fall back to a syntactically-valid placeholder when the env var is absent so
+// that importing this module never throws during `next build` (page-data
+// collection evaluates it). With real env present, behaviour is unchanged.
+const blobConnectionString =
+    process.env.NEXT_PRIVATE_AZURE_STORAGE_CONNECTION_STRING ||
+    "DefaultEndpointsProtocol=https;AccountName=placeholder;AccountKey=hiujjji=;EndpointSuffix=core.windows.net";
+
+const blobClient = BlobServiceClient.fromConnectionString(blobConnectionString);
 
 export const containerClientAvatar = blobClient.getContainerClient(process.env.NEXT_PRIVATE_BLOB_AVATAR_CONTAINER!);
 
@@ -31,12 +36,14 @@ export const containerClientBackground = blobClient.getContainerClient(process.e
 
 import { CosmosClient } from "@azure/cosmos";
 
+// Same placeholder strategy as the blob client above: keep module load safe
+// when Cosmos env vars are absent (e.g. closed-site build with no secrets).
 const cosmosClient = new CosmosClient({
-    endpoint: process.env.NEXT_PRIVATE_COSMOS_DB_URI!,
-    key: process.env.NEXT_PRIVATE_COSMOS_DB_KEY!,
+    endpoint: process.env.NEXT_PRIVATE_COSMOS_DB_URI || "https://placeholder.documents.azure.com:443/",
+    key: process.env.NEXT_PRIVATE_COSMOS_DB_KEY || "hiujjji=",
 });
 
-export const cosmosDB = cosmosClient.database(process.env.NEXT_PRIVATE_COSMOS_DB_NAME!);
+export const cosmosDB = cosmosClient.database(process.env.NEXT_PRIVATE_COSMOS_DB_NAME || "placeholder");
 export const containerWorkingHours = cosmosDB.container("WorkingHours");
 export const containerProducts = cosmosDB.container("Products");
 export const containerProductsOrder = cosmosDB.container("ProductsOrder");
