@@ -122,6 +122,29 @@
     animation: pulsate-bck-normal 1s ease 0s infinite normal none;
   }
 
+  .closing-fade {
+    opacity: 0;
+    animation: closing-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes closing-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .closing-fade {
+      opacity: 1;
+      animation: none;
+    }
+  }
+
   #join-thebakerz {
     scroll-margin-top: 80px; /* Adjust this value based on your header height */
   }
