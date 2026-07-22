@@ -1,80 +1,74 @@
+# 🥐 TheBakerz
 
-## Installation
+**A multi-sided marketplace connecting customers with local bakeries.**
 
-### Setting up pnpm in Visual Studio Code
+TheBakerz lets customers discover nearby bakeries, browse their catalogs, and order fresh baked goods for delivery or pickup — while giving bakery owners a full-featured dashboard to run their business online.
 
-Unlike WebStorm which has pnpm pre-installed, you'll need to install pnpm manually in VS Code:
+🌐 **Live at [thebakerz.com](https://www.thebakerz.com/)**
 
-1. Install Node.js from [nodejs.org](https://nodejs.org/) if you haven't already
-2. Install pnpm globally by running:
+---
+
+## ✨ Features
+
+### For Customers
+- 🔍 **Discover & Search** — find local bakeries and products with category, dietary, and allergy filters
+- 🛒 **Ordering** — cart, checkout, and secure payments powered by Stripe
+- 🚚 **Delivery & Pickup** — flexible scheduling with time slots
+- 🎂 **Custom Cakes** — request made-to-order creations directly from bakers
+- ♻️ **Rescue Deals** — discounted surplus goods that help reduce food waste
+- 🌍 **Multi-language** — available in English, Dutch, French, German, Spanish, Russian, and Ukrainian
+
+### For Bakeries
+- 📊 **Business Dashboard** — manage products, orders, and store settings in one place
+- 🧁 **Product Catalog** — products with variants, pricing adjustments, and inventory holds
+- 📦 **Order Management** — real-time order tracking and status updates
+- 🗓️ **Availability** — configure delivery zones, pickup windows, and time slots
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | [Next.js 16](https://nextjs.org/) (App Router) · React 19 · TypeScript |
+| Styling | Tailwind CSS · Shadcn/ui · Hero UI |
+| Database | PostgreSQL · Azure Cosmos DB |
+| Storage | Azure Blob Storage |
+| Payments | Stripe |
+| Auth | Email OTP · Google OAuth |
+| Maps | Azure Maps · Google Maps |
+| Email | Azure Communication Services · React Email |
+| Deployment | Vercel · Docker |
+
+## 🏗️ Architecture Highlights
+
+- **Server Components & Server Actions** — server-first rendering with typed mutations
+- **Zod validation** — every input validated at the boundary
+- **Internationalization** — 7 locales with tooling to sync and verify translation integrity
+- **Mobile-first** — designed for ordering on the go
+- **SEO** — generated sitemaps, structured metadata, and image optimization
+
+## 🚀 Getting Started
 
 ```bash
-npm install -g pnpm
-```
-
-3. Verify the installation:
-
-```bash
-pnpm --version
-```
-
-### Fixing PowerShell Execution Policy Issues
-
-If you get a PowerShell security error like:
-```
-pnpm : File C:\Program Files\nodejs\pnpm.ps1 cannot be loaded. The file C:\Program Files\nodejs\pnpm.ps1 is not digitally signed.
-You cannot run this script on the current system.
-```
-
-You have two options:
-
-#### Option 1: Run PowerShell as Administrator and change the execution policy
-```bash
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-```
-
-#### Option 2: Use the Corepack version of pnpm
-```bash
-# Enable corepack (comes with Node.js)
-corepack enable
-
-# Use corepack to install pnpm
-corepack prepare pnpm@latest --activate
-```
-
-### Installing Project Dependencies
-
-Once pnpm is installed, install the project dependencies:
-
-```bash
+# Install dependencies
 pnpm install
-```
 
-## Getting Started
-
-First, run the development server:
-
-```bash
+# Start the development server
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> **Note:** Running the full app requires environment variables for PostgreSQL, Azure services, Stripe, and Google OAuth.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Useful Scripts
 
-## Learn More
+```bash
+pnpm build                 # Production build
+pnpm lint                  # Run ESLint
+pnpm translations:clean    # Verify & sync translation files
+pnpm sitemap:generate      # Generate sitemap.xml
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 📄 License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+All rights reserved. This repository is public for viewing purposes only.
