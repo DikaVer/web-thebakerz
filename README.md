@@ -71,4 +71,6 @@ pnpm sitemap:generate      # Generate sitemap.xml
 
 ## 📄 License
 
-All rights reserved. This repository is public for viewing purposes only.
+Copyright 2026 TheBakerz.
+
+Licensed under the [Apache License, Version 2.0](LICENSE). You may use, modify, and distribute this software in accordance with the terms of the license. See the [NOTICE](NOTICE) file for attribution details.
