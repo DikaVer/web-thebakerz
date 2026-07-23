@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Top-level navbar orchestrator that selects and composes the app's navigation bars.
+ *
+ * Exports NavbarAdvancedComponent, which renders the ReturnNavbar on return
+ * pages or the DefaultNavbar plus the appropriate fixed bottom bar
+ * (MobileStoreNavbar for store owners, MobileNavbar for customers) and the
+ * DeliveryNavbar on narrow viewports. It tracks scroll direction to
+ * show/hide bars responsively and includes a memoized floating save-changes
+ * button driven by the session provider.
+ */
 "use client";
 
 import {cn, NavbarProps, Button} from "@heroui/react";

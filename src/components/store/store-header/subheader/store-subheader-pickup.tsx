@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Subheader content shown when the store is in pickup mode.
+ *
+ * Exports the StoreSubHeaderPickUp client component, a thin wrapper that
+ * reads the current store from the store provider and renders PickupInfo
+ * with it.
+ */
 "use client";
 
 import React from "react";

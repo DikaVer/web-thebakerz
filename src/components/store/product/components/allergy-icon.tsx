@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Inline SVG icon components for allergens and ingredients.
+ *
+ * Exports one small React component per allergen or ingredient (walnut,
+ * kiwi, sesame, gluten, soy, eggs, fish, milk, shrimp, and many more), each
+ * rendering a stroke-based 24x24 SVG scaled by an optional size prop. These
+ * are consumed by the AllergenIcon lookup in allergy-icons.tsx.
+ */
 export const iconWalnut: React.FC<{ size?: number }> = ({ size = 20 }) => {
 
     return (

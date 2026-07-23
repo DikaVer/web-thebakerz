@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Cake pricing calculator page for the store segment /[id]/cake-calculator.
+ *
+ * Client component that lets bakers estimate the total cost and price per
+ * serving of a cake by entering ingredients, equipment and supplies, labor,
+ * and delivery costs. All calculations happen locally in component state,
+ * with reset and copy-to-clipboard sharing actions.
+ */
 'use client';
 
 import React, { useState, useMemo } from 'react';

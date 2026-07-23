@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Manual order creation page rendered at /[id]/orders/add.
+ *
+ * Server component for store owners to create a new order on behalf of a
+ * customer. Verifies store access (rendering NotFound otherwise), fetches
+ * products and their ordering, and renders the CartOrderComp form. Exports
+ * noindex metadata via generateMetadata.
+ */
 import React, {Suspense} from "react";
 
 import {getProductsAPI} from "@/lib/api/GET/products-api";

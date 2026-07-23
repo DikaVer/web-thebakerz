@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Call-to-action button for joining TheBakerz as a partner.
+ *
+ * Exports JoinButton, which navigates to the become-partner page (or smooth
+ * scrolls to the join-thebakerz section when already there), shows a loading
+ * state, and picks a shorter translated label on small screens.
+ */
 "use client";
 
 import {Button} from '@heroui/react'

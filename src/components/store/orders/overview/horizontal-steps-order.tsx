@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Client stepper component for advancing an order's status on the overview page.
+ *
+ * Exports HorizontalStepsOrder, an animated horizontal step indicator whose
+ * steps are clickable: choosing a step opens a confirmation modal and then
+ * persists the mapped status (new, started, ready, completed) via the
+ * updateOrderStatus action, updates the session's new-order count, and shows
+ * toasts. Supports controlled or uncontrolled step state and configurable
+ * step colors.
+ */
 "use client";
 
 import type {ComponentProps} from "react";

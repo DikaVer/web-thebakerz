@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server action that aggregates order data for the admin overview dashboard.
+ *
+ * Exports getOverviewData, which fetches all orders via getAllOrdersAdmin and
+ * computes the total amount processed for paid orders plus counts of completed,
+ * non-completed (excluding cancelled/refunded), and total orders. Returns the
+ * aggregates together with the raw order list, or zeroed values with an error
+ * string on failure.
+ */
 'use server';
 
 import { getAllOrdersAdmin, OrderData } from "@/lib/actions/order";

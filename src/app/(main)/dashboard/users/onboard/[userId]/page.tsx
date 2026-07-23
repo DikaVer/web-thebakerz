@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Admin page at /dashboard/users/onboard/[userId] for onboarding a user as a baker.
+ *
+ * Server component that loads the user by id and renders the OnboardPage
+ * form; users that do not exist or already have the "bakerz" role get the
+ * NotFound page instead.
+ */
 import React from "react";
 import OnboardPage from "@/components/dashboard/onboard/onboard-page";
 import {getUserFromId} from "@/lib/dashboard/user-dash";

@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Sign-out transition page rendered at /transit-exit.
+ *
+ * Client component that shows a localized "signing out" loading screen while
+ * it refreshes the router state and redirects to the URL given in the "next"
+ * query parameter (or the home page by default).
+ */
 "use client";
 
 import { pacifico } from "@/components/fonts";

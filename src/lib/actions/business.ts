@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Server action for fetching business account data.
+ *
+ * Exports getBusinessByUserId, which queries the PostgreSQL business_acc and
+ * business_address tables to return a store owner's business details (name,
+ * VAT, KVK, bank account, and address) as StoreBusinessData, or null when no
+ * business exists for the user.
+ */
 'use server';
 import {connectionPool} from "@/db";
 import { StoreBusinessData } from "@/lib/actions/store";

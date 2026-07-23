@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Product create/edit form for store owners in the business
+ * dashboard.
+ *
+ * Exports the BakerzProductView client component, a react-hook-form + Zod
+ * (ProductSchema) form covering name, price, category, description,
+ * ingredients, allergies, dietary tags, variants, minimum order, lead time,
+ * visibility, and post-delivery flags. It manages main and additional image
+ * uploads (with main-image swapping and HEIC rejection), submits through the
+ * addProduct server action via useActionState, and supports deleting the
+ * product with a confirmation modal.
+ */
 'use client';
 import React, { useState, useRef, startTransition, useCallback } from "react";
 import {

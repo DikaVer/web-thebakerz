@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Server actions for merchant loyalty program management.
+ *
+ * Provides CRUD actions for loyalty settings (tier configuration), loyalty
+ * reward items, and bulk product-to-loyalty-item assignments, stored in the
+ * Cosmos DB loyalty-settings, loyalty-items, and product-loyalty-items
+ * containers. All mutations validate input with Zod schemas from
+ * loyalty-schema, verify store ownership via the current session, and
+ * revalidate the store and promotion pages.
+ */
 'use server';
 
 import { nanoid } from 'nanoid';

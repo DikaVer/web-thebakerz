@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Client component composing the store's order dashboard page.
+ *
+ * Exports OrderDashboard, which fetches orders for the selected date range
+ * and lays out the CalendarDashboard range picker, the OrdersBarChart status
+ * chart, and the OrdersList. Also exports the OrderStatusByDate type mapping
+ * date strings to per-status flags and counts shared by the dashboard
+ * components. Initial range comes from date/from/to props (e.g. URL params).
+ */
 "use client";
 import type {RangeValue} from "@react-types/shared";
 

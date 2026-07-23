@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Customer-facing product detail page rendered at /[id]/item/[productId].
+ *
+ * Server component that resolves the store and product (rendering NotFound
+ * when the store is missing), renders the ProductPage component with the
+ * store footer, and embeds Product JSON-LD structured data. Exports
+ * product-specific SEO metadata (title, description, keywords, Open Graph
+ * and Twitter images) via generateMetadata.
+ */
 import React from "react";
 import {Spacer} from "@heroui/react";
 import NotFound from "@/app/(error_layout)/not-found";

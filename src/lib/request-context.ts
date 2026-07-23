@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Helpers for extracting request metadata used in logging and tracing.
+ *
+ * Exports getRequestId (reads x-request-id/x-correlation-id headers or generates
+ * a nanoid), getClientIP (reads common proxy headers such as x-forwarded-for),
+ * and getRequestContext, which bundles both with a timestamp for structured log
+ * entries in server actions and API routes.
+ */
 import { nanoid } from 'nanoid';
 import { headers } from 'next/headers';
 

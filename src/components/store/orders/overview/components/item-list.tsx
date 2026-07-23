@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Client component listing an order's products on the order overview page.
+ *
+ * Exports ItemList, which renders each order product with name, note,
+ * variants, quantity, and price inside a framer-motion Reorder group. The
+ * row order can be rearranged by dragging (disabled while a search term is
+ * active) and is persisted per order in localStorage.
+ */
 "use client";
 import React, {useMemo, useState} from "react";
 import {OrderProduct, OrderProducts} from "@/lib/actions/order";

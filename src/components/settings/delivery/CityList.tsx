@@ -1,3 +1,13 @@
+/**
+ * @fileoverview List of configured delivery cities in the delivery settings.
+ *
+ * Exports the CityList client component, which renders a card per city
+ * showing its distance ranges with prices, minimum order amounts, delivery
+ * windows, minimum order lead time, and a summary of the weekly delivery
+ * schedule. Cities with store-managed delivery expose edit, schedule, and
+ * remove actions; platform-delivered cities show these controls only to admin
+ * users.
+ */
 'use client';
 
 import React from "react";

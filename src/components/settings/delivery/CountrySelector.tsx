@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Country picker with a city/country delivery mode toggle.
+ *
+ * Exports the CountrySelector client component, which lists EU countries plus
+ * Switzerland in an alphabetized Autocomplete and includes a switch to choose
+ * between city-based and country-wide delivery, notifying the parent through
+ * callbacks.
+ */
 'use client';
 
 import React, { useMemo } from "react";

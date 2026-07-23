@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Email verification request lifecycle for OTP-based authentication.
+ *
+ * Provides functions to create, fetch, and delete rows in the PostgreSQL
+ * email_verification_request table, generating base32 request IDs and random
+ * OTP codes with a 10-minute expiry. Also exposes a helper to send the code
+ * via the magic-code email service and an ExpiringTokenBucket used to rate
+ * limit verification emails per user.
+ */
 import { generateRandomOTP} from "@/lib/utils";
 
 import { encodeBase32 } from "@oslojs/encoding";

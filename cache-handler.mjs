@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Disabled Next.js custom cache handler based on @neshca/cache-handler.
+ *
+ * The entire implementation is commented out. When enabled, it would create a
+ * Redis-backed cache handler (using REDIS_URL and REDIS_PREFIX) and fall back to
+ * an in-memory LRU handler when the Redis client is unavailable. It is kept as a
+ * reference for re-enabling shared caching in a self-hosted deployment.
+ */
+
 // import { CacheHandler } from '@neshca/cache-handler';
 // import createLruHandler from '@neshca/cache-handler/local-lru';
 // import createRedisHandler from '@neshca/cache-handler/redis-stack';

@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Payments page at /payments, currently a placeholder.
+ *
+ * Server component that renders the UnderConstruction component; the
+ * intended payment-management functionality is not yet implemented. Exports
+ * generateMetadata with noindex metadata.
+ */
 import {UnderConstruction} from "@/app/(error_layout)/not-found";
 import type { Metadata } from 'next';
 

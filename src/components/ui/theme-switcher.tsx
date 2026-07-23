@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Light/dark theme toggle switch.
+ *
+ * Exports ThemeSwitcher, a Hero UI Switch with sun and moon icons that
+ * toggles the application theme between light and dark using next-themes.
+ */
 'use client';
 
 import {useTheme} from "next-themes";

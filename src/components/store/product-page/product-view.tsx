@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Client component that routes a product page to the owner or
+ * customer view.
+ *
+ * Exports ProductView, which syncs the fetched products into the product
+ * dialog provider, locates the requested product and any matching rescue
+ * deal, and renders BakerzProductView for the store owner (based on the
+ * session) or ProductPageView plus DeliverySubheader for customers, with a
+ * translated not-found state.
+ */
 'use client';
 import React, { useEffect} from 'react';
 import { useStore } from '@/components/providers/store-provider';

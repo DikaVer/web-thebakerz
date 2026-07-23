@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Persistence helper for recording Terms of Service acceptance.
+ *
+ * Exports acceptTOS, which upserts a row in the tos_acceptance PostgreSQL table
+ * keyed by email and location, storing the accepted TOS version, IP address,
+ * acceptance method (implicit or explicit), and acceptance timestamp.
+ */
 import { connectionPool } from '@/db';
 
 /**

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Subheader content shown when the store is in delivery mode.
+ *
+ * Exports the StoreSubHeaderDelivery client component, which renders
+ * DeliveryInfo when the customer's address is validated and within a delivery
+ * region, a warning alert prompting for an address when none is set, and a
+ * danger alert on checkout pages when the address is out of range.
+ */
 "use client";
 
 import React from "react";

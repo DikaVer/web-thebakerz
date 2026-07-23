@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Client component composing the store-side "add order" page.
+ *
+ * Renders a back button to the order dashboard, the page title, the store's
+ * product list for picking items, and the CheckoutOrder step accordion.
+ * Tracks the current checkout step in local state and shares it between the
+ * product list and checkout sections.
+ */
 'use client';
 
 import React, { useState } from "react";

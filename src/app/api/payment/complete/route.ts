@@ -1,3 +1,12 @@
+/**
+ * @fileoverview API route handling GET /api/payment/complete, the return URL for redirect-based Stripe payment methods such as iDEAL.
+ *
+ * Retrieves the payment intent (optionally from a connected account), verifies it succeeded,
+ * and finalizes the order: inserts delivery, price, and order rows into PostgreSQL within a
+ * transaction, moves the unpaid Cosmos DB order into the paid orders container, records
+ * transfers, clears the cart, releases rescue-deal inventory holds, sends the order-placed
+ * email, and redirects the customer to the store's success or checkout error page.
+ */
 import { stripe } from "@/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentSession } from "@/lib/actions/session";

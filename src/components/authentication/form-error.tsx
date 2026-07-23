@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Inline error message banner for authentication forms.
+ *
+ * Exports the FormError component, which renders a destructive-styled alert
+ * box with a warning icon and the given message, or nothing when no message is
+ * provided.
+ */
 import {
     ExclamationTriangleIcon
 } from "@radix-ui/react-icons";

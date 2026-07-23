@@ -1,3 +1,12 @@
+/**
+ * @fileoverview API route handling GET /api/auth/google/callback, the Google OAuth redirect target.
+ *
+ * Validates the returned state and PKCE code verifier against cookies, exchanges the
+ * authorization code for tokens via arctic, and decodes the ID token claims. Signs in an
+ * existing user (matched by Google ID or email) or creates a new one, establishes a session
+ * cookie, merges any guest cart and address when a store ID cookie is present, and redirects
+ * to the stored destination. Rate limited and extensively logged.
+ */
 import { cookies } from "next/headers";
 import { google} from "@/lib/actions/auth/oauth";
 import { ObjectParser } from "@pilcrowjs/object-parser";

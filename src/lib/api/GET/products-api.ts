@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server-only API client functions for reading product data.
+ *
+ * Exports getProductsAPI, getProductsOrderAPI, and
+ * getProductByStoreIdAndProductIdAPI, which fetch a store's product catalog,
+ * its product display ordering, and a single product from the internal
+ * /api/store/[storeId] endpoints using bearer token authentication, cached
+ * for 300 seconds under the 'products' tag.
+ */
 import 'server-only';
 import { ProductData, ProductDataFull } from "../../actions/product";
 

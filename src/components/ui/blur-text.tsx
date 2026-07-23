@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Blur-in text animation component built on react-spring.
+ *
+ * Exports the BlurText component, which splits a string into words or letters
+ * and staggers each segment from a blurred, offset state to sharp visibility
+ * once the paragraph enters the viewport (via IntersectionObserver). Animation
+ * keyframes, direction, delay, and easing are configurable through props.
+ */
 import { useRef, useEffect, useState } from 'react';
 import { useSprings, animated, SpringValue } from '@react-spring/web';
 

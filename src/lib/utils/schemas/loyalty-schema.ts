@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Zod schemas and types for the store loyalty program.
+ *
+ * Defines the four-tier (Bronze/Silver/Gold/Platinum) loyalty settings schema
+ * with spending thresholds and discount percentages, default tier values, a
+ * customer loyalty status schema for tracking spend per store, and loyalty
+ * item schemas (buy-X-get-Y-free, percentage, or fixed-amount discounts) with
+ * product assignment schemas and refinements enforcing tier ordering and
+ * type-specific required fields.
+ */
 import { z } from "zod";
 
 // Loyalty Tier Names Enum

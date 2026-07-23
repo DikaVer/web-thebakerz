@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Server actions for updating the user's profile settings.
+ *
+ * Exports updateProfile, a rate-limited, session-guarded action that
+ * validates form data with ProfileSettingsSchema and persists name, birth
+ * date, sex, and notification preferences to the PostgreSQL users table via
+ * updateUserProfile, then revalidates the 'store' and 'session' cache tags.
+ */
 'use server';
 import * as z from "zod";
 import { ProfileSettingsSchema } from "@/lib/utils/schemas";

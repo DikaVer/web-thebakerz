@@ -1,10 +1,16 @@
+/**
+ * @fileoverview API route handling GET /api/store/[storeId]/id, which resolves a store identifier.
+ *
+ * Resolves the given store name or ID via getStoreId and returns the result as JSON, or null
+ * when no store matches. Accepts GET requests with a Bearer token in the Authorization
+ * header and is rate limited via globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import {getStoreId} from "@/lib/actions/store";
 import { getTranslations } from "next-intl/server";
 import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
 
-// This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(request: Request, { params }: { params: Promise<{ storeId: string }> }) {
     const t = await getTranslations("app/api/store");
 

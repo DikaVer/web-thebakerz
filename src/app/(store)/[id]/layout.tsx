@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Root layout for the (store)/[id] segment covering all storefront pages.
+ *
+ * Server component that loads the store by slug and wraps children in the
+ * store context stack: StoreProvider, DeliveryProvider, CartProvider,
+ * FavoritesProvider, ProductDialogProvider, and GoogleMapsProvider, plus the
+ * shared LayoutComp chrome. It resolves delivery/rescue-deal cookie modes,
+ * fetches cart, favorites, products, and active rescue deals near closing
+ * time, redirects legacy store IDs via StoreIdChecker, and exports rich
+ * store SEO metadata (Open Graph, Twitter, business contact data) via
+ * generateMetadata.
+ */
 import '@/styles/globals.css'
 import React from "react";
 import {getStoreAPI, getStoreIdAPI} from "@/lib/api/GET/store-api";

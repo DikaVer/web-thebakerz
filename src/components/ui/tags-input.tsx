@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Tag input components for allergens and dietary restrictions.
+ *
+ * Exports four variants: TagsInput (free-text tags added with Enter or
+ * comma), TagsAutoInput (allergen autocomplete from the allergy icon map),
+ * TagsSelectInput (multi-select of allergens), and DietarySelectInput
+ * (multi-select of dietary options such as vegan or gluten-free). Tags render
+ * as removable pills with allergen or dietary icons and translated labels.
+ */
 'use client';
 import React, {useState, useRef, useEffect, useMemo} from 'react';
 import {Autocomplete, AutocompleteItem, Button, cn, Input, Select, SelectItem} from "@heroui/react";

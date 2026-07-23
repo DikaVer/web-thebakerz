@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Success screen with a countdown redirect.
+ *
+ * Exports SuccessRedirect, a card that shows a success message with the given
+ * text, counts down from five seconds, and then replaces the current route
+ * with the given redirect page; a button allows redirecting immediately.
+ */
 'use client';
 
 import React, { useState, useEffect } from 'react';

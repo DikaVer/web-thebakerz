@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Image gallery for the customer product view.
+ *
+ * Exports the ProductImageGallery client component, which shows the main
+ * product image and, when additional images exist, a row of clickable
+ * thumbnails that swap the displayed image, with responsive sizing for small
+ * screens.
+ */
 'use client';
 import React, { useState } from "react";
 import { Image, Card, cn } from "@heroui/react";

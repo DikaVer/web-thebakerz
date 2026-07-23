@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Default site metadata definitions for Next.js.
+ *
+ * Exports metadataTranslations (English title, description, keyword, and
+ * social copy), getLocalizedMetadata, which builds a full Next.js Metadata
+ * object with icons, canonical/alternate URLs, Open Graph, Twitter, and
+ * robots settings for a locale, and metadataDefault, the pre-built English
+ * variant used as the app-wide default.
+ */
 import type {Metadata} from "next";
 
 

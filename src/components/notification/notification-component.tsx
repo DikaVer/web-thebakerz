@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Slide-in notification drawer panel.
+ *
+ * Exports the NotificationComponent, a right-side overlay drawer with a
+ * blurred backdrop that locks page scrolling while open. It currently shows
+ * a static early-access message with a link to the TheBakerz Instagram
+ * account.
+ */
 import React, {useState, useEffect, Suspense} from 'react';
 
 import {pacifico} from "@/components/fonts";

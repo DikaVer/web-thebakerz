@@ -1,3 +1,13 @@
+/**
+ * @fileoverview User profile settings form with avatar upload and preferences.
+ *
+ * Exports the ProfileSetting client component, a react-hook-form/Zod form for
+ * editing the user's display name (or store name for bakerz accounts), date
+ * of birth, gender, and email/SMS/push marketing notification toggles, plus
+ * an avatar image uploader. Dirty-state tracking drives the session
+ * provider's save handler, and submissions go through the updateProfile
+ * server action, updating the session on success.
+ */
 'use client';
 
 import React, {startTransition, useState, useEffect} from "react";

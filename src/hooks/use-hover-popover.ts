@@ -1,6 +1,13 @@
+/**
+ * @fileoverview React hook that opens and closes a popover based on mouse hover.
+ *
+ * Exports useHoverPopover, which tracks hover state across a trigger element and
+ * its popover via refs, keeps the popover open while the pointer is within a
+ * 20px buffer zone between the two elements, and closes it on page scroll.
+ */
+
 import { useState, useRef, useEffect } from 'react';
 
-// Custom hook for hover functionality
 export const useHoverPopover = () => {
     const [isHovered, setIsHovered] = useState(false);
     const triggerRef = useRef<HTMLElement>(null);

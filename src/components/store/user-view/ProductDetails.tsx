@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Product ingredient, allergy, and dietary information panels.
+ *
+ * Exports the ProductDetails client component, which renders up to three
+ * CustomAlert sections (default, warning, and success variants) listing the
+ * product's ingredients, translated allergies, and translated dietary tags
+ * as icon-labelled chips.
+ */
 'use client';
 import React from "react";
 import CustomAlert from "@/components/ui/custom-alerts";

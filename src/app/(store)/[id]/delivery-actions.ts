@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server actions for managing a user's delivery address.
+ *
+ * Exports the DeliveryAddress interfaces plus actions to create/update,
+ * fetch by user ID, and fetch the current session user's delivery address.
+ * Addresses are persisted in the Azure Cosmos DB delivery-locations
+ * container, keyed by user (or guest session) ID, and reads are cached under
+ * the "delivery-address" tag.
+ */
 "use server";
 
 import { containerDeliveryLocations  } from "@/db";

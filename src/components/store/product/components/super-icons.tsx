@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Dietary restriction icon lookup and renderer component.
+ *
+ * Exports iconSuperMap, mapping dietary keys (sugar-free, lactose-free,
+ * gluten-free, halal, vegan) to the SVG icon components from super-icon.tsx,
+ * and DietaryIcon, which resolves a dietary string case-insensitively and
+ * renders the matching icon or null when unknown.
+ */
 import React from 'react'
 import {
     noSugar,

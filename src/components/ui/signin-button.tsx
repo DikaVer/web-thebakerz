@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Sign-in button that redirects to the authentication page.
+ *
+ * Exports SigninButton, a Hero UI button that navigates to /auth with the
+ * current pathname as the next parameter for post-authentication redirection,
+ * showing a translated loading state while navigating.
+ */
 "use client";
 
 import {Button} from '@heroui/react'

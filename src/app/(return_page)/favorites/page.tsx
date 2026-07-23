@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Favorites page at /favorites showing the user's saved stores and products.
+ *
+ * Server component that redirects unauthenticated visitors to /sign-in,
+ * fetches store and product favorites, and renders FavoritesContent inside a
+ * FavoritesProvider. Metadata marks the page as noindex.
+ */
 import React from 'react';
 import { FavoritesProvider } from '@/components/providers/favorites-provider';
 import FavoritesContent from '@/components/favorites/favorites-content';

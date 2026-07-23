@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Printable invoice layout for a bakery order.
+ *
+ * Exports InvoiceBakerz, which renders a fixed-width, inline-styled invoice
+ * document with the TheBakerz logo, store and customer details, a line-item
+ * table with per-item VAT, delivery fee, grand total, and payment method,
+ * intended for PDF/print output. Also exports InvoiceBakerzDump, a minimal
+ * placeholder variant.
+ */
 import { OrderData } from "@/lib/actions/order";
 import {StoreBusinessData} from "@/lib/actions/store";
 import React from "react";

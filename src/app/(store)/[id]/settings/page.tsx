@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Store settings page rendered at /[id]/settings.
+ *
+ * Server component that renders the StoreTabsSettings component with a
+ * localized title and description for managing store profile and
+ * preferences. Access control is handled by the segment layout.
+ */
 import React from "react";
 import { metadataDefault } from "@/components/metadata";
 import type { Metadata } from "next";

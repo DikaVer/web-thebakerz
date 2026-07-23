@@ -1,3 +1,11 @@
+/**
+ * @fileoverview React Email template notifying a bakery of a new order.
+ *
+ * Renders an order summary for the store owner with customer information,
+ * the scheduled delivery or pickup time, an address map link, an itemized
+ * products table with pricing, and a Google Calendar link. Adapts its labels
+ * and content for delivery, pickup, post-delivery, and rescue deal orders.
+ */
 import {
     Body,
     Container,

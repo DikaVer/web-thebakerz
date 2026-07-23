@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Animated quantity stepper input for product and cart amounts.
+ *
+ * Exports the InputStepper client component, which combines minus/plus buttons
+ * (with long-press auto-repeat), a numeric input, and a NumberFlow animated
+ * display. Changes are debounced before invoking the async onChange callback
+ * (e.g. a server cart update), with loading state and value rollback on
+ * failure; in cart mode the minus button becomes a delete icon at quantity 1.
+ */
 'use client';
 import { cn } from '@/lib/utils';
 import NumberFlow from '@number-flow/react';

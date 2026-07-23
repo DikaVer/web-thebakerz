@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Modal form for reporting a store to the platform.
+ *
+ * Exports the ReportStoreModal client component, a react-hook-form + Zod
+ * validated subject/description form (with a 2000-character counter) that
+ * sends the report as an email through the sendEmail server action via
+ * useActionState, using the current session's email address as the sender.
+ */
 'use client';
 
 import React, { startTransition } from 'react';

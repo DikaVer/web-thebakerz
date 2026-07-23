@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Layout for the (return_page) route group (favorites, orders, payments, policies).
+ *
+ * Server component that renders children inside LayoutComp with the sidebar
+ * hidden and appends the simplified footer.
+ */
 import '@/styles/globals.css'
 import React from "react";
 import LayoutComp from "@/components/layout-comp";

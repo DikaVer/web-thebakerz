@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Form card for configuring country-wide (postal) delivery settings.
+ *
+ * Exports the CountryDeliverySettings client component, which collects the
+ * delivery price, minimum order price, and delivery window (1 to 15 days) for
+ * a selected country, reporting changes through callbacks and invoking onSave
+ * to add the country. Prices are handled in cents and shown in euros.
+ */
 'use client';
 
 import React from "react";

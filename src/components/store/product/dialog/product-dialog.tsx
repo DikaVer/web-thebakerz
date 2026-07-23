@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Modal wrapper that presents a product's detail view.
+ *
+ * Exports the ProductDialog client component, a Hero UI Modal that renders
+ * ProductDialogView with the given product, cart item, and optional rescue
+ * deal data. It switches to a full-screen bottom sheet on small viewports via
+ * a media query.
+ */
 'use client';
 import React, {useState} from "react";
 import {

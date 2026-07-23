@@ -1,4 +1,10 @@
-
+/**
+ * @fileoverview API route handling GET /api/delivery-address/[userId].
+ *
+ * Fetches the delivery address stored for the given user via the getDeliveryAddress
+ * helper and returns it as JSON, or null when no address exists. Rate limited via
+ * globalGETRateLimit.
+ */
 import { NextRequest, NextResponse } from "next/server";
 import { getDeliveryAddress } from "@/app/(store)/[id]/delivery-actions";
 import { globalGETRateLimit } from "@/lib/utils/helper/requests";

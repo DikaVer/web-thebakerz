@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Grid of nearby store cards for the search page.
+ *
+ * Exports StoreClientResults, which renders a responsive grid of StorePanel
+ * cards for the given stores in the current pickup or delivery mode. The grid
+ * is hidden whenever product filters are active, and an empty state with a
+ * custom-order prompt is shown when no stores are found.
+ */
 'use client';
 import { NearbyStore } from '@/lib/actions/store';
 import { StorePanel } from './store-panel';

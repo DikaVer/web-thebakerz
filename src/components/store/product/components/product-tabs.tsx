@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Client tab bar for navigating a store's product categories.
+ *
+ * Exports ProductTabs, a HeroUI underlined Tabs wrapper that renders one tab
+ * per category, falls back to the first category when the selected tab is
+ * missing, and automatically scrolls the selected tab into view when it is
+ * outside the visible tab list.
+ */
 'use client';
 import React, { useEffect, useRef } from 'react';
 import { Tabs, Tab } from '@heroui/react';

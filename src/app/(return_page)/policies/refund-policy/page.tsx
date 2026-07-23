@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Refund policy page at /policies/refund-policy.
+ *
+ * Server component that renders the Markdown refund and remediation policy
+ * from the sibling content module via ReactMarkdown with remark-gfm and
+ * rehype-sanitize, injects schema.org WebPage structured data, and exports
+ * static SEO metadata.
+ */
 import React from "react";
 import { getLocalizedMetadata } from "@/components/metadata";
 import type { Metadata } from "next";

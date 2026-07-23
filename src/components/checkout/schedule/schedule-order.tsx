@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Order scheduling step of the store checkout flow.
+ *
+ * Lets the customer pick a delivery or pickup date and time, enter a delivery
+ * address when in delivery mode, and add an order note that is persisted to
+ * localStorage via a modal. Enables the continue button only when a valid
+ * time is selected (and, for delivery, the address is in range).
+ */
 "use client";
 
 import React, { useEffect, useState } from "react";

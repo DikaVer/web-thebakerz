@@ -1,10 +1,16 @@
+/**
+ * @fileoverview API route handling GET /api/store/[storeId]/products/[productId], which returns a single product.
+ *
+ * Fetches the product identified by store ID and product ID via
+ * getProductByStoreIdAndProductId and returns it as JSON. Accepts GET requests with a
+ * Bearer token in the Authorization header and is rate limited via globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import {getProductByStoreIdAndProductId} from "@/lib/actions/product";
 import { getTranslations } from "next-intl/server";
 import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
 
-// This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(
     request: Request,
     { params }: { params: Promise<{ storeId: string; productId: string;}> }

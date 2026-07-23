@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Settings controls for minimum order lead time and pickup window.
+ *
+ * Exports the MinTimeOrder client component, which lets a store owner choose
+ * the minimum advance time required for orders (30 minutes up to 30 days) and
+ * the pickup window duration. Changes are tracked against the initial store
+ * values and persisted through the session provider's save handler, which
+ * calls the updateMinOrderTime and updatePickupWindow server actions.
+ */
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";

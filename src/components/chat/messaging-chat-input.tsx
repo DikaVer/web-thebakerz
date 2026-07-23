@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Message input component for the messaging chat window.
+ *
+ * Wraps a HeroUI Input with attach-file and send buttons, plus a microphone
+ * button shown while the input is empty. Tracks the typed message in local
+ * state and forwards remaining props to the underlying input.
+ */
 "use client";
 
 import type {InputProps} from "@heroui/react";

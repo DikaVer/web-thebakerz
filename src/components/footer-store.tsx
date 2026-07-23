@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Footer variant for individual store pages.
+ *
+ * Exports FooterStore, which reads the current store from the store provider
+ * and renders its contact details (address linked to Google Maps and a
+ * WhatsApp phone link), opening hours via renderCalendarContent, legal and
+ * support link columns, TheBakerz social media icons, a copyright line, and
+ * the brand logo linking to the home page.
+ */
 "use client";
 
 import type {IconProps} from "@iconify/react";

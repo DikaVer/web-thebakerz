@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Marketplace landing section inviting bakers to join TheBakerz.
+ *
+ * Exports the BakersGrowthSection component, which pairs an embedded YouTube
+ * video with a translated headline, description, and an animated call-to-action
+ * button that navigates to the /become-partner page.
+ */
 'use client';
 
 import { Button } from '@heroui/react';

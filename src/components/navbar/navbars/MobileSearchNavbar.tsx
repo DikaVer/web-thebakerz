@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Minimal mobile navigation bar for the search page.
+ *
+ * Exports the MobileSearchNavbar component, which renders only the
+ * DeliveryAddressButton so users can set or change their delivery address
+ * while browsing search results.
+ */
 import { DeliveryAddressButton } from "@/components/ui/select-time/delivery-address-button";
 
 import React from "react";

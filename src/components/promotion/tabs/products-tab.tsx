@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Products tab of the store promotion manager for assigning promotions and loyalty items.
+ *
+ * Exports the ProductsTab component, which lists the store's products in a
+ * searchable, category-filterable table with drag-to-scroll support and lets
+ * the owner assign a promotion group and an assignable loyalty item to each
+ * product. Changes are written into the shared react-hook-form owned by
+ * PromotionManager rather than saved directly.
+ */
 'use client';
 
 import React, { useState, useEffect } from 'react';

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Scroll-triggered entrance animation wrapper built on GSAP.
+ *
+ * Exports the AnimatedContent component, which wraps its children in a div and
+ * animates them into place (slide, scale, and optional fade) using GSAP with
+ * the ScrollTrigger plugin when the element scrolls into view. Direction,
+ * distance, easing, delay, and visibility threshold are configurable via props.
+ */
 import React, { useRef, useEffect, ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";

@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Card summarizing a store's delivery conditions for the
+ * customer's matched region.
+ *
+ * Exports the DeliveryInfo client component, which shows the delivery fee,
+ * minimum order value, effective pre-order time (the larger of the region's
+ * minimum and the cart's product lead time), delivery window, buyer
+ * protection and cancellation notes, and an address-in-range confirmation,
+ * with skeleton placeholders and a compact layout on checkout pages.
+ */
 "use client";
 
 import { useTranslations } from "next-intl";

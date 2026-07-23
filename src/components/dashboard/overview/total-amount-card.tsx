@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Summary card displaying the total processed order amount.
+ *
+ * Renders a HeroUI card with a wallet icon and the formatted total currency
+ * value of all orders, used on the dashboard overview page.
+ */
 "use client";
 
 import React from 'react';

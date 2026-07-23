@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Video showcase section for the become-partner landing page.
+ *
+ * Exports the VideoShowcase component, which embeds a platform demo video
+ * from YouTube inside a styled container with gradient backgrounds that
+ * blend the dark MacbookScrollDemo section into the page background.
+ */
 'use client';
 
 import React from 'react';

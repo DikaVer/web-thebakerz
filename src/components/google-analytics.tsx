@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Google Analytics (gtag.js) loader.
+ *
+ * Exports GoogleAnalytics, a client component that injects the gtag.js
+ * script and inline configuration for the site's GA4 measurement id (also
+ * exported as GA_MEASUREMENT_ID) using next/script with the afterInteractive
+ * strategy, with IP anonymization and automatic page views enabled.
+ */
 "use client";
 
 import Script from "next/script";

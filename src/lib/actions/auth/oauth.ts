@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Server-only Google OAuth client configuration.
+ *
+ * Instantiates and exports an Arctic Google OAuth provider configured with
+ * client credentials from environment variables and the app's
+ * /api/auth/google/callback redirect URL. Used by the Google sign-in flow.
+ */
 import 'server-only';
 import { Google } from "arctic";
 

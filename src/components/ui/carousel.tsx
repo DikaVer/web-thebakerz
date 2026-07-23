@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Shadcn/ui carousel primitives built on Embla Carousel.
+ *
+ * Exports Carousel, CarouselContent, CarouselItem, CarouselPrevious, and
+ * CarouselNext, sharing state through a React context, with keyboard arrow-key
+ * navigation. Customized for this project to use Hero UI buttons for the
+ * prev/next controls and to add SliderDotButton pagination dots (animated with
+ * framer-motion) driven by the exported useDotButton hook.
+ */
 "use client"
 
 import * as React from "react"

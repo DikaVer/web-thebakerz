@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Commented-out legacy order dashboard built on HeroUI RangeCalendar.
+ *
+ * The entire file is disabled; it previously exported OrderMemory, an earlier
+ * version of the order dashboard that combined a RangeCalendar with injected
+ * CSS status dots, OrdersBarChart, and OrdersList. It currently exports
+ * nothing and has been superseded by order-dashboard.tsx.
+ */
 // "use client";
 // import type {RangeValue} from "@react-types/shared";
 //

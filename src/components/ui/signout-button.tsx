@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Sign-out button for the dashboard sidebar.
+ *
+ * Exports SignOutButton, which clears session and local storage, resets the
+ * session context, runs the logout server action, and redirects through the
+ * transit-exit page. Collapses to an icon-only button with a tooltip when the
+ * sidebar is collapsed.
+ */
 "use client";
 
 import {usePathname, useRouter} from "next/navigation";

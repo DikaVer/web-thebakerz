@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server actions for contact, support, and onboarding email forms.
+ *
+ * Exports actions that validate form data with Zod schemas (ContactSchema,
+ * ApplySchema, GetStartedSchema) and dispatch emails through the email-send
+ * request helpers: contact-us messages, urgent payment support notices, and
+ * merchant onboarding applications. Also includes a phone validation action
+ * used by the get-started flow. Responses are localized via next-intl.
+ */
 "use server";
 
 import * as z from "zod";

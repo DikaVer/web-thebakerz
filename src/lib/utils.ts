@@ -1,3 +1,12 @@
+/**
+ * @fileoverview General-purpose utility functions shared across the application.
+ *
+ * Contains the cn class-name merger (clsx + tailwind-merge), Haversine distance
+ * calculation, VAT and EUR currency helpers, converters and locale-aware
+ * formatters for dates, times, and scheduled_time objects (built on
+ * @internationalized/date), an API date formatter, and a cryptographically
+ * random 6-digit OTP generator.
+ */
 import {CalendarDate, CalendarDateTime, getLocalTimeZone} from '@internationalized/date';
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'

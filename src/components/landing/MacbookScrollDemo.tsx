@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Become-partner hero section showcasing the store dashboard inside a MacBook scroll animation.
+ *
+ * Exports the MacbookScrollDemo component, which renders the MacbookScroll
+ * effect with a blur-animated translated title and a store dashboard
+ * screenshot, and tags the page in Microsoft Clarity on mount.
+ */
 import React, { useEffect } from "react";
 import { MacbookScroll } from "@/components/landing/macbook-scroll";
 import BlurText from "../ui/blur-text";

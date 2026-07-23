@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Inbox panel component for the messaging chat interface.
+ *
+ * Displays a searchable, tabbed (Inbox/Unread) list of conversations rendered
+ * from the static messaging chat list data, with avatars, unread badges, and
+ * message previews. Selecting a conversation paginates to the chat window.
+ */
 "use client";
 
 import type {MessagingChatListProps} from "./messaging-chat-list";

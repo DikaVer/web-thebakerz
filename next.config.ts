@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Next.js configuration wrapped with the next-intl plugin.
+ *
+ * Aliases Node.js built-in modules to an empty stub for browser bundles under
+ * Turbopack, marks pino as a server-external package, raises the Server Actions
+ * body size limit to 5mb, whitelists remote image hosts (Google Maps, Vercel
+ * Blob, Azure Blob Storage, Cloudinary), and permanently redirects the apex
+ * domain thebakerz.com to www.thebakerz.com.
+ */
+
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 

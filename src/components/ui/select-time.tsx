@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Order time selector switching between delivery and pickup.
+ *
+ * Exports SelectTime, which reads mode, schedule, and validation state from
+ * the delivery and store providers, computes the earliest selectable time
+ * from region or store minimum order times and product lead times (in the
+ * Europe/Amsterdam timezone), and renders either DeliveryTimeSelection or
+ * PickupTimeSelection accordingly.
+ */
 "use client";
 
 import React, { useMemo } from "react";

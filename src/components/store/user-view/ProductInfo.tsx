@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Product name, price, and description block for the customer
+ * product view.
+ *
+ * Exports the ProductInfo client component, which shows the formatted price
+ * (with strikethrough original price and discount badge in rescue-deal mode),
+ * name, description, and an animated favorite/like button backed by the
+ * favorites provider and gated by sign-in. Also defines the internal
+ * AnimatedHeart and AnimatedNumber helper components.
+ */
 'use client';
 import React, { useState, useEffect } from "react";
 import { formatCurrency } from "@/lib/utils";

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Sign-in prompt modal shown to unauthenticated users.
+ *
+ * Exports ModalSignIn, a Hero UI modal offering "Login" (redirects to /auth
+ * with the current path as the return destination) or "Not now", plus the
+ * useSignInModal hook that manages open state and returns a pre-wired modal
+ * component.
+ */
 'use client';
 
 import { useState, useEffect } from 'react';

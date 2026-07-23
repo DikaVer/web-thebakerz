@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Session-aware sign-in button for the landing page.
+ *
+ * Exports LandingSigninButton, which renders a sign-in button (redirecting to
+ * /auth with the current path as the post-auth destination) for guests, a
+ * button linking store owners to their first store, and nothing for signed-in
+ * users without stores.
+ */
 "use client";
 
 import {Button} from '@heroui/react'

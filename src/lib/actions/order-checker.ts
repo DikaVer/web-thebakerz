@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server action for validating an order time against a store schedule.
+ *
+ * Exports validateOrderTimeAgainstSchedule, which checks that a requested
+ * order date/time respects the store's minimum lead time and falls within the
+ * opening hours defined in its WorkHours schedule for that weekday, returning
+ * a validity flag and a human-readable message. Uses @internationalized/date
+ * for timezone-aware comparisons.
+ */
 'use server'
 
 import { CalendarDateTime, getDayOfWeek, getLocalTimeZone, now, Time, toTime, toZoned, ZonedDateTime } from "@internationalized/date";

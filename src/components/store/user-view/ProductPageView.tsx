@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Full-page customer view of a single product.
+ *
+ * Exports the ProductPageView client component, which lays out
+ * ProductImageGallery, ProductInfo, rescue-deal stock info, ProductDetails,
+ * VariantsUserSelection, ProductNotes, and ProductActions in a card. It
+ * validates variant selections, adds the item to the cart via the updateCart
+ * action (resetting scheduled dates that violate the product lead time),
+ * prompts for a delivery address when out of range, and offers share and
+ * report actions.
+ */
 'use client';
 import React, { useState } from "react";
 import { ProductData} from "@/lib/actions/product";

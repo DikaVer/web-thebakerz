@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Markdown content for TheBakerz refund and remediation policy.
+ *
+ * Exports refundEnglishBakerz, an object whose content field holds the full
+ * English refund policy in Markdown, rendered by the refund-policy page.
+ */
 export const refundEnglishBakerz: {
     content: string
 } = {

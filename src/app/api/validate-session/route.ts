@@ -1,8 +1,14 @@
+/**
+ * @fileoverview API route handling GET /api/validate-session, which validates a session token.
+ *
+ * Accepts GET requests with the session token passed as a Bearer token in the Authorization
+ * header, validates it via validateSessionToken, and returns the validation result (session
+ * and user data) as JSON. Rate limited via globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import { validateSessionToken } from '@/lib/actions/session';
 import { getTranslations } from "next-intl/server";
 import { globalGETRateLimit } from '@/lib/utils/helper/requests';
-// This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(request: Request) {
     const t = await getTranslations("app/api/validate-session");
 

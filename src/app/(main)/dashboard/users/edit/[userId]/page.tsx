@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Admin page at /dashboard/users/edit/[userId] for editing a user's store.
+ *
+ * Server component that redirects non-admin users to /auth, loads the store,
+ * business, and payment data for the given user, and renders the
+ * BakerzEditTabs editor.
+ */
 import React from "react";
 
 import { getStoreByUserIdAPI,  getBusinessStoreAPI, getStorePaymentAPI } from "@/lib/api/GET/store-api";

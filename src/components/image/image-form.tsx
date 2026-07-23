@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Small pencil-icon button that opens a hidden file input.
+ *
+ * Renders a form with a hidden file input triggered by a compact edit button;
+ * on selection it passes the chosen file to the parent, resets the input so
+ * the same file can be re-selected, and invokes the onUpload callback.
+ */
 'use client';
 
 import React, { useRef } from "react";

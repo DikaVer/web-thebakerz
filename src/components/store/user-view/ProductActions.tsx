@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Action row for the customer product view (quantity plus
+ * add/update button).
+ *
+ * Exports the ProductActions client component, which combines an InputStepper
+ * for quantity with a total-price button that adds or updates the cart item
+ * including variant surcharges. It shows an Edit button for store owners, a
+ * View Product button on search pages, and a warning modal when the product's
+ * post-delivery setting mismatches the selected postal delivery region.
+ */
 'use client';
 import React, { useState } from "react";
 import { Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/react";

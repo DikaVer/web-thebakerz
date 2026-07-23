@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Server actions for store promotion groups and product assignments.
+ *
+ * Provides CRUD actions for promotion groups and bulk product-to-promotion
+ * assignments stored in the Cosmos DB promotion-groups and product-promotions
+ * containers, plus a query that joins products with their assigned promotion
+ * group. All mutations validate input with Zod schemas from promotion-schema,
+ * verify store ownership via the current session, and revalidate the store
+ * and promotion pages.
+ */
 'use server';
 
 import { nanoid } from 'nanoid';

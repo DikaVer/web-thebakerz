@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Standalone image upload widget with client-side compression.
+ *
+ * Renders a file picker that processes the selected image through the
+ * useImageProcessing hook (compression and WebP conversion), then shows a
+ * preview, compression statistics, and any processing errors, passing the
+ * processed file to an optional onUpload callback.
+ */
 'use client';
 
 import { useState } from 'react';

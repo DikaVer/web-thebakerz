@@ -1,3 +1,12 @@
+/**
+ * @fileoverview List of configured delivery countries in the delivery settings.
+ *
+ * Exports the CountryList client component, which renders a card per country
+ * showing delivery price, minimum order price, delivery window, minimum order
+ * lead time, and a summary of the weekly delivery schedule. It provides edit,
+ * schedule, and remove actions plus a switch that toggles between own
+ * delivery and postal delivery for store-managed countries.
+ */
 'use client';
 
 import React from "react";

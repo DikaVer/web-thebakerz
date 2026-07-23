@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Top-level delivery settings manager for a store.
+ *
+ * Exports the DeliveryManager client component, which loads the store's
+ * delivery regions and lets the owner configure city-based delivery (with
+ * distance ranges, prices, and coordinates) and country-wide delivery (with
+ * flat pricing and postal options). It composes the CitySelector,
+ * CountrySelector, range/price editors, city and country lists, map view, and
+ * schedule modal from the delivery module, tracks unsaved changes, and
+ * persists them via the updateMerchantDeliveryRegions server action through
+ * the session provider's save handler.
+ */
 'use client';
 
 import React, { useState, useEffect } from "react";

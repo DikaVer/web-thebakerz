@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Fixed bottom navigation bar for store owners (bakerz role) on mobile.
+ *
+ * Exports the MobileStoreNavbar component, which provides a shop switcher
+ * popover listing the owner's stores with new-order counts, an orders link
+ * with a badge for the current store, an add-item shortcut, and a settings
+ * dropdown. Renders nothing for users without the bakerz role.
+ */
 'use client';
 
 import React, { useState } from 'react';

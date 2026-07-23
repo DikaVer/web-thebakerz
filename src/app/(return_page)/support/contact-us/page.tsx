@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Contact support page rendered at /support/contact-us.
+ *
+ * Server component that renders a localized heading and the
+ * ContactUsComponent form, embeds ContactPage JSON-LD structured data, and
+ * exports SEO metadata via generateMetadata.
+ */
 import ContactUsComponent from "@/components/support/contact-us-component";
 import {getLocale, getTranslations} from "next-intl/server";
 import {Metadata} from "next";

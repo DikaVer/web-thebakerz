@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Admin orders management page at /dashboard/orders.
+ *
+ * Server component that reads optional date/from/to search params and renders
+ * the OrderDashboard component in non-store (admin) mode. Metadata marks the
+ * page as noindex.
+ */
 import React from "react";
 
 import {OrderDashboard} from "@/components/store/orders/dashboard/order-dashboard";

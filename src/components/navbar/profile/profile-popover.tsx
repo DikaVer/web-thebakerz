@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Profile menu popover opened from the navbar avatar.
+ *
+ * Exports the ProfilePopover component, which shows a login prompt for
+ * guests or, for signed-in users, profile settings, a store list for bakerz
+ * accounts, admin dashboard links, order/favorites shortcuts, and general
+ * menu items including logout. Logout clears client storage, resets the
+ * session provider, and calls the logoutAction server action.
+ */
 'use client';
 
 import { useState, useEffect, useRef, startTransition } from 'react';

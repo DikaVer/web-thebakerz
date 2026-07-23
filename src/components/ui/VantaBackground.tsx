@@ -1,4 +1,10 @@
-// components/NewsWall/VantaBackground.tsx
+/**
+ * @fileoverview Animated fog background powered by Vanta.js.
+ *
+ * Exports VantaBackground, which dynamically loads three.js and the Vanta fog
+ * effect from CDNs at runtime and initializes the purple-toned fog animation
+ * on a wrapper div rendered behind its children.
+ */
 'use client';
 import React, { useEffect } from 'react';
 

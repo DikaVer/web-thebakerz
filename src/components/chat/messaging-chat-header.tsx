@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Header bar component for the messaging chat interface.
+ *
+ * Renders a "Chats" title with an unread-count chip, a hamburger menu or back
+ * button depending on the current pagination page, and a new-message button.
+ * Used across the chat inbox, window, and profile panels.
+ */
 "use client";
 
 import React from "react";

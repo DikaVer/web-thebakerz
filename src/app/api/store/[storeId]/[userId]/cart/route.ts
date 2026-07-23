@@ -1,20 +1,15 @@
+/**
+ * @fileoverview API route handling GET /api/store/[storeId]/[userId]/cart, which retrieves a user's full cart for a store.
+ *
+ * Fetches all cart data (both delivery and pickup) for the given user and store via
+ * getAllCart and returns it as JSON. Requires bearer token authentication via the
+ * Authorization header and is rate limited via globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import { getAllCart, } from "@/lib/actions/cart";
 import { getTranslations } from "next-intl/server";
 import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
-/**
- * API Route: GET /api/store/cart
- * -----------------------------------------------------------------------------------
- * Retrieves cart data for a specific user in a specific store.
- *
- * Required Headers:
- * - Store-Id: Identifier for the store
- * - User-Id: Identifier for the user
- * - Authorization: Bearer token for API authentication
- *
- * @returns {Promise<NextResponse>} JSON response with cart data or error message
- */
 export async function GET(request: Request, { params }: { params: Promise<{ storeId: string, userId: string }> }) {
     const t = await getTranslations("app/api/store/cart");
 

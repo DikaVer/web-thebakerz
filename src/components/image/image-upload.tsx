@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Modal wrapper for cropping and uploading a selected image.
+ *
+ * Validates the provided file against ImageSchema, creates an object URL
+ * preview, and renders the CropEasy cropper inside a themed HeroUI modal.
+ * Closes with an error toast when validation or preview creation fails.
+ */
 'use client';
 
 import { Modal, ModalContent, ModalHeader } from "@heroui/react";

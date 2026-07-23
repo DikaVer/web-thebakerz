@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Helper for downloading an order's invoice PDF in the browser.
+ *
+ * Exports onDownloadInvoice, which posts the customer email to the
+ * /api/invoice endpoint, triggers a browser download of the returned PDF
+ * blob, and shows success or error toasts.
+ */
 
 import {addToast} from "@heroui/react";
 

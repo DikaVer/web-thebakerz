@@ -1,3 +1,12 @@
+/**
+ * @fileoverview FAQ section for the support page.
+ *
+ * Exports SupportComponent, which renders a heading, a contact-us button that
+ * navigates to /support/contact-us, and an accordion of baker FAQs whose
+ * questions and Markdown answers are resolved from translation keys via
+ * next-intl and sanitized with rehype-sanitize. A customer FAQ section exists
+ * but is currently commented out.
+ */
 "use client";
 
 import React from "react";

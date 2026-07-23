@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server actions for the email-OTP authentication flow.
+ *
+ * Contains loginAction (creates the user if needed and emails a verification
+ * code), verifyEmailAction (validates the OTP, migrates guest cart/address
+ * data, and creates a session), resendEmailVerificationCodeAction, and cookie
+ * helpers for the email verification request. All actions apply global and
+ * per-IP rate limiting and structured logging.
+ */
 "use server";
 
 import {RefillingTokenBucket} from "@/lib/utils/helper/rate-limits";

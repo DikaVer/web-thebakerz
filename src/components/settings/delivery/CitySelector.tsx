@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Autocomplete input for choosing a delivery city.
+ *
+ * Exports the CitySelector client component, which presents the provided city
+ * options in a HeroUI Autocomplete, forwards the chosen city name to the
+ * onCitySelect callback, and clears the input after each selection.
+ */
 'use client';
 
 import React, { useState } from "react";

@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server actions for the display order of products in a store.
+ *
+ * Exports updateProductsOrder, which upserts a per-store document mapping
+ * category names to ordered product ID lists into the Cosmos DB
+ * products-order container (rate limited and restricted to the store owner),
+ * and getProductsOrder, which reads that ordering back. Updates revalidate
+ * the 'productsOrder' cache tag.
+ */
 'use server';
 
 import {globalPOSTRateLimit} from "@/lib/utils/helper/requests";

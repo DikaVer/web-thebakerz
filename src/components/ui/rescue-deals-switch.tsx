@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Toggle switch for the Rescue Deals browsing mode.
+ *
+ * Exports RescueDealsSwitch, an icon-based toggle built with the Hero UI
+ * useSwitch hook that reads and updates the rescue-deal mode from the
+ * delivery provider context, highlighting an eco icon when active.
+ */
 import { useSwitch, cn } from "@heroui/react";
 import { VisuallyHidden } from "@heroui/react";
 import { Icon } from "@iconify/react/dist/iconify.js";

@@ -1,23 +1,15 @@
+/**
+ * @fileoverview API route handling GET /api/store/order/[storeId]/[orderId]/[email], which retrieves a single order.
+ *
+ * Looks up order details for the given store, order ID, and customer email via the getOrder
+ * action and returns them as JSON. Requires bearer token authentication (Authorization
+ * header) and is rate limited via globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import { getOrder } from "@/lib/actions/order";
 import { getTranslations } from "next-intl/server";
 import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
-/**
- * API Route: GET Order Information
- *
- * Retrieves order details for a specific order in a store.
- * Requires authentication via bearer token.
- *
- * Required headers:
- * - Store-Id: Store ID
- * - Order-Id: Order ID
- * - Email: User email
- * - Authorization: Bearer token
- *
- * @route GET /api/store/order
- * @returns {Promise<NextResponse>} Order data or error response
- */
 export async function GET(request: Request, {params}: {params: Promise<{storeId: string, orderId: string, email: string}>}) {
     const t = await getTranslations("app/api/store/order");
 

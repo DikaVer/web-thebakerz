@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Client-side shopping cart context provider and useCart hook.
+ *
+ * Exports CartProvider, which supplies CartContext with per-store cart data
+ * split into delivery and pickup cart types, item count and quantity totals,
+ * add/update/remove operations backed by the cart server actions, and cart
+ * drawer open state. It syncs the active cart type with the delivery
+ * provider, propagates the largest product lead time to it, and validates
+ * cart quantities against available rescue deal stock.
+ */
 'use client';
 
 import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';

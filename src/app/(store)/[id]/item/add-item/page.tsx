@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Product creation page rendered at /[id]/item/add-item.
+ *
+ * Server component that loads the store by slug (rendering NotFound if it
+ * does not exist), fetches its products and product ordering, and renders
+ * the ItemAddManager component for adding and managing store products.
+ */
 import React, { Suspense } from "react";
 import { getProductsAPI } from "@/lib/api/GET/products-api";
 import { getProductsOrderAPI } from "@/lib/api/GET/products-api";

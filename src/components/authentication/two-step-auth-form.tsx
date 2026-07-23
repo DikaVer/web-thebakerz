@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Two-step email OTP login form with Google OAuth fallback.
+ *
+ * Exports the TwoStepAuthForm client component, which collects the user's
+ * email, triggers loginAction to send a one-time code, then verifies the code
+ * via verifyEmailAction with an animated page transition between the two
+ * steps. It also supports resending the code with a cooldown timer, signing in
+ * with Google, an optional guest-continue path, and updates the session
+ * provider and redirects on successful verification.
+ */
 "use client";
 
 import React, {useState, startTransition, useRef, useEffect, useActionState} from "react";

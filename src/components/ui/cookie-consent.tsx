@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Cookie consent banner with per-category preference settings.
+ *
+ * Exports CookieConsentComponent, a fixed bottom banner that lets visitors
+ * accept all, reject all, or toggle necessary/analytics/marketing cookie
+ * categories. Persists choices through server actions and applies them by
+ * configuring Google Analytics (gtag) and Microsoft Clarity consent,
+ * identification, and role tagging.
+ */
 "use client";
 
 import React, { useEffect, useState} from "react";

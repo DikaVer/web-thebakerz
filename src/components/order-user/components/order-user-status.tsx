@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Order status card for a customer's order.
+ *
+ * Exports the OrderUserStatus component, which displays the order's current
+ * status as a chip and a link to the store the order was placed from.
+ */
 "use client";
 import React from "react";
 import {useRouter} from "next/navigation";

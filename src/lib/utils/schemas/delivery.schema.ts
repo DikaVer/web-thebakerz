@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Zod schemas for validating store delivery region configuration.
+ *
+ * Exports DeliveryRegionsSchema, an array of delivery regions each defined by a
+ * city name or country code, optional coordinates, a per-day delivery schedule
+ * with start/end time validation, store or post delivery flags, minimum order
+ * time, and either distance-based ranges or flat delivery pricing with minimum
+ * order amounts in cents.
+ */
 import { z } from 'zod';
 import { cityLatLngMap, EU_COUNTRIES_PLUS_SWISS } from '@/lib/local-variables';
 

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Default top navigation bar content for main and store pages.
+ *
+ * Exports the DefaultNavbar component, which shows either a back button and
+ * store owner name (on store pages) or the TheBakerz logo linking home, an
+ * inline DeliveryNavbar on wide screens, a language selection button with
+ * modal, and the profile avatar popover.
+ */
 import { useState } from "react";
 import { Button, Avatar, NavbarItem } from "@heroui/react";
 import { Icon } from "@iconify/react";

@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Store opening-hours utilities based on the WorkHours schedule.
+ *
+ * All calculations use the Europe/Amsterdam timezone. Exports helpers to format
+ * dates as YYYY-M-D strings, find the store's closing date and time for today
+ * (or the next enabled day), check whether the current time falls within the
+ * 60-minute closing window, and compute a countdown (time remaining, percentage,
+ * and hour/minute/second breakdown) until the store closes.
+ */
 import { WorkHours } from "@/lib/actions/calendar-actions";
 import { now } from "@internationalized/date";
 

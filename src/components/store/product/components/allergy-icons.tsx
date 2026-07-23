@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Allergen icon lookup and renderer component.
+ *
+ * Exports iconAllergyMap, mapping lowercase allergen names (egg, milk,
+ * gluten, nuts, etc.) to the SVG icon components defined in allergy-icon.tsx,
+ * and AllergenIcon, which resolves an allergen string case-insensitively and
+ * renders the matching icon or null when unknown.
+ */
 import React from 'react'
 import {
     iconWalnut,

@@ -1,3 +1,10 @@
+/**
+ * @fileoverview React Email template for the sign-in verification code message.
+ *
+ * Renders a branded TheBakerz email displaying the 6-digit OTP the user must
+ * enter to verify their identity, with a 10-minute expiry note and a support
+ * contact link in the footer.
+ */
 import {
     Body,
     Container,

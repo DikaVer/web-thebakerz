@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Layout for the /[id]/pay payment segment.
+ *
+ * Minimal pass-through layout that renders children directly (providers are
+ * set up in the parent store layout) and exports noindex "Checkout" metadata
+ * via generateStorePageMetadata.
+ */
 import '@/styles/globals.css'
 import React from "react";
 import {generateStorePageMetadata} from "@/app/(store)/[id]/store-utils";

@@ -1,4 +1,13 @@
-// smart-calendar.tsx
+/**
+ * @fileoverview Schedule-aware date and time picker for order scheduling.
+ *
+ * Exports the SmartDatetimeInput client component (plus a formatDate helper),
+ * a popover with a calendar that disables days outside the store's working
+ * hours or before the minimum lead time, and a 15-minute-interval time picker
+ * limited to the day's opening hours. In post-delivery mode the time picker
+ * is skipped and the time defaults to end of day. State is shared through an
+ * internal React context.
+ */
 'use client';
 
 import React from 'react';

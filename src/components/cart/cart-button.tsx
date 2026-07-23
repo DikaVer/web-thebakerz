@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Cart button and slide-out cart drawer for store pages.
+ *
+ * Exports the CartButton client component, which shows the animated cart
+ * total, opens a HeroUI drawer listing the cart items, and computes the total
+ * price including variant surcharges and rescue deal discounts. It validates
+ * minimum order amounts, delivery region constraints, rescue deal stock, and
+ * pre-order lead times before allowing navigation to checkout, and it
+ * auto-removes invalid rescue deal items from the cart.
+ */
 "use client";
 import { Icon } from "@iconify/react";
 import React, {useEffect, useState, useMemo} from "react";

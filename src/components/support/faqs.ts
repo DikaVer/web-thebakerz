@@ -1,3 +1,10 @@
+/**
+ * @fileoverview FAQ entry definitions for the support page.
+ *
+ * Exports faqsBakerz and faqsCustomer, arrays of FAQ objects holding
+ * translation keys (questionKey/answerKey) rather than hardcoded text; the
+ * actual copy is resolved through next-intl in the support component.
+ */
 interface FAQ {
   questionKey: string;
   answerKey: string;

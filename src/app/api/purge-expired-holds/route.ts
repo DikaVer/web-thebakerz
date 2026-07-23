@@ -1,3 +1,11 @@
+/**
+ * @fileoverview API route handling POST and GET /api/purge-expired-holds.
+ *
+ * POST purges expired rescue-deal inventory holds and cancels their associated Stripe
+ * payment intents; it is intended for scheduled (cron) invocation and requires a bearer
+ * token matching NEXT_PRIVATE_SECRET_BEARER. GET is a simple health check that confirms
+ * the endpoint is active.
+ */
 import { NextRequest, NextResponse } from 'next/server';
 import { purgeExpiredHolds } from '@/lib/utils/helper/inventory-holds';
 import { logger } from '@/lib/logger';

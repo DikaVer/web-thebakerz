@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Admin dashboard order detail page at /dashboard/orders/[orderId].
+ *
+ * Server component that requires storeId and email search params, fetches the
+ * order via getOrderAPI, and renders it with OrderOverview; missing params or
+ * a missing order render the NotFound page. Metadata marks the page as
+ * noindex.
+ */
 import React from "react";
 import NotFound from "@/app/(error_layout)/not-found";
 import {OrderOverview} from "@/components/store/orders/overview/order-overview";

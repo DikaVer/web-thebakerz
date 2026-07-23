@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
 /**
- * Generate TheBakerz Comprehensive Sitemap & Robots.txt Script
- * 
- * This script automatically generates a single sitemap.xml file containing all pages
- * and creates a robots.txt file by fetching data from PostgreSQL and CosmosDB.
- * 
+ * @fileoverview CLI script that generates sitemap.xml and robots.txt for TheBakerz.
+ *
+ * Fetches active stores from PostgreSQL and active products from Cosmos DB
+ * (excluding hidden, deleted, and example-store entries), then writes a single
+ * comprehensive sitemap.xml with mobile, image, and video annotations plus an
+ * SEO-tuned robots.txt to the project root.
+ *
  * Usage: node scripts/generate-sitemaps.js
  */
 

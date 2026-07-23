@@ -1,3 +1,12 @@
+/**
+ * @fileoverview API client functions for reading order data.
+ *
+ * Exports getOrderAPI, which fetches a single order from the internal
+ * /api/store/order endpoint, and getOrdersByDateRange, which returns a
+ * store's orders for a date range (delegating to the admin-wide query for
+ * admin users and verifying store ownership otherwise). Requests use bearer
+ * token authentication and the 'orders' cache tag.
+ */
 'use server';
 
 import { getOrdersAdminByDateRange, OrderData } from "../../actions/order";

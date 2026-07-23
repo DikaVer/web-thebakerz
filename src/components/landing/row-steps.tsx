@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Horizontal step indicator component used in multi-step flows.
+ *
+ * Exports the RowSteps component, which renders a row of numbered step
+ * buttons with animated check marks for completed steps and optional
+ * progress bars between them. Step state can be controlled or uncontrolled
+ * via currentStep/defaultStep and reports changes through onStepChange.
+ */
 "use client";
 
 import type {ComponentProps} from "react";

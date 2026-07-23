@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Server action that prepares an order for Stripe checkout.
+ *
+ * Exports prepareCheckout, which validates the entire pre-payment state for a
+ * store's cart: rate limits, session or guest identity, delivery address and
+ * region eligibility, store schedule and lead-time checks, rescue-deal mode
+ * with inventory reservation, minimum order amount, and VAT-aware total and
+ * application-fee calculations. On success it writes a pending-payment order
+ * record to the Cosmos DB unpaid-orders container and returns the order ID,
+ * amount, currency, and Stripe account details for the client to start
+ * payment.
+ */
 'use server'
 
 import { stripe } from "@/stripe";

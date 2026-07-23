@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Filtered product results grid with infinite scroll for the
+ * search page.
+ *
+ * Exports the ProductResults component, which fetches products matching the
+ * current filter params (from the product dialog context) via
+ * getAllProductsByFilter, shuffles and caches pages in module-level caches,
+ * and loads more pages through an IntersectionObserver sentinel. Results are
+ * limited to the given nearby stores, hide non-post-delivery products in
+ * delivery mode, and fall back to a custom-order prompt when nothing matches.
+ * Also exports the isEmptyFilters helper.
+ */
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';

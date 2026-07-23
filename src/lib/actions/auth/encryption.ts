@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Symmetric encryption helpers using AES-128-GCM.
+ *
+ * Exports encrypt/decrypt functions for byte arrays and strings, keyed by the
+ * base64-encoded ENCRYPTION_KEY environment variable. Each ciphertext embeds a
+ * random 16-byte IV as a prefix and the GCM auth tag as a suffix. Used to
+ * protect sensitive authentication data at rest.
+ */
 import { decodeBase64 } from "@oslojs/encoding";
 import { createCipheriv, createDecipheriv } from "crypto";
 import { DynamicBuffer } from "@oslojs/binary";

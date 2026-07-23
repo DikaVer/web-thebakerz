@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Bearer token authentication check for API routes.
+ *
+ * Exports checkBearerToken, which compares the request's Authorization header
+ * against the NEXT_PRIVATE_SECRET_BEARER environment variable and returns a
+ * translated 401 JSON NextResponse when the header is missing or invalid, or
+ * null when authentication succeeds.
+ */
 import { NextResponse } from 'next/server';
 import { getTranslations } from "next-intl/server";
 

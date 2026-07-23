@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Server-only API client for the current user's business data.
+ *
+ * Exports getBusinessUserAPI, which resolves the logged-in user from the
+ * session and fetches their business account details from the internal
+ * /api/user/[userId]/business endpoint using bearer token authentication,
+ * cached for 300 seconds under the 'store' tag.
+ */
 import 'server-only';
 import { StoreBusinessData } from "../../actions/store";
 import { getCurrentSession } from "@/lib/actions/session";

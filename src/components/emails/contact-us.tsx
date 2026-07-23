@@ -1,3 +1,9 @@
+/**
+ * @fileoverview React Email template for contact form submissions.
+ *
+ * Renders a branded internal notification email containing the subject,
+ * message content, and sender email submitted through the contact-us form.
+ */
 import {
     Body,
     Container,

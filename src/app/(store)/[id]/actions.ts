@@ -1,14 +1,14 @@
+/**
+ * @fileoverview Server actions for schedule-time cookie handling on store pages.
+ *
+ * Temporarily stores a user's selected pickup/delivery dates and times per
+ * store (and per delivery location) in an httpOnly "schedule_time" cookie
+ * with a 1-hour retention, used during order processing. Exports getters,
+ * updaters, and removers for pickup and delivery schedules. Legal basis:
+ * legitimate interest, necessary for order processing.
+ */
 "use server";
 import { cookies } from 'next/headers';
-
-/**
- * SCHEDULE TIME COOKIE HANDLING
- * 
- * Purpose: Temporarily store user's selected pickup/delivery schedule preferences
- * Data stored: Dates and times selected for pickup or delivery at specific stores/locations
- * Retention: 1 hour (3600 seconds)
- * Legal basis: Legitimate interest - necessary for order processing
- */
 
 // Helper function to get the current schedule data
 async function getScheduleData() {

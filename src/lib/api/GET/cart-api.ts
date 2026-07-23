@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Server-only API client functions for reading cart data.
+ *
+ * Exports getCartAPI and getCartTypeAPI, which resolve the current user (or
+ * guest session cookie) and fetch the cart for a store from the internal
+ * /api/store/[storeId]/[userId]/cart endpoints using bearer token
+ * authentication, tagged with the 'cart' cache tag and never cached.
+ */
 import 'server-only';
 
 import { getCurrentSession } from "@/lib/actions/session";

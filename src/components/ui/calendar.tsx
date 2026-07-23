@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Shadcn/ui calendar primitive built on react-day-picker.
+ *
+ * Exports the Calendar component, a styled DayPicker with Tailwind class
+ * overrides for months, navigation, and day cells, plus lucide-react chevron
+ * icons for month navigation.
+ */
 "use client"
 
 import * as React from "react"

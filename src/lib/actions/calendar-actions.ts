@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server actions and types for store working-hours schedules.
+ *
+ * Defines Time, Day, WorkDay, and WorkHours types with matching Zod schemas,
+ * and exports updateSchedule and getScheduleById for persisting and reading a
+ * store's weekly opening hours in the Cosmos DB working-hours container.
+ * updateSchedule enforces rate limiting, payload validation, and store
+ * ownership via the current session before upserting.
+ */
 'use server';
 // ------------------------
 // Data & Types

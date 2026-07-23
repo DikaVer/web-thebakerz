@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Server actions for looking up users in the admin dashboard.
+ *
+ * Exports searchUsersByEmailPaginated, which performs a case-insensitive partial
+ * email search over the users PostgreSQL table with offset-based pagination, and
+ * getUserFromId, which fetches a single user's profile and notification settings
+ * by id. Both map database rows to the shared User interface.
+ */
 'use server';
 import { connectionPool } from "@/db";
 import {User} from "@/lib/actions/user";

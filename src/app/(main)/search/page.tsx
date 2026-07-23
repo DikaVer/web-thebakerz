@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Search page at /search listing nearby bakeries and their products.
+ *
+ * Server component that resolves the user's saved delivery address and
+ * delivery mode from cookies (falling back to Amsterdam coordinates), fetches
+ * nearby stores with findNearbyStores inside a Suspense boundary, and renders
+ * store and product results. Exports generateMetadata that adapts title,
+ * description, and canonical URL to city or query search params.
+ */
 import { Suspense } from 'react';
 import { findNearbyStores, NearbyStore} from '@/lib/actions/store';
 import { StorePanelSkeleton } from '@/components/search/components/store-panel-skeleton';

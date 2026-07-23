@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Reorderable product list for one category in product settings.
+ *
+ * Exports the ProductTable client component, which renders the products of a
+ * category as a framer-motion Reorder group of draggable rows showing image,
+ * name, and price. Reordering updates local state and reports the new order
+ * through the updateOrder callback, and clicking a row opens the product
+ * dialog in owner mode when the store belongs to the current user.
+ */
 "use client";
 
 import {Image, Tab, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@heroui/react";

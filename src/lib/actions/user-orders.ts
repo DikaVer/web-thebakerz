@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Server actions for fetching the current user's orders.
+ *
+ * Exports getUserOrders and getUserOrder, which resolve the logged-in user
+ * from the session and call the internal /api/user/orders and
+ * /api/store/order endpoints with bearer token authentication to retrieve
+ * the user's order history or a single order, using the 'orders' cache tag.
+ */
 'use server';
 
 import { getCurrentSession } from "@/lib/actions/session";

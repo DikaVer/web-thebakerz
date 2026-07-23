@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Not-found (404) UI for the (error_layout) route group.
+ *
+ * Exports the default NotFound server component with a translated apology
+ * message, illustration, and link back to the home page, plus ComingSoon and
+ * UnderConstruction placeholder components used for unfinished sections.
+ */
 'use server';
 import { ExternalLink } from '@/components/external-link'
 import {pacifico} from "@/components/fonts";

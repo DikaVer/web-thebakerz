@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Client-side Google Maps loader context provider and
+ * useGoogleMaps hook.
+ *
+ * Exports GoogleMapsProvider, which injects the Google Maps JavaScript API
+ * bootstrap script once, preloads the maps, places, and marker libraries, and
+ * supplies GoogleMapsContext with isLoaded and loadError state. Also exports
+ * the DEFAULT_CENTER coordinates (Amsterdam) and global window.google type
+ * declarations.
+ */
 'use client';
 
 import React, { createContext, useState, useContext, useEffect, ReactNode, useRef, useMemo } from 'react';

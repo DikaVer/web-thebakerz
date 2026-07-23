@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Promotion and loyalty management page rendered at /[id]/promotion.
+ *
+ * Server component for store owners that verifies store access (rendering
+ * NotFound otherwise), loads products, promotion groups, product promotion
+ * assignments, and loyalty settings/items/assignments in parallel, and
+ * renders the PromotionManager component.
+ */
 import React, { Suspense } from "react";
 import PromotionManager from "@/components/promotion/promotion-manager";
 import { getProductsAPI, getProductsOrderAPI } from "@/lib/api/GET/products-api";

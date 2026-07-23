@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Modal with store details, contact links, and working hours.
+ *
+ * Exports the StoreDescription client component, a Hero UI modal showing the
+ * owner name, Instagram/Facebook links, a delivery-options alert derived from
+ * the store's deliveryOption, a working-hours accordion, the address with a
+ * Google Maps link, and a WhatsApp phone link. External links require a
+ * signed-in session and otherwise open the sign-in modal.
+ */
 'use client';
 import React from 'react';
 import {Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Link, Divider, Spacer, Alert, AccordionItem, Accordion} from "@heroui/react";

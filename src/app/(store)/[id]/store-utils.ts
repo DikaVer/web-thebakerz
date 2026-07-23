@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Shared server utilities for (store)/[id] pages and layouts.
+ *
+ * Exports generateStorePageMetadata for building per-store page metadata,
+ * verifyStoreAccess for checking that the signed-in user owns the store
+ * (redirecting unauthenticated users to /auth), and getStoreLocalizedTerms
+ * for locale-specific bakery vocabulary.
+ */
 import {getStoreIdAPI} from "@/lib/api/GET/store-api";
 import {Metadata} from "next";
 import {getLocale} from "next-intl/server";

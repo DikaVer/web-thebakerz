@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Client-side image processing pipeline combining validation and compression.
+ *
+ * Exports imageProcess, which validates an uploaded file, chooses an output
+ * format (defaulting to WebP, converting HEIC/HEIF, optionally preserving
+ * PNG/JPEG) and a quality level adjusted to the file size, then compresses the
+ * image and returns the resulting file with size and dimension metadata. Also
+ * exports formatFileSize for human-readable sizes and related option types.
+ */
 import { validateImage } from './image-validator';
 import { compressImage } from './image-compression';
 import { logger } from '../../logger';

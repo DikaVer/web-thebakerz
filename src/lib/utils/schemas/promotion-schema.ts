@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Zod schemas and types for store product promotions.
+ *
+ * Defines a discriminated union of promotion details (percentage discount or
+ * buy-X-get-Y-free), the promotion group schema with active status and date
+ * range, product-to-promotion assignment schemas, create/update input
+ * variants, and a combined store promotions settings schema, along with the
+ * inferred TypeScript types.
+ */
 import { z } from "zod";
 
 // Promotion Type Enum

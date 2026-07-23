@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Pickup time picker button for the store subheader.
+ *
+ * Exports PickupTimeSelection, a button wrapped in SmartDatetimeInput that
+ * lets customers schedule an order pickup time within the store's schedule
+ * and minimum lead time. Shows a spinner while the date updates, a skeleton
+ * while loading, and the formatted selected date once chosen.
+ */
 import React from "react";
 import { Button, ButtonGroup, Spinner, Skeleton } from "@heroui/react";
 import { Icon } from "@iconify/react";

@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Product filter button variant that displays a one-time hint tooltip.
+ *
+ * Extends the basic filter button by showing a dismissible "Click here to
+ * filter products" hint after a configurable delay for visitors without a
+ * session or store context, auto-hiding it after a timeout or when the filter
+ * drawer opens. Toggles the ProductFilter drawer and forwards filter changes
+ * to the product dialog provider.
+ */
 'use client';
 
 import React, { useState, useEffect } from 'react';

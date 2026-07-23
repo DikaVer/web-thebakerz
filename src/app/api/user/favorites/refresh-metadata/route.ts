@@ -1,3 +1,12 @@
+/**
+ * @fileoverview API route handling POST /api/user/favorites/refresh-metadata, which refreshes cached metadata on favorites.
+ *
+ * Finds store and product favorites in Cosmos DB whose metadata is older than 24 hours,
+ * groups them by store or product to minimize lookups, refetches current store and product
+ * data, upserts the updated favorite documents, and revalidates the favorites cache tag.
+ * Requires a bearer token matching NEXT_PRIVATE_SECRET_BEARER and is intended for scheduled
+ * invocation. Returns a JSON summary with processed and error counts.
+ */
 import { NextRequest, NextResponse } from "next/server";
 import { containerFavorites, containerProducts } from "@/db";
 import { getStoreAPI } from "@/lib/api/GET/store-api";

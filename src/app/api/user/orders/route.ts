@@ -1,19 +1,14 @@
+/**
+ * @fileoverview API route handling GET /api/user/orders, which lists all orders for a customer.
+ *
+ * Reads the customer email from the Email request header and queries the Cosmos DB orders
+ * container for all orders matching that email, newest first. Requires a bearer token
+ * matching NEXT_PRIVATE_SECRET_BEARER in the Authorization header and is rate limited via
+ * globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import { containerOrders } from "@/db";
 import { globalGETRateLimit } from '@/lib/utils/helper/requests';
-/**
- * API Route: GET User Orders
- *
- * Retrieves all orders for a specific user by email.
- * Requires authentication via bearer token.
- *
- * Required headers:
- * - Email: User email
- * - Authorization: Bearer token
- *
- * @route GET /api/user/orders
- * @returns {Promise<NextResponse>} Orders data or error response
- */
 export async function GET(request: Request) {
 
     if (!(await globalGETRateLimit())) {

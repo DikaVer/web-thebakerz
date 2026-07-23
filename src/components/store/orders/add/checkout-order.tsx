@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Client component implementing the checkout step accordion for store-created orders.
+ *
+ * Renders an accordion with a cart details step (CartOrder) and a pick-up
+ * scheduling step (ScheduleBakerzOrder), disabling steps beyond the current
+ * one and marking completed steps with a check icon. Step progression state
+ * is controlled by the parent through currentStep/setCurrentStep props.
+ */
 'use client';
 import { Accordion, AccordionItem} from "@heroui/react";
 import { Icon } from "@iconify/react";

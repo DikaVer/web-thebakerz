@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Central collection of Zod validation schemas used across the app.
+ *
+ * Defines schemas for phone numbers, email, OTP login, onboarding and contact
+ * forms, image uploads, names and store nicknames, product variants and
+ * products, customer order contact details, and profile/store settings. Also
+ * re-exports the address, promotion, and loyalty schema modules so consumers
+ * can import all schemas from a single path.
+ */
 import * as z from 'zod';
 import validator from "validator";
 import {categories} from "@/lib/local-variables";

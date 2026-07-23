@@ -1,16 +1,14 @@
+/**
+ * @fileoverview Server actions for delivery-mode and rescue-deal cookies.
+ *
+ * Stores the user's preferred fulfillment method ('pickup' or 'delivery') in
+ * an httpOnly cookie with 30-day retention, and a short-lived (1 hour)
+ * rescue-deal mode flag. Provides set/get/remove helpers for both cookies;
+ * the preference is stored locally and not shared with third parties.
+ */
 "use server";
 
 import { cookies } from 'next/headers';
-
-/**
- * DELIVERY MODE COOKIE HANDLING
- * 
- * Purpose: Store user's preference for delivery or pickup method
- * Data stored: Selected delivery mode ('pickup' or 'delivery')
- * Retention: 30 days
- * Legal basis: Legitimate interest - remembering user preferences for order fulfillment
- * Note: This preference is stored locally and not shared with third parties
- */
 
 const DELIVERY_MODE_COOKIE = "deliveryMode";
 const RESCUE_DEAL_MODE_COOKIE = "rescueDealMode";

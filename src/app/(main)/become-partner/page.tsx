@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Partner landing page at /become-partner for recruiting bakeries.
+ *
+ * Client component that composes marketing sections: a Macbook scroll demo,
+ * video showcase, partner application form, partner logos, and a support
+ * section.
+ */
 "use client";
 
 import React from "react";

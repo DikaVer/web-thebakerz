@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server-only API client functions for reading store data.
+ *
+ * Exports fetch wrappers around the internal /api/store endpoints: full store
+ * profiles by name or ID, store ID resolution, pickup schedules, stores by
+ * owner (optionally scoped to a store ID), business account data, and
+ * payment-specific store data. All requests use bearer token authentication
+ * and are cached for 300 seconds under the 'store' tag.
+ */
 import 'server-only';
 import { StoreBusinessData, StoreData, StoreDataPayment } from "@/lib/actions/store";
 import {WorkHours} from "@/lib/actions/calendar-actions";

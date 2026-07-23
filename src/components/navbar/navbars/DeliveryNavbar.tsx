@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Secondary navigation bar for choosing between delivery and pickup.
+ *
+ * Exports the DeliveryNavbar component, which renders an animated
+ * delivery/pickup toggle constrained by the store's delivery options, a
+ * filter button, a time slot selector, and a delivery address button. It
+ * syncs the selection with the delivery and cart providers and slides in or
+ * out of view based on the isVisible prop.
+ */
 import React from "react";
 import { SelectTime } from "@/components/ui/select-time";
 import { ButtonGroup, cn} from "@heroui/react";

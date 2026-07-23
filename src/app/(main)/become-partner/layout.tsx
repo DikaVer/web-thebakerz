@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Layout for the /become-partner route providing SEO metadata and structured data.
+ *
+ * Exports generateMetadata with page-specific titles, keywords, Open Graph
+ * video data, and canonical URLs, and renders schema.org Service and
+ * VideoObject JSON-LD scripts around the page content.
+ */
 import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
 import { getLocalizedMetadata } from '@/components/metadata';

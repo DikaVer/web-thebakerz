@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Client component listing orders in the store/admin order dashboard.
+ *
+ * Exports OrdersList, which renders the orders for a selected date range as
+ * animated cards showing customer, schedule, products, delivery, and price
+ * details. Supports multi-select status filtering, inline status changes via
+ * StatusSelect (which also updates the calendar's per-date status counts),
+ * navigation to individual order pages, and an "add order" button when used
+ * in store context.
+ */
 "use client";
 
 import React, { useMemo, useEffect } from "react";

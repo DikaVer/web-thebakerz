@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Client wrapper that prepares product data for the bakery product editor.
+ *
+ * Exports ItemAddView, which strips identifying fields (id, name, pictures)
+ * from an existing ProductData to produce a ProductDataClean template and
+ * renders BakerzProductView for the current store from the store provider.
+ */
 'use client';
 import React from 'react';
 import { useStore } from '@/components/providers/store-provider';

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Storefront home page rendered at /[id] (store slug).
+ *
+ * Server component that resolves the store (rendering NotFound if missing)
+ * and displays the store header, the filterable product list driven by
+ * search parameters (price, categories, allergies, dietary), a delivery
+ * subheader, and the store footer. Shows a demo banner for example stores.
+ */
 import React, {Suspense} from "react";
 import {ProductComponentBase} from "@/components/store/product/product-comp";
 import {Spacer} from "@heroui/react";

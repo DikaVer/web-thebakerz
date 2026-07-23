@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Card summarizing a store's pickup conditions.
+ *
+ * Exports the PickupInfo client component, which shows the pickup address,
+ * the effective minimum lead time (the larger of the store's minTimeOrder and
+ * the cart's product lead time), the pickup window, and buyer protection and
+ * cancellation notes, alongside a static LocationMap of the store. Lead time
+ * details are hidden in rescue-deal mode and the map is omitted on checkout
+ * pages.
+ */
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from "react";

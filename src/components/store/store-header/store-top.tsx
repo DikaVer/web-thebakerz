@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Top section wrapper of the store page.
+ *
+ * Exports the StoreTop client component, which currently renders StoreHeader
+ * inside a full-width row; earlier owner action buttons and desktop card
+ * layout remain as commented-out code.
+ */
 "use client";
 
 import React from "react";

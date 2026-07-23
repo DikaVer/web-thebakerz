@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Client component rendering one category section of a store's product grid.
+ *
+ * Exports CategoryProducts, which shows the category name as animated
+ * gradient text followed by a responsive grid of ProductBase cards. It
+ * registers top/bottom observer targets for scroll-based category tracking,
+ * deduplicates products, and hides or dims products based on visibility
+ * flags, delivery validation, and rescue deal availability.
+ */
 'use client';
 import React, {useRef, useEffect} from 'react';
 import { Spacer, Divider } from '@heroui/react';

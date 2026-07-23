@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Shadcn/ui label primitive built on Radix UI Label.
+ *
+ * Exports the Label component with class-variance-authority styling that
+ * dims and disables the cursor when the associated peer control is disabled.
+ */
 "use client"
 
 import * as React from "react"

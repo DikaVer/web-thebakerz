@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Admin dashboard form for editing an existing bakery (Bakerz) account.
+ *
+ * Renders a react-hook-form validated against OnboardSchema, pre-filled with
+ * the store's profile, location, fee, status, and business/invoicing data,
+ * and submits changes through the updateBakerz action. Includes switches for
+ * banning or hiding the store and hiding its phone and street details.
+ */
 'use client';
 
 import React, { startTransition } from "react";

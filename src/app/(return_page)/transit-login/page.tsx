@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Sign-in transition page rendered at /transit-login.
+ *
+ * Client component that shows a localized "signing in" loading screen while
+ * it refreshes the router state and redirects to the URL given in the "next"
+ * query parameter (or the home page by default).
+ */
 "use client";
 
 import { pacifico } from "@/components/fonts";

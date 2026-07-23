@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Hand-drawn style onboarding hint overlay.
+ *
+ * Exports Hint, a framer-motion animated callout that draws an SVG circle and
+ * arrow pointing at a UI element (originally the language button) alongside a
+ * short text bubble. Visibility is controlled by the show prop and the whole
+ * area is clickable to dismiss.
+ */
 'use client';
 
 import { motion } from 'framer-motion';

@@ -1,20 +1,15 @@
+/**
+ * @fileoverview API route handling GET /api/store/[storeId]/[userId]/cart/[type], which retrieves a user's cart of a given type.
+ *
+ * Fetches the cart for the given user, store, and cart type via getCart and returns it as
+ * JSON; the type path parameter must be either "delivery" or "pickup". Requires bearer token
+ * authentication via the Authorization header and is rate limited via globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import { getCart} from "@/lib/actions/cart";
 import { getTranslations } from "next-intl/server";
 import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
-/**
- * API Route: GET /api/store/cart
- * -----------------------------------------------------------------------------------
- * Retrieves cart data for a specific user in a specific store.
- *
- * Required Headers:
- * - Store-Id: Identifier for the store
- * - User-Id: Identifier for the user
- * - Authorization: Bearer token for API authentication
- *
- * @returns {Promise<NextResponse>} JSON response with cart data or error message
- */
 export async function GET(request: Request, { params }: { params: Promise<{ storeId: string, userId: string, type: string }> }) {
     const t = await getTranslations("app/api/store/cart");
 

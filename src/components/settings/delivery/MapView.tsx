@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Google Maps visualization of configured delivery areas.
+ *
+ * Exports the MapView client component, which loads the Google Maps API and
+ * draws a marker plus concentric range circles for every configured delivery
+ * city, managing map objects imperatively via refs. The currently selected
+ * city is previewed with an orange bouncing marker and its own circles, and
+ * the map auto-fits its bounds to the drawn areas with a reset control.
+ */
 'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from "react";

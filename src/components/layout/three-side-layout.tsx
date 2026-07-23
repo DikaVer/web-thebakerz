@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Disabled three-column messaging layout component.
+ *
+ * The entire file is commented out and exports nothing. It previously
+ * contained a ThreeSideLayout component composing the chat inbox, chat
+ * window, and profile panel into a responsive three-pane layout with
+ * animated single-pane paging on compact screens. Kept for reference only.
+ */
 // "use client";
 //
 // import React from "react";

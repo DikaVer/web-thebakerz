@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Client component that manages the store owner's product catalog listing.
+ *
+ * Groups the store's products by category, sorts them according to the saved
+ * category and product order, and renders them as animated, drag-scrollable
+ * category tabs backed by ItemTable. Also shows an "add item" button that
+ * navigates to the product creation page, and syncs the loaded product data
+ * into the product dialog provider.
+ */
 'use client';
 
 import React, { useEffect, useState, useMemo } from "react";

@@ -1,6 +1,16 @@
+/**
+ * @fileoverview Render helpers for displaying store and delivery working
+ * hours.
+ *
+ * Exports renderScheduleDisplay (a per-weekday open/closed schedule list),
+ * renderWorkingHoursDropdown and renderCalendarTopContent (a dropdown button
+ * showing store or delivery-region hours depending on delivery mode), and
+ * renderCalendarContent, which picks the right schedule or prompt based on
+ * address validation state, post-delivery regions, and pickup vs delivery
+ * mode.
+ */
 'use client';
 
-// --- 1. CalendarTopContent: Render working hours (or Closed) for the selected day ---
 import {Button, Card, CardBody, Dropdown, DropdownMenu, DropdownTrigger, Tooltip, Spinner, Chip} from "@heroui/react";
 import {Icon} from "@iconify/react";
 import {WorkDay, WorkHours} from "@/lib/actions/calendar-actions";

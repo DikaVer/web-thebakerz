@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Help modals for the product editor form sections.
+ *
+ * Exports ProductHelpModal, DescriptionHelpModal, IngredientsHelpModal,
+ * AllergiesHelpModal, DietaryHelpModal, and VariantsHelpModal, each a simple
+ * HeroUI modal that shows translated guidance text for the corresponding
+ * product form section.
+ */
 import React from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@heroui/react";
 import { useTranslations } from "next-intl";

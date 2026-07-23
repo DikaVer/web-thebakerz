@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Rescue deal configuration screen for store owners.
+ *
+ * Exports the RescueSettings client component, which explains the rescue deal
+ * program, provides an activation switch, and lists the store's products by
+ * category (with drag-to-scroll category tabs) so owners can select items,
+ * discount percentages, and quantities via RescueDealItem rows. Form state is
+ * managed with react-hook-form, dirty tracking registers a save handler with
+ * the session provider, and changes are validated against RescueDealSchema
+ * before being persisted with the saveRescueDeal server action.
+ */
 'use client';
 
 import React, { useEffect, useState, useMemo, useCallback } from "react";

@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Cart review step of the store checkout flow.
+ *
+ * Lists the cart items with edit/remove controls and computes the order
+ * totals, including VAT, delivery and service fees, rescue deal discounts,
+ * and minimum order requirements. Validates rescue deal stock and delivery
+ * address range before letting the customer proceed to payment, passing the
+ * final total to the parent step.
+ */
 "use client";
 import React, {useMemo, useState} from "react";
 import {Button, Divider, Spacer} from "@heroui/react";

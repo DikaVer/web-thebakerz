@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Zod schema for store rescue deal configuration.
+ *
+ * Exports RescueDealSchema, which validates an active flag and a list of
+ * products each carrying a discount percentage restricted to preset values
+ * (10-80%), an integer quantity, and a selection flag, plus the inferred
+ * RescueDealType. Rescue deals offer discounted products to reduce food waste.
+ */
 import * as z from 'zod';
 
 export const RescueDealSchema = z.object({

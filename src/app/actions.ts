@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Global server actions for logout and location-search cookies.
+ *
+ * Exports logoutAction (invalidates the current session with rate limiting and
+ * logging), revalidateAndNavigate (path revalidation helper), and cookie
+ * helpers that store or remove the user's search coordinates, city, and
+ * country in HTTP-only cookies with a 24-hour lifetime. Also defines the
+ * shared ActionResult type used by these actions.
+ */
 "use server";
 
 import {globalPOSTRateLimit} from "@/lib/utils/helper/requests";

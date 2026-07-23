@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Hook that filters a store's categorized product map by a
+ * search term.
+ *
+ * Exports useFilteredProducts, which memoizes the products-by-category map in
+ * the given category order and, when a search term is present, keeps only
+ * categories whose name or product names match the lowercased term.
+ */
 import { useMemo } from 'react';
 import { ProductData } from '@/lib/actions/product';
 

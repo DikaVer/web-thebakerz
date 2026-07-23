@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Server action for uploading images through the internal API.
+ *
+ * Exports uploadImage, which posts a file (expected as WebP) and a target
+ * storage container name to the /api/upload-image endpoint using bearer token
+ * authentication, returning the resulting image URL or a localized error
+ * message.
+ */
 'use server';
 
 import { getTranslations } from "next-intl/server";

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Summary card for a single order in the customer's order list.
+ *
+ * Exports the OrderCard component, a pressable animated card showing the
+ * store name, order number, scheduled date and time, total price, delivery
+ * type, status chip, and item count, invoking the onClick callback when
+ * pressed.
+ */
 "use client";
 
 import React from 'react';

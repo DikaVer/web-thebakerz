@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Toggles for enabling store pickup and delivery fulfillment.
+ *
+ * Exports the DeliveryOptions client component, a card with pickup and
+ * delivery switches whose combined state maps to the store's deliveryOption
+ * value ('pickup', 'delivery', or 'multi', defaulting to pickup when neither
+ * is enabled). Changes are saved through the session provider's save handler
+ * via the updateStoreDeliveryOptions server action.
+ */
 'use client';
 
 import React, { useState, useEffect } from "react";

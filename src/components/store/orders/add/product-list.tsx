@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Client component showing the categorized product picker in the store order flow.
+ *
+ * Groups the store's products by category, sorts categories and products
+ * according to the saved order, and renders animated category tabs whose
+ * contents are ProductItems rows. Hidden once the checkout flow moves past
+ * the cart step, and syncs product data into the product dialog provider.
+ */
 'use client';
 
 import React, { useEffect, useState, useMemo } from "react";

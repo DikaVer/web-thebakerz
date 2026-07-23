@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Privacy policy page at /policies/privacy-policy.
+ *
+ * Server component that renders the Markdown privacy statement from the
+ * sibling content module via ReactMarkdown with rehype-sanitize, injects
+ * schema.org WebPage structured data, and exports static SEO metadata.
+ */
 import React from "react";
 import rehypeSanitize from "rehype-sanitize";
 import ReactMarkdown from "react-markdown";

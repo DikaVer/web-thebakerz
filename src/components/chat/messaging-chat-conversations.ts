@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Sample conversation data for the messaging chat window.
+ *
+ * Exports a default array of MessagingChatMessageProps entries representing a
+ * mock support conversation (avatars, names, messages, timestamps, and RTL
+ * flags) rendered by the chat window component.
+ */
 import type {MessagingChatMessageProps} from "./data";
 
 const messagingChatConversations: MessagingChatMessageProps[] = [

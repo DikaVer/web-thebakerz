@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Contact profile sidebar component for the messaging chat interface.
+ *
+ * Shows a hardcoded contact's avatar, name, email, and quick-action links,
+ * along with note tags, recent interactions from the static interactions data,
+ * Media/Links tabs, and a media grid populated with placeholder images.
+ */
 "use client";
 
 import React from "react";

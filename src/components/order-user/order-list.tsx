@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Searchable list of a customer's past orders.
+ *
+ * Exports the OrdersList component, which filters orders by search term,
+ * sorts them newest first by scheduled time, renders them as animated
+ * OrderCard entries, and opens the OrderDetailsModal for a selected order.
+ * Shows an empty state when no orders match.
+ */
 "use client";
 
 import React, { useState } from 'react';

@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Language selector button with a timed onboarding hint.
+ *
+ * Exports LanguageButtonWithHint, an icon button that opens the language
+ * modal and displays the hand-drawn Hint callout after a configurable delay,
+ * auto-hiding it after a timeout or when the modal is opened.
+ */
 'use client';
 
 import { Button } from '@heroui/react';

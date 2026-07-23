@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Product management page rendered at /[id]/products.
+ *
+ * Server component for store owners that verifies store access (rendering
+ * NotFound otherwise), fetches the store's products and their ordering, and
+ * renders the ProductCard manager for editing the catalog.
+ */
 import React, {Suspense} from "react";
 import {ProductCard} from "@/components/settings/products/product-card";
 import {getProductsAPI} from "@/lib/api/GET/products-api";

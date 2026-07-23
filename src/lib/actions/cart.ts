@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Server actions for shopping cart management backed by Cosmos DB.
+ *
+ * Defines the CartData, CartItem, ItemCart, and Variant types and exports
+ * actions to add/update cart items (with product variant validation and
+ * minimum-order checks), remove items, merge a guest cart into a logged-in
+ * user's cart, clear a store's cart, and read carts split by delivery/pickup
+ * type. All mutations are rate limited and revalidate the 'cart' cache tag;
+ * anonymous users are identified via a session cookie.
+ */
 'use server';
 import {globalGETRateLimit, globalPOSTRateLimit} from "@/lib/utils/helper/requests";
 import { getCurrentSession } from "@/lib/actions/session";

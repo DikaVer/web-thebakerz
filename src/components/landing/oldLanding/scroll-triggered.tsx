@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Disabled scroll-triggered feature cards from the previous landing page design.
+ *
+ * The entire file is commented out and exports nothing. It previously
+ * contained a ScrollTriggered component that animated feature cards (online
+ * store, order management, chats, support) into view with Motion spring
+ * variants as the user scrolled. Kept for reference only.
+ */
 // "use client"; // ensure client-side (Next.js 13+)
 
 // import React, {CSSProperties, ReactElement, ReactNode} from "react";

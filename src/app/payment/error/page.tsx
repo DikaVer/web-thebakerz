@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Payment failure page at /payment/error.
+ *
+ * Client component that reads the error and status search params, maps the
+ * error code to a translated message via getErrorMessage, and offers buttons
+ * to retry (go back) or return to the home page.
+ */
 'use client';
 
 import { useSearchParams } from 'next/navigation';

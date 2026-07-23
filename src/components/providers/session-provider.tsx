@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Client-side session context provider and useSession hook.
+ *
+ * Exports SessionProvider, which supplies SessionContext with the validated
+ * session data, a setter for it, and a helper to update a store's new-order
+ * count. It also implements a save-bar mechanism: components register save
+ * handlers by id, handleSave runs them all in parallel, and handlers are
+ * cleared automatically on route changes.
+ */
 'use client';
 
 import React, {createContext, useContext, ReactNode, useState, useCallback, useEffect} from 'react';

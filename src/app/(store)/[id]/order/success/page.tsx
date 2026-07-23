@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Order confirmation page rendered at /[id]/order/success.
+ *
+ * Server component shown after a successful checkout. Displays a localized
+ * "order placed" message, an email-confirmation illustration, and a link
+ * back to the store. Renders NotFound when the store slug does not resolve,
+ * and exports noindex metadata via generateMetadata.
+ */
 import {getStoreIdAPI} from "@/lib/api/GET/store-api";
 import NotFound from "@/app/(error_layout)/not-found";
 import {pacifico} from "@/components/fonts";

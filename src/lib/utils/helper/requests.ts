@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Global per-IP rate limiting helpers for server requests.
+ *
+ * Uses a shared RefillingTokenBucket keyed by the client's x-forwarded-for
+ * address and exports globalGETRateLimit, globalPOSTRateLimit, and
+ * globalLargeRateLimit, which consume 1, 3, and 80 tokens respectively.
+ * Requests without a client IP header are always allowed.
+ */
 import { headers } from "next/headers";
 import { RefillingTokenBucket } from "@/lib/utils/helper/rate-limits";
 

@@ -1,4 +1,11 @@
-// File: src/components/landing/apply-component.tsx
+/**
+ * @fileoverview Multi-step bakery partner application flow for the landing page.
+ *
+ * Exports the ApplyComponent client component, which wraps ApplyForm in a
+ * MultistepSidebar and animates page transitions with Framer Motion. On
+ * completion it shows a confetti-backed congratulations screen, and it logs
+ * step progression events to Microsoft Clarity.
+ */
 "use client";
 
 import React from "react";

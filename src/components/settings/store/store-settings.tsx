@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Store profile settings form for editing public store details.
+ *
+ * Exports the StoreSetting client component, a react-hook-form/Zod form for
+ * the store name (link), slug, Facebook and Instagram URLs, and a description
+ * with a 200-character counter, plus embedded DeliveryOptions toggles and
+ * read-only location and phone fields. Changes register a save handler with
+ * the session provider and are persisted via the updateStore server action,
+ * redirecting to the store's settings URL on success.
+ */
 'use client';
 
 import React, {startTransition, useEffect, useState} from "react";

@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Client calendar component for the order dashboard with range selection and status badges.
+ *
+ * Exports CalendarDashboard, a react-day-picker based calendar that supports
+ * two-click date range selection with hover preview, quick "today/this
+ * week/this month" buttons, and URL search param syncing. It fetches the
+ * displayed month's orders per store and renders per-day counts of new,
+ * started, and ready orders as colored badges on each day cell.
+ */
 "use client"
 
 import * as React from "react"

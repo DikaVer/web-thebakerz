@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Server actions bridging rescue deal checkout and inventory holds.
+ *
+ * Exports cancelRescueDealCheckout, which releases a batch of inventory holds
+ * when a payment is cancelled and reports how many were released or failed, and
+ * getRescueDealInventory, which returns per-product availability data for
+ * display using checkInventoryAvailability.
+ */
 'use server';
 import { checkInventoryAvailability } from './check-inventory-rescue';
 import { removeHold } from './inventory-holds';

@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Tailwind CSS configuration for the application.
+ *
+ * Enables class-based dark mode, extends the theme with HSL CSS-variable-driven
+ * color tokens (primary, secondary, card, chart, etc.), custom breakpoints,
+ * border radii, and keyframe animations, and registers the tailwindcss-animate,
+ * HeroUI, and typography plugins.
+ */
+
 import type { Config } from "tailwindcss";
 const { heroui } = require("@heroui/react");
 

@@ -1,4 +1,12 @@
-// components/LocationMap.tsx
+/**
+ * @fileoverview Map showing a store's location with a Google Maps link.
+ *
+ * Exports the LocationMap client component, which renders either an
+ * interactive Google Map (vector rendering, AdvancedMarkerElement, debounced
+ * resize handling) or a styled Static Maps API image constrained to API size
+ * limits. Clicking opens the location in Google Maps for signed-in users and
+ * the sign-in modal otherwise.
+ */
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";

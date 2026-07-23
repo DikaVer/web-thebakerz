@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Searchable, sortable, paginated orders table for the dashboard overview.
+ *
+ * Renders order rows (ID, store, customer email, dates, status chip, and
+ * total) in a HeroUI table with client-side text filtering, column sorting,
+ * and pagination of ten rows per page.
+ */
 "use client";
 
 import React, { useState, useMemo } from 'react';

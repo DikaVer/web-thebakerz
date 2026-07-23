@@ -1,3 +1,10 @@
+/**
+ * @fileoverview API route handling GET /api/store/owner/[userId], which fetches the store owned by a user.
+ *
+ * Looks up store data by owner user ID via getStoreByUserId and returns it as JSON, or null
+ * when the user owns no store. Requires bearer token authentication and is rate limited via
+ * globalGETRateLimit.
+ */
 import { NextRequest, NextResponse } from "next/server";
 import {getStoreByUserId} from "@/lib/actions/store";
 import { globalGETRateLimit } from "@/lib/utils/helper/requests";

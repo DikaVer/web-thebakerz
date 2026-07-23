@@ -1,4 +1,12 @@
-// TypeScript
+/**
+ * @fileoverview Contact form for the support contact-us page.
+ *
+ * Exports ContactUsComponent, a react-hook-form form validated with the Zod
+ * ContactSchema (email, subject, message with a character counter) that
+ * submits through the sendEmail server action via useActionState. On success
+ * it renders a SuccessRedirect back to the home page; errors are shown with
+ * FormError.
+ */
 'use client';
 
 import React, { startTransition } from 'react';

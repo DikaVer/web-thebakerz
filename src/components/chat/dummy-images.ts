@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Placeholder image data for the chat profile media grid.
+ *
+ * Exports the DummyImageProps type and a default array of sample image entries
+ * hosted on an external CDN, used to populate the media section of the
+ * messaging chat profile panel.
+ */
 export type DummyImageProps = {
   name: string;
   src: string;

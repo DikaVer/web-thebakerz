@@ -1,3 +1,10 @@
+/**
+ * @fileoverview API route handling GET /api/store/[storeId]/products-order, which returns a store's product display order.
+ *
+ * Fetches the stored ordering of products for the given store via getProductsOrder and
+ * returns it as JSON. Accepts GET requests with a Bearer token in the Authorization header
+ * and is rate limited via globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import {getProductsByStoreId} from "@/lib/actions/product";
 import {getProductsOrder} from "@/lib/actions/order-products";
@@ -5,7 +12,6 @@ import { getTranslations } from "next-intl/server";
 import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
 
-// This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(request: Request, { params }: { params: Promise<{ storeId: string }> }) {
     const t = await getTranslations("app/api/store/products-order");
 

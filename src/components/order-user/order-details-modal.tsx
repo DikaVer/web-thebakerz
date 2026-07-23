@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Modal presenting the full details of a customer's order.
+ *
+ * Exports the OrderDetailsModal component, which composes the order top
+ * content, OrderUserStatus, OrderUserItems, and customer/delivery details
+ * inside a scrollable modal. Renders nothing when no order is provided.
+ */
 "use client";
 
 import React from 'react';

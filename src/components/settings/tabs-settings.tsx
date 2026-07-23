@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Tabbed layout for the user account settings page.
+ *
+ * Exports the TabsSettings client component, which renders a profile tab
+ * (ProfileSetting) and an information tab (BusinessInfo with optional
+ * business data). The initial tab comes from the "tab" query parameter, and
+ * unauthenticated visitors are redirected to the auth page.
+ */
 'use client';
 import React, { useState, useEffect } from "react";
 import { Tab, Tabs } from "@heroui/react";

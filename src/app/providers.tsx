@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Client-side provider stack used by the root layout.
+ *
+ * Exports the Providers component that wraps the app in HeroUIProvider,
+ * next-themes (forced light theme), SessionProvider, and ToastProvider. Also
+ * detects the browser language against supported locales, applies a DOM
+ * patch to avoid Google Translate errors, and wires HeroUI navigation to the
+ * Next.js router.
+ */
 'use client'
 
 import { useEffect, useState } from 'react'

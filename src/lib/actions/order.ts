@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Server actions and core types for order management.
+ *
+ * Defines the OrderData, OrderRaw, ExtendedOrderRaw, PriceOrderData,
+ * Customer, and OrderProduct types shared across the ordering flow, and
+ * exports actions to fetch a single order, count new orders for a store,
+ * fetch admin-wide order lists (all paid orders and platform-delivery orders
+ * by date range), and update order status with role- and ownership-based
+ * authorization. Status updates patch the Cosmos DB orders container and, on
+ * completion of paid orders, mark the PostgreSQL orders table as completed.
+ */
 'use server';
 
 import {getCurrentSession} from "@/lib/actions/session";

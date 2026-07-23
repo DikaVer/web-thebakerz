@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Client-side URL normalizer for store pages.
+ *
+ * Exports the StoreIdChecker component, which renders nothing but replaces
+ * the store id segment of the current path with the store's friendly name
+ * via history.replaceState (preserving query parameters) when the page was
+ * reached by id.
+ */
 'use client';
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";

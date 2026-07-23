@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Single message bubble component for the messaging chat window.
+ *
+ * Renders an avatar next to a message card containing the sender name,
+ * timestamp, text, and an optional attached image. Supports right-to-left
+ * alignment via the isRTL prop for messages from the opposite party.
+ */
 "use client";
 import type {MessagingChatMessageProps} from "./data";
 

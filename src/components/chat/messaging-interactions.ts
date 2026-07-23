@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Sample interaction history data for the chat profile sidebar.
+ *
+ * Exports the MessagingInteractionProps type and a default array of mock past
+ * interactions (title, relative time, and message excerpt) displayed in the
+ * Interaction section of the messaging chat profile panel.
+ */
 export type MessagingInteractionProps = {
   key: string;
   title: string;

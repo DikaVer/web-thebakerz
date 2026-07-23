@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Admin-only server action for onboarding a new bakery merchant.
+ *
+ * Exports onboardBakerz, which validates the onboarding form with
+ * OnboardSchema and, inside a PostgreSQL transaction, creates the store,
+ * store location, business address, and business account records, then
+ * promotes the user to the 'bakerz' role. The action is rate limited,
+ * restricted to admin users, extensively logged with request context, and
+ * revalidates the 'session' and 'store' cache tags on success.
+ */
 'use server';
 import * as z from "zod";
 import {globalPOSTRateLimit} from "@/lib/utils/helper/requests";

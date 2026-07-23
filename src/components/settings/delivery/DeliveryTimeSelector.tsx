@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Controlled per-day delivery time selector with enable switch.
+ *
+ * Exports the DeliveryTimeSelector client component, a fully controlled row
+ * that toggles delivery for a given day and selects start and end times in
+ * 30-minute steps, emitting every change to the parent through the onChange
+ * callback as Time values.
+ */
 'use client';
 
 import React from "react";

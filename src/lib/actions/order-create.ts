@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Server action for creating manual (merchant-entered) orders.
+ *
+ * Exports createOrder, which lets a store owner or admin place a pickup order
+ * on behalf of a customer: it validates the form with CustomerOrderSchema,
+ * checks rate limits, role, store ownership, cart contents, and scheduled
+ * order time, calculates VAT-aware totals, writes the order document to the
+ * Cosmos DB orders container, clears the cart, sends a confirmation email,
+ * and revalidates the cart and orders cache tags.
+ */
 'use server';
 import * as z from "zod";
 import {CustomerOrderSchema} from "@/lib/utils/schemas";

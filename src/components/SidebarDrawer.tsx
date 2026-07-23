@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Sidebar drawer built on the HeroUI Drawer component.
+ *
+ * Exports SidebarDrawer, a forwardRef wrapper that slides in from the left or
+ * right edge with framer-motion enter/exit variants, supports a configurable
+ * sidebar width via a CSS variable, uses a blurred backdrop, and also renders
+ * a hidden static copy of its children for non-drawer layouts.
+ */
 "use client";
 import type {ModalProps} from "@heroui/react";
 

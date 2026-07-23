@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Labeled switch row component built on the Hero UI Switch.
+ *
+ * Exports SwitchCell, a full-width toggle cell that places a label and
+ * description on the left and the switch on the right, used in settings-style
+ * lists such as cookie preferences. Extends the Switch color prop with a
+ * "foreground" option via an internal CustomSwitch wrapper.
+ */
 import React, { forwardRef } from "react";
 import { Switch, SwitchProps } from "@heroui/react";
 import { cn } from "@heroui/react";

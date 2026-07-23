@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Image cropping UI built on react-easy-crop.
+ *
+ * Renders a cropper with zoom and rotation sliders inside modal body/footer
+ * sections, with square, circle, or 16:9 background aspect ratios. On
+ * confirmation it crops the image, and either uploads it directly to the
+ * avatars container (updating the session user's picture) or hands the
+ * cropped file and object URL back to the caller.
+ */
 import React, { useState } from "react";
 import Cropper from "react-easy-crop";
 import { Button, ModalBody, ModalFooter, Slider } from "@heroui/react";

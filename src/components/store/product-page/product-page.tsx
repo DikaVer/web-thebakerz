@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Server component that loads data for a single product page.
+ *
+ * Exports ProductPage, an async component that fetches the store's products,
+ * checks the store schedule to see whether it closes within 45 minutes, loads
+ * rescue deals when it does, and renders ProductView with the results (or a
+ * translated empty state when no products exist).
+ */
 import React from "react";
 
 import { ProductDataFull} from "@/lib/actions/product";

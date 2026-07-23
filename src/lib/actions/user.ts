@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Server actions for user account management.
+ *
+ * Defines the User type and exports functions that operate on the PostgreSQL
+ * users table: creating accounts from an email or Google OAuth profile,
+ * looking up users by email or Google ID, updating and verifying email
+ * addresses, checking store nickname availability, and a bearer-protected
+ * account-creation action used during payment that also records terms-of-
+ * service acceptance.
+ */
 'use server';
 import {connectionPool} from "@/db";
 import {acceptTOS} from "@/lib/term-of-service";

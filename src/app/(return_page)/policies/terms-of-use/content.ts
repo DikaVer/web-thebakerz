@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Markdown content for TheBakerz terms and conditions.
+ *
+ * Exports termsEnglishBakerz, an object whose content field holds the full
+ * English terms of use in Markdown, rendered by the terms-of-use page.
+ */
 export const termsEnglishBakerz: {
     content: string
 } = {

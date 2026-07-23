@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Filterable, category-grouped product list for the store page.
+ *
+ * Exports the ProductListBase client component, which sorts products per
+ * category using the store's saved order, applies filter params (price,
+ * categories, allergies, dietary, search) or rescue-deal-only filtering,
+ * hides hidden/post-delivery products from non-owners, and renders sticky
+ * scroll-synced category tabs, an optional RescueDealTimer, CategoryProducts
+ * sections, and empty states with filter reset.
+ */
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { Spacer } from '@heroui/react';

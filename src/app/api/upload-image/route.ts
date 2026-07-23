@@ -1,3 +1,12 @@
+/**
+ * @fileoverview API route handling POST /api/upload-image, which uploads and processes user images.
+ *
+ * Accepts multipart form data with a file and a target container name (avatars, products,
+ * or background), validates the image with Zod and Sharp, converts it to WebP, and uploads
+ * it to the corresponding Azure Blob Storage container. Authenticates via either the shared
+ * bearer secret or the current user session; avatar uploads also update the user's image URL
+ * in PostgreSQL. Runs in the Node.js runtime because it depends on Sharp.
+ */
 import { NextResponse } from "next/server";
 import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";

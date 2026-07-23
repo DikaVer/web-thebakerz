@@ -1,4 +1,11 @@
-// src/components/skeleton/product-list-skeleton.tsx
+/**
+ * @fileoverview Loading skeleton for a store's product list page.
+ *
+ * Exports ProductListSkeleton, which mimics the product list layout with
+ * react-loading-skeleton placeholders: a sticky bar of category tabs and a
+ * search input, followed by three category sections each containing a title
+ * row and an eight-item product grid.
+ */
 'use client';
 
 import React from "react";

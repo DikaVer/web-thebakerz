@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Client component rendering the header of the order overview page.
+ *
+ * Exports OrderTopContent, which shows the order number as gradient text, a
+ * delivery chip when applicable, the scheduled date/time, and (for store
+ * users) a print button that downloads the invoice PDF via onDownloadInvoice.
+ */
 "use client";
 import React, {useState} from "react";
 import { Icon } from "@iconify/react";

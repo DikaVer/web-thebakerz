@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Custom Stripe Elements payment form used as the final checkout step.
+ *
+ * Prepares an order via the prepareCheckout server action, initializes Stripe
+ * (optionally against the store's connected account for zero-commission
+ * stores), and renders a payment form with Express Checkout (Apple/Google
+ * Pay), a PaymentElement, and guest email/name fields. On submit it creates a
+ * confirmation token, posts it to the payment-intent API, and handles
+ * success, 3D Secure next actions, and error flows including rescue deal
+ * orders.
+ */
 'use client'
 
 import { useEffect, useState, useCallback, useRef } from 'react'

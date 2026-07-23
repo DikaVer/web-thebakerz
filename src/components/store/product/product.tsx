@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Product card shown in store listings and search results.
+ *
+ * Exports the ProductBase client component, a card with product image, price
+ * (including rescue-deal discount and stock), dietary info popover, animated
+ * favorites button, and minimum lead time. Clicking opens the product dialog
+ * (or navigates to the product page from search), and the footer button adds
+ * to cart via the updateCart action for customers or opens the editor for
+ * the store owner. Also defines the internal AnimatedHeart and AnimatedNumber
+ * helper components.
+ */
 'use client';
 
 import React, {useEffect, useState} from "react";

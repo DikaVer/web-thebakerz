@@ -1,4 +1,10 @@
-// TypeScript
+/**
+ * @fileoverview Compact support prompt card shown alongside the partner application flow.
+ *
+ * Exports the SupportCard component, which displays a short translated
+ * support message with an icon button that navigates to the
+ * /support/contact-us page.
+ */
 "use client";
 
 import React from "react";

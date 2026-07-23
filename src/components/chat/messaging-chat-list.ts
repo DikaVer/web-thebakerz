@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Sample conversation list data for the messaging chat inbox.
+ *
+ * Exports the MessagingChatListProps type and a default array of mock
+ * conversation entries (name, avatar, last message, unread count, time, and
+ * active flag) rendered by the chat inbox component.
+ */
 export type MessagingChatListProps = {
   id: number;
   avatar: string;

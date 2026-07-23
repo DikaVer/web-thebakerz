@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Sign-in page at /auth rendering the two-step email OTP form.
+ *
+ * Server component that rate-limits GET requests, redirects already
+ * authenticated users to the home page, and renders the TwoStepAuthForm
+ * against decorative gradient backgrounds. Also exports generateMetadata
+ * for localized page metadata.
+ */
 import { Metadata } from "next"
  import { redirect } from "next/navigation";
  import { pacifico } from "@/components/fonts";

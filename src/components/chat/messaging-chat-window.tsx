@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Conversation window component for the messaging chat interface.
+ *
+ * Renders the active conversation's title bar with an actions dropdown (view
+ * profile, mark as spam, delete), a scrollable list of message bubbles built
+ * from the static conversation data, and the message input at the bottom.
+ */
 "use client";
 
 import React from "react";

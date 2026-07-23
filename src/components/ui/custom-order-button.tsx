@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Button-styled link for placing custom bakery orders.
+ *
+ * Exports CustomOrderButton, a Hero UI Link styled as a button that opens an
+ * external Typeform for custom order requests. Supports size, color, and
+ * variant styling props, an optional external-link icon, and a translated
+ * default label.
+ */
 'use client';
 
 import React from 'react';

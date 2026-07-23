@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Delivery address button and address entry modal.
+ *
+ * Exports DeliveryAddressButton, which shows the current delivery address (or
+ * a prompt to enter one) and opens a modal containing the AddressForm. On
+ * first open it attempts browser geolocation with reverse geocoding to
+ * prefill the address, and it auto-opens when an openAddressModal query
+ * parameter is present. State comes from the delivery provider context.
+ */
 import React, { useEffect, useRef, useState } from "react";
 import { Button, ModalHeader, ModalBody, ModalContent, Modal, cn } from "@heroui/react";
 import { Icon } from "@iconify/react";

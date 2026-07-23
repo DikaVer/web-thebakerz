@@ -1,5 +1,11 @@
-// DayWorkingHours.tsx
-
+/**
+ * @fileoverview Special working hours picker for individual calendar days.
+ *
+ * Exports the DayHoursComp client component, which combines a date picker and
+ * an edit button for defining exception days, and DayExceptionHours, a row of
+ * start/end time inputs with an enable switch. The save handler is currently a
+ * stub and the component is not wired to any server action.
+ */
 "use client";
 
 import React, { useState} from "react";

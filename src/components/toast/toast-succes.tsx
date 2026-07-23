@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Helper for showing a success toast notification.
+ *
+ * Exports showSuccessMessage, which displays the given success string as a
+ * success-colored HeroUI toast with a 2-second timeout and a visible timeout
+ * progress bar.
+ */
 import {addToast} from "@heroui/react";
 
 

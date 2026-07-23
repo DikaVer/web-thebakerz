@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Admin-only server action for updating a baker's store and business records.
+ *
+ * Exports updateBakerz, which validates form data against OnboardSchema, enforces
+ * rate limiting and an admin session, then updates the stores, store_locations,
+ * business_acc, business_address, and users PostgreSQL tables inside a single
+ * transaction. Revalidates the "session" and "store" cache tags on success and
+ * logs every step via the shared Pino-based logger with request context.
+ */
 'use server';
 import * as z from "zod";
 import {globalPOSTRateLimit} from "@/lib/utils/helper/requests";

@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 
 /**
- * Test script for favorites metadata refresh API endpoint
- * 
- * Usage: 
+ * @fileoverview Manual test script for the favorites metadata refresh API endpoint.
+ *
+ * Sends an authenticated POST request to /api/favorites/refresh-metadata using a
+ * bearer token and prints the processing results, optimization statistics, and
+ * any error details to the console.
+ *
+ * Usage:
  *   node scripts/test-metadata-refresh.js
- *   
+ *
  * Environment variables:
  *   API_BASE_URL - Your application URL (default: http://localhost:3000)
  *   SECRET_BEARER - Your bearer token (default: from NEXT_PRIVATE_SECRET_BEARER)

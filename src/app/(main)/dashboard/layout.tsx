@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Layout guarding the /dashboard admin section.
+ *
+ * Server component that checks the current session and renders the NotFound
+ * page unless the user is authenticated with the admin role. Wraps children
+ * in a centered container and sets the dashboard title template metadata.
+ */
 import '@/styles/globals.css'
 import React from "react";
 import type { Metadata } from "next";

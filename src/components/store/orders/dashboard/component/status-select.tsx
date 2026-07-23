@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Order status selector with confirmation modal for the order dashboard.
+ *
+ * Exports StatusSelect, which renders the current order status as a chip
+ * inside a dropdown of statuses (new, started, ready, completed). Choosing a
+ * different status opens a confirmation modal, then persists the change via
+ * the updateOrderStatus action, updates the session's new-order count, shows
+ * a toast, and notifies the parent through the onStatusChange callback.
+ */
 import { Select, SelectItem, useDisclosure, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Spacer } from "@heroui/react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";

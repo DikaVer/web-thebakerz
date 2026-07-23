@@ -1,3 +1,11 @@
+/**
+ * @fileoverview API route handling GET /api/store/orders/range, which lists a store's orders within a date range.
+ *
+ * Reads the store ID and the from/to dates from the Store-Id, From-Date, and To-Date request
+ * headers, requires bearer token authentication, and queries the Cosmos DB orders container
+ * using a date-comparison UDF on the scheduled time. Returns the matching orders as JSON and
+ * is rate limited via globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import { containerOrders } from "@/db";
 import { getTranslations } from "next-intl/server";

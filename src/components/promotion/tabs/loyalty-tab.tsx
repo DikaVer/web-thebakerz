@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Loyalty program settings tab of the store promotion manager.
+ *
+ * Exports the LoyaltyTab component, which lets store owners enable the
+ * loyalty program and configure spending thresholds and point multipliers
+ * for the Bronze, Silver, Gold, and Platinum tiers, validating that tier
+ * thresholds stay in ascending order. Saves via the saveLoyaltySettings and
+ * updateLoyaltySettings server actions and embeds LoyaltyItemsManager for
+ * reward item management.
+ */
 'use client';
 
 import React, { useState, useEffect } from 'react';

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Order note textarea for a product in the customer view.
+ *
+ * Exports the ProductNotes client component, a controlled Textarea with a
+ * 100-character counter and invalid state, an onChange callback to the
+ * parent, and an iOS Safari workaround that temporarily locks the viewport
+ * scale to prevent auto-zoom on focus.
+ */
 'use client';
 import React, { useState, useEffect, useRef } from "react";
 import { Textarea, cn } from "@heroui/react";

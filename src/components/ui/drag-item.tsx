@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Drag-to-reorder list item components built on framer-motion.
+ *
+ * Exports Reorder.Item wrappers (Item, ItemCategory, ItemProduct) used for
+ * reordering categories and products via a dedicated drag handle, plus the
+ * ReorderIcon handle component and the useRaisedShadow hook that animates a
+ * lifted box shadow while an item is being dragged.
+ */
 'use client';
 import React, { useEffect, useState } from 'react';
 import {

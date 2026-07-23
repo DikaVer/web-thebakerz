@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Landing page section displaying partner logos in a scrolling banner.
+ *
+ * Exports the Partners component, which renders a translated heading and an
+ * infinitely scrolling banner of partner and program logos (Brightlands,
+ * Maastricht University, Google for Startups, Microsoft for Startups,
+ * Stripe), duplicating the list for a continuous loop effect.
+ */
 "use client";
 
 import Image from "next/image";

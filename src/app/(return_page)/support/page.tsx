@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Support center page rendered at /support.
+ *
+ * Server component that renders the SupportComponent (help and FAQ content),
+ * embeds WebPage JSON-LD structured data, and exports SEO metadata via
+ * generateMetadata.
+ */
 import { getLocalizedMetadata } from "@/components/metadata";
 import SupportComponent from "@/components/support/support-component";
 import {Metadata} from "next";

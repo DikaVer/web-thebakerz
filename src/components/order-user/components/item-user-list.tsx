@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Product line-item list for a customer's order.
+ *
+ * Exports the ItemUserList component, which renders each ordered product
+ * with its image, name, note, variants, quantity, and unit price, plus an
+ * order-again button that navigates to the product page. Item ordering is
+ * restored from localStorage per order when available.
+ */
 "use client";
 import React, {useMemo, useState} from "react";
 import {OrderProduct, OrderProducts} from "@/lib/actions/order";

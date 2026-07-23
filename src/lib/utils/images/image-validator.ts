@@ -1,5 +1,10 @@
 /**
- * Utility functions for client-side image validation
+ * @fileoverview Client-side image validation utilities.
+ *
+ * Exports validateImage, which checks an uploaded file against a whitelist of
+ * MIME types (JPEG, PNG, GIF, WebP, HEIC/HEIF) and a 10MB pre-compression size
+ * limit and returns the image dimensions, and getImageDimensions, which loads a
+ * file into an Image element to measure its width and height.
  */
 
 /**

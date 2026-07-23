@@ -1,3 +1,10 @@
+/**
+ * @fileoverview API route handling GET /api/validate-session/store/[userId], which lists a user's stores with new-order counts.
+ *
+ * Queries PostgreSQL for all stores owned by the given user and augments each with its
+ * count of new orders via getNewOrderCount. Requires bearer token authentication and
+ * returns the store list as JSON.
+ */
 import { getNewOrderCount } from "@/lib/actions/order";
 import { connectionPool } from "@/db";
 import { checkBearerToken } from "@/lib/utils/helper/bearerChecker";

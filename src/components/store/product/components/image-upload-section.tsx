@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Image upload UI for the product editor form.
+ *
+ * Exports ImageUploadSection, a presentational component that shows the main
+ * product image (or an upload placeholder), up to two additional image
+ * thumbnails, and remove buttons. All file selection and removal behavior is
+ * delegated to callbacks and a shared hidden file input ref supplied by the
+ * parent form.
+ */
 import React from "react";
 import {Button, cn, Image, PressEvent} from "@heroui/react";
 import {FormControl} from "@/components/ui/form";

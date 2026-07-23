@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Root layout for the entire App Router tree.
+ *
+ * Server component that renders the html/body shell, loads the session,
+ * locale, messages, and cookie-consent state, and wraps children in
+ * NextIntlClientProvider and the app Providers. Also injects schema.org
+ * structured data, analytics scripts (Clarity, Google Analytics), the cookie
+ * consent banner, and exports viewport settings and SEO-focused
+ * generateMetadata with comprehensive keyword coverage.
+ */
 import { lexendDeca } from "@/components/fonts";
 import '@/styles/globals.css'
 import React from "react";

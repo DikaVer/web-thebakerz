@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Layout wrapper that pairs the partner application form with a step indicator.
+ *
+ * Exports the MultiStepSidebar component, which shows the three onboarding
+ * steps (apply, store setup, start selling) as VerticalSteps with a
+ * SupportCard on desktop and as compact RowSteps on mobile, rendering the
+ * current step's form content as children.
+ */
 "use client";
 
 import React from "react";

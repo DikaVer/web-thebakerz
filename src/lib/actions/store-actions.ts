@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Server actions for updating store settings.
+ *
+ * Exports session-guarded actions that update a store's record in the
+ * PostgreSQL stores table: profile details (name, description, social links,
+ * slug) with uniqueness checking and Zod validation, minimum order time,
+ * delivery options (pickup/delivery/multi), pickup window, and background
+ * image (uploaded via the image action). Updates revalidate the 'store' and
+ * 'session' cache tags.
+ */
 'use server';
 import * as z from "zod";
 import { StoreSettingsSchema } from "@/lib/utils/schemas";

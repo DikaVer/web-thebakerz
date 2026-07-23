@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Content of the favorites page showing saved stores and products.
+ *
+ * Renders tabbed grids of the user's favorite stores and products from the
+ * favorites provider, with cards that navigate to the store or product page
+ * and heart buttons to remove items. Shows an empty state when a tab has no
+ * favorites.
+ */
 'use client';
 
 import React, { useState } from 'react';

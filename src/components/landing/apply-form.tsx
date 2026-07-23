@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Two-step application form used in the landing page partner signup flow.
+ *
+ * Exports the ApplyForm component, which first validates a phone number and
+ * terms acceptance (GetStartedSchema via validatePhone), then collects name
+ * and email (ApplySchema) and submits the application through the
+ * sendApplication server action. Uses react-hook-form with Zod resolvers,
+ * useActionState for submission state, and Framer Motion for step transitions.
+ */
 import React, { startTransition } from "react";
 import { useActionState } from "react";
 import { useForm } from "react-hook-form";

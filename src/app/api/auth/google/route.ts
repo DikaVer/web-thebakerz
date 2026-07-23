@@ -1,3 +1,11 @@
+/**
+ * @fileoverview API route handling GET /api/auth/google, which initiates the Google OAuth flow.
+ *
+ * Generates a timestamped state value and PKCE code verifier, stores them (plus optional
+ * "next" redirect path and store ID query parameters) in short-lived httpOnly cookies, and
+ * responds with a 302 redirect to Google's authorization URL. Rate limited via
+ * globalGETRateLimit.
+ */
 import { generateState, generateCodeVerifier } from "arctic";
 import { google} from "@/lib/actions/auth/oauth";
 import { cookies } from "next/headers";

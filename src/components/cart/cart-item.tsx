@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Single cart line-item row used inside the cart drawer.
+ *
+ * Exports the CartItemRow component, which displays a cart item's image,
+ * name, selected variants, note, ingredients, and total price, with a
+ * quantity stepper and delete button that call the cart update/remove
+ * handlers. It applies rescue deal discount pricing with stock warnings and
+ * hides items that are unavailable for the current delivery mode. Also
+ * exports formatVariants, a helper that renders selected variant options as
+ * alert badges.
+ */
 import React from "react";
 import { ItemCart, Variant } from "@/lib/actions/cart";
 import { ProductData } from "@/lib/actions/product";

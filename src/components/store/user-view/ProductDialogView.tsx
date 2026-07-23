@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Modal body content for the customer product dialog.
+ *
+ * Exports the ProductDialogView client component, which composes
+ * ProductImageGallery, ProductInfo, ProductDetails, VariantsUserSelection,
+ * ProductNotes, and ProductActions inside the modal. It validates variant
+ * selections (required, min/max), adds or updates the cart item through the
+ * updateCart action or cart provider, resets scheduled dates that violate the
+ * product's lead time, handles rescue-deal stock, and provides share and
+ * report actions.
+ */
 'use client';
 import React, { useState, useRef, useEffect } from "react";
 import {

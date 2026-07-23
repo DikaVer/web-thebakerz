@@ -1,3 +1,11 @@
+/**
+ * @fileoverview About Us page at /about-us presenting the team and mission.
+ *
+ * Server component with translated marketing sections (greeting, slogan, why
+ * TheBakerz) and a social-links section, plus schema.org Organization
+ * structured data. Exports generateMetadata with page-specific SEO metadata
+ * and canonical/alternate URLs.
+ */
 import {pacifico} from "@/components/fonts";
 import Image from 'next/image';
 import React from "react";

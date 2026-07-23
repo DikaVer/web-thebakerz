@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Animated gradient text component.
+ *
+ * Exports GradientText, which renders its children with an animated
+ * left-to-right gradient (CSS defined in styles/gradient-text.css) and an
+ * optional gradient border overlay. Gradient colors and animation speed are
+ * configurable, defaulting to the brand purple palette.
+ */
 import '@/styles/gradient-text.css';
 
 export interface GradientTextProps {

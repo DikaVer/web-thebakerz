@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Tabbed layout for the admin "Edit Bakerz" dashboard page.
+ *
+ * Wraps the bakery edit form and the delivery manager in HeroUI tabs,
+ * redirecting unauthenticated users to the auth page. The initial tab can be
+ * selected via the "tab" query parameter.
+ */
 'use client';
 import React from "react";
 import { Tab, Tabs} from "@heroui/react";

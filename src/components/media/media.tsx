@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Link-hub style media page content for TheBakerz.
+ *
+ * Exports the Media component, which shows the brand logo and tagline,
+ * quick actions (address search, custom order, join as a baker), social
+ * media channel links, a press contact card, and the company logo image.
+ */
 'use client';
 import React from 'react';
 import Image from 'next/image';

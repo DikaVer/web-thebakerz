@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Shared TypeScript types for the delivery settings module.
+ *
+ * Defines DeliveryRange (distance ranges with pricing and window),
+ * DeliveryCity and CountryDelivery (per-city and per-country delivery
+ * configuration including schedule and delivery mode flags), and MapElement
+ * (Google Maps marker and circle references used by the map view).
+ */
 import {WorkHours} from "@/lib/actions/calendar-actions";
 
 export interface DeliveryRange {

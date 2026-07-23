@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Form field for editing product variant option groups in the
+ * business dashboard product editor.
+ *
+ * Exports the VariantsFormField client component, which plugs into a
+ * react-hook-form instance typed by ProductSchema and lets store owners add,
+ * expand, and remove option groups, toggle single/multiple choice and required
+ * flags, set min/max selection counts, and manage per-option labels and price
+ * adjustments with animated Hero UI inputs.
+ */
 'use client';
 import React, {useEffect, useState} from "react";
 import { FormField, FormItem, FormControl } from "@/components/ui/form";

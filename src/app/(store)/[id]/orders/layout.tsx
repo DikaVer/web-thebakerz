@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Layout for the /[id]/orders store management segment.
+ *
+ * Server component that verifies the current user has management access to
+ * the store before rendering order pages, showing NotFound otherwise.
+ * Exports noindex "Orders Management" metadata via generateMetadata.
+ */
 import '@/styles/globals.css'
 import React from "react";
 

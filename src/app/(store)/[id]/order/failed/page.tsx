@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Payment failure page rendered at /[id]/order/failed.
+ *
+ * Server component shown after an unsuccessful Stripe payment. Requires
+ * "error" and "session_id" query parameters (rendering NotFound otherwise)
+ * and displays a localized error message with a PaymentSupportButton for
+ * contacting support. Exports noindex metadata via generateMetadata.
+ */
 import {getStoreIdAPI} from "@/lib/api/GET/store-api";
 import NotFound from "@/app/(error_layout)/not-found";
 import PaymentSupportButton from "@/components/support/payment-urgent";

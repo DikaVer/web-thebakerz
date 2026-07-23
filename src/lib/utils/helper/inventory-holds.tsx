@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server actions managing temporary inventory holds for rescue deals.
+ *
+ * Holds are stored in the Cosmos DB inventory-holds container with a 3-minute
+ * expiry and reserve product quantities during checkout. Exports functions to
+ * create holds, attach Stripe payment intents to them, query active holds and
+ * held quantities per product, remove individual holds, and purge expired holds
+ * (cancelling their associated Stripe payment intents) from a cron job.
+ */
 'use server';
 import { containerInventoryHolds } from '@/db';
 import { v4 as uuidv4 } from 'uuid';

@@ -1,16 +1,16 @@
+/**
+ * @fileoverview Server actions for cookie consent and preferences management.
+ *
+ * Stores the user's consent status (accepted/rejected/partial) and per-category
+ * preferences (necessary, analytics, marketing) in httpOnly cookies with a
+ * 30-day retention, per GDPR Article 6(1)(a); only necessary cookies are
+ * enabled by default. Also provides a helper that reads or creates the
+ * anonymous "thebakerz-session" cookie for guest users.
+ */
 "use server";
 import { cookies } from 'next/headers';
 import { v4 as uuidv4 } from 'uuid';
 import { logger } from "@/lib/logger";
-/**
- * COOKIE CONSENT AND PREFERENCES MANAGEMENT
- * 
- * Purpose: Store user consent preferences for different types of cookies 
- * Data stored: Consent status (accepted/rejected/partial) and specific preferences for cookie categories
- * Retention: 30 days
- * Legal basis: Consent - GDPR Article 6(1)(a)
- * Note: Only necessary cookies are enabled by default, others require explicit consent
- */
 
 export interface CookiePreferences {
     necessary: boolean;

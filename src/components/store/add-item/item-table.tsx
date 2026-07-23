@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Client component listing a category's products in the store dashboard.
+ *
+ * Exports ItemTable, which renders each product as a clickable row with image,
+ * name, and formatted price. Clicking a row navigates to that product's
+ * add-item edit page, showing a spinner while navigation is in progress.
+ */
 "use client";
 
 import {Image, Divider, Spinner} from "@heroui/react";

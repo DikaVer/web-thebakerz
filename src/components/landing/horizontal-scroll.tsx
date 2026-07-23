@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Horizontally scrolling landing page section driven by GSAP ScrollTrigger.
+ *
+ * Exports the HorizontalScroll component, which pins a full-viewport slider
+ * and translates three colored panels (deliveries, marketing, support)
+ * horizontally as the user scrolls vertically, with snapping between panels.
+ * Panel image content is currently commented out, leaving translated headings
+ * only.
+ */
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useLayoutEffect, useRef, useEffect, useState } from "react";

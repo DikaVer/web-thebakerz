@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Rescue deal management page rendered at /[id]/rescue-deal.
+ *
+ * Server component for store owners that verifies store access (rendering
+ * NotFound otherwise), loads products, product ordering, and any existing
+ * rescue deal in parallel, and renders the RescueDealSettings component for
+ * configuring food-waste rescue deals.
+ */
 import React, {Suspense} from "react";
 import RescueDealSettings from "@/components/settings/rescue-deal/rescue-settings";
 import {getProductsAPI} from "@/lib/api/GET/products-api";

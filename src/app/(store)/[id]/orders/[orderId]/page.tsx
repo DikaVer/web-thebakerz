@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Order detail page rendered at /[id]/orders/[orderId].
+ *
+ * Server component that fetches a single order by store, order ID, and the
+ * customer email passed as a query parameter, rendering the OrderOverview
+ * component or NotFound when any lookup fails. Exports noindex metadata via
+ * generateMetadata.
+ */
 import React from "react";
 import NotFound from "@/app/(error_layout)/not-found";
 import {getOrderAPI} from "@/lib/api/GET/order-api";

@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Section title headers with help buttons for the product editor form.
+ *
+ * Exports ProductTitleSection, DescriptionTitleSection,
+ * IngredientsTitleSection, AllergiesTitleSection, DietaryTitleSection,
+ * VariantsTitleSection, and VariantsInstructionSection. Each title component
+ * renders a translated heading with a question-mark button that opens the
+ * matching help modal from product-help-modal.tsx; the instruction section
+ * renders static guidance for configuring product variants.
+ */
 import React, { useState } from 'react';
 import { Button, Tooltip } from "@heroui/react";
 import { Icon } from "@iconify/react";

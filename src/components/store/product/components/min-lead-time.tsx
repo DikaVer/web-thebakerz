@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Minimum lead time selector for the product editor form.
+ *
+ * Exports MinLeadTime, which renders a react-hook-form-bound select for the
+ * min_lead_time field of ProductSchema, offering 30-minute increments up to
+ * 23.5 hours and whole-day options from 1 to 30 days, stored as minutes.
+ */
 import React, { useMemo } from "react";
 import { Select, SelectItem, Spacer } from "@heroui/react";
 import { useTranslations } from "next-intl";

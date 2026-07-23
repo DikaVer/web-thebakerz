@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Client component showing the order items card on the order overview page.
+ *
+ * Exports OrderItems, a card with a name search input, the filtered product
+ * rows rendered through ItemList, and a footer summarizing subtotal, VAT, and
+ * total from the order's price data.
+ */
 "use client";
 import React, { useState, ChangeEvent } from "react";
 import {useRouter} from "next/navigation";

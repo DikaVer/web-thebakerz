@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Weekly working hours editor for a store's opening schedule.
+ *
+ * Exports the WorkingHoursComp client component, which renders a
+ * DayWorkingHours row for each day of the week with start/end time selects (in
+ * 30-minute steps) and an enable switch, validating that the start time
+ * precedes the end time. Schedule changes are tracked against the stored
+ * schedule and saved via the session provider's save handler, which calls the
+ * updateSchedule server action.
+ */
 'use client';
 import React, {useEffect, useMemo, useState} from 'react';
 import { Time } from '@internationalized/date';

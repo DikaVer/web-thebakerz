@@ -1,3 +1,10 @@
+/**
+ * @fileoverview API route handling GET /api/store/[storeId]/schedule/pickup, which returns a store's pickup schedule.
+ *
+ * Loads the store's work-hours schedule via getScheduleById and returns it as JSON, or
+ * undefined when no schedule exists. Accepts GET requests with a Bearer token in the
+ * Authorization header and is rate limited via globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import {getStoreDataByStoreNameOrId} from "@/lib/actions/store";
 import { getTranslations } from "next-intl/server";
@@ -5,7 +12,6 @@ import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
 import { getScheduleById, WorkHours } from '@/lib/actions/calendar-actions';
 
-// This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(request: Request, { params }: { params: Promise<{ storeId: string }> }) {
     const t = await getTranslations("app/api/store");
 

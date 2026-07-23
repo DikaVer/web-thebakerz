@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Root not-found (404) page for the App Router.
+ *
+ * Exports the default NotFound server component with a hardcoded English
+ * apology message, illustration, and link back to the home page, plus
+ * ComingSoon and UnderConstruction placeholder components for unfinished
+ * sections.
+ */
 import { ExternalLink } from '@/components/external-link'
 import {pacifico} from "@/components/fonts";
 import Image from "next/image";

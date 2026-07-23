@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Order pricing calculations for VAT, delivery, service, and platform fees.
+ *
+ * Exports calculateTotals, which derives VAT-inclusive and VAT-exclusive
+ * amounts for items, delivery, and service fees from VAT-inclusive inputs
+ * (9% food VAT and 21% service VAT for the Netherlands) and returns rounded
+ * cent values, and calculateApplicationFee, which computes the platform's
+ * Stripe application fee using the store's custom app or delivery fee rate.
+ */
 import {calculateTax} from "@/lib/utils";
 const SERVICE_FEE_CENTS = 0; // Example service fee in cents
 const DEFAULT_VAT_RATE = 0.09; // Default VAT rate (e.g., 9% for food in NL)

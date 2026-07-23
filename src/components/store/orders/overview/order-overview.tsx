@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Client component composing the full order overview page.
+ *
+ * Exports OrderOverview, which stacks a back button (to the store or admin
+ * order dashboard, preserving date range params), OrderTopContent,
+ * OrderStatusCard, OrderItems, and OrderCustomerDetails for a single order.
+ * Behavior varies with the isStore prop and the session user's role.
+ */
 "use client";
 import React from "react";
 import {Icon} from "@iconify/react";

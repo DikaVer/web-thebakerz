@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Styled anchor for linking to external destinations.
+ *
+ * Exports ExternalLink, which wraps its children in an anchor to the given
+ * href and appends a small outward-arrow SVG icon, with hover underline
+ * styling.
+ */
 import * as React from 'react'
 
 export function ExternalLink({

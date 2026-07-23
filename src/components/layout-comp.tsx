@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Shared page layout wrapper with navbar and scroll indicator.
+ *
+ * Exports LayoutComp, which wraps page content with the advanced navbar
+ * (configured for checkout, pay, and partner pages based on the current
+ * pathname), a fixed gradient scroll-progress bar driven by motion's
+ * useScroll, and a main content area with extra bottom padding on mobile.
+ */
 "use client";
 
 import React, {useEffect} from "react";

@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Shared Google font configurations loaded via next/font.
+ *
+ * Exports lexendDeca (Lexend Deca in all weights, used as the general UI
+ * font) and pacifico (Pacifico regular, used for the TheBakerz brand
+ * wordmark), both with the Latin subset.
+ */
 import { Lexend_Deca, Pacifico } from 'next/font/google';
 
 // Configure Lexend Deca font

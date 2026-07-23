@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Server-only session management for authentication.
+ *
+ * Implements token-based sessions stored in the PostgreSQL sessions table:
+ * token generation, SHA-256 hashed session IDs, creation, validation with
+ * sliding 30-day expiry, and invalidation (single session or all of a
+ * user's). Also manages the "session" auth cookie and the anonymous
+ * "thebakerz-session" guest cookie, and exports getCurrentSession, which
+ * resolves the current user and their stores via the validate-session API
+ * with cache tags.
+ */
 import 'server-only';
 import {encodeBase32LowerCaseNoPadding, encodeHexLowerCase,} from "@oslojs/encoding";
 import {sha256} from "@oslojs/crypto/sha2";

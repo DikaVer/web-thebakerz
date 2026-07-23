@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Zod validation schemas for admin dashboard user and store forms.
+ *
+ * Exports UserEditSchema, which validates user profile edits (name, description,
+ * store name/slug, social URLs) with extra required-field checks when the role is
+ * "bakerz", and OnboardSchema, which validates the full baker onboarding form
+ * including Stripe account, store address/coordinates, fees, region settings,
+ * and business details (VAT, KVK, bank account, business address).
+ */
 import * as z from "zod";
 import {nicknameSchema} from "@/lib/utils/schemas";
 

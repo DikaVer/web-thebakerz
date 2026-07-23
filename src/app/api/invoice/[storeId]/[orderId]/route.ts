@@ -1,3 +1,11 @@
+/**
+ * @fileoverview API route handling POST /api/invoice/[storeId]/[orderId], which generates an order invoice PDF.
+ *
+ * Requires an authenticated session; access is granted either to the store owner or to the
+ * customer whose email matches the order. Loads store business data and the order, renders
+ * an HTML invoice, converts it to PDF, and returns it as an attachment. Rate limited via
+ * globalLargeRateLimit.
+ */
 import { NextRequest, NextResponse } from "next/server";
 import { generatePdf } from "@/lib/utils/pdf/generate-invoice-pdf";
 import { renderPdf} from "@/lib/utils/pdf/render-pdf";

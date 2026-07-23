@@ -1,3 +1,11 @@
+/**
+ * @fileoverview In-memory token bucket implementations for rate limiting.
+ *
+ * Exports RefillingTokenBucket, which refills tokens at a fixed interval, and
+ * ExpiringTokenBucket, which resets after a fixed expiry window. Both store
+ * per-key buckets in a Map and expose check and consume methods; they back the
+ * global request rate limiters and per-IP limits on sensitive endpoints.
+ */
 export class RefillingTokenBucket<_Key> {
     public max: number;
     public refillIntervalSeconds: number;

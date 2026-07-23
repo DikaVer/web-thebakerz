@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Hook that syncs the active category tab with page scroll on
+ * the store page.
+ *
+ * Exports useScrollObserver, which tracks scroll direction and uses an
+ * IntersectionObserver on ".category-observer-target" marker elements to
+ * determine which product category is currently in view, accounting for the
+ * sticky header height, and calls setSelectedTab accordingly.
+ */
 import { useEffect, useRef } from 'react';
 
 interface UseScrollObserverParams {

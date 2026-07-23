@@ -1,3 +1,11 @@
+/**
+ * @fileoverview React Email template confirming a placed order to the customer.
+ *
+ * Renders an order confirmation with the store name, scheduled delivery or
+ * pickup time, an address map link, an itemized products table with pricing,
+ * and a Google Calendar link. Adapts its labels and content for delivery,
+ * pickup, post-delivery, and rescue deal orders.
+ */
 import {
     Body,
     Container,

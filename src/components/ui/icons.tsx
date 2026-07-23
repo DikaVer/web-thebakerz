@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Collection of inline SVG icon components.
+ *
+ * Exports hand-rolled icons used across the app (IconHeart, IconSuccess,
+ * IconBadgeCheck, IconHeartCrack, IconBadgeInfo, IconBadge, IconMail,
+ * IconLoadingCircle, IconLocation, IconPhone, IconCopy, IconClose), each a
+ * small React component accepting standard SVG props plus color and size
+ * options based on the project palette.
+ */
 import React, {SVGProps} from 'react';
 
 

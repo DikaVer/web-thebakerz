@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Layout for the /[id]/item/add-item store segment.
+ *
+ * Server component that verifies the current user has management access to
+ * the store before rendering its children, showing NotFound otherwise.
+ * Exports noindex "Add Item" metadata via generateMetadata.
+ */
 import React from "react";
 import NotFound from "@/app/(error_layout)/not-found";
 import { verifyStoreAccess } from "../../store-utils";

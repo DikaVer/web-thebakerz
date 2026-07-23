@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Bar chart card showing completed versus non-completed orders.
+ *
+ * Renders a Recharts bar chart inside a HeroUI card comparing the counts of
+ * completed and not-completed orders, used on the dashboard overview page.
+ */
 "use client";
 
 import React from 'react';

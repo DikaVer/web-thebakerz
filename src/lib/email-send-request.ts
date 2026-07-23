@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server actions for sending transactional emails via Azure Communication Services.
+ *
+ * Exports senders for verification (magic) codes, order-placed notifications to
+ * both customer and baker, onboarding requests, and contact-us form submissions.
+ * Renders React Email components to HTML, applies IP-based rate limiting on the
+ * onboarding flow, and records Terms of Service acceptance after a successful
+ * onboarding request email.
+ */
 "use server";
 
 import { render } from "@react-email/components";

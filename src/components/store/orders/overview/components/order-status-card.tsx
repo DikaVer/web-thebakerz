@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Client component showing the order status card on the order overview page.
+ *
+ * Exports OrderStatusCard, which maps the order's status to a step index and
+ * renders a HorizontalStepsOrder progress indicator (placed, cooking, ready,
+ * completed/cancelled) together with an OrderStatusChip and relevant dates.
+ */
 "use client";
 import React from "react";
 import {useRouter} from "next/navigation";

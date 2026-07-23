@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Social media and press page rendered at /socials.
+ *
+ * Server component that renders the Media component listing TheBakerz social
+ * channels and press contact information, embeds ContactPage JSON-LD
+ * structured data, and exports SEO metadata via generateMetadata.
+ */
 import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
 import { getLocalizedMetadata } from '@/components/metadata'; 

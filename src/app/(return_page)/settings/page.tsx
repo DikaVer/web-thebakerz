@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Account settings page rendered at /settings.
+ *
+ * Server component that fetches the current business user's data and renders
+ * the TabsSettings component for managing profile information and
+ * preferences. Exports noindex/nofollow metadata since the page is private to
+ * the signed-in user.
+ */
 import React from "react";
 import { getLocalizedMetadata } from "@/components/metadata";
 import type { Metadata } from "next";

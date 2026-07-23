@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Farewell page at /closing announcing that TheBakerz has shut down.
+ *
+ * Static server component with a thank-you message, highlight icons rendered
+ * as inline SVGs, an embedded YouTube farewell video, and noindex metadata.
+ * Contains no client JS or external icon dependencies.
+ */
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { pacifico } from '@/components/fonts';

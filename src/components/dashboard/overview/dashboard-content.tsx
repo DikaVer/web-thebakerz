@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Layout component for the dashboard overview page.
+ *
+ * Arranges the total amount card, the order completion bar chart, and the
+ * orders table into a responsive grid using the fetched OverviewData, and
+ * renders an error card when the data contains an error.
+ */
 'use client';
 
 import React from 'react';

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Read-only store information card for the settings page.
+ *
+ * Exports the StoreInfo client component, which displays the store owner's
+ * name, region with a country flag icon, currency with its symbol, and the
+ * configured delivery option (pickup, delivery, or both), using data from the
+ * store and session providers.
+ */
 'use client';
 
 import React from "react";

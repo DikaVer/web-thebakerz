@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Homepage of TheBakerz marketplace at /.
+ *
+ * Server component composing the landing hero, feature, bakers growth, and
+ * partners sections plus the footer. Exports generateMetadata with
+ * SEO-optimized homepage titles, descriptions, keywords, and canonical URL.
+ */
 import { Footer } from '@/components/footer';
 import { LandingHeroSection } from '@/components/landing/marketplace/landing-hero-section';
 import { FeatureSection } from '@/components/landing/marketplace/feature-section';

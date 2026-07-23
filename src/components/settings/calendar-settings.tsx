@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Calendar settings tab combining order timing and weekly schedule.
+ *
+ * Exports the WorkingHoursManager client component, which composes the
+ * MinTimeOrder controls and the WorkingHoursComp weekly schedule editor into
+ * the calendar section of the store settings page.
+ */
 'use client';
 
 import React from "react";

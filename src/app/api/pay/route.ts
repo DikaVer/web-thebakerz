@@ -1,3 +1,12 @@
+/**
+ * @fileoverview API route handling GET /api/pay, the callback after a Stripe Checkout session completes.
+ *
+ * Verifies the checkout session is paid, loads the corresponding unpaid order from Cosmos DB,
+ * and finalizes it inside a PostgreSQL transaction: creates delivery, price, and order rows,
+ * writes transfer records and the final order document to Cosmos DB, creates or reuses the
+ * customer account, clears the cart, sends the order-placed email, and redirects the customer
+ * to the store's order success or failure page.
+ */
 import { stripe } from "@/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentSession } from "@/lib/actions/session";

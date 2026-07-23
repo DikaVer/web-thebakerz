@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Commented-out mock order data for the order dashboard.
+ *
+ * The entire file is disabled; it previously exported fakeOrdersProducts, an
+ * array of sample OrderData objects used to test the dashboard UI. It
+ * currently exports nothing.
+ */
 // import {OrderData} from "@/lib/actions/order";
 //
 // export const fakeOrdersProducts: OrderData[] = [

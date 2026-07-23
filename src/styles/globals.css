@@ -1,3 +1,13 @@
+/*
+ * Global stylesheet defining the application's design tokens and utility classes.
+ *
+ * Loads the Tailwind base, components, and utilities layers, declares HSL CSS
+ * variables for the light and dark color themes, and adds custom utilities for
+ * iOS safe areas, gradients, brand background colors, animations (with
+ * prefers-reduced-motion fallbacks), scrollbar hiding, and responsive font
+ * scaling on large screens.
+ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

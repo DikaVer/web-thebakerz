@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Full site-wide footer.
+ *
+ * Exports Footer, which renders the TheBakerz logo and wordmark, a copyright
+ * line, social media icon links, and translated navigation, support, and
+ * legal link columns in a responsive grid layout.
+ */
 "use client";
 
 import type {IconProps} from "@iconify/react";

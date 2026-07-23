@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Continuously scrolling marquee banner component.
+ *
+ * Exports ScrollingBanner, a Hero UI ScrollShadow wrapper that auto-scrolls
+ * its children horizontally or vertically using CSS animation variables, with
+ * options for reverse direction, gap, duration, edge shadows, and pausing on
+ * hover.
+ */
 "use client";
 
 import type {ScrollShadowProps} from "@heroui/react";

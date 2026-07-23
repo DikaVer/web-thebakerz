@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Client-side store context provider and useStore hook.
+ *
+ * Exports StoreProvider, which supplies StoreContext with the current store's
+ * data, a sentinel ref observed by an IntersectionObserver, and an isSticky
+ * flag that becomes true when the sentinel scrolls out of view (used for
+ * sticky header behavior). The useStore hook returns default values instead
+ * of throwing when used outside the provider.
+ */
 'use client';
 
 import React, {createContext, useContext, ReactNode, useRef, useState, useEffect, RefObject,} from 'react';

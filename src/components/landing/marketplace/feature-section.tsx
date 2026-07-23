@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Marketplace landing section highlighting key customer-facing features.
+ *
+ * Exports the FeatureSection component, which renders an alternating
+ * image/text grid for the rescue deals, allergy-friendly (hidden gems), and
+ * custom baking (perfect baker) features. Each feature links to a relevant
+ * destination (search modes or an external Typeform) and animates in with
+ * BlurText and AnimatedContent effects.
+ */
 'use client';
 
 import { useTranslations } from 'next-intl';

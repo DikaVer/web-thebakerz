@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Server actions and types for the product catalog.
+ *
+ * Defines the ProductData, ProductVariant, ProductDataDB, and related types
+ * and exports actions to create/update products (Zod-validated, rate limited,
+ * and restricted to the store owner), soft-delete (archive) products while
+ * removing them from all carts, and read products from the Cosmos DB
+ * products container: per store, by ID, or across all stores with price,
+ * category, allergy, dietary, and store filters plus pagination. Read
+ * results are enriched with favorite/like counts.
+ */
 'use server';
 import * as z from "zod";
 import {ProductSchema} from "@/lib/utils/schemas";

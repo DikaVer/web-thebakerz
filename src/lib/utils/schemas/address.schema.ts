@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Zod schema and constants for validating delivery addresses.
+ *
+ * Exports AddressZodSchema, which validates street, house number, postal code
+ * (normalizing Dutch postal codes to "1234 AB" format), city, coordinates, and
+ * optional Google Places metadata. Also exports Google Maps configuration
+ * constants (libraries and country restrictions), the Dutch postal code regex,
+ * and maximum character limits for address fields.
+ */
 import * as z from 'zod';
 
 // Regex patterns for validation

@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Inline SVG icon components for product dietary attributes.
+ *
+ * Exports the noSugar, noLactose, noGluten, iconHalal, and iconVegan React
+ * components, each rendering a currentColor SVG with a configurable size prop.
+ * Used to badge products with dietary and allergy information in the store UI.
+ */
 export const noSugar: React.FC<{ size?: number }> = ({ size = 20 }) => {
     return (
         <svg width={size} height={size} viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">

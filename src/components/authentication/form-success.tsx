@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Inline success message banner for authentication forms.
+ *
+ * Exports the FormSuccess component, which renders an emerald-styled alert box
+ * with a check icon and the given message, or nothing when no message is
+ * provided.
+ */
 import {
     CheckCircledIcon
 } from "@radix-ui/react-icons";

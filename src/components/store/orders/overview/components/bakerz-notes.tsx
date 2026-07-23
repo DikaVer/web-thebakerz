@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Client component showing the order heading in the order overview.
+ *
+ * Exports BakerzNotes, which currently renders only an "Order" label with the
+ * store order number as gradient text; despite the name, no note-taking
+ * functionality is implemented yet.
+ */
 "use client";
 import React from "react";
 import {Icon} from "@iconify/react";

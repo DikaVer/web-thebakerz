@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Vertical step indicator component used in multi-step flows.
+ *
+ * Exports the VerticalSteps component, which renders a column of numbered
+ * steps with titles and descriptions, animated check marks for completed
+ * steps, and optional connecting progress bars. Step state can be controlled
+ * or uncontrolled via currentStep/defaultStep and reports changes through
+ * onStepChange.
+ */
 "use client";
 
 import type {ComponentProps} from "react";

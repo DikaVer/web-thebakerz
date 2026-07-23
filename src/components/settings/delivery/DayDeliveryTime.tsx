@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Per-day delivery time row for delivery schedule editing.
+ *
+ * Exports the DayDeliveryTime client component, which renders start and end
+ * time selects (in 30-minute steps) and an enable switch for one weekday,
+ * validates that the start time precedes the end time, and reports changes to
+ * the parent through the setDeliveryTime callback.
+ */
 'use client';
 
 import React, { useEffect, useState, useMemo } from "react";

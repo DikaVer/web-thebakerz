@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Full-screen hero section for the marketplace landing page.
+ *
+ * Exports LandingHeroSection, which layers the brand title, a translated
+ * headline, language and sign-in controls, and an address-search link (with
+ * the AnimatedPlaceholder typing effect, also exported) over a full-viewport
+ * background image. Tags the page in Microsoft Clarity on mount and can open
+ * the language selection modal.
+ */
 'use client';
 
 import { Button, Divider} from '@heroui/react';

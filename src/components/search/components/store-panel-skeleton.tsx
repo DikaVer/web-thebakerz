@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Loading skeleton placeholder for a store panel card.
+ *
+ * Exports StorePanelSkeleton, a pulsing HeroUI Card with gray placeholder
+ * blocks for the store image, title, description, and info line, shown while
+ * store search results are loading.
+ */
 'use client';
 
 import React from 'react';

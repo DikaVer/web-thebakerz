@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Tabbed layout for the store settings page.
+ *
+ * Exports the StoreTabsSettings client component, which shows the StoreInfo
+ * summary card and tabs for store details (StoreSetting), pickup hours
+ * (WorkingHoursManager), and delivery configuration (DeliveryManager). The
+ * active tab is synced with the "tab" query parameter, save handlers are
+ * cleared on tab change, and unauthenticated visitors are redirected to the
+ * auth page.
+ */
 'use client';
 import React from "react";
 import { Tab, Tabs } from "@heroui/react";

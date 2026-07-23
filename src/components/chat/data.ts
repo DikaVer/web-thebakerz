@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Shared type definitions for the chat components and a component gallery.
+ *
+ * Exports the CategoryEnum plus Attributes, ComponentInfo, and related types
+ * describing gallery components, previews, and search results, along with the
+ * MessagingChatMessageProps type consumed by the messaging chat message
+ * component. Contains no runtime logic beyond the enum declaration.
+ */
 import type {CSSProperties} from "react";
 
 export enum CategoryEnum {

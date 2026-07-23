@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Order items card with a price breakdown for a customer's order.
+ *
+ * Exports the OrderUserItems component, which wraps ItemUserList in a card
+ * and renders a footer summarizing subtotal, VAT, delivery fee, service fee,
+ * and total amounts from the order's price data.
+ */
 "use client";
 import React from "react";
 

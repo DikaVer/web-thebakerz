@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Product editing page rendered at /[id]/item/add-item/[productId].
+ *
+ * Server component that resolves the store by slug (rendering NotFound if it
+ * does not exist) and renders the ItemPage editor for the given product ID.
+ */
 import React from "react";
 import {getStoreIdAPI} from "@/lib/api/GET/store-api";
 import {ItemPage} from "@/components/store/add-item/item-page";

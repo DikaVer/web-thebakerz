@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Layout for the (main) route group containing the primary marketplace pages.
+ *
+ * Server component that loads the delivery mode, rescue-deal mode, saved
+ * delivery address, and store favorites, then nests the Delivery,
+ * ProductDialog, Favorites, and GoogleMaps providers around LayoutComp and
+ * the shared Footer.
+ */
 import '@/styles/globals.css'
 import React from "react";
 import {Footer} from "@/components/footer";

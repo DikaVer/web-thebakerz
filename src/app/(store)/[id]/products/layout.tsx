@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Layout for the /[id]/products store management segment.
+ *
+ * Server component that verifies the current user has management access to
+ * the store before rendering product management pages, showing NotFound
+ * otherwise. Exports noindex "Products Management" metadata via
+ * generateMetadata.
+ */
 import '@/styles/globals.css'
 import React from "react";
 import NotFound from "@/app/(error_layout)/not-found";

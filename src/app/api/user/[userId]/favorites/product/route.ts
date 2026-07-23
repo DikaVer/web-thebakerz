@@ -1,3 +1,10 @@
+/**
+ * @fileoverview API route handling GET /api/user/[userId]/favorites/product, which lists a user's favorite products.
+ *
+ * Fetches all product favorites for the given user via getProductFavorites and returns them
+ * as JSON. Requires bearer token authentication via the Authorization header and is rate
+ * limited via globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import { getTranslations } from "next-intl/server";
 import { getStoreFavorites } from '@/lib/actions/favorites';
@@ -6,17 +13,6 @@ import { getProductFavorites } from '@/lib/actions/favorites';
 import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
 
-/**
- * API Route: GET /api/favorites
- * -----------------------------------------------------------------------------------
- * Retrieves all favorites for a specific user.
- *
- * Required Headers:
- * - User-Id: Identifier for the user
- * - Authorization: Bearer token for API authentication
- *
- * @returns {Promise<NextResponse>} JSON response with favorites data or error message
- */
 export async function GET(request: Request, { params }: { params: Promise<{ userId: string }> }) {
     
     if (!(await globalGETRateLimit())) {

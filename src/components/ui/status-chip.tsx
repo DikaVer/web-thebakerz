@@ -1,4 +1,10 @@
-// TypeScript
+/**
+ * @fileoverview Colored chip displaying an order's status.
+ *
+ * Exports OrderStatusChip, a Hero UI Chip showing a translated order status
+ * label, and the getStatusColor helper that maps statuses (new, started,
+ * ready, completed, cancelled, refunded) to background and text color classes.
+ */
 import { Chip, ChipProps } from "@heroui/react";
 import { OrderStatus } from "@/lib/actions/order";
 import { useTranslations } from "next-intl";

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Stripe Embedded Checkout wrapper for the store payment page.
+ *
+ * Fetches a Stripe checkout session client secret via a server action
+ * (including the order note stored in localStorage) and renders Stripe's
+ * embedded checkout UI once available. Shows loading and error views and
+ * redirects back to the store checkout page on failure.
+ */
 'use client'
 
 import { useEffect, useState } from 'react'

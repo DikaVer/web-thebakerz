@@ -1,4 +1,10 @@
-// StoresTableSkeleton.tsx
+/**
+ * @fileoverview Loading skeleton for a store page.
+ *
+ * Exports StoreSkeleton, which mimics the store page layout with
+ * react-loading-skeleton placeholders: a banner, a search bar, and several
+ * product category sections with title and product-row placeholders.
+ */
 
 import React from "react";
 import Skeleton from "react-loading-skeleton";

@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Client-side product dialog and filter context provider with
+ * the useProductDialog hook.
+ *
+ * Exports ProductDialogProvider, which renders the shared ProductDialog modal
+ * and supplies ProductDialogContext with handlers to open it for a product
+ * (optionally with cart item or rescue deal info), access to the local
+ * products data map, and product filter state (price range, categories,
+ * allergies, dietary, search term) parsed from and synced with URL search
+ * params. Also exports the FilterParams interface.
+ */
 'use client';
 
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';

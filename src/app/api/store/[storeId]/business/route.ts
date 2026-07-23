@@ -1,9 +1,15 @@
+/**
+ * @fileoverview API route handling GET /api/store/[storeId]/business, which returns a store's business data.
+ *
+ * Fetches business information for the given store via getBusinessStoreData and returns it
+ * as JSON, or null when not found. Accepts GET requests with a Bearer token in the
+ * Authorization header and is rate limited via globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import {getBusinessStoreData} from "@/lib/actions/store";
 import { getTranslations } from "next-intl/server";
 import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
-// This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(request: Request, { params }: { params: Promise<{ storeId: string }> }) {
     const t = await getTranslations("app/api/store");
 

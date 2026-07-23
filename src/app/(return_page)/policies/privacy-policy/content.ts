@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Markdown content for TheBakerz privacy policy.
+ *
+ * Exports privacyEnglishBakerz, an object whose content field holds the full
+ * English privacy statement in Markdown, rendered by the privacy-policy page.
+ */
 export const privacyEnglishBakerz: {
     content: string
 } = {

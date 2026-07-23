@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Client component for scheduling and finalizing a store-created order.
+ *
+ * Exports ScheduleBakerzOrder, which lets the store owner pick a pick-up
+ * date/time with SmartDatetimeInput, then either create the order directly
+ * with customer details (name, email, phone, validated with
+ * CustomerOrderSchema) or generate a Stripe payment link for the customer via
+ * fetchClientSecret and share it through a modal. On successful creation it
+ * clears the cart and navigates to the order page.
+ */
 "use client";
 
 import React, {startTransition, useActionState, useEffect, useState} from "react";

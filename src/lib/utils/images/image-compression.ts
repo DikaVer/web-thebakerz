@@ -1,5 +1,11 @@
 /**
- * Utility functions for client-side image compression
+ * @fileoverview Client-side image compression utilities using the Canvas API.
+ *
+ * Exports compressImage, which resizes an image to a maximum dimension,
+ * converts it to WebP, JPEG, or PNG, and iteratively lowers quality until the
+ * result fits within a size limit. Preserves animated GIFs when small enough,
+ * detects PNG transparency to choose a format that keeps the alpha channel,
+ * and logs each compression step via the shared logger.
  */
 import { logger } from '../../logger';
 

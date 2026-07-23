@@ -1,4 +1,11 @@
-// --- Function to parse a date to numeric date and time strings ---
+/**
+ * @fileoverview Helpers for converting calendar values to and from URL/string
+ * parameters.
+ *
+ * Exports parseDateTime, which turns a CalendarDateTime into numeric date and
+ * time strings, and parseDateParams, which parses a "YYYY-MM-DD HH:mm" string
+ * back into a CalendarDateTime, returning undefined when parts are missing.
+ */
 import {CalendarDateTime} from "@internationalized/date";
 import {useTranslations} from "next-intl";
 

@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Compact site footer variant.
+ *
+ * Exports FooterSimple, which renders translated support and legal link
+ * columns, a copyright line with the current year, and the TheBakerz logo
+ * plus brand wordmark linking to the home page.
+ */
 "use client";
 
 import type {IconProps} from "@iconify/react";

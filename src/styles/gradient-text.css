@@ -1,3 +1,11 @@
+/*
+ * Styles for an animated gradient text component.
+ *
+ * Defines the .animated-gradient-text container, a .gradient-overlay layer with
+ * an infinitely animating background-position gradient and inner dark mask, and
+ * a .text-content class that clips the same gradient to the text itself.
+ */
+
 .animated-gradient-text {
     position: relative;
     margin: 0;

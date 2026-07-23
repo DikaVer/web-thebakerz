@@ -1,3 +1,12 @@
+/**
+ * @fileoverview API client functions for reading the current user's favorites.
+ *
+ * Exports getStoreFavoritesAPI, getProductFavoritesAPI, and
+ * getFavoritesByStoreAPI, which resolve the logged-in user from the session
+ * and fetch favorite stores and products from the internal
+ * /api/user/[userId]/favorites endpoints using bearer token authentication,
+ * cached for 300 seconds under the 'favorites' tag.
+ */
 'use server';
 import { getCurrentSession } from "@/lib/actions/session";
 import { FavoriteData } from "../../actions/favorites";

@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Client component charting order revenue by status for the order dashboard.
+ *
+ * Exports OrdersBarChart, which aggregates a list of orders into per-status
+ * counts and amounts and renders them as a Recharts donut chart (via the
+ * internal CircleChartCard) with a total revenue label, tooltip details, and
+ * a status legend. Data is filtered by the selected statuses passed in as a
+ * prop, and a spinner is shown while loading.
+ */
 "use client";
 
 import {ButtonProps, CardProps, Spacer} from "@heroui/react";

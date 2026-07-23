@@ -1,12 +1,11 @@
 /**
- * DOM Monkey Patch to prevent errors caused by Google Translate
- * 
- * This file contains patches for DOM methods that can cause errors when 
- * third-party tools like Google Translate modify the DOM structure.
- * 
- * Common errors this prevents:
- * - "Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node."
- * - "Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+ * @fileoverview DOM monkey patch that prevents crashes caused by Google Translate.
+ *
+ * Exports applyDOMNodePatch and removeDOMNodePatch, which wrap
+ * Node.prototype.insertBefore and Node.prototype.removeChild so that calls
+ * involving nodes detached by third-party tools (such as Google Translate or
+ * browser extensions) log a warning instead of throwing "not a child of this
+ * node" errors. Browser-only; both functions are no-ops on the server.
  */
 
 /**

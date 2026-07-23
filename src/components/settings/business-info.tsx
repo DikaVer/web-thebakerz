@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Read-only account and business information cards for the settings page.
+ *
+ * Exports the BusinessInfo client component, which shows the signed-in user's
+ * account type, email, membership date, and verification status, plus an
+ * optional business card with company name, KVK and VAT numbers, region flag,
+ * registered address, and bank account when business data is available.
+ */
 'use client';
 
 import React, { useState} from "react";

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Server action mapping payment error codes to translated messages.
+ *
+ * Exports getErrorMessage, which converts checkout and order-processing error
+ * codes (rate limits, missing payment intent or order data, failed payment,
+ * user/order creation failures) into localized strings from the PaymentErrors
+ * translation namespace, falling back to a generic unexpected-error message.
+ */
 'use server';
 import { getTranslations } from "next-intl/server";
 

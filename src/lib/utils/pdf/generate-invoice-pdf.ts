@@ -1,3 +1,11 @@
+/**
+ * @fileoverview PDF generation from HTML content using headless Chromium.
+ *
+ * Exports generatePdf, which launches a Playwright Chromium instance, loads the
+ * given HTML, waits for network idle, and returns an A4 PDF buffer with
+ * backgrounds printed. Used to produce invoice PDFs from rendered invoice
+ * markup.
+ */
 const { chromium } = require('playwright');
 
 export const generatePdf = async (htmlContent:any) => {

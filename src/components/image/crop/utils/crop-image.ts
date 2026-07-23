@@ -1,4 +1,12 @@
-// crop-image.ts
+/**
+ * @fileoverview Canvas utilities for producing a cropped, processed image file.
+ *
+ * Exports helpers to load an image element, convert degrees to radians, and
+ * compute the bounding box of a rotated rectangle, plus the default
+ * getCroppedImg function that draws the rotated/flipped crop to a canvas,
+ * compresses and converts the result to WebP via imageProcess, and returns
+ * the file with an object URL (falling back to the raw JPEG on failure).
+ */
 import { imageProcess } from '@/lib/utils/images/image-process';
 
 export const createImage = (url: string): Promise<HTMLImageElement> =>

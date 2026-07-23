@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Client-side delivery context provider and useDelivery hook.
+ *
+ * Exports DeliveryProvider, which supplies DeliveryContext with the
+ * delivery/pickup and rescue-deal mode toggles (persisted to cookies and URL
+ * search params), the selected order or delivery date, the customer's
+ * delivery address, and the delivery address modal state. It validates the
+ * address against the store's delivery regions using haversine distance to
+ * pick the closest region and pricing range, falling back to country-wide
+ * delivery, and loads or saves pickup/delivery times via server actions.
+ */
 'use client';
 
 import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';

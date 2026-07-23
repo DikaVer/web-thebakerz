@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Small utility helpers for the delivery settings module.
+ *
+ * Contains formatTime, which renders an hour/minute pair as a zero-padded
+ * HH:MM string, and eurosToCents, which converts euro amounts to integer
+ * cents for price inputs.
+ */
 import { useTranslations } from "next-intl";
 
 /**

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Disabled page composition from the previous landing page design.
+ *
+ * The entire file is commented out and exports nothing. It previously
+ * contained a landing Page component rendering ApplyComponent, along with
+ * WhyChooseSectionAnimated, PricingSection, and Footer sections featuring a
+ * pricing card, modal, and animated mascot footer. Kept for reference only.
+ */
 // "use client";
 
 // import React, {useState} from "react";

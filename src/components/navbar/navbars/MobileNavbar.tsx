@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Fixed bottom navigation bar shown to customers on store pages.
+ *
+ * Exports the MobileNavbar component, which displays the cart button when
+ * the customer's address is within delivery range (or when in pickup mode),
+ * a warning alert when the address is out of range, and an informational
+ * alert for postal delivery regions.
+ */
 import React from "react";
 import CartButton from "@/components/cart/cart-button";
 import { SelectTime } from "@/components/ui/select-time";

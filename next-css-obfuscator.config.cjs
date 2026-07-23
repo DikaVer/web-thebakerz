@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Configuration for the next-css-obfuscator package used by the obfuscate-build script.
+ *
+ * Enables CSS class name obfuscation in "random" mode for .jsx, .tsx, .js, .ts,
+ * .html, and .rsc build output, refreshes the class conversion JSON on each run,
+ * and blacklists Next.js cache, API route, and framework chunk paths from
+ * processing.
+ */
+
 module.exports = {
     enable: true,
     mode: "random", // random | simplify | simplify-seedable

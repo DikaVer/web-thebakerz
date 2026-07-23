@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Scroll-driven MacBook mockup animation for the become-partner landing page.
+ *
+ * Exports the MacbookScroll component plus supporting Lid, Keypad, KBtn,
+ * SpeakerGrid, and Trackpad pieces that render a stylized MacBook whose lid
+ * opens, scales, and swaps screen images as the user scrolls, using
+ * motion/react scroll transforms. Accompanying translated headings fade in
+ * and out at scroll thresholds.
+ */
 "use client";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { MotionValue, motion, useScroll, useTransform } from "motion/react";

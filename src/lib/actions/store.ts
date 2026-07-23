@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Server actions and types for reading store data.
+ *
+ * Defines the StoreData, StoreDataPayment, StoreBusinessData, NearbyStore,
+ * and location types, and exports queries that assemble a full store profile
+ * from the PostgreSQL stores, users, store_locations, and business_acc
+ * tables, enriched with the working-hours schedule and delivery regions from
+ * Cosmos DB, Stripe account validity, and favorite counts. Includes lookups
+ * by store name/ID, by owner, payment-specific data, and findNearbyStores,
+ * which ranks stores by haversine distance and filters them by pickup or
+ * delivery eligibility.
+ */
 'use server';
 import {connectionPool} from "@/db";
 import {getScheduleById, WorkHours} from "@/lib/actions/calendar-actions";

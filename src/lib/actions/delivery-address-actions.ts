@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Server actions for delivery address validation and persistence.
+ *
+ * Exports validateAddress, which geocodes an address with the Google Maps
+ * Geocoding API, verifies postal code and city, and matches the coordinates
+ * against the store's delivery regions (city ranges with a country-wide
+ * fallback) using haversine distance to determine delivery eligibility and
+ * pricing. Also provides reverse geocoding from coordinates and a wrapper for
+ * saving a validated delivery address to the database.
+ */
 'use server';
 
 import { ValidationResult } from '@/components/providers/delivery-provider';

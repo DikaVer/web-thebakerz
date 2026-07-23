@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server actions for user favorites of stores and products.
+ *
+ * Defines the FavoriteData type and exports rate-limited, session-guarded
+ * actions to add and remove store or product favorites in the Cosmos DB
+ * favorites container, plus query helpers for listing a user's favorites and
+ * aggregating favorite counts per store or product. Mutations revalidate the
+ * 'favorites' cache tag.
+ */
 'use server';
 import { containerFavorites } from "@/db";
 import { getCurrentSession } from "@/lib/actions/session";

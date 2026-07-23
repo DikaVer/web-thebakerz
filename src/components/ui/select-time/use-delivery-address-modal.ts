@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Hook managing the delivery address modal's open state.
+ *
+ * Exports useDeliveryAddressModal, built on the Hero UI useDisclosure hook.
+ * It prevents the modal from closing while the Google Places autocomplete
+ * dropdown is focused or a form submission is in progress, closes on
+ * successful submission, and logs state transitions for debugging.
+ */
 import { useDisclosure } from "@heroui/react";
 import { logger } from "@/lib/logger";
 import { useState } from "react";

@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Generic helper for sorting items according to an explicit id order list.
+ *
+ * Exports sortItems, which orders items by their position in a given array of
+ * ids, places items found in the order list before those that are not, and
+ * applies an optional fallback comparator for items missing from the list.
+ */
 // Generic sort function using an order list
 export function sortItems<T>(
     items: T[],

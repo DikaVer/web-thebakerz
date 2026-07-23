@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Shared application constants and lookup tables.
+ *
+ * Contains coordinate maps for Dutch cities and major cities per EU country,
+ * the list of example store ids, the minimum order price in cents, the current
+ * Terms of Service version, the product category catalog with descriptions,
+ * and the map of EU country codes (plus Switzerland) to country names.
+ */
 export const cityLatLngMap: Readonly<{ [key: string]: { lat: number, lng: number } }> = {
     'Amsterdam': {'lat': 52.3728, 'lng': 4.8936},
     'Rotterdam': {'lat': 51.92, 'lng': 4.48},

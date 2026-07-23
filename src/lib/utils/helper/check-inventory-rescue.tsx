@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server actions for checking and reserving rescue deal inventory.
+ *
+ * Exports checkAndReserveInventory, which computes per-product availability from
+ * the store's active rescue deal, today's rescue orders in the Cosmos DB orders
+ * container, and quantities already on hold, then optionally creates inventory
+ * holds for the requested quantities. Also exports checkInventoryAvailability
+ * for read-only availability lookups used for display purposes.
+ */
 'use server';
 import { containerOrders } from '@/db';
 import { getRescueDeal, RescueDeal } from '@/lib/actions/rescue-deal';

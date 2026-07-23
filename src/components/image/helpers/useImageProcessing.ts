@@ -1,3 +1,12 @@
+/**
+ * @fileoverview React hook for client-side image compression and conversion.
+ *
+ * Exports the ImageProcessingOptions type and the useImageProcessing hook,
+ * which wraps imageProcess to compress images and convert them to WebP while
+ * exposing a processing flag and compression statistics (sizes, ratio, and
+ * dimensions). Provides helpers for processing a File directly or from a file
+ * input change event.
+ */
 'use client';
 
 import { useState } from 'react';

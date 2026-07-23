@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Store actions dropdown menu with role-based items.
+ *
+ * Exports the ThreeDotsDropdown client component. For users with the
+ * "bakerz" role it offers copy/share store link plus navigation to store,
+ * pickup, delivery, products, rescue-deal, add-order, and support pages;
+ * for other users it offers copy link, support, and report options. A custom
+ * trigger can be supplied via children.
+ */
 'use client';
 import React, { useState } from 'react';
 import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@heroui/react";

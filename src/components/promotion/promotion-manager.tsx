@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Top-level manager for a store's promotions and loyalty program settings.
+ *
+ * Exports the PromotionManager component, which organizes the Products,
+ * Promotions, and Loyalty tabs, holds shared state for promotion groups,
+ * loyalty settings, and loyalty items, and tracks a react-hook-form of
+ * product assignments. Dirty assignment changes surface the global save
+ * button via the session provider and are persisted through the promotion
+ * and loyalty assignment server actions.
+ */
 'use client';
 
 import React, { useState, useEffect } from 'react';

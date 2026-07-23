@@ -1,3 +1,13 @@
+/**
+ * @fileoverview CRUD manager for a store's loyalty reward items.
+ *
+ * Exports the LoyaltyItemsManager component, which lists loyalty items as
+ * cards and provides a modal form to create or edit items of type
+ * buyXGetYFree, percentageDiscount, or fixedAmountDiscount, including their
+ * point price and active state. Persists changes through the
+ * createLoyaltyItem, updateLoyaltyItem, and deleteLoyaltyItem server actions
+ * and reports results via toasts.
+ */
 'use client';
 
 import React, { useState } from 'react';

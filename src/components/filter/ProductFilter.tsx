@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Product filter drawer with search, category, allergy, and dietary filters.
+ *
+ * Renders a SidebarDrawer containing a product search input, a rescue deals
+ * switch, price range selects, and accordion sections for categories, allergy
+ * exclusions, and dietary preferences. Debounces and throttles updates before
+ * emitting the combined FilterParams to the parent, and includes a custom
+ * order button in the footer.
+ */
 'use client';
 
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';

@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Root error boundary UI for the App Router.
+ *
+ * Client component rendered when an unhandled error occurs in a route
+ * segment. Shows a translated error message with the error text, an
+ * illustration, and a button that navigates back and refreshes the router.
+ */
 'use client';
 
 import React from 'react';

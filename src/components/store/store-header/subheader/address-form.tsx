@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Delivery address entry form with Google Places autocomplete
+ * and an interactive map.
+ *
+ * Exports the AddressForm client component, which combines a debounced Places
+ * autocomplete (restricted to allowed countries), reverse geocoding when the
+ * map is clicked or dragged, and a react-hook-form + AddressZodSchema form
+ * that submits the parsed address components through the delivery provider's
+ * handleAddressSubmit. Includes Dutch postal code formatting and an iOS
+ * Safari viewport-zoom workaround for the autocomplete input.
+ */
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';

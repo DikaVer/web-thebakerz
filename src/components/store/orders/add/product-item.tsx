@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Client component rendering selectable product rows in the store order flow.
+ *
+ * Exports ProductItems, which lists each product in the given category as a
+ * button showing its image, name, and formatted price with an add icon.
+ * Clicking a row opens the product dialog (via the product provider) so the
+ * store owner can add the product to the order cart.
+ */
 "use client";
 
 import {Button, Image, Tab, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@heroui/react";

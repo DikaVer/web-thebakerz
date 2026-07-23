@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Tab wrapper embedding the product manager in the settings page.
+ *
+ * Exports the ProductCard client component, which renders a HeroUI Tabs
+ * container whose initial selection comes from the "tab" query parameter and
+ * hosts the ProductManager with the provided product data and category
+ * ordering.
+ */
 'use client';
 import {Tab, Tabs} from "@heroui/react";
 import React from "react";

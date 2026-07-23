@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Client-side favorites context provider and useFavorites hook.
+ *
+ * Exports FavoritesProvider, which supplies FavoritesContext with the user's
+ * favorite stores and products. It offers add/remove operations that call the
+ * favorites server actions and update local state optimistically, lookup
+ * helpers to check whether a store or product is favorited, and Microsoft
+ * Clarity event tracking for each action.
+ */
 'use client';
 
 import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';

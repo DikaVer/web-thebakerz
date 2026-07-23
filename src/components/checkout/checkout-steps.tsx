@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Multi-step checkout accordion for the store checkout page.
+ *
+ * Orchestrates the four checkout steps (sign in, order scheduling, cart
+ * review, and Stripe payment) as accordion items, tracking the current step
+ * and unlocking later steps as earlier ones complete. Also merges guest cart
+ * and address data after login, surfaces payment errors from the URL, tags the
+ * session in Microsoft Clarity, and blocks store owners from checking out in
+ * their own store.
+ */
 'use client';
 import { Accordion, AccordionItem} from "@heroui/react";
 import { Icon } from "@iconify/react";

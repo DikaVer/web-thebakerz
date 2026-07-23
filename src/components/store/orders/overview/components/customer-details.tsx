@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Client component displaying customer details on the order overview page.
+ *
+ * Exports OrderCustomerDetails, a card showing the customer's name, email and
+ * phone links, an optional delivery address linked to Google Maps with any
+ * additional info, and an optional order note.
+ */
 "use client";
 import React from "react";
 import {useRouter} from "next/navigation";

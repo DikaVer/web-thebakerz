@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Server action that creates an embedded Stripe Checkout session.
+ *
+ * Exports fetchClientSecret, which validates the checkout preconditions
+ * (rate limit, session or guest identity, cart contents, delivery address and
+ * region, store schedule, lead time, and minimum order amount), computes
+ * VAT-aware totals and the platform application fee, writes a
+ * pending-payment record to the Cosmos DB unpaid-orders container, builds
+ * Stripe line items with tax rates, and creates an embedded-mode Checkout
+ * session with transfer data to the store's connected Stripe account,
+ * returning the client secret.
+ */
 'use server'
 
 import { stripe } from "@/stripe";

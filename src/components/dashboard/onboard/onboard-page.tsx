@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Admin dashboard form for onboarding a customer account as a bakery (Bakerz).
+ *
+ * Renders a react-hook-form validated against OnboardSchema collecting store
+ * name, Stripe account, contact and location details, fee and regional
+ * settings, and business/invoicing information, then submits it through the
+ * onboardBakerz action and redirects to the users dashboard on success.
+ */
 'use client';
 
 import React, { startTransition, useState } from "react";

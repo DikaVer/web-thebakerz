@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Confirmation modal for deleting a product.
+ *
+ * Exports DeleteConfirmationModal, a themed HeroUI modal that warns before a
+ * product deletion and exposes onClose/onConfirm callbacks, disabling
+ * dismissal while the delete request is in flight.
+ */
 import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@heroui/react";
 import {IconClose} from "@/components/ui/icons";
 import React from "react";

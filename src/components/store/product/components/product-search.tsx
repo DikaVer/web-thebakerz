@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Client search input for filtering a store's products.
+ *
+ * Exports ProductSearch, a controlled search box that keeps local state for
+ * instant typing feedback while debouncing the parent onSearchChange
+ * callback (300 ms). Includes iOS Safari specific handling that temporarily
+ * locks the viewport scale and scrolls the input into view on focus to avoid
+ * zoom and keyboard issues.
+ */
 'use client';
 import React, { ChangeEvent, useState, useEffect, useCallback, useRef } from 'react';
 import { Input } from '@heroui/react';

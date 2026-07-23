@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Store card shown in search results, linking to the store
+ * page.
+ *
+ * Exports StorePanel, which renders a nearby store's image, name, likes,
+ * distance, delivery fee and minimum order info, minimum lead time, and a
+ * working/delivery hours popover that opens on hover (desktop) or tap
+ * (mobile). It includes an animated favorite button wired to the favorites
+ * provider (prompting sign-in when needed) and hides itself when the relevant
+ * pickup or delivery schedule has no enabled days.
+ */
 'use client';
 
 import React, { useMemo, useState, useRef, useEffect } from 'react';

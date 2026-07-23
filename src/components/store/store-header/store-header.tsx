@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Hero header banner for a store page.
+ *
+ * Exports the StoreHeader client component, which renders the store's
+ * background image with owner name, slug, social links, share button,
+ * animated like/favorite button, info modal (StoreDescription), and report
+ * modal. Store owners can upload a new background image (validated with
+ * ImageSchema and saved via updateStoreBackground); it also tags the store in
+ * Microsoft Clarity and gates social/report actions behind sign-in.
+ */
 "use client";
 
 import React, {useEffect, useState} from "react";

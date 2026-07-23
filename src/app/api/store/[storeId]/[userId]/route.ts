@@ -1,4 +1,10 @@
-
+/**
+ * @fileoverview API route handling GET /api/store/[storeId]/[userId], which returns store data scoped to an owner.
+ *
+ * Fetches the store matching both the given store ID and owner user ID via
+ * getStoreByUserIdAndStoreId and returns it as JSON, or null when no match exists. Requires
+ * bearer token authentication and is rate limited via globalGETRateLimit.
+ */
 import { NextRequest, NextResponse } from "next/server";
 import {getStoreByUserIdAndStoreId} from "@/lib/actions/store";
 import { globalGETRateLimit } from "@/lib/utils/helper/requests";

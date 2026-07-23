@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Modal for editing a delivery region's schedule and lead time.
+ *
+ * Exports the DeliveryScheduleModal client component, which lets a store
+ * owner set the minimum order lead time (30 minutes up to 30 days) and, for
+ * non-postal delivery, per-day delivery time windows via DayDeliveryTime
+ * rows. Changes are propagated through callbacks and committed with the
+ * onSave handler supplied by the parent.
+ */
 'use client';
 
 import React, { useState, useMemo, useEffect } from "react";

@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Editor for a city's distance-based delivery ranges.
+ *
+ * Exports the DeliveryRangeSettings client component, which renders a card
+ * per delivery range with a distance slider (up to 50 km, maximum five
+ * ranges), delivery price and minimum order price inputs in euros, and a
+ * delivery window select whose options depend on whether postal delivery is
+ * enabled. All changes and the add/remove/save actions are delegated to
+ * parent callbacks.
+ */
 'use client';
 
 import React, { useState } from "react";

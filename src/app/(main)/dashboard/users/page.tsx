@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Admin user management page at /dashboard/users.
+ *
+ * Client component rendering an infinite-scroll table of users with debounced
+ * email search backed by searchUsersByEmailPaginated. Provides per-row
+ * actions to edit existing bakers or onboard regular users as bakers.
+ */
 'use client';
 import React from "react";
 import {

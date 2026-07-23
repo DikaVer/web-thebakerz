@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Question-mark help popover for order timing fields.
+ *
+ * Exports InfoPopover, a small Hero UI popover triggered by an icon button
+ * that shows a translated explanation for pre-order time, delivery window, or
+ * pickup window, selected via the type prop.
+ */
 'use client';
 
 import React from 'react';

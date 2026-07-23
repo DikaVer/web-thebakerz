@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Orders dashboard page rendered at /[id]/orders.
+ *
+ * Server component that renders the OrderDashboard for the store, passing
+ * optional date range filters (date, from, to) from the query string, with
+ * the store footer below. Access control is handled by the segment layout.
+ */
 import React from "react";
 
 import { FooterStore } from "@/components/footer-store";

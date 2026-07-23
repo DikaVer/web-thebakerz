@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Icon button that opens the product filter drawer.
+ *
+ * Renders a search icon button that toggles the ProductFilter drawer through
+ * the product dialog provider and forwards filter changes back to the
+ * provider's filter params.
+ */
 'use client';
 
 import React, { useState, useEffect } from 'react';

@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server actions for store rescue deals (food-waste reduction offers).
+ *
+ * Defines the RescueDeal and RescueDealProduct types and exports
+ * saveRescueDeal, which validates input with RescueDealSchema and, after
+ * verifying store ownership via the current session, upserts the deal into
+ * the Cosmos DB rescue-deals container, and getRescueDeal, which fetches the
+ * single deal configured for a store.
+ */
 'use server';
 import { containerRescueDeals } from '@/db';
 import { RescueDealSchema, RescueDealType } from '@/lib/utils/schemas/rescue-schema';

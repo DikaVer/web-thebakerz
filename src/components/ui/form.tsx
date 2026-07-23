@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Shadcn/ui form primitives integrating react-hook-form.
+ *
+ * Exports Form, FormField, FormItem, FormLabel, FormControl, FormDescription,
+ * FormMessage, and the useFormField hook. Wires react-hook-form state into
+ * accessible field markup (ids, aria attributes, and error messages) using
+ * Radix UI Label and Slot primitives.
+ */
 "use client"
 
 import * as React from "react"

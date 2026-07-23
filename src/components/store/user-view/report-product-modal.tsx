@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Modal form for reporting a product to the platform.
+ *
+ * Exports the ReportProductModal client component, a react-hook-form + Zod
+ * validated subject/description form (with a 2000-character counter) that
+ * sends the report as an email via the sendEmail server action, including the
+ * store name, product name, and product id, and logs a Clarity event on
+ * submission.
+ */
 'use client';
 
 import React, { startTransition } from 'react';

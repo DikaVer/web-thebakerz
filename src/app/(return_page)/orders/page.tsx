@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Customer order history page at /orders.
+ *
+ * Server component that redirects unauthenticated visitors to /auth, fetches
+ * the current user's orders via getUserOrders, and renders them with
+ * OrdersList. Metadata marks the page as noindex.
+ */
 import { Metadata } from "next";
 import { getCurrentSession } from "@/lib/actions/session";
 import { getUserOrders } from "@/lib/actions/user-orders";

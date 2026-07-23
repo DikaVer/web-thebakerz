@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Product manager for arranging a store's categories and products.
+ *
+ * Exports the ProductManager client component, which groups products by
+ * category, shows draggable category tabs and a reorderable product list per
+ * tab, and tracks order changes locally. Changes are persisted through the
+ * session provider's save handler, which calls the updateProductsOrder server
+ * action with the full category-to-product-ID order payload.
+ */
 'use client';
 
 import React, { useEffect, useState, useMemo } from "react";

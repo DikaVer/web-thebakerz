@@ -1,4 +1,12 @@
-// LanguageModal.tsx (client component)
+/**
+ * @fileoverview Modal for choosing the interface language.
+ *
+ * Exports LanguageModal, a non-dismissable HeroUI modal listing the supported
+ * locales (English, Dutch, German, French, Spanish, Russian, Ukrainian) with
+ * flag icons. Selecting a language persists it through the setLanguageCookie
+ * server action, invokes the optional handAction callback, and closes the
+ * modal; the modal does not open on socials pages.
+ */
 'use client';
 import {Modal, ModalContent, ModalHeader, ModalBody, Button} from '@heroui/react';
 import { useState, FormEvent } from 'react';

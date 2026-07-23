@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Countdown banner for rescue deals before store closing.
+ *
+ * Exports the RescueDealTimer client component, which ticks every second
+ * using getTimeUntilClosing on the store schedule, shows remaining time and a
+ * progress bar with escalating urgency styling, and switches the store into
+ * rescue-deal (pickup) mode via the delivery provider when clicked.
+ */
 'use client';
 import React, { useState, useEffect } from 'react';
 import { Progress } from '@heroui/react';

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Simplified navigation bar for return-style pages such as checkout.
+ *
+ * Exports the ReturnNavbar component, which shows a back button that returns
+ * to the store, the previous page, or home depending on context, alongside
+ * either the store owner name, the TheBakerz brand text, a cart button, or a
+ * join button on the become-partner page.
+ */
 import { Button, NavbarItem, Avatar, Image, cn } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useRouter, usePathname } from "next/navigation";

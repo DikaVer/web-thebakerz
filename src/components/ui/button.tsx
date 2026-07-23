@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Project button primitive wrapping the Hero UI Button.
+ *
+ * Exports Button and buttonVariants. Unlike the stock Shadcn/ui button (which
+ * uses Radix), this version forwards props to the Hero UI Button while applying
+ * class-variance-authority styling, including project-specific variants such as
+ * free, busy, closed, and disabled for store availability states.
+ */
 import React, { forwardRef } from "react";
 import { Button as Btn } from "@heroui/react";
 import { cva } from "class-variance-authority";

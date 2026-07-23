@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Disabled hero section from the previous landing page design.
+ *
+ * The entire file is commented out and exports nothing. It previously
+ * contained a FirstView component with an animated gradient hero, a
+ * get-started button scrolling to the application section, and a phone
+ * mockup image. Kept for reference only.
+ */
 // 'use client';
 
 // import { useRouter } from 'next/navigation';

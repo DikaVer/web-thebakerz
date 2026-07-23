@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Terms of use page at /policies/terms-of-use.
+ *
+ * Server component that renders the Markdown terms and conditions from the
+ * sibling content module via ReactMarkdown with rehype-sanitize, injects
+ * schema.org WebPage structured data, and exports static SEO metadata.
+ */
 import React from "react";
 import rehypeSanitize from "rehype-sanitize";
 import ReactMarkdown from "react-markdown";

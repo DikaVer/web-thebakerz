@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Server component that prepares data for a store's product
+ * list.
+ *
+ * Exports ProductComponentBase, which fetches the store's product ordering
+ * and schedule, and when the store closes within 45 minutes loads rescue
+ * deals, refreshes their available quantities from inventory, and keeps only
+ * selected deals before rendering ProductListBase.
+ */
 'use server';
 
 import React from "react";

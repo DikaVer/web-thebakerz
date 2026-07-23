@@ -1,3 +1,13 @@
+/**
+ * @fileoverview API route handling POST /api/payment-intent, which confirms a Stripe payment for a pending order.
+ *
+ * Accepts a Stripe confirmation token plus order and store IDs, loads the unpaid order from
+ * Cosmos DB, reserves rescue-deal inventory when applicable, and creates and confirms a
+ * PaymentIntent (with transfer data or on a connected account for zero-commission stores).
+ * On success it persists the order to PostgreSQL and Cosmos DB in a transaction, clears the
+ * cart, sends the confirmation email, and returns the payment status as JSON; a
+ * requires_action status returns the client secret for further handling on the client.
+ */
 import { stripe } from "@/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentSession, getSessionCookie } from "@/lib/actions/session";

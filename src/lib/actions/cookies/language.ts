@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Server actions for the language preference cookie.
+ *
+ * Exports setLanguageCookie and getLanguageCookie, which persist and read the
+ * user's chosen locale in a site-wide "language" cookie with a 15-day expiry.
+ * Used by the multi-language (i18n) support of the app.
+ */
 "use server";
 
 import {cookies} from "next/headers";

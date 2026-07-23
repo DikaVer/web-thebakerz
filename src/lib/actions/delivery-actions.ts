@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Server actions for merchant delivery regions and guest address migration.
+ *
+ * Defines the MerchantDeliveryRegion, DeliveryRange, and DeliveryAddress types
+ * and exports actions to fetch and replace a store's delivery regions in the
+ * Cosmos DB delivery-regions container (with Zod validation, session-based
+ * authorization, and admin-only control of the isStoreDelivery flag). Also
+ * provides replaceGuestAddress, which moves a guest's saved delivery
+ * addresses to the logged-in user's account in the delivery-locations
+ * container.
+ */
 'use server';
 
 import { containerDeliveryRegions, containerDeliveryLocations } from "@/db";

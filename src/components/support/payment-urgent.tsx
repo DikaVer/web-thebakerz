@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Button for sending an urgent payment support request.
+ *
+ * Exports PaymentSupportButton, which submits the given error and description
+ * to the sendPaymentSupport email server action when pressed, shows a success
+ * toast, and replaces itself with a confirmation message once the support
+ * ticket has been sent.
+ */
 'use client';
 
 import React, {useState} from 'react';

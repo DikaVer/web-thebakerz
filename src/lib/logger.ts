@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Application-wide structured logger built on Pino.
+ *
+ * Exports a Logger interface and a singleton logger whose methods take an
+ * action name, a message, and an optional context object merged into the log
+ * entry. Uses JSON output at "warn" level in production and pretty-printed
+ * colorized output at "debug" level in development, and supports child loggers
+ * with bound fields.
+ */
 import pino, { Logger as PinoLogger } from "pino";
 
 // The base Pino logger instance

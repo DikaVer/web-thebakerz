@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Client component showing the cart step of the store-side order flow.
+ *
+ * Renders the current cart items with quantity editing and removal via
+ * CartItemRow, computes subtotal, VAT, and total using the price calculation
+ * helpers, and offers a button that advances to the next checkout step. Shows
+ * an empty-cart message when no items are present. Depends on the cart,
+ * product dialog, and store providers.
+ */
 "use client";
 import React, { useState } from "react";
 import {

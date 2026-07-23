@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Styled alert component wrapping the Hero UI Alert.
+ *
+ * Exports CustomAlert, which adds a colored left accent bar (rendered with a
+ * before pseudo-element) and project color options, including an extra "blue"
+ * color, on top of the standard Hero UI alert props.
+ */
 import React, { ReactNode, useMemo } from 'react';
 import { Alert, AlertProps, cn } from '@heroui/react';
 

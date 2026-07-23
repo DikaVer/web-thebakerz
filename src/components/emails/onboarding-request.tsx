@@ -1,3 +1,10 @@
+/**
+ * @fileoverview React Email template for new bakery onboarding requests.
+ *
+ * Renders a branded internal notification email listing the phone number,
+ * full name, and email address of a prospective bakery that requested
+ * onboarding, with a support contact link in the footer.
+ */
 import {
     Body,
     Container,

@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Store checkout page rendered at /[id]/checkout.
+ *
+ * Server component that loads the store by slug (rendering NotFound if it
+ * does not exist), determines whether rescue-deal mode applies based on the
+ * store's closing window, and renders the CheckoutSteps flow. Exports
+ * noindex metadata via generateMetadata using generateStorePageMetadata.
+ */
 "use server";
 import React, {Suspense} from "react";
 import StoreSkeleton from "@/components/skeletons";

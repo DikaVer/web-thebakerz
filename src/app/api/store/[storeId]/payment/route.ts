@@ -1,10 +1,17 @@
+/**
+ * @fileoverview API route handling GET /api/store/[storeId]/payment, which returns a store's payment data.
+ *
+ * Fetches payment-related store data by store name or ID via
+ * getStoreDataPaymentByStoreNameOrId and returns it as JSON, or null when not found. Accepts
+ * GET requests with a Bearer token in the Authorization header and is rate limited via
+ * globalGETRateLimit.
+ */
 import { NextResponse } from 'next/server';
 import {getStoreDataPaymentByStoreNameOrId} from "@/lib/actions/store";
 import { getTranslations } from "next-intl/server";
 import { globalGETRateLimit } from '@/lib/utils/helper/requests';
 import { checkBearerToken } from '@/lib/utils/helper/bearerChecker';
 
-// This API route accepts GET requests with a Bearer token in the Authorization header.
 export async function GET(request: Request, { params }: { params: Promise<{ storeId: string }> }) {
     const t = await getTranslations("app/api/store");
 

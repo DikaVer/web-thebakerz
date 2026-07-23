@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Promotions tab of the store promotion manager for managing promotion groups.
+ *
+ * Exports the PromotionsTab component, which lists a store's promotion
+ * groups as cards and provides a modal form to create or edit groups of
+ * type discount (percentage off) or buyGetFree (buy X get Y free),
+ * including their active state. Persists changes through the
+ * createPromotionGroup, updatePromotionGroup, and deletePromotionGroup
+ * server actions and reports results via toasts.
+ */
 'use client';
 
 import React, { useState } from 'react';

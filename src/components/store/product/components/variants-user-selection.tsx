@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Customer-facing selector for product variant options.
+ *
+ * Exports the VariantsUserSelection client component, which renders each
+ * variant group of a product as a Hero UI Listbox in single or multiple
+ * selection mode, shows required markers, min/max selection hints, and
+ * validation errors, and reports the chosen options back to the parent via
+ * the setVariants callback for cart pricing.
+ */
 'use client';
 import React, { useState, useEffect } from "react";
 import {cn, Listbox, ListboxItem} from "@heroui/react";

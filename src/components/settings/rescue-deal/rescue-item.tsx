@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Product rows for selecting items in a rescue deal form.
+ *
+ * Exports the RescueDealItem client component, which lists all store products
+ * with image and price, a checkbox to include each product in the rescue
+ * deal, a discount percentage select (10-80%), and a quantity input with
+ * minimum-quantity validation. It writes changes directly into the parent
+ * react-hook-form state via the setValue/watch props and adapts its layout
+ * for mobile screens.
+ */
 "use client";
 
 import {Divider, Image, Select, SelectItem, Input, Checkbox, NumberInput, cn, Spacer} from "@heroui/react";
